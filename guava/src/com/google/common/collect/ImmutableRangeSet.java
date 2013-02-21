@@ -384,7 +384,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       if (result == null) {
         long total = 0;
         for (Range<C> range : ranges) {
-          total += range.asSet(domain).size();
+          total += ContiguousSet.create(range, domain).size();
           if (total >= Integer.MAX_VALUE) {
             break;
           }
@@ -404,7 +404,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         protected C computeNext() {
           while (!elemItr.hasNext()) {
             if (rangeItr.hasNext()) {
-              elemItr = rangeItr.next().asSet(domain).iterator();
+              elemItr = ContiguousSet.create(rangeItr.next(), domain).iterator();
             } else {
               return endOfData();
             }
@@ -425,7 +425,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         protected C computeNext() {
           while (!elemItr.hasNext()) {
             if (rangeItr.hasNext()) {
-              elemItr = rangeItr.next().asSet(domain).descendingIterator();
+              elemItr = ContiguousSet.create(rangeItr.next(), domain).descendingIterator();
             } else {
               return endOfData();
             }
@@ -482,9 +482,9 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         long total = 0;
         for (Range<C> range : ranges) {
           if (range.contains(c)) {
-            return Ints.saturatedCast(total + range.asSet(domain).indexOf(c));
+            return Ints.saturatedCast(total + ContiguousSet.create(range, domain).indexOf(c));
           } else {
-            total += range.asSet(domain).size();
+            total += ContiguousSet.create(range, domain).size();
           }
         }
         throw new AssertionError("impossible");

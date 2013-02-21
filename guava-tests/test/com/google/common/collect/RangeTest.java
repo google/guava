@@ -536,7 +536,7 @@ public class RangeTest extends TestCase {
         = Range.closed(LegacyComparable.X, LegacyComparable.Y);
   }
 
-  private static final DiscreteDomain<Integer> UNBOUNDED_DOMAIN =
+  static final DiscreteDomain<Integer> UNBOUNDED_DOMAIN =
       new DiscreteDomain<Integer>() {
         @Override public Integer next(Integer value) {
           return integers().next(value);
@@ -550,29 +550,6 @@ public class RangeTest extends TestCase {
           return integers().distance(start, end);
         }
       };
-
-  public void testAsSet_noMin() {
-    Range<Integer> range = Range.lessThan(0);
-    try {
-      range.asSet(UNBOUNDED_DOMAIN);
-      fail();
-    } catch (IllegalArgumentException expected) {}
-  }
-
-  public void testAsSet_noMax() {
-    Range<Integer> range = Range.greaterThan(0);
-    try {
-      range.asSet(UNBOUNDED_DOMAIN);
-      fail();
-    } catch (IllegalArgumentException expected) {}
-  }
-
-  public void testAsSet_empty() {
-    assertEquals(ImmutableSet.of(), Range.closedOpen(1, 1).asSet(integers()));
-    assertEquals(ImmutableSet.of(), Range.openClosed(5, 5).asSet(integers()));
-    assertEquals(ImmutableSet.of(), Range.lessThan(Integer.MIN_VALUE).asSet(integers()));
-    assertEquals(ImmutableSet.of(), Range.greaterThan(Integer.MAX_VALUE).asSet(integers()));
-  }
 
   public void testCanonical() {
     assertEquals(Range.closedOpen(1, 5),

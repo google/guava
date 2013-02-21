@@ -118,6 +118,31 @@ public class ContiguousSetTest extends TestCase {
     assertEquals(enormous, enormousReserialized);
   }
 
+  public void testCreate_noMin() {
+    Range<Integer> range = Range.lessThan(0);
+    try {
+      ContiguousSet.create(range, RangeTest.UNBOUNDED_DOMAIN);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testCreate_noMax() {
+    Range<Integer> range = Range.greaterThan(0);
+    try {
+      ContiguousSet.create(range, RangeTest.UNBOUNDED_DOMAIN);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testCreate_empty() {
+    assertEquals(ImmutableSet.of(), ContiguousSet.create(Range.closedOpen(1, 1), integers()));
+    assertEquals(ImmutableSet.of(), ContiguousSet.create(Range.openClosed(5, 5), integers()));
+    assertEquals(ImmutableSet.of(),
+        ContiguousSet.create(Range.lessThan(Integer.MIN_VALUE), integers()));
+    assertEquals(ImmutableSet.of(),
+        ContiguousSet.create(Range.greaterThan(Integer.MAX_VALUE), integers()));
+  }
+
   public void testHeadSet() {
     ImmutableSortedSet<Integer> set = ContiguousSet.create(Range.closed(1, 3), integers());
     ASSERT.that(set.headSet(1)).isEmpty();

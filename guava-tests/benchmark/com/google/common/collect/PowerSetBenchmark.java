@@ -35,7 +35,7 @@ public class PowerSetBenchmark extends Benchmark {
   Set<Set<Integer>> powerSet;
 
   @Override protected void setUp() {
-    Set<Integer> set = Range.closed(1, elements).asSet(integers());
+    Set<Integer> set = ContiguousSet.create(Range.closed(1, elements), integers());
     powerSet = Sets.powerSet(set);
   }
 
