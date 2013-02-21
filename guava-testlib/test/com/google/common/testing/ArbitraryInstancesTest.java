@@ -27,7 +27,6 @@ import com.google.common.base.Stopwatch;
 import com.google.common.base.Ticker;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ClassToInstanceMap;
-import com.google.common.collect.Constraint;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableCollection;
@@ -225,7 +224,6 @@ public class ArbitraryInstancesTest extends TestCase {
     assertFalse(ArbitraryInstances.get(Optional.class).isPresent());
     ArbitraryInstances.get(Stopwatch.class).start();
     assertNotNull(ArbitraryInstances.get(Ticker.class));
-    assertNotNull(ArbitraryInstances.get(Constraint.class));
     assertNotNull(ArbitraryInstances.get(MapConstraint.class));
     assertFreshInstanceReturned(Random.class);
     assertEquals(ArbitraryInstances.get(Random.class).nextInt(),

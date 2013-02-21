@@ -31,8 +31,6 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Ticker;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ClassToInstanceMap;
-import com.google.common.collect.Constraint;
-import com.google.common.collect.Constraints;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableCollection;
@@ -243,7 +241,6 @@ public final class ArbitraryInstances {
       .put(Comparator.class, AlwaysEqual.INSTANCE)
       .put(Ordering.class, AlwaysEqual.INSTANCE)
       .put(Range.class, Range.all())
-      .put(Constraint.class, Constraints.notNull())
       .put(MapConstraint.class, MapConstraints.notNull())
       .put(MapDifference.class, Maps.difference(ImmutableMap.of(), ImmutableMap.of()))
       .put(SortedMapDifference.class,
