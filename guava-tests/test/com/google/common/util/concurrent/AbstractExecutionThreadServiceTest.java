@@ -16,7 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.base.Throwables;
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
 
@@ -153,7 +152,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
       try {
         exitRun.await();
       } catch (InterruptedException e) {
-        throw Throwables.propagate(e);
+        throw new RuntimeException(e);
       }
     }
 
@@ -271,7 +270,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
       try {
         enterRun.await();
       } catch (InterruptedException e) {
-        throw Throwables.propagate(e);
+        throw new RuntimeException(e);
       }
     }
 

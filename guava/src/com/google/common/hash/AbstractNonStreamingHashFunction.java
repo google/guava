@@ -93,7 +93,7 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
       try {
         stream.write(bytes);
       } catch (IOException e) {
-        throw Throwables.propagate(e);
+        throw new RuntimeException(e);
       }
       return this;
     }
