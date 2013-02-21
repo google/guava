@@ -294,13 +294,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * @throws IllegalStateException if the value strength was already set
    * @see WeakReference
-   * @deprecated Caching functionality in {@code MapMaker} has been moved to {@link
-   *     com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
-   *     com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
-   *     an enhanced API for an implementation which was branched from {@code MapMaker}. <b>This
-   *     method is scheduled for deletion in August 2014.</b>
    */
-  @Deprecated
   @GwtIncompatible("java.lang.ref.WeakReference")
   @Override
   public MapMaker weakValues() {
@@ -326,7 +320,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * @throws IllegalStateException if the value strength was already set
    * @see SoftReference
+   * @deprecated Caching functionality in {@code MapMaker} has been moved to {@link
+   *     com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
+   *     com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
+   *     an enhanced API for an implementation which was branched from {@code MapMaker}. <b>This
+   *     method is scheduled for deletion in August 2014.</b>
    */
+  @Deprecated
   @GwtIncompatible("java.lang.ref.SoftReference")
   @Override
   public MapMaker softValues() {
