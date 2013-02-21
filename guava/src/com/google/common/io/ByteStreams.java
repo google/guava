@@ -39,7 +39,6 @@ import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.Arrays;
-import java.util.zip.Checksum;
 
 /**
  * Provides utility methods for working with byte arrays and I/O streams.
@@ -812,39 +811,6 @@ public final class ByteStreams {
       read = input.read(buf);
     } while (read != -1 && processor.processBytes(buf, 0, read));
     return processor.getResult();
-  }
-
-  /**
-   * Computes and returns the checksum value for a supplied input stream.
-   * The checksum object is reset when this method returns successfully.
-   *
-   * @param supplier the input stream factory
-   * @param checksum the checksum object
-   * @return the result of {@link Checksum#getValue} after updating the
-   *     checksum object with all of the bytes in the stream
-   * @throws IOException if an I/O error occurs
-   * @deprecated Use {@code hash} with the {@code Hashing.crc32()} or
-   *     {@code Hashing.adler32()} hash functions instead. This method is
-   *     scheduled to be removed in Guava 15.0.
-   */
-  @Deprecated
-  public static long getChecksum(
-      InputSupplier<? extends InputStream> supplier, final Checksum checksum)
-      throws IOException {
-    checkNotNull(checksum);
-    return readBytes(supplier, new ByteProcessor<Long>() {
-      @Override
-      public boolean processBytes(byte[] buf, int off, int len) {
-        checksum.update(buf, off, len);
-        return true;
-      }
-      @Override
-      public Long getResult() {
-        long result = checksum.getValue();
-        checksum.reset();
-        return result;
-      }
-    });
   }
 
   /**

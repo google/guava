@@ -57,15 +57,10 @@ import javax.annotation.Nullable;
  *
  * <p>Usage example: <pre>   {@code
  *
- *   ConcurrentMap<Key, Graph> graphs = new MapMaker()
+ *   ConcurrentMap<Request, Stopwatch> timers = new MapMaker()
  *       .concurrencyLevel(4)
  *       .weakKeys()
- *       .makeComputingMap(
- *           new Function<Key, Graph>() {
- *             public Graph apply(Key key) {
- *               return createExpensiveGraph(key);
- *             }
- *           });}</pre>
+ *       .makeMap();}</pre>
  *
  * These features are all optional; {@code new MapMaker().makeMap()} returns a valid concurrent map
  * that behaves similarly to a {@link ConcurrentHashMap}.
@@ -192,13 +187,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * expireAfterWrite}{@code (0, unit)} or {@link #expireAfterAccess expireAfterAccess}{@code (0,
    * unit)}. It can be useful in testing, or to disable caching temporarily without a code change.
    *
-   * <p>Caching functionality in {@code MapMaker} is being moved to
+   * <p>Caching functionality in {@code MapMaker} has been moved to
    * {@link com.google.common.cache.CacheBuilder}.
    *
    * @param size the maximum size of the map
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
-   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   * @deprecated Caching functionality in {@code MapMaker} has been moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #maximumSize} being
    *     replaced by {@link com.google.common.cache.CacheBuilder#maximumSize}. Note that {@code
    *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
@@ -299,7 +294,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * @throws IllegalStateException if the value strength was already set
    * @see WeakReference
+   * @deprecated Caching functionality in {@code MapMaker} has been moved to {@link
+   *     com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
+   *     com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
+   *     an enhanced API for an implementation which was branched from {@code MapMaker}. <b>This
+   *     method is scheduled for deletion in August 2014.</b>
    */
+  @Deprecated
   @GwtIncompatible("java.lang.ref.WeakReference")
   @Override
   public MapMaker weakValues() {
@@ -365,7 +366,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was already set
-   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   * @deprecated Caching functionality in {@code MapMaker} has been moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterWrite} being
    *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterWrite}. Note that {@code
    *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
@@ -415,7 +416,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
-   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   * @deprecated Caching functionality in {@code MapMaker} has been moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterAccess} being
    *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterAccess}. Note that
    *     {@code CacheBuilder} is simply an enhanced API for an implementation which was branched
@@ -467,7 +468,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * a {@link ClassCastException} at some <i>undefined</i> point in the future.
    *
    * @throws IllegalStateException if a removal listener was already set
-   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   * @deprecated Caching functionality in {@code MapMaker} has been moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #removalListener} being
    *     replaced by {@link com.google.common.cache.CacheBuilder#removalListener}. Note that {@code
    *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
@@ -569,16 +570,15 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * @param computingFunction the function used to compute new values
    * @return a serializable concurrent map having the requested features
-   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   * @deprecated Caching functionality in {@code MapMaker} has been moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced
    *     by {@link com.google.common.cache.CacheBuilder#build}. See the
    *     <a href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker
    *     Migration Guide</a> for more details.
-   *     <b>This method is scheduled for deletion in February 2013.</b>
    */
   @Deprecated
   @Override
-  public <K, V> ConcurrentMap<K, V> makeComputingMap(
+  <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
     return (nullRemovalCause == null)
         ? new MapMaker.ComputingMapAdapter<K, V>(this, computingFunction)

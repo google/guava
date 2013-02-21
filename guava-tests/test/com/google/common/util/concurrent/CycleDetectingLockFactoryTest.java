@@ -17,7 +17,6 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.base.Joiner;
-import com.google.common.util.concurrent.CycleDetectingLockFactory.OrderedLockGraphNodesCreator;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.Policies;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.Policy;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.PotentialDeadlockException;
@@ -94,10 +93,8 @@ public class CycleDetectingLockFactoryTest extends TestCase {
   // conflicts across different test runs.
   private <E extends Enum<E>> CycleDetectingLockFactory.WithExplicitOrdering<E>
       newInstanceWithExplicitOrdering(Class<E> enumClass, Policy policy) {
-    OrderedLockGraphNodesCreator nodeCreator =
-        new OrderedLockGraphNodesCreator();
     return new CycleDetectingLockFactory.WithExplicitOrdering<E>(
-        policy, nodeCreator.createNodesFor(enumClass));
+        policy, CycleDetectingLockFactory.createNodes(enumClass));
   }
 
   public void testDeadlock_twoLocks() {

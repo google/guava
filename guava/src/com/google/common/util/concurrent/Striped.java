@@ -16,8 +16,9 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Objects.firstNonNull;
+
 import com.google.common.annotations.Beta;
-import com.google.common.base.Functions;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
@@ -308,18 +309,26 @@ public abstract class Striped<L> {
    * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.
    */
   private static class LazyStriped<L> extends PowerOfTwoStriped<L> {
-    final ConcurrentMap<Integer, L> cache;
+    final ConcurrentMap<Integer, L> locks;
+    final Supplier<L> supplier;
     final int size;
 
     LazyStriped(int stripes, Supplier<L> supplier) {
       super(stripes);
       this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;
-      this.cache = new MapMaker().weakValues().makeComputingMap(Functions.forSupplier(supplier));
+      this.supplier = supplier;
+      this.locks = new MapMaker().weakValues().makeMap();
     }
 
     @Override public L getAt(int index) {
       Preconditions.checkElementIndex(index, size());
-      return cache.get(index);
+      L existing = locks.get(index);
+      if (existing != null) {
+        return existing;
+      }
+      L created = supplier.get();
+      existing = locks.putIfAbsent(index, created);
+      return firstNonNull(existing, created);
     }
 
     @Override public int size() {
