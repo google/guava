@@ -138,9 +138,10 @@ public final class Closer implements Closeable {
    * @throws IOException when the given throwable is an IOException
    */
   public RuntimeException rethrow(Throwable e) throws IOException {
+    checkNotNull(e);
     thrown = e;
     Throwables.propagateIfPossible(e, IOException.class);
-    throw Throwables.propagate(e);
+    throw new RuntimeException(e);
   }
 
   /**
@@ -159,10 +160,11 @@ public final class Closer implements Closeable {
    */
   public <X extends Exception> RuntimeException rethrow(Throwable e,
       Class<X> declaredType) throws IOException, X {
+    checkNotNull(e);
     thrown = e;
     Throwables.propagateIfPossible(e, IOException.class);
     Throwables.propagateIfPossible(e, declaredType);
-    throw Throwables.propagate(e);
+    throw new RuntimeException(e);
   }
 
   /**
@@ -182,10 +184,11 @@ public final class Closer implements Closeable {
    */
   public <X1 extends Exception, X2 extends Exception> RuntimeException rethrow(
       Throwable e, Class<X1> declaredType1, Class<X2> declaredType2) throws IOException, X1, X2 {
+    checkNotNull(e);
     thrown = e;
     Throwables.propagateIfPossible(e, IOException.class);
     Throwables.propagateIfPossible(e, declaredType1, declaredType2);
-    throw Throwables.propagate(e);
+    throw new RuntimeException(e);
   }
 
   /**
