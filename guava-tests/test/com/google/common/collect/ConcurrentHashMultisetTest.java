@@ -547,10 +547,15 @@ public class ConcurrentHashMultisetTest extends TestCase {
         };
 
     @SuppressWarnings("deprecation") // TODO(kevinb): what to do?
-    GenericMapMaker<String, Number> mapMaker = new MapMaker()
+    MapMaker mapMaker = new MapMaker()
         .concurrencyLevel(1)
-        .maximumSize(1)
-        .removalListener(removalListener);
+        .maximumSize(1);
+    /*
+     * Cleverly ignore the return type now that ConcurrentHashMultiset accepts only MapMaker and not
+     * the deprecated GenericMapMaker. We know that a RemovalListener<String, Number> is a type that
+     * will work with ConcurrentHashMultiset.
+     */
+    mapMaker.removalListener(removalListener);
 
     ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(mapMaker);
 

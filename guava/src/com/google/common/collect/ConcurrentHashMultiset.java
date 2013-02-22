@@ -119,11 +119,11 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * internally and not exposed externally, so no one else will have a strong reference to the
    * values. Weak keys on the other hand can be useful in some scenarios.
    *
-   * @since 7.0
+   * @since 15.0 (source compatible (accepting the since removed {@code GenericMapMaker} class)
+   *     since 7.0)
    */
   @Beta
-  public static <E> ConcurrentHashMultiset<E> create(
-      GenericMapMaker<? super E, ? super Number> mapMaker) {
+  public static <E> ConcurrentHashMultiset<E> create(MapMaker mapMaker) {
     return new ConcurrentHashMultiset<E>(mapMaker.<E, AtomicInteger>makeMap());
   }
 

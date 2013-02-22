@@ -36,8 +36,16 @@ import java.util.concurrent.TimeUnit;
  * @param <V0> the base type for all value types of maps built by this map maker
  * @author Kevin Bourrillion
  * @since 7.0
+ * @deprecated This class existed only to support the generic paramterization necessary for the
+ *     caching functionality in {@code MapMaker}. That functionality has been moved to {@link
+ *     com.google.common.cache.CacheBuilder}, which is a properly generified class and thus needs no
+ *     "Generic" equivalent; simple use {@code CacheBuilder} naturally. For general migration
+ *     instructions, see the <a
+ *     href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker Migration
+ *     Guide</a>. This class is scheduled for removal in Guava 16.0.
  */
 @Beta
+@Deprecated
 @GwtCompatible(emulated = true)
 public abstract class GenericMapMaker<K0, V0> {
   @GwtIncompatible("To be supported")

@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Charles Fry
  */
-public class MapMaker extends GenericMapMaker<Object, Object> {
+public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   // TODO(fry,user): ConcurrentHashMap never throws a CME when mutating the map during iteration, but
   // this implementation (based on a LHM) does. This will all be replaced soon anyways, so leaving
@@ -43,13 +43,13 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
     private final int maximumSize;
 
     ExpiringComputingMap(
-        long expirationMillis, int maximumSize, int initialCapacity, float loadFactor) {
-      this(expirationMillis, null, maximumSize, initialCapacity, loadFactor);
+        long expirationMillis, int maximumSize, int initialCapacity) {
+      this(expirationMillis, null, maximumSize, initialCapacity);
     }
 
     ExpiringComputingMap(long expirationMillis, Function<? super K, ? extends V> computer,
-        int maximumSize, int initialCapacity, float loadFactor) {
-      super(initialCapacity, loadFactor, (maximumSize != -1));
+        int maximumSize, int initialCapacity) {
+      super(initialCapacity, /* ignored loadFactor */ 0.75f, (maximumSize != -1));
       this.expirationMillis = expirationMillis;
       this.computer = computer;
       this.maximumSize = maximumSize;
@@ -159,7 +159,6 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   private int initialCapacity = 16;
-  private float loadFactor = 0.75f;
   private long expirationMillis = 0;
   private int maximumSize = -1;
   private boolean useCustomMap;
@@ -172,14 +171,6 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
       throw new IllegalArgumentException();
     }
     this.initialCapacity = initialCapacity;
-    return this;
-  }
-
-  public MapMaker loadFactor(float loadFactor) {
-    if (loadFactor <= 0) {
-      throw new IllegalArgumentException();
-    }
-    this.loadFactor = loadFactor;
     return this;
   }
 
@@ -223,14 +214,13 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   public <K, V> ConcurrentMap<K, V> makeMap() {
     return useCustomMap
-        ? new ExpiringComputingMap<K, V>(
-            expirationMillis, null, maximumSize, initialCapacity, loadFactor)
-        : new ConcurrentHashMap<K, V>(initialCapacity, loadFactor);
+        ? new ExpiringComputingMap<K, V>(expirationMillis, null, maximumSize, initialCapacity)
+        : new ConcurrentHashMap<K, V>(initialCapacity);
   }
 
   @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(Function<? super K, ? extends V> computer) {
     return new ExpiringComputingMap<K, V>(
-        expirationMillis, computer, maximumSize, initialCapacity, loadFactor);
+        expirationMillis, computer, maximumSize, initialCapacity);
   }
 }
