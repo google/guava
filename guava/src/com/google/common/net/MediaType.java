@@ -149,10 +149,37 @@ public final class MediaType {
 
   /* image types */
   public static final MediaType BMP = createConstant(IMAGE_TYPE, "bmp");
+  /**
+   * The media type for the <a href="http://en.wikipedia.org/wiki/Camera_Image_File_Format">Canon
+   * Image File Format</a> ({@code crw} files), a widely-used "raw image" format for cameras. It is
+   * found in {@code /etc/mime.types}, e.g. in <href=
+   * "http://anonscm.debian.org/gitweb/?p=collab-maint/mime-support.git;a=blob;f=mime.types;hb=HEAD"
+   * >Debian 3.48-1</a>.
+   *
+   * @since 15.0
+   */
+  public static final MediaType CRW = createConstant(IMAGE_TYPE, "x-canon-crw");
   public static final MediaType GIF = createConstant(IMAGE_TYPE, "gif");
   public static final MediaType ICO = createConstant(IMAGE_TYPE, "vnd.microsoft.icon");
   public static final MediaType JPEG = createConstant(IMAGE_TYPE, "jpeg");
   public static final MediaType PNG = createConstant(IMAGE_TYPE, "png");
+  /**
+   * The media type for the Photoshop File Format ({@code psd} files) as defined by <a href=
+   * "http://www.iana.org/assignments/media-types/image/vnd.adobe.photoshop">IANA</a>, and found in
+   * {@code /etc/mime.types}, e.g. <a href=
+   * "http://svn.apache.org/repos/asf/httpd/httpd/branches/1.3.x/conf/mime.types"></a> of the Apache
+   * <a href="http://httpd.apache.org/">HTTPD project</a>; for the specification, see
+   * <href="http://www.adobe.com/devnet-apps/photoshop/fileformatashtml/PhotoshopFileFormats.htm">
+   * Adobe Photoshop Document Format</a> and <a href=
+   * "http://en.wikipedia.org/wiki/Adobe_Photoshop#File_format">Wikipedia</a>; this is the regular
+   * output/input of Photoshop (which can also export to various image formats; note that files with
+   * extension "PSB" are in a distinct but related format).
+   * <p>This is a more recent replacement for the older, experimental type
+   * {@code x-photoshop}: <a href="http://tools.ietf.org/html/rfc2046#section-6">RFC-2046.6</a>.
+   *
+   * @since 15.0
+   */
+  public static final MediaType PSD = createConstant(IMAGE_TYPE, "vnd.adobe.photoshop");
   public static final MediaType SVG_UTF_8 = createConstantUtf8(IMAGE_TYPE, "svg+xml");
   public static final MediaType TIFF = createConstant(IMAGE_TYPE, "tiff");
   public static final MediaType WEBP = createConstant(IMAGE_TYPE, "webp");
@@ -266,10 +293,12 @@ public final class MediaType {
           .put(XML_UTF_8, XML_UTF_8)
           /* image types */
           .put(BMP, BMP)
+          .put(CRW, CRW)
           .put(GIF, GIF)
           .put(ICO, ICO)
           .put(JPEG, JPEG)
           .put(PNG, PNG)
+          .put(PSD, PSD)
           .put(SVG_UTF_8, SVG_UTF_8)
           .put(TIFF, TIFF)
           .put(WEBP, WEBP)
