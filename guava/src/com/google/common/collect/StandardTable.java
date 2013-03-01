@@ -64,7 +64,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
+class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializable {
   @GwtTransient final Map<R, Map<C, V>> backingMap;
   @GwtTransient final Supplier<? extends Map<C, V>> factory;
 
@@ -78,11 +78,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   @Override public boolean contains(
       @Nullable Object rowKey, @Nullable Object columnKey) {
-    if ((rowKey == null) || (columnKey == null)) {
-      return false;
-    }
-    Map<C, V> map = safeGet(backingMap, rowKey);
-    return map != null && safeContainsKey(map, columnKey);
+    return rowKey != null && columnKey != null && super.contains(rowKey, columnKey);
   }
 
   @Override public boolean containsColumn(@Nullable Object columnKey) {
@@ -102,23 +98,13 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
   }
 
   @Override public boolean containsValue(@Nullable Object value) {
-    if (value == null) {
-      return false;
-    }
-    for (Map<C, V> map : backingMap.values()) {
-      if (map.containsValue(value)) {
-        return true;
-      }
-    }
-    return false;
+    return value != null && super.containsValue(value);
   }
 
   @Override public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
-    if ((rowKey == null) || (columnKey == null)) {
-      return null;
-    }
-    Map<C, V> map = safeGet(backingMap, rowKey);
-    return map == null ? null : safeGet(map, columnKey);
+    return (rowKey == null || columnKey == null)
+        ? null
+        : super.get(rowKey, columnKey);
   }
 
   @Override public boolean isEmpty() {
@@ -131,28 +117,6 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       size += map.size();
     }
     return size;
-  }
-
-  @Override public boolean equals(@Nullable Object obj) {
-    if (obj == this) {
-      return true;
-    }
-    if (obj instanceof Table) {
-      Table<?, ?, ?> other = (Table<?, ?, ?>) obj;
-      return cellSet().equals(other.cellSet());
-    }
-    return false;
-  }
-
-  @Override public int hashCode() {
-    return cellSet().hashCode();
-  }
-
-  /**
-   * Returns the string representation {@code rowMap().toString()}.
-   */
-  @Override public String toString() {
-    return rowMap().toString();
   }
 
   // Mutators
@@ -175,13 +139,6 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     checkNotNull(columnKey);
     checkNotNull(value);
     return getOrCreate(rowKey).put(columnKey, value);
-  }
-
-  @Override public void putAll(
-      Table<? extends R, ? extends C, ? extends V> table) {
-    for (Cell<? extends R, ? extends C, ? extends V> cell : table.cellSet()) {
-      put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
-    }
   }
 
   @Override public V remove(
@@ -261,8 +218,6 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     }
   }
 
-  private transient CellSet cellSet;
-
   /**
    * {@inheritDoc}
    *
@@ -274,36 +229,11 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
    * set or its iterator.
    */
   @Override public Set<Cell<R, C, V>> cellSet() {
-    CellSet result = cellSet;
-    return (result == null) ? cellSet = new CellSet() : result;
+    return super.cellSet();
   }
 
-  private class CellSet extends TableSet<Cell<R, C, V>> {
-    @Override public Iterator<Cell<R, C, V>> iterator() {
-      return new CellIterator();
-    }
-
-    @Override public int size() {
-      return StandardTable.this.size();
-    }
-
-    @Override public boolean contains(Object obj) {
-      if (obj instanceof Cell) {
-        Cell<?, ?, ?> cell = (Cell<?, ?, ?>) obj;
-        return containsMapping(
-            cell.getRowKey(), cell.getColumnKey(), cell.getValue());
-      }
-      return false;
-    }
-
-    @Override public boolean remove(Object obj) {
-      if (obj instanceof Cell) {
-        Cell<?, ?, ?> cell = (Cell<?, ?, ?>) obj;
-        return removeMapping(
-            cell.getRowKey(), cell.getColumnKey(), cell.getValue());
-      }
-      return false;
-    }
+  @Override Iterator<Cell<R, C, V>> cellIterator() {
+    return new CellIterator();
   }
 
   private class CellIterator implements Iterator<Cell<R, C, V>> {
@@ -806,8 +736,6 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     }
   }
 
-  private transient Values values;
-
   /**
    * {@inheritDoc}
    *
@@ -815,23 +743,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
    * the values for the second row, and so on.
    */
   @Override public Collection<V> values() {
-    Values result = values;
-    return (result == null) ? values = new Values() : result;
-  }
-
-  private class Values extends TableCollection<V> {
-    @Override public Iterator<V> iterator() {
-      return new TransformedIterator<Cell<R, C, V>, V>(cellSet().iterator()) {
-        @Override
-        V transform(Cell<R, C, V> cell) {
-          return cell.getValue();
-        }
-      };
-    }
-
-    @Override public int size() {
-      return StandardTable.this.size();
-    }
+    return super.values();
   }
 
   private transient RowMap rowMap;

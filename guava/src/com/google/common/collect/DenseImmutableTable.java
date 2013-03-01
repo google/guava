@@ -15,7 +15,6 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -123,48 +122,30 @@ final class DenseImmutableTable<R, C, V>
   
     @Override
     ImmutableSet<Entry<K, V>> createEntrySet() {
-      if (isFull()) {
-        return new ImmutableMapEntrySet<K, V>() {
-          @Override ImmutableMap<K, V> map() {
-            return ImmutableArrayMap.this;
-          }
-  
-          @Override
-          public UnmodifiableIterator<Entry<K, V>> iterator() {
-            return new AbstractIndexedListIterator<Entry<K, V>>(size()) {
-              @Override
-              protected Entry<K, V> get(int index) {
-                return Maps.immutableEntry(getKey(index), getValue(index));
-              }
-            };
-          }
-        };
-      } else {
-        return new ImmutableMapEntrySet<K, V>() {
-          @Override ImmutableMap<K, V> map() {
-            return ImmutableArrayMap.this;
-          }
-  
-          @Override
-          public UnmodifiableIterator<Entry<K, V>> iterator() {
-            return new AbstractIterator<Entry<K, V>>() {
-              private int index = -1;
-              private final int maxIndex = keyToIndex().size();
-  
-              @Override
-              protected Entry<K, V> computeNext() {
-                for (index++; index < maxIndex; index++) {
-                  V value = getValue(index);
-                  if (value != null) {
-                    return Maps.immutableEntry(getKey(index), value);
-                  }
+      return new ImmutableMapEntrySet<K, V>() {
+        @Override ImmutableMap<K, V> map() {
+          return ImmutableArrayMap.this;
+        }
+
+        @Override
+        public UnmodifiableIterator<Entry<K, V>> iterator() {
+          return new AbstractIterator<Entry<K, V>>() {
+            private int index = -1;
+            private final int maxIndex = keyToIndex().size();
+
+            @Override
+            protected Entry<K, V> computeNext() {
+              for (index++; index < maxIndex; index++) {
+                V value = getValue(index);
+                if (value != null) {
+                  return Maps.immutableEntry(getKey(index), value);
                 }
-                return endOfData();
               }
-            };
-          }
-        };
-      }
+              return endOfData();
+            }
+          };
+        }
+      };
     }
   }
 
@@ -258,15 +239,6 @@ final class DenseImmutableTable<R, C, V>
     }
   }
 
-  @Override public ImmutableMap<R, V> column(C columnKey) {
-    Integer columnIndex = columnKeyToIndex.get(checkNotNull(columnKey));
-    if (columnIndex == null) {
-      return ImmutableMap.of();
-    } else {
-      return new Column(columnIndex);
-    }
-  }
-
   @Override public ImmutableMap<C, Map<R, V>> columnMap() {
     return columnMap;
   }
@@ -285,59 +257,22 @@ final class DenseImmutableTable<R, C, V>
   }
 
   @Override
-  ImmutableCollection<V> createValues() {
-    return new ImmutableList<V>() {
-      @Override
-      public int size() {
-        return iterationOrderRow.length;
-      }
-
-      @Override
-      public V get(int index) {
-        return values[iterationOrderRow[index]][iterationOrderColumn[index]];
-      }
-
-      @Override
-      boolean isPartialView() {
-        return true;
-      }
-    };
-  }
-
-  @Override
   public int size() {
     return iterationOrderRow.length;
   }
 
   @Override
-  ImmutableSet<Cell<R, C, V>> createCellSet() {
-    return new DenseCellSet();
+  Cell<R, C, V> getCell(int index) {
+    int rowIndex = iterationOrderRow[index];
+    int columnIndex = iterationOrderColumn[index];
+    R rowKey = rowKeySet().asList().get(rowIndex);
+    C columnKey = columnKeySet().asList().get(columnIndex);
+    V value = values[rowIndex][columnIndex];
+    return cellOf(rowKey, columnKey, value);
   }
 
-  class DenseCellSet extends CellSet {
-    @Override
-    public UnmodifiableIterator<Cell<R, C, V>> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    ImmutableList<Cell<R, C, V>> createAsList() {
-      return new ImmutableAsList<Cell<R, C, V>>() {
-        @Override
-        public Cell<R, C, V> get(int index) {
-          int rowIndex = iterationOrderRow[index];
-          int columnIndex = iterationOrderColumn[index];
-          R rowKey = rowKeySet().asList().get(rowIndex);
-          C columnKey = columnKeySet().asList().get(columnIndex);
-          V value = values[rowIndex][columnIndex];
-          return Tables.immutableCell(rowKey, columnKey, value);
-        }
-        
-        @Override
-        ImmutableCollection<Cell<R, C, V>> delegateCollection() {
-          return DenseCellSet.this;
-        }
-      };
-    }
+  @Override
+  V getValue(int index) {
+    return values[iterationOrderRow[index]][iterationOrderColumn[index]];
   }
 }

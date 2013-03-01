@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 // TODO(gak): make serializable
-public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
+public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
   private static final ImmutableTable<Object, Object, Object> EMPTY
     = new SparseImmutableTable<Object, Object, Object>(
         ImmutableList.<Cell<Object, Object, Object>>of(),
@@ -248,7 +249,30 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
 
   ImmutableTable() {}
 
-  @Override public abstract ImmutableSet<Cell<R, C, V>> cellSet();
+  @Override public ImmutableSet<Cell<R, C, V>> cellSet() {
+    return (ImmutableSet<Cell<R, C, V>>) super.cellSet();
+  }
+
+  @Override
+  abstract ImmutableSet<Cell<R, C, V>> createCellSet();
+
+  @Override
+  final UnmodifiableIterator<Cell<R, C, V>> cellIterator() {
+    throw new AssertionError("should never be called");
+  }
+
+  @Override
+  public ImmutableCollection<V> values() {
+    return (ImmutableCollection<V>) super.values();
+  }
+
+  @Override
+  abstract ImmutableCollection<V> createValues();
+
+  @Override
+  final Iterator<V> valuesIterator() {
+    throw new AssertionError("should never be called"); 
+  }
 
   /**
    * {@inheritDoc}
@@ -304,27 +328,9 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
   }
 
   @Override
-  public boolean containsRow(@Nullable Object rowKey) {
-    return rowMap().containsKey(rowKey);
-  }
-
-  @Override
-  public boolean containsColumn(@Nullable Object columnKey) {
-    return columnMap().containsKey(columnKey);
-  }
-
-  @Override
   public boolean containsValue(@Nullable Object value) {
     return values().contains(value);
   }
-
-  @Override
-  public boolean isEmpty() {
-    return size() == 0;
-  }
-
-  @Override
-  public abstract ImmutableCollection<V> values();
 
   /**
    * Guaranteed to throw an exception and leave the table unmodified.
@@ -365,17 +371,5 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
    */
   @Deprecated @Override public final V remove(Object rowKey, Object columnKey) {
     throw new UnsupportedOperationException();
-  }
-
-  @Override public boolean equals(@Nullable Object obj) {
-    return Tables.equalsImpl(this, obj);
-  }
-
-  @Override public int hashCode() {
-    return cellSet().hashCode();
-  }
-
-  @Override public String toString() {
-    return rowMap().toString();
   }
 }

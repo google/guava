@@ -34,31 +34,37 @@ import javax.annotation.Nullable;
 abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   RegularImmutableTable() {}
   
-  private transient ImmutableCollection<V> values;
-
-  @Override public final ImmutableCollection<V> values() {
-    ImmutableCollection<V> result = values;
-    return (result == null) ? values = createValues() : result;
-  }
+  abstract Cell<R, C, V> getCell(int iterationIndex);
   
-  abstract ImmutableCollection<V> createValues();
-
-  @Override public abstract int size();
-  
-  private transient ImmutableSet<Cell<R, C, V>> cellSet;
-
   @Override
-  public final ImmutableSet<Cell<R, C, V>> cellSet() {
-    ImmutableSet<Cell<R, C, V>> result = cellSet;
-    return (result == null) ? cellSet = createCellSet() : result;
+  final ImmutableSet<Cell<R, C, V>> createCellSet() {
+    return isEmpty() ? ImmutableSet.<Cell<R, C, V>>of() : new CellSet();
   }
-  
-  abstract ImmutableSet<Cell<R, C, V>> createCellSet();
-  
-  abstract class CellSet extends ImmutableSet<Cell<R, C, V>> {
+
+  private final class CellSet extends ImmutableSet<Cell<R, C, V>> {
     @Override
     public int size() {
       return RegularImmutableTable.this.size();
+    }
+
+    @Override
+    public UnmodifiableIterator<Cell<R, C, V>> iterator() {
+      return asList().iterator();
+    }
+
+    @Override
+    ImmutableList<Cell<R, C, V>> createAsList() {
+      return new ImmutableAsList<Cell<R, C, V>>() {
+        @Override
+        public Cell<R, C, V> get(int index) {
+          return getCell(index);
+        }
+
+        @Override
+        ImmutableCollection<Cell<R, C, V>> delegateCollection() {
+          return CellSet.this;
+        }
+      };
     }
 
     @Override
@@ -74,6 +80,30 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     @Override
     boolean isPartialView() {
       return false;
+    }
+  }
+  
+  abstract V getValue(int iterationIndex);
+
+  @Override
+  final ImmutableCollection<V> createValues() {
+    return isEmpty() ? ImmutableList.<V>of() : new Values();
+  }
+  
+  private final class Values extends ImmutableList<V> {
+    @Override
+    public int size() {
+      return RegularImmutableTable.this.size();
+    }
+
+    @Override
+    public V get(int index) {
+      return getValue(index);
+    }
+
+    @Override
+    boolean isPartialView() {
+      return true;
     }
   }
 

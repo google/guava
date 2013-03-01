@@ -19,7 +19,6 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 /**
@@ -88,71 +87,26 @@ final class SparseImmutableTable<R, C, V>
     return rowMap;
   }
 
-  @Override public V get(@Nullable Object rowKey,
-      @Nullable Object columnKey) {
-    Map<C, V> row = rowMap.get(rowKey);
-    return (row == null) ? null : row.get(columnKey);
-  }
-
-  @Override
-  ImmutableCollection<V> createValues() {
-    return rowMap.isEmpty() ? ImmutableList.<V>of() : new SparseValues();
-  }
-  
-  private final class SparseValues extends ImmutableList<V> {
-    @Override
-    public int size() {
-      return iterationOrderRow.length;
-    }
-
-    @Override
-    public V get(int index) {
-      int rowIndex = iterationOrderRow[index];
-      ImmutableMap<C, V> row = (ImmutableMap<C, V>) rowMap.values().asList().get(rowIndex);
-      int columnIndex = iterationOrderColumn[index];
-      return row.values().asList().get(columnIndex);
-    }
-
-    @Override
-    boolean isPartialView() {
-      return true;
-    }
-  }
-
   @Override
   public int size() {
     return iterationOrderRow.length;
   }
-
+  
   @Override
-  ImmutableSet<Cell<R, C, V>> createCellSet() {
-    return rowMap.isEmpty() ? ImmutableSet.<Cell<R, C, V>>of() : new SparseCellSet();
+  Cell<R, C, V> getCell(int index) {
+    int rowIndex = iterationOrderRow[index];
+    Map.Entry<R, Map<C, V>> rowEntry = rowMap.entrySet().asList().get(rowIndex);
+    ImmutableMap<C, V> row = (ImmutableMap<C, V>) rowEntry.getValue();
+    int columnIndex = iterationOrderColumn[index];
+    Map.Entry<C, V> colEntry = row.entrySet().asList().get(columnIndex);
+    return cellOf(rowEntry.getKey(), colEntry.getKey(), colEntry.getValue());
   }
 
-  private final class SparseCellSet extends CellSet {
-    @Override
-    public UnmodifiableIterator<Cell<R, C, V>> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    ImmutableList<Cell<R, C, V>> createAsList() {
-      return new ImmutableAsList<Cell<R, C, V>>() {
-        @Override
-        public Cell<R, C, V> get(int index) {
-          int rowIndex = iterationOrderRow[index];
-          Map.Entry<R, Map<C, V>> rowEntry = rowMap.entrySet().asList().get(rowIndex);
-          ImmutableMap<C, V> row = (ImmutableMap<C, V>) rowEntry.getValue();
-          int columnIndex = iterationOrderColumn[index];
-          Map.Entry<C, V> colEntry = row.entrySet().asList().get(columnIndex);
-          return Tables.immutableCell(rowEntry.getKey(), colEntry.getKey(), colEntry.getValue());
-        }
-
-        @Override
-        ImmutableCollection<Cell<R, C, V>> delegateCollection() {
-          return SparseCellSet.this;
-        }
-      };
-    }
+  @Override
+  V getValue(int index) {
+    int rowIndex = iterationOrderRow[index];
+    ImmutableMap<C, V> row = (ImmutableMap<C, V>) rowMap.values().asList().get(rowIndex);
+    int columnIndex = iterationOrderColumn[index];
+    return row.values().asList().get(columnIndex);
   }
 }
