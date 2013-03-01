@@ -21,8 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
 
 /** An ordering that uses the natural order of the values. */
 @GwtCompatible(serializable = true)
@@ -43,20 +41,6 @@ final class NaturalOrdering
 
   @Override public <S extends Comparable> Ordering<S> reverse() {
     return (Ordering<S>) ReverseNaturalOrdering.INSTANCE;
-  }
-
-  // Override to remove a level of indirection from inner loop
-  @Override public int binarySearch(
-      List<? extends Comparable> sortedList, Comparable key) {
-    return Collections.binarySearch((List) sortedList, key);
-  }
-
-  // Override to remove a level of indirection from inner loop
-  @Override public <E extends Comparable> List<E> sortedCopy(
-      Iterable<E> iterable) {
-    List<E> list = Lists.newArrayList(iterable);
-    Collections.sort(list);
-    return list;
   }
 
   // preserving singleton-ness gives equals()/hashCode() for free
