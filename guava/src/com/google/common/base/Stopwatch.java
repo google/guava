@@ -193,29 +193,13 @@ public final class Stopwatch {
    */
   @GwtIncompatible("String.format()")
   @Override public String toString() {
-    return toString(4);
-  }
-
-  /**
-   * Returns a string representation of the current elapsed time, choosing an
-   * appropriate unit and using the specified number of significant figures.
-   * For example, at the instant when {@code elapsed(NANOSECONDS)} would
-   * return {1234567}, {@code toString(4)} returns {@code "1.235 ms"}.
-   *
-   * @deprecated Use {@link #toString()} instead. This method is scheduled
-   *     to be removed in Guava release 15.0.
-   */
-  @Deprecated
-  @GwtIncompatible("String.format()")
-  public String toString(int significantDigits) {
     long nanos = elapsedNanos();
 
     TimeUnit unit = chooseUnit(nanos);
     double value = (double) nanos / NANOSECONDS.convert(1, unit);
 
     // Too bad this functionality is not exposed as a regular method call
-    return String.format("%." + significantDigits + "g %s",
-        value, abbreviate(unit));
+    return String.format("%.4g %s", value, abbreviate(unit));
   }
 
   private static TimeUnit chooseUnit(long nanos) {
