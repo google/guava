@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -236,6 +237,31 @@ public class AbstractServiceTest extends TestCase {
             State.STOPPING,
             State.TERMINATED),
             listener.getStateHistory());
+  }
+
+  /**
+   * This tests for a bug where if {@link Service#stop()} was called while the service was
+   * {@link State#STARTING} more than once, the {@link Listener#stopping(State)} callback would get
+   * called multiple times.
+   */
+  public void testManualServiceStopMultipleTimesWhileStarting() throws Exception {
+    ManualSwitchedService service = new ManualSwitchedService();
+    final AtomicInteger stopppingCount = new AtomicInteger();
+    service.addListener(new Listener() {
+      @Override public void starting() {}
+      @Override public void running() {}
+      @Override public void stopping(State from) {
+        stopppingCount.incrementAndGet();
+      }
+      @Override public void terminated(State from) {}
+      @Override public void failed(State from, Throwable failure) {}
+      }, MoreExecutors.sameThreadExecutor());
+
+    service.start();
+    service.stop();
+    assertEquals(1, stopppingCount.get());
+    service.stop();
+    assertEquals(1, stopppingCount.get());
   }
 
   public void testManualServiceStopWhileNew() throws Exception {

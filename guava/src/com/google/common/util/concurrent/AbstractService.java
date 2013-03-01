@@ -165,7 +165,7 @@ public abstract class AbstractService implements Service {
   public final ListenableFuture<State> start() {
     lock.lock();
     try {
-      if (snapshot.state == State.NEW) {
+      if (state() == State.NEW) {
         snapshot = new StateSnapshot(State.STARTING);
         starting();
         doStart();
@@ -184,7 +184,8 @@ public abstract class AbstractService implements Service {
   public final ListenableFuture<State> stop() {
     lock.lock();
     try {
-      switch (snapshot.state) {
+      State previous = state();
+      switch (previous) {
         case NEW:
           snapshot = new StateSnapshot(State.TERMINATED);
           terminated(State.NEW);
@@ -204,7 +205,7 @@ public abstract class AbstractService implements Service {
           // do nothing
           break;
         default:
-          throw new AssertionError("Unexpected state: " + snapshot.state);
+          throw new AssertionError("Unexpected state: " + previous);
       }
     } catch (Throwable shutdownFailure) {
       notifyFailed(shutdownFailure);
@@ -235,6 +236,8 @@ public abstract class AbstractService implements Service {
   protected final void notifyStarted() {
     lock.lock();
     try {
+      // We have to examine the internal state of the snapshot here to properly handle the stop 
+      // while starting case.
       if (snapshot.state != State.STARTING) {
         IllegalStateException failure = new IllegalStateException(
             "Cannot notifyStarted() when the service is " + snapshot.state);
@@ -267,13 +270,15 @@ public abstract class AbstractService implements Service {
   protected final void notifyStopped() {
     lock.lock();
     try {
-      if (snapshot.state != State.STOPPING && snapshot.state != State.RUNNING) {
+      // We check the internal state of the snapshot instead of state() directly so we don't allow
+      // notifyStopped() to be called while STARTING, even if stop() has already been called.
+      State previous = snapshot.state;
+      if (previous != State.STOPPING && previous != State.RUNNING) {
         IllegalStateException failure = new IllegalStateException(
-            "Cannot notifyStopped() when the service is " + snapshot.state);
+            "Cannot notifyStopped() when the service is " + previous);
         notifyFailed(failure);
         throw failure;
       }
-      State previous = snapshot.state;
       snapshot = new StateSnapshot(State.TERMINATED);
       terminated(previous);
     } finally {
@@ -292,14 +297,14 @@ public abstract class AbstractService implements Service {
 
     lock.lock();
     try {
-      switch (snapshot.state) {
+      State previous = state();
+      switch (previous) {
         case NEW:
         case TERMINATED:
-          throw new IllegalStateException("Failed while in state:" + snapshot.state, cause);
+          throw new IllegalStateException("Failed while in state:" + previous, cause);
         case RUNNING:
         case STARTING:
         case STOPPING:
-          State previous = snapshot.state;
           snapshot = new StateSnapshot(State.FAILED, false, cause);
           failed(previous, cause);
           break;
@@ -307,7 +312,7 @@ public abstract class AbstractService implements Service {
           // Do nothing
           break;
         default:
-          throw new AssertionError("Unexpected state: " + snapshot.state);
+          throw new AssertionError("Unexpected state: " + previous);
       }
     } finally {
       lock.unlock();
@@ -342,7 +347,8 @@ public abstract class AbstractService implements Service {
     checkNotNull(executor, "executor");
     lock.lock();
     try {
-      if (snapshot.state != State.TERMINATED && snapshot.state != State.FAILED) {
+      State currentState = state();
+      if (currentState != State.TERMINATED && currentState != State.FAILED) {
         listeners.add(new ListenerExecutorPair(listener, executor));
       }
     } finally {
