@@ -141,36 +141,10 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * Returns the result of adding this and {@code val}. If the result would have more than 64 bits,
    * returns the low 64 bits of the result.
    *
-   * @deprecated Use {@link #plus(UnsignedLong)}.  This method is scheduled to be removed in Guava
-   *             release 15.0.
-   */
-  @Deprecated
-  @Beta
-  public UnsignedLong add(UnsignedLong val) {
-    return plus(val);
-  }
-
-  /**
-   * Returns the result of adding this and {@code val}. If the result would have more than 64 bits,
-   * returns the low 64 bits of the result.
-   *
    * @since 14.0
    */
   public UnsignedLong plus(UnsignedLong val) {
     return fromLongBits(this.value + checkNotNull(val).value);
-  }
-
-  /**
-   * Returns the result of subtracting this and {@code val}. If the result would be negative,
-   * returns the low 64 bits of the result.
-   *
-   * @deprecated Use {@link #minus(UnsignedLong)}.  This method is scheduled to be removed in Guava
-   *             release 15.0.
-   */
-  @Deprecated
-  @Beta
-  public UnsignedLong subtract(UnsignedLong val) {
-    return minus(val);
   }
 
   /**
@@ -187,19 +161,6 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * Returns the result of multiplying this and {@code val}. If the result would have more than 64
    * bits, returns the low 64 bits of the result.
    *
-   * @deprecated Use {@link #times(UnsignedLong)}.  This method is scheduled to be removed in Guava
-   *             release 15.0.
-   */
-  @Deprecated
-  @Beta
-  public UnsignedLong multiply(UnsignedLong val) {
-    return times(val);
-  }
-
-  /**
-   * Returns the result of multiplying this and {@code val}. If the result would have more than 64
-   * bits, returns the low 64 bits of the result.
-   *
    * @since 14.0
    */
   @CheckReturnValue
@@ -210,35 +171,11 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   /**
    * Returns the result of dividing this by {@code val}.
    *
-   * @deprecated Use {@link #dividedBy(UnsignedLong)}.  This method is scheduled to be removed in
-   *             Guava release 15.0.
-   */
-  @Deprecated
-  @Beta
-  public UnsignedLong divide(UnsignedLong val) {
-    return dividedBy(val);
-  }
-
-  /**
-   * Returns the result of dividing this by {@code val}.
-   *
    * @since 14.0
    */
   @CheckReturnValue
   public UnsignedLong dividedBy(UnsignedLong val) {
     return fromLongBits(UnsignedLongs.divide(value, checkNotNull(val).value));
-  }
-
-  /**
-   * Returns the remainder of dividing this by {@code val}.
-   *
-   * @deprecated Use {@link #mod(UnsignedLong)}.  This method is scheduled to be removed in Guava
-   *             release 15.0.
-   */
-  @Deprecated
-  @Beta
-  public UnsignedLong remainder(UnsignedLong val) {
-    return mod(val);
   }
 
   /**

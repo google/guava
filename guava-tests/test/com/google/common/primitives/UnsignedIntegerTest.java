@@ -200,7 +200,8 @@ public class UnsignedIntegerTest extends TestCase {
   public void testDivideByZeroThrows() {
     for (int a : TEST_INTS) {
       try {
-        UnsignedInteger.fromIntBits(a).divide(UnsignedInteger.ZERO);
+        UnsignedInteger ignored =
+            UnsignedInteger.fromIntBits(a).dividedBy(UnsignedInteger.ZERO);
         fail("Expected ArithmeticException");
       } catch (ArithmeticException expected) {}
     }
