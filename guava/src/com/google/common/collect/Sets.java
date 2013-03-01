@@ -917,28 +917,12 @@ public final class Sets {
 
     @Override
     public E pollFirst() {
-      Iterator<E> unfilteredIterator = unfiltered().iterator();
-      while (unfilteredIterator.hasNext()) {
-        E e = unfilteredIterator.next();
-        if (predicate.apply(e)) {
-          unfilteredIterator.remove();
-          return e;
-        }
-      }
-      return null;
+      return Iterables.removeFirstMatching(unfiltered(), predicate);
     }
 
     @Override
     public E pollLast() {
-      Iterator<E> unfilteredIterator = unfiltered().descendingIterator();
-      while (unfilteredIterator.hasNext()) {
-        E e = unfilteredIterator.next();
-        if (predicate.apply(e)) {
-          unfilteredIterator.remove();
-          return e;
-        }
-      }
-      return null;
+      return Iterables.removeFirstMatching(unfiltered().descendingSet(), predicate);
     }
 
     @Override

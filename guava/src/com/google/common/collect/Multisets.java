@@ -308,11 +308,6 @@ public final class Multisets {
     }
 
     @Override
-    public boolean contains(@Nullable Object element) {
-      return count(element) > 0;
-    }
-
-    @Override
     public int count(@Nullable Object element) {
       int count = unfiltered.count(element);
       if (count > 0) {
@@ -338,16 +333,6 @@ public final class Multisets {
       } else {
         return contains(element) ? unfiltered.remove(element, occurrences) : 0;
       }
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-      return elementSet().removeAll(c);
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-      return elementSet().retainAll(c);
     }
 
     @Override

@@ -23,8 +23,8 @@ import static com.google.common.base.Predicates.not;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Maps.ImprovedAbstractMap;
 
-import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -159,7 +159,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
     return changed;
   }
   
-  class AsMap extends AbstractMap<K, Collection<V>> {
+  class AsMap extends ImprovedAbstractMap<K, Collection<V>> {
     @Override
     public boolean containsKey(@Nullable Object key) {
       return get(key) != null;
@@ -208,34 +208,28 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
       }
     }
     
-    private Set<K> keySet;
-    
     @Override
-    public Set<K> keySet() {
-      Set<K> result = keySet;
-      if (result == null) {
-        return keySet = new Maps.KeySet<K, Collection<V>>(this) {
-          @Override
-          public boolean removeAll(Collection<?> c) {
-            return removeIf(Maps.<K>keyPredicateOnEntries(in(c)));
-          }
-          
-          @Override
-          public boolean retainAll(Collection<?> c) {
-            return removeIf(Maps.<K>keyPredicateOnEntries(not(in(c))));
-          }
-          
-          @Override
-          public boolean remove(@Nullable Object o) {
-            return AsMap.this.remove(o) != null;
-          }
-        };
-      }
-      return result;
+    Set<K> createKeySet() {
+      return new Maps.KeySet<K, Collection<V>>(this) {
+        @Override
+        public boolean removeAll(Collection<?> c) {
+          return removeIf(Maps.<K>keyPredicateOnEntries(in(c)));
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
+          return removeIf(Maps.<K>keyPredicateOnEntries(not(in(c))));
+        }
+
+        @Override
+        public boolean remove(@Nullable Object o) {
+          return AsMap.this.remove(o) != null;
+        }
+      };
     }
 
     @Override
-    public Set<Entry<K, Collection<V>>> entrySet() {
+    Set<Entry<K, Collection<V>>> createEntrySet() {
       return new Maps.EntrySet<K, Collection<V>>() {
         @Override
         Map<K, Collection<V>> map() {
@@ -282,7 +276,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
     }
     
     @Override
-    public Collection<Collection<V>> values() {
+    Collection<Collection<V>> createValues() {
       return new Maps.Values<K, Collection<V>>(AsMap.this) {
         @Override
         public boolean remove(@Nullable Object o) {

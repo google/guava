@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.compose;
+import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
 
@@ -2539,47 +2540,47 @@ public final class Maps {
 
     @Override
     Collection<V> createValues() {
-      return new Values();
+      return new FilteredMapValues<K, V>(this, unfiltered, predicate);
+    }
+  }
+
+  private static final class FilteredMapValues<K, V> extends Maps.Values<K, V> {
+    Map<K, V> unfiltered;
+    Predicate<? super Entry<K, V>> predicate;
+
+    FilteredMapValues(Map<K, V> filteredMap, Map<K, V> unfiltered,
+        Predicate<? super Entry<K, V>> predicate) {
+      super(filteredMap);
+      this.unfiltered = unfiltered;
+      this.predicate = predicate;
     }
 
-    class Values extends Maps.Values<K, V> {
-      Values() {
-        super(AbstractFilteredMap.this);
-      }
+    @Override public boolean remove(Object o) {
+      return Iterables.removeFirstMatching(unfiltered.entrySet(),
+          Predicates.<Entry<K, V>>and(predicate, Maps.<V>valuePredicateOnEntries(equalTo(o))))
+          != null;
+    }
 
-      @Override public boolean remove(Object o) {
-        Iterator<Entry<K, V>> unfilteredItr = unfiltered.entrySet().iterator();
-        while (unfilteredItr.hasNext()) {
-          Entry<K, V> entry = unfilteredItr.next();
-          if (predicate.apply(entry) && Objects.equal(entry.getValue(), o)) {
-            unfilteredItr.remove();
-            return true;
-          }
-        }
-        return false;
-      }
+    private boolean removeIf(Predicate<? super V> valuePredicate) {
+      return Iterables.removeIf(unfiltered.entrySet(), Predicates.<Entry<K, V>>and(
+          predicate, Maps.<V>valuePredicateOnEntries(valuePredicate)));
+    }
 
-      private boolean removeIf(Predicate<? super V> valuePredicate) {
-        return Iterables.removeIf(unfiltered.entrySet(), Predicates.<Entry<K, V>>and(
-            predicate, Maps.<V>valuePredicateOnEntries(valuePredicate)));
-      }
+    @Override public boolean removeAll(Collection<?> collection) {
+      return removeIf(in(collection));
+    }
 
-      @Override public boolean removeAll(Collection<?> collection) {
-        return removeIf(in(collection));
-      }
+    @Override public boolean retainAll(Collection<?> collection) {
+      return removeIf(not(in(collection)));
+    }
 
-      @Override public boolean retainAll(Collection<?> collection) {
-        return removeIf(not(in(collection)));
-      }
+    @Override public Object[] toArray() {
+      // creating an ArrayList so filtering happens once
+      return Lists.newArrayList(iterator()).toArray();
+    }
 
-      @Override public Object[] toArray() {
-        // creating an ArrayList so filtering happens once
-        return Lists.newArrayList(iterator()).toArray();
-      }
-
-      @Override public <T> T[] toArray(T[] array) {
-        return Lists.newArrayList(iterator()).toArray(array);
-      }
+    @Override public <T> T[] toArray(T[] array) {
+      return Lists.newArrayList(iterator()).toArray(array);
     }
   }
 
@@ -2809,209 +2810,137 @@ public final class Maps {
       FilteredEntryNavigableMap<K, V> map,
       Predicate<? super Entry<K, V>> entryPredicate) {
     Predicate<Entry<K, V>> predicate
-        = Predicates.and(map.predicate, entryPredicate);
-    return new FilteredEntryNavigableMap<K, V>(map.sortedMap(), predicate);
+        = Predicates.and(map.entryPredicate, entryPredicate);
+    return new FilteredEntryNavigableMap<K, V>(map.unfiltered, predicate);
   }
 
   @GwtIncompatible("NavigableMap")
-  private static class FilteredEntryNavigableMap<K, V> extends FilteredEntrySortedMap<K, V>
-      implements NavigableMap<K, V> {
+  private static class FilteredEntryNavigableMap<K, V> extends AbstractNavigableMap<K, V> {
+    /*
+     * It's less code to extend AbstractNavigableMap and forward the filtering logic to
+     * FilteredEntryMap than to extend FilteredEntrySortedMap and reimplement all the NavigableMap
+     * methods.
+     */
+
+    private final NavigableMap<K, V> unfiltered;
+    private final Predicate<? super Entry<K, V>> entryPredicate;
+    private final Map<K, V> filteredDelegate;
 
     FilteredEntryNavigableMap(
         NavigableMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
-      super(unfiltered, entryPredicate);
+      this.unfiltered = checkNotNull(unfiltered);
+      this.entryPredicate = entryPredicate;
+      this.filteredDelegate = new FilteredEntryMap<K, V>(unfiltered, entryPredicate);
     }
 
     @Override
-    NavigableMap<K, V> sortedMap() {
-      return (NavigableMap<K, V>) super.sortedMap();
-    }
-
-    @Override
-    public Entry<K, V> lowerEntry(K key) {
-      return headMap(key, false).lastEntry();
-    }
-
-    @Override
-    public K lowerKey(K key) {
-      return keyOrNull(lowerEntry(key));
-    }
-
-    @Override
-    public Entry<K, V> floorEntry(K key) {
-      return headMap(key, true).lastEntry();
-    }
-
-    @Override
-    public K floorKey(K key) {
-      return keyOrNull(floorEntry(key));
-    }
-
-    @Override
-    public Entry<K, V> ceilingEntry(K key) {
-      return tailMap(key, true).firstEntry();
-    }
-
-    @Override
-    public K ceilingKey(K key) {
-      return keyOrNull(ceilingEntry(key));
-    }
-
-    @Override
-    public Entry<K, V> higherEntry(K key) {
-      return tailMap(key, false).firstEntry();
-    }
-
-    @Override
-    public K higherKey(K key) {
-      return keyOrNull(higherEntry(key));
-    }
-
-    @Override
-    public Entry<K, V> firstEntry() {
-      return Iterables.getFirst(entrySet(), null);
-    }
-
-    @Override
-    public Entry<K, V> lastEntry() {
-      return Iterables.getFirst(descendingMap().entrySet(), null);
-    }
-
-    @Override
-    public Entry<K, V> pollFirstEntry() {
-      return pollFirstSatisfyingEntry(sortedMap().entrySet().iterator());
-    }
-
-    @Override
-    public Entry<K, V> pollLastEntry() {
-      return pollFirstSatisfyingEntry(sortedMap().descendingMap().entrySet().iterator());
-    }
-
-    @Nullable
-    Entry<K, V> pollFirstSatisfyingEntry(Iterator<Entry<K, V>> entryIterator) {
-      while (entryIterator.hasNext()) {
-        Entry<K, V> entry = entryIterator.next();
-        if (predicate.apply(entry)) {
-          entryIterator.remove();
-          return entry;
-        }
-      }
-      return null;
-    }
-
-    @Override
-    public NavigableMap<K, V> descendingMap() {
-      return filterEntries(sortedMap().descendingMap(), predicate);
-    }
-
-    @Override
-    public NavigableSet<K> keySet() {
-      return (NavigableSet<K>) super.keySet();
-    }
-
-    @Override
-    NavigableSet<K> createKeySet() {
-      return new NavigableKeySet();
-    }
-
-    class NavigableKeySet extends SortedKeySet implements NavigableSet<K> {
-      @Override
-      public K lower(K k) {
-        return lowerKey(k);
-      }
-
-      @Override
-      public K floor(K k) {
-        return floorKey(k);
-      }
-
-      @Override
-      public K ceiling(K k) {
-        return ceilingKey(k);
-      }
-
-      @Override
-      public K higher(K k) {
-        return higherKey(k);
-      }
-
-      @Override
-      public K pollFirst() {
-        return keyOrNull(pollFirstEntry());
-      }
-
-      @Override
-      public K pollLast() {
-        return keyOrNull(pollLastEntry());
-      }
-
-      @Override
-      public NavigableSet<K> descendingSet() {
-        return descendingMap().navigableKeySet();
-      }
-
-      @Override
-      public Iterator<K> descendingIterator() {
-        return descendingSet().iterator();
-      }
-
-      @Override
-      public NavigableSet<K> subSet(
-          K fromElement, boolean fromInclusive, K toElement, boolean toInclusive) {
-        return subMap(fromElement, fromInclusive, toElement, toInclusive).navigableKeySet();
-      }
-
-      @Override
-      public NavigableSet<K> headSet(K toElement, boolean inclusive) {
-        return headMap(toElement, inclusive).navigableKeySet();
-      }
-
-      @Override
-      public NavigableSet<K> tailSet(K fromElement, boolean inclusive) {
-        return tailMap(fromElement, inclusive).navigableKeySet();
-      }
+    public Comparator<? super K> comparator() {
+      return unfiltered.comparator();
     }
 
     @Override
     public NavigableSet<K> navigableKeySet() {
-      return keySet();
+      return new Maps.NavigableKeySet<K, V>(this) {
+        @Override
+        public boolean removeAll(Collection<?> c) {
+          return Iterators.removeIf(unfiltered.entrySet().iterator(),
+              Predicates.<Entry<K, V>>and(entryPredicate, Maps.<K>keyPredicateOnEntries(in(c))));
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
+          return Iterators.removeIf(unfiltered.entrySet().iterator(), Predicates.<Entry<K, V>>and(
+              entryPredicate, Maps.<K>keyPredicateOnEntries(not(in(c)))));
+        }
+      };
     }
 
     @Override
-    public NavigableSet<K> descendingKeySet() {
-      return descendingMap().navigableKeySet();
+    public Collection<V> values() {
+      return new FilteredMapValues<K, V>(this, unfiltered, entryPredicate);
     }
 
     @Override
-    public NavigableMap<K, V> subMap(K fromKey, K toKey) {
-      return subMap(fromKey, true, toKey, false);
+    Iterator<Entry<K, V>> entryIterator() {
+      return Iterators.filter(unfiltered.entrySet().iterator(), entryPredicate);
+    }
+
+    @Override
+    Iterator<Entry<K, V>> descendingEntryIterator() {
+      return Iterators.filter(unfiltered.descendingMap().entrySet().iterator(), entryPredicate);
+    }
+
+    @Override
+    public int size() {
+      return filteredDelegate.size();
+    }
+
+    @Override
+    @Nullable
+    public V get(@Nullable Object key) {
+      return filteredDelegate.get(key);
+    }
+
+    @Override
+    public boolean containsKey(@Nullable Object key) {
+      return filteredDelegate.containsKey(key);
+    }
+
+    @Override
+    public V put(K key, V value) {
+      return filteredDelegate.put(key, value);
+    }
+
+    @Override
+    public V remove(@Nullable Object key) {
+      return filteredDelegate.remove(key);
+    }
+
+    @Override
+    public void putAll(Map<? extends K, ? extends V> m) {
+      filteredDelegate.putAll(m);
+    }
+
+    @Override
+    public void clear() {
+      filteredDelegate.clear();
+    }
+
+    @Override
+    public Set<Entry<K, V>> entrySet() {
+      return filteredDelegate.entrySet();
+    }
+
+    @Override
+    public Entry<K, V> pollFirstEntry() {
+      return Iterables.removeFirstMatching(unfiltered.entrySet(), entryPredicate);
+    }
+
+    @Override
+    public Entry<K, V> pollLastEntry() {
+      return Iterables.removeFirstMatching(unfiltered.descendingMap().entrySet(), entryPredicate);
+    }
+
+    @Override
+    public NavigableMap<K, V> descendingMap() {
+      return filterEntries(unfiltered.descendingMap(), entryPredicate);
     }
 
     @Override
     public NavigableMap<K, V> subMap(
         K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
       return filterEntries(
-          sortedMap().subMap(fromKey, fromInclusive, toKey, toInclusive), predicate);
-    }
-
-    @Override
-    public NavigableMap<K, V> headMap(K toKey) {
-      return headMap(toKey, false);
+          unfiltered.subMap(fromKey, fromInclusive, toKey, toInclusive), entryPredicate);
     }
 
     @Override
     public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
-      return filterEntries(sortedMap().headMap(toKey, inclusive), predicate);
-    }
-
-    @Override
-    public NavigableMap<K, V> tailMap(K fromKey) {
-      return tailMap(fromKey, true);
+      return filterEntries(unfiltered.headMap(toKey, inclusive), entryPredicate);
     }
 
     @Override
     public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
-      return filterEntries(sortedMap().tailMap(fromKey, inclusive), predicate);
+      return filterEntries(unfiltered.tailMap(fromKey, inclusive), entryPredicate);
     }
   }
 
@@ -3110,6 +3039,12 @@ public final class Maps {
       this.delegate = delegate;
     }
 
+    UnmodifiableNavigableMap(
+        NavigableMap<K, V> delegate, UnmodifiableNavigableMap<K, V> descendingMap) {
+      this.delegate = delegate;
+      this.descendingMap = descendingMap;
+    }
+
     @Override
     protected SortedMap<K, V> delegate() {
       return Collections.unmodifiableSortedMap(delegate);
@@ -3180,11 +3115,9 @@ public final class Maps {
     @Override
     public NavigableMap<K, V> descendingMap() {
       UnmodifiableNavigableMap<K, V> result = descendingMap;
-      if (result == null) {
-        descendingMap = result = new UnmodifiableNavigableMap<K, V>(delegate.descendingMap());
-        result.descendingMap = this;
-      }
-      return result;
+      return (result == null)
+          ? descendingMap = new UnmodifiableNavigableMap<K, V>(delegate.descendingMap(), this)
+          : result;
     }
 
     @Override
@@ -3307,7 +3240,7 @@ public final class Maps {
      * is invoked at most once on a given map, at the time when {@code entrySet}
      * is first called.
      */
-    protected abstract Set<Entry<K, V>> createEntrySet();
+    abstract Set<Entry<K, V>> createEntrySet();
 
     private transient Set<Entry<K, V>> entrySet;
 

@@ -165,27 +165,13 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean contains(Object element) {
-      try {
-        // TODO(user): consider doing the predicate after unfiltered.contains,
-        // which would reduce the risk of CCE here
-
-        // unsafe cast can result in a CCE from predicate.apply(), which we
-        // will catch
-        @SuppressWarnings("unchecked")
+    public boolean contains(@Nullable Object element) {
+      if (safeContains(unfiltered, element)) {
+        @SuppressWarnings("unchecked") // element is in unfiltered, so it must be an E
         E e = (E) element;
-
-        /*
-         * We check whether e satisfies the predicate, when we really mean to
-         * check whether the element contained in the set does. This is ok as
-         * long as the predicate is consistent with equals, as required.
-         */
-        return predicate.apply(e) && unfiltered.contains(element);
-      } catch (NullPointerException e) {
-        return false;
-      } catch (ClassCastException e) {
-        return false;
+        return predicate.apply(e);
       }
+      return false;
     }
 
     @Override
@@ -205,22 +191,7 @@ public final class Collections2 {
 
     @Override
     public boolean remove(Object element) {
-      try {
-        // TODO(user): consider doing the predicate after unfiltered.contains,
-        // which would reduce the risk of CCE here
-
-        // unsafe cast can result in a CCE from predicate.apply(), which we
-        // will catch
-        @SuppressWarnings("unchecked")
-        E e = (E) element;
-
-        // See comment in contains() concerning predicate.apply(e)
-        return predicate.apply(e) && unfiltered.remove(element);
-      } catch (NullPointerException e) {
-        return false;
-      } catch (ClassCastException e) {
-        return false;
-      }
+      return contains(element) && unfiltered.remove(element);
     }
 
     @Override

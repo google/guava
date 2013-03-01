@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.compose;
+import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
 
@@ -2006,47 +2007,47 @@ public final class Maps {
 
     @Override
     Collection<V> createValues() {
-      return new Values();
+      return new FilteredMapValues<K, V>(this, unfiltered, predicate);
+    }
+  }
+
+  private static final class FilteredMapValues<K, V> extends Maps.Values<K, V> {
+    Map<K, V> unfiltered;
+    Predicate<? super Entry<K, V>> predicate;
+
+    FilteredMapValues(Map<K, V> filteredMap, Map<K, V> unfiltered,
+        Predicate<? super Entry<K, V>> predicate) {
+      super(filteredMap);
+      this.unfiltered = unfiltered;
+      this.predicate = predicate;
     }
 
-    class Values extends Maps.Values<K, V> {
-      Values() {
-        super(AbstractFilteredMap.this);
-      }
+    @Override public boolean remove(Object o) {
+      return Iterables.removeFirstMatching(unfiltered.entrySet(),
+          Predicates.<Entry<K, V>>and(predicate, Maps.<V>valuePredicateOnEntries(equalTo(o))))
+          != null;
+    }
 
-      @Override public boolean remove(Object o) {
-        Iterator<Entry<K, V>> unfilteredItr = unfiltered.entrySet().iterator();
-        while (unfilteredItr.hasNext()) {
-          Entry<K, V> entry = unfilteredItr.next();
-          if (predicate.apply(entry) && Objects.equal(entry.getValue(), o)) {
-            unfilteredItr.remove();
-            return true;
-          }
-        }
-        return false;
-      }
+    private boolean removeIf(Predicate<? super V> valuePredicate) {
+      return Iterables.removeIf(unfiltered.entrySet(), Predicates.<Entry<K, V>>and(
+          predicate, Maps.<V>valuePredicateOnEntries(valuePredicate)));
+    }
 
-      private boolean removeIf(Predicate<? super V> valuePredicate) {
-        return Iterables.removeIf(unfiltered.entrySet(), Predicates.<Entry<K, V>>and(
-            predicate, Maps.<V>valuePredicateOnEntries(valuePredicate)));
-      }
+    @Override public boolean removeAll(Collection<?> collection) {
+      return removeIf(in(collection));
+    }
 
-      @Override public boolean removeAll(Collection<?> collection) {
-        return removeIf(in(collection));
-      }
+    @Override public boolean retainAll(Collection<?> collection) {
+      return removeIf(not(in(collection)));
+    }
 
-      @Override public boolean retainAll(Collection<?> collection) {
-        return removeIf(not(in(collection)));
-      }
+    @Override public Object[] toArray() {
+      // creating an ArrayList so filtering happens once
+      return Lists.newArrayList(iterator()).toArray();
+    }
 
-      @Override public Object[] toArray() {
-        // creating an ArrayList so filtering happens once
-        return Lists.newArrayList(iterator()).toArray();
-      }
-
-      @Override public <T> T[] toArray(T[] array) {
-        return Lists.newArrayList(iterator()).toArray(array);
-      }
+    @Override public <T> T[] toArray(T[] array) {
+      return Lists.newArrayList(iterator()).toArray(array);
     }
   }
 
@@ -2345,7 +2346,7 @@ public final class Maps {
      * is invoked at most once on a given map, at the time when {@code entrySet}
      * is first called.
      */
-    protected abstract Set<Entry<K, V>> createEntrySet();
+    abstract Set<Entry<K, V>> createEntrySet();
 
     private transient Set<Entry<K, V>> entrySet;
 
