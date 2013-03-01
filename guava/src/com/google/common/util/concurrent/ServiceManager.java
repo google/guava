@@ -33,6 +33,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Service.State;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -200,13 +201,30 @@ public final class ServiceManager {
    * thrown by {@linkplain MoreExecutors#sameThreadExecutor inline execution}) will be caught and
    * logged.
    * 
+   * <p> For fast, lightweight listeners that would be safe to execute in any thread, consider 
+   * calling {@link #addListener(Listener)}.
+   * 
    * @param listener the listener to run when the manager changes state
-   * @param executor the executor in which the listeners callback methods will be run. For fast,
-   *     lightweight listeners that would be safe to execute in any thread, consider 
-   *     {@link MoreExecutors#sameThreadExecutor}.
+   * @param executor the executor in which the listeners callback methods will be run.
    */
   public void addListener(Listener listener, Executor executor) {
     state.addListener(listener, executor);
+  }
+
+  /**
+   * Registers a {@link Listener} to be run when this {@link ServiceManager} changes state. The 
+   * listener will not have previous state changes replayed, so it is suggested that listeners are 
+   * added before any of the managed services are {@linkplain Service#start started}.
+   *
+   * <p>There is no guaranteed ordering of execution of listeners, but any listener added through 
+   * this method is guaranteed to be called whenever there is a state change.
+   *
+   * <p>Exceptions thrown by a listener will be will be caught and logged.
+   * 
+   * @param listener the listener to run when the manager changes state
+   */
+  public void addListener(Listener listener) {
+    state.addListener(listener, MoreExecutors.sameThreadExecutor());
   }
 
   /**
@@ -341,22 +359,22 @@ public final class ServiceManager {
    *     ordered by startup time.
    */
   public ImmutableMap<Service, Long> startupTimes() { 
-    Map<Service, Long> loadTimeMap = Maps.newHashMapWithExpectedSize(services.size());
+    List<Entry<Service, Long>> loadTimes = Lists.newArrayListWithCapacity(services.size());
     for (Map.Entry<Service, ServiceListener> entry : services.entrySet()) {
-      State state = entry.getKey().state();
-      if (state != State.NEW && state != State.STARTING) {
-        loadTimeMap.put(entry.getKey(), entry.getValue().startupTimeMillis());
+      Service service = entry.getKey();
+      State state = service.state();
+      if (state != State.NEW & state != State.STARTING) {
+        loadTimes.add(Maps.immutableEntry(service, entry.getValue().startupTimeMillis()));
       }
     }
-    List<Entry<Service, Long>> servicesByStartTime = Ordering.<Long>natural()
-        .onResultOf(new Function<Map.Entry<Service, Long>, Long>() {
+    Collections.sort(loadTimes, Ordering.<Long>natural()
+        .onResultOf(new Function<Entry<Service, Long>, Long>() {
           @Override public Long apply(Map.Entry<Service, Long> input) {
             return input.getValue();
           }
-        })
-        .sortedCopy(loadTimeMap.entrySet());
+        }));
     ImmutableMap.Builder<Service, Long> builder = ImmutableMap.builder();
-    for (Map.Entry<Service, Long> entry : servicesByStartTime) {
+    for (Entry<Service, Long> entry : loadTimes) {
       builder.put(entry);
     }
     return builder.build();
@@ -388,7 +406,7 @@ public final class ServiceManager {
     final Monitor.Guard awaitHealthGuard = new Monitor.Guard(monitor) {
       @Override public boolean isSatisfied() {
         // All services have started or some service has terminated/failed.
-        return unstartedServices == 0 || unstoppedServices != numberOfServices;
+        return unstartedServices == 0 | unstoppedServices != numberOfServices;
       }
     };
     /**
@@ -436,39 +454,29 @@ public final class ServiceManager {
     }
     
     void awaitHealthy() {
-      monitor.enter();
-      try {
-        monitor.waitForUninterruptibly(awaitHealthGuard);
-      } finally {
-        monitor.leave();
-      }
+      monitor.enterWhenUninterruptibly(awaitHealthGuard);
+      monitor.leave();
     }
     
     boolean awaitHealthy(long timeout, TimeUnit unit) {
-      monitor.enter();
-      try {
-        return monitor.waitForUninterruptibly(awaitHealthGuard, timeout, unit);
-      } finally {
+      if (monitor.enterWhenUninterruptibly(awaitHealthGuard, timeout, unit)) {
         monitor.leave();
+        return true;
       }
+      return false;
     }
     
     void awaitStopped() {
-      monitor.enter();
-      try {
-        monitor.waitForUninterruptibly(stoppedGuard);
-      } finally {
-        monitor.leave();
-      }
+      monitor.enterWhenUninterruptibly(stoppedGuard);
+      monitor.leave();
     }
     
     boolean awaitStopped(long timeout, TimeUnit unit) {
-      monitor.enter();
-      try {
-        return monitor.waitForUninterruptibly(stoppedGuard, timeout, unit);
-      } finally {
+      if (monitor.enterWhenUninterruptibly(stoppedGuard, timeout, unit)) {
         monitor.leave();
+        return true;
       }
+      return false;
     }
     
     /**
