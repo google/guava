@@ -703,7 +703,9 @@ public final class Lists {
    * @since 7.0
    */
   public static <T> List<T> reverse(List<T> list) {
-    if (list instanceof ReverseList) {
+    if (list instanceof ImmutableList) {
+      return ((ImmutableList<T>) list).reverse();
+    } else if (list instanceof ReverseList) {
       return ((ReverseList<T>) list).getForwardList();
     } else if (list instanceof RandomAccess) {
       return new RandomAccessReverseList<T>(list);
@@ -759,36 +761,14 @@ public final class Lists {
       return forwardList.get(reverseIndex(index));
     }
 
-    @Override public boolean isEmpty() {
-      return forwardList.isEmpty();
-    }
-
     @Override public int size() {
       return forwardList.size();
-    }
-
-    @Override public boolean contains(@Nullable Object o) {
-      return forwardList.contains(o);
-    }
-
-    @Override public boolean containsAll(Collection<?> c) {
-      return forwardList.containsAll(c);
     }
 
     @Override public List<T> subList(int fromIndex, int toIndex) {
       checkPositionIndexes(fromIndex, toIndex, size());
       return reverse(forwardList.subList(
           reversePosition(toIndex), reversePosition(fromIndex)));
-    }
-
-    @Override public int indexOf(@Nullable Object o) {
-      int index = forwardList.lastIndexOf(o);
-      return (index >= 0) ? reverseIndex(index) : -1;
-    }
-
-    @Override public int lastIndexOf(@Nullable Object o) {
-      int index = forwardList.indexOf(o);
-      return (index >= 0) ? reverseIndex(index) : -1;
     }
 
     @Override public Iterator<T> iterator() {
@@ -800,13 +780,12 @@ public final class Lists {
       final ListIterator<T> forwardIterator = forwardList.listIterator(start);
       return new ListIterator<T>() {
 
-        boolean canRemove;
-        boolean canSet;
+        boolean canRemoveOrSet;
 
         @Override public void add(T e) {
           forwardIterator.add(e);
           forwardIterator.previous();
-          canSet = canRemove = false;
+          canRemoveOrSet = false;
         }
 
         @Override public boolean hasNext() {
@@ -821,7 +800,7 @@ public final class Lists {
           if (!hasNext()) {
             throw new NoSuchElementException();
           }
-          canSet = canRemove = true;
+          canRemoveOrSet = true;
           return forwardIterator.previous();
         }
 
@@ -833,7 +812,7 @@ public final class Lists {
           if (!hasPrevious()) {
             throw new NoSuchElementException();
           }
-          canSet = canRemove = true;
+          canRemoveOrSet = true;
           return forwardIterator.next();
         }
 
@@ -842,13 +821,13 @@ public final class Lists {
         }
 
         @Override public void remove() {
-          checkState(canRemove);
+          Iterators.checkRemove(canRemoveOrSet);
           forwardIterator.remove();
-          canRemove = canSet = false;
+          canRemoveOrSet = false;
         }
 
         @Override public void set(T e) {
-          checkState(canSet);
+          checkState(canRemoveOrSet);
           forwardIterator.set(e);
         }
       };
