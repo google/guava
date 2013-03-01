@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Predicates.compose;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
 
@@ -218,12 +217,12 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
         return keySet = new Maps.KeySet<K, Collection<V>>(this) {
           @Override
           public boolean removeAll(Collection<?> c) {
-            return removeIf(compose(in(c), Maps.<K>keyFunction()));
+            return removeIf(Maps.<K>keyPredicateOnEntries(in(c)));
           }
           
           @Override
           public boolean retainAll(Collection<?> c) {
-            return removeIf(compose(not(in(c)), Maps.<K>keyFunction()));
+            return removeIf(Maps.<K>keyPredicateOnEntries(not(in(c))));
           }
           
           @Override
@@ -311,12 +310,12 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
 
         @Override
         public boolean removeAll(Collection<?> c) {
-          return removeIf(compose(in(c), Maps.<Collection<V>>valueFunction()));
+          return removeIf(Maps.<Collection<V>>valuePredicateOnEntries(in(c)));
         }
 
         @Override
         public boolean retainAll(Collection<?> c) {
-          return removeIf(compose(not(in(c)), Maps.<Collection<V>>valueFunction()));
+          return removeIf(Maps.<Collection<V>>valuePredicateOnEntries(not(in(c))));
         }
       };
     }

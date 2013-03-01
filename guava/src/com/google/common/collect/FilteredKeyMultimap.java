@@ -52,7 +52,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
 
   @Override
   public Predicate<? super Entry<K, V>> entryPredicate() {
-    return new Maps.KeyPredicate<K, V>(keyPredicate);
+    return Maps.keyPredicateOnEntries(keyPredicate);
   }
 
   @Override

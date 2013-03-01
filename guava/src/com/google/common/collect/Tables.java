@@ -241,14 +241,7 @@ public final class Tables {
     }
 
     @Override public boolean equals(@Nullable Object obj) {
-      if (obj == this) {
-        return true;
-      }
-      if (obj instanceof Table) {
-        Table<?, ?, ?> other = (Table<?, ?, ?>) obj;
-        return cellSet().equals(other.cellSet());
-      }
-      return false;
+      return Tables.equalsImpl(this, obj);
     }
 
     @Override public int hashCode() {
@@ -286,17 +279,7 @@ public final class Tables {
       }
 
       @Override public boolean equals(Object obj) {
-        if (obj == this) {
-          return true;
-        }
-        if (!(obj instanceof Set)) {
-          return false;
-        }
-        Set<?> os = (Set<?>) obj;
-        if (os.size() != size()) {
-          return false;
-        }
-        return containsAll(os);
+        return Sets.equalsImpl(this, obj);
       }
 
       @Override public int hashCode() {

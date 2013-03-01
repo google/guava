@@ -32,10 +32,6 @@ final class NaturalOrdering
   @Override public int compare(Comparable left, Comparable right) {
     checkNotNull(left); // for GWT
     checkNotNull(right);
-    if (left == right) {
-      return 0;
-    }
-
     return left.compareTo(right);
   }
 

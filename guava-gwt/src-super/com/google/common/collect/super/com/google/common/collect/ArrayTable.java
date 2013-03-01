@@ -259,6 +259,8 @@ public final class ArrayTable<R, C, V> implements Table<R, C, V>, Serializable {
       };
     }
 
+    // TODO(user): consider an optimized values() implementation
+
     @Override
     public boolean containsKey(@Nullable Object key) {
       return keyIndex.containsKey(key);
@@ -807,4 +809,3 @@ public final class ArrayTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   private static final long serialVersionUID = 0;
 }
-

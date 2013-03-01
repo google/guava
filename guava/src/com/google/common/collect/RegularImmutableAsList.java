@@ -62,26 +62,6 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
   }
 
   @Override
-  public int indexOf(Object object) {
-    return delegateList.indexOf(object);
-  }
-
-  @Override
-  public int lastIndexOf(Object object) {
-    return delegateList.lastIndexOf(object);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    return delegateList.equals(obj);
-  }
-
-  @Override
-  public int hashCode() {
-    return delegateList.hashCode();
-  }
-
-  @Override
   public E get(int index) {
     return delegateList.get(index);
   }

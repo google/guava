@@ -18,6 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Predicates.and;
+import static com.google.common.base.Predicates.in;
+import static com.google.common.base.Predicates.not;
 import static com.google.common.math.LongMath.binomial;
 
 import com.google.common.annotations.Beta;
@@ -31,6 +34,7 @@ import com.google.common.primitives.Ints;
 
 import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -186,17 +190,12 @@ public final class Collections2 {
 
     @Override
     public boolean containsAll(Collection<?> collection) {
-      for (Object element : collection) {
-        if (!contains(element)) {
-          return false;
-        }
-      }
-      return true;
+      return containsAllImpl(this, collection);
     }
 
     @Override
     public boolean isEmpty() {
-      return !Iterators.any(unfiltered.iterator(), predicate);
+      return !Iterables.any(unfiltered, predicate);
     }
 
     @Override
@@ -226,27 +225,12 @@ public final class Collections2 {
 
     @Override
     public boolean removeAll(final Collection<?> collection) {
-      checkNotNull(collection);
-      Predicate<E> combinedPredicate = new Predicate<E>() {
-        @Override
-        public boolean apply(E input) {
-          return predicate.apply(input) && collection.contains(input);
-        }
-      };
-      return Iterables.removeIf(unfiltered, combinedPredicate);
+      return Iterables.removeIf(unfiltered, and(predicate, in(collection)));
     }
 
     @Override
     public boolean retainAll(final Collection<?> collection) {
-      checkNotNull(collection);
-      Predicate<E> combinedPredicate = new Predicate<E>() {
-        @Override
-        public boolean apply(E input) {
-          // See comment in contains() concerning predicate.apply(e)
-          return predicate.apply(input) && !collection.contains(input);
-        }
-      };
-      return Iterables.removeIf(unfiltered, combinedPredicate);
+      return Iterables.removeIf(unfiltered, and(predicate, not(in(collection))));
     }
 
     @Override
@@ -657,10 +641,8 @@ public final class Collections2 {
       int n = list.size();
       c = new int[n];
       o = new int[n];
-      for (int i = 0; i < n; i++) {
-        c[i] = 0;
-        o[i] = 1;
-      }
+      Arrays.fill(c, 0);
+      Arrays.fill(o, 1);
       j = Integer.MAX_VALUE;
     }
 
@@ -718,9 +700,9 @@ public final class Collections2 {
     if (first.size() != second.size()) {
       return false;
     }
-    Multiset<?> firstSet = HashMultiset.create(first);
-    Multiset<?> secondSet = HashMultiset.create(second);
-    return firstSet.equals(secondSet);
+    Multiset<?> firstMultiset = HashMultiset.create(first);
+    Multiset<?> secondMultiset = HashMultiset.create(second);
+    return firstMultiset.equals(secondMultiset);
   }
 
   private static boolean isPositiveInt(long n) {

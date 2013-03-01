@@ -856,11 +856,6 @@ public final class Sets {
    */
   public static <B> Set<List<B>> cartesianProduct(
       List<? extends Set<? extends B>> sets) {
-    for (Set<? extends B> set : sets) {
-      if (set.isEmpty()) {
-        return ImmutableSet.of();
-      }
-    }
     return CartesianSet.create(sets);
   }
 

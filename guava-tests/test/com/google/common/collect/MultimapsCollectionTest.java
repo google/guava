@@ -670,7 +670,7 @@ public class MultimapsCollectionTest extends TestCase {
               Predicates.not(Predicates.in(badEntries.entries())));
         }
       })
-      .named("Multimaps.filterEntries[Maps.filterKeys[SetMultimap]]")
+      .named("Multimaps.filterEntries[Multimaps.filterKeys[SetMultimap]]")
       .withFeatures(
           CollectionSize.ANY,
           MapFeature.GENERAL_PURPOSE,
@@ -690,7 +690,7 @@ public class MultimapsCollectionTest extends TestCase {
               Predicates.not(Predicates.in(ImmutableSet.of("foo", "bar"))));
         }
       })
-      .named("Multimaps.filterKeys[Maps.filterEntries[SetMultimap]]")
+      .named("Multimaps.filterKeys[Multimaps.filterEntries[SetMultimap]]")
       .withFeatures(
           CollectionSize.ANY,
           MapFeature.GENERAL_PURPOSE,
@@ -709,7 +709,7 @@ public class MultimapsCollectionTest extends TestCase {
           return multimap;
         }
       })
-      .named("Multimaps.filterKeys[Maps.filterKeys[SetMultimap]]")
+      .named("Multimaps.filterKeys[Multimaps.filterKeys[SetMultimap]]")
       .withFeatures(
           CollectionSize.ANY,
           MapFeature.GENERAL_PURPOSE,

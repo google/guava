@@ -118,5 +118,4 @@ public class EmptyImmutableTableTest extends AbstractImmutableTableTest {
   public void testValues() {
     assertTrue(INSTANCE.values().isEmpty());
   }
-
 }

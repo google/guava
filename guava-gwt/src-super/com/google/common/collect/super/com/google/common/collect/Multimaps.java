@@ -785,7 +785,6 @@ public final class Multimaps {
   private static class MapMultimap<K, V>
       implements SetMultimap<K, V>, Serializable {
     final Map<K, V> map;
-    transient Map<K, Collection<V>> asMap;
 
     MapMultimap(Map<K, V> map) {
       this.map = checkNotNull(map);
@@ -911,6 +910,8 @@ public final class Multimaps {
     public Set<Entry<K, V>> entries() {
       return map.entrySet();
     }
+    
+    private transient Map<K, Collection<V>> asMap;
 
     @Override
     public Map<K, Collection<V>> asMap() {
@@ -1077,21 +1078,6 @@ public final class Multimaps {
       EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesMultimap<K, V1, V2>(fromMap, transformer);
   }
-  
-  static final class ValueFunction<K, V1, V2> implements Function<V1, V2> {
-    private final K key;
-    private final EntryTransformer<? super K, ? super V1, V2> transformer;
-    
-    ValueFunction(K key, EntryTransformer<? super K, ? super V1, V2> transformer) {
-      this.key = key;
-      this.transformer = transformer;
-    }
-    
-    @Override
-    public V2 apply(@Nullable V1 value) {
-      return transformer.transformEntry(key, value);
-    }
-  }
 
   private static class TransformedEntriesMultimap<K, V1, V2>
       extends AbstractMultimap<K, V2> {
@@ -1105,7 +1091,8 @@ public final class Multimaps {
     }
 
     Collection<V2> transform(K key, Collection<V1> values) {
-      Function<V1, V2> function = new ValueFunction<K, V1, V2>(key, transformer);
+      Function<? super V1, V2> function = 
+          Maps.asValueToValueFunction(transformer, key);
       if (values instanceof List) {
         return Lists.transform((List<V1>) values, function);
       } else {
@@ -1117,7 +1104,6 @@ public final class Multimaps {
     Map<K, Collection<V2>> createAsMap() {
       return Maps.transformEntries(fromMultimap.asMap(),
           new EntryTransformer<K, Collection<V1>, Collection<V2>>() {
-
         @Override public Collection<V2> transformEntry(
             K key, Collection<V1> value) {
           return transform(key, value);
@@ -1129,34 +1115,14 @@ public final class Multimaps {
       fromMultimap.clear();
     }
 
-    @SuppressWarnings("unchecked")
-    @Override public boolean containsEntry(Object key, Object value) {
-      Collection<V2> values = get((K) key);
-      return values.contains(value);
-    }
-
     @Override public boolean containsKey(Object key) {
       return fromMultimap.containsKey(key);
     }
 
-    @Override public boolean containsValue(Object value) {
-      return values().contains(value);
-    }
-
     @Override
     Iterator<Entry<K, V2>> entryIterator() {
-      return Maps.transformedEntryIterator(fromMultimap.entries().iterator(), transformer);
-    }
-
-    @Override
-    Iterator<V2> valueIterator() {
-      return Iterators.transform(
-          fromMultimap.entries().iterator(), new Function<Entry<K, V1>, V2>() {
-            @Override
-            public V2 apply(final Entry<K, V1> entry) {
-              return transformer.transformEntry(entry.getKey(), entry.getValue());
-            }
-          });
+      return Iterators.transform(fromMultimap.entries().iterator(), 
+          Maps.<K, V1, V2>asEntryToEntryFunction(transformer));
     }
 
     @Override public Collection<V2> get(final K key) {
@@ -1210,12 +1176,7 @@ public final class Multimaps {
     @Override
     Collection<V2> createValues() {
       return Collections2.transform(
-          fromMultimap.entries(), new Function<Entry<K, V1>, V2>() {
-            @Override public V2 apply(Entry<K, V1> entry) {
-              return transformer.transformEntry(
-                  entry.getKey(), entry.getValue());
-            }
-          });
+          fromMultimap.entries(), Maps.<K, V1, V2>asEntryToValueFunction(transformer));
     }
   }
 
@@ -1335,12 +1296,8 @@ public final class Multimaps {
       super(fromMultimap, transformer);
     }
 
-    @Override List<V2> transform(final K key, Collection<V1> values) {
-      return Lists.transform((List<V1>) values, new Function<V1, V2>() {
-        @Override public V2 apply(V1 value) {
-          return transformer.transformEntry(key, value);
-        }
-      });
+    @Override List<V2> transform(K key, Collection<V1> values) {
+      return Lists.transform((List<V1>) values, Maps.asValueToValueFunction(transformer, key));
     }
 
     @Override public List<V2> get(K key) {
@@ -1721,7 +1678,7 @@ public final class Multimaps {
           Predicates.and(prev.keyPredicate, keyPredicate));
     } else if (unfiltered instanceof FilteredMultimap) {
       FilteredMultimap<K, V> prev = (FilteredMultimap<K, V>) unfiltered;
-      return filterFiltered(prev, Predicates.compose(keyPredicate, Maps.<K>keyFunction()));
+      return filterFiltered(prev, Maps.<K>keyPredicateOnEntries(keyPredicate));
     } else {
       return new FilteredKeyMultimap<K, V>(unfiltered, keyPredicate);
     }
@@ -1765,7 +1722,7 @@ public final class Multimaps {
           Predicates.and(prev.keyPredicate, keyPredicate));
     } else if (unfiltered instanceof FilteredSetMultimap) {
       FilteredSetMultimap<K, V> prev = (FilteredSetMultimap<K, V>) unfiltered;
-      return filterFiltered(prev, Predicates.compose(keyPredicate, Maps.<K>keyFunction()));
+      return filterFiltered(prev, Maps.<K>keyPredicateOnEntries(keyPredicate));
     } else {
       return new FilteredKeySetMultimap<K, V>(unfiltered, keyPredicate);
     }
@@ -1844,7 +1801,7 @@ public final class Multimaps {
    */
   public static <K, V> Multimap<K, V> filterValues(
       Multimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
-    return filterEntries(unfiltered, Predicates.compose(valuePredicate, Maps.<V>valueFunction()));
+    return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
   }
   
   /**
@@ -1879,7 +1836,7 @@ public final class Multimaps {
    */
   public static <K, V> SetMultimap<K, V> filterValues(
       SetMultimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
-    return filterEntries(unfiltered, Predicates.compose(valuePredicate, Maps.<V>valueFunction()));
+    return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
   }
 
   /**

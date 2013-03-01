@@ -20,10 +20,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.Maps.ImprovedAbstractMap;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
-import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1064,7 +1064,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
         ? new SortedAsMap((SortedMap<K, Collection<V>>) map) : new AsMap(map);
   }
 
-  private class AsMap extends AbstractMap<K, Collection<V>> {
+  private class AsMap extends ImprovedAbstractMap<K, Collection<V>> {
     /**
      * Usually the same as map, but smaller for the headMap(), tailMap(), or
      * subMap() of a SortedAsMap.
@@ -1075,11 +1075,9 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
       this.submap = submap;
     }
 
-    transient Set<Map.Entry<K, Collection<V>>> entrySet;
-
-    @Override public Set<Map.Entry<K, Collection<V>>> entrySet() {
-      Set<Map.Entry<K, Collection<V>>> result = entrySet;
-      return (result == null) ? entrySet = new AsMapEntries() : result;
+    @Override
+    protected Set<Entry<K, Collection<V>>> createEntrySet() {
+      return new AsMapEntries();
     }
 
     // The following methods are included for performance.
@@ -1249,6 +1247,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
       return (result == null) ? sortedKeySet = createKeySet() : result;
     }
 
+    @Override
     SortedSet<K> createKeySet() {
       return new SortedKeySet(sortedMap());
     }

@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.math.IntMath;
 
 import java.util.AbstractList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -116,49 +115,5 @@ final class CartesianList<E> extends AbstractList<List<E>> {
       }
     }
     return true;
-  }
-
-  @Override
-  public int indexOf(Object o) {
-    if (!(o instanceof List)) {
-      return -1;
-    }
-    List<?> l = (List<?>) o;
-    if (l.size() != axes.size()) {
-      return -1;
-    }
-    Iterator<?> lIterator = l.iterator();
-    int i = 0;
-    for (List<E> axis : axes) {
-      Object lElement = lIterator.next();
-      int axisIndex = axis.indexOf(lElement);
-      if (axisIndex == -1) {
-        return -1;
-      }
-      i = (i * axis.size()) + axisIndex;
-    }
-    return i;
-  }
-
-  @Override
-  public int lastIndexOf(Object o) {
-    if (!(o instanceof List)) {
-      return -1;
-    }
-    List<?> l = (List<?>) o;
-    if (l.size() != axes.size()) {
-      return -1;
-    }
-    Iterator<?> lIterator = l.iterator();
-    int i = 0;
-    for (List<E> axis : axes) {
-      Object lElement = lIterator.next();
-      int axisIndex = axis.lastIndexOf(lElement);
-      if (axisIndex == -1) {
-        return -1;
-      }
-      i = (i * axis.size()) + axisIndex;
-    }
-    return i;
   }
 }

@@ -17,12 +17,15 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Predicates.alwaysTrue;
+import static com.google.common.base.Predicates.equalTo;
+import static com.google.common.base.Predicates.in;
+import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.Maps.safeContainsKey;
 import static com.google.common.collect.Maps.safeGet;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.ImprovedAbstractMap;
 import com.google.common.collect.Sets.ImprovedAbstractSet;
@@ -409,22 +412,12 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       maintainEmptyInvariant();
     }
 
-    Set<C> keySet;
-
-    @Override
-    public Set<C> keySet() {
-      Set<C> result = keySet;
-      return (result == null) ? keySet = new Maps.KeySet<C, V>(this) : result;
-    }
-
-    Set<Entry<C, V>> entrySet;
-
     @Override
     protected Set<Entry<C, V>> createEntrySet() {
       return new RowEntrySet();
     }
 
-    private class RowEntrySet extends Maps.EntrySet<C, V> {
+    private final class RowEntrySet extends Maps.EntrySet<C, V> {
       @Override
       Map<C, V> map() {
         return Row.this;
@@ -507,22 +500,11 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       return StandardTable.this.remove(key, columnKey);
     }
 
-    @Override public Set<Entry<R, V>> createEntrySet() {
-      return new EntrySet();
-    }
-
-    Values columnValues;
-
-    @Override public Collection<V> values() {
-      Values result = columnValues;
-      return (result == null) ? columnValues = new Values() : result;
-    }
-
     /**
      * Removes all {@code Column} mappings whose row key and value satisfy the
      * given predicate.
      */
-    boolean removePredicate(Predicate<? super Entry<R, V>> predicate) {
+    boolean removeIf(Predicate<? super Entry<R, V>> predicate) {
       boolean changed = false;
       Iterator<Entry<R, Map<C, V>>> iterator
           = backingMap.entrySet().iterator();
@@ -542,7 +524,11 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       return changed;
     }
 
-    class EntrySet extends ImprovedAbstractSet<Entry<R, V>> {
+    @Override public Set<Entry<R, V>> createEntrySet() {
+      return new EntrySet();
+    }
+
+    private class EntrySet extends ImprovedAbstractSet<Entry<R, V>> {
       @Override public Iterator<Entry<R, V>> iterator() {
         return new EntrySetIterator();
       }
@@ -562,8 +548,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       }
 
       @Override public void clear() {
-        Predicate<Entry<R, V>> predicate = Predicates.alwaysTrue();
-        removePredicate(predicate);
+        removeIf(alwaysTrue());
       }
 
       @Override public boolean contains(Object o) {
@@ -583,11 +568,11 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       }
 
       @Override public boolean retainAll(Collection<?> c) {
-        return removePredicate(Predicates.not(Predicates.in(c)));
+        return removeIf(not(in(c)));
       }
     }
 
-    class EntrySetIterator extends AbstractIterator<Entry<R, V>> {
+    private class EntrySetIterator extends AbstractIterator<Entry<R, V>> {
       final Iterator<Entry<R, Map<C, V>>> iterator
           = backingMap.entrySet().iterator();
       @Override protected Entry<R, V> computeNext() {
@@ -611,14 +596,11 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       }
     }
 
-    KeySet keySet;
-
-    @Override public Set<R> keySet() {
-      KeySet result = keySet;
-      return result == null ? keySet = new KeySet() : result;
+    @Override Set<R> createKeySet() {
+      return new KeySet();
     }
 
-    class KeySet extends ImprovedAbstractSet<R> {
+    private class KeySet extends ImprovedAbstractSet<R> {
       @Override public Iterator<R> iterator() {
         return Maps.keyIterator(Column.this.entrySet().iterator());
       }
@@ -644,18 +626,16 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       }
 
       @Override public boolean retainAll(final Collection<?> c) {
-        checkNotNull(c);
-        Predicate<Entry<R, V>> predicate = new Predicate<Entry<R, V>>() {
-          @Override
-          public boolean apply(Entry<R, V> entry) {
-            return !c.contains(entry.getKey());
-          }
-        };
-        return removePredicate(predicate);
+        return removeIf(Maps.<R>keyPredicateOnEntries(not(in(c))));
       }
     }
 
-    class Values extends AbstractCollection<V> {
+    @Override
+    Collection<V> createValues() {
+      return new Values();
+    }
+
+    private class Values extends AbstractCollection<V> {
       @Override public Iterator<V> iterator() {
         return Maps.valueIterator(Column.this.entrySet().iterator());
       }
@@ -673,42 +653,15 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       }
 
       @Override public boolean remove(Object obj) {
-        if (obj == null) {
-          return false;
-        }
-        Iterator<Map<C, V>> iterator = backingMap.values().iterator();
-        while (iterator.hasNext()) {
-          Map<C, V> map = iterator.next();
-          if (map.entrySet().remove(Maps.immutableEntry(columnKey, obj))) {
-            if (map.isEmpty()) {
-              iterator.remove();
-            }
-            return true;
-          }
-        }
-        return false;
+        return obj != null && removeIf(Maps.<V>valuePredicateOnEntries(equalTo(obj)));
       }
 
       @Override public boolean removeAll(final Collection<?> c) {
-        checkNotNull(c);
-        Predicate<Entry<R, V>> predicate = new Predicate<Entry<R, V>>() {
-          @Override
-          public boolean apply(Entry<R, V> entry) {
-            return c.contains(entry.getValue());
-          }
-        };
-        return removePredicate(predicate);
+        return removeIf(Maps.<V>valuePredicateOnEntries(in(c)));
       }
 
       @Override public boolean retainAll(final Collection<?> c) {
-        checkNotNull(c);
-        Predicate<Entry<R, V>> predicate = new Predicate<Entry<R, V>>() {
-          @Override
-          public boolean apply(Entry<R, V> entry) {
-            return !c.contains(entry.getValue());
-          }
-        };
-        return removePredicate(predicate);
+        return removeIf(Maps.<V>valuePredicateOnEntries(not(in(c))));
       }
     }
   }
@@ -817,15 +770,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     }
 
     @Override public boolean contains(Object obj) {
-      if (obj == null) {
-        return false;
-      }
-      for (Map<C, V> map : backingMap.values()) {
-        if (map.containsKey(obj)) {
-          return true;
-        }
-      }
-      return false;
+      return containsColumn(obj);
     }
   }
 

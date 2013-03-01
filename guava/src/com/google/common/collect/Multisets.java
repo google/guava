@@ -1084,7 +1084,7 @@ public final class Multisets {
   @Beta
   public static <E> ImmutableMultiset<E> copyHighestCountFirst(Multiset<E> multiset) {
     List<Entry<E>> sortedEntries =
-        Multisets.DECREASING_COUNT_ORDERING.sortedCopy(multiset.entrySet());
+        Multisets.DECREASING_COUNT_ORDERING.immutableSortedCopy(multiset.entrySet());
     return ImmutableMultiset.copyFromEntries(sortedEntries);
   }
 }
