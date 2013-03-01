@@ -348,6 +348,10 @@ public abstract class Ordering<T> implements Comparator<T> {
   public <F> Ordering<F> onResultOf(Function<F, ? extends T> function) {
     return new ByFunctionOrdering<F, T>(function, this);
   }
+  
+  <T2 extends T> Ordering<Map.Entry<T2, ?>> onKeys() {
+    return onResultOf(Maps.<T2>keyFunction());
+  }
 
   /**
    * Returns an ordering which first uses the ordering {@code this}, but which

@@ -296,12 +296,7 @@ public abstract class ImmutableSortedMap<K, V>
 
   private static <K, V> void sortEntries(
       final Comparator<? super K> comparator, int size, Entry<K, V>[] entries) {
-    Comparator<Entry<K, V>> entryComparator = new Comparator<Entry<K, V>>() {
-      @Override public int compare(Entry<K, V> entry1, Entry<K, V> entry2) {
-        return comparator.compare(entry1.getKey(), entry2.getKey());
-      }
-    };
-    Arrays.sort(entries, 0, size, entryComparator);
+    Arrays.sort(entries, 0, size, Ordering.from(comparator).<K>onKeys());
   }
 
   private static <K, V> void validateEntries(int size, Entry<K, V>[] entries,

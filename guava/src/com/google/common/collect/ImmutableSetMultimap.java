@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Function;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -269,12 +268,7 @@ public class ImmutableSetMultimap<K, V>
             builderMultimap.asMap().entrySet());
         Collections.sort(
             entries,
-            Ordering.from(keyComparator).onResultOf(new Function<Entry<K, Collection<V>>, K>() {
-              @Override
-              public K apply(Entry<K, Collection<V>> entry) {
-                return entry.getKey();
-              }
-            }));
+            Ordering.from(keyComparator).<K>onKeys());
         for (Map.Entry<K, Collection<V>> entry : entries) {
           sortedCopy.putAll(entry.getKey(), entry.getValue());
         }
