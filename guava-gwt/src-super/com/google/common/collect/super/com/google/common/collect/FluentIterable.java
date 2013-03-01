@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -144,6 +145,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * should use an explicit {@code break} or be certain that you will eventually remove all the
    * elements.
    */
+  @CheckReturnValue
   public final FluentIterable<E> cycle() {
     return from(Iterables.cycle(iterable));
   }
@@ -152,6 +154,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns the elements from this fluent iterable that satisfy a predicate. The
    * resulting fluent iterable's iterator does not support {@code remove()}.
    */
+  @CheckReturnValue
   public final FluentIterable<E> filter(Predicate<? super E> predicate) {
     return from(Iterables.filter(iterable, predicate));
   }
@@ -282,6 +285,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * to {@code * remove()} before a call to {@code next()} will throw an
    * {@link IllegalStateException}.
    */
+  @CheckReturnValue
   public final FluentIterable<E> skip(int numberToSkip) {
     return from(Iterables.skip(iterable, numberToSkip));
   }
@@ -296,6 +300,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @param size the maximum number of elements in the returned fluent iterable
    * @throws IllegalArgumentException if {@code size} is negative
    */
+  @CheckReturnValue
   public final FluentIterable<E> limit(int size) {
     return from(Iterables.limit(iterable, size));
   }

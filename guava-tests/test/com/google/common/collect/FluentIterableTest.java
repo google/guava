@@ -477,6 +477,7 @@ public class FluentIterableTest extends TestCase {
     ASSERT.that(tail).isEmpty();
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testSkip_illegalArgument() {
     try {
       FluentIterable.from(asList("a", "b", "c")).skip(-1);
@@ -494,6 +495,7 @@ public class FluentIterableTest extends TestCase {
     assertEquals("[foo, bar]", limited.toString());
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testLimit_illegalArgument() {
     try {
       FluentIterable.from(Lists.newArrayList("a", "b", "c")).limit(-1);
