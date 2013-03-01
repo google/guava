@@ -71,7 +71,7 @@ public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   public void testEqualsObject() {
     new EqualsTester()
         .addEqualityGroup(testTable, HashBasedTable.create(testTable))
-        .addEqualityGroup(EmptyImmutableTable.INSTANCE, HashBasedTable.create())
+        .addEqualityGroup(ImmutableTable.of(), HashBasedTable.create())
         .addEqualityGroup(HashBasedTable.create(ImmutableTable.of('A', 2, "")))
         .testEquals();
   }

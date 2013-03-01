@@ -96,25 +96,27 @@ final class SparseImmutableTable<R, C, V>
 
   @Override
   ImmutableCollection<V> createValues() {
-    return new ImmutableList<V>() {
-      @Override
-      public int size() {
-        return iterationOrderRow.length;
-      }
+    return rowMap.isEmpty() ? ImmutableList.<V>of() : new SparseValues();
+  }
+  
+  private final class SparseValues extends ImmutableList<V> {
+    @Override
+    public int size() {
+      return iterationOrderRow.length;
+    }
 
-      @Override
-      public V get(int index) {
-        int rowIndex = iterationOrderRow[index];
-        ImmutableMap<C, V> row = (ImmutableMap<C, V>) rowMap.values().asList().get(rowIndex);
-        int columnIndex = iterationOrderColumn[index];
-        return row.values().asList().get(columnIndex);
-      }
+    @Override
+    public V get(int index) {
+      int rowIndex = iterationOrderRow[index];
+      ImmutableMap<C, V> row = (ImmutableMap<C, V>) rowMap.values().asList().get(rowIndex);
+      int columnIndex = iterationOrderColumn[index];
+      return row.values().asList().get(columnIndex);
+    }
 
-      @Override
-      boolean isPartialView() {
-        return true;
-      }
-    };
+    @Override
+    boolean isPartialView() {
+      return true;
+    }
   }
 
   @Override
@@ -124,10 +126,10 @@ final class SparseImmutableTable<R, C, V>
 
   @Override
   ImmutableSet<Cell<R, C, V>> createCellSet() {
-    return new SparseCellSet();
+    return rowMap.isEmpty() ? ImmutableSet.<Cell<R, C, V>>of() : new SparseCellSet();
   }
-  
-  class SparseCellSet extends CellSet {
+
+  private final class SparseCellSet extends CellSet {
     @Override
     public UnmodifiableIterator<Cell<R, C, V>> iterator() {
       return asList().iterator();

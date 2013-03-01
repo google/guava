@@ -77,10 +77,6 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     }
   }
 
-  @Override public final boolean isEmpty() {
-    return false;
-  }
-
   static final <R, C, V> RegularImmutableTable<R, C, V> forCells(
       List<Cell<R, C, V>> cells,
       @Nullable final Comparator<? super R> rowComparator,

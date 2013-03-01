@@ -45,10 +45,15 @@ import javax.annotation.Nullable;
 @GwtCompatible
 // TODO(gak): make serializable
 public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
+  private static final ImmutableTable<Object, Object, Object> EMPTY
+    = new SparseImmutableTable<Object, Object, Object>(
+        ImmutableList.<Cell<Object, Object, Object>>of(),
+        ImmutableSet.of(), ImmutableSet.of());
+  
   /** Returns an empty immutable table. */
   @SuppressWarnings("unchecked")
   public static final <R, C, V> ImmutableTable<R, C, V> of() {
-    return (ImmutableTable<R, C, V>) EmptyImmutableTable.INSTANCE;
+    return (ImmutableTable<R, C, V>) EMPTY;
   }
 
   /** Returns an immutable table containing a single cell. */
