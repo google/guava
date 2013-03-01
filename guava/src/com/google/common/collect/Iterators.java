@@ -1060,6 +1060,10 @@ public final class Iterators {
 
     // Technically we should give a slightly more descriptive error on overflow
     Preconditions.checkPositionIndexes(offset, end, array.length);
+    Preconditions.checkPositionIndex(index, length);
+    if (length == 0) {
+      return emptyListIterator();
+    }
 
     /*
      * We can't use call the two-arg constructor with arguments (offset, end)

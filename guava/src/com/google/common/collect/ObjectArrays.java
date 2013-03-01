@@ -197,6 +197,9 @@ public final class ObjectArrays {
    */
   static Object[] copyAsObjectArray(Object[] elements, int offset, int length) {
     checkPositionIndexes(offset, offset + length, elements.length);
+    if (length == 0) {
+      return EMPTY_ARRAY;
+    }
     Object[] result = new Object[length];
     System.arraycopy(elements, offset, result, 0, length);
     return result;

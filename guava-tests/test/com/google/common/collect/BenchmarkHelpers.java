@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeSet;
@@ -293,5 +294,21 @@ final class BenchmarkHelpers {
 
   public enum Value {
     INSTANCE;
+  }
+
+  public enum ListSizeDistribution {
+    UNIFORM_0_TO_2(0, 2), UNIFORM_0_TO_9(0, 9), ALWAYS_0(0, 0), ALWAYS_10(10, 10);
+
+    final int min;
+    final int max;
+
+    private ListSizeDistribution(int min, int max) {
+      this.min = min;
+      this.max = max;
+    }
+
+    public int chooseSize(Random random) {
+      return random.nextInt(max - min + 1) + min;
+    }
   }
 }

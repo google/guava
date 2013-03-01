@@ -19,6 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 
+import javax.annotation.Nullable;
+
 /**
  * Implementation of {@link ImmutableList} with one or more elements.
  *
@@ -46,12 +48,8 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return size;
   }
 
-  @Override public boolean isEmpty() {
-    return false;
-  }
-
   @Override boolean isPartialView() {
-    return offset != 0 || size != array.length;
+    return size != array.length;
   }
 
   @Override
@@ -66,6 +64,32 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   public E get(int index) {
     Preconditions.checkElementIndex(index, size);
     return (E) array[index + offset];
+  }
+
+  @Override
+  public int indexOf(@Nullable Object object) {
+    if (object == null) {
+      return -1;
+    }
+    for (int i = 0; i < size; i++) {
+      if (array[offset + i].equals(object)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  @Override
+  public int lastIndexOf(@Nullable Object object) {
+    if (object == null) {
+      return -1;
+    }
+    for (int i = size - 1; i >= 0; i--) {
+      if (array[offset + i].equals(object)) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   @Override

@@ -62,6 +62,10 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
+
+  private static final ImmutableList<Object> EMPTY =
+      new RegularImmutableList<Object>(ObjectArrays.EMPTY_ARRAY);
+
   /**
    * Returns the empty immutable list. This set behaves and performs comparably
    * to {@link Collections#emptyList}, and is preferable mainly for consistency
@@ -70,7 +74,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   // Casting to any type is safe because the list will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <E> ImmutableList<E> of() {
-    return (ImmutableList<E>) EmptyImmutableList.INSTANCE;
+    return (ImmutableList<E>) EMPTY;
   }
 
   /**
@@ -566,7 +570,15 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @Override public int hashCode() {
-    return Lists.hashCodeImpl(this);
+    int hashCode = 1;
+    int n = size();
+    for (int i = 0; i < n; i++) {
+      hashCode = 31 * hashCode + get(i).hashCode();
+
+      hashCode = ~~hashCode;
+      // needed to deal with GWT integer overflow
+    }
+    return hashCode;
   }
 
   /*
