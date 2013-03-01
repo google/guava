@@ -22,12 +22,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -53,12 +50,15 @@ import javax.annotation.Nullable;
 public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
     implements Multiset<E> {
 
+  private static final ImmutableMultiset<Object> EMPTY =
+      new RegularImmutableMultiset<Object>(ImmutableMap.<Object, Integer>of(), 0);
+
   /**
    * Returns the empty immutable multiset.
    */
   @SuppressWarnings("unchecked") // all supported methods are covariant
   public static <E> ImmutableMultiset<E> of() {
-    return (ImmutableMultiset<E>) EmptyImmutableMultiset.INSTANCE;
+    return (ImmutableMultiset<E>) EMPTY;
   }
 
   /**
@@ -125,11 +125,15 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
-    int size = others.length + 6;
-    List<E> all = new ArrayList<E>(size);
-    Collections.addAll(all, e1, e2, e3, e4, e5, e6);
-    Collections.addAll(all, others);
-    return copyOf(all);
+    return new Builder<E>()
+        .add(e1)
+        .add(e2)
+        .add(e3)
+        .add(e4)
+        .add(e5)
+        .add(e6)
+        .add(others)
+        .build();
   }
 
   /**

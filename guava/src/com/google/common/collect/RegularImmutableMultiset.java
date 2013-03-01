@@ -23,7 +23,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 /**
- * Implementation of {@link ImmutableMultiset} with one or more elements.
+ * Implementation of {@link ImmutableMultiset} with zero or more elements.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -72,7 +72,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
 
   @Override
   ImmutableSet<Entry<E>> createEntrySet() {
-    return new EntrySet();
+    return map.isEmpty() ? ImmutableSet.<Entry<E>>of() : new EntrySet();
   }
 
   private class EntrySet extends ImmutableMultiset<E>.EntrySet {
