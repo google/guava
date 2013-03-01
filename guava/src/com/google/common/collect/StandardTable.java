@@ -24,11 +24,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
+import com.google.common.collect.Maps.ImprovedAbstractMap;
+import com.google.common.collect.Sets.ImprovedAbstractSet;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
-import java.util.AbstractMap;
-import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -248,7 +248,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
    * Abstract set whose {@code isEmpty()} returns whether the table is empty and
    * whose {@code clear()} clears all table mappings.
    */
-  private abstract class TableSet<T> extends AbstractSet<T> {
+  private abstract class TableSet<T> extends ImprovedAbstractSet<T> {
     @Override public boolean isEmpty() {
       return backingMap.isEmpty();
     }
@@ -336,7 +336,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     return new Row(rowKey);
   }
 
-  class Row extends AbstractMap<C, V> {
+  class Row extends ImprovedAbstractMap<C, V> {
     final R rowKey;
 
     Row(R rowKey) {
@@ -420,12 +420,8 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     Set<Entry<C, V>> entrySet;
 
     @Override
-    public Set<Entry<C, V>> entrySet() {
-      Set<Entry<C, V>> result = entrySet;
-      if (result == null) {
-        return entrySet = new RowEntrySet();
-      }
-      return result;
+    protected Set<Entry<C, V>> createEntrySet() {
+      return new RowEntrySet();
     }
 
     private class RowEntrySet extends Maps.EntrySet<C, V> {
@@ -488,7 +484,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     return new Column(columnKey);
   }
 
-  private class Column extends Maps.ImprovedAbstractMap<R, V> {
+  private class Column extends ImprovedAbstractMap<R, V> {
     final C columnKey;
 
     Column(C columnKey) {
@@ -546,7 +542,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       return changed;
     }
 
-    class EntrySet extends Sets.ImprovedAbstractSet<Entry<R, V>> {
+    class EntrySet extends ImprovedAbstractSet<Entry<R, V>> {
       @Override public Iterator<Entry<R, V>> iterator() {
         return new EntrySetIterator();
       }
@@ -622,7 +618,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       return result == null ? keySet = new KeySet() : result;
     }
 
-    class KeySet extends Sets.ImprovedAbstractSet<R> {
+    class KeySet extends ImprovedAbstractSet<R> {
       @Override public Iterator<R> iterator() {
         return Maps.keyIterator(Column.this.entrySet().iterator());
       }
@@ -900,7 +896,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     return (result == null) ? rowMap = new RowMap() : result;
   }
 
-  class RowMap extends Maps.ImprovedAbstractMap<R, Map<C, V>> {
+  class RowMap extends ImprovedAbstractMap<R, Map<C, V>> {
     @Override public boolean containsKey(Object key) {
       return containsRow(key);
     }
@@ -967,7 +963,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     return (result == null) ? columnMap = new ColumnMap() : result;
   }
 
-  private class ColumnMap extends Maps.ImprovedAbstractMap<C, Map<R, V>> {
+  private class ColumnMap extends ImprovedAbstractMap<C, Map<R, V>> {
     // The cast to C occurs only when the key is in the map, implying that it
     // has the correct type.
     @SuppressWarnings("unchecked")
@@ -1038,14 +1034,18 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       }
 
       @Override public boolean removeAll(Collection<?> c) {
-        boolean changed = false;
-        for (Object obj : c) {
-          changed |= remove(obj);
-        }
-        return changed;
+        /*
+         * We can't inherit the normal implementation (which calls
+         * Sets.removeAllImpl(Set, *Collection*) because, under some
+         * circumstances, it attempts to call columnKeySet().iterator().remove,
+         * which is unsupported.
+         */
+        checkNotNull(c);
+        return Sets.removeAllImpl(this, c.iterator());
       }
 
       @Override public boolean retainAll(Collection<?> c) {
+        checkNotNull(c);
         boolean changed = false;
         for (C columnKey : Lists.newArrayList(columnKeySet().iterator())) {
           if (!c.contains(Maps.immutableEntry(columnKey, column(columnKey)))) {
