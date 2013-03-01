@@ -122,6 +122,17 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
       return new BitArray(data.clone());
     }
 
+    /** Merge two BitArrays using bitwise OR. */
+    void mergeWith(BitArray array) {
+      checkArgument(data.length == array.data.length,
+          "BitArrays must be of equal length (%s != %s)", data.length, array.data.length);
+      bitCount = 0;
+      for (int i = 0; i < data.length; i++) {
+        data[i] |= array.data[i];
+        bitCount += Long.bitCount(data[i]);
+      }
+    }
+
     @Override public boolean equals(Object o) {
       if (o instanceof BitArray) {
         BitArray bitArray = (BitArray) o;

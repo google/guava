@@ -196,6 +196,34 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
+   * Merges this bloom filter with another bloom filter by performing a bitwise OR of the underlying
+   * data. The mutations happen to <b>this</b> instance. Callers must ensure the bloom filters are
+   * appropriately sized to avoid saturating them.
+   *
+   * @param that The bloom filter to merge into this bloom filter. It is not mutated.
+   * @throws IllegalArgumentException if the bloom filters are not compatible
+   *
+   * @since 15.0
+   */
+  public void mergeWith(BloomFilter that) {
+    checkNotNull(that);
+    checkArgument(this != that, "Cannot merge a BloomFilter with itself.");
+    checkArgument(this.numHashFunctions == that.numHashFunctions,
+        "BloomFilters must have the same number of hash functions (%s != %s)",
+        this.numHashFunctions, that.numHashFunctions);
+    checkArgument(this.bits.size() == that.bits.size(),
+        "BloomFilters must have the same size underlying bit arrays (%s != %s)",
+        this.bits.size(), that.bits.size());
+    checkArgument(this.strategy.equals(that.strategy),
+        "BloomFilters must have equal strategies (%s != %s)",
+        this.strategy, that.strategy);
+    checkArgument(this.funnel.equals(that.funnel),
+        "BloomFilters must have equal funnels (%s != %s)",
+        this.funnel, that.funnel);
+    this.bits.mergeWith(that.bits);
+  }
+
+  /**
    * Creates a {@code Builder} of a {@link BloomFilter BloomFilter<T>}, with the expected number
    * of insertions and expected false positive probability.
    *

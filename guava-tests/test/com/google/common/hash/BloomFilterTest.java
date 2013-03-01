@@ -260,6 +260,53 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
+  public void testMergeWith() {
+    int element1 = 1;
+    int element2 = 2;
+
+    BloomFilter<Integer> bf1 = BloomFilter.create(Funnels.integerFunnel(), 100);
+    bf1.put(element1);
+    assertTrue(bf1.mightContain(element1));
+    assertFalse(bf1.mightContain(element2));
+
+    BloomFilter<Integer> bf2 = BloomFilter.create(Funnels.integerFunnel(), 100);
+    bf2.put(element2);
+    assertFalse(bf2.mightContain(element1));
+    assertTrue(bf2.mightContain(element2));
+
+    bf1.mergeWith(bf2);
+    assertTrue(bf1.mightContain(element1));
+    assertTrue(bf1.mightContain(element2));
+    assertFalse(bf2.mightContain(element1));
+    assertTrue(bf2.mightContain(element2));
+  }
+
+  public void testMergeWithDifferentSizes() {
+    BloomFilter<Integer> bf1 = BloomFilter.create(Funnels.integerFunnel(), 1);
+    BloomFilter<Integer> bf2 = BloomFilter.create(Funnels.integerFunnel(), 10);
+
+    try {
+      bf1.mergeWith(bf2);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+
+    try {
+      bf2.mergeWith(bf1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testMergeWithWithSelf() {
+    BloomFilter<Integer> bf1 = BloomFilter.create(Funnels.integerFunnel(), 1);
+    try {
+      bf1.mergeWith(bf1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testJavaSerialization() {
     BloomFilter<byte[]> bf = BloomFilter.create(Funnels.byteArrayFunnel(), 100);
     for (int i = 0; i < 10; i++) {
