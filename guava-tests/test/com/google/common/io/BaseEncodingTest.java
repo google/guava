@@ -25,6 +25,7 @@ import com.google.common.base.Ascii;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.BaseEncoding.DecodingException;
 
 import junit.framework.TestCase;
 
@@ -353,6 +354,12 @@ public class BaseEncodingTest extends TestCase {
       encoding.decode(cannotDecode);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
+      // success
+    }
+    try {
+      encoding.decodeChecked(cannotDecode);
+      fail("Expected DecodingException");
+    } catch (DecodingException expected) {
       // success
     }
   }

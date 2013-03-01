@@ -131,6 +131,21 @@ public abstract class BaseEncoding {
   BaseEncoding() {}
 
   /**
+   * Exception indicating invalid base-encoded input encountered while decoding.
+   *
+   * @author Louis Wasserman
+   */
+  public static final class DecodingException extends IOException {
+    DecodingException(String message) {
+      super(message);
+    }
+
+    DecodingException(Throwable cause) {
+      super(cause);
+    }
+  }
+
+  /**
    * Encodes the specified byte array, and returns the encoded {@code String}.
    */
   public String encode(byte[] bytes) {
@@ -177,6 +192,21 @@ public abstract class BaseEncoding {
    *         encoding.
    */
   public final byte[] decode(CharSequence chars) {
+    try {
+      return decodeChecked(chars);
+    } catch (DecodingException badInput) {
+      throw new IllegalArgumentException(badInput);
+    }
+  }
+
+  /**
+   * Decodes the specified character sequence, and returns the resulting {@code byte[]}.
+   * This is the inverse operation to {@link #encode(byte[])}.
+   *
+   * @throws DecodingException if the input is not a valid encoded string according to this
+   *         encoding.
+   */
+  final byte[] decodeChecked(CharSequence chars) throws DecodingException {
     chars = padding().trimTrailingFrom(chars);
     ByteInput decodedInput = decodingStream(asCharInput(chars));
     byte[] tmp = new byte[maxDecodedSize(chars.length())];
@@ -185,8 +215,10 @@ public abstract class BaseEncoding {
       for (int i = decodedInput.read(); i != -1; i = decodedInput.read()) {
         tmp[index++] = (byte) i;
       }
-    } catch (IOException badInput) {
-      throw new IllegalArgumentException(badInput);
+    } catch (DecodingException badInput) {
+      throw badInput;
+    } catch (IOException impossible) {
+      throw new AssertionError(impossible);
     }
     return extract(tmp, index);
   }
@@ -413,7 +445,7 @@ public abstract class BaseEncoding {
 
     int decode(char ch) throws IOException {
       if (ch > Ascii.MAX || decodabet[ch] == -1) {
-        throw new IOException("Unrecognized character: " + ch);
+        throw new DecodingException("Unrecognized character: " + ch);
       }
       return decodabet[ch];
     }
@@ -568,7 +600,7 @@ public abstract class BaseEncoding {
             int readChar = reader.read();
             if (readChar == -1) {
               if (!hitPadding && !alphabet.isValidPaddingStartPosition(readChars)) {
-                throw new IOException("Invalid input length " + readChars);
+                throw new DecodingException("Invalid input length " + readChars);
               }
               return -1;
             }
@@ -577,11 +609,11 @@ public abstract class BaseEncoding {
             if (paddingMatcher.matches(ch)) {
               if (!hitPadding
                   && (readChars == 1 || !alphabet.isValidPaddingStartPosition(readChars - 1))) {
-                throw new IOException("Padding cannot start at index " + readChars);
+                throw new DecodingException("Padding cannot start at index " + readChars);
               }
               hitPadding = true;
             } else if (hitPadding) {
-              throw new IOException(
+              throw new DecodingException(
                   "Expected padding character but found '" + ch + "' at index " + readChars);
             } else {
               bitBuffer <<= alphabet.bitsPerChar;
