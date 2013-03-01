@@ -121,6 +121,21 @@ public class IteratorsTest extends TestCase {
     }
   }
 
+  public void testEmptyModifiableIterator() {
+    Iterator<String> iterator = Iterators.emptyModifiableIterator();
+    assertFalse(iterator.hasNext());
+    try {
+      iterator.next();
+      fail("Expected NoSuchElementException");
+    } catch (NoSuchElementException expected) {
+    }
+    try {
+      iterator.remove();
+      fail("Expected IllegalStateException");
+    } catch (IllegalStateException expected) {
+    }
+  }
+
   public void testSize0() {
     Iterator<String> iterator = Iterators.emptyIterator();
     assertEquals(0, Iterators.size(iterator));

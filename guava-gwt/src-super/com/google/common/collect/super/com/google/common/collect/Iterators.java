@@ -19,6 +19,9 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Predicates.equalTo;
+import static com.google.common.base.Predicates.in;
+import static com.google.common.base.Predicates.not;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -27,7 +30,6 @@ import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -188,22 +190,8 @@ public final class Iterators {
   /**
    * Returns {@code true} if {@code iterator} contains {@code element}.
    */
-  public static boolean contains(Iterator<?> iterator, @Nullable Object element)
-  {
-    if (element == null) {
-      while (iterator.hasNext()) {
-        if (iterator.next() == null) {
-          return true;
-        }
-      }
-    } else {
-      while (iterator.hasNext()) {
-        if (element.equals(iterator.next())) {
-          return true;
-        }
-      }
-    }
-    return false;
+  public static boolean contains(Iterator<?> iterator, @Nullable Object element) {
+    return any(iterator, equalTo(element));
   }
 
   /**
@@ -217,7 +205,7 @@ public final class Iterators {
    */
   public static boolean removeAll(
       Iterator<?> removeFrom, Collection<?> elementsToRemove) {
-    return removeIf(removeFrom, Predicates.in(elementsToRemove));
+    return removeIf(removeFrom, in(elementsToRemove));
   }
 
   /**
@@ -255,7 +243,7 @@ public final class Iterators {
    */
   public static boolean retainAll(
       Iterator<?> removeFrom, Collection<?> elementsToRetain) {
-    return removeIf(removeFrom, Predicates.not(Predicates.in(elementsToRetain)));
+    return removeIf(removeFrom, not(in(elementsToRetain)));
   }
 
   /**
@@ -360,21 +348,7 @@ public final class Iterators {
    * @see Collections#frequency
    */
   public static int frequency(Iterator<?> iterator, @Nullable Object element) {
-    int result = 0;
-    if (element == null) {
-      while (iterator.hasNext()) {
-        if (iterator.next() == null) {
-          result++;
-        }
-      }
-    } else {
-      while (iterator.hasNext()) {
-        if (element.equals(iterator.next())) {
-          result++;
-        }
-      }
-    }
-    return result;
+    return size(filter(iterator, equalTo(element)));
   }
 
   /**
