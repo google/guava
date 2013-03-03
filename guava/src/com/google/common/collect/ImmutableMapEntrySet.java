@@ -16,8 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
@@ -34,22 +32,20 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
-  final ImmutableMap<K, V> map;
+  ImmutableMapEntrySet() {}
 
-  ImmutableMapEntrySet(ImmutableMap<K, V> map) {
-    this.map = checkNotNull(map);
-  }
+  abstract ImmutableMap<K, V> map();
 
   @Override
   public int size() {
-    return map.size();
+    return map().size();
   }
 
   @Override
   public boolean contains(@Nullable Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> entry = (Entry<?, ?>) object;
-      V value = map.get(entry.getKey());
+      V value = map().get(entry.getKey());
       return value != null && value.equals(entry.getValue());
     }
     return false;
@@ -57,70 +53,13 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
 
   @Override
   boolean isPartialView() {
-    return map.isPartialView();
-  }
-  
-  abstract static class IndexedEntrySet<K, V> extends ImmutableMapEntrySet<K, V> {
-    IndexedEntrySet(ImmutableMap<K, V> map) {
-      super(map);
-    }
-
-    abstract Entry<K, V> getEntry(int index);
-    
-    @Override public int hashCode() {
-      return map.hashCode();
-    }
-
-    @Override
-    public UnmodifiableIterator<Entry<K, V>> iterator() {
-      return asList().iterator();
-    }
-
-    @GwtIncompatible("no such method in GWT")
-    @Override
-    int copyIntoArray(Object[] dst, int offset) {
-      return asList().copyIntoArray(dst, offset);
-    }
-
-    @Override
-    ImmutableList<Entry<K, V>> createAsList() {
-      return new ImmutableAsList<Entry<K, V>>() {
-        @Override
-        public Entry<K, V> get(int index) {
-          return getEntry(index);
-        }
-
-        @Override
-        ImmutableCollection<Entry<K, V>> delegateCollection() {
-          return IndexedEntrySet.this;
-        }
-      };
-    }
-  }
-  
-  static final class ArrayEntrySet<K, V> extends IndexedEntrySet<K, V> {
-    private final Entry<K, V>[] entries;
-
-    ArrayEntrySet(ImmutableMap<K, V> map, Entry<K, V>[] entries) {
-      super(map);
-      this.entries = entries;
-    }
-
-    @Override
-    Entry<K, V> getEntry(int index) {
-      return entries[index];
-    }
-
-    @Override
-    ImmutableList<Entry<K, V>> createAsList() {
-      return new RegularImmutableAsList<Entry<K, V>>(this, entries);
-    }
+    return map().isPartialView();
   }
 
   @GwtIncompatible("serialization")
   @Override
   Object writeReplace() {
-    return new EntrySetSerializedForm<K, V>(map);
+    return new EntrySetSerializedForm<K, V>(map());
   }
 
   @GwtIncompatible("serialization")

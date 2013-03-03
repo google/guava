@@ -19,8 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.ImmutableMapEntrySet.ArrayEntrySet;
-import com.google.common.collect.ImmutableMapEntrySet.IndexedEntrySet;
 
 import java.io.Serializable;
 
@@ -155,7 +153,32 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new ArrayEntrySet<K, V>(this, entries);
+    return new ImmutableMapEntrySet<K, V>() {
+      @Override
+      ImmutableMap<K, V> map() {
+        return RegularImmutableBiMap.this;
+      }
+
+      @Override
+      public UnmodifiableIterator<Entry<K, V>> iterator() {
+        return asList().iterator();
+      }
+
+      @Override
+      ImmutableList<Entry<K, V>> createAsList() {
+        return new RegularImmutableAsList<Entry<K, V>>(this, entries);
+      }
+
+      @Override
+      boolean isHashCodeFast() {
+        return true;
+      }
+
+      @Override
+      public int hashCode() {
+        return hashCode;
+      }
+    };
   }
 
   @Override
@@ -205,13 +228,45 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
     @Override
     ImmutableSet<Entry<V, K>> createEntrySet() {
-      return new IndexedEntrySet<V, K>(this) {
-        @Override
-        Entry<V, K> getEntry(int index) {
-          Entry<K, V> entry = entries[index];
-          return Maps.immutableEntry(entry.getValue(), entry.getKey());
-        }
-      };
+      return new InverseEntrySet();
+    }
+    
+    final class InverseEntrySet extends ImmutableMapEntrySet<V, K> {
+      @Override
+      ImmutableMap<V, K> map() {
+        return Inverse.this;
+      }
+
+      @Override
+      boolean isHashCodeFast() {
+        return true;
+      }
+
+      @Override
+      public int hashCode() {
+        return hashCode;
+      }
+
+      @Override
+      public UnmodifiableIterator<Entry<V, K>> iterator() {
+        return asList().iterator();
+      }
+
+      @Override
+      ImmutableList<Entry<V, K>> createAsList() {
+        return new ImmutableAsList<Entry<V, K>>() {
+          @Override
+          public Entry<V, K> get(int index) {
+            Entry<K, V> entry = entries[index];
+            return Maps.immutableEntry(entry.getValue(), entry.getKey());
+          }
+
+          @Override
+          ImmutableCollection<Entry<V, K>> delegateCollection() {
+            return InverseEntrySet.this;
+          }
+        };
+      }
     }
 
     @Override
@@ -219,11 +274,6 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       return false;
     }
     
-    @Override
-    public int hashCode() {
-      return hashCode;
-    }
-
     @Override
     Object writeReplace() {
       return new InverseSerializedForm<K, V>(RegularImmutableBiMap.this);

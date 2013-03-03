@@ -37,6 +37,7 @@ import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -2339,63 +2340,13 @@ public final class Maps {
    * implementation.
    */
   @GwtCompatible
-  abstract static class ImprovedAbstractMap<K, V> implements Map<K, V> {
-    /*
-     * We don't extend AbstractMap to avoid the overhead associated with AbstractMap's fields to
-     * store its own lazily computed views.
+  abstract static class ImprovedAbstractMap<K, V> extends AbstractMap<K, V> {
+    /**
+     * Creates the entry set to be returned by {@link #entrySet()}. This method
+     * is invoked at most once on a given map, at the time when {@code entrySet}
+     * is first called.
      */
-
-    @Override
-    public int size() {
-      return entrySet().size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-      return size() == 0;
-    }
-
-    @Override
-    public boolean containsValue(@Nullable Object value) {
-      return Iterators.contains(values().iterator(), value);
-    }
-
-    @Override
-    public V put(@Nullable K key, @Nullable V value) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public V remove(@Nullable Object key) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void putAll(Map<? extends K, ? extends V> m) {
-      for (Entry<? extends K, ? extends V> entry : checkNotNull(m).entrySet()) {
-        put(entry.getKey(), entry.getValue());
-      }
-    }
-
-    @Override
-    public void clear() {
-      entrySet().clear();
-    }
-
-    @Override
-    public int hashCode() {
-      return Sets.hashCodeImpl(entrySet());
-    }
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-      return Maps.equalsImpl(this, obj);
-    }
-
-    @Override
-    public String toString() {
-      return Maps.toStringImpl(this);
-    }
+    abstract Set<Entry<K, V>> createEntrySet();
 
     private transient Set<Entry<K, V>> entrySet;
 
@@ -2403,13 +2354,6 @@ public final class Maps {
       Set<Entry<K, V>> result = entrySet;
       return (result == null) ? entrySet = createEntrySet() : result;
     }
-
-    /**
-     * Creates the entry set to be returned by {@link #entrySet()}. This method
-     * is invoked at most once on a given map, at the time when {@code entrySet}
-     * is first called.
-     */
-    abstract Set<Entry<K, V>> createEntrySet();
 
     private transient Set<K> keySet;
 
