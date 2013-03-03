@@ -17,7 +17,6 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
@@ -53,22 +52,6 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
 
   private UnsignedLong(long value) {
     this.value = value;
-  }
-
-  /**
-   * Returns an {@code UnsignedLong} that, when treated as signed, is equal to {@code value}. The
-   * inverse operation is {@link #longValue()}.
-   *
-   * <p>Put another way, if {@code value} is negative, the returned result will be equal to
-   * {@code 2^64 + value}; otherwise, the returned result will be equal to {@code value}.
-   *
-   * @deprecated Use {@link #fromLongBits(long)}. This method is scheduled to be removed in Guava
-   *             release 15.0.
-   */
-  @Deprecated
-  @Beta
-  public static UnsignedLong asUnsigned(long value) {
-    return fromLongBits(value);
   }
 
   /**
@@ -198,7 +181,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
 
   /**
    * Returns the value of this {@code UnsignedLong} as a {@code long}. This is an inverse operation
-   * to {@link #asUnsigned}.
+   * to {@link #fromLongBits}.
    *
    * <p>Note that if this {@code UnsignedLong} holds a value {@code >= 2^63}, the returned value
    * will be equal to {@code this - 2^64}.

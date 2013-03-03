@@ -20,7 +20,6 @@ import static com.google.common.primitives.UnsignedInts.INT_MASK;
 import static com.google.common.primitives.UnsignedInts.compare;
 import static com.google.common.primitives.UnsignedInts.toLong;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
@@ -44,28 +43,15 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 public final class UnsignedInteger extends Number implements Comparable<UnsignedInteger> {
-  public static final UnsignedInteger ZERO = asUnsigned(0);
-  public static final UnsignedInteger ONE = asUnsigned(1);
-  public static final UnsignedInteger MAX_VALUE = asUnsigned(-1);
+  public static final UnsignedInteger ZERO = fromIntBits(0);
+  public static final UnsignedInteger ONE = fromIntBits(1);
+  public static final UnsignedInteger MAX_VALUE = fromIntBits(-1);
 
   private final int value;
 
   private UnsignedInteger(int value) {
     // GWT doesn't consistently overflow values to make them 32-bit, so we need to force it.
     this.value = value & 0xffffffff;
-  }
-
-  /**
-   * Returns an {@code UnsignedInteger} that, when treated as signed, is
-   * equal to {@code value}.
-   *
-   * @deprecated Use {@link #fromIntBits(int)}. This method is scheduled to be removed in Guava
-   *             release 15.0.
-   */
-  @Deprecated
-  @Beta
-  public static UnsignedInteger asUnsigned(int value) {
-    return fromIntBits(value);
   }
 
   /**
