@@ -18,6 +18,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ImmutableMapEntrySet.IndexedEntrySet;
 
 import javax.annotation.Nullable;
 
@@ -48,37 +49,12 @@ final class RegularImmutableSortedMap<K, V> extends ImmutableSortedMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new EntrySet();
-  }
-
-  private class EntrySet extends ImmutableMapEntrySet<K, V> {
-    @Override
-    public UnmodifiableIterator<Entry<K, V>> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    ImmutableList<Entry<K, V>> createAsList() {
-      return new ImmutableAsList<Entry<K, V>>() {
-        // avoid additional indirection
-        private final ImmutableList<K> keyList = keySet().asList();
-
-        @Override
-        public Entry<K, V> get(int index) {
-          return Maps.immutableEntry(keyList.get(index), valueList.get(index));
-        }
-
-        @Override
-        ImmutableCollection<Entry<K, V>> delegateCollection() {
-          return EntrySet.this;
-        }
-      };
-    }
-
-    @Override
-    ImmutableMap<K, V> map() {
-      return RegularImmutableSortedMap.this;
-    }
+    return new IndexedEntrySet<K, V>(this) {
+      @Override
+      Entry<K, V> getEntry(int index) {
+        return Maps.immutableEntry(keySet.asList().get(index), valueList.get(index));
+      }
+    };
   }
 
   @Override
