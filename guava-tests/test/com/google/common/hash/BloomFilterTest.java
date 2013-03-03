@@ -17,6 +17,7 @@
 package com.google.common.hash;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.math.LongMath;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -24,6 +25,7 @@ import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.math.RoundingMode;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -186,6 +188,17 @@ public class BloomFilterTest extends TestCase {
       // if changed, the new fpp is strictly higher, otherwise it is the same
       assertTrue(changed ? newFpp > fpp : newFpp == fpp);
       fpp = newFpp;
+    }
+  }
+
+  public void testSize() {
+    double fpp = 0.03;
+    for (int i = 1; i < 10000; i++) {
+      long numBits = BloomFilter.optimalNumOfBits(i, fpp);
+      int arraySize = Ints.checkedCast(LongMath.divide(numBits, 64, RoundingMode.CEILING));
+      assertEquals(
+          arraySize * Long.SIZE,
+          BloomFilter.create(Funnels.stringFunnel(), i, fpp).size());
     }
   }
 

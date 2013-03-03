@@ -164,15 +164,16 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   public double expectedFpp() {
     // You down with FPP? (Yeah you know me!) Who's down with FPP? (Every last homie!)
-    return Math.pow((double) bits.bitCount() / bits.size(), numHashFunctions);
+    return Math.pow((double) bits.bitCount() / size(), numHashFunctions);
   }
 
   /**
-   * @deprecated Use {@link #expectedFpp} instead.
+   * Returns the size of the underlying bit array.
+   *
+   * @since 15.0
    */
-  @Deprecated
-  public double expectedFalsePositiveProbability() {
-    return expectedFpp();
+  public long size() {
+    return bits.size();
   }
 
   @Override
@@ -211,9 +212,9 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
     checkArgument(this.numHashFunctions == that.numHashFunctions,
         "BloomFilters must have the same number of hash functions (%s != %s)",
         this.numHashFunctions, that.numHashFunctions);
-    checkArgument(this.bits.size() == that.bits.size(),
+    checkArgument(this.size() == that.size(),
         "BloomFilters must have the same size underlying bit arrays (%s != %s)",
-        this.bits.size(), that.bits.size());
+        this.size(), that.size());
     checkArgument(this.strategy.equals(that.strategy),
         "BloomFilters must have equal strategies (%s != %s)",
         this.strategy, that.strategy);
