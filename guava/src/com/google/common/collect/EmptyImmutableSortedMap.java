@@ -89,6 +89,11 @@ final class EmptyImmutableSortedMap<K, V> extends ImmutableSortedMap<K, V> {
   }
 
   @Override
+  public ImmutableSetMultimap<K, V> asMultimap() {
+    return ImmutableSetMultimap.of();
+  }
+
+  @Override
   public ImmutableSortedMap<K, V> headMap(K toKey, boolean inclusive) {
     checkNotNull(toKey);
     return this;

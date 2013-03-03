@@ -585,6 +585,7 @@ public class ImmutableMapTest extends TestCase {
     ImmutableMap<String, Integer> map = ImmutableMap.of("one", 1);
     ImmutableSetMultimap<String, Integer> multimap1 = map.asMultimap();
     ImmutableSetMultimap<String, Integer> multimap2 = map.asMultimap();
+    assertEquals(1, multimap1.asMap().size());
     assertSame(multimap1, multimap2);
   }
 

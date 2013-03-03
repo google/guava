@@ -484,7 +484,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * @since 2.0
    */
-  @Override public ImmutableList<E> asList() {
+  @Override public final ImmutableList<E> asList() {
     return this;
   }
 
