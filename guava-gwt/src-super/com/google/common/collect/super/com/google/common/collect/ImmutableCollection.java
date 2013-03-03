@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
+import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -31,8 +32,8 @@ import javax.annotation.Nullable;
  * @author Jesse Wilson
  */
 @SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableCollection<E>
-    implements Collection<E>, Serializable {
+public abstract class ImmutableCollection<E> extends AbstractCollection<E>
+    implements Serializable {
 
   static final ImmutableCollection<Object> EMPTY_IMMUTABLE_COLLECTION
       = new ForwardingImmutableCollection<Object>(Collections.emptyList());
@@ -41,55 +42,8 @@ public abstract class ImmutableCollection<E>
 
   public abstract UnmodifiableIterator<E> iterator();
 
-  public Object[] toArray() {
-    Object[] newArray = new Object[size()];
-    return toArray(newArray);
-  }
-
-  public <T> T[] toArray(T[] other) {
-    int size = size();
-    if (other.length < size) {
-      other = ObjectArrays.newArray(other, size);
-    } else if (other.length > size) {
-      other[size] = null;
-    }
-
-    // Writes will produce ArrayStoreException when the toArray() doc requires.
-    Object[] otherAsObjectArray = other;
-    int index = 0;
-    for (E element : this) {
-      otherAsObjectArray[index++] = element;
-    }
-    return other;
-  }
-
   public boolean contains(@Nullable Object object) {
-    if (object == null) {
-      return false;
-    }
-    for (E element : this) {
-      if (element.equals(object)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean containsAll(Collection<?> targets) {
-    for (Object target : targets) {
-      if (!contains(target)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  public boolean isEmpty() {
-    return size() == 0;
-  }
-
-  @Override public String toString() {
-    return Collections2.toStringImpl(this);
+    return object != null && super.contains(object);
   }
 
   public final boolean add(E e) {

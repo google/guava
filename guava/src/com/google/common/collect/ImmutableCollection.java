@@ -23,6 +23,7 @@ import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
+import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -43,8 +44,8 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableCollection<E>
-    implements Collection<E>, Serializable {
+public abstract class ImmutableCollection<E> extends AbstractCollection<E>
+    implements Serializable {
 
   ImmutableCollection() {}
 
@@ -80,21 +81,7 @@ public abstract class ImmutableCollection<E>
 
   @Override
   public boolean contains(@Nullable Object object) {
-    return object != null && Iterators.contains(iterator(), object);
-  }
-
-  @Override
-  public boolean containsAll(Collection<?> targets) {
-    return Collections2.containsAllImpl(this, targets);
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return size() == 0;
-  }
-
-  @Override public String toString() {
-    return Collections2.toStringImpl(this);
+    return object != null && super.contains(object);
   }
 
   /**

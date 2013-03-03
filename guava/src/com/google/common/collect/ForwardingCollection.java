@@ -138,12 +138,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * @since 7.0
    */
   protected boolean standardContainsAll(Collection<?> collection) {
-    for (Object o : collection) {
-      if (!contains(o)) {
-        return false;
-      }
-    }
-    return true;
+    return Collections2.containsAllImpl(this, collection);
   }
 
   /**

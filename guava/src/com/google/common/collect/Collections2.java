@@ -129,7 +129,7 @@ public final class Collections2 {
     }
   }
 
-  static class FilteredCollection<E> implements Collection<E> {
+  static class FilteredCollection<E> extends AbstractCollection<E> {
     final Collection<E> unfiltered;
     final Predicate<? super E> predicate;
 
@@ -219,10 +219,6 @@ public final class Collections2 {
     public <T> T[] toArray(T[] array) {
       return Lists.newArrayList(iterator()).toArray(array);
     }
-
-    @Override public String toString() {
-      return Iterators.toString(iterator());
-    }
   }
 
   /**
@@ -289,13 +285,7 @@ public final class Collections2 {
    * @param c a collection whose elements might be contained by {@code self}
    */
   static boolean containsAllImpl(Collection<?> self, Collection<?> c) {
-    checkNotNull(self);
-    for (Object o : c) {
-      if (!self.contains(o)) {
-        return false;
-      }
-    }
-    return true;
+    return Iterables.all(c, Predicates.in(self));
   }
 
   /**
