@@ -66,41 +66,10 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     return map.keySet();
   }
 
-  private static <E> Entry<E> entryFromMapEntry(Map.Entry<E, Integer> entry) {
-    return Multisets.immutableEntry(entry.getKey(), entry.getValue());
-  }
-
   @Override
-  ImmutableSet<Entry<E>> createEntrySet() {
-    return map.isEmpty() ? ImmutableSet.<Entry<E>>of() : new EntrySet();
-  }
-
-  private class EntrySet extends ImmutableMultiset<E>.EntrySet {
-    @Override
-    public int size() {
-      return map.size();
-    }
-
-    @Override
-    public UnmodifiableIterator<Entry<E>> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    ImmutableList<Entry<E>> createAsList() {
-      final ImmutableList<Map.Entry<E, Integer>> entryList = map.entrySet().asList();
-      return new ImmutableAsList<Entry<E>>() {
-        @Override
-        public Entry<E> get(int index) {
-          return entryFromMapEntry(entryList.get(index));
-        }
-
-        @Override
-        ImmutableCollection<Entry<E>> delegateCollection() {
-          return EntrySet.this;
-        }
-      };
-    }
+  Entry<E> getEntry(int index) {
+    Map.Entry<E, Integer> mapEntry = map.entrySet().asList().get(index);
+    return Multisets.immutableEntry(mapEntry.getKey(), mapEntry.getValue());
   }
 
   @Override

@@ -48,7 +48,8 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
     this.length = length;
   }
 
-  private Entry<E> getEntry(int index) {
+  @Override
+  Entry<E> getEntry(int index) {
     return Multisets.immutableEntry(
         elementSet.asList().get(index),
         counts[offset + index]);
@@ -103,38 +104,6 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
           (RegularImmutableSortedSet<E>) elementSet.getSubSet(from, to);
       return new RegularImmutableSortedMultiset<E>(
           subElementSet, counts, cumulativeCounts, offset + from, to - from);
-    }
-  }
-
-  @Override
-  ImmutableSet<Entry<E>> createEntrySet() {
-    return new EntrySet();
-  }
-
-  private final class EntrySet extends ImmutableMultiset<E>.EntrySet {
-    @Override
-    public int size() {
-      return length;
-    }
-
-    @Override
-    public UnmodifiableIterator<Entry<E>> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    ImmutableList<Entry<E>> createAsList() {
-      return new ImmutableAsList<Entry<E>>() {
-        @Override
-        public Entry<E> get(int index) {
-          return getEntry(index);
-        }
-
-        @Override
-        ImmutableCollection<Entry<E>> delegateCollection() {
-          return EntrySet.this;
-        }
-      };
     }
   }
 

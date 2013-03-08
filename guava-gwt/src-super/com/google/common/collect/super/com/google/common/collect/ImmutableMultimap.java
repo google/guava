@@ -582,40 +582,11 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     public int size() {
       return ImmutableMultimap.this.size();
     }
-
+    
     @Override
-    ImmutableSet<Entry<K>> createEntrySet() {
-      return new KeysEntrySet();
-    }
-
-    private class KeysEntrySet extends ImmutableMultiset<K>.EntrySet {
-      @Override
-      public int size() {
-        return keySet().size();
-      }
-
-      @Override
-      public UnmodifiableIterator<Entry<K>> iterator() {
-        return asList().iterator();
-      }
-
-      @Override
-      ImmutableList<Entry<K>> createAsList() {
-        final ImmutableList<? extends Map.Entry<K, ? extends Collection<V>>> mapEntries =
-            map.entrySet().asList();
-        return new ImmutableAsList<Entry<K>>() {
-          @Override
-          public Entry<K> get(int index) {
-            Map.Entry<K, ? extends Collection<V>> entry = mapEntries.get(index);
-            return Multisets.immutableEntry(entry.getKey(), entry.getValue().size());
-          }
-
-          @Override
-          ImmutableCollection<Entry<K>> delegateCollection() {
-            return KeysEntrySet.this;
-          }
-        };
-      }
+    Multiset.Entry<K> getEntry(int index) {
+      Map.Entry<K, ? extends Collection<V>> entry = map.entrySet().asList().get(index);
+      return Multisets.immutableEntry(entry.getKey(), entry.getValue().size());
     }
 
     @Override

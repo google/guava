@@ -50,11 +50,6 @@ final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
-    return false;
-  }
-
-  @Override
   public boolean containsAll(Collection<?> targets) {
     return targets.isEmpty();
   }
@@ -70,12 +65,7 @@ final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   }
 
   @Override
-  public ImmutableSet<Entry<E>> entrySet() {
-    return ImmutableSet.of();
-  }
-
-  @Override
-  ImmutableSet<Entry<E>> createEntrySet() {
+  Entry<E> getEntry(int index) {
     throw new AssertionError("should never be called");
   }
 
@@ -105,16 +95,6 @@ final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
       return other.isEmpty();
     }
     return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return 0;
-  }
-
-  @Override
-  public String toString() {
-    return "[]";
   }
 
   @Override
