@@ -324,7 +324,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
    *     com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
    *     an enhanced API for an implementation which was branched from {@code MapMaker}. <b>This
-   *     method is scheduled for deletion in August 2014.</b>
+   *     method is scheduled for deletion in September 2014.</b>
    */
   @Deprecated
   @GwtIncompatible("java.lang.ref.SoftReference")
