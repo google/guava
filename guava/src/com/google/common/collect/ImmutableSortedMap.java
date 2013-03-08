@@ -106,11 +106,6 @@ public abstract class ImmutableSortedMap<K, V>
           valueList);
     }
   }
-  
-  private static <K, V> ImmutableEntry<K, V> entryOf(K key, V value) {
-    checkEntryNotNull(key, value);
-    return new ImmutableEntry<K, V>(key, value);
-  }
 
   /**
    * Returns the empty sorted map.
@@ -365,13 +360,7 @@ public abstract class ImmutableSortedMap<K, V>
      */
     @SuppressWarnings("unchecked")
     public Builder(Comparator<? super K> comparator) {
-      super(new ImmutableEntry[ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY]);
       this.comparator = checkNotNull(comparator);
-    }
-
-    @Override
-    ImmutableEntry<K, V> entryOf(K key, V value) {
-      return ImmutableSortedMap.entryOf(key, value);
     }
 
     /**

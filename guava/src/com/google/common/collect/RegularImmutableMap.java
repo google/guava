@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ImmutableMapEntry.TerminalEntry;
 
 import javax.annotation.Nullable;
 
@@ -37,25 +38,24 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   // 'and' with an int to get a table index
   private final transient int mask;
   
-  RegularImmutableMap(TerminalMapEntry<?, ?>... theEntries) {
+  RegularImmutableMap(TerminalEntry<?, ?>... theEntries) {
     this(theEntries.length, theEntries);
   }
   
   /**
-   * Constructor for RegularImmutableMap.  Assumes all elements from {@code theEntries}
-   * are {@code ImmutableMapEntry} instances and not {@code NonTerminalMapEntry} instances,
-   * although it is not feasible to force this type on the array.
+   * Constructor for RegularImmutableMap that takes as input an array of {@code TerminalEntry}
+   * entries.  Assumes that these entries have already been checked for null.
    * 
    * <p>This allows reuse of the entry objects from the array in the actual implementation.
    */
-  RegularImmutableMap(int size, TerminalMapEntry<?, ?>[] theEntries) {
+  RegularImmutableMap(int size, TerminalEntry<?, ?>[] theEntries) {
     entries = createEntryArray(size);
     int tableSize = Hashing.closedTableSize(size, MAX_LOAD_FACTOR);
     table = createEntryArray(tableSize);
     mask = tableSize - 1;
     for (int entryIndex = 0; entryIndex < size; entryIndex++) {
       @SuppressWarnings("unchecked")
-      TerminalMapEntry<K, V> entry = (TerminalMapEntry<K, V>) theEntries[entryIndex];
+      TerminalEntry<K, V> entry = (TerminalEntry<K, V>) theEntries[entryIndex];
       K key = entry.getKey();
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
       @Nullable ImmutableMapEntry<K, V> existing = table[tableIndex];
@@ -83,11 +83,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       Entry<K, V> entry = (Entry<K, V>) theEntries[entryIndex];
       K key = entry.getKey();
       V value = entry.getValue();
+      checkEntryNotNull(key, value);
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
       @Nullable ImmutableMapEntry<K, V> existing = table[tableIndex];
       // prepend, not append, so the entries can be immutable
       ImmutableMapEntry<K, V> newEntry = (existing == null)
-          ? new TerminalMapEntry<K, V>(key, value)
+          ? new TerminalEntry<K, V>(key, value)
           : new NonTerminalMapEntry<K, V>(key, value, existing);
       table[tableIndex] = newEntry;
       entries[entryIndex] = newEntry;
@@ -97,61 +98,35 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   private void checkNoConflictInBucket(
       K key, ImmutableMapEntry<K, V> entry, ImmutableMapEntry<K, V> bucketHead) {
-    for (; bucketHead != null; bucketHead = bucketHead.getNextInBucket()) {
+    for (; bucketHead != null; bucketHead = bucketHead.getNextInKeyBucket()) {
       checkNoConflict(!key.equals(bucketHead.getKey()), "key", entry, bucketHead);
     }
   }
   
-  private static abstract class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
-    ImmutableMapEntry(K key, V value) {
+  private static final class NonTerminalMapEntry<K, V> extends ImmutableMapEntry<K, V> {
+    private final ImmutableMapEntry<K, V> nextInKeyBucket;
+
+    NonTerminalMapEntry(K key, V value, ImmutableMapEntry<K, V> nextInKeyBucket) {
       super(key, value);
-      checkEntryNotNull(key, value);
-    }
-    
-    ImmutableMapEntry(ImmutableMapEntry<K, V> entry) {
-      super(entry.getKey(), entry.getValue());
-      // omit the null check
-    }
-    
-    @Nullable
-    abstract ImmutableMapEntry<K, V> getNextInBucket();
-  }
-  
-  static final class TerminalMapEntry<K, V> extends ImmutableMapEntry<K, V> {
-    private TerminalMapEntry(ImmutableMapEntry<K, V> entry) {
-      super(entry);
+      this.nextInKeyBucket = nextInKeyBucket;
     }
 
-    TerminalMapEntry(K key, V value) {
-      super(key, value);
+    NonTerminalMapEntry(ImmutableMapEntry<K, V> contents, ImmutableMapEntry<K, V> nextInKeyBucket) {
+      super(contents);
+      this.nextInKeyBucket = nextInKeyBucket;
+    }
+
+    @Override
+    ImmutableMapEntry<K, V> getNextInKeyBucket() {
+      return nextInKeyBucket;
     }
 
     @Override
     @Nullable
-    ImmutableMapEntry<K, V> getNextInBucket() {
+    ImmutableMapEntry<K, V> getNextInValueBucket() {
       return null;
     }
-  }
-  
-  private static final class NonTerminalMapEntry<K, V> extends ImmutableMapEntry<K, V> {
-    private final ImmutableMapEntry<K, V> nextInBucket;
-
-    NonTerminalMapEntry(K key, V value,
-        ImmutableMapEntry<K, V> nextInBucket) {
-      super(key, value);
-      this.nextInBucket = nextInBucket;
-    }
     
-    // overload omitting the null check
-    NonTerminalMapEntry(ImmutableMapEntry<K, V> contents, ImmutableMapEntry<K, V> nextInBucket) {
-      super(contents);
-      this.nextInBucket = nextInBucket;
-    }
-
-    @Override
-    ImmutableMapEntry<K, V> getNextInBucket() {
-      return nextInBucket;
-    }
   }
 
   /**
@@ -178,7 +153,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     int index = Hashing.smear(key.hashCode()) & mask;
     for (ImmutableMapEntry<K, V> entry = table[index];
         entry != null;
-        entry = entry.getNextInBucket()) {
+        entry = entry.getNextInKeyBucket()) {
       K candidateKey = entry.getKey();
 
       /*

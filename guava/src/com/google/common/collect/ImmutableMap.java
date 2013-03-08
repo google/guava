@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.RegularImmutableMap.TerminalMapEntry;
+import com.google.common.collect.ImmutableMapEntry.TerminalEntry;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -130,16 +130,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * <p>A call to {@link Map.Entry#setValue} on the returned entry will always
    * throw {@link UnsupportedOperationException}.
    */
-  private static <K, V> TerminalMapEntry<K, V> entryOf(K key, V value) {
-    return new TerminalMapEntry<K, V>(key, value);
-  }
-
-  /**
-   * Returns a new builder. The generated builder is equivalent to the builder
-   * created by the {@link Builder} constructor.
-   */
-  public static <K, V> Builder<K, V> builder() {
-    return new Builder<K, V>();
+  static <K, V> TerminalEntry<K, V> entryOf(K key, V value) {
+    checkEntryNotNull(key, value);
+    return new TerminalEntry<K, V>(key, value);
   }
 
   static void checkEntryNotNull(Object key, Object value) {
@@ -148,6 +141,14 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     } else if (value == null) {
       throw new NullPointerException("null value in entry: " + key + "=null");
     }
+  }
+
+  /**
+   * Returns a new builder. The generated builder is equivalent to the builder
+   * created by the {@link Builder} constructor.
+   */
+  public static <K, V> Builder<K, V> builder() {
+    return new Builder<K, V>();
   }
 
   static void checkNoConflict(boolean safe, String conflictDescription,
@@ -179,7 +180,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @since 2.0 (imported from Google Collections Library)
    */
   public static class Builder<K, V> {
-    ImmutableEntry<K, V>[] entries;
+    TerminalEntry<K, V>[] entries;
     int size;
 
     /**
@@ -190,14 +191,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       this(ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
     }
 
-    Builder(ImmutableEntry<K, V>[] entries) {
-      this.entries = entries;
-      this.size = 0;
-    }
-
     @SuppressWarnings("unchecked")
     Builder(int initialCapacity) {
-      this(new TerminalMapEntry[initialCapacity]);
+      this.entries = new TerminalEntry[initialCapacity];
       this.size = 0;
     }
 
@@ -208,17 +204,13 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       }
     }
 
-    ImmutableEntry<K, V> entryOf(K key, V value) {
-      return ImmutableMap.entryOf(key, value);
-    }
-
     /**
      * Associates {@code key} with {@code value} in the built map. Duplicate
      * keys are not allowed, and will cause {@link #build} to fail.
      */
     public Builder<K, V> put(K key, V value) {
       ensureCapacity(size + 1);
-      ImmutableEntry<K, V> entry = entryOf(key, value);
+      TerminalEntry<K, V> entry = entryOf(key, value);
       // don't inline this: we want to fail atomically if key or value is null
       entries[size++] = entry;
       return this;
@@ -267,7 +259,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         case 1:
           return of(entries[0].getKey(), entries[0].getValue());
         default:
-          return new RegularImmutableMap<K, V>(size, (TerminalMapEntry<?, ?>[]) entries);
+          return new RegularImmutableMap<K, V>(size, entries);
       }
     }
   }
