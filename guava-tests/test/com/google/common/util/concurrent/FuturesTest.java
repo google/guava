@@ -1662,6 +1662,53 @@ public class FuturesTest extends TestCase {
     ASSERT.that(results).has().allOf(null, null, DATA3).inOrder();
   }
 
+  public void testNonCancellationPropagating_successful() throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
+    Foo foo = new Foo();
+
+    assertFalse(wrapper.isDone());
+    input.set(foo);
+    assertTrue(wrapper.isDone());
+    assertSame(foo, wrapper.get());
+  }
+
+  public void testNonCancellationPropagating_failure() throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
+    Throwable failure = new Throwable("thrown");
+
+    assertFalse(wrapper.isDone());
+    input.setException(failure);
+    assertTrue(wrapper.isDone());
+    try {
+      wrapper.get();
+      fail("Expected ExecutionException");
+    } catch (ExecutionException e) {
+      assertSame(failure, e.getCause());
+    }
+  }
+
+  public void testNonCancellationPropagating_delegateCancelled() throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
+
+    assertFalse(wrapper.isDone());
+    assertTrue(input.cancel(false));
+    assertTrue(wrapper.isCancelled());
+  }
+
+  public void testNonCancellationPropagating_doesNotPropagate() throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
+
+    assertTrue(wrapper.cancel(true));
+    assertTrue(wrapper.isCancelled());
+    assertTrue(wrapper.isDone());
+    assertFalse(input.isCancelled());
+    assertFalse(input.isDone());
+  }
+
   private static class TestException extends Exception {
     TestException(@Nullable Throwable cause) {
       super(cause);

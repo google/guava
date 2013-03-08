@@ -747,7 +747,6 @@ public final class Futures {
    * @return A future that returns the result of the transformation.
    * @since 10.0
    */
-  @Beta
   public static <I, O> Future<O> lazyTransform(final Future<I> input,
       final Function<? super I, ? extends O> function) {
     checkNotNull(input);
@@ -924,7 +923,6 @@ public final class Futures {
    * @return A future that holds result of the inner future.
    * @since 13.0
    */
-  @Beta
   @SuppressWarnings({"rawtypes", "unchecked"})
   public static <V> ListenableFuture<V> dereference(
       ListenableFuture<? extends ListenableFuture<? extends V>> nested) {
@@ -957,7 +955,6 @@ public final class Futures {
    *         futures
    * @since 10.0
    */
-  @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       ListenableFuture<? extends V>... futures) {
     return listFuture(ImmutableList.copyOf(futures), true,
@@ -980,11 +977,46 @@ public final class Futures {
    *         futures
    * @since 10.0
    */
-  @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return listFuture(ImmutableList.copyOf(futures), true,
         MoreExecutors.sameThreadExecutor());
+  }
+
+  /**
+   * Creates a new {@code ListenableFuture} whose result is set from the
+   * supplied future when it completes.  Cancelling the supplied future
+   * will also cancel the returned future, but cancelling the returned
+   * future will have no effect on the supplied future.
+   */
+  public static <V> ListenableFuture<V> nonCancellationPropagating(
+      ListenableFuture<V> future) {
+    return new NonCancellationPropagatingFuture<V>(future);
+  }
+
+  /**
+   * A wrapped future that does not propagate cancellation to its delegate.
+   */
+  private static class NonCancellationPropagatingFuture<V>
+      extends AbstractFuture<V> {
+    NonCancellationPropagatingFuture(final ListenableFuture<V> delegate) {
+      checkNotNull(delegate);
+      addCallback(delegate, new FutureCallback<V>() {
+        @Override
+        public void onSuccess(V result) {
+          set(result);
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+          if (delegate.isCancelled()) {
+            cancel(false);
+          } else {
+            setException(t);
+          }
+        }
+      }, sameThreadExecutor());
+    }
   }
 
   /**
@@ -1002,7 +1034,6 @@ public final class Futures {
    *         futures
    * @since 10.0
    */
-  @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
       ListenableFuture<? extends V>... futures) {
     return listFuture(ImmutableList.copyOf(futures), false,
@@ -1024,7 +1055,6 @@ public final class Futures {
    *         futures
    * @since 10.0
    */
-  @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return listFuture(ImmutableList.copyOf(futures), false,
@@ -1196,7 +1226,6 @@ public final class Futures {
    *         RuntimeException} or does not have a suitable constructor
    * @since 10.0
    */
-  @Beta
   public static <V, X extends Exception> V get(
       Future<V> future, Class<X> exceptionClass) throws X {
     checkNotNull(future);
@@ -1262,7 +1291,6 @@ public final class Futures {
    *         RuntimeException} or does not have a suitable constructor
    * @since 10.0
    */
-  @Beta
   public static <V, X extends Exception> V get(
       Future<V> future, long timeout, TimeUnit unit, Class<X> exceptionClass)
       throws X {
@@ -1332,7 +1360,6 @@ public final class Futures {
    *         CancellationException}
    * @since 10.0
    */
-  @Beta
   public static <V> V getUnchecked(Future<V> future) {
     checkNotNull(future);
     try {
