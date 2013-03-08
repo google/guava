@@ -130,9 +130,9 @@ public final class HostAndPort implements Serializable {
    *     or {@code port} is out of range.
    */
   public static HostAndPort fromParts(String host, int port) {
-    checkArgument(isValidPort(port));
+    checkArgument(isValidPort(port), "Port out of range: %s", port);
     HostAndPort parsedHost = fromString(host);
-    checkArgument(!parsedHost.hasPort());
+    checkArgument(!parsedHost.hasPort(), "Host has a port: %s", host);
     return new HostAndPort(parsedHost.host, port, parsedHost.hasBracketlessColons);
   }
 
