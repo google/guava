@@ -168,7 +168,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Returns the size of the underlying bit array.
+   * Returns the number of bits in the underlying bit array.
    *
    * @since 15.0
    */
@@ -187,7 +187,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * <li>have equal funnels
    * <ul>
    *
-   * @param that The bloom filter to check for merge compatability.
+   * @param that The bloom filter to check for merge compatibility.
    *
    * @since 15.0
    */
@@ -249,8 +249,8 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@code Builder} of a {@link BloomFilter BloomFilter<T>}, with the expected number
-   * of insertions and expected false positive probability.
+   * Creates a {@link BloomFilter BloomFilter<T>} with the expected number of
+   * insertions and expected false positive probability.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements
    * than specified, will result in its saturation, and a sharp deterioration of its
@@ -259,9 +259,9 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * <p>The constructed {@code BloomFilter<T>} will be serializable if the provided
    * {@code Funnel<T>} is.
    *
-   * <p>It is recommended the funnel is implemented as a Java enum. This has the benefit of ensuring
-   * proper serialization and deserialization, which is important since {@link #equals} also relies
-   * on object identity of funnels.
+   * <p>It is recommended that the funnel be implemented as a Java enum. This has the
+   * benefit of ensuring proper serialization and deserialization, which is important
+   * since {@link #equals} also relies on object identity of funnels.
    *
    * @param funnel the funnel of T's that the constructed {@code BloomFilter<T>} will use
    * @param expectedInsertions the number of expected insertions to the constructed
@@ -296,8 +296,8 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Creates a {@code Builder} of a {@link BloomFilter BloomFilter<T>}, with the expected number
-   * of insertions, and a default expected false positive probability of 3%.
+   * Creates a {@link BloomFilter BloomFilter<T>} with the expected number of
+   * insertions and a default expected false positive probability of 3%.
    *
    * <p>Note that overflowing a {@code BloomFilter} with significantly more elements
    * than specified, will result in its saturation, and a sharp deterioration of its
