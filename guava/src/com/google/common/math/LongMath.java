@@ -277,19 +277,46 @@ public final class LongMath {
     if (fitsInInt(x)) {
       return IntMath.sqrt((int) x, mode);
     }
-    long sqrtFloor = sqrtFloor(x);
+    /*
+     * Let k be the true value of floor(sqrt(x)), so that
+     * 
+     *            k * k <= x          <  (k + 1) * (k + 1)
+     * (double) (k * k) <= (double) x <= (double) ((k + 1) * (k + 1)) 
+     *          since casting to double is nondecreasing.
+     *          Note that the right-hand inequality is no longer strict.
+     * Math.sqrt(k * k) <= Math.sqrt(x) <= Math.sqrt((k + 1) * (k + 1))
+     *          since Math.sqrt is monotonic.
+     * (long) Math.sqrt(k * k) <= (long) Math.sqrt(x) <= (long) Math.sqrt((k + 1) * (k + 1))
+     *          since casting to long is monotonic
+     * k <= (long) Math.sqrt(x) <= k + 1
+     *          since (long) Math.sqrt(k * k) == k, as checked exhaustively in
+     *          {@link LongMathTest#testSqrtOfPerfectSquareAsDoubleIsPerfect}
+     */
+    long guess = (long) Math.sqrt(x);
+    // Note: guess is always <= FLOOR_SQRT_MAX_LONG.
+    long guessSquared = guess * guess;
+    // Note (2013-2-26): benchmarks indicate that, inscrutably enough, using if statements is
+    // faster here than using lessThanBranchFree.
     switch (mode) {
       case UNNECESSARY:
-        checkRoundingUnnecessary(sqrtFloor * sqrtFloor == x); // fall through
+        checkRoundingUnnecessary(guessSquared == x);
+        return guess;
       case FLOOR:
       case DOWN:
-        return sqrtFloor;
+        if (x < guessSquared) {
+          return guess - 1;
+        }
+        return guess;
       case CEILING:
       case UP:
-        return sqrtFloor + lessThanBranchFree(sqrtFloor * sqrtFloor, x);
+        if (x > guessSquared) {
+          return guess + 1;
+        }
+        return guess;
       case HALF_DOWN:
       case HALF_UP:
-      case HALF_EVEN:
+      case HALF_EVEN: 
+        long sqrtFloor = guess - ((x < guessSquared) ? 1 : 0); 
         long halfSquare = sqrtFloor * sqrtFloor + sqrtFloor;
         /*
          * We wish to test whether or not x <= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both
@@ -306,62 +333,6 @@ public final class LongMath {
       default:
         throw new AssertionError();
     }
-  }
-
-  @GwtIncompatible("TODO")
-  private static long sqrtFloor(long x) {
-    long guess = (long) Math.sqrt(x);
-    /*
-     * Lemma: For all a, b, if |a - b| <= 1, then |floor(a) - floor(b)| <= 1.
-     * 
-     * Proof: 
-     *           -1 <=        a - b        <= 1
-     *        b - 1 <=          a          <= b + 1
-     * floor(b - 1) <=       floor(a)      <= floor(b + 1)
-     * floor(b) - 1 <=       floor(a)      <= floor(b) + 1
-     *           -1 <= floor(a) - floor(b) <= 1
-     * 
-     * Theorem: |floor(sqrt(x)) - guess| <= 1.
-     * 
-     * Proof:  By the lemma, it suffices to show that |sqrt(x) - Math.sqrt(x)| <= 1.
-     * We consider two cases: x <= 2^53 and x > 2^53.
-     * 
-     * If x <= 2^53, then x is exactly representable as a double, so the only error is in rounding
-     * sqrt(x) to a double, which introduces at most 2^-52 relative error.  Since sqrt(x) < 2^27,
-     * the absolute error is at most 2^(27-52) = 2^-25 < 1.
-     * 
-     * Otherwise, x > 2^53.  The rounding error introduced by casting x to a double is at most
-     * 2^63 * 2^-52 = 2^11.  Noting that sqrt(x) > 2^26,
-     * 
-     * sqrt(x) - 0.5 =  sqrt((sqrt(x) - 0.5)^2)
-     *               =  sqrt(x - sqrt(x) + 0.25)
-     *               <  sqrt(x - 2^26 + 0.25)
-     *               <  sqrt(x - 2^11)
-     *               <= sqrt((double) x)
-     * sqrt(x) + 0.5 =  sqrt((sqrt(x) + 0.5)^2)
-     *               =  sqrt(x + sqrt(x) + 0.25)
-     *               >  sqrt(x + 2^26 + 0.25)
-     *               >  sqrt(x + 2^11)
-     *               >= sqrt((double) x)     
-     * sqrt(x) - 0.5 < sqrt((double) x) < sqrt(x) + 0.5
-     * 
-     * Math.sqrt((double) x) is obtained by rounding sqrt((double) x) to a double, increasing the
-     * error by at most 2^-52 * sqrt(x) <= 2^(32 - 52) <= 2^-20, so clearly
-     * 
-     * sqrt(x) - 0.5 - 2^-20 <= Math.sqrt((double) x) <= sqrt(x) + 0.5 + 2^-20 
-     * 
-     * Therefore, |sqrt(x) - Math.sqrt((double) x)| <= 1, so
-     *            |floor(sqrt(x)) - (long) Math.sqrt((double) x)| <= 1
-     *            as desired.
-     */
-    long guessSquared = guess * guess;
-    if (x - guessSquared >= guess + guess + 1) {
-      // The condition is equivalent to x >= (guess + 1) * (guess + 1), but doesn't overflow.
-      guess++;
-    } else if (x < guessSquared) {
-      guess--;
-    }
-    return guess;
   }
 
   /**
@@ -625,7 +596,6 @@ public final class LongMath {
     }
   }
 
-  @GwtIncompatible("TODO")
   @VisibleForTesting static final long FLOOR_SQRT_MAX_LONG = 3037000499L;
 
   /**

@@ -168,6 +168,8 @@ public final class LongMath {
     return a << min(aTwos, bTwos);
   }
 
+  @VisibleForTesting static final long FLOOR_SQRT_MAX_LONG = 3037000499L;
+
   static final long[] factorials = {
       1L,
       1L,
