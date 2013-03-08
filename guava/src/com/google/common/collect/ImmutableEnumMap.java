@@ -55,6 +55,32 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends ImmutableMap<K, V> {
   }
 
   @Override
+  ImmutableSet<K> createKeySet() {
+    return new ImmutableSet<K>() {
+
+      @Override
+      public boolean contains(Object object) {
+        return delegate.containsKey(object);
+      }
+
+      @Override
+      public int size() {
+        return ImmutableEnumMap.this.size();
+      }
+
+      @Override
+      public UnmodifiableIterator<K> iterator() {
+        return Iterators.unmodifiableIterator(delegate.keySet().iterator());
+      }
+
+      @Override
+      boolean isPartialView() {
+        return true;
+      }
+    };
+  }
+
+  @Override
   public int size() {
     return delegate.size();
   }
@@ -71,7 +97,13 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new ImmutableMapEntrySet<K, V>(this) {
+    return new ImmutableMapEntrySet<K, V>() {
+
+      @Override
+      ImmutableMap<K, V> map() {
+        return ImmutableEnumMap.this;
+      }
+
       @Override
       public UnmodifiableIterator<Entry<K, V>> iterator() {
         return new UnmodifiableIterator<Entry<K, V>>() {

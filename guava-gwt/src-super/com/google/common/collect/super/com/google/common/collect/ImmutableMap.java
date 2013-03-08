@@ -39,8 +39,7 @@ import javax.annotation.Nullable;
  *
  * @author Hayward Chan
  */
-public abstract class ImmutableMap<K, V> extends Maps.ImprovedAbstractMap<K, V>
-    implements Serializable {
+public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   ImmutableMap() {}
 
@@ -191,13 +190,18 @@ public abstract class ImmutableMap<K, V> extends Maps.ImprovedAbstractMap<K, V>
   }
 
   @Override
+  public boolean isEmpty() {
+    return size() == 0;
+  }
+
+  @Override
   public boolean containsKey(@Nullable Object key) {
     return get(key) != null;
   }
 
   @Override
   public boolean containsValue(@Nullable Object value) {
-    return value != null && super.containsValue(value);
+    return value != null && Maps.containsValueImpl(this, value);
   }
 
   private transient ImmutableSet<Entry<K, V>> cachedEntrySet = null;
@@ -221,7 +225,7 @@ public abstract class ImmutableMap<K, V> extends Maps.ImprovedAbstractMap<K, V>
   }
 
   ImmutableSet<K> createKeySet() {
-    return new ForwardingImmutableSet<K>(super.keySet()) {};
+    return new ImmutableMapKeySet<K, V>(this);
   }
 
   private transient ImmutableCollection<V> cachedValues = null;
@@ -233,9 +237,7 @@ public abstract class ImmutableMap<K, V> extends Maps.ImprovedAbstractMap<K, V>
     return cachedValues = createValues();
   }
 
-  ImmutableCollection<V> createValues() {
-    return new ForwardingImmutableCollection<V>(super.values());
-  }
+  // esnickell is editing here
 
   // cached so that this.multimapView().inverse() only computes inverse once
   private transient ImmutableSetMultimap<K, V> multimapView;
@@ -311,5 +313,23 @@ public abstract class ImmutableMap<K, V> extends Maps.ImprovedAbstractMap<K, V>
         return false;
       }
     };
+  }
+
+  ImmutableCollection<V> createValues() {
+    return new ImmutableMapValues<K, V>(this);
+  }
+
+  @Override public boolean equals(@Nullable Object object) {
+    return Maps.equalsImpl(this, object);
+  }
+
+  @Override public int hashCode() {
+    // not caching hash code since it could change if map values are mutable
+    // in a way that modifies their hash codes
+    return entrySet().hashCode();
+  }
+
+  @Override public String toString() {
+    return Maps.toStringImpl(this);
   }
 }
