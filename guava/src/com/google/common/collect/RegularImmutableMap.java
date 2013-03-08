@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMapEntry.TerminalEntry;
+import com.google.common.collect.ImmutableMapEntrySet.ArrayEntrySet;
 
 import javax.annotation.Nullable;
 
@@ -180,24 +181,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new EntrySet();
-  }
-
-  @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-  private class EntrySet extends ImmutableMapEntrySet<K, V> {
-    @Override ImmutableMap<K, V> map() {
-      return RegularImmutableMap.this;
-    }
-
-    @Override
-    public UnmodifiableIterator<Entry<K, V>> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    ImmutableList<Entry<K, V>> createAsList() {
-      return new RegularImmutableAsList<Entry<K, V>>(this, entries);
-    }
+    return new ArrayEntrySet<K, V>(this, entries);
   }
 
   // This class is never actually serialized directly, but we have to make the

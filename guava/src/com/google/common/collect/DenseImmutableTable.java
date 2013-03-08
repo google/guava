@@ -122,11 +122,7 @@ final class DenseImmutableTable<R, C, V>
   
     @Override
     ImmutableSet<Entry<K, V>> createEntrySet() {
-      return new ImmutableMapEntrySet<K, V>() {
-        @Override ImmutableMap<K, V> map() {
-          return ImmutableArrayMap.this;
-        }
-
+      return new ImmutableMapEntrySet<K, V>(this) {
         @Override
         public UnmodifiableIterator<Entry<K, V>> iterator() {
           return new AbstractIterator<Entry<K, V>>() {
