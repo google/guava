@@ -37,162 +37,167 @@ public final class HttpHeaders {
 
   // HTTP Request and Response header fields
 
-  /** The HTTP Cache-Control header field name. */
+  /** The HTTP {@code Cache-Control} header field name. */
   public static final String CACHE_CONTROL = "Cache-Control";
-  /** The HTTP Content-Length header field name. */
+  /** The HTTP {@code Content-Length} header field name. */
   public static final String CONTENT_LENGTH = "Content-Length";
-  /** The HTTP Content-Type header field name. */
+  /** The HTTP {@code Content-Type} header field name. */
   public static final String CONTENT_TYPE = "Content-Type";
-  /** The HTTP Date header field name. */
+  /** The HTTP {@code Date} header field name. */
   public static final String DATE = "Date";
-  /** The HTTP Pragma header field name. */
+  /** The HTTP {@code Pragma} header field name. */
   public static final String PRAGMA = "Pragma";
-  /** The HTTP Via header field name. */
+  /** The HTTP {@code Via} header field name. */
   public static final String VIA = "Via";
-  /** The HTTP Warning header field name. */
+  /** The HTTP {@code Warning} header field name. */
   public static final String WARNING = "Warning";
 
   // HTTP Request header fields
 
-  /** The HTTP Accept header field name. */
+  /** The HTTP {@code Accept} header field name. */
   public static final String ACCEPT = "Accept";
-  /** The HTTP Accept-Charset header field name. */
+  /** The HTTP {@code Accept-Charset} header field name. */
   public static final String ACCEPT_CHARSET = "Accept-Charset";
-  /** The HTTP Accept-Encoding header field name. */
+  /** The HTTP {@code Accept-Encoding} header field name. */
   public static final String ACCEPT_ENCODING = "Accept-Encoding";
-  /** The HTTP Accept-Language header field name. */
+  /** The HTTP {@code Accept-Language} header field name. */
   public static final String ACCEPT_LANGUAGE = "Accept-Language";
-  /** The HTTP Access-Control-Request-Headers header field name. */
+  /** The HTTP {@code Access-Control-Request-Headers} header field name. */
   public static final String ACCESS_CONTROL_REQUEST_HEADERS = "Access-Control-Request-Headers";
-  /** The HTTP Access-Control-Request-Method header field name. */
+  /** The HTTP {@code Access-Control-Request-Method} header field name. */
   public static final String ACCESS_CONTROL_REQUEST_METHOD = "Access-Control-Request-Method";
-  /** The HTTP Authorization header field name. */
+  /** The HTTP {@code Authorization} header field name. */
   public static final String AUTHORIZATION = "Authorization";
-  /** The HTTP Connection header field name. */
+  /** The HTTP {@code Connection} header field name. */
   public static final String CONNECTION = "Connection";
-  /** The HTTP Cookie header field name. */
+  /** The HTTP {@code Cookie} header field name. */
   public static final String COOKIE = "Cookie";
-  /** The HTTP Expect header field name. */
+  /** The HTTP {@code Expect} header field name. */
   public static final String EXPECT = "Expect";
-  /** The HTTP From header field name. */
+  /** The HTTP {@code From} header field name. */
   public static final String FROM = "From";
-  /** The HTTP Host header field name. */
+  /** The HTTP {@code Host} header field name. */
   public static final String HOST = "Host";
-  /** The HTTP If-Match header field name. */
+  /** The HTTP {@code If-Match} header field name. */
   public static final String IF_MATCH = "If-Match";
-  /** The HTTP If-Modified-Since header field name. */
+  /** The HTTP {@code If-Modified-Since} header field name. */
   public static final String IF_MODIFIED_SINCE = "If-Modified-Since";
-  /** The HTTP If-None-Match header field name. */
+  /** The HTTP {@code If-None-Match} header field name. */
   public static final String IF_NONE_MATCH = "If-None-Match";
-  /** The HTTP If-Range header field name. */
+  /** The HTTP {@code If-Range} header field name. */
   public static final String IF_RANGE = "If-Range";
-  /** The HTTP If-Unmodified-Since header field name. */
+  /** The HTTP {@code If-Unmodified-Since} header field name. */
   public static final String IF_UNMODIFIED_SINCE = "If-Unmodified-Since";
-  /** The HTTP Last-Event-ID header field name. */
+  /** The HTTP {@code Last-Event-ID} header field name. */
   public static final String LAST_EVENT_ID = "Last-Event-ID";
-  /** The HTTP Max-Forwards header field name. */
+  /** The HTTP {@code Max-Forwards} header field name. */
   public static final String MAX_FORWARDS = "Max-Forwards";
-  /** The HTTP Origin header field name. */
+  /** The HTTP {@code Origin} header field name. */
   public static final String ORIGIN = "Origin";
-  /** The HTTP Proxy-Authorization header field name. */
+  /** The HTTP {@code Proxy-Authorization} header field name. */
   public static final String PROXY_AUTHORIZATION = "Proxy-Authorization";
-  /** The HTTP Range header field name. */
+  /** The HTTP {@code Range} header field name. */
   public static final String RANGE = "Range";
-  /** The HTTP Referer header field name. */
+  /** The HTTP {@code Referer} header field name. */
   public static final String REFERER = "Referer";
-  /** The HTTP TE header field name. */
+  /** The HTTP {@code TE} header field name. */
   public static final String TE = "TE";
-  /** The HTTP Upgrade header field name. */
+  /** The HTTP {@code Upgrade} header field name. */
   public static final String UPGRADE = "Upgrade";
-  /** The HTTP User-Agent header field name. */
+  /** The HTTP {@code User-Agent} header field name. */
   public static final String USER_AGENT = "User-Agent";
 
   // HTTP Response header fields
 
-  /** The HTTP Accept-Ranges header field name. */
+  /** The HTTP {@code Accept-Ranges} header field name. */
   public static final String ACCEPT_RANGES = "Accept-Ranges";
-  /** The HTTP Access-Control-Allow-Headers header field name. */
+  /** The HTTP {@code Access-Control-Allow-Headers} header field name. */
   public static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
-  /** The HTTP Access-Control-Allow-Methods header field name. */
+  /** The HTTP {@code Access-Control-Allow-Methods} header field name. */
   public static final String ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods";
-  /** The HTTP Access-Control-Allow-Origin header field name. */
+  /** The HTTP {@code Access-Control-Allow-Origin} header field name. */
   public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
-  /** The HTTP Access-Control-Allow-Credentials header field name. */
+  /** The HTTP {@code Access-Control-Allow-Credentials} header field name. */
   public static final String ACCESS_CONTROL_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";
-  /** The HTTP Access-Control-Expose-Headers header field name. */
+  /** The HTTP {@code Access-Control-Expose-Headers} header field name. */
   public static final String ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers";
-  /** The HTTP Access-Control-Max-Age header field name. */
+  /** The HTTP {@code Access-Control-Max-Age} header field name. */
   public static final String ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age";
-  /** The HTTP Age header field name. */
+  /** The HTTP {@code Age} header field name. */
   public static final String AGE = "Age";
-  /** The HTTP Allow header field name. */
+  /** The HTTP {@code Allow} header field name. */
   public static final String ALLOW = "Allow";
-  /** The HTTP Content-Disposition header field name. */
+  /** The HTTP {@code Content-Disposition} header field name. */
   public static final String CONTENT_DISPOSITION = "Content-Disposition";
-  /** The HTTP Content-Encoding header field name. */
+  /** The HTTP {@code Content-Encoding} header field name. */
   public static final String CONTENT_ENCODING = "Content-Encoding";
-  /** The HTTP Content-Language header field name. */
+  /** The HTTP {@code Content-Language} header field name. */
   public static final String CONTENT_LANGUAGE = "Content-Language";
-  /** The HTTP Content-Location header field name. */
+  /** The HTTP {@code Content-Location} header field name. */
   public static final String CONTENT_LOCATION = "Content-Location";
-  /** The HTTP Content-MD5 header field name. */
+  /** The HTTP {@code Content-MD5} header field name. */
   public static final String CONTENT_MD5 = "Content-MD5";
-  /** The HTTP Content-Range header field name. */
+  /** The HTTP {@code Content-Range} header field name. */
   public static final String CONTENT_RANGE = "Content-Range";
-  /** The HTTP ETag header field name. */
+  /**
+   * The HTTP <a href="http://www.html5rocks.com/en/tutorials/security/content-security-policy/">
+   * {@code Content-Security-Policy}</a> header field name.
+   */
+  public static final String CONTENT_SECURITY_POLICY = "Content-Security-Policy";
+  /** The HTTP {@code ETag} header field name. */
   public static final String ETAG = "ETag";
-  /** The HTTP Expires header field name. */
+  /** The HTTP {@code Expires} header field name. */
   public static final String EXPIRES = "Expires";
-  /** The HTTP Last-Modified header field name. */
+  /** The HTTP {@code Last-Modified} header field name. */
   public static final String LAST_MODIFIED = "Last-Modified";
-  /** The HTTP Link header field name. */
+  /** The HTTP {@code Link} header field name. */
   public static final String LINK = "Link";
-  /** The HTTP Location header field name. */
+  /** The HTTP {@code Location} header field name. */
   public static final String LOCATION = "Location";
-  /** The HTTP P3P header field name. Limited browser support. */
+  /** The HTTP {@code P3P} header field name. Limited browser support. */
   public static final String P3P = "P3P";
-  /** The HTTP Proxy-Authenticate header field name. */
+  /** The HTTP {@code Proxy-Authenticate} header field name. */
   public static final String PROXY_AUTHENTICATE = "Proxy-Authenticate";
-  /** The HTTP Refresh header field name. Non-standard header supported by most browsers. */
+  /** The HTTP {@code Refresh} header field name. Non-standard header supported by most browsers. */
   public static final String REFRESH = "Refresh";
-  /** The HTTP Retry-After header field name. */
+  /** The HTTP {@code Retry-After} header field name. */
   public static final String RETRY_AFTER = "Retry-After";
-  /** The HTTP Server header field name. */
+  /** The HTTP {@code Server} header field name. */
   public static final String SERVER = "Server";
-  /** The HTTP Set-Cookie header field name. */
+  /** The HTTP {@code Set-Cookie} header field name. */
   public static final String SET_COOKIE = "Set-Cookie";
-  /** The HTTP Set-Cookie2 header field name. */
+  /** The HTTP {@code Set-Cookie2} header field name. */
   public static final String SET_COOKIE2 = "Set-Cookie2";
-  /** The HTTP Trailer header field name. */
+  /** The HTTP {@code Trailer} header field name. */
   public static final String TRAILER = "Trailer";
-  /** The HTTP Transfer-Encoding header field name. */
+  /** The HTTP {@code Transfer-Encoding} header field name. */
   public static final String TRANSFER_ENCODING = "Transfer-Encoding";
-  /** The HTTP Vary header field name. */
+  /** The HTTP {@code Vary} header field name. */
   public static final String VARY = "Vary";
-  /** The HTTP WWW-Authenticate header field name. */
+  /** The HTTP {@code WWW-Authenticate} header field name. */
   public static final String WWW_AUTHENTICATE = "WWW-Authenticate";
 
   // Common, non-standard HTTP header fields
 
-  /** The HTTP DNT header field name. */
+  /** The HTTP {@code DNT} header field name. */
   public static final String DNT = "DNT";
-  /** The HTTP X-Content-Type-Options header field name. */
+  /** The HTTP {@code X-Content-Type-Options} header field name. */
   public static final String X_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
-  /** The HTTP X-Do-Not-Track header field name. */
+  /** The HTTP {@code X-Do-Not-Track} header field name. */
   public static final String X_DO_NOT_TRACK = "X-Do-Not-Track";
-  /** The HTTP X-Forwarded-For header field name. */
+  /** The HTTP {@code X-Forwarded-For} header field name. */
   public static final String X_FORWARDED_FOR = "X-Forwarded-For";
-  /** The HTTP X-Forwarded-Proto header field name. */
+  /** The HTTP {@code X-Forwarded-Proto} header field name. */
   public static final String X_FORWARDED_PROTO = "X-Forwarded-Proto";
-  /** The HTTP X-Frame-Options header field name. */
+  /** The HTTP {@code X-Frame-Options} header field name. */
   public static final String X_FRAME_OPTIONS = "X-Frame-Options";
-  /** The HTTP X-Powered-By header field name. */
+  /** The HTTP {@code X-Powered-By} header field name. */
   public static final String X_POWERED_BY = "X-Powered-By";
-  /** The HTTP X-Requested-With header field name. */
+  /** The HTTP {@code X-Requested-With} header field name. */
   public static final String X_REQUESTED_WITH = "X-Requested-With";
-  /** The HTTP X-User-IP header field name. */
+  /** The HTTP {@code X-User-IP} header field name. */
   public static final String X_USER_IP = "X-User-IP";
-  /** The HTTP X-XSS-Protection header field name. */
+  /** The HTTP {@code X-XSS-Protection} header field name. */
   public static final String X_XSS_PROTECTION = "X-XSS-Protection";
 
 }
