@@ -191,14 +191,14 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
-  public void testSize() {
+  public void testBitSize() {
     double fpp = 0.03;
     for (int i = 1; i < 10000; i++) {
       long numBits = BloomFilter.optimalNumOfBits(i, fpp);
       int arraySize = Ints.checkedCast(LongMath.divide(numBits, 64, RoundingMode.CEILING));
       assertEquals(
           arraySize * Long.SIZE,
-          BloomFilter.create(Funnels.stringFunnel(), i, fpp).size());
+          BloomFilter.create(Funnels.stringFunnel(), i, fpp).bitSize());
     }
   }
 
@@ -273,7 +273,7 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
-  public void testMergeWith() {
+  public void testPutAll() {
     int element1 = 1;
     int element2 = 2;
 
@@ -287,38 +287,38 @@ public class BloomFilterTest extends TestCase {
     assertFalse(bf2.mightContain(element1));
     assertTrue(bf2.mightContain(element2));
 
-    assertTrue(bf1.canMergeWith(bf2));
-    bf1.mergeWith(bf2);
+    assertTrue(bf1.isCompatible(bf2));
+    bf1.putAll(bf2);
     assertTrue(bf1.mightContain(element1));
     assertTrue(bf1.mightContain(element2));
     assertFalse(bf2.mightContain(element1));
     assertTrue(bf2.mightContain(element2));
   }
 
-  public void testMergeWithDifferentSizes() {
+  public void testPutAllDifferentSizes() {
     BloomFilter<Integer> bf1 = BloomFilter.create(Funnels.integerFunnel(), 1);
     BloomFilter<Integer> bf2 = BloomFilter.create(Funnels.integerFunnel(), 10);
 
     try {
-      assertFalse(bf1.canMergeWith(bf2));
-      bf1.mergeWith(bf2);
+      assertFalse(bf1.isCompatible(bf2));
+      bf1.putAll(bf2);
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
     try {
-      assertFalse(bf2.canMergeWith(bf1));
-      bf2.mergeWith(bf1);
+      assertFalse(bf2.isCompatible(bf1));
+      bf2.putAll(bf1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  public void testMergeWithWithSelf() {
+  public void testPutAllWithSelf() {
     BloomFilter<Integer> bf1 = BloomFilter.create(Funnels.integerFunnel(), 1);
     try {
-      assertFalse(bf1.canMergeWith(bf1));
-      bf1.mergeWith(bf1);
+      assertFalse(bf1.isCompatible(bf1));
+      bf1.putAll(bf1);
       fail();
     } catch (IllegalArgumentException expected) {
     }

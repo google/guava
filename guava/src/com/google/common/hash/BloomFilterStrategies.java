@@ -51,7 +51,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
         if (nextHash < 0) {
           nextHash = ~nextHash;
         }
-        bitsChanged |= bits.set(nextHash % bits.size());
+        bitsChanged |= bits.set(nextHash % bits.bitSize());
       }
       return bitsChanged;
     }
@@ -66,7 +66,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
         if (nextHash < 0) {
           nextHash = ~nextHash;
         }
-        if (!bits.get(nextHash % bits.size())) {
+        if (!bits.get(nextHash % bits.bitSize())) {
           return false;
         }
       }
@@ -109,7 +109,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     /** Number of bits */
-    int size() {
+    int bitSize() {
       return data.length * Long.SIZE;
     }
 
@@ -122,8 +122,8 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
       return new BitArray(data.clone());
     }
 
-    /** Merge two BitArrays using bitwise OR. */
-    void mergeWith(BitArray array) {
+    /** Combines the two BitArrays using bitwise OR. */
+    void putAll(BitArray array) {
       checkArgument(data.length == array.data.length,
           "BitArrays must be of equal length (%s != %s)", data.length, array.data.length);
       bitCount = 0;

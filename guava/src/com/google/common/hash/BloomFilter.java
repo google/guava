@@ -164,68 +164,66 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   public double expectedFpp() {
     // You down with FPP? (Yeah you know me!) Who's down with FPP? (Every last homie!)
-    return Math.pow((double) bits.bitCount() / size(), numHashFunctions);
+    return Math.pow((double) bits.bitCount() / bitSize(), numHashFunctions);
   }
 
   /**
    * Returns the number of bits in the underlying bit array.
-   *
-   * @since 15.0
    */
-  public long size() {
-    return bits.size();
+  @VisibleForTesting long bitSize() {
+    return bits.bitSize();
   }
 
   /**
-   * Determines whether a given bloom filter is able to be merged with this bloom filter. For two
+   * Determines whether a given bloom filter is compatible with this bloom filter. For two
    * bloom filters to be compatible, they must:
    * <ul>
    * <li>not be the same instance
    * <li>have the same number of hash functions
-   * <li>have the same size
+   * <li>have the same bit size
    * <li>have the same strategy
    * <li>have equal funnels
    * <ul>
    *
-   * @param that The bloom filter to check for merge compatibility.
+   * @param that The bloom filter to check for compatibility.
    *
    * @since 15.0
    */
-  public boolean canMergeWith(BloomFilter that) {
+  public boolean isCompatible(BloomFilter that) {
     checkNotNull(that);
     return (this != that) &&
         (this.numHashFunctions == that.numHashFunctions) &&
-        (this.size() == that.size()) &&
+        (this.bitSize() == that.bitSize()) &&
         (this.strategy.equals(that.strategy)) &&
         (this.funnel.equals(that.funnel));
   }
 
   /**
-   * Merges this bloom filter with another bloom filter by performing a bitwise OR of the underlying
-   * data. The mutations happen to <b>this</b> instance. Callers must ensure the bloom filters are
-   * appropriately sized to avoid saturating them.
+   * Combines this bloom filter with another bloom filter by performing a bitwise OR of the
+   * underlying data. The mutations happen to <b>this</b> instance. Callers must ensure the
+   * bloom filters are appropriately sized to avoid saturating them.
    *
-   * @param that The bloom filter to merge into this bloom filter. It is not mutated.
-   * @throws IllegalArgumentException if {@code canMergeWith(that) == false}
+   * @param that The bloom filter to combine this bloom filter with. It is not mutated.
+   * @throws IllegalArgumentException if {@code isCompatible(that) == false}
    *
    * @since 15.0
    */
-  public void mergeWith(BloomFilter that) {
+  public void putAll(BloomFilter that) {
     checkNotNull(that);
-    checkArgument(this != that, "Cannot merge a BloomFilter with itself.");
+    checkArgument(this != that, "Cannot combine a BloomFilter with itself.");
     checkArgument(this.numHashFunctions == that.numHashFunctions,
         "BloomFilters must have the same number of hash functions (%s != %s)",
         this.numHashFunctions, that.numHashFunctions);
-    checkArgument(this.size() == that.size(),
+    checkArgument(this.bitSize() == that.bitSize(),
         "BloomFilters must have the same size underlying bit arrays (%s != %s)",
-        this.size(), that.size());
+        this.bitSize(), that.bitSize());
     checkArgument(this.strategy.equals(that.strategy),
         "BloomFilters must have equal strategies (%s != %s)",
         this.strategy, that.strategy);
     checkArgument(this.funnel.equals(that.funnel),
         "BloomFilters must have equal funnels (%s != %s)",
         this.funnel, that.funnel);
-    this.bits.mergeWith(that.bits);
+    this.bits.putAll(that.bits);
   }
 
   @Override
