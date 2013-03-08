@@ -26,6 +26,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.TreeTraverser;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 
@@ -49,6 +50,7 @@ import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -931,6 +933,40 @@ public final class Files {
     int dotIndex = fileName.lastIndexOf('.');
     return (dotIndex == -1) ? fileName : fileName.substring(0, dotIndex);
   }
+
+  /**
+   * Returns a {@link TreeTraverser} instance for {@link File} trees.
+   *
+   * <p><b>Warning:</b> {@code File} provides no support for symbolic links, and as such there is no
+   * way to ensure that a symbolic link to a directory is not followed when traversing the tree.
+   * In this case, iterables created by this traverser could contain files that are outside of the
+   * given directory or even be infinite if there is a symbolic link loop.
+   *
+   * @since 15.0
+   */
+  public static TreeTraverser<File> fileTreeTraverser() {
+    return FILE_TREE_TRAVERSER;
+  }
+
+  private static final TreeTraverser<File> FILE_TREE_TRAVERSER = new TreeTraverser<File>() {
+    @Override
+    public Iterable<File> children(File file) {
+      // check isDirectory() just because it may be faster than listFiles() on a non-directory
+      if (file.isDirectory()) {
+        File[] files = file.listFiles();
+        if (files != null) {
+          return Collections.unmodifiableList(Arrays.asList(files));
+        }
+      }
+
+      return Collections.emptyList();
+    }
+
+    @Override
+    public String toString() {
+      return "Files.fileTreeTraverser()";
+    }
+  };
 
   /**
    * Returns a predicate that returns the result of {@link File#isDirectory} on input files.
