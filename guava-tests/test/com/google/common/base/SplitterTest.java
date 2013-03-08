@@ -54,6 +54,20 @@ public class SplitterTest extends TestCase {
     ASSERT.that(letters).iteratesOverSequence("a", "b", "c");
   }
 
+  /**
+   * All of the infrastructure of split and splitToString is identical, so we
+   * do one test of splitToString. All other cases should be covered by testing
+   * of split.
+   *
+   * <p>TODO(user): It would be good to make all the relevant tests run on
+   * both split and splitToString automatically.
+   */
+  public void testCharacterSimpleSplitToList() {
+    String simple = "a,b,c";
+    List<String> letters = COMMA_SPLITTER.splitToList(simple);
+    ASSERT.that(letters).iteratesOverSequence("a", "b", "c");
+  }
+
   public void testToString() {
     assertEquals("[]", Splitter.on(',').split("").toString());
     assertEquals("[a, b, c]", Splitter.on(',').split("a,b,c").toString());
