@@ -403,9 +403,8 @@ public final class Lists {
    *     be greater than {@link Integer#MAX_VALUE}
    * @throws NullPointerException if {@code lists}, any one of the {@code lists},
    *     or any element of a provided list is null
-   */
-  static <B> List<List<B>> cartesianProduct(
-      List<? extends List<? extends B>> lists) {
+   */ static <B> List<List<B>>
+      cartesianProduct(List<? extends List<? extends B>> lists) {
     return CartesianList.create(lists);
   }
 
@@ -464,8 +463,8 @@ public final class Lists {
    *     be greater than {@link Integer#MAX_VALUE}
    * @throws NullPointerException if {@code lists}, any one of the
    *     {@code lists}, or any element of a provided list is null
-   */
-  static <B> List<List<B>> cartesianProduct(List<? extends B>... lists) {
+   */ static <B> List<List<B>>
+      cartesianProduct(List<? extends B>... lists) {
     return cartesianProduct(Arrays.asList(lists));
   }
 
