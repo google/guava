@@ -42,6 +42,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.annotation.Nullable;
@@ -235,6 +236,42 @@ public final class Sets {
   public static <E> HashSet<E> newHashSet(Iterator<? extends E> elements) {
     HashSet<E> set = newHashSet();
     Iterators.addAll(set, elements);
+    return set;
+  }
+
+  /**
+   * Creates a thread-safe set backed by a hash map. The set is backed by a
+   * {@link ConcurrentHashMap} instance, and thus carries the same concurrency
+   * guarantees.
+   *
+   * <p>Unlike {@code HashSet}, this class does NOT allow {@code null} to be
+   * used as an element. The set is serializable.
+   *
+   * @return a new, empty thread-safe {@code Set}
+   * @since 15.0
+   */
+  public static <E> Set<E> newConcurrentHashSet() {
+    return newSetFromMap(new ConcurrentHashMap<E, Boolean>());
+  }
+
+  /**
+   * Creates a thread-safe set backed by a hash map and containing the given
+   * elements. The set is backed by a {@link ConcurrentHashMap} instance, and
+   * thus carries the same concurrency guarantees.
+   *
+   * <p>Unlike {@code HashSet}, this class does NOT allow {@code null} to be
+   * used as an element. The set is serializable.
+   *
+   * @param elements the elements that the set should contain
+   * @return a new thread-safe set containing those elements (minus duplicates)
+   * @throws NullPointerException if {@code elements} or any of its contents is
+   *      null
+   * @since 15.0
+   */
+  public static <E> Set<E> newConcurrentHashSet(
+      Iterable<? extends E> elements) {
+    Set<E> set = newConcurrentHashSet();
+    Iterables.addAll(set, elements);
     return set;
   }
 

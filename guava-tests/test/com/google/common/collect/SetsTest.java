@@ -118,6 +118,15 @@ public class SetsTest extends TestCase {
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override protected Set<String> create(String[] elements) {
+            return Sets.newConcurrentHashSet(Arrays.asList(elements));
+          }
+        })
+        .named("Sets.newConcurrentHashSet")
+        .withFeatures(CollectionSize.ANY, SetFeature.GENERAL_PURPOSE)
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override protected Set<String> create(String[] elements) {
             int size = elements.length;
             // Remove last element, if size > 1
             Set<String> set1 = (size > 1)
@@ -439,6 +448,16 @@ public class SetsTest extends TestCase {
 
   public void testNewHashSetFromIterator() {
     HashSet<Integer> set = Sets.newHashSet(SOME_COLLECTION.iterator());
+    verifySetContents(set, SOME_COLLECTION);
+  }
+
+  public void testNewConcurrentHashSetEmpty() {
+    Set<Integer> set = Sets.newConcurrentHashSet();
+    verifySetContents(set, EMPTY_COLLECTION);
+  }
+
+  public void testNewConcurrentHashSetFromCollection() {
+    Set<Integer> set = Sets.newConcurrentHashSet(SOME_COLLECTION);
     verifySetContents(set, SOME_COLLECTION);
   }
 
