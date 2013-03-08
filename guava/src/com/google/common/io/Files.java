@@ -23,6 +23,7 @@ import static com.google.common.io.FileWriteMode.APPEND;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.HashCode;
@@ -929,5 +930,49 @@ public final class Files {
     String fileName = new File(file).getName();
     int dotIndex = fileName.lastIndexOf('.');
     return (dotIndex == -1) ? fileName : fileName.substring(0, dotIndex);
+  }
+
+  /**
+   * Returns a predicate that returns the result of {@link File#isDirectory} on input files.
+   *
+   * @since 15.0
+   */
+  public static Predicate<File> isDirectory() {
+    return FilePredicate.IS_DIRECTORY;
+  }
+
+  /**
+   * Returns a predicate that returns the result of {@link File#isFile} on input files.
+   *
+   * @since 15.0
+   */
+  public static Predicate<File> isFile() {
+    return FilePredicate.IS_FILE;
+  }
+
+  private enum FilePredicate implements Predicate<File> {
+    IS_DIRECTORY {
+      @Override
+      public boolean apply(File file) {
+        return file.isDirectory();
+      }
+
+      @Override
+      public String toString() {
+        return "Files.isDirectory()";
+      }
+    },
+
+    IS_FILE {
+      @Override
+      public boolean apply(File file) {
+        return file.isFile();
+      }
+
+      @Override
+      public String toString() {
+        return "Files.isFile()";
+      }
+    };
   }
 }
