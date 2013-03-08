@@ -18,12 +18,15 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Predicates.instanceOf;
+import static com.google.common.base.Predicates.not;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Stopwatch;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
@@ -161,6 +164,14 @@ public final class ServiceManager {
    */
   public ServiceManager(Iterable<? extends Service> services) {
     ImmutableList<Service> copy = ImmutableList.copyOf(services);
+    if (copy.isEmpty()) {
+      // Having no services causes the manager to behave strangely. Notably, listeners are never 
+      // fired.  To avoid this we substitute a placeholder service.
+      logger.log(Level.WARNING, 
+          "ServiceManager configured with no services.  Is your application configured properly?", 
+          new EmptyServiceManagerWarning());
+      copy = ImmutableList.<Service>of(new NoOpService());
+    }
     this.state = new ServiceManagerState(copy.size());
     ImmutableMap.Builder<Service, ServiceListener> builder = ImmutableMap.builder();
     Executor executor = MoreExecutors.sameThreadExecutor();
@@ -346,7 +357,9 @@ public final class ServiceManager {
   public ImmutableMultimap<State, Service> servicesByState() {
     ImmutableMultimap.Builder<State, Service> builder = ImmutableMultimap.builder();
     for (Service service : services.keySet()) {
-      builder.put(service.state(), service);
+      if (!(service instanceof NoOpService)) {
+        builder.put(service.state(), service);
+      }
     }
     return builder.build();
   }
@@ -363,7 +376,7 @@ public final class ServiceManager {
     for (Map.Entry<Service, ServiceListener> entry : services.entrySet()) {
       Service service = entry.getKey();
       State state = service.state();
-      if (state != State.NEW & state != State.STARTING) {
+      if (state != State.NEW & state != State.STARTING & !(service instanceof NoOpService)) {
         loadTimes.add(Maps.immutableEntry(service, entry.getValue().startupTimeMillis()));
       }
     }
@@ -382,7 +395,7 @@ public final class ServiceManager {
   
   @Override public String toString() {
     return Objects.toStringHelper(ServiceManager.class)
-        .add("services", services.keySet())
+        .add("services", Collections2.filter(services.keySet(), not(instanceOf(NoOpService.class))))
         .toString();
   }
   
@@ -634,8 +647,10 @@ public final class ServiceManager {
     }
     
     @Override public void terminated(State from) {
-      logger.log(Level.FINE, "Service {0} has terminated. Previous state was: {1}", 
-          new Object[] {service, from});
+      if (!(service instanceof NoOpService)) {
+        logger.log(Level.FINE, "Service {0} has terminated. Previous state was: {1}", 
+            new Object[] {service, from});
+      }
       state.monitor.enter();
       try {
         if (from == State.NEW) {
@@ -676,8 +691,10 @@ public final class ServiceManager {
     void finishedStarting(boolean currentlyHealthy) {
       synchronized (watch) {
         watch.stop();
-        logger.log(Level.FINE, "Started {0} in {1} ms.", 
-            new Object[] {service, startupTimeMillis()});
+        if (!(service instanceof NoOpService)) {
+          logger.log(Level.FINE, "Started {0} in {1} ms.", 
+              new Object[] {service, startupTimeMillis()});
+        }
       }
       state.serviceFinishedStarting(service, currentlyHealthy);
     }
@@ -692,7 +709,9 @@ public final class ServiceManager {
       synchronized (watch) {
         if (!watch.isRunning()) { // only start the watch once.
           watch.start();
-          logger.log(Level.FINE, "Starting {0}.", service);
+          if (!(service instanceof NoOpService)) {
+            logger.log(Level.FINE, "Starting {0}.", service);
+          }
         }
       }
     }
@@ -728,4 +747,20 @@ public final class ServiceManager {
       }
     }
   }
+  
+  /**
+   * A {@link Service} instance that does nothing.  This is only useful as a placeholder to
+   * ensure that the {@link ServiceManager} functions properly even when it is managing no services.
+   * 
+   * <p>The use of this class is considered an implementation detail of the class and as such it is
+   * excluded from {@link #servicesByState}, {@link #startupTimes}, {@link #toString} and all 
+   * logging statements.
+   */
+  private static final class NoOpService extends AbstractService {
+    @Override protected void doStart() { notifyStarted(); }
+    @Override protected void doStop() { notifyStopped(); }
+  }
+  
+  /** This is never thrown but only used for logging. */
+  private static final class EmptyServiceManagerWarning extends Throwable {}
 }
