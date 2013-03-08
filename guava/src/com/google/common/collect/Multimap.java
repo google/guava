@@ -68,9 +68,9 @@ import javax.annotation.Nullable;
  * ... produces output such as: <pre>   {@code
  *
  *   Zachary: [Taylor]
- *   John: [Adams, Adams, Tyler, Kennedy]
+ *   John: [Adams, Adams, Tyler, Kennedy]  // Remember, Quincy!
  *   George: [Washington, Bush, Bush]
- *   Grover: [Cleveland]
+ *   Grover: [Cleveland, Cleveland]        // Two, non-consecutive terms, rep'ing NJ!
  *   ...}</pre>
  *
  * <h3>Views</h3>
