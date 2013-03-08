@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
@@ -38,7 +39,7 @@ import java.util.Map.Entry;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class ImmutableEnumMapTest extends TestCase {
   public static class ImmutableEnumMapGenerator extends TestEnumMapGenerator {
     @Override
@@ -51,6 +52,7 @@ public class ImmutableEnumMapTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MapTestSuiteBuilder.using(new ImmutableEnumMapGenerator())

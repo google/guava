@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Optional;
 import com.google.common.testing.NullPointerTester;
 
@@ -32,7 +33,7 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class TreeTraverserTest extends TestCase {
   private static final class Tree {
     final char value;
@@ -145,6 +146,7 @@ public class TreeTraverserTest extends TestCase {
     ASSERT.that(binaryIterationOrder(BIN_ADAPTER.inOrderTraversal(bd))).is("abcdegf");
   }
 
+  @GwtIncompatible("NullPointerTester")
   public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(ADAPTER);
