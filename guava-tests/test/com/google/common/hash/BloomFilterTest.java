@@ -287,6 +287,7 @@ public class BloomFilterTest extends TestCase {
     assertFalse(bf2.mightContain(element1));
     assertTrue(bf2.mightContain(element2));
 
+    assertTrue(bf1.canMergeWith(bf2));
     bf1.mergeWith(bf2);
     assertTrue(bf1.mightContain(element1));
     assertTrue(bf1.mightContain(element2));
@@ -299,12 +300,14 @@ public class BloomFilterTest extends TestCase {
     BloomFilter<Integer> bf2 = BloomFilter.create(Funnels.integerFunnel(), 10);
 
     try {
+      assertFalse(bf1.canMergeWith(bf2));
       bf1.mergeWith(bf2);
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
     try {
+      assertFalse(bf2.canMergeWith(bf1));
       bf2.mergeWith(bf1);
       fail();
     } catch (IllegalArgumentException expected) {
@@ -314,6 +317,7 @@ public class BloomFilterTest extends TestCase {
   public void testMergeWithWithSelf() {
     BloomFilter<Integer> bf1 = BloomFilter.create(Funnels.integerFunnel(), 1);
     try {
+      assertFalse(bf1.canMergeWith(bf1));
       bf1.mergeWith(bf1);
       fail();
     } catch (IllegalArgumentException expected) {

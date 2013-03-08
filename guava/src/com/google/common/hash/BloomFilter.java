@@ -176,24 +176,28 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
     return bits.size();
   }
 
-  @Override
-  public boolean equals(@Nullable Object object) {
-    if (object == this) {
-      return true;
-    }
-    if (object instanceof BloomFilter) {
-      BloomFilter<?> that = (BloomFilter<?>) object;
-      return this.numHashFunctions == that.numHashFunctions
-          && this.funnel.equals(that.funnel)
-          && this.bits.equals(that.bits)
-          && this.strategy.equals(that.strategy);
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(numHashFunctions, funnel, strategy, bits);
+  /**
+   * Determines whether a given bloom filter is able to be merged with this bloom filter. For two
+   * bloom filters to be compatible, they must:
+   * <ul>
+   * <li>not be the same instance
+   * <li>have the same number of hash functions
+   * <li>have the same size
+   * <li>have the same strategy
+   * <li>have equal funnels
+   * <ul>
+   *
+   * @param that The bloom filter to check for merge compatability.
+   *
+   * @since 15.0
+   */
+  public boolean canMergeWith(BloomFilter that) {
+    checkNotNull(that);
+    return (this != that) &&
+        (this.numHashFunctions == that.numHashFunctions) &&
+        (this.size() == that.size()) &&
+        (this.strategy.equals(that.strategy)) &&
+        (this.funnel.equals(that.funnel));
   }
 
   /**
@@ -202,7 +206,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * appropriately sized to avoid saturating them.
    *
    * @param that The bloom filter to merge into this bloom filter. It is not mutated.
-   * @throws IllegalArgumentException if the bloom filters are not compatible
+   * @throws IllegalArgumentException if {@code canMergeWith(that) == false}
    *
    * @since 15.0
    */
@@ -222,6 +226,26 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
         "BloomFilters must have equal funnels (%s != %s)",
         this.funnel, that.funnel);
     this.bits.mergeWith(that.bits);
+  }
+
+  @Override
+  public boolean equals(@Nullable Object object) {
+    if (object == this) {
+      return true;
+    }
+    if (object instanceof BloomFilter) {
+      BloomFilter<?> that = (BloomFilter<?>) object;
+      return this.numHashFunctions == that.numHashFunctions
+          && this.funnel.equals(that.funnel)
+          && this.bits.equals(that.bits)
+          && this.strategy.equals(that.strategy);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(numHashFunctions, funnel, strategy, bits);
   }
 
   /**
