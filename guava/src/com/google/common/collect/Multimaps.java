@@ -872,7 +872,7 @@ public final class Multimaps {
 
   /** @see Multimaps#forMap */
   private static class MapMultimap<K, V>
-      implements SetMultimap<K, V>, Serializable {
+      extends AbstractMultimap<K, V> implements SetMultimap<K, V>, Serializable {
     final Map<K, V> map;
 
     MapMultimap(Map<K, V> map) {
@@ -882,11 +882,6 @@ public final class Multimaps {
     @Override
     public int size() {
       return map.size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-      return map.isEmpty();
     }
 
     @Override
@@ -986,11 +981,6 @@ public final class Multimaps {
     }
 
     @Override
-    public Multiset<K> keys() {
-      return new Multimaps.Keys<K, V>(this);
-    }
-
-    @Override
     public Collection<V> values() {
       return map.values();
     }
@@ -1000,57 +990,18 @@ public final class Multimaps {
       return map.entrySet();
     }
     
-    private transient Map<K, Collection<V>> asMap;
-
     @Override
-    public Map<K, Collection<V>> asMap() {
-      Map<K, Collection<V>> result = asMap;
-      if (result == null) {
-        asMap = result = new AsMap<K, V>() {
-          @Override
-          Multimap<K, V> multimap() {
-            return MapMultimap.this;
-          }
-
-          @Override
-          public int size() {
-            return map.size();
-          }
-
-          @Override
-          Iterator<Map.Entry<K, Collection<V>>> entryIterator() {
-            return new TransformedIterator<K, Entry<K, Collection<V>>>(map.keySet().iterator()) {
-              @Override
-              Entry<K, Collection<V>> transform(final K key) {
-                return new AbstractMapEntry<K, Collection<V>>() {
-                  @Override
-                  public K getKey() {
-                    return key;
-                  }
-
-                  @Override
-                  public Collection<V> getValue() {
-                    return get(key);
-                  }
-                };
-              }
-            };
-          }
-        };
-      }
-      return result;
+    Iterator<Entry<K, V>> entryIterator() {
+      return map.entrySet().iterator();
     }
 
-    @Override public boolean equals(@Nullable Object object) {
-      return Multimaps.equalsImpl(this, object);
+    @Override
+    Map<K, Collection<V>> createAsMap() {
+      return new AsMap<K, V>(this);
     }
 
     @Override public int hashCode() {
       return map.hashCode();
-    }
-
-    @Override public String toString() {
-      return asMap().toString();
     }
     
     private static final long serialVersionUID = 7845222491160860175L;
@@ -1664,20 +1615,24 @@ public final class Multimaps {
   /**
    * A skeleton implementation of {@link Multimap#asMap()}.
    */
-  static abstract class AsMap<K, V> extends
+  static final class AsMap<K, V> extends
       Maps.ImprovedAbstractMap<K, Collection<V>> {
-    abstract Multimap<K, V> multimap();
+    private final Multimap<K, V> multimap;
+    
+    AsMap(Multimap<K, V> multimap) {
+      this.multimap = checkNotNull(multimap);
+    }
 
-    @Override public abstract int size();
-
-    abstract Iterator<Entry<K, Collection<V>>> entryIterator();
+    @Override public int size() {
+      return multimap.keySet().size();
+    }
 
     @Override protected Set<Entry<K, Collection<V>>> createEntrySet() {
       return new EntrySet();
     }
 
-    void removeValuesForKey(Object key){
-      multimap().removeAll(key);
+    void removeValuesForKey(Object key) {
+      multimap.keySet().remove(key);
     }
 
     class EntrySet extends Maps.EntrySet<K, Collection<V>> {
@@ -1686,7 +1641,12 @@ public final class Multimaps {
       }
 
       @Override public Iterator<Entry<K, Collection<V>>> iterator() {
-        return entryIterator();
+        return Maps.asMapEntryIterator(multimap.keySet(), new Function<K, Collection<V>>() {
+          @Override
+          public Collection<V> apply(K key) {
+            return multimap.get(key);
+          }
+        });
       }
 
       @Override public boolean remove(Object o) {
@@ -1701,27 +1661,27 @@ public final class Multimaps {
 
     @SuppressWarnings("unchecked")
     @Override public Collection<V> get(Object key) {
-      return containsKey(key) ? multimap().get((K) key) : null;
+      return containsKey(key) ? multimap.get((K) key) : null;
     }
 
     @Override public Collection<V> remove(Object key) {
-      return containsKey(key) ? multimap().removeAll(key) : null;
+      return containsKey(key) ? multimap.removeAll(key) : null;
     }
 
     @Override public Set<K> keySet() {
-      return multimap().keySet();
+      return multimap.keySet();
     }
 
     @Override public boolean isEmpty() {
-      return multimap().isEmpty();
+      return multimap.isEmpty();
     }
 
     @Override public boolean containsKey(Object key) {
-      return multimap().containsKey(key);
+      return multimap.containsKey(key);
     }
 
     @Override public void clear() {
-      multimap().clear();
+      multimap.clear();
     }
   }
 

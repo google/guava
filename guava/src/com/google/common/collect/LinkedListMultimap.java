@@ -778,35 +778,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   Map<K, Collection<V>> createAsMap() {
-    return new Multimaps.AsMap<K, V>() {
-      @Override
-      public int size() {
-        return keyToKeyList.size();
-      }
-
-      @Override
-      Multimap<K, V> multimap() {
-        return LinkedListMultimap.this;
-      }
-
-      @Override
-      Iterator<Entry<K, Collection<V>>> entryIterator() {
-        return new TransformedIterator<K, Entry<K, Collection<V>>>(new DistinctKeyIterator()) {
-          @Override
-          Entry<K, Collection<V>> transform(final K key) {
-            return new AbstractMapEntry<K, Collection<V>>() {
-              @Override public K getKey() {
-                return key;
-              }
-
-              @Override public Collection<V> getValue() {
-                return LinkedListMultimap.this.get(key);
-              }
-            };
-          }
-        };
-      }
-    };
+    return new Multimaps.AsMap<K, V>(this);
   }
 
   /**

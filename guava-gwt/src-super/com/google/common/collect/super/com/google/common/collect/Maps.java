@@ -781,18 +781,18 @@ public final class Maps {
 
         @Override
         public Iterator<Entry<K, V>> iterator() {
-          return asSetEntryIterator(backingSet(), function);
+          return asMapEntryIterator(backingSet(), function);
         }
       };
     }
   }
 
-  private static <K, V> Iterator<Entry<K, V>> asSetEntryIterator(
+  static <K, V> Iterator<Entry<K, V>> asMapEntryIterator(
       Set<K> set, final Function<? super K, V> function) {
     return new TransformedIterator<K, Entry<K,V>>(set.iterator()) {
       @Override
-      Entry<K, V> transform(K key) {
-        return Maps.immutableEntry(key, function.apply(key));
+      Entry<K, V> transform(final K key) {
+        return immutableEntry(key, function.apply(key));
       }
     };
   }
