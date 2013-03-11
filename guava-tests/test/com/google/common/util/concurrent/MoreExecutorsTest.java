@@ -252,6 +252,14 @@ public class MoreExecutorsTest extends JSR166TestCase {
     } catch (RejectedExecutionException expected) {}
   }
 
+  public <T> void testListeningExecutorServiceInvokeAllJavadocCodeCompiles()
+      throws Exception {
+    ListeningExecutorService executor = MoreExecutors.sameThreadExecutor();
+    List<Callable<T>> tasks = ImmutableList.of();
+    @SuppressWarnings("unchecked") // guaranteed by invokeAll contract
+    List<ListenableFuture<T>> futures = (List) executor.invokeAll(tasks);
+  }
+
   public void testListeningDecorator() throws Exception {
     ListeningExecutorService service =
         listeningDecorator(MoreExecutors.sameThreadExecutor());
