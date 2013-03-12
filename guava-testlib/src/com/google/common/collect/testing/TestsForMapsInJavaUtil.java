@@ -33,10 +33,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Generates a test suite covering the {@link Map} implementations in the
@@ -57,12 +54,8 @@ public class TestsForMapsInJavaUtil {
     suite.addTest(testsForSingletonMap());
     suite.addTest(testsForHashMap());
     suite.addTest(testsForLinkedHashMap());
-    suite.addTest(testsForTreeMapNatural());
-    suite.addTest(testsForTreeMapWithComparator());
     suite.addTest(testsForEnumMap());
     suite.addTest(testsForConcurrentHashMap());
-    suite.addTest(testsForConcurrentSkipListMapNatural());
-    suite.addTest(testsForConcurrentSkipListMapWithComparator());
     return suite;
   }
 
@@ -172,53 +165,7 @@ public class TestsForMapsInJavaUtil {
         .createTestSuite();
   }
 
-  public Test testsForTreeMapNatural() {
-    return NavigableMapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
-            @Override protected SortedMap<String, String> create(
-                Entry<String, String>[] entries) {
-              /*
-               * TODO(cpovirk): it would be nice to create an input Map and use
-               * the copy constructor here and in the other tests
-               */
-              return populate(new TreeMap<String, String>(), entries);
-            }
-          })
-        .named("TreeMap, natural")
-        .withFeatures(
-            MapFeature.GENERAL_PURPOSE,
-            MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
-            CollectionSize.ANY)
-        .suppressing(suppressForTreeMapNatural())
-        .createTestSuite();
-  }
 
-  public Test testsForTreeMapWithComparator() {
-    return NavigableMapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
-            @Override protected SortedMap<String, String> create(
-                Entry<String, String>[] entries) {
-              return populate(new TreeMap<String, String>(
-                  arbitraryNullFriendlyComparator()), entries);
-            }
-          })
-        .named("TreeMap, with comparator")
-        .withFeatures(
-            MapFeature.GENERAL_PURPOSE,
-            MapFeature.ALLOWS_NULL_KEYS,
-            MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
-            CollectionSize.ANY)
-        .suppressing(suppressForTreeMapWithComparator())
-        .createTestSuite();
-  }
 
   public Test testsForEnumMap() {
     return MapTestSuiteBuilder
@@ -257,45 +204,6 @@ public class TestsForMapsInJavaUtil {
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
         .suppressing(suppressForConcurrentHashMap())
-        .createTestSuite();
-  }
-
-  public Test testsForConcurrentSkipListMapNatural() {
-    return NavigableMapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
-          @Override protected SortedMap<String, String> create(
-              Entry<String, String>[] entries) {
-            return populate(new ConcurrentSkipListMap<String, String>(), entries);
-          }
-        })
-        .named("ConcurrentSkipListMap, natural")
-        .withFeatures(
-            MapFeature.GENERAL_PURPOSE,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
-            CollectionSize.ANY)
-        .suppressing(suppressForConcurrentSkipListMap())
-        .createTestSuite();
-  }
-
-  public Test testsForConcurrentSkipListMapWithComparator() {
-    return NavigableMapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
-          @Override protected SortedMap<String, String> create(
-              Entry<String, String>[] entries) {
-            return populate(new ConcurrentSkipListMap<String, String>(
-                arbitraryNullFriendlyComparator()), entries);
-          }
-        })
-        .named("ConcurrentSkipListMap, with comparator")
-        .withFeatures(
-            MapFeature.GENERAL_PURPOSE,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
-            CollectionSize.ANY)
-        .suppressing(suppressForConcurrentSkipListMap())
         .createTestSuite();
   }
 

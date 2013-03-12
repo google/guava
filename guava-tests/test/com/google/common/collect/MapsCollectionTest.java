@@ -25,7 +25,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
-import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.SafeTreeMap;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SortedMapTestSuiteBuilder;
@@ -48,8 +47,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -65,20 +62,6 @@ public class MapsCollectionTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
 
-    suite.addTest(NavigableMapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
-          @Override
-          protected SortedMap<String, String> create(Entry<String, String>[] entries) {
-            SafeTreeMap<String, String> map = new SafeTreeMap<String, String>();
-            putEntries(map, entries);
-            return Maps.unmodifiableNavigableMap(map);
-          }
-        })
-        .named("unmodifiableNavigableMap[SafeTreeMap]")
-        .withFeatures(CollectionSize.ANY,
-            MapFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.SERIALIZABLE)
-        .createTestSuite());
     suite.addTest(BiMapTestSuiteBuilder
         .using(new TestStringBiMapGenerator() {
           @Override
@@ -211,67 +194,6 @@ public class MapsCollectionTest extends TestCase {
           }
         })
         .named("Maps.asMap[SortedSet, Function]")
-        .withFeatures(CollectionSize.ANY, 
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            MapFeature.SUPPORTS_REMOVE)
-        .createTestSuite());
-    suite.addTest(NavigableMapTestSuiteBuilder
-        .using(new TestMapGenerator<String, Integer>() {
-          @Override
-          public String[] createKeyArray(int length) {
-            return new String[length];
-          }
-
-          @Override
-          public Integer[] createValueArray(int length) {
-            return new Integer[length];
-          }
-
-          @Override
-          public SampleElements<Entry<String, Integer>> samples() {
-            return new SampleElements<Entry<String, Integer>>(
-                mapEntry("a", 1),
-                mapEntry("aa", 2),
-                mapEntry("aba", 3),
-                mapEntry("bbbb", 4),
-                mapEntry("ccccc", 5));
-          }
-
-          @Override
-          public NavigableMap<String, Integer> create(Object... elements) {
-            NavigableSet<String> set = Sets.newTreeSet(Ordering.natural());
-            for (Object e : elements) {
-              Map.Entry<?, ?> entry = (Entry<?, ?>) e;
-              checkNotNull(entry.getValue());
-              set.add((String) checkNotNull(entry.getKey()));
-            }
-            return Maps.asMap(set, new Function<String, Integer>() {
-              @Override
-              public Integer apply(String input) {
-                return input.length();
-              }
-            });
-          }
-
-          @SuppressWarnings("unchecked")
-          @Override
-          public Entry<String, Integer>[] createArray(int length) {
-            return new Entry[length];
-          }
-
-          @Override
-          public Iterable<Entry<String, Integer>> order(
-              List<Entry<String, Integer>> insertionOrder) {
-            Collections.sort(insertionOrder, new Comparator<Entry<String, Integer>>() {
-              @Override
-              public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-                return o1.getKey().compareTo(o2.getKey());
-              }
-            });
-            return insertionOrder;
-          }
-        })
-        .named("Maps.asMap[NavigableSet, Function]")
         .withFeatures(CollectionSize.ANY,
             MapFeature.SUPPORTS_REMOVE,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
@@ -286,7 +208,6 @@ public class MapsCollectionTest extends TestCase {
     suite.addTest(filterMapSuite());
     suite.addTest(filterBiMapSuite());
     suite.addTest(filterSortedMapSuite());
-    suite.addTest(filterNavigableMapSuite());
     return suite;
   }
   
@@ -463,59 +384,6 @@ public class MapsCollectionTest extends TestCase {
     return suite;
   }
   
-  static TestSuite filterNavigableMapSuite() {
-    TestSuite suite = new TestSuite("FilterNavigableMap");
-    suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      @Override
-      protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
-        NavigableMap<String, String> map = new SafeTreeMap<String, String>();
-        putEntries(map, entries);
-        map.put("banana", "toast");
-        map.put("eggplant", "spam");
-        return Maps.filterKeys(map, FILTER_KEYS);
-      }
-    })
-    .named("Maps.filterKeys[NavigableMap, Predicate]")
-    .withFeatures(
-        MapFeature.ALLOWS_NULL_VALUES,
-        MapFeature.GENERAL_PURPOSE,
-        CollectionSize.ANY)
-        .createTestSuite());
-    suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      @Override
-      protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
-        NavigableMap<String, String> map = new SafeTreeMap<String, String>();
-        putEntries(map, entries);
-        map.put("banana", "toast");
-        map.put("eggplant", "spam");
-          return Maps.filterValues(map, FILTER_VALUES);
-        }
-      })
-      .named("Maps.filterValues[NavigableMap, Predicate]")
-      .withFeatures(
-          MapFeature.ALLOWS_NULL_VALUES,
-          MapFeature.GENERAL_PURPOSE,
-          CollectionSize.ANY)
-          .createTestSuite());
-    suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      @Override
-      protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
-        NavigableMap<String, String> map = new SafeTreeMap<String, String>();
-        putEntries(map, entries);
-        map.put("banana", "toast");
-        map.put("eggplant", "spam");
-          return Maps.filterEntries(map, FILTER_ENTRIES);
-        }
-      })
-      .named("Maps.filterEntries[NavigableMap, Predicate]")
-      .withFeatures(
-          MapFeature.ALLOWS_NULL_VALUES,
-          MapFeature.GENERAL_PURPOSE,
-          CollectionSize.ANY)
-          .createTestSuite());
-    return suite;
-  }
-  
   static void putEntries(Map<String, String> map, Entry<String, String>[] entries) {
     for (Entry<String, String> entry : entries) {
        map.put(entry.getKey(), entry.getValue());
@@ -618,7 +486,6 @@ public class MapsCollectionTest extends TestCase {
     TestSuite suite = new TestSuite("Maps.transform");
     suite.addTest(transformMapSuite());
     suite.addTest(transformSortedMapSuite());
-    suite.addTest(transformNavigableMapSuite());
     return suite;
   }
   
@@ -693,45 +560,6 @@ public class MapsCollectionTest extends TestCase {
         }
       })
       .named("Maps.transformEntries[SortedMap, EntryTransformer]")
-      .withFeatures(
-          CollectionSize.ANY,
-          CollectionFeature.KNOWN_ORDER,
-          MapFeature.SUPPORTS_REMOVE,
-          CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
-      .createTestSuite());
-    return suite;
-  }
-  
-  static TestSuite transformNavigableMapSuite() {
-    TestSuite suite = new TestSuite("TransformNavigableMap");
-    suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-        @Override
-        protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
-          NavigableMap<String, String> map = new SafeTreeMap<String, String>();
-          for (Entry<String, String> entry : entries) {
-            map.put(entry.getKey(), encode(entry.getValue()));
-          }
-          return Maps.transformValues(map, DECODE_FUNCTION);
-        }
-      })
-      .named("Maps.transformValues[NavigableMap, Function]")
-      .withFeatures(
-          CollectionSize.ANY,
-          CollectionFeature.KNOWN_ORDER,
-          MapFeature.SUPPORTS_REMOVE,
-          CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
-      .createTestSuite());
-    suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-        @Override
-        protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
-          NavigableMap<String, String> map = new SafeTreeMap<String, String>();
-          for (Entry<String, String> entry : entries) {
-            map.put(entry.getKey(), encode(entry.getValue()));
-          }
-          return Maps.transformEntries(map, DECODE_ENTRY_TRANSFORMER);
-        }
-      })
-      .named("Maps.transformEntries[NavigableMap, EntryTransformer]")
       .withFeatures(
           CollectionSize.ANY,
           CollectionFeature.KNOWN_ORDER,

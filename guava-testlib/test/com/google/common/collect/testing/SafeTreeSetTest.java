@@ -41,18 +41,6 @@ public class SafeTreeSetTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SafeTreeSetTest.class);
-    suite.addTest(
-        NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            return new SafeTreeSet<String>(Arrays.asList(elements));
-          }
-
-          @Override public List<String> order(List<String> insertionOrder) {
-            return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
-          }
-        }).withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.GENERAL_PURPOSE).named(
-            "SafeTreeSet with natural comparator").createTestSuite());
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
       @Override protected Set<String> create(String[] elements) {
         NavigableSet<String> set =
