@@ -17,12 +17,11 @@
 package com.google.common.collect;
 
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
-import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
+import com.google.common.collect.testing.SortedSetTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetAsListGenerator;
@@ -63,7 +62,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   public static Test suite() {
     TestSuite suite = new TestSuite();
 
-    suite.addTest(NavigableSetTestSuiteBuilder.using(
+    suite.addTest(SortedSetTestSuiteBuilder.using(
         new ImmutableSortedSetCopyOfGenerator())
         .named(ImmutableSortedSetTest.class.getName())
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
@@ -71,7 +70,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
             CollectionFeature.ALLOWS_NULL_QUERIES)
             .createTestSuite());
 
-    suite.addTest(NavigableSetTestSuiteBuilder.using(
+    suite.addTest(SortedSetTestSuiteBuilder.using(
         new ImmutableSortedSetExplicitComparator())
         .named(ImmutableSortedSetTest.class.getName()
             + ", explicit comparator, vararg")
@@ -80,7 +79,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
                 CollectionFeature.ALLOWS_NULL_QUERIES)
                 .createTestSuite());
 
-    suite.addTest(NavigableSetTestSuiteBuilder.using(
+    suite.addTest(SortedSetTestSuiteBuilder.using(
         new ImmutableSortedSetExplicitSuperclassComparatorGenerator())
         .named(ImmutableSortedSetTest.class.getName()
             + ", explicit superclass comparator, iterable")
@@ -89,7 +88,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
                 CollectionFeature.ALLOWS_NULL_QUERIES)
                 .createTestSuite());
 
-    suite.addTest(NavigableSetTestSuiteBuilder.using(
+    suite.addTest(SortedSetTestSuiteBuilder.using(
         new ImmutableSortedSetReversedOrderGenerator())
         .named(ImmutableSortedSetTest.class.getName()
             + ", reverseOrder, iterator")
@@ -98,7 +97,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
                 CollectionFeature.ALLOWS_NULL_QUERIES)
                 .createTestSuite());
 
-    suite.addTest(NavigableSetTestSuiteBuilder.using(
+    suite.addTest(SortedSetTestSuiteBuilder.using(
         new ImmutableSortedSetUnhashableGenerator())
         .suppressing(SetHashCodeTester.getHashCodeMethods())
         .named(ImmutableSortedSetTest.class.getName() + ", unhashable")
@@ -106,7 +105,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
             CollectionFeature.ALLOWS_NULL_QUERIES)
             .createTestSuite());
 
-    suite.addTest(NavigableSetTestSuiteBuilder.using(
+    suite.addTest(SortedSetTestSuiteBuilder.using(
         new ImmutableSortedSetDescendingGenerator())
         .named(ImmutableSortedSetTest.class.getName() + ", descending")
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
