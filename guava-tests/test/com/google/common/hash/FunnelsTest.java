@@ -16,7 +16,6 @@
 
 package com.google.common.hash;
 
-import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -24,11 +23,8 @@ import com.google.common.hash.AbstractStreamingHashFunction.AbstractStreamingHas
 
 import junit.framework.TestCase;
 
-import org.mockito.InOrder;
-
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 /**
  * Tests for HashExtractors.
@@ -78,19 +74,6 @@ public class FunnelsTest extends TestCase {
     assertNullsThrowException(Funnels.longFunnel());
   }
 
-  public void testSequential() {
-    @SuppressWarnings("unchecked")
-    Funnel<Object> elementFunnel = mock(Funnel.class);
-    PrimitiveSink primitiveSink = mock(PrimitiveSink.class);
-    Funnel<Iterable<? extends Object>> sequential = Funnels.sequentialFunnel(elementFunnel);
-    sequential.funnel(Arrays.asList("foo", "bar", "baz", "quux"), primitiveSink);
-    InOrder inOrder = inOrder(elementFunnel);
-    inOrder.verify(elementFunnel).funnel("foo", primitiveSink);
-    inOrder.verify(elementFunnel).funnel("bar", primitiveSink);
-    inOrder.verify(elementFunnel).funnel("baz", primitiveSink);
-    inOrder.verify(elementFunnel).funnel("quux", primitiveSink);
-  }
-
   private static void assertNullsThrowException(Funnel<?> funnel) {
     PrimitiveSink bytePrimitiveSink = new AbstractStreamingHasher(4, 4) {
       @Override HashCode makeHash() { throw new UnsupportedOperationException(); }
@@ -106,7 +89,7 @@ public class FunnelsTest extends TestCase {
       fail();
     } catch (NullPointerException ok) {}
   }
-  
+
   public void testAsOutputStream() throws Exception {
     PrimitiveSink sink = mock(PrimitiveSink.class);
     OutputStream out = Funnels.asOutputStream(sink);
