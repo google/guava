@@ -16,6 +16,7 @@
 
 package com.google.common.hash;
 
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -23,8 +24,11 @@ import com.google.common.hash.AbstractStreamingHashFunction.AbstractStreamingHas
 
 import junit.framework.TestCase;
 
+import org.mockito.InOrder;
+
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * Tests for HashExtractors.
@@ -72,6 +76,19 @@ public class FunnelsTest extends TestCase {
 
   public void testForLongs_null() {
     assertNullsThrowException(Funnels.longFunnel());
+  }
+
+  public void testSequential() {
+    @SuppressWarnings("unchecked")
+    Funnel<Object> elementFunnel = mock(Funnel.class);
+    PrimitiveSink primitiveSink = mock(PrimitiveSink.class);
+    Funnel<Iterable<? extends Object>> sequential = Funnels.sequentialFunnel(elementFunnel);
+    sequential.funnel(Arrays.asList("foo", "bar", "baz", "quux"), primitiveSink);
+    InOrder inOrder = inOrder(elementFunnel);
+    inOrder.verify(elementFunnel).funnel("foo", primitiveSink);
+    inOrder.verify(elementFunnel).funnel("bar", primitiveSink);
+    inOrder.verify(elementFunnel).funnel("baz", primitiveSink);
+    inOrder.verify(elementFunnel).funnel("quux", primitiveSink);
   }
 
   private static void assertNullsThrowException(Funnel<?> funnel) {
