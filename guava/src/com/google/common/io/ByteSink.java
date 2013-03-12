@@ -106,6 +106,7 @@ public abstract class ByteSink implements OutputSupplier<OutputStream> {
     try {
       OutputStream out = closer.register(openStream());
       out.write(bytes);
+      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -126,7 +127,9 @@ public abstract class ByteSink implements OutputSupplier<OutputStream> {
     Closer closer = Closer.create();
     try {
       OutputStream out = closer.register(openStream());
-      return ByteStreams.copy(input, out);
+      long written = ByteStreams.copy(input, out);
+      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330
+      return written;
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {

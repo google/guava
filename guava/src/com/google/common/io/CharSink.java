@@ -100,6 +100,7 @@ public abstract class CharSink implements OutputSupplier<Writer> {
     try {
       Writer out = closer.register(openStream());
       out.append(charSequence);
+      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -135,6 +136,7 @@ public abstract class CharSink implements OutputSupplier<Writer> {
       for (CharSequence line : lines) {
         out.append(line).append(lineSeparator);
       }
+      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -155,7 +157,9 @@ public abstract class CharSink implements OutputSupplier<Writer> {
     Closer closer = Closer.create();
     try {
       Writer out = closer.register(openStream());
-      return CharStreams.copy(readable, out);
+      long written = CharStreams.copy(readable, out);
+      out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330
+      return written;
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
