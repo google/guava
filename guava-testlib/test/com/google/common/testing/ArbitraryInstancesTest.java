@@ -57,9 +57,6 @@ import com.google.common.collect.Table;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
 import com.google.common.util.concurrent.AtomicDouble;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -99,8 +96,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
@@ -125,6 +120,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link ArbitraryInstances}.
@@ -201,8 +197,6 @@ public class ArbitraryInstancesTest extends TestCase {
     assertTrue(ArbitraryInstances.get(MapDifference.class).areEqual());
     assertTrue(ArbitraryInstances.get(SortedMapDifference.class).areEqual());
     assertEquals(Range.all(), ArbitraryInstances.get(Range.class));
-    assertTrue(ArbitraryInstances.get(NavigableSet.class).isEmpty());
-    assertTrue(ArbitraryInstances.get(NavigableMap.class).isEmpty());
     assertTrue(ArbitraryInstances.get(LinkedList.class).isEmpty());
     assertTrue(ArbitraryInstances.get(Deque.class).isEmpty());
     assertTrue(ArbitraryInstances.get(Queue.class).isEmpty());
@@ -211,7 +205,7 @@ public class ArbitraryInstancesTest extends TestCase {
     assertTrue(ArbitraryInstances.get(TreeSet.class).isEmpty());
     assertTrue(ArbitraryInstances.get(TreeMap.class).isEmpty());
     assertFreshInstanceReturned(
-        LinkedList.class, Deque.class, Queue.class, PriorityQueue.class, BitSet.class, 
+        LinkedList.class, Deque.class, Queue.class, PriorityQueue.class, BitSet.class,
         TreeSet.class, TreeMap.class);
   }
 
@@ -305,7 +299,7 @@ public class ArbitraryInstancesTest extends TestCase {
         Appendable.class, StringBuilder.class, StringBuffer.class,
         Throwable.class, Exception.class);
   }
-  
+
   public void testGet_io() throws IOException {
     assertEquals(-1, ArbitraryInstances.get(InputStream.class).read());
     assertEquals(-1, ArbitraryInstances.get(ByteArrayInputStream.class).read());
@@ -364,9 +358,9 @@ public class ArbitraryInstancesTest extends TestCase {
   static class NonPublicClass {
     public NonPublicClass() {}
   }
-  
+
   private static class WithPrivateConstructor {}
-  
+
   public static class NoDefaultConstructor {
     public NoDefaultConstructor(@SuppressWarnings("unused") int i) {}
   }
