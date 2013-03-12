@@ -427,19 +427,6 @@ public class FilteredCollectionsTest extends TestCase {
     }
   }
 
-  public static final class SetsFilterNavigableSetTest extends AbstractFilteredNavigableSetTest {
-    @Override
-    NavigableSet<Integer> createUnfiltered(Iterable<Integer> contents) {
-      return Sets.newTreeSet(contents);
-    }
-
-    @Override
-    NavigableSet<Integer> filter(
-        NavigableSet<Integer> elements, Predicate<? super Integer> predicate) {
-      return Sets.filter(elements, predicate);
-    }
-  }
-
   /** No-op test so that the class has at least one method, making Maven's test runner happy. */
   public void testNoop() {
   }

@@ -23,7 +23,7 @@ import static org.truth0.Truth.ASSERT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers.NullsBeforeB;
-import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
+import com.google.common.collect.testing.SortedSetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -95,7 +95,7 @@ public class TreeMultisetTest extends TestCase {
             MultisetFeature.ENTRIES_ARE_VIEWS)
         .named("TreeMultiset, NullsBeforeB")
         .createTestSuite());
-    suite.addTest(NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {
+    suite.addTest(SortedSetTestSuiteBuilder.using(new TestStringSetGenerator() {
         @Override
         protected Set<String> create(String[] elements) {
           return TreeMultiset.create(Arrays.asList(elements)).elementSet();
