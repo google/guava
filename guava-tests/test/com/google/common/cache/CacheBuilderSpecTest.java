@@ -262,27 +262,27 @@ public class CacheBuilderSpecTest extends TestCase {
     assertNull(spec.concurrencyLevel);
     assertNull(spec.keyStrength);
     assertNull(spec.valueStrength);
-    assertEquals(TimeUnit.DAYS, spec.writeExpirationTimeUnit);
-    assertEquals(10L, spec.writeExpirationDuration);
+    assertEquals(TimeUnit.SECONDS, spec.writeExpirationTimeUnit);
+    assertEquals(24 * 60 * 60 * 10L, spec.writeExpirationDuration);
     assertNull(spec.accessExpirationTimeUnit);
     assertCacheBuilderEquivalence(
-        CacheBuilder.newBuilder().expireAfterWrite(10L, TimeUnit.DAYS), CacheBuilder.from(spec));
+        CacheBuilder.newBuilder().expireAfterWrite(24 * 60 * 60 * 10L, TimeUnit.SECONDS), CacheBuilder.from(spec));
   }
 
   public void testParse_writeExpirationHours() {
     CacheBuilderSpec spec = parse("expireAfterWrite=150h");
-    assertEquals(TimeUnit.HOURS, spec.writeExpirationTimeUnit);
-    assertEquals(150L, spec.writeExpirationDuration);
+    assertEquals(TimeUnit.SECONDS, spec.writeExpirationTimeUnit);
+    assertEquals(60 * 60 * 150L, spec.writeExpirationDuration);
     assertCacheBuilderEquivalence(
-        CacheBuilder.newBuilder().expireAfterWrite(150L, TimeUnit.HOURS), CacheBuilder.from(spec));
+        CacheBuilder.newBuilder().expireAfterWrite(60 * 60 * 150L, TimeUnit.SECONDS), CacheBuilder.from(spec));
   }
 
   public void testParse_writeExpirationMinutes() {
     CacheBuilderSpec spec = parse("expireAfterWrite=10m");
-    assertEquals(TimeUnit.MINUTES, spec.writeExpirationTimeUnit);
-    assertEquals(10L, spec.writeExpirationDuration);
+    assertEquals(TimeUnit.SECONDS, spec.writeExpirationTimeUnit);
+    assertEquals(60 * 10L, spec.writeExpirationDuration);
     assertCacheBuilderEquivalence(
-        CacheBuilder.newBuilder().expireAfterWrite(10L, TimeUnit.MINUTES), CacheBuilder.from(spec));
+        CacheBuilder.newBuilder().expireAfterWrite(60 * 10L, TimeUnit.SECONDS), CacheBuilder.from(spec));
   }
 
   public void testParse_writeExpirationSeconds() {
@@ -312,26 +312,26 @@ public class CacheBuilderSpecTest extends TestCase {
     assertNull(spec.keyStrength);
     assertNull(spec.valueStrength);
     assertNull(spec.writeExpirationTimeUnit);
-    assertEquals(TimeUnit.DAYS, spec.accessExpirationTimeUnit);
-    assertEquals(10L, spec.accessExpirationDuration);
+    assertEquals(TimeUnit.SECONDS, spec.accessExpirationTimeUnit);
+    assertEquals(24 * 60 * 60 * 10L, spec.accessExpirationDuration);
     assertCacheBuilderEquivalence(
-        CacheBuilder.newBuilder().expireAfterAccess(10L, TimeUnit.DAYS), CacheBuilder.from(spec));
+        CacheBuilder.newBuilder().expireAfterAccess(24 * 60 * 60 * 10L, TimeUnit.SECONDS), CacheBuilder.from(spec));
   }
 
   public void testParse_accessExpirationHours() {
     CacheBuilderSpec spec = parse("expireAfterAccess=150h");
-    assertEquals(TimeUnit.HOURS, spec.accessExpirationTimeUnit);
-    assertEquals(150L, spec.accessExpirationDuration);
+    assertEquals(TimeUnit.SECONDS, spec.accessExpirationTimeUnit);
+    assertEquals(60 * 60 * 150L, spec.accessExpirationDuration);
     assertCacheBuilderEquivalence(
-        CacheBuilder.newBuilder().expireAfterAccess(150L, TimeUnit.HOURS), CacheBuilder.from(spec));
+        CacheBuilder.newBuilder().expireAfterAccess(60 * 60 * 150L, TimeUnit.SECONDS), CacheBuilder.from(spec));
   }
 
   public void testParse_accessExpirationMinutes() {
     CacheBuilderSpec spec = parse("expireAfterAccess=10m");
-    assertEquals(TimeUnit.MINUTES, spec.accessExpirationTimeUnit);
-    assertEquals(10L, spec.accessExpirationDuration);
+    assertEquals(TimeUnit.SECONDS, spec.accessExpirationTimeUnit);
+    assertEquals(60 * 10L, spec.accessExpirationDuration);
     assertCacheBuilderEquivalence(
-        CacheBuilder.newBuilder().expireAfterAccess(10L, TimeUnit.MINUTES),
+        CacheBuilder.newBuilder().expireAfterAccess(60 * 10L, TimeUnit.SECONDS),
         CacheBuilder.from(spec));
   }
 
@@ -380,14 +380,14 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_accessExpirationAndWriteExpiration() {
     CacheBuilderSpec spec = parse("expireAfterAccess=10s,expireAfterWrite=9m");
-    assertEquals(TimeUnit.MINUTES, spec.writeExpirationTimeUnit);
-    assertEquals(9L, spec.writeExpirationDuration);
+    assertEquals(TimeUnit.SECONDS, spec.writeExpirationTimeUnit);
+    assertEquals(60 * 9L, spec.writeExpirationDuration);
     assertEquals(TimeUnit.SECONDS, spec.accessExpirationTimeUnit);
     assertEquals(10L, spec.accessExpirationDuration);
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder()
           .expireAfterAccess(10L, TimeUnit.SECONDS)
-          .expireAfterWrite(9L, TimeUnit.MINUTES),
+          .expireAfterWrite(60 * 9L, TimeUnit.SECONDS),
         CacheBuilder.from(spec));
   }
 
@@ -400,18 +400,18 @@ public class CacheBuilderSpecTest extends TestCase {
     assertEquals(30, spec.concurrencyLevel.intValue());
     assertEquals(Strength.WEAK, spec.keyStrength);
     assertEquals(Strength.WEAK, spec.valueStrength);
-    assertEquals(TimeUnit.HOURS, spec.writeExpirationTimeUnit);
-    assertEquals(TimeUnit.MINUTES, spec.accessExpirationTimeUnit);
-    assertEquals(1L, spec.writeExpirationDuration);
-    assertEquals(10L, spec.accessExpirationDuration);
+    assertEquals(TimeUnit.SECONDS, spec.writeExpirationTimeUnit);
+    assertEquals(TimeUnit.SECONDS, spec.accessExpirationTimeUnit);
+    assertEquals(60 * 60 * 1L, spec.writeExpirationDuration);
+    assertEquals(60 * 10L, spec.accessExpirationDuration);
     CacheBuilder<?, ?> expected = CacheBuilder.newBuilder()
         .initialCapacity(10)
         .maximumSize(20)
         .concurrencyLevel(30)
         .weakKeys()
         .weakValues()
-        .expireAfterAccess(10L, TimeUnit.MINUTES)
-        .expireAfterWrite(1L, TimeUnit.HOURS);
+        .expireAfterAccess(60 * 10L, TimeUnit.SECONDS)
+        .expireAfterWrite(60 * 60 * 1L, TimeUnit.SECONDS);
     assertCacheBuilderEquivalence(expected, CacheBuilder.from(spec));
   }
 
@@ -540,7 +540,7 @@ public class CacheBuilderSpecTest extends TestCase {
         .concurrencyLevel(30)
         .weakKeys()
         .weakValues()
-        .expireAfterAccess(10L, TimeUnit.MINUTES);
+        .expireAfterAccess(60 * 10L, TimeUnit.SECONDS);
     assertCacheBuilderEquivalence(expected, fromString);
   }
 

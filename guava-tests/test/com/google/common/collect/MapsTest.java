@@ -764,13 +764,6 @@ public class MapsTest extends TestCase {
     assertNull(map.get("five"));
   }
 
-  @GwtIncompatible("NavigableMap")
-  public void testAsMapReturnsNavigableMapForNavigableSetInput() {
-    Set<String> set = Sets.newTreeSet();
-    assertTrue(Maps.asMap(set, Functions.identity()) instanceof NavigableMap);
-  }
-
-
   public void testToMap() {
     Iterable<String> strings = ImmutableList.of("one", "two", "three");
     ImmutableMap<String, Integer> map = Maps.toMap(strings, LENGTH_FUNCTION);
@@ -1495,21 +1488,6 @@ public class MapsTest extends TestCase {
     assertTrue(transformed instanceof SortedMap);
   }
 
-  @GwtIncompatible("NavigableMap")
-  public void testTransformValuesSecretlyNavigable() {
-    Map<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
-    Map<String, Double> transformed;
-
-    transformed = transformValues(map, SQRT_FUNCTION);
-    assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
-    assertTrue(transformed instanceof NavigableMap);
-
-    transformed =
-        transformValues((SortedMap<String, Integer>) map, SQRT_FUNCTION);
-    assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
-    assertTrue(transformed instanceof NavigableMap);
-  }
-
   public void testTransformEntries() {
     Map<String, String> map = ImmutableMap.of("a", "4", "b", "9");
     EntryTransformer<String, String, String> concat =
@@ -1537,27 +1515,6 @@ public class MapsTest extends TestCase {
 
     assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
     assertTrue(transformed instanceof SortedMap);
-  }
-
-  @GwtIncompatible("NavigableMap")
-  public void testTransformEntriesSecretlyNavigable() {
-    Map<String, String> map = ImmutableSortedMap.of("a", "4", "b", "9");
-    EntryTransformer<String, String, String> concat =
-        new EntryTransformer<String, String, String>() {
-          @Override
-          public String transformEntry(String key, String value) {
-            return key + value;
-          }
-        };
-    Map<String, String> transformed;
-
-    transformed = transformEntries(map, concat);
-    assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
-    assertTrue(transformed instanceof NavigableMap);
-
-    transformed = transformEntries((SortedMap<String, String>) map, concat);
-    assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
-    assertTrue(transformed instanceof NavigableMap);
   }
 
   @SuppressWarnings("unused")
