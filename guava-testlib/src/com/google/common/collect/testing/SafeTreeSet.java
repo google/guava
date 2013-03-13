@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.NavigableSet;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -31,14 +30,14 @@ import java.util.TreeSet;
  *
  * @author Louis Wasserman
  */
-public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
+public final class SafeTreeSet<E> implements Serializable, SortedSet<E> {
   @SuppressWarnings("unchecked")
   private static final Comparator<Object> NATURAL_ORDER = new Comparator<Object>() {
     @Override public int compare(Object o1, Object o2) {
       return ((Comparable<Object>) o1).compareTo(o2);
     }
   };
-  private final NavigableSet<E> delegate;
+  private final SortedSet<E> delegate;
 
   public SafeTreeSet() {
     this(new TreeSet<E>());
@@ -52,11 +51,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
     this(new TreeSet<E>(comparator));
   }
 
-  public SafeTreeSet(SortedSet<E> set) {
-    this(new TreeSet<E>(set));
-  }
-
-  private SafeTreeSet(NavigableSet<E> delegate) {
+  private SafeTreeSet(SortedSet<E> delegate) {
     this.delegate = delegate;
     for (E e : this) {
       checkValid(e);
@@ -72,10 +67,6 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
       checkValid(e);
     }
     return delegate.addAll(collection);
-  }
-
-  @Override public E ceiling(E e) {
-    return delegate.ceiling(checkValid(e));
   }
 
   @Override public void clear() {
@@ -99,33 +90,12 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
     return delegate.containsAll(c);
   }
 
-  @Override public Iterator<E> descendingIterator() {
-    return delegate.descendingIterator();
-  }
-
-  @Override public NavigableSet<E> descendingSet() {
-    return new SafeTreeSet<E>(delegate.descendingSet());
-  }
-
   @Override public E first() {
     return delegate.first();
   }
 
-  @Override public E floor(E e) {
-    return delegate.floor(checkValid(e));
-  }
-
   @Override public SortedSet<E> headSet(E toElement) {
-    return headSet(toElement, false);
-  }
-
-  @Override public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-    return new SafeTreeSet<E>(
-        delegate.headSet(checkValid(toElement), inclusive));
-  }
-
-  @Override public E higher(E e) {
-    return delegate.higher(checkValid(e));
+    return new SafeTreeSet<E>(delegate.headSet(checkValid(toElement)));
   }
 
   @Override public boolean isEmpty() {
@@ -138,18 +108,6 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
 
   @Override public E last() {
     return delegate.last();
-  }
-
-  @Override public E lower(E e) {
-    return delegate.lower(checkValid(e));
-  }
-
-  @Override public E pollFirst() {
-    return delegate.pollFirst();
-  }
-
-  @Override public E pollLast() {
-    return delegate.pollLast();
   }
 
   @Override public boolean remove(Object object) {
@@ -168,23 +126,13 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
     return delegate.size();
   }
 
-  @Override public NavigableSet<E> subSet(
-      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-    return new SafeTreeSet<E>(
-        delegate.subSet(checkValid(fromElement), fromInclusive,
-            checkValid(toElement), toInclusive));
-  }
 
   @Override public SortedSet<E> subSet(E fromElement, E toElement) {
-    return subSet(fromElement, true, toElement, false);
+    return new SafeTreeSet<E>(delegate.subSet(checkValid(fromElement), checkValid(toElement)));
   }
 
   @Override public SortedSet<E> tailSet(E fromElement) {
-    return tailSet(fromElement, true);
-  }
-
-  @Override public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-    return new SafeTreeSet<E>(delegate.tailSet(checkValid(fromElement), inclusive));
+    return new SafeTreeSet<E>(delegate.tailSet(checkValid(fromElement)));
   }
 
   @Override public Object[] toArray() {

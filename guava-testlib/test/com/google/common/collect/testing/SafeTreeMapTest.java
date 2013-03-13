@@ -26,7 +26,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.util.Map;
-import java.util.NavigableMap;
 import java.util.SortedMap;
 
 /**
@@ -59,7 +58,7 @@ public class SafeTreeMapTest extends TestCase {
     }
 
     @Override protected SortedMap<String, Integer> makePopulatedMap() {
-      NavigableMap<String, Integer> map = new SafeTreeMap<String, Integer>();
+      SortedMap<String, Integer> map = new SafeTreeMap<String, Integer>();
       map.put("one", 1);
       map.put("two", 2);
       map.put("three", 3);
@@ -68,7 +67,7 @@ public class SafeTreeMapTest extends TestCase {
 
     @Override protected SortedMap<String, Integer> makeEmptyMap()
         throws UnsupportedOperationException {
-      NavigableMap<String, Integer> map = new SafeTreeMap<String, Integer>();
+      SortedMap<String, Integer> map = new SafeTreeMap<String, Integer>();
       return SerializableTester.reserialize(map);
     }
 
