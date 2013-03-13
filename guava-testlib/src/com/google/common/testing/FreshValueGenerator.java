@@ -105,8 +105,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -165,7 +163,7 @@ class FreshValueGenerator {
   @Nullable final <T> T generate(Class<T> type) {
     return generate(TypeToken.of(type));
   }
-  
+
   @Nullable private Object generateIfPossible(TypeToken<?> type) {
     Class<?> rawType = type.getRawType();
     List<Object> samples = sampleInstances.get(rawType);
@@ -223,7 +221,7 @@ class FreshValueGenerator {
   private final class FreshInvocationHandler extends AbstractInvocationHandler {
     private final int identity = freshInt();
     private final Class<?> interfaceType;
-    
+
     FreshInvocationHandler(Class<?> interfaceType) {
       this.interfaceType = interfaceType;
     }
@@ -532,11 +530,6 @@ class FreshValueGenerator {
 
   @Generates static private <E extends Comparable<? super E>> SortedSet<E>
       freshSortedSet(E freshElement) {
-    return freshNavigableSet(freshElement);
-  }
-
-  @Generates static private <E extends Comparable<? super E>> NavigableSet<E>
-      freshNavigableSet(E freshElement) {
     return freshTreeSet(freshElement);
   }
 
@@ -615,11 +608,6 @@ class FreshValueGenerator {
 
   @Generates static private <K extends Comparable<? super K>, V> SortedMap<K, V>
       freshSortedMap(K key, V value) {
-    return freshNavigableMap(key, value);
-  }
-
-  @Generates static private <K extends Comparable<? super K>, V> NavigableMap<K, V>
-      freshNavigableMap(K key, V value) {
     return freshTreeMap(key, value);
   }
 

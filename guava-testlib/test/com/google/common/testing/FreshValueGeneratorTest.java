@@ -97,8 +97,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -367,15 +365,6 @@ public class FreshValueGeneratorTest extends TestCase {
     assertFreshInstance(new TypeToken<SortedSet<EmptyEnum>>() {});
   }
 
-  public void testNavigableSet() {
-    assertFreshInstance(new TypeToken<NavigableSet<String>>() {});
-    TreeSet<String> expected = Sets.newTreeSet();
-    expected.add(new FreshValueGenerator().generate(String.class));
-    assertValueAndTypeEquals(expected,
-        new FreshValueGenerator().generate(new TypeToken<NavigableSet<String>>() {}));
-    assertFreshInstance(new TypeToken<NavigableSet<EmptyEnum>>() {});
-  }
-
   public void testMultiset() {
     assertFreshInstance(new TypeToken<Multiset<String>>() {});
     Multiset<String> expected = HashMultiset.create();
@@ -491,17 +480,6 @@ public class FreshValueGeneratorTest extends TestCase {
         new FreshValueGenerator().generate(
             new TypeToken<SortedMap<String, Integer>>() {}));
     assertFreshInstance(new TypeToken<SortedMap<EmptyEnum, String>>() {});
-  }
-
-  public void testNavigableMap() {
-    assertFreshInstance(new TypeToken<NavigableMap<?, ?>>() {});
-    FreshValueGenerator generator = new FreshValueGenerator();
-    TreeMap<String, Integer> expected = Maps.newTreeMap();
-    expected.put(generator.generate(String.class), generator.generate(int.class));
-    assertValueAndTypeEquals(expected,
-        new FreshValueGenerator().generate(
-            new TypeToken<NavigableMap<String, Integer>>() {}));
-    assertFreshInstance(new TypeToken<NavigableMap<EmptyEnum, String>>() {});
   }
 
   public void testConcurrentMap() {

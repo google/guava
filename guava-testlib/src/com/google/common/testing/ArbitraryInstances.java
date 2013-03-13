@@ -59,7 +59,6 @@ import com.google.common.collect.PeekingIterator;
 import com.google.common.collect.Range;
 import com.google.common.collect.RowSortedTable;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 import com.google.common.collect.SortedMapDifference;
 import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.SortedSetMultimap;
@@ -111,8 +110,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
@@ -141,13 +138,13 @@ import javax.annotation.Nullable;
 /**
  * Supplies an arbitrary "default" instance for a wide range of types, often useful in testing
  * utilities.
- * 
+ *
  * <p>Covers common types defined in {@code java.lang}, {@code java.lang.reflect}, {@code java.io},
  * {@code java.nio}, {@code java.math}, {@code java.util}, {@code java.util.concurrent},
  * {@code java.util.regex}, {@code com.google.common.base}, {@code com.google.common.collect}
  * and {@code com.google.common.primitives}. In addition, any public class that exposes a public
  * parameter-less constructor will be "new"d and returned.
- * 
+ *
  * <p>All default instances returned by {@link #get} are generics-safe. Clients won't get type
  * errors for using {@code get(Comparator.class)} as a {@code Comparator<Foo>}, for example.
  * Immutable empty instances are returned for collection types; {@code ""} for string;
