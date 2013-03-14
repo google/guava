@@ -354,6 +354,53 @@ public class CacheBuilderSpecTest extends TestCase {
     }
   }
 
+  public void testParse_recordStatsTrue() {
+    CacheBuilderSpec spec = parse("recordStats=true");
+    assertTrue(spec.recordStats);
+    spec = parse("recordStats=TRUE");
+    assertTrue(spec.recordStats);
+    spec = parse("recordStats=TrUe");
+    assertTrue(spec.recordStats);
+    assertCacheBuilderEquivalence(CacheBuilder.newBuilder().recordStats(), CacheBuilder.from(spec));
+  }
+
+  public void testParse_recordStatsFalse() {
+    CacheBuilderSpec spec = parse("recordStats=false");
+    assertFalse(spec.recordStats);
+    spec = parse("recordStats=FaLsE");
+    assertFalse(spec.recordStats);
+    spec = parse("recordStats=FALSE");
+    assertFalse(spec.recordStats);
+    assertCacheBuilderEquivalence(CacheBuilder.newBuilder(), CacheBuilder.from(spec));
+  }
+
+  public void testParse_recordStatsValueUnspecified() {
+    try {
+      parse("recordStats=");
+      fail("Expected exception");
+    } catch (IllegalArgumentException expected) {
+      // expected
+    }
+  }
+
+  public void testParse_recordStatsInvalidValueUnspecified() {
+    try {
+      parse("recordStats=Fals");
+      fail("Expected exception");
+    } catch (IllegalArgumentException expected) {
+      // expected
+    }
+  }
+
+  public void testParse_recordStatsRepeated() {
+    try {
+      parse("recordStats,recordStats=false");
+      fail("Expected exception");
+    } catch (IllegalArgumentException expected) {
+      // expected
+    }
+  }
+
   public void testParse_accessExpirationAndWriteExpiration() {
     CacheBuilderSpec spec = parse("expireAfterAccess=10s,expireAfterWrite=9m");
     assertEquals(TimeUnit.MINUTES, spec.writeExpirationTimeUnit);
@@ -462,6 +509,8 @@ public class CacheBuilderSpecTest extends TestCase {
         .addEqualityGroup(parse("weakKeys"), parse("weakKeys"))
         .addEqualityGroup(parse("softValues"), parse("softValues"))
         .addEqualityGroup(parse("weakValues"), parse("weakValues"))
+        .addEqualityGroup(parse("recordStats=true"), parse("recordStats=True"))
+        .addEqualityGroup(parse("recordStats=false"), parse("recordStats=False"))
         .testEquals();
   }
 
@@ -535,5 +584,6 @@ public class CacheBuilderSpecTest extends TestCase {
     assertEquals("valueStrength", a.valueStrength, b.valueStrength);
     assertEquals("statsCounterSupplier", a.statsCounterSupplier, b.statsCounterSupplier);
     assertEquals("ticker", a.ticker, b.ticker);
+    assertEquals("recordStats", a.isRecordingStats(), b.isRecordingStats());
   }
 }

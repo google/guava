@@ -517,6 +517,10 @@ public final class CacheBuilder<K, V> {
     statsCounterSupplier = CACHE_STATS_COUNTER;
     return this;
   }
+  
+  boolean isRecordingStats() {
+    return statsCounterSupplier == CACHE_STATS_COUNTER;
+  }
 
   Supplier<? extends StatsCounter> getStatsCounterSupplier() {
     return statsCounterSupplier;
