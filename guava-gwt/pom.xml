@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>14.0-SNAPSHOT</version>
+    <version>15.0-SNAPSHOT</version>
   </parent>
   <artifactId>guava-gwt</artifactId>
   <name>Guava GWT compatible libs</name>
@@ -20,11 +20,13 @@
     <gwt.version>2.5.0-rc1</gwt.version>
   </properties>
   <dependencies>
-    <!-- GWT requires a library's transitive dependencies to be present when compiling a project that uses that library, thanks to its full-program compilation, so we don't use scope=provided. -->
+    <!-- GWT requires a library's transitive dependencies to be present when
+         compiling a project that uses that library, thanks to its full-program
+         compilation, so we don't use optional=true. -->
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
-      <version>1.3.9</version>
+      <optional>false</optional>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -48,51 +50,18 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3.1</version>
-        <configuration>
-          <excludes>
-            <exclude>**/ForceGuavaCompilation*</exclude>
-          </excludes>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.2</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>post-integration-test</phase>
-            <goals><goal>jar</goal></goals>
-          </execution>
-        </executions>
-        <configuration>
-          <excludes>
-            <exclude>**/ForceGuavaCompilation*</exclude>
-          </excludes>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.8</version>
-        <executions>
-          <execution>
-            <id>attach-docs</id>
-            <phase>post-integration-test</phase>
-            <goals><goal>jar</goal></goals>
-          </execution>
-        </executions>
       </plugin>
       <!-- Disable "normal" testing, which doesn't work for GWT tests. -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
@@ -100,7 +69,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.3</version>
         <executions>
           <execution>
             <id>unpack-guava-sources</id>
@@ -129,7 +97,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.6</version>
         <executions>
           <execution>
             <phase>generate-resources</phase>
@@ -169,8 +136,6 @@
         </executions>
       </plugin>
     </plugins>
-    <sourceDirectory>src</sourceDirectory>
-    <testSourceDirectory>test</testSourceDirectory>
     <resources>
       <resource>
         <directory>src</directory>
