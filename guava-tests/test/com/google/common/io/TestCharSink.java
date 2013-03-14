@@ -37,7 +37,7 @@ public class TestCharSink extends CharSink implements TestStreamSupplier {
   }
 
   public String getString() {
-    return new String(byteSink.getBytes(), UTF_8);
+    return new String(byteSink.getBytes());
   }
 
   @Override

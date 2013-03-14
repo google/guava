@@ -36,7 +36,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -65,8 +64,6 @@ public class TestsForSetsInJavaUtil {
     suite.addTest(testsForCheckedSet());
     suite.addTest(testsForAbstractSet());
     suite.addTest(testsForBadlyCollidingHashSet());
-    suite.addTest(testsForConcurrentSkipListSetNatural());
-    suite.addTest(testsForConcurrentSkipListSetWithComparator());
 
     return suite;
   }
@@ -340,43 +337,6 @@ public class TestsForSetsInJavaUtil {
         .createTestSuite();
   }
 
-  public Test testsForConcurrentSkipListSetNatural() {
-    return SetTestSuiteBuilder
-        .using(new TestStringSortedSetGenerator() {
-            @Override public SortedSet<String> create(String[] elements) {
-              return new ConcurrentSkipListSet<String>(MinimalCollection.of(elements));
-            }
-          })
-        .named("ConcurrentSkipListSet, natural")
-        .withFeatures(
-            SetFeature.GENERAL_PURPOSE,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionSize.ANY)
-        .suppressing(suppressForConcurrentSkipListSetNatural())
-        .createTestSuite();
-  }
-
-  public Test testsForConcurrentSkipListSetWithComparator() {
-    return SetTestSuiteBuilder
-        .using(new TestStringSortedSetGenerator() {
-            @Override public SortedSet<String> create(String[] elements) {
-              SortedSet<String> set
-                  = new ConcurrentSkipListSet<String>(arbitraryNullFriendlyComparator());
-              Collections.addAll(set, elements);
-              return set;
-            }
-          })
-        .named("ConcurrentSkipListSet, with comparator")
-        .withFeatures(
-            SetFeature.GENERAL_PURPOSE,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionSize.ANY)
-        .suppressing(suppressForConcurrentSkipListSetWithComparator())
-        .createTestSuite();
-  }
-
   private static String[] dedupe(String[] elements) {
     Set<String> tmp = new LinkedHashSet<String>();
     Collections.addAll(tmp, elements);
@@ -386,7 +346,7 @@ public class TestsForSetsInJavaUtil {
   static <T> Comparator<T> arbitraryNullFriendlyComparator() {
     return new NullFriendlyComparator<T>();
   }
-  
+
   private static final class NullFriendlyComparator<T>
       implements Comparator<T>, Serializable {
     @Override

@@ -62,6 +62,8 @@ public class DoubleMathTest extends TestCase {
   private static final BigDecimal MAX_LONG_AS_BIG_DECIMAL = BigDecimal.valueOf(Long.MAX_VALUE);
   private static final BigDecimal MIN_LONG_AS_BIG_DECIMAL = BigDecimal.valueOf(Long.MIN_VALUE);
 
+  private static final double MIN_NORMAL = 2.2250738585072014E-308; // Doubles.MIN_NORMAL from 1.6
+
   public void testConstantsMaxFactorial() {
     BigInteger maxDoubleValue = BigDecimal.valueOf(Double.MAX_VALUE).toBigInteger();
     assertTrue(BigIntegerMath.factorial(DoubleMath.MAX_FACTORIAL).compareTo(maxDoubleValue) <= 0);
@@ -503,7 +505,7 @@ public class DoubleMathTest extends TestCase {
       Iterables.concat(FINITE_TOLERANCE_CANDIDATES, ImmutableList.of(Double.POSITIVE_INFINITY));
 
   private static final List<Double> BAD_TOLERANCE_CANDIDATES =
-      Doubles.asList(-Double.MIN_VALUE, -Double.MIN_NORMAL, -1, -20, Double.NaN,
+      Doubles.asList(-Double.MIN_VALUE, -MIN_NORMAL, -1, -20, Double.NaN,
           Double.NEGATIVE_INFINITY, -0.001);
 
   public void testFuzzyEqualsFinite() {

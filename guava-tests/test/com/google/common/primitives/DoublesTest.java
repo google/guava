@@ -50,10 +50,11 @@ public class DoublesTest extends TestCase {
 
   private static final double LEAST = Double.NEGATIVE_INFINITY;
   private static final double GREATEST = Double.POSITIVE_INFINITY;
+  private static final double MIN_NORMAL = 2.2250738585072014E-308; // Doubles.MIN_NORMAL from 1.6
 
   private static final double[] NUMBERS = new double[] {
       LEAST, -Double.MAX_VALUE, -1.0, -0.5, -0.1, -0.0, 0.0, 0.1, 0.5, 1.0,
-      Double.MAX_VALUE, GREATEST, Double.MIN_NORMAL, -Double.MIN_NORMAL,
+      Double.MAX_VALUE, GREATEST, MIN_NORMAL, -MIN_NORMAL,
       Double.MIN_VALUE, -Double.MIN_VALUE, Integer.MIN_VALUE,
       Integer.MAX_VALUE, Long.MIN_VALUE, Long.MAX_VALUE
   };

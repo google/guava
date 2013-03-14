@@ -17,7 +17,6 @@ package com.google.common.cache;
 import static com.google.common.cache.CacheTesting.checkEmpty;
 import static com.google.common.cache.CacheTesting.checkValidState;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
-import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.truth0.Truth.ASSERT;
 
@@ -31,6 +30,8 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.EqualsTester;
+
+import junit.framework.TestCase;
 
 import junit.framework.TestCase;
 
@@ -319,15 +320,15 @@ public class PopulatedCachesTest extends TestCase {
         .withExpireAfterWrites(ImmutableSet.of(
             // DurationSpec.of(500, MILLISECONDS),
             DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)))
+            DurationSpec.of(24 * 60 * 60 * 1, SECONDS)))
         .withExpireAfterAccesses(ImmutableSet.of(
             // DurationSpec.of(500, MILLISECONDS),
             DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)))
+            DurationSpec.of(24 * 60 * 60 * 1, SECONDS)))
         .withRefreshes(ImmutableSet.of(
             // DurationSpec.of(500, MILLISECONDS),
             DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)));
+            DurationSpec.of(24 * 60 * 60 * 1, SECONDS)));
   }
 
   private List<Map.Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {
