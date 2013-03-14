@@ -17,17 +17,16 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.gwt.core.client.GwtScriptOnly;
 
 /**
  * Version of {@link GwtPlatform} used in hosted-mode.  It includes methods in
  * {@link Platform} that requires different implementions in web mode and
  * hosted mode.  It is factored out from {@link Platform} because <code>
- * {@literal @}GwtScriptOnly</code> only supports public classes and methods.
+ * {@literal @}GwtScriptOnly</code> (which is applied to the emul version)
+ * supports only public classes and methods.
  *
  * @author Hayward Chan
  */
-@GwtScriptOnly
 @GwtCompatible
 public final class GwtPlatform {
 

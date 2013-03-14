@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.gwt.core.client.GwtScriptOnly;
 
 import java.lang.reflect.Array;
 
@@ -27,14 +26,14 @@ import java.lang.reflect.Array;
  * Version of {@link GwtPlatform} used in hosted-mode.  It includes methods in
  * {@link Platform} that requires different implementions in web mode and
  * hosted mode.  It is factored out from {@link Platform} because {@code
- * GwtScriptOnly} only supports public classes and methods.
+ * GwtScriptOnly} (which is applied to the emul version) supports only public
+ * classes and methods.
  *
  * @author Hayward Chan
  */
 // TODO(hhchan): Once we start using server-side source in hosted mode, we won't
 // need this.
 @GwtCompatible(emulated = true)
-@GwtScriptOnly
 public final class GwtPlatform {
 
   private GwtPlatform() {}
