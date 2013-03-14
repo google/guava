@@ -19,6 +19,7 @@ package com.google.common.net;
 import com.google.common.base.Ascii;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
@@ -33,35 +34,43 @@ import java.util.List;
  * @author Kurt Alfred Kluever
  */
 public class HttpHeadersTest extends TestCase {
+
   public void testConstantNameMatchesString() throws Exception {
-    for (Field field : HttpHeaders.class.getDeclaredFields()) {
+    // Special case some of the weird HTTP Header names...
+    ImmutableBiMap<String, String> specialCases = ImmutableBiMap.of("ETAG", "ETag");
+    ImmutableSet<String> uppercaseAcronyms = ImmutableSet.of(
+        "ID", "DNT", "IP", "MD5", "P3P", "TE", "UID", "URL", "WWW", "XSS");
+    assertConstantNameMatchesString(HttpHeaders.class, specialCases, uppercaseAcronyms);
+  }
+
+  // Visible for other tests to use
+  static void assertConstantNameMatchesString(Class clazz,
+      ImmutableBiMap<String, String> specialCases, ImmutableSet<String> uppercaseAcronyms)
+      throws IllegalAccessException {
+    for (Field field : clazz.getDeclaredFields()) {
       /*
        * Coverage mode generates synthetic fields.  If we ever add private
        * fields, they will cause similar problems, and we may want to switch
        * this check to isAccessible().
        */
       if (!field.isSynthetic()) {
-        assertEquals(upperToHttpHeaderName(field.getName()), field.get(null));
+        assertEquals(upperToHttpHeaderName(field.getName(), specialCases, uppercaseAcronyms),
+            field.get(null));
       }
     }
   }
 
-  private static final ImmutableSet<String> UPPERCASE_ACRONYMS = ImmutableSet.of(
-      "ID", "DNT", "GFE", "GSE", "IP", "MD5", "P3P", "TE", "UID", "URL",
-      "WWW", "XSS");
-
   private static final Splitter SPLITTER = Splitter.on('_');
   private static final Joiner JOINER = Joiner.on('-');
 
-  private static String upperToHttpHeaderName(String constantName) {
-    // Special case some of the weird HTTP Header names...
-    if (constantName.equals("ETAG")) {
-      return "ETag";
+  private static String upperToHttpHeaderName(String constantName,
+      ImmutableBiMap<String, String> specialCases, ImmutableSet<String> uppercaseAcronyms) {
+    if (specialCases.containsKey(constantName)) {
+      return specialCases.get(constantName);
     }
-
     List<String> parts = Lists.newArrayList();
     for (String part : SPLITTER.split(constantName)) {
-      if (!UPPERCASE_ACRONYMS.contains(part)) {
+      if (!uppercaseAcronyms.contains(part)) {
         part = part.charAt(0) + Ascii.toLowerCase(part.substring(1));
       }
       parts.add(part);

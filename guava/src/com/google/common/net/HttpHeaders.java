@@ -199,5 +199,4 @@ public final class HttpHeaders {
   public static final String X_USER_IP = "X-User-IP";
   /** The HTTP {@code X-XSS-Protection} header field name. */
   public static final String X_XSS_PROTECTION = "X-XSS-Protection";
-
 }
