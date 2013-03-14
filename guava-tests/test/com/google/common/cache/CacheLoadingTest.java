@@ -20,6 +20,7 @@ import static com.google.common.cache.TestingCacheLoaders.errorLoader;
 import static com.google.common.cache.TestingCacheLoaders.exceptionLoader;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
+import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.truth0.Truth.ASSERT;
@@ -73,6 +74,8 @@ public class CacheLoadingTest extends TestCase {
   @Override
   public void tearDown() throws Exception {
     super.tearDown();
+    // TODO(cpovirk): run tests in other thread instead of messing with main thread interrupt status
+    currentThread().interrupted();
     LocalCache.logger.removeHandler(logHandler);
   }
 
@@ -1169,6 +1172,82 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(0, stats.hitCount());
   }
 
+  public void testLoadInterruptedException() {
+    Exception e = new InterruptedException();
+    CacheLoader<Object, Object> loader = exceptionLoader(e);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
+    CacheStats stats = cache.stats();
+    assertEquals(0, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    // Sanity check:
+    assertFalse(currentThread().interrupted());
+
+    try {
+      cache.get(new Object());
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(e, expected.getCause());
+    }
+    assertTrue(currentThread().interrupted());
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(1, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    try {
+      cache.getUnchecked(new Object());
+      fail();
+    } catch (UncheckedExecutionException expected) {
+      assertSame(e, expected.getCause());
+    }
+    assertTrue(currentThread().interrupted());
+    stats = cache.stats();
+    assertEquals(2, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(2, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    cache.refresh(new Object());
+    assertTrue(currentThread().interrupted());
+    checkLoggedCause(e);
+    stats = cache.stats();
+    assertEquals(2, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(3, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    Exception callableException = new InterruptedException();
+    try {
+      cache.get(new Object(), throwing(callableException));
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(callableException, expected.getCause());
+    }
+    assertTrue(currentThread().interrupted());
+    stats = cache.stats();
+    assertEquals(3, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(4, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    try {
+      cache.getAll(asList(new Object()));
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(e, expected.getCause());
+    }
+    assertTrue(currentThread().interrupted());
+    stats = cache.stats();
+    assertEquals(4, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(5, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+  }
+
   public void testReloadCheckedException() {
     final Object one = new Object();
     final Exception e = new Exception();
@@ -1340,6 +1419,32 @@ public class CacheLoadingTest extends TestCase {
     } catch (ExecutionException expected) {
       assertSame(e, expected.getCause());
     }
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(1, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+  }
+
+  public void testBulkLoadInterruptedException() {
+    Exception e = new InterruptedException();
+    CacheLoader<Object, Object> loader = exceptionLoader(e);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
+        .build(bulkLoader(loader));
+    CacheStats stats = cache.stats();
+    assertEquals(0, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    try {
+      cache.getAll(asList(new Object()));
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(e, expected.getCause());
+    }
+    assertTrue(currentThread().interrupted());
     stats = cache.stats();
     assertEquals(1, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());

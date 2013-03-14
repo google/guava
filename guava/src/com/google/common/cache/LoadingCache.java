@@ -65,7 +65,10 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * <p>If the cache loader associated with this cache is known not to throw checked
    * exceptions, then prefer {@link #getUnchecked} over this method.
    *
-   * @throws ExecutionException if a checked exception was thrown while loading the value
+   * @throws ExecutionException if a checked exception was thrown while loading the value. ({@code
+   *     ExecutionException} is thrown <a
+   *     href="http://code.google.com/p/guava-libraries/wiki/CachesExplained#Interruption">even if
+   *     computation was interrupted by an {@code InterruptedException}</a>.)
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
    *     value
    * @throws ExecutionError if an error was thrown while loading the value
@@ -92,8 +95,8 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * and should not be used with cache loaders which throw checked exceptions. In such cases use
    * {@link #get} instead.
    *
-   * @throws UncheckedExecutionException if an exception was thrown while loading the value,
-   *     regardless of whether the exception was checked or unchecked
+   * @throws UncheckedExecutionException if an exception was thrown while loading the value. (As
+   *     explained in the last paragraph above, this should be an unchecked exception only.)
    * @throws ExecutionError if an error was thrown while loading the value
    */
   V getUnchecked(K key);
@@ -113,7 +116,10 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * <p>Note that duplicate elements in {@code keys}, as determined by {@link Object#equals}, will
    * be ignored.
    *
-   * @throws ExecutionException if a checked exception was thrown while loading the values
+   * @throws ExecutionException if a checked exception was thrown while loading the value. ({@code
+   *     ExecutionException} is thrown <a
+   *     href="http://code.google.com/p/guava-libraries/wiki/CachesExplained#Interruption">even if
+   *     computation was interrupted by an {@code InterruptedException}</a>.)
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
    *     values
    * @throws ExecutionError if an error was thrown while loading the values
@@ -125,9 +131,9 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * Discouraged. Provided to satisfy the {@code Function} interface; use {@link #get} or
    * {@link #getUnchecked} instead.
    *
-   * @throws UncheckedExecutionException if an exception was thrown while loading the value,
-   *     regardless of whether the exception was checked or unchecked
-   * @throws ExecutionError if an error was thrown while loading the value
+   * @throws UncheckedExecutionException if an exception was thrown while loading the value. (As
+   *     described in the documentation for {@link #getUnchecked}, {@code LoadingCache} should be
+   *     used as a {@code Function} only with cache loaders that throw only unchecked exceptions.)
    */
   @Override
   V apply(K key);
