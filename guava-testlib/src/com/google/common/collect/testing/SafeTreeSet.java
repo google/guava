@@ -184,7 +184,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
   }
 
   @Override public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-    return delegate.tailSet(checkValid(fromElement), inclusive);
+    return new SafeTreeSet<E>(delegate.tailSet(checkValid(fromElement), inclusive));
   }
 
   @Override public Object[] toArray() {
