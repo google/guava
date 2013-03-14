@@ -148,7 +148,13 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
    * to this implementation.
    *
    * @since 7.0
+   * @deprecated This implementation is extremely awkward, is rarely worthwhile,
+   * and has been discovered to interact badly with
+   * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6467933 in Java 6
+   * when used with certain null-friendly comparators.  It is scheduled for
+   * deletion in Guava 16.0.
    */
+  @Deprecated
   @Override @Beta protected V standardRemove(@Nullable Object key) {
     try {
       // any CCE will be caught
