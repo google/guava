@@ -451,7 +451,7 @@ public class ClassPathTest extends TestCase {
   }
 
   private static Manifest manifest(String content) throws IOException {
-    InputStream in = new ByteArrayInputStream(content.getBytes(Charsets.US_ASCII));
+    InputStream in = new ByteArrayInputStream(content.getBytes(Charsets.US_ASCII.name()));
     Manifest manifest = new Manifest();
     manifest.read(in);
     return manifest;

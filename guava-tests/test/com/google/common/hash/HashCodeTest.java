@@ -21,11 +21,10 @@ import static com.google.common.io.BaseEncoding.base16;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
+import com.google.common.jdk5backport.Arrays;
 import com.google.common.testing.ClassSanityTester;
 
 import junit.framework.TestCase;
-
-import java.util.Arrays;
 
 /**
  * Unit tests for {@link HashCode}.

@@ -20,6 +20,7 @@ import static org.junit.Assert.assertArrayEquals;
 import junit.framework.TestCase;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 /**
@@ -64,15 +65,15 @@ public class AbstractByteHasherTest extends TestCase {
     hasher.assertBytes(new byte[]{1, 2});
   }
 
-  public void testString() {
+  public void testString() throws UnsupportedEncodingException {
     Random random = new Random();
     for (int i = 0; i < 100; i++) {
       byte[] bytes = new byte[64];
       random.nextBytes(bytes);
-      String s = new String(bytes, UTF_16LE); // so all random strings are valid
+      String s = new String(bytes, UTF_16LE.name()); // so all random strings are valid
       assertEquals(
           new TestHasher().putUnencodedChars(s).hash(),
-          new TestHasher().putBytes(s.getBytes(UTF_16LE)).hash());
+          new TestHasher().putBytes(s.getBytes(UTF_16LE.name())).hash());
       assertEquals(
           new TestHasher().putUnencodedChars(s).hash(),
           new TestHasher().putString(s, UTF_16LE).hash());

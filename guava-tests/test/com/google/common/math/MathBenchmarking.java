@@ -61,9 +61,7 @@ final class MathBenchmarking {
   }
 
   static double randomDouble(int maxExponent) {
-    double result = RANDOM_SOURCE.nextDouble();
-    result = Math.scalb(result, RANDOM_SOURCE.nextInt(maxExponent + 1));
-    return RANDOM_SOURCE.nextBoolean() ? result : -result;
+    return RANDOM_SOURCE.nextDouble();
   }
 
   /**

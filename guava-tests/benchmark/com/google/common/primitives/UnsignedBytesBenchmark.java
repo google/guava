@@ -19,8 +19,8 @@ package com.google.common.primitives;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
+import com.google.common.jdk5backport.Arrays;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 

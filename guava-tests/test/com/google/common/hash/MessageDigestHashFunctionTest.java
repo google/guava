@@ -18,13 +18,12 @@ package com.google.common.hash;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.jdk5backport.Arrays;
 
 import junit.framework.TestCase;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-
 /**
  * Tests for the MessageDigestHashFunction.
  *

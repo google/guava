@@ -23,6 +23,7 @@ import static com.google.common.io.SourceSinkFactory.CharSinkFactory;
 import static com.google.common.io.SourceSinkFactory.CharSourceFactory;
 
 import com.google.common.base.Charsets;
+import com.google.common.jdk5backport.Arrays;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -34,9 +35,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.CharBuffer;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
@@ -76,7 +77,11 @@ public class SourceSinkFactories {
 
   public static ByteSinkFactory appendingFileByteSinkFactory() {
     String initialString = IoTestCase.ASCII + IoTestCase.I18N;
-    return new FileByteSinkFactory(initialString.getBytes(Charsets.UTF_8));
+    try {
+      return new FileByteSinkFactory(initialString.getBytes(Charsets.UTF_8.name()));
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError(e);
+    }
   }
 
   public static CharSourceFactory fileCharSourceFactory() {
@@ -105,13 +110,18 @@ public class SourceSinkFactories {
     return new CharSourceFactory() {
       @Override
       public CharSource createSource(String string) throws IOException {
-        return factory.createSource(string.getBytes(Charsets.UTF_8))
+        return factory.createSource(string.getBytes(Charsets.UTF_8.name()))
             .asCharSource(Charsets.UTF_8);
       }
 
       @Override
       public String getExpected(String data) {
-        return new String(factory.getExpected(data.getBytes(Charsets.UTF_8)), Charsets.UTF_8);
+        try {
+          return new String(factory.getExpected(data.getBytes(Charsets.UTF_8.name())),
+              Charsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+          throw new AssertionError();
+        }
       }
 
       @Override
@@ -131,7 +141,7 @@ public class SourceSinkFactories {
 
       @Override
       public String getSinkContents() throws IOException {
-        return new String(factory.getSinkContents(), Charsets.UTF_8);
+        return new String(factory.getSinkContents(), Charsets.UTF_8.name());
       }
 
       @Override
@@ -141,7 +151,11 @@ public class SourceSinkFactories {
          * string to that.
          */
         byte[] factoryExpectedForNothing = factory.getExpected(new byte[0]);
-        return new String(factoryExpectedForNothing, Charsets.UTF_8) + checkNotNull(data);
+        try {
+          return new String(factoryExpectedForNothing, Charsets.UTF_8.name()) + checkNotNull(data);
+        } catch (UnsupportedEncodingException e) {
+          throw new AssertionError();
+        }
       }
 
       @Override

@@ -29,9 +29,6 @@ import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDAT
 import static java.math.RoundingMode.CEILING;
 import static java.math.RoundingMode.DOWN;
 import static java.math.RoundingMode.FLOOR;
-import static java.math.RoundingMode.HALF_DOWN;
-import static java.math.RoundingMode.HALF_EVEN;
-import static java.math.RoundingMode.HALF_UP;
 import static java.math.RoundingMode.UNNECESSARY;
 import static java.math.RoundingMode.UP;
 import static java.util.Arrays.asList;
@@ -342,35 +339,6 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
-  public void testRoundLog2Half() {
-    // We don't expect perfect rounding accuracy.
-    for (int exp : asList(-1022, -50, -1, 0, 1, 2, 3, 4, 100, 1022, 1023)) {
-      for (RoundingMode mode : asList(HALF_EVEN, HALF_UP, HALF_DOWN)) {
-        double x = Math.scalb(Math.sqrt(2) + 0.001, exp);
-        double y = Math.scalb(Math.sqrt(2) - 0.001, exp);
-        if (exp < 0) {
-          assertEquals(exp + 1, DoubleMath.log2(x, mode));
-          assertEquals(exp, DoubleMath.log2(y, mode));
-        } else {
-          assertEquals(exp + 1, DoubleMath.log2(x, mode));
-          assertEquals(exp, DoubleMath.log2(y, mode));
-        }
-      }
-    }
-  }
-
-  public void testRoundLog2Exact() {
-    for (double x : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
-      boolean isPowerOfTwo = StrictMath.pow(2.0, DoubleMath.log2(x, FLOOR)) == x;
-      try {
-        int log2 = DoubleMath.log2(x, UNNECESSARY);
-        assertEquals(x, Math.scalb(1.0, log2));
-        assertTrue(isPowerOfTwo);
-      } catch (ArithmeticException e) {
-        assertFalse(isPowerOfTwo);
-      }
-    }
-  }
 
   public void testRoundLog2ThrowsOnZerosInfinitiesAndNaN() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
@@ -409,13 +377,6 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
-  public void testLog2Accuracy() {
-    for (double d : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
-      double dmLog2 = DoubleMath.log2(d);
-      double trueLog2 = trueLog2(d);
-      assertTrue(Math.abs(dmLog2 - trueLog2) <= Math.ulp(trueLog2));
-    }
-  }
 
   public void testLog2SemiMonotonic() {
     for (double d : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
@@ -438,23 +399,6 @@ public class DoubleMathTest extends TestCase {
     assertEquals(Double.POSITIVE_INFINITY, DoubleMath.log2(Double.POSITIVE_INFINITY));
     assertTrue(Double.isNaN(DoubleMath.log2(Double.NEGATIVE_INFINITY)));
     assertTrue(Double.isNaN(DoubleMath.log2(Double.NaN)));
-  }
-
-  private strictfp double trueLog2(double d) {
-    double trueLog2 = StrictMath.log(d) / StrictMath.log(2);
-    // increment until it's >= the true value
-    while (StrictMath.pow(2.0, trueLog2) < d) {
-      trueLog2 = StrictMath.nextUp(trueLog2);
-    }
-    // decrement until it's <= the true value
-    while (StrictMath.pow(2.0, trueLog2) > d) {
-      trueLog2 = StrictMath.nextAfter(trueLog2, Double.NEGATIVE_INFINITY);
-    }
-    if (StrictMath.abs(StrictMath.pow(2.0, trueLog2) - d)
-        > StrictMath.abs(StrictMath.pow(2.0, StrictMath.nextUp(trueLog2)) - d)) {
-      trueLog2 = StrictMath.nextUp(trueLog2);
-    }
-    return trueLog2;
   }
 
   public void testIsMathematicalIntegerIntegral() {

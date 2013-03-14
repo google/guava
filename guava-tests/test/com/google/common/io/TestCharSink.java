@@ -21,6 +21,7 @@ import static com.google.common.base.Charsets.UTF_8;
 import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 /**
@@ -37,7 +38,11 @@ public class TestCharSink extends CharSink implements TestStreamSupplier {
   }
 
   public String getString() {
-    return new String(byteSink.getBytes());
+    try {
+      return new String(byteSink.getBytes(), UTF_8.name());
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError();
+    }
   }
 
   @Override

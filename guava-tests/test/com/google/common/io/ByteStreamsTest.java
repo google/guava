@@ -16,7 +16,9 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Charsets.UTF_16;
 import com.google.common.base.Charsets;
+import com.google.common.jdk5backport.Arrays;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -25,10 +27,10 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
-import java.util.Arrays;
 
 /**
  * Unit test for {@link ByteStreams}.
@@ -179,9 +181,9 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(bytes[1], actual[3]);
   }
   
-  public void testNewDataInput_readLine() {
+  public void testNewDataInput_readLine() throws UnsupportedEncodingException {
     ByteArrayDataInput in = ByteStreams.newDataInput(
-        "This is a line\r\nThis too\rand this\nand also this".getBytes(Charsets.UTF_8));
+        "This is a line\r\nThis too\rand this\nand also this".getBytes(Charsets.UTF_8.name()));
     assertEquals("This is a line", in.readLine());
     assertEquals("This too", in.readLine());
     assertEquals("and this", in.readLine());
@@ -201,16 +203,16 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(Double.longBitsToDouble(0x1234567876543210L), in.readDouble(), 0.0);
   }
 
-  public void testNewDataInput_readUTF() {
+  public void testNewDataInput_readUTF() throws UnsupportedEncodingException {
     byte[] data = new byte[17];
     data[1] = 15;
-    System.arraycopy("Kilroy was here".getBytes(Charsets.UTF_8), 0, data, 2, 15);
+    System.arraycopy("Kilroy was here".getBytes(Charsets.UTF_8.name()), 0, data, 2, 15);
     ByteArrayDataInput in = ByteStreams.newDataInput(data);
     assertEquals("Kilroy was here", in.readUTF());
   }
 
-  public void testNewDataInput_readChar() {
-    byte[] data = "qed".getBytes(Charsets.UTF_16BE);
+  public void testNewDataInput_readChar() throws UnsupportedEncodingException {
+    byte[] data = "qed".getBytes(Charsets.UTF_16BE.name());
     ByteArrayDataInput in = ByteStreams.newDataInput(data);
     assertEquals('q', in.readChar());
     assertEquals('e', in.readChar());
@@ -341,18 +343,18 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(new byte[] {0, 97}, out.toByteArray());
   }
 
-  public void testNewDataOutput_writeChars() {
+  public void testNewDataOutput_writeChars() throws UnsupportedEncodingException {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeChars("r\u00C9sum\u00C9");
     // need to remove byte order mark before comparing
-    byte[] expected = Arrays.copyOfRange("r\u00C9sum\u00C9".getBytes(Charsets.UTF_16), 2, 14);
+    byte[] expected = Arrays.copyOfRange("r\u00C9sum\u00C9".getBytes(UTF_16.name()), 2, 14);
     assertEquals(expected, out.toByteArray());
   }
 
-  public void testNewDataOutput_writeUTF() {
+  public void testNewDataOutput_writeUTF() throws UnsupportedEncodingException {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeUTF("r\u00C9sum\u00C9");
-    byte[] expected ="r\u00C9sum\u00C9".getBytes(Charsets.UTF_8);
+    byte[] expected ="r\u00C9sum\u00C9".getBytes(Charsets.UTF_8.name());
     byte[] actual = out.toByteArray();
     // writeUTF writes the length of the string in 2 bytes
     assertEquals(0, actual[0]);

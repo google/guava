@@ -223,7 +223,7 @@ public class MathTesting {
         fractionalBuilder.add(d * scale).add(-d * scale);
       }
     }
-    for (double d : Doubles.asList(0, 1, 2, 7, 51, 102, Math.scalb(1.0f, 53), Integer.MIN_VALUE,
+    for (double d : Doubles.asList(0, 1, 2, 7, 51, 102, Integer.MIN_VALUE,
         Integer.MAX_VALUE, Long.MIN_VALUE, Long.MAX_VALUE)) {
       for (double delta : Doubles.asList(0.0, 1.0, 2.0)) {
         integralBuilder.addAll(Doubles.asList(d + delta, d - delta, -d - delta, -d + delta));
