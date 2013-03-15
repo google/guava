@@ -19,8 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 
-import com.google.common.collect.Maps.ImprovedAbstractMap;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -41,8 +39,7 @@ import javax.annotation.Nullable;
  *
  * @author Hayward Chan
  */
-public abstract class ImmutableMap<K, V> extends ImprovedAbstractMap<K, V>
-    implements Serializable {
+public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   ImmutableMap() {}
 
@@ -193,6 +190,11 @@ public abstract class ImmutableMap<K, V> extends ImprovedAbstractMap<K, V>
   }
 
   @Override
+  public boolean isEmpty() {
+    return size() == 0;
+  }
+
+  @Override
   public boolean containsKey(@Nullable Object key) {
     return get(key) != null;
   }
@@ -202,32 +204,37 @@ public abstract class ImmutableMap<K, V> extends ImprovedAbstractMap<K, V>
     return value != null && Maps.containsValueImpl(this, value);
   }
 
-  @Override
+  private transient ImmutableSet<Entry<K, V>> cachedEntrySet = null;
+
   public final ImmutableSet<Entry<K, V>> entrySet() {
-    return (ImmutableSet<Entry<K, V>>) super.entrySet();
+    if (cachedEntrySet != null) {
+      return cachedEntrySet;
+    }
+    return cachedEntrySet = createEntrySet();
   }
 
-  @Override
   abstract ImmutableSet<Entry<K, V>> createEntrySet();
 
-  @Override
+  private transient ImmutableSet<K> cachedKeySet = null;
+
   public ImmutableSet<K> keySet() {
-    return (ImmutableSet<K>) super.keySet();
+    if (cachedKeySet != null) {
+      return cachedKeySet;
+    }
+    return cachedKeySet = createKeySet();
   }
 
-  @Override
   ImmutableSet<K> createKeySet() {
     return new ImmutableMapKeySet<K, V>(this);
   }
 
-  @Override
-  public ImmutableCollection<V> values() {
-    return (ImmutableCollection<V>) super.values();
-  }
+  private transient ImmutableCollection<V> cachedValues = null;
 
-  @Override
-  ImmutableCollection<V> createValues() {
-    return new ImmutableMapValues<K, V>(this);
+  public ImmutableCollection<V> values() {
+    if (cachedValues != null) {
+      return cachedValues;
+    }
+    return cachedValues = createValues();
   }
 
   // esnickell is editing here
@@ -306,5 +313,23 @@ public abstract class ImmutableMap<K, V> extends ImprovedAbstractMap<K, V>
         return false;
       }
     };
+  }
+
+  ImmutableCollection<V> createValues() {
+    return new ImmutableMapValues<K, V>(this);
+  }
+
+  @Override public boolean equals(@Nullable Object object) {
+    return Maps.equalsImpl(this, object);
+  }
+
+  @Override public int hashCode() {
+    // not caching hash code since it could change if map values are mutable
+    // in a way that modifies their hash codes
+    return entrySet().hashCode();
+  }
+
+  @Override public String toString() {
+    return Maps.toStringImpl(this);
   }
 }

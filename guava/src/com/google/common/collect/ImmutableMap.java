@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMapEntry.TerminalEntry;
-import com.google.common.collect.Maps.ImprovedAbstractMap;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -59,8 +58,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableMap<K, V> extends ImprovedAbstractMap<K, V>
-    implements Serializable {
+public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   /**
    * Returns the empty map. This map behaves and performs comparably to
@@ -133,7 +131,7 @@ public abstract class ImmutableMap<K, V> extends ImprovedAbstractMap<K, V>
    * throw {@link UnsupportedOperationException}.
    */
   static <K, V> TerminalEntry<K, V> entryOf(K key, V value) {
-    // the TerminalEntry constructor checks for null
+    checkEntryNotNull(key, value);
     return new TerminalEntry<K, V>(key, value);
   }
 
@@ -365,6 +363,11 @@ public abstract class ImmutableMap<K, V> extends ImprovedAbstractMap<K, V>
   }
 
   @Override
+  public boolean isEmpty() {
+    return size() == 0;
+  }
+
+  @Override
   public boolean containsKey(@Nullable Object key) {
     return get(key) != null;
   }
@@ -378,17 +381,21 @@ public abstract class ImmutableMap<K, V> extends ImprovedAbstractMap<K, V>
   @Override
   public abstract V get(@Nullable Object key);
 
+  private transient ImmutableSet<Entry<K, V>> entrySet;
+
   /**
    * Returns an immutable set of the mappings in this map. The entries are in
    * the same order as the parameters used to build this map.
    */
   @Override
   public ImmutableSet<Entry<K, V>> entrySet() {
-    return (ImmutableSet<Entry<K, V>>) super.entrySet();
+    ImmutableSet<Entry<K, V>> result = entrySet;
+    return (result == null) ? entrySet = createEntrySet() : result;
   }
 
-  @Override
   abstract ImmutableSet<Entry<K, V>> createEntrySet();
+
+  private transient ImmutableSet<K> keySet;
 
   /**
    * Returns an immutable set of the keys in this map. These keys are in
@@ -396,13 +403,15 @@ public abstract class ImmutableMap<K, V> extends ImprovedAbstractMap<K, V>
    */
   @Override
   public ImmutableSet<K> keySet() {
-    return (ImmutableSet<K>) super.keySet();
+    ImmutableSet<K> result = keySet;
+    return (result == null) ? keySet = createKeySet() : result;
   }
 
-  @Override
   ImmutableSet<K> createKeySet() {
     return new ImmutableMapKeySet<K, V>(this);
   }
+
+  private transient ImmutableCollection<V> values;
 
   /**
    * Returns an immutable collection of the values in this map. The values are
@@ -410,12 +419,8 @@ public abstract class ImmutableMap<K, V> extends ImprovedAbstractMap<K, V>
    */
   @Override
   public ImmutableCollection<V> values() {
-    return (ImmutableCollection<V>) super.values();
-  }
-
-  @Override
-  ImmutableCollection<V> createValues() {
-    return new ImmutableMapValues<K, V>(this);
+    ImmutableCollection<V> result = values;
+    return (result == null) ? values = new ImmutableMapValues<K, V>(this) : result;
   }
 
   // cached so that this.multimapView().inverse() only computes inverse once
@@ -498,12 +503,20 @@ public abstract class ImmutableMap<K, V> extends ImprovedAbstractMap<K, V>
     }
   }
 
+  @Override public boolean equals(@Nullable Object object) {
+    return Maps.equalsImpl(this, object);
+  }
+
   abstract boolean isPartialView();
 
   @Override public int hashCode() {
     // not caching hash code since it could change if map values are mutable
     // in a way that modifies their hash codes
     return entrySet().hashCode();
+  }
+
+  @Override public String toString() {
+    return Maps.toStringImpl(this);
   }
 
   /**
