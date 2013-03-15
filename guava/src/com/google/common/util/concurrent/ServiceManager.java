@@ -717,7 +717,7 @@ public final class ServiceManager {
     }
     
     /** Returns the amount of time it took for the service to finish starting in milliseconds. */
-    synchronized long startupTimeMillis() {
+    long startupTimeMillis() {
       synchronized (watch) {
         return watch.elapsed(MILLISECONDS);
       }
