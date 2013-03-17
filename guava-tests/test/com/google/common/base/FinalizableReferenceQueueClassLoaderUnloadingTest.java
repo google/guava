@@ -26,7 +26,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.CodeSource;
 import java.security.Permission;
+import java.security.PermissionCollection;
 import java.security.Policy;
 import java.security.ProtectionDomain;
 import java.util.concurrent.Callable;
@@ -74,6 +76,16 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
     @Override
     public boolean implies(ProtectionDomain pd, Permission perm) {
       return true;
+    }
+
+    @Override
+    public PermissionCollection getPermissions(CodeSource codesource) {
+      throw new AssertionError();
+    }
+
+    @Override
+    public void refresh() {
+      throw new AssertionError();
     }
   }
 
