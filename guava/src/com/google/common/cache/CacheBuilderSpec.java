@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Ascii;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.cache.LocalCache.Strength;
@@ -51,7 +50,7 @@ import javax.annotation.Nullable;
  * <li>{@code weakKeys}: sets {@link CacheBuilder#weakKeys}.
  * <li>{@code softValues}: sets {@link CacheBuilder#softValues}.
  * <li>{@code weakValues}: sets {@link CacheBuilder#weakValues}.
- * <li>{@code recordStats=[TRUE|FALSE]}: sets {@link CacheBuilder#recordStats}.
+ * <li>{@code recordStats}: sets {@link CacheBuilder#recordStats}.
  * </ul>
  *
  * The set of supported keys will grow as {@code CacheBuilder} evolves, but existing keys
@@ -316,25 +315,6 @@ public final class CacheBuilderSpec {
     }
   }
 
-  /** Base class for parsing boolean values. */
-  abstract static class BooleanParser implements ValueParser {
-    protected abstract void parseBoolean(CacheBuilderSpec spec, boolean value);
-
-    @Override
-    public void parse(CacheBuilderSpec spec, String key, String value) {
-      checkArgument(value != null && !value.isEmpty(), "value of key %s omitted", key);
-      value = Ascii.toLowerCase(value);
-      if (value.equals("true")) {
-        parseBoolean(spec, true);
-      } else if (value.equals("false")) {
-        parseBoolean(spec, false);
-      } else {
-        throw new IllegalArgumentException(
-            String.format("key %s value set to %s, must be TRUE | FALSE", key, value));
-      }
-    }
-  }
-
   /** Parse initialCapacity */
   static class InitialCapacityParser extends IntegerParser {
     @Override
@@ -414,10 +394,13 @@ public final class CacheBuilderSpec {
   }
 
   /** Parse recordStats */
-  static class RecordStatsParser extends BooleanParser {
-    @Override protected void parseBoolean(CacheBuilderSpec spec, boolean value) {
+  static class RecordStatsParser implements ValueParser {
+
+    @Override
+    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {
+      checkArgument(value == null, "recordStats does not take values");
       checkArgument(spec.recordStats == null, "recordStats already set");
-      spec.recordStats = value;
+      spec.recordStats = true;
     }
   }
 

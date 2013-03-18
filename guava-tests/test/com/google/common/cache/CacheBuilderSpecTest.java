@@ -354,38 +354,15 @@ public class CacheBuilderSpecTest extends TestCase {
     }
   }
 
-  public void testParse_recordStatsTrue() {
-    CacheBuilderSpec spec = parse("recordStats=true");
-    assertTrue(spec.recordStats);
-    spec = parse("recordStats=TRUE");
-    assertTrue(spec.recordStats);
-    spec = parse("recordStats=TrUe");
+  public void testParse_recordStats() {
+    CacheBuilderSpec spec = parse("recordStats");
     assertTrue(spec.recordStats);
     assertCacheBuilderEquivalence(CacheBuilder.newBuilder().recordStats(), CacheBuilder.from(spec));
   }
 
-  public void testParse_recordStatsFalse() {
-    CacheBuilderSpec spec = parse("recordStats=false");
-    assertFalse(spec.recordStats);
-    spec = parse("recordStats=FaLsE");
-    assertFalse(spec.recordStats);
-    spec = parse("recordStats=FALSE");
-    assertFalse(spec.recordStats);
-    assertCacheBuilderEquivalence(CacheBuilder.newBuilder(), CacheBuilder.from(spec));
-  }
-
-  public void testParse_recordStatsValueUnspecified() {
+  public void testParse_recordStatsValueSpecified() {
     try {
-      parse("recordStats=");
-      fail("Expected exception");
-    } catch (IllegalArgumentException expected) {
-      // expected
-    }
-  }
-
-  public void testParse_recordStatsInvalidValueUnspecified() {
-    try {
-      parse("recordStats=Fals");
+      parse("recordStats=True");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
       // expected
@@ -394,7 +371,7 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_recordStatsRepeated() {
     try {
-      parse("recordStats,recordStats=false");
+      parse("recordStats,recordStats");
       fail("Expected exception");
     } catch (IllegalArgumentException expected) {
       // expected
@@ -509,8 +486,7 @@ public class CacheBuilderSpecTest extends TestCase {
         .addEqualityGroup(parse("weakKeys"), parse("weakKeys"))
         .addEqualityGroup(parse("softValues"), parse("softValues"))
         .addEqualityGroup(parse("weakValues"), parse("weakValues"))
-        .addEqualityGroup(parse("recordStats=true"), parse("recordStats=True"))
-        .addEqualityGroup(parse("recordStats=false"), parse("recordStats=False"))
+        .addEqualityGroup(parse("recordStats"), parse("recordStats"))
         .testEquals();
   }
 
