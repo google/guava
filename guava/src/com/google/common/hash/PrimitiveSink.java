@@ -92,8 +92,18 @@ public interface PrimitiveSink {
 
   /**
    * Puts a string into this sink.
+   *
+   * @deprecated Use {PrimitiveSink#putUnencodedChars} instead.
    */
+  @Deprecated
   PrimitiveSink putString(CharSequence charSequence);
+
+  /**
+   * Puts each 16-bit code unit from the {@link CharSequence} into this sink.
+   *
+   * @since 15.0 (since 11.0 as putString(CharSequence))
+   */
+  PrimitiveSink putUnencodedChars(CharSequence charSequence);
 
   /**
    * Puts a string into this sink using the given charset.

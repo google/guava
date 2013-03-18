@@ -18,7 +18,7 @@ import java.nio.charset.Charset;
 
 /**
  * An abstract hasher, implementing {@link #putBoolean(boolean)}, {@link #putDouble(double)},
- * {@link #putFloat(float)}, {@link #putString(CharSequence)}, and
+ * {@link #putFloat(float)}, {@link #putUnencodedChars(CharSequence)}, and
  * {@link #putString(CharSequence, Charset)} as prescribed by {@link Hasher}.
  *
  * @author Dimitris Andreou
@@ -36,7 +36,15 @@ abstract class AbstractHasher implements Hasher {
     return putInt(Float.floatToRawIntBits(f));
   }
 
+  /**
+   * @deprecated Use {@link AbstractHasher#putUnencodedChars} instead.
+   */
+  @Deprecated
   @Override public Hasher putString(CharSequence charSequence) {
+    return putUnencodedChars(charSequence);
+  }
+
+  @Override public Hasher putUnencodedChars(CharSequence charSequence) {
     for (int i = 0, len = charSequence.length(); i < len; i++) {
       putChar(charSequence.charAt(i));
     }
