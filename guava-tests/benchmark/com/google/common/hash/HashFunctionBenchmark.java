@@ -20,7 +20,6 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.runner.CaliperMain;
 import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
 
 import java.util.Random;
 
@@ -30,53 +29,33 @@ import java.util.Random;
  * <p>Parameters for the benchmark are:
  * <ul>
  * <li>size: The length of the byte array to hash.
+ * <li>hashFunctionEnum: The {@link HashFunction} to use for hashing.
  * </ul>
  *
  * @author Kurt Alfred Kluever
  */
 public class HashFunctionBenchmark extends Benchmark {
 
-  // Use a constant seed for all of the benchmarks to ensure apples to apples comparisons.
-  private static final int RANDOM_SEED = new Random().nextInt();
+  // Use a statically configured random instance for all of the benchmarks
+  private static final Random random = new Random(42);
 
   @Param({"10", "1000", "100000", "1000000"})
   private int size;
+
+  @Param HashFunctionEnum hashFunctionEnum;
 
   private byte[] testBytes;
 
   @Override public void setUp() {
     testBytes = new byte[size];
-    new Random(RANDOM_SEED).nextBytes(testBytes);
+    random.nextBytes(testBytes);
   }
 
-  public int timeMurmur32HashFunction(int reps) {
-    return runHashFunction(reps, Hashing.murmur3_32());
-  }
-
-  public int timeMurmur128HashFunction(int reps) {
-    return runHashFunction(reps, Hashing.murmur3_128());
-  }
-
-  public int timeMd5HashFunction(int reps) {
-    return runHashFunction(reps, Hashing.md5());
-  }
-
-  public int timeSha1HashFunction(int reps) {
-    return runHashFunction(reps, Hashing.sha1());
-  }
-
-  public int timeSha256HashFunction(int reps) {
-    return runHashFunction(reps, Hashing.sha256());
-  }
-
-  public int timeSha512HashFunction(int reps) {
-    return runHashFunction(reps, Hashing.sha512());
-  }
-
-  private int runHashFunction(int reps, HashFunction hashFunction) {
+  public int timeHashFunction(int reps) {
+    HashFunction hashFunction = hashFunctionEnum.getHashFunction();
     int result = 37;
     for (int i = 0; i < reps; i++) {
-      result ^= hashFunction.hashBytes(testBytes).asInt();
+      result ^= hashFunction.hashBytes(testBytes).asBytes()[0];
     }
     return result;
   }
