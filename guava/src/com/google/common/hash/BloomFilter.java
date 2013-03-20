@@ -281,7 +281,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
      * TODO(user): Put a warning in the javadoc about tiny fpp values,
      * since the resulting size is proportional to -log(p), but there is not
      * much of a point after all, e.g. optimalM(1000, 0.0000000000000001) = 76680
-     * which is less that 10kb. Who cares!
+     * which is less than 10kb. Who cares!
      */
     long numBits = optimalNumOfBits(expectedInsertions, fpp);
     int numHashFunctions = optimalNumOfHashFunctions(expectedInsertions, numBits);
@@ -319,7 +319,6 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * m: total bits
    * n: expected insertions
    * b: m/n, bits per insertion
-
    * p: expected false positive probability
    *
    * 1) Optimal k = b * ln2
