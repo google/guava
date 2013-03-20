@@ -536,7 +536,7 @@ final class HashTestUtils {
     byte[] bytes = new byte[size];
     random.nextBytes(bytes);
     String string = new String(bytes);
-    assertEquals(hashFunction.hashString(string),
+    assertEquals(hashFunction.hashUnencodedChars(string),
         hashFunction.newHasher().putString(string).hash());
     // These assertions causes failures when testing with mvn. See b/6657789
     // assertEquals(hashFunction.hashString(string),
@@ -562,7 +562,7 @@ final class HashTestUtils {
       chars[i] = random.nextBoolean() ? randomLowSurrogate(random) : randomHighSurrogate(random);
     }
     String string = new String(chars);
-    assertEquals(hashFunction.hashString(string),
+    assertEquals(hashFunction.hashUnencodedChars(string),
         hashFunction.newHasher().putString(string).hash());
   }
 

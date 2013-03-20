@@ -44,12 +44,13 @@ public class Murmur3Hash32Test extends TestCase {
   }
 
   public void testKnownStringInputs() {
-    assertHash(0, murmur3_32().hashString(""));
-    assertHash(679745764, murmur3_32().hashString("k"));
-    assertHash(1510782915, murmur3_32().hashString("hell"));
-    assertHash(-675079799, murmur3_32().hashString("hello"));
-    assertHash(1935035788, murmur3_32().hashString("http://www.google.com/"));
-    assertHash(-528633700, murmur3_32().hashString("The quick brown fox jumps over the lazy dog"));
+    assertHash(0, murmur3_32().hashUnencodedChars(""));
+    assertHash(679745764, murmur3_32().hashUnencodedChars("k"));
+    assertHash(1510782915, murmur3_32().hashUnencodedChars("hell"));
+    assertHash(-675079799, murmur3_32().hashUnencodedChars("hello"));
+    assertHash(1935035788, murmur3_32().hashUnencodedChars("http://www.google.com/"));
+    assertHash(-528633700, 
+        murmur3_32().hashUnencodedChars("The quick brown fox jumps over the lazy dog"));
   }
 
   private static void assertHash(int expected, HashCode actual) {
