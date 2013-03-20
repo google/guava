@@ -27,6 +27,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
+import com.google.common.base.Function;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
@@ -2389,8 +2390,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
             public void run() {
               try {
                 V newValue = getAndRecordStats(key, hash, loadingValueReference, loadingFuture);
-                // update loadingFuture for the sake of other pending requests
-                loadingValueReference.set(newValue);
               } catch (Throwable t) {
                 logger.log(Level.WARNING, "Exception thrown during refresh", t);
                 loadingValueReference.setException(t);
@@ -3598,11 +3597,20 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         if (previousValue == null) {
           V newValue = loader.load(key);
           return set(newValue) ? futureValue : Futures.immediateFuture(newValue);
-        } else {
-          ListenableFuture<V> newValue = loader.reload(key, previousValue);
-          // rely on loadAsync to call set in order to avoid adding a second listener here
-          return newValue != null ? newValue : Futures.<V>immediateFuture(null);
         }
+        ListenableFuture<V> newValue = loader.reload(key, previousValue);
+        if (newValue == null) {
+          return Futures.immediateFuture(null);
+        }
+        // To avoid a race, make sure the refreshed value is set into loadingValueReference
+        // *before* returning newValue from the cache query.
+        return Futures.transform(newValue, new Function<V, V>() {
+          @Override
+          public V apply(V newValue) {
+            LoadingValueReference.this.set(newValue);
+            return newValue;
+          }
+        });
       } catch (Throwable t) {
         if (t instanceof InterruptedException) {
           Thread.currentThread().interrupt();
