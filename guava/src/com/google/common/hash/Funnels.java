@@ -122,7 +122,7 @@ public final class Funnels {
       private Object readResolve() {
         return stringFunnel(Charset.forName(charsetCanonicalName));
       }
-
+    
       private static final long serialVersionUID = 0;
     }
   }
@@ -151,8 +151,10 @@ public final class Funnels {
   /**
    * Returns a funnel that processes an {@code Iterable} by funneling its elements in iteration
    * order with the specified funnel.  No separators are added between the elements.
-   */ static <E>
-      Funnel<Iterable<? extends E>> sequentialFunnel(Funnel<E> elementFunnel) {
+   *
+   * @since 15.0
+   */
+  public static <E> Funnel<Iterable<? extends E>> sequentialFunnel(Funnel<E> elementFunnel) {
     return new SequentialFunnel<E>(elementFunnel);
   }
 
@@ -188,45 +190,45 @@ public final class Funnels {
 
   /**
    * Returns a funnel for longs.
-   *
+   * 
    * @since 13.0
    */
   public static Funnel<Long> longFunnel() {
     return LongFunnel.INSTANCE;
   }
-
+  
   private enum LongFunnel implements Funnel<Long> {
     INSTANCE;
-
+    
     public void funnel(Long from, PrimitiveSink into) {
       into.putLong(from);
     }
-
+    
     @Override public String toString() {
       return "Funnels.longFunnel()";
     }
   }
-
+  
   /**
    * Wraps a {@code PrimitiveSink} as an {@link OutputStream}, so it is easy to
    * {@link Funnel#funnel funnel} an object to a {@code PrimitiveSink}
-   * if there is already a way to write the contents of the object to an {@code OutputStream}.
-   *
+   * if there is already a way to write the contents of the object to an {@code OutputStream}.  
+   * 
    * <p>The {@code close} and {@code flush} methods of the returned {@code OutputStream}
    * do nothing, and no method throws {@code IOException}.
-   *
+   * 
    * @since 13.0
    */
   public static OutputStream asOutputStream(PrimitiveSink sink) {
     return new SinkAsStream(sink);
   }
-
+  
   private static class SinkAsStream extends OutputStream {
     final PrimitiveSink sink;
     SinkAsStream(PrimitiveSink sink) {
       this.sink = Preconditions.checkNotNull(sink);
     }
-
+    
     @Override public void write(int b) {
       sink.putByte((byte) b);
     }
@@ -238,7 +240,7 @@ public final class Funnels {
     @Override public void write(byte[] bytes, int off, int len) {
       sink.putBytes(bytes, off, len);
     }
-
+    
     @Override public String toString() {
       return "Funnels.asOutputStream(" + sink + ")";
     }
