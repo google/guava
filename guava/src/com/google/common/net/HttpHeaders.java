@@ -168,6 +168,11 @@ public final class HttpHeaders {
   public static final String SET_COOKIE = "Set-Cookie";
   /** The HTTP {@code Set-Cookie2} header field name. */
   public static final String SET_COOKIE2 = "Set-Cookie2";
+  /**
+   * The HTTP <a href="http://www.w3.org/TR/resource-timing/#cross-origin-resources">
+   * {@code Timing-Allow-Origin}</a> header field name.
+   */
+  public static final String TIMING_ALLOW_ORIGIN = "Timing-Allow-Origin";
   /** The HTTP {@code Trailer} header field name. */
   public static final String TRAILER = "Trailer";
   /** The HTTP {@code Transfer-Encoding} header field name. */
