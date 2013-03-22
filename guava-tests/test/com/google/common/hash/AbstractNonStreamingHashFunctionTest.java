@@ -87,7 +87,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
     for (int i = 0; i < s.length(); i++) {
       h1.putChar(s.charAt(i));
     }
-    h2.putString(s);
+    h2.putUnencodedChars(s);
     assertEquals(h1.hash(), h2.hash());
   }
 

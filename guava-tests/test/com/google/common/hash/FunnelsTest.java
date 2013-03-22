@@ -53,7 +53,7 @@ public class FunnelsTest extends TestCase {
   public void testForStrings() {
     PrimitiveSink bytePrimitiveSink = mock(PrimitiveSink.class);
     Funnels.stringFunnel().funnel("test", bytePrimitiveSink);
-    verify(bytePrimitiveSink).putString("test");
+    verify(bytePrimitiveSink).putUnencodedChars("test");
   }
 
   public void testForStrings_null() {

@@ -181,7 +181,7 @@ final class HashTestUtils {
         }
         String s = new String(value);
         for (PrimitiveSink sink : sinks) {
-          sink.putString(s);
+          sink.putUnencodedChars(s);
         }
       }
     },
@@ -189,7 +189,7 @@ final class HashTestUtils {
       @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         String s = new String(new char[] { randomLowSurrogate(random) });
         for (PrimitiveSink sink : sinks) {
-          sink.putString(s);
+          sink.putUnencodedChars(s);
         }
       }
     },
@@ -197,7 +197,7 @@ final class HashTestUtils {
       @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         String s = new String(new char[] { randomHighSurrogate(random) });
         for (PrimitiveSink sink : sinks) {
-          sink.putString(s);
+          sink.putUnencodedChars(s);
         }
       }
     },
@@ -206,7 +206,7 @@ final class HashTestUtils {
         String s = new String(new char[] {
             randomLowSurrogate(random), randomHighSurrogate(random)});
         for (PrimitiveSink sink : sinks) {
-          sink.putString(s);
+          sink.putUnencodedChars(s);
         }
       }
     },
@@ -215,7 +215,7 @@ final class HashTestUtils {
         String s = new String(new char[] {
             randomHighSurrogate(random), randomLowSurrogate(random)});
         for (PrimitiveSink sink : sinks) {
-          sink.putString(s);
+          sink.putUnencodedChars(s);
         }
       }
     };
@@ -523,12 +523,13 @@ final class HashTestUtils {
     // Test that only data and data-order is important, not the individual operations.
     new EqualsTester()
         .addEqualityGroup(
-            hashFunction.newHasher().putString("abc").hash(),
-            hashFunction.newHasher().putString("ab").putString("c").hash(),
-            hashFunction.newHasher().putString("a").putString("bc").hash(),
-            hashFunction.newHasher().putString("a").putString("b").putString("c").hash(),
-            hashFunction.newHasher().putChar('a').putString("bc").hash(),
-            hashFunction.newHasher().putString("ab").putChar('c').hash(),
+            hashFunction.newHasher().putUnencodedChars("abc").hash(),
+            hashFunction.newHasher().putUnencodedChars("ab").putUnencodedChars("c").hash(),
+            hashFunction.newHasher().putUnencodedChars("a").putUnencodedChars("bc").hash(),
+            hashFunction.newHasher().putUnencodedChars("a").putUnencodedChars("b")
+                .putUnencodedChars("c").hash(),
+            hashFunction.newHasher().putChar('a').putUnencodedChars("bc").hash(),
+            hashFunction.newHasher().putUnencodedChars("ab").putChar('c').hash(),
             hashFunction.newHasher().putChar('a').putChar('b').putChar('c').hash())
         .testEquals();
 
@@ -537,12 +538,12 @@ final class HashTestUtils {
     random.nextBytes(bytes);
     String string = new String(bytes);
     assertEquals(hashFunction.hashUnencodedChars(string),
-        hashFunction.newHasher().putString(string).hash());
+        hashFunction.newHasher().putUnencodedChars(string).hash());
     // These assertions causes failures when testing with mvn. See b/6657789
-    // assertEquals(hashFunction.hashString(string),
+    // assertEquals(hashFunction.hashUnencodedChars(string),
     //     hashFunction.hashString(string, Charsets.UTF_16LE));
-    // assertEquals(hashFunction.hashString(string),
-    //     hashFunction.newHasher().putString(string, Charsets.UTF_16LE).hash());
+    // assertEquals(hashFunction.hashUnencodedChars(string),
+    //     hashFunction.newHasher().putUnencodedChars(string, Charsets.UTF_16LE).hash());
     for (Charset charset : CHARSETS) {
       assertEquals(hashFunction.hashString(string, charset),
           hashFunction.newHasher().putString(string, charset).hash());
@@ -550,9 +551,9 @@ final class HashTestUtils {
   }
 
   /**
-   * This verifies that putString(String) and hashString(String) are equivalent, even for
-   * funny strings composed by (possibly unmatched, and mostly illegal) surrogate characters.
-   * (But doesn't test that they do the right thing - just their consistency).
+   * This verifies that putUnencodedChars(String) and hashUnencodedChars(String) are equivalent,
+   * even for funny strings composed by (possibly unmatched, and mostly illegal) surrogate
+   * characters. (But doesn't test that they do the right thing - just their consistency).
    */
   private static void assertHashStringWithSurrogatesEquivalence(
       HashFunction hashFunction, Random random) {
@@ -563,7 +564,7 @@ final class HashTestUtils {
     }
     String string = new String(chars);
     assertEquals(hashFunction.hashUnencodedChars(string),
-        hashFunction.newHasher().putString(string).hash());
+        hashFunction.newHasher().putUnencodedChars(string).hash());
   }
 
   static char randomLowSurrogate(Random random) {

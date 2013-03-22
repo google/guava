@@ -63,7 +63,7 @@ public final class Funnels {
     INSTANCE;
 
     public void funnel(CharSequence from, PrimitiveSink into) {
-      into.putString(from);
+      into.putUnencodedChars(from);
     }
 
     @Override public String toString() {
