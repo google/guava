@@ -37,6 +37,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
@@ -1610,8 +1611,7 @@ public final class Futures {
             for (Optional<V> element : values) {
               result.add(element != null ? element.orNull() : null);
             }
-            // TODO(user): This should ultimately return an unmodifiableList
-            return result;
+            return Collections.unmodifiableList(result);
           }
         });
   }
