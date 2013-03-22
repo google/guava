@@ -132,8 +132,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   }
 
   /**
-   * Tests all top-level public {@link Serializable} classes in the package. For a serializable
-   * Class {@code C}:
+   * Tests all top-level {@link Serializable} classes in the package. For a serializable Class
+   * {@code C}:
    * <ul>
    * <li>If {@code C} explicitly implements {@link Object#equals}, the deserialized instance will be
    *     checked to be equal to the instance before serialization.
@@ -146,9 +146,9 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    *     assumption, in which case the equality check before and after serialization will fail.
    * <li>If the constructor or factory method takes a parameter that {@link
    *     AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
-   * <li>If there is no public constructor or public static factory method declared by {@code C},
+   * <li>If there is no visible constructor or visible static factory method declared by {@code C},
    *     {@code C} is skipped for serialization test, even if it implements {@link Serializable}.
-   * <li>Serialization test is not performed on method return values unless the method is a public
+   * <li>Serialization test is not performed on method return values unless the method is a visible
    *     static factory method whose return type is {@code C} or {@code C}'s subtype.
    * </ul>
    *
@@ -179,19 +179,19 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   }
 
   /**
-   * Performs {@link NullPointerTester} checks for all top-level public classes in the package. For
-   * a class {@code C}
+   * Performs {@link NullPointerTester} checks for all top-level classes in the package. For a class
+   * {@code C}
    * <ul>
-   * <li>All public static methods are checked such that passing null for any parameter that's not
+   * <li>All visible static methods are checked such that passing null for any parameter that's not
    *     annotated with {@link javax.annotation.Nullable} should throw {@link NullPointerException}.
-   * <li>If there is any public constructor or public static factory method declared by the class,
-   *     all public instance methods will be checked too using the instance created by invoking the
+   * <li>If there is any visible constructor or visible static factory method declared by the class,
+   *     all visible instance methods will be checked too using the instance created by invoking the
    *     constructor or static factory method.
    * <li>If the constructor or factory method used to construct instance takes a parameter that
    *     {@link AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
-   * <li>If there is no public constructor or public static factory method declared by {@code C},
+   * <li>If there is no visible constructor or visible static factory method declared by {@code C},
    *     instance methods are skipped for nulls test.
-   * <li>Nulls test is not performed on method return values unless the method is a public static
+   * <li>Nulls test is not performed on method return values unless the method is a visible static
    *     factory method whose return type is {@code C} or {@code C}'s subtype.
    * </ul>
    *
@@ -212,22 +212,22 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   }
 
   /**
-   * Tests {@code equals()} and {@code hashCode()} implementations for every top-level public class
-   * in the package, that explicitly implements {@link Object#equals}. For a class {@code C}:
+   * Tests {@code equals()} and {@code hashCode()} implementations for every top-level class in the
+   * package, that explicitly implements {@link Object#equals}. For a class {@code C}:
    * <ul>
-   * <li>The public constructor or public static factory method with the most parameters is used to
-   *     construct the sample instances. In case of tie, the candidate constructors or factories are
-   *     tried one after another until one can be used to construct sample instances.
+   * <li>The visible constructor or visible static factory method with the most parameters is used
+   *     to construct the sample instances. In case of tie, the candidate constructors or factories
+   *     are tried one after another until one can be used to construct sample instances.
    * <li>For the constructor or static factory method used to construct instances, it's checked that
    *     when equal parameters are passed, the result instance should also be equal; and vice versa.
    * <li>Inequality check is not performed against state mutation methods such as {@link List#add},
    *     or functional update methods such as {@link com.google.common.base.Joiner#skipNulls}.
    * <li>If the constructor or factory method used to construct instance takes a parameter that
    *     {@link AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
-   * <li>If there is no public constructor or public static factory method declared by {@code C},
+   * <li>If there is no visible constructor or visible static factory method declared by {@code C},
    *     {@code C} is skipped for equality test.
-   * <li>Equality test is not performed on method return values unless the method is a public static
-   *     factory method whose return type is {@code C} or {@code C}'s subtype.
+   * <li>Equality test is not performed on method return values unless the method is a visible
+   *     static factory method whose return type is {@code C} or {@code C}'s subtype.
    * </ul>
    *
    * In all cases, if {@code C} needs custom logic for testing {@code equals()}, you can add an
