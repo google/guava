@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -48,16 +49,18 @@ import javax.annotation.Nullable;
  * means such as an annotation or external configuration file.
  *
  * @author Ben Yu
+ * @since 15.0
  */
-class TypeResolver {
+@Beta
+public final class TypeResolver {
 
-  private final ImmutableMap<TypeVariable<?>, Type> typeTable;
+  private final TypeTable typeTable;
 
   public TypeResolver() {
-    this.typeTable = ImmutableMap.of();
+    this.typeTable = new TypeTable();
   }
 
-  private TypeResolver(ImmutableMap<TypeVariable<?>, Type> typeTable) {
+  private TypeResolver(TypeTable typeTable) {
     this.typeTable = typeTable;
   }
 
@@ -84,23 +87,15 @@ class TypeResolver {
    *        other type variables, in which case these type variables will be further resolved if
    *        corresponding mappings exist in the current {@code TypeResolver} instance.
    */
-  public final TypeResolver where(Type formal, Type actual) {
+  public TypeResolver where(Type formal, Type actual) {
     Map<TypeVariable<?>, Type> mappings = Maps.newHashMap();
     populateTypeMappings(mappings, checkNotNull(formal), checkNotNull(actual));
     return where(mappings);
   }
 
   /** Returns a new {@code TypeResolver} with {@code variable} mapping to {@code type}. */
-  final TypeResolver where(Map<? extends TypeVariable<?>, ? extends Type> mappings) {
-    ImmutableMap.Builder<TypeVariable<?>, Type> builder = ImmutableMap.builder();
-    builder.putAll(typeTable);
-    for (Map.Entry<? extends TypeVariable<?>, ? extends Type> mapping : mappings.entrySet()) {
-      TypeVariable<?> variable = mapping.getKey();
-      Type type = mapping.getValue();
-      checkArgument(!variable.equals(type), "Type variable %s bound to itself", variable);
-      builder.put(variable, type);
-    }
-    return new TypeResolver(builder.build());
+  TypeResolver where(Map<? extends TypeVariable<?>, ? extends Type> mappings) {
+    return new TypeResolver(typeTable.where(mappings));
   }
 
   private static void populateTypeMappings(
@@ -151,7 +146,7 @@ class TypeResolver {
    * Resolves all type variables in {@code type} and all downstream types and
    * returns a corresponding type with type variables resolved.
    */
-  public final Type resolveType(Type type) {
+  public Type resolveType(Type type) {
     checkNotNull(type);
     if (type instanceof TypeVariable) {
       return resolveTypeVariable((TypeVariable<?>) type);
@@ -184,38 +179,16 @@ class TypeResolver {
   }
 
   private Type resolveTypeVariable(final TypeVariable<?> var) {
-    final TypeResolver unguarded = this;
-    TypeResolver guarded = new TypeResolver(typeTable) {
-      @Override Type resolveTypeVariable(
+    TypeResolver guarded = new TypeResolver(new TypeTable(typeTable) {
+      @Override public Type resolveTypeVariable(
           TypeVariable<?> intermediateVar, TypeResolver guardedResolver) {
         if (intermediateVar.getGenericDeclaration().equals(var.getGenericDeclaration())) {
           return intermediateVar;
         }
-        return unguarded.resolveTypeVariable(intermediateVar, guardedResolver);
+        return typeTable.resolveTypeVariable(intermediateVar, guardedResolver);
       }
-    };
-    return resolveTypeVariable(var, guarded);
-  }
-
-  /**
-   * Resolves {@code var} using the encapsulated type mapping. If it maps to yet another
-   * non-reified type, {@code guardedResolver} is used to do further resolution, which doesn't try
-   * to resolve any type variable on generic declarations that are already being resolved.
-   */
-  Type resolveTypeVariable(TypeVariable<?> var, TypeResolver guardedResolver) {
-    checkNotNull(guardedResolver);
-    Type type = typeTable.get(var);
-    if (type == null) {
-      Type[] bounds = var.getBounds();
-      if (bounds.length == 0) {
-        return var;
-      }
-      return Types.newTypeVariable(
-          var.getGenericDeclaration(),
-          var.getName(),
-          guardedResolver.resolveTypes(bounds));
-    }
-    return guardedResolver.resolveType(type); // in case the type is yet another type variable.
+    });
+    return typeTable.resolveTypeVariable(var, guarded);
   }
 
   private ParameterizedType resolveParameterizedType(ParameterizedType type) {
@@ -242,6 +215,57 @@ class TypeResolver {
       return type.cast(arg);
     } catch (ClassCastException e) {
       throw new IllegalArgumentException(arg + " is not a " + type.getSimpleName());
+    }
+  }
+
+  private static class TypeTable {
+    private final ImmutableMap<TypeVariable<?>, Type> map;
+    
+    TypeTable(ImmutableMap<TypeVariable<?>, Type> map) {
+      this.map = map;
+    }
+  
+    TypeTable() {
+      this.map = ImmutableMap.of();
+    }
+  
+    TypeTable(TypeTable copy) {
+      this.map = copy.map;
+    }
+
+    /** Returns a new {@code TypeResolver} with {@code variable} mapping to {@code type}. */
+    final TypeTable where(Map<? extends TypeVariable<?>, ? extends Type> mappings) {
+      ImmutableMap.Builder<TypeVariable<?>, Type> builder = ImmutableMap.builder();
+      builder.putAll(map);
+      for (Map.Entry<? extends TypeVariable<?>, ? extends Type> mapping : mappings.entrySet()) {
+        TypeVariable<?> variable = mapping.getKey();
+        Type type = mapping.getValue();
+        checkArgument(!variable.equals(type), "Type variable %s bound to itself", variable);
+        builder.put(variable, type);
+      }
+      return new TypeTable(builder.build());
+    }
+
+    /**
+     * Resolves {@code var} using the encapsulated type mapping. If it maps to yet another
+     * non-reified type, {@code guardedResolver} is used to do further resolution, which doesn't
+     * try to resolve any type variable on generic declarations that are already being resolved.
+     */
+    Type resolveTypeVariable(TypeVariable<?> var, TypeResolver guardedResolver) {
+        checkNotNull(guardedResolver);
+        Type type = map.get(var);
+        if (type == null) {
+          Type[] bounds = var.getBounds();
+          if (bounds.length == 0) {
+            return var;
+          }
+          return Types.newTypeVariable(
+              var.getGenericDeclaration(),
+              var.getName(),
+              guardedResolver.resolveTypes(bounds));
+        }
+        // in case the type is yet another type variable.
+        return guardedResolver.resolveType(type);
     }
   }
 
