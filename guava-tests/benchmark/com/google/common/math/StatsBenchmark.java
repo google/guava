@@ -61,7 +61,7 @@ public class StatsBenchmark extends Benchmark {
       double mean(double[] values) {
         double mean = values[0];
         for (int i = 1; i < values.length; i++) {
-          mean = mean + (values[i] - mean) / values.length;
+          mean = mean + (values[i] - mean) / (i + 1);
         }
         return mean;
       }
@@ -130,7 +130,7 @@ public class StatsBenchmark extends Benchmark {
         double mean = values[0];
         double s = 0.0;
         for (int i = 1; i < values.length; i++) {
-          double nextMean = mean + (values[i] - mean) / values.length;
+          double nextMean = mean + (values[i] - mean) / (i + 1);
           s += (values[i] - mean) * (values[i] - nextMean);
           mean = nextMean;
         }
