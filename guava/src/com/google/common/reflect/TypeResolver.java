@@ -149,7 +149,7 @@ public final class TypeResolver {
   public Type resolveType(Type type) {
     checkNotNull(type);
     if (type instanceof TypeVariable) {
-      return resolveTypeVariable((TypeVariable<?>) type);
+      return typeTable.resolve((TypeVariable<?>) type);
     } else if (type instanceof ParameterizedType) {
       return resolveParameterizedType((ParameterizedType) type);
     } else if (type instanceof GenericArrayType) {
@@ -176,19 +176,6 @@ public final class TypeResolver {
   private Type resolveGenericArrayType(GenericArrayType type) {
     Type componentType = resolveType(type.getGenericComponentType());
     return Types.newArrayType(componentType);
-  }
-
-  private Type resolveTypeVariable(final TypeVariable<?> var) {
-    TypeResolver guarded = new TypeResolver(new TypeTable(typeTable) {
-      @Override public Type resolveTypeVariable(
-          TypeVariable<?> intermediateVar, TypeResolver guardedResolver) {
-        if (intermediateVar.getGenericDeclaration().equals(var.getGenericDeclaration())) {
-          return intermediateVar;
-        }
-        return typeTable.resolveTypeVariable(intermediateVar, guardedResolver);
-      }
-    });
-    return typeTable.resolveTypeVariable(var, guarded);
   }
 
   private ParameterizedType resolveParameterizedType(ParameterizedType type) {
@@ -218,19 +205,16 @@ public final class TypeResolver {
     }
   }
 
+  /** A TypeTable maintains mapping from {@link TypeVariable} to types. */
   private static class TypeTable {
     private final ImmutableMap<TypeVariable<?>, Type> map;
-    
-    TypeTable(ImmutableMap<TypeVariable<?>, Type> map) {
-      this.map = map;
-    }
   
     TypeTable() {
       this.map = ImmutableMap.of();
     }
-  
-    TypeTable(TypeTable copy) {
-      this.map = copy.map;
+    
+    private TypeTable(ImmutableMap<TypeVariable<?>, Type> map) {
+      this.map = map;
     }
 
     /** Returns a new {@code TypeResolver} with {@code variable} mapping to {@code type}. */
@@ -246,26 +230,42 @@ public final class TypeResolver {
       return new TypeTable(builder.build());
     }
 
+    final Type resolve(final TypeVariable<?> var) {
+      final TypeTable unguarded = this;
+      TypeTable guarded = new TypeTable() {
+        @Override public Type resolveInternal(
+            TypeVariable<?> intermediateVar, TypeTable forDependent) {
+          if (intermediateVar.getGenericDeclaration().equals(var.getGenericDeclaration())) {
+            return intermediateVar;
+          }
+          return unguarded.resolveInternal(intermediateVar, forDependent);
+        }
+      };
+      return resolveInternal(var, guarded);
+    }
+
     /**
      * Resolves {@code var} using the encapsulated type mapping. If it maps to yet another
-     * non-reified type, {@code guardedResolver} is used to do further resolution, which doesn't
-     * try to resolve any type variable on generic declarations that are already being resolved.
+     * non-reified type or has bounds, {@code forDependants} is used to do further resolution, which
+     * doesn't try to resolve any type variable on generic declarations that are already being
+     * resolved.
+     *
+     * <p>Should only be called and overridden by {@link #resolve(TypeVariable)}.
      */
-    Type resolveTypeVariable(TypeVariable<?> var, TypeResolver guardedResolver) {
-        checkNotNull(guardedResolver);
-        Type type = map.get(var);
-        if (type == null) {
-          Type[] bounds = var.getBounds();
-          if (bounds.length == 0) {
-            return var;
-          }
-          return Types.newTypeVariable(
-              var.getGenericDeclaration(),
-              var.getName(),
-              guardedResolver.resolveTypes(bounds));
+    Type resolveInternal(TypeVariable<?> var, TypeTable forDependants) {
+      Type type = map.get(var);
+      if (type == null) {
+        Type[] bounds = var.getBounds();
+        if (bounds.length == 0) {
+          return var;
         }
-        // in case the type is yet another type variable.
-        return guardedResolver.resolveType(type);
+        return Types.newTypeVariable(
+            var.getGenericDeclaration(),
+            var.getName(),
+            new TypeResolver(forDependants).resolveTypes(bounds));
+      }
+      // in case the type is yet another type variable.
+      return new TypeResolver(forDependants).resolveType(type);
     }
   }
 
