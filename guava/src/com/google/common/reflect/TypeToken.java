@@ -85,10 +85,8 @@ import javax.annotation.Nullable;
  *
  * <p>{@code TypeToken} is serializable when no type variable is contained in the type.
  *
- * <p>Note to Guice users: {@code} TypeToken is similar to Guice's {@code TypeLiteral} class,
- * but with one important difference: it supports non-reified types such as {@code T},
- * {@code List<T>} or even {@code List<? extends Number>}; while TypeLiteral does not.
- * TypeToken is also serializable and offers numerous additional utility methods.
+ * <p>Note to Guice users: {@code} TypeToken is similar to Guice's {@code TypeLiteral} class
+ * except that it is serializable and offers numerous additional utility methods.
  *
  * @author Bob Lee
  * @author Sven Mawson
