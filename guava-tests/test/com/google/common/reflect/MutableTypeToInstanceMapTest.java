@@ -104,6 +104,40 @@ public class MutableTypeToInstanceMapTest extends TestCase {
     } catch (UnsupportedOperationException expected) {}
   }
 
+  public void testEntrySetMutationThrows() {
+    map.putInstance(String.class, "test");
+    assertEquals(TypeToken.of(String.class), map.entrySet().iterator().next().getKey());
+    assertEquals("test", map.entrySet().iterator().next().getValue());
+    try {
+      map.entrySet().iterator().next().setValue(1);
+      fail();
+    } catch (UnsupportedOperationException expected) {}
+  }
+
+  public void testEntrySetToArrayMutationThrows() {
+    map.putInstance(String.class, "test");
+    @SuppressWarnings("unchecked") // Should get a CCE later if cast is wrong
+    Entry<Object, Object> entry = (Entry<Object, Object>) map.entrySet().toArray()[0];
+    assertEquals(TypeToken.of(String.class), entry.getKey());
+    assertEquals("test", entry.getValue());
+    try {
+      entry.setValue(1);
+      fail();
+    } catch (UnsupportedOperationException expected) {}
+  }
+
+  public void testEntrySetToTypedArrayMutationThrows() {
+    map.putInstance(String.class, "test");
+    @SuppressWarnings("unchecked") // Should get a CCE later if cast is wrong
+    Entry<Object, Object> entry = map.entrySet().toArray(new Entry[0])[0];
+    assertEquals(TypeToken.of(String.class), entry.getKey());
+    assertEquals("test", entry.getValue());
+    try {
+      entry.setValue(1);
+      fail();
+    } catch (UnsupportedOperationException expected) {}
+  }
+
   public void testPutAndGetInstance() {
     assertNull(map.putInstance(Integer.class, new Integer(5)));
 

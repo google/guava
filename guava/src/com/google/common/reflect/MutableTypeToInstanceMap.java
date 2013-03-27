@@ -16,11 +16,19 @@
 
 package com.google.common.reflect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
+import com.google.common.base.Function;
 import com.google.common.collect.ForwardingMap;
+import com.google.common.collect.ForwardingMapEntry;
+import com.google.common.collect.ForwardingSet;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -71,6 +79,10 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
     throw new UnsupportedOperationException("Please use putInstance() instead.");
   }
 
+  @Override public Set<Entry<TypeToken<? extends B>, B>> entrySet() {
+    return UnmodifiableEntry.transformEntries(super.entrySet());
+  }
+
   @Override protected Map<TypeToken<? extends B>, B> delegate() {
     return backingMap;
   }
@@ -85,5 +97,47 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
   @Nullable
   private <T extends B> T trustedGet(TypeToken<T> type) {
     return (T) backingMap.get(type);
+  }
+
+  private static final class UnmodifiableEntry<K, V> extends ForwardingMapEntry<K, V> {
+
+    private final Entry<K, V> delegate;
+
+    static <K, V> Set<Entry<K, V>> transformEntries(final Set<Entry<K, V>> entries) {
+      return new ForwardingSet<Map.Entry<K, V>>() {
+        @Override protected Set<Entry<K, V>> delegate() {
+          return entries;
+        }
+        @Override public Iterator<Entry<K, V>> iterator() {
+          return UnmodifiableEntry.transformEntries(super.iterator());
+        }
+        @Override public Object[] toArray() {
+          return standardToArray();
+        }
+        @Override public <T> T[] toArray(T[] array) {
+          return standardToArray(array);
+        }
+      };
+    }
+  
+    private static <K, V> Iterator<Entry<K, V>> transformEntries(Iterator<Entry<K, V>> entries) {
+      return Iterators.transform(entries, new Function<Entry<K, V>, Entry<K, V>>() {
+        @Override public Entry<K, V> apply(Entry<K, V> entry) {
+          return new UnmodifiableEntry<K, V>(entry);
+        }
+      });
+    }
+
+    private UnmodifiableEntry(java.util.Map.Entry<K, V> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override protected Entry<K, V> delegate() {
+      return delegate;
+    }
+
+    @Override public V setValue(V value) {
+      throw new UnsupportedOperationException();
+    }
   }
 }
