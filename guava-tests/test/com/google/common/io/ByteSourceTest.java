@@ -225,9 +225,9 @@ public class ByteSourceTest extends IoTestCase {
   }
 
   public void testConcat() throws IOException {
-    ByteSource b1 = ByteStreams.asByteSource(new byte[] {0, 1, 2, 3});
-    ByteSource b2 = ByteStreams.asByteSource(new byte[0]);
-    ByteSource b3 = ByteStreams.asByteSource(new byte[] {4, 5});
+    ByteSource b1 = ByteSource.wrap(new byte[] {0, 1, 2, 3});
+    ByteSource b2 = ByteSource.wrap(new byte[0]);
+    ByteSource b3 = ByteSource.wrap(new byte[] {4, 5});
 
     byte[] expected = {0, 1, 2, 3, 4, 5};
 

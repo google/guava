@@ -20,9 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
-import com.google.common.base.Splitter;
-import com.google.common.collect.AbstractIterator;
-import com.google.common.collect.ImmutableList;
 
 import java.io.Closeable;
 import java.io.EOFException;
@@ -38,9 +35,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Provides utility methods for working with character streams.
@@ -72,85 +67,19 @@ public final class CharStreams {
    */
   public static InputSupplier<StringReader> newReaderSupplier(
       final String value) {
-    return CharStreams.asInputSupplier(asCharSource(value));
+    return asInputSupplier(CharSource.wrap(value));
   }
 
   /**
    * Returns a {@link CharSource} that reads the given string value.
    *
    * @since 14.0
+   * @deprecated Use {@link CharSource#wrap(CharSequence)} instead. This method
+   *     is scheduled to be removed in Guava 16.0.
    */
+  @Deprecated
   public static CharSource asCharSource(String string) {
-    return new StringCharSource(string);
-  }
-
-  private static final class StringCharSource extends CharSource {
-
-    private static final Splitter LINE_SPLITTER
-        = Splitter.on(Pattern.compile("\r\n|\n|\r"));
-
-    private final String string;
-
-    private StringCharSource(String string) {
-      this.string = checkNotNull(string);
-    }
-
-    @Override
-    public Reader openStream() {
-      return new StringReader(string);
-    }
-
-    @Override
-    public String read() {
-      return string;
-    }
-
-    /**
-     * Returns an iterable over the lines in the string. If the string ends in
-     * a newline, a final empty string is not included to match the behavior of
-     * BufferedReader/LineReader.readLine().
-     */
-    private Iterable<String> lines() {
-      return new Iterable<String>() {
-        @Override
-        public Iterator<String> iterator() {
-          return new AbstractIterator<String>() {
-            Iterator<String> lines = LINE_SPLITTER.split(string).iterator();
-
-            @Override
-            protected String computeNext() {
-              if (lines.hasNext()) {
-                String next = lines.next();
-                // skip last line if it's empty
-                if (lines.hasNext() || !next.isEmpty()) {
-                  return next;
-                }
-              }
-              return endOfData();
-            }
-          };
-        }
-      };
-    }
-
-    @Override
-    public String readFirstLine() {
-      Iterator<String> lines = lines().iterator();
-      return lines.hasNext() ? lines.next() : null;
-    }
-
-    @Override
-    public ImmutableList<String> readLines() {
-      return ImmutableList.copyOf(lines());
-    }
-
-    @Override
-    public String toString() {
-      String limited = (string.length() <= 15)
-          ? string
-          : string.substring(0, 12) + "...";
-      return "CharStreams.asCharSource(" + limited + ")";
-    }
+    return CharSource.wrap(string);
   }
 
   /**
@@ -164,7 +93,7 @@ public final class CharStreams {
    */
   public static InputSupplier<InputStreamReader> newReaderSupplier(
       final InputSupplier<? extends InputStream> in, final Charset charset) {
-    return CharStreams.asInputSupplier(
+    return asInputSupplier(
         ByteStreams.asByteSource(in).asCharSource(charset));
   }
 
@@ -179,7 +108,7 @@ public final class CharStreams {
    */
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(
       final OutputSupplier<? extends OutputStream> out, final Charset charset) {
-    return CharStreams.asOutputSupplier(
+    return asOutputSupplier(
         ByteStreams.asByteSink(out).asCharSink(charset));
   }
 

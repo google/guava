@@ -62,7 +62,7 @@ public final class ByteStreams {
    */
   public static InputSupplier<ByteArrayInputStream> newInputStreamSupplier(
       byte[] b) {
-    return ByteStreams.asInputSupplier(asByteSource(b));
+    return asInputSupplier(ByteSource.wrap(b));
   }
 
   /**
@@ -76,58 +76,19 @@ public final class ByteStreams {
    */
   public static InputSupplier<ByteArrayInputStream> newInputStreamSupplier(
       final byte[] b, final int off, final int len) {
-    return ByteStreams.asInputSupplier(asByteSource(b).slice(off, len));
+    return asInputSupplier(ByteSource.wrap(b).slice(off, len));
   }
 
   /**
    * Returns a new {@link ByteSource} that reads bytes from the given byte array.
    *
    * @since 14.0
+   * @deprecated Use {@link ByteSource#wrap(byte[])} instead. This method is
+   *     scheduled to be removed in Guava 16.0.
    */
+  @Deprecated
   public static ByteSource asByteSource(byte[] b) {
-    return new ByteArrayByteSource(b);
-  }
-
-  private static final class ByteArrayByteSource extends ByteSource {
-
-    private final byte[] bytes;
-
-    private ByteArrayByteSource(byte[] bytes) {
-      this.bytes = checkNotNull(bytes);
-    }
-
-    @Override
-    public InputStream openStream() throws IOException {
-      return new ByteArrayInputStream(bytes);
-    }
-
-    @Override
-    public long size() throws IOException {
-      return bytes.length;
-    }
-
-    @Override
-    public byte[] read() throws IOException {
-      return bytes.clone();
-    }
-
-    @Override
-    public long copyTo(OutputStream output) throws IOException {
-      output.write(bytes);
-      return bytes.length;
-    }
-
-    @Override
-    public HashCode hash(HashFunction hashFunction) throws IOException {
-      return hashFunction.hashBytes(bytes);
-    }
-
-    // TODO(user): Possibly override slice()
-
-    @Override
-    public String toString() {
-      return "ByteStreams.asByteSource(" + BaseEncoding.base16().encode(bytes) + ")";
-    }
+    return ByteSource.wrap(b);
   }
 
   /**

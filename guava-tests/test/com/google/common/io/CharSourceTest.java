@@ -154,9 +154,9 @@ public class CharSourceTest extends IoTestCase {
   }
 
   public void testConcat() throws IOException {
-    CharSource c1 = CharStreams.asCharSource("abc");
-    CharSource c2 = CharStreams.asCharSource("");
-    CharSource c3 = CharStreams.asCharSource("de");
+    CharSource c1 = CharSource.wrap("abc");
+    CharSource c2 = CharSource.wrap("");
+    CharSource c3 = CharSource.wrap("de");
 
     String expected = "abcde";
 
