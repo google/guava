@@ -148,15 +148,16 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     @Nullable private final ImmutableMapEntry<K, V> nextInKeyBucket;
     @Nullable private final ImmutableMapEntry<K, V> nextInValueBucket;
     
-    NonTerminalBiMapEntry(K key, V value, ImmutableMapEntry<K, V> nextInKeyBucket,
-        ImmutableMapEntry<K, V> nextInValueBucket) {
+    NonTerminalBiMapEntry(K key, V value, @Nullable ImmutableMapEntry<K, V> nextInKeyBucket,
+        @Nullable ImmutableMapEntry<K, V> nextInValueBucket) {
       super(key, value);
       this.nextInKeyBucket = nextInKeyBucket;
       this.nextInValueBucket = nextInValueBucket;
     }
 
-    NonTerminalBiMapEntry(ImmutableMapEntry<K, V> contents, ImmutableMapEntry<K, V> nextInKeyBucket,
-        ImmutableMapEntry<K, V> nextInValueBucket) {
+    NonTerminalBiMapEntry(ImmutableMapEntry<K, V> contents,
+        @Nullable ImmutableMapEntry<K, V> nextInKeyBucket,
+        @Nullable ImmutableMapEntry<K, V> nextInValueBucket) {
       super(contents);
       this.nextInKeyBucket = nextInKeyBucket;
       this.nextInValueBucket = nextInValueBucket;

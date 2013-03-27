@@ -1968,7 +1968,7 @@ public final class Maps {
       this.predicate = predicate;
     }
 
-    boolean apply(Object key, V value) {
+    boolean apply(@Nullable Object key, @Nullable V value) {
       // This method is called only when the key is in the map, implying that
       // key is a K.
       @SuppressWarnings("unchecked")
@@ -2382,7 +2382,7 @@ public final class Maps {
    * Delegates to {@link Map#get}. Returns {@code null} on {@code
    * ClassCastException} and {@code NullPointerException}.
    */
-  static <V> V safeGet(Map<?, V> map, Object key) {
+  static <V> V safeGet(Map<?, V> map, @Nullable Object key) {
     checkNotNull(map);
     try {
       return map.get(key);
