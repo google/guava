@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
  *
  * <p>Basic usage:
  * <pre>
- *   Stopwatch stopwatch = new Stopwatch().{@link #start start}();
+ *   Stopwatch stopwatch = Stopwatch.{@link #createStarted createStarted}();
  *   doSomething();
  *   stopwatch.{@link #stop stop}(); // optional
  *
@@ -78,7 +78,48 @@ public final class Stopwatch {
   /**
    * Creates (but does not start) a new stopwatch using {@link System#nanoTime}
    * as its time source.
+   *
+   * @since 15.0
    */
+  public static Stopwatch createUnstarted() {
+    return new Stopwatch();
+  }
+
+  /**
+   * Creates (but does not start) a new stopwatch, using the specified time
+   * source.
+   *
+   * @since 15.0
+   */
+  public static Stopwatch createUnstarted(Ticker ticker) {
+    return new Stopwatch(ticker);
+  }
+
+  /**
+   * Creates (and starts) a new stopwatch using {@link System#nanoTime}
+   * as its time source.
+   *
+   * @since 15.0
+   */
+  public static Stopwatch createStarted() {
+    return new Stopwatch().start();
+  }
+
+  /**
+   * Creates (and starts) a new stopwatch, using the specified time
+   * source.
+   *
+   * @since 15.0
+   */
+  public static Stopwatch createStarted(Ticker ticker) {
+    return new Stopwatch(ticker).start();
+  }
+
+  /**
+   * Creates (but does not start) a new stopwatch using {@link System#nanoTime}
+   * as its time source.
+   */
+  // TODO(user): @deprecated Use {@link Stopwatch#createUnstarted()} instead.
   public Stopwatch() {
     this(Ticker.systemTicker());
   }
@@ -87,6 +128,7 @@ public final class Stopwatch {
    * Creates (but does not start) a new stopwatch, using the specified time
    * source.
    */
+  // TODO(user): @deprecated Use {@link Stopwatch#createUnstarted(Ticker)} instead.
   public Stopwatch(Ticker ticker) {
     this.ticker = checkNotNull(ticker, "ticker");
   }
@@ -215,4 +257,3 @@ public final class Stopwatch {
     }
   }
 }
-

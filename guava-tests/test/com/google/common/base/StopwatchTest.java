@@ -37,6 +37,17 @@ public class StopwatchTest extends TestCase {
   private final FakeTicker ticker = new FakeTicker();
   private final Stopwatch stopwatch = new Stopwatch(ticker);
 
+  public void testCreateStarted() {
+    Stopwatch startedStopwatch = Stopwatch.createStarted();
+    assertTrue(startedStopwatch.isRunning());
+  }
+
+  public void testCreateUnstarted() {
+    Stopwatch unstartedStopwatch = Stopwatch.createUnstarted();
+    assertFalse(unstartedStopwatch.isRunning());
+    assertEquals(0, unstartedStopwatch.elapsed(NANOSECONDS));
+  }
+
   public void testInitialState() {
     assertFalse(stopwatch.isRunning());
     assertEquals(0, stopwatch.elapsed(NANOSECONDS));
