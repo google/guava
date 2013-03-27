@@ -33,7 +33,7 @@ public class StopwatchBenchmark extends Benchmark {
   public long timeStopwatch(int reps) {
     long total = 0;
     for (int i = 0; i < reps; i++) {
-      Stopwatch s = new Stopwatch().start();
+      Stopwatch s = Stopwatch.createStarted();
       // here is where you would do something
       total += s.elapsed(TimeUnit.NANOSECONDS);
     }

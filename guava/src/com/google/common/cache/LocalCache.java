@@ -4088,7 +4088,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       throws ExecutionException {
     checkNotNull(loader);
     checkNotNull(keys);
-    Stopwatch stopwatch = new Stopwatch().start();
+    Stopwatch stopwatch = Stopwatch.createStarted();
     Map<K, V> result;
     boolean success = false;
     try {
