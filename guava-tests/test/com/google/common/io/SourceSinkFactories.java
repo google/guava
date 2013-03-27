@@ -168,7 +168,7 @@ public class SourceSinkFactories {
 
     @Override
     public CharSource createSource(String data) throws IOException {
-      return CharStreams.asCharSource(data);
+      return CharSource.wrap(data);
     }
 
     @Override
@@ -185,7 +185,7 @@ public class SourceSinkFactories {
 
     @Override
     public ByteSource createSource(byte[] bytes) throws IOException {
-      return ByteStreams.asByteSource(bytes);
+      return ByteSource.wrap(bytes);
     }
 
     @Override

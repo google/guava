@@ -23,6 +23,8 @@ import static com.google.common.io.TestOption.WRITE_THROWS;
 
 import com.google.common.collect.ImmutableList;
 
+import junit.framework.TestSuite;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -34,6 +36,14 @@ import java.util.EnumSet;
  * @author Colin Decker
  */
 public class CharSourceTest extends IoTestCase {
+
+  public static TestSuite suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(CharSourceTester.tests("CharSource.wrap[CharSequence]",
+        SourceSinkFactories.stringCharSourceFactory()));
+    suite.addTestSuite(CharStreamsTest.class);
+    return suite;
+  }
 
   private static final String STRING = ASCII + I18N;
   private static final String LINES = "foo\nbar\r\nbaz\rsomething";

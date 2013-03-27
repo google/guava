@@ -28,6 +28,8 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Hashing;
 
+import junit.framework.TestSuite;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
@@ -41,6 +43,14 @@ import java.util.EnumSet;
  * @author Colin Decker
  */
 public class ByteSourceTest extends IoTestCase {
+
+  public static TestSuite suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(ByteSourceTester.tests("ByteSource.wrap[byte[]]",
+        SourceSinkFactories.byteArraySourceFactory(), true));
+    suite.addTestSuite(ByteSourceTest.class);
+    return suite;
+  }
 
   private static final byte[] bytes = newPreFilledByteArray(10000);
 

@@ -26,8 +26,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.TestLogHandler;
 
-import junit.framework.TestSuite;
-
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.FilterReader;
@@ -46,14 +44,6 @@ import java.util.List;
  * @author Chris Nokleberg
  */
 public class CharStreamsTest extends IoTestCase {
-
-  public static TestSuite suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTest(CharSourceTester.tests("CharStreams.asCharSource[String]",
-        SourceSinkFactories.stringCharSourceFactory()));
-    suite.addTestSuite(CharStreamsTest.class);
-    return suite;
-  }
 
   private static final String TEXT
       = "The quick brown fox jumped over the lazy dog.";

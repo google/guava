@@ -18,6 +18,8 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -28,6 +30,7 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
@@ -255,5 +258,83 @@ public abstract class CharSource implements InputSupplier<Reader> {
    */
   public static CharSource concat(CharSource... sources) {
     return concat(ImmutableList.copyOf(sources));
+  }
+
+  /**
+   * Returns a view of the given character sequence as a {@link CharSource}. The behavior of the
+   * returned {@code CharSource} and any {@code Reader} instances created by it is unspecified if
+   * the {@code charSequence} is mutated while it is being read, so don't do that.
+   *
+   * @since 15.0 (since 14.0 as {@code CharStreams.asCharSource(String)})
+   */
+  public static CharSource wrap(CharSequence charSequence) {
+    return new CharSequenceCharSource(charSequence);
+  }
+
+  private static final class CharSequenceCharSource extends CharSource {
+
+    private static final Splitter LINE_SPLITTER
+        = Splitter.on(Pattern.compile("\r\n|\n|\r"));
+
+    private final CharSequence seq;
+
+    private CharSequenceCharSource(CharSequence seq) {
+      this.seq = checkNotNull(seq);
+    }
+
+    @Override
+    public Reader openStream() {
+      return new CharSequenceReader(seq);
+    }
+
+    @Override
+    public String read() {
+      return seq.toString();
+    }
+
+    /**
+     * Returns an iterable over the lines in the string. If the string ends in
+     * a newline, a final empty string is not included to match the behavior of
+     * BufferedReader/LineReader.readLine().
+     */
+    private Iterable<String> lines() {
+      return new Iterable<String>() {
+        @Override
+        public Iterator<String> iterator() {
+          return new AbstractIterator<String>() {
+            Iterator<String> lines = LINE_SPLITTER.split(seq).iterator();
+
+            @Override
+            protected String computeNext() {
+              if (lines.hasNext()) {
+                String next = lines.next();
+                // skip last line if it's empty
+                if (lines.hasNext() || !next.isEmpty()) {
+                  return next;
+                }
+              }
+              return endOfData();
+            }
+          };
+        }
+      };
+    }
+
+    @Override
+    public String readFirstLine() {
+      Iterator<String> lines = lines().iterator();
+      return lines.hasNext() ? lines.next() : null;
+    }
+
+    @Override
+    public ImmutableList<String> readLines() {
+      return ImmutableList.copyOf(lines());
+    }
+
+    @Override
+    public String toString() {
+      CharSequence shortened = (seq.length() <= 15) ? seq : seq.subSequence(0, 12) + "...";
+      return "CharSource.wrap(" + shortened + ")";
+    }
   }
 }

@@ -26,6 +26,7 @@ import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -339,6 +340,15 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
   }
 
   /**
+   * Returns a view of the given byte array as a {@link ByteSource}.
+   *
+   * @since 15.0 (since 14.0 as {@code ByteStreams.asByteSource(byte[])}).
+   */
+  public static ByteSource wrap(byte[] b) {
+    return new ByteArrayByteSource(b);
+  }
+
+  /**
    * A char source that reads bytes from this source and decodes them as characters using a
    * charset.
    */
@@ -406,6 +416,48 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     @Override
     public String toString() {
       return ByteSource.this.toString() + ".slice(" + offset + ", " + length + ")";
+    }
+  }
+
+  private static final class ByteArrayByteSource extends ByteSource {
+
+    private final byte[] bytes;
+
+    private ByteArrayByteSource(byte[] bytes) {
+      this.bytes = checkNotNull(bytes);
+    }
+
+    @Override
+    public InputStream openStream() throws IOException {
+      return new ByteArrayInputStream(bytes);
+    }
+
+    @Override
+    public long size() throws IOException {
+      return bytes.length;
+    }
+
+    @Override
+    public byte[] read() throws IOException {
+      return bytes.clone();
+    }
+
+    @Override
+    public long copyTo(OutputStream output) throws IOException {
+      output.write(bytes);
+      return bytes.length;
+    }
+
+    @Override
+    public HashCode hash(HashFunction hashFunction) throws IOException {
+      return hashFunction.hashBytes(bytes);
+    }
+
+    // TODO(user): Possibly override slice()
+
+    @Override
+    public String toString() {
+      return "ByteSource.wrap(" + BaseEncoding.base16().encode(bytes) + ")";
     }
   }
 }
