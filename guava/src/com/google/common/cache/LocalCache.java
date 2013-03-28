@@ -3528,7 +3528,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     // TODO(fry): rename get, then extend AbstractFuture instead of containing SettableFuture
     final SettableFuture<V> futureValue = SettableFuture.create();
-    final Stopwatch stopwatch = new Stopwatch();
+    final Stopwatch stopwatch = Stopwatch.createUnstarted();
 
     public LoadingValueReference() {
       this(LocalCache.<K, V>unset());

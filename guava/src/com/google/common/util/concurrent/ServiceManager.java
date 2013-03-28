@@ -606,7 +606,7 @@ public final class ServiceManager {
    */
   private static final class ServiceListener implements Service.Listener {
     @GuardedBy("watch")  // AFAICT Stopwatch is not thread safe so we need to protect accesses
-    final Stopwatch watch = new Stopwatch();
+    final Stopwatch watch = Stopwatch.createUnstarted();
     final Service service;
     final ServiceManagerState state;
     
