@@ -375,8 +375,8 @@ public class HashingTest extends TestCase {
       if (method.getReturnType().equals(HashFunction.class) && // must return HashFunction
           method.getParameterTypes().length == 0) { // only the seed-less grapes^W hash functions
         HashFunction hashFunction = (HashFunction) method.invoke(Hashing.class);
-        assertEquals("There should be 3 entries in KNOWN_HASHES for " + hashFunction.toString(),
-            3, KNOWN_HASHES.row(hashFunction).size());
+        assertTrue("There should be at least 3 entries in KNOWN_HASHES for "
+            + hashFunction.toString(), KNOWN_HASHES.row(hashFunction).size() >= 3);
       }
     }
   }

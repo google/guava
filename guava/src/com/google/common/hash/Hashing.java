@@ -244,6 +244,8 @@ public final class Hashing {
   }
 
   // Lazy initialization holder class idiom.
+  // TODO(user): Investigate whether we need to still use this idiom now that we have a fallback
+  // option for our use of Unsafe.
 
   /**
    * Assigns to {@code hashCode} a "bucket" in the range {@code [0, buckets)}, in a uniform
