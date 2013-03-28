@@ -119,8 +119,10 @@ public final class Stopwatch {
   /**
    * Creates (but does not start) a new stopwatch using {@link System#nanoTime}
    * as its time source.
+   *
+   * @deprecated Use {@link Stopwatch#createUnstarted()} instead.
    */
-  // TODO(user): @deprecated Use {@link Stopwatch#createUnstarted()} instead.
+  @Deprecated
   public Stopwatch() {
     this(Ticker.systemTicker());
   }
@@ -128,8 +130,10 @@ public final class Stopwatch {
   /**
    * Creates (but does not start) a new stopwatch, using the specified time
    * source.
+   *
+   * @deprecated Use {@link Stopwatch#createUnstarted(Ticker)} instead.
    */
-  // TODO(user): @deprecated Use {@link Stopwatch#createUnstarted(Ticker)} instead.
+  @Deprecated
   public Stopwatch(Ticker ticker) {
     this.ticker = checkNotNull(ticker, "ticker");
   }
