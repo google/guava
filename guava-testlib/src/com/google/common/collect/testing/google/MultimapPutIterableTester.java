@@ -15,10 +15,12 @@
  */
 package com.google.common.collect.testing.google;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -72,5 +74,21 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
   public void testPutAllEmptyIterableOnPresentKey() {
     multimap().putAll(sampleKeys().e0, Collections.<V>emptyList());
     expectUnchanged();
+  }
+  
+  @MapFeature.Require(SUPPORTS_PUT)
+  public void testPutAllOnlyCallsIteratorOnce() {
+    Iterable<V> iterable = new Iterable<V>() {
+      private boolean calledIteratorAlready = false;
+
+      @Override
+      public Iterator<V> iterator() {
+        checkState(!calledIteratorAlready);
+        calledIteratorAlready = true;
+        return Iterators.forArray(sampleValues().e3);
+      }
+    };
+    
+    multimap().putAll(sampleKeys().e3, iterable);
   }
 }
