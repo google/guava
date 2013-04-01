@@ -94,7 +94,7 @@ public abstract class Ordering<T> implements Comparator<T> {
   /**
    * Returns an ordering based on an <i>existing</i> comparator instance. Note
    * that there's no need to create a <i>new</i> comparator just to pass it in
-   * here; simply subclass {@code Ordering} and implement its {@code compareTo}
+   * here; simply subclass {@code Ordering} and implement its {@code compare}
    * method directly instead.
    *
    * @param comparator the comparator that defines the order
