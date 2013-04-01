@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import com.google.common.primitives.Primitives;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -440,6 +441,49 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    */
   public final boolean isArray() {
     return getComponentType() != null;
+  }
+
+  /**
+   * Returns true if this type is one of the nine primitive types (including {@code void}).
+   *
+   * @since 15.0
+   */
+  public final boolean isPrimitive() {
+    return (runtimeType instanceof Class) && ((Class<?>) runtimeType).isPrimitive();
+  }
+
+  /**
+   * Returns the corresponding wrapper type if this is a primitive type; otherwise returns
+   * {@code this} itself. Idempotent.
+   *
+   * @since 15.0
+   */
+  public final TypeToken<T> wrap() {
+    if (isPrimitive()) {
+      @SuppressWarnings("unchecked") // this is a primitive class
+      Class<T> type = (Class<T>) runtimeType;
+      return TypeToken.of(Primitives.wrap(type));
+    }
+    return this;
+  }
+
+  private boolean isWrapper() {
+    return Primitives.allWrapperTypes().contains(runtimeType);
+  }
+
+  /**
+   * Returns the corresponding primitive type if this is a wrapper type; otherwise returns
+   * {@code this} itself. Idempotent.
+   *
+   * @since 15.0
+   */
+  public final TypeToken<T> unwrap() {
+    if (isWrapper()) {
+      @SuppressWarnings("unchecked") // this is a wrapper class
+      Class<T> type = (Class<T>) runtimeType;
+      return TypeToken.of(Primitives.unwrap(type));
+    }
+    return this;
   }
 
   /**

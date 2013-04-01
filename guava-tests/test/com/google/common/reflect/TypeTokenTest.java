@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+import com.google.common.primitives.Primitives;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -902,6 +903,20 @@ public class TypeTokenTest extends TestCase {
     assertFalse(TypeToken.of(Types.supertypeOf(Object[].class)).isArray());
   }
 
+  public <T extends Integer> void testPrimitiveWrappingAndUnwrapping() {
+    for (Class<?> type : Primitives.allPrimitiveTypes()) {
+      assertIsPrimitive(TypeToken.of(type));
+    }
+    for (Class<?> type : Primitives.allWrapperTypes()) {
+      assertIsWrapper(TypeToken.of(type));
+    }
+    assertNotPrimitiveNorWrapper(TypeToken.of(String.class));
+    assertNotPrimitiveNorWrapper(TypeToken.of(Object[].class));
+    assertNotPrimitiveNorWrapper(TypeToken.of(Types.subtypeOf(Object.class)));
+    assertNotPrimitiveNorWrapper(new TypeToken<List<String>>() {});
+    assertNotPrimitiveNorWrapper(TypeToken.of(new TypeCapture<T>() {}.capture()));
+  }
+
   public void testGetComponentType_arrayClasses() {
     assertEquals(Object.class, TypeToken.of(Object[].class).getComponentType().getType());
     assertEquals(Object[].class, TypeToken.of(Object[][].class).getComponentType().getType());
@@ -1501,6 +1516,31 @@ public class TypeTokenTest extends TestCase {
       builder.add(TypeToken.of(interfaceType));
     }
     return builder.build();
+  }
+
+  private static void assertIsPrimitive(TypeToken<?> type) {
+    assertTrue(type.isPrimitive());
+    assertNotWrapper(type);
+    assertEquals(TypeToken.of(Primitives.wrap((Class<?>) type.getType())), type.wrap());
+  }
+
+  private static void assertNotPrimitive(TypeToken<?> type) {
+    assertFalse(type.isPrimitive());
+    assertSame(type, type.wrap());
+  }
+
+  private static void assertIsWrapper(TypeToken<?> type) {
+    assertNotPrimitive(type);
+    assertEquals(TypeToken.of(Primitives.unwrap((Class<?>) type.getType())), type.unwrap());
+  }
+
+  private static void assertNotWrapper(TypeToken<?> type) {
+    assertSame(type, type.unwrap());
+  }
+
+  private static void assertNotPrimitiveNorWrapper(TypeToken<?> type) {
+    assertNotPrimitive(type);
+    assertNotWrapper(type);
   }
 
   private interface BaseInterface {}
