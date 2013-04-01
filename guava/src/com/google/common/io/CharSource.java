@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
 /**
  * A readable source of characters, such as a text file. Unlike a {@link Reader}, a
  * {@code CharSource} is not an open, stateful stream of characters that can be read and closed.
- * Instead, it is an immutable <i>supplier</i> of {@code InputStream} instances.
+ * Instead, it is an immutable <i>supplier</i> of {@code Reader} instances.
  *
  * <p>{@code CharSource} provides two kinds of methods:
  * <ul>
