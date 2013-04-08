@@ -17,7 +17,10 @@
 package com.google.common.collect;
 
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
+import static java.util.concurrent.TimeUnit.HOURS;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.collect.MapMakerInternalMapTest.QueuingRemovalListener;
@@ -27,6 +30,7 @@ import junit.framework.TestCase;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -36,12 +40,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author Charles Fry
  */
+@GwtCompatible(emulated = true)
 public class MapMakerTest extends TestCase {
 
+  @GwtIncompatible("NullPointerTester")
   public void testNullParameters() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(new MapMaker());
   }
+
+  @GwtIncompatible("threads")
 
   public void testRemovalNotification_clear() throws InterruptedException {
     // If a clear() happens while a computation is pending, we should not get a removal
@@ -98,6 +106,7 @@ public class MapMakerTest extends TestCase {
    * removal listener), or else is not affected by the {@code clear()} (and therefore exists in the
    * map afterward).
    */
+  @GwtIncompatible("threads")
 
   public void testRemovalNotification_clear_basher() throws InterruptedException {
     // If a clear() happens close to the end of computation, one of two things should happen:
@@ -170,6 +179,7 @@ public class MapMakerTest extends TestCase {
     assertTrue(Sets.intersection(map.keySet(), removalNotifications.keySet()).isEmpty());
   }
 
+  @GwtIncompatible("threads")
   static final class DelayingIdentityLoader<T> implements Function<T, T> {
     private final CountDownLatch delayLatch;
 
@@ -180,6 +190,147 @@ public class MapMakerTest extends TestCase {
     @Override public T apply(T key) {
       awaitUninterruptibly(delayLatch);
       return key;
+    }
+  }
+
+  /*
+   * TODO(cpovirk): eliminate duplication between these tests and those in LegacyMapMakerTests and
+   * anywhere else
+   */
+
+  /** Tests for the builder. */
+  public static class MakerTest extends TestCase {
+    public void testInitialCapacity_negative() {
+      MapMaker maker = new MapMaker();
+      try {
+        maker.initialCapacity(-1);
+        fail();
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+
+    // TODO(cpovirk): enable when ready
+    public void xtestInitialCapacity_setTwice() {
+      MapMaker maker = new MapMaker().initialCapacity(16);
+      try {
+        // even to the same value is not allowed
+        maker.initialCapacity(16);
+        fail();
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+
+    @SuppressWarnings("deprecation") // test of deprecated method
+    public void testExpiration_setTwice() {
+      MapMaker maker = new MapMaker().expireAfterWrite(1, HOURS);
+      try {
+        // even to the same value is not allowed
+        maker.expireAfterWrite(1, HOURS);
+        fail();
+      } catch (IllegalStateException expected) {
+      }
+    }
+
+    public void testMaximumSize_setTwice() {
+      MapMaker maker = new MapMaker().maximumSize(16);
+      try {
+        // even to the same value is not allowed
+        maker.maximumSize(16);
+        fail();
+      } catch (IllegalStateException expected) {
+      }
+    }
+
+    public void testReturnsPlainConcurrentHashMapWhenPossible() {
+      Map<?, ?> map = new MapMaker()
+          .initialCapacity(5)
+          .makeMap();
+      assertTrue(map instanceof ConcurrentHashMap);
+    }
+  }
+
+  /** Tests of the built map with maximumSize. */
+  public static class MaximumSizeTest extends TestCase {
+    public void testPut_sizeIsZero() {
+      ConcurrentMap<Object, Object> map =
+          new MapMaker().maximumSize(0).makeMap();
+      assertEquals(0, map.size());
+      map.put(new Object(), new Object());
+      assertEquals(0, map.size());
+    }
+
+    public void testSizeBasedEviction() {
+      int numKeys = 10;
+      int mapSize = 5;
+      ConcurrentMap<Object, Object> map =
+          new MapMaker().maximumSize(mapSize).makeMap();
+      for (int i = 0; i < numKeys; i++) {
+        map.put(i, i);
+      }
+      assertEquals(mapSize, map.size());
+      for (int i = numKeys - mapSize; i < mapSize; i++) {
+        assertTrue(map.containsKey(i));
+      }
+    }
+  }
+
+  /** Tests for recursive computation. */
+  public static class RecursiveComputationTest extends TestCase {
+    Function<Integer, String> recursiveComputer
+        = new Function<Integer, String>() {
+      @Override
+      public String apply(Integer key) {
+        if (key > 0) {
+          return key + ", " + recursiveMap.get(key - 1);
+        } else {
+          return "0";
+        }
+      }
+    };
+
+    ConcurrentMap<Integer, String> recursiveMap = new MapMaker()
+        .makeComputingMap(recursiveComputer);
+
+    public void testRecursiveComputation() {
+      assertEquals("3, 2, 1, 0", recursiveMap.get(3));
+    }
+  }
+
+  /**
+   * Tests for computing functionality.
+   */
+  public static class ComputingTest extends TestCase {
+    public void testComputerThatReturnsNull() {
+      ConcurrentMap<Integer, String> map = new MapMaker()
+          .makeComputingMap(new Function<Integer, String>() {
+            @Override
+            public String apply(Integer key) {
+              return null;
+            }
+          });
+      try {
+        map.get(1);
+        fail();
+      } catch (NullPointerException e) { /* expected */ }
+    }
+
+    public void testRuntimeException() {
+      final RuntimeException e = new RuntimeException();
+
+      ConcurrentMap<Object, Object> map = new MapMaker().makeComputingMap(
+          new Function<Object, Object>() {
+        @Override
+        public Object apply(Object from) {
+          throw e;
+        }
+      });
+
+      try {
+        map.get(new Object());
+        fail();
+      } catch (ComputationException ce) {
+        assertSame(e, ce.getCause());
+      }
     }
   }
 }

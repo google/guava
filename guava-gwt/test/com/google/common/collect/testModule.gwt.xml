@@ -11,8 +11,6 @@
   <entry-point class="com.google.common.collect.TestModuleEntryPoint"/>
    
   <source path=""/>
-   
-  <source path="gwt"/>
     
   <add-linker name="std"/>
    
