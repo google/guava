@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
@@ -383,6 +384,74 @@ public final class CharStreams {
       } else {
         n -= amt;
       }
+    }
+  }
+
+  /**
+   * Returns a {@link Writer} that simply discards written chars.
+   *
+   * @since 15.0
+   */
+  public static Writer nullWriter() {
+    return NullWriter.INSTANCE;
+  }
+
+  private static final class NullWriter extends Writer {
+
+    private static final NullWriter INSTANCE = new NullWriter();
+
+    @Override
+    public void write(int c) {
+    }
+
+    @Override
+    public void write(char[] cbuf) {
+      checkNotNull(cbuf);
+    }
+
+    @Override
+    public void write(char[] cbuf, int off, int len) {
+      checkPositionIndexes(off, off + len, cbuf.length);
+    }
+
+    @Override
+    public void write(String str) {
+      checkNotNull(str);
+    }
+
+    @Override
+    public void write(String str, int off, int len) {
+      checkPositionIndexes(off, off + len, str.length());
+    }
+
+    @Override
+    public Writer append(CharSequence csq) {
+      checkNotNull(csq);
+      return this;
+    }
+
+    @Override
+    public Writer append(CharSequence csq, int start, int end) {
+      checkPositionIndexes(start, end, csq.length());
+      return this;
+    }
+
+    @Override
+    public Writer append(char c) {
+      return this;
+    }
+
+    @Override
+    public void flush() {
+    }
+
+    @Override
+    public void close() {
+    }
+
+    @Override
+    public String toString() {
+      return "CharStreams.nullWriter()";
     }
   }
 

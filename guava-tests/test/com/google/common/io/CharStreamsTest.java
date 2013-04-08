@@ -396,6 +396,18 @@ public class CharStreamsTest extends IoTestCase {
     assertEquals(string.length(), copied);
   }
 
+  public void testNullWriter() throws Exception {
+    // create a null writer
+    Writer nullWriter = CharStreams.nullWriter();
+    // write to the writer
+    nullWriter.write('n');
+    String test = "Test string for NullWriter";
+    nullWriter.write(test);
+    nullWriter.write(test, 2, 10);
+    // nothing really to assert?
+    assertSame(CharStreams.nullWriter(), CharStreams.nullWriter());
+  }
+
   private static CheckCloseSupplier.Input<Reader> newCheckReader(
       InputSupplier<? extends Reader> delegate) {
     return new CheckCloseSupplier.Input<Reader>(delegate) {
