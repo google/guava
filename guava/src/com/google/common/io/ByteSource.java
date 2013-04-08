@@ -344,7 +344,8 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
   }
 
   /**
-   * Returns a view of the given byte array as a {@link ByteSource}.
+   * Returns a view of the given byte array as a {@link ByteSource}. To view only a specific range
+   * in the array, use {@code ByteSource.wrap(b).slice(offset, length)}.
    *
    * @since 15.0 (since 14.0 as {@code ByteStreams.asByteSource(byte[])}).
    */
