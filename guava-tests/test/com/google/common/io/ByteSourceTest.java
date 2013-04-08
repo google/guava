@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.io.TestOption.AVAILABLE_ALWAYS_ZERO;
 import static com.google.common.io.TestOption.CLOSE_THROWS;
 import static com.google.common.io.TestOption.OPEN_THROWS;
 import static com.google.common.io.TestOption.READ_THROWS;
@@ -81,6 +82,9 @@ public class ByteSourceTest extends IoTestCase {
 
     // test that we can get the size even if skip() isn't supported
     assertEquals(bytes.length, new TestByteSource(bytes, SKIP_THROWS).size());
+
+    // test that we can get the size even if available() always returns zero
+    assertEquals(bytes.length, new TestByteSource(bytes, AVAILABLE_ALWAYS_ZERO).size());
   }
 
   public void testCopyTo_outputStream() throws IOException {

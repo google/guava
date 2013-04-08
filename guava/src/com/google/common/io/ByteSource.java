@@ -166,6 +166,10 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
       if (skipped <= 0) {
         if (in.read() == -1) {
           return count;
+        } else if (count == 0 && in.available() == 0) {
+          // if available is still zero after reading a single byte, it
+          // will probably always be zero, so we should countByReading
+          throw new IOException();
         }
         count++;
       } else {
