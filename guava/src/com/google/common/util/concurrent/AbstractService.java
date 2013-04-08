@@ -22,18 +22,14 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
 
 import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
@@ -51,7 +47,6 @@ import javax.annotation.concurrent.Immutable;
  */
 @Beta
 public abstract class AbstractService implements Service {
-  private static final Logger logger = Logger.getLogger(AbstractService.class.getName());
   private final ReentrantLock lock = new ReentrantLock();
 
   private final Transition startup = new Transition();
@@ -66,17 +61,11 @@ public abstract class AbstractService implements Service {
   /**
    * The queue of listeners that are waiting to be executed.
    *
-   * <p>Enqueue operations should be protected by {@link #lock} while dequeue operations should be
-   * protected by the implicit lock on this object. Dequeue operations should be executed atomically
-   * with the execution of the {@link Runnable} and additionally the {@link #lock} should not be
-   * held when the listeners are being executed. Use {@link #executeListeners} for this operation.
-   * This is necessary to ensure that elements on the queue are executed in the correct order.
-   * Enqueue operations should be protected so that listeners are added in the correct order. We use
-   * a concurrent queue implementation so that enqueues can be executed concurrently with dequeues.
+   * <p>Enqueue operations should be protected by {@link #lock} while calling 
+   * {@link ExecutionQueue#execute()} should not be protected.
    */
-  @GuardedBy("queuedListeners")
-  private final Queue<Runnable> queuedListeners = Queues.newConcurrentLinkedQueue();
-  
+  private final ExecutionQueue queuedListeners = new ExecutionQueue();
+
   /**
    * The current state of the service.  This should be written with the lock held but can be read
    * without it because it is an immutable object in a volatile field.  This is desirable so that
@@ -96,7 +85,7 @@ public abstract class AbstractService implements Service {
     addListener(
         new Listener() {
           @Override public void starting() {}
-          
+
           @Override public void running() { 
             startup.set(State.RUNNING);
           }
@@ -381,12 +370,7 @@ public abstract class AbstractService implements Service {
    */
   private void executeListeners() {
     if (!lock.isHeldByCurrentThread()) {
-      synchronized (queuedListeners) {
-        Runnable listener;
-        while ((listener = queuedListeners.poll()) != null) {
-          listener.run();
-        }
-      }
+      queuedListeners.execute();
     }
   }
   
@@ -395,13 +379,9 @@ public abstract class AbstractService implements Service {
     for (final ListenerExecutorPair pair : listeners) {
       queuedListeners.add(new Runnable() {
         @Override public void run() {
-          pair.execute(new Runnable() {
-            @Override public void run() {
-              pair.listener.starting();
-            }
-          });
+          pair.listener.starting();
         }
-      });
+      }, pair.executor);
     }
   }
 
@@ -410,13 +390,9 @@ public abstract class AbstractService implements Service {
     for (final ListenerExecutorPair pair : listeners) {
       queuedListeners.add(new Runnable() {
         @Override public void run() {
-          pair.execute(new Runnable() {
-            @Override public void run() {
-              pair.listener.running();
-            }
-          });
+          pair.listener.running();
         }
-      });
+      }, pair.executor);
     }
   }
 
@@ -425,13 +401,9 @@ public abstract class AbstractService implements Service {
     for (final ListenerExecutorPair pair : listeners) {
       queuedListeners.add(new Runnable() {
         @Override public void run() {
-          pair.execute(new Runnable() {
-            @Override public void run() {
-              pair.listener.stopping(from);
-            }
-          });
+          pair.listener.stopping(from);
         }
-      });
+      }, pair.executor);
     }
   }
 
@@ -440,13 +412,9 @@ public abstract class AbstractService implements Service {
     for (final ListenerExecutorPair pair : listeners) {
       queuedListeners.add(new Runnable() {
         @Override public void run() {
-          pair.execute(new Runnable() {
-            @Override public void run() {
-              pair.listener.terminated(from);
-            }
-          });
+          pair.listener.terminated(from);
         }
-      });
+      }, pair.executor);
     }
     // There are no more state transitions so we can clear this out.
     listeners.clear();
@@ -457,18 +425,14 @@ public abstract class AbstractService implements Service {
     for (final ListenerExecutorPair pair : listeners) {
       queuedListeners.add(new Runnable() {
         @Override public void run() {
-          pair.execute(new Runnable() {
-            @Override public void run() {
-              pair.listener.failed(from, cause);
-            }
-          });
+          pair.listener.failed(from, cause);
         }
-      });
+      }, pair.executor);
     }
     // There are no more state transitions so we can clear this out.
     listeners.clear();
   }
-  
+
   /** A simple holder for a listener and its executor. */
   private static class ListenerExecutorPair {
     final Listener listener;
@@ -477,19 +441,6 @@ public abstract class AbstractService implements Service {
     ListenerExecutorPair(Listener listener, Executor executor) {
       this.listener = listener;
       this.executor = executor;
-    }
-
-    /**
-     * Executes the given {@link Runnable} on {@link #executor} logging and swallowing all 
-     * exceptions
-     */
-    void execute(Runnable runnable) {
-      try {
-        executor.execute(runnable);
-      } catch (Exception e) {
-        logger.log(Level.SEVERE, "Exception while executing listener " + listener 
-            + " with executor " + executor, e);
-      }
     }
   }
   

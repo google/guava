@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Formatter;
@@ -332,6 +333,55 @@ public class ServiceManagerTest extends TestCase {
     for (LogRecord record : logHandler.getStoredLogRecords()) {
       assertFalse(logFormatter.format(record).contains("NoOpService"));
     }
+  }
+
+  /**
+   * This is for a case where a long running Listener using the sameThreadListener could deadlock
+   * another thread calling stopAsync().
+   */
+
+  public void testListenerDeadlock() throws InterruptedException {
+    final CountDownLatch failEnter = new CountDownLatch(1);
+    Service failRunService = new AbstractService() {
+      @Override protected void doStart() {
+        new Thread() {
+          @Override public void run() {
+            notifyStarted();
+            notifyFailed(new Exception("boom"));
+          }
+        }.start();
+      }
+      @Override protected void doStop() {
+        notifyStopped();
+      }
+    };
+    final ServiceManager manager = new ServiceManager(
+        Arrays.asList(failRunService, new NoOpService()));
+    manager.addListener(new ServiceManager.Listener() {
+      @Override public void healthy() {}
+      @Override public void stopped() {}
+      @Override public void failure(Service service) {
+        failEnter.countDown();
+        // block forever!
+        Uninterruptibles.awaitUninterruptibly(new CountDownLatch(1));
+      }
+    }, MoreExecutors.sameThreadExecutor());
+    // We do not call awaitHealthy because, due to races, that method may throw an exception.  But
+    // we really just want to wait for the thread to be in the failure callback so we wait for that
+    // explicitly instead.
+    manager.startAsync();
+    failEnter.await();
+    assertFalse("State should be updated before calling listeners", manager.isHealthy());
+    // now we want to stop the services.
+    Thread stoppingThread = new Thread() {
+      @Override public void run() {
+        manager.stopAsync().awaitStopped();
+      }
+    };
+    stoppingThread.start();
+    // this should be super fast since the only non stopped service is a NoOpService
+    stoppingThread.join(1000);
+    assertFalse("stopAsync has deadlocked!.", stoppingThread.isAlive());
   }
 
   private static final class RecordingListener implements ServiceManager.Listener {

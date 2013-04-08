@@ -33,14 +33,12 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Service.State;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -436,15 +434,13 @@ public final class ServiceManager {
     /**
      * The queue of listeners that are waiting to be executed.
      *
-     * <p>Enqueue operations should be protected by {@link #monitor} while dequeue operations should
-     * be protected by the implicit lock on this object. This is to ensure that listeners are
-     * executed in the correct order and also so that a listener can not hold the {@link #monitor} 
-     * for an arbitrary amount of time (listeners can only block other listeners, not internal state
-     * transitions). We use a concurrent queue implementation so that enqueues can be executed 
-     * concurrently with dequeues.
+     * <p>Enqueue operations should be protected by {@link #monitor} while dequeue operations are
+     * not protected. Holding {@link #monitor} while enqueuing ensures that listeners in the queue
+     * are in the correct order and {@link ExecutionQueue} ensures that they are executed in the 
+     * correct order.
      */
-    @GuardedBy("queuedListeners")
-    final Queue<Runnable> queuedListeners = Queues.newConcurrentLinkedQueue();
+    @GuardedBy("monitor")
+    final ExecutionQueue queuedListeners = new ExecutionQueue();
     
     ServiceManagerState(int numberOfServices) {
       this.numberOfServices = numberOfServices;
@@ -515,13 +511,9 @@ public final class ServiceManager {
         for (final ListenerExecutorPair pair : listeners) {
           queuedListeners.add(new Runnable() {
             @Override public void run() {
-              pair.execute(new Runnable() {
-                @Override public void run() {
-                  pair.listener.healthy();
-                }
-              });
+              pair.listener.healthy();
             }
-          });
+          }, pair.executor);
         }
       }
     }
@@ -542,13 +534,9 @@ public final class ServiceManager {
       for (final ListenerExecutorPair pair : listeners) {
         queuedListeners.add(new Runnable() {
           @Override public void run() {
-            pair.execute(new Runnable() {
-              @Override public void run() {
-                pair.listener.failure(service);
-              }
-            });
+            pair.listener.failure(service);
           }
-        });
+        }, pair.executor);
       }
       serviceStopped(service);
     }
@@ -570,31 +558,20 @@ public final class ServiceManager {
         for (final ListenerExecutorPair pair : listeners) {
           queuedListeners.add(new Runnable() {
             @Override public void run() {
-              pair.execute(new Runnable() {
-                @Override public void run() {
-                  pair.listener.stopped();
-                }
-              });
+              pair.listener.stopped();
             }
-          });
+          }, pair.executor);
         }
         // no more listeners could possibly be called, so clear them out
         listeners.clear();
       }
     }
-    
-    /** 
-     * Attempts to execute all the listeners in {@link #queuedListeners}.
-     */
+
+    /** Attempts to execute all the listeners in {@link #queuedListeners}. */
     private void executeListeners() {
       checkState(!monitor.isOccupiedByCurrentThread(), 
           "It is incorrect to execute listeners with the monitor held.");
-      synchronized (queuedListeners) {
-        Runnable listener;
-        while ((listener = queuedListeners.poll()) != null) {
-          listener.run();
-        }
-      }
+      queuedListeners.execute();
     }
   }
 
@@ -732,19 +709,6 @@ public final class ServiceManager {
     ListenerExecutorPair(Listener listener, Executor executor) {
       this.listener = listener;
       this.executor = executor;
-    }
-    
-    /**
-     * Executes the given {@link Runnable} on {@link #executor} logging and swallowing all 
-     * exceptions
-     */
-    void execute(Runnable runnable) {
-      try {
-        executor.execute(runnable);
-      } catch (Exception e) {
-        logger.log(Level.SEVERE, "Exception while executing listener " + listener 
-            + " with executor " + executor, e);
-      }
     }
   }
   
