@@ -354,6 +354,15 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
   }
 
   /**
+   * Returns an immutable {@link ByteSource} that contains no bytes.
+   *
+   * @since 15.0
+   */
+  public static ByteSource empty() {
+    return EmptyByteSource.INSTANCE;
+  }
+
+  /**
    * A char source that reads bytes from this source and decodes them as characters using a
    * charset.
    */
@@ -424,11 +433,11 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     }
   }
 
-  private static final class ByteArrayByteSource extends ByteSource {
+  private static class ByteArrayByteSource extends ByteSource {
 
-    private final byte[] bytes;
+    protected final byte[] bytes;
 
-    private ByteArrayByteSource(byte[] bytes) {
+    protected ByteArrayByteSource(byte[] bytes) {
       this.bytes = checkNotNull(bytes);
     }
 
@@ -463,6 +472,31 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     @Override
     public String toString() {
       return "ByteSource.wrap(" + BaseEncoding.base16().encode(bytes) + ")";
+    }
+  }
+
+  private static final class EmptyByteSource extends ByteArrayByteSource {
+
+    private static final EmptyByteSource INSTANCE = new EmptyByteSource();
+
+    private EmptyByteSource() {
+      super(new byte[0]);
+    }
+
+    @Override
+    public CharSource asCharSource(Charset charset) {
+      checkNotNull(charset);
+      return CharSource.empty();
+    }
+
+    @Override
+    public byte[] read() {
+      return bytes; // length is 0, no need to clone
+    }
+
+    @Override
+    public String toString() {
+      return "ByteSource.empty()";
     }
   }
 }

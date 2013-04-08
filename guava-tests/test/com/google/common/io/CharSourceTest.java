@@ -41,6 +41,8 @@ public class CharSourceTest extends IoTestCase {
     TestSuite suite = new TestSuite();
     suite.addTest(CharSourceTester.tests("CharSource.wrap[CharSequence]",
         SourceSinkFactories.stringCharSourceFactory()));
+    suite.addTest(CharSourceTester.tests("CharSource.empty[]",
+        SourceSinkFactories.emptyCharSourceFactory()));
     suite.addTestSuite(CharStreamsTest.class);
     return suite;
   }

@@ -83,8 +83,9 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
       // test a random slice() of the ByteSource
       Random random = new Random();
       byte[] expected = factory.getExpected(bytes);
-      int off = random.nextInt(expected.length);
-      int len = random.nextInt(expected.length - off);
+      // if expected.length == 0, off has to be 0 but length doesn't matter--result will be empty
+      int off = expected.length == 0 ? 0 : random.nextInt(expected.length);
+      int len = expected.length == 0 ? 4 : random.nextInt(expected.length - off);
       ByteSourceFactory sliced = SourceSinkFactories.asSlicedByteSourceFactory(factory, off, len);
       suite.addTest(suiteForBytes(sliced, bytes, name + ".slice[int, int]",
           desc, false));

@@ -49,6 +49,8 @@ public class ByteSourceTest extends IoTestCase {
     TestSuite suite = new TestSuite();
     suite.addTest(ByteSourceTester.tests("ByteSource.wrap[byte[]]",
         SourceSinkFactories.byteArraySourceFactory(), true));
+    suite.addTest(ByteSourceTester.tests("ByteSource.empty[]",
+        SourceSinkFactories.emptyByteSourceFactory(), true));
     suite.addTestSuite(ByteSourceTest.class);
     return suite;
   }

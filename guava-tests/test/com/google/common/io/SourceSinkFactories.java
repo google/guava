@@ -58,6 +58,14 @@ public class SourceSinkFactories {
     return new ByteArraySourceFactory();
   }
 
+  public static ByteSourceFactory emptyByteSourceFactory() {
+    return new EmptyByteSourceFactory();
+  }
+
+  public static CharSourceFactory emptyCharSourceFactory() {
+    return new EmptyCharSourceFactory();
+  }
+
   public static ByteSourceFactory fileByteSourceFactory() {
     return new FileByteSourceFactory();
   }
@@ -103,7 +111,7 @@ public class SourceSinkFactories {
 
       @Override
       public String getExpected(String data) {
-        return checkNotNull(data);
+        return new String(factory.getExpected(data.getBytes(Charsets.UTF_8)), Charsets.UTF_8);
       }
 
       @Override
@@ -154,7 +162,8 @@ public class SourceSinkFactories {
 
       @Override
       public byte[] getExpected(byte[] bytes) {
-        return Arrays.copyOfRange(factory.getExpected(bytes), off, off + len);
+        byte[] baseExpected = factory.getExpected(bytes);
+        return Arrays.copyOfRange(baseExpected, off, Math.min(baseExpected.length, off + len));
       }
 
       @Override
@@ -191,6 +200,40 @@ public class SourceSinkFactories {
     @Override
     public byte[] getExpected(byte[] bytes) {
       return bytes;
+    }
+
+    @Override
+    public void tearDown() throws IOException {
+    }
+  }
+
+  private static class EmptyCharSourceFactory implements CharSourceFactory {
+
+    @Override
+    public CharSource createSource(String data) throws IOException {
+      return CharSource.empty();
+    }
+
+    @Override
+    public String getExpected(String data) {
+      return "";
+    }
+
+    @Override
+    public void tearDown() throws IOException {
+    }
+  }
+
+  private static class EmptyByteSourceFactory implements ByteSourceFactory {
+
+    @Override
+    public ByteSource createSource(byte[] bytes) throws IOException {
+      return ByteSource.empty();
+    }
+
+    @Override
+    public byte[] getExpected(byte[] bytes) {
+      return new byte[0];
     }
 
     @Override

@@ -271,14 +271,23 @@ public abstract class CharSource implements InputSupplier<Reader> {
     return new CharSequenceCharSource(charSequence);
   }
 
-  private static final class CharSequenceCharSource extends CharSource {
+  /**
+   * Returns an immutable {@link CharSource} that contains no characters.
+   *
+   * @since 15.0
+   */
+  public static CharSource empty() {
+    return EmptyCharSource.INSTANCE;
+  }
+
+  private static class CharSequenceCharSource extends CharSource {
 
     private static final Splitter LINE_SPLITTER
         = Splitter.on(Pattern.compile("\r\n|\n|\r"));
 
     private final CharSequence seq;
 
-    private CharSequenceCharSource(CharSequence seq) {
+    protected CharSequenceCharSource(CharSequence seq) {
       this.seq = checkNotNull(seq);
     }
 
@@ -335,6 +344,20 @@ public abstract class CharSource implements InputSupplier<Reader> {
     public String toString() {
       CharSequence shortened = (seq.length() <= 15) ? seq : seq.subSequence(0, 12) + "...";
       return "CharSource.wrap(" + shortened + ")";
+    }
+  }
+
+  private static final class EmptyCharSource extends CharSequenceCharSource {
+
+    private static final EmptyCharSource INSTANCE = new EmptyCharSource();
+
+    private EmptyCharSource() {
+      super("");
+    }
+
+    @Override
+    public String toString() {
+      return "CharSource.empty()";
     }
   }
 }
