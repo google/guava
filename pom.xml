@@ -17,6 +17,8 @@
   <url>http://code.google.com/p/guava-libraries</url>
   <properties>
     <gpg.skip>true</gpg.skip>
+    <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
+    <test.include>**/*Test.java</test.include>
   </properties>
   <issueManagement>
     <system>code.google.com</system>
@@ -149,6 +151,11 @@
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.7.2</version>
+          <configuration>
+            <includes>
+              <include>${test.include}</include>
+            </includes>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>

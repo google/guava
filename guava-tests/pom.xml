@@ -63,11 +63,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <includes>
-            <include>${test.include}</include>
-          </includes>
-        </configuration>
       </plugin>
       <!-- TODO(cpovirk): reenable after a matching Caliper snapshot is pushed to Maven Central
       <plugin>
@@ -90,8 +85,4 @@
       -->
     </plugins>
   </build>
-  <properties>
-    <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
-    <test.include>**/*Test.java</test.include>
-  </properties>
 </project>
