@@ -354,6 +354,12 @@ public class CloserTest extends TestCase {
     assertEquals(ImmutableSet.of(c1Exception, c2Exception), suppressed);
   }
 
+  public void testNullCloseable() throws IOException {
+    Closer closer = Closer.create();
+    closer.register(null);
+    closer.close();
+  }
+
   static Throwable[] getSuppressed(Throwable throwable) {
     try {
       Method getSuppressed = Throwable.class.getDeclaredMethod("getSuppressed");

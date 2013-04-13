@@ -29,6 +29,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.logging.Level;
 
+import javax.annotation.Nullable;
+
 /**
  * A {@link Closeable} that collects {@code Closeable} resources and closes them all when it is
  * {@linkplain #close closed}. This is intended to approximately emulate the behavior of Java 7's
@@ -119,8 +121,11 @@ public final class Closer implements Closeable {
    * @return the given {@code closeable}
    */
   // close. this word no longer has any meaning to me.
-  public <C extends Closeable> C register(C closeable) {
-    stack.push(closeable);
+  public <C extends Closeable> C register(@Nullable C closeable) {
+    if (closeable != null) {
+      stack.push(closeable);
+    }
+
     return closeable;
   }
 
