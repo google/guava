@@ -10,6 +10,9 @@
   <inherits name="com.google.common.util.concurrent.Concurrent" />
   <inherits name="com.google.gwt.user.User" />
 
+  <!-- com.google.common.testing.Testing is located in
+       ForceGuavaTestsCompilation under guava-gwt/test -->
+
   <source path="" />
   <entry-point class="com.google.common.ForceGuavaCompilationEntryPoint" />
 </module>

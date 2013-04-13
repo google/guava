@@ -1,0 +1,15 @@
+<module>
+  <inherits name="com.google.common.testing.Testing" />
+  <inherits name="com.google.common.base.testModule" />
+  <inherits name="com.google.common.cache.testModule" />
+  <inherits name="com.google.common.collect.testModule" />
+  <inherits name="com.google.common.io.testModule" />
+  <inherits name="com.google.common.math.testModule" />
+  <inherits name="com.google.common.net.testModule" />
+  <inherits name="com.google.common.primitives.testModule" />
+  <inherits name="com.google.common.testing.testModule" />
+  <inherits name="com.google.common.util.concurrent.testModule" />
+
+  <source path="" />
+  <entry-point class="com.google.common.GuavaTestsEntryPoint" />
+</module>

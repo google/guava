@@ -14,13 +14,27 @@
  * limitations under the License.
  */
 
-package com.google.common.net;
+package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 
 /**
- * @author Hayward Chan
+ * Variant of {@link SerializableTester} that does not require the reserialized object's class to be
+ * identical to the original.
+ *
+ * @author Chris Povirk
+ */
+/*
+ * The whole thing is really @GwtIncompatible, but GwtJUnitConvertedTestModule doesn't have a
+ * parameter for non-GWT, non-test files, and it didn't seem worth adding one for this unusual case.
  */
 @GwtCompatible(emulated = true)
-class TestPlatform {
+final class LenientSerializableTester {
+  /*
+   * TODO(cpovirk): move this to c.g.c.testing if we allow for c.g.c.annotations dependencies so
+   * that it can be GWTified?
+   */
+
+  private LenientSerializableTester() {}
 }
+

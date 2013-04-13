@@ -34,6 +34,26 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-testlib</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-testlib</artifactId>
+      <version>${project.version}</version>
+      <classifier>tests</classifier>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-tests</artifactId>
+      <version>${project.version}</version>
+      <classifier>tests</classifier> 
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-dev</artifactId>
       <version>${gwt.version}</version>
@@ -44,6 +64,13 @@
       <artifactId>gwt-user</artifactId>
       <version>${gwt.version}</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.truth0</groupId>
+      <artifactId>truth</artifactId>
+      <version>0.11</version>
+      <classifier>gwt</classifier>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
@@ -85,6 +112,51 @@
               <silent>false</silent>
             </configuration>
           </execution>
+          <execution>
+            <id>unpack-guava-testlib-sources</id>
+            <phase>generate-resources</phase>
+            <goals><goal>unpack-dependencies</goal></goals>
+            <configuration>
+              <includeArtifactIds>guava-testlib</includeArtifactIds>
+              <classifier>sources</classifier>
+              <overWrite>true</overWrite>
+              <excludeTransitive>true</excludeTransitive>
+              <excludes>META-INF/MANIFEST.MF</excludes>
+              <outputDirectory>${project.build.directory}/guava-test-sources</outputDirectory>
+              <type>java-source</type>
+              <silent>false</silent>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-guava-testlib-test-sources</id>
+            <phase>generate-resources</phase>
+            <goals><goal>unpack-dependencies</goal></goals>
+            <configuration>
+              <includeArtifactIds>guava-testlib</includeArtifactIds>
+              <classifier>test-sources</classifier>
+              <overWrite>true</overWrite>
+              <excludeTransitive>true</excludeTransitive>
+              <excludes>META-INF/MANIFEST.MF</excludes>
+              <outputDirectory>${project.build.directory}/guava-test-sources</outputDirectory>
+              <type>java-source</type>
+              <silent>false</silent>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-guava-test-sources</id>
+            <phase>generate-resources</phase>
+            <goals><goal>unpack-dependencies</goal></goals>
+            <configuration>
+              <includeArtifactIds>guava-tests</includeArtifactIds>
+              <classifier>test-sources</classifier>
+              <overWrite>true</overWrite>
+              <excludeTransitive>true</excludeTransitive>
+              <excludes>META-INF/MANIFEST.MF</excludes>
+              <outputDirectory>${project.build.directory}/guava-test-sources</outputDirectory>
+              <type>java-source</type>
+              <silent>false</silent>
+            </configuration>
+          </execution>
         </executions>
         <dependencies>
           <dependency>
@@ -92,6 +164,24 @@
             <artifactId>guava</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
+          </dependency>
+          <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava-testlib</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+          </dependency>
+          <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava-testlib</artifactId>
+            <version>${project.version}</version>
+            <classifier>test-sources</classifier>
+          </dependency>
+          <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava-tests</artifactId>
+            <version>${project.version}</version>
+            <classifier>test-sources</classifier>
           </dependency>
         </dependencies>
       </plugin>
@@ -106,6 +196,15 @@
                 <copy toDir="${project.build.directory}/guava-gwt-sources"
                       verbose="true">
                   <fileset dir="${project.build.directory}/guava-sources">
+                    <and>
+                      <contains text="@GwtCompatible"/>
+                      <not><contains text="emulated = true"/></not>
+                    </and>
+                  </fileset>
+                </copy>
+                <copy toDir="${project.build.directory}/guava-test-gwt-sources"
+                      verbose="true">
+                  <fileset dir="${project.build.directory}/guava-test-sources">
                     <and>
                       <contains text="@GwtCompatible"/>
                       <not><contains text="emulated = true"/></not>
@@ -133,6 +232,19 @@
               <validateOnly>true</validateOnly>
             </configuration>
           </execution>
+          <execution>
+            <id>gwt-test</id>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <module>com.google.common.ForceGuavaTestsCompilation</module>
+              <includes>**/GwtTestSuite.java</includes>
+              <mode>htmlunit</mode>
+              <testTimeOut>600</testTimeOut>
+              <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>
@@ -150,6 +262,12 @@
     <testResources>
       <testResource>
         <directory>test</directory>
+      </testResource>
+      <testResource>
+        <directory>test-super</directory>
+      </testResource>
+      <testResource>
+        <directory>${project.build.directory}/guava-test-gwt-sources</directory>
       </testResource>
     </testResources>
   </build>
