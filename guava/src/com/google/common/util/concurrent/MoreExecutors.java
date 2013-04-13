@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
@@ -35,6 +36,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -752,5 +754,91 @@ public final class MoreExecutors {
       // OK if we can't set the name in this environment.
     }
     return result;
+  }
+
+  // TODO(user): provide overloads for ListeningExecutorService? ListeningScheduledExecutorService?
+  // TODO(user): provide overloads that take constant strings? Function<Runnable, String>s to
+  // calculate names?
+
+  /**
+   * Creates an {@link Executor} that renames the {@link Thread threads} that its tasks run in.
+   *
+   * <p>The names are retrieved from the {@code nameSupplier} on the thread that is being renamed
+   * right before each task is run.  The renaming is best effort, if a {@link SecurityManager}
+   * prevents the renaming then it will be skipped but the tasks will still execute.
+   *
+   * @param executor The executor to decorate
+   * @param nameSupplier The source of names for each task
+   */
+  static Executor renamingDecorator(final Executor executor, final Supplier<String> nameSupplier) {
+    checkNotNull(executor);
+    checkNotNull(nameSupplier);
+    if (isAppEngine()) {
+      // AppEngine doesn't support thread renaming, so don't even try
+      return executor;
+    }
+    return new Executor() {
+      @Override public void execute(Runnable command) {
+        executor.execute(Callables.threadRenaming(command, nameSupplier));
+      }
+    };
+  }
+
+  /**
+   * Creates an {@link ExecutorService} that renames the {@link Thread threads} that its tasks run
+   * in.
+   *
+   * <p>The names are retrieved from the {@code nameSupplier} on the thread that is being renamed
+   * right before each task is run.  The renaming is best effort, if a {@link SecurityManager}
+   * prevents the renaming then it will be skipped but the tasks will still execute.
+   *
+   * @param service The executor to decorate
+   * @param nameSupplier The source of names for each task
+   */
+  static ExecutorService renamingDecorator(final ExecutorService service,
+      final Supplier<String> nameSupplier) {
+    checkNotNull(service);
+    checkNotNull(nameSupplier);
+    if (isAppEngine()) {
+      // AppEngine doesn't support thread renaming, so don't even try.
+      return service;
+    }
+    return new WrappingExecutorService(service) {
+      @Override protected <T> Callable<T> wrapTask(Callable<T> callable) {
+        return Callables.threadRenaming(callable, nameSupplier);
+      }
+      @Override protected Runnable wrapTask(Runnable command) {
+        return Callables.threadRenaming(command, nameSupplier);
+      }
+    };
+  }
+
+  /**
+   * Creates a {@link ScheduledExecutorService} that renames the {@link Thread threads} that its
+   * tasks run in.
+   *
+   * <p>The names are retrieved from the {@code nameSupplier} on the thread that is being renamed
+   * right before each task is run.  The renaming is best effort, if a {@link SecurityManager}
+   * prevents the renaming then it will be skipped but the tasks will still execute.
+   *
+   * @param service The executor to decorate
+   * @param nameSupplier The source of names for each task
+   */
+  static ScheduledExecutorService renamingDecorator(final ScheduledExecutorService service,
+      final Supplier<String> nameSupplier) {
+    checkNotNull(service);
+    checkNotNull(nameSupplier);
+    if (isAppEngine()) {
+      // AppEngine doesn't support thread renaming, so don't even try.
+      return service;
+    }
+    return new WrappingScheduledExecutorService(service) {
+      @Override protected <T> Callable<T> wrapTask(Callable<T> callable) {
+        return Callables.threadRenaming(callable, nameSupplier);
+      }
+      @Override protected Runnable wrapTask(Runnable command) {
+        return Callables.threadRenaming(command, nameSupplier);
+      }
+    };
   }
 }

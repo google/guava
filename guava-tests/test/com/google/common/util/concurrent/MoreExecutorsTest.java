@@ -31,6 +31,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.util.concurrent.MoreExecutors.invokeAnyImpl;
 import static com.google.common.util.concurrent.MoreExecutors.listeningDecorator;
+import static com.google.common.util.concurrent.MoreExecutors.renamingDecorator;
 import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.mockito.Mockito.mock;
@@ -38,6 +39,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.truth0.Truth.ASSERT;
 
+import com.google.common.base.Suppliers;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -571,6 +573,17 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertNotNull(factory);
     // Executors#defaultThreadFactory() may return a new instance each time.
     assertEquals(factory.getClass(), Executors.defaultThreadFactory().getClass());
+  }
+
+  public void testThreadRenaming() {
+    Executor renamingExecutor = renamingDecorator(sameThreadExecutor(),
+        Suppliers.ofInstance("FooBar"));
+    String oldName = Thread.currentThread().getName();
+    renamingExecutor.execute(new Runnable() {
+      @Override public void run() {
+        assertEquals("FooBar", Thread.currentThread().getName());
+      }});
+    assertEquals(oldName, Thread.currentThread().getName());
   }
 
   public void testExecutors_nullCheck() throws Exception {

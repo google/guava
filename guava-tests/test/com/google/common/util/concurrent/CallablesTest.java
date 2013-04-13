@@ -16,8 +16,12 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+
 import junit.framework.TestCase;
 
+import java.security.Permission;
 import java.util.concurrent.Callable;
 
 /**
@@ -35,5 +39,60 @@ public class CallablesTest extends TestCase {
     assertSame(value, callable.call());
     // Expect the same value on subsequent calls
     assertSame(value, callable.call());
+  }
+
+  public void testRenaming() throws Exception {
+    String oldName = Thread.currentThread().getName();
+    final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
+    Callable<Void> callable = new Callable<Void>() {
+      @Override public Void call() throws Exception {
+        assertEquals(Thread.currentThread().getName(), newName.get());
+        return null;
+      }
+    };
+    Callables.threadRenaming(callable, newName).call();
+    assertEquals(oldName, Thread.currentThread().getName());
+  }
+
+  public void testRenaming_exceptionalReturn() throws Exception {
+    String oldName = Thread.currentThread().getName();
+    final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
+    class MyException extends Exception {}
+    Callable<Void> callable = new Callable<Void>() {
+      @Override public Void call() throws Exception {
+        assertEquals(Thread.currentThread().getName(), newName.get());
+        throw new MyException();
+      }
+    };
+    try {
+      Callables.threadRenaming(callable, newName).call();
+      fail();
+    } catch (MyException expected) {}
+    assertEquals(oldName, Thread.currentThread().getName());
+  }
+
+  public void testRenaming_noPermissions() throws Exception {
+    System.setSecurityManager(new SecurityManager() {
+      @Override public void checkAccess(Thread t) {
+        throw new SecurityException();
+      }
+      @Override public void checkPermission(Permission perm) {
+        // Do nothing so we can clear the security manager at the end
+      }
+    });
+    try {
+      final String oldName = Thread.currentThread().getName();
+      Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
+      Callable<Void> callable = new Callable<Void>() {
+        @Override public Void call() throws Exception {
+          assertEquals(Thread.currentThread().getName(), oldName);
+          return null;
+        }
+      };
+      Callables.threadRenaming(callable, newName).call();
+      assertEquals(oldName, Thread.currentThread().getName());
+    } finally {
+      System.setSecurityManager(null);
+    }
   }
 }
