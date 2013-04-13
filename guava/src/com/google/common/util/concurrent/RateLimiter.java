@@ -223,13 +223,28 @@ public abstract class RateLimiter {
    * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in
    *        how many permits become available per second.
    */
+  // TODO(user): "This is equivalent to
+  //                 {@code createBursty(permitsPerSecond, 1, TimeUnit.SECONDS)}".
   public static RateLimiter create(double permitsPerSecond) {
+    /*
+       * The default RateLimiter configuration can save the unused permits of up to one second.
+       * This is to avoid unnecessary stalls in situations like this: A RateLimiter of 1qps,
+       * and 4 threads, all calling acquire() at these moments:
+       *
+       * T0 at 0 seconds
+       * T1 at 1.05 seconds
+       * T2 at 2 seconds
+       * T3 at 3 seconds
+       *
+       * Due to the slight delay of T1, T2 would have to sleep till 2.05 seconds,
+       * and T3 would also have to sleep till 3.05 seconds.
+     */
     return create(SleepingTicker.SYSTEM_TICKER, permitsPerSecond);
   }
 
   @VisibleForTesting
   static RateLimiter create(SleepingTicker ticker, double permitsPerSecond) {
-    RateLimiter rateLimiter = new Bursty(ticker);
+    RateLimiter rateLimiter = new Bursty(ticker, 1.0 /* maxBurstSeconds */);
     rateLimiter.setRate(permitsPerSecond);
     return rateLimiter;
   }
@@ -244,7 +259,7 @@ public abstract class RateLimiter {
    * i.e. it will go through the same warming up process as when it was first created.
    *
    * <p>The returned {@code RateLimiter} is intended for cases where the resource that actually
-   * fulfils the requests (e.g., a remote server) needs "warmup" time, rather than
+   * fulfills the requests (e.g., a remote server) needs "warmup" time, rather than
    * being immediately accessed at the stable (maximum) rate.
    *
    * <p>The returned {@code RateLimiter} starts in a "cold" state (i.e. the warmup period
@@ -256,25 +271,54 @@ public abstract class RateLimiter {
    *        rate, before reaching its stable (maximum) rate
    * @param unit the time unit of the warmupPeriod argument
    */
-  // TODO(user): add a burst size of 1-second-worth of permits, as in the metronome?
   public static RateLimiter create(double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
     return create(SleepingTicker.SYSTEM_TICKER, permitsPerSecond, warmupPeriod, unit);
   }
 
   @VisibleForTesting
   static RateLimiter create(
-      SleepingTicker ticker, double permitsPerSecond, long warmupPeriod, TimeUnit timeUnit) {
-    RateLimiter rateLimiter = new WarmingUp(ticker, warmupPeriod, timeUnit);
+      SleepingTicker ticker, double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
+    RateLimiter rateLimiter = new WarmingUp(ticker, warmupPeriod, unit);
     rateLimiter.setRate(permitsPerSecond);
     return rateLimiter;
   }
 
+  /**
+   * Creates a {@code RateLimiter} with the specified stable throughput, given as
+   * "permits per second" (commonly referred to as <i>QPS</i>, queries per second),
+   * and the specified bursty behavior.
+   *
+   * <p>The returned {@code RateLimiter} ensures that on average no more than {@code
+   * permitsPerSecond} are issued during any given second, with sustained requests
+   * being smoothly spread over each second. When the incoming request rate exceeds
+   * {@code permitsPerSecond} the rate limiter will release one permit every {@code
+   * (1.0 / permitsPerSecond)} seconds.
+   *
+   * <p>When the rate limiter is unused, permits of up to {@code maxBurstBuildup} time
+   * period can be accumulated, and then produced upon request with no wait (in a burst).
+   * For example, {@code createBursty(2.0, 30, TimeUnit.SECONDS)} constructs a {@code RateLimiter}
+   * with a max rate of 2 qps, but if it is unused, it can save up permits that would have been
+   * produced in 30 seconds (at 2 qps rate, that's 60 permits), and give them to callers with no
+   * throttling. If the rate is changed to, say, 4 qps, then similarly the max saved permits
+   * will be {@code 4 * 30 = 120}.
+   *
+   * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in
+   *        how many permits become available per second.
+   * @param maxBurstBuildup
+   * @param unit
+   */
+
+  /* public */ static RateLimiter createBursty(
+      double permitsPerSecond, long maxBurstBuildup, TimeUnit unit) {
+    return createBursty(SleepingTicker.SYSTEM_TICKER, permitsPerSecond, maxBurstBuildup, unit);
+  }
+
   @VisibleForTesting
   static RateLimiter createBursty(
-      SleepingTicker ticker, double permitsPerSecond, int maxBurstSize) {
-    Bursty rateLimiter = new Bursty(ticker);
+      SleepingTicker ticker, double permitsPerSecond, long maxBurstBuildup, TimeUnit unit) {
+    double maxBurstSeconds = unit.toNanos(maxBurstBuildup) / 1E+9;
+    Bursty rateLimiter = new Bursty(ticker, maxBurstSeconds);
     rateLimiter.setRate(permitsPerSecond);
-    rateLimiter.maxPermits = maxBurstSize;
     return rateLimiter;
   }
 
@@ -635,29 +679,24 @@ public abstract class RateLimiter {
   }
 
   /**
-   * This implements a trivial function, where storedPermits are translated to
-   * zero throttling - thus, a client gets an infinite speedup for permits acquired out
-   * of the storedPermits pool. This is also used for the special case of the "metronome",
-   * where the width of the function is also zero; maxStoredPermits is zero, thus
-   * storedPermits and permitsToTake are always zero as well. Such a RateLimiter can
-   * not save permits when unused, thus all permits it serves are fresh, using the
-   * designated rate.
+   * This implements a "bursty" RateLimiter, where storedPermits are translated to
+   * zero throttling. The maximum number of permits that can be saved (when the RateLimiter is
+   * unused) is defined in terms of time, in this sense: if a RateLimiter is 2qps, and this
+   * time is specified as 10 seconds, we can save up to 2 * 10 = 20 permits.
    */
   private static class Bursty extends RateLimiter {
-    Bursty(SleepingTicker ticker) {
+    /** The work (permits) of how many seconds can be saved up if this RateLimiter is unused? */
+    final double maxBurstSeconds;
+
+    Bursty(SleepingTicker ticker, double maxBurstSeconds) {
       super(ticker);
+      this.maxBurstSeconds = maxBurstSeconds;
     }
 
     @Override
     void doSetRate(double permitsPerSecond, double stableIntervalMicros) {
       double oldMaxPermits = this.maxPermits;
-      /*
-       * We allow the equivalent work of up to one second to be granted with zero waiting, if the
-       * rate limiter has been unused for as much. This is to avoid potentially producing tiny
-       * wait interval between subsequent requests for sufficiently large rates, which would
-       * unnecessarily overconstrain the thread scheduler.
-       */
-      maxPermits = permitsPerSecond; // one second worth of permits
+      maxPermits = maxBurstSeconds * permitsPerSecond;
       storedPermits = (oldMaxPermits == 0.0)
           ? 0.0 // initial state
           : storedPermits * maxPermits / oldMaxPermits;

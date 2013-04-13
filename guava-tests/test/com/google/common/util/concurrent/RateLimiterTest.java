@@ -153,7 +153,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testBursty() {
-    RateLimiter limiter = RateLimiter.createBursty(ticker, 1.0, 10);
+    RateLimiter limiter = RateLimiter.createBursty(ticker, 1.0, 10, TimeUnit.SECONDS);
     ticker.sleepMillis(10000); // reach full capacity
     limiter.acquire(11); // all these are served in a burst (10 + 1 by borrowing from the future)
     limiter.acquire(1); // out of capacity, we have to wait
