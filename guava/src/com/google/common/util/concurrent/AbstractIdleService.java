@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
 import java.util.concurrent.Executor;
@@ -34,34 +35,43 @@ import java.util.concurrent.Executor;
 @Beta
 public abstract class AbstractIdleService implements Service {
 
+  /* Thread names will look like {@code "MyService STARTING"}. */
+  private final Supplier<String> threadNameSupplier = new Supplier<String>() {
+    @Override public String get() {
+      return serviceName() + " " + state();
+    }
+  };
+
   /* use AbstractService for state management */
   private final Service delegate = new AbstractService() {
     @Override protected final void doStart() {
-      executor().execute(new Runnable() {
-        @Override public void run() {
-          try {
-            startUp();
-            notifyStarted();
-          } catch (Throwable t) {
-            notifyFailed(t);
-            throw Throwables.propagate(t);
-          }
-        }
-      });
+      MoreExecutors.renamingDecorator(executor(), threadNameSupplier)
+          .execute(new Runnable() {
+            @Override public void run() {
+              try {
+                startUp();
+                notifyStarted();
+              } catch (Throwable t) {
+                notifyFailed(t);
+                throw Throwables.propagate(t);
+              }
+            }
+          });
     }
 
     @Override protected final void doStop() {
-      executor().execute(new Runnable() {
-        @Override public void run() {
-          try {
-            shutDown();
-            notifyStopped();
-          } catch (Throwable t) {
-            notifyFailed(t);
-            throw Throwables.propagate(t);
-          }
-        }
-      });
+      MoreExecutors.renamingDecorator(executor(), threadNameSupplier)
+          .execute(new Runnable() {
+            @Override public void run() {
+              try {
+                shutDown();
+                notifyStopped();
+              } catch (Throwable t) {
+                notifyFailed(t);
+                throw Throwables.propagate(t);
+              }
+            }
+          });
     }
   };
 
@@ -83,11 +93,9 @@ public abstract class AbstractIdleService implements Service {
    * and should return promptly.
    */
   protected Executor executor() {
-    final State state = state();
     return new Executor() {
-      @Override
-      public void execute(Runnable command) {
-        MoreExecutors.newThread(serviceName() + " " + state, command).start();
+      @Override public void execute(Runnable command) {
+        MoreExecutors.newThread(threadNameSupplier.get(), command).start();
       }
     };
   }

@@ -18,6 +18,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
 import java.util.concurrent.Callable;
@@ -184,7 +185,11 @@ public abstract class AbstractScheduledService implements Service {
     };
     
     @Override protected final void doStart() {
-      executorService = executor();
+      executorService = MoreExecutors.renamingDecorator(executor(), new Supplier<String>() {
+        @Override public String get() {
+          return serviceName() + " " + state();
+        }
+      });
       executorService.execute(new Runnable() {
         @Override public void run() {
           lock.lock();

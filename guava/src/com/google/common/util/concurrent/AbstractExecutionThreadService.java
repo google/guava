@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
 import java.util.concurrent.Executor;
@@ -40,7 +41,12 @@ public abstract class AbstractExecutionThreadService implements Service {
   /* use AbstractService for state management */
   private final Service delegate = new AbstractService() {
     @Override protected final void doStart() {
-      executor().execute(new Runnable() {
+      Executor executor = MoreExecutors.renamingDecorator(executor(), new Supplier<String>() {
+        @Override public String get() {
+          return serviceName();
+        }
+      });
+      executor.execute(new Runnable() {
         @Override
         public void run() {
           try {
