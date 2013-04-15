@@ -6265,7 +6265,8 @@ final class TldPatterns {
       "ng",
       "\u049b\u0430\u0437",
       "xn--80ao21a",
-      "cw"
+      "cw",
+      "csiro.au"
   );
 
   /**
