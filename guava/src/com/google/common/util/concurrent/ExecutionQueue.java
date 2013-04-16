@@ -93,9 +93,18 @@ import javax.annotation.concurrent.ThreadSafe;
   }
 
   /**
-   * The listener object for the queue.  Subclasses override the {@link #execute} method to
-   * implement their listening logic.  Each instance can only be {@link ExecutionQueue#add added} to
-   * a {@link ExecutionQueue} at most once.
+   * The listener object for the queue.
+   *
+   * <p>This ensures that:
+   * <ol>
+   *   <li>{@link #executor executor}.{@link Executor#execute execute} is called at most once
+   *   <li>{@link #runnable executor}.{@link Runnable#run run} is called at most once by the
+   *        executor
+   *   <li>{@link #lock lock} is not held when {@link #runnable executor}.{@link Runnable#run run}
+   *       is called
+   *   <li>no thread calling {@link #submit} can return until the task has been accepted by the
+   *       executor
+   * </ol>
    */
   private final class RunnableExecutorPair implements Runnable {
     private final Executor executor;
@@ -123,12 +132,12 @@ import javax.annotation.concurrent.ThreadSafe;
             logger.log(Level.SEVERE, "Exception while executing listener " + runnable
                 + " with executor " + executor, e);
           }
-          hasBeenExecuted = true;
         }
       } finally {
         // If the executor was the sameThreadExecutor we may have already released the lock, so
         // check for that here.
         if (lock.isHeldByCurrentThread()) {
+          hasBeenExecuted = true;
           lock.unlock();
         }
       }
