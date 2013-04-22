@@ -31,6 +31,9 @@ import java.util.zip.Checksum;
  * Static methods to obtain {@link HashFunction} instances, and other static hashing-related
  * utilities.
  *
+ * <p>A comparison of the various hash functions can be found
+ * <a href="http://goo.gl/jS7HH">here</a>.
+ *
  * @author Kevin Bourrillion
  * @author Dimitris Andreou
  * @author Kurt Alfred Kluever
