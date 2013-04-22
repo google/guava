@@ -42,10 +42,6 @@ import javax.annotation.Nullable;
  */
 class Platform {
 
-  static <T> T[] clone(T[] array) {
-    return GwtPlatform.clone(array);
-  }
-
   static <T> T[] newArray(T[] reference, int length) {
     return GwtPlatform.newArray(reference, length);
   }

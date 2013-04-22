@@ -38,11 +38,6 @@ public final class GwtPlatform {
 
   private GwtPlatform() {}
 
-  /** See {@link Platform#clone(Object[])} */
-  public static <T> T[] clone(T[] array) {
-    return array.clone();
-  }
-
   /** See {@link Platform#newArray(Object[], int)} */
   public static <T> T[] newArray(T[] reference, int length) {
     Class<?> type = reference.getClass().getComponentType();

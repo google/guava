@@ -33,10 +33,6 @@ import com.google.gwt.lang.Array;
 public final class GwtPlatform {
 
   private GwtPlatform() {}
-  
-  public static <T> T[] clone(T[] array) {
-    return (T[]) Array.clone(array);
-  }
 
   public static <T> T[] newArray(T[] reference, int length) {
     return Array.createFrom(reference, length);

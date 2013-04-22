@@ -33,21 +33,6 @@ public void testAppendZeroElements() throws Exception {
   testCase.testAppendZeroElements();
 }
 
-public void testCloneEmptyArray() throws Exception {
-  com.google.common.collect.ObjectArraysTest testCase = new com.google.common.collect.ObjectArraysTest();
-  testCase.testCloneEmptyArray();
-}
-
-public void testCloneMultipleElementArray() throws Exception {
-  com.google.common.collect.ObjectArraysTest testCase = new com.google.common.collect.ObjectArraysTest();
-  testCase.testCloneMultipleElementArray();
-}
-
-public void testCloneSingletonArray() throws Exception {
-  com.google.common.collect.ObjectArraysTest testCase = new com.google.common.collect.ObjectArraysTest();
-  testCase.testCloneSingletonArray();
-}
-
 public void testEmptyArrayToEmpty() throws Exception {
   com.google.common.collect.ObjectArraysTest testCase = new com.google.common.collect.ObjectArraysTest();
   testCase.testEmptyArrayToEmpty();

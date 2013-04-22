@@ -38,14 +38,6 @@ import java.util.SortedSet;
 @GwtCompatible(emulated = true)
 class Platform {
   /**
-   * Clone the given array using {@link Object#clone()}.  It is factored out so
-   * that it can be emulated in GWT.
-   */
-  static <T> T[] clone(T[] array) {
-    return array.clone();
-  }
-
-  /**
    * Returns a new array of the given length with the same type as a reference
    * array.
    *
