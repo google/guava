@@ -32,7 +32,7 @@ import java.io.IOException;
  * Extra assert methods for testing Escaper implementations.
  *
  * @author David Beaumont
- * @since 11.0
+ * @since 15.0
  */
 @Beta
 @GwtCompatible
