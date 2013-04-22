@@ -729,8 +729,22 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * errors for callers like {@link TypeToInstanceMap}.
    */
   final TypeToken<T> rejectTypeVariables() {
-    checkArgument(!Types.containsTypeVariable(runtimeType),
-        "%s contains a type variable and is not safe for the operation");
+    new TypeVisitor() {
+      @Override void visitTypeVariable(TypeVariable<?> type) {
+        throw new IllegalArgumentException(
+            runtimeType + "contains a type variable and is not safe for the operation");
+      }
+      @Override void visitWildcardType(WildcardType type) {
+        visit(type.getLowerBounds());
+        visit(type.getUpperBounds());
+      }
+      @Override void visitParameterizedType(ParameterizedType type) {
+        visit(type.getActualTypeArguments());
+      }
+      @Override void visitGenericArrayType(GenericArrayType type) {
+        visit(type.getGenericComponentType());
+      }
+    }.visit(runtimeType);
     return this;
   }
 
@@ -910,30 +924,26 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   @VisibleForTesting static ImmutableSet<Class<?>> getRawTypes(Type type) {
-    if (type instanceof Class) {
-      return ImmutableSet.<Class<?>>of((Class<?>) type);
-    } else if (type instanceof ParameterizedType) {
-      ParameterizedType parameterizedType = (ParameterizedType) type;
-      // JDK implementation declares getRawType() to return Class<?>: http://goo.gl/YzaEd
-      return ImmutableSet.<Class<?>>of((Class<?>) parameterizedType.getRawType());
-    } else if (type instanceof GenericArrayType) {
-      GenericArrayType genericArrayType = (GenericArrayType) type;
-      return ImmutableSet.<Class<?>>of(Types.getArrayClass(
-          getRawType(genericArrayType.getGenericComponentType())));
-    } else if (type instanceof TypeVariable) {
-      return getRawTypes(((TypeVariable<?>) type).getBounds());
-    } else if (type instanceof WildcardType) {
-      return getRawTypes(((WildcardType) type).getUpperBounds());
-    } else {
-      throw new AssertionError(type + " unsupported");
-    }
-  }
+    checkNotNull(type);
+    final ImmutableSet.Builder<Class<?>> builder = ImmutableSet.builder();
+    new TypeVisitor() {
+      @Override void visitTypeVariable(TypeVariable<?> t) {
+        visit(t.getBounds());
+      }
+      @Override void visitWildcardType(WildcardType t) {
+        visit(t.getUpperBounds());
+      }
+      @Override void visitParameterizedType(ParameterizedType t) {
+        builder.add((Class<?>) t.getRawType());
+      }
+      @Override void visitClass(Class<?> t) {
+        builder.add(t);
+      }
+      @Override void visitGenericArrayType(GenericArrayType t) {
+        builder.add(Types.getArrayClass(getRawType(t.getGenericComponentType())));
+      }
 
-  private static ImmutableSet<Class<?>> getRawTypes(Type[] types) {
-    ImmutableSet.Builder<Class<?>> builder = ImmutableSet.builder();
-    for (Type type : types) {
-      builder.addAll(getRawTypes(type));
-    }
+    }.visit(type);
     return builder.build();
   }
 

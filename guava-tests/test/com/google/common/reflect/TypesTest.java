@@ -377,39 +377,6 @@ public class TypesTest extends TestCase {
     } catch(IllegalArgumentException expected) {}
   }
 
-  public void testContainsTypeVariable_class() {
-    assertFalse(Types.containsTypeVariable(String.class));
-    assertFalse(Types.containsTypeVariable(String[].class));
-    assertFalse(Types.containsTypeVariable(int[].class));
-  }
-
-  public void testContainsTypeVariable_parameterizedType() {
-    assertFalse(Types.containsTypeVariable(new TypeCapture<Iterable<String>>() {}.capture()));
-  }
-
-  public void testContainsTypeVariable_wildcardType() {
-    assertFalse(Types.containsTypeVariable(
-        new TypeCapture<Iterable<? extends String>>() {}.capture()));
-    assertFalse(Types.containsTypeVariable(
-        new TypeCapture<Iterable<? super String>>() {}.capture()));
-  }
-
-  public void testContainsTypeVariable_genericArrayType() {
-    assertFalse(Types.containsTypeVariable(
-        new TypeCapture<Iterable<? extends String>[]>() {}.capture()));
-  }
-
-  public <T> void testContainsTypeVariable_withTypeVariable() {
-    assertTrue(Types.containsTypeVariable(new TypeCapture<T>() {}.capture()));
-    assertTrue(Types.containsTypeVariable(new TypeCapture<T[]>() {}.capture()));
-    assertTrue(Types.containsTypeVariable(new TypeCapture<Iterable<T>>() {}.capture()));
-    assertTrue(Types.containsTypeVariable(new TypeCapture<Map<String, T>>() {}.capture()));
-    assertTrue(Types.containsTypeVariable(
-        new TypeCapture<Map<String, ? extends T>>() {}.capture()));
-    assertTrue(Types.containsTypeVariable(
-        new TypeCapture<Map<String, ? super T[]>>() {}.capture()));
-  }
-
   public void testToString() {
     assertEquals(int[].class.getName(), Types.toString(int[].class));
     assertEquals(int[][].class.getName(), Types.toString(int[][].class));

@@ -24,7 +24,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -32,7 +31,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nullable;
@@ -99,47 +97,55 @@ public final class TypeResolver {
   }
 
   private static void populateTypeMappings(
-      Map<TypeVariable<?>, Type> mappings, Type from, Type to) {
+      final Map<TypeVariable<?>, Type> mappings, Type from, final Type to) {
     if (from.equals(to)) {
       return;
     }
-    if (from instanceof TypeVariable) {
-      mappings.put((TypeVariable<?>) from, to);
-    } else if (from instanceof GenericArrayType) {
-      populateTypeMappings(mappings,
-          ((GenericArrayType) from).getGenericComponentType(),
-          checkNonNullArgument(Types.getComponentType(to), "%s is not an array type.", to));
-    } else if (from instanceof ParameterizedType) {
-      ParameterizedType fromParameterizedType = (ParameterizedType) from;
-      ParameterizedType toParameterizedType = expectArgument(ParameterizedType.class, to);
-      checkArgument(fromParameterizedType.getRawType().equals(toParameterizedType.getRawType()),
-          "Inconsistent raw type: %s vs. %s", from, to);
-      Type[] fromArgs = fromParameterizedType.getActualTypeArguments();
-      Type[] toArgs = toParameterizedType.getActualTypeArguments();
-      checkArgument(fromArgs.length == toArgs.length);
-      for (int i = 0; i < fromArgs.length; i++) {
-        populateTypeMappings(mappings, fromArgs[i], toArgs[i]);
+    new TypeVisitor() {
+      @Override void visitTypeVariable(TypeVariable<?> typeVariable) {
+        mappings.put(typeVariable, to);
       }
-    } else if (from instanceof WildcardType) {
-      WildcardType fromWildcardType = (WildcardType) from;
-      WildcardType toWildcardType = expectArgument(WildcardType.class, to);
-      Type[] fromUpperBounds = fromWildcardType.getUpperBounds();
-      Type[] toUpperBounds = toWildcardType.getUpperBounds();
-      Type[] fromLowerBounds = fromWildcardType.getLowerBounds();
-      Type[] toLowerBounds = toWildcardType.getLowerBounds();
-      checkArgument(
-          fromUpperBounds.length == toUpperBounds.length
-              && fromLowerBounds.length == toLowerBounds.length,
-          "Incompatible type: %s vs. %s", from, to);
-      for (int i = 0; i < fromUpperBounds.length; i++) {
-        populateTypeMappings(mappings, fromUpperBounds[i], toUpperBounds[i]);
+      @Override void visitWildcardType(WildcardType fromWildcardType) {
+        WildcardType toWildcardType = expectArgument(WildcardType.class, to);
+        Type[] fromUpperBounds = fromWildcardType.getUpperBounds();
+        Type[] toUpperBounds = toWildcardType.getUpperBounds();
+        Type[] fromLowerBounds = fromWildcardType.getLowerBounds();
+        Type[] toLowerBounds = toWildcardType.getLowerBounds();
+        checkArgument(
+            fromUpperBounds.length == toUpperBounds.length
+                && fromLowerBounds.length == toLowerBounds.length,
+            "Incompatible type: %s vs. %s", fromWildcardType, to);
+        for (int i = 0; i < fromUpperBounds.length; i++) {
+          populateTypeMappings(mappings, fromUpperBounds[i], toUpperBounds[i]);
+        }
+        for (int i = 0; i < fromLowerBounds.length; i++) {
+          populateTypeMappings(mappings, fromLowerBounds[i], toLowerBounds[i]);
+        }
       }
-      for (int i = 0; i < fromLowerBounds.length; i++) {
-        populateTypeMappings(mappings, fromLowerBounds[i], toLowerBounds[i]);
+      @Override void visitParameterizedType(ParameterizedType fromParameterizedType) {
+        ParameterizedType toParameterizedType = expectArgument(ParameterizedType.class, to);
+        checkArgument(fromParameterizedType.getRawType().equals(toParameterizedType.getRawType()),
+            "Inconsistent raw type: %s vs. %s", fromParameterizedType, to);
+        Type[] fromArgs = fromParameterizedType.getActualTypeArguments();
+        Type[] toArgs = toParameterizedType.getActualTypeArguments();
+        checkArgument(fromArgs.length == toArgs.length,
+            "%s not compatible with %s", fromParameterizedType, toParameterizedType);
+        for (int i = 0; i < fromArgs.length; i++) {
+          populateTypeMappings(mappings, fromArgs[i], toArgs[i]);
+        }
       }
-    } else {
-      throw new IllegalArgumentException("No type mapping from " + from);
-    }
+      @Override void visitGenericArrayType(GenericArrayType fromArrayType) {
+        Type componentType = Types.getComponentType(to);
+        checkArgument(componentType != null, "%s is not an array type.", to);
+        populateTypeMappings(mappings, fromArrayType.getGenericComponentType(), componentType);
+      }
+      @Override void visitClass(Class<?> fromClass) {
+        // Can't map from a raw class to anything other than itself.
+        // You can't say "assuming String is Integer".
+        // And we don't support "assuming String is T"; user has to say "assuming T is String". 
+        throw new IllegalArgumentException("No type mapping from " + fromClass);
+      }
+    }.visit(from);
   }
 
   /**
@@ -190,11 +196,6 @@ public final class TypeResolver {
     }
     return Types.newParameterizedTypeWithOwner(
         resolvedOwner, (Class<?>) resolvedRawType, resolvedArgs);
-  }
-
-  private static <T> T checkNonNullArgument(T arg, String format, Object... messageParams) {
-    checkArgument(arg != null, format, messageParams);
-    return arg;
   }
 
   private static <T> T expectArgument(Class<T> type, Object arg) {
@@ -269,12 +270,11 @@ public final class TypeResolver {
     }
   }
 
-  private static final class TypeMappingIntrospector {
+  private static final class TypeMappingIntrospector extends TypeVisitor {
 
     private static final WildcardCapturer wildcardCapturer = new WildcardCapturer();
 
     private final Map<TypeVariable<?>, Type> mappings = Maps.newHashMap();
-    private final Set<Type> introspectedTypes = Sets.newHashSet();
 
     /**
      * Returns type mappings using type parameters and type arguments found in
@@ -283,38 +283,16 @@ public final class TypeResolver {
     static ImmutableMap<TypeVariable<?>, Type> getTypeMappings(
         Type contextType) {
       TypeMappingIntrospector introspector = new TypeMappingIntrospector();
-      introspector.introspect(wildcardCapturer.capture(contextType));
+      introspector.visit(wildcardCapturer.capture(contextType));
       return ImmutableMap.copyOf(introspector.mappings);
     }
 
-    private void introspect(Type type) {
-      if (!introspectedTypes.add(type)) {
-        return;
-      }
-      if (type instanceof ParameterizedType) {
-        introspectParameterizedType((ParameterizedType) type);
-      } else if (type instanceof Class) {
-        introspectClass((Class<?>) type);
-      } else if (type instanceof TypeVariable) {
-        for (Type bound : ((TypeVariable<?>) type).getBounds()) {
-          introspect(bound);
-        }
-      } else if (type instanceof WildcardType) {
-        for (Type bound : ((WildcardType) type).getUpperBounds()) {
-          introspect(bound);
-        }
-      }
+    @Override void visitClass(Class<?> clazz) {
+      visit(clazz.getGenericSuperclass());
+      visit(clazz.getGenericInterfaces());
     }
 
-    private void introspectClass(Class<?> clazz) {
-      introspect(clazz.getGenericSuperclass());
-      for (Type interfaceType : clazz.getGenericInterfaces()) {
-        introspect(interfaceType);
-      }
-    }
-
-    private void introspectParameterizedType(
-        ParameterizedType parameterizedType) {
+    @Override void visitParameterizedType(ParameterizedType parameterizedType) {
       Class<?> rawClass = (Class<?>) parameterizedType.getRawType();
       TypeVariable<?>[] vars = rawClass.getTypeParameters();
       Type[] typeArgs = parameterizedType.getActualTypeArguments();
@@ -322,8 +300,16 @@ public final class TypeResolver {
       for (int i = 0; i < vars.length; i++) {
         map(vars[i], typeArgs[i]);
       }
-      introspectClass(rawClass);
-      introspect(parameterizedType.getOwnerType());
+      visit(rawClass);
+      visit(parameterizedType.getOwnerType());
+    }
+
+    @Override void visitTypeVariable(TypeVariable<?> t) {
+      visit(t.getBounds());
+    }
+
+    @Override void visitWildcardType(WildcardType t) {
+      visit(t.getUpperBounds());
     }
 
     private void map(final TypeVariable<?> var, final Type arg) {
