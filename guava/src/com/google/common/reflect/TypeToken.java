@@ -740,6 +740,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       }
       @Override void visitParameterizedType(ParameterizedType type) {
         visit(type.getActualTypeArguments());
+        visit(type.getOwnerType());
       }
       @Override void visitGenericArrayType(GenericArrayType type) {
         visit(type.getGenericComponentType());

@@ -1375,8 +1375,10 @@ public class TypeTokenTest extends TestCase {
     // Inner is subclassed
     assertNoTypeVariable(new From<Integer>().new To<String>() {}.type());
     assertHasTypeVariable(new From<Integer>().new To<T>() {}.type());
+    assertHasTypeVariable(new From<T>().new To<String>() {}.type());
 
     // both subclassed
+    assertHasTypeVariable(new From<T>() {}.new To<String>() {}.type());
     assertNoTypeVariable(new From<Integer>() {}.new To<String>() {}.type());
     assertHasTypeVariable(new From<Integer>() {}.new To<T>() {}.type());
   }
