@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table.Cell;
+import com.google.common.primitives.Ints;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.util.concurrent.AtomicLongMap;
 
@@ -327,6 +328,13 @@ public class HashingTest extends TestCase {
 
     assertEquals(HashCodes.fromBytes(combined),
         new ConcatenatedHashFunction(Hashing.md5(), Hashing.murmur3_32()).hashLong(42L));
+  }
+
+  public void testHashIntReverseBytesVsHashBytesIntsToByteArray() {
+    int input = 42;
+    assertEquals(
+        Hashing.md5().hashBytes(Ints.toByteArray(input)),
+        Hashing.md5().hashInt(Integer.reverseBytes(input)));
   }
 
   private static final String EMPTY_STRING = "";
