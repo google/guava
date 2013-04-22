@@ -166,23 +166,28 @@ public final class Files {
           off += read;
         }
 
-        byte[] result = bytes;
-
         if (off < size) {
           // encountered EOF early; truncate the result
-          result = Arrays.copyOf(bytes, off);
-        } else if (read != -1) {
-          // we read size bytes... if the last read didn't return -1, the file got larger
-          // so we just read the rest normally and then create a new array
-          ByteArrayOutputStream out = new ByteArrayOutputStream();
-          ByteStreams.copy(in, out);
-          byte[] moreBytes = out.toByteArray();
-          result = new byte[bytes.length + moreBytes.length];
-          System.arraycopy(bytes, 0, result, 0, bytes.length);
-          System.arraycopy(moreBytes, 0, result, bytes.length, moreBytes.length);
+          return Arrays.copyOf(bytes, off);
         }
-        // normally, off should == size and read should == -1
-        // in that case, the array is just returned as is
+
+        // otherwise, exactly size bytes were read
+
+        int b = in.read(); // check for EOF
+        if (b == -1) {
+          // EOF; the file did not change size, so return the original array
+          return bytes;
+        }
+
+        // the file got larger, so read the rest normally
+        InternalByteArrayOutputStream out
+            = new InternalByteArrayOutputStream();
+        out.write(b); // write the byte we read when testing for EOF
+        ByteStreams.copy(in, out);
+
+        byte[] result = new byte[bytes.length + out.size()];
+        System.arraycopy(bytes, 0, result, 0, bytes.length);
+        out.writeTo(result, bytes.length);
         return result;
       } catch (Throwable e) {
         throw closer.rethrow(e);
@@ -194,6 +199,20 @@ public final class Files {
     @Override
     public String toString() {
       return "Files.asByteSource(" + file + ")";
+    }
+  }
+
+  /**
+   * BAOS subclass for direct access to its internal buffer.
+   */
+  private static final class InternalByteArrayOutputStream
+      extends ByteArrayOutputStream {
+    /**
+     * Writes the contents of the internal buffer to the given array starting
+     * at the given offset. Assumes the array has space to hold count bytes.
+     */
+    void writeTo(byte[] b, int off) {
+      System.arraycopy(buf, 0, b, off, count);
     }
   }
 
