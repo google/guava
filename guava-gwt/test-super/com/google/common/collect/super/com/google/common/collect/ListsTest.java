@@ -619,6 +619,4 @@ public class ListsTest extends TestCase {
     assertEquals(1, Lists.partition(list, Integer.MAX_VALUE).size());
     assertEquals(1, Lists.partition(list, Integer.MAX_VALUE - 1).size());
   }
-
-  // These tests are quick and basic and don't actually show unmodifiability...
 }

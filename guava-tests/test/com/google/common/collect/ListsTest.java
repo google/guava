@@ -887,6 +887,4 @@ public class ListsTest extends TestCase {
   public void testPartitionSize_2() {
     assertEquals(2, Lists.partition(Collections.nCopies(0x40000001, 1), 0x40000000).size());
   }
-
-  // These tests are quick and basic and don't actually show unmodifiability...
 }
