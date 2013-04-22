@@ -16,6 +16,7 @@
 
 package com.google.common.hash;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import junit.framework.TestCase;
@@ -31,12 +32,26 @@ import java.util.Arrays;
  */
 public class MessageDigestHashFunctionTest extends TestCase {
   private static final ImmutableSet<String> INPUTS = ImmutableSet.of("", "Z", "foobar");
-  private static final ImmutableSet<String> ALGORITHMS = ImmutableSet.of(
-        "MD5", "SHA1", "SHA-1", "SHA-256", "SHA-512");
+
+  // From "How Provider Implementations Are Requested and Supplied" from
+  // http://docs.oracle.com/javase/6/docs/technotes/guides/security/crypto/CryptoSpec.html
+  //  - Some providers may choose to also include alias names.
+  //  - For example, the "SHA-1" algorithm might be referred to as "SHA1".
+  //  - The algorithm name is not case-sensitive.
+  private static final ImmutableMap<String, HashFunction> ALGORITHMS =
+      new ImmutableMap.Builder<String, HashFunction>()
+          .put("MD5", Hashing.md5())
+          .put("SHA", Hashing.sha1()) // Not the official name, but still works
+          .put("SHA1", Hashing.sha1()) // Not the official name, but still works
+          .put("sHa-1", Hashing.sha1()) // Not the official name, but still works
+          .put("SHA-1", Hashing.sha1())
+          .put("SHA-256", Hashing.sha256())
+          .put("SHA-512", Hashing.sha512())
+          .build();
 
   public void testHashing() {
     for (String stringToTest : INPUTS) {
-      for (String algorithmToTest : ALGORITHMS) {
+      for (String algorithmToTest : ALGORITHMS.keySet()) {
         assertMessageDigestHashing(HashTestUtils.ascii(stringToTest), algorithmToTest);
       }
     }
@@ -54,7 +69,7 @@ public class MessageDigestHashFunctionTest extends TestCase {
       MessageDigest digest = MessageDigest.getInstance(algorithmName);
       assertEquals(
           HashCodes.fromBytes(digest.digest(input)),
-          new MessageDigestHashFunction(algorithmName, algorithmName).hashBytes(input));
+          ALGORITHMS.get(algorithmName).hashBytes(input));
       for (int bytes = 4; bytes <= digest.getDigestLength(); bytes++) {
         assertEquals(
             HashCodes.fromBytes(Arrays.copyOf(digest.digest(input), bytes)),
