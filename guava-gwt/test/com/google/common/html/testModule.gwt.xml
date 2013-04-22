@@ -2,16 +2,13 @@
 <module>
   <inherits name="com.google.gwt.user.User"/>
   <inherits name="com.google.gwt.junit.JUnit"/>
+  <inherits name="com.google.common.base.Base"/>
   <inherits name="com.google.common.escape.testing.Testing"/>
-  <inherits name="com.google.common.net.Net"/>
-  <inherits name="com.google.common.testing.Testing"/>
-  <inherits name="org.truth0.Truth"/>
-  <entry-point class="com.google.common.net.TestModuleEntryPoint"/>
+  <inherits name="com.google.common.html.Html"/>
+  <entry-point class="com.google.common.html.TestModuleEntryPoint"/>
    
   <source path=""/>
     
   <add-linker name="std"/>
-   
-  <super-source path="super"/>
    
 </module>
