@@ -16,6 +16,7 @@
 
 package com.google.common.net;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
@@ -25,6 +26,7 @@ import junit.framework.TestCase;
  *
  * @author Paul Marks
  */
+@GwtCompatible
 public class HostAndPortTest extends TestCase {
 
   public void testFromStringWellFormed() {
