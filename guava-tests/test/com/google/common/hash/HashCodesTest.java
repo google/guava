@@ -120,12 +120,24 @@ public class HashCodesTest extends TestCase {
     assertEquals(0x9999999999999999L, HashCodes.fromLong(0x9999999999999999L).padToLong());
     assertEquals(0x0000000011111111L, HashCodes.fromInt(0x11111111).padToLong());
     assertEquals(0x0000000099999999L, HashCodes.fromInt(0x99999999).padToLong());
+  }
 
-    byte[] longBytes = {(byte) 0x99, (byte) 0x99, (byte) 0x99, (byte) 0x99,
-        (byte) 0x99, (byte) 0x99, (byte) 0x99, (byte) 0x99};
-    byte[] intBytes = {(byte) 0x99, (byte) 0x99, (byte) 0x99, (byte) 0x99};
-    assertEquals(0x9999999999999999L, HashCodes.fromBytesNoCopy(longBytes).padToLong());
-    assertEquals(0x0000000099999999L, HashCodes.fromBytesNoCopy(intBytes).padToLong());
+  public void testPadToLongWith4Bytes() {
+    assertEquals(0x0000000099999999L, HashCodes.fromBytesNoCopy(byteArrayWith9s(4)).padToLong());
+  }
+
+  public void testPadToLongWith6Bytes() {
+    assertEquals(0x0000999999999999L, HashCodes.fromBytesNoCopy(byteArrayWith9s(6)).padToLong());
+  }
+
+  public void testPadToLongWith8Bytes() {
+    assertEquals(0x9999999999999999L, HashCodes.fromBytesNoCopy(byteArrayWith9s(8)).padToLong());
+  }
+
+  private static byte[] byteArrayWith9s(int size) {
+    byte[] bytez = new byte[size];
+    Arrays.fill(bytez, (byte) 0x99);
+    return bytez;
   }
 
   public void testToString() {

@@ -168,19 +168,16 @@ public final class HashCodes {
     @Override public long asLong() {
       checkState(bytes.length >= 8,
           "HashCode#asLong() requires >= 8 bytes (it only has %s bytes).", bytes.length);
-      return (bytes[0] & 0xFFL)
-          | ((bytes[1] & 0xFFL) << 8)
-          | ((bytes[2] & 0xFFL) << 16)
-          | ((bytes[3] & 0xFFL) << 24)
-          | ((bytes[4] & 0xFFL) << 32)
-          | ((bytes[5] & 0xFFL) << 40)
-          | ((bytes[6] & 0xFFL) << 48)
-          | ((bytes[7] & 0xFFL) << 56);
+      return padToLong();
     }
 
     @Override
     public long padToLong() {
-      return (bytes.length < 8) ? UnsignedInts.toLong(asInt()) : asLong();
+      long retVal = (bytes[0] & 0xFF);
+      for (int i = 1; i < Math.min(bytes.length, 8); i++) {
+        retVal |= (bytes[i] & 0xFFL) << (i * 8);
+      }
+      return retVal;
     }
 
     @Override
@@ -189,7 +186,7 @@ public final class HashCodes {
         return asInt();
       } else {
         int val = (bytes[0] & 0xFF);
-        for (int i = 1; i < bytes.length; i++) {
+        for (int i = 1; i < Math.min(bytes.length, 4); i++) {
           val |= ((bytes[i] & 0xFF) << (i * 8));
         }
         return val;
