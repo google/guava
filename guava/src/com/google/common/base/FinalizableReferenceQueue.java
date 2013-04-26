@@ -17,8 +17,8 @@
 package com.google.common.base;
 
 import com.google.common.annotations.VisibleForTesting;
-import java.io.Closeable;
 
+import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.PhantomReference;

@@ -17,10 +17,10 @@
 package com.google.common.base;
 
 import com.google.common.testing.GcFinalization;
-import java.io.Closeable;
 
 import junit.framework.TestCase;
 
+import java.io.Closeable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

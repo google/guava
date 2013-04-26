@@ -26,8 +26,8 @@ import com.google.common.collect.testing.TestSetGenerator;
 
 import junit.framework.TestSuite;
 
-import java.util.Map.Entry;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**

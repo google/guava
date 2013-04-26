@@ -13,11 +13,11 @@ package com.google.common.cache;
 
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.concurrent.atomic.AtomicLong;
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * One or more variables that together maintain an initially zero

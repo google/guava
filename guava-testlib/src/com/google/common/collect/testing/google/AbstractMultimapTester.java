@@ -16,7 +16,6 @@
 
 package com.google.common.collect.testing.google;
 
-import static java.util.Arrays.asList;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
