@@ -1241,10 +1241,10 @@ public class TypeTokenTest extends TestCase {
   public <T extends Number & List<String>> void testMethod_returnType_resolvedAgainstTypeBound()
       throws NoSuchMethodException {
     Method getMethod = List.class.getMethod("get", int.class);
-    Invokable<T, String> Invokable = new TypeToken<T>(getClass()) {}
+    Invokable<T, String> invokable = new TypeToken<T>(getClass()) {}
         .method(getMethod)
         .returning(String.class);
-    assertEquals(TypeToken.of(String.class), Invokable.getReturnType());
+    assertEquals(TypeToken.of(String.class), invokable.getReturnType());
   }
 
   public <T extends List<String>> void testMethod_parameterTypes()

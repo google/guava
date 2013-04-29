@@ -18,7 +18,6 @@ package com.google.common.reflect;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.reflect.TypeToken;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 
@@ -28,6 +27,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 import java.util.Collections;
 
@@ -43,6 +43,26 @@ public class InvokableTest extends TestCase {
   public void testConstructor_returnType() throws Exception {
     assertEquals(Prepender.class,
         Prepender.constructor().getReturnType().getType());
+  }
+
+  private static class WithConstructorAndTypeParameter<T> {
+    @SuppressWarnings("unused") // by reflection
+    <X> WithConstructorAndTypeParameter() {}
+  }
+
+  public void testConstructor_returnType_hasTypeParameter() throws Exception {
+    @SuppressWarnings("rawtypes") // Foo.class for Foo<T> is always raw type
+    Class<WithConstructorAndTypeParameter> type = WithConstructorAndTypeParameter.class;
+    @SuppressWarnings("rawtypes") // Foo.class
+    Constructor<WithConstructorAndTypeParameter> constructor = type.getDeclaredConstructor();
+    Invokable<?, ?> factory = Invokable.from(constructor);
+    assertEquals(2, factory.getTypeParameters().length);
+    assertEquals(type.getTypeParameters()[0], factory.getTypeParameters()[0]);
+    assertEquals(constructor.getTypeParameters()[0], factory.getTypeParameters()[1]);
+    ParameterizedType returnType = (ParameterizedType) factory.getReturnType().getType();
+    assertEquals(type, returnType.getRawType());
+    assertEquals(ImmutableList.copyOf(type.getTypeParameters()),
+        ImmutableList.copyOf(returnType.getActualTypeArguments()));
   }
 
   public void testConstructor_exceptionTypes() throws Exception {
@@ -301,13 +321,13 @@ public class InvokableTest extends TestCase {
     class NestedInner {}
   }
 
-  public void testInnerClassDefaultConstructor() throws Exception {
+  public void testInnerClassDefaultConstructor() {
     Constructor<?> constructor =
         InnerWithDefaultConstructor.class.getDeclaredConstructors() [0];
     assertEquals(0, Invokable.from(constructor).getParameters().size());
   }
 
-  public void testNestedInnerClassDefaultConstructor() throws Exception {
+  public void testNestedInnerClassDefaultConstructor() {
     Constructor<?> constructor =
         InnerWithDefaultConstructor.NestedInner.class.getDeclaredConstructors() [0];
     assertEquals(0, Invokable.from(constructor).getParameters().size());
@@ -318,7 +338,7 @@ public class InvokableTest extends TestCase {
     public InnerWithOneParameterConstructor(String s) {}
   }
 
-  public void testInnerClassWithOneParameterConstructor() throws Exception {
+  public void testInnerClassWithOneParameterConstructor() {
     Constructor<?> constructor =
         InnerWithOneParameterConstructor.class.getDeclaredConstructors()[0];
     Invokable<?, ?> invokable = Invokable.from(constructor);
@@ -331,7 +351,7 @@ public class InvokableTest extends TestCase {
     InnerWithAnnotatedConstructorParameter(@Nullable String s) {}
   }
 
-  public void testInnerClassWithAnnotatedConstructorParameter() throws Exception {
+  public void testInnerClassWithAnnotatedConstructorParameter() {
     Constructor<?> constructor =
         InnerWithAnnotatedConstructorParameter.class.getDeclaredConstructors() [0];
     Invokable<?, ?> invokable = Invokable.from(constructor);
@@ -344,7 +364,7 @@ public class InvokableTest extends TestCase {
     InnerWithGenericConstructorParameter(Iterable<String> it, String s) {}
   }
 
-  public void testInnerClassWithGenericConstructorParameter() throws Exception {
+  public void testInnerClassWithGenericConstructorParameter() {
     Constructor<?> constructor =
         InnerWithGenericConstructorParameter.class.getDeclaredConstructors() [0];
     Invokable<?, ?> invokable = Invokable.from(constructor);
@@ -355,7 +375,7 @@ public class InvokableTest extends TestCase {
         invokable.getParameters().get(1).getType());
   }
 
-  public void testAnonymousClassDefaultConstructor() throws Exception {
+  public void testAnonymousClassDefaultConstructor() {
     final int i = 1;
     final String s = "hello world";
     Class<?> anonymous = new Runnable() {
@@ -363,23 +383,21 @@ public class InvokableTest extends TestCase {
         System.out.println(s + i);
       }
     }.getClass();
-    Constructor<?> constructor =
-        anonymous.getDeclaredConstructors() [0];
+    Constructor<?> constructor = anonymous.getDeclaredConstructors() [0];
     assertEquals(0, Invokable.from(constructor).getParameters().size());
   }
 
-  public void testAnonymousClassWithTwoParametersConstructor() throws Exception {
+  public void testAnonymousClassWithTwoParametersConstructor() {
     abstract class Base {
       @SuppressWarnings("unused") // called by reflection
       Base(String s, int i) {}
     }
     Class<?> anonymous = new Base("test", 0) {}.getClass();
-    Constructor<?> constructor =
-        anonymous.getDeclaredConstructors() [0];
+    Constructor<?> constructor = anonymous.getDeclaredConstructors() [0];
     assertEquals(2, Invokable.from(constructor).getParameters().size());
   }
 
-  public void testLocalClassDefaultConstructor() throws Exception {
+  public void testLocalClassDefaultConstructor() {
     final int i = 1;
     final String s = "hello world";
     class LocalWithDefaultConstructor implements Runnable {
@@ -387,8 +405,7 @@ public class InvokableTest extends TestCase {
         System.out.println(s + i);
       }
     }
-    Constructor<?> constructor =
-        LocalWithDefaultConstructor.class.getDeclaredConstructors() [0];
+    Constructor<?> constructor = LocalWithDefaultConstructor.class.getDeclaredConstructors() [0];
     assertEquals(0, Invokable.from(constructor).getParameters().size());
   }
 
@@ -396,7 +413,7 @@ public class InvokableTest extends TestCase {
     doTestStaticAnonymousClassDefaultConstructor();
   }
 
-  private static void doTestStaticAnonymousClassDefaultConstructor() throws Exception {
+  private static void doTestStaticAnonymousClassDefaultConstructor() {
     final int i = 1;
     final String s = "hello world";
     Class<?> anonymous = new Runnable() {
@@ -404,9 +421,70 @@ public class InvokableTest extends TestCase {
         System.out.println(s + i);
       }
     }.getClass();
-    Constructor<?> constructor =
-        anonymous.getDeclaredConstructors() [0];
+    Constructor<?> constructor = anonymous.getDeclaredConstructors() [0];
     assertEquals(0, Invokable.from(constructor).getParameters().size());
+  }
+
+  public void testAnonymousClassInConstructor() {
+    new AnonymousClassInConstructor();
+  }
+
+  private static class AnonymousClassInConstructor {
+    AnonymousClassInConstructor() {
+      final int i = 1;
+      final String s = "hello world";
+      Class<?> anonymous = new Runnable() {
+        @Override public void run() {
+          System.out.println(s + i);
+        }
+      }.getClass();
+      Constructor<?> constructor = anonymous.getDeclaredConstructors() [0];
+      assertEquals(0, Invokable.from(constructor).getParameters().size());
+    }
+  }
+
+  public void testLocalClassInInstanceInitializer() {
+    new LocalClassInInstanceInitializer();
+  }
+
+  private static class LocalClassInInstanceInitializer {
+    {
+      class Local {}
+      Constructor<?> constructor = Local.class.getDeclaredConstructors() [0];
+      assertEquals(0, Invokable.from(constructor).getParameters().size());
+    }
+  }
+
+  public void testLocalClassInStaticInitializer() {
+    new LocalClassInStaticInitializer();
+  }
+
+  private static class LocalClassInStaticInitializer {
+    static {
+      class Local {}
+      Constructor<?> constructor = Local.class.getDeclaredConstructors() [0];
+      assertEquals(0, Invokable.from(constructor).getParameters().size());
+    }
+  }
+
+  public void testLocalClassWithSeeminglyHiddenThisInStaticInitializer_BUG() {
+    new LocalClassWithSeeminglyHiddenThisInStaticInitializer();
+  }
+
+  /**
+   * This class demonstrates a bug in getParameters() when the local class is inside static
+   * initializer.
+   */
+  private static class LocalClassWithSeeminglyHiddenThisInStaticInitializer {
+    static {
+      class Local {
+        @SuppressWarnings("unused") // through reflection
+        Local(LocalClassWithSeeminglyHiddenThisInStaticInitializer outer) {}
+      }
+      Constructor<?> constructor = Local.class.getDeclaredConstructors() [0];
+      int miscalculated = 0;
+      assertEquals(miscalculated, Invokable.from(constructor).getParameters().size());
+    }
   }
 
   public void testLocalClassWithOneParameterConstructor() throws Exception {
