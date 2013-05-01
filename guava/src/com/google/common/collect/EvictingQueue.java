@@ -47,13 +47,16 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> {
   private final int maxSize;
 
   private EvictingQueue(int maxSize) {
-    checkArgument(maxSize > 0, "maxSize (%s) must be positive", maxSize);
+    checkArgument(maxSize >= 0, "maxSize (%s) must >= 0", maxSize);
     this.delegate = new ArrayDeque<E>(maxSize);
     this.maxSize = maxSize;
   }
 
   /**
    * Creates and returns a new evicting queue that will hold up to {@code maxSize} elements.
+   *
+   * <p>When {@code maxSize} is zero, elements will be evicted immediately after being added to the
+   * queue.
    */
   public static <E> EvictingQueue<E> create(int maxSize) {
     return new EvictingQueue<E>(maxSize);
@@ -81,6 +84,9 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> {
    */
   @Override public boolean add(E e) {
     checkNotNull(e);  // check before removing
+    if (maxSize == 0) {
+      return true;
+    }
     if (size() == maxSize) {
       delegate.remove();
     }

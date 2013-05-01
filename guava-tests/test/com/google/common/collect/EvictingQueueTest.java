@@ -22,6 +22,8 @@ import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
+import java.util.NoSuchElementException;
+
 /**
  * Tests for {@link EvictingQueue}.
  *
@@ -38,11 +40,29 @@ public class EvictingQueueTest extends TestCase {
   }
 
   public void testCreateWithZeroSize() throws Exception {
+    EvictingQueue<String> queue = EvictingQueue.create(0);
+    assertEquals(0, queue.size());
+
+    assertTrue(queue.add("hi"));
+    assertEquals(0, queue.size());
+
+    assertTrue(queue.offer("hi"));
+    assertEquals(0, queue.size());
+
+    assertFalse(queue.remove("hi"));
+    assertEquals(0, queue.size());
+
     try {
-      EvictingQueue.create(0);
+      queue.element();
       fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    } catch (NoSuchElementException expected) {}
+
+    assertNull(queue.peek());
+    assertNull(queue.poll());
+    try {
+      queue.remove();
+      fail();
+    } catch (NoSuchElementException expected) {}
   }
 
   public void testEvictingAfterOne() throws Exception {
