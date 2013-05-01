@@ -159,13 +159,9 @@ public class AbstractScheduledServiceTest extends TestCase {
           executorService = super.executor();
           // Add a listener that will be executed after the listener that shuts down the executor.
           addListener(new Listener() {
-            @Override public void starting() {}
-            @Override public void running() {}
-            @Override public void stopping(State from) {}
             @Override public void terminated(State from) {
               terminationLatch.countDown();
             }
-            @Override public void failed(State from, Throwable failure) {}
             }, MoreExecutors.sameThreadExecutor());
         }
         return executorService;
@@ -199,11 +195,6 @@ public class AbstractScheduledServiceTest extends TestCase {
           executorService = super.executor();
           // Add a listener that will be executed after the listener that shuts down the executor.
           addListener(new Listener() {
-            @Override public void starting() {}
-            @Override public void running() {}
-            @Override public void stopping(State from) {}
-            @Override public void terminated(State from) {
-            }
             @Override public void failed(State from, Throwable failure) {
               failureLatch.countDown();
             }

@@ -248,14 +248,10 @@ public class AbstractServiceTest extends TestCase {
     ManualSwitchedService service = new ManualSwitchedService();
     final AtomicInteger stopppingCount = new AtomicInteger();
     service.addListener(new Listener() {
-      @Override public void starting() {}
-      @Override public void running() {}
       @Override public void stopping(State from) {
         stopppingCount.incrementAndGet();
       }
-      @Override public void terminated(State from) {}
-      @Override public void failed(State from, Throwable failure) {}
-      }, MoreExecutors.sameThreadExecutor());
+    }, MoreExecutors.sameThreadExecutor());
 
     service.start();
     service.stop();
@@ -654,13 +650,9 @@ public class AbstractServiceTest extends TestCase {
   public void testListenerDoesntDeadlockOnStartAndWaitFromRunning() throws Exception {
     final NoOpThreadedService service = new NoOpThreadedService();
     service.addListener(new Listener() {
-      @Override public void starting() { }
       @Override public void running() {
         service.startAndWait();
       }
-      @Override public void stopping(State from) { }
-      @Override public void terminated(State from) { }
-      @Override public void failed(State from, Throwable failure) { }
     }, MoreExecutors.sameThreadExecutor());
     service.start().get(10, TimeUnit.MILLISECONDS);
     service.stop();
@@ -669,13 +661,9 @@ public class AbstractServiceTest extends TestCase {
   public void testListenerDoesntDeadlockOnStopAndWaitFromTerminated() throws Exception {
     final NoOpThreadedService service = new NoOpThreadedService();
     service.addListener(new Listener() {
-      @Override public void starting() { }
-      @Override public void running() { }
-      @Override public void stopping(State from) { }
       @Override public void terminated(State from) {
         service.stopAndWait();
       }
-      @Override public void failed(State from, Throwable failure) { }
     }, MoreExecutors.sameThreadExecutor());
     service.startAndWait();
 
@@ -764,7 +752,7 @@ public class AbstractServiceTest extends TestCase {
     }
   }
 
-  private static class RecordingListener implements Listener {
+  private static class RecordingListener extends Listener {
     static RecordingListener record(Service service) {
       RecordingListener listener = new RecordingListener(service);
       service.addListener(listener, MoreExecutors.sameThreadExecutor());

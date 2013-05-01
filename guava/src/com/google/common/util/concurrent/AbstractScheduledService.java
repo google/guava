@@ -293,9 +293,6 @@ public abstract class AbstractScheduledService implements Service {
     // is called within doStart() so we know that the service cannot terminate or fail concurrently
     // with adding this listener so it is impossible to miss an event that we are interested in.
     addListener(new Listener() {
-      @Override public void starting() {}
-      @Override public void running() {}
-      @Override public void stopping(State from) {}
       @Override public void terminated(State from) {
         executor.shutdown();
       }

@@ -581,7 +581,7 @@ public final class ServiceManager {
    * {@link ServiceManagerState#serviceTerminated} and {@link ServiceManagerState#serviceFailed}
    * according to its current state.
    */
-  private static final class ServiceListener implements Service.Listener {
+  private static final class ServiceListener extends Service.Listener {
     @GuardedBy("watch")  // AFAICT Stopwatch is not thread safe so we need to protect accesses
     final Stopwatch watch = Stopwatch.createUnstarted();
     final Service service;

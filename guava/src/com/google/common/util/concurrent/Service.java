@@ -189,23 +189,25 @@ public interface Service {
   /**
    * A listener for the various state changes that a {@link Service} goes through in its lifecycle.
    *
+   * <p>All methods are no-ops by default, implementors should override the ones they care about.
+   *
    * @author Luke Sandberg
-   * @since 13.0
+   * @since 15.0 (present as an interface in 13.0)
    */
   @Beta // should come out of Beta when Service does
-  interface Listener {
+  abstract class Listener {
     /**
      * Called when the service transitions from {@linkplain State#NEW NEW} to 
      * {@linkplain State#STARTING STARTING}. This occurs when {@link Service#start} or 
      * {@link Service#startAndWait} is called the first time.
      */
-    void starting();
+    public void starting() {}
     
     /**
      * Called when the service transitions from {@linkplain State#STARTING STARTING} to 
      * {@linkplain State#RUNNING RUNNING}. This occurs when a service has successfully started.
      */
-    void running();
+    public void running() {}
     
     /**
      * Called when the service transitions to the {@linkplain State#STOPPING STOPPING} state. The 
@@ -214,7 +216,7 @@ public interface Service {
      * 
      * @param from The previous state that is being transitioned from.  
      */
-    void stopping(State from);
+    public void stopping(State from) {}
     
     /**
      * Called when the service transitions to the {@linkplain State#TERMINATED TERMINATED} state. 
@@ -226,7 +228,7 @@ public interface Service {
      *     this are {@linkplain State#NEW NEW}, {@linkplain State#RUNNING RUNNING} or 
      *     {@linkplain State#STOPPING STOPPING}.
      */
-    void terminated(State from);
+    public void terminated(State from) {}
     
     /**
      * Called when the service transitions to the {@linkplain State#FAILED FAILED} state. The 
@@ -238,6 +240,6 @@ public interface Service {
      *     {@linkplain State#TERMINATED TERMINATED}.
      * @param failure The exception that caused the failure.
      */
-    void failed(State from, Throwable failure);
+    public void failed(State from, Throwable failure) {}
   }
 }

@@ -84,8 +84,6 @@ public abstract class AbstractService implements Service {
     // before the other listeners. This way the other listeners can access the completed futures.
     addListener(
         new Listener() {
-          @Override public void starting() {}
-
           @Override public void running() { 
             startup.set(State.RUNNING);
           }
