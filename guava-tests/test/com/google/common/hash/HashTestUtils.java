@@ -259,8 +259,8 @@ final class HashTestUtils {
         // flip input bit for key2
         int key2 = key1 ^ (1 << i);
         // get hashes
-        int hash1 = function.newHasher().putInt(key1).hash().asInt();
-        int hash2 = function.newHasher().putInt(key2).hash().asInt();
+        int hash1 = function.hashInt(key1).asInt();
+        int hash2 = function.hashInt(key2).asInt();
         // test whether the hash values have same output bits
         same |= ~(hash1 ^ hash2);
         // test whether the hash values have different output bits
@@ -298,8 +298,8 @@ final class HashTestUtils {
         // flip input bit for key2
         int key2 = key1 ^ (1 << i);
         // compute hash values
-        int hash1 = function.newHasher().putInt(key1).hash().asInt();
-        int hash2 = function.newHasher().putInt(key2).hash().asInt();
+        int hash1 = function.hashInt(key1).asInt();
+        int hash2 = function.hashInt(key2).asInt();
         for (int k = 0; k < hashBits; k++) {
           if ((hash1 & (1 << k)) == (hash2 & (1 << k))) {
             same[k] += 1;
@@ -344,8 +344,8 @@ final class HashTestUtils {
           int key2 = key1 ^ delta;
 
           // get hashes
-          int hash1 = function.newHasher().putInt(key1).hash().asInt();
-          int hash2 = function.newHasher().putInt(key2).hash().asInt();
+          int hash1 = function.hashInt(key1).asInt();
+          int hash2 = function.hashInt(key2).asInt();
 
           // this 2-bit candidate delta is not a characteristic
           // if deltas are different
@@ -388,8 +388,8 @@ final class HashTestUtils {
           // flip input bit for key2
           int key2 = key1 ^ delta;
           // compute hash values
-          int hash1 = function.newHasher().putInt(key1).hash().asInt();
-          int hash2 = function.newHasher().putInt(key2).hash().asInt();
+          int hash1 = function.hashInt(key1).asInt();
+          int hash2 = function.hashInt(key2).asInt();
           for (int k = 0; k < hashBits; k++) {
             if ((hash1 & (1 << k)) == (hash2 & (1 << k))) {
               same[k] += 1;
@@ -522,6 +522,7 @@ final class HashTestUtils {
     // Test that only data and data-order is important, not the individual operations.
     new EqualsTester()
         .addEqualityGroup(
+            hashFunction.hashUnencodedChars("abc"),
             hashFunction.newHasher().putUnencodedChars("abc").hash(),
             hashFunction.newHasher().putUnencodedChars("ab").putUnencodedChars("c").hash(),
             hashFunction.newHasher().putUnencodedChars("a").putUnencodedChars("bc").hash(),
