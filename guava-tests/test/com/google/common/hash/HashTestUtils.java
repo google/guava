@@ -19,7 +19,6 @@ package com.google.common.hash;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
@@ -511,7 +510,7 @@ final class HashTestUtils {
         hashFunction.newHasher().putLong(l).hash());
   }
 
-  private static final ImmutableList<Charset> CHARSETS = ImmutableList.of(
+  private static final ImmutableSet<Charset> CHARSETS = ImmutableSet.of(
       Charsets.ISO_8859_1,
       Charsets.US_ASCII,
       Charsets.UTF_16,
@@ -539,11 +538,6 @@ final class HashTestUtils {
     String string = new String(bytes);
     assertEquals(hashFunction.hashUnencodedChars(string),
         hashFunction.newHasher().putUnencodedChars(string).hash());
-    // These assertions causes failures when testing with mvn. See b/6657789
-    // assertEquals(hashFunction.hashUnencodedChars(string),
-    //     hashFunction.hashString(string, Charsets.UTF_16LE));
-    // assertEquals(hashFunction.hashUnencodedChars(string),
-    //     hashFunction.newHasher().putUnencodedChars(string, Charsets.UTF_16LE).hash());
     for (Charset charset : CHARSETS) {
       assertEquals(hashFunction.hashString(string, charset),
           hashFunction.newHasher().putString(string, charset).hash());
