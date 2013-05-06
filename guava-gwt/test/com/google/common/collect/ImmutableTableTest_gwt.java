@@ -180,6 +180,12 @@ public void testIsEmpty() throws Exception {
   testCase.testIsEmpty();
 }
 
+public void testOverflowCondition() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testOverflowCondition();
+}
+
 public void testRow() throws Exception {
   com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
   testCase.setUp();

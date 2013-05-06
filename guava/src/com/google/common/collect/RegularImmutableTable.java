@@ -172,7 +172,7 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
 
     // use a dense table if more than half of the cells have values
     // TODO(gak): tune this condition based on empirical evidence
-    return (cellList.size() > ((rowSpace.size() * columnSpace.size()) / 2)) ?
+    return (cellList.size() > (((long) rowSpace.size() * columnSpace.size()) / 2)) ?
         new DenseImmutableTable<R, C, V>(cellList, rowSpace, columnSpace) :
         new SparseImmutableTable<R, C, V>(cellList, rowSpace, columnSpace);
   }

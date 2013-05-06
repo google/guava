@@ -347,5 +347,15 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     ASSERT.that(table.columnKeySet()).has().allOf(1, 2, 3).inOrder();
     ASSERT.that(table.row('c').keySet()).has().allOf(1, 2, 3).inOrder();
   }
+  
+  public void testOverflowCondition() {
+    // See https://code.google.com/p/guava-libraries/issues/detail?id=1322 for details.
+    ImmutableTable.Builder<Integer, Integer, String> builder = ImmutableTable.builder();
+    for (int i = 1; i < 0x10000; i++) {
+      builder.put(i, 0, "foo");
+      builder.put(0, i, "bar");
+    }
+    assertTrue(builder.build() instanceof SparseImmutableTable);
+  }
 }
 
