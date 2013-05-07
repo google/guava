@@ -114,10 +114,10 @@ public final class ServiceManager {
    * listeners} to each individual service.
    * 
    * @author Luke Sandberg
-   * @since 14.0
+   * @since 15.0 (present as an interface in 14.0)
    */
   @Beta  // Should come out of Beta when ServiceManager does
-  public static interface Listener {
+  public abstract static class Listener {
     /** 
      * Called when the service initially becomes healthy.
      * 
@@ -126,20 +126,20 @@ public final class ServiceManager {
      * {@linkplain State#FAILED fail}/{@linkplain State#TERMINATED terminate} before all other 
      * services have started {@linkplain State#RUNNING running} then this method will not be called.
      */
-    void healthy();
+    public void healthy() {}
     
     /** 
      * Called when the all of the component services have reached a terminal state, either 
      * {@linkplain State#TERMINATED terminated} or {@linkplain State#FAILED failed}.
      */
-    void stopped();
+    public void stopped() {}
     
     /** 
      * Called when a component service has {@linkplain State#FAILED failed}.
      * 
      * @param service The service that failed.
      */
-    void failure(Service service);
+    public void failure(Service service) {}
   }
   
   /**

@@ -20,6 +20,7 @@ import static java.util.Arrays.asList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.ServiceManager.Listener;
 
@@ -277,8 +278,6 @@ public class ServiceManagerTest extends TestCase {
     Service b = new NoOpService();
     final ServiceManager manager = new ServiceManager(asList(a, b));
     manager.addListener(new Listener() {
-      @Override public void healthy() {}
-      @Override public void stopped() {}
       @Override public void failure(Service service) {
         manager.stopAsync();
       }});
@@ -358,8 +357,6 @@ public class ServiceManagerTest extends TestCase {
     final ServiceManager manager = new ServiceManager(
         Arrays.asList(failRunService, new NoOpService()));
     manager.addListener(new ServiceManager.Listener() {
-      @Override public void healthy() {}
-      @Override public void stopped() {}
       @Override public void failure(Service service) {
         failEnter.countDown();
         // block forever!
@@ -384,7 +381,14 @@ public class ServiceManagerTest extends TestCase {
     assertFalse("stopAsync has deadlocked!.", stoppingThread.isAlive());
   }
 
-  private static final class RecordingListener implements ServiceManager.Listener {
+  public void testNulls() {
+    ServiceManager manager = new ServiceManager(Arrays.<Service>asList());
+    new NullPointerTester()
+        .setDefault(ServiceManager.Listener.class, new RecordingListener())
+        .testAllPublicInstanceMethods(manager);
+  }
+
+  private static final class RecordingListener extends ServiceManager.Listener {
     volatile boolean healthyCalled;
     volatile boolean stoppedCalled;
     final Set<Service> failedServices = Sets.newConcurrentHashSet();
