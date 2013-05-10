@@ -3558,22 +3558,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     public boolean setException(Throwable t) {
-      return setException(futureValue, t);
-    }
-
-    private static boolean setException(SettableFuture<?> future, Throwable t) {
-      try {
-        return future.setException(t);
-      } catch (Error e) {
-        // the error will already be propagated by the loading thread
-        return false;
-      }
+      return futureValue.setException(t);
     }
 
     private ListenableFuture<V> fullyFailedFuture(Throwable t) {
-      SettableFuture<V> future = SettableFuture.create();
-      setException(future, t);
-      return future;
+      return Futures.immediateFailedFuture(t);
     }
 
     @Override

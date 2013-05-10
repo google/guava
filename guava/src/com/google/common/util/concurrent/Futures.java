@@ -486,10 +486,8 @@ public final class Futures {
                 }
               }
             }, sameThreadExecutor());
-          } catch (Exception e) {
+          } catch (Throwable e) {
             setException(e);
-          } catch (Error e) {
-            setException(e); // note: rethrows
           }
         }
       }, executor);
@@ -886,13 +884,10 @@ public final class Futures {
       } catch (UndeclaredThrowableException e) {
         // Set the cause of the exception as this future's exception
         setException(e.getCause());
-      } catch (Exception e) {
+      } catch (Throwable t) {
         // This exception is irrelevant in this thread, but useful for the
         // client
-        setException(e);
-      } catch (Error e) {
-        // Propagate errors up ASAP - our superclass will rethrow the error
-        setException(e);
+        setException(t);
       } finally {
         // Don't pin inputs beyond completion
         function = null;
@@ -1464,6 +1459,9 @@ public final class Futures {
   }
 
   private static class CombinedFuture<V, C> extends AbstractFuture<C> {
+    private static final Logger logger =
+        Logger.getLogger(CombinedFuture.class.getName());
+
     ImmutableCollection<? extends ListenableFuture<? extends V>> futures;
     final boolean allMustSucceed;
     final AtomicInteger remaining;
@@ -1543,6 +1541,24 @@ public final class Futures {
     }
 
     /**
+     * Fails this future with the given Throwable if {@link #allMustSucceed} is true
+     * otherwise log it.
+     */
+    private void setExceptionOrLog(Throwable throwable) {
+      boolean result = false;
+      if (allMustSucceed) {
+        // As soon as the first one fails, throw the exception up.
+        // The result of all other inputs is then ignored.
+        result = super.setException(throwable);
+      }
+      if (!result) {
+        // This means that the throwable is not being saved and will likely not be inspected by
+        // anything.  log it.
+        logger.log(Level.SEVERE, "ignoring failure from input future.", throwable);
+      }
+    }
+
+    /**
      * Sets the value at the given index to that of the given future.
      */
     private void setOneValue(int index, Future<? extends V> future) {
@@ -1570,18 +1586,9 @@ public final class Futures {
           cancel(false);
         }
       } catch (ExecutionException e) {
-        if (allMustSucceed) {
-          // As soon as the first one fails, throw the exception up.
-          // The result of all other inputs is then ignored.
-          setException(e.getCause());
-        }
-      } catch (RuntimeException e) {
-        if (allMustSucceed) {
-          setException(e);
-        }
-      } catch (Error e) {
-        // Propagate errors up ASAP - our superclass will rethrow the error
-        setException(e);
+        setExceptionOrLog(e.getCause());
+      } catch (Throwable t) {
+        setExceptionOrLog(t);
       } finally {
         int newRemaining = remaining.decrementAndGet();
         checkState(newRemaining >= 0, "Less than 0 remaining futures");

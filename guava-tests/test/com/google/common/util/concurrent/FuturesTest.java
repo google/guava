@@ -346,16 +346,8 @@ public class FuturesTest extends TestCase {
     SettableFuture<Integer> errorInput = SettableFuture.create();
     ListenableFuture<Integer> errorComposedFuture =
         Futures.transform(errorInput, newOneTimeErrorThrower());
+    errorInput.set(0);
 
-    try {
-      errorInput.set(0);
-      fail();
-    } catch (MyError expected) {
-      /*
-       * The ListenableFuture variant rethrows errors from execute() as well
-       * as assigning them to the output of the future.
-       */
-    }
     runGetIdempotencyTest(errorComposedFuture, MyError.class);
 
     /*
@@ -366,12 +358,7 @@ public class FuturesTest extends TestCase {
         Futures.transform(exceptionInput, newOneTimeExceptionThrower());
     runGetIdempotencyTest(exceptionComposedFuture, MyRuntimeException.class);
 
-    try {
-      Futures.transform(errorInput, newOneTimeErrorThrower());
-      fail();
-    } catch (MyError expected) {
-      // Again, errors are rethrown from execute.
-    }
+    runGetIdempotencyTest(Futures.transform(errorInput, newOneTimeErrorThrower()), MyError.class);
     runGetIdempotencyTest(errorComposedFuture, MyError.class);
   }
 
@@ -547,19 +534,19 @@ public class FuturesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testWithFallback_fallbackGeneratesError() throws Exception {
-    Error error = new Error("deliberate");
-    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
-    RuntimeException raisedException = new RuntimeException();
-    expect(fallback.create(raisedException)).andThrow(error);
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
-    mocksControl.replay();
+    final Error error = new Error("deliberate");
+    FutureFallback<Integer> fallback = new FutureFallback<Integer>() {
+      @Override public ListenableFuture<Integer> create(Throwable t) throws Exception {
+        throw error;
+      }
+    };
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
     try {
-      Futures.withFallback(failingFuture, fallback);
+      Futures.withFallback(failingFuture, fallback).get();
       fail("An Exception should have been thrown!");
-    } catch (Error expected) {
-      assertSame(error, expected);
+    } catch (ExecutionException expected) {
+      assertSame(error, expected.getCause());
     }
-    mocksControl.verify();
   }
 
   public void testWithFallback_fallbackReturnsRuntimeException() throws Exception {
@@ -698,7 +685,7 @@ public class FuturesTest extends TestCase {
     } catch (TimeoutException expected) {}
   }
 
-  public void testTransform_asyncFunction_error() {
+  public void testTransform_asyncFunction_error() throws InterruptedException {
     final Error error = new Error("deliberate");
     AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
       @Override public ListenableFuture<Integer> apply(String input) {
@@ -706,14 +693,14 @@ public class FuturesTest extends TestCase {
       }
     };
     SettableFuture<String> inputFuture = SettableFuture.create();
-    Futures.transform(inputFuture, function);
+    ListenableFuture<Integer> outputFuture = Futures.transform(inputFuture, function);
+    inputFuture.set("value");
     try {
-      inputFuture.set("value");
-    } catch (Error expected) {
-      assertSame(error, expected);
-      return;
+      outputFuture.get();
+      fail("should have thrown error");
+    } catch (ExecutionException e) {
+      assertSame(error, e.getCause());
     }
-    fail("should have thrown error");
   }
 
   public void testTransform_asyncFunction_cancelledWhileApplyingFunction()
@@ -929,19 +916,13 @@ public class FuturesTest extends TestCase {
     ListenableFuture<String> future2 = Futures.immediateFuture("results");
     ListenableFuture<List<String>> compound = Futures.allAsList(ImmutableList.of(future1, future2));
 
+    future1.setException(error);
     try {
-      future1.setException(error);
-    } catch (Error expected) {
-      assertSame(error, expected);
-      try {
-        compound.get();
-      } catch (ExecutionException ee) {
-        assertSame(error, ee.getCause());
-        return;
-      }
+      compound.get();
       fail("Expected error not set in compound future.");
+    } catch (ExecutionException ee) {
+      assertSame(error, ee.getCause());
     }
-    fail("Expected error not thrown");
   }
 
   public void testAllAsList_cancelled() throws Exception {

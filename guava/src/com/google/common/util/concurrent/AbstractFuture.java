@@ -195,18 +195,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *
    * @param throwable the exception that the task failed with.
    * @return true if the state was successfully changed.
-   * @throws Error if the throwable was an {@link Error}.
    */
   protected boolean setException(Throwable throwable) {
     boolean result = sync.setException(checkNotNull(throwable));
     if (result) {
       executionList.execute();
-    }
-
-    // If it's an Error, we want to make sure it reaches the top of the
-    // call stack, so we rethrow it.
-    if (throwable instanceof Error) {
-      throw (Error) throwable;
     }
     return result;
   }
