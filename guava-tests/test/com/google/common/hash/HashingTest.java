@@ -337,6 +337,19 @@ public class HashingTest extends TestCase {
         Hashing.md5().hashInt(Integer.reverseBytes(input)));
   }
 
+  public void testHashIntVsForLoop() {
+    int input = 42;
+    HashCode expected = Hashing.md5().hashInt(input);
+
+    Hasher hasher = Hashing.md5().newHasher();
+    for (int i = 0; i < 32; i += 8) {
+      hasher.putByte((byte) (input >> i));
+    }
+    HashCode actual = hasher.hash();
+
+    assertEquals(expected, actual);
+  }
+
   private static final String EMPTY_STRING = "";
   private static final String TQBFJOTLD = "The quick brown fox jumps over the lazy dog";
   private static final String TQBFJOTLDP = "The quick brown fox jumps over the lazy dog.";
