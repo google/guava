@@ -53,13 +53,28 @@ public final class Funnels {
   }
 
   /**
-   * Returns a funnel that extracts the characters from a {@code CharSequence}.
+   * Returns a funnel that extracts the characters from a {@code CharSequence}, a character at a
+   * time, without performing any encoding. If you need to use a specific encoding, use
+   * {@link Funnels#stringFunnel(Charset)} instead.
+   *
+   * @since 15.0 (since 11.0 as {@code Funnels.stringFunnel()}.
    */
-  public static Funnel<CharSequence> stringFunnel() {
-    return StringFunnel.INSTANCE;
+  public static Funnel<CharSequence> unencodedCharsFunnel() {
+    return UnencodedCharsFunnel.INSTANCE;
   }
 
-  private enum StringFunnel implements Funnel<CharSequence> {
+  /**
+   * Returns a funnel that extracts the characters from a {@code CharSequence}.
+   *
+   * @deprecated Use {@link Funnels#unencodedCharsFunnel} instead. This method is scheduled for
+   *     removal in Guava 16.0.
+   */
+  @Deprecated
+  public static Funnel<CharSequence> stringFunnel() {
+    return unencodedCharsFunnel();
+  }
+
+  private enum UnencodedCharsFunnel implements Funnel<CharSequence> {
     INSTANCE;
 
     public void funnel(CharSequence from, PrimitiveSink into) {
@@ -67,7 +82,7 @@ public final class Funnels {
     }
 
     @Override public String toString() {
-      return "Funnels.stringFunnel()";
+      return "Funnels.unencodedCharsFunnel()";
     }
   }
 
