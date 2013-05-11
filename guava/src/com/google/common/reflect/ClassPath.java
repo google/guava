@@ -295,7 +295,13 @@ public final class ClassPath {
   
     private void scanDirectory(
         File directory, ClassLoader classloader, String packagePrefix) {
-      for (File f : directory.listFiles()) {
+      File[] files = directory.listFiles();
+      if (files == null) {
+        logger.warning("Cannot read directory " + directory);
+        // IO error, just skip the directory
+        return;
+      }
+      for (File f : files) {
         String name = f.getName();
         if (f.isDirectory()) {
           scanDirectory(f, classloader, packagePrefix + name + "/");
