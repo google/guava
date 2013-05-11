@@ -36,8 +36,10 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.testing.ClassSanityTester;
+import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture;
 
 import junit.framework.AssertionFailedError;
@@ -62,6 +64,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 
@@ -73,6 +76,10 @@ import javax.annotation.Nullable;
  * @author Nishant Thakkar
  */
 public class FuturesTest extends TestCase {
+  private static final Logger combinedFutureLogger = Logger.getLogger(
+      "com.google.common.util.concurrent.Futures$CombinedFuture");
+  private final TestLogHandler combinedFutureLogHandler = new TestLogHandler();
+
   private static final String DATA1 = "data";
   private static final String DATA2 = "more data";
   private static final String DATA3 = "most data";
@@ -81,7 +88,7 @@ public class FuturesTest extends TestCase {
 
   @Override protected void setUp() throws Exception {
     super.setUp();
-
+    combinedFutureLogger.addHandler(combinedFutureLogHandler);
     mocksControl = EasyMock.createControl();
   }
 
@@ -93,7 +100,7 @@ public class FuturesTest extends TestCase {
      * it's hard to imagine that anything will break in practice.)
      */
     Thread.interrupted();
-
+    combinedFutureLogger.removeHandler(combinedFutureLogHandler);
     super.tearDown();
   }
 
@@ -1012,6 +1019,54 @@ public class FuturesTest extends TestCase {
     ASSERT.that(results).has().allOf(DATA1, DATA2, DATA3).inOrder();
   }
 
+  /**
+   * A single non-error failure is not logged because it is reported via the output future.
+   */
+  @SuppressWarnings("unchecked")
+  public void testAllAsList_logging_exception() throws Exception {
+    try {
+      Futures.allAsList(immediateFailedFuture(new MyException())).get();
+      fail();
+    } catch (ExecutionException e) {
+      assertTrue(e.getCause() instanceof MyException);
+      assertEquals("Nothing should be logged", 0,
+          combinedFutureLogHandler.getStoredLogRecords().size());
+    }
+  }
+
+  /**
+   * Ensure that errors are always logged.
+   */
+  @SuppressWarnings("unchecked")
+  public void testAllAsList_logging_error() throws Exception {
+    try {
+      Futures.allAsList(immediateFailedFuture(new MyError())).get();
+      fail();
+    } catch (ExecutionException e) {
+      assertTrue(e.getCause() instanceof MyError);
+      List<LogRecord> logged = combinedFutureLogHandler.getStoredLogRecords();
+      assertEquals(1, logged.size());  // errors are always logged
+      assertTrue(logged.get(0).getThrown() instanceof MyError);
+    }
+  }
+
+  /**
+   * All as list will log extra exceptions that occur after failure.
+   */
+  @SuppressWarnings("unchecked")
+  public void testAllAsList_logging_multipleExceptions() throws Exception {
+    try {
+      Futures.allAsList(immediateFailedFuture(new MyException()),
+          immediateFailedFuture(new MyException())).get();
+      fail();
+    } catch (ExecutionException e) {
+      assertTrue(e.getCause() instanceof MyException);
+      List<LogRecord> logged = combinedFutureLogHandler.getStoredLogRecords();
+      assertEquals(1, logged.size());  // the second failure is logged
+      assertTrue(logged.get(0).getThrown() instanceof MyException);
+    }
+  }
+
   private static String createCombinedResult(Integer i, Boolean b) {
     return "-" + i + "-" + b;
   }
@@ -1641,6 +1696,38 @@ public class FuturesTest extends TestCase {
 
     List<String> results = compound.get();
     ASSERT.that(results).has().allOf(null, null, DATA3).inOrder();
+  }
+
+  /** Non-Error exceptions are never logged. */
+  @SuppressWarnings("unchecked")
+  public void testSuccessfulAsList_logging_exception() throws Exception {
+    assertEquals(Lists.newArrayList((Object) null),
+        Futures.successfulAsList(
+            immediateFailedFuture(new MyException())).get());
+    assertEquals("Nothing should be logged", 0,
+        combinedFutureLogHandler.getStoredLogRecords().size());
+
+    // Not even if there are a bunch of failures.
+    assertEquals(Lists.newArrayList(null, null, null),
+        Futures.successfulAsList(
+            immediateFailedFuture(new MyException()),
+            immediateFailedFuture(new MyException()),
+            immediateFailedFuture(new MyException())).get());
+    assertEquals("Nothing should be logged", 0,
+        combinedFutureLogHandler.getStoredLogRecords().size());
+  }
+
+  /**
+   * Ensure that errors are always logged.
+   */
+  @SuppressWarnings("unchecked")
+  public void testSuccessfulAsList_logging_error() throws Exception {
+    assertEquals(Lists.newArrayList((Object) null),
+        Futures.successfulAsList(
+            immediateFailedFuture(new MyError())).get());
+    List<LogRecord> logged = combinedFutureLogHandler.getStoredLogRecords();
+    assertEquals(1, logged.size());  // errors are always logged
+    assertTrue(logged.get(0).getThrown() instanceof MyError);
   }
 
   public void testNonCancellationPropagating_successful() throws Exception {

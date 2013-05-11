@@ -1495,11 +1495,11 @@ public final class Futures {
             }
           }
 
-          // By now the values array has either been set as the Future's value,
-          // or (in case of failure) is no longer useful.
+          // Let go of the memory held by other futures
           CombinedFuture.this.futures = null;
 
-          // Let go of the memory held by other futures
+          // By now the values array has either been set as the Future's value,
+          // or (in case of failure) is no longer useful.
           CombinedFuture.this.values = null;
 
           // The combiner may also hold state, so free that as well
@@ -1541,20 +1541,20 @@ public final class Futures {
     }
 
     /**
-     * Fails this future with the given Throwable if {@link #allMustSucceed} is true
-     * otherwise log it.
+     * Fails this future with the given Throwable if {@link #allMustSucceed} is
+     * true. Also, logs the throwable if it is an {@link Error} or if
+     * {@link #allMustSucceed} is {@code true} and the throwable did not cause
+     * this future to fail.
      */
-    private void setExceptionOrLog(Throwable throwable) {
+    private void setExceptionAndMaybeLog(Throwable throwable) {
       boolean result = false;
       if (allMustSucceed) {
         // As soon as the first one fails, throw the exception up.
         // The result of all other inputs is then ignored.
         result = super.setException(throwable);
       }
-      if (!result) {
-        // This means that the throwable is not being saved and will likely not be inspected by
-        // anything.  log it.
-        logger.log(Level.SEVERE, "ignoring failure from input future.", throwable);
+      if (throwable instanceof Error || (allMustSucceed && !result)) {
+        logger.log(Level.SEVERE, "input future failed.", throwable);
       }
     }
 
@@ -1563,38 +1563,45 @@ public final class Futures {
      */
     private void setOneValue(int index, Future<? extends V> future) {
       List<Optional<V>> localValues = values;
+      // TODO(user): This check appears to be redundant since values is
+      // assigned null only after the future completes.  However, values
+      // is not volatile so it may be possible for us to observe the changes
+      // to these two values in a different order... which I think is why
+      // we need to check both.  Clear up this craziness either by making
+      // values volatile or proving that it doesn't need to be for some other
+      // reason.
       if (isDone() || localValues == null) {
         // Some other future failed or has been cancelled, causing this one to
         // also be cancelled or have an exception set. This should only happen
-        // if allMustSucceed is true or if the output itself has been cancelled.
+        // if allMustSucceed is true or if the output itself has been
+        // cancelled.
         checkState(allMustSucceed || isCancelled(),
             "Future was done before all dependencies completed");
-        return;
       }
 
       try {
         checkState(future.isDone(),
             "Tried to set value from future which is not done");
         V returnValue = getUninterruptibly(future);
-        localValues.set(index, Optional.fromNullable(returnValue));
+        if (localValues != null) {
+          localValues.set(index, Optional.fromNullable(returnValue));
+        }
       } catch (CancellationException e) {
         if (allMustSucceed) {
           // Set ourselves as cancelled. Let the input futures keep running
           // as some of them may be used elsewhere.
-          // (Currently we don't override interruptTask, so
-          // mayInterruptIfRunning==false isn't technically necessary.)
           cancel(false);
         }
       } catch (ExecutionException e) {
-        setExceptionOrLog(e.getCause());
+        setExceptionAndMaybeLog(e.getCause());
       } catch (Throwable t) {
-        setExceptionOrLog(t);
+        setExceptionAndMaybeLog(t);
       } finally {
         int newRemaining = remaining.decrementAndGet();
         checkState(newRemaining >= 0, "Less than 0 remaining futures");
         if (newRemaining == 0) {
           FutureCombiner<V, C> localCombiner = combiner;
-          if (localCombiner != null) {
+          if (localCombiner != null && localValues != null) {
             set(localCombiner.combine(localValues));
           } else {
             checkState(isDone());
