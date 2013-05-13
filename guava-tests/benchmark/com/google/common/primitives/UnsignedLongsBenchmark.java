@@ -16,7 +16,7 @@
 
 package com.google.common.primitives;
 
-import com.google.caliper.Benchmark;
+import com.google.caliper.legacy.Benchmark;
 import com.google.caliper.runner.CaliperMain;
 
 import java.util.Random;

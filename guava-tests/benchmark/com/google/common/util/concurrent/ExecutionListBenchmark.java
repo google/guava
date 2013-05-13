@@ -16,10 +16,10 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.api.Footprint;
 import com.google.caliper.api.VmOptions;
+import com.google.caliper.legacy.Benchmark;
 import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;

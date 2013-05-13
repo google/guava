@@ -16,7 +16,7 @@
 
 package com.google.common.cache;
 
-import com.google.caliper.Benchmark;
+import com.google.caliper.legacy.Benchmark;
 import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;

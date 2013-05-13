@@ -16,7 +16,7 @@
 
 package com.google.common.eventbus;
 
-import com.google.caliper.Benchmark;
+import com.google.caliper.legacy.Benchmark;
 import com.google.caliper.runner.CaliperMain;
 
 /**

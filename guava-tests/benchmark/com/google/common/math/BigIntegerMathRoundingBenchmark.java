@@ -21,8 +21,8 @@ import static com.google.common.math.MathBenchmarking.ARRAY_SIZE;
 import static com.google.common.math.MathBenchmarking.randomNonZeroBigInteger;
 import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
-import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
+import com.google.caliper.legacy.Benchmark;
 import com.google.caliper.runner.CaliperMain;
 import com.google.common.math.BigIntegerMath;
 

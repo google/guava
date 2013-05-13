@@ -18,8 +18,8 @@ package com.google.common.collect;
 
 import static com.google.common.collect.DiscreteDomain.integers;
 
-import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
+import com.google.caliper.legacy.Benchmark;
 import com.google.caliper.runner.CaliperMain;
 
 import java.util.Set;
