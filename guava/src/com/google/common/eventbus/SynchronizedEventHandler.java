@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
  *
  * @author Cliff Biffle
  */
-class SynchronizedEventHandler extends EventHandler {
+final class SynchronizedEventHandler extends EventHandler {
   /**
    * Creates a new SynchronizedEventHandler to wrap {@code method} on
    * {@code target}.
@@ -40,9 +40,11 @@ class SynchronizedEventHandler extends EventHandler {
     super(target, method);
   }
 
-  @Override public synchronized void handleEvent(Object event)
-      throws InvocationTargetException {
-    super.handleEvent(event);
+  @Override
+  public void handleEvent(Object event) throws InvocationTargetException {
+    // https://code.google.com/p/guava-libraries/issues/detail?id=1403
+    synchronized (this) {
+      super.handleEvent(event);
+    }
   }
-
 }
