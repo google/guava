@@ -86,7 +86,8 @@ public interface Hasher extends PrimitiveSink {
    * Equivalent to processing each {@code char} value in the {@code CharSequence}, in order.
    * The input must not be updated while this method is in progress.
    *
-   * @deprecated Use {@link Hasher#putUnencodedChars} instead.
+   * @deprecated Use {@link Hasher#putUnencodedChars} instead. This method is scheduled for
+   *     removal in Guava 16.0.
    */
   @Deprecated
   @Override Hasher putString(CharSequence charSequence);

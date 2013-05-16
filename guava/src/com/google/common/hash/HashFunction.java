@@ -199,7 +199,8 @@ public interface HashFunction {
    * Note that no character encoding is performed; the low byte and high byte of each {@code char}
    * are hashed directly (in that order).
    *
-   * @deprecated Use {@link HashFunction#hashUnencodedChars} instead.
+   * @deprecated Use {@link HashFunction#hashUnencodedChars} instead. This method is scheduled for
+   *     removal in Guava 16.0.
    */
   @Deprecated
   HashCode hashString(CharSequence input);
