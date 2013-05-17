@@ -43,7 +43,7 @@ public class SerializableTesterTest extends TestCase {
       errorNotThrown = true;
     } catch (AssertionFailedError error) {
       // expected
-      assertContains("must be equal to", error.getMessage());
+      assertContains("must be Object#equals to", error.getMessage());
     }
     assertFalse(errorNotThrown);
   }
@@ -57,7 +57,7 @@ public class SerializableTesterTest extends TestCase {
       errorNotThrown = true;
     } catch (AssertionFailedError error) {
       // expected
-      assertContains("must be equal to the hash", error.getMessage());
+      assertContains("must be equal to the Object#hashCode", error.getMessage());
     }
     assertFalse(errorNotThrown);
   }

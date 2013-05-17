@@ -100,17 +100,18 @@ public final class EqualsTester {
     RelationshipTester<Object> delegate = new RelationshipTester<Object>(
         new RelationshipAssertion<Object>() {
           @Override public void assertRelated(Object item, Object related) {
-            assertEquals("$ITEM must be equal to $RELATED", item, related);
+            assertEquals("$ITEM must be Object#equals to $RELATED", item, related);
             int itemHash = item.hashCode();
             int relatedHash = related.hashCode();
-            assertEquals("the hash (" + itemHash + ") of $ITEM must be equal to the hash ("
-                + relatedHash +") of $RELATED", itemHash, relatedHash);
+            assertEquals("the Object#hashCode (" + itemHash + ") of $ITEM must be equal to the "
+                + "Object#hashCode (" + relatedHash +") of $RELATED", itemHash, relatedHash);
           }
 
           @Override public void assertUnrelated(Object item, Object unrelated) {
             // TODO(cpovirk): should this implementation (and
             // RelationshipAssertions in general) accept null inputs?
-            assertTrue("$ITEM must be unequal to $UNRELATED", !Objects.equal(item, unrelated));
+            assertTrue("$ITEM must not be Object#equals to $UNRELATED",
+              !Objects.equal(item, unrelated));
           }
         }, itemReporter);
     for (List<Object> group : equalityGroups) {
@@ -130,11 +131,12 @@ public final class EqualsTester {
 
   private void testItems() {
     for (Object item : Iterables.concat(equalityGroups)) {
-      assertTrue(item + " must be unequal to null", !item.equals(null));
-      assertTrue(item + " must be unequal to an arbitrary object of another class",
+      assertTrue(item + " must not be Object#equals to null", !item.equals(null));
+      assertTrue(item + " must not be Object#equals to an arbitrary object of another class",
           !item.equals(NotAnInstance.EQUAL_TO_NOTHING));
-      assertEquals(item + " must be equal to itself", item, item);
-      assertEquals("the hash of " + item + " must be consistent", item.hashCode(), item.hashCode());
+      assertEquals(item + " must be Object#equals to itself", item, item);
+      assertEquals("the Object#hashCode of " + item + " must be consistent",
+          item.hashCode(), item.hashCode());
     }
   }
 
