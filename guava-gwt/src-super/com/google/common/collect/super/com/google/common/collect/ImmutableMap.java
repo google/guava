@@ -201,7 +201,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   @Override
   public boolean containsValue(@Nullable Object value) {
-    return value != null && Maps.containsValueImpl(this, value);
+    return values().contains(value);
   }
 
   private transient ImmutableSet<Entry<K, V>> cachedEntrySet = null;

@@ -20,6 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.util.Map.Entry;
 
+import javax.annotation.Nullable;
+
 /**
  * {@code values()} implementation for {@link ImmutableMap}.
  *
@@ -45,8 +47,8 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   }
 
   @Override
-  public boolean contains(Object object) {
-    return map.containsValue(object);
+  public boolean contains(@Nullable Object object) {
+    return object != null && Iterators.contains(iterator(), object);
   }
 
   @Override
