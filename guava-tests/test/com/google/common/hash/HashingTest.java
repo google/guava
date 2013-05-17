@@ -24,12 +24,14 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table.Cell;
 import com.google.common.primitives.Ints;
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.util.concurrent.AtomicLongMap;
 
 import junit.framework.TestCase;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
@@ -296,7 +298,7 @@ public class HashingTest extends TestCase {
   }
 
   public void testCombineUnordered_randomHashCodes() {
-    Random random = new Random();
+    Random random = new Random(RANDOM_SEED);
     List<HashCode> hashCodes = Lists.newArrayList();
     for (int i = 0; i < 10; i++) {
       hashCodes.add(HashCodes.fromLong(random.nextLong()));
@@ -306,6 +308,15 @@ public class HashingTest extends TestCase {
     HashCode hashCode2 = Hashing.combineUnordered(hashCodes);
 
     assertEquals(hashCode1, hashCode2);
+  }
+
+  public void testConcatenatedHashFunction_equals() {
+    assertEquals(
+        new ConcatenatedHashFunction(Hashing.md5()),
+        new ConcatenatedHashFunction(Hashing.md5()));
+    assertEquals(
+        new ConcatenatedHashFunction(Hashing.md5(), Hashing.murmur3_32()),
+        new ConcatenatedHashFunction(Hashing.md5(), Hashing.murmur3_32()));
   }
 
   public void testConcatenatedHashFunction_bits() {
@@ -393,8 +404,9 @@ public class HashingTest extends TestCase {
 
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {
     for (Method method : Hashing.class.getDeclaredMethods()) {
-      if (method.getReturnType().equals(HashFunction.class) && // must return HashFunction
-          method.getParameterTypes().length == 0) { // only the seed-less grapes^W hash functions
+      if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
+          && Modifier.isPublic(method.getModifiers()) // only the public methods
+          && method.getParameterTypes().length == 0) { // only the seed-less grapes^W hash functions
         HashFunction hashFunction = (HashFunction) method.invoke(Hashing.class);
         assertTrue("There should be at least 3 entries in KNOWN_HASHES for "
             + hashFunction.toString(), KNOWN_HASHES.row(hashFunction).size() >= 3);
@@ -418,5 +430,67 @@ public class HashingTest extends TestCase {
     NullPointerTester tester = new NullPointerTester()
         .setDefault(HashCode.class, HashCodes.fromInt(0));
     tester.testAllPublicStaticMethods(Hashing.class);
+  }
+
+  public void testSeedlessHashFunctionEquals() throws Exception {
+    assertSeedlessHashFunctionEquals(Hashing.class);
+  }
+
+  public void testSeededHashFunctionEquals() throws Exception {
+    assertSeededHashFunctionEquals(Hashing.class);
+  }
+
+  static void assertSeedlessHashFunctionEquals(Class<?> clazz) throws Exception {
+    for (Method method : clazz.getDeclaredMethods()) {
+      if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
+          && Modifier.isPublic(method.getModifiers()) // only the public methods
+          && method.getParameterTypes().length == 0) { // only the seed-less hash functions
+        HashFunction hashFunction1a = (HashFunction) method.invoke(clazz);
+        HashFunction hashFunction1b = (HashFunction) method.invoke(clazz);
+
+        new EqualsTester()
+            .addEqualityGroup(hashFunction1a, hashFunction1b)
+            .testEquals();
+
+        // Make sure we're returning not only equal instances, but constants.
+        assertSame(hashFunction1a, hashFunction1b);
+
+        assertEquals(hashFunction1a.toString(), hashFunction1b.toString());
+      }
+    }
+  }
+
+  static void assertSeededHashFunctionEquals(Class<?> clazz) throws Exception {
+    Random random = new Random(RANDOM_SEED);
+    for (Method method : clazz.getDeclaredMethods()) {
+      if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
+          && Modifier.isPublic(method.getModifiers()) // only the public methods
+          && method.getParameterTypes().length != 0) { // only the seeded hash functions
+        Object[] params1 = new Object[method.getParameterTypes().length];
+        Object[] params2 = new Object[method.getParameterTypes().length];
+        for (int i = 0; i < params1.length; i++) {
+          if (method.getParameterTypes()[i] == int.class) {
+            // These have to be positive because Hashing#goodFastHash needs a positive (bit) value
+            params1[i] = random.nextInt(1000) + 1;
+            params2[i] = random.nextInt(1000) + 1;
+          } else if (method.getParameterTypes()[i] == long.class) {
+            params1[i] = random.nextLong();
+            params2[i] = random.nextLong();
+          } else {
+            fail("Unable to create a random parameter for " + method.getParameterTypes()[i]);
+          }
+        }
+        HashFunction hashFunction1a = (HashFunction) method.invoke(clazz, params1);
+        HashFunction hashFunction1b = (HashFunction) method.invoke(clazz, params1);
+        HashFunction hashFunction2 = (HashFunction) method.invoke(clazz, params2);
+
+        new EqualsTester()
+            .addEqualityGroup(hashFunction1a, hashFunction1b)
+            .addEqualityGroup(hashFunction2)
+            .testEquals();
+
+        assertEquals(hashFunction1a.toString(), hashFunction1b.toString());
+      }
+    }
   }
 }

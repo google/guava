@@ -27,6 +27,8 @@ import java.util.zip.Adler32;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
+import javax.annotation.Nullable;
+
 /**
  * Static methods to obtain {@link HashFunction} instances, and other static hashing-related
  * utilities.
@@ -390,6 +392,32 @@ public final class Hashing {
     @Override
     public int bits() {
       return bits;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object object) {
+      if (object instanceof ConcatenatedHashFunction) {
+        ConcatenatedHashFunction other = (ConcatenatedHashFunction) object;
+        if (bits != other.bits || functions.length != other.functions.length) {
+          return false;
+        }
+        for (int i = 0; i < functions.length; i++) {
+          if (!functions[i].equals(other.functions[i])) {
+            return false;
+          }
+        }
+        return true;
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      int hash = bits;
+      for (HashFunction function : functions) {
+        hash ^= function.hashCode();
+      }
+      return hash;
     }
   }
 
