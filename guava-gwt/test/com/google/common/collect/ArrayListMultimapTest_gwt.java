@@ -594,36 +594,6 @@ public void testRemoveToString() throws Exception {
   testCase.testRemoveToString();
 }
 
-public void testReplaceValues() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValues();
-}
-
-public void testReplaceValuesDuplicates() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesDuplicates();
-}
-
-public void testReplaceValuesEmpty() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesEmpty();
-}
-
-public void testReplaceValuesNotPresent() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesNotPresent();
-}
-
-public void testReplaceValuesNull() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesNull();
-}
-
 public void testReplaceValuesRandomAccess() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();

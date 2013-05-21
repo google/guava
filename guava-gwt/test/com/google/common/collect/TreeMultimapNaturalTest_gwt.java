@@ -522,36 +522,6 @@ public void testRemoveToString() throws Exception {
   testCase.testRemoveToString();
 }
 
-public void testReplaceValues() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testReplaceValues();
-}
-
-public void testReplaceValuesDuplicates() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testReplaceValuesDuplicates();
-}
-
-public void testReplaceValuesEmpty() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testReplaceValuesEmpty();
-}
-
-public void testReplaceValuesNotPresent() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testReplaceValuesNotPresent();
-}
-
-public void testReplaceValuesNull() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testReplaceValuesNull();
-}
-
 public void testTailSetClear() throws Exception {
   com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
   testCase.setUp();

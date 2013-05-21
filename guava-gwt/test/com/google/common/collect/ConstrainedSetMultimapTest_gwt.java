@@ -462,36 +462,6 @@ public void testRemoveToString() throws Exception {
   testCase.testRemoveToString();
 }
 
-public void testReplaceValues() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValues();
-}
-
-public void testReplaceValuesDuplicates() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesDuplicates();
-}
-
-public void testReplaceValuesEmpty() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesEmpty();
-}
-
-public void testReplaceValuesNotPresent() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesNotPresent();
-}
-
-public void testReplaceValuesNull() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesNull();
-}
-
 public void testToStringNull() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
   testCase.setUp();

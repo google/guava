@@ -492,36 +492,6 @@ public void testRemoveToString() throws Exception {
   testCase.testRemoveToString();
 }
 
-public void testReplaceValues() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValues();
-}
-
-public void testReplaceValuesDuplicates() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesDuplicates();
-}
-
-public void testReplaceValuesEmpty() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesEmpty();
-}
-
-public void testReplaceValuesNotPresent() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesNotPresent();
-}
-
-public void testReplaceValuesNull() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testReplaceValuesNull();
-}
-
 public void testToStringNull() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
   testCase.setUp();
