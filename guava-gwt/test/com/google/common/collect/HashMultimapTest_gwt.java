@@ -366,30 +366,6 @@ public void testGetReplaceValues() throws Exception {
   testCase.testGetReplaceValues();
 }
 
-public void testIsEmptyNo() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testIsEmptyNo();
-}
-
-public void testIsEmptyNull() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testIsEmptyNull();
-}
-
-public void testIsEmptyRemoved() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testIsEmptyRemoved();
-}
-
-public void testIsEmptyYes() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testIsEmptyYes();
-}
-
 public void testKeySet() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
   testCase.setUp();
@@ -610,36 +586,6 @@ public void testReplaceValuesNull() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
   testCase.setUp();
   testCase.testReplaceValuesNull();
-}
-
-public void testSize0() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testSize0();
-}
-
-public void testSize1() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testSize1();
-}
-
-public void testSize2Keys() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testSize2Keys();
-}
-
-public void testSize2Values() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testSize2Values();
-}
-
-public void testSizeNull() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testSizeNull();
 }
 
 public void testToStringNull() throws Exception {

@@ -110,56 +110,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     return false;
   }
 
-  public void testSize0() {
-    assertSize(0);
-  }
-
-  public void testSize1() {
-    multimap.put("foo", 1);
-    assertSize(1);
-  }
-
-  public void testSize2Keys() {
-    multimap.put("foo", 1);
-    multimap.put("bar", 5);
-    assertSize(2);
-  }
-
-  public void testSize2Values() {
-    multimap.put("foo", 1);
-    multimap.put("foo", 7);
-    assertSize(2);
-  }
-
-  public void testSizeNull() {
-    multimap.put("foo", 1);
-    multimap.put("bar", 5);
-    multimap.put(nullKey(), nullValue());
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 5);
-    assertSize(5);
-  }
-
-  public void testIsEmptyYes() {
-    assertTrue(multimap.isEmpty());
-  }
-
-  public void testIsEmptyNo() {
-    multimap.put("foo", 1);
-    assertFalse(multimap.isEmpty());
-  }
-
-  public void testIsEmptyNull() {
-    multimap.put(nullKey(), nullValue());
-    assertFalse(multimap.isEmpty());
-  }
-
-  public void testIsEmptyRemoved() {
-    multimap.put("foo", 1);
-    multimap.remove("foo", 1);
-    assertTrue(multimap.isEmpty());
-  }
-
   public void testContainsKeyTrue() {
     multimap.put("foo", 1);
     assertTrue(multimap.containsKey("foo"));
