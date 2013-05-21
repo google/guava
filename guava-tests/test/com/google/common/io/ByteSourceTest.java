@@ -31,10 +31,10 @@ import com.google.common.hash.Hashing;
 
 import junit.framework.TestSuite;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.EnumSet;
 
@@ -65,7 +65,7 @@ public class ByteSourceTest extends IoTestCase {
   }
 
   public void testOpenBufferedStream() throws IOException {
-    BufferedInputStream in = source.openBufferedStream();
+    InputStream in = source.openBufferedStream();
     assertTrue(source.wasStreamOpened());
     assertFalse(source.wasStreamClosed());
 

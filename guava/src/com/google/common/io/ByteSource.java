@@ -92,14 +92,18 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
   }
 
   /**
-   * Opens a new {@link BufferedInputStream} for reading from this source. This method should return
-   * a new, independent stream each time it is called.
+   * Opens a new buffered {@link InputStream} for reading from this source. The returned stream is
+   * not required to be a {@link BufferedInputStream} in order to allow implementations to simply
+   * delegate to {@link #openStream()} when the stream returned by that method does not benefit
+   * from additional buffering (for example, a {@code ByteArrayInputStream}). This method should
+   * return a new, independent stream each time it is called.
    *
    * <p>The caller is responsible for ensuring that the returned stream is closed.
    *
    * @throws IOException if an I/O error occurs in the process of opening the stream
+   * @since 15.0 (in 14.0 with return type {@link BufferedInputStream})
    */
-  public BufferedInputStream openBufferedStream() throws IOException {
+  public InputStream openBufferedStream() throws IOException {
     InputStream in = openStream();
     return (in instanceof BufferedInputStream)
         ? (BufferedInputStream) in
@@ -402,7 +406,15 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
 
     @Override
     public InputStream openStream() throws IOException {
-      InputStream in = ByteSource.this.openStream();
+      return sliceStream(ByteSource.this.openStream());
+    }
+
+    @Override
+    public InputStream openBufferedStream() throws IOException {
+      return sliceStream(ByteSource.this.openBufferedStream());
+    }
+
+    private InputStream sliceStream(InputStream in) throws IOException {
       if (offset > 0) {
         try {
           ByteStreams.skipFully(in, offset);
@@ -444,6 +456,11 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     @Override
     public InputStream openStream() throws IOException {
       return new ByteArrayInputStream(bytes);
+    }
+
+    @Override
+    public InputStream openBufferedStream() throws IOException {
+      return openStream();
     }
 
     @Override

@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableList;
 
 import junit.framework.TestSuite;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -97,7 +96,7 @@ public class ByteSinkTester extends SourceSinkTester<ByteSink, byte[], ByteSinkF
   }
 
   public void testOpenBufferedStream() throws IOException {
-    BufferedOutputStream out = sink.openBufferedStream();
+    OutputStream out = sink.openBufferedStream();
     try {
       ByteStreams.copy(new ByteArrayInputStream(data), out);
     } finally {

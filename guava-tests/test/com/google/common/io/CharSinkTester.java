@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableList;
 
 import junit.framework.TestSuite;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Method;
@@ -88,7 +87,7 @@ public class CharSinkTester extends SourceSinkTester<CharSink, String, CharSinkF
   }
 
   public void testOpenBufferedStream() throws IOException {
-    BufferedWriter writer = sink.openBufferedStream();
+    Writer writer = sink.openBufferedStream();
     try {
       writer.write(data);
     } finally {

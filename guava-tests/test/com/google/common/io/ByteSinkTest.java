@@ -22,9 +22,9 @@ import static com.google.common.io.TestOption.READ_THROWS;
 import static com.google.common.io.TestOption.WRITE_THROWS;
 import static org.junit.Assert.assertArrayEquals;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.EnumSet;
 
 /**
@@ -44,7 +44,7 @@ public class ByteSinkTest extends IoTestCase {
   }
 
   public void testOpenBufferedStream() throws IOException {
-    BufferedOutputStream out = sink.openBufferedStream();
+    OutputStream out = sink.openBufferedStream();
     assertTrue(sink.wasStreamOpened());
     assertFalse(sink.wasStreamClosed());
 

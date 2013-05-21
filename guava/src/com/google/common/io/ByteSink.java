@@ -70,8 +70,8 @@ public abstract class ByteSink implements OutputSupplier<OutputStream> {
    *
    * @since 15.0
    * @deprecated This method is only provided for temporary compatibility with the
-   *     {@link OutputSupplier} interface and should not be called directly. Use {@link #openStream}
-   *     instead.
+   *     {@link OutputSupplier} interface and should not be called directly. Use
+   *     {@link #openStream} instead.
    */
   @Override
   @Deprecated
@@ -80,14 +80,18 @@ public abstract class ByteSink implements OutputSupplier<OutputStream> {
   }
 
   /**
-   * Opens a new {@link BufferedOutputStream} for writing to this sink. This method should return a
-   * new, independent stream each time it is called.
+   * Opens a new buffered {@link OutputStream} for writing to this sink. The returned stream is
+   * not required to be a {@link BufferedOutputStream} in order to allow implementations to simply
+   * delegate to {@link #openStream()} when the stream returned by that method does not benefit
+   * from additional buffering (for example, a {@code ByteArrayOutputStream}). This method should
+   * return a new, independent stream each time it is called.
    *
    * <p>The caller is responsible for ensuring that the returned stream is closed.
    *
    * @throws IOException if an I/O error occurs in the process of opening the stream
+   * @since 15.0 (in 14.0 with return type {@link BufferedOutputStream})
    */
-  public BufferedOutputStream openBufferedStream() throws IOException {
+  public OutputStream openBufferedStream() throws IOException {
     OutputStream out = openStream();
     return (out instanceof BufferedOutputStream)
         ? (BufferedOutputStream) out

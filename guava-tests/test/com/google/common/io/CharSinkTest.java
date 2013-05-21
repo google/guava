@@ -23,9 +23,9 @@ import static com.google.common.io.TestOption.WRITE_THROWS;
 
 import com.google.common.collect.ImmutableList;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.Writer;
 import java.util.EnumSet;
 
 /**
@@ -45,7 +45,7 @@ public class CharSinkTest extends IoTestCase {
   }
 
   public void testOpenBufferedStream() throws IOException {
-    BufferedWriter writer = sink.openBufferedStream();
+    Writer writer = sink.openBufferedStream();
     assertTrue(sink.wasStreamOpened());
     assertFalse(sink.wasStreamClosed());
 

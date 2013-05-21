@@ -27,7 +27,6 @@ import com.google.common.hash.Hashing;
 
 import junit.framework.TestSuite;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -117,7 +116,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
   }
 
   public void testOpenBufferedStream() throws IOException {
-    BufferedInputStream in = source.openBufferedStream();
+    InputStream in = source.openBufferedStream();
     try {
       byte[] readBytes = ByteStreams.toByteArray(in);
       assertExpectedBytes(readBytes);
