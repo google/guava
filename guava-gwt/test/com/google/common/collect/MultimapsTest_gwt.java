@@ -510,24 +510,6 @@ public void testNoSuchElementException() throws Exception {
   testCase.testNoSuchElementException();
 }
 
-public void testPutAllMultimap() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testPutAllMultimap();
-}
-
-public void testPutAllReturn_emptyCollection() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testPutAllReturn_emptyCollection();
-}
-
-public void testPutAllReturn_nonEmptyCollection() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testPutAllReturn_nonEmptyCollection();
-}
-
 public void testRemove() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.setUp();

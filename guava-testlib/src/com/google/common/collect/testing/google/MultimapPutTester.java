@@ -42,6 +42,14 @@ import java.util.Map.Entry;
  */
 @GwtCompatible
 public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
+  @MapFeature.Require(absent = SUPPORTS_PUT)
+  public void testPutUnsupported() {
+    try {
+      multimap().put(sampleKeys().e3, sampleValues().e3);
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException expected) {}
+  }
+  
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutEmpty() {
     int size = getNumElements();

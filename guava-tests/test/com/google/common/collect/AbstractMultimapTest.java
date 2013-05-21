@@ -155,34 +155,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertFalse(multimap.containsEntry("foo", 1));
   }
 
-  public void testPutAllMultimap() {
-    multimap.put("foo", 2);
-    multimap.put("cow", 5);
-    multimap.put(nullKey(), 2);
-    Multimap<String, Integer> multimap2 = create();
-    multimap2.put("foo", 1);
-    multimap2.put("bar", 3);
-    multimap2.put(nullKey(), nullValue());
-    multimap.putAll(multimap2);
-    assertTrue(multimap.containsEntry("foo", 2));
-    assertTrue(multimap.containsEntry("cow", 5));
-    assertTrue(multimap.containsEntry("foo", 1));
-    assertTrue(multimap.containsEntry("bar", 3));
-    assertTrue(multimap.containsEntry(nullKey(), nullValue()));
-    assertTrue(multimap.containsEntry(nullKey(), 2));
-    assertSize(6);
-  }
-
-  public void testPutAllReturn_emptyCollection() {
-    assertFalse(multimap.putAll(create()));
-  }
-
-  public void testPutAllReturn_nonEmptyCollection() {
-    Multimap<String, Integer> other = create();
-    other.putAll("bar", asList(7, 8, 9));
-    assertTrue(multimap.putAll(other));
-  }
-
   private void checkRemovedCollection(Collection<Integer> collection) {
     if (removedCollectionsAreModifiable()) {
       collection.add(9876);

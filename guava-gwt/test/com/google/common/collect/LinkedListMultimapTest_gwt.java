@@ -606,28 +606,10 @@ public void testNoSuchElementException() throws Exception {
   testCase.testNoSuchElementException();
 }
 
-public void testPutAllMultimap() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllMultimap();
-}
-
-public void testPutAllReturn_emptyCollection() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllReturn_emptyCollection();
-}
-
 public void testPutAllReturn_existingElements() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();
   testCase.testPutAllReturn_existingElements();
-}
-
-public void testPutAllReturn_nonEmptyCollection() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllReturn_nonEmptyCollection();
 }
 
 public void testPutGetOrdering() throws Exception {
