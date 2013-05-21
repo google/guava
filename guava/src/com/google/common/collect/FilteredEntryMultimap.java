@@ -124,6 +124,11 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
   Collection<Entry<K, V>> createEntries() {
     return filterCollection(unfiltered.entries(), predicate);
   }
+  
+  @Override
+  Collection<V> createValues() {
+    return new FilteredMultimapValues<K, V>(this);
+  }
 
   @Override
   Iterator<Entry<K, V>> entryIterator() {

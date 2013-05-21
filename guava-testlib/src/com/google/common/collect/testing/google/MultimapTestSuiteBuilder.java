@@ -117,6 +117,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
     derivedSuites.add(computeEntriesTestSuite(parentBuilder));
     derivedSuites.add(computeMultimapGetTestSuite(parentBuilder));
     derivedSuites.add(computeKeysTestSuite(parentBuilder));
+    derivedSuites.add(computeValuesTestSuite(parentBuilder));
 
     return derivedSuites;
   }
@@ -127,7 +128,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
     return CollectionTestSuiteBuilder.using(
         new ValuesGenerator<K, V, M>(parentBuilder.getSubjectGenerator()))
         .withFeatures(computeValuesFeatures(parentBuilder.getFeatures()))
-        .named(parentBuilder.getName() + ".entries")
+        .named(parentBuilder.getName() + ".values")
         .suppressing(parentBuilder.getSuppressedTests())
         .createTestSuite();
   }
