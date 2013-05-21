@@ -153,39 +153,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertFalse(multimap.containsEntry("foo", 1));
   }
 
-  public void testGet0() {
-    multimap.put("foo", 1);
-    Collection<Integer> values = multimap.get("bar");
-    assertEquals(0, values.size());
-  }
-
-  public void testGet1() {
-    multimap.put("foo", 1);
-    multimap.put("bar", 3);
-    Collection<Integer> values = multimap.get("bar");
-    assertEquals(1, values.size());
-    assertTrue(values.contains(3));
-    assertFalse(values.contains(5));
-  }
-
-  public void testGet2() {
-    multimap.put("foo", 1);
-    multimap.put("foo", 3);
-    Collection<Integer> values = multimap.get("foo");
-    assertEquals(2, values.size());
-    assertTrue(values.contains(1));
-    assertTrue(values.contains(3));
-  }
-
-  public void testGetNull() {
-    multimap.put(nullKey(), nullValue());
-    multimap.put(nullKey(), 3);
-    Collection<Integer> values = multimap.get(nullKey());
-    assertEquals(2, values.size());
-    assertTrue(values.contains(nullValue()));
-    assertTrue(values.contains(3));
-  }
-
   public void testPutAllIterable() {
     Iterable<Integer> iterable = new Iterable<Integer>() {
       @Override

@@ -246,24 +246,6 @@ public void testEqualsTrue() throws Exception {
   testCase.testEqualsTrue();
 }
 
-public void testGet0() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testGet0();
-}
-
-public void testGet1() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testGet1();
-}
-
-public void testGet2() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testGet2();
-}
-
 public void testGetAddAll() throws Exception {
   com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
   testCase.setUp();
@@ -298,12 +280,6 @@ public void testGetIterator() throws Exception {
   com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
   testCase.setUp();
   testCase.testGetIterator();
-}
-
-public void testGetNull() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testGetNull();
 }
 
 public void testGetPutAllCollection() throws Exception {

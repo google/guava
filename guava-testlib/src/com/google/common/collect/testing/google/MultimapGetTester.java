@@ -16,6 +16,7 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.Helpers.assertContentsAnyOrder;
+import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
@@ -26,6 +27,7 @@ import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
@@ -43,12 +45,28 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
     assertTrue(result.isEmpty());
     assertEquals(0, result.size());
   }
-
+  
   @CollectionSize.Require(absent = ZERO)
   public void testGetNonEmpty() {
     Collection<V> result = multimap().get(sampleKeys().e0);
     assertFalse(result.isEmpty());
     assertContentsAnyOrder(result, sampleValues().e0);
+  }
+
+  @CollectionSize.Require(SEVERAL)
+  public void testGetMultiple() {
+    resetContainer(
+        Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
+        Helpers.mapEntry(sampleKeys().e0, sampleValues().e1),
+        Helpers.mapEntry(sampleKeys().e0, sampleValues().e2));
+    assertGet(sampleKeys().e0,
+        sampleValues().e0,
+        sampleValues().e1,
+        sampleValues().e2);
+  }
+  
+  public void testGetAbsentKey() {
+    assertGet(sampleKeys().e4);
   }
 
   @CollectionSize.Require(absent = ZERO)
