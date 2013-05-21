@@ -474,30 +474,6 @@ public void testOrderedValues() throws Exception {
   testCase.testOrderedValues();
 }
 
-public void testPutAllCollection() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testPutAllCollection();
-}
-
-public void testPutAllCollectionNull() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testPutAllCollectionNull();
-}
-
-public void testPutAllEmptyCollection() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testPutAllEmptyCollection();
-}
-
-public void testPutAllIterable() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testPutAllIterable();
-}
-
 public void testPutAllMultimap() throws Exception {
   com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
   testCase.setUp();

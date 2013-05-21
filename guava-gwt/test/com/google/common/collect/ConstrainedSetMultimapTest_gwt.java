@@ -414,30 +414,6 @@ public void testNoSuchElementException() throws Exception {
   testCase.testNoSuchElementException();
 }
 
-public void testPutAllCollection() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllCollection();
-}
-
-public void testPutAllCollectionNull() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllCollectionNull();
-}
-
-public void testPutAllEmptyCollection() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllEmptyCollection();
-}
-
-public void testPutAllIterable() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllIterable();
-}
-
 public void testPutAllMultimap() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
   testCase.setUp();

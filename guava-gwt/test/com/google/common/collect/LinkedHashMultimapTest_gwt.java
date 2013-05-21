@@ -468,30 +468,6 @@ public void testOrderingUpdates() throws Exception {
   testCase.testOrderingUpdates();
 }
 
-public void testPutAllCollection() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllCollection();
-}
-
-public void testPutAllCollectionNull() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllCollectionNull();
-}
-
-public void testPutAllEmptyCollection() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllEmptyCollection();
-}
-
-public void testPutAllIterable() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllIterable();
-}
-
 public void testPutAllMultimap() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();

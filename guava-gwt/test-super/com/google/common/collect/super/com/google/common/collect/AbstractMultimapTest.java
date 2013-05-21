@@ -153,57 +153,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertFalse(multimap.containsEntry("foo", 1));
   }
 
-  public void testPutAllIterable() {
-    Iterable<Integer> iterable = new Iterable<Integer>() {
-      @Override
-      public Iterator<Integer> iterator() {
-        return Lists.newArrayList(1, 3).iterator();
-      }
-    };
-    multimap.putAll("foo", iterable);
-    assertTrue(multimap.containsEntry("foo", 1));
-    assertTrue(multimap.containsEntry("foo", 3));
-    assertSize(2);
-
-    Iterable<Integer> emptyIterable = new Iterable<Integer>() {
-      @Override
-      public Iterator<Integer> iterator() {
-        return Iterators.emptyIterator();
-      }
-    };
-    multimap.putAll("bar", emptyIterable);
-    assertSize(2);
-    assertEquals(Collections.singleton("foo"), multimap.keySet());
-  }
-
-  public void testPutAllCollection() {
-    Collection<Integer> collection = Lists.newArrayList(1, 3);
-    multimap.putAll("foo", collection);
-    assertTrue(multimap.containsEntry("foo", 1));
-    assertTrue(multimap.containsEntry("foo", 3));
-    assertSize(2);
-
-    Collection<Integer> emptyCollection = Lists.newArrayList();
-    multimap.putAll("bar", emptyCollection);
-    assertSize(2);
-    assertEquals(Collections.singleton("foo"), multimap.keySet());
-  }
-
-  public void testPutAllCollectionNull() {
-    Collection<Integer> collection = Lists.newArrayList(1, nullValue());
-    multimap.putAll(nullKey(), collection);
-    assertTrue(multimap.containsEntry(nullKey(), 1));
-    assertTrue(multimap.containsEntry(nullKey(), nullValue()));
-    assertSize(2);
-  }
-
-  public void testPutAllEmptyCollection() {
-    Collection<Integer> collection = Lists.newArrayList();
-    multimap.putAll("foo", collection);
-    assertSize(0);
-    assertTrue(multimap.isEmpty());
-  }
-
   public void testPutAllMultimap() {
     multimap.put("foo", 2);
     multimap.put("cow", 5);
@@ -223,15 +172,10 @@ public abstract class AbstractMultimapTest extends TestCase {
   }
 
   public void testPutAllReturn_emptyCollection() {
-    assertFalse(multimap.putAll("foo", new ArrayList<Integer>()));
     assertFalse(multimap.putAll(create()));
   }
 
   public void testPutAllReturn_nonEmptyCollection() {
-    assertTrue(multimap.putAll("foo", asList(1, 2, 3)));
-    assertTrue(multimap.putAll("foo", asList(4, 5, 6)));
-    assertFalse(multimap.putAll(create()));
-
     Multimap<String, Integer> other = create();
     other.putAll("bar", asList(7, 8, 9));
     assertTrue(multimap.putAll(other));
