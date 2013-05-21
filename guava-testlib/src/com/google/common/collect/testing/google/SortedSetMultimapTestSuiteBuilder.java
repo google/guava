@@ -51,6 +51,7 @@ public class SortedSetMultimapTestSuiteBuilder<K, V>
     testers.add(SetMultimapPutTester.class);
     testers.add(SetMultimapPutAllTester.class);
     testers.add(SetMultimapReplaceValuesTester.class);
+    testers.add(SortedSetMultimapAsMapTester.class);
     testers.add(SortedSetMultimapGetTester.class);
     return testers;
   }

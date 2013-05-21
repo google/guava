@@ -51,6 +51,7 @@ public class ListMultimapTestSuiteBuilder<K, V> extends
 
   @Override protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
+    testers.add(ListMultimapAsMapTester.class);
     testers.add(ListMultimapPutTester.class);
     testers.add(ListMultimapPutAllTester.class);
     testers.add(ListMultimapRemoveTester.class);
