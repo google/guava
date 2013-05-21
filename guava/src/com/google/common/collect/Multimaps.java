@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -850,6 +851,58 @@ public final class Multimaps {
   }
 
   /**
+   * Returns {@link ListMultimap#asMap multimap.asMap()}, with its type
+   * corrected from {@code Map<K, Collection<V>>} to {@code Map<K, List<V>>}.
+   *
+   * @since 15.0
+   */
+  @Beta
+  @SuppressWarnings("unchecked")
+  // safe by specification of ListMultimap.asMap()
+  public static <K, V> Map<K, List<V>> asMap(ListMultimap<K, V> multimap) {
+    return (Map<K, List<V>>) (Map<K, ?>) multimap.asMap();
+  }
+
+  /**
+   * Returns {@link SetMultimap#asMap multimap.asMap()}, with its type corrected
+   * from {@code Map<K, Collection<V>>} to {@code Map<K, Set<V>>}.
+   *
+   * @since 15.0
+   */
+  @Beta
+  @SuppressWarnings("unchecked")
+  // safe by specification of SetMultimap.asMap()
+  public static <K, V> Map<K, Set<V>> asMap(SetMultimap<K, V> multimap) {
+    return (Map<K, Set<V>>) (Map<K, ?>) multimap.asMap();
+  }
+
+  /**
+   * Returns {@link SortedSetMultimap#asMap multimap.asMap()}, with its type
+   * corrected from {@code Map<K, Collection<V>>} to
+   * {@code Map<K, SortedSet<V>>}.
+   *
+   * @since 15.0
+   */
+  @Beta
+  @SuppressWarnings("unchecked")
+  // safe by specification of SortedSetMultimap.asMap()
+  public static <K, V> Map<K, SortedSet<V>> asMap(
+      SortedSetMultimap<K, V> multimap) {
+    return (Map<K, SortedSet<V>>) (Map<K, ?>) multimap.asMap();
+  }
+
+  /**
+   * Returns {@link Multimap#asMap multimap.asMap()}. This is provided for
+   * parity with the other more strongly-typed {@code asMap()} implementations.
+   *
+   * @since 15.0
+   */
+  @Beta
+  public static <K, V> Map<K, Collection<V>> asMap(Multimap<K, V> multimap) {
+    return multimap.asMap();
+  }
+
+  /**
    * Returns a multimap view of the specified map. The multimap is backed by the
    * map, so changes to the map are reflected in the multimap, and vice versa.
    * If the map is modified while an iteration over one of the multimap's
@@ -1583,7 +1636,7 @@ public final class Multimaps {
   /**
    * A skeleton implementation of {@link Multimap#entries()}.
    */
-  static abstract class Entries<K, V> extends
+  abstract static class Entries<K, V> extends
       AbstractCollection<Map.Entry<K, V>> {
     abstract Multimap<K, V> multimap();
 

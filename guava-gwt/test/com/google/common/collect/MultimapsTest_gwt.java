@@ -60,6 +60,30 @@ public void testAsMapValuesToArray() throws Exception {
   testCase.testAsMapValuesToArray();
 }
 
+public void testAsMap_listMultimap() throws Exception {
+  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
+  testCase.setUp();
+  testCase.testAsMap_listMultimap();
+}
+
+public void testAsMap_multimap() throws Exception {
+  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
+  testCase.setUp();
+  testCase.testAsMap_multimap();
+}
+
+public void testAsMap_setMultimap() throws Exception {
+  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
+  testCase.setUp();
+  testCase.testAsMap_setMultimap();
+}
+
+public void testAsMap_sortedSetMultimap() throws Exception {
+  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
+  testCase.setUp();
+  testCase.testAsMap_sortedSetMultimap();
+}
+
 public void testClear() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.setUp();

@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -287,6 +288,32 @@ public class MultimapsTest extends AbstractMultimapTest {
     assertEquals(expected, multimap);
   }
 
+  public void testAsMap_multimap() {
+    Multimap<String, Integer> multimap = Multimaps.newMultimap(
+        new HashMap<String, Collection<Integer>>(), new QueueSupplier());
+    Map<String, Collection<Integer>> map = Multimaps.asMap(multimap);
+    assertSame(multimap.asMap(), map);
+  }
+
+  public void testAsMap_listMultimap() {
+    ListMultimap<String, Integer> listMultimap = ArrayListMultimap.create();
+    Map<String, List<Integer>> map = Multimaps.asMap(listMultimap);
+    assertSame(listMultimap.asMap(), map);
+  }
+
+  public void testAsMap_setMultimap() {
+    SetMultimap<String, Integer> setMultimap = LinkedHashMultimap.create();
+    Map<String, Set<Integer>> map = Multimaps.asMap(setMultimap);
+    assertSame(setMultimap.asMap(), map);
+  }
+
+  public void testAsMap_sortedSetMultimap() {
+    SortedSetMultimap<String, Integer> sortedSetMultimap =
+        TreeMultimap.create();
+    Map<String, SortedSet<Integer>> map = Multimaps.asMap(sortedSetMultimap);
+    assertSame(sortedSetMultimap.asMap(), map);
+  }
+
   public void testForMap() {
     Map<String, Integer> map = Maps.newHashMap();
     map.put("foo", 1);
@@ -430,7 +457,7 @@ public class MultimapsTest extends AbstractMultimapTest {
 
   private enum Color {BLUE, RED, YELLOW, GREEN}
 
-  private static abstract class CountingSupplier<E>
+  private abstract static class CountingSupplier<E>
       implements Supplier<E>, Serializable {
     int count;
 

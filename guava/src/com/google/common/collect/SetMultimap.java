@@ -92,8 +92,9 @@ public interface SetMultimap<K, V> extends Multimap<K, V> {
   /**
    * {@inheritDoc}
    *
-   * <p>Though the method signature doesn't say so explicitly, the returned map
-   * has {@link Set} values.
+   * <p><b>Note:</b> The returned map's values are guaranteed to be of type
+   * {@link Set}. To obtain this map with the more specific generic type
+   * {@code Map<K, Set<V>>}, call {@link Multimaps#asMap(SetMultimap)} instead.
    */
   @Override
   Map<K, Collection<V>> asMap();
