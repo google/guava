@@ -38,33 +38,6 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
 
   @Override protected abstract ListMultimap<String, Integer> create();
 
-  /**
-   * Test adding duplicate key-value pairs to multimap.
-   */
-  public void testDuplicates() {
-    Multimap<String, Integer> multimap = create();
-    multimap.put("foo", 1);
-    multimap.put("foo", 3);
-    multimap.put("bar", 3);
-    multimap.put("foo", 1);
-    assertEquals(4, multimap.size());
-    assertTrue(multimap.containsEntry("foo", 1));
-    multimap.remove("foo", 1);
-    assertEquals(3, multimap.size());
-    assertTrue(multimap.containsEntry("foo", 1));
-  }
-
-  /**
-   * Test returned boolean when adding duplicate key-value pairs to multimap.
-   */
-  public void testPutReturn() {
-    Multimap<String, Integer> multimap = create();
-    assertTrue(multimap.put("foo", 1));
-    assertTrue(multimap.put("foo", 1));
-    assertTrue(multimap.put("foo", 3));
-    assertTrue(multimap.put("bar", 5));
-  }
-
   public void testPutAllReturn_existingElements() {
     Multimap<String, Integer> multimap = create();
     assertTrue(multimap.putAll("foo", asList(1, 2, 3)));
@@ -152,19 +125,6 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     multimap2.put("foo", 1);
     multimap2.put("bar", 3);
     assertFalse(multimap.equals(multimap2));
-  }
-
-  /**
-   * Test the ordering of the values returned by multimap.get().
-   */
-  public void testPutGetOrdering() {
-    Multimap<String, Integer> multimap = create();
-    multimap.put("foo", 1);
-    multimap.put("foo", 3);
-    multimap.put("bar", 3);
-    Iterator<Integer> values = multimap.get("foo").iterator();
-    assertEquals(Integer.valueOf(1), values.next());
-    assertEquals(Integer.valueOf(3), values.next());
   }
 
   /**

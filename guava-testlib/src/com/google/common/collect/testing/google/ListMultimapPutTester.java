@@ -45,7 +45,7 @@ public class ListMultimapPutTester<K, V> extends AbstractListMultimapTester<K, V
         List<V> values = multimap().get(key);
         List<V> expectedValues = Helpers.copyToList(values);
 
-        multimap().put(key, value);
+        assertTrue(multimap().put(key, value));
         expectedValues.add(value);
 
         assertGet(key, expectedValues);

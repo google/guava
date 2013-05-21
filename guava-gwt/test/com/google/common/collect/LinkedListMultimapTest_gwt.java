@@ -150,12 +150,6 @@ public void testCreateFromSize() throws Exception {
   testCase.testCreateFromSize();
 }
 
-public void testDuplicates() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testDuplicates();
-}
-
 public void testEmptyGetToString() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();
@@ -538,18 +532,6 @@ public void testPutAllReturn_existingElements() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();
   testCase.testPutAllReturn_existingElements();
-}
-
-public void testPutGetOrdering() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testPutGetOrdering();
-}
-
-public void testPutReturn() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testPutReturn();
 }
 
 public void testRemove() throws Exception {

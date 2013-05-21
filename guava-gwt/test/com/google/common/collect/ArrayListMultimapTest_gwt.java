@@ -168,12 +168,6 @@ public void testCreateFromSizes() throws Exception {
   testCase.testCreateFromSizes();
 }
 
-public void testDuplicates() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testDuplicates();
-}
-
 public void testEmptyGetToString() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
@@ -466,18 +460,6 @@ public void testPutAllReturn_existingElements() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testPutAllReturn_existingElements();
-}
-
-public void testPutGetOrdering() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testPutGetOrdering();
-}
-
-public void testPutReturn() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testPutReturn();
 }
 
 public void testRemove() throws Exception {
