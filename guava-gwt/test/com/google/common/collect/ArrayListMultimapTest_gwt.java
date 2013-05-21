@@ -216,34 +216,10 @@ public void testEntriesRemoveAll() throws Exception {
   testCase.testEntriesRemoveAll();
 }
 
-public void testEntriesRemoveAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testEntriesRemoveAllNullFromEmpty();
-}
-
 public void testEntriesRetainAll() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testEntriesRetainAll();
-}
-
-public void testEntriesRetainAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testEntriesRetainAllNullFromEmpty();
-}
-
-public void testEntriesToArray() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testEntriesToArray();
-}
-
-public void testEntriesToString() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testEntriesToString();
 }
 
 public void testEntriesUpdate() throws Exception {
@@ -390,40 +366,16 @@ public void testKeySetRemove() throws Exception {
   testCase.testKeySetRemove();
 }
 
-public void testKeySetRemoveAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testKeySetRemoveAllNullFromEmpty();
-}
-
-public void testKeySetRetainAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testKeySetRetainAllNullFromEmpty();
-}
-
 public void testKeys() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testKeys();
 }
 
-public void testKeysAdd() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testKeysAdd();
-}
-
 public void testKeysClear() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testKeysClear();
-}
-
-public void testKeysContainsAll() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testKeysContainsAll();
 }
 
 public void testKeysEntrySetIterator() throws Exception {
@@ -436,24 +388,6 @@ public void testKeysEntrySetRemove() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testKeysEntrySetRemove();
-}
-
-public void testKeysEntrySetToString() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testKeysEntrySetToString();
-}
-
-public void testKeysToArray() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testKeysToArray();
-}
-
-public void testKeysToString() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testKeysToString();
 }
 
 public void testListAddIndex() throws Exception {
@@ -526,12 +460,6 @@ public void testModifyCollectionFromGet() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testModifyCollectionFromGet();
-}
-
-public void testNoSuchElementException() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testNoSuchElementException();
 }
 
 public void testPutAllReturn_existingElements() throws Exception {
@@ -672,39 +600,9 @@ public void testValuesClear() throws Exception {
   testCase.testValuesClear();
 }
 
-public void testValuesIterator() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testValuesIterator();
-}
-
-public void testValuesIteratorEmpty() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testValuesIteratorEmpty();
-}
-
 public void testValuesIteratorRemove() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testValuesIteratorRemove();
-}
-
-public void testValuesRemoveAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testValuesRemoveAllNullFromEmpty();
-}
-
-public void testValuesRetainAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testValuesRetainAllNullFromEmpty();
-}
-
-public void testValuesToArray() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testValuesToArray();
 }
 }

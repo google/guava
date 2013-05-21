@@ -31,7 +31,6 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
@@ -273,15 +272,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertFalse(values.contains(5));
   }
 
-  public void testValuesToArray() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Collection<Integer> values = multimap.values();
-    ASSERT.that(values.toArray()).has().allOf(1, 3, nullValue());
-    ASSERT.that(values.toArray(new Integer[3])).has().allOf(1, 3, nullValue());
-  }
-
   public void testValuesClear() {
     multimap.put("foo", 1);
     multimap.put("foo", nullValue());
@@ -291,20 +281,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertTrue(multimap.isEmpty());
     assertTrue(values.isEmpty());
     assertFalse(multimap.containsEntry("foo", 1));
-  }
-
-  public void testValuesRemoveAllNullFromEmpty() {
-    try {
-      multimap.values().removeAll(null);
-      // Returning successfully is not ideal, but tolerated.
-    } catch (NullPointerException expected) {}
-  }
-
-  public void testValuesRetainAllNullFromEmpty() {
-    try {
-      multimap.values().retainAll(null);
-      // Returning successfully is not ideal, but tolerated.
-    } catch (NullPointerException expected) {}
   }
 
   // the entries collection is more thoroughly tested in MultimapCollectionTest
@@ -318,15 +294,6 @@ public abstract class AbstractMultimapTest extends TestCase {
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("foo", nullValue()),
         Maps.immutableEntry(nullKey(), 3));
-  }
-
-  public void testNoSuchElementException() {
-    Iterator<Entry<String, Integer>> entries =
-        multimap.entries().iterator();
-    try {
-      entries.next();
-      fail();
-    } catch (NoSuchElementException expected) {}
   }
 
   public void testAsMap() {
@@ -488,43 +455,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertEquals(0, multiset.setCount("bar", 0));
   }
 
-  public void testKeysToArray() {
-    multimap.put("foo", 1);
-    multimap.put("foo", 5);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    ASSERT.that(multimap.keys().toArray()).has().allOf(
-        "foo", "foo", "foo", nullKey());
-    ASSERT.that(multimap.keys().toArray(new String[3])).has().allOf(
-        "foo", "foo", "foo", nullKey());
-  }
-
-  public void testKeysAdd() {
-    multimap.put("foo", 1);
-    Multiset<String> multiset = multimap.keys();
-
-    try {
-      multiset.add("bar");
-      fail();
-    } catch (UnsupportedOperationException expected) {}
-
-    try {
-      multiset.add("bar", 2);
-      fail();
-    } catch (UnsupportedOperationException expected) {}
-  }
-
-  public void testKeysContainsAll() {
-    multimap.put("foo", 1);
-    multimap.put("foo", 5);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Multiset<String> multiset = multimap.keys();
-
-    assertTrue(multiset.containsAll(asList("foo", nullKey())));
-    assertFalse(multiset.containsAll(asList("foo", "bar")));
-  }
-
   public void testKeysClear() {
     multimap.put("foo", 1);
     multimap.put("foo", 5);
@@ -540,12 +470,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertFalse(multimap.containsKey(nullKey()));
   }
 
-  public void testKeysToString() {
-    multimap.put("foo", 7);
-    multimap.put("foo", 8);
-    assertEquals("[foo x 2]", multimap.keys().toString());
-  }
-
   public void testKeysEntrySetIterator() {
     multimap.put("foo", 7);
     multimap.put("foo", 8);
@@ -556,12 +480,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     iterator.remove();
     assertFalse(iterator.hasNext());
     assertSize(0);
-  }
-
-  public void testKeysEntrySetToString() {
-    multimap.put("foo", 7);
-    multimap.put("foo", 8);
-    assertEquals("[foo x 2]", multimap.keys().entrySet().toString());
   }
 
   public void testKeysEntrySetRemove() {
@@ -608,25 +526,6 @@ public abstract class AbstractMultimapTest extends TestCase {
 
     assertFalse(multimap.equals(nullValue()));
     assertFalse(multimap.equals("foo"));
-  }
-
-  public void testValuesIterator() {
-    multimap.put("foo", 1);
-    multimap.put("foo", 2);
-    multimap.put(nullKey(), 4);
-    int sum = 0;
-    for (int i : multimap.values()) {
-      sum += i;
-    }
-    assertEquals(7, sum);
-  }
-
-  public void testValuesIteratorEmpty() {
-    int sum = 0;
-    for (int i : multimap.values()) {
-      sum += i;
-    }
-    assertEquals(0, sum);
   }
 
   public void testGetAddQuery() {
@@ -915,13 +814,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertFalse(multimap.containsKey("bar"));
   }
 
-  public void testEntriesRemoveAllNullFromEmpty() {
-    try {
-      multimap.entries().removeAll(null);
-      // Returning successfully is not ideal, but tolerated.
-    } catch (NullPointerException expected) {}
-  }
-
   @SuppressWarnings("unchecked")
   public void testEntriesRetainAll() {
     multimap.put("foo", 1);
@@ -939,13 +831,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertTrue(multimap.containsEntry("bar", 3));
   }
 
-  public void testEntriesRetainAllNullFromEmpty() {
-    try {
-      multimap.entries().retainAll(null);
-      // Returning successfully is not ideal, but tolerated.
-    } catch (NullPointerException expected) {}
-  }
-
   public void testEntriesIterator() {
     multimap.put("foo", 3);
     Iterator<Entry<String, Integer>> iterator
@@ -955,21 +840,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     iterator.remove();
     assertFalse(iterator.hasNext());
     assertSize(0);
-  }
-
-  public void testEntriesToString() {
-    multimap.put("foo", 3);
-    Collection<Entry<String, Integer>> entries = multimap.entries();
-    assertEquals("[foo=3]", entries.toString());
-  }
-
-  public void testEntriesToArray() {
-    multimap.put("foo", 3);
-    Collection<Entry<String, Integer>> entries = multimap.entries();
-    Entry<?, ?>[] array = new Entry<?, ?>[3];
-    assertSame(array, entries.toArray(array));
-    assertEquals(Maps.immutableEntry("foo", 3), array[0]);
-    assertNull(array[1]);
   }
 
   /**
@@ -1026,21 +896,7 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertFalse(multimap.containsKey("foo"));
     assertTrue(multimap.containsEntry(nullKey(), 3));
   }
-
-  public void testKeySetRemoveAllNullFromEmpty() {
-    try {
-      multimap.keySet().removeAll(null);
-      fail();
-    } catch (NullPointerException expected) {}
-  }
-
-  public void testKeySetRetainAllNullFromEmpty() {
-    try {
-      multimap.keySet().retainAll(null);
-      // Returning successfully is not ideal, but tolerated.
-    } catch (NullPointerException expected) {}
-  }
-
+  
   public void testKeySetIterator() {
     multimap.put("foo", 1);
     multimap.put("foo", nullValue());
