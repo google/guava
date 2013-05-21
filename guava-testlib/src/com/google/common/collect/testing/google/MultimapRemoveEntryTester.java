@@ -53,6 +53,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
   public void testRemovePresent() {
     assertTrue(multimap().remove(sampleKeys().e0, sampleValues().e0));
 
+    assertFalse(multimap().containsEntry(sampleKeys().e0, sampleValues().e0));
     expectMissing(samples.e0);
     assertEquals(getNumElements() - 1, multimap().size());
     assertGet(sampleKeys().e0, ImmutableList.<V>of());
