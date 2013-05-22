@@ -438,40 +438,10 @@ public void testPutAllReturn_existingElements() throws Exception {
   testCase.testPutAllReturn_existingElements();
 }
 
-public void testRemove() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testRemove();
-}
-
-public void testRemoveAll() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testRemoveAll();
-}
-
-public void testRemoveAllNotPresent() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testRemoveAllNotPresent();
-}
-
-public void testRemoveAllNull() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testRemoveAllNull();
-}
-
 public void testRemoveAllRandomAccess() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();
   testCase.testRemoveAllRandomAccess();
-}
-
-public void testRemoveNull() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testRemoveNull();
 }
 
 public void testReplaceValuesRandomAccess() throws Exception {

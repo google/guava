@@ -312,36 +312,6 @@ public void testPutReturn() throws Exception {
   testCase.testPutReturn();
 }
 
-public void testRemove() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testRemove();
-}
-
-public void testRemoveAll() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testRemoveAll();
-}
-
-public void testRemoveAllNotPresent() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testRemoveAllNotPresent();
-}
-
-public void testRemoveAllNull() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testRemoveAllNull();
-}
-
-public void testRemoveNull() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testRemoveNull();
-}
-
 public void testValues() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
   testCase.setUp();
