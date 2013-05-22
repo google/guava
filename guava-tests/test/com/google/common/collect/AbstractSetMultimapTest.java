@@ -149,39 +149,4 @@ public abstract class AbstractSetMultimapTest extends AbstractMultimapTest {
     assertTrue(other.putAll(multimap));
     assertTrue(other.equals(multimap));
   }
-
-  @SuppressWarnings("unchecked")
-  public void testEntriesEquals() {
-    Multimap<String, Integer> multimap = getMultimap();
-    multimap.put("foo", 1);
-    multimap.put("foo", 3);
-    multimap.put("bar", 3);
-    Collection<Map.Entry<String, Integer>> entries = multimap.entries();
-
-    Set<Map.Entry<String, Integer>> same = Sets.newHashSet(
-        Maps.immutableEntry("foo", 3),
-        Maps.immutableEntry("bar", 3),
-        Maps.immutableEntry("foo", 1));
-    assertEquals(entries, same);
-    assertEquals(same, entries);
-    assertEquals(entries.hashCode(), same.hashCode());
-
-    assertFalse(entries.equals(null));
-    assertFalse(entries.equals("foo"));
-
-    Set<Map.Entry<String, Integer>> different3 = Sets.newHashSet(
-        Maps.immutableEntry("foo", 3),
-        Maps.immutableEntry("bar", 3),
-        Maps.immutableEntry("bar", 1));
-    assertFalse(entries.equals(different3));
-    assertFalse(different3.equals(entries));
-
-    Set<Map.Entry<String, Integer>> different4 = Sets.newHashSet(
-        Maps.immutableEntry("foo", 3),
-        Maps.immutableEntry("bar", 3),
-        Maps.immutableEntry("bar", 1),
-        Maps.immutableEntry("foo", 1));
-    assertFalse(entries.equals(different4));
-    assertFalse(different4.equals(entries));
-  }
 }

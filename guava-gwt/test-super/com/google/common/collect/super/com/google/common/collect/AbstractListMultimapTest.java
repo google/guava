@@ -111,21 +111,6 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
   }
 
   /**
-   * Test multimap.equals() for multimaps with different insertion orderings.
-   */
-  public void testEqualsOrdering() {
-    Multimap<String, Integer> multimap = create();
-    multimap.put("foo", 1);
-    multimap.put("foo", 3);
-    multimap.put("bar", 3);
-    Multimap<String, Integer> multimap2 = create();
-    multimap2.put("foo", 3);
-    multimap2.put("foo", 1);
-    multimap2.put("bar", 3);
-    assertFalse(multimap.equals(multimap2));
-  }
-
-  /**
    * Test calling toString() on the multimap, which does not have a
    * deterministic iteration order for keys but does for values.
    */
@@ -182,29 +167,6 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     map.removeAll("bar");
     assertEquals("[]", map.entries().toString());
     assertEquals("{}", map.toString());
-  }
-
-  public void testListEquals() {
-    Multimap<String, Integer> map1 = create();
-    map1.put("bar", 1);
-    map1.put("foo", 2);
-    map1.put("bar", 3);
-    Multimap<String, Integer> map2 = ArrayListMultimap.create();
-    map2.putAll(map1);
-    assertTrue(map1.equals(map2));
-    assertTrue(map2.equals(map1));
-    assertFalse(map1.equals(null));
-    assertFalse(map1.equals(new Object()));
-  }
-
-  public void testListHashCode() {
-    Multimap<String, Integer> map1 = create();
-    map1.put("bar", 1);
-    map1.put("foo", 2);
-    map1.put("bar", 3);
-    Multimap<String, Integer> map2 = ArrayListMultimap.create();
-    map2.putAll(map1);
-    assertEquals(map1.hashCode(), map2.hashCode());
   }
 
   public void testListAddIndex() {

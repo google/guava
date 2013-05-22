@@ -114,12 +114,6 @@ public void testEntriesCopy() throws Exception {
   testCase.testEntriesCopy();
 }
 
-public void testEntriesEquals() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testEntriesEquals();
-}
-
 public void testEntriesIterator() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
@@ -154,18 +148,6 @@ public void testEntrySetValue() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
   testCase.testEntrySetValue();
-}
-
-public void testEqualsFalse() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testEqualsFalse();
-}
-
-public void testEqualsTrue() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testEqualsTrue();
 }
 
 public void testGetAddAll() throws Exception {

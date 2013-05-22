@@ -156,24 +156,6 @@ public void testEntrySetValue() throws Exception {
   testCase.testEntrySetValue();
 }
 
-public void testEqualsFalse() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testEqualsFalse();
-}
-
-public void testEqualsOrdering() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testEqualsOrdering();
-}
-
-public void testEqualsTrue() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testEqualsTrue();
-}
-
 public void testGetAddAll() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
@@ -294,22 +276,10 @@ public void testListAddIndex() throws Exception {
   testCase.testListAddIndex();
 }
 
-public void testListEquals() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testListEquals();
-}
-
 public void testListGetSet() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testListGetSet();
-}
-
-public void testListHashCode() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testListHashCode();
 }
 
 public void testListIteratorIndexUpdate() throws Exception {

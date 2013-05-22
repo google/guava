@@ -126,18 +126,6 @@ public void testEntrySetValue() throws Exception {
   testCase.testEntrySetValue();
 }
 
-public void testEqualsFalse() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testEqualsFalse();
-}
-
-public void testEqualsTrue() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testEqualsTrue();
-}
-
 public void testFilteredKeysListMultimapGetBadValue() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.setUp();

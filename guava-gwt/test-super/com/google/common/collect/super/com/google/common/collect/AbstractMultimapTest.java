@@ -340,38 +340,6 @@ public abstract class AbstractMultimapTest extends TestCase {
         3, multimap.size());
   }
 
-  public void testEqualsTrue() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    assertEquals(multimap, multimap);
-
-    Multimap<String, Integer> multimap2 = create();
-    multimap2.put(nullKey(), 3);
-    multimap2.put("foo", 1);
-    multimap2.put("foo", nullValue());
-
-    assertEquals(multimap, multimap2);
-    assertEquals(multimap.hashCode(), multimap2.hashCode());
-  }
-
-  public void testEqualsFalse() {
-    multimap.put("foo", 1);
-    multimap.put("foo", 3);
-    multimap.put("bar", 3);
-
-    Multimap<String, Integer> multimap2 = create();
-    multimap2.put("bar", 3);
-    multimap2.put("bar", 1);
-    assertFalse(multimap.equals(multimap2));
-
-    multimap2.put("foo", 3);
-    assertFalse(multimap.equals(multimap2));
-
-    assertFalse(multimap.equals(nullValue()));
-    assertFalse(multimap.equals("foo"));
-  }
-
   public void testGetAddQuery() {
     multimap.put("foo", 1);
     multimap.put("foo", 3);
