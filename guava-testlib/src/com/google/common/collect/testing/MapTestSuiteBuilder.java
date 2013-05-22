@@ -37,6 +37,7 @@ import com.google.common.collect.testing.testers.MapPutTester;
 import com.google.common.collect.testing.testers.MapRemoveTester;
 import com.google.common.collect.testing.testers.MapSerializationTester;
 import com.google.common.collect.testing.testers.MapSizeTester;
+import com.google.common.collect.testing.testers.MapToStringTester;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestSuite;
@@ -77,7 +78,8 @@ public class MapTestSuiteBuilder<K, V>
         MapPutAllTester.class,
         MapRemoveTester.class,
         MapSerializationTester.class,
-        MapSizeTester.class
+        MapSizeTester.class,
+        MapToStringTester.class
     );
   }
 

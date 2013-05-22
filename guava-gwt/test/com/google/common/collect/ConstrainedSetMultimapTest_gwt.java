@@ -60,12 +60,6 @@ public void testAsMapKeySetToArray() throws Exception {
   testCase.testAsMapKeySetToArray();
 }
 
-public void testAsMapToString() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapToString();
-}
-
 public void testAsMapValues() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
   testCase.setUp();
@@ -88,18 +82,6 @@ public void testDuplicates() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
   testCase.setUp();
   testCase.testDuplicates();
-}
-
-public void testEmptyGetToString() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testEmptyGetToString();
-}
-
-public void testEmptyToString() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testEmptyToString();
 }
 
 public void testEntries() throws Exception {
@@ -228,12 +210,6 @@ public void testGetRemoveAll() throws Exception {
   testCase.testGetRemoveAll();
 }
 
-public void testGetRemoveToString() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testGetRemoveToString();
-}
-
 public void testGetReplaceValues() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
   testCase.setUp();
@@ -334,18 +310,6 @@ public void testRemoveNull() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
   testCase.setUp();
   testCase.testRemoveNull();
-}
-
-public void testRemoveToString() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testRemoveToString();
-}
-
-public void testToStringNull() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testToStringNull();
 }
 
 public void testValues() throws Exception {

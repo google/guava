@@ -60,12 +60,6 @@ public void testAsMapKeySetToArray() throws Exception {
   testCase.testAsMapKeySetToArray();
 }
 
-public void testAsMapToString() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapToString();
-}
-
 public void testAsMapValuesRemove() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();
@@ -100,18 +94,6 @@ public void testCreateFromSize() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();
   testCase.testCreateFromSize();
-}
-
-public void testEmptyGetToString() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testEmptyGetToString();
-}
-
-public void testEmptyToString() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testEmptyToString();
 }
 
 public void testEntries() throws Exception {
@@ -262,12 +244,6 @@ public void testGetRemoveAll_someValuesRemain() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();
   testCase.testGetRemoveAll_someValuesRemain();
-}
-
-public void testGetRemoveToString() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testGetRemoveToString();
 }
 
 public void testGetReplaceValues() throws Exception {
@@ -498,12 +474,6 @@ public void testRemoveNull() throws Exception {
   testCase.testRemoveNull();
 }
 
-public void testRemoveToString() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testRemoveToString();
-}
-
 public void testReplaceValuesRandomAccess() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();
@@ -514,12 +484,6 @@ public void testToString() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();
   testCase.testToString();
-}
-
-public void testToStringNull() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testToStringNull();
 }
 
 public void testValues() throws Exception {

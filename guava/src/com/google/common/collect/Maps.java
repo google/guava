@@ -3908,5 +3908,10 @@ public final class Maps {
     public Collection<V> values() {
       return new Values<K, V>(this);
     }
+
+    @Override
+    public String toString() {
+      return standardToString();
+    }
   }
 }

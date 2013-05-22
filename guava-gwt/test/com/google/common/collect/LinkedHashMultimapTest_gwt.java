@@ -60,12 +60,6 @@ public void testAsMapKeySetToArray() throws Exception {
   testCase.testAsMapKeySetToArray();
 }
 
-public void testAsMapToString() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapToString();
-}
-
 public void testAsMapValues() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
@@ -112,18 +106,6 @@ public void testDuplicates() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
   testCase.testDuplicates();
-}
-
-public void testEmptyGetToString() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testEmptyGetToString();
-}
-
-public void testEmptyToString() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testEmptyToString();
 }
 
 public void testEntries() throws Exception {
@@ -250,12 +232,6 @@ public void testGetRemoveAll() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
   testCase.testGetRemoveAll();
-}
-
-public void testGetRemoveToString() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testGetRemoveToString();
 }
 
 public void testGetReplaceValues() throws Exception {
@@ -396,22 +372,10 @@ public void testRemoveNull() throws Exception {
   testCase.testRemoveNull();
 }
 
-public void testRemoveToString() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testRemoveToString();
-}
-
 public void testToString() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
   testCase.testToString();
-}
-
-public void testToStringNull() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testToStringNull();
 }
 
 public void testToStringNullExact() throws Exception {

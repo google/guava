@@ -60,12 +60,6 @@ public void testAsMapKeySetToArray() throws Exception {
   testCase.testAsMapKeySetToArray();
 }
 
-public void testAsMapToString() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testAsMapToString();
-}
-
 public void testAsMapValues() throws Exception {
   com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
   testCase.setUp();
@@ -112,18 +106,6 @@ public void testDuplicates() throws Exception {
   com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
   testCase.setUp();
   testCase.testDuplicates();
-}
-
-public void testEmptyGetToString() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testEmptyGetToString();
-}
-
-public void testEmptyToString() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testEmptyToString();
 }
 
 public void testEntries() throws Exception {
@@ -250,12 +232,6 @@ public void testGetRemoveAll() throws Exception {
   com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
   testCase.setUp();
   testCase.testGetRemoveAll();
-}
-
-public void testGetRemoveToString() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testGetRemoveToString();
 }
 
 public void testGetReplaceValues() throws Exception {
@@ -396,12 +372,6 @@ public void testRemoveNull() throws Exception {
   testCase.testRemoveNull();
 }
 
-public void testRemoveToString() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testRemoveToString();
-}
-
 public void testTailSetClear() throws Exception {
   com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
   testCase.setUp();
@@ -412,12 +382,6 @@ public void testToString() throws Exception {
   com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
   testCase.setUp();
   testCase.testToString();
-}
-
-public void testToStringNull() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testToStringNull();
 }
 
 public void testTreeMultimapAsMapSorted() throws Exception {

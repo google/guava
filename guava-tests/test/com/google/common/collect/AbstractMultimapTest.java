@@ -367,11 +367,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     ASSERT.that(keySet.toArray(new String[2])).has().allOf("foo", nullKey());
   }
 
-  public void testAsMapToString() {
-    multimap.put("foo", 1);
-    assertEquals("{foo=[1]}", multimap.asMap().toString());
-  }
-
   public void testKeys() {
     multimap.put("foo", 1);
     multimap.put("foo", 5);
@@ -950,64 +945,9 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertSize(0);
   }
 
-  public void testToStringNull() {
-    multimap.put("foo", 3);
-    multimap.put("foo", -1);
-    multimap.put(nullKey(), nullValue());
-    multimap.put("bar", 1);
-    multimap.put("foo", 2);
-    multimap.put(nullKey(), 0);
-    multimap.put("bar", 2);
-    multimap.put("bar", nullValue());
-    multimap.put("foo", nullValue());
-    multimap.put("foo", 4);
-    multimap.put(nullKey(), -1);
-    multimap.put("bar", 3);
-    multimap.put("bar", 1);
-    multimap.put("foo", 1);
-
-    // This test is brittle. The original test was meant to validate the
-    // contents of the string itself, but key and value ordering tend
-    // to change under unpredictable circumstances. Instead, we're just ensuring
-    // that the string not return null and, implicitly, not throw an exception.
-    assertNotNull(multimap.toString());
-  }
-
   @GwtIncompatible("SerializableTester")
   public void testSerializable() {
     multimap = createSample();
     assertEquals(multimap, SerializableTester.reserialize(multimap));
-  }
-
-  public void testEmptyToString() {
-    Multimap<String, Integer> map = create();
-    assertEquals("{}", map.toString());
-    assertEquals("[]", map.entries().toString());
-  }
-
-  public void testEmptyGetToString() {
-    Multimap<String, Integer> map = create();
-    map.get("foo"); // shouldn't have any side-effect
-    assertEquals("{}", map.toString());
-    assertEquals("[]", map.entries().toString());
-  }
-
-  public void testGetRemoveToString() {
-    Multimap<String, Integer> map = create();
-    map.put("bar", 1);
-    map.put("foo", 2);
-    map.put("bar", 3);
-    map.get("foo").remove(2);
-    map.get("bar").remove(1);
-    assertEquals("{bar=[3]}", map.toString());
-    assertEquals("[bar=3]", map.entries().toString());
-  }
-
-  public void testRemoveToString() {
-    Multimap<String, Integer> map = create();
-    map.put("foo", 1);
-    map.put("foo", 2);
-    map.remove("foo", 1);
-    assertEquals("[foo=2]", map.entries().toString());
   }
 }
