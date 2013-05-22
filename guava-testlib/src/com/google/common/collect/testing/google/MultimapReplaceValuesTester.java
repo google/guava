@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -118,6 +119,17 @@ public class MultimapReplaceValuesTester<K, V>
       assertGet(k, values);
       assertEquals(size + values.size() - oldKeyValues.size(), multimap().size());
     }
+  }
+  
+  @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
+  public void testReplaceValuesPropagatesToGet() {
+    K key = sampleKeys().e0;
+    Collection<V> getCollection = multimap().get(key);
+    @SuppressWarnings("unchecked")
+    List<V> values = Arrays.asList(sampleValues().e0, sampleValues().e2, sampleValues().e3);
+    multimap().replaceValues(key, values);
+    ASSERT.that(getCollection).has().allOf(
+        sampleValues().e0, sampleValues().e2, sampleValues().e3);
   }
 
   @MapFeature.Require(absent = SUPPORTS_REMOVE)

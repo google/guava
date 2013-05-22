@@ -156,40 +156,10 @@ public void testEntrySetValue() throws Exception {
   testCase.testEntrySetValue();
 }
 
-public void testGetAddAll() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testGetAddAll();
-}
-
-public void testGetAddQuery() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testGetAddQuery();
-}
-
 public void testGetEquals() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testGetEquals();
-}
-
-public void testGetIterator() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testGetIterator();
-}
-
-public void testGetPutAllCollection() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testGetPutAllCollection();
-}
-
-public void testGetPutAllMultimap() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testGetPutAllMultimap();
 }
 
 public void testGetRandomAccess() throws Exception {
@@ -198,34 +168,10 @@ public void testGetRandomAccess() throws Exception {
   testCase.testGetRandomAccess();
 }
 
-public void testGetRemove() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testGetRemove();
-}
-
-public void testGetRemoveAddQuery() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testGetRemoveAddQuery();
-}
-
-public void testGetRemoveAll() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testGetRemoveAll();
-}
-
 public void testGetRemoveAll_someValuesRemain() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testGetRemoveAll_someValuesRemain();
-}
-
-public void testGetReplaceValues() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testGetReplaceValues();
 }
 
 public void testGetRetainAll() throws Exception {
@@ -298,12 +244,6 @@ public void testListRemoveAll() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testListRemoveAll();
-}
-
-public void testModifyCollectionFromGet() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testModifyCollectionFromGet();
 }
 
 public void testPutAllReturn_existingElements() throws Exception {

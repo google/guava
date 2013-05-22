@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Iterators;
@@ -28,6 +29,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -147,5 +149,15 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     };
     
     multimap().putAll(sampleKeys().e3, iterable);
+  }
+
+  @MapFeature.Require(SUPPORTS_PUT)
+  public void testPutAllPropagatesToGet() {
+    Collection<V> getCollection = multimap().get(sampleKeys().e0);
+    int getCollectionSize = getCollection.size();
+    assertTrue(multimap().putAll(
+        sampleKeys().e0, Lists.newArrayList(sampleValues().e3, sampleValues().e4)));
+    assertEquals(getCollectionSize + 2, getCollection.size());
+    ASSERT.that(getCollection).has().allOf(sampleValues().e3, sampleValues().e4);
   }
 }

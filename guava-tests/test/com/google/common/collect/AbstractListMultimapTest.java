@@ -16,17 +16,13 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static java.util.Arrays.asList;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.ListIteratorTester;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
@@ -35,7 +31,7 @@ import java.util.Map;
  *
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
 
   @Override protected abstract ListMultimap<String, Integer> create();
@@ -142,31 +138,6 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     iterator.remove();
     ASSERT.that(multimap.get("foo")).has().allOf(1, 6, 4, 5).inOrder();
     assertEquals(4, multimap.size());
-  }
-
-  @GwtIncompatible("unreasonable slow")
-  public void testGetIteration() {
-    List<Integer> addItems = ImmutableList.of(99, 88, 77);
-
-    for (final int startIndex : new int[] {0, 3, 5}) {
-      new ListIteratorTester<Integer>(3, addItems, MODIFIABLE,
-          Lists.newArrayList(2, 3, 4, 7, 8), startIndex) {
-        private ListMultimap<String, Integer> multimap;
-
-        @Override protected ListIterator<Integer> newTargetIterator() {
-          multimap = create();
-          multimap.put("bar", 1);
-          multimap.putAll("foo", asList(2, 3, 4));
-          multimap.putAll("bar", asList(5, 6));
-          multimap.putAll("foo", asList(7, 8));
-          return multimap.get("foo").listIterator(startIndex);
-        }
-
-        @Override protected void verify(List<Integer> elements) {
-          assertEquals(elements, multimap.get("foo"));
-        }
-      }.test();
-    }
   }
 
   public void testListGetSet() {

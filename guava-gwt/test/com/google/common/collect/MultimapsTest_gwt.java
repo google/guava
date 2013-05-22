@@ -168,60 +168,6 @@ public void testForMapRemoveAll() throws Exception {
   testCase.testForMapRemoveAll();
 }
 
-public void testGetAddAll() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testGetAddAll();
-}
-
-public void testGetAddQuery() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testGetAddQuery();
-}
-
-public void testGetIterator() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testGetIterator();
-}
-
-public void testGetPutAllCollection() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testGetPutAllCollection();
-}
-
-public void testGetPutAllMultimap() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testGetPutAllMultimap();
-}
-
-public void testGetRemove() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testGetRemove();
-}
-
-public void testGetRemoveAddQuery() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testGetRemoveAddQuery();
-}
-
-public void testGetRemoveAll() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testGetRemoveAll();
-}
-
-public void testGetReplaceValues() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testGetReplaceValues();
-}
-
 public void testIndex() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.setUp();
@@ -292,12 +238,6 @@ public void testKeysEntrySetRemove() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.setUp();
   testCase.testKeysEntrySetRemove();
-}
-
-public void testModifyCollectionFromGet() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testModifyCollectionFromGet();
 }
 
 public void testNewListMultimap() throws Exception {

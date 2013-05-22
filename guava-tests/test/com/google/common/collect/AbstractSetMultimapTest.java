@@ -47,13 +47,6 @@ public abstract class AbstractSetMultimapTest extends AbstractMultimapTest {
     assertFalse(multimap.containsEntry("foo", 1));
   }
 
-  public void testGetEquals() {
-    Multimap<String, Integer> multimap = getMultimap();
-    multimap.put("foo", 1);
-    multimap.put("foo", 3);
-    assertEquals(ImmutableSet.of(1, 3), multimap.get("foo"));
-  }
-
   public void testAsMapEquals() {
     Multimap<String, Integer> multimap = getMultimap();
     multimap.put("foo", 1);

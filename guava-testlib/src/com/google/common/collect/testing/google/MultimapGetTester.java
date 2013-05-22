@@ -32,6 +32,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Tests for {@link Multimap#get(Object)}.
@@ -67,6 +68,24 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   
   public void testGetAbsentKey() {
     assertGet(sampleKeys().e4);
+  }
+
+  @MapFeature.Require(SUPPORTS_PUT)
+  public void testGetPropagatesAdd() {
+    Collection<V> result = multimap().get(sampleKeys().e0);
+    assertTrue(result.add(sampleValues().e3));
+    assertTrue(multimap().containsKey(sampleKeys().e0));
+    assertEquals(getNumElements() + 1, multimap().size());
+    assertTrue(multimap().containsEntry(sampleKeys().e0, sampleValues().e3));
+  }
+
+  @MapFeature.Require(SUPPORTS_PUT)
+  public void testGetPropagatesAddAll() {
+    Collection<V> result = multimap().get(sampleKeys().e0);
+    assertTrue(result.addAll(Collections.singletonList(sampleValues().e3)));
+    assertTrue(multimap().containsKey(sampleKeys().e0));
+    assertEquals(getNumElements() + 1, multimap().size());
+    assertTrue(multimap().containsEntry(sampleKeys().e0, sampleValues().e3));
   }
 
   @CollectionSize.Require(absent = ZERO)

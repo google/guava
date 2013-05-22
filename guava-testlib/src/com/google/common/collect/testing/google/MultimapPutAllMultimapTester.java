@@ -19,11 +19,14 @@ package com.google.common.collect.testing.google;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.MapFeature;
+
+import java.util.Collection;
 
 /**
  * Tester for {@link Multimap#putAll(Multimap)}.
@@ -95,5 +98,17 @@ public class MultimapPutAllMultimapTester<K, V>
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {}
     expectUnchanged();
+  }
+
+  @MapFeature.Require(SUPPORTS_PUT)
+  public void testPutAllPropagatesToGet() {
+    Multimap<K, V> source = getSubjectGenerator().create(
+        Helpers.mapEntry(sampleKeys().e0, sampleValues().e3),
+        Helpers.mapEntry(sampleKeys().e3, sampleValues().e3));
+    Collection<V> getCollection = multimap().get(sampleKeys().e0);
+    int getCollectionSize = getCollection.size();
+    assertTrue(multimap().putAll(source));
+    assertEquals(getCollectionSize + 1, getCollection.size());
+    ASSERT.that(getCollection).has().allOf(sampleValues().e3);
   }
 }
