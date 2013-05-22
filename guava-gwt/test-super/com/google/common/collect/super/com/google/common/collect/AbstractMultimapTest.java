@@ -123,14 +123,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     }
   }
 
-  public void testClear() {
-    multimap.put("foo", 1);
-    multimap.put("bar", 3);
-    multimap.clear();
-    assertEquals(0, multimap.keySet().size());
-    assertSize(0);
-  }
-
   public void testKeySet() {
     multimap.put("foo", 1);
     multimap.put("foo", nullValue());
@@ -153,17 +145,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertTrue(values.contains(3));
     assertTrue(values.contains(nullValue()));
     assertFalse(values.contains(5));
-  }
-
-  public void testValuesClear() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Collection<Integer> values = multimap.values();
-    values.clear();
-    assertTrue(multimap.isEmpty());
-    assertTrue(values.isEmpty());
-    assertFalse(multimap.containsEntry("foo", 1));
   }
 
   // the entries collection is more thoroughly tested in MultimapCollectionTest
@@ -331,21 +312,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertSize(2);
     assertEquals(2, multiset.setCount("foo", 0));
     assertEquals(0, multiset.setCount("bar", 0));
-  }
-
-  public void testKeysClear() {
-    multimap.put("foo", 1);
-    multimap.put("foo", 5);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Multiset<String> multiset = multimap.keys();
-
-    multiset.clear();
-    assertTrue(multiset.isEmpty());
-    assertTrue(multimap.isEmpty());
-    assertSize(0);
-    assertFalse(multimap.containsKey("foo"));
-    assertFalse(multimap.containsKey(nullKey()));
   }
 
   public void testKeysEntrySetIterator() {
@@ -567,14 +533,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertFalse(multimap.containsKey("foo"));
   }
 
-  public void testGetClear() {
-    multimap.put("foo", 1);
-    multimap.put("bar", 3);
-    Collection<Integer> values = multimap.get("foo");
-    multimap.clear();
-    assertTrue(values.isEmpty());
-  }
-
   public void testGetPutAllCollection() {
     Collection<Integer> values = multimap.get("foo");
     Collection<Integer> collection = Lists.newArrayList(1, 3);
@@ -794,16 +752,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     iterator = multimap.keySet().iterator();
     assertEquals(nullKey(), iterator.next());
     iterator.remove();
-    assertTrue(multimap.isEmpty());
-    assertSize(0);
-  }
-
-  public void testKeySetClear() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-
-    multimap.keySet().clear();
     assertTrue(multimap.isEmpty());
     assertSize(0);
   }

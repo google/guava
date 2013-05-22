@@ -72,12 +72,6 @@ public void testAsMapValuesToArray() throws Exception {
   testCase.testAsMapValuesToArray();
 }
 
-public void testClear() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testClear();
-}
-
 public void testCreate() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
@@ -186,12 +180,6 @@ public void testGetAddQuery() throws Exception {
   testCase.testGetAddQuery();
 }
 
-public void testGetClear() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testGetClear();
-}
-
 public void testGetEquals() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
@@ -246,12 +234,6 @@ public void testKeySet() throws Exception {
   testCase.testKeySet();
 }
 
-public void testKeySetClear() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testKeySetClear();
-}
-
 public void testKeySetIterator() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
@@ -268,12 +250,6 @@ public void testKeys() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
   testCase.testKeys();
-}
-
-public void testKeysClear() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testKeysClear();
 }
 
 public void testKeysEntrySetIterator() throws Exception {
@@ -364,12 +340,6 @@ public void testValues() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
   testCase.testValues();
-}
-
-public void testValuesClear() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testValuesClear();
 }
 
 public void testValuesIteratorRemove() throws Exception {

@@ -75,6 +75,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
   protected List<Class<? extends AbstractTester>> getTesters() {
     return ImmutableList.<Class<? extends AbstractTester>> of(
         MultimapSizeTester.class,
+        MultimapClearTester.class,
         MultimapContainsKeyTester.class,
         MultimapContainsValueTester.class,
         MultimapContainsEntryTester.class,
