@@ -366,30 +366,6 @@ public void testListIteratorIndexUpdate() throws Exception {
   testCase.testListIteratorIndexUpdate();
 }
 
-public void testListIteratorNavigate() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testListIteratorNavigate();
-}
-
-public void testListIteratorUpdate() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testListIteratorUpdate();
-}
-
-public void testListMethods() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testListMethods();
-}
-
-public void testListMethodsIncludingSublist() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testListMethodsIncludingSublist();
-}
-
 public void testListPutAllIterable() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
@@ -462,46 +438,10 @@ public void testReplaceValuesRandomAccess() throws Exception {
   testCase.testReplaceValuesRandomAccess();
 }
 
-public void testSublistAdd() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testSublistAdd();
-}
-
-public void testSublistAddToEmpty() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testSublistAddToEmpty();
-}
-
-public void testSublistAfterListUpdate() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testSublistAfterListUpdate();
-}
-
-public void testSublistClear() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testSublistClear();
-}
-
 public void testSublistConcurrentModificationException() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
   testCase.testSublistConcurrentModificationException();
-}
-
-public void testSublistRemove() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testSublistRemove();
-}
-
-public void testSublistSet() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testSublistSet();
 }
 
 public void testToString() throws Exception {

@@ -102,6 +102,16 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     expectContents(expected);
   }
 
+  @ListFeature.Require(SUPPORTS_REMOVE_WITH_INDEX)
+  @CollectionSize.Require(absent = ZERO)
+  public void testSubList_subListClearAffectsOriginal() {
+    List<E> subList = getList().subList(0, 1);
+    subList.clear();
+    List<E> expected =
+        Arrays.asList(createSamplesArray()).subList(1, getNumElements());
+    expectContents(expected);
+  }
+
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testSubList_subListAddAffectsOriginal() {
     List<E> subList = getList().subList(0, 0);
