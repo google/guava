@@ -28,7 +28,7 @@ import junit.framework.TestCase;
  */
 public class RelationshipTesterTest extends TestCase {
 
-  public void testNulls(){
+  public void testNulls() {
     new ClassSanityTester()
         .setDefault(RelationshipAssertion.class, new RelationshipAssertion<Object>() {
           @Override void assertRelated(Object item, Object related) {}

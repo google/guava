@@ -29,8 +29,6 @@ import java.util.Set;
  * tests without relying on any specific Set implementations. Slow. Explicitly
  * allows null elements so that they can be used in the testers.
  *
- * <p>This class is GWT compatible.
- *
  * @author Regina O'Dell
  */
 @GwtCompatible

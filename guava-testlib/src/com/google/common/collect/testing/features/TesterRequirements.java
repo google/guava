@@ -26,8 +26,6 @@ import java.util.Set;
  * Encapsulates the constraints that a class under test must satisfy in order
  * for a tester method to be run against that class.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

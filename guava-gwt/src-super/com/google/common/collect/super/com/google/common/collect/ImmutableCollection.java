@@ -91,7 +91,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
     return new ForwardingImmutableCollection<E>(delegate);
   }
 
-  boolean isPartialView(){
+  boolean isPartialView() {
     return false;
   }
 

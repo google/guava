@@ -28,8 +28,6 @@ import java.util.List;
  * Base class for testers of classes (including {@link Collection}
  * and {@link java.util.Map Map}) that contain elements.
  *
- * <p>This class is GWT compatible.
- *
  * @param <C> the type of the container
  * @param <E> the type of the container's contents
  *

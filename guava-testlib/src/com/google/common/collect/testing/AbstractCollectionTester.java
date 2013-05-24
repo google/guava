@@ -23,8 +23,6 @@ import java.util.Collection;
 /**
  * Base class for collection testers.
  *
- * <p>This class is GWT compatible.
- *
  * @param <E> the element type of the collection to be tested.
  *
  * @author Kevin Bourrillion

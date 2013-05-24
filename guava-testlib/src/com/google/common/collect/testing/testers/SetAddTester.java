@@ -33,8 +33,6 @@ import java.lang.reflect.Method;
  * invoked directly; please see
  * {@link com.google.common.collect.testing.SetTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)

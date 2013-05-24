@@ -30,8 +30,6 @@ import java.util.Map;
 /**
  * Tests {@link java.util.Map#hashCode}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  * @author Chris Povirk
  */

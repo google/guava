@@ -28,8 +28,6 @@ import java.util.Map;
  * there isn't an established collective noun that encompasses both of these,
  * 'container' is used.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

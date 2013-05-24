@@ -24,8 +24,6 @@ import java.util.Set;
  * Thrown when requirements on a tester method or class conflict with
  * each other.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

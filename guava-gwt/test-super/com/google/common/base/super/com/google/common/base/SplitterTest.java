@@ -481,7 +481,7 @@ public class SplitterTest extends TestCase {
     }
   }
 
-  private static <E> List<E> asList(Collection<E> collection){
+  private static <E> List<E> asList(Collection<E> collection) {
     return ImmutableList.copyOf(collection);
   }
 

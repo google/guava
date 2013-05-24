@@ -23,8 +23,6 @@ import java.util.Queue;
 /**
  * Creates queues, containing sample elements, to be tested.
  *
- * <p>This class is GWT compatible.
- *
  * @author Jared Levy
  */
 @GwtCompatible

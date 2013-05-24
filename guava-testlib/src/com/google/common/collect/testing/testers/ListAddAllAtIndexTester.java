@@ -35,8 +35,6 @@ import java.util.List;
  * on a list. Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Chris Povirk
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"

@@ -30,8 +30,6 @@ import java.util.List;
 /**
  * Tests {@link List#equals}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

@@ -26,8 +26,6 @@ import java.util.SortedSet;
  * Create integer sets for testing collections that are sorted by natural
  * ordering.
  *
- * <p>This class is GWT compatible.
- *
  * @author Chris Povirk
  * @author Jared Levy
  */

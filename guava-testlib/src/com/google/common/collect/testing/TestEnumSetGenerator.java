@@ -26,8 +26,6 @@ import java.util.Set;
 /**
  * An abstract TestSetGenerator for generating sets containing enum values.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible

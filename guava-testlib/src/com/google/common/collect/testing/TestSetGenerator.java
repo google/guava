@@ -23,8 +23,6 @@ import java.util.Set;
 /**
  * Creates sets, containing sample elements, to be tested.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible

@@ -278,7 +278,7 @@ public abstract class ImmutableSortedMap<K, V>
     return newView(sortedDelegate.subMap(fromKey, toKey));
   }
 
-  ImmutableSortedMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive){
+  ImmutableSortedMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
     checkNotNull(fromKey);
     checkNotNull(toKey);
     checkArgument(comparator.compare(fromKey, toKey) <= 0);

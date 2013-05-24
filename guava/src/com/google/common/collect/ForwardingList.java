@@ -127,7 +127,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  protected boolean standardAdd(E element){
+  protected boolean standardAdd(E element) {
     add(size(), element);
     return true;
   }

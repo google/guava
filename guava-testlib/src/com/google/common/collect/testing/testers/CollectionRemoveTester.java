@@ -37,8 +37,6 @@ import java.util.Iterator;
  * Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"

@@ -22,8 +22,6 @@ import java.util.SortedSet;
 /**
  * Creates sorted sets, containing sample elements, to be tested.
  *
- * <p>This class is GWT compatible.
- * 
  * @author Louis Wasserman
  */
 @GwtCompatible

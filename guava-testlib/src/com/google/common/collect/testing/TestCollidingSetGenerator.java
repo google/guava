@@ -24,8 +24,6 @@ import java.util.List;
 /**
  * A generator using sample elements whose hash codes all collide badly.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible

@@ -30,8 +30,6 @@ import java.util.Set;
 /**
  * Tests {@link java.util.Set#equals}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

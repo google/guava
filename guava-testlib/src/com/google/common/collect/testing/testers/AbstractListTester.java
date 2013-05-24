@@ -26,8 +26,6 @@ import java.util.List;
 /**
  * Base class for list testers.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

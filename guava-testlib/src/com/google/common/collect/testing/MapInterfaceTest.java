@@ -42,8 +42,6 @@ import java.util.Set;
  * class under test is ordered, and check the order if so.
  * TODO: Refactor to share code with SetTestBuilder &c.
  *
- * <p>This class is GWT compatible.
- *
  * @param <K> the type of keys used by the maps under test
  * @param <V> the type of mapped values used the maps under test
  *

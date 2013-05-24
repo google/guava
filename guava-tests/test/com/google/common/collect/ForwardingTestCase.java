@@ -111,7 +111,7 @@ public abstract class ForwardingTestCase extends TestCase {
       return 0;
     } else if ((returnType == Set.class) || (returnType == Collection.class)) {
       return Collections.emptySet();
-    } else if (returnType == Iterator.class){
+    } else if (returnType == Iterator.class) {
       return Iterators.emptyModifiableIterator();
     } else if (returnType.isArray()) {
       return Array.newInstance(returnType.getComponentType(), 0);

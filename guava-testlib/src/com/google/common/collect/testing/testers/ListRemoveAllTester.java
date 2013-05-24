@@ -30,8 +30,6 @@ import com.google.common.collect.testing.features.CollectionSize;
  * invoked directly; please see
  * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"

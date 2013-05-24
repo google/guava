@@ -28,8 +28,6 @@ import com.google.common.collect.testing.features.CollectionSize;
  * Common parent class for {@link ListIndexOfTester} and
  * {@link ListLastIndexOfTester}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Chris Povirk
  */
 @GwtCompatible

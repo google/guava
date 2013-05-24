@@ -24,8 +24,6 @@ import java.util.List;
 /**
  * TODO: javadoc.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible

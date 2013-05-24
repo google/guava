@@ -79,7 +79,7 @@ public class IntMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeFactorial(int reps){
+  public int timeFactorial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -88,7 +88,7 @@ public class IntMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeBinomial(int reps){
+  public int timeBinomial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;

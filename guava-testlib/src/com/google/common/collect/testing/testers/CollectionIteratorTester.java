@@ -44,8 +44,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)

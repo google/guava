@@ -34,8 +34,6 @@ import java.lang.reflect.Method;
  * invoked directly; please see
  * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)

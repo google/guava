@@ -315,7 +315,7 @@ public class IteratorsTest extends TestCase {
     assertEquals(expected, actual);
   }
 
-  @GwtIncompatible("unreasonable slow")
+  @GwtIncompatible("unreasonably slow")
   public void testFilterUsingIteratorTester() {
     final List<Integer> list = asList(1, 2, 3, 4, 5);
     final Predicate<Integer> isEven = new Predicate<Integer>() {
@@ -639,7 +639,7 @@ public class IteratorsTest extends TestCase {
     } catch (NoSuchElementException expected) {}
   }
 
-  @GwtIncompatible("unreasonable slow")
+  @GwtIncompatible("unreasonably slow")
   public void testCycleUsingIteratorTester() {
     new IteratorTester<Integer>(5, UNMODIFIABLE, asList(1, 2, 1, 2, 1,
         2, 1, 2, 1, 2, 1, 2), IteratorTester.KnownOrder.KNOWN_ORDER) {
@@ -1074,7 +1074,7 @@ public class IteratorsTest extends TestCase {
     } catch (IndexOutOfBoundsException expected) {}
   }
 
-  @GwtIncompatible("unreasonable slow")
+  @GwtIncompatible("unreasonably slow")
   public void testForArrayUsingTester() {
     new IteratorTester<Integer>(6, UNMODIFIABLE, asList(1, 2, 3),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
@@ -1084,7 +1084,7 @@ public class IteratorsTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible("unreasonable slow")
+  @GwtIncompatible("unreasonably slow")
   public void testForArrayWithOffsetUsingTester() {
     new IteratorTester<Integer>(6, UNMODIFIABLE, asList(1, 2, 3),
         IteratorTester.KnownOrder.KNOWN_ORDER) {

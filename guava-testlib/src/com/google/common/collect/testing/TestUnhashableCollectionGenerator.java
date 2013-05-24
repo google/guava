@@ -25,8 +25,6 @@ import java.util.List;
 /**
  * Creates collections containing unhashable sample elements, to be tested.
  *
- * <p>This class is GWT compatible.
- *
  * @author Regina O'Dell
  */
 @GwtCompatible

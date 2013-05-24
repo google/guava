@@ -30,8 +30,6 @@ import java.util.Collection;
 /**
  * Tests {@link java.util.Set#hashCode}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)

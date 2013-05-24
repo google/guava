@@ -29,8 +29,6 @@ import java.util.Collection;
  * {@link PerCollectionSizeTestSuiteBuilder} constructs instances of it from
  * a more general {@link TestCollectionGenerator}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

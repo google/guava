@@ -35,8 +35,6 @@ import java.util.SortedMap;
  * this base class test conformance of concrete {@link SortedMap} subclasses to
  * that contract.
  *
- * <p>This class is GWT compatible.
- *
  * @author Jared Levy
  */
 // TODO: Use this class to test classes besides ImmutableSortedMap.

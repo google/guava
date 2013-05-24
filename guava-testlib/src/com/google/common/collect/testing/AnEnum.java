@@ -21,8 +21,6 @@ import com.google.common.annotations.GwtCompatible;
 /**
  * A sample enumerated type we use for testing.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible

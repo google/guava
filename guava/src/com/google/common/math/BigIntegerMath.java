@@ -291,7 +291,7 @@ public final class BigIntegerMath {
    *         is not an integer multiple of {@code b}
    */
   @GwtIncompatible("TODO")
-  public static BigInteger divide(BigInteger p, BigInteger q, RoundingMode mode){
+  public static BigInteger divide(BigInteger p, BigInteger q, RoundingMode mode) {
     BigDecimal pDec = new BigDecimal(p);
     BigDecimal qDec = new BigDecimal(q);
     return pDec.divide(qDec, 0, mode).toBigIntegerExact();

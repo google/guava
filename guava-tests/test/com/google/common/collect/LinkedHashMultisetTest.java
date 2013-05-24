@@ -112,7 +112,7 @@ public class LinkedHashMultisetTest extends AbstractMultisetTest {
     assertEquals("[foo x 2, bar]", multiset.toString());
   }
 
-  @GwtIncompatible("unreasonable slow")
+  @GwtIncompatible("unreasonably slow")
   public void testIteratorBashing() {
     ms = createSample();
     IteratorTester<String> tester =

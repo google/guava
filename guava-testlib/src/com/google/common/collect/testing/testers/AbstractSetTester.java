@@ -22,8 +22,6 @@ import com.google.common.collect.testing.AbstractCollectionTester;
 import java.util.Set;
 
 /**
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

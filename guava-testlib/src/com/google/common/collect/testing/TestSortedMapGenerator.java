@@ -24,8 +24,6 @@ import java.util.SortedMap;
 /**
  * Creates sorted maps, containing sample elements, to be tested.
  *
- * <p>This class is GWT compatible.
- * 
  * @author Louis Wasserman
  */
 @GwtCompatible

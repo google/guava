@@ -1339,7 +1339,7 @@ public final class Sets {
   /**
    * An implementation for {@link Set#equals(Object)}.
    */
-  static boolean equalsImpl(Set<?> s, @Nullable Object object){
+  static boolean equalsImpl(Set<?> s, @Nullable Object object) {
     if (s == object) {
       return true;
     }
@@ -1487,7 +1487,7 @@ public final class Sets {
    *   synchronized (set) {
    *     // Must be in the synchronized block
    *     Iterator<E> it = set.iterator();
-   *     while (it.hasNext()){
+   *     while (it.hasNext()) {
    *       foo(it.next());
    *     }
    *   }}</pre>

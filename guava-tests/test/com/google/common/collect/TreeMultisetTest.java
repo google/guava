@@ -156,7 +156,7 @@ public class TreeMultisetTest extends AbstractMultisetTest {
     assertEquals("[a x 3, b x 2, c]", ms.toString());
   }
 
-  @GwtIncompatible("unreasonable slow")
+  @GwtIncompatible("unreasonably slow")
   public void testIteratorBashing() {
     IteratorTester<String> tester =
         new IteratorTester<String>(createSample().size() + 2, MODIFIABLE,

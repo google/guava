@@ -42,8 +42,6 @@ import java.util.Set;
  * require more than one CollectionSize, since a particular collection instance
  * can only be one size at once.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 // Enum values use constructors with generic varargs.

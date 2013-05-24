@@ -23,8 +23,6 @@ import java.util.Iterator;
 /**
  * Adapts a test iterable generator to give a TestIteratorGenerator.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

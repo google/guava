@@ -33,8 +33,6 @@ import java.util.Map.Entry;
 /**
  * Tests {@link java.util.Map#equals}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  * @author Chris Povirk
  */

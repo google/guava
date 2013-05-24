@@ -25,8 +25,6 @@ import java.lang.reflect.Method;
 /**
  * Tests {@link java.util.List#hashCode}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)

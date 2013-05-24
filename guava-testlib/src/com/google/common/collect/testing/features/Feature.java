@@ -23,8 +23,6 @@ import java.util.Set;
 /**
  * Base class for enumerating the features of an interface to be tested.
  *
- * <p>This class is GWT compatible.
- *
  * @param <T> The interface whose features are to be enumerated.
  * @author George van den Driessche
  */

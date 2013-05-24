@@ -24,8 +24,6 @@ import java.util.Queue;
 /**
  * Base class for queue collection tests.
  *
- * <p>This class is GWT compatible.
- *
  * @author Jared Levy
  */
 @GwtCompatible

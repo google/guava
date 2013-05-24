@@ -2034,7 +2034,7 @@ class MapMakerInternalMap<K, V>
 
     /**
      * The table is expanded when its size exceeds this threshold. (The value of this field is
-     * always {@code (int)(capacity * 0.75)}.)
+     * always {@code (int) (capacity * 0.75)}.)
      */
     int threshold;
 

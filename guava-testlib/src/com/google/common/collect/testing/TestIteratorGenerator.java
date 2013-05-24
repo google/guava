@@ -25,8 +25,6 @@ import java.util.Iterator;
  *
  * @param <E> the element type of the iterator.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

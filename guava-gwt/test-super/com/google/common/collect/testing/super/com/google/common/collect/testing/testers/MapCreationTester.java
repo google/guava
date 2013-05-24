@@ -36,8 +36,6 @@ import java.util.Map.Entry;
  * static factory method) of a map. Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Chris Povirk
  * @author Kevin Bourrillion
  */

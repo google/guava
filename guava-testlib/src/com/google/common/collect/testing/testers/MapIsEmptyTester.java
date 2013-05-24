@@ -27,8 +27,6 @@ import com.google.common.collect.testing.features.CollectionSize;
  * map. Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible

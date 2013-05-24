@@ -25,8 +25,6 @@ import java.util.Set;
 /**
  * Creates map entries using sample keys and sample values.
  *
- * <p>This class is GWT compatible.
- *
  * @author Jesse Wilson
  */
 @GwtCompatible

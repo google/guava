@@ -29,8 +29,6 @@ import java.util.List;
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
  * a queue implementation.
  *
- * <p>This class is GWT compatible.
- *
  * @author Jared Levy
  */
 public final class QueueTestSuiteBuilder<E>

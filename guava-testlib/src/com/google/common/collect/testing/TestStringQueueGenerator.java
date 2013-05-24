@@ -25,8 +25,6 @@ import java.util.Queue;
 /**
  * Create queue of strings for tests.
  *
- * <p>This class is GWT compatible.
- *
  * @author Jared Levy
  */
 @GwtCompatible

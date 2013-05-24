@@ -27,8 +27,6 @@ import java.util.SortedMap;
 /**
  * Implementation helper for {@link TestMapGenerator} for use with sorted maps of strings.
  *
- * <p>This class is GWT compatible.
- *
  * @author Chris Povirk
  */
 @GwtCompatible

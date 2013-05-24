@@ -653,7 +653,7 @@ public class SplitterTest extends TestCase {
     tester.testAllPublicInstanceMethods(Splitter.on(',').trimResults());
   }
 
-  private static <E> List<E> asList(Collection<E> collection){
+  private static <E> List<E> asList(Collection<E> collection) {
     return ImmutableList.copyOf(collection);
   }
 

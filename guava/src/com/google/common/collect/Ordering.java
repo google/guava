@@ -43,7 +43,7 @@ import javax.annotation.Nullable;
 /**
  * A comparator, with additional methods to support common operations. This is
  * an "enriched" version of {@code Comparator}, in the same sense that {@link
- * FluentIterable} is an enriched {@link Iterable}). For example: <pre>   {@code
+ * FluentIterable} is an enriched {@link Iterable}. For example: <pre>   {@code
  *
  *   if (Ordering.from(comparator).reverse().isOrdered(list)) { ... }}</pre>
  *

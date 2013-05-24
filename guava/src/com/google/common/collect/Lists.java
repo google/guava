@@ -923,7 +923,7 @@ public final class Lists {
   /**
    * An implementation of {@link List#indexOf(Object)}.
    */
-  static int indexOfImpl(List<?> list, @Nullable Object element){
+  static int indexOfImpl(List<?> list, @Nullable Object element) {
     ListIterator<?> listIterator = list.listIterator();
     while (listIterator.hasNext()) {
       if (Objects.equal(element, listIterator.next())) {
@@ -936,7 +936,7 @@ public final class Lists {
   /**
    * An implementation of {@link List#lastIndexOf(Object)}.
    */
-  static int lastIndexOfImpl(List<?> list, @Nullable Object element){
+  static int lastIndexOfImpl(List<?> list, @Nullable Object element) {
     ListIterator<?> listIterator = list.listIterator(list.size());
     while (listIterator.hasPrevious()) {
       if (Objects.equal(element, listIterator.previous())) {

@@ -32,8 +32,6 @@ import com.google.common.collect.testing.features.MapFeature;
  * invoked directly; please see
  * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */

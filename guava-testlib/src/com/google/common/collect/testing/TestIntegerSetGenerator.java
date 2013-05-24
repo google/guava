@@ -25,8 +25,6 @@ import java.util.Set;
 /**
  * Create integer sets for collection tests.
  *
- * <p>This class is GWT compatible.
- *
  * @author Gregory Kick
  */
 @GwtCompatible

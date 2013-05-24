@@ -30,8 +30,6 @@ import com.google.common.collect.testing.features.MapFeature;
  * Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  * @author Chris Povirk
  */

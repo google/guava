@@ -21,8 +21,6 @@ import com.google.common.annotations.GwtCompatible;
 /**
  * A non-empty tester for {@link java.util.Iterator}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

@@ -39,8 +39,6 @@ import java.util.Iterator;
  * collection. Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  * @author Chris Povirk
  */

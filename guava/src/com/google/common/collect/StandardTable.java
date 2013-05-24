@@ -790,7 +790,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
     class ColumnMapEntrySet extends TableSet<Entry<C, Map<R, V>>> {
       @Override public Iterator<Entry<C, Map<R, V>>> iterator() {
-        return Maps.asMapEntryIterator(columnKeySet(), new Function<C, Map<R, V>>(){
+        return Maps.asMapEntryIterator(columnKeySet(), new Function<C, Map<R, V>>() {
           @Override
           public Map<R, V> apply(C columnKey) {
             return column(columnKey);

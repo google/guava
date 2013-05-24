@@ -24,8 +24,6 @@ import java.util.List;
 /**
  * Generates {@code List<Character>} instances for test suites.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
  */

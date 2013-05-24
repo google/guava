@@ -57,8 +57,6 @@ import java.util.Iterator;
  * each sequence and is guaranteed to be called using the latest values
  * obtained from {@link IteratorTester#newTargetIterator()}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */

@@ -35,8 +35,6 @@ import java.util.ListIterator;
  * The items in {@code elementsToInsert} will be repeated if {@code steps} is
  * larger than the number of provided elements.
  *
- * <p>This class is GWT compatible.
- *
  * @author Chris Povirk
  */
 @GwtCompatible

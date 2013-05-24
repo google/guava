@@ -547,7 +547,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
-    public Entry<K, V> next(){
+    public Entry<K, V> next() {
       if (nextEntry == null) {
         hasNext();
 

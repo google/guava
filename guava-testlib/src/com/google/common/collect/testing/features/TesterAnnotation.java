@@ -32,8 +32,6 @@ import java.lang.annotation.Target;
  * why reflection is used to extract values from the properties of the various
  * annotations.
  *
- * <p>This class is GWT compatible.
- *
  * @see CollectionFeature.Require
  *
  * @author George van den Driessche

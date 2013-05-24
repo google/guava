@@ -30,8 +30,6 @@ import java.util.SortedSet;
 /**
  * Optional features of classes derived from {@code Collection}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 // Enum values use constructors with generic varargs.

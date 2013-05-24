@@ -27,8 +27,6 @@ import java.util.List;
 /**
  * Generator for collection of a particular size.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 @GwtCompatible

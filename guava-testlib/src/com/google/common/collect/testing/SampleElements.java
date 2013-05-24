@@ -26,8 +26,6 @@ import java.util.Map;
 /**
  * A container class for the five sample elements we need for testing.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible

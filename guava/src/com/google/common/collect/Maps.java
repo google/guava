@@ -3190,7 +3190,7 @@ public final class Maps {
    *
    *   synchronized (map) { // Synchronizing on map, not set!
    *     Iterator<K> it = set.iterator(); // Must be in synchronized block
-   *     while (it.hasNext()){
+   *     while (it.hasNext()) {
    *       foo(it.next());
    *     }
    *   }}</pre>
@@ -3205,7 +3205,7 @@ public final class Maps {
    *
    *   synchronized (map) { // Synchronizing on map, not map2 or set2!
    *     Iterator<K> it = set2.iterator(); // Must be in synchronized block
-   *     while (it.hasNext()){
+   *     while (it.hasNext()) {
    *       foo(it.next());
    *     }
    *   }}</pre>

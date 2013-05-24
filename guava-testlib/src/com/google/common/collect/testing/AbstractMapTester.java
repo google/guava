@@ -28,8 +28,6 @@ import java.util.Map.Entry;
 /**
  * Base class for map testers.
  *
- * <p>This class is GWT compatible.
- *
  * TODO: see how much of this is actually needed once Map testers are written.
  * (It was cloned from AbstractCollectionTester.)
  *

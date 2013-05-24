@@ -37,8 +37,6 @@ import java.util.List;
  * collection. Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */

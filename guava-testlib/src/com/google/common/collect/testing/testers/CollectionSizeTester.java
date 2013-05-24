@@ -24,8 +24,6 @@ import com.google.common.collect.testing.AbstractCollectionTester;
  * Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible

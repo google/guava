@@ -27,8 +27,6 @@ import java.util.Set;
 /**
  * Optional features of classes derived from {@code Set}.
  *
- * <p>This class is GWT compatible.
- *
  * @author George van den Driessche
  */
 // Enum values use constructors with generic varargs.

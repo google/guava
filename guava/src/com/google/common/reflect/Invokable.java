@@ -326,7 +326,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
         // In such case, we may mistakenly think that the class is within a non-static context
         // and the first parameter is the hidden 'this'.
         return declaringClass.getEnclosingClass() != null
-          && !Modifier.isStatic(declaringClass.getModifiers());
+            && !Modifier.isStatic(declaringClass.getModifiers());
       }
     }
   }

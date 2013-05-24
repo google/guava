@@ -27,8 +27,6 @@ import java.util.Map.Entry;
 /**
  * Implementation helper for {@link TestMapGenerator} for use with enum maps.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible

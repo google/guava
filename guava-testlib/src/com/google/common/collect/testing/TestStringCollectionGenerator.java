@@ -25,8 +25,6 @@ import java.util.List;
 /**
  * String creation for testing arbitrary collections.
  *
- * <p>This class is GWT compatible.
- *
  * @author Jared Levy
  */
 @GwtCompatible

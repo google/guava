@@ -26,8 +26,6 @@ import java.util.Map.Entry;
  * Implementation helper for {@link TestMapGenerator} for use with maps of
  * strings.
  *
- * <p>This class is GWT compatible.
- *
  * @author Chris Povirk
  * @author Jared Levy
  * @author George van den Driessche

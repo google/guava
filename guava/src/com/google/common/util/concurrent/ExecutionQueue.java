@@ -98,9 +98,9 @@ import javax.annotation.concurrent.ThreadSafe;
    * <p>This ensures that:
    * <ol>
    *   <li>{@link #executor executor}.{@link Executor#execute execute} is called at most once
-   *   <li>{@link #runnable executor}.{@link Runnable#run run} is called at most once by the
+   *   <li>{@link #runnable runnable}.{@link Runnable#run run} is called at most once by the
    *        executor
-   *   <li>{@link #lock lock} is not held when {@link #runnable executor}.{@link Runnable#run run}
+   *   <li>{@link #lock lock} is not held when {@link #runnable runnable}.{@link Runnable#run run}
    *       is called
    *   <li>no thread calling {@link #submit} can return until the task has been accepted by the
    *       executor

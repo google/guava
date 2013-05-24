@@ -25,8 +25,6 @@ import java.util.Set;
 /**
  * Create string sets for collection tests.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible

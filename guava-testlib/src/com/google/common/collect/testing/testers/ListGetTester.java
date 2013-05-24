@@ -23,8 +23,6 @@ import com.google.common.annotations.GwtCompatible;
  * invoked directly; please see
  * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Chris Povirk
  */
 @GwtCompatible

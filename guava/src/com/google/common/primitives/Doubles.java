@@ -73,7 +73,7 @@ public final class Doubles {
     return ((Double) value).hashCode();
     // TODO(kevinb): do it this way when we can (GWT problem):
     // long bits = Double.doubleToLongBits(value);
-    // return (int)(bits ^ (bits >>> 32));
+    // return (int) (bits ^ (bits >>> 32));
   }
 
   /**

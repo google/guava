@@ -40,8 +40,6 @@ import java.util.Set;
  * Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
- * <p>This class is GWT compatible.
- *
  * @author Chris Povirk
  * @author Kevin Bourrillion
  */

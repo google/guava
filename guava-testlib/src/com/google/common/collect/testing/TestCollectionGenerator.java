@@ -23,8 +23,6 @@ import java.util.Collection;
 /**
  * Creates collections, containing sample elements, to be tested.
  *
- * <p>This class is GWT compatible.
- *
  * @author Kevin Bourrillion
  */
 @GwtCompatible
