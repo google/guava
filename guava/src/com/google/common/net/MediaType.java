@@ -255,6 +255,10 @@ public final class MediaType {
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.text");
   public static final MediaType PDF = createConstant(APPLICATION_TYPE, "pdf");
   public static final MediaType POSTSCRIPT = createConstant(APPLICATION_TYPE, "postscript");
+  /**
+   * <a href="http://tools.ietf.org/html/draft-rfernando-protocol-buffers-00">Protocol buffers</a>
+   */
+  public static final MediaType PROTOBUF = createConstant(APPLICATION_TYPE, "protobuf");
   public static final MediaType RDF_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rdf+xml");
   public static final MediaType RTF_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rtf");
   public static final MediaType SHOCKWAVE_FLASH = createConstant(APPLICATION_TYPE,
@@ -340,6 +344,7 @@ public final class MediaType {
           .put(OPENDOCUMENT_TEXT, OPENDOCUMENT_TEXT)
           .put(PDF, PDF)
           .put(POSTSCRIPT, POSTSCRIPT)
+          .put(PROTOBUF, PROTOBUF)
           .put(RDF_XML_UTF_8, RDF_XML_UTF_8)
           .put(RTF_UTF_8, RTF_UTF_8)
           .put(SHOCKWAVE_FLASH, SHOCKWAVE_FLASH)
