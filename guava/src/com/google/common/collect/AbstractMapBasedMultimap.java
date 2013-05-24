@@ -1547,7 +1547,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
     @Override
     public NavigableMap<K, Collection<V>> headMap(K toKey, boolean inclusive) {
-      return new NavigableAsMap(sortedMap().headMap(toKey, false));
+      return new NavigableAsMap(sortedMap().headMap(toKey, inclusive));
     }
 
     @Override

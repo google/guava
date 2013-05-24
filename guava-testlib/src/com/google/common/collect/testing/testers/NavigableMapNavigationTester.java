@@ -243,4 +243,24 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
     Collections.reverse(descending);
     assertEquals(entries, descending);
   }
+  
+  @CollectionSize.Require(absent = ZERO)
+  public void testHeadMapExclusive() {
+    assertFalse(navigableMap.headMap(a.getKey(), false).containsKey(a.getKey()));
+  }
+  
+  @CollectionSize.Require(absent = ZERO)
+  public void testHeadMapInclusive() {
+    assertTrue(navigableMap.headMap(a.getKey(), true).containsKey(a.getKey()));
+  }
+  
+  @CollectionSize.Require(absent = ZERO)
+  public void testTailMapExclusive() {
+    assertFalse(navigableMap.tailMap(a.getKey(), false).containsKey(a.getKey()));
+  }
+  
+  @CollectionSize.Require(absent = ZERO)
+  public void testTailMapInclusive() {
+    assertTrue(navigableMap.tailMap(a.getKey(), true).containsKey(a.getKey()));
+  }
 }
