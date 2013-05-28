@@ -14,15 +14,24 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
+import com.google.common.collect.testing.Helpers;
+import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.testing.EqualsTester;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -53,5 +62,52 @@ public class SetMultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, S
       resetCollection();
       assertTrue(multimap().asMap().remove(key) instanceof Set);
     }
+  }
+
+  @CollectionSize.Require(SEVERAL)
+  public void testEquals() {
+    resetContainer(
+        Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
+        Helpers.mapEntry(sampleKeys().e1, sampleValues().e0),
+        Helpers.mapEntry(sampleKeys().e0, sampleValues().e3));
+    Map<K, Collection<V>> expected = Maps.newHashMap();
+    expected.put(sampleKeys().e0, Sets.newHashSet(sampleValues().e0, sampleValues().e3));
+    expected.put(sampleKeys().e1, Sets.newHashSet(sampleValues().e0));
+    new EqualsTester()
+        .addEqualityGroup(expected, multimap().asMap())
+        .testEquals();
+  }
+
+  @CollectionSize.Require(SEVERAL)
+  public void testEntrySetEquals() {
+    resetContainer(
+        Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
+        Helpers.mapEntry(sampleKeys().e1, sampleValues().e0),
+        Helpers.mapEntry(sampleKeys().e0, sampleValues().e3));
+    Set<Entry<K, Collection<V>>> expected = Sets.newHashSet();
+    expected.add(Helpers.mapEntry(
+        sampleKeys().e0, 
+        (Collection<V>) Sets.newHashSet(sampleValues().e0, sampleValues().e3)));
+    expected.add(Helpers.mapEntry(
+        sampleKeys().e1, 
+        (Collection<V>) Sets.newHashSet(sampleValues().e0)));
+    new EqualsTester()
+        .addEqualityGroup(expected, multimap().asMap().entrySet())
+        .testEquals();
+  }
+  
+  @CollectionSize.Require(SEVERAL)
+  @MapFeature.Require(SUPPORTS_REMOVE)
+  public void testValuesRemove() {
+    resetContainer(
+        Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
+        Helpers.mapEntry(sampleKeys().e1, sampleValues().e0),
+        Helpers.mapEntry(sampleKeys().e0, sampleValues().e3));
+    assertTrue(multimap().asMap().values().remove(Collections.singleton(sampleValues().e0)));
+    assertEquals(2, multimap().size());
+    assertEquals(
+        Collections.singletonMap(
+            sampleKeys().e0, Sets.newHashSet(sampleValues().e0, sampleValues().e3)),
+        multimap().asMap());
   }
 }

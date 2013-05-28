@@ -18,34 +18,10 @@ public class ConstrainedSetMultimapTest_gwt extends com.google.gwt.junit.client.
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
-public void testAsMap() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testAsMap();
-}
-
-public void testAsMapEntries() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapEntries();
-}
-
 public void testAsMapEntriesEquals() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
   testCase.setUp();
   testCase.testAsMapEntriesEquals();
-}
-
-public void testAsMapEntriesToArray() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapEntriesToArray();
-}
-
-public void testAsMapEntriesUpdate() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapEntriesUpdate();
 }
 
 public void testAsMapEquals() throws Exception {
@@ -54,22 +30,10 @@ public void testAsMapEquals() throws Exception {
   testCase.testAsMapEquals();
 }
 
-public void testAsMapKeySetToArray() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapKeySetToArray();
-}
-
 public void testAsMapValues() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
   testCase.setUp();
   testCase.testAsMapValues();
-}
-
-public void testAsMapValuesToArray() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapValuesToArray();
 }
 
 public void testDuplicates() throws Exception {

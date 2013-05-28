@@ -50,7 +50,6 @@ public class FilteredMultimapTest extends AbstractMultimapTest {
   @Override public void testKeysEntrySetIterator() {}
   @Override public void testKeySetIterator() {}
   @Override public void testValuesIteratorRemove() {}
-  @Override public void testAsMapEntriesUpdate() {}
 
   // not serializable
   @Override public void testSerializable() {}

@@ -28,7 +28,6 @@ import junit.framework.TestCase;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -108,20 +107,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     return false;
   }
 
-  private void checkRemovedCollection(Collection<Integer> collection) {
-    if (removedCollectionsAreModifiable()) {
-      collection.add(9876);
-      collection.remove(9876);
-      assertFalse(collection.contains(9876));
-    } else {
-      try {
-        collection.add(9876);
-        fail();
-      } catch (UnsupportedOperationException expected) {
-      }
-    }
-  }
-
   public void testKeySet() {
     multimap.put("foo", 1);
     multimap.put("foo", nullValue());
@@ -157,118 +142,6 @@ public abstract class AbstractMultimapTest extends TestCase {
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("foo", nullValue()),
         Maps.immutableEntry(nullKey(), 3));
-  }
-
-  public void testAsMap() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Map<String, Collection<Integer>> map = multimap.asMap();
-
-    assertEquals(2, map.size());
-    ASSERT.that(map.get("foo")).has().allOf(1, nullValue());
-    ASSERT.that(map.get(nullKey())).has().item(3);
-    assertNull(map.get("bar"));
-    assertTrue(map.containsKey("foo"));
-    assertTrue(map.containsKey(nullKey()));
-    assertFalse(multimap.containsKey("bar"));
-
-    ASSERT.that(map.remove("foo")).has().allOf(1, nullValue());
-    assertFalse(multimap.containsKey("foo"));
-    assertEquals(1, multimap.size());
-    assertNull(map.remove("bar"));
-    multimap.get(nullKey()).add(5);
-    assertTrue(multimap.containsEntry(nullKey(), 5));
-    assertEquals(2, multimap.size());
-    multimap.get(nullKey()).clear();
-    assertTrue(multimap.isEmpty());
-    assertEquals(0, multimap.size());
-
-    try {
-      map.put("bar", asList(4, 8));
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {}
-
-    multimap.put("bar", 5);
-    assertSize(1);
-    map.clear();
-    assertSize(0);
-  }
-
-  public void testAsMapEntries() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Collection<Entry<String, Collection<Integer>>> entries =
-        multimap.asMap().entrySet();
-    assertEquals(2, entries.size());
-
-    assertTrue(entries.contains(
-        Maps.immutableEntry("foo", multimap.get("foo"))));
-    assertFalse(entries.contains(
-        Maps.immutableEntry("bar", multimap.get("foo"))));
-    assertFalse(entries.contains(
-        Maps.immutableEntry("bar", null)));
-    assertFalse(entries.contains(
-        Maps.immutableEntry("foo", null)));
-    assertFalse(entries.contains(
-        Maps.immutableEntry("foo", asList(1, 4))));
-    assertFalse(entries.contains("foo"));
-
-    Iterator<Entry<String, Collection<Integer>>> iterator =
-        entries.iterator();
-    for (int i = 0; i < 2; i++) {
-      assertTrue(iterator.hasNext());
-      Entry<String, Collection<Integer>> entry = iterator.next();
-      if ("foo".equals(entry.getKey())) {
-        assertEquals(2, entry.getValue().size());
-        assertTrue(entry.getValue().contains(1));
-        assertTrue(entry.getValue().contains(nullValue()));
-      } else {
-        assertEquals(nullKey(), entry.getKey());
-        assertEquals(1, entry.getValue().size());
-        assertTrue(entry.getValue().contains(3));
-      }
-    }
-    assertFalse(iterator.hasNext());
-  }
-
-  public void testAsMapEntriesToArray() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Collection<Entry<String, Collection<Integer>>> entries =
-        multimap.asMap().entrySet();
-
-    ASSERT.that(entries.toArray()).has().allOf(
-        Maps.immutableEntry("foo", multimap.get("foo")),
-        Maps.immutableEntry(nullKey(), multimap.get(nullKey())));
-    ASSERT.that(entries.toArray(new Entry[2])).has().allOf(
-        Maps.immutableEntry("foo", multimap.get("foo")),
-        Maps.immutableEntry(nullKey(), multimap.get(nullKey())));
-  }
-
-  public void testAsMapValuesToArray() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Collection<Collection<Integer>> values =
-        multimap.asMap().values();
-
-    ASSERT.that(values.toArray()).has().allOf(
-        multimap.get("foo"), multimap.get(nullKey()));
-    ASSERT.that(values.toArray(new Collection[2])).has().allOf(
-        multimap.get("foo"), multimap.get(nullKey()));
-  }
-
-  public void testAsMapKeySetToArray() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Set<String> keySet = multimap.asMap().keySet();
-
-    ASSERT.that(keySet.toArray()).has().allOf("foo", nullKey());
-    ASSERT.that(keySet.toArray(new String[2])).has().allOf("foo", nullKey());
   }
 
   public void testKeys() {
@@ -389,50 +262,6 @@ public abstract class AbstractMultimapTest extends TestCase {
 
     assertSize(1);
     assertTrue(multimap.containsEntry("foo", 1));
-  }
-
-  public void testAsMapEntriesUpdate() {
-    multimap.put("foo", 1);
-    multimap.put("foo", 3);
-    Collection<Entry<String, Collection<Integer>>> entries =
-        multimap.asMap().entrySet();
-    Entry<String, Collection<Integer>> entry = entries.iterator().next();
-    Collection<Integer> values = entry.getValue();
-
-    multimap.put("foo", 5);
-    assertEquals(3, values.size());
-    assertTrue(values.contains(5));
-
-    values.add(7);
-    assertSize(4);
-    assertTrue(multimap.containsValue(7));
-
-    multimap.put("bar", 4);
-    assertEquals(2, entries.size());
-    assertSize(5);
-
-    assertTrue(entries.remove(entry));
-    assertSize(1);
-    assertFalse(multimap.containsKey("foo"));
-    assertTrue(multimap.containsKey("bar"));
-    assertFalse(entries.remove("foo"));
-    assertFalse(entries.remove(
-        Maps.immutableEntry("foo", Collections.singleton(2))));
-    assertSize(1);
-
-    Iterator<Entry<String, Collection<Integer>>> iterator =
-        entries.iterator();
-    assertTrue(iterator.hasNext());
-    iterator.next();
-    iterator.remove();
-    assertFalse(iterator.hasNext());
-    assertSize(0);
-    assertTrue(multimap.isEmpty());
-
-    multimap.put("bar", 8);
-    assertSize(1);
-    entries.clear();
-    assertSize(0);
   }
 
   @GwtIncompatible("SerializableTester")

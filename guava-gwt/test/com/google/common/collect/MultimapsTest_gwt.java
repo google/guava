@@ -18,42 +18,6 @@ public class MultimapsTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
-public void testAsMap() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testAsMap();
-}
-
-public void testAsMapEntries() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testAsMapEntries();
-}
-
-public void testAsMapEntriesToArray() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testAsMapEntriesToArray();
-}
-
-public void testAsMapEntriesUpdate() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testAsMapEntriesUpdate();
-}
-
-public void testAsMapKeySetToArray() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testAsMapKeySetToArray();
-}
-
-public void testAsMapValuesToArray() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testAsMapValuesToArray();
-}
-
 public void testAsMap_listMultimap() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.setUp();

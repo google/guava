@@ -24,11 +24,14 @@ import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.OneSizeTestContainerGenerator;
 import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.ListFeature;
 
 import junit.framework.TestSuite;
 
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -73,6 +76,23 @@ public class ListMultimapTestSuiteBuilder<K, V> extends
   }
 
   @Override
+  TestSuite computeMultimapAsMapGetTestSuite(
+      FeatureSpecificTestSuiteBuilder<?, ? extends
+      OneSizeTestContainerGenerator<ListMultimap<K, V>, Entry<K, V>>> parentBuilder) {
+    Set<Feature<?>> features = computeMultimapAsMapGetFeatures(parentBuilder.getFeatures());
+    if (Collections.disjoint(features, EnumSet.allOf(CollectionSize.class))) {
+      return new TestSuite();
+    } else {
+      return ListTestSuiteBuilder.using(
+          new MultimapAsMapGetGenerator<K, V>(parentBuilder.getSubjectGenerator()))
+          .withFeatures(features)
+          .named(parentBuilder.getName() + ".asMap[].get[key]")
+          .suppressing(parentBuilder.getSuppressedTests())
+          .createTestSuite();
+    }
+  }
+
+  @Override
   Set<Feature<?>> computeMultimapGetFeatures(
       Set<Feature<?>> multimapFeatures) {
     Set<Feature<?>> derivedFeatures = super.computeMultimapGetFeatures(multimapFeatures);
@@ -98,5 +118,19 @@ public class ListMultimapTestSuiteBuilder<K, V> extends
       return (List<V>) super.create(elements);
     }
 
+  }
+
+  private static class MultimapAsMapGetGenerator<K, V>
+      extends MultimapTestSuiteBuilder.MultimapAsMapGetGenerator<K, V, ListMultimap<K, V>>
+      implements TestListGenerator<V> {
+    public MultimapAsMapGetGenerator(
+        OneSizeTestContainerGenerator<ListMultimap<K, V>, Entry<K, V>> multimapGenerator) {
+      super(multimapGenerator);
+    }
+
+    @Override
+    public List<V> create(Object... elements) {
+      return (List<V>) super.create(elements);
+    }
   }
 }

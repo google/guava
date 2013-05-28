@@ -21,10 +21,7 @@ import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.ListIterator;
-import java.util.Map;
 
 /**
  * Tests for {@code ListMultimap} implementations.
@@ -60,54 +57,6 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     multimap.put("foo", 1);
     multimap.put("foo", 3);
     assertEquals(ImmutableList.of(1, 3), multimap.get("foo"));
-  }
-
-  public void testAsMapEquals() {
-    Multimap<String, Integer> multimap = getMultimap();
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Map<String, Collection<Integer>> map = multimap.asMap();
-
-    Map<String, Collection<Integer>> equalMap = Maps.newHashMap();
-    equalMap.put("foo", asList(1, nullValue()));
-    equalMap.put(nullKey(), asList(3));
-    assertEquals(map, equalMap);
-    assertEquals(equalMap, map);
-    assertEquals(equalMap.hashCode(), multimap.hashCode());
-
-    Map<String, Collection<Integer>> unequalMap = Maps.newHashMap();
-    equalMap.put("foo", asList(3, nullValue()));
-    equalMap.put(nullKey(), asList(1));
-    assertFalse(map.equals(unequalMap));
-    assertFalse(unequalMap.equals(map));
-  }
-
-  /**
-   * Confirm that asMap().entrySet() returns values equal to a List.
-   */
-  public void testAsMapEntriesEquals() {
-    Multimap<String, Integer> multimap = create();
-    multimap.put("foo", 1);
-    multimap.put("foo", 3);
-    Iterator<Map.Entry<String, Collection<Integer>>> i =
-        multimap.asMap().entrySet().iterator();
-    Map.Entry<String, Collection<Integer>> entry = i.next();
-    assertEquals("foo", entry.getKey());
-    assertEquals(ImmutableList.of(1, 3), entry.getValue());
-    assertFalse(i.hasNext());
-  }
-
-  public void testAsMapValuesRemove() {
-    Multimap<String, Integer> multimap = create();
-    multimap.put("foo", 1);
-    multimap.put("foo", 3);
-    multimap.put("bar", 3);
-    Collection<Collection<Integer>> asMapValues = multimap.asMap().values();
-    assertFalse(asMapValues.remove(asList(3, 1)));
-    assertEquals(3, multimap.size());
-    assertTrue(asMapValues.remove(asList(1, 3)));
-    assertEquals(1, multimap.size());
   }
 
   /**

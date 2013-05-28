@@ -18,60 +18,6 @@ public class ArrayListMultimapTest_gwt extends com.google.gwt.junit.client.GWTTe
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
-public void testAsMap() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testAsMap();
-}
-
-public void testAsMapEntries() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapEntries();
-}
-
-public void testAsMapEntriesEquals() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapEntriesEquals();
-}
-
-public void testAsMapEntriesToArray() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapEntriesToArray();
-}
-
-public void testAsMapEntriesUpdate() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapEntriesUpdate();
-}
-
-public void testAsMapEquals() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapEquals();
-}
-
-public void testAsMapKeySetToArray() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapKeySetToArray();
-}
-
-public void testAsMapValuesRemove() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapValuesRemove();
-}
-
-public void testAsMapValuesToArray() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testAsMapValuesToArray();
-}
-
 public void testCreate() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();

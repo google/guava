@@ -23,9 +23,13 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.OneSizeTestContainerGenerator;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestSetGenerator;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.Feature;
 
 import junit.framework.TestSuite;
 
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -70,6 +74,23 @@ public class SetMultimapTestSuiteBuilder<K, V>
   }
 
   @Override
+  TestSuite computeMultimapAsMapGetTestSuite(
+      FeatureSpecificTestSuiteBuilder<?, ? extends
+      OneSizeTestContainerGenerator<SetMultimap<K, V>, Entry<K, V>>> parentBuilder) {
+    Set<Feature<?>> features = computeMultimapAsMapGetFeatures(parentBuilder.getFeatures());
+    if (Collections.disjoint(features, EnumSet.allOf(CollectionSize.class))) {
+      return new TestSuite();
+    } else {
+      return SetTestSuiteBuilder.using(
+          new MultimapAsMapGetGenerator<K, V>(parentBuilder.getSubjectGenerator()))
+          .withFeatures(features)
+          .named(parentBuilder.getName() + ".asMap[].get[key]")
+          .suppressing(parentBuilder.getSuppressedTests())
+          .createTestSuite();
+    }
+  }
+
+  @Override
   TestSuite computeEntriesTestSuite(
       FeatureSpecificTestSuiteBuilder<?, ?  extends
           OneSizeTestContainerGenerator<SetMultimap<K, V>, Map.Entry<K, V>>> parentBuilder) {
@@ -96,7 +117,7 @@ public class SetMultimapTestSuiteBuilder<K, V>
     }
   }
 
-  private static class MultimapGetGenerator<K, V>
+  static class MultimapGetGenerator<K, V>
       extends MultimapTestSuiteBuilder.MultimapGetGenerator<K, V, SetMultimap<K, V>>
       implements TestSetGenerator<V> {
     public MultimapGetGenerator(
@@ -109,5 +130,19 @@ public class SetMultimapTestSuiteBuilder<K, V>
       return (Set<V>) super.create(elements);
     }
 
+  }
+
+  static class MultimapAsMapGetGenerator<K, V>
+      extends MultimapTestSuiteBuilder.MultimapAsMapGetGenerator<K, V, SetMultimap<K, V>>
+      implements TestSetGenerator<V> {
+    public MultimapAsMapGetGenerator(
+        OneSizeTestContainerGenerator<SetMultimap<K, V>, Entry<K, V>> multimapGenerator) {
+      super(multimapGenerator);
+    }
+
+    @Override
+    public Set<V> create(Object... elements) {
+      return (Set<V>) super.create(elements);
+    }
   }
 }

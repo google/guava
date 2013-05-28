@@ -42,6 +42,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
+import com.google.common.collect.testing.google.MultimapAsMapTester;
 import com.google.common.collect.testing.google.MultimapEntriesTester;
 import com.google.common.collect.testing.google.MultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.MultisetIteratorTester;
@@ -566,6 +567,7 @@ public class MultimapsCollectionTest extends TestCase {
         CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
         MultisetIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
         MultisetWritesTester.getEntrySetIteratorMethod(),
+        MultimapAsMapTester.getAsMapEntrySetIteratorRemoveMethod(),
         MultimapEntriesTester.getIteratorRemoveMethod());
     
     TestSuite suite = new TestSuite("Multimaps.filter*");
