@@ -746,7 +746,7 @@ public final class Maps {
 
     @Override
     public V get(@Nullable Object key) {
-      if (backingSet().contains(key)) {
+      if (Collections2.safeContains(backingSet(), key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
         return function.apply(k);
@@ -2694,7 +2694,7 @@ public final class Maps {
       if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         Object key = entry.getKey();
-        V value = map().get(key);
+        V value = Maps.safeGet(map(), key);
         return Objects.equal(value, entry.getValue())
             && (value != null || map().containsKey(key));
       }

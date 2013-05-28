@@ -19,5 +19,5 @@
   <inherits name="com.google.common.annotations.Annotations"/>
    
   <inherits name="com.google.common.testing.Testing"/>
-     
+      
 </module>

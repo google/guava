@@ -253,11 +253,6 @@ public void testEntrySetClear__SubMapTests() throws Exception {
   testCase.testEntrySetClear();
 }
 
-public void testEntrySetContainsEntryIncompatibleComparableKey__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testEntrySetContainsEntryIncompatibleComparableKey();
-}
-
 public void testEntrySetContainsEntryIncompatibleKey__SubMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
   testCase.testEntrySetContainsEntryIncompatibleKey();
@@ -358,16 +353,6 @@ public void testEqualsForSmallerMap__SubMapTests() throws Exception {
   testCase.testEqualsForSmallerMap();
 }
 
-public void testFirstKeyEmpty__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testFirstKeyEmpty();
-}
-
-public void testFirstKeyNonEmpty__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testFirstKeyNonEmpty();
-}
-
 public void testGet__SubMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
   testCase.testGet();
@@ -391,16 +376,6 @@ public void testHashCode__SubMapTests() throws Exception {
 public void testHashCodeForEmptyMap__SubMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
   testCase.testHashCodeForEmptyMap();
-}
-
-public void testHeadMap__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testHeadMap();
-}
-
-public void testHeadMapEntrySet__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testHeadMapEntrySet();
 }
 
 public void testKeySetClear__SubMapTests() throws Exception {
@@ -431,21 +406,6 @@ public void testKeySetRetainAll__SubMapTests() throws Exception {
 public void testKeySetRetainAllNullFromEmpty__SubMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
   testCase.testKeySetRetainAllNullFromEmpty();
-}
-
-public void testLastKeyEmpty__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testLastKeyEmpty();
-}
-
-public void testLastKeyNonEmpty__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testLastKeyNonEmpty();
-}
-
-public void testOrdering__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testOrdering();
 }
 
 public void testPutAllExistingKey__SubMapTests() throws Exception {
@@ -498,29 +458,9 @@ public void testSize__SubMapTests() throws Exception {
   testCase.testSize();
 }
 
-public void testSubMap__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testSubMap();
-}
-
-public void testSubMapIllegal__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testSubMapIllegal();
-}
-
-public void testTailMap__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testTailMap();
-}
-
 public void testTailMapClearThrough__SubMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
   testCase.testTailMapClearThrough();
-}
-
-public void testTailMapEntrySet__SubMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SubMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SubMapTests();
-  testCase.testTailMapEntrySet();
 }
 
 public void testTailMapRemoveThrough__SubMapTests() throws Exception {
@@ -606,11 +546,6 @@ public void testEntrySetAddAndAddAll__TailExclusiveMapTests() throws Exception {
 public void testEntrySetClear__TailExclusiveMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
   testCase.testEntrySetClear();
-}
-
-public void testEntrySetContainsEntryIncompatibleComparableKey__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testEntrySetContainsEntryIncompatibleComparableKey();
 }
 
 public void testEntrySetContainsEntryIncompatibleKey__TailExclusiveMapTests() throws Exception {
@@ -713,16 +648,6 @@ public void testEqualsForSmallerMap__TailExclusiveMapTests() throws Exception {
   testCase.testEqualsForSmallerMap();
 }
 
-public void testFirstKeyEmpty__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testFirstKeyEmpty();
-}
-
-public void testFirstKeyNonEmpty__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testFirstKeyNonEmpty();
-}
-
 public void testGet__TailExclusiveMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
   testCase.testGet();
@@ -746,16 +671,6 @@ public void testHashCode__TailExclusiveMapTests() throws Exception {
 public void testHashCodeForEmptyMap__TailExclusiveMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
   testCase.testHashCodeForEmptyMap();
-}
-
-public void testHeadMap__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testHeadMap();
-}
-
-public void testHeadMapEntrySet__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testHeadMapEntrySet();
 }
 
 public void testKeySetClear__TailExclusiveMapTests() throws Exception {
@@ -786,21 +701,6 @@ public void testKeySetRetainAll__TailExclusiveMapTests() throws Exception {
 public void testKeySetRetainAllNullFromEmpty__TailExclusiveMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
   testCase.testKeySetRetainAllNullFromEmpty();
-}
-
-public void testLastKeyEmpty__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testLastKeyEmpty();
-}
-
-public void testLastKeyNonEmpty__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testLastKeyNonEmpty();
-}
-
-public void testOrdering__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testOrdering();
 }
 
 public void testPutAllExistingKey__TailExclusiveMapTests() throws Exception {
@@ -853,29 +753,9 @@ public void testSize__TailExclusiveMapTests() throws Exception {
   testCase.testSize();
 }
 
-public void testSubMap__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testSubMap();
-}
-
-public void testSubMapIllegal__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testSubMapIllegal();
-}
-
-public void testTailMap__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testTailMap();
-}
-
 public void testTailMapClearThrough__TailExclusiveMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
   testCase.testTailMapClearThrough();
-}
-
-public void testTailMapEntrySet__TailExclusiveMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailExclusiveMapTests();
-  testCase.testTailMapEntrySet();
 }
 
 public void testTailMapRemoveThrough__TailExclusiveMapTests() throws Exception {
@@ -961,11 +841,6 @@ public void testEntrySetAddAndAddAll__TailMapTests() throws Exception {
 public void testEntrySetClear__TailMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
   testCase.testEntrySetClear();
-}
-
-public void testEntrySetContainsEntryIncompatibleComparableKey__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testEntrySetContainsEntryIncompatibleComparableKey();
 }
 
 public void testEntrySetContainsEntryIncompatibleKey__TailMapTests() throws Exception {
@@ -1068,16 +943,6 @@ public void testEqualsForSmallerMap__TailMapTests() throws Exception {
   testCase.testEqualsForSmallerMap();
 }
 
-public void testFirstKeyEmpty__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testFirstKeyEmpty();
-}
-
-public void testFirstKeyNonEmpty__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testFirstKeyNonEmpty();
-}
-
 public void testGet__TailMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
   testCase.testGet();
@@ -1101,16 +966,6 @@ public void testHashCode__TailMapTests() throws Exception {
 public void testHashCodeForEmptyMap__TailMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
   testCase.testHashCodeForEmptyMap();
-}
-
-public void testHeadMap__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testHeadMap();
-}
-
-public void testHeadMapEntrySet__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testHeadMapEntrySet();
 }
 
 public void testKeySetClear__TailMapTests() throws Exception {
@@ -1141,21 +996,6 @@ public void testKeySetRetainAll__TailMapTests() throws Exception {
 public void testKeySetRetainAllNullFromEmpty__TailMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
   testCase.testKeySetRetainAllNullFromEmpty();
-}
-
-public void testLastKeyEmpty__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testLastKeyEmpty();
-}
-
-public void testLastKeyNonEmpty__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testLastKeyNonEmpty();
-}
-
-public void testOrdering__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testOrdering();
 }
 
 public void testPutAllExistingKey__TailMapTests() throws Exception {
@@ -1208,29 +1048,9 @@ public void testSize__TailMapTests() throws Exception {
   testCase.testSize();
 }
 
-public void testSubMap__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testSubMap();
-}
-
-public void testSubMapIllegal__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testSubMapIllegal();
-}
-
-public void testTailMap__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testTailMap();
-}
-
 public void testTailMapClearThrough__TailMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
   testCase.testTailMapClearThrough();
-}
-
-public void testTailMapEntrySet__TailMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.TailMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.TailMapTests();
-  testCase.testTailMapEntrySet();
 }
 
 public void testTailMapRemoveThrough__TailMapTests() throws Exception {
@@ -1316,11 +1136,6 @@ public void testEntrySetAddAndAddAll__HeadMapInclusiveTests() throws Exception {
 public void testEntrySetClear__HeadMapInclusiveTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
   testCase.testEntrySetClear();
-}
-
-public void testEntrySetContainsEntryIncompatibleComparableKey__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testEntrySetContainsEntryIncompatibleComparableKey();
 }
 
 public void testEntrySetContainsEntryIncompatibleKey__HeadMapInclusiveTests() throws Exception {
@@ -1423,16 +1238,6 @@ public void testEqualsForSmallerMap__HeadMapInclusiveTests() throws Exception {
   testCase.testEqualsForSmallerMap();
 }
 
-public void testFirstKeyEmpty__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testFirstKeyEmpty();
-}
-
-public void testFirstKeyNonEmpty__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testFirstKeyNonEmpty();
-}
-
 public void testGet__HeadMapInclusiveTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
   testCase.testGet();
@@ -1456,16 +1261,6 @@ public void testHashCode__HeadMapInclusiveTests() throws Exception {
 public void testHashCodeForEmptyMap__HeadMapInclusiveTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
   testCase.testHashCodeForEmptyMap();
-}
-
-public void testHeadMap__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testHeadMap();
-}
-
-public void testHeadMapEntrySet__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testHeadMapEntrySet();
 }
 
 public void testKeySetClear__HeadMapInclusiveTests() throws Exception {
@@ -1496,21 +1291,6 @@ public void testKeySetRetainAll__HeadMapInclusiveTests() throws Exception {
 public void testKeySetRetainAllNullFromEmpty__HeadMapInclusiveTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
   testCase.testKeySetRetainAllNullFromEmpty();
-}
-
-public void testLastKeyEmpty__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testLastKeyEmpty();
-}
-
-public void testLastKeyNonEmpty__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testLastKeyNonEmpty();
-}
-
-public void testOrdering__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testOrdering();
 }
 
 public void testPutAllExistingKey__HeadMapInclusiveTests() throws Exception {
@@ -1563,29 +1343,9 @@ public void testSize__HeadMapInclusiveTests() throws Exception {
   testCase.testSize();
 }
 
-public void testSubMap__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testSubMap();
-}
-
-public void testSubMapIllegal__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testSubMapIllegal();
-}
-
-public void testTailMap__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testTailMap();
-}
-
 public void testTailMapClearThrough__HeadMapInclusiveTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
   testCase.testTailMapClearThrough();
-}
-
-public void testTailMapEntrySet__HeadMapInclusiveTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapInclusiveTests();
-  testCase.testTailMapEntrySet();
 }
 
 public void testTailMapRemoveThrough__HeadMapInclusiveTests() throws Exception {
@@ -1671,11 +1431,6 @@ public void testEntrySetAddAndAddAll__HeadMapTests() throws Exception {
 public void testEntrySetClear__HeadMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
   testCase.testEntrySetClear();
-}
-
-public void testEntrySetContainsEntryIncompatibleComparableKey__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testEntrySetContainsEntryIncompatibleComparableKey();
 }
 
 public void testEntrySetContainsEntryIncompatibleKey__HeadMapTests() throws Exception {
@@ -1778,16 +1533,6 @@ public void testEqualsForSmallerMap__HeadMapTests() throws Exception {
   testCase.testEqualsForSmallerMap();
 }
 
-public void testFirstKeyEmpty__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testFirstKeyEmpty();
-}
-
-public void testFirstKeyNonEmpty__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testFirstKeyNonEmpty();
-}
-
 public void testGet__HeadMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
   testCase.testGet();
@@ -1811,16 +1556,6 @@ public void testHashCode__HeadMapTests() throws Exception {
 public void testHashCodeForEmptyMap__HeadMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
   testCase.testHashCodeForEmptyMap();
-}
-
-public void testHeadMap__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testHeadMap();
-}
-
-public void testHeadMapEntrySet__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testHeadMapEntrySet();
 }
 
 public void testKeySetClear__HeadMapTests() throws Exception {
@@ -1851,21 +1586,6 @@ public void testKeySetRetainAll__HeadMapTests() throws Exception {
 public void testKeySetRetainAllNullFromEmpty__HeadMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
   testCase.testKeySetRetainAllNullFromEmpty();
-}
-
-public void testLastKeyEmpty__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testLastKeyEmpty();
-}
-
-public void testLastKeyNonEmpty__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testLastKeyNonEmpty();
-}
-
-public void testOrdering__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testOrdering();
 }
 
 public void testPutAllExistingKey__HeadMapTests() throws Exception {
@@ -1918,29 +1638,9 @@ public void testSize__HeadMapTests() throws Exception {
   testCase.testSize();
 }
 
-public void testSubMap__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testSubMap();
-}
-
-public void testSubMapIllegal__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testSubMapIllegal();
-}
-
-public void testTailMap__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testTailMap();
-}
-
 public void testTailMapClearThrough__HeadMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
   testCase.testTailMapClearThrough();
-}
-
-public void testTailMapEntrySet__HeadMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.HeadMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.HeadMapTests();
-  testCase.testTailMapEntrySet();
 }
 
 public void testTailMapRemoveThrough__HeadMapTests() throws Exception {
@@ -2026,11 +1726,6 @@ public void testEntrySetAddAndAddAll__SingletonMapTests() throws Exception {
 public void testEntrySetClear__SingletonMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
   testCase.testEntrySetClear();
-}
-
-public void testEntrySetContainsEntryIncompatibleComparableKey__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testEntrySetContainsEntryIncompatibleComparableKey();
 }
 
 public void testEntrySetContainsEntryIncompatibleKey__SingletonMapTests() throws Exception {
@@ -2133,16 +1828,6 @@ public void testEqualsForSmallerMap__SingletonMapTests() throws Exception {
   testCase.testEqualsForSmallerMap();
 }
 
-public void testFirstKeyEmpty__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testFirstKeyEmpty();
-}
-
-public void testFirstKeyNonEmpty__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testFirstKeyNonEmpty();
-}
-
 public void testGet__SingletonMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
   testCase.testGet();
@@ -2166,16 +1851,6 @@ public void testHashCode__SingletonMapTests() throws Exception {
 public void testHashCodeForEmptyMap__SingletonMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
   testCase.testHashCodeForEmptyMap();
-}
-
-public void testHeadMap__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testHeadMap();
-}
-
-public void testHeadMapEntrySet__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testHeadMapEntrySet();
 }
 
 public void testKeySetClear__SingletonMapTests() throws Exception {
@@ -2206,21 +1881,6 @@ public void testKeySetRetainAll__SingletonMapTests() throws Exception {
 public void testKeySetRetainAllNullFromEmpty__SingletonMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
   testCase.testKeySetRetainAllNullFromEmpty();
-}
-
-public void testLastKeyEmpty__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testLastKeyEmpty();
-}
-
-public void testLastKeyNonEmpty__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testLastKeyNonEmpty();
-}
-
-public void testOrdering__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testOrdering();
 }
 
 public void testPutAllExistingKey__SingletonMapTests() throws Exception {
@@ -2273,29 +1933,9 @@ public void testSize__SingletonMapTests() throws Exception {
   testCase.testSize();
 }
 
-public void testSubMap__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testSubMap();
-}
-
-public void testSubMapIllegal__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testSubMapIllegal();
-}
-
-public void testTailMap__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testTailMap();
-}
-
 public void testTailMapClearThrough__SingletonMapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
   testCase.testTailMapClearThrough();
-}
-
-public void testTailMapEntrySet__SingletonMapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.SingletonMapTests();
-  testCase.testTailMapEntrySet();
 }
 
 public void testTailMapRemoveThrough__SingletonMapTests() throws Exception {
@@ -2381,11 +2021,6 @@ public void testEntrySetAddAndAddAll__MapTests() throws Exception {
 public void testEntrySetClear__MapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
   testCase.testEntrySetClear();
-}
-
-public void testEntrySetContainsEntryIncompatibleComparableKey__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testEntrySetContainsEntryIncompatibleComparableKey();
 }
 
 public void testEntrySetContainsEntryIncompatibleKey__MapTests() throws Exception {
@@ -2488,16 +2123,6 @@ public void testEqualsForSmallerMap__MapTests() throws Exception {
   testCase.testEqualsForSmallerMap();
 }
 
-public void testFirstKeyEmpty__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testFirstKeyEmpty();
-}
-
-public void testFirstKeyNonEmpty__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testFirstKeyNonEmpty();
-}
-
 public void testGet__MapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
   testCase.testGet();
@@ -2521,16 +2146,6 @@ public void testHashCode__MapTests() throws Exception {
 public void testHashCodeForEmptyMap__MapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
   testCase.testHashCodeForEmptyMap();
-}
-
-public void testHeadMap__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testHeadMap();
-}
-
-public void testHeadMapEntrySet__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testHeadMapEntrySet();
 }
 
 public void testKeySetClear__MapTests() throws Exception {
@@ -2561,21 +2176,6 @@ public void testKeySetRetainAll__MapTests() throws Exception {
 public void testKeySetRetainAllNullFromEmpty__MapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
   testCase.testKeySetRetainAllNullFromEmpty();
-}
-
-public void testLastKeyEmpty__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testLastKeyEmpty();
-}
-
-public void testLastKeyNonEmpty__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testLastKeyNonEmpty();
-}
-
-public void testOrdering__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testOrdering();
 }
 
 public void testPutAllExistingKey__MapTests() throws Exception {
@@ -2628,29 +2228,9 @@ public void testSize__MapTests() throws Exception {
   testCase.testSize();
 }
 
-public void testSubMap__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testSubMap();
-}
-
-public void testSubMapIllegal__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testSubMapIllegal();
-}
-
-public void testTailMap__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testTailMap();
-}
-
 public void testTailMapClearThrough__MapTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
   testCase.testTailMapClearThrough();
-}
-
-public void testTailMapEntrySet__MapTests() throws Exception {
-  com.google.common.collect.ImmutableSortedMapTest.MapTests testCase = new com.google.common.collect.ImmutableSortedMapTest.MapTests();
-  testCase.testTailMapEntrySet();
 }
 
 public void testTailMapRemoveThrough__MapTests() throws Exception {

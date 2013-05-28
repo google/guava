@@ -83,14 +83,7 @@ public class ForwardingSortedMapImplementsMapTest
     } catch (ClassCastException tolerated) {
     }
   }
-
-  @Override public void testEntrySetContainsEntryIncompatibleComparableKey() {
-    try {
-      super.testEntrySetContainsEntryIncompatibleComparableKey();
-    } catch (ClassCastException tolerated) {
-    }
-  }
-
+  
   @Override public void testEntrySetRemoveAllNullFromEmpty() {
     try {
       super.testEntrySetRemoveAllNullFromEmpty();

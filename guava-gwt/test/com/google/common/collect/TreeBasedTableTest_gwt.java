@@ -371,11 +371,6 @@ public void testEntrySetClear__TreeRowTest() throws Exception {
   testCase.testEntrySetClear();
 }
 
-public void testEntrySetContainsEntryIncompatibleComparableKey__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testEntrySetContainsEntryIncompatibleComparableKey();
-}
-
 public void testEntrySetContainsEntryIncompatibleKey__TreeRowTest() throws Exception {
   com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
   testCase.testEntrySetContainsEntryIncompatibleKey();
@@ -476,16 +471,6 @@ public void testEqualsForSmallerMap__TreeRowTest() throws Exception {
   testCase.testEqualsForSmallerMap();
 }
 
-public void testFirstKeyEmpty__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testFirstKeyEmpty();
-}
-
-public void testFirstKeyNonEmpty__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testFirstKeyNonEmpty();
-}
-
 public void testGet__TreeRowTest() throws Exception {
   com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
   testCase.testGet();
@@ -509,16 +494,6 @@ public void testHashCode__TreeRowTest() throws Exception {
 public void testHashCodeForEmptyMap__TreeRowTest() throws Exception {
   com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
   testCase.testHashCodeForEmptyMap();
-}
-
-public void testHeadMap__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testHeadMap();
-}
-
-public void testHeadMapEntrySet__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testHeadMapEntrySet();
 }
 
 public void testKeySetClear__TreeRowTest() throws Exception {
@@ -549,21 +524,6 @@ public void testKeySetRetainAll__TreeRowTest() throws Exception {
 public void testKeySetRetainAllNullFromEmpty__TreeRowTest() throws Exception {
   com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
   testCase.testKeySetRetainAllNullFromEmpty();
-}
-
-public void testLastKeyEmpty__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testLastKeyEmpty();
-}
-
-public void testLastKeyNonEmpty__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testLastKeyNonEmpty();
-}
-
-public void testOrdering__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testOrdering();
 }
 
 public void testPutAllExistingKey__TreeRowTest() throws Exception {
@@ -616,29 +576,9 @@ public void testSize__TreeRowTest() throws Exception {
   testCase.testSize();
 }
 
-public void testSubMap__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testSubMap();
-}
-
-public void testSubMapIllegal__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testSubMapIllegal();
-}
-
-public void testTailMap__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testTailMap();
-}
-
 public void testTailMapClearThrough__TreeRowTest() throws Exception {
   com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
   testCase.testTailMapClearThrough();
-}
-
-public void testTailMapEntrySet__TreeRowTest() throws Exception {
-  com.google.common.collect.TreeBasedTableTest.TreeRowTest testCase = new com.google.common.collect.TreeBasedTableTest.TreeRowTest();
-  testCase.testTailMapEntrySet();
 }
 
 public void testTailMapRemoveThrough__TreeRowTest() throws Exception {

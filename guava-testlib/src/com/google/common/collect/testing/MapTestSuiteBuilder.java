@@ -28,6 +28,7 @@ import com.google.common.collect.testing.testers.MapClearTester;
 import com.google.common.collect.testing.testers.MapContainsKeyTester;
 import com.google.common.collect.testing.testers.MapContainsValueTester;
 import com.google.common.collect.testing.testers.MapCreationTester;
+import com.google.common.collect.testing.testers.MapEntrySetTester;
 import com.google.common.collect.testing.testers.MapEqualsTester;
 import com.google.common.collect.testing.testers.MapGetTester;
 import com.google.common.collect.testing.testers.MapHashCodeTester;
@@ -70,6 +71,7 @@ public class MapTestSuiteBuilder<K, V>
         MapContainsKeyTester.class,
         MapContainsValueTester.class,
         MapCreationTester.class,
+        MapEntrySetTester.class,
         MapEqualsTester.class,
         MapGetTester.class,
         MapHashCodeTester.class,

@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
@@ -187,6 +189,7 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
    * @since 7.0
    */
   @Beta protected SortedMap<K, V> standardSubMap(K fromKey, K toKey) {
+    checkArgument(unsafeCompare(fromKey, toKey) <= 0, "fromKey must be <= toKey");
     return tailMap(fromKey).headMap(toKey);
   }
 }

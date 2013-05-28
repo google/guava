@@ -48,11 +48,6 @@ public void testEntrySetClear() throws Exception {
   testCase.testEntrySetClear();
 }
 
-public void testEntrySetContainsEntryIncompatibleComparableKey() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testEntrySetContainsEntryIncompatibleComparableKey();
-}
-
 public void testEntrySetContainsEntryIncompatibleKey() throws Exception {
   com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
   testCase.testEntrySetContainsEntryIncompatibleKey();
@@ -153,16 +148,6 @@ public void testEqualsForSmallerMap() throws Exception {
   testCase.testEqualsForSmallerMap();
 }
 
-public void testFirstKeyEmpty() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testFirstKeyEmpty();
-}
-
-public void testFirstKeyNonEmpty() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testFirstKeyNonEmpty();
-}
-
 public void testGet() throws Exception {
   com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
   testCase.testGet();
@@ -186,16 +171,6 @@ public void testHashCode() throws Exception {
 public void testHashCodeForEmptyMap() throws Exception {
   com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
   testCase.testHashCodeForEmptyMap();
-}
-
-public void testHeadMap() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testHeadMap();
-}
-
-public void testHeadMapEntrySet() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testHeadMapEntrySet();
 }
 
 public void testKeySetClear() throws Exception {
@@ -226,21 +201,6 @@ public void testKeySetRetainAll() throws Exception {
 public void testKeySetRetainAllNullFromEmpty() throws Exception {
   com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
   testCase.testKeySetRetainAllNullFromEmpty();
-}
-
-public void testLastKeyEmpty() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testLastKeyEmpty();
-}
-
-public void testLastKeyNonEmpty() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testLastKeyNonEmpty();
-}
-
-public void testOrdering() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testOrdering();
 }
 
 public void testPutAllExistingKey() throws Exception {
@@ -293,29 +253,9 @@ public void testSize() throws Exception {
   testCase.testSize();
 }
 
-public void testSubMap() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testSubMap();
-}
-
-public void testSubMapIllegal() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testSubMapIllegal();
-}
-
-public void testTailMap() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testTailMap();
-}
-
 public void testTailMapClearThrough() throws Exception {
   com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
   testCase.testTailMapClearThrough();
-}
-
-public void testTailMapEntrySet() throws Exception {
-  com.google.common.collect.ForwardingSortedMapImplementsMapTest testCase = new com.google.common.collect.ForwardingSortedMapImplementsMapTest();
-  testCase.testTailMapEntrySet();
 }
 
 public void testTailMapRemoveThrough() throws Exception {

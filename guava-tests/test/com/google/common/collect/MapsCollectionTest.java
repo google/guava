@@ -79,21 +79,8 @@ public class MapsCollectionTest extends TestCase {
         })
         .named("unmodifiableNavigableMap[SafeTreeMap]")
         .withFeatures(CollectionSize.ANY,
-            MapFeature.ALLOWS_NULL_VALUES)
-        .createTestSuite());
-    suite.addTest(NavigableMapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
-
-          @Override
-          protected SortedMap<String, String> create(Entry<String, String>[] entries) {
-            SafeTreeMap<String, String> map = new SafeTreeMap<String, String>();
-            putEntries(map, entries);
-            return SerializableTester.reserialize(Maps.unmodifiableNavigableMap(map));
-          }
-        })
-        .named("unmodifiableNavigableMap[SafeTreeMap], reserialized")
-        .withFeatures(CollectionSize.ANY,
-            MapFeature.ALLOWS_NULL_VALUES)
+            MapFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.SERIALIZABLE)
         .createTestSuite());
     suite.addTest(BiMapTestSuiteBuilder
         .using(new TestStringBiMapGenerator() {
@@ -112,26 +99,8 @@ public class MapsCollectionTest extends TestCase {
             CollectionSize.ANY,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.ALLOWS_NULL_KEYS,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
-        .createTestSuite());
-    suite.addTest(BiMapTestSuiteBuilder
-        .using(new TestStringBiMapGenerator() {
-          @Override
-          protected BiMap<String, String> create(Entry<String, String>[] entries) {
-            BiMap<String, String> bimap = HashBiMap.create(entries.length);
-            for (Entry<String, String> entry : entries) {
-              checkArgument(!bimap.containsKey(entry.getKey()));
-              bimap.put(entry.getKey(), entry.getValue());
-            }
-            return SerializableTester.reserialize(Maps.unmodifiableBiMap(bimap));
-          }
-        })
-        .named("unmodifiableBiMap[HashBiMap], reserialized")
-        .withFeatures(
-            CollectionSize.ANY,
-            MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.ALLOWS_NULL_KEYS,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.SERIALIZABLE)
         .createTestSuite());
     suite.addTest(MapTestSuiteBuilder
         .using(new TestMapGenerator<String, Integer>() {

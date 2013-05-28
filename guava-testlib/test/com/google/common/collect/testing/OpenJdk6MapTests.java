@@ -18,6 +18,8 @@ package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.testers.CollectionCreationTester.getCreateWithNullUnsupportedMethod;
 import static com.google.common.collect.testing.testers.MapCreationTester.getCreateWithNullKeyUnsupportedMethod;
+import static com.google.common.collect.testing.testers.MapEntrySetTester.getContainsEntryWithIncomparableKeyMethod;
+import static com.google.common.collect.testing.testers.MapEntrySetTester.getContainsEntryWithIncomparableValueMethod;
 import static com.google.common.collect.testing.testers.MapPutAllTester.getPutAllNullKeyUnsupportedMethod;
 import static com.google.common.collect.testing.testers.MapPutTester.getPutNullKeyUnsupportedMethod;
 
@@ -45,7 +47,16 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
         getPutNullKeyUnsupportedMethod(),
         getPutAllNullKeyUnsupportedMethod(),
         getCreateWithNullKeyUnsupportedMethod(),
-        getCreateWithNullUnsupportedMethod()); // for keySet
+        getCreateWithNullUnsupportedMethod(), // for keySet
+        getContainsEntryWithIncomparableKeyMethod(),
+        getContainsEntryWithIncomparableValueMethod()); 
+  }
+
+  @Override
+  protected Collection<Method> suppressForConcurrentSkipListMap() {
+    return Arrays.asList(
+        getContainsEntryWithIncomparableKeyMethod(),
+        getContainsEntryWithIncomparableValueMethod()); 
   }
 
   @Override public Test testsForEnumMap() {

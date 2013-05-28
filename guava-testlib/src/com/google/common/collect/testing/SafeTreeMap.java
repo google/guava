@@ -17,8 +17,10 @@
 package com.google.common.collect.testing;
 
 import java.io.Serializable;
+import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
@@ -113,7 +115,42 @@ public final class SafeTreeMap<K, V>
   }
 
   @Override public Set<Entry<K, V>> entrySet() {
-    return delegate.entrySet();
+    return new AbstractSet<Entry<K, V>>() {
+      private Set<Entry<K, V>> delegate() {
+        return delegate.entrySet();
+      }
+
+      @Override
+      public boolean contains(Object object) {
+        try {
+          return delegate().contains(object);
+        } catch (NullPointerException e) {
+          return false;
+        } catch (ClassCastException e) {
+          return false;
+        }
+      }
+
+      @Override
+      public Iterator<Entry<K, V>> iterator() {
+        return delegate().iterator();
+      }
+
+      @Override
+      public int size() {
+        return delegate().size();
+      }
+
+      @Override
+      public boolean remove(Object o) {
+        return delegate().remove(o);
+      }
+
+      @Override
+      public void clear() {
+        delegate().clear();
+      }
+    };
   }
 
   @Override public Entry<K, V> firstEntry() {

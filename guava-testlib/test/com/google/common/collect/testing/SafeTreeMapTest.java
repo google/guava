@@ -59,7 +59,8 @@ public class SafeTreeMapTest extends TestCase {
             return map;
           }
         }).withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            MapFeature.ALLOWS_NULL_VALUES, MapFeature.GENERAL_PURPOSE).named(
+            CollectionFeature.SERIALIZABLE, MapFeature.ALLOWS_NULL_VALUES, 
+            MapFeature.GENERAL_PURPOSE).named(
             "SafeTreeMap with natural comparator").createTestSuite());
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override protected SortedMap<String, String> create(
@@ -79,7 +80,7 @@ public class SafeTreeMapTest extends TestCase {
       }
     }).withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
         MapFeature.ALLOWS_NULL_KEYS, MapFeature.ALLOWS_NULL_VALUES,
-        MapFeature.GENERAL_PURPOSE).named(
+        MapFeature.GENERAL_PURPOSE, CollectionFeature.SERIALIZABLE).named(
         "SafeTreeMap with null-friendly comparator").createTestSuite());
     return suite;
   }
