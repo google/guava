@@ -526,6 +526,24 @@ public class ImmutableSetMultimapTest extends TestCase {
     assertSame(multimap, SerializableTester.reserialize(multimap));
   }
 
+  @GwtIncompatible("SerializableTester")
+  public void testSortedSerialization() {
+    Multimap<String, Integer> multimap = new ImmutableSetMultimap.Builder<String, Integer>()
+        .orderKeysBy(Ordering.natural().reverse())
+        .orderValuesBy(Ordering.usingToString())
+        .put("a", 2)
+        .put("a", 10)
+        .put("b", 1)
+        .build();
+    multimap = SerializableTester.reserialize(multimap);
+    ASSERT.that(multimap.keySet()).has().allOf("b", "a").inOrder();
+    ASSERT.that(multimap.get("a")).has().allOf(10, 2).inOrder();
+    assertEquals(Ordering.usingToString(),
+        ((ImmutableSortedSet<Integer>) multimap.get("a")).comparator());
+    assertEquals(Ordering.usingToString(),
+        ((ImmutableSortedSet<Integer>) multimap.get("z")).comparator());
+  }
+
   private ImmutableSetMultimap<String, Integer> createMultimap() {
     return ImmutableSetMultimap.<String, Integer>builder()
         .put("foo", 1).put("bar", 2).put("foo", 3).build();

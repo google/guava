@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -316,9 +317,7 @@ public class ImmutableSetMultimap<K, V>
         : multimap.asMap().entrySet()) {
       K key = entry.getKey();
       Collection<? extends V> values = entry.getValue();
-      ImmutableSet<V> set = (valueComparator == null)
-          ? ImmutableSet.copyOf(values)
-          : ImmutableSortedSet.copyOf(valueComparator, values);
+      ImmutableSet<V> set = valueSet(valueComparator, values);
       if (!set.isEmpty()) {
         builder.put(key, set);
         size += set.size();
@@ -329,14 +328,16 @@ public class ImmutableSetMultimap<K, V>
         builder.build(), size, valueComparator);
   }
 
-  // Returned by get() when values are sorted and a missing key is provided.
-  private final transient ImmutableSortedSet<V> emptySet;
+  /**
+   * Returned by get() when a missing key is provided. Also holds the
+   * comparator, if any, used for values.
+   */
+  private final transient ImmutableSet<V> emptySet;
 
   ImmutableSetMultimap(ImmutableMap<K, ImmutableSet<V>> map, int size,
       @Nullable Comparator<? super V> valueComparator) {
     super(map, size);
-    this.emptySet = (valueComparator == null)
-        ? null : ImmutableSortedSet.<V>emptySet(valueComparator);
+    this.emptySet = emptySet(valueComparator);
   }
 
   // views
@@ -350,13 +351,7 @@ public class ImmutableSetMultimap<K, V>
   @Override public ImmutableSet<V> get(@Nullable K key) {
     // This cast is safe as its type is known in constructor.
     ImmutableSet<V> set = (ImmutableSet<V>) map.get(key);
-    if (set != null) {
-      return set;
-    } else if (emptySet != null) {
-      return emptySet;
-    } else {
-      return ImmutableSet.<V>of();
-    }
+    return firstNonNull(set, emptySet);
   }
 
   private transient ImmutableSetMultimap<V, K> inverse;
@@ -451,6 +446,27 @@ public class ImmutableSetMultimap<K, V>
     boolean isPartialView() {
       return false;
     }    
+  }
+
+  private static <V> ImmutableSet<V> valueSet(
+      @Nullable Comparator<? super V> valueComparator,
+      Collection<? extends V> values) {
+    return (valueComparator == null)
+        ? ImmutableSet.copyOf(values)
+        : ImmutableSortedSet.copyOf(valueComparator, values);
+  }
+
+  private static <V> ImmutableSet<V> emptySet(
+      @Nullable Comparator<? super V> valueComparator) {
+    return (valueComparator == null)
+        ? ImmutableSet.<V>of()
+        : ImmutableSortedSet.<V>emptySet(valueComparator);
+  }
+
+  @Nullable Comparator<? super V> valueComparator() {
+    return emptySet instanceof ImmutableSortedSet
+        ? ((ImmutableSortedSet<V>) emptySet).comparator()
+        : null;
   }
 }
 

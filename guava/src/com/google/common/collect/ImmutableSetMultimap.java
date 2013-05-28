@@ -16,7 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -321,9 +323,7 @@ public class ImmutableSetMultimap<K, V>
         : multimap.asMap().entrySet()) {
       K key = entry.getKey();
       Collection<? extends V> values = entry.getValue();
-      ImmutableSet<V> set = (valueComparator == null)
-          ? ImmutableSet.copyOf(values)
-          : ImmutableSortedSet.copyOf(valueComparator, values);
+      ImmutableSet<V> set = valueSet(valueComparator, values);
       if (!set.isEmpty()) {
         builder.put(key, set);
         size += set.size();
@@ -334,14 +334,16 @@ public class ImmutableSetMultimap<K, V>
         builder.build(), size, valueComparator);
   }
 
-  // Returned by get() when values are sorted and a missing key is provided.
-  private final transient ImmutableSortedSet<V> emptySet;
+  /**
+   * Returned by get() when a missing key is provided. Also holds the
+   * comparator, if any, used for values.
+   */
+  private final transient ImmutableSet<V> emptySet;
 
   ImmutableSetMultimap(ImmutableMap<K, ImmutableSet<V>> map, int size,
       @Nullable Comparator<? super V> valueComparator) {
     super(map, size);
-    this.emptySet = (valueComparator == null)
-        ? null : ImmutableSortedSet.<V>emptySet(valueComparator);
+    this.emptySet = emptySet(valueComparator);
   }
 
   // views
@@ -355,13 +357,7 @@ public class ImmutableSetMultimap<K, V>
   @Override public ImmutableSet<V> get(@Nullable K key) {
     // This cast is safe as its type is known in constructor.
     ImmutableSet<V> set = (ImmutableSet<V>) map.get(key);
-    if (set != null) {
-      return set;
-    } else if (emptySet != null) {
-      return emptySet;
-    } else {
-      return ImmutableSet.<V>of();
-    }
+    return firstNonNull(set, emptySet);
   }
 
   private transient ImmutableSetMultimap<V, K> inverse;
@@ -458,6 +454,21 @@ public class ImmutableSetMultimap<K, V>
     }    
   }
 
+  private static <V> ImmutableSet<V> valueSet(
+      @Nullable Comparator<? super V> valueComparator,
+      Collection<? extends V> values) {
+    return (valueComparator == null)
+        ? ImmutableSet.copyOf(values)
+        : ImmutableSortedSet.copyOf(valueComparator, values);
+  }
+
+  private static <V> ImmutableSet<V> emptySet(
+      @Nullable Comparator<? super V> valueComparator) {
+    return (valueComparator == null)
+        ? ImmutableSet.<V>of()
+        : ImmutableSortedSet.<V>emptySet(valueComparator);
+  }
+
   /**
    * @serialData number of distinct keys, and then for each distinct key: the
    *     key, the number of values for that key, and the key's values
@@ -465,13 +476,24 @@ public class ImmutableSetMultimap<K, V>
   @GwtIncompatible("java.io.ObjectOutputStream")
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
+    stream.writeObject(valueComparator());
     Serialization.writeMultimap(this, stream);
   }
 
+  @Nullable Comparator<? super V> valueComparator() {
+    return emptySet instanceof ImmutableSortedSet
+        ? ((ImmutableSortedSet<V>) emptySet).comparator()
+        : null;
+  }
+
   @GwtIncompatible("java.io.ObjectInputStream")
+  // Serialization type safety is at the caller's mercy.
+  @SuppressWarnings("unchecked")
   private void readObject(ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
+    Comparator<Object> valueComparator =
+        (Comparator<Object>) stream.readObject();
     int keyCount = stream.readInt();
     if (keyCount < 0) {
       throw new InvalidObjectException("Invalid key count " + keyCount);
@@ -491,7 +513,7 @@ public class ImmutableSetMultimap<K, V>
       for (int j = 0; j < valueCount; j++) {
         array[j] = stream.readObject();
       }
-      ImmutableSet<Object> valueSet = ImmutableSet.copyOf(array);
+      ImmutableSet<Object> valueSet = valueSet(valueComparator, asList(array));
       if (valueSet.size() != array.length) {
         throw new InvalidObjectException(
             "Duplicate key-value pairs exist for key " + key);
@@ -510,6 +532,8 @@ public class ImmutableSetMultimap<K, V>
 
     FieldSettersHolder.MAP_FIELD_SETTER.set(this, tmpMap);
     FieldSettersHolder.SIZE_FIELD_SETTER.set(this, tmpSize);
+    FieldSettersHolder.EMPTY_SET_FIELD_SETTER.set(
+        this, emptySet(valueComparator));
   }
 
   @GwtIncompatible("not needed in emulated source.")
