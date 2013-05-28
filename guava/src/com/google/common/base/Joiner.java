@@ -101,7 +101,7 @@ public class Joiner {
   public
   final <A extends Appendable, I extends Object & Iterable<?> & Iterator<?>> A
       appendTo(A appendable, I parts) throws IOException {
-    return appendTo(appendable, (Iterator<?>) parts);
+    return appendTo(appendable, castToIterator(parts));
   }
 
   /**
@@ -160,7 +160,7 @@ public class Joiner {
   public
   final <I extends Object & Iterable<?> & Iterator<?>> StringBuilder
       appendTo(StringBuilder builder, I parts) {
-    return appendTo(builder, (Iterator<?>) parts);
+    return appendTo(builder, castToIterator(parts));
   }
 
   /**
@@ -219,7 +219,7 @@ public class Joiner {
   @Deprecated
   public
   final <I extends Object & Iterable<?> & Iterator<?>> String join(I parts) {
-    return join((Iterator<?>) parts);
+    return join(castToIterator(parts));
   }
 
   /**
@@ -558,5 +558,10 @@ public class Joiner {
         }
       }
     };
+  }
+
+  // Workaround for bogus unchecked warning: "required: Iterator<?> / found: I"
+  private static Iterator<?> castToIterator(Iterator<?> input) {
+    return input;
   }
 }

@@ -3698,11 +3698,7 @@ public final class Maps {
         return super.removeAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
         // if the iterators don't support remove
-        boolean changed = true;
-        for (Object o : c) {
-          changed |= remove(o);
-        }
-        return changed;
+        return Sets.removeAllImpl(this, c.iterator());
       }
     }
 

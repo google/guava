@@ -512,19 +512,17 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   private static class ReverseImmutableList<E> extends ImmutableList<E> {
     private final transient ImmutableList<E> forwardList;
-    private final transient int size;
 
     ReverseImmutableList(ImmutableList<E> backingList) {
       this.forwardList = backingList;
-      this.size = backingList.size();
     }
 
     private int reverseIndex(int index) {
-      return (size - 1) - index;
+      return (size() - 1) - index;
     }
 
     private int reversePosition(int index) {
-      return size - index;
+      return size() - index;
     }
 
     @Override public ImmutableList<E> reverse() {
@@ -546,18 +544,18 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
 
     @Override public ImmutableList<E> subList(int fromIndex, int toIndex) {
-      checkPositionIndexes(fromIndex, toIndex, size);
+      checkPositionIndexes(fromIndex, toIndex, size());
       return forwardList.subList(
           reversePosition(toIndex), reversePosition(fromIndex)).reverse();
     }
 
     @Override public E get(int index) {
-      checkElementIndex(index, size);
+      checkElementIndex(index, size());
       return forwardList.get(reverseIndex(index));
     }
 
     @Override public int size() {
-      return size;
+      return forwardList.size();
     }
 
     @Override boolean isPartialView() {

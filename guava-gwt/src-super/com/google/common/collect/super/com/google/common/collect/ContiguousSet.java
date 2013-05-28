@@ -138,5 +138,17 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
   @Override public String toString() {
     return range().toString();
   }
+
+  /**
+   * Not supported. {@code ContiguousSet} instances are constructed with {@link #create}. This
+   * method exists only to hide {@link ImmutableSet#builder} from consumers of {@code
+   * ContiguousSet}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link #create}.
+   */
+  @Deprecated public static <E> ImmutableSortedSet.Builder<E> builder() {
+    throw new UnsupportedOperationException();
+  }
 }
 
