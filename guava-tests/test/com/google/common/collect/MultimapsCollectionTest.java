@@ -42,6 +42,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
+import com.google.common.collect.testing.google.MultimapEntriesTester;
 import com.google.common.collect.testing.google.MultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.MultisetIteratorTester;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
@@ -564,7 +565,8 @@ public class MultimapsCollectionTest extends TestCase {
     List<Method> toSuppress = ImmutableList.of(
         CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
         MultisetIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
-        MultisetWritesTester.getEntrySetIteratorMethod());
+        MultisetWritesTester.getEntrySetIteratorMethod(),
+        MultimapEntriesTester.getIteratorRemoveMethod());
     
     TestSuite suite = new TestSuite("Multimaps.filter*");
     suite.addTest(SetMultimapTestSuiteBuilder.using(new FilteredSetMultimapGenerator() {

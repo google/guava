@@ -316,27 +316,6 @@ public class LinkedListMultimapTest extends AbstractListMultimapTest {
     assertEquals("{foo=[2]}", map.toString());
   }
 
-  /**
-   * Test calling setValue() on an entry returned by multimap.entries().
-   */
-  @Override public void testEntrySetValue() {
-    ListMultimap<String, Integer> multimap = create();
-    multimap.put("foo", 1);
-    multimap.put("bar", 3);
-    Collection<Map.Entry<String, Integer>> entries = multimap.entries();
-    Iterator<Map.Entry<String, Integer>> iterator = entries.iterator();
-    Map.Entry<String, Integer> entrya = iterator.next();
-    Map.Entry<String, Integer> entryb = iterator.next();
-
-    int oldValue = entrya.setValue(2);
-    assertEquals(1, oldValue);
-    assertFalse(multimap.containsEntry("foo", 1));
-    assertTrue(multimap.containsEntry("foo", 2));
-    assertTrue(multimap.containsEntry("bar", 3));
-    assertEquals(2, (int) entrya.getValue());
-    assertEquals(3, (int) entryb.getValue());
-  }
-
   public void testEntriesAfterMultimapUpdate() {
     ListMultimap<String, Integer> multimap = create();
     multimap.put("foo", 2);

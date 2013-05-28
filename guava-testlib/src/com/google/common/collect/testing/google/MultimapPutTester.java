@@ -133,6 +133,23 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
+  public void testPutNotPresentKeyPropagatesToEntries() {
+    Collection<Entry<K, V>> entries = multimap().entries();
+    assertFalse(entries.contains(Helpers.mapEntry(sampleKeys().e3, sampleValues().e3)));
+    multimap().put(sampleKeys().e3, sampleValues().e3);
+    ASSERT.that(entries).has().allOf(Helpers.mapEntry(sampleKeys().e3, sampleValues().e3));
+  }
+
+  @CollectionSize.Require(absent = ZERO)
+  @MapFeature.Require(SUPPORTS_PUT)
+  public void testPutPresentKeyPropagatesToEntries() {
+    Collection<Entry<K, V>> entries = multimap().entries();
+    assertFalse(entries.contains(Helpers.mapEntry(sampleKeys().e0, sampleValues().e3)));
+    multimap().put(sampleKeys().e0, sampleValues().e3);
+    ASSERT.that(entries).has().allOf(Helpers.mapEntry(sampleKeys().e0, sampleValues().e3));
+  }
+
+  @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutPresentKeyPropagatesToGet() {
     List<K> keys = Helpers.copyToList(multimap().keySet());
