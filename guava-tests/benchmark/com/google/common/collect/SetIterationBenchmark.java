@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.collect.BenchmarkHelpers.SetImpl;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 
@@ -60,9 +59,5 @@ public class SetIterationBenchmark extends Benchmark {
       }
     }
     return x;
-  }
-
-  public static void main(String[] args) throws Exception {
-    CaliperMain.main(SetIterationBenchmark.class, args);
   }
 }

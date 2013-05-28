@@ -24,7 +24,6 @@ import static com.google.common.math.MathBenchmarking.randomNonNegativeBigIntege
 import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.math.IntMath;
 
 /**
@@ -95,9 +94,5 @@ public class IntMathBenchmark extends Benchmark {
       tmp += IntMath.binomial(factorial[j], binomial[j]);
     }
     return tmp;
-  }
-  
-  public static void main(String[] args) {
-    CaliperMain.main(IntMathBenchmark.class, args);
   }
 }

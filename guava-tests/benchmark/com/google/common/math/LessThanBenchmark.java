@@ -18,7 +18,6 @@ package com.google.common.math;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 import java.util.Random;
 
@@ -155,9 +154,5 @@ public class LessThanBenchmark extends Benchmark {
       tmp += (x < y) ? z + 1 : z;
     }
     return tmp;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(LessThanBenchmark.class, args);
   }
 }

@@ -24,7 +24,6 @@ import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.math.IntMath;
 
 import java.math.RoundingMode;
@@ -85,9 +84,5 @@ public class IntMathRoundingBenchmark extends Benchmark {
       tmp += IntMath.divide(ints[j], nonzero[j], mode);
     }
     return tmp;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(IntMathRoundingBenchmark.class, args);
   }
 }

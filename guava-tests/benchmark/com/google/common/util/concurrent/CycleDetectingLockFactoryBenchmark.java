@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -84,9 +83,4 @@ public class CycleDetectingLockFactoryBenchmark extends Benchmark {
       }
     }
   }
-
-  public static void main(String[] args) {
-    CaliperMain.main(CycleDetectingLockFactoryBenchmark.class, args);
-  }
-
 }

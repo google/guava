@@ -23,7 +23,6 @@ import static com.google.common.math.MathBenchmarking.randomDouble;
 import static com.google.common.math.MathBenchmarking.randomPositiveDouble;
 
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 /**
  * Tests for the non-rounding methods of {@code DoubleMath}.
@@ -82,9 +81,5 @@ public class DoubleMathBenchmark extends Benchmark {
       }
     }
     return tmp;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(DoubleMathBenchmark.class, args);
   }
 }

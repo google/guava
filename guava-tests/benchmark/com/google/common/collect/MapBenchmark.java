@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 
 import java.util.Collection;
@@ -212,9 +211,5 @@ public class MapBenchmark extends Benchmark {
       dummy += impl.create(values).size();
     }
     return dummy;
-  }
-
-  public static void main(String[] args) throws Exception {
-    CaliperMain.main(MapBenchmark.class, args);
   }
 }

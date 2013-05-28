@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Strings;
 
 /**
@@ -108,9 +107,4 @@ public class StringsRepeatBenchmark extends Benchmark {
     System.arraycopy(array, 0, array, n, size - n);
     return new String(array);
   }
-
-  public static void main(String[] args) {
-    CaliperMain.main(StringsRepeatBenchmark.class, args);
-  }
-
 }

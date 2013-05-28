@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.BenchmarkHelpers.SampleMatcherConfig;
 import com.google.common.collect.Lists;
 
@@ -140,10 +139,6 @@ public class CharMatcherBenchmark extends Benchmark {
 
   private static char randomCharFrom(String s, Random rand) {
     return s.charAt(rand.nextInt(s.length()));
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(CharMatcherBenchmark.class, args);
   }
 
   /**

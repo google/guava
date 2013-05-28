@@ -18,7 +18,6 @@ package com.google.common.hash;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 
@@ -102,9 +101,5 @@ public class MessageDigestAlgorithmBenchmark extends Benchmark {
       result ^= hashMethod.hash(algorithm, testBytes)[0];
     }
     return result;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(MessageDigestAlgorithmBenchmark.class, args);
   }
 }

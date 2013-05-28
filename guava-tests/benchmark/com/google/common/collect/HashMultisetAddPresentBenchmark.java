@@ -15,7 +15,6 @@
 package com.google.common.collect;
 
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
@@ -53,9 +52,5 @@ public class HashMultisetAddPresentBenchmark extends Benchmark {
       tmp += multisets.get(j).add(queries[j], 4);
     }
     return tmp;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(HashMultisetAddPresentBenchmark.class, args);
   }
 }

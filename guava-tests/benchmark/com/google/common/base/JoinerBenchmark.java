@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -171,9 +170,5 @@ public class JoinerBenchmark extends Benchmark {
       dummy ^= sb.toString().length();
     }
     return dummy;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(JoinerBenchmark.class, args);
   }
 }

@@ -17,7 +17,6 @@
 package com.google.common.eventbus;
 
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 /**
  * Benchmark for {@link EventBus}.
@@ -43,9 +42,5 @@ public class EventBusBenchmark extends Benchmark {
   @Subscribe
   public void handleStrings(String string) {
     // Nothing to do here.
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(EventBusBenchmark.class, args);
   }
 }

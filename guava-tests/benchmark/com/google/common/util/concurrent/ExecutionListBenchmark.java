@@ -20,7 +20,6 @@ import com.google.caliper.Param;
 import com.google.caliper.api.Footprint;
 import com.google.caliper.api.VmOptions;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
@@ -271,10 +270,6 @@ public class ExecutionListBenchmark extends Benchmark {
       listenerLatch.await();
     }
     return returnValue;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(ExecutionListBenchmark.class, args);
   }
 
   // This is the old implementation of ExecutionList using a LinkedList.

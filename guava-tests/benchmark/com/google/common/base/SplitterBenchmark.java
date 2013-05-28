@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.collect.Iterables;
 
 /**
@@ -55,9 +54,5 @@ public class SplitterBenchmark extends Benchmark {
     for (int i = 0; i < reps; i++) {
      total += Iterables.size(STRING_SPLITTER.split(input));
     }
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(SplitterBenchmark.class, args);
   }
 }

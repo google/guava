@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.BlockingQueue;
@@ -65,9 +64,4 @@ public class MonitorBenchmark extends Benchmark {
       }
     }
   }
-
-  public static void main(String[] args) {
-    CaliperMain.main(MonitorBenchmark.class, args);
-  }
-
 }

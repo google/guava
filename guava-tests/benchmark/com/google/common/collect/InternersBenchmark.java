@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 /**
  * Benchmarking interners.
@@ -47,9 +46,5 @@ public class InternersBenchmark extends Benchmark {
       Double.toHexString(Math.random()).intern();
     }
     return reps;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(InternersBenchmark.class, args);
   }
 }

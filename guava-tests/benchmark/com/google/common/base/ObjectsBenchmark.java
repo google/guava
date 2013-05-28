@@ -17,7 +17,6 @@
 package com.google.common.base;
 
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Objects;
 
 /**
@@ -77,9 +76,5 @@ public class ObjectsBenchmark extends Benchmark {
       dummy += Objects.hashCode(D0, I1, S3, I2, S0);
     }
     return dummy;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(ObjectsBenchmark.class, args);
   }
 }

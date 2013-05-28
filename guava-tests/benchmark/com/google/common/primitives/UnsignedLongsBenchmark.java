@@ -17,7 +17,6 @@
 package com.google.common.primitives;
 
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 import java.util.Random;
 
@@ -130,9 +129,5 @@ public class UnsignedLongsBenchmark extends Benchmark {
     } else {
       return UnsignedLongs.remainder(r, dividend + 1);
     }
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(UnsignedLongsBenchmark.class, args);
   }
 }

@@ -19,7 +19,6 @@ package com.google.common.math;
 import com.google.caliper.Param;
 import com.google.caliper.api.SkipThisScenarioException;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.primitives.Doubles;
 
 import java.util.Random;
@@ -168,9 +167,5 @@ public class StatsBenchmark extends Benchmark {
       tmp += varianceAlgorithm.variance(values[i & 0xFF], meanAlgorithm).hashCode();
     }
     return tmp;
-  }
-  
-  public static void main(String[] args) {
-    CaliperMain.main(StatsBenchmark.class, args);
   }
 }

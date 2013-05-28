@@ -16,7 +16,6 @@ package com.google.common.collect;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -83,9 +82,4 @@ public class SortedCopyBenchmark extends Benchmark {
     }
     return tmp;
   }
-
-  public static void main(String[] args) {
-    CaliperMain.main(SortedCopyBenchmark.class, args);
-  }
-
 }

@@ -17,7 +17,6 @@
 package com.google.common.cache;
 
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.MapMaker;
@@ -88,9 +87,5 @@ public class MapMakerComparisonBenchmark extends Benchmark {
     for (int i = 0; i < rep; i++) {
       cacheNoStats.getIfPresent(TEST_KEY);
     }
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(MapMakerComparisonBenchmark.class, args);
   }
 }

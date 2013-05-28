@@ -18,7 +18,6 @@ package com.google.common.hash;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 import java.util.Random;
 import java.util.zip.Adler32;
@@ -91,9 +90,5 @@ public class ChecksumBenchmark extends Benchmark {
       result ^= hashFunction.hashBytes(testBytes).asBytes()[0];
     }
     return result;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(ChecksumBenchmark.class, args);
   }
 }

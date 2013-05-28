@@ -20,7 +20,6 @@ import static com.google.common.collect.DiscreteDomain.integers;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 import java.util.Set;
 
@@ -49,9 +48,5 @@ public class PowerSetBenchmark extends Benchmark {
       }
     }
     return sum;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(PowerSetBenchmark.class, args);
   }
 }

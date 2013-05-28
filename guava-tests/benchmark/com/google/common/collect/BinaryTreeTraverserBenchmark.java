@@ -16,7 +16,6 @@ package com.google.common.collect;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Optional;
 import com.google.common.primitives.Ints;
 
@@ -187,9 +186,5 @@ public class BinaryTreeTraverserBenchmark extends Benchmark {
       }
     }
     return tmp;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(BinaryTreeTraverserBenchmark.class, args);
   }
 }

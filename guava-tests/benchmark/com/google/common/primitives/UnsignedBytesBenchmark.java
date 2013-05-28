@@ -18,7 +18,6 @@ package com.google.common.primitives;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -92,15 +91,12 @@ public class UnsignedBytesBenchmark extends Benchmark {
     }
   }
 
-  public static void main(String[] args) {
-    /*
-    try {
-      UnsignedBytesBenchmark bench = new UnsignedBytesBenchmark();
-      bench.length = 1024;
-      bench.setUp();
-      bench.timeUnsafe(100000);
-    } catch (Exception e) {
-    }*/
-    CaliperMain.main(UnsignedBytesBenchmark.class, args);
-  }
+  /*
+  try {
+    UnsignedBytesBenchmark bench = new UnsignedBytesBenchmark();
+    bench.length = 1024;
+    bench.setUp();
+    bench.timeUnsafe(100000);
+  } catch (Exception e) {
+  }*/
 }

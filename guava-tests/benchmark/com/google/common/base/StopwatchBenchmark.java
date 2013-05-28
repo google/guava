@@ -17,7 +17,6 @@
 package com.google.common.base;
 
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Stopwatch;
 
 import java.util.concurrent.TimeUnit;
@@ -48,9 +47,5 @@ public class StopwatchBenchmark extends Benchmark {
       total += (System.nanoTime() - start);
     }
     return total;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(StopwatchBenchmark.class, args);
   }
 }

@@ -23,7 +23,6 @@ import static java.math.RoundingMode.CEILING;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.math.BigIntegerMath;
 import com.google.common.math.IntMath;
 import com.google.common.math.LongMath;
@@ -111,9 +110,5 @@ public class BigIntegerMathBenchmark extends Benchmark {
       tmp += BigIntegerMath.binomial(factorials[j], binomials[j]).intValue();
     }
     return tmp;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(BigIntegerMathBenchmark.class, args);
   }
 }

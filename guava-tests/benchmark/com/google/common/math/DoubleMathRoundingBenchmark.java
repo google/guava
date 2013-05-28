@@ -23,7 +23,6 @@ import static com.google.common.math.MathBenchmarking.randomPositiveDouble;
 
 import com.google.caliper.Param;
 import com.google.caliper.legacy.Benchmark;
-import com.google.caliper.runner.CaliperMain;
 import com.google.common.math.DoubleMath;
 
 import java.math.RoundingMode;
@@ -84,9 +83,5 @@ public class DoubleMathRoundingBenchmark extends Benchmark {
       tmp += DoubleMath.log2(positiveDoubles[j], mode);
     }
     return tmp;
-  }
-
-  public static void main(String[] args) {
-    CaliperMain.main(DoubleMathRoundingBenchmark.class, args);
   }
 }
