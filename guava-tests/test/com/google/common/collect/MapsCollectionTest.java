@@ -19,8 +19,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
@@ -30,12 +32,14 @@ import com.google.common.collect.testing.SortedMapTestSuiteBuilder;
 import com.google.common.collect.testing.TestMapGenerator;
 import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.BiMapRemoveTester;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import com.google.common.collect.testing.testers.CollectionIteratorTester;
+import com.google.common.io.BaseEncoding;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.Test;
@@ -304,6 +308,7 @@ public class MapsCollectionTest extends TestCase {
             MapFeature.SUPPORTS_REMOVE)
         .createTestSuite());
     suite.addTest(filterSuite());
+    suite.addTest(transformSuite());
     return suite;
   }
   
@@ -635,5 +640,145 @@ public class MapsCollectionTest extends TestCase {
     protected SortedMap<String, String> delegate() {
       return delegate;
     }
+  }
+  
+  private static String encode(String str) {
+    return BaseEncoding.base64().encode(str.getBytes(Charsets.UTF_8));
+  }
+  
+  private static final Function<String, String> DECODE_FUNCTION = new Function<String, String>() {
+    @Override
+    public String apply(String input) {
+      return new String(BaseEncoding.base64().decode(input), Charsets.UTF_8);
+    }    
+  };
+  
+  private static final EntryTransformer<String, String, String> DECODE_ENTRY_TRANSFORMER = 
+      new EntryTransformer<String, String, String>() {
+    @Override
+    public String transformEntry(String key, String value) {
+      return DECODE_FUNCTION.apply(value);
+    }
+  };
+
+  static TestSuite transformSuite() {
+    TestSuite suite = new TestSuite("Maps.transform");
+    suite.addTest(transformMapSuite());
+    suite.addTest(transformSortedMapSuite());
+    suite.addTest(transformNavigableMapSuite());
+    return suite;
+  }
+  
+  static TestSuite transformMapSuite() {
+    TestSuite suite = new TestSuite("TransformMap");
+    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
+        @Override
+        protected Map<String, String> create(Entry<String, String>[] entries) {
+          Map<String, String> map = Maps.newLinkedHashMap();
+          for (Entry<String, String> entry : entries) {
+            map.put(entry.getKey(), encode(entry.getValue()));
+          }
+          return Maps.transformValues(map, DECODE_FUNCTION);
+        }
+      })
+      .named("Maps.transformValues[Map, Function]")
+      .withFeatures(
+          CollectionSize.ANY,
+          CollectionFeature.KNOWN_ORDER,
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.SUPPORTS_REMOVE)
+      .createTestSuite());
+    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
+        @Override
+        protected Map<String, String> create(Entry<String, String>[] entries) {
+          Map<String, String> map = Maps.newLinkedHashMap();
+          for (Entry<String, String> entry : entries) {
+            map.put(entry.getKey(), encode(entry.getValue()));
+          }
+          return Maps.transformEntries(map, DECODE_ENTRY_TRANSFORMER);
+        }
+      })
+      .named("Maps.transformEntries[Map, EntryTransformer]")
+      .withFeatures(
+          CollectionSize.ANY,
+          CollectionFeature.KNOWN_ORDER,
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.SUPPORTS_REMOVE)
+      .createTestSuite());
+    return suite;
+  }
+  
+  static TestSuite transformSortedMapSuite() {
+    TestSuite suite = new TestSuite("TransformSortedMap");
+    suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
+        @Override
+        protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+          SortedMap<String, String> map = new NonNavigableSortedMap();
+          for (Entry<String, String> entry : entries) {
+            map.put(entry.getKey(), encode(entry.getValue()));
+          }
+          return Maps.transformValues(map, DECODE_FUNCTION);
+        }
+      })
+      .named("Maps.transformValues[SortedMap, Function]")
+      .withFeatures(
+          CollectionSize.ANY,
+          CollectionFeature.KNOWN_ORDER,
+          MapFeature.SUPPORTS_REMOVE)
+      .createTestSuite());
+    suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
+        @Override
+        protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+          SortedMap<String, String> map = new NonNavigableSortedMap();
+          for (Entry<String, String> entry : entries) {
+            map.put(entry.getKey(), encode(entry.getValue()));
+          }
+          return Maps.transformEntries(map, DECODE_ENTRY_TRANSFORMER);
+        }
+      })
+      .named("Maps.transformEntries[SortedMap, EntryTransformer]")
+      .withFeatures(
+          CollectionSize.ANY,
+          CollectionFeature.KNOWN_ORDER,
+          MapFeature.SUPPORTS_REMOVE)
+      .createTestSuite());
+    return suite;
+  }
+  
+  static TestSuite transformNavigableMapSuite() {
+    TestSuite suite = new TestSuite("TransformNavigableMap");
+    suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
+        @Override
+        protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
+          NavigableMap<String, String> map = new SafeTreeMap<String, String>();
+          for (Entry<String, String> entry : entries) {
+            map.put(entry.getKey(), encode(entry.getValue()));
+          }
+          return Maps.transformValues(map, DECODE_FUNCTION);
+        }
+      })
+      .named("Maps.transformValues[NavigableMap, Function]")
+      .withFeatures(
+          CollectionSize.ANY,
+          CollectionFeature.KNOWN_ORDER,
+          MapFeature.SUPPORTS_REMOVE)
+      .createTestSuite());
+    suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
+        @Override
+        protected NavigableMap<String, String> create(Entry<String, String>[] entries) {
+          NavigableMap<String, String> map = new SafeTreeMap<String, String>();
+          for (Entry<String, String> entry : entries) {
+            map.put(entry.getKey(), encode(entry.getValue()));
+          }
+          return Maps.transformEntries(map, DECODE_ENTRY_TRANSFORMER);
+        }
+      })
+      .named("Maps.transformEntries[NavigableMap, EntryTransformer]")
+      .withFeatures(
+          CollectionSize.ANY,
+          CollectionFeature.KNOWN_ORDER,
+          MapFeature.SUPPORTS_REMOVE)
+      .createTestSuite());
+    return suite;
   }
 }
