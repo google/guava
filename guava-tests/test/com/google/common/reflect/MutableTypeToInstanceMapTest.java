@@ -21,6 +21,7 @@ import static org.truth0.Truth.ASSERT;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.testers.MapPutTester;
@@ -76,6 +77,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
             MapFeature.SUPPORTS_REMOVE,
             MapFeature.RESTRICTS_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionSize.ANY,
             MapFeature.ALLOWS_NULL_QUERIES)
         .suppressing(remapTest)
