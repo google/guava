@@ -16,7 +16,7 @@
 
 package com.google.common.base;
 
-import com.google.caliper.legacy.Benchmark;
+import com.google.caliper.Benchmark;
 import com.google.common.base.Objects;
 
 /**
@@ -24,7 +24,7 @@ import com.google.common.base.Objects;
  *
  * @author Ben L. Titzer
  */
-public class ObjectsBenchmark extends Benchmark {
+public class ObjectsBenchmark {
 
   private static final Integer I0 = -45;
   private static final Integer I1 = -1;
@@ -37,7 +37,7 @@ public class ObjectsBenchmark extends Benchmark {
   private static final Double D0 = 9.234d;
   private static final Double D1 = -1.2e55;
 
-  public int timeHashString_2(int reps) {
+  @Benchmark int hashString_2(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
       dummy += Objects.hashCode(S0, S1);
@@ -45,7 +45,7 @@ public class ObjectsBenchmark extends Benchmark {
     return dummy;
   }
 
-  public int timeHashString_3(int reps) {
+  @Benchmark int hashString_3(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
       dummy += Objects.hashCode(S0, S1, S2);
@@ -53,7 +53,7 @@ public class ObjectsBenchmark extends Benchmark {
     return dummy;
   }
 
-  public int timeHashString_4(int reps) {
+  @Benchmark int hashString_4(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
       dummy += Objects.hashCode(S0, S1, S2, S3);
@@ -61,7 +61,7 @@ public class ObjectsBenchmark extends Benchmark {
     return dummy;
   }
 
-  public int timeHashString_5(int reps) {
+  @Benchmark int hashString_5(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
       dummy += Objects.hashCode(S0, S1, S2, S3, S4);
@@ -69,7 +69,7 @@ public class ObjectsBenchmark extends Benchmark {
     return dummy;
   }
 
-  public int timeHashMixed_5(int reps) {
+  @Benchmark int hashMixed_5(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
       dummy += Objects.hashCode(I2, S1, D1, S2, I0);

@@ -16,8 +16,9 @@
 
 package com.google.common.base;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 import com.google.common.base.Strings;
 
 /**
@@ -25,17 +26,17 @@ import com.google.common.base.Strings;
  *
  * @author Mike Cripps
  */
-public class StringsRepeatBenchmark extends Benchmark {
+public class StringsRepeatBenchmark {
   @Param({"1", "5", "25", "125"}) int count;
   @Param({"1", "10"}) int length;
 
   private String originalString;
 
-  @Override protected void setUp() {
+  @BeforeExperiment void setUp() {
     originalString = Strings.repeat("x", length);
   }
 
-  public void timeOldRepeat(int reps) {
+  @Benchmark void oldRepeat(int reps) {
     for (int i = 0; i < reps; i++) {
       String x = oldRepeat(originalString, count);
       if (x.length() != (originalString.length() * count)) {
@@ -43,7 +44,7 @@ public class StringsRepeatBenchmark extends Benchmark {
       }
     }
   }
-  public void timeMikeRepeat(int reps) {
+  @Benchmark void mikeRepeat(int reps) {
     for (int i = 0; i < reps; i++) {
       String x = mikeRepeat(originalString, count);
       if (x.length() != (originalString.length() * count)) {
@@ -51,7 +52,7 @@ public class StringsRepeatBenchmark extends Benchmark {
       }
     }
   }
-  public void timeMartinRepeat(int reps) {
+  @Benchmark void martinRepeat(int reps) {
     for (int i = 0; i < reps; i++) {
       String x = martinRepeat(originalString, count);
       if (x.length() != (originalString.length() * count)) {

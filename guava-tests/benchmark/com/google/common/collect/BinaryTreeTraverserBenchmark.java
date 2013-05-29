@@ -14,8 +14,9 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 import com.google.common.base.Optional;
 import com.google.common.primitives.Ints;
 
@@ -28,7 +29,7 @@ import java.util.Random;
  *
  * @author Louis Wasserman
  */
-public class BinaryTreeTraverserBenchmark extends Benchmark {
+public class BinaryTreeTraverserBenchmark {
   private static class BinaryNode {
     final int x;
     final Optional<BinaryNode> left;
@@ -170,14 +171,14 @@ public class BinaryTreeTraverserBenchmark extends Benchmark {
   @Param({"1234"})
   SpecialRandom rng;
 
-  @Override
-  protected void setUp() {
+  @BeforeExperiment
+  void setUp() {
     this.view = traversal.view(
         topology.createTree(size, rng).get(), 
         useBinaryTraverser ? BINARY_VIEWER : VIEWER);
   }
 
-  public int timeTraversal(int reps) {
+  @Benchmark int traversal(int reps) {
     int tmp = 0;
 
     for (int i = 0; i < reps; i++) {

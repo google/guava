@@ -22,20 +22,21 @@ import static com.google.common.math.MathBenchmarking.RANDOM_SOURCE;
 import static com.google.common.math.MathBenchmarking.randomDouble;
 import static com.google.common.math.MathBenchmarking.randomPositiveDouble;
 
-import com.google.caliper.legacy.Benchmark;
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 
 /**
  * Tests for the non-rounding methods of {@code DoubleMath}.
  *
  * @author Louis Wasserman
  */
-public class DoubleMathBenchmark extends Benchmark {
+public class DoubleMathBenchmark {
   private static final double[] positiveDoubles = new double[ARRAY_SIZE];
   private static final int[] factorials = new int[ARRAY_SIZE];
   private static final double [] doubles = new double[ARRAY_SIZE];
 
-  @Override
-  protected void setUp() {
+  @BeforeExperiment
+  void setUp() {
     for (int i = 0; i < ARRAY_SIZE; i++) {
       positiveDoubles[i] = randomPositiveDouble();
       doubles[i] = randomDouble(Long.SIZE);
@@ -43,7 +44,7 @@ public class DoubleMathBenchmark extends Benchmark {
     }
   }
 
-  public long timeLog2(int reps) {
+  @Benchmark long log2(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -52,7 +53,7 @@ public class DoubleMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public long timeFactorial(int reps) {
+  @Benchmark long factorial(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -61,7 +62,7 @@ public class DoubleMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeIsMathematicalInteger(int reps) {
+  @Benchmark int isMathematicalInteger(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -72,7 +73,7 @@ public class DoubleMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeIsPowerOfTwo(int reps) {
+  @Benchmark int isPowerOfTwo(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;

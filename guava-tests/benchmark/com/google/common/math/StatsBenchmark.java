@@ -16,9 +16,10 @@
 
 package com.google.common.math;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.api.SkipThisScenarioException;
-import com.google.caliper.legacy.Benchmark;
 import com.google.common.primitives.Doubles;
 
 import java.util.Random;
@@ -28,7 +29,7 @@ import java.util.Random;
  * 
  * @author Louis Wasserman
  */
-public class StatsBenchmark extends Benchmark {
+public class StatsBenchmark {
 
   enum MeanAlgorithm {
     SIMPLE {
@@ -150,8 +151,8 @@ public class StatsBenchmark extends Benchmark {
 
   private double[][] values = new double[0x100][];
 
-  @Override
-  protected void setUp() {
+  @BeforeExperiment
+  void setUp() {
     Random rng = new Random();
     for (int i = 0; i < 0x100; i++) {
       values[i] = new double[n];
@@ -161,7 +162,7 @@ public class StatsBenchmark extends Benchmark {
     }
   }
 
-  public int timeMeanAndVariance(int reps) {
+  @Benchmark int meanAndVariance(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       tmp += varianceAlgorithm.variance(values[i & 0xFF], meanAlgorithm).hashCode();

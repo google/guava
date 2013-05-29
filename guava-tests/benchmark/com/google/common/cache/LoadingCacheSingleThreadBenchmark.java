@@ -16,8 +16,10 @@
 
 package com.google.common.cache;
 
+import com.google.caliper.AfterExperiment;
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 import com.google.common.primitives.Ints;
 
 import java.util.Random;
@@ -28,7 +30,7 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @author Charles Fry
  */
-public class LoadingCacheSingleThreadBenchmark extends Benchmark {
+public class LoadingCacheSingleThreadBenchmark {
   @Param({"1000", "2000"}) int maximumSize;
   @Param("5000") int distinctKeys;
   @Param("4") int segments;
@@ -46,7 +48,7 @@ public class LoadingCacheSingleThreadBenchmark extends Benchmark {
   static AtomicLong requests = new AtomicLong(0);
   static AtomicLong misses = new AtomicLong(0);
 
-  @Override protected void setUp() {
+  @BeforeExperiment void setUp() {
     // random integers will be generated in this range, then raised to the
     // power of (1/concentration) and floor()ed
     max = Ints.checkedCast((long) Math.pow(distinctKeys, concentration));
@@ -71,7 +73,7 @@ public class LoadingCacheSingleThreadBenchmark extends Benchmark {
     misses.set(0);
   }
 
-  public int time(int reps) {
+  @Benchmark int time(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
       dummy += cache.getUnchecked(nextRandomKey());
@@ -92,7 +94,7 @@ public class LoadingCacheSingleThreadBenchmark extends Benchmark {
     return (int) Math.pow(a, 1.0 / concentration);
   }
 
-  @Override protected void tearDown() {
+  @AfterExperiment void tearDown() {
     double req = requests.get();
     double hit = req - misses.get();
 

@@ -21,8 +21,9 @@ import static com.google.common.math.MathBenchmarking.ARRAY_SIZE;
 import static com.google.common.math.MathBenchmarking.RANDOM_SOURCE;
 import static java.math.RoundingMode.CEILING;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 import com.google.common.math.BigIntegerMath;
 import com.google.common.math.IntMath;
 import com.google.common.math.LongMath;
@@ -34,7 +35,7 @@ import java.math.BigInteger;
  *
  * @author Louis Wasserman
  */
-public class BigIntegerMathBenchmark extends Benchmark {
+public class BigIntegerMathBenchmark {
   private static final int[] factorials = new int[ARRAY_SIZE];
   private static final int[] slowFactorials = new int[ARRAY_SIZE];
   private static final int[] binomials = new int[ARRAY_SIZE];
@@ -42,8 +43,8 @@ public class BigIntegerMathBenchmark extends Benchmark {
   @Param({"50", "1000", "10000"})
   int factorialBound;
 
-  @Override
-  protected void setUp() {
+  @BeforeExperiment
+  void setUp() {
     for (int i = 0; i < ARRAY_SIZE; i++) {
       factorials[i] = RANDOM_SOURCE.nextInt(factorialBound);
       slowFactorials[i] = RANDOM_SOURCE.nextInt(factorialBound);
@@ -54,19 +55,19 @@ public class BigIntegerMathBenchmark extends Benchmark {
   /**
    * Previous version of BigIntegerMath.factorial, kept for timing purposes.
    */
-  private static BigInteger slowFactorial(int n) {
+  private static BigInteger oldSlowFactorial(int n) {
     if (n <= 20) {
       return BigInteger.valueOf(LongMath.factorial(n));
     } else {
       int k = 20;
-      return BigInteger.valueOf(LongMath.factorial(k)).multiply(slowFactorial(k, n));
+      return BigInteger.valueOf(LongMath.factorial(k)).multiply(oldSlowFactorial(k, n));
     }
   }
 
   /**
    * Returns the product of {@code n1} exclusive through {@code n2} inclusive.
    */
-  private static BigInteger slowFactorial(int n1, int n2) {
+  private static BigInteger oldSlowFactorial(int n1, int n2) {
     assert n1 <= n2;
     if (IntMath.log2(n2, CEILING) * (n2 - n1) < Long.SIZE - 1) {
       // the result will definitely fit into a long
@@ -82,19 +83,19 @@ public class BigIntegerMathBenchmark extends Benchmark {
      * Currently, we just divide the range in half.
      */
     int mid = (n1 + n2) >>> 1;
-    return slowFactorial(n1, mid).multiply(slowFactorial(mid, n2));
+    return oldSlowFactorial(n1, mid).multiply(oldSlowFactorial(mid, n2));
   }
 
-  public int timeSlowFactorial(int reps) {
+  @Benchmark int slowFactorial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
-      tmp += slowFactorial(slowFactorials[j]).intValue();
+      tmp += oldSlowFactorial(slowFactorials[j]).intValue();
     }
     return tmp;
   }
 
-  public int timeFactorial(int reps) {
+  @Benchmark int factorial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -103,7 +104,7 @@ public class BigIntegerMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeBinomial(int reps) {
+  @Benchmark int binomial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & 0xffff;

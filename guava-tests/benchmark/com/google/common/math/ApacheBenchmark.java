@@ -22,8 +22,9 @@ import static com.google.common.math.MathBenchmarking.RANDOM_SOURCE;
 import static com.google.common.math.MathBenchmarking.randomBigInteger;
 import static com.google.common.math.MathBenchmarking.randomNonNegativeBigInteger;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 import com.google.common.math.DoubleMath;
 import com.google.common.math.IntMath;
 import com.google.common.math.LongMath;
@@ -35,7 +36,7 @@ import com.google.common.math.LongMath;
  *
  * @author Louis Wasserman
  */
-public class ApacheBenchmark extends Benchmark {
+public class ApacheBenchmark {
   private enum Impl {
     GUAVA {
       @Override
@@ -128,8 +129,8 @@ public class ApacheBenchmark extends Benchmark {
   @Param({"APACHE", "GUAVA"})
   Impl impl;
 
-  @Override
-  protected void setUp() {
+  @BeforeExperiment
+  void setUp() {
     for (int i = 0; i < ARRAY_SIZE; i++) {
       factorials[i] = RANDOM_SOURCE.nextInt(200);
       for (int j = 0; j < 2; j++) {
@@ -162,7 +163,7 @@ public class ApacheBenchmark extends Benchmark {
     }
   }
 
-  public long timeFactorialDouble(int reps) {
+  @Benchmark long factorialDouble(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -171,7 +172,7 @@ public class ApacheBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeIntGCD(int reps) {
+  @Benchmark int intGCD(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -180,7 +181,7 @@ public class ApacheBenchmark extends Benchmark {
     return tmp;
   }
 
-  public long timeLongGCD(int reps) {
+  @Benchmark long longGCD(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -189,7 +190,7 @@ public class ApacheBenchmark extends Benchmark {
     return tmp;
   }
 
-  public long timeBinomialCoefficient(int reps) {
+  @Benchmark long binomialCoefficient(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -198,7 +199,7 @@ public class ApacheBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeIntAddOverflow(int reps) {
+  @Benchmark int intAddOverflow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -209,7 +210,7 @@ public class ApacheBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeLongAddOverflow(int reps) {
+  @Benchmark int longAddOverflow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -220,7 +221,7 @@ public class ApacheBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeIntMulOverflow(int reps) {
+  @Benchmark int intMulOverflow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -231,7 +232,7 @@ public class ApacheBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeLongMulOverflow(int reps) {
+  @Benchmark int longMulOverflow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;

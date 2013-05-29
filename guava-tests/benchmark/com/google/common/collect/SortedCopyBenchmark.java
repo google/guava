@@ -14,8 +14,9 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -28,14 +29,14 @@ import java.util.Random;
  *
  * @author Louis Wasserman
  */
-public class SortedCopyBenchmark extends Benchmark {
+public class SortedCopyBenchmark {
   private final Integer[][] inputArrays = new Integer[0x100][];
 
   @Param({"10000"})
   int n;
 
-  @Override
-  protected void setUp() throws Exception {
+  @BeforeExperiment
+  void setUp() throws Exception {
     Random rng = new Random();
     for (int i = 0; i < 0x100; i++) {
       Integer[] array = new Integer[n];
@@ -46,7 +47,7 @@ public class SortedCopyBenchmark extends Benchmark {
     }
   }
 
-  public int timeArraysSortNoComparator(int reps) {
+  @Benchmark int arraysSortNoComparator(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       Integer[] copy = inputArrays[i & 0xFF].clone();
@@ -56,7 +57,7 @@ public class SortedCopyBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeArraysSortOrderingNatural(int reps) {
+  @Benchmark int arraysSortOrderingNatural(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       Integer[] copy = inputArrays[i & 0xFF].clone();
@@ -73,7 +74,7 @@ public class SortedCopyBenchmark extends Benchmark {
     }
   };
 
-  public int timeArraysSortOrderingFromNatural(int reps) {
+  @Benchmark int arraysSortOrderingFromNatural(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       Integer[] copy = inputArrays[i & 0xFF].clone();

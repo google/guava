@@ -16,8 +16,9 @@
 
 package com.google.common.base;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 import com.google.common.base.Ascii;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
@@ -32,7 +33,7 @@ import java.util.Random;
  *
  * @author Kevin Bourrillion
  */
-public class AsciiBenchmark extends Benchmark {
+public class AsciiBenchmark {
   private static String ALPHA =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   private static String NONALPHA =
@@ -45,7 +46,7 @@ public class AsciiBenchmark extends Benchmark {
   Random random;
   String testString;
 
-  @Override protected void setUp() {
+  @BeforeExperiment void setUp() {
     random = new Random();
 
     int nonAlpha = size / nonAlphaRatio;
@@ -71,7 +72,7 @@ public class AsciiBenchmark extends Benchmark {
     return NONALPHA.charAt(random.nextInt(NONALPHA.length()));
   }
 
-  public int timeAsciiToUpperCase(int reps) {
+  @Benchmark int asciiToUpperCase(int reps) {
     String string = noWorkToDo
         ? Ascii.toUpperCase(testString)
         : testString;
@@ -83,7 +84,7 @@ public class AsciiBenchmark extends Benchmark {
     return dummy;
   }
 
-  public int timeStringToUpperCase1(int reps) {
+  @Benchmark int stringToUpperCase1(int reps) {
     String string = noWorkToDo
         ? testString.toUpperCase()
         : testString;
@@ -95,7 +96,7 @@ public class AsciiBenchmark extends Benchmark {
     return dummy;
   }
 
-  public int timeStringToUpperCase2(int reps) {
+  @Benchmark int stringToUpperCase2(int reps) {
     String string = noWorkToDo
         ? testString.toUpperCase(Locale.US)
         : testString;

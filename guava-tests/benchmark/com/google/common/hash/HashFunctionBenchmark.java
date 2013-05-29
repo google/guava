@@ -16,8 +16,9 @@
 
 package com.google.common.hash;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 import com.google.common.hash.HashFunction;
 
 import java.util.Random;
@@ -33,7 +34,7 @@ import java.util.Random;
  *
  * @author Kurt Alfred Kluever
  */
-public class HashFunctionBenchmark extends Benchmark {
+public class HashFunctionBenchmark {
 
   // Use a statically configured random instance for all of the benchmarks
   private static final Random random = new Random(42);
@@ -45,12 +46,12 @@ public class HashFunctionBenchmark extends Benchmark {
 
   private byte[] testBytes;
 
-  @Override public void setUp() {
+  @BeforeExperiment void setUp() {
     testBytes = new byte[size];
     random.nextBytes(testBytes);
   }
 
-  public int timeHashFunction(int reps) {
+  @Benchmark int hashFunction(int reps) {
     HashFunction hashFunction = hashFunctionEnum.getHashFunction();
     int result = 37;
     for (int i = 0; i < reps; i++) {

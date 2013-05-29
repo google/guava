@@ -16,8 +16,9 @@
 
 package com.google.common.hash;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 
@@ -38,7 +39,7 @@ import java.util.Random;
  *
  * @author Kurt Alfred Kluever
  */
-public class MessageDigestAlgorithmBenchmark extends Benchmark {
+public class MessageDigestAlgorithmBenchmark {
   @Param({"10", "1000", "100000", "1000000"}) int size;
   @Param Algorithm algorithm;
   @Param HashMethod hashMethod;
@@ -88,12 +89,12 @@ public class MessageDigestAlgorithmBenchmark extends Benchmark {
 
   private byte[] testBytes;
 
-  @Override public void setUp() {
+  @BeforeExperiment void setUp() {
     testBytes = new byte[size];
     new Random(RANDOM_SEED).nextBytes(testBytes);
   }
 
-  public byte timeHashing(int reps) {
+  @Benchmark byte hashing(int reps) {
     byte result = 0x01;
     HashMethod hashMethod = this.hashMethod;
     Algorithm algorithm = this.algorithm;

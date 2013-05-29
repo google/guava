@@ -16,8 +16,9 @@
 
 package com.google.common.math;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 
 import java.util.Random;
 
@@ -26,7 +27,7 @@ import java.util.Random;
  *
  * @author Louis Wasserman
  */
-public class LessThanBenchmark extends Benchmark {
+public class LessThanBenchmark {
   static final int SAMPLE_SIZE = 0x1000;
   static final int SAMPLE_MASK = 0x0FFF;
 
@@ -43,8 +44,8 @@ public class LessThanBenchmark extends Benchmark {
   
   private static final long NONNEGATIVE_LONG_MASK = 0x7FFFFFFFFFFFFFFFL;
 
-  @Override
-  protected void setUp() {
+  @BeforeExperiment
+  void setUp() {
     Random random = new Random(randomSeed);
     xInts = new int[SAMPLE_SIZE];
     yInts = new int[SAMPLE_SIZE];
@@ -60,7 +61,7 @@ public class LessThanBenchmark extends Benchmark {
     }
   }
 
-  public int timeBranchFreeLtIntInlined(int reps) {
+  @Benchmark int branchFreeLtIntInlined(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & SAMPLE_MASK;
@@ -72,7 +73,7 @@ public class LessThanBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeBranchFreeLtInt(int reps) {
+  @Benchmark int branchFreeLtInt(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & SAMPLE_MASK;
@@ -84,7 +85,7 @@ public class LessThanBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeTernaryLtIntAddOutsideTernary(int reps) {
+  @Benchmark int ternaryLtIntAddOutsideTernary(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & SAMPLE_MASK;
@@ -96,7 +97,7 @@ public class LessThanBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeTernaryLtIntAddInsideTernary(int reps) {
+  @Benchmark int ternaryLtIntAddInsideTernary(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & SAMPLE_MASK;
@@ -108,7 +109,7 @@ public class LessThanBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeBranchFreeLtLongInlined(int reps) {
+  @Benchmark int branchFreeLtLongInlined(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & SAMPLE_MASK;
@@ -120,7 +121,7 @@ public class LessThanBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeBranchFreeLtLong(int reps) {
+  @Benchmark int branchFreeLtLong(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & SAMPLE_MASK;
@@ -132,7 +133,7 @@ public class LessThanBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeTernaryLtLongAddOutsideTernary(int reps) {
+  @Benchmark int ternaryLtLongAddOutsideTernary(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & SAMPLE_MASK;
@@ -144,7 +145,7 @@ public class LessThanBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeTernaryLtLongAddInsideTernary(int reps) {
+  @Benchmark int ternaryLtLongAddInsideTernary(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & SAMPLE_MASK;

@@ -16,15 +16,15 @@
 
 package com.google.common.base;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 
 /**
  * Some microbenchmarks for the {@link Objects.ToStringHelper} class.
  *
  * @author Osvaldo Doederlein
  */
-public class ToStringHelperBenchmark extends Benchmark {
+public class ToStringHelperBenchmark {
 
   @Param({"0", "2", "5", "10"}) int dataSize;
   private static final String NAME = "abcdefgh";
@@ -41,7 +41,7 @@ public class ToStringHelperBenchmark extends Benchmark {
       .add(NAME3, 'x');
   }
 
-  public int timeToString(int reps) {
+  @Benchmark int toString(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
       Objects.ToStringHelper helper = Objects.toStringHelper("klass").omitNullValues();

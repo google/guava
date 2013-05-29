@@ -23,7 +23,8 @@ import static com.google.common.math.MathBenchmarking.randomExponent;
 import static com.google.common.math.MathBenchmarking.randomNonNegativeBigInteger;
 import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
-import com.google.caliper.legacy.Benchmark;
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.common.math.IntMath;
 
 /**
@@ -31,7 +32,7 @@ import com.google.common.math.IntMath;
  *
  * @author Louis Wasserman
  */
-public class IntMathBenchmark extends Benchmark {
+public class IntMathBenchmark {
   private static int[] exponent = new int[ARRAY_SIZE];
   private static int[] factorial = new int[ARRAY_SIZE];
   private static int[] binomial = new int[ARRAY_SIZE];
@@ -39,8 +40,8 @@ public class IntMathBenchmark extends Benchmark {
   private static final int[] nonnegative = new int[ARRAY_SIZE];
   private static final int[] ints = new int[ARRAY_SIZE];
 
-  @Override
-  protected void setUp() {
+  @BeforeExperiment
+  void setUp() {
     for (int i = 0; i < ARRAY_SIZE; i++) {
       exponent[i] = randomExponent();
       factorial[i] = RANDOM_SOURCE.nextInt(50);
@@ -51,7 +52,7 @@ public class IntMathBenchmark extends Benchmark {
     }
   }
 
-  public int timePow(int reps) {
+  @Benchmark int pow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -60,7 +61,7 @@ public class IntMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeMod(int reps) {
+  @Benchmark int mod(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -69,7 +70,7 @@ public class IntMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeGCD(int reps) {
+  @Benchmark int gCD(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -78,7 +79,7 @@ public class IntMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeFactorial(int reps) {
+  @Benchmark int factorial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -87,7 +88,7 @@ public class IntMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeBinomial(int reps) {
+  @Benchmark int binomial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;

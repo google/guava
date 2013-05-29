@@ -16,24 +16,25 @@
 
 package com.google.common.eventbus;
 
-import com.google.caliper.legacy.Benchmark;
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 
 /**
  * Benchmark for {@link EventBus}.
  *
  * @author Eric Fellheimer
  */
-public class EventBusBenchmark extends Benchmark {
+public class EventBusBenchmark {
 
   private EventBus eventBus;
 
-  @Override
-  protected void setUp() {
+  @BeforeExperiment
+  void setUp() {
     eventBus = new EventBus("for benchmarking purposes");
     eventBus.register(this);
   }
 
-  public void timePostStrings(int reps) {
+  @Benchmark void postStrings(int reps) {
     for (int i = 0; i < reps; i++) {
       eventBus.post("hello there");
     }

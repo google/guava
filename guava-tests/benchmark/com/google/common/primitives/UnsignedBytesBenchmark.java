@@ -16,8 +16,9 @@
 
 package com.google.common.primitives;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -28,7 +29,7 @@ import java.util.Random;
  *
  * @author Hiroshi Yamauchi
  */
-public class UnsignedBytesBenchmark extends Benchmark {
+public class UnsignedBytesBenchmark {
 
   private byte[] ba1;
   private byte[] ba2;
@@ -42,8 +43,8 @@ public class UnsignedBytesBenchmark extends Benchmark {
   @Param({"4", "8", "64", "1024" })
   private int length;
 
-  @Override
-  protected void setUp() throws Exception {
+  @BeforeExperiment
+  void setUp() throws Exception {
     Random r = new Random();
     ba1 = new byte[length];
     r.nextBytes(ba1);
@@ -59,7 +60,7 @@ public class UnsignedBytesBenchmark extends Benchmark {
         UnsignedBytes.LexicographicalComparatorHolder.UnsafeComparator.INSTANCE;
   }
 
-  public void timeLongEqualJava(int reps) {
+  @Benchmark void longEqualJava(int reps) {
     for (int i = 0; i < reps; ++i) {
       if (javaImpl.compare(ba1, ba2) != 0) {
         throw new Error(); // deoptimization
@@ -67,7 +68,7 @@ public class UnsignedBytesBenchmark extends Benchmark {
     }
   }
 
-  public void timeLongEqualUnsafe(int reps) {
+  @Benchmark void longEqualUnsafe(int reps) {
     for (int i = 0; i < reps; ++i) {
       if (unsafeImpl.compare(ba1, ba2) != 0) {
         throw new Error(); // deoptimization
@@ -75,7 +76,7 @@ public class UnsignedBytesBenchmark extends Benchmark {
     }
   }
 
-  public void timeDiffLastJava(int reps) {
+  @Benchmark void diffLastJava(int reps) {
     for (int i = 0; i < reps; ++i) {
       if (javaImpl.compare(ba3, ba4) == 0) {
         throw new Error(); // deoptimization
@@ -83,7 +84,7 @@ public class UnsignedBytesBenchmark extends Benchmark {
     }
   }
 
-  public void timeDiffLastUnsafe(int reps) {
+  @Benchmark void diffLastUnsafe(int reps) {
     for (int i = 0; i < reps; ++i) {
       if (unsafeImpl.compare(ba3, ba4) == 0) {
         throw new Error(); // deoptimization

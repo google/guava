@@ -16,7 +16,7 @@
 
 package com.google.common.base;
 
-import com.google.caliper.legacy.Benchmark;
+import com.google.caliper.Benchmark;
 import com.google.common.base.Stopwatch;
 
 import java.util.concurrent.TimeUnit;
@@ -28,8 +28,8 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Kevin Bourrillion
  */
-public class StopwatchBenchmark extends Benchmark {
-  public long timeStopwatch(int reps) {
+public class StopwatchBenchmark {
+  @Benchmark long stopwatch(int reps) {
     long total = 0;
     for (int i = 0; i < reps; i++) {
       Stopwatch s = Stopwatch.createStarted();
@@ -39,7 +39,7 @@ public class StopwatchBenchmark extends Benchmark {
     return total;
   }
 
-  public long timeManual(int reps) {
+  @Benchmark long manual(int reps) {
     long total = 0;
     for (int i = 0; i < reps; i++) {
       long start = System.nanoTime();

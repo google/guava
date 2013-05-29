@@ -16,8 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 
 import java.util.Collection;
@@ -33,7 +34,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  *
  * @author Nicholaus Shupe
  */
-public class MapBenchmark extends Benchmark {
+public class MapBenchmark {
   @Param({"Hash", "LinkedHM", "MapMaker1", "Immutable"})
   private Impl impl;
 
@@ -172,7 +173,7 @@ public class MapBenchmark extends Benchmark {
 
   private Collection<Element> values;
 
-  @Override public void setUp() {
+  @BeforeExperiment void setUp() {
     CollectionBenchmarkSampleData sampleData = 
         new CollectionBenchmarkSampleData(
             isUserTypeFast, random, hitRate, size);
@@ -188,7 +189,7 @@ public class MapBenchmark extends Benchmark {
     this.queries = sampleData.getQueries();
   }
 
-  public boolean timeGet(int reps) {
+  @Benchmark boolean get(int reps) {
     // Paranoia: acting on hearsay that accessing fields might be slow
     // Should write a benchmark to test that!
     Map<Element, Element> map = mapToTest;
@@ -205,7 +206,7 @@ public class MapBenchmark extends Benchmark {
     return dummy;
   }
 
-  public int timeCreateAndPopulate(int reps) {
+  @Benchmark int createAndPopulate(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
       dummy += impl.create(values).size();

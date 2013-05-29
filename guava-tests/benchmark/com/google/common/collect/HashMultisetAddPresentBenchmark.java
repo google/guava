@@ -14,7 +14,8 @@
 
 package com.google.common.collect;
 
-import com.google.caliper.legacy.Benchmark;
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
@@ -27,14 +28,14 @@ import java.util.Random;
  *
  * @author Louis Wasserman
  */
-public class HashMultisetAddPresentBenchmark extends Benchmark {
+public class HashMultisetAddPresentBenchmark {
   private static final int ARRAY_MASK = 0x0ffff;
   private static final int ARRAY_SIZE = 0x10000;
   List<Multiset<Integer>> multisets = new ArrayList<Multiset<Integer>>(0x10000);
   int[] queries = new int[ARRAY_SIZE];
 
-  @Override
-  protected void setUp() {
+  @BeforeExperiment
+  void setUp() {
     Random random = new Random();
     multisets.clear();
     for (int i = 0; i < ARRAY_SIZE; i++) {
@@ -45,7 +46,7 @@ public class HashMultisetAddPresentBenchmark extends Benchmark {
     }
   }
 
-  public int timeAdd(int reps) {
+  @Benchmark int add(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;

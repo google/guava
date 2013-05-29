@@ -16,8 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,7 +28,7 @@ import java.util.LinkedList;
  * 
  * @author David Richter
  */
-public class IteratorBenchmark extends Benchmark {
+public class IteratorBenchmark {
   @Param({"0", "1", "16", "256", "4096", "65536"}) int size;
 
   // use concrete classes to remove any possible polymorphic overhead?
@@ -35,7 +36,7 @@ public class IteratorBenchmark extends Benchmark {
   ArrayList<Object> arrayList;
   LinkedList<Object> linkedList;
 
-  @Override protected void setUp() {
+  @BeforeExperiment void setUp() {
     array = new Object[size];
     arrayList = Lists.newArrayListWithCapacity(size);
     linkedList = Lists.newLinkedList();
@@ -48,7 +49,7 @@ public class IteratorBenchmark extends Benchmark {
     }
   }
 
-  public int timeArrayIndexed(int reps) {
+  @Benchmark int arrayIndexed(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (int index = 0; index < size; index++) {
@@ -58,7 +59,7 @@ public class IteratorBenchmark extends Benchmark {
     return sum;
   }
 
-  public int timeArrayIndexedLength(int reps) {
+  @Benchmark int arrayIndexedLength(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (int index = 0; index < array.length; index++) {
@@ -68,7 +69,7 @@ public class IteratorBenchmark extends Benchmark {
     return sum;
   }
 
-  public int timeArrayFor(int reps) {
+  @Benchmark int arrayFor(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (Object value : array) {
@@ -78,7 +79,7 @@ public class IteratorBenchmark extends Benchmark {
     return sum;
   }
 
-  public int timeArrayListIndexed(int reps) {
+  @Benchmark int arrayListIndexed(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (int index = 0; index < size; index++) {
@@ -88,7 +89,7 @@ public class IteratorBenchmark extends Benchmark {
     return sum;
   }
 
-  public int timeArrayListIndexedLength(int reps) {
+  @Benchmark int arrayListIndexedLength(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (int index = 0; index < arrayList.size(); index++) {
@@ -98,7 +99,7 @@ public class IteratorBenchmark extends Benchmark {
     return sum;
   }
 
-  public int timeArrayListFor(int reps) {
+  @Benchmark int arrayListFor(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (Object value : arrayList) {
@@ -108,7 +109,7 @@ public class IteratorBenchmark extends Benchmark {
     return sum;
   }
 
-  public int timeArrayListToArrayFor(int reps) {
+  @Benchmark int arrayListToArrayFor(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (Object value : arrayList.toArray()) {
@@ -118,7 +119,7 @@ public class IteratorBenchmark extends Benchmark {
     return sum;
   }
 
-  public int timeLinkedListFor(int reps) {
+  @Benchmark int linkedListFor(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (Object value : linkedList) {
@@ -128,7 +129,7 @@ public class IteratorBenchmark extends Benchmark {
     return sum;
   }
 
-  public int timeLinkedListToArrayFor(int reps) {
+  @Benchmark int linkedListToArrayFor(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (Object value : linkedList.toArray()) {

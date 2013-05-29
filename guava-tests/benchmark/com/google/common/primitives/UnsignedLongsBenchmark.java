@@ -16,7 +16,8 @@
 
 package com.google.common.primitives;
 
-import com.google.caliper.legacy.Benchmark;
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 
 import java.util.Random;
 
@@ -25,7 +26,7 @@ import java.util.Random;
  *
  * @author Eamonn McManus
  */
-public class UnsignedLongsBenchmark extends Benchmark {
+public class UnsignedLongsBenchmark {
   private static final int ARRAY_SIZE = 0x10000;
   private static final int ARRAY_MASK = 0x0ffff;
   private static final Random RANDOM_SOURCE = new Random(314159265358979L);
@@ -36,8 +37,8 @@ public class UnsignedLongsBenchmark extends Benchmark {
   private static final String[] hexStrings = new String[ARRAY_SIZE];
   private static final String[] prefixedHexStrings = new String[ARRAY_SIZE];
 
-  @Override
-  protected void setUp() {
+  @BeforeExperiment
+  void setUp() {
     for (int i = 0; i < ARRAY_SIZE; i++) {
       longs[i] = random();
       divisors[i] = randomDivisor(longs[i]);
@@ -48,7 +49,7 @@ public class UnsignedLongsBenchmark extends Benchmark {
     }
   }
 
-  public long timeDivide(int reps) {
+  @Benchmark long divide(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -57,7 +58,7 @@ public class UnsignedLongsBenchmark extends Benchmark {
     return tmp;
   }
 
-  public long timeRemainder(int reps) {
+  @Benchmark long remainder(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -66,7 +67,7 @@ public class UnsignedLongsBenchmark extends Benchmark {
     return tmp;
   }
 
-  public long timeParseUnsignedLong(int reps) {
+  @Benchmark long parseUnsignedLong(int reps) {
     long tmp = 0;
     // Given that we make three calls per pass, we scale reps down in order
     // to do a comparable amount of work to other measurements.
@@ -80,7 +81,7 @@ public class UnsignedLongsBenchmark extends Benchmark {
     return tmp;
   }
 
-  public long timeParseDecode10(int reps) {
+  @Benchmark long parseDecode10(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -89,7 +90,7 @@ public class UnsignedLongsBenchmark extends Benchmark {
     return tmp;
   }
 
-  public long timeParseDecode16(int reps) {
+  @Benchmark long parseDecode16(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -98,7 +99,7 @@ public class UnsignedLongsBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeToString(int reps) {
+  @Benchmark int toString(int reps) {
     int tmp = 0;
     // Given that we make three calls per pass, we scale reps down in order
     // to do a comparable amount of work to other measurements.

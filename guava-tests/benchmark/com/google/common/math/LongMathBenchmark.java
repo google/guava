@@ -23,7 +23,8 @@ import static com.google.common.math.MathBenchmarking.randomExponent;
 import static com.google.common.math.MathBenchmarking.randomNonNegativeBigInteger;
 import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
-import com.google.caliper.legacy.Benchmark;
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.common.math.LongMath;
 
 /**
@@ -31,7 +32,7 @@ import com.google.common.math.LongMath;
  *
  * @author Louis Wasserman
  */
-public class LongMathBenchmark extends Benchmark {
+public class LongMathBenchmark {
   private static final int[] exponents = new int[ARRAY_SIZE];
   private static final int[] factorialArguments = new int[ARRAY_SIZE];
   private static final int[][] binomialArguments = new int[ARRAY_SIZE][2];
@@ -39,8 +40,8 @@ public class LongMathBenchmark extends Benchmark {
   private static final long[] nonnegative = new long[ARRAY_SIZE];
   private static final long[] longs = new long[ARRAY_SIZE];
 
-  @Override
-  protected void setUp() {
+  @BeforeExperiment
+  void setUp() {
     for (int i = 0; i < ARRAY_SIZE; i++) {
       exponents[i] = randomExponent();
       positive[i] = randomPositiveBigInteger(Long.SIZE - 2).longValue();
@@ -54,7 +55,7 @@ public class LongMathBenchmark extends Benchmark {
     }
   }
 
-  public int timePow(int reps) {
+  @Benchmark int pow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -63,7 +64,7 @@ public class LongMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeMod(int reps) {
+  @Benchmark int mod(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -72,7 +73,7 @@ public class LongMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeGCD(int reps) {
+  @Benchmark int gCD(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -81,7 +82,7 @@ public class LongMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeFactorial(int reps) {
+  @Benchmark int factorial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -90,7 +91,7 @@ public class LongMathBenchmark extends Benchmark {
     return tmp;
   }
 
-  public int timeBinomial(int reps) {
+  @Benchmark int binomial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;

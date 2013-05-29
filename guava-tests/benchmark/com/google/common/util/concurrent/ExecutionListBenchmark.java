@@ -16,10 +16,12 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.caliper.AfterExperiment;
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.api.Footprint;
 import com.google.caliper.api.VmOptions;
-import com.google.caliper.legacy.Benchmark;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
@@ -41,7 +43,7 @@ import javax.annotation.concurrent.GuardedBy;
  * Benchmarks for {@link ExecutionList}.
  */
 @VmOptions({"-Xms3g", "-Xmx3g"})
-public class ExecutionListBenchmark extends Benchmark {
+public class ExecutionListBenchmark {
   private static final int NUM_THREADS = 10;  // make a param?
 
   // We execute the listeners on the sameThreadExecutor because we don't really care about what the
@@ -163,7 +165,7 @@ public class ExecutionListBenchmark extends Benchmark {
     }
   };
 
-  @Override protected void setUp() throws Exception {
+  @BeforeExperiment void setUp() throws Exception {
     executorService = new ThreadPoolExecutor(NUM_THREADS,
         NUM_THREADS,
         Long.MAX_VALUE,
@@ -179,7 +181,7 @@ public class ExecutionListBenchmark extends Benchmark {
     }
   }
 
-  @Override protected void tearDown() throws Exception {
+  @AfterExperiment void tearDown() throws Exception {
     executorService.shutdown();
   }
 
@@ -192,7 +194,7 @@ public class ExecutionListBenchmark extends Benchmark {
     return list.getImpl();
   }
 
-  public int timeAddThenExecute_singleThreaded(int reps) {
+  @Benchmark int addThenExecute_singleThreaded(int reps) {
     int returnValue = 0;
     for (int i = 0; i < reps; i++) {
       list = impl.newExecutionList();
@@ -207,7 +209,7 @@ public class ExecutionListBenchmark extends Benchmark {
     return returnValue;
   }
 
-  public int timeExecuteThenAdd_singleThreaded(int reps) {
+  @Benchmark int executeThenAdd_singleThreaded(int reps) {
     int returnValue = 0;
     for (int i = 0; i < reps; i++) {
       list = impl.newExecutionList();
@@ -228,7 +230,7 @@ public class ExecutionListBenchmark extends Benchmark {
     }
   };
 
-  public int timeAddThenExecute_multiThreaded(final int reps) throws InterruptedException {
+  @Benchmark int addThenExecute_multiThreaded(final int reps) throws InterruptedException {
     Runnable addTask = new Runnable() {
       @Override public void run() {
         for (int i = 0; i < numListeners; i++) {
@@ -250,7 +252,7 @@ public class ExecutionListBenchmark extends Benchmark {
     return returnValue;
   }
 
-  public int timeExecuteThenAdd_multiThreaded(final int reps) throws InterruptedException {
+  @Benchmark int executeThenAdd_multiThreaded(final int reps) throws InterruptedException {
     Runnable addTask = new Runnable() {
       @Override public void run() {
         for (int i = 0; i < numListeners; i++) {

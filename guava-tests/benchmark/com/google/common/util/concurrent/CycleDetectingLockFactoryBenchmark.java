@@ -16,8 +16,9 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.caliper.BeforeExperiment;
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.legacy.Benchmark;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -27,7 +28,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @author Darick Tong
  */
-public class CycleDetectingLockFactoryBenchmark extends Benchmark {
+public class CycleDetectingLockFactoryBenchmark {
 
   @Param({"2","3","4","5","10"}) int lockNestingDepth;
 
@@ -35,9 +36,8 @@ public class CycleDetectingLockFactoryBenchmark extends Benchmark {
   private Lock[] plainLocks;
   private Lock[] detectingLocks;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @BeforeExperiment
+  void setUp() throws Exception {
     this.factory = CycleDetectingLockFactory.newInstance(
         CycleDetectingLockFactory.Policies.WARN);
     this.plainLocks = new Lock[lockNestingDepth];
@@ -50,11 +50,11 @@ public class CycleDetectingLockFactoryBenchmark extends Benchmark {
     }
   }
 
-  public void timeUnorderedPlainLocks(int reps) {
+  @Benchmark void unorderedPlainLocks(int reps) {
     lockAndUnlock(new ReentrantLock(), reps);
   }
 
-  public void timeUnorderedCycleDetectingLocks(int reps) {
+  @Benchmark void unorderedCycleDetectingLocks(int reps) {
     lockAndUnlock(factory.newReentrantLock("foo"), reps);
   }
 
@@ -65,11 +65,11 @@ public class CycleDetectingLockFactoryBenchmark extends Benchmark {
     }
   }
 
-  public void timeOrderedPlainLocks(int reps) {
+  @Benchmark void orderedPlainLocks(int reps) {
     lockAndUnlockNested(plainLocks, reps);
   }
 
-  public void timeOrderedCycleDetectingLocks(int reps) {
+  @Benchmark void orderedCycleDetectingLocks(int reps) {
     lockAndUnlockNested(detectingLocks, reps);
   }
 
