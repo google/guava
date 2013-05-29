@@ -42,12 +42,6 @@ public void testAsMap_sortedSetMultimap() throws Exception {
   testCase.testAsMap_sortedSetMultimap();
 }
 
-public void testEntries() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testEntries();
-}
-
 public void testFilteredKeysListMultimapGetBadValue() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.setUp();

@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -126,19 +125,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertTrue(values.contains(3));
     assertTrue(values.contains(nullValue()));
     assertFalse(values.contains(5));
-  }
-
-  // the entries collection is more thoroughly tested in MultimapCollectionTest
-  @SuppressWarnings("unchecked") // varargs
-  public void testEntries() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Collection<Entry<String, Integer>> entries = multimap.entries();
-    ASSERT.that(entries).has().allOf(
-        Maps.immutableEntry("foo", 1),
-        Maps.immutableEntry("foo", nullValue()),
-        Maps.immutableEntry(nullKey(), 3));
   }
 
   public void testKeySetRemove() {

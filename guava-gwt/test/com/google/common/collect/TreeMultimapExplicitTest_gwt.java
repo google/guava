@@ -48,12 +48,6 @@ public void testDuplicates() throws Exception {
   testCase.testDuplicates();
 }
 
-public void testEntries() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testEntries();
-}
-
 public void testGetComparator() throws Exception {
   com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
   testCase.setUp();

@@ -66,12 +66,6 @@ public void testDuplicates() throws Exception {
   testCase.testDuplicates();
 }
 
-public void testEntries() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testEntries();
-}
-
 public void testKeySet() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();

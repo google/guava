@@ -66,12 +66,6 @@ public void testDuplicates() throws Exception {
   testCase.testDuplicates();
 }
 
-public void testEntries() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testEntries();
-}
-
 public void testKeySet() throws Exception {
   com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
   testCase.setUp();

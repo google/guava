@@ -36,12 +36,6 @@ public void testCreateFromSize() throws Exception {
   testCase.testCreateFromSize();
 }
 
-public void testEntries() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testEntries();
-}
-
 public void testEntriesAfterMultimapUpdate() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();
