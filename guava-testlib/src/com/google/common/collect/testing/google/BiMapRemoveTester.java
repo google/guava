@@ -32,7 +32,7 @@ import java.util.Iterator;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)

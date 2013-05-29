@@ -90,24 +90,6 @@ public void testKeySetRemove() throws Exception {
   testCase.testKeySetRemove();
 }
 
-public void testKeys() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testKeys();
-}
-
-public void testKeysEntrySetIterator() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testKeysEntrySetIterator();
-}
-
-public void testKeysEntrySetRemove() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testKeysEntrySetRemove();
-}
-
 public void testKeysToString_ordering() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();

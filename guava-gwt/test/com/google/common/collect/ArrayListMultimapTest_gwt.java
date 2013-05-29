@@ -102,24 +102,6 @@ public void testKeySetRemove() throws Exception {
   testCase.testKeySetRemove();
 }
 
-public void testKeys() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testKeys();
-}
-
-public void testKeysEntrySetIterator() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testKeysEntrySetIterator();
-}
-
-public void testKeysEntrySetRemove() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testKeysEntrySetRemove();
-}
-
 public void testListAddIndex() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();

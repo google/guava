@@ -96,24 +96,6 @@ public void testKeySetRemove() throws Exception {
   testCase.testKeySetRemove();
 }
 
-public void testKeys() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testKeys();
-}
-
-public void testKeysEntrySetIterator() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testKeysEntrySetIterator();
-}
-
-public void testKeysEntrySetRemove() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testKeysEntrySetRemove();
-}
-
 public void testLinkedAsMapEntries() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();

@@ -78,24 +78,6 @@ public void testKeySetRemove() throws Exception {
   testCase.testKeySetRemove();
 }
 
-public void testKeys() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testKeys();
-}
-
-public void testKeysEntrySetIterator() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testKeysEntrySetIterator();
-}
-
-public void testKeysEntrySetRemove() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testKeysEntrySetRemove();
-}
-
 public void testMultimapComparators() throws Exception {
   com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
   testCase.setUp();
