@@ -143,6 +143,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
         .suppressing(suppressForHashMap())
@@ -163,6 +164,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
@@ -187,6 +189,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.GENERAL_PURPOSE,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
@@ -209,6 +212,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
@@ -230,6 +234,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.GENERAL_PURPOSE,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.RESTRICTS_KEYS,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
@@ -248,6 +253,7 @@ public class TestsForMapsInJavaUtil {
         .named("ConcurrentHashMap")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
         .suppressing(suppressForConcurrentHashMap())
@@ -265,6 +271,7 @@ public class TestsForMapsInJavaUtil {
         .named("ConcurrentSkipListMap, natural")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
@@ -284,6 +291,7 @@ public class TestsForMapsInJavaUtil {
         .named("ConcurrentSkipListMap, with comparator")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)

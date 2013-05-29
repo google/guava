@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.newLinkedList;
-import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod;
 import static java.util.Arrays.asList;
 import static java.util.Collections.nCopies;
 import static org.truth0.Truth.ASSERT;
@@ -100,11 +99,11 @@ public class Collections2Test extends TestCase {
         })
         .named("Collections2.filter")
         .withFeatures(
-            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite();
   }
 
@@ -120,11 +119,11 @@ public class Collections2Test extends TestCase {
         })
         .named("Collections2.filter")
         .withFeatures(
-            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite();
   }
 
@@ -142,11 +141,11 @@ public class Collections2Test extends TestCase {
         })
         .named("Collections2.filter")
         .withFeatures(
-            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite();
   }
 
@@ -164,11 +163,11 @@ public class Collections2Test extends TestCase {
         })
         .named("Collections2.filter, no nulls")
         .withFeatures(
-            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.ALLOWS_NULL_QUERIES,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite();
   }
 
@@ -188,11 +187,11 @@ public class Collections2Test extends TestCase {
         })
         .named("Collections2.filter, filtered input")
         .withFeatures(
-            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.ALLOWS_NULL_QUERIES,
             CollectionSize.ANY)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite();
   }
 
@@ -219,7 +218,7 @@ public class Collections2Test extends TestCase {
         })
         .named("Collections2.transform")
         .withFeatures(
-            CollectionFeature.SUPPORTS_REMOVE,
+            CollectionFeature.REMOVE_OPERATIONS,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY)

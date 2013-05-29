@@ -24,7 +24,6 @@ import com.google.common.collect.testing.OneSizeTestContainerGenerator;
 import com.google.common.collect.testing.PerCollectionSizeTestSuiteBuilder;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionFeature;
-import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.DerivedGoogleCollectionGenerators.BiMapValueSetGenerator;
@@ -155,19 +154,6 @@ public class BiMapTestSuiteBuilder<K, V>
 
   private static Set<Feature<?>> computeCommonDerivedCollectionFeatures(
       Set<Feature<?>> mapFeatures) {
-    Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
-    if (mapFeatures.contains(MapFeature.SUPPORTS_REMOVE)) {
-      derivedFeatures.add(CollectionFeature.SUPPORTS_REMOVE);
-    }
-    if (mapFeatures.contains(MapFeature.REJECTS_DUPLICATES_AT_CREATION)) {
-      derivedFeatures.add(CollectionFeature.REJECTS_DUPLICATES_AT_CREATION);
-    }
-    // add the intersection of CollectionSize.values() and mapFeatures
-    for (CollectionSize size : CollectionSize.values()) {
-      if (mapFeatures.contains(size)) {
-        derivedFeatures.add(size);
-      }
-    }
-    return derivedFeatures;
+    return MapTestSuiteBuilder.computeCommonDerivedCollectionFeatures(mapFeatures);
   }
 }

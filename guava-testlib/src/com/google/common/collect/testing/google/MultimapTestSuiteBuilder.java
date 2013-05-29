@@ -38,6 +38,7 @@ import com.google.common.collect.testing.TestSubjectGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
+import com.google.common.collect.testing.features.ListFeature;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.SerializableTester;
 
@@ -251,7 +252,9 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
       .put(
           MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
           CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION)
-      .put(MapFeature.GENERAL_PURPOSE, CollectionFeature.GENERAL_PURPOSE)
+      .put(MapFeature.GENERAL_PURPOSE, ListFeature.SUPPORTS_ADD_WITH_INDEX)
+      .put(MapFeature.GENERAL_PURPOSE, ListFeature.SUPPORTS_REMOVE_WITH_INDEX)
+      .put(MapFeature.GENERAL_PURPOSE, ListFeature.SUPPORTS_SET)
       .put(MapFeature.ALLOWS_NULL_QUERIES, CollectionFeature.ALLOWS_NULL_QUERIES)
       .put(MapFeature.ALLOWS_NULL_VALUES, CollectionFeature.ALLOWS_NULL_VALUES)
       .put(MapFeature.SUPPORTS_REMOVE, CollectionFeature.SUPPORTS_REMOVE)
@@ -265,6 +268,9 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
       if (derivedFeatures.contains(entry.getKey())) {
         derivedFeatures.add(entry.getValue());
       }
+    }
+    if (derivedFeatures.remove(MultimapFeature.VALUE_COLLECTIONS_SUPPORT_ITERATOR_REMOVE)) {
+      derivedFeatures.add(CollectionFeature.SUPPORTS_ITERATOR_REMOVE);
     }
     if (!derivedFeatures.contains(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
       derivedFeatures.remove(CollectionFeature.SERIALIZABLE);

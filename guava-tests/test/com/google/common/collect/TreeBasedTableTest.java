@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
 import com.google.common.collect.testing.SortedMapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.SerializableTester;
@@ -64,7 +65,10 @@ public class TreeBasedTableTest extends AbstractTableTest {
             }
             return table.row("b");
           }
-        }).withFeatures(MapFeature.GENERAL_PURPOSE, CollectionSize.ANY)
+        }).withFeatures(
+            MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+            CollectionSize.ANY)
         .named("RowMapTestSuite").createTestSuite());
     return suite;
   }

@@ -109,7 +109,7 @@ public class TreeMultisetTest extends AbstractMultisetTest {
       .named("TreeMultiset[Ordering.natural].elementSet")
       .withFeatures(
           CollectionSize.ANY,
-          CollectionFeature.SUPPORTS_REMOVE,
+          CollectionFeature.REMOVE_OPERATIONS,
           CollectionFeature.ALLOWS_NULL_QUERIES)
       .createTestSuite());
     suite.addTestSuite(TreeMultisetTest.class);

@@ -133,7 +133,7 @@ public class ForwardingMapTest extends ForwardingTestCase {
     }).named("ForwardingMap[LinkedHashMap] with standard implementations")
         .withFeatures(CollectionSize.ANY, MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.ALLOWS_NULL_KEYS, MapFeature.GENERAL_PURPOSE,
-            CollectionFeature.KNOWN_ORDER)
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE, CollectionFeature.KNOWN_ORDER)
         .createTestSuite());
     suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
 
@@ -149,7 +149,8 @@ public class ForwardingMapTest extends ForwardingTestCase {
     }).named("ForwardingMap[ImmutableMap] with standard implementations")
         .withFeatures(
             CollectionSize.ANY, MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            MapFeature.ALLOWS_NULL_QUERIES, CollectionFeature.KNOWN_ORDER)
+            MapFeature.ALLOWS_NULL_QUERIES,
+            CollectionFeature.KNOWN_ORDER)
         .createTestSuite());
 
     return suite;

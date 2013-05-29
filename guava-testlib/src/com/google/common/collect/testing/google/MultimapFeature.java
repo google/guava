@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 The Guava Authors
+ * Copyright (C) 2013 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,51 +14,38 @@
  * limitations under the License.
  */
 
-package com.google.common.collect.testing.features;
+package com.google.common.collect.testing.google;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.Helpers;
+import com.google.common.collect.testing.features.Feature;
+import com.google.common.collect.testing.features.TesterAnnotation;
 
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.List;
 import java.util.Set;
 
 /**
- * Optional features of classes derived from {@code List}.
+ * Optional features of classes derived from {@code Multimap}.
  *
- * @author George van den Driessche
+ * @author Louis Wasserman
  */
 // Enum values use constructors with generic varargs.
 @SuppressWarnings("unchecked")
 @GwtCompatible
-public enum ListFeature implements Feature<List> {
-  SUPPORTS_SET,
-  SUPPORTS_ADD_WITH_INDEX(CollectionFeature.SUPPORTS_ADD),
-  SUPPORTS_REMOVE_WITH_INDEX(CollectionFeature.SUPPORTS_REMOVE),
+public enum MultimapFeature implements Feature<Multimap> {
+  VALUE_COLLECTIONS_SUPPORT_ITERATOR_REMOVE;
 
-  GENERAL_PURPOSE(
-      CollectionFeature.GENERAL_PURPOSE,
-      SUPPORTS_SET,
-      SUPPORTS_ADD_WITH_INDEX,
-      SUPPORTS_REMOVE_WITH_INDEX
-  ),
+  private final Set<Feature<? super Multimap>> implied;
 
-  /** Features supported by lists where only removal is allowed. */
-  REMOVE_OPERATIONS(
-      CollectionFeature.REMOVE_OPERATIONS,
-      SUPPORTS_REMOVE_WITH_INDEX
-  );
-
-  private final Set<Feature<? super List>> implied;
-
-  ListFeature(Feature<? super List> ... implied) {
+  MultimapFeature(Feature<? super Multimap> ... implied) {
     this.implied = Helpers.copyToSet(implied);
   }
 
   @Override
-  public Set<Feature<? super List>> getImpliedFeatures() {
+  public Set<Feature<? super Multimap>> getImpliedFeatures() {
     return implied;
   }
 
@@ -66,7 +53,7 @@ public enum ListFeature implements Feature<List> {
   @Inherited
   @TesterAnnotation
   public @interface Require {
-    ListFeature[] value() default {};
-    ListFeature[] absent() default {};
+    public abstract MultimapFeature[] value() default {};
+    public abstract MultimapFeature[] absent() default {};
   }
 }

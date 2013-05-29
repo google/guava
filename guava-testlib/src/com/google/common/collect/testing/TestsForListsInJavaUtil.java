@@ -187,7 +187,11 @@ public class TestsForListsInJavaUtil {
           })
         .named("CopyOnWriteArrayList")
         .withFeatures(
-            ListFeature.GENERAL_PURPOSE,
+            ListFeature.SUPPORTS_ADD_WITH_INDEX,
+            ListFeature.SUPPORTS_REMOVE_WITH_INDEX,
+            ListFeature.SUPPORTS_SET,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionSize.ANY)

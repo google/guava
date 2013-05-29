@@ -98,6 +98,7 @@ public class EnumHashBiMapTest extends TestCase {
         .named("EnumHashBiMap")
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.GENERAL_PURPOSE,
             CollectionFeature.KNOWN_ORDER)

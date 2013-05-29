@@ -95,6 +95,7 @@ public class TreeMultimapNaturalTest extends AbstractSetMultimapTest {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
           CollectionFeature.KNOWN_ORDER,
           CollectionFeature.SERIALIZABLE,
           CollectionSize.ANY)
@@ -118,7 +119,7 @@ public class TreeMultimapNaturalTest extends AbstractSetMultimapTest {
       .named("TreeMultimap.keySet")
       .withFeatures(
           CollectionFeature.ALLOWS_NULL_VALUES,
-          CollectionFeature.SUPPORTS_REMOVE,
+          CollectionFeature.REMOVE_OPERATIONS,
           CollectionFeature.KNOWN_ORDER,
           CollectionSize.ANY)
       .createTestSuite());
@@ -199,6 +200,7 @@ public class TreeMultimapNaturalTest extends AbstractSetMultimapTest {
       .withFeatures(
           MapFeature.SUPPORTS_REMOVE,
           MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
           CollectionFeature.KNOWN_ORDER,
           CollectionSize.ANY)
       .createTestSuite());

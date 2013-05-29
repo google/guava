@@ -22,6 +22,7 @@ import com.google.common.collect.MapConstraintsTest.TestKeyException;
 import com.google.common.collect.MapConstraintsTest.TestValueException;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringMapGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
@@ -56,7 +57,8 @@ public class ConstrainedMapTest extends TestCase {
             CollectionSize.ANY,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.GENERAL_PURPOSE)
+            MapFeature.GENERAL_PURPOSE, 
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
         .createTestSuite());
     suite.addTestSuite(ConstrainedMapTest.class);
     return suite;

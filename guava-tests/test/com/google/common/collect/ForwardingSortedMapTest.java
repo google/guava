@@ -127,7 +127,8 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
     }).named("ForwardingSortedMap[SafeTreeMap] with no comparator and standard "
         + "implementations").withFeatures(CollectionSize.ANY,
         CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
-        MapFeature.GENERAL_PURPOSE).createTestSuite());
+        MapFeature.GENERAL_PURPOSE, CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
     suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       private final Comparator<String> comparator = NullsBeforeTwo.INSTANCE;
 
@@ -143,8 +144,8 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
     }).named("ForwardingSortedMap[SafeTreeMap] with natural comparator and "
         + "standard implementations").withFeatures(CollectionSize.ANY,
         CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
-        MapFeature.ALLOWS_NULL_KEYS, MapFeature.GENERAL_PURPOSE)
-        .createTestSuite());
+        MapFeature.ALLOWS_NULL_KEYS, MapFeature.GENERAL_PURPOSE, 
+        CollectionFeature.SUPPORTS_ITERATOR_REMOVE).createTestSuite());
     suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override protected SortedMap<String, String> create(
           Entry<String, String>[] entries) {

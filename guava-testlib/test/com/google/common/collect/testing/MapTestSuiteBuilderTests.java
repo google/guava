@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.MapFeature;
@@ -31,7 +32,9 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.util.AbstractMap;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -68,10 +71,14 @@ public final class MapTestSuiteBuilderTests extends TestCase {
 
   private static TestSuite wrappedHashMapTests(
       WrappedHashMapGenerator generator, String name, Feature<?>... features) {
+    List<Feature<?>> featuresList = Lists.newArrayList(features);
+    Collections.addAll(featuresList,
+        MapFeature.GENERAL_PURPOSE,
+        CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+        CollectionSize.ANY);
     return MapTestSuiteBuilder.using(generator)
         .named(name)
-        .withFeatures(Lists.asList(
-            MapFeature.GENERAL_PURPOSE, CollectionSize.ANY, features))
+        .withFeatures(featuresList)
         .createTestSuite();
   }
 

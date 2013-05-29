@@ -42,19 +42,15 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
-import com.google.common.collect.testing.google.MultimapAsMapTester;
-import com.google.common.collect.testing.google.MultimapEntriesTester;
+import com.google.common.collect.testing.google.MultimapFeature;
 import com.google.common.collect.testing.google.MultimapTestSuiteBuilder;
-import com.google.common.collect.testing.google.MultisetIteratorTester;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
-import com.google.common.collect.testing.google.MultisetWritesTester;
 import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestListMultimapGenerator;
 import com.google.common.collect.testing.google.TestMultimapGenerator;
 import com.google.common.collect.testing.google.TestSetMultimapGenerator;
 import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-import com.google.common.collect.testing.testers.CollectionIteratorTester;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -77,35 +73,18 @@ import java.util.TreeSet;
 @GwtIncompatible("suite") // TODO(cpovirk): set up collect/gwt/suites version
 public class MultimapsCollectionTest extends TestCase {
 
-  static final Feature<?>[] COLLECTION_FEATURES_ORDER = {
-    CollectionSize.ANY,
-    CollectionFeature.ALLOWS_NULL_VALUES,
-    CollectionFeature.KNOWN_ORDER,
-    CollectionFeature.GENERAL_PURPOSE
-  };
-  static final Feature<?>[] COLLECTION_FEATURES_REMOVE = {
-    CollectionSize.ANY,
-    CollectionFeature.ALLOWS_NULL_VALUES,
-    CollectionFeature.SUPPORTS_REMOVE
-  };
-
-  static final Feature<?>[] COLLECTION_FEATURES_REMOVE_ORDER = {
-    CollectionSize.ANY,
-    CollectionFeature.ALLOWS_NULL_VALUES,
-    CollectionFeature.KNOWN_ORDER,
-    CollectionFeature.SUPPORTS_REMOVE
-  };
-
   private static final Feature<?>[] FOR_MAP_FEATURES_ONE = {
     CollectionSize.ONE,
     ALLOWS_NULL_VALUES,
     SUPPORTS_REMOVE,
+    CollectionFeature.SUPPORTS_ITERATOR_REMOVE
   };
 
   private static final Feature<?>[] FOR_MAP_FEATURES_ANY = {
     CollectionSize.ANY,
     ALLOWS_NULL_VALUES,
     SUPPORTS_REMOVE,
+    CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
     MultisetTestSuiteBuilder.NoRecurse.NO_ENTRY_SET,  // Cannot create entries with count > 1
   };
 
@@ -276,6 +255,7 @@ public class MultimapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
           CollectionSize.ANY)
       .createTestSuite());
 
@@ -424,6 +404,7 @@ public class MultimapsCollectionTest extends TestCase {
         .withFeatures(
             CollectionSize.ANY,
             MapFeature.SUPPORTS_REMOVE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.ALLOWS_NULL_KEYS)
         .createTestSuite());
     suite.addTest(MultimapTestSuiteBuilder.using(
@@ -437,6 +418,7 @@ public class MultimapsCollectionTest extends TestCase {
         .withFeatures(
             CollectionSize.ANY,
             MapFeature.SUPPORTS_REMOVE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.ALLOWS_NULL_KEYS)
         .createTestSuite());
     suite.addTest(ListMultimapTestSuiteBuilder.using(new TransformedListMultimapGenerator() {
@@ -449,6 +431,7 @@ public class MultimapsCollectionTest extends TestCase {
         .withFeatures(
             CollectionSize.ANY,
             MapFeature.SUPPORTS_REMOVE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.ALLOWS_NULL_KEYS)
         .createTestSuite());
     suite.addTest(ListMultimapTestSuiteBuilder.using(new TransformedListMultimapGenerator() {
@@ -462,6 +445,7 @@ public class MultimapsCollectionTest extends TestCase {
         .withFeatures(
             CollectionSize.ANY,
             MapFeature.SUPPORTS_REMOVE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.ALLOWS_NULL_KEYS)
         .createTestSuite());
 
@@ -562,14 +546,7 @@ public class MultimapsCollectionTest extends TestCase {
     }
   }
  
-  private static Test filterSuite() {
-    List<Method> toSuppress = ImmutableList.of(
-        CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
-        MultisetIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
-        MultisetWritesTester.getEntrySetIteratorMethod(),
-        MultimapAsMapTester.getAsMapEntrySetIteratorRemoveMethod(),
-        MultimapEntriesTester.getIteratorRemoveMethod());
-    
+  private static Test filterSuite() {   
     TestSuite suite = new TestSuite("Multimaps.filter*");
     suite.addTest(SetMultimapTestSuiteBuilder.using(new FilteredSetMultimapGenerator() {
         @Override
@@ -584,10 +561,10 @@ public class MultimapsCollectionTest extends TestCase {
       .named("Multimaps.filterKeys[SetMultimap, Predicate]")
       .withFeatures(
           CollectionSize.ANY,
+          MultimapFeature.VALUE_COLLECTIONS_SUPPORT_ITERATOR_REMOVE,
           MapFeature.GENERAL_PURPOSE,
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES)
-      .suppressing(toSuppress)
       .createTestSuite());
 
     suite.addTest(ListMultimapTestSuiteBuilder.using(new FilteredListMultimapGenerator() {
@@ -603,10 +580,10 @@ public class MultimapsCollectionTest extends TestCase {
       .named("Multimaps.filterKeys[ListMultimap, Predicate]")
       .withFeatures(
           CollectionSize.ANY,
+          MultimapFeature.VALUE_COLLECTIONS_SUPPORT_ITERATOR_REMOVE,
           MapFeature.GENERAL_PURPOSE,
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES)
-      .suppressing(toSuppress)
       .createTestSuite());
     suite.addTest(ListMultimapTestSuiteBuilder.using(new FilteredListMultimapGenerator() {
         @Override
@@ -621,10 +598,10 @@ public class MultimapsCollectionTest extends TestCase {
       .named("Multimaps.filterKeys[Multimaps.filterKeys[ListMultimap], Predicate]")
       .withFeatures(
           CollectionSize.ANY,
+          MultimapFeature.VALUE_COLLECTIONS_SUPPORT_ITERATOR_REMOVE,
           MapFeature.GENERAL_PURPOSE,
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES)
-      .suppressing(toSuppress)
       .createTestSuite());
     suite.addTest(SetMultimapTestSuiteBuilder.using(new FilteredSetMultimapGenerator() {
         @Override
@@ -642,7 +619,6 @@ public class MultimapsCollectionTest extends TestCase {
           MapFeature.GENERAL_PURPOSE,
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES)
-      .suppressing(toSuppress)
       .createTestSuite());
     suite.addTest(SetMultimapTestSuiteBuilder.using(new FilteredSetMultimapGenerator() {
         @Override
@@ -660,7 +636,6 @@ public class MultimapsCollectionTest extends TestCase {
           MapFeature.GENERAL_PURPOSE,
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES)
-      .suppressing(toSuppress)
       .createTestSuite());
     suite.addTest(SetMultimapTestSuiteBuilder.using(new FilteredSetMultimapGenerator() {
         @Override
@@ -680,7 +655,6 @@ public class MultimapsCollectionTest extends TestCase {
           MapFeature.GENERAL_PURPOSE,
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES)
-      .suppressing(toSuppress)
       .createTestSuite());
     suite.addTest(SetMultimapTestSuiteBuilder.using(new FilteredSetMultimapGenerator() {
         @Override
@@ -700,7 +674,6 @@ public class MultimapsCollectionTest extends TestCase {
           MapFeature.GENERAL_PURPOSE,
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES)
-      .suppressing(toSuppress)
       .createTestSuite());
     suite.addTest(SetMultimapTestSuiteBuilder.using(new FilteredSetMultimapGenerator() {
         @Override
@@ -716,10 +689,10 @@ public class MultimapsCollectionTest extends TestCase {
       .named("Multimaps.filterKeys[Multimaps.filterKeys[SetMultimap]]")
       .withFeatures(
           CollectionSize.ANY,
+          MultimapFeature.VALUE_COLLECTIONS_SUPPORT_ITERATOR_REMOVE,
           MapFeature.GENERAL_PURPOSE,
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES)
-      .suppressing(toSuppress)
       .createTestSuite());
     return suite;
   }

@@ -71,6 +71,7 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
           CollectionFeature.KNOWN_ORDER,
           CollectionFeature.SERIALIZABLE,
           CollectionSize.ANY)

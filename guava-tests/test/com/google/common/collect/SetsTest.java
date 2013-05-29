@@ -22,7 +22,6 @@ import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.powerSet;
 import static com.google.common.collect.Sets.unmodifiableNavigableSet;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
-import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod;
 import static java.io.ObjectStreamConstants.TC_REFERENCE;
 import static java.io.ObjectStreamConstants.baseWireHandle;
 import static java.util.Collections.emptySet;
@@ -195,22 +194,8 @@ public class SetsTest extends TestCase {
           }
         })
         .named("Sets.unmodifiableNavigableSet[TreeSet]")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER)
-        .createTestSuite());
-
-    suite.addTest(NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            SafeTreeSet<String> set = new SafeTreeSet<String>(Arrays.asList(elements));
-            return SerializableTester.reserialize(Sets.unmodifiableNavigableSet(set));
-          }
-
-          @Override
-          public List<String> order(List<String> insertionOrder) {
-            return Ordering.natural().sortedCopy(insertionOrder);
-          }
-        })
-        .named("Sets.unmodifiableNavigableSet[TreeSet], reserialized")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER)
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE)
         .createTestSuite());
 
     suite.addTest(testsForFilter());
@@ -233,11 +218,11 @@ public class SetsTest extends TestCase {
         })
         .named("Sets.filter")
         .withFeatures(
-            SetFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite();
   }
 
@@ -255,11 +240,11 @@ public class SetsTest extends TestCase {
         })
         .named("Sets.filter, no nulls")
         .withFeatures(
-            SetFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_QUERIES)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
     suite.addTest(NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override public NavigableSet<String> create(String[] elements) {
@@ -277,11 +262,11 @@ public class SetsTest extends TestCase {
         })
         .named("Sets.filter[NavigableSet]")
         .withFeatures(
-            SetFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_QUERIES)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
     return suite;
   }
@@ -302,11 +287,11 @@ public class SetsTest extends TestCase {
         })
         .named("Sets.filter, filtered input")
         .withFeatures(
-            SetFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_QUERIES)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite();
   }
 

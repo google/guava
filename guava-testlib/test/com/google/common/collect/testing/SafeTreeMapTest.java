@@ -60,7 +60,7 @@ public class SafeTreeMapTest extends TestCase {
           }
         }).withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.SERIALIZABLE, MapFeature.ALLOWS_NULL_VALUES, 
-            MapFeature.GENERAL_PURPOSE).named(
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE, MapFeature.GENERAL_PURPOSE).named(
             "SafeTreeMap with natural comparator").createTestSuite());
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override protected SortedMap<String, String> create(
@@ -79,8 +79,8 @@ public class SafeTreeMapTest extends TestCase {
         return insertionOrder;
       }
     }).withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-        MapFeature.ALLOWS_NULL_KEYS, MapFeature.ALLOWS_NULL_VALUES,
-        MapFeature.GENERAL_PURPOSE, CollectionFeature.SERIALIZABLE).named(
+        MapFeature.ALLOWS_NULL_KEYS, MapFeature.ALLOWS_NULL_VALUES, MapFeature.GENERAL_PURPOSE,
+        CollectionFeature.SUPPORTS_ITERATOR_REMOVE, CollectionFeature.SERIALIZABLE).named(
         "SafeTreeMap with null-friendly comparator").createTestSuite());
     return suite;
   }
@@ -98,7 +98,7 @@ public class SafeTreeMapTest extends TestCase {
   @GwtIncompatible("SerializableTester")
   public static class ReserializedMapTests
       extends SortedMapInterfaceTest<String, Integer> {
-    ReserializedMapTests() {
+    public ReserializedMapTests() {
       super(false, true, true, true, true);
     }
 

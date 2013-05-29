@@ -44,6 +44,7 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
     suite.addTest(BiMapTestSuiteBuilder.using(new SynchTestingBiMapGenerator())
         .named("Synchronized.biMap[TestBiMap]")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.GENERAL_PURPOSE,
@@ -52,6 +53,7 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
     suite.addTest(BiMapTestSuiteBuilder.using(new SynchronizedHashBiMapGenerator())
         .named("synchronizedBiMap[HashBiMap]")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.GENERAL_PURPOSE,

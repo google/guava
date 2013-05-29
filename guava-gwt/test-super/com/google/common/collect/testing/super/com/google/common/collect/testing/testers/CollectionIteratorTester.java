@@ -19,7 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
+import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
@@ -65,25 +65,25 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
 
   // TODO: switch to DerivedIteratorTestSuiteBuilder
 
-  @CollectionFeature.Require({KNOWN_ORDER, SUPPORTS_REMOVE})
+  @CollectionFeature.Require({KNOWN_ORDER, SUPPORTS_ITERATOR_REMOVE})
   public void testIterator_knownOrderRemoveSupported() {
     runIteratorTest(MODIFIABLE, IteratorTester.KnownOrder.KNOWN_ORDER,
         getOrderedElements());
   }
 
-  @CollectionFeature.Require(value = KNOWN_ORDER, absent = SUPPORTS_REMOVE)
+  @CollectionFeature.Require(value = KNOWN_ORDER, absent = SUPPORTS_ITERATOR_REMOVE)
   public void testIterator_knownOrderRemoveUnsupported() {
     runIteratorTest(UNMODIFIABLE, IteratorTester.KnownOrder.KNOWN_ORDER,
         getOrderedElements());
   }
 
-  @CollectionFeature.Require(absent = KNOWN_ORDER, value = SUPPORTS_REMOVE)
+  @CollectionFeature.Require(absent = KNOWN_ORDER, value = SUPPORTS_ITERATOR_REMOVE)
   public void testIterator_unknownOrderRemoveSupported() {
     runIteratorTest(MODIFIABLE, IteratorTester.KnownOrder.UNKNOWN_ORDER,
         getSampleElements());
   }
 
-  @CollectionFeature.Require(absent = {KNOWN_ORDER, SUPPORTS_REMOVE})
+  @CollectionFeature.Require(absent = {KNOWN_ORDER, SUPPORTS_ITERATOR_REMOVE})
   public void testIterator_unknownOrderRemoveUnsupported() {
     runIteratorTest(UNMODIFIABLE, IteratorTester.KnownOrder.UNKNOWN_ORDER,
         getSampleElements());

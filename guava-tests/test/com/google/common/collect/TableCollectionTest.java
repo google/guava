@@ -17,8 +17,6 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod;
-import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -29,9 +27,11 @@ import com.google.common.collect.testing.CollectionTestSuiteBuilder;
 import com.google.common.collect.testing.MapInterfaceTest;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
+import com.google.common.collect.testing.SortedSetTestSuiteBuilder;
 import com.google.common.collect.testing.TestSetGenerator;
 import com.google.common.collect.testing.TestStringCollectionGenerator;
 import com.google.common.collect.testing.TestStringSetGenerator;
+import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.SortedSet;
 
 /**
  * Collection tests for {@link Table} implementations.
@@ -142,11 +143,12 @@ public class TableCollectionTest extends TestCase {
         })
         .named("HashBasedTable.rowKeySet")
         .withFeatures(COLLECTION_FEATURES_REMOVE)
+        .withFeatures(CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            Table<String, Integer, Character> table = TreeBasedTable.create();
+    suite.addTest(SortedSetTestSuiteBuilder.using(new TestStringSortedSetGenerator() {
+          @Override protected SortedSet<String> create(String[] elements) {
+            TreeBasedTable<String, Integer, Character> table = TreeBasedTable.create();
             populateForRowKeySet(table, elements);
             return table.rowKeySet();
           }
@@ -158,61 +160,7 @@ public class TableCollectionTest extends TestCase {
         })
         .named("TreeBasedTable.rowKeySet")
         .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            TreeBasedTable<String, Integer, Character> table
-                = TreeBasedTable.create();
-            populateForRowKeySet(table, elements);
-            table.put("z", 1, 'a');
-            return table.rowKeySet().headSet("x");
-          }
-
-          @Override public List<String> order(List<String> insertionOrder) {
-            Collections.sort(insertionOrder);
-            return insertionOrder;
-          }
-        })
-        .named("TreeBasedTable.rowKeySet.headSet")
-        .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            TreeBasedTable<String, Integer, Character> table
-                = TreeBasedTable.create();
-            populateForRowKeySet(table, elements);
-            table.put("\0", 1, 'a');
-            return table.rowKeySet().tailSet("a");
-          }
-
-          @Override public List<String> order(List<String> insertionOrder) {
-            Collections.sort(insertionOrder);
-            return insertionOrder;
-          }
-        })
-        .named("TreeBasedTable.rowKeySet.tailSet")
-        .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            TreeBasedTable<String, Integer, Character> table
-                = TreeBasedTable.create();
-            populateForRowKeySet(table, elements);
-            table.put("\0", 1, 'a');
-            table.put("z", 1, 'a');
-            return table.rowKeySet().subSet("a", "x");
-          }
-
-          @Override public List<String> order(List<String> insertionOrder) {
-            Collections.sort(insertionOrder);
-            return insertionOrder;
-          }
-        })
-        .named("TreeBasedTable.rowKeySet.subSet")
-        .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
+        .withFeatures(CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
         .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -267,7 +215,6 @@ public class TableCollectionTest extends TestCase {
         })
         .named("HashBasedTable.columnKeySet")
         .withFeatures(COLLECTION_FEATURES_REMOVE)
-        .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
         .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -284,7 +231,6 @@ public class TableCollectionTest extends TestCase {
         })
         .named("TreeBasedTable.columnKeySet")
         .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -296,7 +242,6 @@ public class TableCollectionTest extends TestCase {
         })
         .named("unmodifiableTable[HashBasedTable].columnKeySet")
         .withFeatures(COLLECTION_FEATURES)
-        .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
         .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -313,7 +258,6 @@ public class TableCollectionTest extends TestCase {
         })
         .named("unmodifiableRowSortedTable[TreeBasedTable].columnKeySet")
         .withFeatures(COLLECTION_FEATURES_ORDER)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
 
     suite.addTest(CollectionTestSuiteBuilder.using(
@@ -347,6 +291,7 @@ public class TableCollectionTest extends TestCase {
         })
         .named("HashBasedTable.values")
         .withFeatures(COLLECTION_FEATURES_REMOVE)
+        .withFeatures(CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
         .createTestSuite());
 
     suite.addTest(CollectionTestSuiteBuilder.using(
@@ -361,6 +306,7 @@ public class TableCollectionTest extends TestCase {
         })
         .named("TreeBasedTable.values")
         .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
+        .withFeatures(CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
         .createTestSuite());
 
     final Function<String, String> removeFirstCharacter
@@ -382,6 +328,7 @@ public class TableCollectionTest extends TestCase {
         })
         .named("TransformValues.values")
         .withFeatures(COLLECTION_FEATURES_REMOVE)
+        .withFeatures(CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
         .createTestSuite());
 
     suite.addTest(CollectionTestSuiteBuilder.using(
@@ -458,7 +405,7 @@ public class TableCollectionTest extends TestCase {
           }
         })
         .named("HashBasedTable.cellSet")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE,
+        .withFeatures(CollectionSize.ANY, CollectionFeature.REMOVE_OPERATIONS,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
@@ -468,7 +415,7 @@ public class TableCollectionTest extends TestCase {
           }
         })
         .named("TreeBasedTable.cellSet")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE,
+        .withFeatures(CollectionSize.ANY, CollectionFeature.REMOVE_OPERATIONS,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
@@ -480,7 +427,7 @@ public class TableCollectionTest extends TestCase {
           }
         })
         .named("TransposedTable.cellSet")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE,
+        .withFeatures(CollectionSize.ANY, CollectionFeature.REMOVE_OPERATIONS,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
@@ -503,7 +450,7 @@ public class TableCollectionTest extends TestCase {
         })
         .named("TransformValues.cellSet")
         .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES,
-            CollectionFeature.SUPPORTS_REMOVE)
+            CollectionFeature.REMOVE_OPERATIONS)
         .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestCellSetGenerator() {
@@ -574,7 +521,6 @@ public class TableCollectionTest extends TestCase {
         })
         .named("HashBasedTable.column.keySet")
         .withFeatures(COLLECTION_FEATURES_REMOVE)
-        .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
     .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -590,7 +536,6 @@ public class TableCollectionTest extends TestCase {
         })
         .named("TreeBasedTable.column.keySet")
         .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -602,7 +547,6 @@ public class TableCollectionTest extends TestCase {
         })
         .named("TransformValues.column.keySet")
         .withFeatures(COLLECTION_FEATURES_REMOVE)
-        .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
     .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -614,7 +558,6 @@ public class TableCollectionTest extends TestCase {
         })
         .named("unmodifiableTable[HashBasedTable].column.keySet")
         .withFeatures(COLLECTION_FEATURES)
-        .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
     .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -630,7 +573,6 @@ public class TableCollectionTest extends TestCase {
         })
         .named("unmodifiableRowSortedTable[TreeBasedTable].column.keySet")
         .withFeatures(COLLECTION_FEATURES_ORDER)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
 
     return suite;

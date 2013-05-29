@@ -16,7 +16,6 @@
 
 package com.google.common.collect.testing;
 
-import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod;
 import static com.google.common.collect.testing.testers.CollectionToArrayTester.getToArrayIsPlainObjectArrayMethod;
 import static com.google.common.collect.testing.testers.ListAddTester.getAddSupportedNullPresentMethod;
 import static com.google.common.collect.testing.testers.ListListIteratorTester.getListIteratorFullyModifiableMethod;
@@ -56,7 +55,6 @@ public class OpenJdk6ListTests extends TestsForListsInJavaUtil {
         getSubListOriginalListSetAffectsSubListMethod(),
         getSubListOriginalListSetAffectsSubListLargeListMethod(),
         getSubListSubListRemoveAffectsOriginalLargeListMethod(),
-        getIteratorKnownOrderRemoveSupportedMethod(),
         getListIteratorFullyModifiableMethod());
   }
 

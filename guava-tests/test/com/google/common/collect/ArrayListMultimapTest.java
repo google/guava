@@ -62,6 +62,7 @@ public class ArrayListMultimapTest extends AbstractListMultimapTest {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
           CollectionFeature.SERIALIZABLE,
           CollectionSize.ANY)
       .createTestSuite());

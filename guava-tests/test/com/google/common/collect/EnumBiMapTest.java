@@ -105,6 +105,7 @@ public class EnumBiMapTest extends TestCase {
         .named("EnumBiMap")
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.GENERAL_PURPOSE,
             CollectionFeature.KNOWN_ORDER)
         .createTestSuite());

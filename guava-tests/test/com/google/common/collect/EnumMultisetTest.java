@@ -52,6 +52,7 @@ public class EnumMultisetTest extends TestCase {
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("EnumMultiset")
         .createTestSuite());

@@ -259,7 +259,7 @@ public class ForwardingMultisetTest extends ForwardingTestCase {
       }
     }).named("standardElementSet tripwire").withFeatures(CollectionSize.ANY,
         CollectionFeature.ALLOWS_NULL_VALUES,
-        CollectionFeature.SUPPORTS_REMOVE).createTestSuite());
+        CollectionFeature.REMOVE_OPERATIONS).createTestSuite());
 
     return suite;
   }

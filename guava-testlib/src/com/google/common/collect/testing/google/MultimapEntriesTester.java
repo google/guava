@@ -14,18 +14,18 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.Helpers;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
-import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -70,7 +70,7 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
   }
   
   @CollectionSize.Require(ONE)
-  @MapFeature.Require(SUPPORTS_REMOVE)
+  @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   public void testIteratorRemovePropagatesToMultimap() {
     Iterator<Entry<K, V>> iterator = multimap().entries().iterator();
     assertEquals(
@@ -91,14 +91,5 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
     assertEquals(key, entry.getKey());
     assertEquals(value, entry.getValue());
   }
-  
-  /**
-   * Returns the {@link Method} instance for the test that assumes the entries iterator supports 
-   * {@code remove()}.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getIteratorRemoveMethod() {
-    return Helpers.getMethod(MultimapEntriesTester.class,
-        "testIteratorRemovePropagatesToMultimap");
-  }
 }
+

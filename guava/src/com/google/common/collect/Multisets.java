@@ -283,6 +283,11 @@ public final class Multisets {
     }
 
     @Override
+    public UnmodifiableIterator<E> iterator() {
+      return Iterators.filter(unfiltered.iterator(), predicate);
+    }
+
+    @Override
     Set<E> createElementSet() {
       return Sets.filter(unfiltered.elementSet(), predicate);
     }

@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
+import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
@@ -25,10 +27,14 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.Helpers;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
 import java.lang.reflect.Method;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Tests {@link java.util.Map#entrySet}.
@@ -41,6 +47,17 @@ import java.lang.reflect.Method;
 public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   private enum IncomparableType {
     INSTANCE;
+  }
+  
+  @CollectionSize.Require(ONE)
+  @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
+  public void testEntrySetIteratorRemove() {
+    Set<Entry<K, V>> entrySet = getMap().entrySet();
+    Iterator<Entry<K, V>> entryItr = entrySet.iterator();
+    assertEquals(samples.e0, entryItr.next());
+    entryItr.remove();
+    assertTrue(getMap().isEmpty());
+    assertFalse(entrySet.contains(samples.e0));
   }
 
   public void testContainsEntryWithIncomparableKey() {

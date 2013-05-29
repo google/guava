@@ -24,7 +24,6 @@ import com.google.common.collect.testing.TestMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-import com.google.common.collect.testing.testers.CollectionIteratorTester;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -96,7 +95,8 @@ public class TreeRangeMapTest extends TestCase {
           CollectionSize.ANY,
           MapFeature.SUPPORTS_REMOVE,
           MapFeature.ALLOWS_NULL_QUERIES,
-          CollectionFeature.KNOWN_ORDER)
+          CollectionFeature.KNOWN_ORDER,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
       .createTestSuite());
 
     suite.addTest(MapTestSuiteBuilder.using(new TestMapGenerator<Range<Integer>, String>() {
@@ -151,7 +151,6 @@ public class TreeRangeMapTest extends TestCase {
           MapFeature.SUPPORTS_REMOVE,
           MapFeature.ALLOWS_NULL_QUERIES,
           CollectionFeature.KNOWN_ORDER)
-      .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
       .createTestSuite());
     return suite;
   }

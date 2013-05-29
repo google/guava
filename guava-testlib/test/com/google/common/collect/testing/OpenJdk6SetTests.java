@@ -20,7 +20,6 @@ import static com.google.common.collect.testing.testers.CollectionAddAllTester.g
 import static com.google.common.collect.testing.testers.CollectionAddTester.getAddNullSupportedMethod;
 import static com.google.common.collect.testing.testers.CollectionAddTester.getAddNullUnsupportedMethod;
 import static com.google.common.collect.testing.testers.CollectionCreationTester.getCreateWithNullUnsupportedMethod;
-import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod;
 import static com.google.common.collect.testing.testers.SetAddTester.getAddSupportedNullPresentMethod;
 
 import junit.framework.Test;
@@ -46,11 +45,6 @@ public class OpenJdk6SetTests extends TestsForSetsInJavaUtil {
         getAddNullUnsupportedMethod(),
         getAddAllNullUnsupportedMethod(),
         getCreateWithNullUnsupportedMethod());
-  }
-
-  @Override protected Collection<Method> suppressForCopyOnWriteArraySet() {
-    return Arrays.asList(
-        getIteratorKnownOrderRemoveSupportedMethod());
   }
 
   @Override protected Collection<Method> suppressForCheckedSet() {

@@ -183,10 +183,12 @@ public class MapTestSuiteBuilder<K, V>
     return valuesCollectionFeatures;
   }
 
-  private static Set<Feature<?>> computeCommonDerivedCollectionFeatures(
+  public static Set<Feature<?>> computeCommonDerivedCollectionFeatures(
       Set<Feature<?>> mapFeatures) {
+    mapFeatures = new HashSet<Feature<?>>(mapFeatures);
     Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
-    if (mapFeatures.contains(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
+    mapFeatures.remove(CollectionFeature.SERIALIZABLE);
+    if (mapFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
       derivedFeatures.add(CollectionFeature.SERIALIZABLE);
     }
     if (mapFeatures.contains(MapFeature.SUPPORTS_REMOVE)) {
@@ -198,8 +200,11 @@ public class MapTestSuiteBuilder<K, V>
     if (mapFeatures.contains(MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION)) {
       derivedFeatures.add(CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION);
     }
-    if (mapFeatures.contains(CollectionFeature.KNOWN_ORDER)) {
-      derivedFeatures.add(CollectionFeature.KNOWN_ORDER);
+    // add the intersection of CollectionFeature.values() and mapFeatures
+    for (CollectionFeature feature : CollectionFeature.values()) {
+      if (mapFeatures.contains(feature)) {
+        derivedFeatures.add(feature);
+      }
     }
     // add the intersection of CollectionSize.values() and mapFeatures
     for (CollectionSize size : CollectionSize.values()) {

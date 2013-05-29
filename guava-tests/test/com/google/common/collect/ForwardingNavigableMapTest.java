@@ -247,7 +247,8 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
     }).named("ForwardingNavigableMap[SafeTreeMap] with no comparator and standard "
         + "implementations").withFeatures(CollectionSize.ANY,
         CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
-        MapFeature.GENERAL_PURPOSE).createTestSuite());
+        CollectionFeature.SUPPORTS_ITERATOR_REMOVE, MapFeature.GENERAL_PURPOSE)
+        .createTestSuite());
     // TODO(user): add forwarding-to-ImmutableSortedMap test
     return suite;
   }

@@ -19,7 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
+import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -36,8 +36,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * A generic JUnit test which tests {@code iterator} operations on a collection.
@@ -69,25 +67,25 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
 
   // TODO: switch to DerivedIteratorTestSuiteBuilder
 
-  @CollectionFeature.Require({KNOWN_ORDER, SUPPORTS_REMOVE})
+  @CollectionFeature.Require({KNOWN_ORDER, SUPPORTS_ITERATOR_REMOVE})
   public void testIterator_knownOrderRemoveSupported() {
     runIteratorTest(MODIFIABLE, IteratorTester.KnownOrder.KNOWN_ORDER,
         getOrderedElements());
   }
 
-  @CollectionFeature.Require(value = KNOWN_ORDER, absent = SUPPORTS_REMOVE)
+  @CollectionFeature.Require(value = KNOWN_ORDER, absent = SUPPORTS_ITERATOR_REMOVE)
   public void testIterator_knownOrderRemoveUnsupported() {
     runIteratorTest(UNMODIFIABLE, IteratorTester.KnownOrder.KNOWN_ORDER,
         getOrderedElements());
   }
 
-  @CollectionFeature.Require(absent = KNOWN_ORDER, value = SUPPORTS_REMOVE)
+  @CollectionFeature.Require(absent = KNOWN_ORDER, value = SUPPORTS_ITERATOR_REMOVE)
   public void testIterator_unknownOrderRemoveSupported() {
     runIteratorTest(MODIFIABLE, IteratorTester.KnownOrder.UNKNOWN_ORDER,
         getSampleElements());
   }
 
-  @CollectionFeature.Require(absent = {KNOWN_ORDER, SUPPORTS_REMOVE})
+  @CollectionFeature.Require(absent = {KNOWN_ORDER, SUPPORTS_ITERATOR_REMOVE})
   public void testIterator_unknownOrderRemoveUnsupported() {
     runIteratorTest(UNMODIFIABLE, IteratorTester.KnownOrder.UNKNOWN_ORDER,
         getSampleElements());
@@ -111,31 +109,6 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
         expectContents(elements);
       }
     }.test();
-  }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testIterator_knownOrderRemoveSupported()} so that tests of
-   * {@link CopyOnWriteArraySet} and {@link CopyOnWriteArrayList} can suppress
-   * it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug
-   * 6570575</a> is fixed.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getIteratorKnownOrderRemoveSupportedMethod() {
-    return Helpers.getMethod(
-          CollectionIteratorTester.class, "testIterator_knownOrderRemoveSupported");
-  }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testIterator_unknownOrderRemoveSupported()} so that tests of
-   * classes with unmodifiable iterators can suppress it.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getIteratorUnknownOrderRemoveSupportedMethod() {
-    return Helpers.getMethod(
-        CollectionIteratorTester.class, "testIterator_unknownOrderRemoveSupported");
   }
 
   public void testIteratorNoSuchElementException() {

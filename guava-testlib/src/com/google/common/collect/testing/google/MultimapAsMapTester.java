@@ -14,6 +14,7 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
@@ -23,14 +24,13 @@ import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REM
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.Helpers;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -134,7 +134,7 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
   }
 
   @CollectionSize.Require(SEVERAL)
-  @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
+  @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   public void testAsMapEntrySetIteratorRemovePropagatesToMultimap() {
     resetContainer(
         Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
@@ -144,15 +144,5 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
     asMapEntryItr.next();
     asMapEntryItr.remove();
     assertTrue(multimap().isEmpty());
-  }
-  
-  /**
-   * Returns the {@link Method} instance for the test that assumes the asMap().entrySet() iterator
-   * supports {@code remove()} so that the test for {@code Multimaps.filter} can suppress it.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getAsMapEntrySetIteratorRemoveMethod() {
-    return Helpers.getMethod(MultimapAsMapTester.class, 
-        "testAsMapEntrySetIteratorRemovePropagatesToMultimap");
   }
 }

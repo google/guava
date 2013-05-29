@@ -35,12 +35,9 @@ import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-import com.google.common.collect.testing.google.BiMapRemoveTester;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringBiMapGenerator;
-import com.google.common.collect.testing.testers.CollectionIteratorTester;
 import com.google.common.io.BaseEncoding;
-import com.google.common.testing.SerializableTester;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -154,7 +151,8 @@ public class MapsCollectionTest extends TestCase {
         })
         .named("Maps.asMap[Set, Function]")
         .withFeatures(CollectionSize.ANY,
-            MapFeature.SUPPORTS_REMOVE)
+            MapFeature.SUPPORTS_REMOVE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
         .createTestSuite());
     suite.addTest(SortedMapTestSuiteBuilder
         .using(new TestMapGenerator<String, Integer>() {
@@ -213,7 +211,8 @@ public class MapsCollectionTest extends TestCase {
           }
         })
         .named("Maps.asMap[SortedSet, Function]")
-        .withFeatures(CollectionSize.ANY,
+        .withFeatures(CollectionSize.ANY, 
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.SUPPORTS_REMOVE)
         .createTestSuite());
     suite.addTest(NavigableMapTestSuiteBuilder
@@ -274,7 +273,8 @@ public class MapsCollectionTest extends TestCase {
         })
         .named("Maps.asMap[NavigableSet, Function]")
         .withFeatures(CollectionSize.ANY,
-            MapFeature.SUPPORTS_REMOVE)
+            MapFeature.SUPPORTS_REMOVE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
         .createTestSuite());
     suite.addTest(filterSuite());
     suite.addTest(transformSuite());
@@ -307,7 +307,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod())
       .createTestSuite());
     suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
         @Override
@@ -324,7 +323,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod())
       .createTestSuite());
     suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
         @Override
@@ -341,7 +339,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod())
       .createTestSuite());
     suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
         @Override
@@ -359,7 +356,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod())
       .createTestSuite());
     return suite;
   }
@@ -381,8 +377,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
-          BiMapRemoveTester.getKeySetIteratorRemoveMethod())
       .createTestSuite());
     suite.addTest(BiMapTestSuiteBuilder.using(new TestStringBiMapGenerator() {
         @Override
@@ -399,8 +393,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
-          BiMapRemoveTester.getKeySetIteratorRemoveMethod())
       .createTestSuite());
     suite.addTest(BiMapTestSuiteBuilder.using(new TestStringBiMapGenerator() {
         @Override
@@ -417,8 +409,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
-          BiMapRemoveTester.getKeySetIteratorRemoveMethod())
       .createTestSuite());
     return suite;
   }
@@ -439,7 +429,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-      .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
       .createTestSuite());
     suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
         @Override
@@ -455,7 +444,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-      .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
       .createTestSuite());
     suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
         @Override
@@ -471,7 +459,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-      .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
       .createTestSuite());
     return suite;
   }
@@ -493,7 +480,6 @@ public class MapsCollectionTest extends TestCase {
         MapFeature.ALLOWS_NULL_VALUES,
         MapFeature.GENERAL_PURPOSE,
         CollectionSize.ANY)
-        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override
@@ -510,7 +496,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-          .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
           .createTestSuite());
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override
@@ -527,7 +512,6 @@ public class MapsCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
-          .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
           .createTestSuite());
     return suite;
   }
@@ -655,7 +639,8 @@ public class MapsCollectionTest extends TestCase {
           CollectionSize.ANY,
           CollectionFeature.KNOWN_ORDER,
           MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.SUPPORTS_REMOVE)
+          MapFeature.SUPPORTS_REMOVE,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
       .createTestSuite());
     suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
         @Override
@@ -672,7 +657,8 @@ public class MapsCollectionTest extends TestCase {
           CollectionSize.ANY,
           CollectionFeature.KNOWN_ORDER,
           MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.SUPPORTS_REMOVE)
+          MapFeature.SUPPORTS_REMOVE,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
       .createTestSuite());
     return suite;
   }
@@ -693,7 +679,8 @@ public class MapsCollectionTest extends TestCase {
       .withFeatures(
           CollectionSize.ANY,
           CollectionFeature.KNOWN_ORDER,
-          MapFeature.SUPPORTS_REMOVE)
+          MapFeature.SUPPORTS_REMOVE,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
       .createTestSuite());
     suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
         @Override
@@ -709,7 +696,8 @@ public class MapsCollectionTest extends TestCase {
       .withFeatures(
           CollectionSize.ANY,
           CollectionFeature.KNOWN_ORDER,
-          MapFeature.SUPPORTS_REMOVE)
+          MapFeature.SUPPORTS_REMOVE,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
       .createTestSuite());
     return suite;
   }
@@ -730,7 +718,8 @@ public class MapsCollectionTest extends TestCase {
       .withFeatures(
           CollectionSize.ANY,
           CollectionFeature.KNOWN_ORDER,
-          MapFeature.SUPPORTS_REMOVE)
+          MapFeature.SUPPORTS_REMOVE,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
       .createTestSuite());
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
         @Override
@@ -746,7 +735,8 @@ public class MapsCollectionTest extends TestCase {
       .withFeatures(
           CollectionSize.ANY,
           CollectionFeature.KNOWN_ORDER,
-          MapFeature.SUPPORTS_REMOVE)
+          MapFeature.SUPPORTS_REMOVE,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
       .createTestSuite());
     return suite;
   }

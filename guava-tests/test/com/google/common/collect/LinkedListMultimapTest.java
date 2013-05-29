@@ -76,6 +76,7 @@ public class LinkedListMultimapTest extends AbstractListMultimapTest {
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
           CollectionFeature.SERIALIZABLE,
           CollectionFeature.KNOWN_ORDER,
           CollectionSize.ANY)

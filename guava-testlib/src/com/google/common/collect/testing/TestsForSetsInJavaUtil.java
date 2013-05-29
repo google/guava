@@ -19,7 +19,6 @@ package com.google.common.collect.testing;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.SetFeature;
-import com.google.common.collect.testing.testers.CollectionIteratorTester;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -94,8 +93,7 @@ public class TestsForSetsInJavaUtil {
     return Collections.emptySet();
   }
   protected Collection<Method> suppressForCopyOnWriteArraySet() {
-    return Collections.singleton(CollectionIteratorTester
-        .getIteratorKnownOrderRemoveSupportedMethod());
+    return Collections.emptySet();
   }
   protected Collection<Method> suppressForUnmodifiableSet() {
     return Collections.emptySet();
@@ -251,7 +249,8 @@ public class TestsForSetsInJavaUtil {
           })
         .named("CopyOnWriteArraySet")
         .withFeatures(
-            SetFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER,

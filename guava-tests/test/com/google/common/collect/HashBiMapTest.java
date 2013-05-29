@@ -59,6 +59,7 @@ public class HashBiMapTest extends TestCase {
       .named("HashBiMap")
       .withFeatures(CollectionSize.ANY,
           CollectionFeature.SERIALIZABLE,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE)

@@ -82,6 +82,7 @@ public enum CollectionFeature implements Feature<Collection> {
 
   SUPPORTS_ADD,
   SUPPORTS_REMOVE,
+  SUPPORTS_ITERATOR_REMOVE,
   FAILS_FAST_ON_CONCURRENT_MODIFICATION,
 
   /**
@@ -91,11 +92,13 @@ public enum CollectionFeature implements Feature<Collection> {
    */
   GENERAL_PURPOSE(
       SUPPORTS_ADD,
-      SUPPORTS_REMOVE),
+      SUPPORTS_REMOVE,
+      SUPPORTS_ITERATOR_REMOVE),
 
   /** Features supported by collections where only removal is allowed. */
   REMOVE_OPERATIONS(
-      SUPPORTS_REMOVE),
+      SUPPORTS_REMOVE,
+      SUPPORTS_ITERATOR_REMOVE),
 
   SERIALIZABLE, SERIALIZABLE_INCLUDING_VIEWS(SERIALIZABLE),
   

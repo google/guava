@@ -15,7 +15,7 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
+import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.IteratorFeature;
@@ -34,7 +34,7 @@ import java.util.Iterator;
 @GwtCompatible(emulated = true)
 public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
   @SuppressWarnings("unchecked")
-  @CollectionFeature.Require({SUPPORTS_REMOVE, KNOWN_ORDER})
+  @CollectionFeature.Require({SUPPORTS_ITERATOR_REMOVE, KNOWN_ORDER})
   public void testRemovingIteratorKnownOrder() {
     new IteratorTester<E>(4, IteratorFeature.MODIFIABLE, getSubjectGenerator().order(
         Arrays.asList(samples.e0, samples.e1, samples.e1, samples.e2)),
@@ -48,7 +48,7 @@ public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
   }
 
   @SuppressWarnings("unchecked")
-  @CollectionFeature.Require(value = SUPPORTS_REMOVE, absent = KNOWN_ORDER)
+  @CollectionFeature.Require(value = SUPPORTS_ITERATOR_REMOVE, absent = KNOWN_ORDER)
   public void testRemovingIteratorUnknownOrder() {
     new IteratorTester<E>(4, IteratorFeature.MODIFIABLE, Arrays.asList(samples.e0, samples.e1,
         samples.e1, samples.e2), IteratorTester.KnownOrder.UNKNOWN_ORDER) {
@@ -61,7 +61,7 @@ public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
   }
 
   @SuppressWarnings("unchecked")
-  @CollectionFeature.Require(value = KNOWN_ORDER, absent = SUPPORTS_REMOVE)
+  @CollectionFeature.Require(value = KNOWN_ORDER, absent = SUPPORTS_ITERATOR_REMOVE)
   public void testIteratorKnownOrder() {
     new IteratorTester<E>(4, IteratorFeature.UNMODIFIABLE, getSubjectGenerator().order(
         Arrays.asList(samples.e0, samples.e1, samples.e1, samples.e2)),
@@ -75,7 +75,7 @@ public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
   }
 
   @SuppressWarnings("unchecked")
-  @CollectionFeature.Require(absent = {SUPPORTS_REMOVE, KNOWN_ORDER})
+  @CollectionFeature.Require(absent = {SUPPORTS_ITERATOR_REMOVE, KNOWN_ORDER})
   public void testIteratorUnknownOrder() {
     new IteratorTester<E>(4, IteratorFeature.UNMODIFIABLE, Arrays.asList(samples.e0, samples.e1,
         samples.e1, samples.e2), IteratorTester.KnownOrder.UNKNOWN_ORDER) {

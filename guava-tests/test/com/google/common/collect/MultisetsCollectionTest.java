@@ -24,12 +24,9 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import com.google.common.collect.testing.google.MultisetIteratorTester;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
-import com.google.common.collect.testing.google.MultisetWritesTester;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-import com.google.common.collect.testing.testers.CollectionIteratorTester;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -94,11 +91,9 @@ public class MultisetsCollectionTest extends TestCase {
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.GENERAL_PURPOSE)
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE)
         .named("Multiset.filter[Multiset, Predicate]")
-        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod(),
-            MultisetIteratorTester.getIteratorKnownOrderRemoveSupportedMethod(),
-            MultisetWritesTester.getEntrySetIteratorMethod())
         .createTestSuite());
 
     return suite;
