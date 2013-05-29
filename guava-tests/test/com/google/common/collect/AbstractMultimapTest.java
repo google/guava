@@ -27,7 +27,6 @@ import junit.framework.TestCase;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * Tests for {@code Multimap} implementations. Caution: when subclassing avoid
@@ -105,18 +104,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     return false;
   }
 
-  public void testKeySet() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Set<String> keys = multimap.keySet();
-    assertEquals(2, keys.size());
-    assertTrue(keys.contains("foo"));
-    assertTrue(keys.contains(nullKey()));
-    assertTrue(keys.containsAll(Lists.newArrayList("foo", nullKey())));
-    assertFalse(keys.containsAll(Lists.newArrayList("foo", "bar")));
-  }
-
   public void testValues() {
     multimap.put("foo", 1);
     multimap.put("foo", nullValue());
@@ -127,41 +114,6 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertTrue(values.contains(3));
     assertTrue(values.contains(nullValue()));
     assertFalse(values.contains(5));
-  }
-
-  public void testKeySetRemove() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-    Set<String> keys = multimap.keySet();
-    assertTrue(keys.remove("foo"));
-    assertFalse(keys.remove("bar"));
-    assertSize(1);
-    assertFalse(multimap.containsKey("foo"));
-    assertTrue(multimap.containsEntry(nullKey(), 3));
-  }
-  
-  public void testKeySetIterator() {
-    multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
-
-    Iterator<String> iterator = multimap.keySet().iterator();
-    while (iterator.hasNext()) {
-      String key = iterator.next();
-      if ("foo".equals(key)) {
-        iterator.remove();
-      }
-    }
-    assertSize(1);
-    assertFalse(multimap.containsKey("foo"));
-    assertTrue(multimap.containsEntry(nullKey(), 3));
-
-    iterator = multimap.keySet().iterator();
-    assertEquals(nullKey(), iterator.next());
-    iterator.remove();
-    assertTrue(multimap.isEmpty());
-    assertSize(0);
   }
 
   public void testValuesIteratorRemove() {

@@ -120,24 +120,6 @@ public void testInvertFrom() throws Exception {
   testCase.testInvertFrom();
 }
 
-public void testKeySet() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testKeySet();
-}
-
-public void testKeySetIterator() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testKeySetIterator();
-}
-
-public void testKeySetRemove() throws Exception {
-  com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
-  testCase.setUp();
-  testCase.testKeySetRemove();
-}
-
 public void testNewListMultimap() throws Exception {
   com.google.common.collect.MultimapsTest testCase = new com.google.common.collect.MultimapsTest();
   testCase.setUp();

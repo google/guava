@@ -42,24 +42,6 @@ public void testDuplicates() throws Exception {
   testCase.testDuplicates();
 }
 
-public void testKeySet() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testKeySet();
-}
-
-public void testKeySetIterator() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testKeySetIterator();
-}
-
-public void testKeySetRemove() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testKeySetRemove();
-}
-
 public void testPutAllReturn_existingElements() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
   testCase.setUp();

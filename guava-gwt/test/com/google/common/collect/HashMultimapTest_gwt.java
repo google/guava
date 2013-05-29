@@ -72,24 +72,6 @@ public void testEmptyMultimapsEqual() throws Exception {
   testCase.testEmptyMultimapsEqual();
 }
 
-public void testKeySet() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testKeySet();
-}
-
-public void testKeySetIterator() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testKeySetIterator();
-}
-
-public void testKeySetRemove() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testKeySetRemove();
-}
-
 public void testPutAllReturn_existingElements() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
   testCase.setUp();

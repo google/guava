@@ -47,7 +47,6 @@ public class FilteredMultimapTest extends AbstractMultimapTest {
 
   // iterators don't support remove()
   // TODO(jlevy): Test logic that doesn't involve iterator.remove()
-  @Override public void testKeySetIterator() {}
   @Override public void testValuesIteratorRemove() {}
 
   // not serializable

@@ -54,24 +54,6 @@ public void testGetComparator() throws Exception {
   testCase.testGetComparator();
 }
 
-public void testKeySet() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testKeySet();
-}
-
-public void testKeySetIterator() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testKeySetIterator();
-}
-
-public void testKeySetRemove() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testKeySetRemove();
-}
-
 public void testMultimapComparators() throws Exception {
   com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
   testCase.setUp();

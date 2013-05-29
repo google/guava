@@ -35,7 +35,7 @@ public class SetMultimapPutAllTester<K, V>
     extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
 
   @MapFeature.Require(SUPPORTS_PUT)
-  public void testReplaceValuesHandlesDuplicates() {
+  public void testPutAllHandlesDuplicates() {
     V v0 = sampleValues().e3;
     V v1 = sampleValues().e2;
     @SuppressWarnings("unchecked")
