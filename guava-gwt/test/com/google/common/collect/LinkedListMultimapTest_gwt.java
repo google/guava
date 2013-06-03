@@ -66,12 +66,6 @@ public void testGetRemoveAll_someValuesRemain() throws Exception {
   testCase.testGetRemoveAll_someValuesRemain();
 }
 
-public void testGetRetainAll() throws Exception {
-  com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
-  testCase.setUp();
-  testCase.testGetRetainAll();
-}
-
 public void testLinkedAsMapEntries() throws Exception {
   com.google.common.collect.LinkedListMultimapTest testCase = new com.google.common.collect.LinkedListMultimapTest();
   testCase.setUp();

@@ -127,22 +127,6 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
   }
 
   /**
-   * According to the AbstractCollection.retainAll() implementation,
-   * {@code A.retainAll(B)} should keep all occurrences of each object in B,
-   * so even though the collection that this test passes to retainAll() has
-   * fewer occurrences of 2 than the multimap has, all of the 2s should be
-   * retained.
-   */
-  public void testGetRetainAll() {
-    // TODO: test this logic in ListRetainAllTester
-    ListMultimap<String, Integer> multimap = create();
-    multimap.putAll("foo", asList(1, 2, 2, 3, 3, 3));
-
-    multimap.get("foo").retainAll(asList(1, 2, 4));
-    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 2).inOrder();
-  }
-
-  /**
    * According to the AbstractCollection.removeAll() implementation,
    * {@code A.removeAll(B)} should remove all occurrences of each object in B,
    * so even though the collection that this test passes to removeAll() has

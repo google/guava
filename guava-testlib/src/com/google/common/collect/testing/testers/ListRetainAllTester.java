@@ -20,11 +20,14 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+
+import java.util.Arrays;
 
 /**
  * A generic JUnit test which tests {@code retainAll} operations on a list.
@@ -56,5 +59,14 @@ public class ListRetainAllTester<E> extends AbstractListTester<E> {
     assertTrue("containsDuplicates.retainAll(subset) should return true",
         collection.retainAll(MinimalCollection.of(samples.e2)));
     expectContents(samples.e2);
+  }
+  
+  @SuppressWarnings("unchecked")
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
+  @CollectionSize.Require(SEVERAL)
+  public void testRetainAll_countIgnored() {
+    resetContainer(getSubjectGenerator().create(samples.e0, samples.e2, samples.e1, samples.e0));
+    assertTrue(getList().retainAll(Arrays.asList(samples.e0, samples.e1)));
+    ASSERT.that(getList()).has().allOf(samples.e0, samples.e1, samples.e0).inOrder();
   }
 }

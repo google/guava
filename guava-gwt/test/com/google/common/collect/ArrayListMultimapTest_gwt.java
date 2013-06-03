@@ -72,12 +72,6 @@ public void testGetRemoveAll_someValuesRemain() throws Exception {
   testCase.testGetRemoveAll_someValuesRemain();
 }
 
-public void testGetRetainAll() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testGetRetainAll();
-}
-
 public void testListAddIndex() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
   testCase.setUp();
