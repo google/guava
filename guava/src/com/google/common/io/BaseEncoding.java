@@ -193,7 +193,11 @@ public abstract class BaseEncoding {
   /**
    * Returns an {@code OutputSupplier} that supplies streams that encode bytes using this encoding
    * into writers from the specified {@code OutputSupplier}.
+   *
+   * @deprecated Use {@link #encodingSink(CharSink)} instead. This method is scheduled to be
+   *     removed in Guava 16.0.
    */
+  @Deprecated
   @GwtIncompatible("Writer,OutputStream")
   public final OutputSupplier<OutputStream> encodingStream(
       final OutputSupplier<? extends Writer> writerSupplier) {
@@ -284,7 +288,11 @@ public abstract class BaseEncoding {
   /**
    * Returns an {@code InputSupplier} that supplies input streams that decode base-encoded input
    * from readers from the specified supplier.
+   *
+   * @deprecated Use {@link #decodingSource(CharSource)} instead. This method is scheduled to be
+   *     removed in Guava 16.0.
    */
+  @Deprecated
   @GwtIncompatible("Reader,InputStream")
   public final InputSupplier<InputStream> decodingStream(
       final InputSupplier<? extends Reader> readerSupplier) {
