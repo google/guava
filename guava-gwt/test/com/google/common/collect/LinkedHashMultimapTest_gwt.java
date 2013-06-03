@@ -60,12 +60,6 @@ public void testCreateFromSizes() throws Exception {
   testCase.testCreateFromSizes();
 }
 
-public void testDuplicates() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testDuplicates();
-}
-
 public void testKeysToString_ordering() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
@@ -96,22 +90,10 @@ public void testOrderingUpdates() throws Exception {
   testCase.testOrderingUpdates();
 }
 
-public void testPutAllReturn_existingElements() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllReturn_existingElements();
-}
-
 public void testPutMultimapOrdered() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.setUp();
   testCase.testPutMultimapOrdered();
-}
-
-public void testPutReturn() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.setUp();
-  testCase.testPutReturn();
 }
 
 public void testToString() throws Exception {

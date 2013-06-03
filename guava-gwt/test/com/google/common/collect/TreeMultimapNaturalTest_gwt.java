@@ -60,12 +60,6 @@ public void testCreateFromTreeMultimap() throws Exception {
   testCase.testCreateFromTreeMultimap();
 }
 
-public void testDuplicates() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testDuplicates();
-}
-
 public void testMultimapConstructor() throws Exception {
   com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
   testCase.setUp();
@@ -100,18 +94,6 @@ public void testOrderedValues() throws Exception {
   com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
   testCase.setUp();
   testCase.testOrderedValues();
-}
-
-public void testPutAllReturn_existingElements() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testPutAllReturn_existingElements();
-}
-
-public void testPutReturn() throws Exception {
-  com.google.common.collect.TreeMultimapNaturalTest testCase = new com.google.common.collect.TreeMultimapNaturalTest();
-  testCase.setUp();
-  testCase.testPutReturn();
 }
 
 public void testTailSetClear() throws Exception {

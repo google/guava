@@ -60,28 +60,10 @@ public void testCreateFromSizes() throws Exception {
   testCase.testCreateFromSizes();
 }
 
-public void testDuplicates() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testDuplicates();
-}
-
 public void testEmptyMultimapsEqual() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
   testCase.setUp();
   testCase.testEmptyMultimapsEqual();
-}
-
-public void testPutAllReturn_existingElements() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllReturn_existingElements();
-}
-
-public void testPutReturn() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testPutReturn();
 }
 
 public void testValues() throws Exception {

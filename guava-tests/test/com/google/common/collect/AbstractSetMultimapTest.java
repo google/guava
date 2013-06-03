@@ -34,19 +34,6 @@ import java.util.Set;
 @GwtCompatible
 public abstract class AbstractSetMultimapTest extends AbstractMultimapTest {
 
-  public void testDuplicates() {
-    Multimap<String, Integer> multimap = getMultimap();
-    assertTrue(multimap.put("foo", 1));
-    assertTrue(multimap.put("foo", 3));
-    assertTrue(multimap.put("bar", 3));
-    assertFalse(multimap.put("foo", 1));
-    assertSize(3);
-    assertTrue(multimap.containsEntry("foo", 1));
-    assertTrue(multimap.remove("foo", 1));
-    assertSize(2);
-    assertFalse(multimap.containsEntry("foo", 1));
-  }
-
   public void testAsMapEquals() {
     Multimap<String, Integer> multimap = getMultimap();
     multimap.put("foo", 1);
@@ -115,31 +102,5 @@ public abstract class AbstractSetMultimapTest extends AbstractMultimapTest {
     assertEquals(3, multimap.size());
     assertTrue(asMapValues.remove(ImmutableSet.of(1, 3)));
     assertEquals(1, multimap.size());
-  }
-
-  public void testPutReturn() {
-    Multimap<String, Integer> multimap = getMultimap();
-    assertTrue(multimap.put("foo", 1));
-    assertFalse(multimap.put("foo", 1));
-    assertTrue(multimap.put("foo", 3));
-    assertTrue(multimap.put("bar", 5));
-  }
-
-  public void testPutAllReturn_existingElements() {
-    Multimap<String, Integer> multimap = create();
-    assertTrue(multimap.putAll("foo", asList(1, 2, 3)));
-    assertFalse(multimap.put("foo", 1));
-    assertFalse(multimap.putAll("foo", asList(1, 2, 3)));
-    assertFalse(multimap.putAll("foo", asList(1, 3)));
-    assertTrue(multimap.putAll("foo", asList(1, 2, 4)));
-
-    Multimap<String, Integer> other = create();
-    other.putAll("foo", asList(1, 2));
-    assertFalse(multimap.putAll(other));
-
-    other.putAll("bar", asList(1, 2));
-    assertTrue(multimap.putAll(other));
-    assertTrue(other.putAll(multimap));
-    assertTrue(other.equals(multimap));
   }
 }

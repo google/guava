@@ -36,24 +36,6 @@ public void testAsMapValues() throws Exception {
   testCase.testAsMapValues();
 }
 
-public void testDuplicates() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testDuplicates();
-}
-
-public void testPutAllReturn_existingElements() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testPutAllReturn_existingElements();
-}
-
-public void testPutReturn() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testPutReturn();
-}
-
 public void testValues() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
   testCase.setUp();

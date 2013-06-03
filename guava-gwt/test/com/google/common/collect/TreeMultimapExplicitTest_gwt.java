@@ -42,12 +42,6 @@ public void testComparator() throws Exception {
   testCase.testComparator();
 }
 
-public void testDuplicates() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testDuplicates();
-}
-
 public void testGetComparator() throws Exception {
   com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
   testCase.setUp();
@@ -94,18 +88,6 @@ public void testOrderedValues() throws Exception {
   com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
   testCase.setUp();
   testCase.testOrderedValues();
-}
-
-public void testPutAllReturn_existingElements() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testPutAllReturn_existingElements();
-}
-
-public void testPutReturn() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.setUp();
-  testCase.testPutReturn();
 }
 
 public void testSortedKeySet() throws Exception {

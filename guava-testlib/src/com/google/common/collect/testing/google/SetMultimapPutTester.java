@@ -40,6 +40,12 @@ public class SetMultimapPutTester<K, V>
 
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
+  public void testPutDuplicateValuePreservesSize() {
+    assertFalse(multimap().put(sampleKeys().e0, sampleValues().e0));
+    assertEquals(getNumElements(), multimap().size());
+  }
+
+  @MapFeature.Require(SUPPORTS_PUT)
   public void testPutDuplicateValue() {
     List<Entry<K, V>> entries = copyToList(multimap().entries());
 
