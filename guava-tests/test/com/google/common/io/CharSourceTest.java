@@ -22,12 +22,15 @@ import static com.google.common.io.TestOption.READ_THROWS;
 import static com.google.common.io.TestOption.WRITE_THROWS;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.testing.TestLogHandler;
 
 import junit.framework.TestSuite;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.EnumSet;
 
 /**
@@ -168,5 +171,116 @@ public class CharSourceTest extends IoTestCase {
         CharSource.concat(c1, c2, c3).read());
     assertEquals(expected,
         CharSource.concat(ImmutableList.of(c1, c2, c3).iterator()).read());
+  }
+
+  static final CharSource BROKEN_READ_SOURCE = new TestCharSource("ABC", READ_THROWS);
+  static final CharSource BROKEN_CLOSE_SOURCE = new TestCharSource("ABC", CLOSE_THROWS);
+  static final CharSource BROKEN_OPEN_SOURCE = new TestCharSource("ABC", OPEN_THROWS);
+  static final CharSink BROKEN_WRITE_SINK = new TestCharSink(WRITE_THROWS);
+  static final CharSink BROKEN_CLOSE_SINK = new TestCharSink(CLOSE_THROWS);
+  static final CharSink BROKEN_OPEN_SINK = new TestCharSink(OPEN_THROWS);
+
+  private static final ImmutableSet<CharSource> BROKEN_SOURCES
+      = ImmutableSet.of(BROKEN_CLOSE_SOURCE, BROKEN_OPEN_SOURCE, BROKEN_READ_SOURCE);
+  private static final ImmutableSet<CharSink> BROKEN_SINKS
+      = ImmutableSet.of(BROKEN_CLOSE_SINK, BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
+
+  public void testCopyExceptions() {
+    if (!Closer.SuppressingSuppressor.isAvailable()) {
+      // test that exceptions are logged
+
+      TestLogHandler logHandler = new TestLogHandler();
+      Closeables.logger.addHandler(logHandler);
+      try {
+        for (CharSource in : BROKEN_SOURCES) {
+          runFailureTest(in, newNormalCharSink());
+          assertTrue(logHandler.getStoredLogRecords().isEmpty());
+
+          runFailureTest(in, BROKEN_CLOSE_SINK);
+          assertEquals((in == BROKEN_OPEN_SOURCE) ? 0 : 1, getAndResetRecords(logHandler));
+        }
+
+        for (CharSink out : BROKEN_SINKS) {
+          runFailureTest(newNormalCharSource(), out);
+          assertTrue(logHandler.getStoredLogRecords().isEmpty());
+
+          runFailureTest(BROKEN_CLOSE_SOURCE, out);
+          assertEquals(1, getAndResetRecords(logHandler));
+        }
+
+        for (CharSource in : BROKEN_SOURCES) {
+          for (CharSink out : BROKEN_SINKS) {
+            runFailureTest(in, out);
+            assertTrue(getAndResetRecords(logHandler) <= 1);
+          }
+        }
+      } finally {
+        Closeables.logger.removeHandler(logHandler);
+      }
+    } else {
+      // test that exceptions are suppressed
+
+      for (CharSource in : BROKEN_SOURCES) {
+        int suppressed = runSuppressionFailureTest(in, newNormalCharSink());
+        assertEquals(0, suppressed);
+
+        suppressed = runSuppressionFailureTest(in, BROKEN_CLOSE_SINK);
+        assertEquals((in == BROKEN_OPEN_SOURCE) ? 0 : 1, suppressed);
+      }
+
+      for (CharSink out : BROKEN_SINKS) {
+        int suppressed = runSuppressionFailureTest(newNormalCharSource(), out);
+        assertEquals(0, suppressed);
+
+        suppressed = runSuppressionFailureTest(BROKEN_CLOSE_SOURCE, out);
+        assertEquals(1, suppressed);
+      }
+
+      for (CharSource in : BROKEN_SOURCES) {
+        for (CharSink out : BROKEN_SINKS) {
+          int suppressed = runSuppressionFailureTest(in, out);
+          assertTrue(suppressed <= 1);
+        }
+      }
+    }
+  }
+
+  private static int getAndResetRecords(TestLogHandler logHandler) {
+    int records = logHandler.getStoredLogRecords().size();
+    logHandler.clear();
+    return records;
+  }
+
+  private static void runFailureTest(CharSource in, CharSink out) {
+    try {
+      in.copyTo(out);
+      fail();
+    } catch (IOException expected) {
+    }
+  }
+
+  /**
+   * @return the number of exceptions that were suppressed on the expected thrown exception
+   */
+  private static int runSuppressionFailureTest(CharSource in, CharSink out) {
+    try {
+      in.copyTo(out);
+      fail();
+    } catch (IOException expected) {
+      return CloserTest.getSuppressed(expected).length;
+    }
+    throw new AssertionError(); // can't happen
+  }
+
+  private static CharSource newNormalCharSource() {
+    return CharSource.wrap("ABC");
+  }
+
+  private static CharSink newNormalCharSink() {
+    return new CharSink() {
+      @Override public Writer openStream() {
+        return new StringWriter();
+      }
+    };
   }
 }

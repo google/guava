@@ -32,15 +32,15 @@ public class MultiReaderTest extends TestCase {
 
   public void testOnlyOneOpen() throws Exception {
     String testString = "abcdefgh";
-    final InputSupplier<Reader> supplier = newReader(testString);
+    final CharSource source = newCharSource(testString);
     final int[] counter = new int[1];
-    InputSupplier<Reader> reader = new InputSupplier<Reader>() {
+    CharSource reader = new CharSource() {
       @Override
-      public Reader getInput() throws IOException {
+      public Reader openStream() throws IOException {
         if (counter[0]++ != 0) {
-          throw new IllegalStateException("More than one supplier open");
+          throw new IllegalStateException("More than one source open");
         }
-        return new FilterReader(supplier.getInput()) {
+        return new FilterReader(source.openStream()) {
           @Override public void close() throws IOException {
             super.close();
             counter[0]--;
@@ -48,16 +48,15 @@ public class MultiReaderTest extends TestCase {
         };
       }
     };
-    @SuppressWarnings("unchecked")
-    Reader joinedReader = CharStreams.join(reader, reader, reader).getInput();
+    Reader joinedReader = CharSource.concat(reader, reader, reader).openStream();
     String result = CharStreams.toString(joinedReader);
     assertEquals(testString.length() * 3, result.length());
   }
 
   public void testReady() throws Exception {
-    InputSupplier<Reader> supplier = newReader("a");
-    Iterable<? extends InputSupplier<? extends Reader>> list = ImmutableList.of(supplier, supplier);
-    Reader joinedReader = CharStreams.join(list).getInput();
+    CharSource source = newCharSource("a");
+    Iterable<? extends CharSource> list = ImmutableList.of(source, source);
+    Reader joinedReader = CharSource.concat(list).openStream();
 
     assertTrue(joinedReader.ready());
     assertEquals('a', joinedReader.read());
@@ -68,19 +67,18 @@ public class MultiReaderTest extends TestCase {
 
   public void testSimple() throws Exception {
     String testString = "abcdefgh";
-    InputSupplier<Reader> supplier = newReader(testString);
-    @SuppressWarnings("unchecked")
-    Reader joinedReader = CharStreams.join(supplier, supplier).getInput();
+    CharSource source = newCharSource(testString);
+    Reader joinedReader = CharSource.concat(source, source).openStream();
 
     String expectedString = testString + testString;
     assertEquals(expectedString, CharStreams.toString(joinedReader));
   }
 
   
-  private static InputSupplier<Reader> newReader(final String text) {
-    return new InputSupplier<Reader>() {
+  private static CharSource newCharSource(final String text) {
+    return new CharSource() {
       @Override
-      public Reader getInput() {
+      public Reader openStream() {
         return new StringReader(text);
       }
     };
@@ -89,9 +87,8 @@ public class MultiReaderTest extends TestCase {
   public void testSkip() throws Exception {
     String begin = "abcde";
     String end = "fghij";
-    @SuppressWarnings("unchecked")
     Reader joinedReader =
-        CharStreams.join(newReader(begin), newReader(end)).getInput();
+        CharSource.concat(newCharSource(begin), newCharSource(end)).openStream();
 
     String expected = begin + end;
     assertEquals(expected.charAt(0), joinedReader.read());
@@ -105,9 +102,9 @@ public class MultiReaderTest extends TestCase {
   }
   
   public void testSkipZero() throws Exception {
-    InputSupplier<Reader> supplier = newReader("a");
-    Iterable<? extends InputSupplier<? extends Reader>> list = ImmutableList.of(supplier, supplier);
-    Reader joinedReader = CharStreams.join(list).getInput();
+    CharSource source = newCharSource("a");
+    Iterable<CharSource> list = ImmutableList.of(source, source);
+    Reader joinedReader = CharSource.concat(list).openStream();
 
     assertEquals(0, joinedReader.skip(0));
     assertEquals('a', joinedReader.read());

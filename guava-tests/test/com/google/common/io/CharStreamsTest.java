@@ -16,22 +16,12 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.Charsets.UTF_8;
-import static com.google.common.io.CharStreams.copy;
-import static com.google.common.io.CharStreams.newReaderSupplier;
-
-import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.testing.TestLogHandler;
 
-import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.FilterReader;
-import java.io.FilterWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -48,33 +38,8 @@ public class CharStreamsTest extends IoTestCase {
   private static final String TEXT
       = "The quick brown fox jumped over the lazy dog.";
 
-  static final InputSupplier<? extends Reader> BROKEN_READ
-      = CharStreams.newReaderSupplier(ByteStreamsTest.BROKEN_READ, UTF_8);
-
-  static final OutputSupplier<? extends Writer> BROKEN_WRITE
-      = CharStreams.newWriterSupplier(ByteStreamsTest.BROKEN_WRITE, UTF_8);
-
-  static final InputSupplier<? extends Reader> BROKEN_CLOSE_INPUT
-      = CharStreams.newReaderSupplier(ByteStreamsTest.BROKEN_CLOSE_INPUT, UTF_8);
-
-  static final OutputSupplier<? extends Writer> BROKEN_CLOSE_OUTPUT
-      = CharStreams.newWriterSupplier(ByteStreamsTest.BROKEN_CLOSE_OUTPUT, UTF_8);
-
-  static final InputSupplier<? extends Reader> BROKEN_GET_INPUT
-      = CharStreams.newReaderSupplier(ByteStreamsTest.BROKEN_GET_INPUT, UTF_8);
-
-  static final OutputSupplier<? extends Writer> BROKEN_GET_OUTPUT
-      = CharStreams.newWriterSupplier(ByteStreamsTest.BROKEN_GET_OUTPUT, UTF_8);
-
-  private static final ImmutableSet<InputSupplier<? extends Reader>> BROKEN_INPUTS =
-      ImmutableSet.of(BROKEN_CLOSE_INPUT, BROKEN_GET_INPUT, BROKEN_READ);
-  private static final ImmutableSet<OutputSupplier<? extends Writer>> BROKEN_OUTPUTS
-      = ImmutableSet.of(BROKEN_CLOSE_OUTPUT, BROKEN_GET_OUTPUT, BROKEN_WRITE);
-
   public void testToString() throws IOException {
     assertEquals(TEXT, CharStreams.toString(new StringReader(TEXT)));
-    assertEquals(TEXT,
-        CharStreams.toString(CharStreams.newReaderSupplier(TEXT)));
   }
 
   public void testSkipFully_blockingRead() throws IOException {
@@ -82,29 +47,29 @@ public class CharStreamsTest extends IoTestCase {
     CharStreams.skipFully(reader, 6);
     assertEquals(-1, reader.read());
   }
-  
+
   private static class NonSkippingReader extends StringReader {
     NonSkippingReader(String s) {
       super(s);
     }
-    
+
     @Override
     public long skip(long n) {
       return 0;
     }
   }
-  
-  public void testReadLines_fromReadable() throws IOException {
-    byte[] bytes = "a\nb\nc".getBytes(Charsets.UTF_8.name());
+
+  public void testReadLines() throws IOException {
     List<String> lines = CharStreams.readLines(
-        new InputStreamReader(new ByteArrayInputStream(bytes), Charsets.UTF_8));
+        new StringReader("a\nb\nc"));
     assertEquals(ImmutableList.of("a", "b", "c"), lines);
   }
 
   public void testReadLines_withLineProcessor() throws IOException {
-    InputSupplier<StringReader> r = CharStreams.newReaderSupplier("a\nb\nc");
+    String text = "a\nb\nc";
 
     // Test a LineProcessor that always returns false.
+    Reader r = new StringReader(text);
     LineProcessor<Integer> alwaysFalse = new LineProcessor<Integer>() {
       int seen;
       @Override
@@ -121,6 +86,7 @@ public class CharStreamsTest extends IoTestCase {
         CharStreams.readLines(r, alwaysFalse).intValue());
 
     // Test a LineProcessor that always returns true.
+    r = new StringReader(text);
     LineProcessor<Integer> alwaysTrue = new LineProcessor<Integer>() {
       int seen;
       @Override
@@ -137,6 +103,7 @@ public class CharStreamsTest extends IoTestCase {
         CharStreams.readLines(r, alwaysTrue).intValue());
 
     // Test a LineProcessor that is conditional.
+    r = new StringReader(text);
     final StringBuilder sb = new StringBuilder();
     LineProcessor<Integer> conditional = new LineProcessor<Integer>() {
       int seen;
@@ -153,168 +120,6 @@ public class CharStreamsTest extends IoTestCase {
     };
     assertEquals(2, CharStreams.readLines(r, conditional).intValue());
     assertEquals("ab", sb.toString());
-  }
-
-  public void testAlwaysCloses() throws IOException {
-    CheckCloseSupplier.Input<Reader> okRead
-        = newCheckReader(CharStreams.newReaderSupplier(TEXT));
-    CheckCloseSupplier.Output<Writer> okWrite
-        = newCheckWriter(new OutputSupplier<Writer>() {
-          @Override
-          public Writer getOutput() {
-            return new StringWriter();
-          }
-        });
-    CheckCloseSupplier.Input<Reader> brokenRead = newCheckReader(BROKEN_READ);
-    CheckCloseSupplier.Output<Writer> brokenWrite
-        = newCheckWriter(BROKEN_WRITE);
-
-    CharStreams.copy(okRead, okWrite);
-    assertTrue(okRead.areClosed());
-    assertTrue(okWrite.areClosed());
-
-    try {
-      CharStreams.copy(okRead, brokenWrite);
-      fail("expected exception");
-    } catch (Exception e) {
-      assertEquals("broken write", e.getMessage());
-    }
-    assertTrue(okRead.areClosed());
-    assertTrue(brokenWrite.areClosed());
-
-    try {
-      CharStreams.copy(brokenRead, okWrite);
-      fail("expected exception");
-    } catch (Exception e) {
-      assertEquals("broken read", e.getMessage());
-    }
-    assertTrue(brokenRead.areClosed());
-    assertTrue(okWrite.areClosed());
-
-    try {
-      CharStreams.copy(brokenRead, brokenWrite);
-      fail("expected exception");
-    } catch (Exception e) {
-      assertEquals("broken read", e.getMessage());
-    }
-    assertTrue(brokenRead.areClosed());
-    assertTrue(brokenWrite.areClosed());
-
-    assertEquals(TEXT, CharStreams.toString(okRead));
-    assertTrue(okRead.areClosed());
-
-    try {
-      CharStreams.toString(brokenRead);
-      fail("expected exception");
-    } catch (Exception e) {
-      assertEquals("broken read", e.getMessage());
-    }
-    assertTrue(brokenRead.areClosed());
-
-    try {
-      CharStreams.write("hello world", brokenWrite);
-      fail("expected exception");
-    } catch (Exception e) {
-      assertEquals("broken write", e.getMessage());
-    }
-    assertTrue(brokenWrite.areClosed());
-  }
-
-  public void testCopySuppliersExceptions() {
-    if (!Closer.SuppressingSuppressor.isAvailable()) {
-      // test that exceptions are logged
-
-      TestLogHandler logHandler = new TestLogHandler();
-      Closeables.logger.addHandler(logHandler);
-      try {
-        for (InputSupplier<? extends Reader> in : BROKEN_INPUTS) {
-          runFailureTest(in, newStringWriterSupplier());
-          assertTrue(logHandler.getStoredLogRecords().isEmpty());
-
-          runFailureTest(in, BROKEN_CLOSE_OUTPUT);
-          assertEquals((in == BROKEN_GET_INPUT) ? 0 : 1, getAndResetRecords(logHandler));
-        }
-
-        for (OutputSupplier<? extends Writer> out : BROKEN_OUTPUTS) {
-          runFailureTest(newReaderSupplier("ABC"), out);
-          assertTrue(logHandler.getStoredLogRecords().isEmpty());
-
-          runFailureTest(BROKEN_CLOSE_INPUT, out);
-          assertEquals(1, getAndResetRecords(logHandler));
-        }
-
-        for (InputSupplier<? extends Reader> in : BROKEN_INPUTS) {
-          for (OutputSupplier<? extends Writer> out : BROKEN_OUTPUTS) {
-            runFailureTest(in, out);
-            assertTrue(getAndResetRecords(logHandler) <= 1);
-          }
-        }
-      } finally {
-        Closeables.logger.removeHandler(logHandler);
-      }
-    } else {
-      // test that exceptions are suppressed
-
-      for (InputSupplier<? extends Reader> in : BROKEN_INPUTS) {
-        int suppressed = runSuppressionFailureTest(in, newStringWriterSupplier());
-        assertEquals(0, suppressed);
-
-        suppressed = runSuppressionFailureTest(in, BROKEN_CLOSE_OUTPUT);
-        assertEquals((in == BROKEN_GET_INPUT) ? 0 : 1, suppressed);
-      }
-
-      for (OutputSupplier<? extends Writer> out : BROKEN_OUTPUTS) {
-        int suppressed = runSuppressionFailureTest(newReaderSupplier("ABC"), out);
-        assertEquals(0, suppressed);
-
-        suppressed = runSuppressionFailureTest(BROKEN_CLOSE_INPUT, out);
-        assertEquals(1, suppressed);
-      }
-
-      for (InputSupplier<? extends Reader> in : BROKEN_INPUTS) {
-        for (OutputSupplier<? extends Writer> out : BROKEN_OUTPUTS) {
-          int suppressed = runSuppressionFailureTest(in, out);
-          assertTrue(suppressed <= 1);
-        }
-      }
-    }
-  }
-
-  private static int getAndResetRecords(TestLogHandler logHandler) {
-    int records = logHandler.getStoredLogRecords().size();
-    logHandler.clear();
-    return records;
-  }
-
-  private static void runFailureTest(
-      InputSupplier<? extends Reader> in, OutputSupplier<? extends Writer> out) {
-    try {
-      copy(in, out);
-      fail();
-    } catch (IOException expected) {
-    }
-  }
-
-  /**
-   * @return the number of exceptions that were suppressed on the expected thrown exception
-   */
-  private static int runSuppressionFailureTest(
-      InputSupplier<? extends Reader> in, OutputSupplier<? extends Writer> out) {
-    try {
-      copy(in, out);
-      fail();
-    } catch (IOException expected) {
-      return CloserTest.getSuppressed(expected).length;
-    }
-    throw new AssertionError(); // can't happen
-  }
-
-  private static OutputSupplier<Writer> newStringWriterSupplier() {
-    return new OutputSupplier<Writer>() {
-      @Override public Writer getOutput() {
-        return new StringWriter();
-      }
-    };
   }
 
   public void testSkipFully_EOF() throws IOException {
@@ -351,17 +156,6 @@ public class CharStreamsTest extends IoTestCase {
     Appendable secretlyAWriter = new StringWriter();
     result = CharStreams.asWriter(secretlyAWriter);
     assertSame(secretlyAWriter, result);
-  }
-
-  public void testWriteString() throws IOException {
-    final StringWriter sw = new StringWriter();
-    String expected = "foo";
-    CharStreams.write(expected, new OutputSupplier<Writer>() {
-      @Override public Writer getOutput() {
-        return sw;
-      }
-    });
-    assertEquals(expected, sw.toString());
   }
 
   public void testCopy() throws IOException {
@@ -406,34 +200,6 @@ public class CharStreamsTest extends IoTestCase {
     nullWriter.write(test, 2, 10);
     // nothing really to assert?
     assertSame(CharStreams.nullWriter(), CharStreams.nullWriter());
-  }
-
-  private static CheckCloseSupplier.Input<Reader> newCheckReader(
-      InputSupplier<? extends Reader> delegate) {
-    return new CheckCloseSupplier.Input<Reader>(delegate) {
-      @Override protected Reader wrap(Reader object, final Callback callback) {
-        return new FilterReader(object) {
-          @Override public void close() throws IOException {
-            callback.delegateClosed();
-            super.close();
-          }
-        };
-      }
-    };
-  }
-
-  private static CheckCloseSupplier.Output<Writer> newCheckWriter(
-      OutputSupplier<? extends Writer> delegate) {
-    return new CheckCloseSupplier.Output<Writer>(delegate) {
-      @Override protected Writer wrap(Writer object, final Callback callback) {
-        return new FilterWriter(object) {
-          @Override public void close() throws IOException {
-            callback.delegateClosed();
-            super.close();
-          }
-        };
-      }
-    };
   }
 
   /**

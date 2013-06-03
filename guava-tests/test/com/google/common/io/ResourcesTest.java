@@ -50,13 +50,6 @@ public class ResourcesTest extends IoTestCase {
     return suite;
   }
 
-  public void testUrlSupplier() throws IOException {
-    byte[] data = ByteStreams.toByteArray(
-        Resources.newInputStreamSupplier(classfile(Resources.class)));
-    assertEquals(0xCAFEBABE,
-        new DataInputStream(new ByteArrayInputStream(data)).readInt());
-  }
-
   public void testToString() throws IOException {
     URL resource = getClass().getResource("testdata/i18n.txt");
     assertEquals(I18N, Resources.toString(resource, Charsets.UTF_8));

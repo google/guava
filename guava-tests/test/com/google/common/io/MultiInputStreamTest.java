@@ -46,15 +46,15 @@ public class MultiInputStreamTest extends IoTestCase {
   }
 
   public void testOnlyOneOpen() throws Exception {
-    final InputSupplier<InputStream> supplier = newByteSupplier(0, 50);
+    final ByteSource source = newByteSource(0, 50);
     final int[] counter = new int[1];
-    InputSupplier<InputStream> checker = new InputSupplier<InputStream>() {
+    ByteSource checker = new ByteSource() {
       @Override
-      public InputStream getInput() throws IOException {
+      public InputStream openStream() throws IOException {
         if (counter[0]++ != 0) {
-          throw new IllegalStateException("More than one supplier open");
+          throw new IllegalStateException("More than one source open");
         }
-        return new FilterInputStream(supplier.getInput()) {
+        return new FilterInputStream(source.openStream()) {
           @Override public void close() throws IOException {
             super.close();
             counter[0]--;
@@ -62,29 +62,26 @@ public class MultiInputStreamTest extends IoTestCase {
         };
       }
     };
-    @SuppressWarnings("unchecked")
-    byte[] result = ByteStreams.toByteArray(
-        ByteStreams.join(checker, checker, checker));
+    byte[] result = ByteSource.concat(checker, checker, checker).read();
     assertEquals(150, result.length);
   }
 
   private void joinHelper(Integer... spans) throws Exception {
-    List<InputSupplier<InputStream>> suppliers = Lists.newArrayList();
+    List<ByteSource> sources = Lists.newArrayList();
     int start = 0;
     for (Integer span : spans) {
-      suppliers.add(newByteSupplier(start, span));
+      sources.add(newByteSource(start, span));
       start += span;
     }
-    InputSupplier<InputStream> joined = ByteStreams.join(suppliers);
-    assertTrue(ByteStreams.equal(newByteSupplier(0, start), joined));
+    ByteSource joined = ByteSource.concat(sources);
+    assertTrue(newByteSource(0, start).contentEquals(joined));
   }
 
   public void testReadSingleByte() throws Exception {
-    InputSupplier<InputStream> supplier = newByteSupplier(0, 10);
-    @SuppressWarnings("unchecked")
-    InputSupplier<InputStream> joined = ByteStreams.join(supplier, supplier);
-    assertEquals(20, ByteStreams.length(joined));
-    InputStream in = joined.getInput();
+    ByteSource source = newByteSource(0, 10);
+    ByteSource joined = ByteSource.concat(source, source);
+    assertEquals(20, joined.size());
+    InputStream in = joined.openStream();
     assertFalse(in.markSupported());
     assertEquals(10, in.available());
     int total = 0;
@@ -97,9 +94,9 @@ public class MultiInputStreamTest extends IoTestCase {
 
   public void testSkip() throws Exception {
     MultiInputStream multi = new MultiInputStream(
-        Collections.singleton(new InputSupplier<InputStream>() {
+        Collections.singleton(new ByteSource() {
           @Override
-          public InputStream getInput() {
+          public InputStream openStream() {
             return new ByteArrayInputStream(newPreFilledByteArray(0, 50)) {
               @Override public long skip(long n) {
                 return 0;
@@ -114,10 +111,10 @@ public class MultiInputStreamTest extends IoTestCase {
     assertEquals(20, multi.read());
   }
 
-  private static InputSupplier<InputStream> newByteSupplier(final int start, final int size) {
-    return new InputSupplier<InputStream>() {
+  private static ByteSource newByteSource(final int start, final int size) {
+    return new ByteSource() {
       @Override
-      public InputStream getInput() {
+      public InputStream openStream() {
         return new ByteArrayInputStream(newPreFilledByteArray(start, size));
       }
     };
