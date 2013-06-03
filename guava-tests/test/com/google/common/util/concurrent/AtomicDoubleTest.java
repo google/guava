@@ -195,9 +195,10 @@ public class AtomicDoubleTest extends JSR166TestCase {
   public void testSerialization() throws Exception {
     AtomicDouble a = new AtomicDouble();
     AtomicDouble b = serialClone(a);
-    assertTrue(a != b);
+    assertNotSame(a, b);
     a.set(-22.0);
     AtomicDouble c = serialClone(a);
+    assertNotSame(b, c);
     assertBitEquals(-22.0, a.get());
     assertBitEquals(0.0, b.get());
     assertBitEquals(-22.0, c.get());
