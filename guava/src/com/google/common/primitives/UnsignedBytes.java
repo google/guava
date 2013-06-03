@@ -295,8 +295,8 @@ public final class UnsignedBytes {
     enum UnsafeComparator implements Comparator<byte[]> {
       INSTANCE;
 
-      static final boolean littleEndian =
-          ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN);
+      static final boolean BIG_ENDIAN =
+          ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);
 
       /*
        * The following static final fields exist for performance reasons.
@@ -375,33 +375,19 @@ public final class UnsignedBytes {
         for (int i = 0; i < minWords * Longs.BYTES; i += Longs.BYTES) {
           long lw = theUnsafe.getLong(left, BYTE_ARRAY_BASE_OFFSET + (long) i);
           long rw = theUnsafe.getLong(right, BYTE_ARRAY_BASE_OFFSET + (long) i);
-          long diff = lw ^ rw;
-
-          if (diff != 0) {
-            if (!littleEndian) {
+          if (lw != rw) {
+            if (BIG_ENDIAN) {
               return UnsignedLongs.compare(lw, rw);
             }
 
-            // Use binary search
-            int n = 0;
-            int y;
-            int x = (int) diff;
-            if (x == 0) {
-              x = (int) (diff >>> 32);
-              n = 32;
-            }
-
-            y = x << 16;
-            if (y == 0) {
-              n += 16;
-            } else {
-              x = y;
-            }
-
-            y = x << 8;
-            if (y == 0) {
-              n += 8;
-            }
+            /*
+             * We want to compare only the first index where left[index] != right[index].
+             * This corresponds to the least significant nonzero byte in lw ^ rw, since lw
+             * and rw are little-endian.  Long.numberOfTrailingZeros(diff) tells us the least 
+             * significant nonzero bit, and zeroing out the first three bits of L.nTZ gives us the 
+             * shift to get that least significant nonzero byte.
+             */
+            int n = Long.numberOfTrailingZeros(lw ^ rw) & ~0x7;
             return (int) (((lw >>> n) & UNSIGNED_MASK) - ((rw >>> n) & UNSIGNED_MASK));
           }
         }
