@@ -42,7 +42,7 @@ public final class FileBackedOutputStream extends OutputStream {
 
   private final int fileThreshold;
   private final boolean resetOnFinalize;
-  private final InputSupplier<InputStream> supplier;
+  private final ByteSource source;
 
   private OutputStream out;
   private MemoryOutput memory;
@@ -66,8 +66,8 @@ public final class FileBackedOutputStream extends OutputStream {
 
   /**
    * Creates a new instance that uses the given file threshold, and does
-   * not reset the data when the {@link InputSupplier} returned by
-   * {@link #getSupplier} is finalized.
+   * not reset the data when the {@link ByteSource} returned by
+   * {@link #asByteSource} is finalized.
    *
    * @param fileThreshold the number of bytes before the stream should
    *     switch to buffering to a file
@@ -78,14 +78,14 @@ public final class FileBackedOutputStream extends OutputStream {
 
   /**
    * Creates a new instance that uses the given file threshold, and
-   * optionally resets the data when the {@link InputSupplier} returned
-   * by {@link #getSupplier} is finalized.
+   * optionally resets the data when the {@link ByteSource} returned
+   * by {@link #asByteSource} is finalized.
    *
    * @param fileThreshold the number of bytes before the stream should
    *     switch to buffering to a file
    * @param resetOnFinalize if true, the {@link #reset} method will
-   *     be called when the {@link InputSupplier} returned by {@link
-   *     #getSupplier} is finalized
+   *     be called when the {@link ByteSource} returned by {@link
+   *     #asByteSource} is finalized
    */
   public FileBackedOutputStream(int fileThreshold, boolean resetOnFinalize) {
     this.fileThreshold = fileThreshold;
@@ -94,10 +94,10 @@ public final class FileBackedOutputStream extends OutputStream {
     out = memory;
 
     if (resetOnFinalize) {
-      supplier = new InputSupplier<InputStream>() {
+      source = new ByteSource() {
         @Override
-        public InputStream getInput() throws IOException {
-          return openStream();
+        public InputStream openStream() throws IOException {
+          return openInputStream();
         }
 
         @Override protected void finalize() {
@@ -109,10 +109,10 @@ public final class FileBackedOutputStream extends OutputStream {
         }
       };
     } else {
-      supplier = new InputSupplier<InputStream>() {
+      source = new ByteSource() {
         @Override
-        public InputStream getInput() throws IOException {
-          return openStream();
+        public InputStream openStream() throws IOException {
+          return openInputStream();
         }
       };
     }
@@ -120,13 +120,28 @@ public final class FileBackedOutputStream extends OutputStream {
 
   /**
    * Returns a supplier that may be used to retrieve the data buffered
-   * by this stream.
+   * by this stream. This method returns the same object as
+   * {@link #asByteSource()}.
+   *
+   * @deprecated Use {@link #asByteSource()} instead. This method is scheduled
+   *     to be removed in Guava 16.0.
    */
+  @Deprecated
   public InputSupplier<InputStream> getSupplier() {
-    return supplier;
+    return asByteSource();
   }
 
-  private synchronized InputStream openStream() throws IOException {
+  /**
+   * Returns a readable {@link ByteSource} view of the data that has been
+   * written to this stream.
+   *
+   * @since 15.0
+   */
+  public ByteSource asByteSource() {
+    return source;
+  }
+
+  private synchronized InputStream openInputStream() throws IOException {
     if (file != null) {
       return new FileInputStream(file);
     } else {

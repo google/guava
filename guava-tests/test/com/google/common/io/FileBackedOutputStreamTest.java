@@ -20,7 +20,6 @@ import com.google.common.testing.GcFinalization;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
@@ -79,15 +78,14 @@ public class FileBackedOutputStreamTest extends IoTestCase {
       boolean resetOnFinalize) throws IOException {
     byte[] data = newPreFilledByteArray(dataSize);
     FileBackedOutputStream out = new FileBackedOutputStream(fileThreshold, resetOnFinalize);
-    InputSupplier<InputStream> supplier = out.getSupplier();
+    ByteSource source = out.asByteSource();
     int chunk1 = Math.min(dataSize, fileThreshold);
     int chunk2 = dataSize - chunk1;
 
     // Write just enough to not trip the threshold
     if (chunk1 > 0) {
       write(out, data, 0, chunk1, singleByte);
-      assertTrue(ByteStreams.equal(
-          ByteStreams.newInputStreamSupplier(data, 0, chunk1), supplier));
+      assertTrue(ByteSource.wrap(data).slice(0, chunk1).contentEquals(source));
     }
     File file = out.getFile();
     assertNull(file);
@@ -101,8 +99,8 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     }
     out.close();
 
-    // Check that supplier returns the right data
-    assertTrue(Arrays.equals(data, ByteStreams.toByteArray(supplier)));
+    // Check that source returns the right data
+    assertTrue(Arrays.equals(data, source.read()));
 
     // Make sure that reset deleted the file
     out.reset();
@@ -129,10 +127,10 @@ public class FileBackedOutputStreamTest extends IoTestCase {
   public void testWriteErrorAfterClose() throws Exception {
     byte[] data = newPreFilledByteArray(100);
     FileBackedOutputStream out = new FileBackedOutputStream(50);
-    InputSupplier<InputStream> supplier = out.getSupplier();
+    ByteSource source = out.asByteSource();
 
     out.write(data);
-    assertTrue(Arrays.equals(data, ByteStreams.toByteArray(supplier)));
+    assertTrue(Arrays.equals(data, source.read()));
 
     out.close();
     try {
@@ -143,23 +141,23 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     }
 
     // Verify that write had no effect
-    assertTrue(Arrays.equals(data, ByteStreams.toByteArray(supplier)));
+    assertTrue(Arrays.equals(data, source.read()));
     out.reset();
   }
 
   public void testReset() throws Exception {
     byte[] data = newPreFilledByteArray(100);
     FileBackedOutputStream out = new FileBackedOutputStream(Integer.MAX_VALUE);
-    InputSupplier<InputStream> supplier = out.getSupplier();
+    ByteSource source = out.asByteSource();
 
     out.write(data);
-    assertTrue(Arrays.equals(data, ByteStreams.toByteArray(supplier)));
+    assertTrue(Arrays.equals(data, source.read()));
 
     out.reset();
-    assertTrue(Arrays.equals(new byte[0], ByteStreams.toByteArray(supplier)));
+    assertTrue(Arrays.equals(new byte[0], source.read()));
 
     out.write(data);
-    assertTrue(Arrays.equals(data, ByteStreams.toByteArray(supplier)));
+    assertTrue(Arrays.equals(data, source.read()));
 
     out.close();
   }
