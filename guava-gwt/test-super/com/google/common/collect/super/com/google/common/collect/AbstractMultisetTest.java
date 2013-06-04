@@ -64,19 +64,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
   
   static class WrongType {}
 
-  @Override public void testEqualsNo() {
-    ms.add("a");
-    ms.add("b");
-    ms.add("b");
-
-    Multiset<String> ms2 = create();
-    ms2.add("a", 2);
-    ms2.add("b");
-
-    assertFalse(ms.equals(ms2));
-    assertSize();
-  }
-
   public void testElementSetIsNotACopy() {
     ms.add("a", 1);
     ms.add("b", 2);
