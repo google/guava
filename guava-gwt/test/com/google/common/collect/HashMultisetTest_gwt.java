@@ -102,34 +102,10 @@ public void testElementSetIsNotACopy() throws Exception {
   testCase.testElementSetIsNotACopy();
 }
 
-public void testEntrySet() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testEntrySet();
-}
-
-public void testEntrySetContains() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testEntrySetContains();
-}
-
-public void testEntrySetEmpty() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testEntrySetEmpty();
-}
-
 public void testEntrySetRemove() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
   testCase.testEntrySetRemove();
-}
-
-public void testEntrySetToArray() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testEntrySetToArray();
 }
 
 public void testEqualsDifferentTypes() throws Exception {

@@ -174,34 +174,10 @@ public void testEntryAfterRemove() throws Exception {
   testCase.testEntryAfterRemove();
 }
 
-public void testEntrySet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testEntrySet();
-}
-
-public void testEntrySetContains() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testEntrySetContains();
-}
-
-public void testEntrySetEmpty() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testEntrySetEmpty();
-}
-
 public void testEntrySetRemove() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testEntrySetRemove();
-}
-
-public void testEntrySetToArray() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testEntrySetToArray();
 }
 
 public void testEqualsDifferentTypes() throws Exception {

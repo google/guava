@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -197,30 +196,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     assertContents();
   }
 
-  public void testEntrySet() {
-    ms = createSample();
-    for (Multiset.Entry<String> entry : ms.entrySet()) {
-      assertEquals(entry, entry);
-      String element = entry.getElement();
-      if (element.equals("a")) {
-        assertEquals(1, entry.getCount());
-      } else if (element.equals("b")) {
-        assertEquals(2, entry.getCount());
-      } else if (element.equals("c")) {
-        assertEquals(1, entry.getCount());
-      } else if (element.equals("d")) {
-        assertEquals(3, entry.getCount());
-      } else {
-        fail();
-      }
-    }
-    assertSize();
-  }
-
-  public void testEntrySetEmpty() {
-    assertEquals(Collections.emptySet(), ms.entrySet());
-  }
-
   public void testReallyBig() {
     ms.add("a", Integer.MAX_VALUE - 1);
     assertEquals(Integer.MAX_VALUE - 1, ms.size());
@@ -306,17 +281,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     assertEquals(5, entry.getCount());
   }
 
-  public void testEntrySetContains() {
-    ms.add("a", 3);
-    Set<Entry<String>> es = ms.entrySet();
-    assertTrue(es.contains(Multisets.immutableEntry("a", 3)));
-    assertFalse(es.contains(null));
-    assertFalse(es.contains(Maps.immutableEntry("a", 3)));
-    assertFalse(es.contains(Multisets.immutableEntry("a", 2)));
-    assertFalse(es.contains(Multisets.immutableEntry("b", 3)));
-    assertFalse(es.contains(Multisets.immutableEntry("b", 0)));
-  }
-
   public void testEntrySetRemove() {
     ms.add("a", 3);
     Set<Entry<String>> es = ms.entrySet();
@@ -328,15 +292,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     assertEquals(3, ms.count("a"));
     assertTrue(es.remove(Multisets.immutableEntry("a", 3)));
     assertEquals(0, ms.count("a"));
-  }
-
-  public void testEntrySetToArray() {
-    ms.add("a", 3);
-    Set<Multiset.Entry<String>> es = ms.entrySet();
-    Entry<?>[] array = new Entry<?>[3];
-    assertSame(array, es.toArray(array));
-    assertEquals(Multisets.immutableEntry("a", 3), array[0]);
-    assertNull(array[1]);
   }
 
   public void testUnmodifiableMultiset() {
