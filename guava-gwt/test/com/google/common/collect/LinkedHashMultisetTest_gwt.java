@@ -204,24 +204,6 @@ public void testReallyBig() throws Exception {
   testCase.testReallyBig();
 }
 
-public void testRemoveAllOfDisjoint() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveAllOfDisjoint();
-}
-
-public void testRemoveAllOfEverything() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveAllOfEverything();
-}
-
-public void testRemoveAllOfOne() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveAllOfOne();
-}
-
 public void testRemoveAllVacuous() throws Exception {
   com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
   testCase.setUp();
@@ -240,34 +222,10 @@ public void testRemoveFromElementSetYes() throws Exception {
   testCase.testRemoveFromElementSetYes();
 }
 
-public void testRemoveNegative() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveNegative();
-}
-
-public void testRemoveNoneFromSome() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveNoneFromSome();
-}
-
-public void testRemoveOneFromNone() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveOneFromNone();
-}
-
 public void testRemoveOneFromNoneStandard() throws Exception {
   com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
   testCase.setUp();
   testCase.testRemoveOneFromNoneStandard();
-}
-
-public void testRemoveOneFromOne() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveOneFromOne();
 }
 
 public void testRemoveOneFromOneStandard() throws Exception {
@@ -276,40 +234,10 @@ public void testRemoveOneFromOneStandard() throws Exception {
   testCase.testRemoveOneFromOneStandard();
 }
 
-public void testRemoveSomeFromSome() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveSomeFromSome();
-}
-
-public void testRemoveTooMany() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveTooMany();
-}
-
-public void testRetainAllOfDisjoint() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRetainAllOfDisjoint();
-}
-
-public void testRetainAllOfEverything() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRetainAllOfEverything();
-}
-
 public void testRetainAllOfNothing() throws Exception {
   com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
   testCase.setUp();
   testCase.testRetainAllOfNothing();
-}
-
-public void testRetainAllOfOne() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testRetainAllOfOne();
 }
 
 public void testRetainAllVacuous() throws Exception {

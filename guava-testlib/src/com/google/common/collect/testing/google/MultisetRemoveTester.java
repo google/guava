@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -31,15 +32,33 @@ import com.google.common.collect.testing.features.CollectionSize;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * Tests for {@code Multiset#remove}.
+ * Tests for {@code Multiset#remove}, {@code Multiset.removeAll}, and {@code Multiset.retainAll}
+ * not already covered by the corresponding Collection testers.
  * 
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
+public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {  
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
+  public void testRemoveNegative() {
+    try {
+      getMultiset().remove(samples.e0, -1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {}
+    expectUnchanged();
+  }
+  
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
+  public void testRemoveUnsupported() {
+    try {
+      getMultiset().remove(samples.e0, 2);
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException expected) {}
+  }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveZeroNoOp() {
@@ -127,6 +146,23 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
       getMultiset().remove(null, 2);
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {}
+  }
+  
+  @CollectionSize.Require(SEVERAL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
+  public void testRemoveAllIgnoresCount() {
+    initThreeCopies();
+    assertTrue(getMultiset().removeAll(Collections.singleton(samples.e0)));
+    ASSERT.that(getMultiset()).isEmpty();
+  }
+  
+  @CollectionSize.Require(SEVERAL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
+  public void testRetainAllIgnoresCount() {
+    initThreeCopies();
+    List<E> contents = Helpers.copyToList(getMultiset());
+    assertFalse(getMultiset().retainAll(Collections.singleton(samples.e0)));
+    expectContents(contents);
   }
   
   /**
