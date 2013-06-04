@@ -31,7 +31,7 @@ import junit.framework.TestCase;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(emulated=true)
+@GwtCompatible(emulated = true)
 public class StopwatchTest extends TestCase {
 
   private final FakeTicker ticker = new FakeTicker();
@@ -151,7 +151,7 @@ public class StopwatchTest extends TestCase {
     ticker.advance(36);
     assertEquals(34, stopwatch.elapsed(NANOSECONDS));
   }
-  
+
   public void testElapsed_micros() {
     stopwatch.start();
     ticker.advance(999);
@@ -233,6 +233,18 @@ public class StopwatchTest extends TestCase {
     stopwatch.start();
     ticker.advance(5000000000L);
     assertEquals("5.000 s", stopwatch.toString());
+    stopwatch.reset();
+    stopwatch.start();
+    ticker.advance((long) (1.5 * 60 * 1000000000L));
+    assertEquals("1.500 min", stopwatch.toString());
+    stopwatch.reset();
+    stopwatch.start();
+    ticker.advance((long) (2.5 * 60 * 60 * 1000000000L));
+    assertEquals("2.500 h", stopwatch.toString());
+    stopwatch.reset();
+    stopwatch.start();
+    ticker.advance((long) (7.25 * 24 * 60 * 60 * 1000000000L));
+    assertEquals("7.250 d", stopwatch.toString());
   }
 
 }

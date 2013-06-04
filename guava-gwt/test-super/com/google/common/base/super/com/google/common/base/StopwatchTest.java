@@ -30,7 +30,7 @@ import junit.framework.TestCase;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(emulated=true)
+@GwtCompatible(emulated = true)
 public class StopwatchTest extends TestCase {
 
   private final FakeTicker ticker = new FakeTicker();
@@ -150,7 +150,7 @@ public class StopwatchTest extends TestCase {
     ticker.advance(36);
     assertEquals(34, stopwatch.elapsed(NANOSECONDS));
   }
-  
+
   public void testElapsed_micros() {
     stopwatch.start();
     ticker.advance(999);

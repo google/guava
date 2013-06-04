@@ -18,8 +18,11 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -236,6 +239,15 @@ public final class Stopwatch {
   }
 
   private static TimeUnit chooseUnit(long nanos) {
+    if (DAYS.convert(nanos, NANOSECONDS) > 0) {
+      return DAYS;
+    }
+    if (HOURS.convert(nanos, NANOSECONDS) > 0) {
+      return HOURS;
+    }
+    if (MINUTES.convert(nanos, NANOSECONDS) > 0) {
+      return MINUTES;
+    }
     if (SECONDS.convert(nanos, NANOSECONDS) > 0) {
       return SECONDS;
     }
@@ -258,6 +270,12 @@ public final class Stopwatch {
         return "ms";
       case SECONDS:
         return "s";
+      case MINUTES:
+        return "min";
+      case HOURS:
+        return "h";
+      case DAYS:
+        return "d";
       default:
         throw new AssertionError();
     }
