@@ -17,21 +17,13 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
-import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
-import com.google.common.collect.testing.Helpers;
-import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionSize;
-
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A generic JUnit test which tests multiset-specific read operations.
@@ -40,35 +32,8 @@ import java.util.List;
  *
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class MultisetReadsTester<E> extends AbstractMultisetTester<E> {
-  public void testCount_0() {
-    assertEquals("multiset.count(missing) didn't return 0",
-        0, getMultiset().count(samples.e3));
-  }
-
-  @CollectionSize.Require(absent = ZERO)
-  public void testCount_1() {
-    assertEquals("multiset.count(present) didn't return 1",
-        1, getMultiset().count(samples.e0));
-  }
-
-  @CollectionSize.Require(SEVERAL)
-  public void testCount_3() {
-    initThreeCopies();
-    assertEquals("multiset.count(thriceContained) didn't return 3",
-        3, getMultiset().count(samples.e0));
-  }
-
-  public void testCount_null() {
-    assertEquals("multiset.count(null) didn't return 0",
-        0, getMultiset().count(null));
-  }
-
-  public void testCount_wrongType() {
-    assertEquals("multiset.count(wrongType) didn't return 0",
-        0, getMultiset().count(WrongType.VALUE));
-  }
 
   @CollectionSize.Require(absent = ZERO)
   public void testElementSet_contains() {
@@ -142,16 +107,5 @@ public class MultisetReadsTester<E> extends AbstractMultisetTester<E> {
   public void testHashCode_size1() {
     assertEquals("multiset has incorrect hash code",
         1 ^ samples.e0.hashCode(), getMultiset().hashCode());
-  }
-
-  /**
-   * Returns {@link Method} instances for the read tests that assume multisets
-   * support duplicates so that the test of {@code Multisets.forSet()} can
-   * suppress them.
-   */
-  @GwtIncompatible("reflection")
-  public static List<Method> getReadsDuplicateInitializingMethods() {
-    return Arrays.asList(
-        Helpers.getMethod(MultisetReadsTester.class, "testCount_3"));
   }
 }

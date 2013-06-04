@@ -69,37 +69,11 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     assertSize();
   }
 
-  public void testCountZero() {
-    assertEquals(0, ms.count("a"));
-    assertSize();
-  }
-
-  public void testCountOne() {
-    ms.add("a");
-    assertEquals(1, ms.count("a"));
-    assertSize();
-  }
-
-  public void testCountTwo() {
-    ms.add("a");
-    ms.add("a");
-    assertEquals(2, ms.count("a"));
-    assertSize();
-  }
-
   public void testCountAfterRemoval() {
     ms.add("a");
     ms.remove("a");
     assertEquals(0, ms.count("a"));
     assertSize();
-  }
-
-  public void testCountNull() {
-    assertEquals(0, ms.count(null));
-  }
-
-  public void testCountWrongType() {
-    assertEquals(0, ms.count(new WrongType()));
   }
 
   static class WrongType {}

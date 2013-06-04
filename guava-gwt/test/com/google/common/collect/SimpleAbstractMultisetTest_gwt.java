@@ -186,36 +186,6 @@ public void testCountAfterRemoval() throws Exception {
   testCase.testCountAfterRemoval();
 }
 
-public void testCountNull() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testCountNull();
-}
-
-public void testCountOne() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testCountOne();
-}
-
-public void testCountTwo() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testCountTwo();
-}
-
-public void testCountWrongType() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testCountWrongType();
-}
-
-public void testCountZero() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testCountZero();
-}
-
 public void testElementSetBasic() throws Exception {
   com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
   testCase.setUp();

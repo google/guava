@@ -186,36 +186,6 @@ public void testCountAfterRemoval() throws Exception {
   testCase.testCountAfterRemoval();
 }
 
-public void testCountNull() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testCountNull();
-}
-
-public void testCountOne() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testCountOne();
-}
-
-public void testCountTwo() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testCountTwo();
-}
-
-public void testCountWrongType() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testCountWrongType();
-}
-
-public void testCountZero() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testCountZero();
-}
-
 public void testCreate() throws Exception {
   com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
   testCase.setUp();

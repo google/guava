@@ -196,7 +196,8 @@ public class ForwardingSortedMultisetTest extends ForwardingMultisetTest {
         })
         .named("ForwardingSortedMultiset with standard impls")
         .withFeatures(
-            CollectionSize.ANY, CollectionFeature.KNOWN_ORDER, CollectionFeature.GENERAL_PURPOSE)
+            CollectionSize.ANY, CollectionFeature.KNOWN_ORDER, CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
     return suite;
