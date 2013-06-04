@@ -199,27 +199,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     assertSize();
   }
 
-  public void testContainsSeveral() {
-    ms.add("a", 3);
-    assertTrue(ms.contains(new String("a")));
-    assertSize();
-  }
-
-  public void testContainsAllNo() {
-    ms.add("a", 2);
-    ms.add("b", 3);
-    assertFalse(ms.containsAll(asList("a", "c")));
-    assertSize();
-  }
-
-  public void testContainsAllYes() {
-    ms.add("a", 2);
-    ms.add("b", 3);
-    ms.add("c", 4);
-    assertTrue(ms.containsAll(asList("a", "c")));
-    assertSize();
-  }
-
   public void testRemoveAllOfOne() {
     ms.add("a", 2);
     ms.add("b");

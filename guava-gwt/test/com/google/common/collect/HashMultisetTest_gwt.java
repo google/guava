@@ -126,12 +126,6 @@ public void testContainsAfterRemoval() throws Exception {
   testCase.testContainsAfterRemoval();
 }
 
-public void testContainsAllNo() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testContainsAllNo();
-}
-
 public void testContainsAllNoViaElementSet() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
@@ -150,12 +144,6 @@ public void testContainsAllVacuousViaElementSet() throws Exception {
   testCase.testContainsAllVacuousViaElementSet();
 }
 
-public void testContainsAllYes() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testContainsAllYes();
-}
-
 public void testContainsAllYesViaElementSet() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
@@ -172,12 +160,6 @@ public void testContainsOne() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
   testCase.testContainsOne();
-}
-
-public void testContainsSeveral() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testContainsSeveral();
 }
 
 public void testCreate() throws Exception {

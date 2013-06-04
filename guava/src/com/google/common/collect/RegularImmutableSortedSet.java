@@ -87,6 +87,9 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     // targets.size() < size() / log(size())
     // TODO(kevinb): see if we can share code with OrderedIterator after it
     // graduates from labs.
+    if (targets instanceof Multiset) {
+      targets = ((Multiset<?>) targets).elementSet();
+    }
     if (!SortedIterables.hasSameComparator(comparator(), targets)
         || (targets.size() <= 1)) {
       return super.containsAll(targets);
@@ -96,7 +99,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
      * If targets is a sorted set with the same comparator, containsAll can run
      * in O(n) time stepping through the two collections.
      */
-    Iterator<E> thisIterator = iterator();
+    PeekingIterator<E> thisIterator = Iterators.peekingIterator(iterator());
     Iterator<?> thatIterator = targets.iterator();
     Object target = thatIterator.next();
 
@@ -104,9 +107,11 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
       while (thisIterator.hasNext()) {
 
-        int cmp = unsafeCompare(thisIterator.next(), target);
+        int cmp = unsafeCompare(thisIterator.peek(), target);
 
-        if (cmp == 0) {
+        if (cmp < 0) {
+          thisIterator.next();
+        } else if (cmp == 0) {
 
           if (!thatIterator.hasNext()) {
 
