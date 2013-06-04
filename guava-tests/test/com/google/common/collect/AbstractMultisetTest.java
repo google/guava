@@ -25,7 +25,6 @@ import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.SerializableTester;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -163,94 +162,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     assertContents("a", "a", "b");
   }
 
-  public void testContainsAllVacuousViaElementSet() {
-    assertTrue(ms.elementSet().containsAll(Collections.emptySet()));
-  }
-
-  public void testContainsAllNoViaElementSet() {
-    ms.add("a", 2);
-    ms.add("b", 3);
-    assertFalse(ms.elementSet().containsAll(asList("a", "c")));
-    assertSize();
-  }
-
-  public void testContainsAllYesViaElementSet() {
-    ms.add("a", 2);
-    ms.add("b", 3);
-    ms.add("c", 4);
-    assertTrue(ms.elementSet().containsAll(asList("a", "c")));
-    assertSize();
-  }
-
-  public void testRemoveAllVacuousViaElementSet() {
-    assertFalse(ms.elementSet().removeAll(Collections.emptySet()));
-    assertSize();
-  }
-
-  public void testRemoveAllOfOneViaElementSet() {
-    ms.add("a", 2);
-    ms.add("b");
-    assertTrue(ms.elementSet().removeAll(asList("a", "c")));
-    assertContents("b");
-  }
-
-  public void testRemoveAllOfDisjointViaElementSet() {
-    ms.add("a", 2);
-    ms.add("b");
-    assertFalse(ms.elementSet().removeAll(asList("c", "d")));
-    assertContents("a", "a", "b");
-  }
-
-  public void testRemoveAllOfEverythingViaElementSet() {
-    ms.add("a", 2);
-    ms.add("b");
-    assertTrue(ms.elementSet().removeAll(asList("a", "b")));
-    assertContents();
-  }
-
-  public void testRetainAllVacuousViaElementSet() {
-    assertFalse(ms.elementSet().retainAll(asList("a")));
-    assertContents();
-  }
-
-  public void testRetainAllOfNothingViaElementSet() {
-    ms.add("a");
-    assertTrue(ms.elementSet().retainAll(Collections.emptySet()));
-    assertContents();
-  }
-
-  public void testRetainAllOfOneViaElementSet() {
-    ms.add("a", 2);
-    ms.add("b");
-    assertTrue(ms.elementSet().retainAll(asList("a", "c")));
-    assertContents("a", "a");
-  }
-
-  public void testRetainAllOfDisjointViaElementSet() {
-    ms.add("a", 2);
-    ms.add("b");
-    assertTrue(ms.elementSet().retainAll(asList("c", "d")));
-    assertContents();
-  }
-
-  public void testRetainAllOfEverythingViaElementSet() {
-    ms.add("a", 2);
-    ms.add("b");
-    assertFalse(ms.elementSet().retainAll(asList("a", "b")));
-    assertContents("a", "a", "b");
-  }
-
-  public void testElementSetBasic() {
-    ms.add("a", 3);
-    ms.add("b", 2);
-    ms.add("c", 1);
-    HashSet<String> expected = Sets.newHashSet("a", "b", "c");
-    Set<String> actual = ms.elementSet();
-    assertEquals(expected, actual);
-    assertEquals(actual, expected);
-    assertSize();
-  }
-
   public void testElementSetIsNotACopy() {
     ms.add("a", 1);
     ms.add("b", 2);
@@ -274,23 +185,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     Set<String> elementSet = ms.elementSet();
     assertFalse(elementSet.remove("b"));
     assertContents("a");
-  }
-
-  public void testRemoveFromElementSetNull() {
-    assertEquals(false, ms.elementSet().remove(null));
-  }
-
-  public void testRemoveFromElementSetWrongType() {
-    assertEquals(false, ms.elementSet().remove(new WrongType()));
-  }
-
-  public void testCantAddToElementSet() {
-    try {
-      ms.elementSet().add("a");
-      fail();
-    } catch (UnsupportedOperationException expected) {
-    }
-    assertSize();
   }
 
   public void testClearViaElementSet() {

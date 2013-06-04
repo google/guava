@@ -30,12 +30,6 @@ public void testAddSeveralTimes() throws Exception {
   testCase.testAddSeveralTimes();
 }
 
-public void testCantAddToElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testCantAddToElementSet();
-}
-
 public void testClear() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
@@ -66,28 +60,10 @@ public void testContainsAfterRemoval() throws Exception {
   testCase.testContainsAfterRemoval();
 }
 
-public void testContainsAllNoViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testContainsAllNoViaElementSet();
-}
-
 public void testContainsAllVacuous() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testContainsAllVacuous();
-}
-
-public void testContainsAllVacuousViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testContainsAllVacuousViaElementSet();
-}
-
-public void testContainsAllYesViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testContainsAllYesViaElementSet();
 }
 
 public void testContainsNo() throws Exception {
@@ -130,12 +106,6 @@ public void testDegenerateComparator() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testDegenerateComparator();
-}
-
-public void testElementSetBasic() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testElementSetBasic();
 }
 
 public void testElementSetIsNotACopy() throws Exception {
@@ -300,22 +270,10 @@ public void testRemoveAllOfDisjoint() throws Exception {
   testCase.testRemoveAllOfDisjoint();
 }
 
-public void testRemoveAllOfDisjointViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveAllOfDisjointViaElementSet();
-}
-
 public void testRemoveAllOfEverything() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testRemoveAllOfEverything();
-}
-
-public void testRemoveAllOfEverythingViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveAllOfEverythingViaElementSet();
 }
 
 public void testRemoveAllOfOne() throws Exception {
@@ -324,40 +282,16 @@ public void testRemoveAllOfOne() throws Exception {
   testCase.testRemoveAllOfOne();
 }
 
-public void testRemoveAllOfOneViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveAllOfOneViaElementSet();
-}
-
 public void testRemoveAllVacuous() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testRemoveAllVacuous();
 }
 
-public void testRemoveAllVacuousViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveAllVacuousViaElementSet();
-}
-
 public void testRemoveFromElementSetNo() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testRemoveFromElementSetNo();
-}
-
-public void testRemoveFromElementSetNull() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveFromElementSetNull();
-}
-
-public void testRemoveFromElementSetWrongType() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveFromElementSetWrongType();
 }
 
 public void testRemoveFromElementSetYes() throws Exception {
@@ -420,22 +354,10 @@ public void testRetainAllOfDisjoint() throws Exception {
   testCase.testRetainAllOfDisjoint();
 }
 
-public void testRetainAllOfDisjointViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRetainAllOfDisjointViaElementSet();
-}
-
 public void testRetainAllOfEverything() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testRetainAllOfEverything();
-}
-
-public void testRetainAllOfEverythingViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRetainAllOfEverythingViaElementSet();
 }
 
 public void testRetainAllOfNothing() throws Exception {
@@ -444,34 +366,16 @@ public void testRetainAllOfNothing() throws Exception {
   testCase.testRetainAllOfNothing();
 }
 
-public void testRetainAllOfNothingViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRetainAllOfNothingViaElementSet();
-}
-
 public void testRetainAllOfOne() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testRetainAllOfOne();
 }
 
-public void testRetainAllOfOneViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRetainAllOfOneViaElementSet();
-}
-
 public void testRetainAllVacuous() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testRetainAllVacuous();
-}
-
-public void testRetainAllVacuousViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRetainAllVacuousViaElementSet();
 }
 
 public void testSubMultisetSize() throws Exception {
