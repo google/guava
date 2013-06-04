@@ -318,40 +318,10 @@ public void testIsEmptyYes() throws Exception {
   testCase.testIsEmptyYes();
 }
 
-public void testIteratorNoSuchElementException() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testIteratorNoSuchElementException();
-}
-
-public void testIteratorRemove() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testIteratorRemove();
-}
-
 public void testIteratorRemoveConcurrentModification() throws Exception {
   com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
   testCase.setUp();
   testCase.testIteratorRemoveConcurrentModification();
-}
-
-public void testIteratorRemoveRepeated() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testIteratorRemoveRepeated();
-}
-
-public void testIteratorRemoveTooSoon() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testIteratorRemoveTooSoon();
-}
-
-public void testIteratorRemoveTwiceConsecutive() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testIteratorRemoveTwiceConsecutive();
 }
 
 public void testLosesPlaceInLine() throws Exception {

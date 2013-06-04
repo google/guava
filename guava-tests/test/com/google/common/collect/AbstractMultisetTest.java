@@ -27,7 +27,6 @@ import com.google.common.testing.SerializableTester;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
@@ -463,75 +462,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
   public void testSerializable() {
     ms = createSample();
     assertEquals(ms, SerializableTester.reserialize(ms));
-    assertSize();
-  }
-
-  public void testIteratorRemove() {
-    ms.add("a");
-    ms.add("b");
-    ms.add("c");
-    Iterator<String> iterator = ms.iterator();
-    String element1 = iterator.next();
-    iterator.remove();
-    String element2 = iterator.next();
-    assertFalse(ms.contains(element1));
-    assertTrue(ms.contains(element2));
-    assertSize();
-  }
-
-  public void testIteratorRemoveRepeated() {
-    ms.add("a", 3);
-    ms.add("b", 1);
-    ms.add("c", 2);
-    Iterator<String> iterator = ms.iterator();
-    for (int i = 0; i < 6; i++) {
-      assertTrue(iterator.hasNext());
-      iterator.next();
-      iterator.remove();
-    }
-    assertFalse(iterator.hasNext());
-    assertTrue(ms.isEmpty());
-    assertSize();
-  }
-
-  public void testIteratorRemoveTooSoon() {
-    ms.add("a");
-    ms.add("b");
-    ms.add("c");
-    Iterator<String> iterator = ms.iterator();
-    try {
-      iterator.remove();
-      fail();
-    } catch (IllegalStateException expected) {}
-    assertSize();
-  }
-
-  public void testIteratorRemoveTwiceConsecutive() {
-    ms.add("a");
-    ms.add("b");
-    ms.add("c");
-    Iterator<String> iterator = ms.iterator();
-    iterator.next();
-    iterator.remove();
-    try {
-      iterator.remove();
-      fail();
-    } catch (IllegalStateException expected) {}
-    assertSize();
-  }
-
-  public void testIteratorNoSuchElementException() {
-    ms.add("a");
-    ms.add("b");
-    ms.add("c");
-    Iterator<String> iterator = ms.iterator();
-    iterator.next();
-    iterator.next();
-    iterator.next();
-    try {
-      iterator.next();
-      fail();
-    } catch (NoSuchElementException expected) {}
     assertSize();
   }
 

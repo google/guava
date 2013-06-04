@@ -288,36 +288,6 @@ public void testIsEmptyYes() throws Exception {
   testCase.testIsEmptyYes();
 }
 
-public void testIteratorNoSuchElementException() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testIteratorNoSuchElementException();
-}
-
-public void testIteratorRemove() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testIteratorRemove();
-}
-
-public void testIteratorRemoveRepeated() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testIteratorRemoveRepeated();
-}
-
-public void testIteratorRemoveTooSoon() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testIteratorRemoveTooSoon();
-}
-
-public void testIteratorRemoveTwiceConsecutive() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testIteratorRemoveTwiceConsecutive();
-}
-
 public void testReallyBig() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
