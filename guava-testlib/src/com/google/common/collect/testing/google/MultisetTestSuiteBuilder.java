@@ -77,6 +77,7 @@ public class MultisetTestSuiteBuilder<E> extends
     testers.add(MultisetReadsTester.class);
     testers.add(MultisetSetCountConditionallyTester.class);
     testers.add(MultisetSetCountUnconditionallyTester.class);
+    testers.add(MultisetRemoveTester.class);
     testers.add(MultisetWritesTester.class);
     testers.add(MultisetIteratorTester.class);
     testers.add(MultisetSerializationTester.class);

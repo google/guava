@@ -180,12 +180,6 @@ public void testContainsSeveral() throws Exception {
   testCase.testContainsSeveral();
 }
 
-public void testCountAfterRemoval() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testCountAfterRemoval();
-}
-
 public void testCreate() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
@@ -484,12 +478,6 @@ public void testRemoveNegative() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testRemoveNegative();
-}
-
-public void testRemoveNoneFromNone() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveNoneFromNone();
 }
 
 public void testRemoveNoneFromSome() throws Exception {

@@ -66,14 +66,7 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     super.assertContents(expected);
     assertSize();
   }
-
-  public void testCountAfterRemoval() {
-    ms.add("a");
-    ms.remove("a");
-    assertEquals(0, ms.count("a"));
-    assertSize();
-  }
-
+  
   static class WrongType {}
 
   public void testAddNoneToNone() {
@@ -167,11 +160,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
         asList("c", "c", "d", "d", "e"));
     assertTrue(ms.addAll(more));
     assertContents("a", "b", "b", "c", "c", "c", "d", "d", "d", "d", "d", "e");
-  }
-
-  public void testRemoveNoneFromNone() {
-    assertEquals(0, ms.remove("a", 0));
-    assertContents();
   }
 
   public void testRemoveNoneFromSome() {

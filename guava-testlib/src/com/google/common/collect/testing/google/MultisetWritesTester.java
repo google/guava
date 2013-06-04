@@ -25,7 +25,6 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
-import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
@@ -69,59 +68,6 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
       getMultiset().add(samples.e0, -1);
       fail("multiset.add(E, -1) didn't throw an exception");
     } catch (IllegalArgumentException required) {}
-  }
-
-  @CollectionFeature.Require(SUPPORTS_REMOVE)
-  public void testRemoveZeroNoOp() {
-    int originalCount = getMultiset().count(samples.e0);
-    assertEquals("old count", originalCount, getMultiset().remove(samples.e0, 0));
-    expectUnchanged();
-  }
-
-  @CollectionSize.Require(absent = ZERO)
-  @CollectionFeature.Require(SUPPORTS_REMOVE)
-  public void testRemove_occurrences_present() {
-    assertEquals("multiset.remove(present, 2) didn't return the old count",
-        1, getMultiset().remove(samples.e0, 2));
-    assertFalse("multiset contains present after multiset.remove(present, 2)",
-        getMultiset().contains(samples.e0));
-  }
-
-  @CollectionFeature.Require(SUPPORTS_REMOVE)
-  public void testRemove_occurrences_absent() {
-    assertEquals("multiset.remove(absent, 0) didn't return 0",
-        0, getMultiset().remove(samples.e3, 2));
-  }
-
-  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
-  public void testRemove_occurrences_unsupported_absent() {
-    // notice: we don't care whether it succeeds, or fails with UOE
-    try {
-      assertEquals(
-          "multiset.remove(absent, 2) didn't return 0 or throw an exception",
-          0, getMultiset().remove(samples.e3, 2));
-    } catch (UnsupportedOperationException ok) {}
-  }
-
-  @CollectionFeature.Require(SUPPORTS_REMOVE)
-  public void testRemove_occurrences_0() {
-    int oldCount = getMultiset().count(samples.e0);
-    assertEquals("multiset.remove(E, 0) didn't return the old count",
-        oldCount, getMultiset().remove(samples.e0, 0));
-  }
-
-  @CollectionFeature.Require(SUPPORTS_REMOVE)
-  public void testRemove_occurrences_negative() {
-    try {
-      getMultiset().remove(samples.e0, -1);
-      fail("multiset.remove(E, -1) didn't throw an exception");
-    } catch (IllegalArgumentException required) {}
-  }
-
-  @CollectionFeature.Require(SUPPORTS_REMOVE)
-  public void testRemove_occurrences_wrongType() {
-    assertEquals("multiset.remove(wrongType, 1) didn't return 0",
-        0, getMultiset().remove(WrongType.VALUE, 1));
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
