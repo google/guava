@@ -73,6 +73,7 @@ public class MultisetTestSuiteBuilder<E> extends
     List<Class<? extends AbstractTester>> testers
         = Helpers.copyToList(super.getTesters());
     testers.add(CollectionSerializationEqualTester.class);
+    testers.add(MultisetAddTester.class);
     testers.add(MultisetContainsTester.class);
     testers.add(MultisetCountTester.class);
     testers.add(MultisetReadsTester.class);

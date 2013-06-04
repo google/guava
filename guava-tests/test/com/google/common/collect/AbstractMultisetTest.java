@@ -70,45 +70,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
   
   static class WrongType {}
 
-  public void testAddNoneToNone() {
-    assertEquals(0, ms.add("a", 0));
-    assertContents();
-  }
-
-  public void testAddNoneToSome() {
-    ms.add("a");
-    assertEquals(1, ms.add("a", 0));
-    assertContents("a");
-  }
-
-  public void testAddSeveralAtOnce() {
-    assertEquals(0, ms.add("a", 3));
-    assertContents("a", "a", "a");
-  }
-
-  public void testAddSomeToSome() {
-    ms.add("a", 2);
-    assertEquals(2, ms.add("a", 3));
-    assertContents("a", "a", "a", "a", "a");
-  }
-
-  @Override public void testAddSeveralTimes() {
-    assertTrue(ms.add("a"));
-    assertTrue(ms.add("b"));
-    assertTrue(ms.add("a"));
-    assertTrue(ms.add("b"));
-    assertContents("a", "b", "a", "b");
-  }
-
-  public void testAddNegative() {
-    try {
-      ms.add("a", -1);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    assertSize();
-  }
-
   @Override public void testEqualsNo() {
     ms.add("a");
     ms.add("b");
@@ -120,47 +81,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
 
     assertFalse(ms.equals(ms2));
     assertSize();
-  }
-
-  public void testAddTooMany() {
-    ms.add("a", Integer.MAX_VALUE); // so far so good
-    ms.add("b", Integer.MAX_VALUE); // so far so good
-    try {
-      ms.add("a");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-    assertSize();
-  }
-
-  public void testAddAllEmptySet() {
-    c = ms = createSample();
-    assertFalse(ms.addAll(Collections.<String>emptySet()));
-    assertEquals(createSample(), ms);
-    assertSize();
-  }
-
-  public void testAddAllEmptyMultiset() {
-    c = ms = createSample();
-    Multiset<String> empty = create();
-    assertFalse(ms.addAll(empty));
-    assertEquals(createSample(), ms);
-    assertSize();
-  }
-
-  public void testAddAllSet() {
-    c = ms = createSample();
-    Set<String> more = ImmutableSet.of("c", "d", "e");
-    assertTrue(ms.addAll(more));
-    assertContents("a", "b", "b", "c", "c", "d", "d", "d", "d", "e");
-  }
-
-  public void testAddAllMultiset() {
-    c = ms = createSample();
-    Multiset<String> more = HashMultiset.create(
-        asList("c", "c", "d", "d", "e"));
-    assertTrue(ms.addAll(more));
-    assertContents("a", "b", "b", "c", "c", "c", "d", "d", "d", "d", "d", "e");
   }
 
   public void testRemoveNoneFromSome() {

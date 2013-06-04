@@ -18,76 +18,16 @@ public class HashMultisetTest_gwt extends com.google.gwt.junit.client.GWTTestCas
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
-public void testAddAllEmptyMultiset() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testAddAllEmptyMultiset();
-}
-
-public void testAddAllEmptySet() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testAddAllEmptySet();
-}
-
-public void testAddAllMultiset() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testAddAllMultiset();
-}
-
-public void testAddAllSet() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testAddAllSet();
-}
-
-public void testAddNegative() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testAddNegative();
-}
-
-public void testAddNoneToNone() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testAddNoneToNone();
-}
-
-public void testAddNoneToSome() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testAddNoneToSome();
-}
-
 public void testAddOne() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
   testCase.testAddOne();
 }
 
-public void testAddSeveralAtOnce() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testAddSeveralAtOnce();
-}
-
 public void testAddSeveralTimes() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
   testCase.testAddSeveralTimes();
-}
-
-public void testAddSomeToSome() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testAddSomeToSome();
-}
-
-public void testAddTooMany() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testAddTooMany();
 }
 
 public void testCantAddToElementSet() throws Exception {

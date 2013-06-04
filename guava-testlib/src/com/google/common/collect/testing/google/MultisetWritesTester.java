@@ -16,7 +16,6 @@
 
 package com.google.common.collect.testing.google;
 
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
@@ -39,36 +38,6 @@ import java.util.Iterator;
  */
 @GwtCompatible
 public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
-
-  @CollectionFeature.Require(SUPPORTS_ADD)
-  public void testAddOccurrencesZero() {
-    int originalCount = getMultiset().count(samples.e0);
-    assertEquals("old count", originalCount, getMultiset().add(samples.e0, 0));
-    expectUnchanged();
-  }
-
-  @CollectionFeature.Require(SUPPORTS_ADD)
-  public void testAddOccurrences() {
-    int originalCount = getMultiset().count(samples.e0);
-    assertEquals("old count", originalCount, getMultiset().add(samples.e0, 2));
-    assertEquals("old count", originalCount + 2, getMultiset().count(samples.e0));
-  }
-
-  @CollectionFeature.Require(absent = SUPPORTS_ADD)
-  public void testAddOccurrences_unsupported() {
-    try {
-      getMultiset().add(samples.e0, 2);
-      fail("unsupported multiset.add(E, int) didn't throw exception");
-    } catch (UnsupportedOperationException required) {}
-  }
-
-  @CollectionFeature.Require(SUPPORTS_ADD)
-  public void testAdd_occurrences_negative() {
-    try {
-      getMultiset().add(samples.e0, -1);
-      fail("multiset.add(E, -1) didn't throw an exception");
-    } catch (IllegalArgumentException required) {}
-  }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_clear() {
