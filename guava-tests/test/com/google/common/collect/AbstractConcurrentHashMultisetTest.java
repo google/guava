@@ -29,14 +29,6 @@ public abstract class AbstractConcurrentHashMultisetTest
   // we don't support null
   @Override public void testToStringNull() {}
 
-  // our entries are snapshots, not live views. at least for now.
-
-  @Override public void testEntryAfterRemove() {}
-  @Override public void testEntryAfterClear() {}
-  @Override public void testEntryAfterEntrySetClear() {}
-  @Override public void testEntryAfterEntrySetIteratorRemove() {}
-  @Override public void testEntryAfterElementSetIteratorRemove() {}
-
   public void testCopyConstructor() {
     ms = ConcurrentHashMultiset.create(asList("a", "b", "a", "c"));
     assertEquals(4, ms.size());

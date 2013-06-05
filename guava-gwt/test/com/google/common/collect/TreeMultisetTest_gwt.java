@@ -48,12 +48,6 @@ public void testClearViaElementSet() throws Exception {
   testCase.testClearViaElementSet();
 }
 
-public void testClearViaEntrySet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testClearViaEntrySet();
-}
-
 public void testContainsAfterRemoval() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
@@ -142,42 +136,6 @@ public void testElementSetSubsetRetainAll() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testElementSetSubsetRetainAll();
-}
-
-public void testEntryAfterClear() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testEntryAfterClear();
-}
-
-public void testEntryAfterElementSetIteratorRemove() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testEntryAfterElementSetIteratorRemove();
-}
-
-public void testEntryAfterEntrySetClear() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testEntryAfterEntrySetClear();
-}
-
-public void testEntryAfterEntrySetIteratorRemove() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testEntryAfterEntrySetIteratorRemove();
-}
-
-public void testEntryAfterRemove() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testEntryAfterRemove();
-}
-
-public void testEntrySetRemove() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testEntrySetRemove();
 }
 
 public void testEqualsDifferentTypes() throws Exception {

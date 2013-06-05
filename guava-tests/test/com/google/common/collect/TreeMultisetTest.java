@@ -30,6 +30,7 @@ import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 
@@ -71,7 +72,8 @@ public class TreeMultisetTest extends AbstractMultisetTest {
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.GENERAL_PURPOSE,
             CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+            CollectionFeature.ALLOWS_NULL_QUERIES,
+            MultisetFeature.ENTRIES_ARE_VIEWS)
         .named("TreeMultiset, Ordering.natural")
         .createTestSuite());
     suite.addTest(SortedMultisetTestSuiteBuilder
@@ -92,7 +94,8 @@ public class TreeMultisetTest extends AbstractMultisetTest {
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.GENERAL_PURPOSE,
             CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_VALUES)
+            CollectionFeature.ALLOWS_NULL_VALUES,
+            MultisetFeature.ENTRIES_ARE_VIEWS)
         .named("TreeMultiset, NullsBeforeB")
         .createTestSuite());
     suite.addTest(NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {

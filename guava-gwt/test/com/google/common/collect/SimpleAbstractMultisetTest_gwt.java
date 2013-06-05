@@ -48,12 +48,6 @@ public void testClearViaElementSet() throws Exception {
   testCase.testClearViaElementSet();
 }
 
-public void testClearViaEntrySet() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testClearViaEntrySet();
-}
-
 public void testContainsAfterRemoval() throws Exception {
   com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
   testCase.setUp();
@@ -82,42 +76,6 @@ public void testElementSetIsNotACopy() throws Exception {
   com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
   testCase.setUp();
   testCase.testElementSetIsNotACopy();
-}
-
-public void testEntryAfterClear() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testEntryAfterClear();
-}
-
-public void testEntryAfterElementSetIteratorRemove() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testEntryAfterElementSetIteratorRemove();
-}
-
-public void testEntryAfterEntrySetClear() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testEntryAfterEntrySetClear();
-}
-
-public void testEntryAfterEntrySetIteratorRemove() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testEntryAfterEntrySetIteratorRemove();
-}
-
-public void testEntryAfterRemove() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testEntryAfterRemove();
-}
-
-public void testEntrySetRemove() throws Exception {
-  com.google.common.collect.SimpleAbstractMultisetTest testCase = new com.google.common.collect.SimpleAbstractMultisetTest();
-  testCase.setUp();
-  testCase.testEntrySetRemove();
 }
 
 public void testEqualsDifferentTypes() throws Exception {

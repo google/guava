@@ -18,11 +18,9 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.SerializableTester;
 
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -64,8 +62,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     assertSize();
   }
   
-  static class WrongType {}
-
   public void testElementSetIsNotACopy() {
     ms.add("a", 1);
     ms.add("b", 2);
@@ -94,12 +90,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
   public void testClearViaElementSet() {
     ms = createSample();
     ms.elementSet().clear();
-    assertContents();
-  }
-
-  public void testClearViaEntrySet() {
-    ms = createSample();
-    ms.entrySet().clear();
     assertContents();
   }
 
@@ -137,77 +127,7 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     assertEquals(ms, SerializableTester.reserialize(ms));
     assertSize();
   }
-
-  public void testEntryAfterRemove() {
-    ms.add("a", 8);
-    Multiset.Entry<String> entry = ms.entrySet().iterator().next();
-    assertEquals(8, entry.getCount());
-    ms.remove("a");
-    assertEquals(7, entry.getCount());
-    ms.remove("a", 4);
-    assertEquals(3, entry.getCount());
-    ms.elementSet().remove("a");
-    assertEquals(0, entry.getCount());
-    ms.add("a", 5);
-    assertEquals(5, entry.getCount());
-  }
-
-  public void testEntryAfterClear() {
-    ms.add("a", 3);
-    Multiset.Entry<String> entry = ms.entrySet().iterator().next();
-    ms.clear();
-    assertEquals(0, entry.getCount());
-    ms.add("a", 5);
-    assertEquals(5, entry.getCount());
-  }
-
-  public void testEntryAfterEntrySetClear() {
-    ms.add("a", 3);
-    Multiset.Entry<String> entry = ms.entrySet().iterator().next();
-    ms.entrySet().clear();
-    assertEquals(0, entry.getCount());
-    ms.add("a", 5);
-    assertEquals(5, entry.getCount());
-  }
-
-  public void testEntryAfterEntrySetIteratorRemove() {
-    ms.add("a", 3);
-    Iterator<Multiset.Entry<String>> iterator = ms.entrySet().iterator();
-    Multiset.Entry<String> entry = iterator.next();
-    iterator.remove();
-    assertEquals(0, entry.getCount());
-    try {
-      iterator.remove();
-      fail();
-    } catch (IllegalStateException expected) {}
-    ms.add("a", 5);
-    assertEquals(5, entry.getCount());
-  }
-
-  public void testEntryAfterElementSetIteratorRemove() {
-    ms.add("a", 3);
-    Multiset.Entry<String> entry = ms.entrySet().iterator().next();
-    Iterator<String> iterator = ms.elementSet().iterator();
-    iterator.next();
-    iterator.remove();
-    assertEquals(0, entry.getCount());
-    ms.add("a", 5);
-    assertEquals(5, entry.getCount());
-  }
-
-  public void testEntrySetRemove() {
-    ms.add("a", 3);
-    Set<Entry<String>> es = ms.entrySet();
-    assertFalse(es.remove(null));
-    assertFalse(es.remove(Maps.immutableEntry("a", 3)));
-    assertFalse(es.remove(Multisets.immutableEntry("a", 2)));
-    assertFalse(es.remove(Multisets.immutableEntry("b", 3)));
-    assertFalse(es.remove(Multisets.immutableEntry("b", 0)));
-    assertEquals(3, ms.count("a"));
-    assertTrue(es.remove(Multisets.immutableEntry("a", 3)));
-    assertEquals(0, ms.count("a"));
-  }
-
+  
   public void testUnmodifiableMultiset() {
     ms.add("a", 3);
     ms.add("b");

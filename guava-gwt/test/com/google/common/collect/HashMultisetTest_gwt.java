@@ -48,12 +48,6 @@ public void testClearViaElementSet() throws Exception {
   testCase.testClearViaElementSet();
 }
 
-public void testClearViaEntrySet() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testClearViaEntrySet();
-}
-
 public void testContainsAfterRemoval() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
@@ -100,12 +94,6 @@ public void testElementSetIsNotACopy() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
   testCase.testElementSetIsNotACopy();
-}
-
-public void testEntrySetRemove() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testEntrySetRemove();
 }
 
 public void testEqualsDifferentTypes() throws Exception {

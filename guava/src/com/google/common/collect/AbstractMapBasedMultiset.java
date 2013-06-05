@@ -105,14 +105,14 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
           }
           @Override
           public int getCount() {
-            int count = mapEntry.getValue().get();
-            if (count == 0) {
+            Count count = mapEntry.getValue();
+            if (count == null || count.get() == 0) {
               Count frequency = backingMap.get(getElement());
               if (frequency != null) {
-                count = frequency.get();
+                return frequency.get();
               }
             }
-            return count;
+            return (count == null) ? 0 : count.get();
           }
         };
       }

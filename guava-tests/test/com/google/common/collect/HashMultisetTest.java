@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.testing.SerializableTester;
@@ -48,7 +49,8 @@ public class HashMultisetTest extends AbstractMultisetTest {
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.SERIALIZABLE,
-            CollectionFeature.GENERAL_PURPOSE)
+            CollectionFeature.GENERAL_PURPOSE,
+            MultisetFeature.ENTRIES_ARE_VIEWS)
         .named("HashMultiset")
         .createTestSuite());
     suite.addTestSuite(HashMultisetTest.class);
@@ -123,39 +125,4 @@ public class HashMultisetTest extends AbstractMultisetTest {
    * which shares a lot of code with HashMultiset and has deterministic
    * iteration order.
    */
-
-  @Override
-  @GwtIncompatible(
-      "http://code.google.com/p/google-web-toolkit/issues/detail?id=3421")
-  public void testEntryAfterRemove() {
-    super.testEntryAfterRemove();
-  }
-
-  @Override
-  @GwtIncompatible(
-      "http://code.google.com/p/google-web-toolkit/issues/detail?id=3421")
-  public void testEntryAfterClear() {
-    super.testEntryAfterClear();
-  }
-
-  @Override
-  @GwtIncompatible(
-      "http://code.google.com/p/google-web-toolkit/issues/detail?id=3421")
-  public void testEntryAfterEntrySetClear() {
-    super.testEntryAfterEntrySetClear();
-  }
-
-  @Override
-  @GwtIncompatible(
-      "http://code.google.com/p/google-web-toolkit/issues/detail?id=3421")
-  public void testEntryAfterEntrySetIteratorRemove() {
-    super.testEntryAfterEntrySetIteratorRemove();
-  }
-
-  @Override
-  @GwtIncompatible(
-      "http://code.google.com/p/google-web-toolkit/issues/detail?id=3421")
-  public void testEntryAfterElementSetIteratorRemove() {
-    super.testEntryAfterElementSetIteratorRemove();
-  }
 }

@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestEnumMultisetGenerator;
 import com.google.common.testing.ClassSanityTester;
@@ -53,7 +54,8 @@ public class EnumMultisetTest extends TestCase {
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.GENERAL_PURPOSE,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+            CollectionFeature.ALLOWS_NULL_QUERIES,
+            MultisetFeature.ENTRIES_ARE_VIEWS)
         .named("EnumMultiset")
         .createTestSuite());
     suite.addTestSuite(EnumMultisetTest.class);

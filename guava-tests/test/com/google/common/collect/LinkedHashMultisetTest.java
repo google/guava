@@ -26,6 +26,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 
@@ -54,7 +55,8 @@ public class LinkedHashMultisetTest extends AbstractMultisetTest {
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.SERIALIZABLE,
-            CollectionFeature.GENERAL_PURPOSE)
+            CollectionFeature.GENERAL_PURPOSE,
+            MultisetFeature.ENTRIES_ARE_VIEWS)
         .createTestSuite());
     suite.addTestSuite(LinkedHashMultisetTest.class);
     return suite;
