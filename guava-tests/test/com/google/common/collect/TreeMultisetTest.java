@@ -17,15 +17,12 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.CLOSED;
-import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static java.util.Collections.sort;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers.NullsBeforeB;
-import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -41,7 +38,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
@@ -52,7 +48,7 @@ import java.util.SortedSet;
  * @author Neal Kanodia
  */
 @GwtCompatible(emulated = true)
-public class TreeMultisetTest extends AbstractMultisetTest {
+public class TreeMultisetTest extends AbstractCollectionTest {
 
   @GwtIncompatible("suite")
   public static Test suite() {
@@ -121,7 +117,7 @@ public class TreeMultisetTest extends AbstractMultisetTest {
 
   @SuppressWarnings("unchecked")
   @Override protected <E> Multiset<E> create() {
-    return (Multiset) TreeMultiset.create();
+    return (Multiset<E>) TreeMultiset.create();
   }
 
   public void testCreate() {
@@ -152,59 +148,12 @@ public class TreeMultisetTest extends AbstractMultisetTest {
   }
 
   public void testToString() {
+    Multiset<String> ms = TreeMultiset.create();
     ms.add("a", 3);
     ms.add("c", 1);
     ms.add("b", 2);
 
     assertEquals("[a x 3, b x 2, c]", ms.toString());
-  }
-
-  @GwtIncompatible("unreasonably slow")
-  public void testIteratorBashing() {
-    IteratorTester<String> tester =
-        new IteratorTester<String>(createSample().size() + 2, MODIFIABLE,
-            newArrayList(createSample()),
-            IteratorTester.KnownOrder.KNOWN_ORDER) {
-          private Multiset<String> targetMultiset;
-
-          @Override protected Iterator<String> newTargetIterator() {
-            targetMultiset = createSample();
-            return targetMultiset.iterator();
-          }
-
-          @Override protected void verify(List<String> elements) {
-            assertEquals(elements, Lists.newArrayList(targetMultiset));
-          }
-        };
-
-    /* This next line added as a stopgap until JDK6 bug is fixed. */
-    tester.ignoreSunJavaBug6529795();
-
-    tester.test();
-  }
-
-  @GwtIncompatible("slow (~30s)")
-  public void testElementSetIteratorBashing() {
-    IteratorTester<String> tester = new IteratorTester<String>(5, MODIFIABLE,
-        newArrayList("a", "b", "c"), IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private Set<String> targetSet;
-      @Override protected Iterator<String> newTargetIterator() {
-        Multiset<String> multiset = create();
-        multiset.add("a", 3);
-        multiset.add("c", 1);
-        multiset.add("b", 2);
-        targetSet = multiset.elementSet();
-        return targetSet.iterator();
-      }
-      @Override protected void verify(List<String> elements) {
-        assertEquals(elements, Lists.newArrayList(targetSet));
-      }
-    };
-
-    /* This next line added as a stopgap until JDK6 bug is fixed. */
-    tester.ignoreSunJavaBug6529795();
-
-    tester.test();
   }
 
   public void testElementSetSortedSetMethods() {
@@ -405,11 +354,6 @@ public class TreeMultisetTest extends AbstractMultisetTest {
     assertEquals(3, ms.tailMultiset("c", CLOSED).size());
     assertEquals(Integer.MAX_VALUE, ms.tailMultiset("b", CLOSED).size());
     assertEquals(Integer.MAX_VALUE, ms.tailMultiset("a", CLOSED).size());
-  }
-
-  @Override public void testToStringNull() {
-    c = ms = TreeMultiset.create(Ordering.natural().nullsFirst());
-    super.testToStringNull();
   }
 
   @GwtIncompatible("reflection")

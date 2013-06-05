@@ -32,11 +32,11 @@ import java.util.SortedSet;
  * @author Neal Kanodia
  */
 @GwtCompatible(emulated = true)
-public class TreeMultisetTest extends AbstractMultisetTest {
+public class TreeMultisetTest extends AbstractCollectionTest {
 
   @SuppressWarnings("unchecked")
   @Override protected <E> Multiset<E> create() {
-    return (Multiset) TreeMultiset.create();
+    return (Multiset<E>) TreeMultiset.create();
   }
 
   public void testCreate() {
@@ -67,6 +67,7 @@ public class TreeMultisetTest extends AbstractMultisetTest {
   }
 
   public void testToString() {
+    Multiset<String> ms = TreeMultiset.create();
     ms.add("a", 3);
     ms.add("c", 1);
     ms.add("b", 2);
@@ -272,11 +273,6 @@ public class TreeMultisetTest extends AbstractMultisetTest {
     assertEquals(3, ms.tailMultiset("c", CLOSED).size());
     assertEquals(Integer.MAX_VALUE, ms.tailMultiset("b", CLOSED).size());
     assertEquals(Integer.MAX_VALUE, ms.tailMultiset("a", CLOSED).size());
-  }
-
-  @Override public void testToStringNull() {
-    c = ms = TreeMultiset.create(Ordering.natural().nullsFirst());
-    super.testToStringNull();
   }
 }
 

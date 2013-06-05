@@ -30,7 +30,7 @@ import java.util.Arrays;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class HashMultisetTest extends AbstractMultisetTest {
+public class HashMultisetTest extends AbstractCollectionTest {
 
   private static TestStringMultisetGenerator hashMultisetGenerator() {
     return new TestStringMultisetGenerator() {

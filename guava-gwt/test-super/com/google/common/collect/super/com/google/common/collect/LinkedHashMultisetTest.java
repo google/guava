@@ -33,7 +33,7 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-public class LinkedHashMultisetTest extends AbstractMultisetTest {
+public class LinkedHashMultisetTest extends AbstractCollectionTest {
 
   private static TestStringMultisetGenerator linkedHashMultisetGenerator() {
     return new TestStringMultisetGenerator() {
@@ -88,6 +88,7 @@ public class LinkedHashMultisetTest extends AbstractMultisetTest {
   }
 
   public void testToString() {
+    Multiset<String> ms = LinkedHashMultiset.create();
     ms.add("a", 3);
     ms.add("c", 1);
     ms.add("b", 2);
@@ -96,6 +97,7 @@ public class LinkedHashMultisetTest extends AbstractMultisetTest {
   }
 
   public void testLosesPlaceInLine() throws Exception {
+    Multiset<String> ms = LinkedHashMultiset.create();
     ms.add("a");
     ms.add("b", 2);
     ms.add("c");
@@ -110,6 +112,7 @@ public class LinkedHashMultisetTest extends AbstractMultisetTest {
   }
 
   public void testIteratorRemoveConcurrentModification() {
+    Multiset<String> ms = LinkedHashMultiset.create();
     ms.add("a");
     ms.add("b");
     Iterator<String> iterator = ms.iterator();

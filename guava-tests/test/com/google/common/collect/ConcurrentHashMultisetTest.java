@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.collect.MapMakerInternalMap.Strength.STRONG;
 import static com.google.common.collect.MapMakerInternalMap.Strength.WEAK;
-import static com.google.common.collect.testing.IteratorFeature.SUPPORTS_REMOVE;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static java.util.Arrays.asList;
 import static org.easymock.EasyMock.eq;
@@ -28,8 +27,6 @@ import static org.easymock.EasyMock.isA;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.MapMaker.RemovalListener;
 import com.google.common.collect.MapMaker.RemovalNotification;
-import com.google.common.collect.Multiset.Entry;
-import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
@@ -41,9 +38,11 @@ import junit.framework.TestSuite;
 
 import org.easymock.EasyMock;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -57,21 +56,45 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(MultisetTestSuiteBuilder.using(concurrentMultisetGenerator())
+    suite.addTest(MultisetTestSuiteBuilder.using(concurrentHashMultisetGenerator())
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.GENERAL_PURPOSE,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("ConcurrentHashMultiset")
         .createTestSuite());
+    suite.addTest(MultisetTestSuiteBuilder.using(concurrentSkipListMultisetGenerator())
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .named("ConcurrentSkipListMultiset")
+        .createTestSuite());
     suite.addTestSuite(ConcurrentHashMultisetTest.class);
     return suite;
   }
 
-  private static TestStringMultisetGenerator concurrentMultisetGenerator() {
+  private static TestStringMultisetGenerator concurrentHashMultisetGenerator() {
     return new TestStringMultisetGenerator() {
       @Override protected Multiset<String> create(String[] elements) {
         return ConcurrentHashMultiset.create(asList(elements));
+      }
+    };
+  }
+
+  private static TestStringMultisetGenerator concurrentSkipListMultisetGenerator() {
+    return new TestStringMultisetGenerator() {
+      @Override protected Multiset<String> create(String[] elements) {
+        Multiset<String> multiset = new ConcurrentHashMultiset<String>(
+            new ConcurrentSkipListMap<String, AtomicInteger>());
+        Collections.addAll(multiset, elements);
+        return multiset;
+      }
+
+      @Override
+      public List<String> order(List<String> insertionOrder) {
+        return Ordering.natural().sortedCopy(insertionOrder);
       }
     };
   }
@@ -249,6 +272,28 @@ public class ConcurrentHashMultisetTest extends TestCase {
     verify();
   }
 
+  public void testRemoveExactly() {
+    ConcurrentHashMultiset<String> cms = ConcurrentHashMultiset.create();
+    cms.add("a", 2);
+    cms.add("b", 3);
+
+    try {
+      cms.removeExactly("a", -2);
+    } catch (IllegalArgumentException expected) {}
+
+    assertTrue(cms.removeExactly("a", 0));
+    assertEquals(2, cms.count("a"));
+    assertTrue(cms.removeExactly("c", 0));
+    assertEquals(0, cms.count("c"));
+
+    assertFalse(cms.removeExactly("a", 4));
+    assertEquals(2, cms.count("a"));
+    assertTrue(cms.removeExactly("a", 2));
+    assertEquals(0, cms.count("a"));
+    assertTrue(cms.removeExactly("b", 2));
+    assertEquals(1, cms.count("b"));
+  }
+
   public void testIteratorRemove_actualMap() {
     // Override to avoid using mocks.
     multiset = ConcurrentHashMultiset.create();
@@ -265,58 +310,6 @@ public class ConcurrentHashMultisetTest extends TestCase {
     }
     assertTrue(multiset.isEmpty());
     assertEquals(3, mutations);
-  }
-
-  public void testIterator() {
-    // multiset.iterator
-    List<String> expected = asList("a", "a", "b", "b", "b");
-    new IteratorTester<String>(
-        5, asList(SUPPORTS_REMOVE), expected, IteratorTester.KnownOrder.UNKNOWN_ORDER) {
-
-      ConcurrentHashMultiset<String> multiset;
-
-      @Override protected Iterator<String> newTargetIterator() {
-        multiset = ConcurrentHashMultiset.create();
-        multiset.add("a", 2);
-        multiset.add("b", 3);
-        return multiset.iterator();
-      }
-
-      @Override protected void verify(List<String> elements) {
-        super.verify(elements);
-        assertEquals(ImmutableMultiset.copyOf(elements), multiset);
-      }
-    }.test();
-  }
-
-  public void testEntryIterator() {
-    // multiset.entryIterator
-    List<Entry<String>> expected = asList(
-        Multisets.immutableEntry("a", 1),
-        Multisets.immutableEntry("b", 2),
-        Multisets.immutableEntry("c", 3),
-        Multisets.immutableEntry("d", 4),
-        Multisets.immutableEntry("e", 5));
-    new IteratorTester<Entry<String>>(
-        5, asList(SUPPORTS_REMOVE), expected, IteratorTester.KnownOrder.UNKNOWN_ORDER) {
-
-      ConcurrentHashMultiset<String> multiset;
-
-      @Override protected Iterator<Entry<String>> newTargetIterator() {
-        multiset = ConcurrentHashMultiset.create();
-        multiset.add("a", 1);
-        multiset.add("b", 2);
-        multiset.add("c", 3);
-        multiset.add("d", 4);
-        multiset.add("e", 5);
-        return multiset.entryIterator();
-      }
-
-      @Override protected void verify(List<Entry<String>> elements) {
-        super.verify(elements);
-        assertEquals(ImmutableSet.copyOf(elements), ImmutableSet.copyOf(multiset.entryIterator()));
-      }
-    }.test();
   }
 
   public void testSetCount_basic() {

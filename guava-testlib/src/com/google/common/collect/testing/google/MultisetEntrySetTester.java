@@ -250,4 +250,8 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     getMultiset().add(samples.e0, 2);
     assertEquals(2, entry.getCount());
   }
+  
+  public void testToString() {
+    assertEquals(getMultiset().entrySet().toString(), getMultiset().toString());
+  }
 }

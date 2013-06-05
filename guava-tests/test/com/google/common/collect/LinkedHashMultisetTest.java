@@ -16,14 +16,11 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static java.util.Arrays.asList;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetFeature;
@@ -44,7 +41,7 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-public class LinkedHashMultisetTest extends AbstractMultisetTest {
+public class LinkedHashMultisetTest extends AbstractCollectionTest {
 
   @GwtIncompatible("suite")
   public static Test suite() {
@@ -114,36 +111,8 @@ public class LinkedHashMultisetTest extends AbstractMultisetTest {
     assertEquals("[foo x 2, bar]", multiset.toString());
   }
 
-  @GwtIncompatible("unreasonably slow")
-  public void testIteratorBashing() {
-    ms = createSample();
-    IteratorTester<String> tester =
-        new IteratorTester<String>(6, MODIFIABLE, newArrayList(ms),
-            IteratorTester.KnownOrder.KNOWN_ORDER) {
-          @Override protected Iterator<String> newTargetIterator() {
-            return createSample().iterator();
-          }
-        };
-    tester.test();
-  }
-
-  @GwtIncompatible("slow (~30s)")
-  public void testElementSetIteratorBashing() {
-    IteratorTester<String> tester =
-        new IteratorTester<String>(5, MODIFIABLE, newArrayList("a", "c", "b"),
-            IteratorTester.KnownOrder.KNOWN_ORDER) {
-          @Override protected Iterator<String> newTargetIterator() {
-            Multiset<String> multiset = create();
-            multiset.add("a", 3);
-            multiset.add("c", 1);
-            multiset.add("b", 2);
-            return multiset.elementSet().iterator();
-          }
-        };
-    tester.test();
-  }
-
   public void testToString() {
+    Multiset<String> ms = LinkedHashMultiset.create();
     ms.add("a", 3);
     ms.add("c", 1);
     ms.add("b", 2);
@@ -152,6 +121,7 @@ public class LinkedHashMultisetTest extends AbstractMultisetTest {
   }
 
   public void testLosesPlaceInLine() throws Exception {
+    Multiset<String> ms = LinkedHashMultiset.create();
     ms.add("a");
     ms.add("b", 2);
     ms.add("c");
@@ -166,6 +136,7 @@ public class LinkedHashMultisetTest extends AbstractMultisetTest {
   }
 
   public void testIteratorRemoveConcurrentModification() {
+    Multiset<String> ms = LinkedHashMultiset.create();
     ms.add("a");
     ms.add("b");
     Iterator<String> iterator = ms.iterator();

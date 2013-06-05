@@ -40,7 +40,7 @@ import java.util.Arrays;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class HashMultisetTest extends AbstractMultisetTest {
+public class HashMultisetTest extends AbstractCollectionTest {
 
   @GwtIncompatible("suite")
   public static Test suite() {

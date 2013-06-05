@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  */
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible
-public class SimpleAbstractMultisetTest extends AbstractMultisetTest {
+public class SimpleAbstractMultisetTest extends AbstractCollectionTest {
 
   @Override protected <E> Multiset<E> create() {
     return new SimpleAbstractMultiset<E>();

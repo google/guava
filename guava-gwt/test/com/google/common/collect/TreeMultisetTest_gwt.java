@@ -180,12 +180,6 @@ public void testNullAcceptingComparator() throws Exception {
   testCase.testNullAcceptingComparator();
 }
 
-public void testReallyBig() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testReallyBig();
-}
-
 public void testRemoveAllVacuous() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
@@ -232,17 +226,5 @@ public void testToString() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testToString();
-}
-
-public void testToStringNull() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testToStringNull();
-}
-
-public void testUnmodifiableMultiset() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testUnmodifiableMultiset();
 }
 }

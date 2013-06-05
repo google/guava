@@ -144,12 +144,6 @@ public void testLosesPlaceInLine() throws Exception {
   testCase.testLosesPlaceInLine();
 }
 
-public void testReallyBig() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testReallyBig();
-}
-
 public void testRemoveAllVacuous() throws Exception {
   com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
   testCase.setUp();
@@ -190,17 +184,5 @@ public void testToString() throws Exception {
   com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
   testCase.setUp();
   testCase.testToString();
-}
-
-public void testToStringNull() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testToStringNull();
-}
-
-public void testUnmodifiableMultiset() throws Exception {
-  com.google.common.collect.LinkedHashMultisetTest testCase = new com.google.common.collect.LinkedHashMultisetTest();
-  testCase.setUp();
-  testCase.testUnmodifiableMultiset();
 }
 }

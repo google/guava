@@ -132,12 +132,6 @@ public void testIsEmptyYes() throws Exception {
   testCase.testIsEmptyYes();
 }
 
-public void testReallyBig() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testReallyBig();
-}
-
 public void testRemoveAllVacuous() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
@@ -172,17 +166,5 @@ public void testToArrayOne() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
   testCase.testToArrayOne();
-}
-
-public void testToStringNull() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testToStringNull();
-}
-
-public void testUnmodifiableMultiset() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testUnmodifiableMultiset();
 }
 }
