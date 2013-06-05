@@ -61,37 +61,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     super.assertContents(expected);
     assertSize();
   }
-  
-  public void testElementSetIsNotACopy() {
-    ms.add("a", 1);
-    ms.add("b", 2);
-    Set<String> elementSet = ms.elementSet();
-    ms.add("c", 3);
-    ms.setCount("b", 0);
-    assertEquals(Sets.newHashSet("a", "c"), elementSet);
-    assertSize();
-  }
-
-  public void testRemoveFromElementSetYes() {
-    ms.add("a", 1);
-    ms.add("b", 2);
-    Set<String> elementSet = ms.elementSet();
-    assertTrue(elementSet.remove("b"));
-    assertContents("a");
-  }
-
-  public void testRemoveFromElementSetNo() {
-    ms.add("a", 1);
-    Set<String> elementSet = ms.elementSet();
-    assertFalse(elementSet.remove("b"));
-    assertContents("a");
-  }
-
-  public void testClearViaElementSet() {
-    ms = createSample();
-    ms.elementSet().clear();
-    assertContents();
-  }
 
   public void testReallyBig() {
     ms.add("a", Integer.MAX_VALUE - 1);

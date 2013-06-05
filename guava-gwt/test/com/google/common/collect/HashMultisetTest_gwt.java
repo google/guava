@@ -42,12 +42,6 @@ public void testClearNothing() throws Exception {
   testCase.testClearNothing();
 }
 
-public void testClearViaElementSet() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testClearViaElementSet();
-}
-
 public void testContainsAfterRemoval() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
@@ -88,12 +82,6 @@ public void testCreateWithSize() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
   testCase.testCreateWithSize();
-}
-
-public void testElementSetIsNotACopy() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testElementSetIsNotACopy();
 }
 
 public void testEqualsDifferentTypes() throws Exception {
@@ -154,18 +142,6 @@ public void testRemoveAllVacuous() throws Exception {
   com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
   testCase.setUp();
   testCase.testRemoveAllVacuous();
-}
-
-public void testRemoveFromElementSetNo() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveFromElementSetNo();
-}
-
-public void testRemoveFromElementSetYes() throws Exception {
-  com.google.common.collect.HashMultisetTest testCase = new com.google.common.collect.HashMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveFromElementSetYes();
 }
 
 public void testRemoveOneFromNoneStandard() throws Exception {

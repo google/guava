@@ -42,12 +42,6 @@ public void testClearNothing() throws Exception {
   testCase.testClearNothing();
 }
 
-public void testClearViaElementSet() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testClearViaElementSet();
-}
-
 public void testContainsAfterRemoval() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
@@ -100,12 +94,6 @@ public void testDegenerateComparator() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testDegenerateComparator();
-}
-
-public void testElementSetIsNotACopy() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testElementSetIsNotACopy();
 }
 
 public void testElementSetSortedSetMethods() throws Exception {
@@ -202,18 +190,6 @@ public void testRemoveAllVacuous() throws Exception {
   com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
   testCase.setUp();
   testCase.testRemoveAllVacuous();
-}
-
-public void testRemoveFromElementSetNo() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveFromElementSetNo();
-}
-
-public void testRemoveFromElementSetYes() throws Exception {
-  com.google.common.collect.TreeMultisetTest testCase = new com.google.common.collect.TreeMultisetTest();
-  testCase.setUp();
-  testCase.testRemoveFromElementSetYes();
 }
 
 public void testRemoveOneFromNoneStandard() throws Exception {

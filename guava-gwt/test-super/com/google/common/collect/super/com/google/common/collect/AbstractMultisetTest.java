@@ -19,8 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 
-import java.util.Set;
-
 /**
  * Common tests for a {@link Multiset}.
  *
@@ -58,37 +56,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
   @Override protected void assertContents(String... expected) {
     super.assertContents(expected);
     assertSize();
-  }
-  
-  public void testElementSetIsNotACopy() {
-    ms.add("a", 1);
-    ms.add("b", 2);
-    Set<String> elementSet = ms.elementSet();
-    ms.add("c", 3);
-    ms.setCount("b", 0);
-    assertEquals(Sets.newHashSet("a", "c"), elementSet);
-    assertSize();
-  }
-
-  public void testRemoveFromElementSetYes() {
-    ms.add("a", 1);
-    ms.add("b", 2);
-    Set<String> elementSet = ms.elementSet();
-    assertTrue(elementSet.remove("b"));
-    assertContents("a");
-  }
-
-  public void testRemoveFromElementSetNo() {
-    ms.add("a", 1);
-    Set<String> elementSet = ms.elementSet();
-    assertFalse(elementSet.remove("b"));
-    assertContents("a");
-  }
-
-  public void testClearViaElementSet() {
-    ms = createSample();
-    ms.elementSet().clear();
-    assertContents();
   }
 
   public void testReallyBig() {
