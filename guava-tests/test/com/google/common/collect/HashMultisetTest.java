@@ -28,6 +28,7 @@ import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.io.Serializable;
@@ -40,13 +41,14 @@ import java.util.Arrays;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class HashMultisetTest extends AbstractCollectionTest {
+public class HashMultisetTest extends TestCase {
 
   @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MultisetTestSuiteBuilder.using(hashMultisetGenerator())
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.GENERAL_PURPOSE,
@@ -63,10 +65,6 @@ public class HashMultisetTest extends AbstractCollectionTest {
         return HashMultiset.create(asList(elements));
       }
     };
-  }
-
-  @Override protected <E> Multiset<E> create() {
-    return HashMultiset.create();
   }
 
   public void testCreate() {

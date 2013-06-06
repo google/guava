@@ -17,18 +17,10 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.features.CollectionFeature;
-import com.google.common.collect.testing.features.CollectionSize;
-import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
-import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,24 +36,6 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible(emulated = true)
 public class SimpleAbstractMultisetTest extends TestCase {
-  @GwtIncompatible("suite")
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTestSuite(SimpleAbstractMultisetTest.class);
-    suite.addTest(MultisetTestSuiteBuilder.using(new TestStringMultisetGenerator() {
-          @Override
-          protected Multiset<String> create(String[] elements) {
-            Multiset<String> ms = new NoRemoveMultiset<String>();
-            Collections.addAll(ms, elements);
-            return ms;
-          }
-        })
-        .named("NoRemoveMultiset")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.SUPPORTS_ADD)
-        .createTestSuite());
-    return suite;
-  }
 
   public void testFastAddAllMultiset() {
     final AtomicInteger addCalls = new AtomicInteger();
@@ -140,3 +114,4 @@ public class SimpleAbstractMultisetTest extends TestCase {
     }
   }
 }
+

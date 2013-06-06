@@ -21,6 +21,8 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 
+import junit.framework.TestCase;
+
 import java.util.Arrays;
 
 /**
@@ -30,7 +32,7 @@ import java.util.Arrays;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class HashMultisetTest extends AbstractCollectionTest {
+public class HashMultisetTest extends TestCase {
 
   private static TestStringMultisetGenerator hashMultisetGenerator() {
     return new TestStringMultisetGenerator() {
@@ -38,10 +40,6 @@ public class HashMultisetTest extends AbstractCollectionTest {
         return HashMultiset.create(asList(elements));
       }
     };
-  }
-
-  @Override protected <E> Multiset<E> create() {
-    return HashMultiset.create();
   }
 
   public void testCreate() {

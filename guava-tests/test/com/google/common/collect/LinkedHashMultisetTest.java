@@ -28,11 +28,10 @@ import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.util.Arrays;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -41,7 +40,7 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-public class LinkedHashMultisetTest extends AbstractCollectionTest {
+public class LinkedHashMultisetTest extends TestCase {
 
   @GwtIncompatible("suite")
   public static Test suite() {
@@ -50,6 +49,7 @@ public class LinkedHashMultisetTest extends AbstractCollectionTest {
         .named("LinkedHashMultiset")
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.GENERAL_PURPOSE,
@@ -79,10 +79,6 @@ public class LinkedHashMultisetTest extends AbstractCollectionTest {
         return order;
       }
     };
-  }
-
-  @Override protected <E> Multiset<E> create() {
-    return LinkedHashMultiset.create();
   }
 
   public void testCreate() {
@@ -133,22 +129,5 @@ public class LinkedHashMultisetTest extends AbstractCollectionTest {
     ms.remove("b", 2);
     ms.add("b");
     ASSERT.that(ms.elementSet()).has().allOf("a", "c", "b").inOrder();
-  }
-
-  public void testIteratorRemoveConcurrentModification() {
-    Multiset<String> ms = LinkedHashMultiset.create();
-    ms.add("a");
-    ms.add("b");
-    Iterator<String> iterator = ms.iterator();
-    iterator.next();
-    ms.remove("a");
-    assertEquals(1, ms.size());
-    assertTrue(ms.contains("b"));
-    try {
-      iterator.remove();
-      fail();
-    } catch (ConcurrentModificationException expected) {}
-    assertEquals(1, ms.size());
-    assertTrue(ms.contains("b"));
   }
 }

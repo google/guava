@@ -21,6 +21,8 @@ import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 
+import junit.framework.TestCase;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,12 +34,7 @@ import java.util.SortedSet;
  * @author Neal Kanodia
  */
 @GwtCompatible(emulated = true)
-public class TreeMultisetTest extends AbstractCollectionTest {
-
-  @SuppressWarnings("unchecked")
-  @Override protected <E> Multiset<E> create() {
-    return (Multiset<E>) TreeMultiset.create();
-  }
+public class TreeMultisetTest extends TestCase {
 
   public void testCreate() {
     TreeMultiset<String> multiset = TreeMultiset.create();

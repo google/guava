@@ -268,6 +268,7 @@ public abstract class AbstractMultisetSetCountTester<E>
 
   @CollectionFeature.Require({SUPPORTS_REMOVE,
       FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionSize.Require(absent = ZERO)
   public void testSetCountOneToZeroConcurrentWithEntrySetIteration() {
     try {
       Iterator<Entry<E>> iterator = getMultiset().entrySet().iterator();

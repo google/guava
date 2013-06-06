@@ -32,6 +32,7 @@ import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.lang.reflect.Method;
@@ -48,7 +49,7 @@ import java.util.SortedSet;
  * @author Neal Kanodia
  */
 @GwtCompatible(emulated = true)
-public class TreeMultisetTest extends AbstractCollectionTest {
+public class TreeMultisetTest extends TestCase {
 
   @GwtIncompatible("suite")
   public static Test suite() {
@@ -113,11 +114,6 @@ public class TreeMultisetTest extends AbstractCollectionTest {
       .createTestSuite());
     suite.addTestSuite(TreeMultisetTest.class);
     return suite;
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override protected <E> Multiset<E> create() {
-    return (Multiset<E>) TreeMultiset.create();
   }
 
   public void testCreate() {
