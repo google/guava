@@ -18,7 +18,13 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.testing.SerializableTester;
+import com.google.common.collect.testing.SetTestSuiteBuilder;
+import com.google.common.collect.testing.TestStringSetGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -32,21 +38,28 @@ import javax.annotation.Nullable;
  *
  * @author Mike Bostock
  */
-public class SynchronizedSetTest extends AbstractCollectionTest {
-  public final Object mutex = new Integer(1); // something Serializable
-
-  @Override protected <E> Set<E> create() {
-    TestSet<E> inner = new TestSet<E>(new HashSet<E>(), mutex);
-    Set<E> outer = Synchronized.set(inner, inner.mutex);
-    return outer;
-  }
-
-  @Override public void testNullPointerExceptions() {
-    /* Skip this test, as SynchronizedSet is not a public class. */
-  }
-
-  public void testSerialization() {
-    SerializableTester.reserializeAndAssert(create());
+public class SynchronizedSetTest extends TestCase {
+  
+  public static final Object MUTEX = new Integer(1); // something Serializable
+  
+  public static Test suite() {
+    return SetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override
+          protected Set<String> create(String[] elements) {
+            TestSet<String> inner = new TestSet<String>(new HashSet<String>(), MUTEX);
+            Set<String> outer = Synchronized.set(inner, inner.mutex);
+            for (String e : elements) {
+              outer.add(e);
+            }
+            return outer;
+          }
+        })
+        .named("Synchronized.set")
+        .withFeatures(CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE)
+        .createTestSuite();
   }
 
   static class TestSet<E> extends ForwardingSet<E> implements Serializable {
