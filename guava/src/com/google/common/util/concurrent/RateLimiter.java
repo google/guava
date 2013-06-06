@@ -224,7 +224,7 @@ public abstract class RateLimiter {
    *        how many permits become available per second.
    */
   // TODO(user): "This is equivalent to
-  //                 {@code createBursty(permitsPerSecond, 1, TimeUnit.SECONDS)}".
+  //                 {@code createWithCapacity(permitsPerSecond, 1, TimeUnit.SECONDS)}".
   public static RateLimiter create(double permitsPerSecond) {
     /*
        * The default RateLimiter configuration can save the unused permits of up to one second.
@@ -283,38 +283,8 @@ public abstract class RateLimiter {
     return rateLimiter;
   }
 
-  /**
-   * Creates a {@code RateLimiter} with the specified stable throughput, given as
-   * "permits per second" (commonly referred to as <i>QPS</i>, queries per second),
-   * and the specified bursty behavior.
-   *
-   * <p>The returned {@code RateLimiter} ensures that on average no more than {@code
-   * permitsPerSecond} are issued during any given second, with sustained requests
-   * being smoothly spread over each second. When the incoming request rate exceeds
-   * {@code permitsPerSecond} the rate limiter will release one permit every {@code
-   * (1.0 / permitsPerSecond)} seconds.
-   *
-   * <p>When the rate limiter is unused, permits of up to {@code maxBurstBuildup} time
-   * period can be accumulated, and then produced upon request with no wait (in a burst).
-   * For example, {@code createBursty(2.0, 30, TimeUnit.SECONDS)} constructs a {@code RateLimiter}
-   * with a max rate of 2 qps, but if it is unused, it can save up permits that would have been
-   * produced in 30 seconds (at 2 qps rate, that's 60 permits), and give them to callers with no
-   * throttling. If the rate is changed to, say, 4 qps, then similarly the max saved permits
-   * will be {@code 4 * 30 = 120}.
-   *
-   * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in
-   *        how many permits become available per second.
-   * @param maxBurstBuildup
-   * @param unit
-   */
-
-  /* public */ static RateLimiter createBursty(
-      double permitsPerSecond, long maxBurstBuildup, TimeUnit unit) {
-    return createBursty(SleepingTicker.SYSTEM_TICKER, permitsPerSecond, maxBurstBuildup, unit);
-  }
-
   @VisibleForTesting
-  static RateLimiter createBursty(
+  static RateLimiter createWithCapacity(
       SleepingTicker ticker, double permitsPerSecond, long maxBurstBuildup, TimeUnit unit) {
     double maxBurstSeconds = unit.toNanos(maxBurstBuildup) / 1E+9;
     Bursty rateLimiter = new Bursty(ticker, maxBurstSeconds);
