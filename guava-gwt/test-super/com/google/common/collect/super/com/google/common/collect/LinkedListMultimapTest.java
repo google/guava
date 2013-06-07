@@ -36,7 +36,7 @@ import java.util.RandomAccess;
  * @author Mike Bostock
  */
 @GwtCompatible(emulated = true)
-public class LinkedListMultimapTest extends AbstractListMultimapTest {
+public class LinkedListMultimapTest extends AbstractMultimapTest {
 
   @Override protected LinkedListMultimap<String, Integer> create() {
     return LinkedListMultimap.create();

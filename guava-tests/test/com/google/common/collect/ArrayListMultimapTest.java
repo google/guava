@@ -41,7 +41,7 @@ import java.util.RandomAccess;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class ArrayListMultimapTest extends AbstractListMultimapTest {
+public class ArrayListMultimapTest extends AbstractMultimapTest {
 
   @GwtIncompatible("suite")
   public static Test suite() {

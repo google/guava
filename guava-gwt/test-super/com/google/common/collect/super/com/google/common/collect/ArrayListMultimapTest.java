@@ -31,7 +31,7 @@ import java.util.RandomAccess;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class ArrayListMultimapTest extends AbstractListMultimapTest {
+public class ArrayListMultimapTest extends AbstractMultimapTest {
 
   @Override protected ListMultimap<String, Integer> create() {
     return ArrayListMultimap.create();

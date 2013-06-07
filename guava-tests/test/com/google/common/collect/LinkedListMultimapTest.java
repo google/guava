@@ -56,7 +56,7 @@ import java.util.Set;
  * @author Mike Bostock
  */
 @GwtCompatible(emulated = true)
-public class LinkedListMultimapTest extends AbstractListMultimapTest {
+public class LinkedListMultimapTest extends AbstractMultimapTest {
 
   @GwtIncompatible("suite")
   public static Test suite() {
