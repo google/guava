@@ -114,10 +114,10 @@ public interface ListenableFuture<V> extends Future<V> {
    * network thread.
    * </ul>
    *
-   * Also note that, regardless of which thread executes the listener, all
-   * other registered but unexecuted listeners are prevented from running
-   * during its execution, even if those listeners are to run in other
-   * executors.
+   * Also note that, regardless of which thread executes the
+   * {@code sameThreadExecutor()} listener, all other registered but unexecuted
+   * listeners are prevented from running during its execution, even if those
+   * listeners are to run in other executors.
    *
    * <p>This is the most general listener interface. For common operations
    * performed using listeners, see {@link
