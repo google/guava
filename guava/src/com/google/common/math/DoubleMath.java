@@ -342,7 +342,7 @@ public final class DoubleMath {
           Math.copySign(a - b, 1.0) <= tolerance
            // copySign(x, 1.0) is a branch-free version of abs(x), but with different NaN semantics
           || (a == b) // needed to ensure that infinities equal themselves
-          || ((a != a) && (b != b)); // x != x is equivalent to Double.isNaN(x), but faster
+          || (Double.isNaN(a) && Double.isNaN(b));
   }
 
   /**
