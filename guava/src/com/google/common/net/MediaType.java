@@ -210,6 +210,12 @@ public final class MediaType {
   public static final MediaType FORM_DATA = createConstant(APPLICATION_TYPE,
       "x-www-form-urlencoded");
   /**
+   * As described in <a href="https://www.rsa.com/rsalabs/node.asp?id=2138">PKCS #12: Personal
+   * Information Exchange Syntax Standard</a>, PKCS #12 defines an archive file format for storing
+   * many cryptography objects as a single file.
+   */
+  public static final MediaType KEY_ARCHIVE = createConstant(APPLICATION_TYPE, "pkcs12");
+  /**
    * This is a non-standard media type, but is commonly used in serving hosted binary files as it is
    * <a href="http://code.google.com/p/browsersec/wiki/Part2#Survey_of_content_sniffing_behaviors">
    * known not to trigger content sniffing in current browsers</a>. It <i>should not</i> be used in
@@ -323,6 +329,7 @@ public final class MediaType {
           .put(ATOM_UTF_8, ATOM_UTF_8)
           .put(BZIP2, BZIP2)
           .put(FORM_DATA, FORM_DATA)
+          .put(KEY_ARCHIVE, KEY_ARCHIVE)
           .put(APPLICATION_BINARY, APPLICATION_BINARY)
           .put(GZIP, GZIP)
           .put(JAVASCRIPT_UTF_8, JAVASCRIPT_UTF_8)
