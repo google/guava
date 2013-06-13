@@ -102,7 +102,8 @@ public final class Collections2 {
    * {@code contains} method throws a {@code ClassCastException} or
    * {@code NullPointerException}.
    */
-  static boolean safeContains(Collection<?> collection, Object object) {
+  static boolean safeContains(
+      Collection<?> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.contains(object);
@@ -118,7 +119,7 @@ public final class Collections2 {
    * {@code remove} method throws a {@code ClassCastException} or
    * {@code NullPointerException}.
    */
-  static boolean safeRemove(Collection<?> collection, Object object) {
+  static boolean safeRemove(Collection<?> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.remove(object);
