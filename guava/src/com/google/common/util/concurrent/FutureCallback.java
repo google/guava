@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import javax.annotation.Nullable;
+
 /**
  * A callback for accepting the results of a {@link java.util.concurrent.Future}
  * computation asynchronously.
@@ -33,7 +35,7 @@ public interface FutureCallback<V> {
    * Invoked with the result of the {@code Future} computation when it is
    * successful.
    */
-  void onSuccess(V result);
+  void onSuccess(@Nullable V result);
 
   /**
    * Invoked when a {@code Future} computation fails or is canceled.
