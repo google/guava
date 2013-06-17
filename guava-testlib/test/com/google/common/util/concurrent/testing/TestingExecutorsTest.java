@@ -82,4 +82,34 @@ public class TestingExecutorsTest extends TestCase {
       // pass
     }
   }
+
+  public void testSameThreadScheduledExecutor() throws ExecutionException, InterruptedException {
+    taskDone = false;
+    Callable<Integer> task = new Callable<Integer>() {
+      @Override public Integer call() {
+        taskDone = true;
+        return 6;
+      }
+    };
+    Future<Integer> future = TestingExecutors.sameThreadScheduledExecutor().schedule(
+        task, 10000, TimeUnit.MILLISECONDS);
+    assertTrue("Should run callable immediately", taskDone);
+    assertEquals(6, (int) future.get());
+  }
+
+  public void testSameThreadScheduledExecutorWithException() throws InterruptedException {
+    Runnable runnable = new Runnable() {
+      @Override public void run() {
+        throw new RuntimeException("Oh no!");
+      }
+    };
+  
+    Future<?> future = TestingExecutors.sameThreadScheduledExecutor().submit(runnable);
+    try {
+      future.get();
+      fail("Should have thrown exception");
+    } catch (ExecutionException e) {
+      // pass
+    }
+  }
 }
