@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import static com.google.common.base.CharMatcher.WHITESPACE;
+import static com.google.common.collect.Lists.newArrayList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -307,21 +308,19 @@ public class PredicatesTest extends TestCase {
     assertFalse(predicate.apply(1));
   }
 
-  @SuppressWarnings("unchecked")
   public void testAnd_listDefensivelyCopied() {
-    List list = new ArrayList<Predicate>();
+    List<Predicate<Object>> list = newArrayList();
     Predicate<Object> predicate = Predicates.and(list);
     assertTrue(predicate.apply(1));
     list.add(Predicates.alwaysFalse());
     assertTrue(predicate.apply(1));
   }
 
-  @SuppressWarnings("unchecked")
   public void testAnd_iterableDefensivelyCopied() {
-    final List list = new ArrayList<Predicate>();
-    Iterable iterable = new Iterable<Predicate>() {
+    final List<Predicate<Object>> list = newArrayList();
+    Iterable<Predicate<Object>> iterable = new Iterable<Predicate<Object>>() {
       @Override
-      public Iterator<Predicate> iterator() {
+      public Iterator<Predicate<Object>> iterator() {
         return list.iterator();
       }
     };
@@ -477,21 +476,19 @@ public class PredicatesTest extends TestCase {
     assertFalse(predicate.apply(1));
   }
 
-  @SuppressWarnings("unchecked")
   public void testOr_listDefensivelyCopied() {
-    List list = new ArrayList<Predicate>();
+    List<Predicate<Object>> list = newArrayList();
     Predicate<Object> predicate = Predicates.or(list);
     assertFalse(predicate.apply(1));
     list.add(Predicates.alwaysTrue());
     assertFalse(predicate.apply(1));
   }
 
-  @SuppressWarnings("unchecked")
   public void testOr_iterableDefensivelyCopied() {
-    final List list = new ArrayList<Predicate>();
-    Iterable iterable = new Iterable<Predicate>() {
+    final List<Predicate<Object>> list = newArrayList();
+    Iterable<Predicate<Object>> iterable = new Iterable<Predicate<Object>>() {
       @Override
-      public Iterator<Predicate> iterator() {
+      public Iterator<Predicate<Object>> iterator() {
         return list.iterator();
       }
     };
