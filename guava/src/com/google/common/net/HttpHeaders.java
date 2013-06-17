@@ -140,10 +140,16 @@ public final class HttpHeaders {
   /** The HTTP {@code Content-Range} header field name. */
   public static final String CONTENT_RANGE = "Content-Range";
   /**
-   * The HTTP <a href="http://www.html5rocks.com/en/tutorials/security/content-security-policy/">
+   * The HTTP <a href="http://w3.org/TR/CSP/#content-security-policy-header-field">
    * {@code Content-Security-Policy}</a> header field name.
    */
   public static final String CONTENT_SECURITY_POLICY = "Content-Security-Policy";
+  /**
+   * The HTTP <a href="http://w3.org/TR/CSP/#content-security-policy-report-only-header-field">
+   * {@code Content-Security-Policy-Report-Only}</a> header field name.
+   */
+  public static final String CONTENT_SECURITY_POLICY_REPORT_ONLY =
+      "Content-Security-Policy-Report-Only";
   /** The HTTP {@code ETag} header field name. */
   public static final String ETAG = "ETag";
   /** The HTTP {@code Expires} header field name. */
