@@ -213,6 +213,8 @@ public final class MediaType {
    * As described in <a href="https://www.rsa.com/rsalabs/node.asp?id=2138">PKCS #12: Personal
    * Information Exchange Syntax Standard</a>, PKCS #12 defines an archive file format for storing
    * many cryptography objects as a single file.
+   *
+   * @since 15.0
    */
   public static final MediaType KEY_ARCHIVE = createConstant(APPLICATION_TYPE, "pkcs12");
   /**
