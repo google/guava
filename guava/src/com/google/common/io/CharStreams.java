@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 
 import java.io.Closeable;
 import java.io.EOFException;
@@ -347,11 +349,14 @@ public final class CharStreams {
   public static InputSupplier<Reader> join(
       final Iterable<? extends InputSupplier<? extends Reader>> suppliers) {
     checkNotNull(suppliers);
-    return new InputSupplier<Reader>() {
-      @Override public Reader getInput() throws IOException {
-        return new MultiReader(suppliers.iterator());
-      }
-    };
+    Iterable<CharSource> sources = Iterables.transform(suppliers,
+        new Function<InputSupplier<? extends Reader>, CharSource>() {
+          @Override
+          public CharSource apply(InputSupplier<? extends Reader> input) {
+            return asCharSource(input);
+          }
+        });
+    return asInputSupplier(CharSource.concat(sources));
   }
 
   /** Varargs form of {@link #join(Iterable)}. */

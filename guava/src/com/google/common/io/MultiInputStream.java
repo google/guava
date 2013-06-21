@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  */
 final class MultiInputStream extends InputStream {
 
-  private Iterator<? extends InputSupplier<? extends InputStream>> it;
+  private Iterator<? extends ByteSource> it;
   private InputStream in;
 
   /**
@@ -42,8 +42,7 @@ final class MultiInputStream extends InputStream {
    * @param it an iterator of I/O suppliers that will provide each substream
    */
   public MultiInputStream(
-      Iterator<? extends InputSupplier<? extends InputStream>> it)
-      throws IOException {
+      Iterator<? extends ByteSource> it) throws IOException {
     this.it = checkNotNull(it);
     advance();
   }
@@ -64,7 +63,7 @@ final class MultiInputStream extends InputStream {
   private void advance() throws IOException {
     close();
     if (it.hasNext()) {
-      in = it.next().getInput();
+      in = it.next().openStream();
     }
   }
 

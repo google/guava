@@ -223,7 +223,7 @@ public abstract class CharSource implements InputSupplier<Reader> {
    * @since 15.0
    */
   public static CharSource concat(Iterable<? extends CharSource> sources) {
-    return CharStreams.asCharSource(CharStreams.join(ImmutableList.copyOf(sources)));
+    return new ConcatenatedCharSource(sources);
   }
 
   /**
@@ -358,6 +358,25 @@ public abstract class CharSource implements InputSupplier<Reader> {
     @Override
     public String toString() {
       return "CharSource.empty()";
+    }
+  }
+
+  private static final class ConcatenatedCharSource extends CharSource {
+
+    private final ImmutableList<CharSource> sources;
+
+    ConcatenatedCharSource(Iterable<? extends CharSource> sources) {
+      this.sources = ImmutableList.copyOf(sources);
+    }
+
+    @Override
+    public Reader openStream() throws IOException {
+      return new MultiReader(sources.iterator());
+    }
+
+    @Override
+    public String toString() {
+      return "CharSource.concat(" + sources + ")";
     }
   }
 }

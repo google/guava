@@ -310,7 +310,7 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
    * @since 15.0
    */
   public static ByteSource concat(Iterable<? extends ByteSource> sources) {
-    return ByteStreams.asByteSource(ByteStreams.join(ImmutableList.copyOf(sources)));
+    return new ConcatenatedByteSource(sources);
   }
 
   /**
@@ -514,6 +514,34 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     @Override
     public String toString() {
       return "ByteSource.empty()";
+    }
+  }
+
+  private static final class ConcatenatedByteSource extends ByteSource {
+
+    private final ImmutableList<ByteSource> sources;
+
+    ConcatenatedByteSource(Iterable<? extends ByteSource> sources) {
+      this.sources = ImmutableList.copyOf(sources);
+    }
+
+    @Override
+    public InputStream openStream() throws IOException {
+      return new MultiInputStream(sources.iterator());
+    }
+
+    @Override
+    public long size() throws IOException {
+      long result = 0L;
+      for (ByteSource source : sources) {
+        result += source.size();
+      }
+      return result;
+    }
+
+    @Override
+    public String toString() {
+      return "ByteSource.concat(" + sources + ")";
     }
   }
 }

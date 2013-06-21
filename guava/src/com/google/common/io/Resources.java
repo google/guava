@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -157,6 +158,10 @@ public final class Resources {
    * line-termination characters, but do include other leading and trailing
    * whitespace.
    *
+   * <p>This method returns a mutable {@code List}. For an
+   * {@code ImmutableList}, use
+   * {@code Resources.asCharSource(url, charset).readLines()}.
+   *
    * @param url the URL to read from
    * @param charset the charset used to decode the input stream; see {@link
    *     Charsets} for helpful predefined constants
@@ -165,7 +170,22 @@ public final class Resources {
    */
   public static List<String> readLines(URL url, Charset charset)
       throws IOException {
-    return CharStreams.readLines(newReaderSupplier(url, charset));
+    // don't use asCharSource(url, charset).readLines() because that returns
+    // an immutable list, which would change the behavior of this method
+    return readLines(url, charset, new LineProcessor<List<String>>() {
+      final List<String> result = Lists.newArrayList();
+
+      @Override
+      public boolean processLine(String line) {
+        result.add(line);
+        return true;
+      }
+
+      @Override
+      public List<String> getResult() {
+        return result;
+      }
+    });
   }
 
   /**

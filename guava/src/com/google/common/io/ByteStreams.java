@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 
@@ -868,11 +870,14 @@ public final class ByteStreams {
   public static InputSupplier<InputStream> join(
       final Iterable<? extends InputSupplier<? extends InputStream>> suppliers) {
     checkNotNull(suppliers);
-    return new InputSupplier<InputStream>() {
-      @Override public InputStream getInput() throws IOException {
-        return new MultiInputStream(suppliers.iterator());
-      }
-    };
+    Iterable<ByteSource> sources = Iterables.transform(suppliers,
+        new Function<InputSupplier<? extends InputStream>, ByteSource>() {
+          @Override
+          public ByteSource apply(InputSupplier<? extends InputStream> input) {
+            return asByteSource(input);
+          }
+        });
+    return asInputSupplier(ByteSource.concat(sources));
   }
 
   /** Varargs form of {@link #join(Iterable)}. */

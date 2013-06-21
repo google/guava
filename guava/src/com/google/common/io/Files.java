@@ -26,6 +26,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import com.google.common.collect.TreeTraverser;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
@@ -700,6 +701,10 @@ public final class Files {
    * line-termination characters, but do include other leading and
    * trailing whitespace.
    *
+   * <p>This method returns a mutable {@code List}. For an
+   * {@code ImmutableList}, use
+   * {@code Files.asCharSource(file, charset).readLines()}.
+   *
    * @param file the file to read from
    * @param charset the charset used to decode the input stream; see {@link
    *     Charsets} for helpful predefined constants
@@ -708,7 +713,22 @@ public final class Files {
    */
   public static List<String> readLines(File file, Charset charset)
       throws IOException {
-    return CharStreams.readLines(Files.newReaderSupplier(file, charset));
+    // don't use asCharSource(file, charset).readLines() because that returns
+    // an immutable list, which would change the behavior of this method
+    return readLines(file, charset, new LineProcessor<List<String>>() {
+      final List<String> result = Lists.newArrayList();
+
+      @Override
+      public boolean processLine(String line) {
+        result.add(line);
+        return true;
+      }
+
+      @Override
+      public List<String> getResult() {
+        return result;
+      }
+    });
   }
 
   /**
