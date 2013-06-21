@@ -34,7 +34,7 @@ import java.util.concurrent.TimeoutException;
  * <p>Implementations of this interface must adapt the exceptions thrown by
  * {@code Future#get()}: {@link CancellationException},
  * {@link ExecutionException} and {@link InterruptedException} into the type
- * specified by the {@code E} type parameter.
+ * specified by the {@code X} type parameter.
  *
  * <p>This interface also extends the ListenableFuture interface to allow
  * listeners to be added. This allows the future to be used as a normal
