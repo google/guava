@@ -207,47 +207,6 @@ public class JoinerTest extends TestCase {
     }
   }
 
-  public void testIterableIterator() {
-    Joiner onChar = Joiner.on('-');
-    checkIterableIterator(onChar, "1-2-3-4");
-
-    Joiner skipNulls = J.skipNulls();
-    checkIterableIterator(skipNulls, "1-2-3-4");
-
-    Joiner zeroForNull = J.useForNull("0");
-    checkIterableIterator(zeroForNull, "1-2-3-4");
-  }
-
-  private static void checkIterableIterator(Joiner joiner, String expected) {
-    assertEquals(expected, joiner.join(new IterableIterator()));
-
-    StringBuilder sb1 = new StringBuilder().append('x');
-    joiner.appendTo(sb1, new IterableIterator());
-    assertEquals("x" + expected, sb1.toString());
-
-    Integer[] partsArray =
-        Lists.newArrayList(new IterableIterator().iterator()).toArray(new Integer[0]);
-    assertEquals(expected, joiner.join(partsArray));
-
-    StringBuilder sb2 = new StringBuilder().append('x');
-    joiner.appendTo(sb2, partsArray);
-    assertEquals("x" + expected, sb2.toString());
-
-    int num = partsArray.length - 2;
-    if (num >= 0) {
-      Object[] rest = new Integer[num];
-      for (int i = 0; i < num; i++) {
-        rest[i] = partsArray[i + 2];
-      }
-
-      assertEquals(expected, joiner.join(partsArray[0], partsArray[1], rest));
-
-      StringBuilder sb3 = new StringBuilder().append('x');
-      joiner.appendTo(sb3, partsArray[0], partsArray[1], rest);
-      assertEquals("x" + expected, sb3.toString());
-    }
-  }
-
   public void test_useForNull_skipNulls() {
     Joiner j = Joiner.on("x").useForNull("y");
     try {

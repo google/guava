@@ -23,11 +23,6 @@ public void testEntries() throws Exception {
   testCase.testEntries();
 }
 
-public void testIterableIterator() throws Exception {
-  com.google.common.base.JoinerTest testCase = new com.google.common.base.JoinerTest();
-  testCase.testIterableIterator();
-}
-
 public void testMap() throws Exception {
   com.google.common.base.JoinerTest testCase = new com.google.common.base.JoinerTest();
   testCase.testMap();
