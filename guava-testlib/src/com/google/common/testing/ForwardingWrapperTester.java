@@ -196,9 +196,15 @@ public final class ForwardingWrapperTester {
     void testInteraction(Function<? super T, ? extends T> wrapperFunction) {
       T proxy = Reflection.newProxy(interfaceType, this);
       T wrapper = wrapperFunction.apply(proxy);
+      boolean isPossibleChainingCall = interfaceType.isAssignableFrom(method.getReturnType());
       try {
-        assertEquals("Return value of " + method + " not forwarded", returnValue,
-            method.invoke(wrapper, passedArgs));
+        Object actualReturnValue = method.invoke(wrapper, passedArgs);
+        // If we think this might be a 'chaining' call then we allow the return value to either
+        // be the wrapper or the returnValue.
+        if (!isPossibleChainingCall || wrapper != actualReturnValue) {
+          assertEquals("Return value of " + method + " not forwarded", returnValue,
+              actualReturnValue);
+        }
       } catch (IllegalAccessException e) {
         throw new RuntimeException(e);
       } catch (InvocationTargetException e) {

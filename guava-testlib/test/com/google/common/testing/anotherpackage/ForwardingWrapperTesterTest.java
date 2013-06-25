@@ -450,4 +450,44 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
     fail("Should have failed");
   }
+
+  /**
+   * An interface for the 2 ways that a chaining call might be defined.
+   */
+  private interface ChainingCalls {
+    // A method that is defined to 'return this'
+    ChainingCalls chainingCall();
+    // A method that just happens to return a ChainingCalls object
+    ChainingCalls nonChainingCall();
+  }
+
+  private static class ForwardingChainingCalls implements ChainingCalls {
+    final ChainingCalls delegate;
+
+    ForwardingChainingCalls(ChainingCalls delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override public ForwardingChainingCalls chainingCall() {
+      delegate.chainingCall();
+      return this;
+    }
+
+    @Override public ChainingCalls nonChainingCall() {
+      return delegate.nonChainingCall();
+    }
+
+    @Override public String toString() {
+      return delegate.toString();
+    }
+  }
+
+  public void testChainingCalls() {
+    tester.testForwarding(ChainingCalls.class,
+        new Function<ChainingCalls, ChainingCalls>() {
+          @Override public ChainingCalls apply(ChainingCalls delegate) {
+            return new ForwardingChainingCalls(delegate);
+          }
+        });
+  }
 }
