@@ -20,7 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.base.StandardSystemProperty;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -66,7 +68,10 @@ public final class ClassPath {
 
   private final ImmutableSet<ResourceInfo> resources;
 
-  private ClassPath(ImmutableSet<ResourceInfo> resources) {
+  private final ImmutableSet<URI> pathUris;
+
+  private ClassPath(ImmutableSet<URI> pathUris, ImmutableSet<ResourceInfo> resources) {
+    this.pathUris = pathUris;
     this.resources = resources;
   }
 
@@ -81,10 +86,30 @@ public final class ClassPath {
    */
   public static ClassPath from(ClassLoader classloader) throws IOException {
     Scanner scanner = new Scanner();
-    for (Map.Entry<URI, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
+    ImmutableMap<URI, ClassLoader> classPathEntries = getClassPathEntries(classloader);
+    for (Map.Entry<URI, ClassLoader> entry : classPathEntries.entrySet()) {
       scanner.scan(entry.getKey(), entry.getValue());
     }
-    return new ClassPath(scanner.getResources());
+    return new ClassPath(classPathEntries.keySet(), scanner.getResources());
+  }
+
+  /**
+   * Returns the set of {@link URI} instances that comprise the class path represented by this
+   * instance. If this ClassPath instance was constructed using the
+   * {@linkplain ClassLoader#getSystemClassLoader() system class loader} then the returned URIs are
+   * the ones implied by the {@linkplain StandardSystemProperty#JAVA_CLASS_PATH system class path}.
+   * This does not include those URIs referenced via the {@code Class-Path} attribute in jar files.
+   *
+   * <p>Note that some class loaders may load classes via mechanisms that do not reference URIs, in
+   * which case some loadable classes may not be represented.
+   *
+   * <p>The iteration order of the result reflects the order in which the default implementation of
+   * {@link ClassLoader#loadClass} would attempt to find classes.
+   *
+   * @since 15.0
+   */
+  public ImmutableSet<URI> getPathUris() {
+    return pathUris;
   }
 
   /**
@@ -129,6 +154,28 @@ public final class ClassPath {
   }
 
   /**
+   * Returns a representation of this class path in a format suitable for the {@code -classpath}
+   * flag. Path elements are separated using the {@link StandardSystemProperty#PATH_SEPARATOR}.
+   *
+   * @throws IllegalStateException if this instance references {@linkplain #pathUris URIs} that do
+   * not refer to files.
+   *
+   * @since 15.0
+   */
+  public String asClassPathString() {
+    Set<File> files = Sets.newLinkedHashSetWithExpectedSize(pathUris.size());
+    for (URI pathUri : pathUris) {
+      try {
+        files.add(new File(pathUri));
+      } catch (IllegalArgumentException e) {
+        throw new IllegalStateException(
+            "This class path cannot be converted to string suitable for the -classpath flag.", e);
+      }
+    }
+    return Joiner.on(StandardSystemProperty.PATH_SEPARATOR.value()).join(files);
+  }
+
+  /**
    * Represents a class path resource that can be either a class file or any other resource file
    * loadable from the class path.
    *
@@ -146,7 +193,7 @@ public final class ClassPath {
         return new ResourceInfo(resourceName, loader);
       }
     }
-  
+
     ResourceInfo(String resourceName, ClassLoader loader) {
       this.resourceName = checkNotNull(resourceName);
       this.loader = checkNotNull(loader);
@@ -276,7 +323,7 @@ public final class ClassPath {
         scanFrom(new File(uri), classloader);
       }
     }
-  
+
     @VisibleForTesting void scanFrom(File file, ClassLoader classloader)
         throws IOException {
       if (!file.exists()) {
@@ -288,11 +335,11 @@ public final class ClassPath {
         scanJar(file, classloader);
       }
     }
-  
+
     private void scanDirectory(File directory, ClassLoader classloader) {
       scanDirectory(directory, classloader, "");
     }
-  
+
     private void scanDirectory(
         File directory, ClassLoader classloader, String packagePrefix) {
       File[] files = directory.listFiles();
@@ -313,7 +360,7 @@ public final class ClassPath {
         }
       }
     }
-  
+
     private void scanJar(File file, ClassLoader classloader) throws IOException {
       JarFile jarFile;
       try {
@@ -340,7 +387,7 @@ public final class ClassPath {
         } catch (IOException ignored) {}
       }
     }
-  
+
     /**
      * Returns the class path URIs specified by the {@code Class-Path} manifest attribute, according
      * to <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/jar/jar.html#Main%20Attributes">
@@ -370,7 +417,7 @@ public final class ClassPath {
       }
       return builder.build();
     }
-  
+
     /**
      * Returns the absolute uri of the Class-Path entry value as specified in
      * <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/jar/jar.html#Main%20Attributes">
