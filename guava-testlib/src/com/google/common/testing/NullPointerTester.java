@@ -361,10 +361,11 @@ public final class NullPointerTester {
       Parameter param = params.get(i);
       if (i != indexOfParamToSetToNull) {
         args[i] = getDefaultValue(param.getType());
-        if (!isPrimitiveOrNullable(param)) {
-          Assert.assertTrue("No default value found for " + param + " of "+ invokable,
-              args[i] != null);
-        }
+        Assert.assertTrue(
+            "Can't find or create a sample instance for type '"
+                + param.getType()
+                + "'; please provide one using NullPointerTester.setDefault()",
+            args[i] != null || isNullable(param));
       }
     }
     return args;
@@ -378,10 +379,10 @@ public final class NullPointerTester {
     if (defaultValue != null) {
       return defaultValue;
     }
-    @SuppressWarnings("unchecked") // All null values are generics-safe
-    T nullValue = (T) ArbitraryInstances.get(type.getRawType());
-    if (nullValue != null) {
-      return nullValue;
+    @SuppressWarnings("unchecked") // All arbitrary instances are generics-safe
+    T arbitrary = (T) ArbitraryInstances.get(type.getRawType());
+    if (arbitrary != null) {
+      return arbitrary;
     }
     if (type.getRawType() == Class.class) {
       // If parameter is Class<? extends Foo>, we return Foo.class
@@ -427,7 +428,11 @@ public final class NullPointerTester {
   }
 
   static boolean isPrimitiveOrNullable(Parameter param) {
-    return param.getType().getRawType().isPrimitive() || param.isAnnotationPresent(Nullable.class);
+    return param.getType().getRawType().isPrimitive() || isNullable(param);
+  }
+
+  private static boolean isNullable(Parameter param) {
+    return param.isAnnotationPresent(Nullable.class);
   }
 
   private boolean isIgnored(Member member) {
