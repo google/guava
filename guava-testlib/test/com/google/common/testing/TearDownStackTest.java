@@ -23,8 +23,6 @@ import com.google.common.annotations.GwtCompatible;
 
 import junit.framework.TestCase;
 
-import org.junit.Test;
-
 /**
  * @author Luiz-Otavio "Z" Zorzella
  */
@@ -33,7 +31,6 @@ public class TearDownStackTest extends TestCase {
 
   private TearDownStack tearDownStack = new TearDownStack();
 
-  @Test
   public void testSingleTearDown() throws Exception {
     final TearDownStack stack = buildTearDownStack();
 
@@ -47,7 +44,6 @@ public class TearDownStackTest extends TestCase {
     assertEquals("tearDown should have run", true, tearDown.ran);
   }
 
-  @Test
   public void testMultipleTearDownsHappenInOrder() throws Exception {
     final TearDownStack stack = buildTearDownStack();
 
@@ -74,7 +70,6 @@ public class TearDownStackTest extends TestCase {
     assertEquals("tearDownTwo should have run", true, tearDownTwo.ran);
   }
 
-  @Test
   public void testThrowingTearDown() throws Exception {
     final TearDownStack stack = buildTearDownStack();
 

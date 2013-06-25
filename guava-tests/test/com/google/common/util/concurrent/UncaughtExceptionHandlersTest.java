@@ -24,8 +24,6 @@ import com.google.common.util.concurrent.UncaughtExceptionHandlers.Exiter;
 
 import junit.framework.TestCase;
 
-import org.junit.Test;
-
 /**
  * @author Gregory Kick
  */
@@ -38,7 +36,7 @@ public class UncaughtExceptionHandlersTest extends TestCase {
     runtimeMock = createMock(Runtime.class);
   }
 
-  @Test public void testExiter() {
+  public void testExiter() {
     runtimeMock.exit(1);
     replay(runtimeMock);
     new Exiter(runtimeMock).uncaughtException(new Thread(), new Exception());
