@@ -440,7 +440,7 @@ public class CacheLoadingTest extends TestCase {
 
     Object[] lookupKeys = new Object[] { new Object(), new Object(), new Object() };
     Map<Object, Object> result = cache.getAll(asList(lookupKeys));
-    ASSERT.that(result.keySet()).has().allFrom(asList(lookupKeys));
+    ASSERT.that(result.keySet()).has().exactlyAs(asList(lookupKeys));
     for (Map.Entry<Object, Object> entry : result.entrySet()) {
       Object key = entry.getKey();
       Object value = entry.getValue();
@@ -477,7 +477,7 @@ public class CacheLoadingTest extends TestCase {
 
     Object[] lookupKeys = new Object[] { new Object(), new Object(), new Object() };
     Map<Object, Object> result = cache.getAll(asList(lookupKeys));
-    ASSERT.that(result.keySet()).has().allFrom(asList(lookupKeys));
+    ASSERT.that(result.keySet()).has().exactlyAs(asList(lookupKeys));
     for (Map.Entry<Object, Object> entry : result.entrySet()) {
       Object key = entry.getKey();
       Object value = entry.getValue();

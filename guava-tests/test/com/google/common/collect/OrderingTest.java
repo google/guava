@@ -156,7 +156,7 @@ public class OrderingTest extends TestCase {
         = Ordering.explicit(2, 8, 6, 1, 7, 5, 3, 4, 0, 9);
     List<Integer> list = Arrays.asList(0, 3, 5, 6, 7, 8, 9);
     Collections.sort(list, c);
-    ASSERT.that(list).has().allOf(8, 6, 7, 5, 3, 0, 9).inOrder();
+    ASSERT.that(list).has().exactly(8, 6, 7, 5, 3, 0, 9).inOrder();
     reserializeAndAssert(c);
   }
 

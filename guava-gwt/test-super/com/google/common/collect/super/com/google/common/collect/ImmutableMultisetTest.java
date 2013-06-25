@@ -354,7 +354,7 @@ public class ImmutableMultisetTest extends TestCase {
 
   public void testIterationOrder() {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
-    ASSERT.that(c).has().allOf("a", "a", "b").inOrder();
+    ASSERT.that(c).has().exactly("a", "a", "b").inOrder();
   }
 
   public void testMultisetWrites() {

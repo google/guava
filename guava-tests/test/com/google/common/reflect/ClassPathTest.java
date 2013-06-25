@@ -215,7 +215,7 @@ public class ClassPathTest extends TestCase {
     URLClassLoader child = new URLClassLoader(new URL[] {url2}, parent) {};
     ImmutableMap<URI, ClassLoader> classPathEntries = ClassPath.getClassPathEntries(child);
     assertEquals(ImmutableMap.of(url1.toURI(), parent, url2.toURI(), child),  classPathEntries);
-    ASSERT.that(classPathEntries.keySet()).has().allOf(url1.toURI(), url2.toURI()).inOrder();
+    ASSERT.that(classPathEntries.keySet()).has().exactly(url1.toURI(), url2.toURI()).inOrder();
   }
 
   public void testClassPathEntries_duplicateUri_parentWins() throws Exception {
@@ -327,7 +327,7 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative/dir");
     ASSERT.that(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().allOf(new File("base/with/relative/dir").toURI()).inOrder();
+        .has().exactly(new File("base/with/relative/dir").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_relativeJar() throws IOException {
@@ -335,7 +335,7 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative.jar");
     ASSERT.that(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().allOf(new File("base/with/relative.jar").toURI()).inOrder();
+        .has().exactly(new File("base/with/relative.jar").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_jarInCurrentDirectory() throws IOException {
@@ -343,28 +343,28 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("current.jar");
     ASSERT.that(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().allOf(new File("base/current.jar").toURI()).inOrder();
+        .has().exactly(new File("base/current.jar").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_absoluteDirectory() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute/dir");
     ASSERT.that(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().allOf(new File("/with/absolute/dir").toURI()).inOrder();
+        .has().exactly(new File("/with/absolute/dir").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_absoluteJar() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar");
     ASSERT.that(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().allOf(new File("/with/absolute.jar").toURI()).inOrder();
+        .has().exactly(new File("/with/absolute.jar").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_multiplePaths() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar relative.jar  relative/dir");
     ASSERT.that(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().allOf(
+        .has().exactly(
             new File("/with/absolute.jar").toURI(),
             new File("base/relative.jar").toURI(),
             new File("base/relative/dir").toURI())
@@ -375,14 +375,14 @@ public class ClassPathTest extends TestCase {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath(" relative.jar");
     ASSERT.that(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().allOf(new File("base/relative.jar").toURI()).inOrder();
+        .has().exactly(new File("base/relative.jar").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_trailingBlanks() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("relative.jar ");
     ASSERT.that(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().allOf(new File("base/relative.jar").toURI()).inOrder();
+        .has().exactly(new File("base/relative.jar").toURI()).inOrder();
   }
 
   public void testGetClassName() {

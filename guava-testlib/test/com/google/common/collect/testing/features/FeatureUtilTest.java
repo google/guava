@@ -164,13 +164,13 @@ public class FeatureUtilTest extends TestCase {
 
     features = Sets.<Feature<?>>newHashSet(
         ExampleDerivedFeature.DERIVED_FEATURE_2);
-    ASSERT.that(FeatureUtil.addImpliedFeatures(features)).has().allOf(
+    ASSERT.that(FeatureUtil.addImpliedFeatures(features)).has().exactly(
         ExampleDerivedFeature.DERIVED_FEATURE_2,
         ExampleBaseFeature.BASE_FEATURE_1);
 
     features = Sets.<Feature<?>>newHashSet(
         ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE);
-    ASSERT.that(FeatureUtil.addImpliedFeatures(features)).has().allOf(
+    ASSERT.that(FeatureUtil.addImpliedFeatures(features)).has().exactly(
         ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE,
         ExampleDerivedFeature.DERIVED_FEATURE_1,
         ExampleDerivedFeature.DERIVED_FEATURE_2,
@@ -198,7 +198,7 @@ public class FeatureUtilTest extends TestCase {
 
     features = Sets.<Feature<?>>newHashSet(
         ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE);
-    ASSERT.that(FeatureUtil.impliedFeatures(features)).has().allOf(
+    ASSERT.that(FeatureUtil.impliedFeatures(features)).has().exactly(
         ExampleDerivedFeature.DERIVED_FEATURE_1,
         ExampleDerivedFeature.DERIVED_FEATURE_2,
         ExampleBaseFeature.BASE_FEATURE_1,

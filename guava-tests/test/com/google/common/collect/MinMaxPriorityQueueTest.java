@@ -355,7 +355,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
       }
     }
     assertTrue(q.isIntact());
-    ASSERT.that(result).has().allOf(1, 15, 13, 8, 14);
+    ASSERT.that(result).has().exactly(1, 15, 13, 8, 14);
   }
 
   /**
@@ -720,23 +720,23 @@ public class MinMaxPriorityQueueTest extends TestCase {
     List<Integer> contents = Lists.newArrayList(expected);
     List<Integer> elements = Lists.newArrayListWithCapacity(size);
     while (!q.isEmpty()) {
-      ASSERT.that(q).has().allFrom(contents);
+      ASSERT.that(q).has().exactlyAs(contents);
       Integer next = q.pollFirst();
       contents.remove(next);
-      ASSERT.that(q).has().allFrom(contents);
+      ASSERT.that(q).has().exactlyAs(contents);
       for (int i = 0; i <= size; i++) {
         q.add(i);
         contents.add(i);
-        ASSERT.that(q).has().allFrom(contents);
+        ASSERT.that(q).has().exactlyAs(contents);
         q.add(next);
         contents.add(next);
-        ASSERT.that(q).has().allFrom(contents);
+        ASSERT.that(q).has().exactlyAs(contents);
         q.remove(i);
         assertTrue(contents.remove(Integer.valueOf(i)));
-        ASSERT.that(q).has().allFrom(contents);
+        ASSERT.that(q).has().exactlyAs(contents);
         assertEquals(next, q.poll());
         contents.remove(next);
-        ASSERT.that(q).has().allFrom(contents);
+        ASSERT.that(q).has().exactlyAs(contents);
       }
       elements.add(next);
     }

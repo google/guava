@@ -48,9 +48,9 @@ public class AbstractPackageSanityTestsTest extends TestCase {
 
   public void testFindClassesToTest_noCorrespondingTestClass() {
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class)))
-        .has().allOf(Foo.class).inOrder();
+        .has().exactly(Foo.class).inOrder();
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class, Foo2Test.class)))
-        .has().allOf(Foo.class).inOrder();
+        .has().exactly(Foo.class).inOrder();
   }
 
   public void testFindClassesToTest_publicApiOnly() {
@@ -69,9 +69,9 @@ public class AbstractPackageSanityTestsTest extends TestCase {
 
   public void testFindClassesToTest_withCorrespondingTestClassButNotExplicitlyTested() {
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class, FooTest.class), "testNotThere"))
-        .has().allOf(Foo.class).inOrder();
+        .has().exactly(Foo.class).inOrder();
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class, FooTest.class), "testNotPublic"))
-        .has().allOf(Foo.class).inOrder();
+        .has().exactly(Foo.class).inOrder();
   }
 
   public void testFindClassesToTest_withCorrespondingTestClassAndExplicitlyTested() {
@@ -84,7 +84,7 @@ public class AbstractPackageSanityTestsTest extends TestCase {
 
   public void testFindClassesToTest_withCorrespondingTestClass_noTestName() {
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class, FooTest.class)))
-        .has().allOf(Foo.class).inOrder();
+        .has().exactly(Foo.class).inOrder();
   }
 
   static class EmptyTestCase {}

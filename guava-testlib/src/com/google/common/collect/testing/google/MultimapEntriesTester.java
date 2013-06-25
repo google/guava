@@ -42,7 +42,7 @@ import java.util.Map.Entry;
 @GwtCompatible
 public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testEntries() {
-    ASSERT.that(multimap().entries()).has().allFrom(getSampleElements());
+    ASSERT.that(multimap().entries()).has().exactlyAs(getSampleElements());
   }
   
   @CollectionSize.Require(absent = ZERO)

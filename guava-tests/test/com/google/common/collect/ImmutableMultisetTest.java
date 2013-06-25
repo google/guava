@@ -452,7 +452,7 @@ public class ImmutableMultisetTest extends TestCase {
   public void testSerialization_multiple() {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
     Collection<String> copy = SerializableTester.reserializeAndAssert(c);
-    ASSERT.that(copy).has().allOf("a", "a", "b").inOrder();
+    ASSERT.that(copy).has().exactly("a", "a", "b").inOrder();
   }
 
   @GwtIncompatible("SerializableTester")
@@ -460,7 +460,7 @@ public class ImmutableMultisetTest extends TestCase {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "a");
     Collection<String> copy =
         LenientSerializableTester.reserializeAndAssertLenient(c.elementSet());
-    ASSERT.that(copy).has().allOf("a", "b").inOrder();
+    ASSERT.that(copy).has().exactly("a", "b").inOrder();
   }
 
   @GwtIncompatible("SerializableTester")
@@ -479,7 +479,7 @@ public class ImmutableMultisetTest extends TestCase {
 
   public void testIterationOrder() {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
-    ASSERT.that(c).has().allOf("a", "a", "b").inOrder();
+    ASSERT.that(c).has().exactly("a", "a", "b").inOrder();
   }
 
   public void testMultisetWrites() {

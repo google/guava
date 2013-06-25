@@ -97,14 +97,14 @@ public class LinkedHashMultisetTest extends TestCase {
     ms.add("a");
     ms.add("b", 2);
     ms.add("c");
-    ASSERT.that(ms.elementSet()).has().allOf("a", "b", "c").inOrder();
+    ASSERT.that(ms.elementSet()).has().exactly("a", "b", "c").inOrder();
     ms.remove("b");
-    ASSERT.that(ms.elementSet()).has().allOf("a", "b", "c").inOrder();
+    ASSERT.that(ms.elementSet()).has().exactly("a", "b", "c").inOrder();
     ms.add("b");
-    ASSERT.that(ms.elementSet()).has().allOf("a", "b", "c").inOrder();
+    ASSERT.that(ms.elementSet()).has().exactly("a", "b", "c").inOrder();
     ms.remove("b", 2);
     ms.add("b");
-    ASSERT.that(ms.elementSet()).has().allOf("a", "c", "b").inOrder();
+    ASSERT.that(ms.elementSet()).has().exactly("a", "c", "b").inOrder();
   }
 }
 

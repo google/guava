@@ -147,14 +147,14 @@ public class ContiguousSetTest extends TestCase {
     ImmutableSortedSet<Integer> set = ContiguousSet.create(Range.closed(1, 3), integers());
     ASSERT.that(set.headSet(1)).isEmpty();
     ASSERT.that(set.headSet(2)).has().item(1);
-    ASSERT.that(set.headSet(3)).has().allOf(1, 2).inOrder();
-    ASSERT.that(set.headSet(4)).has().allOf(1, 2, 3).inOrder();
-    ASSERT.that(set.headSet(Integer.MAX_VALUE)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.headSet(3)).has().exactly(1, 2).inOrder();
+    ASSERT.that(set.headSet(4)).has().exactly(1, 2, 3).inOrder();
+    ASSERT.that(set.headSet(Integer.MAX_VALUE)).has().exactly(1, 2, 3).inOrder();
     ASSERT.that(set.headSet(1, true)).has().item(1);
-    ASSERT.that(set.headSet(2, true)).has().allOf(1, 2).inOrder();
-    ASSERT.that(set.headSet(3, true)).has().allOf(1, 2, 3).inOrder();
-    ASSERT.that(set.headSet(4, true)).has().allOf(1, 2, 3).inOrder();
-    ASSERT.that(set.headSet(Integer.MAX_VALUE, true)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.headSet(2, true)).has().exactly(1, 2).inOrder();
+    ASSERT.that(set.headSet(3, true)).has().exactly(1, 2, 3).inOrder();
+    ASSERT.that(set.headSet(4, true)).has().exactly(1, 2, 3).inOrder();
+    ASSERT.that(set.headSet(Integer.MAX_VALUE, true)).has().exactly(1, 2, 3).inOrder();
   }
 
   public void testHeadSet_tooSmall() {
@@ -163,12 +163,12 @@ public class ContiguousSetTest extends TestCase {
 
   public void testTailSet() {
     ImmutableSortedSet<Integer> set = ContiguousSet.create(Range.closed(1, 3), integers());
-    ASSERT.that(set.tailSet(Integer.MIN_VALUE)).has().allOf(1, 2, 3).inOrder();
-    ASSERT.that(set.tailSet(1)).has().allOf(1, 2, 3).inOrder();
-    ASSERT.that(set.tailSet(2)).has().allOf(2, 3).inOrder();
+    ASSERT.that(set.tailSet(Integer.MIN_VALUE)).has().exactly(1, 2, 3).inOrder();
+    ASSERT.that(set.tailSet(1)).has().exactly(1, 2, 3).inOrder();
+    ASSERT.that(set.tailSet(2)).has().exactly(2, 3).inOrder();
     ASSERT.that(set.tailSet(3)).has().item(3);
-    ASSERT.that(set.tailSet(Integer.MIN_VALUE, false)).has().allOf(1, 2, 3).inOrder();
-    ASSERT.that(set.tailSet(1, false)).has().allOf(2, 3).inOrder();
+    ASSERT.that(set.tailSet(Integer.MIN_VALUE, false)).has().exactly(1, 2, 3).inOrder();
+    ASSERT.that(set.tailSet(1, false)).has().exactly(2, 3).inOrder();
     ASSERT.that(set.tailSet(2, false)).has().item(3);
     ASSERT.that(set.tailSet(3, false)).isEmpty();
   }
@@ -179,18 +179,18 @@ public class ContiguousSetTest extends TestCase {
 
   public void testSubSet() {
     ImmutableSortedSet<Integer> set = ContiguousSet.create(Range.closed(1, 3), integers());
-    ASSERT.that(set.subSet(1, 4)).has().allOf(1, 2, 3).inOrder();
-    ASSERT.that(set.subSet(2, 4)).has().allOf(2, 3).inOrder();
+    ASSERT.that(set.subSet(1, 4)).has().exactly(1, 2, 3).inOrder();
+    ASSERT.that(set.subSet(2, 4)).has().exactly(2, 3).inOrder();
     ASSERT.that(set.subSet(3, 4)).has().item(3);
     ASSERT.that(set.subSet(3, 3)).isEmpty();
     ASSERT.that(set.subSet(2, 3)).has().item(2);
-    ASSERT.that(set.subSet(1, 3)).has().allOf(1, 2).inOrder();
+    ASSERT.that(set.subSet(1, 3)).has().exactly(1, 2).inOrder();
     ASSERT.that(set.subSet(1, 2)).has().item(1);
     ASSERT.that(set.subSet(2, 2)).isEmpty();
-    ASSERT.that(set.subSet(Integer.MIN_VALUE, Integer.MAX_VALUE)).has().allOf(1, 2, 3).inOrder();
-    ASSERT.that(set.subSet(1, true, 3, true)).has().allOf(1, 2, 3).inOrder();
-    ASSERT.that(set.subSet(1, false, 3, true)).has().allOf(2, 3).inOrder();
-    ASSERT.that(set.subSet(1, true, 3, false)).has().allOf(1, 2).inOrder();
+    ASSERT.that(set.subSet(Integer.MIN_VALUE, Integer.MAX_VALUE)).has().exactly(1, 2, 3).inOrder();
+    ASSERT.that(set.subSet(1, true, 3, true)).has().exactly(1, 2, 3).inOrder();
+    ASSERT.that(set.subSet(1, false, 3, true)).has().exactly(2, 3).inOrder();
+    ASSERT.that(set.subSet(1, true, 3, false)).has().exactly(1, 2).inOrder();
     ASSERT.that(set.subSet(1, false, 3, false)).has().item(2);
   }
 

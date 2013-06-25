@@ -165,12 +165,12 @@ public class LocalLoadingCacheTest extends TestCase {
 
     //TODO(user): Confirm with fry@ that this is a reasonable substitute.
     //Set<Map.Entry<Object, Object>> entries = map.entrySet();
-    //ASSERT.that(entries).has().allOf(
+    //ASSERT.that(entries).has().exactly(
     //    Maps.immutableEntry(three, one), Maps.immutableEntry(one, two));
     //Set<Object> keys = map.keySet();
-    //ASSERT.that(keys).has().allOf(one, three);
+    //ASSERT.that(keys).has().exactly(one, three);
     //Collection<Object> values = map.values();
-    //ASSERT.that(values).has().allOf(one, two);
+    //ASSERT.that(values).has().exactly(one, two);
 
     map.clear();
 

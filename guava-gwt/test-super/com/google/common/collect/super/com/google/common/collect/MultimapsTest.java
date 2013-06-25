@@ -208,7 +208,7 @@ public class MultimapsTest extends AbstractMultimapTest {
     assertEquals(multimap.hashCode(), unmodifiable.hashCode());
     assertEquals(multimap, unmodifiable);
 
-    ASSERT.that(unmodifiable.asMap().get("bar")).has().allOf(5, -1);
+    ASSERT.that(unmodifiable.asMap().get("bar")).has().exactly(5, -1);
     assertNull(unmodifiable.asMap().get("missing"));
 
     assertFalse(unmodifiable.entries() instanceof Serializable);
@@ -518,7 +518,7 @@ public class MultimapsTest extends AbstractMultimapTest {
     } catch (IllegalArgumentException expected) {
       // expected
     }
-    ASSERT.that(multimap.entries()).has().allOf(
+    ASSERT.that(multimap.entries()).has().exactly(
         Maps.immutableEntry(Color.RED, 1),
         Maps.immutableEntry(Color.BLUE, 2));
   }

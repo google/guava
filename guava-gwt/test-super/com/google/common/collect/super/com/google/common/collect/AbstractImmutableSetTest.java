@@ -271,7 +271,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
         .add("d", "e", "f")
         .add("g", "h", "i", "j")
         .build();
-    ASSERT.that(set).has().allOf(
+    ASSERT.that(set).has().exactly(
         "a", "b", "c", "d", "e", "f", "g", "h", "i", "j").inOrder();
   }
 
@@ -279,9 +279,9 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     ImmutableSet.Builder<String> builder = this.<String>builder()
         .add("a")
         .add("b");
-    ASSERT.that(builder.build()).has().allOf("a", "b").inOrder();
+    ASSERT.that(builder.build()).has().exactly("a", "b").inOrder();
     builder.add("c", "d");
-    ASSERT.that(builder.build()).has().allOf("a", "b", "c", "d").inOrder();
+    ASSERT.that(builder.build()).has().exactly("a", "b", "c", "d").inOrder();
   }
 
   public void testBuilderWithDuplicateElements() {
@@ -301,9 +301,9 @@ public abstract class AbstractImmutableSetTest extends TestCase {
         .add("a")
         .add("a", "a")
         .add("b");
-    ASSERT.that(builder.build()).has().allOf("a", "b").inOrder();
+    ASSERT.that(builder.build()).has().exactly("a", "b").inOrder();
     builder.add("a", "b", "c", "c");
-    ASSERT.that(builder.build()).has().allOf("a", "b", "c").inOrder();
+    ASSERT.that(builder.build()).has().exactly("a", "b", "c").inOrder();
   }
 
   public void testBuilderAddAll() {
@@ -313,7 +313,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
         .addAll(a)
         .addAll(b)
         .build();
-    ASSERT.that(set).has().allOf("a", "b", "c", "d", "e").inOrder();
+    ASSERT.that(set).has().exactly("a", "b", "c", "d", "e").inOrder();
   }
 
   static final int LAST_COLOR_ADDED = 0x00BFFF;

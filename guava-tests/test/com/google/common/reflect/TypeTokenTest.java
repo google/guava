@@ -193,7 +193,7 @@ public class TypeTokenTest extends TestCase {
     abstract class Class2 extends Class1 implements Interface12 {}
     abstract class Class3<T> extends Class2 implements Interface3<T> {}
     TypeToken<Class3<String>>.TypeSet types = new TypeToken<Class3<String>>() {}.getTypes();
-    assertThat(types).has().allOf(
+    assertThat(types).has().exactly(
         new TypeToken<Class3<String>>() {},
         new TypeToken<Interface3<String>>() {},
         new TypeToken<Iterable<String>>() {},
@@ -203,13 +203,13 @@ public class TypeTokenTest extends TestCase {
         TypeToken.of(Interface2.class),
         TypeToken.of(Class1.class),
         TypeToken.of(Object.class));
-    assertThat(types.interfaces()).has().allOf(
+    assertThat(types.interfaces()).has().exactly(
         new TypeToken<Interface3<String>>() {},
         TypeToken.of(Interface12.class),
         TypeToken.of(Interface1.class),
         TypeToken.of(Interface2.class),
         new TypeToken<Iterable<String>>() {});
-    assertThat(types.classes()).has().allOf(
+    assertThat(types.classes()).has().exactly(
         new TypeToken<Class3<String>>() {},
         TypeToken.of(Class2.class),
         TypeToken.of(Class1.class),
@@ -221,7 +221,7 @@ public class TypeTokenTest extends TestCase {
     abstract class Class2 extends Class1 implements Interface12 {}
     abstract class Class3<T> extends Class2 implements Interface3<T> {}
     TypeToken<Class3<String>>.TypeSet types = new TypeToken<Class3<String>>() {}.getTypes();
-    assertThat(types.rawTypes()).has().allOf(
+    assertThat(types.rawTypes()).has().exactly(
         Class3.class, Interface3.class,
         Iterable.class,
         Class2.class,
@@ -230,13 +230,13 @@ public class TypeTokenTest extends TestCase {
         Interface2.class,
         Class1.class,
         Object.class);
-    assertThat(types.interfaces().rawTypes()).has().allOf(
+    assertThat(types.interfaces().rawTypes()).has().exactly(
         Interface3.class,
         Interface12.class,
         Interface1.class,
         Interface2.class,
         Iterable.class);
-    assertThat(types.classes().rawTypes()).has().allOf(
+    assertThat(types.classes().rawTypes()).has().exactly(
         Class3.class,
         Class2.class,
         Class1.class,
@@ -247,15 +247,15 @@ public class TypeTokenTest extends TestCase {
   public <A extends Class1 & Interface1, B extends A>
   void testGetTypes_ignoresTypeVariablesByDefault() {
     TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes();
-    assertThat(types).has().allOf(
+    assertThat(types).has().exactly(
         TypeToken.of(Interface1.class), TypeToken.of(Class1.class),
         TypeToken.of(Object.class));
     assertSubtypeFirst(types);
     assertThat(types.interfaces())
-        .has().allOf(TypeToken.of(Interface1.class))
+        .has().exactly(TypeToken.of(Interface1.class))
         .inOrder();
     assertThat(types.classes())
-        .has().allOf(TypeToken.of(Class1.class), TypeToken.of(Object.class))
+        .has().exactly(TypeToken.of(Class1.class), TypeToken.of(Object.class))
         .inOrder();
   }
 
@@ -263,12 +263,12 @@ public class TypeTokenTest extends TestCase {
   void testGetTypes_rawTypes_ignoresTypeVariablesByDefault() {
     TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes();
     assertThat(types.rawTypes())
-        .has().allOf(Interface1.class, Class1.class, Object.class);
+        .has().exactly(Interface1.class, Class1.class, Object.class);
     assertThat(types.interfaces().rawTypes())
-        .has().allOf(Interface1.class)
+        .has().exactly(Interface1.class)
         .inOrder();
     assertThat(types.classes().rawTypes())
-        .has().allOf(Class1.class, Object.class)
+        .has().exactly(Class1.class, Object.class)
         .inOrder();
   }
 
@@ -276,7 +276,7 @@ public class TypeTokenTest extends TestCase {
   void testGetTypes_manyBounds() {
     TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<A>() {}.capture()).getTypes();
     assertThat(types.rawTypes())
-        .has().allOf(Interface1.class, Interface2.class, Interface3.class, Iterable.class);
+        .has().exactly(Interface1.class, Interface2.class, Interface3.class, Iterable.class);
   }
 
   private static void assertSubtypeFirst(TypeToken<?>.TypeSet types) {
@@ -478,28 +478,28 @@ public class TypeTokenTest extends TestCase {
   public <T extends NoInterface&Iterable<String>>
   void testGetGenericInterfaces_typeVariable_boundsAreClassWithInterface() {
     assertThat(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .has().allOf(new TypeToken<Iterable<String>>() {});
+        .has().exactly(new TypeToken<Iterable<String>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends CharSequence&Iterable<String>>
   void testGetGenericInterfaces_typeVariable_boundsAreInterfaces() {
     assertThat(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .has().allOf(TypeToken.of(CharSequence.class), new TypeToken<Iterable<String>>() {});
+        .has().exactly(TypeToken.of(CharSequence.class), new TypeToken<Iterable<String>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends CharSequence&Iterable<T>>
   void testGetGenericInterfaces_typeVariable_boundsAreFBoundedInterfaces() {
     assertThat(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .has().allOf(TypeToken.of(CharSequence.class), new TypeToken<Iterable<T>>() {});
+        .has().exactly(TypeToken.of(CharSequence.class), new TypeToken<Iterable<T>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends Base&Iterable<T>>
   void testGetGenericInterfaces_typeVariable_boundsAreClassWithFBoundedInterface() {
     assertThat(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .has().allOf(new TypeToken<Iterable<T>>() {});
+        .has().exactly(new TypeToken<Iterable<T>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
@@ -512,7 +512,7 @@ public class TypeTokenTest extends TestCase {
   public <T extends Iterable<T>, T1 extends T, T2 extends T1>
   void testGetGenericInterfaces_typeVariable_boundIsTypeVariableAndInterface() {
     assertThat(TypeToken.of(new TypeCapture<T2>() {}.capture()).getGenericInterfaces())
-        .has().allOf(TypeToken.of(new TypeCapture<T1>() {}.capture()));
+        .has().exactly(TypeToken.of(new TypeCapture<T1>() {}.capture()));
     assertHasArrayInterfaces(new TypeToken<T2[]>() {});
   }
 
@@ -529,7 +529,7 @@ public class TypeTokenTest extends TestCase {
   public void testGetGenericInterfaces_wildcard_boundIsInterface() {
     TypeToken<Iterable<String>> interfaceType = new TypeToken<Iterable<String>>() {};
     assertThat(TypeToken.of(Types.subtypeOf(interfaceType.getType())).getGenericInterfaces())
-        .has().allOf(interfaceType);
+        .has().exactly(interfaceType);
     assertHasArrayInterfaces(new TypeToken<Iterable<String>[]>() {});
   }
 

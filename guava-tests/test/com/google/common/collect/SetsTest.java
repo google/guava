@@ -300,7 +300,7 @@ public class SetsTest extends TestCase {
   public void testImmutableEnumSet() {
     Set<SomeEnum> units = Sets.immutableEnumSet(SomeEnum.D, SomeEnum.B);
 
-    ASSERT.that(units).has().allOf(SomeEnum.B, SomeEnum.D).inOrder();
+    ASSERT.that(units).has().exactly(SomeEnum.B, SomeEnum.D).inOrder();
     try {
       units.remove(SomeEnum.B);
       fail("ImmutableEnumSet should throw an exception on remove()");
@@ -315,7 +315,7 @@ public class SetsTest extends TestCase {
   public void testImmutableEnumSet_serialized() {
     Set<SomeEnum> units = Sets.immutableEnumSet(SomeEnum.D, SomeEnum.B);
 
-    ASSERT.that(units).has().allOf(SomeEnum.B, SomeEnum.D).inOrder();
+    ASSERT.that(units).has().exactly(SomeEnum.B, SomeEnum.D).inOrder();
 
     Set<SomeEnum> copy = SerializableTester.reserializeAndAssert(units);
     assertTrue(copy instanceof ImmutableEnumSet);
@@ -332,7 +332,7 @@ public class SetsTest extends TestCase {
 
     ImmutableSet<SomeEnum> two
         = Sets.immutableEnumSet(MinimalIterable.of(SomeEnum.D, SomeEnum.B));
-    ASSERT.that(two).has().allOf(SomeEnum.B, SomeEnum.D).inOrder();
+    ASSERT.that(two).has().exactly(SomeEnum.B, SomeEnum.D).inOrder();
   }
 
   @GwtIncompatible("java serialization not supported in GWT.")
@@ -487,7 +487,7 @@ public class SetsTest extends TestCase {
     assertTrue(set.isEmpty());
     set.add(new Derived("foo"));
     set.add(new Derived("bar"));
-    ASSERT.that(set).has().allOf(new Derived("bar"), new Derived("foo")).inOrder();
+    ASSERT.that(set).has().exactly(new Derived("bar"), new Derived("foo")).inOrder();
   }
 
   public void testNewTreeSetEmptyNonGeneric() {
@@ -496,7 +496,7 @@ public class SetsTest extends TestCase {
     set.add(new LegacyComparable("foo"));
     set.add(new LegacyComparable("bar"));
     ASSERT.that(set).has()
-        .allOf(new LegacyComparable("bar"), new LegacyComparable("foo")).inOrder();
+        .exactly(new LegacyComparable("bar"), new LegacyComparable("foo")).inOrder();
   }
 
   public void testNewTreeSetFromCollection() {
@@ -513,7 +513,7 @@ public class SetsTest extends TestCase {
     Iterable<Derived> iterable =
         Arrays.asList(new Derived("foo"), new Derived("bar"));
     TreeSet<Derived> set = Sets.newTreeSet(iterable);
-    ASSERT.that(set).has().allOf(
+    ASSERT.that(set).has().exactly(
         new Derived("bar"), new Derived("foo")).inOrder();
   }
 
@@ -521,7 +521,7 @@ public class SetsTest extends TestCase {
     Iterable<LegacyComparable> iterable =
         Arrays.asList(new LegacyComparable("foo"), new LegacyComparable("bar"));
     TreeSet<LegacyComparable> set = Sets.newTreeSet(iterable);
-    ASSERT.that(set).has().allOf(
+    ASSERT.that(set).has().exactly(
         new LegacyComparable("bar"), new LegacyComparable("foo")).inOrder();
   }
 
@@ -623,7 +623,7 @@ public class SetsTest extends TestCase {
         Sets.newSetFromMap(new LinkedHashMap<Integer, Boolean>());
     set.addAll(SOME_COLLECTION);
     Set<Integer> copy = SerializableTester.reserializeAndAssert(set);
-    ASSERT.that(copy).has().allOf(0, 1).inOrder();
+    ASSERT.that(copy).has().exactly(0, 1).inOrder();
   }
 
   public void testNewSetFromMapIllegal() {
@@ -643,7 +643,7 @@ public class SetsTest extends TestCase {
    */
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_zeroary() {
-    ASSERT.that(Sets.cartesianProduct()).has().allOf(list());
+    ASSERT.that(Sets.cartesianProduct()).has().exactly(list());
   }
 
   /**
@@ -652,7 +652,7 @@ public class SetsTest extends TestCase {
    */
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_unary() {
-    ASSERT.that(Sets.cartesianProduct(set(1, 2))).has().allOf(list(1), list(2));
+    ASSERT.that(Sets.cartesianProduct(set(1, 2))).has().exactly(list(1), list(2));
   }
 
   @SuppressWarnings("unchecked") // varargs!
@@ -687,18 +687,18 @@ public class SetsTest extends TestCase {
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x2() {
     ASSERT.that(Sets.cartesianProduct(set(1), set(2, 3)))
-        .has().allOf(list(1, 2), list(1, 3)).inOrder();
+        .has().exactly(list(1, 2), list(1, 3)).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary2x2() {
     ASSERT.that(Sets.cartesianProduct(set(1, 2), set(3, 4)))
-        .has().allOf(list(1, 3), list(1, 4), list(2, 3), list(2, 4)).inOrder();
+        .has().exactly(list(1, 3), list(1, 4), list(2, 3), list(2, 4)).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_2x2x2() {
-    ASSERT.that(Sets.cartesianProduct(set(0, 1), set(0, 1), set(0, 1))).has().allOf(
+    ASSERT.that(Sets.cartesianProduct(set(0, 1), set(0, 1), set(0, 1))).has().exactly(
         list(0, 0, 0), list(0, 0, 1), list(0, 1, 0), list(0, 1, 1),
         list(1, 0, 0), list(1, 0, 1), list(1, 1, 0), list(1, 1, 1)).inOrder();
   }
@@ -723,7 +723,8 @@ public class SetsTest extends TestCase {
     List<Object> exp3 = list((Object) 2, "3");
     List<Object> exp4 = list((Object) 2, "4");
 
-    ASSERT.that(Sets.<Object>cartesianProduct(x, y)).has().allOf(exp1, exp2, exp3, exp4).inOrder();
+    ASSERT.that(Sets.<Object>cartesianProduct(x, y))
+        .has().exactly(exp1, exp2, exp3, exp4).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs!

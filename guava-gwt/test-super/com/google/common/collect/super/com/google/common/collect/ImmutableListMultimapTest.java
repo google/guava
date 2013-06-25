@@ -239,10 +239,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    ASSERT.that(multimap.keySet()).has().allOf("d", "c", "b", "a").inOrder();
-    ASSERT.that(multimap.values()).has().allOf(2, 4, 3, 6, 5, 2).inOrder();
-    ASSERT.that(multimap.get("a")).has().allOf(5, 2).inOrder();
-    ASSERT.that(multimap.get("b")).has().allOf(3, 6).inOrder();
+    ASSERT.that(multimap.keySet()).has().exactly("d", "c", "b", "a").inOrder();
+    ASSERT.that(multimap.values()).has().exactly(2, 4, 3, 6, 5, 2).inOrder();
+    ASSERT.that(multimap.get("a")).has().exactly(5, 2).inOrder();
+    ASSERT.that(multimap.get("b")).has().exactly(3, 6).inOrder();
   }
 
   public void testBuilderOrderKeysByDuplicates() {
@@ -261,10 +261,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("bb", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    ASSERT.that(multimap.keySet()).has().allOf("d", "a", "bb", "cc").inOrder();
-    ASSERT.that(multimap.values()).has().allOf(2, 5, 2, 3, 6, 4).inOrder();
-    ASSERT.that(multimap.get("a")).has().allOf(5, 2).inOrder();
-    ASSERT.that(multimap.get("bb")).has().allOf(3, 6).inOrder();
+    ASSERT.that(multimap.keySet()).has().exactly("d", "a", "bb", "cc").inOrder();
+    ASSERT.that(multimap.values()).has().exactly(2, 5, 2, 3, 6, 4).inOrder();
+    ASSERT.that(multimap.get("a")).has().exactly(5, 2).inOrder();
+    ASSERT.that(multimap.get("bb")).has().exactly(3, 6).inOrder();
   }
 
   public void testBuilderOrderValuesBy() {
@@ -278,10 +278,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    ASSERT.that(multimap.keySet()).has().allOf("b", "d", "a", "c").inOrder();
-    ASSERT.that(multimap.values()).has().allOf(6, 3, 2, 5, 2, 4).inOrder();
-    ASSERT.that(multimap.get("a")).has().allOf(5, 2).inOrder();
-    ASSERT.that(multimap.get("b")).has().allOf(6, 3).inOrder();
+    ASSERT.that(multimap.keySet()).has().exactly("b", "d", "a", "c").inOrder();
+    ASSERT.that(multimap.values()).has().exactly(6, 3, 2, 5, 2, 4).inOrder();
+    ASSERT.that(multimap.get("a")).has().exactly(5, 2).inOrder();
+    ASSERT.that(multimap.get("b")).has().exactly(6, 3).inOrder();
   }
 
   public void testBuilderOrderKeysAndValuesBy() {
@@ -296,10 +296,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    ASSERT.that(multimap.keySet()).has().allOf("d", "c", "b", "a").inOrder();
-    ASSERT.that(multimap.values()).has().allOf(2, 4, 6, 3, 5, 2).inOrder();
-    ASSERT.that(multimap.get("a")).has().allOf(5, 2).inOrder();
-    ASSERT.that(multimap.get("b")).has().allOf(6, 3).inOrder();
+    ASSERT.that(multimap.keySet()).has().exactly("d", "c", "b", "a").inOrder();
+    ASSERT.that(multimap.values()).has().exactly(2, 4, 6, 3, 5, 2).inOrder();
+    ASSERT.that(multimap.get("a")).has().exactly(5, 2).inOrder();
+    ASSERT.that(multimap.get("b")).has().exactly(6, 3).inOrder();
   }
 
   public void testCopyOf() {

@@ -68,7 +68,7 @@
     <dependency>
       <groupId>org.truth0</groupId>
       <artifactId>truth</artifactId>
-      <version>0.11</version>
+      <version>${truth.version}</version>
       <classifier>gwt</classifier>
       <scope>test</scope>
     </dependency>

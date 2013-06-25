@@ -48,7 +48,7 @@ public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, 
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllPresentKey() {
     ASSERT.that(multimap().removeAll(sampleKeys().e0))
-        .has().allOf(sampleValues().e0).inOrder();
+        .has().exactly(sampleValues().e0).inOrder();
     expectMissing(samples.e0);
   }
 
@@ -72,7 +72,7 @@ public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, 
         Helpers.mapEntry(sampleKeys().e0, sampleValues().e2));
 
     ASSERT.that(multimap().removeAll(sampleKeys().e0))
-        .has().allOf(sampleValues().e0, sampleValues().e1, sampleValues().e2);
+        .has().exactly(sampleValues().e0, sampleValues().e1, sampleValues().e2);
     assertTrue(multimap().isEmpty());
   }
 
@@ -81,7 +81,7 @@ public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, 
   public void testRemoveAllNullKeyPresent() {
     initMultimapWithNullKey();
 
-    ASSERT.that(multimap().removeAll(null)).has().allOf(getValueForNullKey()).inOrder();
+    ASSERT.that(multimap().removeAll(null)).has().exactly(getValueForNullKey()).inOrder();
 
     expectMissing(Helpers.mapEntry((K) null, getValueForNullKey()));
   }

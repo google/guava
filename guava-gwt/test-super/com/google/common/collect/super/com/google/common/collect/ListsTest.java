@@ -214,7 +214,7 @@ public class ListsTest extends TestCase {
   }
 
   private void checkFooBarBazList(List<String> list) {
-    ASSERT.that(list).has().allOf("foo", "bar", "baz").inOrder();
+    ASSERT.that(list).has().exactly("foo", "bar", "baz").inOrder();
     assertEquals(3, list.size());
     assertIndexIsOutOfBounds(list, -1);
     assertEquals("foo", list.get(0));
@@ -314,18 +314,18 @@ public class ListsTest extends TestCase {
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x2() {
     ASSERT.that(Lists.cartesianProduct(list(1), list(2, 3)))
-        .has().allOf(list(1, 2), list(1, 3)).inOrder();
+        .has().exactly(list(1, 2), list(1, 3)).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary2x2() {
     ASSERT.that(Lists.cartesianProduct(list(1, 2), list(3, 4)))
-        .has().allOf(list(1, 3), list(1, 4), list(2, 3), list(2, 4)).inOrder();
+        .has().exactly(list(1, 3), list(1, 4), list(2, 3), list(2, 4)).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_2x2x2() {
-    ASSERT.that(Lists.cartesianProduct(list(0, 1), list(0, 1), list(0, 1))).has().allOf(
+    ASSERT.that(Lists.cartesianProduct(list(0, 1), list(0, 1), list(0, 1))).has().exactly(
         list(0, 0, 0), list(0, 0, 1), list(0, 1, 0), list(0, 1, 1),
         list(1, 0, 0), list(1, 0, 1), list(1, 1, 0), list(1, 1, 1)).inOrder();
   }
@@ -350,7 +350,8 @@ public class ListsTest extends TestCase {
     List<Object> exp3 = list((Object) 2, "3");
     List<Object> exp4 = list((Object) 2, "4");
 
-    ASSERT.that(Lists.<Object>cartesianProduct(x, y)).has().allOf(exp1, exp2, exp3, exp4).inOrder();
+    ASSERT.that(Lists.<Object>cartesianProduct(x, y))
+        .has().exactly(exp1, exp2, exp3, exp4).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs!

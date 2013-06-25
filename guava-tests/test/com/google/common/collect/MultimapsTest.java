@@ -300,7 +300,7 @@ public class MultimapsTest extends AbstractMultimapTest {
     assertEquals(multimap.hashCode(), unmodifiable.hashCode());
     assertEquals(multimap, unmodifiable);
 
-    ASSERT.that(unmodifiable.asMap().get("bar")).has().allOf(5, -1);
+    ASSERT.that(unmodifiable.asMap().get("bar")).has().exactly(5, -1);
     assertNull(unmodifiable.asMap().get("missing"));
 
     assertFalse(unmodifiable.entries() instanceof Serializable);
@@ -619,7 +619,7 @@ public class MultimapsTest extends AbstractMultimapTest {
     } catch (IllegalArgumentException expected) {
       // expected
     }
-    ASSERT.that(multimap.entries()).has().allOf(
+    ASSERT.that(multimap.entries()).has().exactly(
         Maps.immutableEntry(Color.RED, 1),
         Maps.immutableEntry(Color.BLUE, 2));
   }
@@ -842,7 +842,7 @@ public class MultimapsTest extends AbstractMultimapTest {
       }
     };
     Multimap<String, Integer> transformed = Multimaps.transformValues(multimap, square);
-    ASSERT.that(transformed.entries()).has().allOf(immutableEntry("a", 4),
+    ASSERT.that(transformed.entries()).has().exactly(immutableEntry("a", 4),
         immutableEntry("a", 16), immutableEntry("b", 9), immutableEntry("b", 9),
         immutableEntry("c", 36)).inOrder();
   }
@@ -860,7 +860,7 @@ public class MultimapsTest extends AbstractMultimapTest {
         });
     Entry<String, String> entry = multimap.entries().iterator().next();
     entry.setValue("bbb");
-    ASSERT.that(transformed.entries()).has().allOf(immutableEntry("a", 3)).inOrder();
+    ASSERT.that(transformed.entries()).has().exactly(immutableEntry("a", 3)).inOrder();
   }
 
   @GwtIncompatible(value = "untested")
@@ -875,7 +875,7 @@ public class MultimapsTest extends AbstractMultimapTest {
     };
     ListMultimap<String, Integer> transformed =
         Multimaps.transformValues(multimap, square);
-    ASSERT.that(transformed.entries()).has().allOf(immutableEntry("a", 4),
+    ASSERT.that(transformed.entries()).has().exactly(immutableEntry("a", 4),
         immutableEntry("a", 16), immutableEntry("b", 9), immutableEntry("b", 9),
         immutableEntry("c", 36)).inOrder();
   }
@@ -893,7 +893,7 @@ public class MultimapsTest extends AbstractMultimapTest {
         };
     Multimap<String, String> transformed =
         Multimaps.transformEntries(multimap, transformer);
-    ASSERT.that(transformed.entries()).has().allOf(immutableEntry("a", "a"),
+    ASSERT.that(transformed.entries()).has().exactly(immutableEntry("a", "a"),
         immutableEntry("a", "a"), immutableEntry("b", "nob")).inOrder();
   }
 

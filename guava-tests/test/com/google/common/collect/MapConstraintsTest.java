@@ -115,7 +115,7 @@ public class MapConstraintsTest extends TestCase {
     assertFalse(map.values() instanceof Serializable);
     assertEquals(map.toString(), constrained.toString());
     assertEquals(map.hashCode(), constrained.hashCode());
-    ASSERT.that(map.entrySet()).has().allOf(
+    ASSERT.that(map.entrySet()).has().exactly(
         Maps.immutableEntry(TEST_KEY, TEST_VALUE),
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("bar", 2),
@@ -163,7 +163,7 @@ public class MapConstraintsTest extends TestCase {
     assertEquals(map.values(), constrained.values());
     assertEquals(map.toString(), constrained.toString());
     assertEquals(map.hashCode(), constrained.hashCode());
-    ASSERT.that(map.entrySet()).has().allOf(
+    ASSERT.that(map.entrySet()).has().exactly(
         Maps.immutableEntry(TEST_KEY, TEST_VALUE),
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("bar", 2),
@@ -240,7 +240,7 @@ public class MapConstraintsTest extends TestCase {
     assertEquals(multimap.keySet(), constrained.keySet());
     assertEquals(multimap.toString(), constrained.toString());
     assertEquals(multimap.hashCode(), constrained.hashCode());
-    ASSERT.that(multimap.entries()).has().allOf(
+    ASSERT.that(multimap.entries()).has().exactly(
         Maps.immutableEntry(TEST_KEY, TEST_VALUE),
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("bar", 2),

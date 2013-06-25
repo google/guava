@@ -344,7 +344,7 @@ public class DoublesTest extends TestCase {
     list.set(0, (double) 2);
     assertTrue(Arrays.equals(new double[] {(double) 2, (double) 1}, array));
     array[1] = (double) 3;
-    ASSERT.that(list).has().allOf((double) 2, (double) 3).inOrder();
+    ASSERT.that(list).has().exactly((double) 2, (double) 3).inOrder();
   }
 
   public void testAsList_toArray_roundTrip() {

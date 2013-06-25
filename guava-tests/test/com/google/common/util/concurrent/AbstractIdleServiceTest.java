@@ -93,7 +93,7 @@ public class AbstractIdleServiceTest extends TestCase {
     service.startAndWait();
     assertEquals(1, service.startUpCalled);
     assertEquals(Service.State.RUNNING, service.state());
-    ASSERT.that(service.transitionStates).has().allOf(Service.State.STARTING).inOrder();
+    ASSERT.that(service.transitionStates).has().exactly(Service.State.STARTING).inOrder();
   }
 
   public void testStart_failed() {
@@ -113,7 +113,7 @@ public class AbstractIdleServiceTest extends TestCase {
     }
     assertEquals(1, service.startUpCalled);
     assertEquals(Service.State.FAILED, service.state());
-    ASSERT.that(service.transitionStates).has().allOf(Service.State.STARTING).inOrder();
+    ASSERT.that(service.transitionStates).has().exactly(Service.State.STARTING).inOrder();
   }
 
   public void testStop_withoutStart() {
@@ -135,7 +135,7 @@ public class AbstractIdleServiceTest extends TestCase {
     assertEquals(1, service.shutDownCalled);
     assertEquals(Service.State.TERMINATED, service.state());
     ASSERT.that(service.transitionStates)
-        .has().allOf(Service.State.STARTING, Service.State.STOPPING).inOrder();
+        .has().exactly(Service.State.STARTING, Service.State.STOPPING).inOrder();
   }
 
   public void testStop_failed() {
@@ -159,7 +159,7 @@ public class AbstractIdleServiceTest extends TestCase {
     assertEquals(1, service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
     ASSERT.that(service.transitionStates)
-        .has().allOf(Service.State.STARTING, Service.State.STOPPING).inOrder();
+        .has().exactly(Service.State.STARTING, Service.State.STOPPING).inOrder();
   }
 
   public void testServiceToString() {

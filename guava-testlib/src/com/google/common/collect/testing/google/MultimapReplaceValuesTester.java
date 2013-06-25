@@ -128,7 +128,7 @@ public class MultimapReplaceValuesTester<K, V>
     @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(sampleValues().e0, sampleValues().e2, sampleValues().e3);
     multimap().replaceValues(key, values);
-    ASSERT.that(getCollection).has().allOf(
+    ASSERT.that(getCollection).has().exactly(
         sampleValues().e0, sampleValues().e2, sampleValues().e3);
   }
 

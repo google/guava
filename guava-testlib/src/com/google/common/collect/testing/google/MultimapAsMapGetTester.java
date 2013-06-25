@@ -100,7 +100,8 @@ public class MultimapAsMapGetTester<K, V> extends AbstractMultimapTester<K, V, M
   public void testPropagatesAddToMultimap() {
     Collection<V> result = multimap().asMap().get(sampleKeys().e0);
     result.add(sampleValues().e3);
-    ASSERT.that(multimap().get(sampleKeys().e0)).has().allOf(sampleValues().e0, sampleValues().e3);
+    ASSERT.that(multimap().get(sampleKeys().e0))
+        .has().exactly(sampleValues().e0, sampleValues().e3);
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -124,8 +125,8 @@ public class MultimapAsMapGetTester<K, V> extends AbstractMultimapTester<K, V, M
     assertTrue(result.add(v1));
     assertTrue(result.add(v2));
 
-    ASSERT.that(result).has().allOf(v1, v2);
-    ASSERT.that(multimap().get(k0)).has().allOf(v1, v2);
+    ASSERT.that(result).has().exactly(v1, v2);
+    ASSERT.that(multimap().get(k0)).has().exactly(v1, v2);
     assertTrue(multimap().containsKey(k0));
     assertFalse(multimap().containsEntry(k0, v0));
     assertTrue(multimap().containsEntry(k0, v2));

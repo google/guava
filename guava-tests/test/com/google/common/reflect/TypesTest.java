@@ -268,9 +268,9 @@ public class TypesTest extends TestCase {
     assertEquals(expected.toString(), actual.toString());
     assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
     ASSERT.that(actual.getLowerBounds())
-        .has().allFrom(asList(expected.getLowerBounds())).inOrder();
+        .has().exactlyAs(asList(expected.getLowerBounds())).inOrder();
     ASSERT.that(actual.getUpperBounds())
-        .has().allFrom(asList(expected.getUpperBounds())).inOrder();
+        .has().exactlyAs(asList(expected.getUpperBounds())).inOrder();
   }
 
   private static class WithTypeVariable {
@@ -347,7 +347,7 @@ public class TypesTest extends TestCase {
     assertEquals(
         expected.getGenericDeclaration(), actual.getGenericDeclaration());
     assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
-    ASSERT.that(actual.getBounds()).has().allFrom(asList(expected.getBounds())).inOrder();
+    ASSERT.that(actual.getBounds()).has().exactlyAs(asList(expected.getBounds())).inOrder();
   }
 
   /**

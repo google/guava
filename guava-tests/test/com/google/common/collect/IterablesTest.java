@@ -510,7 +510,7 @@ public class IterablesTest extends TestCase {
     List<String> freshlyAdded = newArrayList("freshly", "added");
 
     boolean changed = Iterables.addAll(alreadyThere, freshlyAdded);
-    ASSERT.that(alreadyThere).has().allOf(
+    ASSERT.that(alreadyThere).has().exactly(
         "already", "there", "freshly", "added").inOrder();
     assertTrue(changed);
   }
@@ -1126,10 +1126,10 @@ public class IterablesTest extends TestCase {
     Iterable<String> consumingIterable = Iterables.consumingIterable(list);
     Iterator<String> consumingIterator = consumingIterable.iterator();
 
-    ASSERT.that(list).has().allOf("a", "b").inOrder();
+    ASSERT.that(list).has().exactly("a", "b").inOrder();
 
     assertTrue(consumingIterator.hasNext());
-    ASSERT.that(list).has().allOf("a", "b").inOrder();
+    ASSERT.that(list).has().exactly("a", "b").inOrder();
     assertEquals("a", consumingIterator.next());
     ASSERT.that(list).has().item("b");
 

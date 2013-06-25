@@ -173,11 +173,11 @@ public class SynchronizedMultimapTest extends AbstractSetMultimapTest {
             ArrayListMultimap.<String, Integer>create());
     multimap.putAll("foo", Arrays.asList(3, -1, 2, 4, 1));
     multimap.putAll("bar", Arrays.asList(1, 2, 3, 1));
-    ASSERT.that(multimap.removeAll("foo")).has().allOf(3, -1, 2, 4, 1).inOrder();
+    ASSERT.that(multimap.removeAll("foo")).has().exactly(3, -1, 2, 4, 1).inOrder();
     assertFalse(multimap.containsKey("foo"));
     ASSERT.that(multimap.replaceValues("bar", Arrays.asList(6, 5)))
-        .has().allOf(1, 2, 3, 1).inOrder();
-    ASSERT.that(multimap.get("bar")).has().allOf(6, 5).inOrder();
+        .has().exactly(1, 2, 3, 1).inOrder();
+    ASSERT.that(multimap.get("bar")).has().exactly(6, 5).inOrder();
   }
 
   public void testSynchronizedSortedSetMultimap() {
@@ -186,11 +186,11 @@ public class SynchronizedMultimapTest extends AbstractSetMultimapTest {
             TreeMultimap.<String, Integer>create());
     multimap.putAll("foo", Arrays.asList(3, -1, 2, 4, 1));
     multimap.putAll("bar", Arrays.asList(1, 2, 3, 1));
-    ASSERT.that(multimap.removeAll("foo")).has().allOf(-1, 1, 2, 3, 4).inOrder();
+    ASSERT.that(multimap.removeAll("foo")).has().exactly(-1, 1, 2, 3, 4).inOrder();
     assertFalse(multimap.containsKey("foo"));
     ASSERT.that(multimap.replaceValues("bar", Arrays.asList(6, 5)))
-        .has().allOf(1, 2, 3).inOrder();
-    ASSERT.that(multimap.get("bar")).has().allOf(5, 6).inOrder();
+        .has().exactly(1, 2, 3).inOrder();
+    ASSERT.that(multimap.get("bar")).has().exactly(5, 6).inOrder();
   }
 
   public void testSynchronizedArrayListMultimapRandomAccess() {

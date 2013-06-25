@@ -231,7 +231,7 @@ public class LinkedListMultimapTest extends AbstractMultimapTest {
     List<Integer> foos = map.get("foo");
     Collection<Integer> values = map.values();
     assertEquals(asList(1, 2), foos);
-    ASSERT.that(values).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(values).has().exactly(1, 2, 3).inOrder();
     map.clear();
     assertEquals(Collections.emptyList(), foos);
     ASSERT.that(values).isEmpty();
@@ -258,7 +258,7 @@ public class LinkedListMultimapTest extends AbstractMultimapTest {
     map.put("bar", 4);
     assertEquals("[bar=1, foo=2, bar=3, bar=4]",
         map.entries().toString());
-    ASSERT.that(map.keys()).has().allOf("bar", "foo", "bar", "bar").inOrder();
+    ASSERT.that(map.keys()).has().exactly("bar", "foo", "bar", "bar").inOrder();
     map.keys().remove("bar"); // bar is no longer the first key!
     assertEquals("{foo=[2], bar=[3, 4]}", map.toString());
   }
@@ -304,7 +304,7 @@ public class LinkedListMultimapTest extends AbstractMultimapTest {
         = map.asMap().entrySet().iterator();
     Map.Entry<String, Collection<Integer>> entry = entries.next();
     assertEquals("bar", entry.getKey());
-    ASSERT.that(entry.getValue()).has().allOf(1, 3).inOrder();
+    ASSERT.that(entry.getValue()).has().exactly(1, 3).inOrder();
     try {
       entry.setValue(Arrays.<Integer>asList());
       fail("UnsupportedOperationException expected");

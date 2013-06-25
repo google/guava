@@ -109,7 +109,7 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
             .put(type, array)
             .build();
     assertEquals(1, map.size());
-    ASSERT.that(map.getInstance(type)).has().allOf(array[0]).inOrder();
+    ASSERT.that(map.getInstance(type)).has().exactly(array[0]).inOrder();
   }
 
   public void testWildcardType() {

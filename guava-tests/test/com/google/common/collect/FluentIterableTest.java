@@ -528,11 +528,11 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testToSet() {
-    ASSERT.that(fluent(1, 2, 3, 4).toSet()).has().allOf(1, 2, 3, 4).inOrder();
+    ASSERT.that(fluent(1, 2, 3, 4).toSet()).has().exactly(1, 2, 3, 4).inOrder();
   }
 
   public void testToSet_removeDuplicates() {
-    ASSERT.that(fluent(1, 2, 1, 2).toSet()).has().allOf(1, 2).inOrder();
+    ASSERT.that(fluent(1, 2, 1, 2).toSet()).has().exactly(1, 2).inOrder();
   }
 
   public void testToSet_empty() {
@@ -541,17 +541,17 @@ public class FluentIterableTest extends TestCase {
 
   public void testToSortedSet() {
     ASSERT.that(fluent(1, 4, 2, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
-        .has().allOf(4, 3, 2, 1).inOrder();
+        .has().exactly(4, 3, 2, 1).inOrder();
   }
 
   public void testToSortedSet_removeDuplicates() {
     ASSERT.that(fluent(1, 4, 1, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
-        .has().allOf(4, 3, 1).inOrder();
+        .has().exactly(4, 3, 1).inOrder();
   }
 
   public void testToMap() {
     ASSERT.that(fluent(1, 2, 3).toMap(Functions.toStringFunction()).entrySet())
-        .has().allOf(
+        .has().exactly(
             Maps.immutableEntry(1, "1"),
             Maps.immutableEntry(2, "2"),
             Maps.immutableEntry(3, "3")).inOrder();
@@ -658,17 +658,17 @@ public class FluentIterableTest extends TestCase {
 
   public void testCopyInto_List() {
     ASSERT.that(fluent(1, 3, 5).copyInto(Lists.newArrayList(1, 2)))
-        .has().allOf(1, 2, 1, 3, 5).inOrder();
+        .has().exactly(1, 2, 1, 3, 5).inOrder();
   }
 
   public void testCopyInto_Set() {
     ASSERT.that(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2)))
-        .has().allOf(1, 2, 3, 5);
+        .has().exactly(1, 2, 3, 5);
   }
 
   public void testCopyInto_SetAllDuplicates() {
     ASSERT.that(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2, 3, 5)))
-        .has().allOf(1, 2, 3, 5);
+        .has().exactly(1, 2, 3, 5);
   }
 
   public void testCopyInto_NonCollection() {
@@ -683,7 +683,7 @@ public class FluentIterableTest extends TestCase {
     };
 
     ASSERT.that(FluentIterable.from(iterable).copyInto(list))
-        .has().allOf(1, 2, 3, 9, 8, 7).inOrder();
+        .has().exactly(1, 2, 3, 9, 8, 7).inOrder();
   }
 
   public void testGet() {

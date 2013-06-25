@@ -163,7 +163,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
       multimap().put(key, sampleValues().e3);
       expectedCollection.add(sampleValues().e3);
-      ASSERT.that(collection).has().allFrom(expectedCollection);
+      ASSERT.that(collection).has().exactlyAs(expectedCollection);
       assertEquals(size + 1, multimap().size());
     }
   }
@@ -183,7 +183,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
       multimap().put(key, sampleValues().e3);
       expectedCollection.add(sampleValues().e3);
-      ASSERT.that(collection).has().allFrom(expectedCollection);
+      ASSERT.that(collection).has().exactlyAs(expectedCollection);
       assertEquals(size + 1, multimap().size());
     }
   }
@@ -211,7 +211,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
       multimap().put(key, sampleValues().e3);
       expectedCollection.add(sampleValues().e3);
-      ASSERT.that(collection).has().allFrom(expectedCollection);
+      ASSERT.that(collection).has().exactlyAs(expectedCollection);
       assertEquals(size + 1, multimap().size());
     }
   }

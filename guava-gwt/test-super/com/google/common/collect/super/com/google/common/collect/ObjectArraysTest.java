@@ -104,12 +104,12 @@ public class ObjectArraysTest extends TestCase {
 
   public void testPrependOneElement() {
     String[] result = ObjectArrays.concat("foo", new String[] { "bar" });
-    ASSERT.that(result).has().allOf("foo", "bar").inOrder();
+    ASSERT.that(result).has().exactly("foo", "bar").inOrder();
   }
 
   public void testPrependTwoElements() {
     String[] result = ObjectArrays.concat("foo", new String[] { "bar", "baz" });
-    ASSERT.that(result).has().allOf("foo", "bar", "baz").inOrder();
+    ASSERT.that(result).has().exactly("foo", "bar", "baz").inOrder();
   }
 
   public void testAppendZeroElements() {
@@ -119,12 +119,12 @@ public class ObjectArraysTest extends TestCase {
 
   public void testAppendOneElement() {
     String[] result = ObjectArrays.concat(new String[] { "foo" }, "bar");
-    ASSERT.that(result).has().allOf("foo", "bar").inOrder();
+    ASSERT.that(result).has().exactly("foo", "bar").inOrder();
   }
 
   public void testAppendTwoElements() {
     String[] result = ObjectArrays.concat(new String[] { "foo", "bar" }, "baz");
-    ASSERT.that(result).has().allOf("foo", "bar", "baz").inOrder();
+    ASSERT.that(result).has().exactly("foo", "bar", "baz").inOrder();
   }
 
   public void testEmptyArrayToEmpty() {

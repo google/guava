@@ -200,7 +200,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
     TypeToken<ImmutableList<Integer>[]> type = new TypeToken<ImmutableList<Integer>[]>() {};
     map.putInstance(type, array);
     assertEquals(1, map.size());
-    ASSERT.that(map.getInstance(type)).has().allOf(array[0]).inOrder();
+    ASSERT.that(map.getInstance(type)).has().exactly(array[0]).inOrder();
   }
 
   public void testWildcardType() {

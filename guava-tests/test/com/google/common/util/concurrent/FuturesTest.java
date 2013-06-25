@@ -841,7 +841,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().allOf(DATA1, DATA2, DATA3).inOrder();
+    ASSERT.that(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
   }
 
   public void testAllAsList_emptyList() throws Exception {
@@ -1016,7 +1016,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().allOf(DATA1, DATA2, DATA3).inOrder();
+    ASSERT.that(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
   }
 
   /**
@@ -1484,7 +1484,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().allOf(DATA1, DATA2, DATA3).inOrder();
+    ASSERT.that(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
   }
 
   public void testSuccessfulAsList_emptyList() throws Exception {
@@ -1527,7 +1527,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().allOf(null, DATA2).inOrder();
+    ASSERT.that(results).has().exactly(null, DATA2).inOrder();
   }
 
   public void testSuccessfulAsList_totalFailure() throws Exception {
@@ -1548,7 +1548,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().allOf(null, null).inOrder();
+    ASSERT.that(results).has().exactly(null, null).inOrder();
   }
 
   public void testSuccessfulAsList_cancelled() throws Exception {
@@ -1569,7 +1569,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().allOf(null, DATA2).inOrder();
+    ASSERT.that(results).has().exactly(null, DATA2).inOrder();
   }
 
   public void testSuccessfulAsList_resultCancelled() throws Exception {
@@ -1695,7 +1695,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().allOf(null, null, DATA3).inOrder();
+    ASSERT.that(results).has().exactly(null, null, DATA3).inOrder();
   }
 
   /** Non-Error exceptions are never logged. */

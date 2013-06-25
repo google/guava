@@ -48,7 +48,7 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
 
     List<V> list = multimap().get(k);
     multimap().remove(k, v0);
-    ASSERT.that(list).has().allOf(v1, v0).inOrder();
+    ASSERT.that(list).has().exactly(v1, v0).inOrder();
   }
 
   @SuppressWarnings("unchecked")

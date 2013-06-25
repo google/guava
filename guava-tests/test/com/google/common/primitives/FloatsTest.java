@@ -354,7 +354,7 @@ public class FloatsTest extends TestCase {
     list.set(0, (float) 2);
     assertTrue(Arrays.equals(new float[] {(float) 2, (float) 1}, array));
     array[1] = (float) 3;
-    ASSERT.that(list).has().allOf((float) 2, (float) 3).inOrder();
+    ASSERT.that(list).has().exactly((float) 2, (float) 3).inOrder();
   }
 
   public void testAsList_toArray_roundTrip() {
