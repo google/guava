@@ -198,7 +198,7 @@ public interface RangeSet<C extends Comparable> {
 
   /**
    * Returns a readable string representation of this range set. For example, if this
-   * {@code RangeSet} consisted of {@code Ranges.closed(1, 3)} and {@code Ranges.greaterThan(4)},
+   * {@code RangeSet} consisted of {@code Range.closed(1, 3)} and {@code Range.greaterThan(4)},
    * this might return {@code " [1‥3](4‥+∞)}"}.
    */
   @Override
