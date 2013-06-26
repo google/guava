@@ -64,7 +64,7 @@ public class HashMultimapTest extends AbstractSetMultimapTest {
     return suite;
   }
 
-  @Override protected Multimap<String, Integer> create() {
+  @Override protected SetMultimap<String, Integer> create() {
     return HashMultimap.create();
   }
 

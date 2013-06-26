@@ -20,61 +20,41 @@ public class HashMultimapTest_gwt extends com.google.gwt.junit.client.GWTTestCas
 }
 public void testAsMapEntriesEquals() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
   testCase.testAsMapEntriesEquals();
 }
 
 public void testAsMapEquals() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
   testCase.testAsMapEquals();
 }
 
 public void testAsMapValues() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
   testCase.testAsMapValues();
 }
 
 public void testCreate() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
   testCase.testCreate();
 }
 
 public void testCreateFromIllegalSizes() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
   testCase.testCreateFromIllegalSizes();
 }
 
 public void testCreateFromMultimap() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
   testCase.testCreateFromMultimap();
 }
 
 public void testCreateFromSizes() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
   testCase.testCreateFromSizes();
 }
 
 public void testEmptyMultimapsEqual() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
   testCase.testEmptyMultimapsEqual();
-}
-
-public void testValues() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testValues();
-}
-
-public void testValuesIteratorRemove() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.setUp();
-  testCase.testValuesIteratorRemove();
 }
 }

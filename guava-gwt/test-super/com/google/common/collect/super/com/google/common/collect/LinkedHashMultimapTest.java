@@ -33,7 +33,7 @@ import java.util.Map;
 @GwtCompatible(emulated = true)
 public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
 
-  @Override protected Multimap<String, Integer> create() {
+  @Override protected SetMultimap<String, Integer> create() {
     return LinkedHashMultimap.create();
   }
 
@@ -52,7 +52,7 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
   }
 
   private Multimap<String, Integer> initializeMultimap5() {
-    Multimap<String, Integer> multimap = getMultimap();
+    Multimap<String, Integer> multimap = create();
     multimap.put("foo", 5);
     multimap.put("bar", 4);
     multimap.put("foo", 3);
@@ -126,7 +126,7 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
   }
 
   public void testToStringNullExact() {
-    Multimap<String, Integer> multimap = getMultimap();
+    Multimap<String, Integer> multimap = create();
 
     multimap.put("foo", 3);
     multimap.put("foo", -1);

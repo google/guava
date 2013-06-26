@@ -20,6 +20,8 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 
+import junit.framework.TestCase;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -32,31 +34,40 @@ import java.util.Set;
  * @author Jared Levy
  */
 @GwtCompatible
-public abstract class AbstractSetMultimapTest extends AbstractMultimapTest {
+public abstract class AbstractSetMultimapTest extends TestCase {
+  
+  abstract SetMultimap<String, Integer> create();
+
+  protected SetMultimap<String, Integer> createSample() {
+    SetMultimap<String, Integer> sample = create();
+    sample.putAll("foo", asList(3, -1, 2, 4, 1));
+    sample.putAll("bar", asList(1, 2, 3, 1));
+    return sample;
+  }
 
   public void testAsMapEquals() {
-    Multimap<String, Integer> multimap = getMultimap();
+    Multimap<String, Integer> multimap = create();
     multimap.put("foo", 1);
-    multimap.put("foo", nullValue());
-    multimap.put(nullKey(), 3);
+    multimap.put("foo", null);
+    multimap.put(null, 3);
     Map<String, Collection<Integer>> map = multimap.asMap();
 
     Map<String, Collection<Integer>> equalMap = Maps.newHashMap();
-    equalMap.put("foo", Sets.newHashSet(1, nullValue()));
-    equalMap.put(nullKey(), Sets.newHashSet(3));
+    equalMap.put("foo", Sets.newHashSet(1, null));
+    equalMap.put(null, Sets.newHashSet(3));
     assertEquals(map, equalMap);
     assertEquals(equalMap, map);
     assertEquals(equalMap.hashCode(), multimap.hashCode());
 
     Map<String, Collection<Integer>> unequalMap = Maps.newHashMap();
-    equalMap.put("foo", Sets.newHashSet(3, nullValue()));
-    equalMap.put(nullKey(), Sets.newHashSet(1));
+    equalMap.put("foo", Sets.newHashSet(3, null));
+    equalMap.put(null, Sets.newHashSet(1));
     assertFalse(map.equals(unequalMap));
     assertFalse(unequalMap.equals(map));
   }
 
   public void testAsMapEntriesEquals() {
-    Multimap<String, Integer> multimap = getMultimap();
+    Multimap<String, Integer> multimap = create();
     multimap.put("foo", 1);
     multimap.put("foo", 3);
     Set<Map.Entry<String, Collection<Integer>>> set

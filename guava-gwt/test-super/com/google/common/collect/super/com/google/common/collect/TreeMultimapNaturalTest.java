@@ -20,6 +20,9 @@ import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 
+import junit.framework.TestCase;
+
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -33,19 +36,10 @@ import java.util.SortedMap;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class TreeMultimapNaturalTest extends AbstractSetMultimapTest {
+public class TreeMultimapNaturalTest extends TestCase {
 
-  @Override protected Multimap<String, Integer> create() {
+  protected SetMultimap<String, Integer> create() {
     return TreeMultimap.create();
-  }
-
-  /* Null keys and values aren't supported. */
-  @Override protected String nullKey() {
-    return "null";
-  }
-
-  @Override protected Integer nullValue() {
-    return 42;
   }
 
   /**
@@ -65,8 +59,11 @@ public class TreeMultimapNaturalTest extends AbstractSetMultimapTest {
   }
 
   public void testToString() {
+    SetMultimap<String, Integer> multimap = create();
+    multimap.putAll("bar", Arrays.asList(3, 1, 2));
+    multimap.putAll("foo", Arrays.asList(2, 3, 1, -1, 4));
     assertEquals("{bar=[1, 2, 3], foo=[-1, 1, 2, 3, 4]}",
-        createSample().toString());
+        multimap.toString());
   }
 
   public void testOrderedGet() {
@@ -115,7 +112,9 @@ public class TreeMultimapNaturalTest extends AbstractSetMultimapTest {
   }
 
   public void testMultimapConstructor() {
-    Multimap<String, Integer> multimap = createSample();
+    SetMultimap<String, Integer> multimap = create();
+    multimap.putAll("bar", Arrays.asList(3, 1, 2));
+    multimap.putAll("foo", Arrays.asList(2, 3, 1, -1, 4));
     TreeMultimap<String, Integer> copy = TreeMultimap.create(multimap);
     assertEquals(multimap, copy);
   }

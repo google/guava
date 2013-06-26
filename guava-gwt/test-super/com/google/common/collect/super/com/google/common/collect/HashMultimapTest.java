@@ -26,7 +26,7 @@ import com.google.common.annotations.GwtCompatible;
 @GwtCompatible(emulated = true)
 public class HashMultimapTest extends AbstractSetMultimapTest {
 
-  @Override protected Multimap<String, Integer> create() {
+  @Override protected SetMultimap<String, Integer> create() {
     return HashMultimap.create();
   }
 

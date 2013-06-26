@@ -17,14 +17,13 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 /**
  * Tests for {@link MapConstraints#constrainedSetMultimap}.
  *
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class ConstrainedSetMultimapTest extends AbstractSetMultimapTest {
 
   @Override protected SetMultimap<String, Integer> create() {
@@ -32,9 +31,4 @@ public class ConstrainedSetMultimapTest extends AbstractSetMultimapTest {
         HashMultimap.<String, Integer>create(),
         MapConstraintsTest.TEST_CONSTRAINT);
   }
-
-  // an override of a GwtIncompatible method
-  @GwtIncompatible("SerializableTester")
-  // not serializable
-  @Override public void testSerializable() {}
 }

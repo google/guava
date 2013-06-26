@@ -21,6 +21,8 @@ import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 
+import junit.framework.TestCase;
+
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.RandomAccess;
@@ -31,9 +33,9 @@ import java.util.RandomAccess;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class ArrayListMultimapTest extends AbstractMultimapTest {
+public class ArrayListMultimapTest extends TestCase {
 
-  @Override protected ListMultimap<String, Integer> create() {
+  protected ListMultimap<String, Integer> create() {
     return ArrayListMultimap.create();
   }
 
@@ -95,7 +97,10 @@ public class ArrayListMultimapTest extends AbstractMultimapTest {
   }
 
   public void testCreateFromMultimap() {
-    Multimap<String, Integer> multimap = createSample();
+    Multimap<String, Integer> multimap = create();
+    multimap.put("foo", 1);
+    multimap.put("foo", 3);
+    multimap.put("bar", 2);
     ArrayListMultimap<String, Integer> copy
         = ArrayListMultimap.create(multimap);
     assertEquals(multimap, copy);

@@ -20,79 +20,56 @@ public class ArrayListMultimapTest_gwt extends com.google.gwt.junit.client.GWTTe
 }
 public void testCreate() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
   testCase.testCreate();
 }
 
 public void testCreateFromArrayListMultimap() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
   testCase.testCreateFromArrayListMultimap();
 }
 
 public void testCreateFromHashMultimap() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
   testCase.testCreateFromHashMultimap();
 }
 
 public void testCreateFromIllegalSizes() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
   testCase.testCreateFromIllegalSizes();
 }
 
 public void testCreateFromMultimap() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
   testCase.testCreateFromMultimap();
 }
 
 public void testCreateFromSizes() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
   testCase.testCreateFromSizes();
 }
 
 public void testGetRandomAccess() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
   testCase.testGetRandomAccess();
 }
 
 public void testRemoveAllRandomAccess() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
   testCase.testRemoveAllRandomAccess();
 }
 
 public void testReplaceValuesRandomAccess() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
   testCase.testReplaceValuesRandomAccess();
 }
 
 public void testSublistConcurrentModificationException() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
   testCase.testSublistConcurrentModificationException();
 }
 
 public void testTrimToSize() throws Exception {
   com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
   testCase.testTrimToSize();
-}
-
-public void testValues() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testValues();
-}
-
-public void testValuesIteratorRemove() throws Exception {
-  com.google.common.collect.ArrayListMultimapTest testCase = new com.google.common.collect.ArrayListMultimapTest();
-  testCase.setUp();
-  testCase.testValuesIteratorRemove();
 }
 }

@@ -19,6 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
 
+import junit.framework.TestCase;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,7 +31,7 @@ import java.util.Map.Entry;
  * @author Jared Levy
  */
 @GwtIncompatible("nottested")
-public class FilteredMultimapTest extends AbstractMultimapTest {
+public class FilteredMultimapTest extends TestCase {
 
   private static final Predicate<Map.Entry<String, Integer>> ENTRY_PREDICATE
       = new Predicate<Map.Entry<String, Integer>>() {
@@ -38,19 +40,12 @@ public class FilteredMultimapTest extends AbstractMultimapTest {
         }
   };
 
-  @Override protected Multimap<String, Integer> create() {
+  protected Multimap<String, Integer> create() {
     Multimap<String, Integer> unfiltered = HashMultimap.create();
     unfiltered.put("foo", 55556);
     unfiltered.put("badkey", 1);
     return Multimaps.filterEntries(unfiltered, ENTRY_PREDICATE);
   }
-
-  // iterators don't support remove()
-  // TODO(jlevy): Test logic that doesn't involve iterator.remove()
-  @Override public void testValuesIteratorRemove() {}
-
-  // not serializable
-  @Override public void testSerializable() {}
 
   private static final Predicate<String> KEY_PREDICATE
       = new Predicate<String>() {

@@ -32,6 +32,8 @@ import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 
+import junit.framework.TestCase;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -59,7 +61,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class MultimapsTest extends AbstractMultimapTest {
+public class MultimapsTest extends TestCase {
 
   private static final Comparator<Integer> INT_COMPARATOR =
       Ordering.<Integer>natural().reverse().nullsFirst();
@@ -71,11 +73,6 @@ public class MultimapsTest extends AbstractMultimapTest {
           return null;
         }
       };
-
-  @Override protected Multimap<String, Integer> create() {
-    return Multimaps.synchronizedSetMultimap(
-        HashMultimap.<String, Integer>create());
-  }
 
   @SuppressWarnings("deprecation")
   public void testUnmodifiableListMultimapShortCircuit() {

@@ -65,7 +65,7 @@ public class TreeMultimapExplicitTest extends AbstractSetMultimapTest {
   private static final Comparator<Integer> DECREASING_INT_COMPARATOR =
       Ordering.<Integer>natural().reverse().nullsFirst();
 
-  @Override protected Multimap<String, Integer> create() {
+  @Override protected SetMultimap<String, Integer> create() {
     return TreeMultimap.create(
         StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);
   }

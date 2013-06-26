@@ -37,6 +37,7 @@ import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.testing.EqualsTester;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.util.Arrays;
@@ -56,7 +57,7 @@ import java.util.Set;
  * @author Mike Bostock
  */
 @GwtCompatible(emulated = true)
-public class LinkedListMultimapTest extends AbstractMultimapTest {
+public class LinkedListMultimapTest extends TestCase {
 
   @GwtIncompatible("suite")
   public static Test suite() {
@@ -85,7 +86,7 @@ public class LinkedListMultimapTest extends AbstractMultimapTest {
     return suite;
   }
 
-  @Override protected LinkedListMultimap<String, Integer> create() {
+  protected LinkedListMultimap<String, Integer> create() {
     return LinkedListMultimap.create();
   }
 
@@ -127,10 +128,14 @@ public class LinkedListMultimapTest extends AbstractMultimapTest {
   }
 
   public void testCreateFromMultimap() {
-    Multimap<String, Integer> multimap = createSample();
+    Multimap<String, Integer> multimap = LinkedListMultimap.create();
+    multimap.put("foo", 1);
+    multimap.put("bar", 3);
+    multimap.put("foo", 2);
     LinkedListMultimap<String, Integer> copy =
         LinkedListMultimap.create(multimap);
     assertEquals(multimap, copy);
+    ASSERT.that(copy.entries()).has().exactlyAs(multimap.entries()).inOrder();
   }
 
   public void testCreateFromSize() {
@@ -147,13 +152,6 @@ public class LinkedListMultimapTest extends AbstractMultimapTest {
       LinkedListMultimap.create(-20);
       fail();
     } catch (IllegalArgumentException expected) {}
-  }
-
-  /* "Linked" prefix avoids collision with AbstractMultimapTest. */
-
-  public void testLinkedToString() {
-    assertEquals("{foo=[3, -1, 2, 4, 1], bar=[1, 2, 3, 1]}",
-        createSample().toString());
   }
 
   public void testLinkedGetAdd() {

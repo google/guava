@@ -18,10 +18,21 @@ package com.google.common.collect;
 
 import static org.truth0.Truth.ASSERT;
 
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.RandomAccess;
 import java.util.Set;
 
@@ -32,20 +43,39 @@ import javax.annotation.Nullable;
  *
  * @author Mike Bostock
  */
-public class SynchronizedMultimapTest extends AbstractSetMultimapTest {
-
-  @Override protected Multimap<String, Integer> create() {
-    TestMultimap<String, Integer> inner = new TestMultimap<String, Integer>();
-    Multimap<String, Integer> outer = Synchronized.multimap(inner, inner.mutex);
-    return outer;
+public class SynchronizedMultimapTest extends TestCase {
+  
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTestSuite(SynchronizedMultimapTest.class);
+    suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
+        @Override
+        protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
+          TestMultimap<String, String> inner = new TestMultimap<String, String>();
+          SetMultimap<String, String> outer = Synchronized.setMultimap(inner, inner.mutex);
+          for (Entry<String, String> entry : entries) {
+            outer.put(entry.getKey(), entry.getValue());
+          }
+          return outer;
+        }
+      })
+      .named("Synchronized.setMultimap")
+      .withFeatures(MapFeature.GENERAL_PURPOSE,
+          CollectionSize.ANY,
+          CollectionFeature.SERIALIZABLE,
+          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_NULL_VALUES)
+      .createTestSuite());
+    return suite;
   }
 
-  private static final class TestMultimap<K, V> extends ForwardingMultimap<K, V>
+  private static final class TestMultimap<K, V> extends ForwardingSetMultimap<K, V>
       implements Serializable {
-    final Multimap<K, V> delegate = HashMultimap.create();
+    final SetMultimap<K, V> delegate = HashMultimap.create();
     public final Object mutex = new Integer(1); // something Serializable
 
-    @Override protected Multimap<K, V> delegate() {
+    @Override protected SetMultimap<K, V> delegate() {
       return delegate;
     }
 
@@ -90,7 +120,7 @@ public class SynchronizedMultimapTest extends AbstractSetMultimapTest {
       return super.containsEntry(key, value);
     }
 
-    @Override public Collection<V> get(@Nullable K key) {
+    @Override public Set<V> get(@Nullable K key) {
       assertTrue(Thread.holdsLock(mutex));
       /* TODO: verify that the Collection is also synchronized? */
       return super.get(key);
@@ -112,7 +142,7 @@ public class SynchronizedMultimapTest extends AbstractSetMultimapTest {
       return super.putAll(map);
     }
 
-    @Override public Collection<V> replaceValues(@Nullable K key,
+    @Override public Set<V> replaceValues(@Nullable K key,
         Iterable<? extends V> values) {
       assertTrue(Thread.holdsLock(mutex));
       return super.replaceValues(key, values);
@@ -124,7 +154,7 @@ public class SynchronizedMultimapTest extends AbstractSetMultimapTest {
       return super.remove(key, value);
     }
 
-    @Override public Collection<V> removeAll(@Nullable Object key) {
+    @Override public Set<V> removeAll(@Nullable Object key) {
       assertTrue(Thread.holdsLock(mutex));
       return super.removeAll(key);
     }
@@ -152,7 +182,7 @@ public class SynchronizedMultimapTest extends AbstractSetMultimapTest {
       return super.values();
     }
 
-    @Override public Collection<Map.Entry<K, V>> entries() {
+    @Override public Set<Map.Entry<K, V>> entries() {
       assertTrue(Thread.holdsLock(mutex));
       /* TODO: verify that the Collection is also synchronized? */
       return super.entries();

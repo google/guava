@@ -20,31 +20,16 @@ public class ConstrainedSetMultimapTest_gwt extends com.google.gwt.junit.client.
 }
 public void testAsMapEntriesEquals() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
   testCase.testAsMapEntriesEquals();
 }
 
 public void testAsMapEquals() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
   testCase.testAsMapEquals();
 }
 
 public void testAsMapValues() throws Exception {
   com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
   testCase.testAsMapValues();
-}
-
-public void testValues() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testValues();
-}
-
-public void testValuesIteratorRemove() throws Exception {
-  com.google.common.collect.ConstrainedSetMultimapTest testCase = new com.google.common.collect.ConstrainedSetMultimapTest();
-  testCase.setUp();
-  testCase.testValuesIteratorRemove();
 }
 }
