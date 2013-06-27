@@ -19,6 +19,7 @@ package com.google.common.io;
 import com.google.common.testing.AbstractPackageSanityTests;
 
 import java.lang.reflect.Method;
+import java.nio.channels.FileChannel.MapMode;
 
 /**
  * Basic sanity tests for the entire package.
@@ -32,5 +33,6 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     setDefault(int.class, 32);
     setDefault(String.class, "abcd");
     setDefault(Method.class, AbstractPackageSanityTests.class.getDeclaredMethods()[0]);
+    setDefault(MapMode.class, MapMode.READ_ONLY);
   }
 }
