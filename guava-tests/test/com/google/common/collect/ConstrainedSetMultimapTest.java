@@ -16,19 +16,58 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
+import static com.google.common.base.Preconditions.checkArgument;
+
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+
+import java.io.Serializable;
+import java.util.Map.Entry;
 
 /**
- * Tests for {@link MapConstraints#constrainedSetMultimap}.
+ * Tests for {@link MapConstraints#constrainedSetMultimap} not accounted for in
+ * {@link MapConstraintsTest}.
  *
  * @author Jared Levy
  */
-@GwtCompatible
-public class ConstrainedSetMultimapTest extends AbstractSetMultimapTest {
-
-  @Override protected SetMultimap<String, Integer> create() {
-    return MapConstraints.<String, Integer>constrainedSetMultimap(
-        HashMultimap.<String, Integer>create(),
-        MapConstraintsTest.TEST_CONSTRAINT);
+public class ConstrainedSetMultimapTest extends TestCase {
+  private enum Constraint implements Serializable, MapConstraint<String, String> {
+    INSTANCE;
+    
+    @Override
+    public void checkKeyValue(String key, String value) {
+      checkArgument(!"test".equals(key));
+      checkArgument(!"test".equals(value));
+    }
+  }
+  
+  public static Test suite() {
+    return SetMultimapTestSuiteBuilder.using(
+        new TestStringSetMultimapGenerator() {
+          
+          @Override
+          protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
+            SetMultimap<String, String> multimap = HashMultimap.create();
+            for (Entry<String, String> entry : entries) {
+              multimap.put(entry.getKey(), entry.getValue());
+            }
+            return MapConstraints.constrainedSetMultimap(multimap, Constraint.INSTANCE);
+          }
+        })
+        .named("MapConstraints.constrainedSetMultimap")
+        .withFeatures(
+            MapFeature.ALLOWS_NULL_KEYS,
+            MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.GENERAL_PURPOSE,
+            CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite();
   }
 }

@@ -22,6 +22,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.SerializableTester;
 
+import junit.framework.TestCase;
+
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -34,7 +37,7 @@ import java.util.SortedSet;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class TreeMultimapExplicitTest extends AbstractSetMultimapTest {
+public class TreeMultimapExplicitTest extends TestCase {
 
   /**
    * Compare strings lengths, and if the lengths are equal compare the strings.
@@ -65,7 +68,7 @@ public class TreeMultimapExplicitTest extends AbstractSetMultimapTest {
   private static final Comparator<Integer> DECREASING_INT_COMPARATOR =
       Ordering.<Integer>natural().reverse().nullsFirst();
 
-  @Override protected SetMultimap<String, Integer> create() {
+  private SetMultimap<String, Integer> create() {
     return TreeMultimap.create(
         StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);
   }
@@ -109,8 +112,14 @@ public class TreeMultimapExplicitTest extends AbstractSetMultimapTest {
   }
 
   public void testToString() {
+    Multimap<String, Integer> multimap = create();
+    multimap.put("foo", 3);
+    multimap.put("bar", 1);
+    multimap.putAll("foo", Arrays.asList(-1, 2, 4));
+    multimap.putAll("bar", Arrays.asList(2, 3));
+    multimap.put("foo", 1);
     assertEquals("{bar=[3, 2, 1], foo=[4, 3, 2, 1, -1]}",
-        createSample().toString());
+        multimap.toString());
   }
 
   public void testGetComparator() {
@@ -171,7 +180,12 @@ public class TreeMultimapExplicitTest extends AbstractSetMultimapTest {
   }
 
   public void testMultimapComparators() {
-    Multimap<String, Integer> multimap = createSample();
+    Multimap<String, Integer> multimap = create();
+    multimap.put("foo", 3);
+    multimap.put("bar", 1);
+    multimap.putAll("foo", Arrays.asList(-1, 2, 4));
+    multimap.putAll("bar", Arrays.asList(2, 3));
+    multimap.put("foo", 1);
     TreeMultimap<String, Integer> copy =
         TreeMultimap.create(StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);
     copy.putAll(multimap);

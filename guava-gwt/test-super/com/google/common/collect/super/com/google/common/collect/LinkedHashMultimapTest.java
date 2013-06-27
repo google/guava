@@ -20,7 +20,11 @@ import static java.util.Arrays.asList;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.testing.EqualsTester;
 
+import junit.framework.TestCase;
+
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,11 +35,7 @@ import java.util.Map;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
-
-  @Override protected SetMultimap<String, Integer> create() {
-    return LinkedHashMultimap.create();
-  }
+public class LinkedHashMultimapTest extends TestCase {
 
   public void testValueSetHashTableExpansion() {
     LinkedHashMultimap<String, Integer> multimap = LinkedHashMultimap.create();
@@ -52,7 +52,7 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
   }
 
   private Multimap<String, Integer> initializeMultimap5() {
-    Multimap<String, Integer> multimap = create();
+    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
     multimap.put("foo", 5);
     multimap.put("bar", 4);
     multimap.put("foo", 3);
@@ -62,8 +62,14 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
   }
 
   public void testToString() {
+    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+    multimap.put("foo", 3);
+    multimap.put("bar", 1);
+    multimap.putAll("foo", Arrays.asList(-1, 2, 4));
+    multimap.putAll("bar", Arrays.asList(2, 3));
+    multimap.put("foo", 1);
     assertEquals("{foo=[3, -1, 2, 4, 1], bar=[1, 2, 3]}",
-        createSample().toString());
+        multimap.toString());
   }
 
   public void testOrderingReadOnly() {
@@ -126,7 +132,7 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
   }
 
   public void testToStringNullExact() {
-    Multimap<String, Integer> multimap = create();
+    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
 
     multimap.put("foo", 3);
     multimap.put("foo", -1);
@@ -168,10 +174,16 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
   }
 
   public void testCreateFromMultimap() {
-    Multimap<String, Integer> multimap = createSample();
+    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+    multimap.put("a", 1);
+    multimap.put("b", 2);
+    multimap.put("a", 3);
+    multimap.put("c", 4);
     LinkedHashMultimap<String, Integer> copy =
         LinkedHashMultimap.create(multimap);
-    assertEquals(multimap, copy);
+    new EqualsTester()
+        .addEqualityGroup(multimap, copy)
+        .testEquals();
   }
 
   public void testCreateFromSizes() {

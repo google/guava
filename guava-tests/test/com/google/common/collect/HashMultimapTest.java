@@ -25,6 +25,7 @@ import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.util.Map.Entry;
@@ -35,7 +36,7 @@ import java.util.Map.Entry;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class HashMultimapTest extends AbstractSetMultimapTest {
+public class HashMultimapTest extends TestCase {
 
   @GwtIncompatible("suite")
   public static Test suite() {
@@ -64,10 +65,6 @@ public class HashMultimapTest extends AbstractSetMultimapTest {
     return suite;
   }
 
-  @Override protected SetMultimap<String, Integer> create() {
-    return HashMultimap.create();
-  }
-
   /*
    * The behavior of toString() is tested by TreeMultimap, which shares a
    * lot of code with HashMultimap and has deterministic iteration order.
@@ -82,7 +79,10 @@ public class HashMultimapTest extends AbstractSetMultimapTest {
   }
 
   public void testCreateFromMultimap() {
-    Multimap<String, Integer> multimap = createSample();
+    HashMultimap<String, Integer> multimap = HashMultimap.create();
+    multimap.put("foo", 1);
+    multimap.put("bar", 2);
+    multimap.put("foo", 3);
     HashMultimap<String, Integer> copy = HashMultimap.create(multimap);
     assertEquals(multimap, copy);
     assertEquals(2, copy.expectedValuesPerKey);

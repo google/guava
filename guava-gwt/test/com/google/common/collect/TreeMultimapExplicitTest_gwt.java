@@ -18,21 +18,6 @@ public class TreeMultimapExplicitTest_gwt extends com.google.gwt.junit.client.GW
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
-public void testAsMapEntriesEquals() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.testAsMapEntriesEquals();
-}
-
-public void testAsMapEquals() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.testAsMapEquals();
-}
-
-public void testAsMapValues() throws Exception {
-  com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
-  testCase.testAsMapValues();
-}
-
 public void testComparator() throws Exception {
   com.google.common.collect.TreeMultimapExplicitTest testCase = new com.google.common.collect.TreeMultimapExplicitTest();
   testCase.testComparator();

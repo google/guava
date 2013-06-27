@@ -18,17 +18,15 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 
+import junit.framework.TestCase;
+
 /**
  * Unit tests for {@link HashMultimap}.
  *
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class HashMultimapTest extends AbstractSetMultimapTest {
-
-  @Override protected SetMultimap<String, Integer> create() {
-    return HashMultimap.create();
-  }
+public class HashMultimapTest extends TestCase {
 
   /*
    * The behavior of toString() is tested by TreeMultimap, which shares a
@@ -44,7 +42,10 @@ public class HashMultimapTest extends AbstractSetMultimapTest {
   }
 
   public void testCreateFromMultimap() {
-    Multimap<String, Integer> multimap = createSample();
+    HashMultimap<String, Integer> multimap = HashMultimap.create();
+    multimap.put("foo", 1);
+    multimap.put("bar", 2);
+    multimap.put("foo", 3);
     HashMultimap<String, Integer> copy = HashMultimap.create(multimap);
     assertEquals(multimap, copy);
     assertEquals(2, copy.expectedValuesPerKey);

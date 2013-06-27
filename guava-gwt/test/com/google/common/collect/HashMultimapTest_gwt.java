@@ -18,21 +18,6 @@ public class HashMultimapTest_gwt extends com.google.gwt.junit.client.GWTTestCas
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
-public void testAsMapEntriesEquals() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.testAsMapEntriesEquals();
-}
-
-public void testAsMapEquals() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.testAsMapEquals();
-}
-
-public void testAsMapValues() throws Exception {
-  com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
-  testCase.testAsMapValues();
-}
-
 public void testCreate() throws Exception {
   com.google.common.collect.HashMultimapTest testCase = new com.google.common.collect.HashMultimapTest();
   testCase.testCreate();

@@ -18,21 +18,6 @@ public class LinkedHashMultimapTest_gwt extends com.google.gwt.junit.client.GWTT
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
-public void testAsMapEntriesEquals() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.testAsMapEntriesEquals();
-}
-
-public void testAsMapEquals() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.testAsMapEquals();
-}
-
-public void testAsMapValues() throws Exception {
-  com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
-  testCase.testAsMapValues();
-}
-
 public void testCreate() throws Exception {
   com.google.common.collect.LinkedHashMultimapTest testCase = new com.google.common.collect.LinkedHashMultimapTest();
   testCase.testCreate();
