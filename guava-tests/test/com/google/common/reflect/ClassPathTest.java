@@ -19,13 +19,10 @@ package com.google.common.reflect;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Charsets;
-import com.google.common.base.StandardSystemProperty;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.io.Closeables;
-import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import com.google.common.reflect.ClassPath.ClassInfo;
 import com.google.common.reflect.ClassPath.ResourceInfo;
@@ -58,23 +55,6 @@ import java.util.zip.ZipEntry;
  * Functional tests of {@link ClassPath}.
  */
 public class ClassPathTest extends TestCase {
-
-  public void testGetPathUris() throws Exception {
-    File tempDir = Files.createTempDir();
-    File jarFile = new File(tempDir, "a.jar");
-    // make an empty jar file
-    new JarOutputStream(new FileOutputStream(jarFile)).close();
-    File directory = new File(tempDir, "b");
-    directory.mkdir();
-    URLClassLoader classloader = new URLClassLoader(
-        new URL[] {jarFile.toURI().toURL(), directory.toURI().toURL()}, null);
-    assertEquals(
-        ImmutableSet.of(jarFile.toURI(), directory.toURI()),
-        ClassPath.from(classloader).getPathUris());
-    directory.delete();
-    jarFile.delete();
-    tempDir.delete();
-  }
 
   public void testGetResources() throws Exception {
     Map<String, ResourceInfo> byName = Maps.newHashMap();
@@ -153,45 +133,6 @@ public class ClassPathTest extends TestCase {
         .addEqualityGroup(
             new ResourceInfo("x.txt", getClass().getClassLoader()))
         .testEquals();
-  }
-
-  public void testAsClassPathString() throws Exception {
-    File tempDir = Files.createTempDir();
-    File jarFile = new File(tempDir, "a.jar");
-    // make an empty jar file
-    new JarOutputStream(new FileOutputStream(jarFile)).close();
-    File directory = new File(tempDir, "b");
-    directory.mkdir();
-    URLClassLoader classloader = new URLClassLoader(
-        new URL[] {jarFile.toURI().toURL(), directory.toURI().toURL()}, null);
-    assertEquals(
-        jarFile.getPath()
-            + StandardSystemProperty.PATH_SEPARATOR.value()
-            + directory.getPath(),
-        ClassPath.from(classloader).asClassPathString());
-    directory.delete();
-    jarFile.delete();
-    tempDir.delete();
-  }
-
-  public void testAsClassPathString_failOnNonFile() throws Exception {
-    File tempDir = Files.createTempDir();
-    File jarFile = new File(tempDir, "a.jar");
-    // make an empty jar file
-    new JarOutputStream(new FileOutputStream(jarFile)).close();
-    File directory = new File(tempDir, "b");
-    directory.mkdir();
-    URLClassLoader classloader = new URLClassLoader(
-        new URL[] {jarFile.toURI().toURL(), directory.toURI().toURL(),
-            new URL("http://www.ihostmyjarfiles.com/")}, null);
-    ClassPath classPath = ClassPath.from(classloader);
-    try {
-      classPath.asClassPathString();
-      fail();
-    } catch (IllegalStateException expected) {}
-    directory.delete();
-    jarFile.delete();
-    tempDir.delete();
   }
 
   public void testClassPathEntries_emptyURLClassLoader_noParent() {
