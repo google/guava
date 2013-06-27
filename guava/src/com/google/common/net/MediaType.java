@@ -207,6 +207,14 @@ public final class MediaType {
   public static final MediaType APPLICATION_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xml");
   public static final MediaType ATOM_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "atom+xml");
   public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
+  /**
+   * As described in the <a href="http://idpf.org/epub">International Digital Publishing Forum</a>
+   * EPUB is the distribution and interchange format standard for digital publications and
+   * documents. This media type is defined in the
+   * <a href="http://www.idpf.org/epub/30/spec/epub30-ocf.html">EPUB Open Container Format</a>
+   * specification.
+   */
+  public static final MediaType EPUB = createConstant(APPLICATION_TYPE, "epub+zip");
   public static final MediaType FORM_DATA = createConstant(APPLICATION_TYPE,
       "x-www-form-urlencoded");
   /**
@@ -330,6 +338,7 @@ public final class MediaType {
           .put(APPLICATION_XML_UTF_8, APPLICATION_XML_UTF_8)
           .put(ATOM_UTF_8, ATOM_UTF_8)
           .put(BZIP2, BZIP2)
+          .put(EPUB, EPUB)
           .put(FORM_DATA, FORM_DATA)
           .put(KEY_ARCHIVE, KEY_ARCHIVE)
           .put(APPLICATION_BINARY, APPLICATION_BINARY)
