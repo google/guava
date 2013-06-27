@@ -43,33 +43,20 @@ import javax.annotation.Nullable;
  */
 @Beta
 public final class Hashing {
-  private Hashing() {}
-
   /**
-   * Used to randomize {@link #goodFastHash} instances, so that programs which persist anything
-   * dependent on hashcodes of those, will fail sooner than later.
-   */
-  private static final int GOOD_FAST_HASH_SEED = (int) System.currentTimeMillis();
-
-  // Used by goodFastHash when minimumBits == 32.
-  private static final HashFunction GOOD_FAST_HASH_FUNCTION_32 = murmur3_32(GOOD_FAST_HASH_SEED);
-
-  // Used by goodFastHash when 32 < minimumBits <= 128.
-  private static final HashFunction GOOD_FAST_HASH_FUNCTION_128 = murmur3_128(GOOD_FAST_HASH_SEED);
-
-  /**
-   * Returns a general-purpose, <b>non-cryptographic-strength</b>, streaming hash function that
-   * produces hash codes of length at least {@code minimumBits}. Users without specific
-   * compatibility requirements and who do not persist the hash codes are encouraged to
-   * choose this hash function.
+   * Returns a general-purpose, <b>temporary-use</b>, non-cryptographic hash function. The algorithm
+   * the returned function implements is unspecified and subject to change without notice.
    *
-   * <p>Repeated calls to {@link #goodFastHash} with the same {@code minimumBits} value will
-   * return {@link HashFunction} instances with identical behavior (but not necessarily the
-   * same instance) for the duration of the current virtual machine.
+   * <p><b>Warning:</b> a new random seed for these functions is chosen each time the {@code
+   * Hashing} class is loaded. <b>Do not use this method</b> if hash codes may escape the current
+   * process in any way, for example being sent over RPC, or saved to disk.
    *
-   * <p><b>Warning: the implementation is unspecified and is subject to change.</b>
+   * <p>Repeated calls to this method on the same loaded {@code Hashing} class, using the same value
+   * for {@code minimumBits}, will return identically-behaving {@link HashFunction} instances.
    *
-   * @throws IllegalArgumentException if {@code minimumBits} is not positive
+   * @param minimumBits a positive integer (can be arbitrarily large)
+   * @return a hash function, described above, that produces hash codes of length {@code
+   *     minimumBits} or greater
    */
   public static HashFunction goodFastHash(int minimumBits) {
     int bits = checkPositiveAndMakeMultipleOf32(minimumBits);
@@ -92,6 +79,18 @@ public final class Hashing {
     }
     return new ConcatenatedHashFunction(hashFunctions);
   }
+
+  /**
+   * Used to randomize {@link #goodFastHash} instances, so that programs which persist anything
+   * dependent on the hash codes they produce will fail sooner.
+   */
+  private static final int GOOD_FAST_HASH_SEED = (int) System.currentTimeMillis();
+
+  /** Returned by {@link #goodFastHash} when {@code minimumBits <= 32}. */
+  private static final HashFunction GOOD_FAST_HASH_FUNCTION_32 = murmur3_32(GOOD_FAST_HASH_SEED);
+
+  /** Returned by {@link #goodFastHash} when {@code 32 < minimumBits <= 128}. */
+  private static final HashFunction GOOD_FAST_HASH_FUNCTION_128 = murmur3_128(GOOD_FAST_HASH_SEED);
 
   /**
    * Returns a hash function implementing the
@@ -437,4 +436,6 @@ public final class Hashing {
       return ((double) ((int) (state >>> 33) + 1)) / (0x1.0p31);
     }
   }
+
+  private Hashing() {}
 }
