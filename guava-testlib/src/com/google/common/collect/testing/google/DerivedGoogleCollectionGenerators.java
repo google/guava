@@ -111,7 +111,7 @@ public final class DerivedGoogleCollectionGenerators {
     @SuppressWarnings("unchecked")
     @Override
     public BiMap<V, K> create(Object... elements) {
-      Entry[] entries = new Entry[elements.length];
+      Entry<?, ?>[] entries = new Entry<?, ?>[elements.length];
       for (int i = 0; i < elements.length; i++) {
         entries[i] = reverse((Entry<K, V>) elements[i]);
       }

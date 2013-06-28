@@ -80,18 +80,18 @@ import javax.annotation.Nullable;
 public final class Maps {
   private Maps() {}
 
-  private enum EntryFunction implements Function<Entry, Object> {
+  private enum EntryFunction implements Function<Entry<?, ?>, Object> {
     KEY {
       @Override
       @Nullable
-      public Object apply(Entry entry) {
+      public Object apply(Entry<?, ?> entry) {
         return entry.getKey();
       }
     },
     VALUE {
       @Override
       @Nullable
-      public Object apply(Entry entry) {
+      public Object apply(Entry<?, ?> entry) {
         return entry.getValue();
       }
     };

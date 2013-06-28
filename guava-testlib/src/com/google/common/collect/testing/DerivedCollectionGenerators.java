@@ -511,7 +511,7 @@ public final class DerivedCollectionGenerators {
       allEntries.addAll(normalValues);
       SortedMap<K, V> map = (SortedMap<K, V>)
           delegate.create((Object[])
-              allEntries.toArray(new Entry[allEntries.size()]));
+              allEntries.toArray(new Entry<?, ?>[allEntries.size()]));
 
       return createSubMap(map, firstExclusive, lastExclusive);
     }
