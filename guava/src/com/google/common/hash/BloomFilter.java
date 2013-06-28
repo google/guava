@@ -177,6 +177,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   /**
    * Determines whether a given bloom filter is compatible with this bloom filter. For two
    * bloom filters to be compatible, they must:
+   *
    * <ul>
    * <li>not be the same instance
    * <li>have the same number of hash functions
@@ -186,10 +187,9 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * <ul>
    *
    * @param that The bloom filter to check for compatibility.
-   *
    * @since 15.0
    */
-  public boolean isCompatible(BloomFilter that) {
+  public boolean isCompatible(BloomFilter<T> that) {
     checkNotNull(that);
     return (this != that) &&
         (this.numHashFunctions == that.numHashFunctions) &&
@@ -208,7 +208,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    *
    * @since 15.0
    */
-  public void putAll(BloomFilter that) {
+  public void putAll(BloomFilter<T> that) {
     checkNotNull(that);
     checkArgument(this != that, "Cannot combine a BloomFilter with itself.");
     checkArgument(this.numHashFunctions == that.numHashFunctions,
