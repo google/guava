@@ -19,6 +19,7 @@ package com.google.common.hash;
 import static com.google.common.io.BaseEncoding.base16;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.BaseEncoding;
 import com.google.common.testing.ClassSanityTester;
 
 import junit.framework.TestCase;
@@ -152,6 +153,13 @@ public class HashCodesTest extends TestCase {
 
   public void testHashCodes_equalsAndSerializable() throws Exception {
     sanityTester().testEqualsAndSerializable();
+  }
+
+  public void testRoundTripHashCodeUsingBaseEncoding() {
+    HashCode hash1 = Hashing.sha1().hashString("foo");
+    HashCode hash2 =
+        HashCodes.fromBytes(BaseEncoding.base16().lowerCase().decode(hash1.toString()));
+    assertEquals(hash1, hash2);
   }
 
   private static ClassSanityTester.FactoryMethodReturnValueTester sanityTester() {
