@@ -359,10 +359,10 @@ public final class Futures {
    * an RPC network thread.
    * </ul>
    *
-   * Also note that, regardless of which thread executes {@code
-   * fallback.create}, all other registered but unexecuted listeners are
-   * prevented from running during its execution, even if those listeners are
-   * to run in other executors.
+   * Also note that, regardless of which thread executes the {@code
+   * sameThreadExecutor} {@code fallback.create}, all other registered but
+   * unexecuted listeners are prevented from running during its execution, even
+   * if those listeners are to run in other executors.
    *
    * @param input the primary input {@code Future}
    * @param fallback the {@link FutureFallback} implementation to be called if
@@ -540,10 +540,10 @@ public final class Futures {
    * RPC network thread.
    * </ul>
    *
-   * Also note that, regardless of which thread executes {@code
-   * function.apply}, all other registered but unexecuted listeners are
-   * prevented from running during its execution, even if those listeners are
-   * to run in other executors.
+   * Also note that, regardless of which thread executes the {@code
+   * sameThreadExecutor} {@code function.apply}, all other registered but
+   * unexecuted listeners are prevented from running during its execution, even
+   * if those listeners are to run in other executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future and that of the future returned by the
@@ -646,10 +646,10 @@ public final class Futures {
    * RPC network thread.
    * </ul>
    *
-   * Also note that, regardless of which thread executes {@code
-   * function.apply}, all other registered but unexecuted listeners are
-   * prevented from running during its execution, even if those listeners are
-   * to run in other executors.
+   * Also note that, regardless of which thread executes the {@code
+   * sameThreadExecutor} {@code function.apply}, all other registered but
+   * unexecuted listeners are prevented from running during its execution, even
+   * if those listeners are to run in other executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future. That is, if the returned {@code Future}
@@ -1094,10 +1094,10 @@ public final class Futures {
    * network thread.
    * </ul>
    *
-   * Also note that, regardless of which thread executes the callback, all
-   * other registered but unexecuted listeners are prevented from running
-   * during its execution, even if those listeners are to run in other
-   * executors.
+   * Also note that, regardless of which thread executes the {@code
+   * sameThreadExecutor} callback, all other registered but unexecuted listeners
+   * are prevented from running during its execution, even if those listeners
+   * are to run in other executors.
    *
    * <p>For a more general interface to attach a completion listener to a
    * {@code Future}, see {@link ListenableFuture#addListener addListener}.
