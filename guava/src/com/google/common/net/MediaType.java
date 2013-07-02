@@ -33,7 +33,6 @@ import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -106,15 +105,29 @@ public final class MediaType {
 
   private static final String WILDCARD = "*";
 
+  private static final Map<MediaType, MediaType> KNOWN_TYPES = Maps.newHashMap();
+
+  private static MediaType createConstant(String type, String subtype) {
+    return addKnownType(new MediaType(type, subtype, ImmutableListMultimap.<String, String>of()));
+  }
+
+  private static MediaType createConstantUtf8(String type, String subtype) {
+    return addKnownType(new MediaType(type, subtype, UTF_8_CONSTANT_PARAMETERS));
+  }
+
+  private static MediaType addKnownType(MediaType mediaType) {
+    KNOWN_TYPES.put(mediaType, mediaType);
+    return mediaType;
+  }
+
   /*
    * The following constants are grouped by their type and ordered alphabetically by the constant
    * name within that type. The constant name should be a sensible identifier that is closest to the
    * "common name" of the media.  This is often, but not necessarily the same as the subtype.
    *
-   * Be sure to declare all constants with the type and subtype in all lowercase.
-   *
-   * When adding constants, be sure to add an entry into the KNOWN_TYPES map. For types that
-   * take a charset (e.g. all text/* types), default to UTF-8 and suffix with "_UTF_8".
+   * Be sure to declare all constants with the type and subtype in all lowercase. For types that
+   * take a charset (e.g. all text/* types), default to UTF-8 and suffix the constant name with
+   * "_UTF_8".
    */
 
   public static final MediaType ANY_TYPE = createConstant(WILDCARD, WILDCARD);
@@ -292,87 +305,6 @@ public final class MediaType {
   public static final MediaType XRD_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xrd+xml");
   public static final MediaType ZIP = createConstant(APPLICATION_TYPE, "zip");
 
-  private static final ImmutableMap<MediaType, MediaType> KNOWN_TYPES =
-      new ImmutableMap.Builder<MediaType, MediaType>()
-          .put(ANY_TYPE, ANY_TYPE)
-          .put(ANY_TEXT_TYPE, ANY_TEXT_TYPE)
-          .put(ANY_IMAGE_TYPE, ANY_IMAGE_TYPE)
-          .put(ANY_AUDIO_TYPE, ANY_AUDIO_TYPE)
-          .put(ANY_VIDEO_TYPE, ANY_VIDEO_TYPE)
-          .put(ANY_APPLICATION_TYPE, ANY_APPLICATION_TYPE)
-          /* text types */
-          .put(CACHE_MANIFEST_UTF_8, CACHE_MANIFEST_UTF_8)
-          .put(CSS_UTF_8, CSS_UTF_8)
-          .put(CSV_UTF_8, CSV_UTF_8)
-          .put(HTML_UTF_8, HTML_UTF_8)
-          .put(I_CALENDAR_UTF_8, I_CALENDAR_UTF_8)
-          .put(PLAIN_TEXT_UTF_8, PLAIN_TEXT_UTF_8)
-          .put(TEXT_JAVASCRIPT_UTF_8, TEXT_JAVASCRIPT_UTF_8)
-          .put(VCARD_UTF_8, VCARD_UTF_8)
-          .put(WML_UTF_8, WML_UTF_8)
-          .put(XML_UTF_8, XML_UTF_8)
-          /* image types */
-          .put(BMP, BMP)
-          .put(CRW, CRW)
-          .put(GIF, GIF)
-          .put(ICO, ICO)
-          .put(JPEG, JPEG)
-          .put(PNG, PNG)
-          .put(PSD, PSD)
-          .put(SVG_UTF_8, SVG_UTF_8)
-          .put(TIFF, TIFF)
-          .put(WEBP, WEBP)
-          /* audio types */
-          .put(MP4_AUDIO, MP4_AUDIO)
-          .put(MPEG_AUDIO, MPEG_AUDIO)
-          .put(OGG_AUDIO, OGG_AUDIO)
-          .put(WEBM_AUDIO, WEBM_AUDIO)
-          /* video types */
-          .put(MP4_VIDEO, MP4_VIDEO)
-          .put(MPEG_VIDEO, MPEG_VIDEO)
-          .put(OGG_VIDEO, OGG_VIDEO)
-          .put(QUICKTIME, QUICKTIME)
-          .put(WEBM_VIDEO, WEBM_VIDEO)
-          .put(WMV, WMV)
-          /* application types */
-          .put(APPLICATION_XML_UTF_8, APPLICATION_XML_UTF_8)
-          .put(ATOM_UTF_8, ATOM_UTF_8)
-          .put(BZIP2, BZIP2)
-          .put(EPUB, EPUB)
-          .put(FORM_DATA, FORM_DATA)
-          .put(KEY_ARCHIVE, KEY_ARCHIVE)
-          .put(APPLICATION_BINARY, APPLICATION_BINARY)
-          .put(GZIP, GZIP)
-          .put(JAVASCRIPT_UTF_8, JAVASCRIPT_UTF_8)
-          .put(JSON_UTF_8, JSON_UTF_8)
-          .put(KML, KML)
-          .put(KMZ, KMZ)
-          .put(MBOX, MBOX)
-          .put(MICROSOFT_EXCEL, MICROSOFT_EXCEL)
-          .put(MICROSOFT_POWERPOINT, MICROSOFT_POWERPOINT)
-          .put(MICROSOFT_WORD, MICROSOFT_WORD)
-          .put(OCTET_STREAM, OCTET_STREAM)
-          .put(OGG_CONTAINER, OGG_CONTAINER)
-          .put(OOXML_DOCUMENT, OOXML_DOCUMENT)
-          .put(OOXML_PRESENTATION, OOXML_PRESENTATION)
-          .put(OOXML_SHEET, OOXML_SHEET)
-          .put(OPENDOCUMENT_GRAPHICS, OPENDOCUMENT_GRAPHICS)
-          .put(OPENDOCUMENT_PRESENTATION, OPENDOCUMENT_PRESENTATION)
-          .put(OPENDOCUMENT_SPREADSHEET, OPENDOCUMENT_SPREADSHEET)
-          .put(OPENDOCUMENT_TEXT, OPENDOCUMENT_TEXT)
-          .put(PDF, PDF)
-          .put(POSTSCRIPT, POSTSCRIPT)
-          .put(PROTOBUF, PROTOBUF)
-          .put(RDF_XML_UTF_8, RDF_XML_UTF_8)
-          .put(RTF_UTF_8, RTF_UTF_8)
-          .put(SHOCKWAVE_FLASH, SHOCKWAVE_FLASH)
-          .put(SKETCHUP, SKETCHUP)
-          .put(TAR, TAR)
-          .put(XHTML_UTF_8, XHTML_UTF_8)
-          .put(XRD_UTF_8, XRD_UTF_8)
-          .put(ZIP, ZIP)
-          .build();
-
   private final String type;
   private final String subtype;
   private final ImmutableListMultimap<String, String> parameters;
@@ -382,14 +314,6 @@ public final class MediaType {
     this.type = type;
     this.subtype = subtype;
     this.parameters = parameters;
-  }
-
-  private static MediaType createConstant(String type, String subtype) {
-    return new MediaType(type, subtype, ImmutableListMultimap.<String, String>of());
-  }
-
-  private static MediaType createConstantUtf8(String type, String subtype) {
-    return new MediaType(type, subtype, UTF_8_CONSTANT_PARAMETERS);
   }
 
   /** Returns the top-level media type.  For example, {@code "text"} in {@code "text/plain"}. */
