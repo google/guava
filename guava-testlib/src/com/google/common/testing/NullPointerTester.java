@@ -337,8 +337,8 @@ public final class NullPointerTester {
       @SuppressWarnings("unchecked") // We'll get a runtime exception if the type is wrong.
       Invokable<Object, ?> unsafe = (Invokable<Object, ?>) invokable;
       unsafe.invoke(instance, params);
-      Assert.fail("No exception thrown from " + invokable +
-          Arrays.toString(params) + " for " + testedClass);
+      Assert.fail("No exception thrown for parameter at index " + paramIndex
+          + " from " + invokable + Arrays.toString(params) + " for " + testedClass);
     } catch (InvocationTargetException e) {
       Throwable cause = e.getCause();
       if (policy.isExpectedType(cause)) {
