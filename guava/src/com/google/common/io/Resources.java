@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
 import java.io.IOException;
@@ -201,22 +202,32 @@ public final class Resources {
   
   /**
    * Returns a {@code URL} pointing to {@code resourceName} if the resource is
-   * found in the class path. {@code Resources.class.getClassLoader()} is used
-   * to locate the resource.
+   * found using the {@linkplain Thread#getContextClassLoader() context class
+   * loader}. In simple environments, the context class loader will find
+   * resources from the class path. In environments where different threads can
+   * have different class loaders, for example app servers, the context class
+   * loader will typically have been set to an appropriate loader for the
+   * current thread.
+   *
+   * <p>In the unusual case where the context class loader is null, the class
+   * loader that loaded this class ({@code Resources}) will be used instead.
    * 
-   * @throws IllegalArgumentException if resource is not found
+   * @throws IllegalArgumentException if the resource is not found
    */
   public static URL getResource(String resourceName) {
-    URL url = Resources.class.getClassLoader().getResource(resourceName);
+    ClassLoader loader = Objects.firstNonNull(
+        Thread.currentThread().getContextClassLoader(),
+        Resources.class.getClassLoader());
+    URL url = loader.getResource(resourceName);
     checkArgument(url != null, "resource %s not found.", resourceName);
     return url;
   }
 
   /**
-   * Returns a {@code URL} pointing to {@code resourceName} that is relative to
-   * {@code contextClass}, if the resource is found in the class path. 
+   * Given a {@code resourceName} that is relative to {@code contextClass},
+   * returns a {@code URL} pointing to the named resource.
    * 
-   * @throws IllegalArgumentException if resource is not found
+   * @throws IllegalArgumentException if the resource is not found
    */
   public static URL getResource(Class<?> contextClass, String resourceName) {
     URL url = contextClass.getResource(resourceName);
