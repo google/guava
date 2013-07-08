@@ -42,19 +42,19 @@ import javax.annotation.Nullable;
  *
  * <p>This class is intended to be used in the following pattern:
  *
- * <pre>{@code
- * Closer closer = Closer.create();
- * try {
- *   InputStream in = closer.register(openInputStream());
- *   OutputStream out = closer.register(openOutputStream());
- *   // do stuff
- * } catch (Throwable e) {
- *   // ensure that any checked exception types other than IOException that could be thrown are
- *   // provided here, e.g. throw closer.rethrow(e, CheckedException.class);
- *   throw closer.rethrow(e);
- * } finally {
- *   closer.close();
- * }
+ * <pre>   {@code
+ *   Closer closer = Closer.create();
+ *   try {
+ *     InputStream in = closer.register(openInputStream());
+ *     OutputStream out = closer.register(openOutputStream());
+ *     // do stuff
+ *   } catch (Throwable e) {
+ *     // ensure that any checked exception types other than IOException that could be thrown are
+ *     // provided here, e.g. throw closer.rethrow(e, CheckedException.class);
+ *     throw closer.rethrow(e);
+ *   } finally {
+ *     closer.close();
+ *   }
  * }</pre>
  *
  * <p>Note that this try-catch-finally block is not equivalent to a try-catch-finally block using
@@ -63,6 +63,7 @@ import javax.annotation.Nullable;
  * {@code close()}).
  *
  * <p>This pattern ensures the following:
+ *
  * <ul>
  *   <li>Each {@code Closeable} resource that is successfully registered will be closed later.</li>
  *   <li>If a {@code Throwable} is thrown in the try block, no exceptions that occur when attempting
@@ -74,7 +75,7 @@ import javax.annotation.Nullable;
  *   (because another exception is already being thrown) is <i>suppressed</i>.</li>
  * </ul>
  *
- * An exception that is suppressed is not thrown. The method of suppression used depends on the
+ * <p>An exception that is suppressed is not thrown. The method of suppression used depends on the
  * version of Java the code is running on:
  *
  * <ul>
