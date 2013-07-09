@@ -288,9 +288,6 @@ public final class Hashing {
    *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">wikipedia
    * article on consistent hashing</a> for more information.
-   * <p>
-   * If you might want to have weights for the buckets in the future, take a look at
-   * {@code weightedConsistentHash}.
    */
   public static int consistentHash(HashCode hashCode, int buckets) {
     return consistentHash(hashCode.padToLong(), buckets);
@@ -308,9 +305,6 @@ public final class Hashing {
    *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">wikipedia
    * article on consistent hashing</a> for more information.
-   * <p>
-   * If you might want to have weights for the buckets in the future, take a look at
-   * {@code weightedConsistentHash}.
    */
   public static int consistentHash(long input, int buckets) {
     checkArgument(buckets > 0, "buckets must be positive: %s", buckets);
