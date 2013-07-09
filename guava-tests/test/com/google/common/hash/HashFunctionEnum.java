@@ -34,6 +34,7 @@ enum HashFunctionEnum {
   SHA1(Hashing.sha1()),
   SHA256(Hashing.sha256()),
   SHA512(Hashing.sha512()),
+  SIP_HASH24(Hashing.sipHash24()),
 
   // Hash functions found in //javatests for comparing against current implementation of CityHash.
   // These can probably be removed sooner or later.

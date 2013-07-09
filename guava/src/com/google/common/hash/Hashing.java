@@ -145,6 +145,31 @@ public final class Hashing {
   private static final HashFunction MURMUR3_128 = new Murmur3_128HashFunction(0);
 
   /**
+   * Returns a hash function implementing the
+   * <a href="https://131002.net/siphash/">64-bit SipHash-2-4 algorithm</a>
+   * using a seed value of {@code k = 00 01 02 ...}.
+   *
+   * @since 15.0
+   */
+  public static HashFunction sipHash24() {
+    return SIP_HASH_24;
+  }
+
+  private static final HashFunction SIP_HASH_24 =
+      new SipHashFunction(2, 4, 0x0706050403020100L, 0x0f0e0d0c0b0a0908L);
+
+  /**
+   * Returns a hash function implementing the
+   * <a href="https://131002.net/siphash/">64-bit SipHash-2-4 algorithm</a>
+   * using the given seed.
+   *
+   * @since 15.0
+   */
+  public static HashFunction sipHash24(long k0, long k1) {
+    return new SipHashFunction(2, 4, k0, k1);
+  }
+
+  /**
    * Returns a hash function implementing the MD5 hash algorithm (128 hash bits) by delegating to
    * the MD5 {@link MessageDigest}.
    */

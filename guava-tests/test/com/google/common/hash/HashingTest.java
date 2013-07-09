@@ -104,6 +104,16 @@ public class HashingTest extends TestCase {
     assertEquals("Hashing.murmur3_32(0)", Hashing.murmur3_32().toString());
   }
 
+  public void testSipHash24() {
+    HashTestUtils.check2BitAvalanche(Hashing.sipHash24(), 250, 0.14);
+    HashTestUtils.checkAvalanche(Hashing.sipHash24(), 250, 0.10);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.sipHash24());
+    HashTestUtils.checkNoFunnels(Hashing.sipHash24());
+    HashTestUtils.assertInvariants(Hashing.sipHash24());
+    assertEquals("Hashing.sipHash24(506097522914230528, 1084818905618843912)",
+        Hashing.sipHash24().toString());
+  }
+
   public void testGoodFastHash() {
     for (int i = 1; i < 200; i += 17) {
       HashFunction hasher = Hashing.goodFastHash(i);
@@ -400,6 +410,9 @@ public class HashingTest extends TestCase {
           .put(Hashing.crc32(), EMPTY_STRING, "00000000")
           .put(Hashing.crc32(), TQBFJOTLD, "39a34f41")
           .put(Hashing.crc32(), TQBFJOTLDP, "e9259051")
+          .put(Hashing.sipHash24(), EMPTY_STRING, "310e0edd47db6f72")
+          .put(Hashing.sipHash24(), TQBFJOTLD, "e46f1fdc05612752")
+          .put(Hashing.sipHash24(), TQBFJOTLDP, "9b602581fce4d4f8")
           .build();
 
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {
