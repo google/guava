@@ -289,22 +289,32 @@ public final class ClassPath {
       }
     }
   
-    private void scanDirectory(File directory, ClassLoader classloader) {
-      scanDirectory(directory, classloader, "");
+    private void scanDirectory(File directory, ClassLoader classloader) throws IOException {
+      scanDirectory(directory, classloader, "", ImmutableSet.<File>of());
     }
   
     private void scanDirectory(
-        File directory, ClassLoader classloader, String packagePrefix) {
+        File directory, ClassLoader classloader, String packagePrefix,
+        ImmutableSet<File> ancestors) throws IOException {
+      File canonical = directory.getCanonicalFile();
+      if (ancestors.contains(canonical)) {
+        // A cycle in the filesystem, for example due to a symbolic link.
+        return;
+      }
       File[] files = directory.listFiles();
       if (files == null) {
         logger.warning("Cannot read directory " + directory);
         // IO error, just skip the directory
         return;
       }
+      ImmutableSet<File> newAncestors = ImmutableSet.<File>builder()
+          .addAll(ancestors)
+          .add(canonical)
+          .build();
       for (File f : files) {
         String name = f.getName();
         if (f.isDirectory()) {
-          scanDirectory(f, classloader, packagePrefix + name + "/");
+          scanDirectory(f, classloader, packagePrefix + name + "/", newAncestors);
         } else {
           String resourceName = packagePrefix + name;
           if (!resourceName.equals(JarFile.MANIFEST_NAME)) {
