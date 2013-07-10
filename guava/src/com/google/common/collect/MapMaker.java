@@ -79,12 +79,15 @@ import javax.annotation.Nullable;
  * created, it is undefined which of these changes, if any, are reflected in that iterator. These
  * iterators never throw {@link ConcurrentModificationException}.
  *
- * <p>If soft or weak references were requested, it is possible for a key or value present in the
- * map to be reclaimed by the garbage collector. If this happens, the entry automatically
- * disappears from the map. A partially-reclaimed entry is never exposed to the user. Any {@link
- * java.util.Map.Entry} instance retrieved from the map's {@linkplain Map#entrySet entry set} is a
- * snapshot of that entry's state at the time of retrieval; such entries do, however, support {@link
- * java.util.Map.Entry#setValue}, which simply calls {@link Map#put} on the entry's key.
+ * <p>If {@link #weakKeys}, {@link #weakValues}, or {@link #softValues} are requested, it is
+ * possible for a key or value present in the map to be reclaimed by the garbage collector. Entries
+ * with reclaimed keys or values may be removed from the map on each map modification or on
+ * occasional map accesses; such entries may be counted by {@link Map#size}, but will never be
+ * visible to read or write operations. A partially-reclaimed entry is never exposed to the user.
+ * Any {@link java.util.Map.Entry} instance retrieved from the map's
+ * {@linkplain Map#entrySet entry set} is a snapshot of that entry's state at the time of
+ * retrieval; such entries do, however, support {@link java.util.Map.Entry#setValue}, which simply
+ * calls {@link Map#put} on the entry's key.
  *
  * <p>The maps produced by {@code MapMaker} are serializable, and the deserialized maps retain all
  * the configuration properties of the original map. During deserialization, if the original map had
