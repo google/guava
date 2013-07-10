@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+    bean-discovery-mode="none">
+  <!--
+  This file is here for bean-discovery-mode="none", which turns off CDI's behavior of assuming
+  that anything annotated with @Inject is a "bean" and must be instantiated. Guava just uses
+  @Inject for convenience. See: https://code.google.com/p/guava-libraries/issues/detail?id=1433
+  -->
+</beans>
+
