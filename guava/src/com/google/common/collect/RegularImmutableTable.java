@@ -107,7 +107,7 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     }
   }
 
-  static final <R, C, V> RegularImmutableTable<R, C, V> forCells(
+  static <R, C, V> RegularImmutableTable<R, C, V> forCells(
       List<Cell<R, C, V>> cells,
       @Nullable final Comparator<? super R> rowComparator,
       @Nullable final Comparator<? super C> columnComparator) {
@@ -136,7 +136,7 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     return forCellsInternal(cells, rowComparator, columnComparator);
   }
 
-  static final <R, C, V> RegularImmutableTable<R, C, V> forCells(
+  static <R, C, V> RegularImmutableTable<R, C, V> forCells(
       Iterable<Cell<R, C, V>> cells) {
     return forCellsInternal(cells, null, null);
   }

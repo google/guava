@@ -51,9 +51,8 @@ public final class HtmlEscapers {
    * resulting strings can be used both in attribute values and in <em>most</em>
    * elements' text contents, provided that the HTML document's character
    * encoding can encode any non-ASCII code points in the input (as UTF-8 and
-   * other Unicode encodings can). For documents encoded in ASCII for
-   * compatibility reasons, use {@link LegacyHtmlEscapers#asciiHtmlEscaper},
-   * which also escapes non-ASCII code points.
+   * other Unicode encodings can).
+   *
    *
    * <p><b>Note</b>: This escaper only performs minimal escaping to make content
    * structurally compatible with HTML. Specifically, it does not perform entity

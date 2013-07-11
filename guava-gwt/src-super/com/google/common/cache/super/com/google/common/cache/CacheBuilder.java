@@ -110,7 +110,7 @@ import javax.annotation.CheckReturnValue;
  * <p>If {@linkplain #expireAfterWrite expireAfterWrite} or
  * {@linkplain #expireAfterAccess expireAfterAccess} is requested entries may be evicted on each
  * cache modification, on occasional cache accesses, or on calls to {@link Cache#cleanUp}. Expired
- * entries may be counted in {@link Cache#size}, but will never be visible to read or write
+ * entries may be counted by {@link Cache#size}, but will never be visible to read or write
  * operations.
  *
  * <p>If {@linkplain #weakKeys weakKeys}, {@linkplain #weakValues weakValues}, or

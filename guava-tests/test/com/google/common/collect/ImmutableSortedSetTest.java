@@ -901,7 +901,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals(-1, list.lastIndexOf("chicken"));
   }
 
-  private static final <E> Iterator<E> asIterator(E... elements) {
+  private static <E> Iterator<E> asIterator(E... elements) {
     return asList(elements).iterator();
   }
 

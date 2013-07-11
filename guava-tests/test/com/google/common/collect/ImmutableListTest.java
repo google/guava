@@ -536,7 +536,7 @@ public class ImmutableListTest extends TestCase {
       void perform(List<Integer> list);
     }
 
-    static final ListFrobber add(final int element) {
+    static ListFrobber add(final int element) {
       return new ListFrobber() {
         @Override
         public void perform(List<Integer> list) {
@@ -545,7 +545,7 @@ public class ImmutableListTest extends TestCase {
       };
     }
 
-    static final ListFrobber remove() {
+    static ListFrobber remove() {
       return new ListFrobber() {
         @Override
         public void perform(List<Integer> list) {
@@ -554,7 +554,7 @@ public class ImmutableListTest extends TestCase {
       };
     }
 
-    static final ListFrobber nop() {
+    static ListFrobber nop() {
       return new ListFrobber() {
         @Override
         public void perform(List<Integer> list) {

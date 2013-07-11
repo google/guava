@@ -28,7 +28,8 @@ import javax.annotation.Nullable;
  * Abstract implementation of {@link InvocationHandler} that handles {@link Object#equals},
  * {@link Object#hashCode} and {@link Object#toString}. For example: <pre>
  * class Unsupported extends AbstractInvocationHandler {
- *   @Override protected Object handleInvocation(Object proxy, Method method, Object[] args) {
+ *   protected Object handleInvocation(
+ *       Object proxy, Method method, Object[] args) {
  *     throw new UnsupportedOperationException();
  *   }
  * }

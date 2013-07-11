@@ -247,9 +247,9 @@ public class PopulatedCachesTest extends TestCase {
       List<Entry<Object, Object>> warmed = warmUp(cache, WARMUP_MIN, WARMUP_MAX);
 
       Set<?> expected = Maps.newHashMap(cache.asMap()).entrySet();
-      ASSERT.that(entries).has().exactlyAs((Collection<Entry<Object, Object>>)expected);
-      ASSERT.that(entries.toArray()).has().exactlyAs((Collection<Object>)expected);
-      ASSERT.that(entries.toArray(new Entry[0])).has().exactlyAs((Collection<Entry>)expected);
+      ASSERT.that(entries).has().exactlyAs((Collection<Entry<Object, Object>>) expected);
+      ASSERT.that(entries.toArray()).has().exactlyAs((Collection<Object>) expected);
+      ASSERT.that(entries.toArray(new Entry[0])).has().exactlyAs((Collection<Entry>) expected);
 
       new EqualsTester()
           .addEqualityGroup(cache.asMap().entrySet(), entries)

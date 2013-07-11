@@ -53,12 +53,12 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
   
   /** Returns an empty immutable table. */
   @SuppressWarnings("unchecked")
-  public static final <R, C, V> ImmutableTable<R, C, V> of() {
+  public static <R, C, V> ImmutableTable<R, C, V> of() {
     return (ImmutableTable<R, C, V>) EMPTY;
   }
 
   /** Returns an immutable table containing a single cell. */
-  public static final <R, C, V> ImmutableTable<R, C, V> of(R rowKey,
+  public static <R, C, V> ImmutableTable<R, C, V> of(R rowKey,
       C columnKey, V value) {
     return new SingletonImmutableTable<R, C, V>(rowKey, columnKey, value);
   }
@@ -77,7 +77,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
    * the data when it is safe to do so. The exact circumstances under which a
    * copy will or will not be performed are undocumented and subject to change.
    */
-  public static final <R, C, V> ImmutableTable<R, C, V> copyOf(
+  public static <R, C, V> ImmutableTable<R, C, V> copyOf(
       Table<? extends R, ? extends C, ? extends V> table) {
     if (table instanceof ImmutableTable) {
       @SuppressWarnings("unchecked")
@@ -115,7 +115,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
    * Returns a new builder. The generated builder is equivalent to the builder
    * created by the {@link Builder#ImmutableTable.Builder()} constructor.
    */
-  public static final <R, C, V> Builder<R, C, V> builder() {
+  public static <R, C, V> Builder<R, C, V> builder() {
     return new Builder<R, C, V>();
   }
 

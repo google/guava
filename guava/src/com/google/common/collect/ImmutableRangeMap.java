@@ -49,20 +49,20 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    * Returns an empty immutable range map.
    */
   @SuppressWarnings("unchecked")
-  public static final <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of() {
+  public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of() {
     return EMPTY;
   }
 
   /**
    * Returns an immutable range map mapping a single range to a single value.
    */
-  public static final <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of(
+  public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of(
       Range<K> range, V value) {
     return new ImmutableRangeMap<K, V>(ImmutableList.of(range), ImmutableList.of(value));
   }
 
   @SuppressWarnings("unchecked")
-  public static final <K extends Comparable<?>, V> ImmutableRangeMap<K, V> copyOf(
+  public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> copyOf(
       RangeMap<K, ? extends V> rangeMap) {
     if (rangeMap instanceof ImmutableRangeMap) {
       return (ImmutableRangeMap<K, V>) rangeMap;
