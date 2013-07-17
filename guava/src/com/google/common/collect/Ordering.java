@@ -43,19 +43,36 @@ import javax.annotation.Nullable;
 /**
  * A comparator, with additional methods to support common operations. This is
  * an "enriched" version of {@code Comparator}, in the same sense that {@link
- * FluentIterable} is an enriched {@link Iterable}. For example: <pre>   {@code
+ * FluentIterable} is an enriched {@link Iterable}.
  *
- *   if (Ordering.from(comparator).reverse().isOrdered(list)) { ... }}</pre>
+ * <p>The common ways to get an instance of {@code Ordering} are:
  *
- * The {@link #from(Comparator)} method returns the equivalent {@code Ordering}
- * instance for a pre-existing comparator. You can also skip the comparator step
- * and extend {@code Ordering} directly: <pre>   {@code
+ * <ul>
+ * <li>Subclass it and implement {@link #compare} instead of implementing
+ *     {@link Comparator} directly
+ * <li>Pass a <i>pre-existing</i> {@link Comparator} instance to {@link
+ *     #from(Comparator)}
+ * <li>Use the natural ordering, {@link Ordering#natural}
+ * </ul>
  *
- *   Ordering<String> byLengthOrdering = new Ordering<String>() {
- *     public int compare(String left, String right) {
- *       return Ints.compare(left.length(), right.length());
- *     }
- *   };}</pre>
+ * <p>Then you can use the <i>chaining</i> methods to get an altered version of
+ * that {@code Ordering}, including:
+ *
+ * <ul>
+ * <li>{@link #reverse}
+ * <li>{@link #compound(Comparator)}
+ * <li>{@link #onResultOf(Function)}
+ * <li>{@link #nullsFirst} / {@link #nullsLast}
+ * </ul>
+ *
+ * <p>Finally, use the resulting {@code Ordering} anywhere a {@link Comparator}
+ * is required, or use any of its special operations, such as:</p>
+ *
+ * <ul>
+ * <li>{@link #immutableSortedCopy}
+ * <li>{@link #isOrdered} / {@link #isStrictlyOrdered}
+ * <li>{@link #min} / {@link #max}
+ * </ul>
  *
  * Except as noted, the orderings returned by the factory methods of this
  * class are serializable if and only if the provided instances that back them

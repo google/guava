@@ -638,8 +638,9 @@ public final class Maps {
   }
 
   /**
-   * Returns a view of the set as a map, mapping keys from the set according to
-   * the specified function.
+   * Returns a live {@link Map} view whose keys are the contents of {@code set}
+   * and whose values are computed on demand using {@code function}. To get an
+   * immutable <i>copy</i> instead, use {@link #toMap(Iterable, Function)}.
    *
    * <p>Specifically, for each {@code k} in the backing set, the returned map
    * has an entry mapping {@code k} to {@code function.apply(k)}. The {@code
@@ -899,11 +900,13 @@ public final class Maps {
   }
 
   /**
-   * Returns an immutable map for which the given {@code keys} are mapped to
-   * values by the given function in the order they appear in the original
-   * iterable. If {@code keys} contains duplicate elements, the returned map
-   * will contain each distinct key once in the order it first appears in
-   * {@code keys}.
+   * Returns an immutable map whose keys are the distinct elements of {@code
+   * keys} and whose value for each key was computed by {@code valueFunction}.
+   * The map's iteration order is the order of the first appearance of each key
+   * in {@code keys}.
+   *
+   * <p>If {@code keys} is a {@link Set}, a live view can be obtained instead of
+   * a copy using {@link Maps#asMap(Set, Function)}.
    *
    * @throws NullPointerException if any element of {@code keys} is
    *     {@code null}, or if {@code valueFunction} produces {@code null}
@@ -917,11 +920,10 @@ public final class Maps {
   }
 
   /**
-   * Returns an immutable map for which the given {@code keys} are mapped to
-   * values by the given function in the order they appear in the original
-   * iterator. If {@code keys} contains duplicate elements, the returned map
-   * will contain each distinct key once in the order it first appears in
-   * {@code keys}.
+   * Returns an immutable map whose keys are the distinct elements of {@code
+   * keys} and whose value for each key was computed by {@code valueFunction}.
+   * The map's iteration order is the order of the first appearance of each key
+   * in {@code keys}.
    *
    * @throws NullPointerException if any element of {@code keys} is
    *     {@code null}, or if {@code valueFunction} produces {@code null}
