@@ -171,6 +171,10 @@ public class CharSourceTest extends IoTestCase {
         CharSource.concat(c1, c2, c3).read());
     assertEquals(expected,
         CharSource.concat(ImmutableList.of(c1, c2, c3).iterator()).read());
+    assertFalse(CharSource.concat(c1, c2, c3).isEmpty());
+
+    CharSource emptyConcat = CharSource.concat(CharSource.empty(), CharSource.empty());
+    assertTrue(emptyConcat.isEmpty());
   }
 
   static final CharSource BROKEN_READ_SOURCE = new TestCharSource("ABC", READ_THROWS);

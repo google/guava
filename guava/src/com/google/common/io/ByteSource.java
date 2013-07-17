@@ -121,6 +121,25 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
   }
 
   /**
+   * Returns whether the source has zero bytes. The default implementation is to open a stream and
+   * check for EOF.
+   *
+   * @throws IOException if an I/O error occurs
+   * @since 15.0
+   */
+  public boolean isEmpty() throws IOException {
+    Closer closer = Closer.create();
+    try {
+      InputStream in = closer.register(openStream());
+      return in.read() == -1;
+    } catch (Throwable e) {
+      throw closer.rethrow(e);
+    } finally {
+      closer.close();
+    }
+  }
+
+  /**
    * Returns the size of this source in bytes. For most implementations, this is a heavyweight
    * operation that will open a stream, read (or {@link InputStream#skip(long) skip}, if possible)
    * to the end of the stream and return the total number of bytes that were read.
@@ -440,6 +459,11 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     }
 
     @Override
+    public boolean isEmpty() throws IOException {
+      return length == 0 || super.isEmpty();
+    }
+
+    @Override
     public String toString() {
       return ByteSource.this.toString() + ".slice(" + offset + ", " + length + ")";
     }
@@ -454,7 +478,7 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     }
 
     @Override
-    public InputStream openStream() throws IOException {
+    public InputStream openStream() {
       return new ByteArrayInputStream(bytes);
     }
 
@@ -464,12 +488,17 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     }
 
     @Override
-    public long size() throws IOException {
+    public boolean isEmpty() {
+      return bytes.length == 0;
+    }
+
+    @Override
+    public long size() {
       return bytes.length;
     }
 
     @Override
-    public byte[] read() throws IOException {
+    public byte[] read() {
       return bytes.clone();
     }
 
@@ -528,6 +557,16 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     @Override
     public InputStream openStream() throws IOException {
       return new MultiInputStream(sources.iterator());
+    }
+
+    @Override
+    public boolean isEmpty() throws IOException {
+      for (ByteSource source : sources) {
+        if (!source.isEmpty()) {
+          return false;
+        }
+      }
+      return true;
     }
 
     @Override

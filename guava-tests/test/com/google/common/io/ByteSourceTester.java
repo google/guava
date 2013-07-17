@@ -148,6 +148,10 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
     assertExpectedBytes(out.toByteArray());
   }
 
+  public void testIsEmpty() throws IOException {
+    assertEquals(expected.length == 0, source.isEmpty());
+  }
+
   public void testSize() throws IOException {
     assertEquals(expected.length, source.size());
   }

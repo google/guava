@@ -245,6 +245,12 @@ public class ByteSourceTest extends IoTestCase {
         ByteSource.concat(b1, b2, b3).read());
     assertArrayEquals(expected,
         ByteSource.concat(ImmutableList.of(b1, b2, b3).iterator()).read());
+    assertEquals(expected.length, ByteSource.concat(b1, b2, b3).size());
+    assertFalse(ByteSource.concat(b1, b2, b3).isEmpty());
+
+    ByteSource emptyConcat = ByteSource.concat(ByteSource.empty(), ByteSource.empty());
+    assertTrue(emptyConcat.isEmpty());
+    assertEquals(0, emptyConcat.size());
   }
 
   private static final ByteSource BROKEN_CLOSE_SOURCE

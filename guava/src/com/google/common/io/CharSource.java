@@ -209,7 +209,26 @@ public abstract class CharSource implements InputSupplier<Reader> {
     }
   }
 
-    /**
+  /**
+   * Returns whether the source has zero chars. The default implementation is to open a stream and
+   * check for EOF.
+   *
+   * @throws IOException if an I/O error occurs
+   * @since 15.0
+   */
+  public boolean isEmpty() throws IOException {
+    Closer closer = Closer.create();
+    try {
+      Reader reader = closer.register(openStream());
+      return reader.read() == -1;
+    } catch (Throwable e) {
+      throw closer.rethrow(e);
+    } finally {
+      closer.close();
+    }
+  }
+
+  /**
    * Concatenates multiple {@link CharSource} instances into a single source.
    * Streams returned from the source will contain the concatenated data from
    * the streams of the underlying sources.
@@ -301,6 +320,11 @@ public abstract class CharSource implements InputSupplier<Reader> {
       return seq.toString();
     }
 
+    @Override
+    public boolean isEmpty() {
+      return seq.length() == 0;
+    }
+
     /**
      * Returns an iterable over the lines in the string. If the string ends in
      * a newline, a final empty string is not included to match the behavior of
@@ -372,6 +396,16 @@ public abstract class CharSource implements InputSupplier<Reader> {
     @Override
     public Reader openStream() throws IOException {
       return new MultiReader(sources.iterator());
+    }
+
+    @Override
+    public boolean isEmpty() throws IOException {
+      for (CharSource source : sources) {
+        if (!source.isEmpty()) {
+          return false;
+        }
+      }
+      return true;
     }
 
     @Override
