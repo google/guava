@@ -74,7 +74,7 @@ import javax.annotation.Nullable;
  * <li>{@link #min} / {@link #max}
  * </ul>
  *
- * Except as noted, the orderings returned by the factory methods of this
+ * <p>Except as noted, the orderings returned by the factory methods of this
  * class are serializable if and only if the provided instances that back them
  * are. For example, if {@code ordering} and {@code function} can themselves be
  * serialized, then {@code ordering.onResultOf(function)} can as well.

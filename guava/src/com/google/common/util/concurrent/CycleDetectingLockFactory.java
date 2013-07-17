@@ -59,7 +59,7 @@ import javax.annotation.concurrent.ThreadSafe;
  * <li>WARN
  * <li>THROW
  * </ul>
- * The locks created by a factory instance will detect lock acquisition cycles
+ * <p>The locks created by a factory instance will detect lock acquisition cycles
  * with locks created by other {@code CycleDetectingLockFactory} instances
  * (except those with {@code Policy.DISABLED}). A lock's behavior when a cycle
  * is detected, however, is defined by the {@code Policy} of the factory that
@@ -105,7 +105,7 @@ import javax.annotation.concurrent.ThreadSafe;
  * <li>If a cycle is detected, an "unsafe" (cyclic) edge is created to represent
  *   a potential deadlock situation, and the appropriate Policy is executed.
  * </ul>
- * Note that detection of potential deadlock does not necessarily indicate that
+ * <p>Note that detection of potential deadlock does not necessarily indicate that
  * deadlock will happen, as it is possible that higher level application logic
  * prevents the cyclic lock acquisition from occurring. One example of a false
  * positive is:
@@ -154,7 +154,7 @@ import javax.annotation.concurrent.ThreadSafe;
  *   </ul>
  * </ul>
  *
- * As such, the CycleDetectingLockFactory may not be suitable for
+ * <p>As such, the CycleDetectingLockFactory may not be suitable for
  * performance-critical applications which involve tightly-looped or
  * deeply-nested locking algorithms.
  *

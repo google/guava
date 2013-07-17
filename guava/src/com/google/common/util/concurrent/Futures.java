@@ -359,7 +359,7 @@ public final class Futures {
    * an RPC network thread.
    * </ul>
    *
-   * Also note that, regardless of which thread executes the {@code
+   * <p>Also note that, regardless of which thread executes the {@code
    * sameThreadExecutor} {@code fallback.create}, all other registered but
    * unexecuted listeners are prevented from running during its execution, even
    * if those listeners are to run in other executors.
@@ -540,7 +540,7 @@ public final class Futures {
    * RPC network thread.
    * </ul>
    *
-   * Also note that, regardless of which thread executes the {@code
+   * <p>Also note that, regardless of which thread executes the {@code
    * sameThreadExecutor} {@code function.apply}, all other registered but
    * unexecuted listeners are prevented from running during its execution, even
    * if those listeners are to run in other executors.
@@ -646,7 +646,7 @@ public final class Futures {
    * RPC network thread.
    * </ul>
    *
-   * Also note that, regardless of which thread executes the {@code
+   * <p>Also note that, regardless of which thread executes the {@code
    * sameThreadExecutor} {@code function.apply}, all other registered but
    * unexecuted listeners are prevented from running during its execution, even
    * if those listeners are to run in other executors.
@@ -1094,7 +1094,7 @@ public final class Futures {
    * network thread.
    * </ul>
    *
-   * Also note that, regardless of which thread executes the {@code
+   * <p>Also note that, regardless of which thread executes the {@code
    * sameThreadExecutor} callback, all other registered but unexecuted listeners
    * are prevented from running during its execution, even if those listeners
    * are to run in other executors.
@@ -1196,7 +1196,7 @@ public final class Futures {
    *     discouraged from throwing such exceptions).
    * </ul>
    *
-   * The overall principle is to continue to treat every checked exception as a
+   * <p>The overall principle is to continue to treat every checked exception as a
    * checked exception, every unchecked exception as an unchecked exception, and
    * every error as an error. In addition, the cause of any {@code
    * ExecutionException} is wrapped in order to ensure that the new stack trace
@@ -1261,7 +1261,7 @@ public final class Futures {
    *     discouraged from throwing such exceptions).
    * </ul>
    *
-   * The overall principle is to continue to treat every checked exception as a
+   * <p>The overall principle is to continue to treat every checked exception as a
    * checked exception, every unchecked exception as an unchecked exception, and
    * every error as an error. In addition, the cause of any {@code
    * ExecutionException} is wrapped in order to ensure that the new stack trace
@@ -1339,7 +1339,7 @@ public final class Futures {
    *     discouraged from throwing such exceptions).
    * </ul>
    *
-   * The overall principle is to eliminate all checked exceptions: to loop to
+   * <p>The overall principle is to eliminate all checked exceptions: to loop to
    * avoid {@code InterruptedException}, to pass through {@code
    * CancellationException}, and to wrap any exception from the underlying
    * computation in an {@code UncheckedExecutionException} or {@code

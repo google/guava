@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * handler}
  * <li> a {@linkplain ThreadFactory#newThread backing thread factory}
  * </ul>
- * If no backing thread factory is provided, a default backing thread factory is
+ * <p>If no backing thread factory is provided, a default backing thread factory is
  * used as if by calling {@code setThreadFactory(}{@link
  * Executors#defaultThreadFactory()}{@code )}.
  *

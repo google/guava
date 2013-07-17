@@ -96,7 +96,7 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * <li>{@code proxy} and {@code argument} are of the same type
    * <li>and this method returns true for the {@link InvocationHandler} of {@code argument}
    * </ul>
-   * Subclasses can override this method to provide custom equality.
+   * <p>Subclasses can override this method to provide custom equality.
    */
   @Override public boolean equals(Object obj) {
     return super.equals(obj);

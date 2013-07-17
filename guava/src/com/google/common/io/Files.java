@@ -890,7 +890,7 @@ public final class Files {
    * <li>delete trailing slashes (unless the path is just "/")
    * </ul>
    *
-   * These heuristics do not always match the behavior of the filesystem. In
+   * <p>These heuristics do not always match the behavior of the filesystem. In
    * particular, consider the path {@code a/../b}, which {@code simplifyPath}
    * will change to {@code b}. If {@code a} is a symlink to {@code x}, {@code
    * a/../b} may refer to a sibling of {@code x}, rather than the sibling of

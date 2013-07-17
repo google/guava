@@ -59,7 +59,7 @@ import java.util.concurrent.RejectedExecutionException;
  *
  * <h3>How to get an instance</h3>
  *
- * Developers are encouraged to return {@code ListenableFuture} from their
+ * <p>Developers are encouraged to return {@code ListenableFuture} from their
  * methods so that users can take advantages of the utilities built atop the
  * class. The way that they will create {@code ListenableFuture} instances
  * depends on how they currently create {@code Future} instances:
@@ -74,7 +74,7 @@ import java.util.concurrent.RejectedExecutionException;
  * complex needs may prefer {@link AbstractFuture}.)
  * </ul>
  *
- * Occasionally, an API will return a plain {@code Future} and it will be
+ * <p>Occasionally, an API will return a plain {@code Future} and it will be
  * impossible to change the return type. For this case, we provide a more
  * expensive workaround in {@code JdkFutureAdapters}. However, when possible, it
  * is more efficient and reliable to create a {@code ListenableFuture} directly.
@@ -114,7 +114,7 @@ public interface ListenableFuture<V> extends Future<V> {
    * network thread.
    * </ul>
    *
-   * Also note that, regardless of which thread executes the
+   * <p>Also note that, regardless of which thread executes the
    * {@code sameThreadExecutor()} listener, all other registered but unexecuted
    * listeners are prevented from running during its execution, even if those
    * listeners are to run in other executors.

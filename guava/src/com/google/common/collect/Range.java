@@ -498,8 +498,9 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    *     contained by the latter range)
    * </ul>
    *
-   * Note that if {@code a.encloses(b)}, then {@code b.contains(v)} implies {@code a.contains(v)},
-   * but as the last two examples illustrate, the converse is not always true.
+   * <p>Note that if {@code a.encloses(b)}, then {@code b.contains(v)} implies
+   * {@code a.contains(v)}, but as the last two examples illustrate, the converse is not always
+   * true.
    *
    * <p>Being reflexive, antisymmetric and transitive, the {@code encloses} relation defines a
    * <i>partial order</i> over ranges. There exists a unique {@linkplain Range#all maximal} range
@@ -636,7 +637,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    * <li>idempotence: {@code a.canonical(domain).canonical(domain).equals(a.canonical(domain))}
    * </ul>
    *
-   * Furthermore, this method guarantees that the range returned will be one of the following
+   * <p>Furthermore, this method guarantees that the range returned will be one of the following
    * canonical forms:
    *
    * <ul>

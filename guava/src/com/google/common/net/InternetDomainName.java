@@ -58,7 +58,7 @@ import javax.annotation.Nullable;
  * <li>Unicode dot separators other than the ASCII period ({@code '.'}) are
  * converted to the ASCII period.
  * </ol>
- * The normalized values will be returned from {@link #name()} and
+ * <p>The normalized values will be returned from {@link #name()} and
  * {@link #parts()}, and will be reflected in the result of
  * {@link #equals(Object)}.
  *

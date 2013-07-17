@@ -42,7 +42,7 @@ import java.util.Iterator;
  * <li>next();
  * </ol>
  *
- * This particular order of operations may be unrealistic, and testing all 3^5
+ * <p>This particular order of operations may be unrealistic, and testing all 3^5
  * of them may be thought of as overkill; however, it's difficult to determine
  * which proper subset of this massive set would be sufficient to expose any
  * possible bug. Brute force is simpler.

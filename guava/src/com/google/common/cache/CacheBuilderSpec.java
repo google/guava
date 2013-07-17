@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  * <li>{@code recordStats}: sets {@link CacheBuilder#recordStats}.
  * </ul>
  *
- * The set of supported keys will grow as {@code CacheBuilder} evolves, but existing keys
+ * <p>The set of supported keys will grow as {@code CacheBuilder} evolves, but existing keys
  * will never be removed.
  *
  * <p>Durations are represented by an integer, followed by one of "d", "h", "m",

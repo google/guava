@@ -152,7 +152,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    *     static factory method whose return type is {@code C} or {@code C}'s subtype.
    * </ul>
    *
-   * In all cases, if {@code C} needs custom logic for testing serialization, you can add an
+   * <p>In all cases, if {@code C} needs custom logic for testing serialization, you can add an
    * explicit {@code testSerializable()} test in the corresponding {@code CTest} class, and {@code
    * C} will be excluded from automated serialization test performed by this method.
    */
@@ -195,9 +195,9 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    *     factory method whose return type is {@code C} or {@code C}'s subtype.
    * </ul>
    *
-   * In all cases, if {@code C} needs custom logic for testing nulls, you can add an explicit {@code
-   * testNulls()} test in the corresponding {@code CTest} class, and {@code C} will be excluded from
-   * the automated null tests performed by this method.
+   * <p>In all cases, if {@code C} needs custom logic for testing nulls, you can add an explicit
+   * {@code testNulls()} test in the corresponding {@code CTest} class, and {@code C} will be
+   * excluded from the automated null tests performed by this method.
    */
   @Test
   public void testNulls() throws Exception {
@@ -230,7 +230,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    *     static factory method whose return type is {@code C} or {@code C}'s subtype.
    * </ul>
    *
-   * In all cases, if {@code C} needs custom logic for testing {@code equals()}, you can add an
+   * <p>In all cases, if {@code C} needs custom logic for testing {@code equals()}, you can add an
    * explicit {@code testEquals()} test in the corresponding {@code CTest} class, and {@code C} will
    * be excluded from the automated {@code equals} test performed by this method.
    */

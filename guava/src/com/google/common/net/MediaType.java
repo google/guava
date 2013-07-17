@@ -432,7 +432,7 @@ public final class MediaType {
    * <li>All of the parameters present in the argument are present in this instance.
    * </ol>
    *
-   * For example: <pre>   {@code
+   * <p>For example: <pre>   {@code
    *   PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8) // true
    *   PLAIN_TEXT_UTF_8.is(HTML_UTF_8) // false
    *   PLAIN_TEXT_UTF_8.is(ANY_TYPE) // true

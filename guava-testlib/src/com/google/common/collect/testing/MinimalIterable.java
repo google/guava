@@ -38,7 +38,7 @@ import java.util.Iterator;
  *     implementations have, of returning a new, independent iterator
  * </ul>
  *
- * Because of this situation, any public method accepting an iterable should
+ * <p>Because of this situation, any public method accepting an iterable should
  * invoke the {@code iterator} method only once, and should be tested using this
  * class. Exceptions to this rule should be clearly documented.
  *
