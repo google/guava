@@ -62,8 +62,8 @@ import javax.annotation.Nullable;
  *       .weakKeys()
  *       .makeMap();}</pre>
  *
- * These features are all optional; {@code new MapMaker().makeMap()} returns a valid concurrent map
- * that behaves similarly to a {@link ConcurrentHashMap}.
+ * <p>These features are all optional; {@code new MapMaker().makeMap()} returns a valid concurrent
+ * map that behaves similarly to a {@link ConcurrentHashMap}.
  *
  * <p>The returned map is implemented as a hash table with similar performance characteristics to
  * {@link ConcurrentHashMap}. It supports all optional operations of the {@code ConcurrentMap}

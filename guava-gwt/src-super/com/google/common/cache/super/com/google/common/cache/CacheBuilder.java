@@ -69,7 +69,7 @@ import javax.annotation.CheckReturnValue;
  *             }
  *           });}</pre>
  *
- * Or equivalently, <pre>   {@code
+ * <p>Or equivalently, <pre>   {@code
  *
  *   // In real life this would come from a command-line flag or config file
  *   String spec = "maximumSize=10000,expireAfterWrite=10m";

@@ -1317,7 +1317,7 @@ public final class Maps {
    *     }
    *   }}</pre>
    *
-   * Failure to follow this advice may result in non-deterministic behavior.
+   * <p>Failure to follow this advice may result in non-deterministic behavior.
    *
    * <p>The returned bimap will be serializable if the specified bimap is
    * serializable.
@@ -3197,7 +3197,7 @@ public final class Maps {
    *     }
    *   }}</pre>
    *
-   * or: <pre>   {@code
+   * <p>or: <pre>   {@code
    *
    *   NavigableMap<K, V> map = synchronizedNavigableMap(new TreeMap<K, V>());
    *   NavigableMap<K, V> map2 = map.subMap(foo, false, bar, true);
@@ -3212,7 +3212,7 @@ public final class Maps {
    *     }
    *   }}</pre>
    *
-   * Failure to follow this advice may result in non-deterministic behavior.
+   * <p>Failure to follow this advice may result in non-deterministic behavior.
    *
    * <p>The returned navigable map will be serializable if the specified
    * navigable map is serializable.

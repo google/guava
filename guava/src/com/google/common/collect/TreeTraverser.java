@@ -41,7 +41,7 @@ import java.util.Queue;
  *   a  b  c
  *   }</pre>
  *
- * can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or breadth-first order
+ * <p>can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or breadth-first order
  * (hdegabc).
  *
  * <p>Null nodes are strictly forbidden.

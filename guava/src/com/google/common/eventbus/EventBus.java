@@ -53,7 +53,7 @@ import java.util.logging.Logger;
  * nor is it intended for interprocess communication.
  *
  * <h2>Receiving Events</h2>
- * To receive events, an object should:<ol>
+ * <p>To receive events, an object should:<ol>
  * <li>Expose a public method, known as the <i>event handler</i>, which accepts
  *     a single argument of the type of event desired;</li>
  * <li>Mark it with a {@link Subscribe} annotation;</li>
@@ -62,7 +62,7 @@ import java.util.logging.Logger;
  * </ol>
  *
  * <h2>Posting Events</h2>
- * To post an event, simply provide the event object to the
+ * <p>To post an event, simply provide the event object to the
  * {@link #post(Object)} method.  The EventBus instance will determine the type
  * of event and route it to all registered listeners.
  *
@@ -77,7 +77,7 @@ import java.util.logging.Logger;
  * later.  (For a convenient way to do this, use an {@link AsyncEventBus}.)
  *
  * <h2>Handler Methods</h2>
- * Event handler methods must accept only one argument: the event.
+ * <p>Event handler methods must accept only one argument: the event.
  *
  * <p>Handlers should not, in general, throw.  If they do, the EventBus will
  * catch and log the exception.  This is rarely the right solution for error
@@ -91,7 +91,7 @@ import java.util.logging.Logger;
  * also called from outside the EventBus.
  *
  * <h2>Dead Events</h2>
- * If an event is posted, but no registered handlers can accept it, it is
+ * <p>If an event is posted, but no registered handlers can accept it, it is
  * considered "dead."  To give the system a second chance to handle dead events,
  * they are wrapped in an instance of {@link DeadEvent} and reposted.
  *

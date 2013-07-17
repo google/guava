@@ -60,7 +60,7 @@ import javax.annotation.Nullable;
  *       .limit(10)
  *       .toList();}</pre>
  *
- * Anything which can be done using {@code FluentIterable} could be done in a different fashion
+ * <p>Anything which can be done using {@code FluentIterable} could be done in a different fashion
  * (often with {@link Iterables}), however the use of {@code FluentIterable} makes many sets of
  * operations significantly more concise.
  *

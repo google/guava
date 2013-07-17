@@ -1179,7 +1179,7 @@ public final class Iterators {
    *   String a2 = peekingIterator.peek(); // also returns "a"
    *   String a3 = peekingIterator.next(); // also returns "a"}</pre>
    *
-   * Any structural changes to the underlying iteration (aside from those
+   * <p>Any structural changes to the underlying iteration (aside from those
    * performed by the iterator's own {@link PeekingIterator#remove()} method)
    * will leave the iterator in an undefined state.
    *

@@ -80,7 +80,7 @@ import javax.annotation.concurrent.ThreadSafe;
  * Thread1: acquire(LockA) --X acquire(LockB)
  * Thread2: acquire(LockB) --X acquire(LockA)
  * </pre>
- * Neither thread will progress because each is waiting for the other. In more
+ * <p>Neither thread will progress because each is waiting for the other. In more
  * complex applications, cycles can arise from interactions among more than 2
  * locks:
  * <pre>
@@ -89,7 +89,7 @@ import javax.annotation.concurrent.ThreadSafe;
  * ...
  * ThreadN: acquire(LockN) --X acquire(LockA)
  * </pre>
- * The implementation detects cycles by constructing a directed graph in which
+ * <p>The implementation detects cycles by constructing a directed graph in which
  * each lock represents a node and each edge represents an acquisition ordering
  * between two locks.
  * <ul>
@@ -382,7 +382,7 @@ public class CycleDetectingLockFactory {
    * lock2.lock();  // will throw an IllegalStateException
    * }</pre>
    *
-   * As with all locks created by instances of {@code CycleDetectingLockFactory}
+   * <p>As with all locks created by instances of {@code CycleDetectingLockFactory}
    * explicitly ordered locks participate in general cycle detection with all
    * other cycle detecting locks, and a lock's behavior when detecting a cyclic
    * lock acquisition is defined by the {@code Policy} of the factory that
@@ -412,7 +412,7 @@ public class CycleDetectingLockFactory {
    * lockA.lock();  // reentrant acquisition is okay
    * }</pre>
    *
-   * It is the responsibility of the application to ensure that multiple lock
+   * <p>It is the responsibility of the application to ensure that multiple lock
    * instances with the same rank are never acquired in the same thread.
    *
    * @param <E> The Enum type representing the explicit lock ordering.
@@ -561,7 +561,7 @@ public class CycleDetectingLockFactory {
    *   at ...
    * </pre>
    *
-   * Instances are logged for the {@code Policies.WARN}, and thrown for
+   * <p>Instances are logged for the {@code Policies.WARN}, and thrown for
    * {@code Policies.THROW}.
    *
    * @since 13.0

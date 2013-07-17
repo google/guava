@@ -68,7 +68,7 @@ import java.util.logging.Logger;
  *   ...
  * }
  * </pre>
- * No cascading checks are performed against the return values of methods unless the method is a
+ * <p>No cascading checks are performed against the return values of methods unless the method is a
  * static factory method. Neither are semantics of mutation methods such as {@code
  * someList.add(obj)} checked. For more detailed discussion of supported and unsupported cases, see
  * {@link #testEquals}, {@link #testNulls} and {@link #testSerializable}.
@@ -80,7 +80,7 @@ import java.util.logging.Logger;
  *   public static Book paperback(String title) {...}
  * }
  * </pre>
- * please use {@link ClassSanityTester#forAllPublicStaticMethods}.
+ * <p>please use {@link ClassSanityTester#forAllPublicStaticMethods}.
  *
  * <p>This class incurs IO because it scans the classpath and reads classpath resources.
  *

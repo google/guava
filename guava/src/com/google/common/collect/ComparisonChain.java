@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
  *         .result();
  *   }}</pre>
  *
- * The value of this expression will have the same sign as the <i>first
+ * <p>The value of this expression will have the same sign as the <i>first
  * nonzero</i> comparison result in the chain, or will be zero if every
  * comparison result was zero.
  *

@@ -40,7 +40,7 @@ import java.lang.annotation.Target;
  *   }
  * }
  * </pre>
- * The return value of {@code Lists.newArrayList(E[])} has GWT
+ * <p>The return value of {@code Lists.newArrayList(E[])} has GWT
  * serializable type.  It is also useful in specifying contracts of interface
  * methods.  In the following example,
  *
@@ -52,7 +52,7 @@ import java.lang.annotation.Target;
  *   &lt;E> List&lt;E> newArrayList(E... elements);
  * }
  * </pre>
- * The {@code newArrayList(E[])} method of all implementations of {@code
+ * <p>The {@code newArrayList(E[])} method of all implementations of {@code
  * ListFactory} is expected to return a value with a GWT serializable type.
  *
  * <p>Note that a {@code GwtCompatible} type may have some {@link

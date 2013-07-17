@@ -324,7 +324,7 @@ public final class Lists {
    *       ImmutableList.of(1, 2),
    *       ImmutableList.of("A", "B", "C")))}</pre>
    *
-   * returns a list containing six lists in the following order:
+   * <p>returns a list containing six lists in the following order:
    *
    * <ul>
    * <li>{@code ImmutableList.of(1, "A")}
@@ -347,7 +347,7 @@ public final class Lists {
    *     }
    *   }}</pre>
    *
-   * Note that if any input list is empty, the Cartesian product will also be
+   * <p>Note that if any input list is empty, the Cartesian product will also be
    * empty. If no lists at all are provided (an empty list), the resulting
    * Cartesian product has one element, an empty list (counter-intuitive, but
    * mathematically consistent).
@@ -384,7 +384,7 @@ public final class Lists {
    *       ImmutableList.of(1, 2),
    *       ImmutableList.of("A", "B", "C")))}</pre>
    *
-   * returns a list containing six lists in the following order:
+   * <p>returns a list containing six lists in the following order:
    *
    * <ul>
    * <li>{@code ImmutableList.of(1, "A")}
@@ -407,7 +407,7 @@ public final class Lists {
    *     }
    *   }}</pre>
    *
-   * Note that if any input list is empty, the Cartesian product will also be
+   * <p>Note that if any input list is empty, the Cartesian product will also be
    * empty. If no lists at all are provided (an empty list), the resulting
    * Cartesian product has one element, an empty list (counter-intuitive, but
    * mathematically consistent).

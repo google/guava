@@ -119,7 +119,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    *           .put("three", 3)
    *           .build();}</pre>
    *
-   * For <i>small</i> immutable bimaps, the {@code ImmutableBiMap.of()} methods
+   * <p>For <i>small</i> immutable bimaps, the {@code ImmutableBiMap.of()} methods
    * are even more convenient.
    *
    * <p>Builder instances can be reused - it is safe to call {@link #build}

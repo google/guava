@@ -359,7 +359,7 @@ public final class Queues {
    *     }
    *   }}</pre>
    *
-   * Failure to follow this advice may result in non-deterministic behavior.
+   * <p>Failure to follow this advice may result in non-deterministic behavior.
    *
    * <p>The returned queue will be serializable if the specified queue is serializable.
    *

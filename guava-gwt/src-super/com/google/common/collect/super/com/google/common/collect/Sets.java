@@ -467,7 +467,7 @@ public final class Sets {
    *   Set<Object> identityHashSet = Sets.newSetFromMap(
    *       new IdentityHashMap<Object, Boolean>());}</pre>
    *
-   * This method has the same behavior as the JDK 6 method
+   * <p>This method has the same behavior as the JDK 6 method
    * {@code Collections.newSetFromMap()}. The returned set is serializable if
    * the backing map is.
    *
@@ -597,7 +597,7 @@ public final class Sets {
    *   Set<String> badStrings = (Set) Sets.intersection(
    *       aFewBadObjects, manyBadStrings);}</pre>
    *
-   * This is unfortunate, but should come up only very rarely.
+   * <p>This is unfortunate, but should come up only very rarely.
    */
   public static <E> SetView<E> intersection(
       final Set<E> set1, final Set<?> set2) {
@@ -846,7 +846,7 @@ public final class Sets {
    *       ImmutableSet.of(1, 2),
    *       ImmutableSet.of("A", "B", "C")))}</pre>
    *
-   * returns a set containing six lists:
+   * <p>returns a set containing six lists:
    *
    * <ul>
    * <li>{@code ImmutableList.of(1, "A")}
@@ -869,7 +869,7 @@ public final class Sets {
    *     }
    *   }}</pre>
    *
-   * Note that if any input set is empty, the Cartesian product will also be
+   * <p>Note that if any input set is empty, the Cartesian product will also be
    * empty. If no sets at all are provided (an empty list), the resulting
    * Cartesian product has one element, an empty list (counter-intuitive, but
    * mathematically consistent).
@@ -906,7 +906,7 @@ public final class Sets {
    *       ImmutableSet.of(1, 2),
    *       ImmutableSet.of("A", "B", "C"))}</pre>
    *
-   * returns a set containing six lists:
+   * <p>returns a set containing six lists:
    *
    * <ul>
    * <li>{@code ImmutableList.of(1, "A")}
@@ -929,7 +929,7 @@ public final class Sets {
    *     }
    *   }}</pre>
    *
-   * Note that if any input set is empty, the Cartesian product will also be
+   * <p>Note that if any input set is empty, the Cartesian product will also be
    * empty. If no sets at all are provided (an empty list), the resulting
    * Cartesian product has one element, an empty list (counter-intuitive, but
    * mathematically consistent).

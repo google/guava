@@ -31,11 +31,11 @@ import javax.annotation.Nullable;
  *       throw new IllegalArgumentException("must be positive: " + count);
  *     }</pre>
  *
- * to be replaced with the more compact
+ * <p>to be replaced with the more compact
  * <pre>
  *     checkArgument(count > 0, "must be positive: %s", count);</pre>
  *
- * Note that the sense of the expression is inverted; with {@code Preconditions}
+ * <p>Note that the sense of the expression is inverted; with {@code Preconditions}
  * you declare what you expect to be <i>true</i>, just as you do with an
  * <a href="http://java.sun.com/j2se/1.5.0/docs/guide/language/assert.html">
  * {@code assert}</a> or a JUnit {@code assertTrue} call.

@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  *
  *   BaseEncoding.base32().encode("foo".getBytes(Charsets.US_ASCII))
  * }</pre>
- * returns the string {@code "MZXW6==="}, and <pre>   {@code
+ * <p>returns the string {@code "MZXW6==="}, and <pre>   {@code
  *
  *  byte[] decoded = BaseEncoding.base32().decode("MZXW6===");
  * }</pre>

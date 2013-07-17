@@ -43,7 +43,7 @@ import java.util.List;
  *     .addEqualityGroup(2, 1 + 1)
  *     .testEquals();
  * </pre>
- * This tests:
+ * <p>This tests:
  * <ul>
  * <li>comparing each object against itself returns true
  * <li>comparing each object against null returns false

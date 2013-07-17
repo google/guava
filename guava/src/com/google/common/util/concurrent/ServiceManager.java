@@ -96,8 +96,8 @@ import javax.inject.Singleton;
  *   }
  * }}</pre>
  *
- * This class uses the ServiceManager's methods to start all of its services, to respond to service
- * failure and to ensure that when the JVM is shutting down all the services are stopped.
+ * <p>This class uses the ServiceManager's methods to start all of its services, to respond to
+ * service failure and to ensure that when the JVM is shutting down all the services are stopped.
  *
  * @author Luke Sandberg
  * @since 14.0

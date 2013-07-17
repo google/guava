@@ -40,7 +40,7 @@ import java.nio.charset.Charset;
  *   newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()
  *   newHasher().putBytes(new byte[] { b1, b2, b3 }).hash()}</pre>
  *
- * If you wish to avoid this, you should either prepend or append the size of each chunk. Keep in
+ * <p>If you wish to avoid this, you should either prepend or append the size of each chunk. Keep in
  * mind that when dealing with char sequences, the encoded form of two concatenated char sequences
  * is not equivalent to the concatenation of their encoded form. Therefore,
  * {@link #putString(CharSequence, Charset)} should only be used consistently with <i>complete</i>

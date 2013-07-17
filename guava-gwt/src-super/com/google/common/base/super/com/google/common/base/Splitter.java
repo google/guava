@@ -60,7 +60,7 @@ import javax.annotation.CheckReturnValue;
  *       .trimResults()
  *       .omitEmptyStrings();}</pre>
  *
- * Now {@code MY_SPLITTER.split("foo,,,  bar ,")} returns just {@code ["foo",
+ * <p>Now {@code MY_SPLITTER.split("foo,,,  bar ,")} returns just {@code ["foo",
  * "bar"]}. Note that the order in which these configuration methods are called
  * is never significant.
  *

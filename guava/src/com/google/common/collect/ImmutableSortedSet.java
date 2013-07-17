@@ -65,7 +65,7 @@ import javax.annotation.Nullable;
  *
  *   {(x, y) | comparator.compare(x, y) == 0}}</pre>
  *
- * With natural ordering of elements, the following relation determines whether
+ * <p>With natural ordering of elements, the following relation determines whether
  * two elements are equivalent: <pre>   {@code
  *
  *   {(x, y) | x.compareTo(y) == 0}}</pre>
@@ -481,7 +481,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    *           .add(42)
    *           .build();}</pre>
    *
-   * Builder instances can be reused; it is safe to call {@link #build} multiple
+   * <p>Builder instances can be reused; it is safe to call {@link #build} multiple
    * times to build multiple sets in series. Each set is a superset of the set
    * created before it.
    *

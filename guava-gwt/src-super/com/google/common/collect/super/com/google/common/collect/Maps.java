@@ -1115,7 +1115,7 @@ public final class Maps {
    *     }
    *   }}</pre>
    *
-   * Failure to follow this advice may result in non-deterministic behavior.
+   * <p>Failure to follow this advice may result in non-deterministic behavior.
    *
    * <p>The returned bimap will be serializable if the specified bimap is
    * serializable.

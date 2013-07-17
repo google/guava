@@ -28,7 +28,7 @@ import com.google.common.annotations.GwtCompatible;
  *   Set<Object> sorted = ImmutableSortedSet.copyOf(objects);
  *   // BAD CODE! The returned set is actually an unsorted ImmutableSet!}</pre>
  *
- * While we could put the overrides in {@link ImmutableSortedSet} itself, it
+ * <p>While we could put the overrides in {@link ImmutableSortedSet} itself, it
  * seems clearer to separate these "do not call" methods from those intended for
  * normal use.
  *

@@ -479,7 +479,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    *           .addCopies(Bean.BLACK_EYED, 10)
    *           .build();}</pre>
    *
-   * Builder instances can be reused; it is safe to call {@link #build} multiple
+   * <p>Builder instances can be reused; it is safe to call {@link #build} multiple
    * times to build multiple multisets in series.
    *
    * @since 2.0 (imported from Google Collections Library)

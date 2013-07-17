@@ -59,9 +59,9 @@ import javax.annotation.concurrent.GuardedBy;
  *     monitor.leave();
  *   }}</pre>
  *
- * A call to any of the <i>enter</i> methods with <b>boolean</b> return type should always appear as
- * the condition of an <i>if</i> statement containing a <i>try/finally</i> block to ensure that the
- * current thread leaves the monitor cleanly: <pre>   {@code
+ * <p>A call to any of the <i>enter</i> methods with <b>boolean</b> return type should always
+ * appear as the condition of an <i>if</i> statement containing a <i>try/finally</i> block to
+ * ensure that the current thread leaves the monitor cleanly: <pre>   {@code
  *
  *   if (monitor.tryEnter()) {
  *     try {

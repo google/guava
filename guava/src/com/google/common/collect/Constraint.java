@@ -33,7 +33,7 @@ import com.google.common.base.Preconditions;
  *     return element;
  *   }}</pre>
  *
- * In order to be effective, constraints should be deterministic; that is,
+ * <p>In order to be effective, constraints should be deterministic; that is,
  * they should not depend on state that can change (such as external state,
  * random variables, and time) and should only depend on the value of the
  * passed-in element. A non-deterministic constraint cannot reliably enforce

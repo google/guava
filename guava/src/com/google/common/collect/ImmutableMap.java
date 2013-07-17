@@ -170,7 +170,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *           .put("three", 3)
    *           .build();}</pre>
    *
-   * For <i>small</i> immutable maps, the {@code ImmutableMap.of()} methods are
+   * <p>For <i>small</i> immutable maps, the {@code ImmutableMap.of()} methods are
    * even more convenient.
    *
    * <p>Builder instances can be reused - it is safe to call {@link #build}

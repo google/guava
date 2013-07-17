@@ -307,7 +307,7 @@ public interface Multiset<E> extends Collection<E> {
    *
    *   ((element == null) ? 0 : element.hashCode()) ^ count(element)}</pre>
    *
-   * over all distinct elements in the multiset. It follows that a multiset and
+   * <p>over all distinct elements in the multiset. It follows that a multiset and
    * its entry set always have the same hash code.
    */
   @Override

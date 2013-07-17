@@ -322,7 +322,7 @@ public final class Futures {
    *       });
    * }</pre>
    *
-   * The fallback can also choose to propagate the original exception when
+   * <p>The fallback can also choose to propagate the original exception when
    * desired:
    *
    * <pre>   {@code
@@ -341,7 +341,7 @@ public final class Futures {
    *       });
    * }</pre>
    *
-   * Note: If the derived {@code Future} is slow or heavyweight to create
+   * <p>Note: If the derived {@code Future} is slow or heavyweight to create
    * (whether the {@code Future} itself is slow or heavyweight to complete is
    * irrelevant), consider {@linkplain #withFallback(ListenableFuture,
    * FutureFallback, Executor) supplying an executor}. If you do not supply an
@@ -402,7 +402,7 @@ public final class Futures {
    *       }, sameThreadExecutor());
    * }</pre>
    *
-   * The fallback can also choose to propagate the original exception when
+   * <p>The fallback can also choose to propagate the original exception when
    * desired:
    *
    * <pre>   {@code
@@ -421,7 +421,7 @@ public final class Futures {
    *       }, sameThreadExecutor());
    * }</pre>
    *
-   * When the execution of {@code fallback.create} is fast and lightweight
+   * <p>When the execution of {@code fallback.create} is fast and lightweight
    * (though the {@code Future} it returns need not meet these criteria),
    * consider {@linkplain #withFallback(ListenableFuture, FutureFallback)
    * omitting the executor} or explicitly specifying {@code
@@ -522,7 +522,7 @@ public final class Futures {
    *       transform(rowKeyFuture, queryFunction);
    * }</pre>
    *
-   * Note: If the derived {@code Future} is slow or heavyweight to create
+   * <p>Note: If the derived {@code Future} is slow or heavyweight to create
    * (whether the {@code Future} itself is slow or heavyweight to complete is
    * irrelevant), consider {@linkplain #transform(ListenableFuture,
    * AsyncFunction, Executor) supplying an executor}. If you do not supply an
@@ -630,7 +630,7 @@ public final class Futures {
    *       transform(queryFuture, rowsFunction);
    * }</pre>
    *
-   * Note: If the transformation is slow or heavyweight, consider {@linkplain
+   * <p>Note: If the transformation is slow or heavyweight, consider {@linkplain
    * #transform(ListenableFuture, Function, Executor) supplying an executor}.
    * If you do not supply an executor, {@code transform} will use {@link
    * MoreExecutors#sameThreadExecutor sameThreadExecutor}, which carries some
@@ -1078,7 +1078,7 @@ public final class Futures {
    *       }
    *     });}</pre>
    *
-   * Note: If the callback is slow or heavyweight, consider {@linkplain
+   * <p>Note: If the callback is slow or heavyweight, consider {@linkplain
    * #addCallback(ListenableFuture, FutureCallback, Executor) supplying an
    * executor}. If you do not supply an executor, {@code addCallback} will use
    * {@link MoreExecutors#sameThreadExecutor sameThreadExecutor}, which carries
@@ -1134,7 +1134,7 @@ public final class Futures {
    *       }
    *     });}</pre>
    *
-   * When the callback is fast and lightweight, consider {@linkplain
+   * <p>When the callback is fast and lightweight, consider {@linkplain
    * #addCallback(ListenableFuture, FutureCallback) omitting the executor} or
    * explicitly specifying {@code sameThreadExecutor}. However, be aware of the
    * caveats documented in the link above.

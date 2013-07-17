@@ -434,7 +434,7 @@ public final class Multimaps {
    *     }
    *   }}</pre>
    *
-   * Failure to follow this advice may result in non-deterministic behavior.
+   * <p>Failure to follow this advice may result in non-deterministic behavior.
    *
    * <p>Note that the generated multimap's {@link Multimap#removeAll} and
    * {@link Multimap#replaceValues} methods return collections that aren't
@@ -1428,11 +1428,11 @@ public final class Multimaps {
    *       Multimaps.index(badGuys, stringLengthFunction);
    *   System.out.println(index);}</pre>
    *
-   * prints <pre>   {@code
+   * <p>prints <pre>   {@code
    *
    *   {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}}</pre>
    *
-   * The returned multimap is serializable if its keys and values are all
+   * <p>The returned multimap is serializable if its keys and values are all
    * serializable.
    *
    * @param values the values to use when constructing the {@code
@@ -1475,11 +1475,11 @@ public final class Multimaps {
    *       Multimaps.index(badGuys.iterator(), stringLengthFunction);
    *   System.out.println(index);}</pre>
    *
-   * prints <pre>   {@code
+   * <p>prints <pre>   {@code
    *
    *   {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}}</pre>
    *
-   * The returned multimap is serializable if its keys and values are all
+   * <p>The returned multimap is serializable if its keys and values are all
    * serializable.
    *
    * @param values the values to use when constructing the {@code

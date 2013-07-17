@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
  *    . . .
  *   return joiner.join("Harry", null, "Ron", "Hermione");}</pre>
  *
- * This returns the string {@code "Harry; Ron; Hermione"}. Note that all input elements are
+ * <p>This returns the string {@code "Harry; Ron; Hermione"}. Note that all input elements are
  * converted to strings using {@link Object#toString()} before being appended.
  *
  * <p>If neither {@link #skipNulls()} nor {@link #useForNull(String)} is specified, the joining

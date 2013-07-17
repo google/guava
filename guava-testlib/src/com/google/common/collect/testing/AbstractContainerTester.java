@@ -130,7 +130,7 @@ public abstract class AbstractContainerTester<C, E>
    * collection.add(existingElement);
    * expectAdded(existingElement);</pre>
    *
-   * In this case, {@code collection} was not modified as a result of the
+   * <p>In this case, {@code collection} was not modified as a result of the
    * {@code add()} call, and the test will fail because the number of
    * occurrences of {@code existingElement} is unchanged.
    *

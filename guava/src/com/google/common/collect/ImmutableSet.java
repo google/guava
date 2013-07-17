@@ -446,7 +446,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    *           .add(new Color(0, 191, 255))
    *           .build();}</pre>
    *
-   * Builder instances can be reused; it is safe to call {@link #build} multiple
+   * <p>Builder instances can be reused; it is safe to call {@link #build} multiple
    * times to build multiple sets in series. Each set is a superset of the set
    * created before it.
    *

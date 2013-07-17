@@ -55,7 +55,7 @@ import java.util.List;
  *
  *   {(x, y) | comparator.compare(x, y) == 0}}</pre>
  *
- * With natural ordering of elements, the following relation determines whether two elements are
+ * <p>With natural ordering of elements, the following relation determines whether two elements are
  * equivalent:
  *
  * <pre>   {@code
@@ -430,7 +430,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    *           .addCopies(Bean.BLACK_EYED, 10)
    *           .build();}</pre>
    *
-   * Builder instances can be reused; it is safe to call {@link #build} multiple times to build
+   * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple multisets in series.
    *
    * @since 12.0

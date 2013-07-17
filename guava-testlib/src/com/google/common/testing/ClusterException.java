@@ -36,7 +36,7 @@ import java.util.Collections;
  * }
  * </pre>
  *
- * This is what the code would become:
+ * <p>This is what the code would become:
  *
  * <pre>
  * void runManyThings(List&lt;ThingToRun&gt; thingsToRun) {

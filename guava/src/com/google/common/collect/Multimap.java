@@ -226,7 +226,7 @@ public interface Multimap<K, V> {
    *     put(key, value);
    *   } }</pre>
    * 
-   * In particular, this is a no-op if {@code values} is empty.
+   * <p>In particular, this is a no-op if {@code values} is empty.
    *
    * @param key key to store in the multimap
    * @param values values to store in the multimap

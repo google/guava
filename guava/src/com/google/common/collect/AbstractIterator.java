@@ -53,7 +53,7 @@ import java.util.NoSuchElementException;
  *     };
  *   }}</pre>
  *
- * This class supports iterators that include null elements.
+ * <p>This class supports iterators that include null elements.
  *
  * @author Kevin Bourrillion
  * @since 2.0 (imported from Google Collections Library)

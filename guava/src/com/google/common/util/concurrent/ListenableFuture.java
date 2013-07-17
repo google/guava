@@ -35,7 +35,7 @@ import java.util.concurrent.RejectedExecutionException;
  *
  * <h3>Purpose</h3>
  *
- * Most commonly, {@code ListenableFuture} is used as an input to another
+ * <p>Most commonly, {@code ListenableFuture} is used as an input to another
  * derived {@code Future}, as in {@link Futures#allAsList(Iterable)
  * Futures.allAsList}. Many such methods are impossible to implement efficiently
  * without listener support.

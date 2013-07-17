@@ -63,7 +63,7 @@ import javax.annotation.Nullable;
  *   public static Book paperback(String title) {...}
  * }
  * </pre>
- * And all the created {@code Book} instances can be tested with: <pre>
+ * <p>And all the created {@code Book} instances can be tested with: <pre>
  * new ClassSanityTester()
  *     .forAllPublicStaticMethods(Books.class)
  *     .thatReturn(Book.class)
@@ -252,7 +252,7 @@ public final class ClassSanityTester {
    *   }
    * }
    * </pre>
-   * It will test that Foo objects created by the {@code create(a, b, c, d)} factory method with
+   * <p>It will test that Foo objects created by the {@code create(a, b, c, d)} factory method with
    * equal parameters are equal and vice versa, thus indirectly tests the builder equality.
    */
   public void testEquals(Class<?> cls) {

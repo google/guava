@@ -55,7 +55,7 @@ import javax.annotation.Nullable;
  *
  *   map.remove(key1, foo);}</pre>
  *
- * changes the entries iteration order to {@code [key2=bar, key1=baz]} and the
+ * <p>changes the entries iteration order to {@code [key2=bar, key1=baz]} and the
  * key iteration order to {@code [key2, key1]}. The {@link #entries()} iterator
  * returns mutable map entries, and {@link #replaceValues} attempts to preserve
  * iteration order as much as possible.

@@ -342,7 +342,7 @@ public abstract class ImmutableSortedMap<K, V>
    *           .put(3, "three")
    *           .build();}</pre>
    *
-   * For <i>small</i> immutable sorted maps, the {@code ImmutableSortedMap.of()}
+   * <p>For <i>small</i> immutable sorted maps, the {@code ImmutableSortedMap.of()}
    * methods are even more convenient.
    *
    * <p>Builder instances can be reused - it is safe to call {@link #build}

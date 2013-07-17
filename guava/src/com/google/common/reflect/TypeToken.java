@@ -62,7 +62,7 @@ import javax.annotation.Nullable;
  *
  *   new TypeToken<List<String>>() {}
  * }</pre>
- * Note that it's critical that the actual type argument is carried by a subclass.
+ * <p>Note that it's critical that the actual type argument is carried by a subclass.
  * The following code is wrong because it only captures the {@code <T>} type variable
  * of the {@code listType()} method signature; while {@code <String>} is lost in erasure:
  * <pre>   {@code

@@ -204,7 +204,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    *   Ordering.allEqual().nullsLast().sortedCopy(
    *       asList(t, null, e, s, null, t, null))}</pre>
    *
-   * Assuming {@code t}, {@code e} and {@code s} are non-null, this returns
+   * <p>Assuming {@code t}, {@code e} and {@code s} are non-null, this returns
    * {@code [t, e, s, t, null, null, null]} regardlesss of the true comparison
    * order of those three values (which might not even implement {@link
    * Comparable} at all).

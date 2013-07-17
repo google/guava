@@ -510,7 +510,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
      * <pre>
      *     String[] y = x.toArray(new String[0]);</pre>
      *
-     * Note that <tt>toArray(new Object[0])</tt> is identical in function to
+     * <p>Note that <tt>toArray(new Object[0])</tt> is identical in function to
      * <tt>toArray()</tt>.
      *
      * @param a the array into which the elements of the queue are to

@@ -28,11 +28,11 @@
  *
  * <h2>One-Minute Guide</h2>
  *
- * Converting an existing EventListener-based system to use the EventBus is
+ * <p>Converting an existing EventListener-based system to use the EventBus is
  * easy.
  *
  * <h3>For Listeners</h3>
- * To listen for a specific flavor of event (say, a CustomerChangeEvent)...
+ * <p>To listen for a specific flavor of event (say, a CustomerChangeEvent)...
  * <ul>
  * <li><strong>...in traditional Java events:</strong> implement an interface
  *     defined with the event &mdash; such as CustomerChangeEventListener.</li>
@@ -73,7 +73,7 @@
  * </ul>
  *
  * <h3>For Producers</h3>
- * To keep track of listeners to your events...
+ * <p>To keep track of listeners to your events...
  * <ul>
  * <li><strong>...in traditional Java events:</strong> write code to manage
  *     a list of listeners to your object, including synchronization, or use a
@@ -92,7 +92,7 @@
  *
  * <h2>Glossary</h2>
  *
- * The EventBus system and code use the following terms to discuss event
+ * <p>The EventBus system and code use the following terms to discuss event
  * distribution:
  * <dl>
  * <dt>Event</dt><dd>Any object that may be <em>posted</em> to a bus.</dd>
@@ -110,7 +110,7 @@
  * <h2>FAQ</h2>
  * <h3>Why must I create my own Event Bus, rather than using a singleton?</h3>
  *
- * The Event Bus doesn't specify how you use it; there's nothing stopping your
+ * <p>The Event Bus doesn't specify how you use it; there's nothing stopping your
  * application from having separate EventBus instances for each component, or
  * using separate instances to separate events by context or topic.  This also
  * makes it trivial to set up and tear down EventBus objects in your tests.
@@ -125,7 +125,7 @@
  *
  * <h3>Why use an annotation to mark handler methods, rather than requiring the
  * listener to implement an interface?</h3>
- * We feel that the Event Bus's {@code @Subscribe} annotation conveys your
+ * <p>We feel that the Event Bus's {@code @Subscribe} annotation conveys your
  * intentions just as explicitly as implementing an interface (or perhaps more
  * so), while leaving you free to place event handler methods wherever you wish
  * and give them intention-revealing names.
@@ -165,11 +165,11 @@
  *     }
  *   }</pre>
  *
- * The intent is actually clearer in the second case: there's less noise code,
+ * <p>The intent is actually clearer in the second case: there's less noise code,
  * and the event handler has a clear and meaningful name.
  *
  * <h3>What about a generic {@code Handler<T>} interface?</h3>
- * Some have proposed a generic {@code Handler<T>} interface for EventBus
+ * <p>Some have proposed a generic {@code Handler<T>} interface for EventBus
  * listeners.  This runs into issues with Java's use of type erasure, not to
  * mention problems in usability.
  *
@@ -178,7 +178,7 @@
  *     void handleEvent(T event);
  *   }}</pre>
  *
- * Due to erasure, no single class can implement a generic interface more than
+ * <p>Due to erasure, no single class can implement a generic interface more than
  * once with different type parameters.  This is a giant step backwards from
  * traditional Java Events, where even if {@code actionPerformed} and {@code
  * keyPressed} aren't very meaningful names, at least you can implement both
@@ -186,7 +186,7 @@
  *
  * <h3>Doesn't EventBus destroy static typing and eliminate automated
  * refactoring support?</h3>
- * Some have freaked out about EventBus's {@code register(Object)} and {@code
+ * <p>Some have freaked out about EventBus's {@code register(Object)} and {@code
  * post(Object)} methods' use of the {@code Object} type.
  *
  * <p>{@code Object} is used here for a good reason: the Event Bus library
@@ -207,7 +207,7 @@
  *
  * <h3>What happens if I {@code register} a listener without any handler
  * methods?</h3>
- * Nothing at all.
+ * <p>Nothing at all.
  *
  * <p>The Event Bus was designed to integrate with containers and module
  * systems, with Guice as the prototypical example.  In these cases, it's
@@ -218,11 +218,11 @@
  * hook into the system's event model simply by exposing handler methods.
  *
  * <h3>What Event Bus problems can be detected at compile time?</h3>
- * Any problem that can be unambiguously detected by Java's type system.  For
+ * <p>Any problem that can be unambiguously detected by Java's type system.  For
  * example, defining a handler method for a nonexistent event type.
  *
  * <h3>What Event Bus problems can be detected immediately at registration?</h3>
- * Immediately upon invoking {@code register(Object)} , the listener being
+ * <p>Immediately upon invoking {@code register(Object)} , the listener being
  * registered is checked for the <i>well-formedness</i> of its handler methods.
  * Specifically, any methods marked with {@code @Subscribe} must take only a
  * single argument.
@@ -234,7 +234,7 @@
  * researching.)
  *
  * <h3>What Event Bus problems may only be detected later, at runtime?</h3>
- * If a component posts events with no registered listeners, it <i>may</i>
+ * <p>If a component posts events with no registered listeners, it <i>may</i>
  * indicate an error (typically an indication that you missed a
  * {@code @Subscribe} annotation, or that the listening component is not loaded).
  *
@@ -248,7 +248,7 @@
  * log it or otherwise recover.
  *
  * <h3>How do I test event listeners and their handler methods?</h3>
- * Because handler methods on your listener classes are normal methods, you can
+ * <p>Because handler methods on your listener classes are normal methods, you can
  * simply call them from your test code to simulate the EventBus.
  */
 package com.google.common.eventbus;
