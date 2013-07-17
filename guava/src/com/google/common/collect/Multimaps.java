@@ -1076,7 +1076,7 @@ public final class Multimaps {
    *     Multimaps.transformValues(multimap, square);
    *   System.out.println(transformed);}</pre>
    *
-   * ... prints {@code {a=[4, 16], b=[9, 9], c=[6]}}.
+   * ... prints {@code {a=[4, 16], b=[9, 9], c=[36]}}.
    *
    * <p>Changes in the underlying multimap are reflected in this view.
    * Conversely, this view supports removal operations, and these are reflected
