@@ -348,7 +348,7 @@ public final class Queues {
    * <p>It is imperative that the user manually synchronize on the returned queue when accessing
    * the queue's iterator: <pre>   {@code
    *
-   *   Queue<E> queue = Queues.synchronizedQueue(MinMaxPriorityQueue<E>.create());
+   *   Queue<E> queue = Queues.synchronizedQueue(MinMaxPriorityQueue.<E>create());
    *   ...
    *   queue.add(element);  // Needn't be in synchronized block
    *   ...
@@ -370,5 +370,37 @@ public final class Queues {
   @Beta
   public static <E> Queue<E> synchronizedQueue(Queue<E> queue) {
     return Synchronized.queue(queue, null);
+  }
+
+  /**
+   * Returns a synchronized (thread-safe) deque backed by the specified deque. In order to
+   * guarantee serial access, it is critical that <b>all</b> access to the backing deque is
+   * accomplished through the returned deque.
+   *
+   * <p>It is imperative that the user manually synchronize on the returned deque when accessing
+   * any of the deque's iterators: <pre>   {@code
+   *
+   *   Deque<E> deque = Queues.synchronizedDeque(Queues.<E>newArrayDeque());
+   *   ...
+   *   deque.add(element);  // Needn't be in synchronized block
+   *   ...
+   *   synchronized (deque) {  // Must synchronize on deque!
+   *     Iterator<E> i = deque.iterator(); // Must be in synchronized block
+   *     while (i.hasNext()) {
+   *       foo(i.next());
+   *     }
+   *   }}</pre>
+   *
+   * <p>Failure to follow this advice may result in non-deterministic behavior.
+   *
+   * <p>The returned deque will be serializable if the specified deque is serializable.
+   *
+   * @param deque the deque to be wrapped in a synchronized view
+   * @return a synchronized view of the specified deque
+   * @since 15.0
+   */
+  @Beta
+  public static <E> Deque<E> synchronizedDeque(Deque<E> deque) {
+    return Synchronized.deque(deque, null);
   }
 }

@@ -27,6 +27,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -1613,6 +1614,145 @@ final class Synchronized {
     public E remove() {
       synchronized (mutex) {
         return delegate().remove();
+      }
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  @GwtIncompatible("Deque")
+  static <E> Deque<E> deque(Deque<E> deque, @Nullable Object mutex) {
+    return new SynchronizedDeque<E>(deque, mutex);
+  }
+
+  @GwtIncompatible("Deque")
+  private static final class SynchronizedDeque<E>
+      extends SynchronizedQueue<E> implements Deque<E> {
+
+    SynchronizedDeque(Deque<E> delegate, @Nullable Object mutex) {
+      super(delegate, mutex);
+    }
+
+    @Override Deque<E> delegate() {
+      return (Deque<E>) super.delegate();
+    }
+
+    @Override
+    public void addFirst(E e) {
+      synchronized (mutex) {
+        delegate().addFirst(e);
+      }
+    }
+
+    @Override
+    public void addLast(E e) {
+      synchronized (mutex) {
+        delegate().addLast(e);
+      }
+    }
+
+    @Override
+    public boolean offerFirst(E e) {
+      synchronized (mutex) {
+        return delegate().offerFirst(e);
+      }
+    }
+
+    @Override
+    public boolean offerLast(E e) {
+      synchronized (mutex) {
+        return delegate().offerLast(e);
+      }
+    }
+
+    @Override
+    public E removeFirst() {
+      synchronized (mutex) {
+        return delegate().removeFirst();
+      }
+    }
+
+    @Override
+    public E removeLast() {
+      synchronized (mutex) {
+        return delegate().removeLast();
+      }
+    }
+
+    @Override
+    public E pollFirst() {
+      synchronized (mutex) {
+        return delegate().pollFirst();
+      }
+    }
+
+    @Override
+    public E pollLast() {
+      synchronized (mutex) {
+        return delegate().pollLast();
+      }
+    }
+
+    @Override
+    public E getFirst() {
+      synchronized (mutex) {
+        return delegate().getFirst();
+      }
+    }
+
+    @Override
+    public E getLast() {
+      synchronized (mutex) {
+        return delegate().getLast();
+      }
+    }
+
+    @Override
+    public E peekFirst() {
+      synchronized (mutex) {
+        return delegate().peekFirst();
+      }
+    }
+
+    @Override
+    public E peekLast() {
+      synchronized (mutex) {
+        return delegate().peekLast();
+      }
+    }
+
+    @Override
+    public boolean removeFirstOccurrence(Object o) {
+      synchronized (mutex) {
+        return delegate().removeFirstOccurrence(o);
+      }
+    }
+
+    @Override
+    public boolean removeLastOccurrence(Object o) {
+      synchronized (mutex) {
+        return delegate().removeLastOccurrence(o);
+      }
+    }
+
+    @Override
+    public void push(E e) {
+      synchronized (mutex) {
+        delegate().push(e);
+      }
+    }
+
+    @Override
+    public E pop() {
+      synchronized (mutex) {
+        return delegate().pop();
+      }
+    }
+
+    @Override
+    public Iterator<E> descendingIterator() {
+      synchronized (mutex) {
+        return delegate().descendingIterator();
       }
     }
 
