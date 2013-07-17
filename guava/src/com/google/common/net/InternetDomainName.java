@@ -504,14 +504,11 @@ public final class InternetDomainName {
    * <p>The following two code snippets are equivalent:
    *
    * <pre>   {@code
-   *
    *   domainName = InternetDomainName.isValid(name)
    *       ? InternetDomainName.from(name)
-   *       : DEFAULT_DOMAIN;
-   *   }</pre>
+   *       : DEFAULT_DOMAIN;}</pre>
    *
    * <pre>   {@code
-   *
    *   try {
    *     domainName = InternetDomainName.from(name);
    *   } catch (IllegalArgumentException e) {

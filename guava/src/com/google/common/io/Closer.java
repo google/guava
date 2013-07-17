@@ -54,8 +54,7 @@ import javax.annotation.Nullable;
  *     throw closer.rethrow(e);
  *   } finally {
  *     closer.close();
- *   }
- * }</pre>
+ *   }}</pre>
  *
  * <p>Note that this try-catch-finally block is not equivalent to a try-catch-finally block using
  * try-with-resources. To get the equivalent of that, you must wrap the above code in <i>another</i>

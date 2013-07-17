@@ -356,7 +356,7 @@ public class CycleDetectingLockFactory {
   }
 
   /**
-   * A {@code CycleDetectingLockFactory.WithExplicitOrdering} provides the
+   * <p>A {@code CycleDetectingLockFactory.WithExplicitOrdering} provides the
    * additional enforcement of an application-specified ordering of lock
    * acquisitions. The application defines the allowed ordering with an
    * {@code Enum} whose values each correspond to a lock type. The order in
@@ -379,16 +379,15 @@ public class CycleDetectingLockFactory {
    *
    * lock1.lock();
    * lock3.lock();
-   * lock2.lock();  // will throw an IllegalStateException
-   * }</pre>
+   * lock2.lock();  // will throw an IllegalStateException}</pre>
    *
    * <p>As with all locks created by instances of {@code CycleDetectingLockFactory}
    * explicitly ordered locks participate in general cycle detection with all
    * other cycle detecting locks, and a lock's behavior when detecting a cyclic
    * lock acquisition is defined by the {@code Policy} of the factory that
    * created it.
-   * <p>
-   * Note, however, that although multiple locks can be created for a given Enum
+   *
+   * <p>Note, however, that although multiple locks can be created for a given Enum
    * value, whether it be through separate factory instances or through multiple
    * calls to the same factory, attempting to acquire multiple locks with the
    * same Enum value (within the same thread) will result in an
@@ -409,8 +408,7 @@ public class CycleDetectingLockFactory {
    * lockB.lock();  // will throw an IllegalStateException
    * lockC.lock();  // will throw an IllegalStateException
    *
-   * lockA.lock();  // reentrant acquisition is okay
-   * }</pre>
+   * lockA.lock();  // reentrant acquisition is okay}</pre>
    *
    * <p>It is the responsibility of the application to ensure that multiple lock
    * instances with the same rank are never acquired in the same thread.

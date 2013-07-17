@@ -319,8 +319,7 @@ public final class Futures {
    *           // exception happens.
    *           return immediateFuture(0);
    *         }
-   *       });
-   * }</pre>
+   *       });}</pre>
    *
    * <p>The fallback can also choose to propagate the original exception when
    * desired:
@@ -338,8 +337,7 @@ public final class Futures {
    *           }
    *           return immediateFailedFuture(t);
    *         }
-   *       });
-   * }</pre>
+   *       });}</pre>
    *
    * <p>Note: If the derived {@code Future} is slow or heavyweight to create
    * (whether the {@code Future} itself is slow or heavyweight to complete is
@@ -399,8 +397,7 @@ public final class Futures {
    *           // exception happens.
    *           return immediateFuture(0);
    *         }
-   *       }, sameThreadExecutor());
-   * }</pre>
+   *       }, sameThreadExecutor());}</pre>
    *
    * <p>The fallback can also choose to propagate the original exception when
    * desired:
@@ -418,8 +415,7 @@ public final class Futures {
    *           }
    *           return immediateFailedFuture(t);
    *         }
-   *       }, sameThreadExecutor());
-   * }</pre>
+   *       }, sameThreadExecutor());}</pre>
    *
    * <p>When the execution of {@code fallback.create} is fast and lightweight
    * (though the {@code Future} it returns need not meet these criteria),
@@ -519,8 +515,7 @@ public final class Futures {
    *         }
    *       };
    *   ListenableFuture<QueryResult> queryFuture =
-   *       transform(rowKeyFuture, queryFunction);
-   * }</pre>
+   *       transform(rowKeyFuture, queryFunction);}</pre>
    *
    * <p>Note: If the derived {@code Future} is slow or heavyweight to create
    * (whether the {@code Future} itself is slow or heavyweight to complete is
@@ -580,8 +575,7 @@ public final class Futures {
    *         }
    *       };
    *   ListenableFuture<QueryResult> queryFuture =
-   *       transform(rowKeyFuture, queryFunction, executor);
-   * }</pre>
+   *       transform(rowKeyFuture, queryFunction, executor);}</pre>
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future and that of the future returned by the
@@ -627,8 +621,7 @@ public final class Futures {
    *         }
    *       };
    *   ListenableFuture<List<Row>> rowsFuture =
-   *       transform(queryFuture, rowsFunction);
-   * }</pre>
+   *       transform(queryFuture, rowsFunction);}</pre>
    *
    * <p>Note: If the transformation is slow or heavyweight, consider {@linkplain
    * #transform(ListenableFuture, Function, Executor) supplying an executor}.
@@ -686,8 +679,7 @@ public final class Futures {
    *         }
    *       };
    *   ListenableFuture<List<Row>> rowsFuture =
-   *       transform(queryFuture, rowsFunction, executor);
-   * }</pre>
+   *       transform(queryFuture, rowsFunction, executor);}</pre>
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future. That is, if the returned {@code Future}
@@ -905,8 +897,7 @@ public final class Futures {
    *
    * <pre>   {@code
    *   SettableFuture<ListenableFuture<String>> nested = SettableFuture.create();
-   *   ListenableFuture<String> dereferenced = dereference(nested);
-   * }</pre>
+   *   ListenableFuture<String> dereferenced = dereference(nested);}</pre>
    *
    * <p>This call has the same cancellation and execution semantics as {@link
    * #transform(ListenableFuture, AsyncFunction)}, in that the returned {@code

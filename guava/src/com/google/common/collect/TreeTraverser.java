@@ -38,8 +38,7 @@ import java.util.Queue;
  *      d       g
  *     /|\      |
  *    / | \     f
- *   a  b  c
- *   }</pre>
+ *   a  b  c}</pre>
  *
  * <p>can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or breadth-first order
  * (hdegabc).

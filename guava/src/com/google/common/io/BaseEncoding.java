@@ -53,34 +53,31 @@ import javax.annotation.Nullable;
  * A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
  * strings. This class includes several constants for encoding schemes specified by <a
  * href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
+ *
  * <pre>   {@code
+ *   BaseEncoding.base32().encode("foo".getBytes(Charsets.US_ASCII))}</pre>
  *
- *   BaseEncoding.base32().encode("foo".getBytes(Charsets.US_ASCII))
- * }</pre>
  * <p>returns the string {@code "MZXW6==="}, and <pre>   {@code
+ *  byte[] decoded = BaseEncoding.base32().decode("MZXW6===");}</pre>
  *
- *  byte[] decoded = BaseEncoding.base32().decode("MZXW6===");
- * }</pre>
- *
- * ...returns the ASCII bytes of the string {@code "foo"}.
+ * <p>...returns the ASCII bytes of the string {@code "foo"}.
  *
  * <p>By default, {@code BaseEncoding}'s behavior is relatively strict and in accordance with
  * RFC 4648.  Decoding rejects characters in the wrong case, though padding is optional.
  * To modify encoding and decoding behavior, use configuration methods to obtain a new encoding
- * with modified behavior: <pre>   {@code
+ * with modified behavior:
  *
- *  BaseEncoding.base16().lowerCase().decode("deadbeef");
- * }</pre>
+ * <pre>   {@code
+ *  BaseEncoding.base16().lowerCase().decode("deadbeef");}</pre>
  *
  * <p>Warning: BaseEncoding instances are immutable.  Invoking a configuration method has no effect
  * on the receiving instance; you must store and use the new encoding instance it returns, instead.
- * <pre>   {@code
  *
+ * <pre>   {@code
  *   // Do NOT do this
  *   BaseEncoding hex = BaseEncoding.base16();
  *   hex.lowerCase(); // does nothing!
- *   return hex.decode("deadbeef"); // throws an IllegalArgumentException
- * }</pre>
+ *   return hex.decode("deadbeef"); // throws an IllegalArgumentException}</pre>
  *
  * <p>It is guaranteed that {@code encoding.decode(encoding.encode(x))} is always equal to
  * {@code x}, but the reverse does not necessarily hold.

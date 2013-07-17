@@ -58,8 +58,7 @@ import java.util.concurrent.TimeoutException;
  *     protected void finalize() { latch.countDown(); ... }
  *   };
  *   x = null;  // Hint to the JIT that x is stack-unreachable
- *   GcFinalization.await(latch);
- * }</pre>
+ *   GcFinalization.await(latch);}</pre>
  *
  * <p>Here's an example that uses a user-defined finalization predicate:
  *
@@ -70,8 +69,7 @@ import java.util.concurrent.TimeoutException;
  *     public boolean isDone() {
  *       return map.isEmpty();
  *     }
- *   });
- * }</pre>
+ *   });}</pre>
  *
  * <p>Even if your non-test code does not use finalization, you can
  * use this class to test for leaks, by ensuring that objects are no
@@ -249,8 +247,7 @@ public final class GcFinalization {
    *     public boolean isDone() {
    *       return ref.get() == null;
    *     }
-   *   });
-   * }</pre>
+   *   });}</pre>
    *
    * @throws RuntimeException if timed out or interrupted while waiting
    */
