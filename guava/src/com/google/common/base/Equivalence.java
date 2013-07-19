@@ -120,7 +120,9 @@ public abstract class Equivalence<T> {
    * equivalence.onResultOf(function).equivalent(a, b)} is true if and only if {@code
    * equivalence.equivalent(function.apply(a), function.apply(b))} is true.
    *
-   * <p>For example: <pre>   {@code
+   * <p>For example:
+   *
+   * <pre>   {@code
    *    Equivalence<Person> SAME_AGE = Equivalence.equals().onResultOf(GET_PERSON_AGE);}</pre>
    * 
    * <p>{@code function} will never be invoked with a null value.
