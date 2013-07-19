@@ -75,7 +75,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         Integer i = (Integer) o;
         builder.add(Range.singleton(i));
       }
-      return builder.build().asSet(DiscreteDomains.integers());
+      return builder.build().asSet(DiscreteDomain.integers());
     }
   }
 
@@ -116,7 +116,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableRangeSetTest.class);
     suite.addTest(NavigableSetTestSuiteBuilder.using(new ImmutableRangeSetIntegerAsSetGenerator())
-        .named("ImmutableRangeSet.asSet[DiscreteDomains.integers[]]")
+        .named("ImmutableRangeSet.asSet[DiscreteDomain.integers[]]")
         .withFeatures(
             CollectionSize.ANY,
             CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
@@ -128,7 +128,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
 
     suite.addTest(NavigableSetTestSuiteBuilder.using(
           new ImmutableRangeSetBigIntegerAsSetGenerator())
-        .named("ImmutableRangeSet.asSet[DiscreteDomains.bigIntegers[]]")
+        .named("ImmutableRangeSet.asSet[DiscreteDomain.bigIntegers[]]")
         .withFeatures(
             CollectionSize.ANY,
             CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
@@ -389,7 +389,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         .add(Range.openClosed(15, 17))
         .build();
     ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
-    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomains.integers());
+    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomain.integers());
     assertEquals(expectedSet, asSet);
     ASSERT.that(asSet).has().exactlyAs(expectedSet).inOrder();
     assertTrue(asSet.containsAll(expectedSet));
@@ -405,7 +405,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         .build();
 
     ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
-    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomains.integers());
+    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomain.integers());
 
     for (int i = 0; i <= 20; i++) {
       assertEquals(asSet.headSet(i, false), expectedSet.headSet(i, false));
@@ -422,7 +422,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         .build();
 
     ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
-    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomains.integers());
+    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomain.integers());
 
     for (int i = 0; i <= 20; i++) {
       assertEquals(asSet.tailSet(i, false), expectedSet.tailSet(i, false));
@@ -439,7 +439,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         .build();
 
     ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
-    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomains.integers());
+    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomain.integers());
 
     for (int i = 0; i <= 20; i++) {
       for (int j = i + 1; j <= 20; j++) {

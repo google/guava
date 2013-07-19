@@ -314,7 +314,6 @@ public final class InternetDomainName {
   /**
    * A deprecated synonym for {@link #toString()}.
    *
-   * @since 15.0
    * @deprecated Use {@link #toString()}
    */
   @Deprecated
