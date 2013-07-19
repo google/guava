@@ -86,7 +86,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
     @Override
     public String toString() {
-      return "DiscreteDomains.integers()";
+      return "DiscreteDomain.integers()";
     }
 
     private static final long serialVersionUID = 0;
@@ -140,7 +140,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
     @Override
     public String toString() {
-      return "DiscreteDomains.longs()";
+      return "DiscreteDomain.longs()";
     }
 
     private static final long serialVersionUID = 0;
@@ -148,9 +148,10 @@ public abstract class DiscreteDomain<C extends Comparable> {
   
   /**
    * Returns the discrete domain for values of type {@code BigInteger}.
+   *
+   * @since 15.0
    */
-  // TODO(kevinb): make sure it's tested, and make it public
-  static DiscreteDomain<BigInteger> bigIntegers() {
+  public static DiscreteDomain<BigInteger> bigIntegers() {
     return BigIntegerDomain.INSTANCE;
   }
 
@@ -181,7 +182,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
     @Override
     public String toString() {
-      return "DiscreteDomains.bigIntegers()";
+      return "DiscreteDomain.bigIntegers()";
     }
 
     private static final long serialVersionUID = 0;

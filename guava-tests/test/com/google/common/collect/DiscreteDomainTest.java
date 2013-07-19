@@ -32,5 +32,6 @@ public class DiscreteDomainTest extends TestCase {
   public void testSerialization() {
     reserializeAndAssert(DiscreteDomain.integers());
     reserializeAndAssert(DiscreteDomain.longs());
+    reserializeAndAssert(DiscreteDomain.bigIntegers());
   }
 }
