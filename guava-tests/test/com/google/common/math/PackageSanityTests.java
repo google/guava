@@ -24,4 +24,10 @@ import com.google.common.testing.AbstractPackageSanityTests;
  * @author Ben Yu
  */
 
-public class PackageSanityTests extends AbstractPackageSanityTests {}
+public class PackageSanityTests extends AbstractPackageSanityTests {
+
+  @Override
+  protected void setUp() throws Exception {
+    publicApiOnly();
+  }
+}
