@@ -165,8 +165,8 @@ public abstract class Striped<L> {
   // Static factories
 
   /**
-   * Creates a {@code Striped<Lock>} with eagerly initialized, strongly referenced locks, with the
-   * specified fairness. Every lock is reentrant.
+   * Creates a {@code Striped<Lock>} with eagerly initialized, strongly referenced locks.
+   * Every lock is reentrant.
    *
    * @param stripes the minimum number of stripes (locks) required
    * @return a new {@code Striped<Lock>}
@@ -180,8 +180,8 @@ public abstract class Striped<L> {
   }
 
   /**
-   * Creates a {@code Striped<Lock>} with lazily initialized, weakly referenced locks, with the
-   * specified fairness. Every lock is reentrant.
+   * Creates a {@code Striped<Lock>} with lazily initialized, weakly referenced locks.
+   * Every lock is reentrant.
    *
    * @param stripes the minimum number of stripes (locks) required
    * @return a new {@code Striped<Lock>}
@@ -196,7 +196,7 @@ public abstract class Striped<L> {
 
   /**
    * Creates a {@code Striped<Semaphore>} with eagerly initialized, strongly referenced semaphores,
-   * with the specified number of permits and fairness.
+   * with the specified number of permits.
    *
    * @param stripes the minimum number of stripes (semaphores) required
    * @param permits the number of permits in each semaphore
@@ -212,7 +212,7 @@ public abstract class Striped<L> {
 
   /**
    * Creates a {@code Striped<Semaphore>} with lazily initialized, weakly referenced semaphores,
-   * with the specified number of permits and fairness.
+   * with the specified number of permits.
    *
    * @param stripes the minimum number of stripes (semaphores) required
    * @param permits the number of permits in each semaphore
@@ -228,7 +228,7 @@ public abstract class Striped<L> {
 
   /**
    * Creates a {@code Striped<ReadWriteLock>} with eagerly initialized, strongly referenced
-   * read-write locks, with the specified fairness. Every lock is reentrant.
+   * read-write locks. Every lock is reentrant.
    *
    * @param stripes the minimum number of stripes (locks) required
    * @return a new {@code Striped<ReadWriteLock>}
@@ -239,7 +239,7 @@ public abstract class Striped<L> {
 
   /**
    * Creates a {@code Striped<ReadWriteLock>} with lazily initialized, weakly referenced
-   * read-write locks, with the specified fairness. Every lock is reentrant.
+   * read-write locks. Every lock is reentrant.
    *
    * @param stripes the minimum number of stripes (locks) required
    * @return a new {@code Striped<ReadWriteLock>}
@@ -321,7 +321,9 @@ public abstract class Striped<L> {
     }
 
     @Override public L getAt(int index) {
-      Preconditions.checkElementIndex(index, size());
+      if (size != Integer.MAX_VALUE) {
+        Preconditions.checkElementIndex(index, size());
+      } // else no check necessary, all index values are valid
       L existing = locks.get(index);
       if (existing != null) {
         return existing;

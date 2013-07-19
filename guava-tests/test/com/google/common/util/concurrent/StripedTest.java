@@ -162,4 +162,16 @@ public class StripedTest extends TestCase {
       fail();
     } catch (RuntimeException expected) {}
   }
+
+  public void testMaxSize() {
+    for (Striped<?> striped : ImmutableList.of(
+        Striped.lazyWeakLock(Integer.MAX_VALUE),
+        Striped.lazyWeakSemaphore(Integer.MAX_VALUE, Integer.MAX_VALUE),
+        Striped.lazyWeakReadWriteLock(Integer.MAX_VALUE))) {
+      for (int i = 0; i < 3; i++) {
+        // doesn't throw exception
+        striped.get(new Integer(Integer.MAX_VALUE - i));
+      }
+    }
+  }
 }
