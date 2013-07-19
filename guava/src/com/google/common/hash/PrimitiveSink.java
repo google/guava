@@ -93,7 +93,8 @@ public interface PrimitiveSink {
   /**
    * Puts a string into this sink.
    *
-   * @deprecated Use {PrimitiveSink#putUnencodedChars} instead.
+   * @deprecated Use {PrimitiveSink#putUnencodedChars} instead. This method is scheduled for
+   *     removal in Guava 16.0.
    */
   @Deprecated
   PrimitiveSink putString(CharSequence charSequence);
