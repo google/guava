@@ -29,6 +29,7 @@
       <artifactId>javax.inject</artifactId>
       <optional>true</optional><!-- needed only for annotations -->
     </dependency>
+    <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
   </dependencies>
   <build>
     <plugins>
@@ -63,8 +64,22 @@
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
       </plugin>
+      <!-- TODO(cpovirk): include JDK sources when building testlib doc, too -->
       <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-jdk-sources</id>
+            <phase>site</phase>
+            <goals><goal>unpack-dependencies</goal></goals>
+            <configuration>
+              <includeArtifactIds>srczip</includeArtifactIds>
+              <overWrite>true</overWrite>
+              <outputDirectory>${project.build.directory}/jdk-sources</outputDirectory>
+              <silent>false</silent>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -99,6 +114,9 @@
           <links>
             <link>http://jsr-305.googlecode.com/svn/trunk/javadoc</link>
           </links>
+          <!-- TODO(cpovirk): can we use includeDependencySources and a local com.oracle.java:jdk-lib:noversion:sources instead of all this unzipping and manual sourcepath modification? -->
+          <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources</sourcepath>
+          <subpackages>com.google.common</subpackages>
         </configuration>
         <executions>
           <execution>
@@ -128,4 +146,24 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>srczip</id>
+      <activation>
+        <file>
+          <exists>${java.home}/../src.zip</exists>
+        </file>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>jdk</groupId>
+          <artifactId>srczip</artifactId>
+          <version>999</version>
+          <scope>system</scope>
+          <systemPath>${java.home}/../src.zip</systemPath>
+          <optional>true</optional>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>
