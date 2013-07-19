@@ -975,6 +975,8 @@ public final class Futures {
    * supplied future when it completes.  Cancelling the supplied future
    * will also cancel the returned future, but cancelling the returned
    * future will have no effect on the supplied future.
+   *
+   * @since 15.0
    */
   public static <V> ListenableFuture<V> nonCancellationPropagating(
       ListenableFuture<V> future) {

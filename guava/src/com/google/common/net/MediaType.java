@@ -226,6 +226,8 @@ public final class MediaType {
    * documents. This media type is defined in the
    * <a href="http://www.idpf.org/epub/30/spec/epub30-ocf.html">EPUB Open Container Format</a>
    * specification.
+   *
+   * @since 15.0
    */
   public static final MediaType EPUB = createConstant(APPLICATION_TYPE, "epub+zip");
   public static final MediaType FORM_DATA = createConstant(APPLICATION_TYPE,
@@ -286,6 +288,8 @@ public final class MediaType {
   public static final MediaType POSTSCRIPT = createConstant(APPLICATION_TYPE, "postscript");
   /**
    * <a href="http://tools.ietf.org/html/draft-rfernando-protocol-buffers-00">Protocol buffers</a>
+   *
+   * @since 15.0
    */
   public static final MediaType PROTOBUF = createConstant(APPLICATION_TYPE, "protobuf");
   public static final MediaType RDF_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rdf+xml");

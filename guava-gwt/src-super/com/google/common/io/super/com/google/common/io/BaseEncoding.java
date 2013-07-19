@@ -131,6 +131,7 @@ public abstract class BaseEncoding {
    * Exception indicating invalid base-encoded input encountered while decoding.
    *
    * @author Louis Wasserman
+   * @since 15.0
    */
   public static final class DecodingException extends IOException {
     DecodingException(String message) {
