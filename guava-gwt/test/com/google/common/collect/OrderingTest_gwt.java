@@ -38,29 +38,9 @@ public void testBinarySearch() throws Exception {
   testCase.testBinarySearch();
 }
 
-public void testCombinationsExhaustively_startingFromArbitrary() throws Exception {
-  com.google.common.collect.OrderingTest testCase = new com.google.common.collect.OrderingTest();
-  testCase.testCombinationsExhaustively_startingFromArbitrary();
-}
-
-public void testCombinationsExhaustively_startingFromExplicit() throws Exception {
-  com.google.common.collect.OrderingTest testCase = new com.google.common.collect.OrderingTest();
-  testCase.testCombinationsExhaustively_startingFromExplicit();
-}
-
-public void testCombinationsExhaustively_startingFromFromComparator() throws Exception {
-  com.google.common.collect.OrderingTest testCase = new com.google.common.collect.OrderingTest();
-  testCase.testCombinationsExhaustively_startingFromFromComparator();
-}
-
 public void testCombinationsExhaustively_startingFromNatural() throws Exception {
   com.google.common.collect.OrderingTest testCase = new com.google.common.collect.OrderingTest();
   testCase.testCombinationsExhaustively_startingFromNatural();
-}
-
-public void testCombinationsExhaustively_startingFromUsingToString() throws Exception {
-  com.google.common.collect.OrderingTest testCase = new com.google.common.collect.OrderingTest();
-  testCase.testCombinationsExhaustively_startingFromUsingToString();
 }
 
 public void testCompound_instance() throws Exception {

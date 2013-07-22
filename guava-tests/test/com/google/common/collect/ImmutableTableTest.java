@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 /**
  * Tests common methods in {@link ImmutableTable}
@@ -348,6 +349,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     ASSERT.that(table.row('c').keySet()).has().exactly(1, 2, 3).inOrder();
   }
 
+  @GwtIncompatible("Mind-bogglingly slow in GWT")
   public void testOverflowCondition() {
     // See https://code.google.com/p/guava-libraries/issues/detail?id=1322 for details.
     ImmutableTable.Builder<Integer, Integer, String> builder = ImmutableTable.builder();
