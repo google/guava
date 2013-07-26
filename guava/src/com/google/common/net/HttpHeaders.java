@@ -16,6 +16,7 @@
 
 package com.google.common.net;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -217,6 +218,22 @@ public final class HttpHeaders {
   public static final String X_FRAME_OPTIONS = "X-Frame-Options";
   /** The HTTP {@code X-Powered-By} header field name. */
   public static final String X_POWERED_BY = "X-Powered-By";
+  /**
+   * The HTTP <a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning">
+   * {@code Public-Key-Pins}</a> header field name.
+   *
+   * @since 15.0
+   */
+  @Beta
+  public static final String PUBLIC_KEY_PINS = "Public-Key-Pins";
+  /**
+   * The HTTP <a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning">
+   * {@code Public-Key-Pins-Report-Only}</a> header field name.
+   *
+   * @since 15.0
+   */
+  @Beta
+  public static final String PUBLIC_KEY_PINS_REPORT_ONLY = "Public-Key-Pins-Report-Only";
   /** The HTTP {@code X-Requested-With} header field name. */
   public static final String X_REQUESTED_WITH = "X-Requested-With";
   /** The HTTP {@code X-User-IP} header field name. */
