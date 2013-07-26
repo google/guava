@@ -179,9 +179,10 @@ public final class Queues {
   /**
    * Creates an empty {@code PriorityBlockingQueue} with the ordering given by its
    * elements' natural ordering.
+   *
+   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
    */
-  // TODO(user): These should be <E extends Comparable>
-  public static <E> PriorityBlockingQueue<E> newPriorityBlockingQueue() {
+  public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue() {
     return new PriorityBlockingQueue<E>();
   }
 
@@ -190,8 +191,10 @@ public final class Queues {
    *
    * <b>Note:</b> If the specified iterable is a {@code SortedSet} or a {@code PriorityQueue},
    * this priority queue will be ordered according to the same ordering.
+   *
+   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
    */
-  public static <E> PriorityBlockingQueue<E> newPriorityBlockingQueue(
+  public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
       return new PriorityBlockingQueue<E>(Collections2.cast(elements));
@@ -206,8 +209,10 @@ public final class Queues {
   /**
    * Creates an empty {@code PriorityQueue} with the ordering given by its
    * elements' natural ordering.
+   *
+   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
    */
-  public static <E> PriorityQueue<E> newPriorityQueue() {
+  public static <E extends Comparable> PriorityQueue<E> newPriorityQueue() {
     return new PriorityQueue<E>();
   }
 
@@ -216,8 +221,11 @@ public final class Queues {
    *
    * <b>Note:</b> If the specified iterable is a {@code SortedSet} or a {@code PriorityQueue},
    * this priority queue will be ordered according to the same ordering.
+   *
+   * @since 11.0 (requires that {@code E} be {@code Comparable} since 15.0).
    */
-  public static <E> PriorityQueue<E> newPriorityQueue(Iterable<? extends E> elements) {
+  public static <E extends Comparable> PriorityQueue<E> newPriorityQueue(
+      Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
       return new PriorityQueue<E>(Collections2.cast(elements));
     }
@@ -274,13 +282,13 @@ public final class Queues {
     }
     return added;
   }
-
+  
   /**
-   * Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, long, TimeUnit)},
-   * but with a different behavior in case it is interrupted while waiting. In that case, the
-   * operation will continue as usual, and in the end the thread's interruption status will be set
-   * (no {@code InterruptedException} is thrown).
-   *
+   * Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, long, TimeUnit)}, 
+   * but with a different behavior in case it is interrupted while waiting. In that case, the 
+   * operation will continue as usual, and in the end the thread's interruption status will be set 
+   * (no {@code InterruptedException} is thrown). 
+   * 
    * @param q the blocking queue to be drained
    * @param buffer where to add the transferred elements
    * @param numElements the number of elements to be waited for
@@ -289,7 +297,7 @@ public final class Queues {
    * @return the number of elements transferred
    */
   @Beta
-  public static <E> int drainUninterruptibly(BlockingQueue<E> q, Collection<? super E> buffer,
+  public static <E> int drainUninterruptibly(BlockingQueue<E> q, Collection<? super E> buffer, 
       int numElements, long timeout, TimeUnit unit) {
     Preconditions.checkNotNull(buffer);
     long deadline = System.nanoTime() + unit.toNanos(timeout);
@@ -297,7 +305,7 @@ public final class Queues {
     boolean interrupted = false;
     try {
       while (added < numElements) {
-        // we could rely solely on #poll, but #drainTo might be more efficient when there are
+        // we could rely solely on #poll, but #drainTo might be more efficient when there are 
         // multiple elements already available (e.g. LinkedBlockingQueue#drainTo locks only once)
         added += q.drainTo(buffer, numElements - added);
         if (added < numElements) { // not enough elements immediately available; will have to poll
