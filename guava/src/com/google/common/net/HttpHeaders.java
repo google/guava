@@ -179,6 +179,13 @@ public final class HttpHeaders {
   /** The HTTP {@code Set-Cookie2} header field name. */
   public static final String SET_COOKIE2 = "Set-Cookie2";
   /**
+   * The HTTP <a href="http://tools.ietf.org/html/rfc6797#section-6.1">
+   * {@code Strict-Transport-Security}</a> header field name.
+   *
+   * @since 15.0
+   */
+  public static final String STRICT_TRANSPORT_SECURITY = "Strict-Transport-Security";
+  /**
    * The HTTP <a href="http://www.w3.org/TR/resource-timing/#cross-origin-resources">
    * {@code Timing-Allow-Origin}</a> header field name.
    *
