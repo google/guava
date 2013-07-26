@@ -43,7 +43,7 @@ import java.io.UnsupportedEncodingException;
  */
 @GwtCompatible(emulated = true)
 public class BaseEncodingTest extends TestCase {
-  public void assertEquals(byte[] expected, byte[] actual) {
+  public static void assertEquals(byte[] expected, byte[] actual) {
     assertEquals(expected.length, actual.length);
     for (int i = 0; i < expected.length; i++) {
       assertEquals(expected[i], actual[i]);
@@ -303,16 +303,18 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testBase16UpperCaseIsNoOp() {
-    assertSame(base16().upperCase(), base16().upperCase());
+    assertSame(base16(), base16().upperCase());
   }
 
-  private void testEncodingWithCasing(BaseEncoding encoding, String decoded, String encoded) {
+  private static void testEncodingWithCasing(
+      BaseEncoding encoding, String decoded, String encoded) {
     testEncodingWithSeparators(encoding, decoded, encoded);
     testEncodingWithSeparators(encoding.upperCase(), decoded, Ascii.toUpperCase(encoded));
     testEncodingWithSeparators(encoding.lowerCase(), decoded, Ascii.toLowerCase(encoded));
   }
 
-  private void testEncodingWithSeparators(BaseEncoding encoding, String decoded, String encoded) {
+  private static void testEncodingWithSeparators(
+      BaseEncoding encoding, String decoded, String encoded) {
     testEncoding(encoding, decoded, encoded);
 
     // test separators work
@@ -324,14 +326,15 @@ public class BaseEncodingTest extends TestCase {
     }
   }
 
-  private void testEncoding(BaseEncoding encoding, String decoded, String encoded) {
+  private static void testEncoding(BaseEncoding encoding, String decoded, String encoded) {
     testEncodes(encoding, decoded, encoded);
     testDecodes(encoding, encoded, decoded);
   }
 
-  private void testEncodes(BaseEncoding encoding, String decoded, String encoded) {
+  private static void testEncodes(BaseEncoding encoding, String decoded, String encoded) {
     byte[] bytes;
     try {
+      // GWT does not support String.getBytes(Charset)
       bytes = decoded.getBytes("UTF-8");
     } catch (UnsupportedEncodingException e) {
       throw new AssertionError();
@@ -339,9 +342,10 @@ public class BaseEncodingTest extends TestCase {
     assertEquals(encoded, encoding.encode(bytes));
   }
 
-  private void testDecodes(BaseEncoding encoding, String encoded, String decoded) {
+  private static void testDecodes(BaseEncoding encoding, String encoded, String decoded) {
     byte[] bytes;
     try {
+      // GWT does not support String.getBytes(Charset)
       bytes = decoded.getBytes("UTF-8");
     } catch (UnsupportedEncodingException e) {
       throw new AssertionError();
@@ -349,7 +353,7 @@ public class BaseEncodingTest extends TestCase {
     assertEquals(bytes, encoding.decode(encoded));
   }
 
-  private void assertFailsToDecode(BaseEncoding encoding, String cannotDecode) {
+  private static void assertFailsToDecode(BaseEncoding encoding, String cannotDecode) {
     try {
       encoding.decode(cannotDecode);
       fail("Expected IllegalArgumentException");
@@ -365,7 +369,7 @@ public class BaseEncodingTest extends TestCase {
   }
 
   @GwtIncompatible("Reader/Writer")
-  private void testStreamingEncodingWithCasing(
+  private static void testStreamingEncodingWithCasing(
       BaseEncoding encoding, String decoded, String encoded) throws IOException {
     testStreamingEncodingWithSeparators(encoding, decoded, encoded);
     testStreamingEncodingWithSeparators(encoding.upperCase(), decoded, Ascii.toUpperCase(encoded));
@@ -373,7 +377,7 @@ public class BaseEncodingTest extends TestCase {
   }
 
   @GwtIncompatible("Reader/Writer")
-  private void testStreamingEncodingWithSeparators(
+  private static void testStreamingEncodingWithSeparators(
       BaseEncoding encoding, String decoded, String encoded) throws IOException {
     testStreamingEncoding(encoding, decoded, encoded);
 
@@ -387,17 +391,18 @@ public class BaseEncodingTest extends TestCase {
   }
 
   @GwtIncompatible("Reader/Writer")
-  private void testStreamingEncoding(BaseEncoding encoding, String decoded, String encoded)
+  private static void testStreamingEncoding(BaseEncoding encoding, String decoded, String encoded)
       throws IOException {
     testStreamingEncodes(encoding, decoded, encoded);
     testStreamingDecodes(encoding, encoded, decoded);
   }
 
   @GwtIncompatible("Writer")
-  private void testStreamingEncodes(BaseEncoding encoding, String decoded, String encoded)
+  private static void testStreamingEncodes(BaseEncoding encoding, String decoded, String encoded)
       throws IOException {
     byte[] bytes;
     try {
+      // GWT does not support String.getBytes(Charset)
       bytes = decoded.getBytes("UTF-8");
     } catch (UnsupportedEncodingException e) {
       throw new AssertionError();
@@ -410,10 +415,11 @@ public class BaseEncodingTest extends TestCase {
   }
 
   @GwtIncompatible("Reader")
-  private void testStreamingDecodes(BaseEncoding encoding, String encoded, String decoded)
+  private static void testStreamingDecodes(BaseEncoding encoding, String encoded, String decoded)
       throws IOException {
     byte[] bytes;
     try {
+      // GWT does not support String.getBytes(Charset)
       bytes = decoded.getBytes("UTF-8");
     } catch (UnsupportedEncodingException e) {
       throw new AssertionError();
@@ -425,12 +431,12 @@ public class BaseEncodingTest extends TestCase {
     assertEquals(-1, decodingStream.read());
     decodingStream.close();
   }
-  
+
   public void testToString() {
     assertEquals("BaseEncoding.base64().withPadChar(=)", BaseEncoding.base64().toString());
-    assertEquals("BaseEncoding.base32Hex().omitPadding()", 
+    assertEquals("BaseEncoding.base32Hex().omitPadding()",
         BaseEncoding.base32Hex().omitPadding().toString());
-    assertEquals("BaseEncoding.base32().lowerCase().withPadChar($)", 
+    assertEquals("BaseEncoding.base32().lowerCase().withPadChar($)",
         BaseEncoding.base32().lowerCase().withPadChar('$').toString());
     assertEquals("BaseEncoding.base16().withSeparator(\"\n\", 10)",
         BaseEncoding.base16().withSeparator("\n", 10).toString());
