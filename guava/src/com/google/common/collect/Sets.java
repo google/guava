@@ -1213,7 +1213,7 @@ public final class Sets {
    * n} is of size {@code 2^n}, its memory usage is only {@code O(n)}. When the
    * power set is constructed, the input set is merely copied. Only as the
    * power set is iterated are the individual subsets created, and these subsets
-   * themselves occupy only a few bytes of memory regardless of their size.
+   * themselves occupy only a small constant amount of memory.
    *
    * @param set the set of elements to construct a power set from
    * @return the power set, as an immutable set of immutable sets
@@ -1226,25 +1226,69 @@ public final class Sets {
    */
   @GwtCompatible(serializable = false)
   public static <E> Set<Set<E>> powerSet(Set<E> set) {
-    ImmutableSet<E> input = ImmutableSet.copyOf(set);
-    checkArgument(input.size() <= 30,
-        "Too many elements to create power set: %s > 30", input.size());
-    return new PowerSet<E>(input);
+    return new PowerSet<E>(set);
+  }
+
+  private static final class SubSet<E> extends AbstractSet<E> {
+    private final ImmutableMap<E, Integer> inputSet;
+    private final int mask;
+
+    SubSet(ImmutableMap<E, Integer> inputSet, int mask) {
+      this.inputSet = inputSet;
+      this.mask = mask;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+      return new UnmodifiableIterator<E>() {
+        final ImmutableList<E> elements = inputSet.keySet().asList();
+        int remainingSetBits = mask;
+
+        @Override
+        public boolean hasNext() {
+          return remainingSetBits != 0;
+        }
+
+        @Override
+        public E next() {
+          int index = Integer.numberOfTrailingZeros(remainingSetBits);
+          if (index == 32) {
+            throw new NoSuchElementException();
+          }
+          remainingSetBits &= ~(1 << index);
+          return elements.get(index);
+        }
+      };
+    }
+
+    @Override
+    public int size() {
+      return Integer.bitCount(mask);
+    }
+
+    @Override
+    public boolean contains(@Nullable Object o) {
+      Integer index = inputSet.get(o);
+      return index != null && (mask & (1 << index)) != 0;
+    }
   }
 
   private static final class PowerSet<E> extends AbstractSet<Set<E>> {
-    final ImmutableSet<E> inputSet;
-    final ImmutableList<E> inputList;
-    final int powerSetSize;
+    final ImmutableMap<E, Integer> inputSet;
 
-    PowerSet(ImmutableSet<E> input) {
-      this.inputSet = input;
-      this.inputList = input.asList();
-      this.powerSetSize = 1 << input.size();
+    PowerSet(Set<E> input) {
+      ImmutableMap.Builder<E, Integer> builder = ImmutableMap.builder();
+      int i = 0;
+      for (E e : checkNotNull(input)) {
+        builder.put(e, i++);
+      }
+      this.inputSet = builder.build();
+      checkArgument(inputSet.size() <= 30,
+          "Too many elements to create power set: %s > 30", inputSet.size());
     }
 
     @Override public int size() {
-      return powerSetSize;
+      return 1 << inputSet.size();
     }
 
     @Override public boolean isEmpty() {
@@ -1252,50 +1296,17 @@ public final class Sets {
     }
 
     @Override public Iterator<Set<E>> iterator() {
-      return new AbstractIndexedListIterator<Set<E>>(powerSetSize) {
+      return new AbstractIndexedListIterator<Set<E>>(size()) {
         @Override protected Set<E> get(final int setBits) {
-          return new AbstractSet<E>() {
-            @Override public int size() {
-              return Integer.bitCount(setBits);
-            }
-            @Override public Iterator<E> iterator() {
-              return new BitFilteredSetIterator<E>(inputList, setBits);
-            }
-          };
+          return new SubSet<E>(inputSet, setBits);
         }
       };
-    }
-
-    private static final class BitFilteredSetIterator<E>
-        extends UnmodifiableIterator<E> {
-      final ImmutableList<E> input;
-      int remainingSetBits;
-
-      BitFilteredSetIterator(ImmutableList<E> input, int allSetBits) {
-        this.input = input;
-        this.remainingSetBits = allSetBits;
-      }
-
-      @Override public boolean hasNext() {
-        return remainingSetBits != 0;
-      }
-
-      @Override public E next() {
-        int index = Integer.numberOfTrailingZeros(remainingSetBits);
-        if (index == 32) {
-          throw new NoSuchElementException();
-        }
-
-        int currentElementMask = 1 << index;
-        remainingSetBits &= ~currentElementMask;
-        return input.get(index);
-      }
     }
 
     @Override public boolean contains(@Nullable Object obj) {
       if (obj instanceof Set) {
         Set<?> set = (Set<?>) obj;
-        return inputSet.containsAll(set);
+        return inputSet.keySet().containsAll(set);
       }
       return false;
     }
@@ -1314,7 +1325,7 @@ public final class Sets {
        * each input element's hash code times the number of sets that element
        * appears in. Each element appears in exactly half of the 2^n sets, so:
        */
-      return inputSet.hashCode() << (inputSet.size() - 1);
+      return inputSet.keySet().hashCode() << (inputSet.size() - 1);
     }
 
     @Override public String toString() {
