@@ -106,12 +106,12 @@ public interface ListenableFuture<V> extends Future<V> {
    * example, the listener may run on an unpredictable or undesirable thread:
    *
    * <ul>
-   * <li>If the input {@code Future} is done at the time {@code addListener} is
+   * <li>If this {@code Future} is done at the time {@code addListener} is
    * called, {@code addListener} will execute the listener inline.
-   * <li>If the input {@code Future} is not yet done, {@code addListener} will
-   * schedule the listener to be run by the thread that completes the input
-   * {@code Future}, which may be an internal system thread such as an RPC
-   * network thread.
+   * <li>If this {@code Future} is not yet done, {@code addListener} will
+   * schedule the listener to be run by the thread that completes this {@code
+   * Future}, which may be an internal system thread such as an RPC network
+   * thread.
    * </ul>
    *
    * <p>Also note that, regardless of which thread executes the
