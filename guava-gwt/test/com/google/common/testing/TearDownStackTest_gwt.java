@@ -20,43 +20,79 @@ public class TearDownStackTest_gwt extends com.google.gwt.junit.client.GWTTestCa
 }
 public void testMultipleTearDownsHappenInOrder() throws Exception {
   com.google.common.testing.TearDownStackTest testCase = new com.google.common.testing.TearDownStackTest();
+  Throwable failure = null;
   try {
     testCase.testMultipleTearDownsHappenInOrder();
+  } catch (Throwable t) {
+    failure = t;
   }
- finally {
-    try {
-      testCase.tearDown();
-    } catch (Throwable t) {
-      // ignore exceptions in tearDown().
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure != null) {
+      failure = t;
     }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
   }
 }
 
 public void testSingleTearDown() throws Exception {
   com.google.common.testing.TearDownStackTest testCase = new com.google.common.testing.TearDownStackTest();
+  Throwable failure = null;
   try {
     testCase.testSingleTearDown();
+  } catch (Throwable t) {
+    failure = t;
   }
- finally {
-    try {
-      testCase.tearDown();
-    } catch (Throwable t) {
-      // ignore exceptions in tearDown().
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure != null) {
+      failure = t;
     }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
   }
 }
 
 public void testThrowingTearDown() throws Exception {
   com.google.common.testing.TearDownStackTest testCase = new com.google.common.testing.TearDownStackTest();
+  Throwable failure = null;
   try {
     testCase.testThrowingTearDown();
+  } catch (Throwable t) {
+    failure = t;
   }
- finally {
-    try {
-      testCase.tearDown();
-    } catch (Throwable t) {
-      // ignore exceptions in tearDown().
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure != null) {
+      failure = t;
     }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
   }
 }
 }
