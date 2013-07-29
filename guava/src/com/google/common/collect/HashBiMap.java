@@ -77,11 +77,8 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     return bimap;
   }
 
-  private static final class BiEntry<K, V> {
-    final K key;
+  private static final class BiEntry<K, V> extends ImmutableEntry<K, V> {
     final int keyHash;
-
-    final V value;
     final int valueHash;
 
     @Nullable
@@ -91,9 +88,8 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     BiEntry<K, V> nextInVToKBucket;
 
     BiEntry(K key, int keyHash, V value, int valueHash) {
-      this.key = key;
+      super(key, value);
       this.keyHash = keyHash;
-      this.value = value;
       this.valueHash = valueHash;
     }
   }

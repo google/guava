@@ -28,8 +28,8 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true)
 class ImmutableEntry<K, V> extends AbstractMapEntry<K, V>
     implements Serializable {
-  private final K key;
-  private final V value;
+  final K key;
+  final V value;
 
   ImmutableEntry(@Nullable K key, @Nullable V value) {
     this.key = key;
