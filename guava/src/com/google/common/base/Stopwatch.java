@@ -55,14 +55,14 @@ import java.util.concurrent.TimeUnit;
  *
  *   long millis = stopwatch.elapsed(MILLISECONDS);
  *
- *   log.info("that took: " + stopwatch); // formatted string like "12.3 ms"
- * </pre>
+ *   log.info("time: " + stopwatch); // formatted string like "12.3 ms"</pre>
  *
  * <p>Stopwatch methods are not idempotent; it is an error to start or stop a
  * stopwatch that is already in the desired state.
  *
- * <p>When testing code that uses this class, use the {@linkplain
- * #Stopwatch(Ticker) alternate constructor} to supply a fake or mock ticker.
+ * <p>When testing code that uses this class, use
+ * {@link #createUnstarted(Ticker)} or {@link #createStarted(Ticker)} to
+ * supply a fake or mock ticker.
  * <!-- TODO(kevinb): restore the "such as" --> This allows you to
  * simulate any valid behavior of the stopwatch.
  *
@@ -124,7 +124,7 @@ public final class Stopwatch {
    * as its time source.
    *
    * @deprecated Use {@link Stopwatch#createUnstarted()} instead. This
-   *     constructor is scheduled to be remove in Guava release 17.0.
+   *     constructor is scheduled to be removed in Guava release 17.0.
    */
   @Deprecated
   public Stopwatch() {
@@ -136,7 +136,7 @@ public final class Stopwatch {
    * source.
    *
    * @deprecated Use {@link Stopwatch#createUnstarted(Ticker)} instead. This
-   *     constructor is scheduled to be remove in Guava release 17.0.
+   *     constructor is scheduled to be removed in Guava release 17.0.
    */
   @Deprecated
   public Stopwatch(Ticker ticker) {
