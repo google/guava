@@ -162,6 +162,32 @@ public class HashCodesTest extends TestCase {
     assertEquals(hash1, hash2);
   }
 
+  public void testObjectHashCode() {
+    HashCode hashCode42 = HashCodes.fromInt(42);
+    assertEquals(42, hashCode42.hashCode());
+  }
+
+  // See https://code.google.com/p/guava-libraries/issues/detail?id=1494
+  public void testObjectHashCodeWithSameLowOrderBytes() {
+    // These will have the same first 4 bytes (all 0).
+    byte[] bytesA = new byte[5];
+    byte[] bytesB = new byte[5];
+
+    // Change only the last (5th) byte
+    bytesA[4] = (byte) 0xbe;
+    bytesB[4] = (byte) 0xef;
+
+    HashCode hashCodeA = HashCodes.fromBytes(bytesA);
+    HashCode hashCodeB = HashCodes.fromBytes(bytesB);
+
+    // They aren't equal...
+    assertFalse(hashCodeA.equals(hashCodeB));
+
+    // But they still have the same Object#hashCode() value.
+    // Technically not a violation of the equals/hashCode contract, but...?
+    assertEquals(hashCodeA.hashCode(), hashCodeB.hashCode());
+  }
+
   private static ClassSanityTester.FactoryMethodReturnValueTester sanityTester() {
     return new ClassSanityTester()
         .setDefault(byte[].class, new byte[] {1, 2, 3, 4})
