@@ -262,6 +262,37 @@ public abstract class HashCode {
    */
   public abstract int bits();
 
+  /**
+   * Creates a {@code HashCode} from a hexadecimal (base 16) encoded string. The string must be
+   * at least 2 characters long, and contain only valid, lower-cased hexadecimal characters.
+   *
+   * @since 15.0
+   */
+  public static HashCode fromString(String string) {
+    checkArgument(string.length() >= 2,
+        "input string (%s) must have at least 2 characters", string);
+    checkArgument(string.length() % 2 == 0,
+        "input string (%s) must have an even number of characters", string);
+
+    byte[] bytes = new byte[string.length() / 2];
+    for (int i = 0; i < string.length(); i += 2) {
+      int ch1 = decode(string.charAt(i)) << 4;
+      int ch2 = decode(string.charAt(i + 1));
+      bytes[i / 2] = (byte) (ch1 + ch2);
+    }
+    return fromBytesNoCopy(bytes);
+  }
+
+  private static int decode(char ch) {
+    if (ch >= '0' && ch <= '9') {
+      return ch - '0';
+    }
+    if (ch >= 'a' && ch <= 'f') {
+      return ch - 'a' + 10;
+    }
+    throw new IllegalArgumentException("Illegal hexadecimal character: " + ch);
+  }
+
   @Override public boolean equals(@Nullable Object object) {
     if (object instanceof HashCode) {
       HashCode that = (HashCode) object;

@@ -188,11 +188,69 @@ public class HashCodeTest extends TestCase {
     assertEquals(hashCodeA.hashCode(), hashCodeB.hashCode());
   }
 
+  public void testRoundTripHashCodeUsingFromString() {
+    HashCode hash1 = Hashing.sha1().hashString("foo");
+    HashCode hash2 = HashCode.fromString(hash1.toString());
+    assertEquals(hash1, hash2);
+  }
+
+  public void testRoundTrip() {
+    for (ExpectedHashCode expected : expectedHashCodes) {
+      String string = HashCodes.fromBytes(expected.bytes).toString();
+      assertEquals(expected.toString, string);
+      assertEquals(
+          expected.toString,
+          HashCodes.fromBytes(
+              BaseEncoding.base16().lowerCase().decode(string)).toString());
+    }
+  }
+
+  public void testFromStringFailsWithInvalidHexChar() {
+    try {
+      HashCode.fromString("7f8005ff0z");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testFromStringFailsWithUpperCaseString() {
+    String string = Hashing.sha1().hashString("foo").toString().toUpperCase();
+    try {
+      HashCode.fromString(string);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testFromStringFailsWithShortInputs() {
+    try {
+      HashCode.fromString("");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      HashCode.fromString("7");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    HashCode.fromString("7f");
+  }
+
+  public void testFromStringFailsWithOddLengthInput() {
+    try {
+      HashCode.fromString("7f8");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   private static ClassSanityTester.FactoryMethodReturnValueTester sanityTester() {
     return new ClassSanityTester()
         .setDefault(byte[].class, new byte[] {1, 2, 3, 4})
         .setSampleInstances(byte[].class,
             ImmutableList.of(new byte[] {1, 2, 3, 4}, new byte[] {5, 6, 7, 8}))
+        .setSampleInstances(String.class,
+            ImmutableList.of("7f8005ff0e", "7f8005ff0e"))
         .forAllPublicStaticMethods(HashCode.class);
   }
 
