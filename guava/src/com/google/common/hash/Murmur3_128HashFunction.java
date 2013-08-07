@@ -168,7 +168,7 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
       h1 += h2;
       h2 += h1;
 
-      return HashCodes.fromBytesNoCopy(ByteBuffer
+      return HashCode.fromBytesNoCopy(ByteBuffer
           .wrap(new byte[CHUNK_SIZE])
           .order(ByteOrder.LITTLE_ENDIAN)
           .putLong(h1)

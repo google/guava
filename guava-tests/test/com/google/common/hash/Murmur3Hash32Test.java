@@ -18,7 +18,6 @@ package com.google.common.hash;
 
 import static com.google.common.hash.Hashing.murmur3_32;
 
-import com.google.common.hash.Funnels;
 import com.google.common.hash.HashTestUtils.HashFn;
 
 import junit.framework.TestCase;
@@ -54,7 +53,7 @@ public class Murmur3Hash32Test extends TestCase {
   }
 
   private static void assertHash(int expected, HashCode actual) {
-    assertEquals(HashCodes.fromInt(expected), actual);
+    assertEquals(HashCode.fromInt(expected), actual);
   }
 
   public void testParanoid() {

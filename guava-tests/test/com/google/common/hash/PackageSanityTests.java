@@ -28,7 +28,7 @@ import com.google.common.testing.AbstractPackageSanityTests;
 public class PackageSanityTests extends AbstractPackageSanityTests {
   public PackageSanityTests() {
     setDefault(BitArray.class, new BitArray(1));
-    setDefault(HashCode.class, HashCodes.fromInt(1));
+    setDefault(HashCode.class, HashCode.fromInt(1));
     setDefault(String.class, "MD5");
     setDefault(int.class, 32);
   }

@@ -134,7 +134,7 @@ public class AbstractByteHasherTest extends TestCase {
 
     @Override
     public HashCode hash() {
-      return HashCodes.fromBytesNoCopy(bytes());
+      return HashCode.fromBytesNoCopy(bytes());
     }
   }
 }

@@ -19,7 +19,6 @@ package com.google.common.hash;
 import static com.google.common.hash.Hashing.murmur3_128;
 
 import com.google.common.base.Charsets;
-import com.google.common.hash.Funnels;
 import com.google.common.hash.HashTestUtils.HashFn;
 
 import junit.framework.TestCase;
@@ -64,7 +63,7 @@ public class Murmur3Hash128Test extends TestCase {
     for (long x : longs) {
       bb.putLong(x);
     }
-    return HashCodes.fromBytes(bb.array());
+    return HashCode.fromBytes(bb.array());
   }
 
   public void testParanoid() {

@@ -27,12 +27,12 @@ import junit.framework.TestCase;
 import java.util.Arrays;
 
 /**
- * Tests for HashCodes, especially making sure that their endianness promises (big-endian)
- * are upheld.
+ * Unit tests for {@link HashCode}.
  *
  * @author Dimitris Andreou
+ * @author Kurt Alfred Kluever
  */
-public class HashCodesTest extends TestCase {
+public class HashCodeTest extends TestCase {
   // note: asInt(), asLong() are in little endian
   private static final ImmutableList<ExpectedHashCode> expectedHashCodes = ImmutableList.of(
       new ExpectedHashCode(new byte[] {
@@ -65,7 +65,7 @@ public class HashCodesTest extends TestCase {
   public void testFromInt() {
     for (ExpectedHashCode expected : expectedHashCodes) {
       if (expected.bytes.length == 4) {
-        HashCode fromInt = HashCodes.fromInt(expected.asInt);
+        HashCode fromInt = HashCode.fromInt(expected.asInt);
         assertExpectedHashCode(expected, fromInt);
       }
     }
@@ -75,7 +75,7 @@ public class HashCodesTest extends TestCase {
   public void testFromLong() {
     for (ExpectedHashCode expected : expectedHashCodes) {
       if (expected.bytes.length == 8) {
-        HashCode fromLong = HashCodes.fromLong(expected.asLong);
+        HashCode fromLong = HashCode.fromLong(expected.asLong);
         assertExpectedHashCode(expected, fromLong);
       }
     }
@@ -83,14 +83,14 @@ public class HashCodesTest extends TestCase {
 
   public void testFromBytes() {
     for (ExpectedHashCode expected : expectedHashCodes) {
-      HashCode fromBytes = HashCodes.fromBytes(expected.bytes);
+      HashCode fromBytes = HashCode.fromBytes(expected.bytes);
       assertExpectedHashCode(expected, fromBytes);
     }
   }
 
   public void testFromBytes_copyOccurs() {
     byte[] bytes = new byte[] { (byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00 };
-    HashCode hashCode = HashCodes.fromBytes(bytes);
+    HashCode hashCode = HashCode.fromBytes(bytes);
     int expectedInt = 0x0000abcd;
     String expectedToString = "cdab0000";
 
@@ -105,7 +105,7 @@ public class HashCodesTest extends TestCase {
 
   public void testFromBytesNoCopy_noCopyOccurs() {
     byte[] bytes = new byte[] { (byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00 };
-    HashCode hashCode = HashCodes.fromBytesNoCopy(bytes);
+    HashCode hashCode = HashCode.fromBytesNoCopy(bytes);
 
     assertEquals(0x0000abcd, hashCode.asInt());
     assertEquals("cdab0000", hashCode.toString());
@@ -117,22 +117,22 @@ public class HashCodesTest extends TestCase {
   }
 
   public void testPadToLong() {
-    assertEquals(0x1111111111111111L, HashCodes.fromLong(0x1111111111111111L).padToLong());
-    assertEquals(0x9999999999999999L, HashCodes.fromLong(0x9999999999999999L).padToLong());
-    assertEquals(0x0000000011111111L, HashCodes.fromInt(0x11111111).padToLong());
-    assertEquals(0x0000000099999999L, HashCodes.fromInt(0x99999999).padToLong());
+    assertEquals(0x1111111111111111L, HashCode.fromLong(0x1111111111111111L).padToLong());
+    assertEquals(0x9999999999999999L, HashCode.fromLong(0x9999999999999999L).padToLong());
+    assertEquals(0x0000000011111111L, HashCode.fromInt(0x11111111).padToLong());
+    assertEquals(0x0000000099999999L, HashCode.fromInt(0x99999999).padToLong());
   }
 
   public void testPadToLongWith4Bytes() {
-    assertEquals(0x0000000099999999L, HashCodes.fromBytesNoCopy(byteArrayWith9s(4)).padToLong());
+    assertEquals(0x0000000099999999L, HashCode.fromBytesNoCopy(byteArrayWith9s(4)).padToLong());
   }
 
   public void testPadToLongWith6Bytes() {
-    assertEquals(0x0000999999999999L, HashCodes.fromBytesNoCopy(byteArrayWith9s(6)).padToLong());
+    assertEquals(0x0000999999999999L, HashCode.fromBytesNoCopy(byteArrayWith9s(6)).padToLong());
   }
 
   public void testPadToLongWith8Bytes() {
-    assertEquals(0x9999999999999999L, HashCodes.fromBytesNoCopy(byteArrayWith9s(8)).padToLong());
+    assertEquals(0x9999999999999999L, HashCode.fromBytesNoCopy(byteArrayWith9s(8)).padToLong());
   }
 
   private static byte[] byteArrayWith9s(int size) {
@@ -143,27 +143,27 @@ public class HashCodesTest extends TestCase {
 
   public void testToString() {
     byte[] data = new byte[] { 127, -128, 5, -1, 14 };
-    assertEquals("7f8005ff0e", HashCodes.fromBytes(data).toString());
+    assertEquals("7f8005ff0e", HashCode.fromBytes(data).toString());
     assertEquals("7f8005ff0e", base16().lowerCase().encode(data));
   }
 
-  public void testHashCodes_nulls() throws Exception {
+  public void testHashCode_nulls() throws Exception {
     sanityTester().testNulls();
   }
 
-  public void testHashCodes_equalsAndSerializable() throws Exception {
+  public void testHashCode_equalsAndSerializable() throws Exception {
     sanityTester().testEqualsAndSerializable();
   }
 
   public void testRoundTripHashCodeUsingBaseEncoding() {
     HashCode hash1 = Hashing.sha1().hashString("foo");
     HashCode hash2 =
-        HashCodes.fromBytes(BaseEncoding.base16().lowerCase().decode(hash1.toString()));
+        HashCode.fromBytes(BaseEncoding.base16().lowerCase().decode(hash1.toString()));
     assertEquals(hash1, hash2);
   }
 
   public void testObjectHashCode() {
-    HashCode hashCode42 = HashCodes.fromInt(42);
+    HashCode hashCode42 = HashCode.fromInt(42);
     assertEquals(42, hashCode42.hashCode());
   }
 
@@ -177,8 +177,8 @@ public class HashCodesTest extends TestCase {
     bytesA[4] = (byte) 0xbe;
     bytesB[4] = (byte) 0xef;
 
-    HashCode hashCodeA = HashCodes.fromBytes(bytesA);
-    HashCode hashCodeB = HashCodes.fromBytes(bytesB);
+    HashCode hashCodeA = HashCode.fromBytes(bytesA);
+    HashCode hashCodeB = HashCode.fromBytes(bytesB);
 
     // They aren't equal...
     assertFalse(hashCodeA.equals(hashCodeB));
@@ -193,24 +193,24 @@ public class HashCodesTest extends TestCase {
         .setDefault(byte[].class, new byte[] {1, 2, 3, 4})
         .setSampleInstances(byte[].class,
             ImmutableList.of(new byte[] {1, 2, 3, 4}, new byte[] {5, 6, 7, 8}))
-        .forAllPublicStaticMethods(HashCodes.class);
+        .forAllPublicStaticMethods(HashCode.class);
   }
 
-  private static void assertExpectedHashCode(ExpectedHashCode expected, HashCode hash) {
-    assertTrue(Arrays.equals(expected.bytes, hash.asBytes()));
+  private static void assertExpectedHashCode(ExpectedHashCode expectedHashCode, HashCode hash) {
+    assertTrue(Arrays.equals(expectedHashCode.bytes, hash.asBytes()));
     byte[] bb = new byte[hash.bits() / 8];
     hash.writeBytesTo(bb, 0, bb.length);
-    assertTrue(Arrays.equals(expected.bytes, bb));
-    assertEquals(expected.asInt, hash.asInt());
-    if (expected.asLong == null) {
+    assertTrue(Arrays.equals(expectedHashCode.bytes, bb));
+    assertEquals(expectedHashCode.asInt, hash.asInt());
+    if (expectedHashCode.asLong == null) {
       try {
         hash.asLong();
         fail();
-      } catch (IllegalStateException ok) {}
+      } catch (IllegalStateException expected) {}
     } else {
-      assertEquals(expected.asLong.longValue(), hash.asLong());
+      assertEquals(expectedHashCode.asLong.longValue(), hash.asLong());
     }
-    assertEquals(expected.toString, hash.toString());
+    assertEquals(expectedHashCode.toString, hash.toString());
     assertSideEffectFree(hash);
     assertReadableBytes(hash);
   }

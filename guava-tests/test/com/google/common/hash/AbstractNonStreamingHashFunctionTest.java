@@ -103,7 +103,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         @Override
         HashCode makeHash() {
-          return HashCodes.fromBytes(out.toByteArray());
+          return HashCode.fromBytes(out.toByteArray());
         }
 
         @Override
@@ -131,12 +131,12 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
 
     @Override
     public HashCode hashBytes(byte[] input) {
-      return HashCodes.fromBytes(input);
+      return HashCode.fromBytes(input);
     }
 
     @Override
     public HashCode hashBytes(byte[] input, int off, int len) {
-      return HashCodes.fromBytes(Arrays.copyOfRange(input, off, off + len));
+      return HashCode.fromBytes(Arrays.copyOfRange(input, off, off + len));
     }
 
     @Override

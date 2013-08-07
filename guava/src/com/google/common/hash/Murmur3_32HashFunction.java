@@ -144,7 +144,7 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
     h1 ^= h1 >>> 13;
     h1 *= 0xc2b2ae35;
     h1 ^= h1 >>> 16;
-    return HashCodes.fromInt(h1);
+    return HashCode.fromInt(h1);
   }
 
   private static final class Murmur3_32Hasher extends AbstractStreamingHasher {

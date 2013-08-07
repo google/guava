@@ -145,7 +145,7 @@ final class SipHashFunction extends AbstractStreamingHashFunction implements Ser
       // Finalization
       v2 ^= 0xFFL;
       sipRound(d);
-      return HashCodes.fromLong(v0 ^ v1 ^ v2 ^ v3);
+      return HashCode.fromLong(v0 ^ v1 ^ v2 ^ v3);
     }
 
     private void processM(long m) {

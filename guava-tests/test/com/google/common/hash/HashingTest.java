@@ -206,9 +206,9 @@ public class HashingTest extends TestCase {
   }
 
   public void testConsistentHash_ofHashCode() {
-    checkSameResult(HashCodes.fromLong(1), 1);
-    checkSameResult(HashCodes.fromLong(0x9999999999999999L), 0x9999999999999999L);
-    checkSameResult(HashCodes.fromInt(0x99999999), 0x0000000099999999L);
+    checkSameResult(HashCode.fromLong(1), 1);
+    checkSameResult(HashCode.fromLong(0x9999999999999999L), 0x9999999999999999L);
+    checkSameResult(HashCode.fromInt(0x99999999), 0x0000000099999999L);
   }
 
   public void checkSameResult(HashCode hashCode, long equivLong) {
@@ -247,19 +247,19 @@ public class HashingTest extends TestCase {
 
   public void testCombineOrdered_differentBitLengths() {
     try {
-      Hashing.combineOrdered(ImmutableList.of(HashCodes.fromInt(32), HashCodes.fromLong(32L)));
+      Hashing.combineOrdered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testCombineOrdered() {
-    HashCode hash31 = HashCodes.fromInt(31);
-    HashCode hash32 = HashCodes.fromInt(32);
+    HashCode hash31 = HashCode.fromInt(31);
+    HashCode hash32 = HashCode.fromInt(32);
     assertEquals(hash32, Hashing.combineOrdered(ImmutableList.of(hash32)));
-    assertEquals(HashCodes.fromBytes(new byte[] { (byte) 0x80, 0, 0, 0 }),
+    assertEquals(HashCode.fromBytes(new byte[] { (byte) 0x80, 0, 0, 0 }),
         Hashing.combineOrdered(ImmutableList.of(hash32, hash32)));
-    assertEquals(HashCodes.fromBytes(new byte[] { (byte) 0xa0, 0, 0, 0 }),
+    assertEquals(HashCode.fromBytes(new byte[] { (byte) 0xa0, 0, 0, 0 }),
         Hashing.combineOrdered(ImmutableList.of(hash32, hash32, hash32)));
     assertFalse(
         Hashing.combineOrdered(ImmutableList.of(hash31, hash32)).equals(
@@ -270,7 +270,7 @@ public class HashingTest extends TestCase {
     Random random = new Random(7);
     List<HashCode> hashCodes = Lists.newArrayList();
     for (int i = 0; i < 10; i++) {
-      hashCodes.add(HashCodes.fromLong(random.nextLong()));
+      hashCodes.add(HashCode.fromLong(random.nextLong()));
     }
     HashCode hashCode1 = Hashing.combineOrdered(hashCodes);
     Collections.shuffle(hashCodes, random);
@@ -289,18 +289,18 @@ public class HashingTest extends TestCase {
 
   public void testCombineUnordered_differentBitLengths() {
     try {
-      Hashing.combineUnordered(ImmutableList.of(HashCodes.fromInt(32), HashCodes.fromLong(32L)));
+      Hashing.combineUnordered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testCombineUnordered() {
-    HashCode hash31 = HashCodes.fromInt(31);
-    HashCode hash32 = HashCodes.fromInt(32);
+    HashCode hash31 = HashCode.fromInt(31);
+    HashCode hash32 = HashCode.fromInt(32);
     assertEquals(hash32, Hashing.combineUnordered(ImmutableList.of(hash32)));
-    assertEquals(HashCodes.fromInt(64), Hashing.combineUnordered(ImmutableList.of(hash32, hash32)));
-    assertEquals(HashCodes.fromInt(96),
+    assertEquals(HashCode.fromInt(64), Hashing.combineUnordered(ImmutableList.of(hash32, hash32)));
+    assertEquals(HashCode.fromInt(96),
         Hashing.combineUnordered(ImmutableList.of(hash32, hash32, hash32)));
     assertEquals(
         Hashing.combineUnordered(ImmutableList.of(hash31, hash32)),
@@ -311,7 +311,7 @@ public class HashingTest extends TestCase {
     Random random = new Random(RANDOM_SEED);
     List<HashCode> hashCodes = Lists.newArrayList();
     for (int i = 0; i < 10; i++) {
-      hashCodes.add(HashCodes.fromLong(random.nextLong()));
+      hashCodes.add(HashCode.fromLong(random.nextLong()));
     }
     HashCode hashCode1 = Hashing.combineUnordered(hashCodes);
     Collections.shuffle(hashCodes);
@@ -347,7 +347,7 @@ public class HashingTest extends TestCase {
     buffer.put(md5Hash);
     buffer.put(murmur3Hash);
 
-    assertEquals(HashCodes.fromBytes(combined),
+    assertEquals(HashCode.fromBytes(combined),
         new ConcatenatedHashFunction(Hashing.md5(), Hashing.murmur3_32()).hashLong(42L));
   }
 
@@ -441,7 +441,7 @@ public class HashingTest extends TestCase {
 
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester()
-        .setDefault(HashCode.class, HashCodes.fromInt(0));
+        .setDefault(HashCode.class, HashCode.fromInt(0));
     tester.testAllPublicStaticMethods(Hashing.class);
   }
 

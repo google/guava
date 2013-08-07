@@ -68,11 +68,11 @@ public class MessageDigestHashFunctionTest extends TestCase {
     try {
       MessageDigest digest = MessageDigest.getInstance(algorithmName);
       assertEquals(
-          HashCodes.fromBytes(digest.digest(input)),
+          HashCode.fromBytes(digest.digest(input)),
           ALGORITHMS.get(algorithmName).hashBytes(input));
       for (int bytes = 4; bytes <= digest.getDigestLength(); bytes++) {
         assertEquals(
-            HashCodes.fromBytes(Arrays.copyOf(digest.digest(input), bytes)),
+            HashCode.fromBytes(Arrays.copyOf(digest.digest(input), bytes)),
             new MessageDigestHashFunction(algorithmName, bytes, algorithmName).hashBytes(input));
       }
       try {
