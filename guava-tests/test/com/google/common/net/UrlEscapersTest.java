@@ -20,6 +20,7 @@ import static com.google.common.escape.testing.EscaperAsserts.assertEscaping;
 import static com.google.common.escape.testing.EscaperAsserts.assertUnescaped;
 import static com.google.common.escape.testing.EscaperAsserts.assertUnicodeEscaping;
 import static com.google.common.net.UrlEscapers.urlFormParameterEscaper;
+import static com.google.common.net.UrlEscapers.urlFragmentEscaper;
 import static com.google.common.net.UrlEscapers.urlPathSegmentEscaper;
 
 import com.google.common.annotations.GwtCompatible;
@@ -130,5 +131,14 @@ public class UrlEscapersTest extends TestCase {
 
     assertEquals("safe%20with%20spaces", e.escape("safe with spaces"));
     assertEquals("foo@bar.com", e.escape("foo@bar.com"));
+  }
+
+  public void testUrlFragmentEscaper() {
+    UnicodeEscaper e = (UnicodeEscaper) urlFragmentEscaper();
+    assertUnescaped(e, '+');
+    assertUnescaped(e, '/');
+    assertUnescaped(e, '?');
+
+    assertPathEscaper(e);
   }
 }
