@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -332,7 +334,7 @@ public final class Multisets {
 
     @Override
     public int remove(@Nullable Object element, int occurrences) {
-      Multisets.checkNonnegative(occurrences, "occurrences");
+      checkNonnegative(occurrences, "occurrences");
       if (occurrences == 0) {
         return count(element);
       } else {
@@ -1029,7 +1031,7 @@ public final class Multisets {
 
     @Override
     public void remove() {
-      Iterators.checkRemove(canRemove);
+      checkRemove(canRemove);
       if (totalCount == 1) {
         entryIterator.remove();
       } else {
@@ -1049,10 +1051,6 @@ public final class Multisets {
       size += entry.getCount();
     }
     return Ints.saturatedCast(size);
-  }
-
-  static void checkNonnegative(int count, String name) {
-    checkArgument(count >= 0, "%s cannot be negative: %s", name, count);
   }
 
   /**

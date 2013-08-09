@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.Maps.keyOrNull;
 
 import com.google.common.annotations.Beta;
@@ -305,7 +306,7 @@ public abstract class ForwardingNavigableMap<K, V>
 
         @Override
         public void remove() {
-          Iterators.checkRemove(toRemove != null);
+          checkRemove(toRemove != null);
           forward().remove(toRemove.getKey());
           toRemove = null;
         }

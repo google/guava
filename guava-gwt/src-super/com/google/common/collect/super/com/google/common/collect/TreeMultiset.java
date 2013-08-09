@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
@@ -426,7 +427,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
       @Override
       public void remove() {
-        checkState(prevEntry != null);
+        checkRemove(prevEntry != null);
         setCount(prevEntry.getElement(), 0);
         prevEntry = null;
       }
@@ -468,7 +469,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
       @Override
       public void remove() {
-        checkState(prevEntry != null);
+        checkRemove(prevEntry != null);
         setCount(prevEntry.getElement(), 0);
         prevEntry = null;
       }

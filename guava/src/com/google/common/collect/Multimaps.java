@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -975,7 +975,7 @@ public final class Multimaps {
 
             @Override
             public void remove() {
-              checkState(i == 1);
+              checkRemove(i == 1);
               i = -1;
               map.remove(key);
             }

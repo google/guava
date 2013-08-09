@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -354,7 +355,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     @Override
     public void remove() {
       checkForConcurrentModification();
-      checkState(current != null);
+      checkRemove(current != null);
       if (current != next) { // after call to next()
         previous = current.previous;
         nextIndex--;
@@ -432,7 +433,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     @Override
     public void remove() {
       checkForConcurrentModification();
-      checkState(current != null);
+      checkRemove(current != null);
       removeAllNodes(current.key);
       current = null;
       expectedModCount = modCount;
@@ -523,7 +524,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
 
     @Override
     public void remove() {
-      checkState(current != null);
+      checkRemove(current != null);
       if (current != next) { // after call to next()
         previous = current.previousSibling;
         nextIndex--;

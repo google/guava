@@ -23,6 +23,7 @@ import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -129,7 +130,7 @@ public final class Iterators {
         }
 
         @Override public void remove() {
-          throw new IllegalStateException();
+          checkRemove(false);
         }
       };
 
@@ -1296,14 +1297,6 @@ public final class Iterators {
       }
       return next;
     }
-  }
-
-  /**
-   * Precondition tester for {@code Iterator.remove()} that throws an exception with a consistent
-   * error message.
-   */
-  static void checkRemove(boolean canRemove) {
-    checkState(canRemove, "no calls to next() since the last call to remove()");
   }
 
   /**

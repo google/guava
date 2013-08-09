@@ -15,7 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -371,7 +371,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     @Override
     public void remove() {
       checkForConcurrentModification();
-      checkState(toRemove != null, "Only one remove() call allowed per call to next");
+      checkRemove(toRemove != null);
       delete(toRemove);
       expectedModCount = modCount;
       toRemove = null;

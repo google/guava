@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import java.util.Map;
 
@@ -35,8 +35,8 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
   }
 
   public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1) {
-    return new SingletonImmutableBiMap<K, V>(
-        checkNotNull(k1), checkNotNull(v1));
+    checkEntryNotNull(k1, v1);
+    return new SingletonImmutableBiMap<K, V>(k1, v1);
   }
 
   public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1, K k2, V v2) {

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -387,7 +388,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
         @Override
         public void remove() {
           checkForComodification();
-          Iterators.checkRemove(toRemove != null);
+          checkRemove(toRemove != null);
           ValueSet.this.remove(toRemove.getValue());
           expectedModCount = modCount;
           toRemove = null;
@@ -514,7 +515,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
 
       @Override
       public void remove() {
-        Iterators.checkRemove(toRemove != null);
+        checkRemove(toRemove != null);
         LinkedHashMultimap.this.remove(toRemove.getKey(), toRemove.getValue());
         toRemove = null;
       }

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -135,14 +136,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return new TerminalEntry<K, V>(key, value);
   }
 
-  static void checkEntryNotNull(Object key, Object value) {
-    if (key == null) {
-      throw new NullPointerException("null key in entry: null=" + value);
-    } else if (value == null) {
-      throw new NullPointerException("null value in entry: " + key + "=null");
-    }
-  }
-
   /**
    * Returns a new builder. The generated builder is equivalent to the builder
    * created by the {@link Builder} constructor.
@@ -224,8 +217,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * @since 11.0
      */
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
-      put(entry.getKey(), entry.getValue());
-      return this;
+      return put(entry.getKey(), entry.getValue());
     }
 
     /**
@@ -288,14 +280,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return kvMap;
       }
     } else if (map instanceof EnumMap) {
-      EnumMap<?, ?> enumMap = (EnumMap<?, ?>) map;
-      for (Map.Entry<?, ?> entry : enumMap.entrySet()) {
-        checkEntryNotNull(entry.getKey(), entry.getValue());
-      }
-      @SuppressWarnings("unchecked")
-      // immutable collections are safe for covariant casts
-      ImmutableMap<K, V> result = ImmutableEnumMap.asImmutable(new EnumMap(enumMap));
-      return result;
+      return copyOfEnumMapUnsafe(map);
     }
     Entry<?, ?>[] entries = map.entrySet().toArray(EMPTY_ENTRY_ARRAY);
     switch (entries.length) {
@@ -308,6 +293,21 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       default:
         return new RegularImmutableMap<K, V>(entries);
     }
+  }
+
+  // If the map is an EnumMap, it must have key type K for some <K extends Enum<K>>.
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  private static <K, V> ImmutableMap<K, V> copyOfEnumMapUnsafe(Map<? extends K, ? extends V> map) {
+    return copyOfEnumMap((EnumMap) map);
+  }
+
+  private static <K extends Enum<K>, V> ImmutableMap<K, V> copyOfEnumMap(
+      Map<K, ? extends V> original) {
+    EnumMap<K, V> copy = new EnumMap<K, V>(original);
+    for (Map.Entry<?, ?> entry : copy.entrySet()) {
+      checkEntryNotNull(entry.getKey(), entry.getValue());
+    }
+    return ImmutableEnumMap.asImmutable(copy);
   }
 
   private static final Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Entry<?, ?>[0];

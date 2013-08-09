@@ -18,8 +18,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.Multisets.checkNonnegative;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -119,7 +119,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
 
       @Override
       public void remove() {
-        Iterators.checkRemove(toRemove != null);
+        checkRemove(toRemove != null);
         size -= toRemove.getValue().getAndSet(0);
         backingEntries.remove();
         toRemove = null;
@@ -184,8 +184,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
 
     @Override
     public void remove() {
-      checkState(canRemove,
-          "no calls to next() since the last call to remove()");
+      checkRemove(canRemove);
       int frequency = currentEntry.getValue().get();
       if (frequency <= 0) {
         throw new ConcurrentModificationException();

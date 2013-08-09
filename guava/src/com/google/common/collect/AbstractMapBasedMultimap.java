@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -937,7 +938,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
         }
         @Override
         public void remove() {
-          Iterators.checkRemove(entry != null);
+          checkRemove(entry != null);
           Collection<V> collection = entry.getValue();
           entryIterator.remove();
           totalSize -= collection.size();

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 
 import java.io.Serializable;
@@ -80,7 +81,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   static <K, V> Entry<K, V> entryOf(K key, V value) {
-    return Maps.immutableEntry(checkNotNull(key), checkNotNull(value));
+    checkEntryNotNull(key, value);
+    return Maps.immutableEntry(key, value);
   }
 
   public static class Builder<K, V> {

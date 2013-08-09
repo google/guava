@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
@@ -332,7 +333,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
 
     @Override
     public int remove(@Nullable Object key, int occurrences) {
-      Multisets.checkNonnegative(occurrences, "occurrences");
+      checkNonnegative(occurrences, "occurrences");
       if (occurrences == 0) {
         return count(key);
       }

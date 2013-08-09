@@ -18,8 +18,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.Multisets.checkNonnegative;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
@@ -524,7 +524,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       }
 
       @Override public void remove() {
-        checkState(last != null);
+        checkRemove(last != null);
         ConcurrentHashMultiset.this.setCount(last.getElement(), 0);
         last = null;
       }

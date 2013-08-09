@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -165,7 +166,8 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      * Adds a key-value mapping to the built multimap.
      */
     public Builder<K, V> put(K key, V value) {
-      builderMultimap.put(checkNotNull(key), checkNotNull(value));
+      checkEntryNotNull(key, value);
+      builderMultimap.put(key, value);
       return this;
     }
 
@@ -175,9 +177,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      * @since 11.0
      */
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
-      builderMultimap.put(
-          checkNotNull(entry.getKey()), checkNotNull(entry.getValue()));
-      return this;
+      return put(entry.getKey(), entry.getValue());
     }
 
     /**
@@ -188,9 +188,14 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      *     state.
      */
     public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
-      Collection<V> valueList = builderMultimap.get(checkNotNull(key));
+      if (key == null) {
+        throw new NullPointerException(
+            "null key in entry: null=" + Iterables.toString(values));
+      }
+      Collection<V> valueList = builderMultimap.get(key);
       for (V value : values) {
-        valueList.add(checkNotNull(value));
+        checkEntryNotNull(key, value);
+        valueList.add(value);
       }
       return this;
     }

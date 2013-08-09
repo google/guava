@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
@@ -778,8 +779,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     @Override public void remove() {
-      checkState(canRemove,
-          "no calls to remove() since the last call to next()");
+      checkRemove(canRemove);
       checkModCount();
       canRemove = false;
       expectedModCount++;
