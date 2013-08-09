@@ -24,8 +24,11 @@ import java.io.Serializable;
  *
  * @author Dimitris Andreou
  * @since 12.0
+ * @deprecated Use the duplicated methods in {@link HashCode} instead. This class is scheduled
+ *     to be removed in Guava 16.0.
  */
 @Beta
+@Deprecated
 public final class HashCodes {
   private HashCodes() {}
 
