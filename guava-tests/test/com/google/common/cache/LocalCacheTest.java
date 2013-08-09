@@ -2041,8 +2041,8 @@ public class LocalCacheTest extends TestCase {
     int size = expectedEntries.size();
     assertEquals(size, actualEntries.size());
     for (int i = 0; i < size; i++) {
-      ReferenceEntry<K, V> expectedEntry = expectedEntries.get(0);
-      ReferenceEntry<K, V> actualEntry = actualEntries.get(0);
+      ReferenceEntry<K, V> expectedEntry = expectedEntries.get(i);
+      ReferenceEntry<K, V> actualEntry = actualEntries.get(i);
       assertSame(expectedEntry.getKey(), actualEntry.getKey());
       assertSame(expectedEntry.getValueReference().get(), actualEntry.getValueReference().get());
     }
