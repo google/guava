@@ -73,23 +73,6 @@ public abstract class HashCode {
   public abstract byte[] asBytes();
 
   /**
-   * Copies bytes from this hash code into {@code dest}.
-   *
-   * @param dest the byte array into which the hash code will be written
-   * @param offset the start offset in the data
-   * @param maxLength the maximum number of bytes to write
-   * @return the number of bytes written to {@code dest}
-   * @throws IndexOutOfBoundsException if there is not enough room in {@code dest}
-   */
-  public int writeBytesTo(byte[] dest, int offset, int maxLength) {
-    byte[] hash = asBytes();
-    maxLength = Ints.min(maxLength, hash.length);
-    Preconditions.checkPositionIndexes(offset, offset + maxLength, dest.length);
-    System.arraycopy(hash, 0, dest, offset, maxLength);
-    return maxLength;
-  }
-
-  /**
    * Creates a 32-bit {@code HashCode} representation of the given int value. The underlying bytes
    * are interpreted in little endian order.
    *
@@ -106,11 +89,13 @@ public abstract class HashCode {
       this.hash = hash;
     }
 
-    @Override public int bits() {
+    @Override
+    public int bits() {
       return 32;
     }
 
-    @Override public byte[] asBytes() {
+    @Override
+    public byte[] asBytes() {
       return new byte[] {
           (byte) hash,
           (byte) (hash >> 8),
@@ -118,11 +103,13 @@ public abstract class HashCode {
           (byte) (hash >> 24)};
     }
 
-    @Override public int asInt() {
+    @Override
+    public int asInt() {
       return hash;
     }
 
-    @Override public long asLong() {
+    @Override
+    public long asLong() {
       throw new IllegalStateException("this HashCode only has 32 bits; cannot create a long");
     }
 
@@ -151,11 +138,13 @@ public abstract class HashCode {
       this.hash = hash;
     }
 
-    @Override public int bits() {
+    @Override
+    public int bits() {
       return 64;
     }
 
-    @Override public byte[] asBytes() {
+    @Override
+    public byte[] asBytes() {
       return new byte[] {
           (byte) hash,
           (byte) (hash >> 8),
@@ -167,11 +156,13 @@ public abstract class HashCode {
           (byte) (hash >> 56)};
     }
 
-    @Override public int asInt() {
+    @Override
+    public int asInt() {
       return (int) hash;
     }
 
-    @Override public long asLong() {
+    @Override
+    public long asLong() {
       return hash;
     }
 
@@ -209,15 +200,18 @@ public abstract class HashCode {
       this.bytes = checkNotNull(bytes);
     }
 
-    @Override public int bits() {
+    @Override
+    public int bits() {
       return bytes.length * 8;
     }
 
-    @Override public byte[] asBytes() {
+    @Override
+    public byte[] asBytes() {
       return bytes.clone();
     }
 
-    @Override public int asInt() {
+    @Override
+    public int asInt() {
       checkState(bytes.length >= 4,
           "HashCode#asInt() requires >= 4 bytes (it only has %s bytes).", bytes.length);
       return (bytes[0] & 0xFF)
@@ -226,7 +220,8 @@ public abstract class HashCode {
           | ((bytes[3] & 0xFF) << 24);
     }
 
-    @Override public long asLong() {
+    @Override
+    public long asLong() {
       checkState(bytes.length >= 8,
           "HashCode#asLong() requires >= 8 bytes (it only has %s bytes).", bytes.length);
       return padToLong();
@@ -239,19 +234,6 @@ public abstract class HashCode {
         retVal |= (bytes[i] & 0xFFL) << (i * 8);
       }
       return retVal;
-    }
-
-    @Override
-    public int hashCode() {
-      if (bytes.length >= 4) {
-        return asInt();
-      } else {
-        int val = (bytes[0] & 0xFF);
-        for (int i = 1; i < Math.min(bytes.length, 4); i++) {
-          val |= ((bytes[i] & 0xFF) << (i * 8));
-        }
-        return val;
-      }
     }
 
     private static final long serialVersionUID = 0;
@@ -297,7 +279,27 @@ public abstract class HashCode {
     throw new IllegalArgumentException("Illegal hexadecimal character: " + ch);
   }
 
-  @Override public boolean equals(@Nullable Object object) {
+  /**
+   * Copies bytes from this hash code into {@code dest}.
+   *
+   * @param dest the byte array into which the hash code will be written
+   * @param offset the start offset in the data
+   * @param maxLength the maximum number of bytes to write
+   * @return the number of bytes written to {@code dest}
+   * @throws IndexOutOfBoundsException if there is not enough room in {@code dest}
+   */
+  public final int writeBytesTo(byte[] dest, int offset, int maxLength) {
+    maxLength = Ints.min(maxLength, bits() * 8);
+    Preconditions.checkPositionIndexes(offset, offset + maxLength, dest.length);
+    // TODO(user): Consider avoiding the array creation in asBytes() by stepping through
+    // the bytes individually.
+    byte[] hash = asBytes();
+    System.arraycopy(hash, 0, dest, offset, maxLength);
+    return maxLength;
+  }
+
+  @Override
+  public final boolean equals(@Nullable Object object) {
     if (object instanceof HashCode) {
       HashCode that = (HashCode) object;
       // Undocumented: this is a non-short-circuiting equals(), in case this is a cryptographic
@@ -312,12 +314,20 @@ public abstract class HashCode {
    * (so, for example, you can safely put {@code HashCode} instances into a {@code
    * HashSet}) but is otherwise probably not what you want to use.
    */
-  @Override public int hashCode() {
-    /*
-     * As long as the hash function that produced this isn't of horrible quality, this
-     * won't be of horrible quality either.
-     */
-    return asInt();
+  @Override
+  public final int hashCode() {
+    // If we have at least 4 bytes (32 bits), just take the first 4 bytes. Since this is
+    // already a (presumably) high-quality hash code, any four bytes of it will do.
+    if (bits() >= 32) {
+      return asInt();
+    }
+    // If we have less than 4 bytes, use them all.
+    byte[] bytes = asBytes();
+    int val = (bytes[0] & 0xFF);
+    for (int i = 1; i < bytes.length; i++) {
+      val |= ((bytes[i] & 0xFF) << (i * 8));
+    }
+    return val;
   }
 
   /**
@@ -328,8 +338,11 @@ public abstract class HashCode {
    * bytes are the <i>big-endian</i> representation of that number. This may be surprising since
    * everything else in the hashing API uniformly treats multibyte values as little-endian. But
    * this format conveniently matches that of utilities such as the UNIX {@code md5sum} command.
+   *
+   * <p>To create a {@code HashCode} from its string representation, see {@link #fromString}.
    */
-  @Override public String toString() {
+  @Override
+  public final String toString() {
     byte[] bytes = asBytes();
     StringBuilder sb = new StringBuilder(2 * bytes.length);
     for (byte b : bytes) {
