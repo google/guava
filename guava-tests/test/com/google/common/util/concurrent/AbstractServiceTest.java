@@ -736,7 +736,13 @@ public class AbstractServiceTest extends TestCase {
   }
 
   private static class NoOpThreadedService extends AbstractExecutionThreadService {
-    @Override protected void run() throws Exception {}
+    final CountDownLatch latch = new CountDownLatch(1);
+    @Override protected void run() throws Exception {
+      latch.await();
+    }
+    @Override protected void triggerShutdown() {
+      latch.countDown();
+    }
   }
 
   private static class StartFailingService extends AbstractService {
