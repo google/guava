@@ -289,7 +289,7 @@ public abstract class HashCode {
    * @throws IndexOutOfBoundsException if there is not enough room in {@code dest}
    */
   public final int writeBytesTo(byte[] dest, int offset, int maxLength) {
-    maxLength = Ints.min(maxLength, bits() * 8);
+    maxLength = Ints.min(maxLength, bits() / 8);
     Preconditions.checkPositionIndexes(offset, offset + maxLength, dest.length);
     // TODO(user): Consider avoiding the array creation in asBytes() by stepping through
     // the bytes individually.

@@ -244,6 +244,67 @@ public class HashCodeTest extends TestCase {
     }
   }
 
+  private static final HashCode HASH_ABCD =
+      HashCode.fromBytes(new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd });
+
+  public void testWriteBytesTo() {
+    byte[] dest = new byte[4];
+    HASH_ABCD.writeBytesTo(dest, 0, 4);
+    assertTrue(Arrays.equals(
+        new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd },
+        dest));
+  }
+
+  public void testWriteBytesToOversizedArray() {
+    byte[] dest = new byte[5];
+    HASH_ABCD.writeBytesTo(dest, 0, 4);
+    assertTrue(Arrays.equals(
+        new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd, (byte) 0x00 },
+        dest));
+  }
+
+  public void testWriteBytesToOversizedArrayLongMaxLength() {
+    byte[] dest = new byte[5];
+    HASH_ABCD.writeBytesTo(dest, 0, 5);
+    assertTrue(Arrays.equals(
+        new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd, (byte) 0x00 },
+        dest));
+  }
+
+  public void testWriteBytesToOversizedArrayShortMaxLength() {
+    byte[] dest = new byte[5];
+    HASH_ABCD.writeBytesTo(dest, 0, 3);
+    assertTrue(Arrays.equals(
+        new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0x00, (byte) 0x00 },
+        dest));
+  }
+
+  public void testWriteBytesToUndersizedArray() {
+    byte[] dest = new byte[3];
+    try {
+      HASH_ABCD.writeBytesTo(dest, 0, 4);
+      fail();
+    } catch (IndexOutOfBoundsException expected) {
+    }
+  }
+
+  public void testWriteBytesToUndersizedArrayLongMaxLength() {
+    byte[] dest = new byte[3];
+    try {
+      HASH_ABCD.writeBytesTo(dest, 0, 5);
+      fail();
+    } catch (IndexOutOfBoundsException expected) {
+    }
+  }
+
+  public void testWriteBytesToUndersizedArrayShortMaxLength() {
+    byte[] dest = new byte[3];
+    HASH_ABCD.writeBytesTo(dest, 0, 2);
+    assertTrue(Arrays.equals(
+        new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0x00 },
+        dest));
+  }
+
   private static ClassSanityTester.FactoryMethodReturnValueTester sanityTester() {
     return new ClassSanityTester()
         .setDefault(byte[].class, new byte[] {1, 2, 3, 4})
