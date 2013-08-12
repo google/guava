@@ -252,7 +252,15 @@ public final class ServiceManager {
           state);
     }
     for (ServiceListener service : services.values()) {
-      service.start();
+      try {
+        service.start();
+      } catch (IllegalStateException e) {
+        // This can happen if the service has already been started or stopped (e.g. by another 
+        // service or listener). Our contract says it is safe to call this method if
+        // all services were NEW when it was called, and this has already been verified above, so we
+        // don't propagate the exception.
+        logger.log(Level.WARNING, "Unable to start Service " + service.service, e);
+      }
     }
     return this;
   }
@@ -678,7 +686,7 @@ public final class ServiceManager {
     
     void start() {
       startTimer();
-      service.start();
+      service.startAsync();
     }
   
     /** Start the timer if it hasn't been started. */

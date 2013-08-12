@@ -20,6 +20,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.collect.ForwardingObject;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * A {@link Service} that forwards all method calls to another service.
@@ -43,7 +45,9 @@ public abstract class ForwardingService extends ForwardingObject
 
   @Override protected abstract Service delegate();
 
-  @Override public ListenableFuture<State> start() {
+  @Deprecated
+  @Override
+  public ListenableFuture<State> start() {
     return delegate().start();
   }
 
@@ -51,15 +55,21 @@ public abstract class ForwardingService extends ForwardingObject
     return delegate().state();
   }
 
-  @Override public ListenableFuture<State> stop() {
+  @Deprecated
+  @Override
+  public ListenableFuture<State> stop() {
     return delegate().stop();
   }
 
-  @Override public State startAndWait() {
+  @Deprecated
+  @Override
+  public State startAndWait() {
     return delegate().startAndWait();
   }
 
-  @Override public State stopAndWait() {
+  @Deprecated
+  @Override
+  public State stopAndWait() {
     return delegate().stopAndWait();
   }
 
@@ -79,6 +89,49 @@ public abstract class ForwardingService extends ForwardingObject
    */
   @Override public Throwable failureCause() {
     return delegate().failureCause();
+  }
+
+  /**
+   * @since 15.0
+   */
+  @Override public Service startAsync() {
+    delegate().startAsync();
+    return this;
+  }
+
+  /**
+   * @since 15.0
+   */
+  @Override public Service stopAsync() {
+    delegate().stopAsync();
+    return this;
+  }
+  /**
+   * @since 15.0
+   */
+  @Override public void awaitRunning() {
+    delegate().awaitRunning();
+  }
+
+  /**
+   * @since 15.0
+   */
+  @Override public void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
+    delegate().awaitRunning(timeout, unit);
+  }
+
+  /**
+   * @since 15.0
+   */
+  @Override public void awaitTerminated() {
+    delegate().awaitTerminated();
+  }
+
+  /**
+   * @since 15.0
+   */
+  @Override public void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {
+    delegate().awaitTerminated(timeout, unit);
   }
 
   /**

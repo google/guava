@@ -20,11 +20,13 @@ import com.google.common.annotations.Beta;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
- * An object with an operational state, plus asynchronous {@link #start()} and {@link #stop()}
- * lifecycle methods to transition between states. Example services include webservers, RPC servers
- * and timers.
+ * An object with an operational state, plus asynchronous {@link #startAsync()} and 
+ * {@link #stopAsync()} lifecycle methods to transition between states. Example services include 
+ * webservers, RPC servers and timers.
  *
  * <p>The normal lifecycle of a service is:
  * <ul>
@@ -35,7 +37,7 @@ import java.util.concurrent.Executor;
  *   <li>{@linkplain State#TERMINATED TERMINATED}
  * </ul>
  *
- * <p>There are deviations from this if there are failures or if {@link Service#stop} is called 
+ * <p>There are deviations from this if there are failures or if {@link Service#stopAsync} is called
  * before the {@link Service} reaches the {@linkplain State#RUNNING RUNNING} state. The set of legal
  * transitions form a <a href="http://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a>, 
  * therefore every method of the listener will be called at most once. N.B. The {@link State#FAILED}
@@ -57,6 +59,9 @@ public interface Service {
    * immediately. If the service has already been started, this method returns immediately without
    * taking action. A stopped service may not be restarted.
    *
+   * @deprecated Use {@link #startAsync()} instead of this method to start the {@link Service} or 
+   * use a {@link Listener} to asynchronously wait for service startup.
+   *
    * @return a future for the startup result, regardless of whether this call initiated startup.
    *         Calling {@link ListenableFuture#get} will block until the service has finished
    *         starting, and returns one of {@link State#RUNNING}, {@link State#STOPPING} or
@@ -65,17 +70,30 @@ public interface Service {
    *         {@link State#FAILED}. If it has already finished starting, {@link ListenableFuture#get}
    *         returns immediately. Cancelling this future has no effect on the service.
    */
-  ListenableFuture<State> start();
+  @Deprecated ListenableFuture<State> start();
 
   /**
    * Initiates service startup (if necessary), returning once the service has finished starting.
    * Unlike calling {@code start().get()}, this method throws no checked exceptions, and it cannot
    * be {@linkplain Thread#interrupt interrupted}.
    *
+   * @deprecated Use {@link #startAsync()} and {@link #awaitRunning} instead of this method.
+   *
    * @throws UncheckedExecutionException if startup failed
    * @return the state of the service when startup finished.
    */
-  State startAndWait();
+  @Deprecated State startAndWait();
+
+  /**
+   * If the service state is {@link State#NEW}, this initiates service startup and returns
+   * immediately. A stopped service may not be restarted.
+   * 
+   * @return this
+   * @throws IllegalStateException if the service is not {@link State#NEW}
+   *
+   * @since 15.0
+   */
+  Service startAsync();
 
   /**
    * Returns {@code true} if this service is {@linkplain State#RUNNING running}.
@@ -94,6 +112,9 @@ public interface Service {
    * started nor stopped. If the service has already been stopped, this method returns immediately
    * without taking action.
    *
+   * @deprecated Use {@link #stopAsync} instead of this method to initiate service shutdown or use a
+   * service {@link Listener} to asynchronously wait for service shutdown.
+   *
    * @return a future for the shutdown result, regardless of whether this call initiated shutdown.
    *         Calling {@link ListenableFuture#get} will block until the service has finished shutting
    *         down, and either returns {@link State#TERMINATED} or throws an
@@ -101,7 +122,7 @@ public interface Service {
    *         {@link ListenableFuture#get} returns immediately. Cancelling this future has no effect
    *         on the service.
    */
-  ListenableFuture<State> stop();
+  @Deprecated ListenableFuture<State> stop();
 
   /**
    * Initiates service shutdown (if necessary), returning once the service has finished stopping. If
@@ -109,10 +130,74 @@ public interface Service {
    * {@link State#TERMINATED terminated} without having been started nor stopped. Unlike calling
    * {@code stop().get()}, this method throws no checked exceptions.
    *
+   * @deprecated Use {@link #stopAsync} and {@link #awaitTerminated} instead of this method.
+   *
    * @throws UncheckedExecutionException if the service has failed or fails during shutdown
    * @return the state of the service when shutdown finished.
    */
-  State stopAndWait();
+  @Deprecated State stopAndWait();
+
+  /**
+   * If the service is {@linkplain State#STARTING starting} or {@linkplain State#RUNNING running},
+   * this initiates service shutdown and returns immediately. If the service is
+   * {@linkplain State#NEW new}, it is {@linkplain State#TERMINATED terminated} without having been
+   * started nor stopped. If the service has already been stopped, this method returns immediately
+   * without taking action.
+   *
+   * @return this
+   * @since 15.0
+   */
+  Service stopAsync();
+
+  /**
+   * Waits for the {@link Service} to reach the {@linkplain State#RUNNING running state}.
+   *
+   * @throws IllegalStateException if the service reaches a state from which it is not possible to
+   *     enter the {@link State#RUNNING} state. e.g. if the {@code state} is 
+   *     {@code State#TERMINATED} when this method is called then this will throw an 
+   *     IllegalStateException.
+   *
+   * @since 15.0
+   */
+  void awaitRunning();
+
+  /**
+   * Waits for the {@link Service} to reach the {@linkplain State#RUNNING running state} for no 
+   * more than the given time.
+   *
+   * @param timeout the maximum time to wait
+   * @param unit the time unit of the timeout argument
+   * @throws TimeoutException if the service has not reached the given state within the deadline
+   * @throws IllegalStateException if the service reaches a state from which it is not possible to
+   *     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is 
+   *     {@code State#TERMINATED} when this method is called then this will throw an 
+   *     IllegalStateException.
+   *
+   * @since 15.0
+   */
+  void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException;
+
+  /**
+   * Waits for the {@link Service} to reach the {@linkplain State#TERMINATED terminated state}.
+   * 
+   * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
+   * 
+   * @since 15.0
+   */
+  void awaitTerminated();
+
+  /**
+   * Waits for the {@link Service} to reach a terminal state (either 
+   * {@link Service.State#TERMINATED terminated} or {@link Service.State#FAILED failed}) for no 
+   * more than the given time.
+   *
+   * @param timeout the maximum time to wait
+   * @param unit the time unit of the timeout argument
+   * @throws TimeoutException if the service has not reached the given state within the deadline
+   * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
+   * @since 15.0
+   */
+  void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException;
 
   /**
    * Returns the {@link Throwable} that caused this service to fail.
@@ -147,6 +232,11 @@ public interface Service {
   
   /**
    * The lifecycle states of a service.
+   * 
+   * <p>The ordering of the {@link State} enum is defined such that if there is a state transition
+   * from {@code A -> B} then {@code A.compareTo(B} < 0}.  N.B. The converse is not true, i.e. if
+   * {@code A.compareTo(B} < 0} then there is <b>not</b> guaranteed to be a valid state transition 
+   * {@code A -> B}.
    *
    * @since 9.0 (in 1.0 as {@code com.google.common.base.Service.State})
    */
@@ -156,34 +246,61 @@ public interface Service {
      * A service in this state is inactive. It does minimal work and consumes
      * minimal resources.
      */
-    NEW,
+    NEW {
+      @Override boolean isTerminal() {
+        return false;
+      }
+    },
 
     /**
      * A service in this state is transitioning to {@link #RUNNING}.
      */
-    STARTING,
+    STARTING {
+      @Override boolean isTerminal() {
+        return false;
+      }
+    },
 
     /**
      * A service in this state is operational.
      */
-    RUNNING,
+    RUNNING {
+      @Override boolean isTerminal() {
+        return false;
+      }
+    },
 
     /**
      * A service in this state is transitioning to {@link #TERMINATED}.
      */
-    STOPPING,
+    STOPPING {
+      @Override boolean isTerminal() {
+        return false;
+      }
+    },
 
     /**
      * A service in this state has completed execution normally. It does minimal work and consumes
      * minimal resources.
      */
-    TERMINATED,
+    TERMINATED {
+      @Override boolean isTerminal() {
+        return true;
+      }
+    },
 
     /**
      * A service in this state has encountered a problem and may not be operational. It cannot be
      * started nor stopped.
      */
-    FAILED
+    FAILED {
+      @Override boolean isTerminal() {
+        return true;
+      }
+    };
+    
+    /** Returns true if this state is terminal. */
+    abstract boolean isTerminal();
   }
   
   /**
