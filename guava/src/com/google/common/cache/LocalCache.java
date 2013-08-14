@@ -1062,7 +1062,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   /**
    * Used for strongly-referenced keys.
    */
-  static class StrongEntry<K, V> implements ReferenceEntry<K, V> {
+  static class StrongEntry<K, V> extends AbstractReferenceEntry<K, V> {
     final K key;
 
     StrongEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
@@ -1074,70 +1074,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     @Override
     public K getKey() {
       return this.key;
-    }
-
-    // null access
-
-    @Override
-    public long getAccessTime() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setAccessTime(long time) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getNextInAccessQueue() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
-      throw new UnsupportedOperationException();
-    }
-
-    // null write
-
-    @Override
-    public long getWriteTime() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setWriteTime(long time) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getNextInWriteQueue() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
-      throw new UnsupportedOperationException();
     }
 
     // The code below is exactly the same for each entry type.
@@ -1167,8 +1103,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  static final class StrongAccessEntry<K, V> extends StrongEntry<K, V>
-      implements ReferenceEntry<K, V> {
+  static final class StrongAccessEntry<K, V> extends StrongEntry<K, V> {
     StrongAccessEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
@@ -1214,8 +1149,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  static final class StrongWriteEntry<K, V>
-      extends StrongEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class StrongWriteEntry<K, V> extends StrongEntry<K, V> {
     StrongWriteEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
@@ -1261,8 +1195,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  static final class StrongAccessWriteEntry<K, V>
-      extends StrongEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class StrongAccessWriteEntry<K, V> extends StrongEntry<K, V> {
     StrongAccessWriteEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
@@ -1363,6 +1296,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       return get();
     }
 
+    /*
+     * It'd be nice to get these for free from AbstractReferenceEntry, but we're already extending
+     * WeakReference<K>.
+     */
+
     // null access
 
     @Override
@@ -1454,8 +1392,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  static final class WeakAccessEntry<K, V>
-      extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class WeakAccessEntry<K, V> extends WeakEntry<K, V> {
     WeakAccessEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
@@ -1502,8 +1439,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  static final class WeakWriteEntry<K, V>
-      extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class WeakWriteEntry<K, V> extends WeakEntry<K, V> {
     WeakWriteEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
@@ -1550,8 +1486,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  static final class WeakAccessWriteEntry<K, V>
-      extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class WeakAccessWriteEntry<K, V> extends WeakEntry<K, V> {
     WeakAccessWriteEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
