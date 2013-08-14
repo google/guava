@@ -29,7 +29,7 @@ public void testMultipleTearDownsHappenInOrder() throws Exception {
   try {
     testCase.tearDown();
   } catch (Throwable t) {
-    if (failure != null) {
+    if (failure == null) {
       failure = t;
     }
   }
@@ -55,7 +55,7 @@ public void testSingleTearDown() throws Exception {
   try {
     testCase.tearDown();
   } catch (Throwable t) {
-    if (failure != null) {
+    if (failure == null) {
       failure = t;
     }
   }
@@ -81,7 +81,7 @@ public void testThrowingTearDown() throws Exception {
   try {
     testCase.tearDown();
   } catch (Throwable t) {
-    if (failure != null) {
+    if (failure == null) {
       failure = t;
     }
   }
