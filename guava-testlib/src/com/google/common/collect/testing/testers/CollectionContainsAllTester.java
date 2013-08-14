@@ -57,6 +57,7 @@ public class CollectionContainsAllTester<E>
         collection.containsAll(MinimalCollection.of(createSamplesArray())));
   }
 
+  @SuppressWarnings("ModifyingCollectionWithItself")
   public void testContainsAll_self() {
     assertTrue("containsAll(this) should return true",
         collection.containsAll(collection));
