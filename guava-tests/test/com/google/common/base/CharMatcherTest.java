@@ -738,6 +738,7 @@ public class CharMatcherTest extends TestCase {
   public void testToString() {
     assertEquals("CharMatcher.NONE", CharMatcher.anyOf("").toString());
     assertEquals("CharMatcher.is('\\u0031')", CharMatcher.anyOf("1").toString());
+    assertEquals("CharMatcher.isNot('\\u0031')", CharMatcher.isNot('1').toString());
     assertEquals("CharMatcher.anyOf(\"\\u0031\\u0032\")", CharMatcher.anyOf("12").toString());
     assertEquals("CharMatcher.anyOf(\"\\u0031\\u0032\\u0033\")",
         CharMatcher.anyOf("321").toString());

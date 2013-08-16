@@ -437,7 +437,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <p>To negate another {@code CharMatcher}, use {@link #negate()}.
    */
   public static CharMatcher isNot(final char match) {
-    String description = "CharMatcher.isNot(" + Integer.toHexString(match) + ")";
+    String description = "CharMatcher.isNot('" + showCharacter(match) + "')";
     return new FastMatcher(description) {
       @Override public boolean matches(char c) {
         return c != match;
