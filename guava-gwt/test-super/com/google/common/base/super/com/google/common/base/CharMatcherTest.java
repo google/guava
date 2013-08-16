@@ -619,14 +619,22 @@ public class CharMatcherTest extends TestCase {
   }
 
   public void testToString() {
-    assertEquals("CharMatcher.NONE", CharMatcher.anyOf("").toString());
-    assertEquals("CharMatcher.is('\\u0031')", CharMatcher.anyOf("1").toString());
-    assertEquals("CharMatcher.isNot('\\u0031')", CharMatcher.isNot('1').toString());
-    assertEquals("CharMatcher.anyOf(\"\\u0031\\u0032\")", CharMatcher.anyOf("12").toString());
-    assertEquals("CharMatcher.anyOf(\"\\u0031\\u0032\\u0033\")",
-        CharMatcher.anyOf("321").toString());
-    assertEquals("CharMatcher.inRange('\\u0031', '\\u0033')",
-        CharMatcher.inRange('1', '3').toString());
+    assertToStringWorks("CharMatcher.NONE", CharMatcher.anyOf(""));
+    assertToStringWorks("CharMatcher.is('\\u0031')", CharMatcher.anyOf("1"));
+    assertToStringWorks("CharMatcher.isNot('\\u0031')", CharMatcher.isNot('1'));
+    assertToStringWorks("CharMatcher.anyOf(\"\\u0031\\u0032\")", CharMatcher.anyOf("12"));
+    assertToStringWorks("CharMatcher.anyOf(\"\\u0031\\u0032\\u0033\")",
+        CharMatcher.anyOf("321"));
+    assertToStringWorks("CharMatcher.inRange('\\u0031', '\\u0033')",
+        CharMatcher.inRange('1', '3'));
   }
+
+  private static void assertToStringWorks(String expected, CharMatcher matcher) {
+    assertEquals(expected, matcher.toString());
+    assertEquals(expected, matcher.precomputed().toString());
+    assertEquals(expected, matcher.negate().negate().toString());
+    assertEquals(expected, matcher.negate().precomputed().negate().toString());
+    assertEquals(expected, matcher.negate().precomputed().negate().precomputed().toString());
+   }
 }
 

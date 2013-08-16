@@ -795,8 +795,12 @@ public abstract class CharMatcher implements Predicate<Character> {
       // TODO(user): is it worth it to worry about the last character of large matchers?
       table.flip(Character.MIN_VALUE, Character.MAX_VALUE + 1);
       int negatedCharacters = DISTINCT_CHARS - totalCharacters;
+      String suffix = ".negate()";
+      String negatedDescription = description.endsWith(suffix)
+          ? description.substring(0, description.length() - suffix.length())
+          : description + suffix;
       return new NegatedFastMatcher(toString(),
-          precomputedPositive(negatedCharacters, table, description + ".negate()"));
+          precomputedPositive(negatedCharacters, table, negatedDescription));
     }
   }
 
