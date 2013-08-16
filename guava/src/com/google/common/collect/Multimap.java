@@ -141,6 +141,11 @@ import javax.annotation.Nullable;
  * to multimaps.
  *
  * <h3>Other Notes</h3>
+ * 
+ * <p>As with {@code Map}, the behavior of a {@code Multimap} is not specified 
+ * if key objects already present in the multimap change in a manner that 
+ * affects {@code equals} comparisons.  Use caution if mutable objects are used 
+ * as keys in a {@code Multimap}.
  *
  * <p>All methods that modify the multimap are optional. The view collections
  * returned by the multimap may or may not be modifiable. Any modification
