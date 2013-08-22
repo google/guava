@@ -1241,7 +1241,7 @@ public final class Maps {
    *         }
    *       };
    *   SortedMap<String, Double> transformed =
-   *        Maps.transformSortedValues(map, sqrt);
+   *        Maps.transformValues(map, sqrt);
    *   System.out.println(transformed);}</pre>
    *
    * ... prints {@code {a=2.0, b=3.0}}.
@@ -1350,7 +1350,7 @@ public final class Maps {
    *         }
    *       };
    *   SortedMap<String, String> transformed =
-   *       LabsMaps.transformSortedEntries(options, flagPrefixer);
+   *       Maps.transformEntries(options, flagPrefixer);
    *   System.out.println(transformed);}</pre>
    *
    * ... prints {@code {sort=yessort, verbose=verbose}}.
