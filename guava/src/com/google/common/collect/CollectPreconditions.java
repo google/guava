@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
@@ -35,8 +34,11 @@ final class CollectPreconditions {
     }
   }
 
-  static void checkNonnegative(int value, String name) {
-    checkArgument(value >= 0, "%s cannot be negative: %s", name, value);
+  static int checkNonnegative(int value, String name) {
+    if (value < 0) {
+      throw new IllegalArgumentException(name + " cannot be negative but was: " + value);
+    }
+    return value;
   }
 
   /**
