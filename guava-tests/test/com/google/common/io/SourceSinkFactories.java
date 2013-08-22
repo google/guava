@@ -256,6 +256,7 @@ public class SourceSinkFactories {
     protected File getFile() {
       return fileThreadLocal.get();
     }
+
     public final void tearDown() throws IOException {
       if (!fileThreadLocal.get().delete()) {
         logger.warning("Unable to delete file: " + fileThreadLocal.get());
@@ -265,7 +266,7 @@ public class SourceSinkFactories {
   }
 
   private static class FileByteSourceFactory extends FileFactory implements ByteSourceFactory {
-    
+
     @Override
     public ByteSource createSource(byte[] bytes) throws IOException {
       checkNotNull(bytes);
@@ -335,7 +336,7 @@ public class SourceSinkFactories {
   }
 
   private static class FileCharSourceFactory extends FileFactory implements CharSourceFactory {
-    
+
     @Override
     public CharSource createSource(String string) throws IOException {
       checkNotNull(string);
