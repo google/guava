@@ -718,7 +718,9 @@ public class ClassSanityTesterTest extends TestCase {
       return i.hashCode();
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    @SuppressWarnings("NumericEquality")
+    public boolean equals(Object obj) {
       if (obj instanceof SameIntegerInstance) {
         SameIntegerInstance that = (SameIntegerInstance) obj;
         return i == that.i;
@@ -738,7 +740,9 @@ public class ClassSanityTesterTest extends TestCase {
       return i.hashCode();
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    @SuppressWarnings("NumericEquality")
+    public boolean equals(Object obj) {
       if (obj instanceof SameLongInstance) {
         SameLongInstance that = (SameLongInstance) obj;
         return i == that.i;
@@ -758,7 +762,9 @@ public class ClassSanityTesterTest extends TestCase {
       return i.hashCode();
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    @SuppressWarnings("NumericEquality")
+    public boolean equals(Object obj) {
       if (obj instanceof SameFloatInstance) {
         SameFloatInstance that = (SameFloatInstance) obj;
         return i == that.i;
@@ -778,7 +784,9 @@ public class ClassSanityTesterTest extends TestCase {
       return i.hashCode();
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    @SuppressWarnings("NumericEquality")
+    public boolean equals(Object obj) {
       if (obj instanceof SameDoubleInstance) {
         SameDoubleInstance that = (SameDoubleInstance) obj;
         return i == that.i;
@@ -798,7 +806,9 @@ public class ClassSanityTesterTest extends TestCase {
       return i.hashCode();
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    @SuppressWarnings("NumericEquality")
+    public boolean equals(Object obj) {
       if (obj instanceof SameShortInstance) {
         SameShortInstance that = (SameShortInstance) obj;
         return i == that.i;
@@ -818,7 +828,9 @@ public class ClassSanityTesterTest extends TestCase {
       return i.hashCode();
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    @SuppressWarnings("NumericEquality")
+    public boolean equals(Object obj) {
       if (obj instanceof SameByteInstance) {
         SameByteInstance that = (SameByteInstance) obj;
         return i == that.i;
