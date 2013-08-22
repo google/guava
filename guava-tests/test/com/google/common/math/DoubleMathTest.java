@@ -16,12 +16,13 @@
 
 package com.google.common.math;
 
-import static com.google.common.math.MathTesting.*;
 import static com.google.common.math.MathTesting.ALL_DOUBLE_CANDIDATES;
 import static com.google.common.math.MathTesting.ALL_ROUNDING_MODES;
 import static com.google.common.math.MathTesting.ALL_SAFE_ROUNDING_MODES;
+import static com.google.common.math.MathTesting.DOUBLE_CANDIDATES_EXCEPT_NAN;
 import static com.google.common.math.MathTesting.FINITE_DOUBLE_CANDIDATES;
 import static com.google.common.math.MathTesting.FRACTIONAL_DOUBLE_CANDIDATES;
+import static com.google.common.math.MathTesting.INFINITIES;
 import static com.google.common.math.MathTesting.INTEGRAL_DOUBLE_CANDIDATES;
 import static com.google.common.math.MathTesting.NEGATIVE_INTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDATES;
@@ -62,10 +63,10 @@ public class DoubleMathTest extends TestCase {
   private static final BigDecimal MIN_LONG_AS_BIG_DECIMAL = BigDecimal.valueOf(Long.MIN_VALUE);
 
   public void testConstantsMaxFactorial() {
-    BigInteger MAX_DOUBLE_VALUE = BigDecimal.valueOf(Double.MAX_VALUE).toBigInteger();
-    assertTrue(BigIntegerMath.factorial(DoubleMath.MAX_FACTORIAL).compareTo(MAX_DOUBLE_VALUE) <= 0);
+    BigInteger maxDoubleValue = BigDecimal.valueOf(Double.MAX_VALUE).toBigInteger();
+    assertTrue(BigIntegerMath.factorial(DoubleMath.MAX_FACTORIAL).compareTo(maxDoubleValue) <= 0);
     assertTrue(
-        BigIntegerMath.factorial(DoubleMath.MAX_FACTORIAL + 1).compareTo(MAX_DOUBLE_VALUE) > 0);
+        BigIntegerMath.factorial(DoubleMath.MAX_FACTORIAL + 1).compareTo(maxDoubleValue) > 0);
   }
 
   public void testConstantsEverySixteenthFactorial() {
@@ -376,7 +377,7 @@ public class DoubleMathTest extends TestCase {
         try {
           DoubleMath.log2(d, mode);
           fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException expected) {}
       }
     }
   }
@@ -387,7 +388,7 @@ public class DoubleMathTest extends TestCase {
         try {
           DoubleMath.log2(-d, mode);
           fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException expected) {}
       }
     }
   }
@@ -603,6 +604,100 @@ public class DoubleMathTest extends TestCase {
       } catch (IllegalArgumentException expected) {
         // success
       }
+    }
+  }
+
+  public void testMean_doubleVarargs() {
+    assertEquals(-1.375, DoubleMath.mean(1.1, -2.2, 4.4, -8.8), 1.0e-10);
+    assertEquals(1.1, DoubleMath.mean(1.1), 1.0e-10);
+    try {
+      DoubleMath.mean(Double.NaN);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      DoubleMath.mean(Double.POSITIVE_INFINITY);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testMean_intVarargs() {
+    assertEquals(-13.75, DoubleMath.mean(11, -22, 44, -88), 1.0e-10);
+    assertEquals(11.0, DoubleMath.mean(11), 1.0e-10);
+  }
+
+  public void testMean_longVarargs() {
+    assertEquals(-13.75, DoubleMath.mean(11L, -22L, 44L, -88L), 1.0e-10);
+    assertEquals(11.0, DoubleMath.mean(11L), 1.0e-10);
+  }
+
+  public void testMean_emptyVarargs() {
+    try {
+      DoubleMath.mean();
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testMean_doubleIterable() {
+    assertEquals(-1.375, DoubleMath.mean(ImmutableList.of(1.1, -2.2, 4.4, -8.8)), 1.0e-10);
+    assertEquals(1.1, DoubleMath.mean(ImmutableList.of(1.1)), 1.0e-10);
+    try {
+      DoubleMath.mean(ImmutableList.<Double>of());
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      DoubleMath.mean(ImmutableList.of(Double.NaN));
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      DoubleMath.mean(ImmutableList.of(Double.POSITIVE_INFINITY));
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testMean_intIterable() {
+    assertEquals(-13.75, DoubleMath.mean(ImmutableList.of(11, -22, 44, -88)), 1.0e-10);
+    assertEquals(11, DoubleMath.mean(ImmutableList.of(11)), 1.0e-10);
+    try {
+      DoubleMath.mean(ImmutableList.<Integer>of());
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testMean_longIterable() {
+    assertEquals(-13.75, DoubleMath.mean(ImmutableList.of(11L, -22L, 44L, -88L)), 1.0e-10);
+    assertEquals(11, DoubleMath.mean(ImmutableList.of(11L)), 1.0e-10);
+    try {
+      DoubleMath.mean(ImmutableList.<Long>of());
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testMean_intIterator() {
+    assertEquals(-13.75, DoubleMath.mean(ImmutableList.of(11, -22, 44, -88).iterator()), 1.0e-10);
+    assertEquals(11, DoubleMath.mean(ImmutableList.of(11).iterator()), 1.0e-10);
+    try {
+      DoubleMath.mean(ImmutableList.<Integer>of().iterator());
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testMean_longIterator() {
+    assertEquals(-13.75, DoubleMath.mean(ImmutableList.of(11L, -22L, 44L, -88L).iterator()),
+        1.0e-10);
+    assertEquals(11, DoubleMath.mean(ImmutableList.of(11L).iterator()), 1.0e-10);
+    try {
+      DoubleMath.mean(ImmutableList.<Long>of().iterator());
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
     }
   }
 
