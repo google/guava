@@ -65,6 +65,7 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
       super(x, queue);
     }
 
+    @Override
     public void finalizeReferent() {
     }
   }

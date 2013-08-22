@@ -25,6 +25,8 @@ import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Unit test for {@link FinalizableReferenceQueue}.
@@ -146,5 +148,11 @@ public class FinalizableReferenceQueueTest extends TestCase {
 
   public void testGetFinalizerUrl() {
     assertNotNull(getClass().getResource("internal/Finalizer.class"));
+  }
+
+  public void testFinalizeClassHasNoNestedClases() throws Exception {
+    // Ensure that the Finalizer class has no nested classes.
+    // See https://code.google.com/p/guava-libraries/issues/detail?id=1505
+    assertEquals(Collections.emptyList(), Arrays.asList(Finalizer.class.getDeclaredClasses()));
   }
 }

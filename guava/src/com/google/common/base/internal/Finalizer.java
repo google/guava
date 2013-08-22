@@ -126,20 +126,25 @@ public class Finalizer implements Runnable {
   @SuppressWarnings("InfiniteLoopStatement")
   @Override
   public void run() {
-    try {
-      while (true) {
-        try {
-          cleanUp(queue.remove());
-        } catch (InterruptedException e) { /* ignore */ }
-      }
-    } catch (ShutDown shutDown) { /* ignore */ }
+    while (true) {
+      try {
+        if (!cleanUp(queue.remove())) {
+          break;
+        }
+      } catch (InterruptedException e) { /* ignore */ }
+    }
   }
 
   /**
    * Cleans up a single reference. Catches and logs all throwables.
+   * @return true if the caller should continue, false if the associated FinalizableReferenceQueue
+   * is no longer referenced.
    */
-  private void cleanUp(Reference<?> reference) throws ShutDown {
+  private boolean cleanUp(Reference<?> reference) {
     Method finalizeReferentMethod = getFinalizeReferentMethod();
+    if (finalizeReferentMethod == null) {
+      return false;
+    }
     do {
       /*
        * This is for the benefit of phantom references. Weak and soft
@@ -152,7 +157,7 @@ public class Finalizer implements Runnable {
          * The client no longer has a reference to the
          * FinalizableReferenceQueue. We can stop.
          */
-        throw new ShutDown();
+        return false;
       }
 
       try {
@@ -166,12 +171,13 @@ public class Finalizer implements Runnable {
        * CPU looking up the Method over and over again.
        */
     } while ((reference = queue.poll()) != null);
+    return true;
   }
 
   /**
    * Looks up FinalizableReference.finalizeReferent() method.
    */
-  private Method getFinalizeReferentMethod() throws ShutDown {
+  private Method getFinalizeReferentMethod() {
     Class<?> finalizableReferenceClass
         = finalizableReferenceClassReference.get();
     if (finalizableReferenceClass == null) {
@@ -183,7 +189,7 @@ public class Finalizer implements Runnable {
        * much just shut down and make sure we don't keep it alive any longer
        * than necessary.
        */
-      throw new ShutDown();
+      return null;
     }
     try {
       return finalizableReferenceClass.getMethod("finalizeReferent");
@@ -205,8 +211,4 @@ public class Finalizer implements Runnable {
       return null;
     }
   }
-
-  /** Indicates that it's time to shut down the Finalizer. */
-  @SuppressWarnings("serial") // Never serialized or thrown out of this class.
-  private static class ShutDown extends Exception {}
 }
