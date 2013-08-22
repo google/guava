@@ -42,7 +42,7 @@ import java.util.Queue;
  *   a  b  c       }</pre>
  *
  * <p>can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or breadth-first order
- * (hdegabc).
+ * (hdegabcf).
  *
  * <p>Null nodes are strictly forbidden.
  *
