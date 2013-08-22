@@ -108,9 +108,9 @@ public abstract class ImmutableSortedMap<K, V>
         .put(k1, v1).put(k2, v2).put(k3, v3).put(k4, v4).put(k5, v5).build();
   }
 
-  public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V>
+  public static <K, V> ImmutableSortedMap<K, V>
       copyOf(Map<? extends K, ? extends V> map) {
-    return copyOfInternal(map, Ordering.natural());
+    return copyOfInternal((Map) map, (Ordering<K>) Ordering.natural());
   }
 
   public static <K, V> ImmutableSortedMap<K, V> copyOf(

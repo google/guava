@@ -137,19 +137,16 @@ public abstract class ImmutableSortedSet<E>
     }
   }
 
-  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(
-      Collection<? extends E> elements) {
-    return copyOfInternal(Ordering.natural(), elements, false);
+  public static <E> ImmutableSortedSet<E> copyOf(Collection<? extends E> elements) {
+    return copyOfInternal((Ordering<E>) Ordering.natural(), (Collection) elements, false);
   }
 
-  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(
-      Iterable<? extends E> elements) {
-    return copyOfInternal(Ordering.natural(), elements, false);
+  public static <E> ImmutableSortedSet<E> copyOf(Iterable<? extends E> elements) {
+    return copyOfInternal((Ordering<E>) Ordering.natural(), (Iterable) elements, false);
   }
 
-  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(
-      Iterator<? extends E> elements) {
-    return copyOfInternal(Ordering.natural(), elements);
+  public static <E> ImmutableSortedSet<E> copyOf(Iterator<? extends E> elements) {
+    return copyOfInternal((Ordering<E>) Ordering.natural(), (Iterator) elements);
   }
 
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(
