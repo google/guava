@@ -177,7 +177,7 @@ public abstract class AbstractService implements Service {
    */
   protected abstract void doStop();
 
-  @Override public Service startAsync() {
+  @Override public final Service startAsync() {
     if (monitor.enterIf(isStartable)) {
       try {
         snapshot = new StateSnapshot(STARTING);
@@ -214,7 +214,7 @@ public abstract class AbstractService implements Service {
     return startup;
   }
 
-  @Override public Service stopAsync() {
+  @Override public final Service stopAsync() {
     stop();
     return this;
   }
@@ -261,17 +261,17 @@ public abstract class AbstractService implements Service {
 
   @Deprecated
   @Override
-  public State startAndWait() {
+  public final State startAndWait() {
     return Futures.getUnchecked(start());
   }
 
   @Deprecated
   @Override
-  public State stopAndWait() {
+  public final State stopAndWait() {
     return Futures.getUnchecked(stop());
   }
 
-  @Override public void awaitRunning() {
+  @Override public final void awaitRunning() {
     monitor.enterWhenUninterruptibly(hasReachedRunning);
     try {
       checkCurrentState(RUNNING);
@@ -280,7 +280,7 @@ public abstract class AbstractService implements Service {
     }
   }
 
-  @Override public void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
+  @Override public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
     if (monitor.enterWhenUninterruptibly(hasReachedRunning, timeout, unit)) {
       try {
         checkCurrentState(RUNNING);
@@ -297,7 +297,7 @@ public abstract class AbstractService implements Service {
     }
   }
 
-  @Override public void awaitTerminated() {
+  @Override public final void awaitTerminated() {
     monitor.enterWhenUninterruptibly(isStopped);
     try {
       checkCurrentState(TERMINATED);
@@ -306,7 +306,7 @@ public abstract class AbstractService implements Service {
     }
   }
 
-  @Override public void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {
+  @Override public final void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {
     if (monitor.enterWhenUninterruptibly(isStopped, timeout, unit)) {
       try {
         State state = state();

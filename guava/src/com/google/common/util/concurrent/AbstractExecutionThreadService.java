@@ -203,7 +203,7 @@ public abstract class AbstractExecutionThreadService implements Service {
   /**
    * @since 15.0
    */
-  @Override public Service startAsync() {
+  @Override public final Service startAsync() {
     delegate.startAsync();
     return this;
   }
@@ -211,7 +211,7 @@ public abstract class AbstractExecutionThreadService implements Service {
   /**
    * @since 15.0
    */
-  @Override public Service stopAsync() {
+  @Override public final Service stopAsync() {
     delegate.stopAsync();
     return this;
   }
@@ -219,28 +219,28 @@ public abstract class AbstractExecutionThreadService implements Service {
   /**
    * @since 15.0
    */
-  @Override public void awaitRunning() {
+  @Override public final void awaitRunning() {
     delegate.awaitRunning();
   }
   
   /**
    * @since 15.0
    */
-  @Override public void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
+  @Override public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
     delegate.awaitRunning(timeout, unit);
   }
   
   /**
    * @since 15.0
    */
-  @Override public void awaitTerminated() {
+  @Override public final void awaitTerminated() {
     delegate.awaitTerminated();
   }
   
   /**
    * @since 15.0
    */
-  @Override public void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {
+  @Override public final void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {
     delegate.awaitTerminated(timeout, unit);
   }
   
