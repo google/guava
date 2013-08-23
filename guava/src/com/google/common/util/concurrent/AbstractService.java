@@ -261,13 +261,13 @@ public abstract class AbstractService implements Service {
 
   @Deprecated
   @Override
-  public final State startAndWait() {
+  public State startAndWait() {
     return Futures.getUnchecked(start());
   }
 
   @Deprecated
   @Override
-  public final State stopAndWait() {
+  public State stopAndWait() {
     return Futures.getUnchecked(stop());
   }
 
