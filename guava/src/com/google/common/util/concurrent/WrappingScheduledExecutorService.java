@@ -32,7 +32,7 @@ abstract class WrappingScheduledExecutorService extends WrappingExecutorService
     implements ScheduledExecutorService {
   final ScheduledExecutorService delegate;
 
-  WrappingScheduledExecutorService(ScheduledExecutorService delegate) {
+  protected WrappingScheduledExecutorService(ScheduledExecutorService delegate) {
     super(delegate);
     this.delegate = delegate;
   }
