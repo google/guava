@@ -1136,7 +1136,7 @@ public class NullPointerTesterTest extends TestCase {
     }
   }
 
-  public void tesGenericInterfaceReturnedByGenericMethod() {
+  public void testGenericInterfaceReturnedByGenericMethod() {
     new GenericInterface2DefaultValueChecker().check();
   }
 
