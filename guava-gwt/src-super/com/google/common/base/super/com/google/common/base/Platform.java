@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Jesse Wilson
  */
-class Platform {
+final class Platform {
 
   private static final char[] CHAR_BUFFER = new char[1024];
 
@@ -46,4 +46,6 @@ class Platform {
     // and convert to nanos.
     return TimeUnit.MILLISECONDS.toNanos(System.currentTimeMillis());
   }
+
+  private Platform() {}
 }

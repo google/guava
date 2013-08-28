@@ -257,7 +257,7 @@ public final class BigIntegerMath {
      */
     BigInteger sqrt0;
     int log2 = log2(x, FLOOR);
-    if(log2 < Double.MAX_EXPONENT) {
+    if (log2 < Double.MAX_EXPONENT) {
       sqrt0 = sqrtApproxWithDoubles(x);
     } else {
       int shift = (log2 - DoubleUtils.SIGNIFICAND_BITS) & ~1; // even!

@@ -374,7 +374,7 @@ public class TypesTest extends TestCase {
       Types.newParameterizedType(
           Map.class, String.class, Integer.class, Long.class);
       fail();
-    } catch(IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {}
   }
 
   public void testToString() {

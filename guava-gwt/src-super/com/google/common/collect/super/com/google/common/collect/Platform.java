@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
  *
  * @author Hayward Chan
  */
-class Platform {
+final class Platform {
 
   static <T> T[] newArray(T[] reference, int length) {
     return GwtPlatform.newArray(reference, length);
@@ -140,4 +140,6 @@ class Platform {
       SortedMap<K, V> unfiltered, Predicate<? super Map.Entry<K, V>> predicate) {
     return Maps.filterSortedIgnoreNavigable(unfiltered, predicate);
   }
+
+  private Platform() {}
 }

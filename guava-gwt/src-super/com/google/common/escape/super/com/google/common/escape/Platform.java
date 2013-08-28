@@ -19,7 +19,7 @@ package com.google.common.escape;
 /**
  * @author Jesse Wilson
  */
-class Platform {
+final class Platform {
 
   private static final char[] CHAR_BUFFER = new char[1024];
 
@@ -30,4 +30,6 @@ class Platform {
     // involve async callbacks.
     return CHAR_BUFFER;
   }
+
+  private Platform() {}
 }

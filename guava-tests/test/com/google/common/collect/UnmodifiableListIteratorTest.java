@@ -91,8 +91,9 @@ public class UnmodifiableListIteratorTest extends TestCase {
         return i;
       }
       @Override public String previous() {
-        if(!hasPrevious())
+        if (!hasPrevious()) {
           throw new NoSuchElementException();
+        }
         return array[--i];
       }
       @Override public int previousIndex() {

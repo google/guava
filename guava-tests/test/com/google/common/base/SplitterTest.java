@@ -738,7 +738,7 @@ public class SplitterTest extends TestCase {
     try {
       COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,b,c=2");
       fail();
-    } catch(IllegalArgumentException expected) {
+    } catch (IllegalArgumentException expected) {
     }
   }
 

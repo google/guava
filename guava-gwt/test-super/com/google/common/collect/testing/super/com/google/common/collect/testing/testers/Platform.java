@@ -25,7 +25,7 @@ import com.google.gwt.core.client.GWT;
  * @author Hayward Chan
  */
 @GwtCompatible(emulated = true)
-class Platform {
+final class Platform {
 
   // Use fewer steps in the ListIteratorTester in ListListIteratorTester because it's slow in prod
   // mode.
@@ -71,4 +71,6 @@ class Platform {
 
     return builder.toString();
   }
+
+  private Platform() {}
 }

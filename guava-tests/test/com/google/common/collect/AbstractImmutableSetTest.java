@@ -121,7 +121,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     try {
       copyOf((String[]) null);
       fail();
-    } catch(NullPointerException expected) {
+    } catch (NullPointerException expected) {
     }
   }
 

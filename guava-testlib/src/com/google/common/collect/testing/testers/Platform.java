@@ -24,7 +24,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Hayward Chan
  */
 @GwtCompatible
-class Platform {
+final class Platform {
 
   /**
    * Format the template with args, only supports the placeholder
@@ -43,4 +43,6 @@ class Platform {
   static int collectionIteratorTesterNumIterations() {
     return 5;
   }
+
+  private Platform() {}
 }

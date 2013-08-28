@@ -23,7 +23,7 @@ package com.google.common.collect.testing;
  *
  * @author Hayward Chan
  */
-class Platform {
+final class Platform {
 
   static boolean checkIsInstance(Class<?> clazz, Object obj) {
     /*
@@ -77,4 +77,6 @@ class Platform {
   static String classGetSimpleName(Class<?> clazz) {
     throw new UnsupportedOperationException("Shouldn't be called in GWT.");
   }
+
+  private Platform() {}
 }

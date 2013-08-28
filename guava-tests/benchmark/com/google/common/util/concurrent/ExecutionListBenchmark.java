@@ -527,7 +527,7 @@ public class ExecutionListBenchmark {
         }
         // Try to make newHead the new head of the stack at runnables.
         newHead.next = oldHead;
-      } while(!UNSAFE.compareAndSwapObject(this, HEAD_OFFSET, oldHead, newHead));
+      } while (!UNSAFE.compareAndSwapObject(this, HEAD_OFFSET, oldHead, newHead));
     }
 
     public void execute() {
@@ -539,7 +539,7 @@ public class ExecutionListBenchmark {
           return;
         }
         // try to swap null into head.
-      } while(!UNSAFE.compareAndSwapObject(this, HEAD_OFFSET, stack, null));
+      } while (!UNSAFE.compareAndSwapObject(this, HEAD_OFFSET, stack, null));
 
       RunnableExecutorPair reversedStack = null;
       while (stack != NULL_PAIR) {

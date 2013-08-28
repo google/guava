@@ -262,7 +262,7 @@ public class ImmutableListTest extends TestCase {
       try {
         ImmutableList.copyOf((String[]) null);
         fail();
-      } catch(NullPointerException expected) {
+      } catch (NullPointerException expected) {
       }
     }
 
@@ -338,7 +338,7 @@ public class ImmutableListTest extends TestCase {
       try {
         ImmutableList.copyOf((Iterator<String>) null);
         fail();
-      } catch(NullPointerException expected) {
+      } catch (NullPointerException expected) {
       }
     }
 

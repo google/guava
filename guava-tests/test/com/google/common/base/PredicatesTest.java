@@ -605,7 +605,7 @@ public class PredicatesTest extends TestCase {
     try {
       isInteger.apply(null);
       fail();
-    } catch(NullPointerException expected) {}
+    } catch (NullPointerException expected) {}
   }
 
   @GwtIncompatible("Predicates.assignableFrom")

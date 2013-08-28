@@ -26,7 +26,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Hayward Chan
  */
 @GwtCompatible
-class Platform {
+final class Platform {
 
   /**
    * Calls {@link Class#isInstance(Object)}.  Factored out so that it can be
