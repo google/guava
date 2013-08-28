@@ -316,16 +316,14 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
   }
 
   /**
-   * Concatenates multiple {@link ByteSource} instances into a single source.
-   * Streams returned from the source will contain the concatenated data from
-   * the streams of the underlying sources.
+   * Concatenates multiple {@link ByteSource} instances into a single source. Streams returned from
+   * the source will contain the concatenated data from the streams of the underlying sources.
    *
-   * <p>Only one underlying stream will be open at a time. Closing the
-   * concatenated stream will close the open underlying stream.
+   * <p>Only one underlying stream will be open at a time. Closing the concatenated stream will
+   * close the open underlying stream.
    *
    * @param sources the sources to concatenate
    * @return a {@code ByteSource} containing the concatenated data
-   * @throws NullPointerException if any of {@code sources} is {@code null}
    * @since 15.0
    */
   public static ByteSource concat(Iterable<? extends ByteSource> sources) {
@@ -333,12 +331,17 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
   }
 
   /**
-   * Concatenates multiple {@link ByteSource} instances into a single source.
-   * Streams returned from the source will contain the concatenated data from
-   * the streams of the underlying sources.
+   * Concatenates multiple {@link ByteSource} instances into a single source. Streams returned from
+   * the source will contain the concatenated data from the streams of the underlying sources.
    *
-   * <p>Only one underlying stream will be open at a time. Closing the
-   * concatenated stream will close the open underlying stream.
+   * <p>Only one underlying stream will be open at a time. Closing the concatenated stream will
+   * close the open underlying stream.
+   *
+   * <p>Note: The input {@code Iterator} will be copied to an {@code ImmutableList} when this
+   * method is called. This will fail if the iterator is infinite and may cause problems if the
+   * iterator eagerly fetches data for each source when iterated (rather than producing sources
+   * that only load data through their streams). Prefer using the {@link #concat(Iterable)}
+   * overload if possible.
    *
    * @param sources the sources to concatenate
    * @return a {@code ByteSource} containing the concatenated data
@@ -350,12 +353,11 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
   }
 
   /**
-   * Concatenates multiple {@link ByteSource} instances into a single source.
-   * Streams returned from the source will contain the concatenated data from
-   * the streams of the underlying sources.
+   * Concatenates multiple {@link ByteSource} instances into a single source. Streams returned from
+   * the source will contain the concatenated data from the streams of the underlying sources.
    *
-   * <p>Only one underlying stream will be open at a time. Closing the
-   * concatenated stream will close the open underlying stream.
+   * <p>Only one underlying stream will be open at a time. Closing the concatenated stream will
+   * close the open underlying stream.
    *
    * @param sources the sources to concatenate
    * @return a {@code ByteSource} containing the concatenated data
@@ -548,10 +550,10 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
 
   private static final class ConcatenatedByteSource extends ByteSource {
 
-    private final ImmutableList<ByteSource> sources;
+    private final Iterable<? extends ByteSource> sources;
 
     ConcatenatedByteSource(Iterable<? extends ByteSource> sources) {
-      this.sources = ImmutableList.copyOf(sources);
+      this.sources = checkNotNull(sources);
     }
 
     @Override

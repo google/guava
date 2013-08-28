@@ -229,16 +229,14 @@ public abstract class CharSource implements InputSupplier<Reader> {
   }
 
   /**
-   * Concatenates multiple {@link CharSource} instances into a single source.
-   * Streams returned from the source will contain the concatenated data from
-   * the streams of the underlying sources.
+   * Concatenates multiple {@link CharSource} instances into a single source. Streams returned from
+   * the source will contain the concatenated data from the streams of the underlying sources.
    *
-   * <p>Only one underlying stream will be open at a time. Closing the
-   * concatenated stream will close the open underlying stream.
+   * <p>Only one underlying stream will be open at a time. Closing the  concatenated stream will
+   * close the open underlying stream.
    *
    * @param sources the sources to concatenate
    * @return a {@code CharSource} containing the concatenated data
-   * @throws NullPointerException if any of {@code sources} is {@code null}
    * @since 15.0
    */
   public static CharSource concat(Iterable<? extends CharSource> sources) {
@@ -246,12 +244,17 @@ public abstract class CharSource implements InputSupplier<Reader> {
   }
 
   /**
-   * Concatenates multiple {@link CharSource} instances into a single source.
-   * Streams returned from the source will contain the concatenated data from
-   * the streams of the underlying sources.
+   * Concatenates multiple {@link CharSource} instances into a single source. Streams returned from
+   * the source will contain the concatenated data from the streams of the underlying sources.
    *
-   * <p>Only one underlying stream will be open at a time. Closing the
-   * concatenated stream will close the open underlying stream.
+   * <p>Only one underlying stream will be open at a time. Closing the concatenated stream will
+   * close the open underlying stream.
+   *
+   * <p>Note: The input {@code Iterator} will be copied to an {@code ImmutableList} when this
+   * method is called. This will fail if the iterator is infinite and may cause problems if the
+   * iterator eagerly fetches data for each source when iterated (rather than producing sources
+   * that only load data through their streams). Prefer using the {@link #concat(Iterable)}
+   * overload if possible.
    *
    * @param sources the sources to concatenate
    * @return a {@code CharSource} containing the concatenated data
@@ -263,12 +266,11 @@ public abstract class CharSource implements InputSupplier<Reader> {
   }
 
   /**
-   * Concatenates multiple {@link CharSource} instances into a single source.
-   * Streams returned from the source will contain the concatenated data from
-   * the streams of the underlying sources.
+   * Concatenates multiple {@link CharSource} instances into a single source. Streams returned from
+   * the source will contain the concatenated data from the streams of the underlying sources.
    *
-   * <p>Only one underlying stream will be open at a time. Closing the
-   * concatenated stream will close the open underlying stream.
+   * <p>Only one underlying stream will be open at a time. Closing the concatenated stream will
+   * close the open underlying stream.
    *
    * @param sources the sources to concatenate
    * @return a {@code CharSource} containing the concatenated data
@@ -387,10 +389,10 @@ public abstract class CharSource implements InputSupplier<Reader> {
 
   private static final class ConcatenatedCharSource extends CharSource {
 
-    private final ImmutableList<CharSource> sources;
+    private final Iterable<? extends CharSource> sources;
 
     ConcatenatedCharSource(Iterable<? extends CharSource> sources) {
-      this.sources = ImmutableList.copyOf(sources);
+      this.sources = checkNotNull(sources);
     }
 
     @Override

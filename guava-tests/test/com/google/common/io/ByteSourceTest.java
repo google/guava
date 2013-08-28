@@ -28,6 +28,7 @@ import static org.junit.Assert.assertArrayEquals;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.common.testing.TestLogHandler;
 
@@ -251,6 +252,15 @@ public class ByteSourceTest extends IoTestCase {
     ByteSource emptyConcat = ByteSource.concat(ByteSource.empty(), ByteSource.empty());
     assertTrue(emptyConcat.isEmpty());
     assertEquals(0, emptyConcat.size());
+  }
+
+  public void testConcat_infiniteIterable() throws IOException {
+    ByteSource source = ByteSource.wrap(new byte[] {0, 1, 2, 3});
+    Iterable<ByteSource> cycle = Iterables.cycle(ImmutableList.of(source));
+    ByteSource concatenated = ByteSource.concat(cycle);
+
+    byte[] expected = {0, 1, 2, 3, 0, 1, 2, 3};
+    assertArrayEquals(expected, concatenated.slice(0, 8).read());
   }
 
   private static final ByteSource BROKEN_CLOSE_SOURCE
