@@ -881,6 +881,7 @@ public final class ByteStreams {
   }
 
   /** Varargs form of {@link #join(Iterable)}. */
+  @SuppressWarnings("unchecked") // suppress "possible heap pollution" warning in JDK7
   public static InputSupplier<InputStream> join(
       InputSupplier<? extends InputStream>... suppliers) {
     return join(Arrays.asList(suppliers));

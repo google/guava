@@ -23,12 +23,14 @@ import static com.google.common.io.TestOption.WRITE_THROWS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.testing.TestLogHandler;
 
 import junit.framework.TestSuite;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.EnumSet;
@@ -175,6 +177,23 @@ public class CharSourceTest extends IoTestCase {
 
     CharSource emptyConcat = CharSource.concat(CharSource.empty(), CharSource.empty());
     assertTrue(emptyConcat.isEmpty());
+  }
+
+  public void testConcat_infiniteIterable() throws IOException {
+    CharSource source = CharSource.wrap("abcd");
+    Iterable<CharSource> cycle = Iterables.cycle(ImmutableList.of(source));
+    CharSource concatenated = CharSource.concat(cycle);
+
+    String expected = "abcdabcd";
+
+    // read the first 8 chars manually, since there's no equivalent to ByteSource.slice
+    // TODO(user): Add CharSource.slice?
+    StringBuilder builder = new StringBuilder();
+    Reader reader = concatenated.openStream(); // no need to worry about closing
+    for (int i = 0; i < 8; i++) {
+      builder.append((char) reader.read());
+    }
+    assertEquals(expected, builder.toString());
   }
 
   static final CharSource BROKEN_READ_SOURCE = new TestCharSource("ABC", READ_THROWS);
