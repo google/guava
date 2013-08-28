@@ -115,6 +115,7 @@ public class CharMatcherTest extends TestCase {
     doTestSetBits(CharMatcher.ASCII);
     doTestSetBits(CharMatcher.DIGIT);
     doTestSetBits(CharMatcher.INVISIBLE);
+    doTestSetBits(CharMatcher.WHITESPACE);
     doTestSetBits(inRange('A', 'Z').and(inRange('F', 'K').negate()));
   }
 
@@ -752,5 +753,5 @@ public class CharMatcherTest extends TestCase {
     assertEquals(expected, matcher.negate().negate().toString());
     assertEquals(expected, matcher.negate().precomputed().negate().toString());
     assertEquals(expected, matcher.negate().precomputed().negate().precomputed().toString());
-   }
+  }
 }

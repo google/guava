@@ -1346,36 +1346,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * A special-case CharMatcher for Unicode whitespace characters that is extremely
-   * efficient both in space required and in time to check for matches.
-   *
-   * Implementation details.
-   * It turns out that all current (early 2012) Unicode characters are unique modulo 79:
-   * so we can construct a lookup table of exactly 79 entries, and just check the character code
-   * mod 79, and see if that character is in the table.
-   *
-   * There is a 1 at the beginning of the table so that the null character is not listed
-   * as whitespace.
-   *
-   * Other things we tried that did not prove to be beneficial, mostly due to speed concerns:
-   *
-   *   * Binary search into the sorted list of characters, i.e., what
-   *     CharMatcher.anyOf() does</li>
-   *   * Perfect hash function into a table of size 26 (using an offset table and a special
-   *     Jenkins hash function)</li>
-   *   * Perfect-ish hash function that required two lookups into a single table of size 26.</li>
-   *   * Using a power-of-2 sized hash table (size 64) with linear probing.</li>
-   *
-   * --Christopher Swenson, February 2012.
-   */
-  private static final String WHITESPACE_TABLE = "\u0001\u0000\u00a0\u0000\u0000\u0000\u0000\u0000"
-      + "\u0000\u0009\n\u000b\u000c\r\u0000\u0000\u2028\u2029\u0000\u0000\u0000\u0000\u0000\u202f"
-      + "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0020\u0000\u0000\u0000\u0000\u0000"
-      + "\u0000\u0000\u0000\u0000\u0000\u3000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
-      + "\u0000\u0000\u0085\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a"
-      + "\u0000\u0000\u0000\u0000\u0000\u205f\u1680\u0000\u0000\u180e\u0000\u0000\u0000";
-
-  /**
    * Determines whether a character is whitespace according to the latest Unicode standard, as
    * illustrated
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
@@ -1386,10 +1356,27 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant to keep it up
    * to date.
    */
-  public static final CharMatcher WHITESPACE = new FastMatcher("CharMatcher.WHITESPACE") {
+  public static final CharMatcher WHITESPACE = new FastMatcher("WHITESPACE") {
+    private static final String TABLE = "\u0009\u3000\n\u0009\u0009\u0009\u202F\u0009"
+        + "\u0009\u2001\u2006\u0009\u0009\u0009\u0009\u0009"
+        + "\u180E\u0009\u2029\u0009\u0009\u0009\u2000\u2005"
+        + "\u200A\u0009\u0009\u0009\r\u0009\u0009\u2028"
+        + "\u1680\u0009\u00A0\u0009\u2004\u2009\u0009\u0009"
+        + "\u0009\u000C\u205F\u0009\u0009\u0020\u0009\u0009"
+        + "\u2003\u2008\u0009\u0009\u0009\u000B\u0085\u0009"
+        + "\u0009\u0009\u0009\u0009\u0009\u2002\u2007\u0009";
 
-    @Override public boolean matches(char c) {
-      return WHITESPACE_TABLE.charAt(c % 79) == c;
+    @Override
+    public boolean matches(char c) {
+      return TABLE.charAt((-844444961 * c) >>> 26) == c;
+    }
+
+    @GwtIncompatible("java.util.BitSet")
+    @Override
+    void setBits(BitSet table) {
+      for (int i = 0; i < TABLE.length(); i++) {
+        table.set(TABLE.charAt(i));
+      }
     }
   };
 }
