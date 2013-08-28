@@ -18,6 +18,8 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,6 +31,7 @@ import java.io.ObjectOutputStream;
  *
  * @author Chris Povirk
  */
+@GwtCompatible(emulated = true)
 final class Platform {
   /**
    * Serializes and deserializes the specified object.

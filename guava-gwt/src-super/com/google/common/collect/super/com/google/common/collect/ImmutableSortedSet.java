@@ -43,6 +43,8 @@ public abstract class ImmutableSortedSet<E>
   // which overrides ImmutableSet & which ImmutableSortedSet extends.
   // It is necessary here because otherwise the builder() method
   // would be inherited from the emulated ImmutableSet.
+  // TODO(cpovirk): should we be including other methods from the shim here and
+  // in ImmutableSortedMap?
   @Deprecated public static <E> ImmutableSortedSet.Builder<E> builder() {
     throw new UnsupportedOperationException();
   }
