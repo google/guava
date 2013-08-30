@@ -942,6 +942,7 @@ public final class Futures {
    *         futures
    * @since 10.0
    */
+  @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       ListenableFuture<? extends V>... futures) {
     return listFuture(ImmutableList.copyOf(futures), true,
@@ -964,6 +965,7 @@ public final class Futures {
    *         futures
    * @since 10.0
    */
+  @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return listFuture(ImmutableList.copyOf(futures), true,
@@ -1023,6 +1025,7 @@ public final class Futures {
    *         futures
    * @since 10.0
    */
+  @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
       ListenableFuture<? extends V>... futures) {
     return listFuture(ImmutableList.copyOf(futures), false,
@@ -1044,6 +1047,7 @@ public final class Futures {
    *         futures
    * @since 10.0
    */
+  @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return listFuture(ImmutableList.copyOf(futures), false,
