@@ -244,6 +244,22 @@ public class HashCodeTest extends TestCase {
     }
   }
 
+  public void testIntWriteBytesTo() {
+    byte[] dest = new byte[4];
+    HashCodes.fromInt(42).writeBytesTo(dest, 0, 4);
+    assertTrue(Arrays.equals(
+        HashCodes.fromInt(42).asBytes(),
+        dest));
+  }
+
+  public void testLongWriteBytesTo() {
+    byte[] dest = new byte[8];
+    HashCodes.fromLong(42).writeBytesTo(dest, 0, 8);
+    assertTrue(Arrays.equals(
+        HashCodes.fromLong(42).asBytes(),
+        dest));
+  }
+
   private static final HashCode HASH_ABCD =
       HashCode.fromBytes(new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd });
 
