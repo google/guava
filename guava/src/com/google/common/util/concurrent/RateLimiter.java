@@ -221,7 +221,7 @@ public abstract class RateLimiter {
    * requests being smoothly limited at the stable rate of {@code permitsPerSecond}.
    *
    * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in
-   *        how many permits become available per second.
+   *        how many permits become available per second. Must be positive
    */
   // TODO(user): "This is equivalent to
   //                 {@code createWithCapacity(permitsPerSecond, 1, TimeUnit.SECONDS)}".
@@ -266,7 +266,7 @@ public abstract class RateLimiter {
    * will follow), and if it is left unused for long enough, it will return to that state.
    *
    * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in
-   *        how many permits become available per second
+   *        how many permits become available per second. Must be positive
    * @param warmupPeriod the duration of the period where the {@code RateLimiter} ramps up its
    *        rate, before reaching its stable (maximum) rate
    * @param unit the time unit of the warmupPeriod argument
@@ -349,7 +349,7 @@ public abstract class RateLimiter {
    * e.g. if the {@code RateLimiter} was configured with a warmup period of 20 seconds,
    * it still has a warmup period of 20 seconds after this method invocation.
    *
-   * @param permitsPerSecond the new stable rate of this {@code RateLimiter}.
+   * @param permitsPerSecond the new stable rate of this {@code RateLimiter}. Must be positive
    */
   public final void setRate(double permitsPerSecond) {
     Preconditions.checkArgument(permitsPerSecond > 0.0
