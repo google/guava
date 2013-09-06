@@ -100,12 +100,4 @@ public class ComparisonChainTest extends TestCase {
     assertTrue(ComparisonChain.start().compareTrueFirst(false, true).result() > 0);
     assertTrue(ComparisonChain.start().compareTrueFirst(false, false).result() == 0);
   }
-
-  @SuppressWarnings("deprecation") // test of a deprecated method
-  public void testCompareBooleans() {
-    assertTrue(ComparisonChain.start().compare(true, true).result() == 0);
-    assertTrue(ComparisonChain.start().compare(true, false).result() > 0);
-    assertTrue(ComparisonChain.start().compare(false, true).result() < 0);
-    assertTrue(ComparisonChain.start().compare(false, false).result() == 0);
-  }
 }

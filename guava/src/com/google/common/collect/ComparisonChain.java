@@ -208,19 +208,6 @@ public abstract class ComparisonChain {
   public abstract ComparisonChain compareFalseFirst(boolean left, boolean right);
 
   /**
-   * Old name of {@link #compareFalseFirst}.
-   *
-   * @deprecated Use {@link #compareFalseFirst}; or, if the parameters passed
-   *     are being either negated or reversed, undo the negation or reversal and
-   *     use {@link #compareTrueFirst}. <b>This method is scheduled for deletion
-   *     in September 2013.</b>
-   */
-  @Deprecated
-  public final ComparisonChain compare(boolean left, boolean right) {
-    return compareFalseFirst(left, right);
-  }
-
-  /**
    * Ends this comparison chain and returns its result: a value having the
    * same sign as the first nonzero comparison result in the chain, or zero if
    * every result was zero.
