@@ -33,7 +33,6 @@ import com.google.common.hash.HashFunction;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -137,59 +136,10 @@ public final class Files {
 
     @Override
     public byte[] read() throws IOException {
-      long size = file.length();
-      // some special files may return size 0 but have content
-      // read normally to be sure
-      if (size == 0) {
-        return super.read();
-      }
-
-      // can't initialize a large enough array
-      // technically, this could probably be Integer.MAX_VALUE - 5
-      if (size > Integer.MAX_VALUE) {
-        // OOME is what would be thrown if we tried to initialize the array
-        throw new OutOfMemoryError("file is too large to fit in a byte array: "
-            + size + " bytes");
-      }
-
-      // initialize the array to the current size of the file
-      byte[] bytes = new byte[(int) size];
-
       Closer closer = Closer.create();
       try {
-        InputStream in = closer.register(openStream());
-        int off = 0;
-        int read = 0;
-
-        // read until we've read size bytes or reached EOF
-        while (off < size
-            && ((read = in.read(bytes, off, (int) size - off)) != -1)) {
-          off += read;
-        }
-
-        if (off < size) {
-          // encountered EOF early; truncate the result
-          return Arrays.copyOf(bytes, off);
-        }
-
-        // otherwise, exactly size bytes were read
-
-        int b = in.read(); // check for EOF
-        if (b == -1) {
-          // EOF; the file did not change size, so return the original array
-          return bytes;
-        }
-
-        // the file got larger, so read the rest normally
-        InternalByteArrayOutputStream out
-            = new InternalByteArrayOutputStream();
-        out.write(b); // write the byte we read when testing for EOF
-        ByteStreams.copy(in, out);
-
-        byte[] result = new byte[bytes.length + out.size()];
-        System.arraycopy(bytes, 0, result, 0, bytes.length);
-        out.writeTo(result, bytes.length);
-        return result;
+        FileInputStream in = closer.register(openStream());
+        return readFile(in, in.getChannel().size());
       } catch (Throwable e) {
         throw closer.rethrow(e);
       } finally {
@@ -204,17 +154,23 @@ public final class Files {
   }
 
   /**
-   * BAOS subclass for direct access to its internal buffer.
+   * Reads a file of the given expected size from the given input stream, if
+   * it will fit into a byte array. This method handles the case where the file
+   * size changes between when the size is read and when the contents are read
+   * from the stream.
    */
-  private static final class InternalByteArrayOutputStream
-      extends ByteArrayOutputStream {
-    /**
-     * Writes the contents of the internal buffer to the given array starting
-     * at the given offset. Assumes the array has space to hold count bytes.
-     */
-    void writeTo(byte[] b, int off) {
-      System.arraycopy(buf, 0, b, off, count);
+  static byte[] readFile(
+      InputStream in, long expectedSize) throws IOException {
+    if (expectedSize > Integer.MAX_VALUE) {
+      throw new OutOfMemoryError("file is too large to fit in a byte array: "
+          + expectedSize + " bytes");
     }
+
+    // some special files may return size 0 but have content, so read
+    // the file normally in that case
+    return expectedSize == 0
+        ? ByteStreams.toByteArray(in)
+        : ByteStreams.toByteArray(in, (int) expectedSize);
   }
 
   /**

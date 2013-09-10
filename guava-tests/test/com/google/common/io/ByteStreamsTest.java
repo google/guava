@@ -371,12 +371,36 @@ public class ByteStreamsTest extends IoTestCase {
     out.writeDouble(Double.longBitsToDouble(0x1234567876543210L));
     assertEquals(bytes, out.toByteArray());
   }
-  
+
   public void testNewDataOutput_writeFloat() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeFloat(Float.intBitsToFloat(0x12345678));
     out.writeFloat(Float.intBitsToFloat(0x76543210));
     assertEquals(bytes, out.toByteArray());
+  }
+
+  public void testToByteArray_withSize_givenCorrectSize() throws IOException {
+    InputStream in = newTestStream(100);
+    byte[] b = ByteStreams.toByteArray(in, 100);
+    assertEquals(100, b.length);
+  }
+
+  public void testToByteArray_withSize_givenSmallerSize() throws IOException {
+    InputStream in = newTestStream(100);
+    byte[] b = ByteStreams.toByteArray(in, 80);
+    assertEquals(100, b.length);
+  }
+
+  public void testToByteArray_withSize_givenLargerSize() throws IOException {
+    InputStream in = newTestStream(100);
+    byte[] b = ByteStreams.toByteArray(in, 120);
+    assertEquals(100, b.length);
+  }
+
+  public void testToByteArray_withSize_givenSizeZero() throws IOException {
+    InputStream in = newTestStream(100);
+    byte[] b = ByteStreams.toByteArray(in, 0);
+    assertEquals(100, b.length);
   }
 
   private static InputStream newTestStream(int n) {

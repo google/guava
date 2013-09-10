@@ -31,8 +31,10 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -77,14 +79,65 @@ public class FilesTest extends IoTestCase {
         Files.toByteArray(i18nFile)));
     assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8),
         Files.asByteSource(i18nFile).read()));
+  }
 
-    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8),
-        Files.toByteArray(new BadLengthFile(i18nFile, 0))));
+  public void testReadFile_withCorrectSize() throws IOException {
+    File asciiFile = getTestFile("ascii.txt");
 
+    Closer closer = Closer.create();
     try {
-      Files.toByteArray(new BadLengthFile(asciiFile, 1L + Integer.MAX_VALUE));
-      fail("expected exception");
-    } catch (OutOfMemoryError expected) {
+      InputStream in = closer.register(new FileInputStream(asciiFile));
+      byte[] bytes = Files.readFile(in, asciiFile.length());
+      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII), bytes));
+    } catch (Throwable e) {
+      throw closer.rethrow(e);
+    } finally {
+      closer.close();
+    }
+  }
+
+  public void testReadFile_withSmallerSize() throws IOException {
+    File asciiFile = getTestFile("ascii.txt");
+
+    Closer closer = Closer.create();
+    try {
+      InputStream in = closer.register(new FileInputStream(asciiFile));
+      byte[] bytes = Files.readFile(in, 10);
+      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII), bytes));
+    } catch (Throwable e) {
+      throw closer.rethrow(e);
+    } finally {
+      closer.close();
+    }
+  }
+
+  public void testReadFile_withLargerSize() throws IOException {
+    File asciiFile = getTestFile("ascii.txt");
+
+    Closer closer = Closer.create();
+    try {
+      InputStream in = closer.register(new FileInputStream(asciiFile));
+      byte[] bytes = Files.readFile(in, 500);
+      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII), bytes));
+    } catch (Throwable e) {
+      throw closer.rethrow(e);
+    } finally {
+      closer.close();
+    }
+  }
+
+  public void testReadFile_withSizeZero() throws IOException {
+    File asciiFile = getTestFile("ascii.txt");
+
+    Closer closer = Closer.create();
+    try {
+      InputStream in = closer.register(new FileInputStream(asciiFile));
+      byte[] bytes = Files.readFile(in, 0);
+      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII), bytes));
+    } catch (Throwable e) {
+      throw closer.rethrow(e);
+    } finally {
+      closer.close();
     }
   }
 
