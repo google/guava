@@ -120,6 +120,57 @@ public class EventBusTest extends TestCase {
         COMP_EVENT, compEvents.get(1));
   }
 
+  public void testSubscriberThrowsException() throws Exception{
+    final RecordingSubscriberExceptionHandler handler =
+        new RecordingSubscriberExceptionHandler();
+    final EventBus eventBus = new EventBus(handler);
+    final RuntimeException exception =
+        new RuntimeException("but culottes have a tendancy to ride up!");
+    final Object subscriber = new Object() {
+      @Subscribe
+      public void throwExceptionOn(String message) {
+        throw exception;
+      }
+    };
+    eventBus.register(subscriber);
+    eventBus.post(EVENT);
+
+    assertEquals("Cause should be available.",
+        exception, handler.exception);
+    assertEquals("EventBus should be available.",
+        eventBus, handler.context.getEventBus());
+    assertEquals("Event should be available.",
+        EVENT,
+        handler.context.getEvent());
+    assertEquals("Subscriber should be available.",
+        subscriber, handler.context.getSubscriber());
+    assertEquals("Method should be available.",
+        subscriber.getClass().getMethod("throwExceptionOn", String.class),
+        handler.context.getSubscriberMethod());
+  }
+
+  public void testSubscriberThrowsExceptionHandlerThrowsException() throws Exception{
+    final EventBus eventBus = new EventBus(new SubscriberExceptionHandler() {
+      @Override
+      public void handleException(Throwable exception,
+          SubscriberExceptionContext context) {
+        throw new RuntimeException();
+      }
+    });
+    final Object subscriber = new Object() {
+      @Subscribe
+      public void throwExceptionOn(String message) {
+        throw new RuntimeException();
+      }
+    };
+    eventBus.register(subscriber);
+    try {
+      eventBus.post(EVENT);
+    } catch (RuntimeException e) {
+      fail("Exception should not be thrown.");
+    }
+  }
+
   public void testDeadEventForwarding() {
     GhostCatcher catcher = new GhostCatcher();
     bus.register(catcher);
@@ -237,6 +288,24 @@ public class EventBusTest extends TestCase {
   private <T> void assertContains(T element, Collection<T> collection) {
     assertTrue("Collection must contain " + element,
         collection.contains(element));
+  }
+
+  /**
+   * Records a thrown exception information.
+   */
+  private static final class RecordingSubscriberExceptionHandler
+      implements SubscriberExceptionHandler {
+
+    public SubscriberExceptionContext context;
+    public Throwable exception;
+
+    @Override
+    public void handleException(Throwable exception,
+        SubscriberExceptionContext context) {
+      this.exception = exception;
+      this.context = context;
+
+    }
   }
 
   /**

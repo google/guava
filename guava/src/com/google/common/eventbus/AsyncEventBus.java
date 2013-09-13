@@ -59,8 +59,24 @@ public class AsyncEventBus extends EventBus {
    * @param executor Executor to use to dispatch events. It is the caller's
    *        responsibility to shut down the executor after the last event has
    *        been posted to this event bus.
+   * @param subscriberExceptionHandler Handler used to handle exceptions thrown from subscribers.
+   *    See {@link SubscriberExceptionHandler} for more information.
+   */
+  public AsyncEventBus(Executor executor, SubscriberExceptionHandler subscriberExceptionHandler) {
+    super(subscriberExceptionHandler);
+    this.executor = checkNotNull(executor);
+  }
+
+  /**
+   * Creates a new AsyncEventBus that will use {@code executor} to dispatch
+   * events.
+   *
+   * @param executor Executor to use to dispatch events. It is the caller's
+   *        responsibility to shut down the executor after the last event has
+   *        been posted to this event bus.
    */
   public AsyncEventBus(Executor executor) {
+    super("default");
     this.executor = checkNotNull(executor);
   }
 

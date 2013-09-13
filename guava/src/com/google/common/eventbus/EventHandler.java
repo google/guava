@@ -104,4 +104,12 @@ class EventHandler {
     }
     return false;
   }
+
+  Object getSubscriber() {
+    return target;
+  }
+
+  Method getMethod() {
+    return method;
+  }
 }
