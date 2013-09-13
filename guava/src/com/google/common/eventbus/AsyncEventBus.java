@@ -61,6 +61,7 @@ public class AsyncEventBus extends EventBus {
    *        been posted to this event bus.
    * @param subscriberExceptionHandler Handler used to handle exceptions thrown from subscribers.
    *    See {@link SubscriberExceptionHandler} for more information.
+   * @since 16.0
    */
   public AsyncEventBus(Executor executor, SubscriberExceptionHandler subscriberExceptionHandler) {
     super(subscriberExceptionHandler);

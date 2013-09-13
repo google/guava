@@ -45,17 +45,15 @@ import java.util.logging.Logger;
  * Dispatches events to listeners, and provides ways for listeners to register
  * themselves.
  *
- * <p>
- * The EventBus allows publish-subscribe-style communication between components
- * without requiring the components to explicitly register with one another (and
- * thus be aware of each other). It is designed exclusively to replace
- * traditional Java in-process event distribution using explicit registration.
- * It is <em>not</em> a general-purpose publish-subscribe system, nor is it
- * intended for interprocess communication.
+ * <p>The EventBus allows publish-subscribe-style communication between
+ * components without requiring the components to explicitly register with one
+ * another (and thus be aware of each other). It is designed exclusively to
+ * replace traditional Java in-process event distribution using explicit
+ * registration. It is <em>not</em> a general-purpose publish-subscribe system,
+ * nor is it intended for interprocess communication.
  *
  * <h2>Receiving Events</h2>
- * <p>
- * To receive events, an object should:
+ * <p>To receive events, an object should:
  * <ol>
  * <li>Expose a public method, known as the <i>event handler</i>, which accepts
  * a single argument of the type of event desired;</li>
@@ -65,59 +63,49 @@ import java.util.logging.Logger;
  * </ol>
  *
  * <h2>Posting Events</h2>
- * <p>
- * To post an event, simply provide the event object to the
- * {@link #post(Object)} method. The EventBus instance will determine the type
- * of event and route it to all registered listeners.
+ * <p>To post an event, simply provide the event object to the {@link
+ * #post(Object)} method. The EventBus instance will determine the type of event
+ * and route it to all registered listeners.
  *
- * <p>
- * Events are routed based on their type &mdash; an event will be delivered to
- * any handler for any type to which the event is <em>assignable.</em> This
+ * <p>Events are routed based on their type &mdash; an event will be delivered
+ * to any handler for any type to which the event is <em>assignable.</em> This
  * includes implemented interfaces, all superclasses, and all interfaces
  * implemented by superclasses.
  *
- * <p>
- * When {@code post} is called, all registered handlers for an event are run in
- * sequence, so handlers should be reasonably quick. If an event may trigger an
- * extended process (such as a database load), spawn a thread or queue it for
+ * <p>When {@code post} is called, all registered handlers for an event are run
+ * in sequence, so handlers should be reasonably quick. If an event may trigger
+ * an extended process (such as a database load), spawn a thread or queue it for
  * later. (For a convenient way to do this, use an {@link AsyncEventBus}.)
  *
  * <h2>Handler Methods</h2>
- * <p>
- * Event handler methods must accept only one argument: the event.
+ * <p>Event handler methods must accept only one argument: the event.
  *
- * <p>
- * The EventBus guarantees that it will not call a handler method from multiple
- * threads simultaneously, unless the method explicitly allows it by bearing the
- * {@link AllowConcurrentEvents} annotation. If this annotation is not present,
- * handler methods need not worry about being reentrant, unless also called from
- * outside the EventBus.
+ * <p>The EventBus guarantees that it will not call a handler method from
+ * multiple threads simultaneously, unless the method explicitly allows it by
+ * bearing the {@link AllowConcurrentEvents} annotation. If this annotation is
+ * not present, handler methods need not worry about being reentrant, unless
+ * also called from outside the EventBus.
  *
  * <h2>Dead Events</h2>
- * <p>
- * If an event is posted, but no registered handlers can accept it, it is
+ * <p>If an event is posted, but no registered handlers can accept it, it is
  * considered "dead." To give the system a second chance to handle dead events,
  * they are wrapped in an instance of {@link DeadEvent} and reposted.
  *
- * <p>
- * If a handler for a supertype of all events (such as Object) is registered, no
- * event will ever be considered dead, and no DeadEvents will be generated.
+ * <p>If a handler for a supertype of all events (such as Object) is registered,
+ * no event will ever be considered dead, and no DeadEvents will be generated.
  * Accordingly, while DeadEvent extends {@link Object}, a handler registered to
  * receive any Object will never receive a DeadEvent.
  *
  * <h2>Exception Handling</h2>
  *
- * <p>
- * When a subscriber throws an exception while handling event, the
- * {@link SubscriberExceptionHandler} is called.
+ * <p>When a subscriber throws an exception while handling event, the {@link
+ * SubscriberExceptionHandler} is called.
  *
- * <p>
- * This class is safe for concurrent use.
+ * <p>This class is safe for concurrent use.
  *
- * <p>
- * See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/EventBusExplained">
- * {@code EventBus}</a>.
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/EventBusExplained">{@code
+ * EventBus}</a>.
  *
  * @author Cliff Biffle
  * @since 10.0
@@ -197,6 +185,7 @@ public class EventBus {
    * Creates a new EventBus with the given {@link SubscriberExceptionHandler}.
    * 
    * @param subscriberExceptionHandler Handler for subscriber exceptions.
+   * @since 16.0
    */
   public EventBus(SubscriberExceptionHandler subscriberExceptionHandler) {
     this.subscriberExceptionHandler = checkNotNull(subscriberExceptionHandler);
