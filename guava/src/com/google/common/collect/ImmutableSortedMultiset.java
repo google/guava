@@ -542,28 +542,28 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     }
   }
 
-  private static final class SerializedForm implements Serializable {
-    Comparator comparator;
-    Object[] elements;
+  private static final class SerializedForm<E> implements Serializable {
+    Comparator<? super E> comparator;
+    E[] elements;
     int[] counts;
 
-    SerializedForm(SortedMultiset<?> multiset) {
+    @SuppressWarnings("unchecked")
+    SerializedForm(SortedMultiset<E> multiset) {
       this.comparator = multiset.comparator();
       int n = multiset.entrySet().size();
-      elements = new Object[n];
+      elements = (E[]) new Object[n];
       counts = new int[n];
       int i = 0;
-      for (Entry<?> entry : multiset.entrySet()) {
+      for (Entry<E> entry : multiset.entrySet()) {
         elements[i] = entry.getElement();
         counts[i] = entry.getCount();
         i++;
       }
     }
 
-    @SuppressWarnings("unchecked")
     Object readResolve() {
       int n = elements.length;
-      Builder<Object> builder = orderedBy(comparator);
+      Builder<E> builder = new Builder<E>(comparator);
       for (int i = 0; i < n; i++) {
         builder.addCopies(elements[i], counts[i]);
       }
@@ -573,6 +573,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
   @Override
   Object writeReplace() {
-    return new SerializedForm(this);
+    return new SerializedForm<E>(this);
   }
 }

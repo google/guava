@@ -33,9 +33,9 @@ import java.util.TreeSet;
  */
 public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
   @SuppressWarnings("unchecked")
-  private static final Comparator NATURAL_ORDER = new Comparator<Comparable>() {
-    @Override public int compare(Comparable o1, Comparable o2) {
-      return o1.compareTo(o2);
+  private static final Comparator<Object> NATURAL_ORDER = new Comparator<Object>() {
+    @Override public int compare(Object o1, Object o2) {
+      return ((Comparable<Object>) o1).compareTo(o2);
     }
   };
   private final NavigableSet<E> delegate;
@@ -86,7 +86,7 @@ public final class SafeTreeSet<E> implements Serializable, NavigableSet<E> {
   @Override public Comparator<? super E> comparator() {
     Comparator<? super E> comparator = delegate.comparator();
     if (comparator == null) {
-      comparator = NATURAL_ORDER;
+      comparator = (Comparator<? super E>) NATURAL_ORDER;
     }
     return comparator;
   }

@@ -43,18 +43,18 @@ import javax.annotation.Nullable;
 public final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
     implements Serializable {
 
-  @SuppressWarnings("unchecked")
-  private static final ImmutableRangeSet EMPTY = new ImmutableRangeSet(ImmutableList.of());
+  private static final ImmutableRangeSet<Comparable<?>> EMPTY =
+      new ImmutableRangeSet<Comparable<?>>(ImmutableList.<Range<Comparable<?>>>of());
 
-  @SuppressWarnings("unchecked")
-  private static final ImmutableRangeSet ALL = new ImmutableRangeSet(ImmutableList.of(Range.all()));
+  private static final ImmutableRangeSet<Comparable<?>> ALL =
+      new ImmutableRangeSet<Comparable<?>>(ImmutableList.of(Range.<Comparable<?>>all()));
 
   /**
    * Returns an empty immutable range set.
    */
   @SuppressWarnings("unchecked")
   public static <C extends Comparable> ImmutableRangeSet<C> of() {
-    return EMPTY;
+    return (ImmutableRangeSet<C>) EMPTY;
   }
 
   /**
@@ -62,7 +62,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    */
   @SuppressWarnings("unchecked")
   static <C extends Comparable> ImmutableRangeSet<C> all() {
-    return ALL;
+    return (ImmutableRangeSet<C>) ALL;
   }
 
   /**

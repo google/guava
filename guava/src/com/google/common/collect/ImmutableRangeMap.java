@@ -41,16 +41,16 @@ import javax.annotation.Nullable;
 @GwtIncompatible("NavigableMap")
 public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V> {
 
-  @SuppressWarnings("unchecked")
-  private static final ImmutableRangeMap EMPTY =
-      new ImmutableRangeMap(ImmutableList.of(), ImmutableList.of());
+  private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
+      new ImmutableRangeMap<Comparable<?>, Object>(
+          ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
 
   /**
    * Returns an empty immutable range map.
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of() {
-    return EMPTY;
+    return (ImmutableRangeMap<K, V>) EMPTY;
   }
 
   /**

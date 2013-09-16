@@ -36,8 +36,8 @@ public class TreeMultimap_CustomFieldSerializer {
   @SuppressWarnings("unchecked")
   public static TreeMultimap<Object, Object> instantiate(
       SerializationStreamReader in) throws SerializationException {
-    Comparator keyComparator = (Comparator) in.readObject();
-    Comparator valueComparator = (Comparator) in.readObject();
+    Comparator<Object> keyComparator = (Comparator<Object>) in.readObject();
+    Comparator<Object> valueComparator = (Comparator<Object>) in.readObject();
 
     return (TreeMultimap<Object, Object>)
         Multimap_CustomFieldSerializerBase.populate(
