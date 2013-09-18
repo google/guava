@@ -37,20 +37,20 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * A {@link HandlerFindingStrategy} for collecting all event handler methods that are marked with
- * the {@link Subscribe} annotation.
+ * A {@link SubscriberFindingStrategy} for collecting all event subscriber methods that are marked
+ * with the {@link Subscribe} annotation.
  *
  * @author Cliff Biffle
  * @author Louis Wasserman
  */
-class AnnotatedHandlerFinder implements HandlerFindingStrategy {
+class AnnotatedSubscriberFinder implements SubscriberFindingStrategy {
   /**
    * A thread-safe cache that contains the mapping from each class to all methods in that class and
    * all super-classes, that are annotated with {@code @Subscribe}. The cache is shared across all
    * instances of this class; this greatly improves performance if multiple EventBus instances are
    * created and objects of the same class are registered on all of them.
    */
-  private static final LoadingCache<Class<?>, ImmutableList<Method>> handlerMethodsCache =
+  private static final LoadingCache<Class<?>, ImmutableList<Method>> subscriberMethodsCache =
       CacheBuilder.newBuilder()
           .weakKeys()
           .build(new CacheLoader<Class<?>, ImmutableList<Method>>() {
@@ -66,21 +66,21 @@ class AnnotatedHandlerFinder implements HandlerFindingStrategy {
    * This implementation finds all methods marked with a {@link Subscribe} annotation.
    */
   @Override
-  public Multimap<Class<?>, EventHandler> findAllHandlers(Object listener) {
-    Multimap<Class<?>, EventHandler> methodsInListener = HashMultimap.create();
+  public Multimap<Class<?>, EventSubscriber> findAllSubscribers(Object listener) {
+    Multimap<Class<?>, EventSubscriber> methodsInListener = HashMultimap.create();
     Class<?> clazz = listener.getClass();
     for (Method method : getAnnotatedMethods(clazz)) {
       Class<?>[] parameterTypes = method.getParameterTypes();
       Class<?> eventType = parameterTypes[0];
-      EventHandler handler = makeHandler(listener, method);
-      methodsInListener.put(eventType, handler);
+      EventSubscriber subscriber = makeSubscriber(listener, method);
+      methodsInListener.put(eventType, subscriber);
     }
     return methodsInListener;
   }
 
   private static ImmutableList<Method> getAnnotatedMethods(Class<?> clazz) {
     try {
-      return handlerMethodsCache.getUnchecked(clazz);
+      return subscriberMethodsCache.getUnchecked(clazz);
     } catch (UncheckedExecutionException e) {
       throw Throwables.propagate(e.getCause());
     }
@@ -120,7 +120,7 @@ class AnnotatedHandlerFinder implements HandlerFindingStrategy {
           if (parameterTypes.length != 1) {
             throw new IllegalArgumentException("Method " + superClazzMethod
                 + " has @Subscribe annotation, but requires " + parameterTypes.length
-                + " arguments.  Event handler methods must require a single argument.");
+                + " arguments.  Event subscriber methods must require a single argument.");
           }
           
           MethodIdentifier ident = new MethodIdentifier(superClazzMethod);
@@ -134,22 +134,22 @@ class AnnotatedHandlerFinder implements HandlerFindingStrategy {
   }
 
   /**
-   * Creates an {@code EventHandler} for subsequently calling {@code method} on
+   * Creates an {@code EventSubscriber} for subsequently calling {@code method} on
    * {@code listener}.
-   * Selects an EventHandler implementation based on the annotations on
+   * Selects an EventSubscriber implementation based on the annotations on
    * {@code method}.
    *
-   * @param listener  object bearing the event handler method.
-   * @param method  the event handler method to wrap in an EventHandler.
-   * @return an EventHandler that will call {@code method} on {@code listener}
+   * @param listener  object bearing the event subscriber method.
+   * @param method  the event subscriber method to wrap in an EventSubscriber.
+   * @return an EventSubscriber that will call {@code method} on {@code listener}
    *         when invoked.
    */
-  private static EventHandler makeHandler(Object listener, Method method) {
-    EventHandler wrapper;
+  private static EventSubscriber makeSubscriber(Object listener, Method method) {
+    EventSubscriber wrapper;
     if (methodIsDeclaredThreadSafe(method)) {
-      wrapper = new EventHandler(listener, method);
+      wrapper = new EventSubscriber(listener, method);
     } else {
-      wrapper = new SynchronizedEventHandler(listener, method);
+      wrapper = new SynchronizedEventSubscriber(listener, method);
     }
     return wrapper;
   }
@@ -158,8 +158,8 @@ class AnnotatedHandlerFinder implements HandlerFindingStrategy {
    * Checks whether {@code method} is thread-safe, as indicated by the
    * {@link AllowConcurrentEvents} annotation.
    *
-   * @param method  handler method to check.
-   * @return {@code true} if {@code handler} is marked as thread-safe,
+   * @param method  subscriber method to check.
+   * @return {@code true} if {@code subscriber} is marked as thread-safe,
    *         {@code false} otherwise.
    */
   private static boolean methodIsDeclaredThreadSafe(Method method) {

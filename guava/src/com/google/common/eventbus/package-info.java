@@ -97,11 +97,11 @@
  * <dl>
  * <dt>Event</dt><dd>Any object that may be <em>posted</em> to a bus.</dd>
  * <dt>Subscribing</dt><dd>The act of registering a <em>listener</em> with an
- *     EventBus, so that its <em>handler methods</em> will receive events.</dd>
+ *     EventBus, so that its <em>subscriber methods</em> will receive events.</dd>
  * <dt>Listener</dt><dd>An object that wishes to receive events, by exposing
- *     <em>handler methods</em>.</dt>
- * <dt>Handler method</dt><dd>A public method that the EventBus should use to
- *     deliver <em>posted</em> events.  Handler methods are marked by the
+ *     <em>subscriber methods</em>.</dt>
+ * <dt>Subscriber method</dt><dd>A public method that the EventBus should use to
+ *     deliver <em>posted</em> events.  Subscriber methods are marked by the
  *     {@link com.google.common.eventbus.Subscribe} annotation.</dd>
  * <dt>Posting an event</dt><dd>Making the event available to any
  *     <em>listeners</em> through the EventBus.</dt>
@@ -123,11 +123,11 @@
  * <p>In short, the EventBus is not a singleton because we'd rather not make
  * that decision for you.  Use it how you like.
  *
- * <h3>Why use an annotation to mark handler methods, rather than requiring the
+ * <h3>Why use an annotation to mark subscriber methods, rather than requiring the
  * listener to implement an interface?</h3>
  * <p>We feel that the Event Bus's {@code @Subscribe} annotation conveys your
  * intentions just as explicitly as implementing an interface (or perhaps more
- * so), while leaving you free to place event handler methods wherever you wish
+ * so), while leaving you free to place event subscriber methods wherever you wish
  * and give them intention-revealing names.
  *
  * <p>Traditional Java Events use a listener interface which typically sports
@@ -166,15 +166,15 @@
  *   }</pre>
  *
  * <p>The intent is actually clearer in the second case: there's less noise code,
- * and the event handler has a clear and meaningful name.
+ * and the event subscriber has a clear and meaningful name.
  *
- * <h3>What about a generic {@code Handler<T>} interface?</h3>
- * <p>Some have proposed a generic {@code Handler<T>} interface for EventBus
+ * <h3>What about a generic {@code Subscriber<T>} interface?</h3>
+ * <p>Some have proposed a generic {@code Subscriber<T>} interface for EventBus
  * listeners.  This runs into issues with Java's use of type erasure, not to
  * mention problems in usability.
  *
  * <p>Let's say the interface looked something like the following: <pre>   {@code
- *   interface Handler<T> {
+ *   interface Subscriber<T> {
  *     void handleEvent(T event);
  *   }}</pre>
  *
@@ -193,19 +193,19 @@
  * places no restrictions on the types of either your event listeners (as in
  * {@code register(Object)}) or the events themselves (in {@code post(Object)}).
  *
- * <p>Event handler methods, on the other hand, must explicitly declare their
+ * <p>Event subscriber methods, on the other hand, must explicitly declare their
  * argument type -- the type of event desired (or one of its supertypes).  Thus,
- * searching for references to an event class will instantly find all handler
- * methods for that event, and renaming the type will affect all handler methods
+ * searching for references to an event class will instantly find all subscriber
+ * methods for that event, and renaming the type will affect all subscriber methods
  * within view of your IDE (and any code that creates the event).
  *
- * <p>It's true that you can rename your {@code @Subscribed} event handler
+ * <p>It's true that you can rename your {@code @Subscribed} event subscriber
  * methods at will; Event Bus will not stop this or do anything to propagate the
- * rename because, to Event Bus, the names of your handler methods are
+ * rename because, to Event Bus, the names of your subscriber methods are
  * irrelevant.  Test code that calls the methods directly, of course, will be
  * affected by your renaming -- but that's what your refactoring tools are for.
  *
- * <h3>What happens if I {@code register} a listener without any handler
+ * <h3>What happens if I {@code register} a listener without any subscriber
  * methods?</h3>
  * <p>Nothing at all.
  *
@@ -215,15 +215,15 @@
  * created object to an EventBus's {@code register(Object)} method.
  *
  * <p>This way, any object created by the container/factory/environment can
- * hook into the system's event model simply by exposing handler methods.
+ * hook into the system's event model simply by exposing subscriber methods.
  *
  * <h3>What Event Bus problems can be detected at compile time?</h3>
  * <p>Any problem that can be unambiguously detected by Java's type system.  For
- * example, defining a handler method for a nonexistent event type.
+ * example, defining a subscriber method for a nonexistent event type.
  *
  * <h3>What Event Bus problems can be detected immediately at registration?</h3>
  * <p>Immediately upon invoking {@code register(Object)} , the listener being
- * registered is checked for the <i>well-formedness</i> of its handler methods.
+ * registered is checked for the <i>well-formedness</i> of its subscriber methods.
  * Specifically, any methods marked with {@code @Subscribe} must take only a
  * single argument.
  *
@@ -242,13 +242,13 @@
  * are many cases where an application will deliberately ignore a posted event,
  * particularly if the event is coming from code you don't control.)
  *
- * <p>To handle such events, register a handler method for the {@code DeadEvent}
- * class.  Whenever EventBus receives an event with no registered handlers, it
+ * <p>To handle such events, register a subscriber method for the {@code DeadEvent}
+ * class.  Whenever EventBus receives an event with no registered subscribers, it
  * will turn it into a {@code DeadEvent} and pass it your way -- allowing you to
  * log it or otherwise recover.
  *
- * <h3>How do I test event listeners and their handler methods?</h3>
- * <p>Because handler methods on your listener classes are normal methods, you can
+ * <h3>How do I test event listeners and their subscriber methods?</h3>
+ * <p>Because subscriber methods on your listener classes are normal methods, you can
  * simply call them from your test code to simulate the EventBus.
  */
 package com.google.common.eventbus;

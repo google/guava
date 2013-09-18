@@ -35,8 +35,8 @@ public class AsyncEventBus extends EventBus {
   private final Executor executor;
 
   /** the queue of events is shared across all threads */
-  private final ConcurrentLinkedQueue<EventWithHandler> eventsToDispatch =
-      new ConcurrentLinkedQueue<EventWithHandler>();
+  private final ConcurrentLinkedQueue<EventWithSubscriber> eventsToDispatch =
+      new ConcurrentLinkedQueue<EventWithSubscriber>();
 
   /**
    * Creates a new AsyncEventBus that will use {@code executor} to dispatch
@@ -82,8 +82,8 @@ public class AsyncEventBus extends EventBus {
   }
 
   @Override
-  void enqueueEvent(Object event, EventHandler handler) {
-    eventsToDispatch.offer(new EventWithHandler(event, handler));
+  void enqueueEvent(Object event, EventSubscriber subscriber) {
+    eventsToDispatch.offer(new EventWithSubscriber(event, subscriber));
   }
 
   /**
@@ -94,27 +94,27 @@ public class AsyncEventBus extends EventBus {
   @Override
   protected void dispatchQueuedEvents() {
     while (true) {
-      EventWithHandler eventWithHandler = eventsToDispatch.poll();
-      if (eventWithHandler == null) {
+      EventWithSubscriber eventWithSubscriber = eventsToDispatch.poll();
+      if (eventWithSubscriber == null) {
         break;
       }
 
-      dispatch(eventWithHandler.event, eventWithHandler.handler);
+      dispatch(eventWithSubscriber.event, eventWithSubscriber.subscriber);
     }
   }
 
   /**
-   * Calls the {@link #executor} to dispatch {@code event} to {@code handler}.
+   * Calls the {@link #executor} to dispatch {@code event} to {@code subscriber}.
    */
   @Override
-  void dispatch(final Object event, final EventHandler handler) {
+  void dispatch(final Object event, final EventSubscriber subscriber) {
     checkNotNull(event);
-    checkNotNull(handler);
+    checkNotNull(subscriber);
     executor.execute(
         new Runnable() {
           @Override
           public void run() {
-            AsyncEventBus.super.dispatch(event, handler);
+            AsyncEventBus.super.dispatch(event, subscriber);
           }
         });
   }

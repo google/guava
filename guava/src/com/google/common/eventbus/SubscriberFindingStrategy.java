@@ -19,24 +19,24 @@ package com.google.common.eventbus;
 import com.google.common.collect.Multimap;
 
 /**
- * A method for finding event handler methods in objects, for use by
+ * A method for finding event subscriber methods in objects, for use by
  * {@link EventBus}.
  *
  * @author Cliff Biffle
  */
-interface HandlerFindingStrategy {
+interface SubscriberFindingStrategy {
 
   /**
-   * Finds all suitable event handler methods in {@code source}, organizes them
-   * by the type of event they handle, and wraps them in {@link EventHandler} instances.
+   * Finds all suitable event subscriber methods in {@code source}, organizes them
+   * by the type of event they handle, and wraps them in {@link EventSubscriber} instances.
    *
-   * @param source  object whose handlers are desired.
-   * @return EventHandler objects for each handler method, organized by event
+   * @param source  object whose subscribers are desired.
+   * @return EventSubscriber objects for each subscriber method, organized by event
    *         type.
    *
    * @throws IllegalArgumentException if {@code source} is not appropriate for
    *         this strategy (in ways that this interface does not define).
    */
-  Multimap<Class<?>, EventHandler> findAllHandlers(Object source);
+  Multimap<Class<?>, EventSubscriber> findAllSubscribers(Object source);
 
 }

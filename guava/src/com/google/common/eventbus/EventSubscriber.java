@@ -26,34 +26,34 @@ import java.lang.reflect.Method;
 import javax.annotation.Nullable;
 
 /**
- * Wraps a single-argument 'handler' method on a specific object.
+ * Wraps a single-argument subscriber method on a specific object.
  *
  * <p>This class only verifies the suitability of the method and event type if
  * something fails.  Callers are expected to verify their uses of this class.
  *
- * <p>Two EventHandlers are equivalent when they refer to the same method on the
- * same object (not class).   This property is used to ensure that no handler
+ * <p>Two EventSubscribers are equivalent when they refer to the same method on the
+ * same object (not class).   This property is used to ensure that no subscriber
  * method is registered more than once.
  *
  * @author Cliff Biffle
  */
-class EventHandler {
+class EventSubscriber {
 
-  /** Object sporting the handler method. */
+  /** Object sporting the subscriber method. */
   private final Object target;
-  /** Handler method. */
+  /** Subscriber method. */
   private final Method method;
 
   /**
-   * Creates a new EventHandler to wrap {@code method} on @{code target}.
+   * Creates a new EventSubscriber to wrap {@code method} on @{code target}.
    *
    * @param target  object to which the method applies.
-   * @param method  handler method.
+   * @param method  subscriber method.
    */
-  EventHandler(Object target, Method method) {
+  EventSubscriber(Object target, Method method) {
     Preconditions.checkNotNull(target,
-        "EventHandler target cannot be null.");
-    Preconditions.checkNotNull(method, "EventHandler method cannot be null.");
+        "EventSubscriber target cannot be null.");
+    Preconditions.checkNotNull(method, "EventSubscriber method cannot be null.");
 
     this.target = target;
     this.method = method;
@@ -61,7 +61,7 @@ class EventHandler {
   }
 
   /**
-   * Invokes the wrapped handler method to handle {@code event}.
+   * Invokes the wrapped subscriber method to handle {@code event}.
    *
    * @param event  event to handle
    * @throws InvocationTargetException  if the wrapped method throws any
@@ -95,8 +95,8 @@ class EventHandler {
   }
 
   @Override public boolean equals(@Nullable Object obj) {
-    if (obj instanceof EventHandler) {
-      EventHandler that = (EventHandler) obj;
+    if (obj instanceof EventSubscriber) {
+      EventSubscriber that = (EventSubscriber) obj;
       // Use == so that different equal instances will still receive events.
       // We only guard against the case that the same object is registered
       // multiple times
@@ -105,11 +105,11 @@ class EventHandler {
     return false;
   }
 
-  Object getSubscriber() {
+  public Object getSubscriber() {
     return target;
   }
 
-  Method getMethod() {
+  public Method getMethod() {
     return method;
   }
 }

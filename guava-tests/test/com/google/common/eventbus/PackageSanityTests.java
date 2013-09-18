@@ -31,21 +31,21 @@ import javax.annotation.Nullable;
 public class PackageSanityTests extends AbstractPackageSanityTests {
 
   public PackageSanityTests() throws Exception {
-    setDefault(EventHandler.class, new DummyHandler().toEventHandler());
-    setDefault(Method.class, DummyHandler.handlerMethod());
+    setDefault(EventSubscriber.class, new DummySubscriber().toEventSubscriber());
+    setDefault(Method.class, DummySubscriber.subscriberMethod());
   }
 
-  private static class DummyHandler {
+  private static class DummySubscriber {
 
     @SuppressWarnings("unused") // Used by reflection
     public void handle(@Nullable Object anything) {}
 
-    EventHandler toEventHandler() throws Exception {
-      return new EventHandler(this, handlerMethod());
+    EventSubscriber toEventSubscriber() throws Exception {
+      return new EventSubscriber(this, subscriberMethod());
     }
 
-    private static Method handlerMethod() throws NoSuchMethodException {
-      return DummyHandler.class.getMethod("handle", Object.class);
+    private static Method subscriberMethod() throws NoSuchMethodException {
+      return DummySubscriber.class.getMethod("handle", Object.class);
     }
   }
 }

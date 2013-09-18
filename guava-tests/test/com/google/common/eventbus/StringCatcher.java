@@ -25,7 +25,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 /**
- * A simple EventHandler mock that records Strings.
+ * A simple EventSubscriber mock that records Strings.
  *
  * For testing fun, also includes a landmine method that EventBus tests are
  * required <em>not</em> to call ({@link #methodWithoutAnnotation(String)}).

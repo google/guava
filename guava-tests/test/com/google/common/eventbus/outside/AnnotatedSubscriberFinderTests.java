@@ -27,44 +27,44 @@ import junit.framework.TestCase;
 import java.util.List;
 
 /**
- * Test that EventBus finds the correct handlers.
+ * Test that EventBus finds the correct subscribers.
  *
  * This test must be outside the c.g.c.eventbus package to test correctly.
  * @author Louis Wasserman
  */
-public class AnnotatedHandlerFinderTests {
+public class AnnotatedSubscriberFinderTests {
 
   private static final Object EVENT = new Object();
 
   abstract static class AbstractEventBusTest<H> extends TestCase {
-    abstract H createHandler();
+    abstract H createSubscriber();
 
-    private H handler;
+    private H subscriber;
 
-    H getHandler() {
-      return handler;
+    H getSubscriber() {
+      return subscriber;
     }
 
     @Override
     protected void setUp() throws Exception {
-      handler = createHandler();
+      subscriber = createSubscriber();
       EventBus bus = new EventBus();
-      bus.register(handler);
+      bus.register(subscriber);
       bus.post(EVENT);
     }
 
     @Override
     protected void tearDown() throws Exception {
-      handler = null;
+      subscriber = null;
     }
   }
 
   /*
    * We break the tests up based on whether they are annotated or abstract in the superclass.
    */
-  public static class BaseHandlerFinderTest extends
-      AbstractEventBusTest<BaseHandlerFinderTest.Handler> {
-    static class Handler {
+  public static class BaseSubscriberFinderTest extends
+      AbstractEventBusTest<BaseSubscriberFinderTest.Subscriber> {
+    static class Subscriber {
       final List<Object> nonSubscriberEvents = Lists.newArrayList();
       final List<Object> subscriberEvents = Lists.newArrayList();
 
@@ -79,16 +79,16 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testNonSubscriber() {
-      ASSERT.that(getHandler().nonSubscriberEvents).isEmpty();
+      ASSERT.that(getSubscriber().nonSubscriberEvents).isEmpty();
     }
 
     public void testSubscriber() {
-      ASSERT.that(getHandler().subscriberEvents).has().item(EVENT);
+      ASSERT.that(getSubscriber().subscriberEvents).has().item(EVENT);
     }
 
     @Override
-    Handler createHandler() {
-      return new Handler();
+    Subscriber createSubscriber() {
+      return new Subscriber();
     }
   }
 
@@ -119,15 +119,15 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
+      ASSERT.that(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testOverriddenNotAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenInSubclassEvents).has().item(EVENT);
+      ASSERT.that(getSubscriber().overriddenInSubclassEvents).has().item(EVENT);
     }
 
     @Override
-    SubClass createHandler() {
+    SubClass createSubscriber() {
       return new SubClass();
     }
   }
@@ -199,33 +199,33 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testNotOverriddenInSubclass() {
-      ASSERT.that(getHandler().notOverriddenInSubclassEvents).has().item(EVENT);
+      ASSERT.that(getSubscriber().notOverriddenInSubclassEvents).has().item(EVENT);
     }
 
     public void testOverriddenNotAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenNotAnnotatedInSubclassEvents).has().item(EVENT);
+      ASSERT.that(getSubscriber().overriddenNotAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testDifferentlyOverriddenNotAnnotatedInSubclass() {
       ASSERT
-          .that(getHandler().differentlyOverriddenNotAnnotatedInSubclassGoodEvents)
+          .that(getSubscriber().differentlyOverriddenNotAnnotatedInSubclassGoodEvents)
           .has().item(EVENT);
-      ASSERT.that(getHandler().differentlyOverriddenNotAnnotatedInSubclassBadEvents).isEmpty();
+      ASSERT.that(getSubscriber().differentlyOverriddenNotAnnotatedInSubclassBadEvents).isEmpty();
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
+      ASSERT.that(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testDifferentlyOverriddenAndAnnotatedInSubclass() {
       ASSERT
-          .that(getHandler().differentlyOverriddenAnnotatedInSubclassGoodEvents)
+          .that(getSubscriber().differentlyOverriddenAnnotatedInSubclassGoodEvents)
           .has().item(EVENT);
-      ASSERT.that(getHandler().differentlyOverriddenAnnotatedInSubclassBadEvents).isEmpty();
+      ASSERT.that(getSubscriber().differentlyOverriddenAnnotatedInSubclassBadEvents).isEmpty();
     }
 
     @Override
-    SubClass createHandler() {
+    SubClass createSubscriber() {
       return new SubClass();
     }
   }
@@ -255,15 +255,15 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
+      ASSERT.that(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testOverriddenInSubclassNowhereAnnotated() {
-      ASSERT.that(getHandler().overriddenInSubclassNowhereAnnotatedEvents).isEmpty();
+      ASSERT.that(getSubscriber().overriddenInSubclassNowhereAnnotatedEvents).isEmpty();
     }
 
     @Override
-    SubClass createHandler() {
+    SubClass createSubscriber() {
       return new SubClass();
     }
   }
@@ -302,25 +302,25 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testNeitherOverriddenNorAnnotated() {
-      ASSERT.that(getHandler().neitherOverriddenNorAnnotatedEvents).isEmpty();
+      ASSERT.that(getSubscriber().neitherOverriddenNorAnnotatedEvents).isEmpty();
     }
 
     public void testOverriddenInSubclassNowhereAnnotated() {
-      ASSERT.that(getHandler().overriddenInSubclassNowhereAnnotatedEvents).isEmpty();
+      ASSERT.that(getSubscriber().overriddenInSubclassNowhereAnnotatedEvents).isEmpty();
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
+      ASSERT.that(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     @Override
-    SubClass createHandler() {
+    SubClass createSubscriber() {
       return new SubClass();
     }
   }
 
   public static class DeepInterfaceTest extends
-      AbstractEventBusTest<DeepInterfaceTest.HandlerClass> {
+      AbstractEventBusTest<DeepInterfaceTest.SubscriberClass> {
     interface Interface1 {
       @Subscribe
       void annotatedIn1(Object o);
@@ -357,7 +357,7 @@ public class AnnotatedHandlerFinderTests {
       void annotatedIn2(Object o);
     }
 
-    static class HandlerClass implements Interface2 {
+    static class SubscriberClass implements Interface2 {
       final List<Object> annotatedIn1Events = Lists.newArrayList();
       final List<Object> annotatedIn1And2Events = Lists.newArrayList();
       final List<Object> annotatedIn1And2AndClassEvents = Lists.newArrayList();
@@ -412,40 +412,40 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testAnnotatedIn1() {
-      ASSERT.that(getHandler().annotatedIn1Events).has().item(EVENT);
+      ASSERT.that(getSubscriber().annotatedIn1Events).has().item(EVENT);
     }
 
     public void testAnnotatedIn2() {
-      ASSERT.that(getHandler().annotatedIn2Events).has().item(EVENT);
+      ASSERT.that(getSubscriber().annotatedIn2Events).has().item(EVENT);
     }
 
     public void testAnnotatedIn1And2() {
-      ASSERT.that(getHandler().annotatedIn1And2Events).has().item(EVENT);
+      ASSERT.that(getSubscriber().annotatedIn1And2Events).has().item(EVENT);
     }
 
     public void testAnnotatedIn1And2AndClass() {
-      ASSERT.that(getHandler().annotatedIn1And2AndClassEvents).has().item(EVENT);
+      ASSERT.that(getSubscriber().annotatedIn1And2AndClassEvents).has().item(EVENT);
     }
 
     public void testDeclaredIn1AnnotatedIn2() {
-      ASSERT.that(getHandler().declaredIn1AnnotatedIn2Events).has().item(EVENT);
+      ASSERT.that(getSubscriber().declaredIn1AnnotatedIn2Events).has().item(EVENT);
     }
 
     public void testDeclaredIn1AnnotatedInClass() {
-      ASSERT.that(getHandler().declaredIn1AnnotatedInClassEvents).has().item(EVENT);
+      ASSERT.that(getSubscriber().declaredIn1AnnotatedInClassEvents).has().item(EVENT);
     }
 
     public void testDeclaredIn2AnnotatedInClass() {
-      ASSERT.that(getHandler().declaredIn2AnnotatedInClassEvents).has().item(EVENT);
+      ASSERT.that(getSubscriber().declaredIn2AnnotatedInClassEvents).has().item(EVENT);
     }
 
     public void testNowhereAnnotated() {
-      ASSERT.that(getHandler().nowhereAnnotatedEvents).isEmpty();
+      ASSERT.that(getSubscriber().nowhereAnnotatedEvents).isEmpty();
     }
 
     @Override
-    HandlerClass createHandler() {
-      return new HandlerClass();
+    SubscriberClass createSubscriber() {
+      return new SubscriberClass();
     }
   }
 }

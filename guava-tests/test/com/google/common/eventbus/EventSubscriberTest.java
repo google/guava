@@ -24,11 +24,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * Test case for {@link EventHandler}.
+ * Test case for {@link EventSubscriber}.
  *
  * @author Cliff Biffle
  */
-public class EventHandlerTest extends TestCase {
+public class EventSubscriberTest extends TestCase {
 
   private static final Object FIXTURE_ARGUMENT = new Object();
 
@@ -50,22 +50,22 @@ public class EventHandlerTest extends TestCase {
   public void testBasicMethodCall() throws Exception {
     Method method = getRecordingMethod();
 
-    EventHandler handler = new EventHandler(this, method);
+    EventSubscriber subscriber = new EventSubscriber(this, method);
 
-    handler.handleEvent(FIXTURE_ARGUMENT);
+    subscriber.handleEvent(FIXTURE_ARGUMENT);
 
-    assertTrue("Handler must call provided method.", methodCalled);
-    assertTrue("Handler argument must be *exactly* the provided object.",
+    assertTrue("Subscriber must call provided method.", methodCalled);
+    assertTrue("Subscriber argument must be *exactly* the provided object.",
         methodArgument == FIXTURE_ARGUMENT);
   }
 
   public void testExceptionWrapping() {
     Method method = getExceptionThrowingMethod();
-    EventHandler handler = new EventHandler(this, method);
+    EventSubscriber subscriber = new EventSubscriber(this, method);
 
     try {
-      handler.handleEvent(new Object());
-      fail("Handlers whose methods throw must throw InvocationTargetException");
+      subscriber.handleEvent(new Object());
+      fail("Subscribers whose methods throw must throw InvocationTargetException");
     } catch (InvocationTargetException e) {
       assertTrue("Expected exception must be wrapped.",
           e.getCause() instanceof IntentionalException);
@@ -74,11 +74,11 @@ public class EventHandlerTest extends TestCase {
 
   public void testErrorPassthrough() throws InvocationTargetException {
     Method method = getErrorThrowingMethod();
-    EventHandler handler = new EventHandler(this, method);
+    EventSubscriber subscriber = new EventSubscriber(this, method);
 
     try {
-      handler.handleEvent(new Object());
-      fail("Handlers whose methods throw Errors must rethrow them");
+      subscriber.handleEvent(new Object());
+      fail("Subscribers whose methods throw Errors must rethrow them");
     } catch (JudgmentError e) {
       // Expected.
     }
@@ -89,9 +89,9 @@ public class EventHandlerTest extends TestCase {
     Method concat = String.class.getMethod("concat", String.class);
     new EqualsTester()
         .addEqualityGroup(
-            new EventHandler("foo", charAt), new EventHandler("foo", charAt))
-        .addEqualityGroup(new EventHandler("bar", charAt))
-        .addEqualityGroup(new EventHandler("foo", concat))
+            new EventSubscriber("foo", charAt), new EventSubscriber("foo", charAt))
+        .addEqualityGroup(new EventSubscriber("bar", charAt))
+        .addEqualityGroup(new EventSubscriber("foo", concat))
         .testEquals();
   }
 
@@ -112,7 +112,7 @@ public class EventHandlerTest extends TestCase {
       throw new IllegalStateException("This test needs access to reflection.");
     } catch (NoSuchMethodException e) {
       throw new AssertionError(
-          "Someone changed EventHandlerTest#recordingMethod's visibility, " +
+          "Someone changed EventSubscriberTest#recordingMethod's visibility, " +
           "signature, or removed it entirely.  (Must be public.)");
     }
     return method;
@@ -135,7 +135,7 @@ public class EventHandlerTest extends TestCase {
       throw new IllegalStateException("This test needs access to reflection.");
     } catch (NoSuchMethodException e) {
       throw new AssertionError(
-          "Someone changed EventHandlerTest#exceptionThrowingMethod's " +
+          "Someone changed EventSubscriberTest#exceptionThrowingMethod's " +
           "visibility, signature, or removed it entirely.  (Must be public.)");
     }
     return method;
@@ -158,7 +158,7 @@ public class EventHandlerTest extends TestCase {
       throw new IllegalStateException("This test needs access to reflection.");
     } catch (NoSuchMethodException e) {
       throw new AssertionError(
-          "Someone changed EventHandlerTest#errorThrowingMethod's " +
+          "Someone changed EventSubscriberTest#errorThrowingMethod's " +
           "visibility, signature, or removed it entirely.  (Must be public.)");
     }
     return method;
@@ -166,7 +166,7 @@ public class EventHandlerTest extends TestCase {
 
   /**
    * Records the provided object in {@link #methodArgument} and sets
-   * {@link #methodCalled}.  This method is called reflectively by EventHandler
+   * {@link #methodCalled}.  This method is called reflectively by EventSubscriber
    * during tests, and must remain public.
    *
    * @param arg  argument to record.
