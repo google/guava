@@ -1121,7 +1121,7 @@ public final class Futures {
    * Example: <pre> {@code
    * ListenableFuture<QueryResult> future = ...;
    * Executor e = ...
-   * addCallback(future, e,
+   * addCallback(future,
    *     new FutureCallback<QueryResult> {
    *       public void onSuccess(QueryResult result) {
    *         storeInCache(result);
@@ -1129,7 +1129,7 @@ public final class Futures {
    *       public void onFailure(Throwable t) {
    *         reportError(t);
    *       }
-   *     });}</pre>
+   *     }, e);}</pre>
    *
    * <p>When the callback is fast and lightweight, consider {@linkplain
    * #addCallback(ListenableFuture, FutureCallback) omitting the executor} or
