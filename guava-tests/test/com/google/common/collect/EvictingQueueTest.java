@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static java.util.Arrays.asList;
 
 import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -129,5 +130,19 @@ public class EvictingQueueTest extends TestCase {
     // The queue must be non-empty so it throws a NPE correctly
     queue.add("one");
     tester.testAllPublicInstanceMethods(queue);
+  }
+
+  public void testSerialization() {
+    EvictingQueue<String> original = EvictingQueue.create(5);
+    original.add("one");
+    original.add("two");
+    original.add("three");
+
+    EvictingQueue<String> copy = SerializableTester.reserialize(original);
+    assertEquals(copy.maxSize, original.maxSize);
+    assertEquals("one", copy.remove());
+    assertEquals("two", copy.remove());
+    assertEquals("three", copy.remove());
+    assertTrue(copy.isEmpty());
   }
 }

@@ -21,7 +21,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Queue;
@@ -41,10 +43,12 @@ import java.util.Queue;
  */
 @Beta
 @GwtIncompatible("java.util.ArrayDeque")
-public final class EvictingQueue<E> extends ForwardingQueue<E> {
+public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serializable {
 
   private final Queue<E> delegate;
-  private final int maxSize;
+
+  @VisibleForTesting
+  final int maxSize;
 
   private EvictingQueue(int maxSize) {
     checkArgument(maxSize >= 0, "maxSize (%s) must >= 0", maxSize);
@@ -109,6 +113,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> {
   }
 
   // TODO(user): Do we want to checkNotNull each element in containsAll, removeAll, and retainAll?
-
   // TODO(user): Do we want to add EvictingQueue#isFull()?
+
+  private static final long serialVersionUID = 0L;
 }
