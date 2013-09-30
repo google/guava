@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package com.google.common.base;
+package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.testing.GcFinalization;
 
 import junit.framework.TestCase;
 
-import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -74,6 +71,88 @@ public class AbstractIteratorTest extends TestCase {
     try {
       iter.next();
       fail("no exception thrown");
+    } catch (NoSuchElementException expected) {
+    }
+  }
+
+  public void testDefaultBehaviorOfPeek() {
+    /*
+     * This sample AbstractIterator returns 0 on the first call, 1 on the
+     * second, then signals that it's reached the end of the data
+     */
+    AbstractIterator<Integer> iter = new AbstractIterator<Integer>() {
+      private int rep;
+      @Override public Integer computeNext() {
+        switch (rep++) {
+          case 0:
+            return 0;
+          case 1:
+            return 1;
+          case 2:
+            return endOfData();
+          default:
+            fail("Should not have been invoked again");
+            return null;
+        }
+      }
+    };
+
+    assertEquals(0, (int) iter.peek());
+    assertEquals(0, (int) iter.peek());
+    assertTrue(iter.hasNext());
+    assertEquals(0, (int) iter.peek());
+    assertEquals(0, (int) iter.next());
+
+    assertEquals(1, (int) iter.peek());
+    assertEquals(1, (int) iter.next());
+
+    try {
+      iter.peek();
+      fail("peek() should throw NoSuchElementException at end");
+    } catch (NoSuchElementException expected) {
+    }
+
+    try {
+      iter.peek();
+      fail("peek() should continue to throw NoSuchElementException at end");
+    } catch (NoSuchElementException expected) {
+    }
+
+    try {
+      iter.next();
+      fail("next() should throw NoSuchElementException as usual");
+    } catch (NoSuchElementException expected) {
+    }
+
+    try {
+      iter.peek();
+      fail("peek() should still throw NoSuchElementException after next()");
+    } catch (NoSuchElementException expected) {
+    }
+  }
+
+  public void testDefaultBehaviorOfPeekForEmptyIteration() {
+
+    AbstractIterator<Integer> empty = new AbstractIterator<Integer>() {
+      private boolean alreadyCalledEndOfData;
+      @Override public Integer computeNext() {
+        if (alreadyCalledEndOfData) {
+          fail("Should not have been invoked again");
+        }
+        alreadyCalledEndOfData = true;
+        return endOfData();
+      }
+    };
+
+    try {
+      empty.peek();
+      fail("peek() should throw NoSuchElementException at end");
+    } catch (NoSuchElementException expected) {
+    }
+
+    try {
+      empty.peek();
+      fail("peek() should continue to throw NoSuchElementException at end");
     } catch (NoSuchElementException expected) {
     }
   }
@@ -162,17 +241,6 @@ public class AbstractIteratorTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("weak references")
-  public void testFreesNextReference() {
-    Iterator<Object> itr = new AbstractIterator<Object>() {
-      @Override public Object computeNext() {
-        return new Object();
-      }
-    };
-    WeakReference<Object> ref = new WeakReference<Object>(itr.next());
-    GcFinalization.awaitClear(ref);
-  }
-
   public void testReentrantHasNext() {
     Iterator<Integer> iter = new AbstractIterator<Integer>() {
       @Override protected Integer computeNext() {
@@ -187,8 +255,8 @@ public class AbstractIteratorTest extends TestCase {
     }
   }
 
-  // Technically we should test other reentrant scenarios (4 combinations of
-  // hasNext/next), but we'll cop out for now, knowing that
+  // Technically we should test other reentrant scenarios (9 combinations of
+  // hasNext/next/peek), but we'll cop out for now, knowing that peek() and
   // next() both start by invoking hasNext() anyway.
 
   /**
@@ -210,3 +278,4 @@ public class AbstractIteratorTest extends TestCase {
   private static class SomeUncheckedException extends RuntimeException {
   }
 }
+

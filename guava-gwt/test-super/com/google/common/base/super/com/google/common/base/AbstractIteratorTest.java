@@ -17,12 +17,9 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.testing.GcFinalization;
 
 import junit.framework.TestCase;
 
-import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -162,17 +159,6 @@ public class AbstractIteratorTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("weak references")
-  public void testFreesNextReference() {
-    Iterator<Object> itr = new AbstractIterator<Object>() {
-      @Override public Object computeNext() {
-        return new Object();
-      }
-    };
-    WeakReference<Object> ref = new WeakReference<Object>(itr.next());
-    GcFinalization.awaitClear(ref);
-  }
-
   public void testReentrantHasNext() {
     Iterator<Integer> iter = new AbstractIterator<Integer>() {
       @Override protected Integer computeNext() {
@@ -188,7 +174,7 @@ public class AbstractIteratorTest extends TestCase {
   }
 
   // Technically we should test other reentrant scenarios (4 combinations of
-  // hasNext/next), but we'll cop out for now, knowing that
+  // hasNext/next), but we'll cop out for now, knowing that 
   // next() both start by invoking hasNext() anyway.
 
   /**
@@ -210,3 +196,4 @@ public class AbstractIteratorTest extends TestCase {
   private static class SomeUncheckedException extends RuntimeException {
   }
 }
+

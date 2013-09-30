@@ -154,7 +154,9 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
       throw new NoSuchElementException();
     }
     state = State.NOT_READY;
-    return next;
+    T result = next;
+    next = null;
+    return result;
   }
 
   /**

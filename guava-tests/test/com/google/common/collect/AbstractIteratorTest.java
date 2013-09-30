@@ -17,9 +17,12 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.GcFinalization;
 
 import junit.framework.TestCase;
 
+import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -29,7 +32,7 @@ import java.util.NoSuchElementException;
  * @author Kevin Bourrillion
  */
 @SuppressWarnings("serial") // No serialization is used in this test
-@GwtCompatible
+@GwtCompatible(emulated = true)
 // TODO(cpovirk): why is this slow (>1m/test) under GWT when fully optimized?
 public class AbstractIteratorTest extends TestCase {
 
@@ -129,6 +132,17 @@ public class AbstractIteratorTest extends TestCase {
       fail("peek() should still throw NoSuchElementException after next()");
     } catch (NoSuchElementException expected) {
     }
+  }
+
+  @GwtIncompatible("weak references")
+  public void testFreesNextReference() {
+    Iterator<Object> itr = new AbstractIterator<Object>() {
+      @Override public Object computeNext() {
+        return new Object();
+      }
+    };
+    WeakReference<Object> ref = new WeakReference<Object>(itr.next());
+    GcFinalization.awaitClear(ref);
   }
 
   public void testDefaultBehaviorOfPeekForEmptyIteration() {

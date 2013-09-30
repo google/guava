@@ -75,7 +75,9 @@ abstract class AbstractIterator<T> implements Iterator<T> {
       throw new NoSuchElementException();
     }
     state = State.NOT_READY;
-    return next;
+    T result = next;
+    next = null;
+    return result;
   }
 
   @Override public final void remove() {
