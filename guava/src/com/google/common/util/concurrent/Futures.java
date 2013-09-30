@@ -786,9 +786,19 @@ public final class Futures {
    * Once the passed-in {@code ListenableFuture} is complete, it calls the
    * passed-in {@code Function} to generate the result.
    *
-   * <p>If the function throws any checked exceptions, they should be wrapped
-   * in a {@code UndeclaredThrowableException} so that this class can get
-   * access to the cause.
+   * <p>For historical reasons, this class has a special case in its exception
+   * handling: If the given {@code AsyncFunction} throws an {@code
+   * UndeclaredThrowableException}, {@code ChainingListenableFuture} unwraps it
+   * and uses its <i>cause</i> as the output future's exception, rather than
+   * using the {@code UndeclaredThrowableException} itself as it would for other
+   * exception types. The reason for this is that {@code Futures.transform} used
+   * to require a {@code Function}, whose {@code apply} method is not allowed to
+   * throw checked exceptions. Nowadays, {@code Futures.transform} has an
+   * overload that accepts an {@code AsyncFunction}, whose {@code apply} method
+   * <i>is</i> allowed to throw checked exception. Users who wish to throw
+   * checked exceptions should use that overload instead, and <a
+   * href="http://code.google.com/p/guava-libraries/issues/detail?id=1548">we
+   * should remove the {@code UndeclaredThrowableException} special case</a>.
    */
   private static class ChainingListenableFuture<I, O>
       extends AbstractFuture<O> implements Runnable {
