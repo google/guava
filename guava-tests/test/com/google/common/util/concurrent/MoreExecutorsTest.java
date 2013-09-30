@@ -109,8 +109,8 @@ public class MoreExecutorsTest extends JSR166TestCase {
               Future<?> future = executor.submit(incrementTask);
               assertTrue(future.isDone());
               assertEquals(1, threadLocalCount.get().intValue());
-            } catch (Throwable Throwable) {
-              throwableFromOtherThread.set(Throwable);
+            } catch (Throwable t) {
+              throwableFromOtherThread.set(t);
             }
           }
         });
@@ -192,8 +192,8 @@ public class MoreExecutorsTest extends JSR166TestCase {
           assertTrue(future.isDone());
           assertTrue(executor.isShutdown());
           assertTrue(executor.isTerminated());
-        } catch (Throwable Throwable) {
-          throwableFromOtherThread.set(Throwable);
+        } catch (Throwable t) {
+          throwableFromOtherThread.set(t);
         }
       }});
 
@@ -280,6 +280,17 @@ public class MoreExecutorsTest extends JSR166TestCase {
      * TODO(cpovirk): move ForwardingTestCase somewhere common, and use it to
      * test the forwarded methods
      */
+  }
+
+  public void testListeningDecorator_noWrapExecuteTask() {
+    ExecutorService delegate = mock(ExecutorService.class);
+    ListeningExecutorService service = listeningDecorator(delegate);
+    Runnable task = new Runnable() {
+      @Override
+      public void run() {}
+    };
+    service.execute(task);
+    verify(delegate).execute(task);
   }
 
   public void testListeningDecorator_scheduleSuccess() throws Exception {
