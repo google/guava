@@ -76,13 +76,42 @@ public class ClassPathTest extends TestCase {
     ASSERT.that(byToString.keySet()).has().allOf(
         "com.google.common.reflect.ClassPath",
         "com.google.common.reflect.ClassPathTest",
-        "com/google/common/reflect/ClassPathTest$Nested.class",
+        "com.google.common.reflect.ClassPathTest$Nested",
         testResourceName);
     assertEquals(getClass().getClassLoader().getResource(testResourceName),
         byName.get("com/google/common/reflect/test.txt").url());
   }
 
-  public void testGetClasses() throws Exception {
+  public void testGetAllClasses() throws Exception {
+    Set<String> names = Sets.newHashSet();
+    Set<String> strings = Sets.newHashSet();
+    Set<Class<?>> classes = Sets.newHashSet();
+    Set<String> packageNames = Sets.newHashSet();
+    Set<String> simpleNames = Sets.newHashSet();
+    ClassPath classpath = ClassPath.from(getClass().getClassLoader());
+    for (ClassInfo classInfo : classpath.getAllClasses()) {
+      if (!classInfo.getPackageName().equals(ClassPathTest.class.getPackage().getName())) {
+        continue;
+      }
+      names.add(classInfo.getName());
+      strings.add(classInfo.toString());
+      classes.add(classInfo.load());
+      packageNames.add(classInfo.getPackageName());
+      simpleNames.add(classInfo.getSimpleName());
+    }
+    class LocalClass {}
+    Class<?> anonymousClass = new Object() {}.getClass();
+    ASSERT.that(names).has().allOf(anonymousClass.getName(), LocalClass.class.getName(),
+        ClassPath.class.getName(), ClassPathTest.class.getName());
+    ASSERT.that(strings).has().allOf(anonymousClass.getName(), LocalClass.class.getName(),
+        ClassPath.class.getName(), ClassPathTest.class.getName());
+    ASSERT.that(classes).has().allOf(anonymousClass, LocalClass.class, ClassPath.class,
+        ClassPathTest.class);
+    ASSERT.that(packageNames).has().exactly(ClassPath.class.getPackage().getName());
+    ASSERT.that(simpleNames).has().allOf("", "Local", "ClassPath", "ClassPathTest");
+  }
+
+  public void testGetTopLevelClasses() throws Exception {
     Set<String> names = Sets.newHashSet();
     Set<String> strings = Sets.newHashSet();
     Set<Class<?>> classes = Sets.newHashSet();
@@ -105,17 +134,20 @@ public class ClassPathTest extends TestCase {
     assertFalse(classes.contains(ClassInSubPackage.class));
   }
 
-  public void testGetClassesRecursive() throws Exception {
+  public void testGetTopLevelClassesRecursive() throws Exception {
     Set<Class<?>> classes = Sets.newHashSet();
     ClassPath classpath = ClassPath.from(ClassPathTest.class.getClassLoader());
     for (ClassInfo classInfo
         : classpath.getTopLevelClassesRecursive(ClassPathTest.class.getPackage().getName())) {
+      if (classInfo.getName().contains("ClassPathTest")) {
+        System.err.println("");
+      }
       classes.add(classInfo.load());
     }
     ASSERT.that(classes).has().allOf(ClassPathTest.class, ClassInSubPackage.class);
   }
 
-  public void testGetClasses_diamond() throws Exception {
+  public void testGetTopLevelClasses_diamond() throws Exception {
     ClassLoader parent = ClassPathTest.class.getClassLoader();
     ClassLoader sub1 = new ClassLoader(parent) {};
     ClassLoader sub2 = new ClassLoader(parent) {};
@@ -333,7 +365,7 @@ public class ClassPathTest extends TestCase {
   public void testResourceInfo_of() {
     assertEquals(ClassInfo.class, resourceInfo(ClassPathTest.class).getClass());
     assertEquals(ClassInfo.class, resourceInfo(ClassPath.class).getClass());
-    assertEquals(ResourceInfo.class, resourceInfo(Nested.class).getClass());
+    assertEquals(ClassInfo.class, resourceInfo(Nested.class).getClass());
   }
 
   public void testGetSimpleName() {
@@ -341,6 +373,17 @@ public class ClassPathTest extends TestCase {
         new ClassInfo("Foo.class", getClass().getClassLoader()).getSimpleName());
     assertEquals("Foo",
         new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getSimpleName());
+    assertEquals("Foo",
+        new ClassInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
+    assertEquals("",
+        new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
+    assertEquals("Foo",
+        new ClassInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
+    assertEquals("",
+        new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
+    assertEquals("Local",
+        new ClassInfo("a/b/Bar$1Local.class", getClass().getClassLoader()).getSimpleName());
+
   }
 
   public void testGetPackageName() {

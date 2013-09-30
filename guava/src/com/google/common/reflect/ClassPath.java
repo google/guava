@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
@@ -55,8 +57,13 @@ import javax.annotation.Nullable;
  */
 @Beta
 public final class ClassPath {
-
   private static final Logger logger = Logger.getLogger(ClassPath.class.getName());
+
+  private static final Predicate<ClassInfo> IS_TOP_LEVEL = new Predicate<ClassInfo>() {
+    @Override public boolean apply(ClassInfo info) {
+      return info.className.indexOf('$') == -1;
+    }
+  };
 
   /** Separator for the Class-Path manifest attribute value in jar files. */
   private static final Splitter CLASS_PATH_ATTRIBUTE_SEPARATOR =
@@ -95,9 +102,14 @@ public final class ClassPath {
     return resources;
   }
 
+  /** Returns all classes loadable from the current class path. */
+  public ImmutableSet<ClassInfo> getAllClasses() {
+    return FluentIterable.from(resources).filter(ClassInfo.class).toSet();
+  }
+
   /** Returns all top level classes loadable from the current class path. */
   public ImmutableSet<ClassInfo> getTopLevelClasses() {
-    return FluentIterable.from(resources).filter(ClassInfo.class).toSet();
+    return FluentIterable.from(resources).filter(ClassInfo.class).filter(IS_TOP_LEVEL).toSet();
   }
 
   /** Returns all top level classes whose package name is {@code packageName}. */
@@ -140,7 +152,7 @@ public final class ClassPath {
     final ClassLoader loader;
 
     static ResourceInfo of(String resourceName, ClassLoader loader) {
-      if (resourceName.endsWith(CLASS_FILE_NAME_EXTENSION) && !resourceName.contains("$")) {
+      if (resourceName.endsWith(CLASS_FILE_NAME_EXTENSION)) {
         return new ClassInfo(resourceName, loader);
       } else {
         return new ResourceInfo(resourceName, loader);
@@ -203,10 +215,18 @@ public final class ClassPath {
 
     /** Returns the simple name of the underlying class as given in the source code. */
     public String getSimpleName() {
+      int lastDollarSign = className.lastIndexOf('$');
+      if (lastDollarSign != -1) {
+        String innerClassName = className.substring(lastDollarSign + 1);
+        // local and anonymous classes are prefixed with number (1,2,3...), anonymous classes are 
+        // entirely numeric whereas local classes have the user supplied name as a suffix
+        return CharMatcher.DIGIT.trimLeadingFrom(innerClassName);
+      }
       String packageName = getPackageName();
       if (packageName.isEmpty()) {
         return className;
       }
+
       // Since this is a top level class, its simple name is always the part after package name.
       return className.substring(packageName.length() + 1);
     }
