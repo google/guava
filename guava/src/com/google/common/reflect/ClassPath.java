@@ -208,12 +208,22 @@ public final class ClassPath {
       this.className = getClassName(resourceName);
     }
 
-    /** Returns the package name of the class, without attempting to load the class. */
+    /** 
+     * Returns the package name of the class, without attempting to load the class.
+     * 
+     * <p>Behaves identically to {@link Package#getName()} but does not require the class (or 
+     * package) to be loaded.
+     */
     public String getPackageName() {
       return Reflection.getPackageName(className);
     }
 
-    /** Returns the simple name of the underlying class as given in the source code. */
+    /** 
+     * Returns the simple name of the underlying class as given in the source code.
+     * 
+     * <p>Behaves identically to {@link Class#getSimpleName()} but does not require the class to be
+     * loaded.
+     */
     public String getSimpleName() {
       int lastDollarSign = className.lastIndexOf('$');
       if (lastDollarSign != -1) {
@@ -231,7 +241,12 @@ public final class ClassPath {
       return className.substring(packageName.length() + 1);
     }
 
-    /** Returns the fully qualified name of the class. */
+    /** 
+     * Returns the fully qualified name of the class. 
+     * 
+     * <p>Behaves identically to {@link Class#getName()} but does not require the class to be
+     * loaded.
+     */
     public String getName() {
       return className;
     }
