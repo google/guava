@@ -72,7 +72,7 @@ public class AsciiBenchmark {
     return NONALPHA.charAt(random.nextInt(NONALPHA.length()));
   }
 
-  @Benchmark int asciiToUpperCase(int reps) {
+  @Benchmark int asciiStringToUpperCase(int reps) {
     String string = noWorkToDo
         ? Ascii.toUpperCase(testString)
         : testString;
@@ -84,19 +84,19 @@ public class AsciiBenchmark {
     return dummy;
   }
 
-  @Benchmark int stringToUpperCase1(int reps) {
+  @Benchmark int asciiCharSequenceToUpperCase(int reps) {
     String string = noWorkToDo
-        ? testString.toUpperCase()
+        ? charSequenceToUpperCase(testString)
         : testString;
 
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
-      dummy += string.toUpperCase().length();
+      dummy += charSequenceToUpperCase(string).length();
     }
     return dummy;
   }
 
-  @Benchmark int stringToUpperCase2(int reps) {
+  @Benchmark int stringToUpperCase(int reps) {
     String string = noWorkToDo
         ? testString.toUpperCase(Locale.US)
         : testString;
@@ -106,5 +106,14 @@ public class AsciiBenchmark {
       dummy += string.toUpperCase(Locale.US).length();
     }
     return dummy;
+  }
+
+  static String charSequenceToUpperCase(CharSequence chars) {
+    int length = chars.length();
+    StringBuilder builder = new StringBuilder(length);
+    for (int i = 0; i < length; i++) {
+      builder.append(Ascii.toUpperCase(chars.charAt(i)));
+    }
+    return builder.toString();
   }
 }

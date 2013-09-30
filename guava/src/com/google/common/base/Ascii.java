@@ -429,7 +429,20 @@ public final class Ascii {
    * modification.
    */
   public static String toLowerCase(String string) {
-    return toLowerCase((CharSequence) string);
+    int length = string.length();
+    for (int i = 0; i < length; i++) {
+      if (isUpperCase(string.charAt(i))) {
+        char[] chars = string.toCharArray();
+        for (; i < length; i++) {
+          char c = chars[i];
+          if (isUpperCase(c)) {
+            chars[i] = (char) (c ^ 0x20);
+          }
+        }
+        return String.valueOf(chars);
+      }
+    }
+    return string;
   }
 
   /**
@@ -440,6 +453,9 @@ public final class Ascii {
    * @since 14.0
    */
   public static String toLowerCase(CharSequence chars) {
+    if (chars instanceof String) {
+      return toLowerCase((String) chars);
+    }
     int length = chars.length();
     StringBuilder builder = new StringBuilder(length);
     for (int i = 0; i < length; i++) {
@@ -462,7 +478,20 @@ public final class Ascii {
    * modification.
    */
   public static String toUpperCase(String string) {
-    return toUpperCase((CharSequence) string);
+    int length = string.length();
+    for (int i = 0; i < length; i++) {
+      if (isLowerCase(string.charAt(i))) {
+        char[] chars = string.toCharArray();
+        for (; i < length; i++) {
+          char c = chars[i];
+          if (isLowerCase(c)) {
+            chars[i] = (char) (c & 0x5f);
+          }
+        }
+        return String.valueOf(chars);
+      }
+    }
+    return string;
   }
 
   /**
@@ -473,6 +502,9 @@ public final class Ascii {
    * @since 14.0
    */
   public static String toUpperCase(CharSequence chars) {
+    if (chars instanceof String) {
+      return toUpperCase((String) chars);
+    }
     int length = chars.length();
     StringBuilder builder = new StringBuilder(length);
     for (int i = 0; i < length; i++) {
