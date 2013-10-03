@@ -278,5 +278,13 @@ public class BooleansTest extends TestCase {
     } catch (IndexOutOfBoundsException expected) {
     }
   }
+
+  public void testCountTrue() {
+    assertEquals(0, Booleans.countTrue());
+    assertEquals(0, Booleans.countTrue(false));
+    assertEquals(1, Booleans.countTrue(true));
+    assertEquals(3, Booleans.countTrue(false, true, false, true, false, true));
+    assertEquals(1, Booleans.countTrue(false, false, true, false, false));
+  }
 }
 

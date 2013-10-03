@@ -288,6 +288,14 @@ public class BooleansTest extends TestCase {
     }
   }
 
+  public void testCountTrue() {
+    assertEquals(0, Booleans.countTrue());
+    assertEquals(0, Booleans.countTrue(false));
+    assertEquals(1, Booleans.countTrue(true));
+    assertEquals(3, Booleans.countTrue(false, true, false, true, false, true));
+    assertEquals(1, Booleans.countTrue(false, false, true, false, false));
+  }
+
   @GwtIncompatible("NullPointerTester")
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Booleans.class);

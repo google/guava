@@ -78,6 +78,11 @@ public void testContains() throws Exception {
   testCase.testContains();
 }
 
+public void testCountTrue() throws Exception {
+  com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
+  testCase.testCountTrue();
+}
+
 public void testEnsureCapacity() throws Exception {
   com.google.common.primitives.BooleansTest testCase = new com.google.common.primitives.BooleansTest();
   testCase.testEnsureCapacity();

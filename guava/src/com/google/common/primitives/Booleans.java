@@ -468,4 +468,17 @@ public final class Booleans {
 
     private static final long serialVersionUID = 0;
   }
+
+  /**
+   * Returns the number of {@code values} that are {@code true}.
+   */
+  public static int countTrue(boolean... values) {
+    int count = 0;
+    for (boolean value : values) {
+      if (value) {
+        count++;
+      }
+    }
+    return count;
+  }
 }
