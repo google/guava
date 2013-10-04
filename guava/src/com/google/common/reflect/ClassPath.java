@@ -102,7 +102,11 @@ public final class ClassPath {
     return resources;
   }
 
-  /** Returns all classes loadable from the current class path. */
+  /**
+   * Returns all classes loadable from the current class path.
+   *
+   * @since 16.0
+   */
   public ImmutableSet<ClassInfo> getAllClasses() {
     return FluentIterable.from(resources).filter(ClassInfo.class).toSet();
   }

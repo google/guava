@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
@@ -471,7 +472,10 @@ public final class Booleans {
 
   /**
    * Returns the number of {@code values} that are {@code true}.
+   *
+   * @since 16.0
    */
+  @Beta
   public static int countTrue(boolean... values) {
     int count = 0;
     for (boolean value : values) {
