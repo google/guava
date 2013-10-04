@@ -38,7 +38,7 @@ public class FeatureSpecificTestSuiteBuilderTest extends TestCase {
     testWasRun = false;
   }
 
-  public static final class MyAbstractTester extends AbstractTester {
+  public static final class MyAbstractTester extends AbstractTester<Void> {
     public void testNothing() {
       testWasRun = true;
     }

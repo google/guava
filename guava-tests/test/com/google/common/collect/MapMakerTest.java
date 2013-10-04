@@ -56,7 +56,7 @@ public class MapMakerTest extends TestCase {
     // notification.
 
     final CountDownLatch computingLatch = new CountDownLatch(1);
-    Function<String, String> computingFunction = new DelayingIdentityLoader(computingLatch);
+    Function<String, String> computingFunction = new DelayingIdentityLoader<String>(computingLatch);
     QueuingRemovalListener<String, String> listener = new QueuingRemovalListener<String, String>();
 
     @SuppressWarnings("deprecation") // test of deprecated code

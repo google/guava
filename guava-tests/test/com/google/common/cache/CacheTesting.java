@@ -134,7 +134,7 @@ class CacheTesting {
   static void drainRecencyQueues(Cache<?, ?> cache) {
     if (hasLocalCache(cache)) {
       LocalCache<?, ?> map = toLocalCache(cache);
-      for (Segment segment : map.segments) {
+      for (Segment<?, ?> segment : map.segments) {
         drainRecencyQueue(segment);
       }
     }
@@ -156,7 +156,7 @@ class CacheTesting {
   }
 
   static void drainReferenceQueues(LocalCache<?, ?> cchm) {
-    for (LocalCache.Segment segment : cchm.segments) {
+    for (LocalCache.Segment<?, ?> segment : cchm.segments) {
       drainReferenceQueue(segment);
     }
   }
@@ -200,7 +200,7 @@ class CacheTesting {
       segment.cleanUp();
       // under high memory pressure keys/values may be nulled out but not yet enqueued
       assertTrue(table.size() <= segment.count);
-      for (Entry entry : table.entrySet()) {
+      for (Entry<?, ?> entry : table.entrySet()) {
         assertNotNull(entry.getKey());
         assertNotNull(entry.getValue());
         assertSame(entry.getValue(), cchm.get(entry.getKey()));
@@ -303,7 +303,7 @@ class CacheTesting {
         }
       }
     } else {
-      for (Segment segment : map.segments) {
+      for (Segment<?, ?> segment : map.segments) {
         assertEquals(0, segment.recencyQueue.size());
       }
     }
@@ -467,7 +467,7 @@ class CacheTesting {
       checkValidState(cchm);
       assertTrue(cchm.isEmpty());
       assertEquals(0, cchm.size());
-      for (LocalCache.Segment segment : cchm.segments) {
+      for (LocalCache.Segment<?, ?> segment : cchm.segments) {
         assertEquals(0, segment.count);
         assertEquals(0, segmentSize(segment));
         assertTrue(segment.writeQueue.isEmpty());

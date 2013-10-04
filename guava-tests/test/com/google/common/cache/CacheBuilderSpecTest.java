@@ -404,7 +404,7 @@ public class CacheBuilderSpecTest extends TestCase {
     assertEquals(TimeUnit.MINUTES, spec.accessExpirationTimeUnit);
     assertEquals(1L, spec.writeExpirationDuration);
     assertEquals(10L, spec.accessExpirationDuration);
-    CacheBuilder expected = CacheBuilder.newBuilder()
+    CacheBuilder<?, ?> expected = CacheBuilder.newBuilder()
         .initialCapacity(10)
         .maximumSize(20)
         .concurrencyLevel(30)
@@ -427,7 +427,7 @@ public class CacheBuilderSpecTest extends TestCase {
     assertEquals(TimeUnit.SECONDS, spec.writeExpirationTimeUnit);
     assertEquals(15L, spec.writeExpirationDuration);
     assertNull(spec.accessExpirationTimeUnit);
-    CacheBuilder expected = CacheBuilder.newBuilder()
+    CacheBuilder<?, ?> expected = CacheBuilder.newBuilder()
         .initialCapacity(10)
         .maximumSize(20)
         .weakKeys()
@@ -531,10 +531,10 @@ public class CacheBuilderSpecTest extends TestCase {
   }
 
   public void testCacheBuilderFrom_string() {
-    CacheBuilder fromString = CacheBuilder.from(
+    CacheBuilder<?, ?> fromString = CacheBuilder.from(
         "initialCapacity=10,maximumSize=20,concurrencyLevel=30,"
         + "weakKeys,weakValues,expireAfterAccess=10m");
-    CacheBuilder expected = CacheBuilder.newBuilder()
+    CacheBuilder<?, ?> expected = CacheBuilder.newBuilder()
         .initialCapacity(10)
         .maximumSize(20)
         .concurrencyLevel(30)
@@ -544,7 +544,7 @@ public class CacheBuilderSpecTest extends TestCase {
     assertCacheBuilderEquivalence(expected, fromString);
   }
 
-  private static void assertCacheBuilderEquivalence(CacheBuilder a, CacheBuilder b) {
+  private static void assertCacheBuilderEquivalence(CacheBuilder<?, ?> a, CacheBuilder<?, ?> b) {
     assertEquals("concurrencyLevel", a.concurrencyLevel, b.concurrencyLevel);
     assertEquals("expireAfterAccessNanos", a.expireAfterAccessNanos, b.expireAfterAccessNanos);
     assertEquals("expireAfterWriteNanos", a.expireAfterWriteNanos, b.expireAfterWriteNanos);
