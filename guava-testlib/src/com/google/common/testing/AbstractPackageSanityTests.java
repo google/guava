@@ -80,7 +80,13 @@ import java.util.logging.Logger;
  *   public static Book paperback(String title) {...}
  * }
  * </pre>
+ *
  * <p>please use {@link ClassSanityTester#forAllPublicStaticMethods}.
+ *
+ * <p>If not all classes on the classpath should be covered, {@link
+ * #ignoreClasses} can be used to exclude certain classes.
+ *
+ * <p>{@link #setDefault} allows subclasses to specify default values for types.
  *
  * <p>This class incurs IO because it scans the classpath and reads classpath resources.
  *
