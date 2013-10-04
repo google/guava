@@ -18,18 +18,15 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Set;
 import java.util.SortedSet;
 
 import javax.annotation.Nullable;
@@ -431,7 +428,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    * can't be constructed at all.)
    *
    * <p>Note that certain discrete ranges such as the integer range {@code (3..4)} are <b>not</b>
-   * considered empty, even though they contain no actual values.  In these cases, it may be
+   * considered empty, even though they contain no actual values.  In these cases, it may be 
    * helpful to preprocess ranges with {@link #canonical(DiscreteDomain)}.
    */
   public boolean isEmpty() {
@@ -530,9 +527,9 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    *
    * <p>The connectedness relation is both reflexive and symmetric, but does not form an {@linkplain
    * Equivalence equivalence relation} as it is not transitive.
-   *
+   * 
    * <p>Note that certain discrete ranges are not considered connected, even though there are no
-   * elements "between them."  For example, {@code [3, 5]} is not considered connected to {@code
+   * elements "between them."  For example, {@code [3, 5]} is not considered connected to {@code 
    * [6, 10]}.  In these cases, it may be desirable for both input ranges to be preprocessed with
    * {@link #canonical(DiscreteDomain)} before testing for connectedness.
    */
@@ -594,33 +591,6 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
       Cut<C> newUpper = (upperCmp >= 0) ? upperBound : other.upperBound;
       return create(newLower, newUpper);
     }
-  }
-
-  /**
-   * Returns an {@link ContiguousSet} containing the same values in the given domain
-   * {@linkplain Range#contains contained} by this range.
-   *
-   * <p><b>Note:</b> {@code a.asSet(d).equals(b.asSet(d))} does not imply {@code a.equals(b)}! For
-   * example, {@code a} and {@code b} could be {@code [2..4]} and {@code (1..5)}, or the empty
-   * ranges {@code [3..3)} and {@code [4..4)}.
-   *
-   * <p><b>Warning:</b> Be extremely careful what you do with the {@code asSet} view of a large
-   * range (such as {@code Range.greaterThan(0)}). Certain operations on such a set can be
-   * performed efficiently, but others (such as {@link Set#hashCode} or {@link
-   * Collections#frequency}) can cause major performance problems.
-   *
-   * <p>The returned set's {@link Object#toString} method returns a short-hand form of the set's
-   * contents, such as {@code "[1..100]}"}.
-   *
-   * @throws IllegalArgumentException if neither this range nor the domain has a lower bound, or if
-   *     neither has an upper bound
-   * @deprecated Use {@code ContiguousSet.create(range, domain)}. To be removed in Guava 16.0.
-   */
-  @Beta
-  @GwtCompatible(serializable = false)
-  @Deprecated
-  public ContiguousSet<C> asSet(DiscreteDomain<C> domain) {
-    return ContiguousSet.create(this, domain);
   }
 
   /**

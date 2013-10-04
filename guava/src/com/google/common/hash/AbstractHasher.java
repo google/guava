@@ -36,14 +36,6 @@ abstract class AbstractHasher implements Hasher {
     return putInt(Float.floatToRawIntBits(f));
   }
 
-  /**
-   * @deprecated Use {@link AbstractHasher#putUnencodedChars} instead.
-   */
-  @Deprecated
-  @Override public Hasher putString(CharSequence charSequence) {
-    return putUnencodedChars(charSequence);
-  }
-
   @Override public Hasher putUnencodedChars(CharSequence charSequence) {
     for (int i = 0, len = charSequence.length(); i < len; i++) {
       putChar(charSequence.charAt(i));

@@ -92,10 +92,10 @@ public class AbstractStreamingHasherTest extends TestCase {
       random.nextBytes(bytes);
       String s = new String(bytes, UTF_16LE); // so all random strings are valid
       assertEquals(
-          new Sink(4).putString(s).hash(),
+          new Sink(4).putUnencodedChars(s).hash(),
           new Sink(4).putBytes(s.getBytes(UTF_16LE)).hash());
       assertEquals(
-          new Sink(4).putString(s).hash(),
+          new Sink(4).putUnencodedChars(s).hash(),
           new Sink(4).putString(s, UTF_16LE).hash());
     }
   }
@@ -260,11 +260,6 @@ public class AbstractStreamingHasherTest extends TestCase {
 
     @Override
     public int bits() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public HashCode hashString(CharSequence input) {
       throw new UnsupportedOperationException();
     }
 

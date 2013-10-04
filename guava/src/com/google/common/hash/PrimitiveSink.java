@@ -20,7 +20,7 @@ import java.nio.charset.Charset;
 
 /**
  * An object which can receive a stream of primitive values.
- * 
+ *
  * @author Kevin Bourrillion
  * @since 12.0 (in 11.0 as {@code Sink})
  */
@@ -41,15 +41,15 @@ public interface PrimitiveSink {
    * @return this instance
    */
   PrimitiveSink putBytes(byte[] bytes);
-  
+
   /**
    * Puts a chunk of an array of bytes into this sink. {@code bytes[off]} is the first byte written,
-   * {@code bytes[off + len - 1]} is the last. 
-   * 
+   * {@code bytes[off + len - 1]} is the last.
+   *
    * @param bytes a byte array
    * @param off the start offset in the array
    * @param len the number of bytes to write
-   * @return this instance 
+   * @return this instance
    * @throws IndexOutOfBoundsException if {@code off < 0} or {@code off + len > bytes.length} or
    *   {@code len < 0}
    */
@@ -89,15 +89,6 @@ public interface PrimitiveSink {
    * Puts a character into this sink.
    */
   PrimitiveSink putChar(char c);
-
-  /**
-   * Puts a string into this sink.
-   *
-   * @deprecated Use {PrimitiveSink#putUnencodedChars} instead. This method is scheduled for
-   *     removal in Guava 16.0.
-   */
-  @Deprecated
-  PrimitiveSink putString(CharSequence charSequence);
 
   /**
    * Puts each 16-bit code unit from the {@link CharSequence} into this sink.

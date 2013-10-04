@@ -37,14 +37,6 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
     return newHasher().putObject(instance, funnel).hash();
   }
 
-  /**
-   * @deprecated Use {@link AbstractStreamingHashFunction#hashUnencodedChars} instead.
-   */
-  @Deprecated
-  @Override public HashCode hashString(CharSequence input) {
-    return hashUnencodedChars(input);
-  }
-
   @Override public HashCode hashUnencodedChars(CharSequence input) {
     return newHasher().putUnencodedChars(input).hash();
   }
@@ -181,15 +173,6 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
       // Finally stick the remainder back in our usual buffer
       buffer.put(readBuffer);
       return this;
-    }
-
-    /**
-     * @deprecated Use {@link AbstractStreamingHasher#putUnencodedChars} instead.
-     */
-    @Deprecated
-    @Override
-    public final Hasher putString(CharSequence charSequence) {
-      return putUnencodedChars(charSequence);
     }
 
     @Override

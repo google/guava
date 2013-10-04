@@ -194,18 +194,6 @@ public interface HashFunction {
   HashCode hashUnencodedChars(CharSequence input);
 
   /**
-   * Shortcut for {@code newHasher().putUnencodedChars(input).hash()}. The implementation
-   * <i>might</i> perform better than its longhand equivalent, but should not perform worse.
-   * Note that no character encoding is performed; the low byte and high byte of each {@code char}
-   * are hashed directly (in that order).
-   *
-   * @deprecated Use {@link HashFunction#hashUnencodedChars} instead. This method is scheduled for
-   *     removal in Guava 16.0.
-   */
-  @Deprecated
-  HashCode hashString(CharSequence input);
-
-  /**
    * Shortcut for {@code newHasher().putString(input, charset).hash()}. Characters are encoded
    * using the given {@link Charset}. The implementation <i>might</i> perform better than its
    * longhand equivalent, but should not perform worse.

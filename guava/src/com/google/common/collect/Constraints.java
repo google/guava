@@ -18,9 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Preconditions;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,46 +30,12 @@ import java.util.SortedSet;
 /**
  * Factories and utilities pertaining to the {@link Constraint} interface.
  *
- * @see MapConstraints
  * @author Mike Bostock
  * @author Jared Levy
- * @since 3.0
- * @deprecated Use {@link Preconditions} for basic checks. In place of
- *     constrained collections, we encourage you to check your preconditions
- *     explicitly instead of leaving that work to the collection implementation.
- *     For the specific case of rejecting null, consider the immutable
- *     collections.
- *     This class is scheduled for removal in Guava 16.0.
  */
-@Beta
-@Deprecated
 @GwtCompatible
-public final class Constraints {
+final class Constraints {
   private Constraints() {}
-
-  // enum singleton pattern
-  private enum NotNullConstraint implements Constraint<Object> {
-    INSTANCE;
-
-    @Override
-    public Object checkElement(Object element) {
-      return checkNotNull(element);
-    }
-
-    @Override public String toString() {
-      return "Not null";
-    }
-  }
-
-  /**
-   * Returns a constraint that verifies that the element is not null. If the
-   * element is null, a {@link NullPointerException} is thrown.
-   */
-  // safe to narrow the type since checkElement returns its argument directly
-  @SuppressWarnings("unchecked")
-  public static <E> Constraint<E> notNull() {
-    return (Constraint<E>) NotNullConstraint.INSTANCE;
-  }
 
   /**
    * Returns a constrained view of the specified collection, using the specified
@@ -321,56 +285,6 @@ public final class Constraints {
       return constrainedList((List<E>) collection, constraint);
     } else {
       return constrainedCollection(collection, constraint);
-    }
-  }
-
-  /**
-   * Returns a constrained view of the specified multiset, using the specified
-   * constraint. Any operations that add new elements to the multiset will call
-   * the provided constraint. However, this method does not verify that
-   * existing elements satisfy the constraint.
-   *
-   * <p>The returned multiset is not serializable.
-   *
-   * @param multiset the multiset to constrain
-   * @param constraint the constraint that validates added elements
-   * @return a constrained view of the multiset
-   */
-  public static <E> Multiset<E> constrainedMultiset(
-      Multiset<E> multiset, Constraint<? super E> constraint) {
-    return new ConstrainedMultiset<E>(multiset, constraint);
-  }
-
-  /** @see Constraints#constrainedMultiset */
-  static class ConstrainedMultiset<E> extends ForwardingMultiset<E> {
-    private Multiset<E> delegate;
-    private final Constraint<? super E> constraint;
-
-    public ConstrainedMultiset(
-        Multiset<E> delegate, Constraint<? super E> constraint) {
-      this.delegate = checkNotNull(delegate);
-      this.constraint = checkNotNull(constraint);
-    }
-    @Override protected Multiset<E> delegate() {
-      return delegate;
-    }
-    @Override public boolean add(E element) {
-      return standardAdd(element);
-    }
-    @Override public boolean addAll(Collection<? extends E> elements) {
-      return delegate.addAll(checkElements(elements, constraint));
-    }
-    @Override public int add(E element, int occurrences) {
-      constraint.checkElement(element);
-      return delegate.add(element, occurrences);
-    }
-    @Override public int setCount(E element, int count) {
-      constraint.checkElement(element);
-      return delegate.setCount(element, count);
-    }
-    @Override public boolean setCount(E element, int oldCount, int newCount) {
-      constraint.checkElement(element);
-      return delegate.setCount(element, oldCount, newCount);
     }
   }
 

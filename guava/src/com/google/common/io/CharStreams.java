@@ -74,18 +74,6 @@ public final class CharStreams {
   }
 
   /**
-   * Returns a {@link CharSource} that reads the given string value.
-   *
-   * @since 14.0
-   * @deprecated Use {@link CharSource#wrap(CharSequence)} instead. This method
-   *     is scheduled to be removed in Guava 16.0.
-   */
-  @Deprecated
-  public static CharSource asCharSource(String string) {
-    return CharSource.wrap(string);
-  }
-
-  /**
    * Returns a factory that will supply instances of {@link InputStreamReader},
    * using the given {@link InputStream} factory and character set.
    *

@@ -45,14 +45,6 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
     return newHasher().putObject(instance, funnel).hash();
   }
 
-  /**
-   * @deprecated Use {@link AbstractNonStreamingHashFunction#hashUnencodedChars} instead.
-   */
-  @Deprecated
-  @Override public HashCode hashString(CharSequence input) {
-    return hashUnencodedChars(input);
-  }
-
   @Override public HashCode hashUnencodedChars(CharSequence input) {
     int len = input.length();
     Hasher hasher = newHasher(len * 2);

@@ -71,10 +71,10 @@ public class AbstractByteHasherTest extends TestCase {
       random.nextBytes(bytes);
       String s = new String(bytes, UTF_16LE); // so all random strings are valid
       assertEquals(
-          new TestHasher().putString(s).hash(),
+          new TestHasher().putUnencodedChars(s).hash(),
           new TestHasher().putBytes(s.getBytes(UTF_16LE)).hash());
       assertEquals(
-          new TestHasher().putString(s).hash(),
+          new TestHasher().putUnencodedChars(s).hash(),
           new TestHasher().putString(s, UTF_16LE).hash());
     }
   }

@@ -16,9 +16,7 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Preconditions;
 
 /**
  * A constraint that an element must satisfy in order to be added to a
@@ -40,21 +38,9 @@ import com.google.common.base.Preconditions;
  * that all the collection's elements meet the constraint, since the constraint
  * is only enforced when elements are added.
  *
- * @see Constraints
- * @see MapConstraint
  * @author Mike Bostock
- * @since 3.0
- * @deprecated Use {@link Preconditions} for basic checks. In place of
- *     constrained collections, we encourage you to check your preconditions
- *     explicitly instead of leaving that work to the collection implementation.
- *     For the specific case of rejecting null, consider the immutable
- *     collections.
- *     This interface is scheduled for removal in Guava 16.0.
  */
-@Beta
-@Deprecated
 @GwtCompatible
-public
 interface Constraint<E> {
   /**
    * Throws a suitable {@code RuntimeException} if the specified element is

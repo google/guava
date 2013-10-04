@@ -119,19 +119,6 @@ public final class FileBackedOutputStream extends OutputStream {
   }
 
   /**
-   * Returns a supplier that may be used to retrieve the data buffered
-   * by this stream. This method returns the same object as
-   * {@link #asByteSource()}.
-   *
-   * @deprecated Use {@link #asByteSource()} instead. This method is scheduled
-   *     to be removed in Guava 16.0.
-   */
-  @Deprecated
-  public InputSupplier<InputStream> getSupplier() {
-    return asByteSource();
-  }
-
-  /**
    * Returns a readable {@link ByteSource} view of the data that has been
    * written to this stream.
    *

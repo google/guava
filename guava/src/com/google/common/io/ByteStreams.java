@@ -82,18 +82,6 @@ public final class ByteStreams {
   }
 
   /**
-   * Returns a new {@link ByteSource} that reads bytes from the given byte array.
-   *
-   * @since 14.0
-   * @deprecated Use {@link ByteSource#wrap(byte[])} instead. This method is
-   *     scheduled to be removed in Guava 16.0.
-   */
-  @Deprecated
-  public static ByteSource asByteSource(byte[] b) {
-    return ByteSource.wrap(b);
-  }
-
-  /**
    * Writes a byte array to an output stream from the given supplier.
    *
    * @param from the bytes to write

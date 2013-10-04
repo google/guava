@@ -102,7 +102,7 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
   }
 
   // TODO(user): Maybe implement #hashBytes instead?
-  @Override public HashCode hashString(CharSequence input) {
+  @Override public HashCode hashUnencodedChars(CharSequence input) {
     int h1 = seed;
 
     // step through the CharSequence 2 chars at a time

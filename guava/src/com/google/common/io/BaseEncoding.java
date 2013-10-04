@@ -189,26 +189,6 @@ public abstract class BaseEncoding {
   }
 
   /**
-   * Returns an {@code OutputSupplier} that supplies streams that encode bytes using this encoding
-   * into writers from the specified {@code OutputSupplier}.
-   *
-   * @deprecated Use {@link #encodingSink(CharSink)} instead. This method is scheduled to be
-   *     removed in Guava 16.0.
-   */
-  @Deprecated
-  @GwtIncompatible("Writer,OutputStream")
-  public final OutputSupplier<OutputStream> encodingStream(
-      final OutputSupplier<? extends Writer> writerSupplier) {
-    checkNotNull(writerSupplier);
-    return new OutputSupplier<OutputStream>() {
-      @Override
-      public OutputStream getOutput() throws IOException {
-        return encodingStream(writerSupplier.getOutput());
-      }
-    };
-  }
-
-  /**
    * Returns a {@code ByteSink} that writes base-encoded bytes to the specified {@code CharSink}.
    */
   @GwtIncompatible("ByteSink,CharSink")
@@ -281,26 +261,6 @@ public abstract class BaseEncoding {
   @GwtIncompatible("Reader,InputStream")
   public final InputStream decodingStream(Reader reader) {
     return asInputStream(decodingStream(asCharInput(reader)));
-  }
-
-  /**
-   * Returns an {@code InputSupplier} that supplies input streams that decode base-encoded input
-   * from readers from the specified supplier.
-   *
-   * @deprecated Use {@link #decodingSource(CharSource)} instead. This method is scheduled to be
-   *     removed in Guava 16.0.
-   */
-  @Deprecated
-  @GwtIncompatible("Reader,InputStream")
-  public final InputSupplier<InputStream> decodingStream(
-      final InputSupplier<? extends Reader> readerSupplier) {
-    checkNotNull(readerSupplier);
-    return new InputSupplier<InputStream>() {
-      @Override
-      public InputStream getInput() throws IOException {
-        return decodingStream(readerSupplier.getInput());
-      }
-    };
   }
 
   /**

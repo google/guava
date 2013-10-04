@@ -20,8 +20,6 @@ import static java.util.Arrays.asList;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -41,7 +39,7 @@ import java.util.SortedSet;
  * @author Mike Bostock
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class ConstraintsTest extends TestCase {
 
   private static final String TEST_ELEMENT = "test";
@@ -61,16 +59,6 @@ public class ConstraintsTest extends TestCase {
             return element;
           }
         };
-
-  public void testNotNull() {
-    Constraint<? super String> constraint = Constraints.notNull();
-    assertSame(TEST_ELEMENT, constraint.checkElement(TEST_ELEMENT));
-    try {
-      constraint.checkElement(null);
-      fail("NullPointerException expected");
-    } catch (NullPointerException expected) {}
-    assertEquals("Not null", constraint.toString());
-  }
 
   public void testConstrainedCollectionLegal() {
     Collection<String> collection = Lists.newArrayList("foo", "bar");
@@ -265,49 +253,6 @@ public class ConstraintsTest extends TestCase {
     ASSERT.that(list).has().exactly("foo", "bar").inOrder();
   }
 
-  public void testConstrainedMultisetLegal() {
-    Multiset<String> multiset = HashMultiset.create(asList("foo", "bar"));
-    Multiset<String> constrained = Constraints.constrainedMultiset(
-        multiset, TEST_CONSTRAINT);
-    multiset.add(TEST_ELEMENT);
-    constrained.add("qux");
-    constrained.addAll(asList("cat", "dog"));
-    constrained.add("cow", 2);
-    assertTrue(multiset.equals(constrained));
-    assertTrue(constrained.equals(multiset));
-    assertEquals(multiset.toString(), constrained.toString());
-    assertEquals(multiset.hashCode(), constrained.hashCode());
-    ASSERT.that(multiset).has().exactly(
-        "foo", "bar", TEST_ELEMENT, "qux", "cat", "dog", "cow", "cow");
-    ASSERT.that(constrained).has().exactly(
-        "foo", "bar", TEST_ELEMENT, "qux", "cat", "dog", "cow", "cow");
-    assertEquals(1, constrained.count("foo"));
-    assertEquals(1, constrained.remove("foo", 3));
-    assertEquals(2, constrained.setCount("cow", 0));
-    ASSERT.that(multiset).has().exactly("bar", TEST_ELEMENT, "qux", "cat", "dog");
-    ASSERT.that(constrained).has().exactly("bar", TEST_ELEMENT, "qux", "cat", "dog");
-  }
-
-  public void testConstrainedMultisetIllegal() {
-    Multiset<String> multiset = HashMultiset.create(asList("foo", "bar"));
-    Multiset<String> constrained = Constraints.constrainedMultiset(
-        multiset, TEST_CONSTRAINT);
-    try {
-      constrained.add(TEST_ELEMENT);
-      fail("TestElementException expected");
-    } catch (TestElementException expected) {}
-    try {
-      constrained.add(TEST_ELEMENT, 2);
-      fail("TestElementException expected");
-    } catch (TestElementException expected) {}
-    try {
-      constrained.addAll(asList("baz", TEST_ELEMENT));
-      fail("TestElementException expected");
-    } catch (TestElementException expected) {}
-    ASSERT.that(constrained).has().exactly("foo", "bar");
-    ASSERT.that(multiset).has().exactly("foo", "bar");
-  }
-
   public void testNefariousAddAll() {
     List<String> list = Lists.newArrayList("foo", "bar");
     List<String> constrained = Constraints.constrainedList(
@@ -345,10 +290,5 @@ public class ConstraintsTest extends TestCase {
     };
   }
 
-  @GwtIncompatible("SerializableTester")
-  public void testSerialization() {
-    // TODO: Test serialization of constrained collections.
-    assertSame(Constraints.notNull(),
-        SerializableTester.reserialize(Constraints.notNull()));
-  }
+  // TODO: Test serialization of constrained collections.
 }

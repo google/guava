@@ -122,14 +122,6 @@ abstract class AbstractCompositeHashFunction extends AbstractStreamingHashFuncti
         return this;
       }
 
-      /**
-       * @deprecated Use {@link Hasher#putUnencodedChars} instead.
-       */
-      @Deprecated
-      @Override public Hasher putString(CharSequence chars) {
-        return putUnencodedChars(chars);
-      }
-
       @Override public Hasher putUnencodedChars(CharSequence chars) {
         for (Hasher hasher : hashers) {
           hasher.putUnencodedChars(chars);

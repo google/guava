@@ -22,7 +22,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 
@@ -141,43 +140,6 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
     } catch (NullPointerException e) {
       return false;
     }
-  }
-
-  /**
-   * A sensible definition of {@link #remove} in terms of the {@code
-   * iterator()} of the {@code entrySet()} of {@link #tailMap}. If you override
-   * {@link #tailMap}, you may wish to override {@link #remove} to forward
-   * to this implementation.
-   *
-   * @since 7.0
-   * @deprecated This implementation is extremely awkward, is rarely worthwhile,
-   * and has been discovered to interact badly with
-   * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6467933 in Java 6
-   * when used with certain null-friendly comparators.  It is scheduled for
-   * deletion in Guava 16.0.
-   */
-  @Deprecated
-  @Override @Beta protected V standardRemove(@Nullable Object key) {
-    try {
-      // any CCE will be caught
-      @SuppressWarnings("unchecked")
-      SortedMap<Object, V> self = (SortedMap<Object, V>) this;
-      Iterator<Entry<Object, V>> entryIterator =
-          self.tailMap(key).entrySet().iterator();
-      if (entryIterator.hasNext()) {
-        Entry<Object, V> ceilingEntry = entryIterator.next();
-        if (unsafeCompare(ceilingEntry.getKey(), key) == 0) {
-          V value = ceilingEntry.getValue();
-          entryIterator.remove();
-          return value;
-        }
-      }
-    } catch (ClassCastException e) {
-      return null;
-    } catch (NullPointerException e) {
-      return null;
-    }
-    return null;
   }
 
   /**

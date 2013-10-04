@@ -43,16 +43,6 @@ public void testConstrainedListRandomAccessFalse() throws Exception {
   testCase.testConstrainedListRandomAccessFalse();
 }
 
-public void testConstrainedMultisetIllegal() throws Exception {
-  com.google.common.collect.ConstraintsTest testCase = new com.google.common.collect.ConstraintsTest();
-  testCase.testConstrainedMultisetIllegal();
-}
-
-public void testConstrainedMultisetLegal() throws Exception {
-  com.google.common.collect.ConstraintsTest testCase = new com.google.common.collect.ConstraintsTest();
-  testCase.testConstrainedMultisetLegal();
-}
-
 public void testConstrainedSetIllegal() throws Exception {
   com.google.common.collect.ConstraintsTest testCase = new com.google.common.collect.ConstraintsTest();
   testCase.testConstrainedSetIllegal();
@@ -76,10 +66,5 @@ public void testConstrainedSortedSetLegal() throws Exception {
 public void testNefariousAddAll() throws Exception {
   com.google.common.collect.ConstraintsTest testCase = new com.google.common.collect.ConstraintsTest();
   testCase.testNefariousAddAll();
-}
-
-public void testNotNull() throws Exception {
-  com.google.common.collect.ConstraintsTest testCase = new com.google.common.collect.ConstraintsTest();
-  testCase.testNotNull();
 }
 }
