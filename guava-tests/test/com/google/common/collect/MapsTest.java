@@ -112,20 +112,31 @@ public class MapsTest extends TestCase {
    * Tests that nHMWES makes hash maps large enough that adding the expected
    * number of elements won't cause a rehash.
    *
+   * As of jdk7u40, HashMap has an empty-map optimization.  The argument to
+   * new HashMap(int) is noted, but the initial table is a zero-length array.
+   *
    * This test may fail miserably on non-OpenJDK environments...
    */
   @GwtIncompatible("reflection")
   public void testNewHashMapWithExpectedSize_wontGrow() throws Exception {
-    for (int size = 0; size < 200; size++) {
+    // before jdk7u40: creates one-bucket table
+    // after  jdk7u40: creates empty table
+    assertTrue(bucketsOf(Maps.newHashMapWithExpectedSize(0)) <= 1);
+
+    for (int size = 1; size < 200; size++) {
       HashMap<Integer, Void> map1 = Maps.newHashMapWithExpectedSize(size);
 
-      int startSize = sizeOf(map1);
+      // Only start measuring table size after the first element inserted, to
+      // deal with empty-map optimization.
+      map1.put(0, null);
 
-      for (int i = 0; i < size; i++) {
+      int initialBuckets = bucketsOf(map1);
+
+      for (int i = 1; i < size; i++) {
         map1.put(i, null);
       }
-      assertEquals("table size after adding " + size + "elements",
-          startSize, sizeOf(map1));
+      assertEquals("table size after adding " + size + " elements",
+          initialBuckets, bucketsOf(map1));
 
       /*
        * Something slightly different happens when the entries are added all at
@@ -134,12 +145,12 @@ public class MapsTest extends TestCase {
       HashMap<Integer, Void> map2 = Maps.newHashMapWithExpectedSize(size);
       map2.putAll(map1);
       assertEquals("table size after adding " + size + "elements",
-          startSize, sizeOf(map2));
+          initialBuckets, bucketsOf(map2));
     }
   }
 
   @GwtIncompatible("reflection")
-  private static int sizeOf(HashMap<?, ?> hashMap) throws Exception {
+  private static int bucketsOf(HashMap<?, ?> hashMap) throws Exception {
     Field tableField = HashMap.class.getDeclaredField("table");
     tableField.setAccessible(true);
     Object[] table = (Object[]) tableField.get(hashMap);
@@ -1610,6 +1621,7 @@ public class MapsTest extends TestCase {
     assertTrue(transformed instanceof NavigableMap);
   }
 
+  @SuppressWarnings("unused")
   public void testTransformEntriesGenerics() {
     Map<Object, Object> map1 = ImmutableMap.<Object, Object>of(1, 2);
     Map<Object, Number> map2 = ImmutableMap.<Object, Number>of(1, 2);

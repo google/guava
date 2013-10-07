@@ -1277,6 +1277,7 @@ public class MapsTest extends TestCase {
     assertTrue(transformed instanceof SortedMap);
   }
 
+  @SuppressWarnings("unused")
   public void testTransformEntriesGenerics() {
     Map<Object, Object> map1 = ImmutableMap.<Object, Object>of(1, 2);
     Map<Object, Number> map2 = ImmutableMap.<Object, Number>of(1, 2);
