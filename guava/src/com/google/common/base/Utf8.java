@@ -20,22 +20,15 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
- * A set of low-level, high-performance static utility methods related to the UTF-8 character
- * encoding.
+ * Low-level, high-performance utility methods related to the {@linkplain Charsets#UTF_8 UTF-8}
+ * character encoding. UTF-8 is defined in section D92 of
+ * <a href="http://www.unicode.org/versions/Unicode6.2.0/ch03.pdf">The Unicode Standard Core
+ * Specification, Chapter 3</a>.
  *
- * <p>There are several variants of UTF-8. The one implemented by this class is the restricted
- * definition of UTF-8 introduced in Unicode 3.1, which mandates the rejection of overlong byte
- * sequences as well as rejection of 3-byte surrogate codepoint byte sequences. Note that the UTF-8
- * decoder included in Oracle's JDK has been modified to also reject "overlong" byte sequences, but
- * (as of 2011) still accepts 3-byte surrogate codepoint byte sequences.
- *
- * <p>The byte sequences considered valid by this class are exactly those that can be roundtrip
- * converted to Strings and back to bytes using the UTF-8 charset, without loss:
- *
- * <pre>{@code Arrays.equals(bytes, new String(bytes, "UTF-8").getBytes("UTF-8"))}</pre>
- *
- * <p>See the Unicode Standard,</br> Table 3-6. <em>UTF-8 Bit Distribution</em>,</br> Table 3-7.
- * <em>Well Formed UTF-8 Byte Sequences</em>.
+ * <p>The variant of UTF-8 implemented by this class is the restricted definition of UTF-8
+ * introduced in Unicode 3.1. One implication of this is that it rejects
+ * <a href="http://www.unicode.org/versions/corrigendum1.html">"non-shortest form"</a> byte
+ * sequences, even though the JDK decoder may accept them.
  *
  * @author Martin Buchholz
  * @author Clément Roux
@@ -44,20 +37,17 @@ import com.google.common.annotations.GwtCompatible;
 @Beta
 @GwtCompatible
 public final class Utf8 {
-  private Utf8() {}
-
   /**
-   * Returns the number of bytes in the UTF-8 encoded form of {@code sequence}. Assuming that
-   * {@code sequence} is a string that contains valid code points, this method is faster and more
-   * memory efficient than {@code string.getBytes(Charsets.UTF_8).length}.
+   * Returns the number of bytes in the UTF-8 encoded form of {@code sequence}. For a string,
+   * this method is equivalent to {@code string.getBytes(UTF_8).length}, but is more efficient in
+   * both time and space.
    *
-   * @throws IllegalArgumentException if {@code sequence} contains unpaired surrogates
+   * @throws IllegalArgumentException if {@code sequence} contains ill-formed UTF-16 (unpaired
+   *     surrogates)
    */
-  public static int utf8Length(CharSequence sequence) {
+  public static int length(CharSequence sequence) {
     long utf8Length = 0;
-    int charIndex = 0;
-    int charLength = sequence.length();
-    while (charIndex < charLength) {
+    for (int charIndex = 0; charIndex < sequence.length(); charIndex++) {
       char c = sequence.charAt(charIndex);
       // From http://en.wikipedia.org/wiki/UTF-8#Description
       if (c < 0x80) {
@@ -70,19 +60,14 @@ public final class Utf8 {
         // Expect a surrogate pair.
         int cp = Character.codePointAt(sequence, charIndex);
         if (cp < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
-          // The pair starts with a low surrogate, or no character follows the
-          // high surrogate.
-          // We throw an IllegalArgumentException instead of a
-          // CharacterCodingException because CharacterCodingException is a
-          // checked exception.
-          throw new IllegalArgumentException(
-              "Unpaired surrogate at " + charIndex + " (" + sequence + ")");
+          // The pair starts with a low surrogate, or no character follows the high surrogate.
+          throw new IllegalArgumentException("Unpaired surrogate at index " + charIndex);
         }
         utf8Length += 4;
         charIndex++;
       }
-      charIndex++;
     }
+    // return Ints.checkedCast(utf8Length);
     int result = (int) utf8Length;
     if (result != utf8Length) {
       throw new IllegalArgumentException("UTF-8 length does not fit in int: " + utf8Length);
@@ -91,32 +76,41 @@ public final class Utf8 {
   }
 
   /**
-   * Returns whether the given byte array is a well-formed UTF-8 byte sequence.
+   * Returns {@code true} if {@code bytes} is a <i>well-formed</i> UTF-8 byte sequence according to
+   * Unicode 6.0. Note that this is a stronger criterion than simply whether the bytes can be
+   * decoded. For example, some versions of the JDK decoder will accept "non-shortest form" byte
+   * sequences, but encoding never reproduces these. Such byte sequences are <i>not</i> considered
+   * well-formed.
+   *
+   * <p>This method returns {@code true} if and only if {@code Arrays.equals(bytes, new
+   * String(bytes, UTF_8).getBytes(UTF_8))} does, but is more efficient in both time and space.
    */
-  public static boolean isValidUtf8(byte[] bytes) {
-    return isValidUtf8(bytes, 0, bytes.length);
+  public static boolean isWellFormed(byte[] bytes) {
+    return isWellFormed(bytes, 0, bytes.length);
   }
 
   /**
-   * Returns whether the given byte array slice is a well-formed UTF-8 byte sequence.
+   * Returns whether the given byte array slice is a well-formed UTF-8 byte sequence, as defined by
+   * {@link #isWellFormed(byte[]). Note that this can be false even when {@code isWellFormed(bytes)}
+   * is true.
    *
    * @param bytes the input buffer
    * @param off the offset in the buffer of the first byte to read
-   * @param len the maximum number of bytes to read from the buffer
+   * @param len the number of bytes to read from the buffer
    */
-  public static boolean isValidUtf8(byte[] bytes, int off, int len) {
+  public static boolean isWellFormed(byte[] bytes, int off, int len) {
     int end = off + len;
     checkPositionIndexes(off, end, bytes.length);
     // Look for the first non-ASCII character.
     for (int i = off; i < end; i++) {
       if (bytes[i] < 0) {
-        return isValidUtf8NonAscii(bytes, i, end);
+        return isWellFormedSlowPath(bytes, i, end);
       }
     }
     return true;
   }
 
-  private static boolean isValidUtf8NonAscii(byte[] bytes, int off, int end) {
+  private static boolean isWellFormedSlowPath(byte[] bytes, int off, int end) {
     int index = off;
     while (true) {
       int byte1;
@@ -174,4 +168,6 @@ public final class Utf8 {
       }
     }
   }
+
+  private Utf8() {}
 }

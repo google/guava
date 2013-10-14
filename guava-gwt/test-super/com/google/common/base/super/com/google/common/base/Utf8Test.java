@@ -29,45 +29,43 @@ import junit.framework.TestCase;
  */
 @GwtCompatible(emulated = true)
 public class Utf8Test extends TestCase {
-  public void testUtf8Length_validStrings() {
-    assertEquals(0, Utf8.utf8Length(""));
-    assertEquals(11, Utf8.utf8Length("Hello world"));
-    assertEquals(8, Utf8.utf8Length("Résumé"));
-    assertEquals(461, Utf8.utf8Length("威廉·莎士比亞（William Shakespeare，"
+  public void testLength_validStrings() {
+    assertEquals(0, Utf8.length(""));
+    assertEquals(11, Utf8.length("Hello world"));
+    assertEquals(8, Utf8.length("Résumé"));
+    assertEquals(461, Utf8.length("威廉·莎士比亞（William Shakespeare，"
         + "1564年4月26號—1616年4月23號[1]）係隻英國嗰演員、劇作家同詩人，"
         + "有時間佢簡稱莎翁；中國清末民初哈拕翻譯做舌克斯毕、沙斯皮耳、筛斯比耳、"
         + "莎基斯庇尔、索士比尔、夏克思芘尔、希哀苦皮阿、叶斯壁、沙克皮尔、"
         + "狹斯丕爾。[2]莎士比亞編寫過好多作品，佢嗰劇作響西洋文學好有影響，"
         + "哈都拕人翻譯做好多話。"));
     // A surrogate pair
-    assertEquals(4, Utf8.utf8Length(
+    assertEquals(4, Utf8.length(
         newString(Character.MIN_HIGH_SURROGATE, Character.MIN_LOW_SURROGATE)));
   }
   
-  public void testUtf8Length_invalidStrings() {
-    testUtf8LengthFails(newString(Character.MIN_HIGH_SURROGATE), 0);
-    testUtf8LengthFails("foobar" + newString(Character.MIN_HIGH_SURROGATE), 6);
-    testUtf8LengthFails(newString(Character.MIN_LOW_SURROGATE), 0);
-    testUtf8LengthFails("foobar" + newString(Character.MIN_LOW_SURROGATE), 6);
-    testUtf8LengthFails(
+  public void testLength_invalidStrings() {
+    testLengthFails(newString(Character.MIN_HIGH_SURROGATE), 0);
+    testLengthFails("foobar" + newString(Character.MIN_HIGH_SURROGATE), 6);
+    testLengthFails(newString(Character.MIN_LOW_SURROGATE), 0);
+    testLengthFails("foobar" + newString(Character.MIN_LOW_SURROGATE), 6);
+    testLengthFails(
         newString(
             Character.MIN_HIGH_SURROGATE,
             Character.MIN_HIGH_SURROGATE), 0);
   }
   
-  private static void testUtf8LengthFails(String invalidString,
+  private static void testLengthFails(String invalidString,
       int invalidCodePointIndex) {
     try {
-      Utf8.utf8Length(invalidString);
+      Utf8.length(invalidString);
       fail();
-    } catch (IllegalArgumentException ex) {
-      // Expected
-      String message = ex.getMessage();
-      String expected = "Unpaired surrogate at " + invalidCodePointIndex +
-          " (" + invalidString + ")";
-      assertEquals(expected, message);
+    } catch (IllegalArgumentException expected) {
+      assertEquals("Unpaired surrogate at index " + invalidCodePointIndex,
+          expected.getMessage());
     }
   }
+
   // 128 - [chars 0x0000 to 0x007f]
   private static final long ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS =
       0x007f - 0x0000 + 1;
@@ -129,37 +127,37 @@ public class Utf8Test extends TestCase {
    * All permutations are prohibitively expensive to test for automated runs.
    * This method tests specific four-byte cases.
    */
-  public void testIsValidUtf8_4BytesSamples() {
+  public void testIsWellFormed_4BytesSamples() {
     // Valid 4 byte.
-    assertValidUtf8(0xF0, 0xA4, 0xAD, 0xA2);
+    assertWellFormed(0xF0, 0xA4, 0xAD, 0xA2);
     // Bad trailing bytes
-    assertInvalidUtf8(0xF0, 0xA4, 0xAD, 0x7F);
-    assertInvalidUtf8(0xF0, 0xA4, 0xAD, 0xC0);
+    assertNotWellFormed(0xF0, 0xA4, 0xAD, 0x7F);
+    assertNotWellFormed(0xF0, 0xA4, 0xAD, 0xC0);
     // Special cases for byte2
-    assertInvalidUtf8(0xF0, 0x8F, 0xAD, 0xA2);
-    assertInvalidUtf8(0xF4, 0x90, 0xAD, 0xA2);
+    assertNotWellFormed(0xF0, 0x8F, 0xAD, 0xA2);
+    assertNotWellFormed(0xF4, 0x90, 0xAD, 0xA2);
   }
 
   /** Tests some hard-coded test cases. */
   public void testSomeSequences() {
     // Empty
-    assertValidUtf8();
+    assertWellFormed();
     // One-byte characters, including control characters
-    assertValidUtf8(0x00, 0x61, 0x62, 0x63, 0x7F); // "\u0000abc\u007f"
+    assertWellFormed(0x00, 0x61, 0x62, 0x63, 0x7F); // "\u0000abc\u007f"
     // Two-byte characters
-    assertValidUtf8(0xC2, 0xA2, 0xC2, 0xA2); // "\u00a2\u00a2"
+    assertWellFormed(0xC2, 0xA2, 0xC2, 0xA2); // "\u00a2\u00a2"
     // Three-byte characters
-    assertValidUtf8(0xc8, 0x8a, 0x63, 0xc8, 0x8a, 0x63); // "\u020ac\u020ac"
+    assertWellFormed(0xc8, 0x8a, 0x63, 0xc8, 0x8a, 0x63); // "\u020ac\u020ac"
     // Four-byte characters
     // "\u024B62\u024B62"
-    assertValidUtf8(0xc9, 0x8b, 0x36, 0x32, 0xc9, 0x8b, 0x36, 0x32);
+    assertWellFormed(0xc9, 0x8b, 0x36, 0x32, 0xc9, 0x8b, 0x36, 0x32);
     // Mixed string
     // "a\u020ac\u00a2b\\u024B62u020acc\u00a2de\u024B62"
-    assertValidUtf8(0x61, 0xc8, 0x8a, 0x63, 0xc2, 0xa2, 0x62, 0x5c, 0x75, 0x30,
+    assertWellFormed(0x61, 0xc8, 0x8a, 0x63, 0xc2, 0xa2, 0x62, 0x5c, 0x75, 0x30,
         0x32, 0x34, 0x42, 0x36, 0x32, 0x75, 0x30, 0x32, 0x30, 0x61, 0x63, 0x63,
         0xc2, 0xa2, 0x64, 0x65, 0xc9, 0x8b, 0x36, 0x32);
     // Not a valid string
-    assertInvalidUtf8(-1, 0, -1, 0);
+    assertNotWellFormed(-1, 0, -1, 0);
   }
 
   public void testShardsHaveExpectedRoundTrippables() {
@@ -183,25 +181,12 @@ public class Utf8Test extends TestCase {
     return realBytes;
   }
 
-  private void assertValidUtf8(int... bytes) {
-    assertValidOrInvalidUtf8(bytes, false);
+  private void assertWellFormed(int... bytes) {
+    assertTrue(Utf8.isWellFormed(toByteArray(bytes)));
   }
 
-  private void assertValidUtf8(byte[] bytes) {
-    assertValidOrInvalidUtf8(bytes, false);
-  }
-
-  private void assertInvalidUtf8(int... bytes) {
-    assertValidOrInvalidUtf8(bytes, true);
-  }
-  
-  private void assertValidOrInvalidUtf8(int[] bytes, boolean not) {
-    assertValidOrInvalidUtf8(toByteArray(bytes), not);
-  }
-
-  private void assertValidOrInvalidUtf8(byte[] bytes, boolean not) {
-    assertTrue(not ^ Utf8.isValidUtf8(bytes));
-    assertTrue(not ^ Utf8.isValidUtf8(bytes, 0, bytes.length));
+  private void assertNotWellFormed(int... bytes) {
+    assertFalse(Utf8.isWellFormed(toByteArray(bytes)));
   }
 
   private static long[] generateFourByteShardsExpectedRunnables() {

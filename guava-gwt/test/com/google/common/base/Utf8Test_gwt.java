@@ -18,9 +18,19 @@ public class Utf8Test_gwt extends com.google.gwt.junit.client.GWTTestCase {
 @Override public String getModuleName() {
   return "com.google.common.base.testModule";
 }
-public void testIsValidUtf8_4BytesSamples() throws Exception {
+public void testIsWellFormed_4BytesSamples() throws Exception {
   com.google.common.base.Utf8Test testCase = new com.google.common.base.Utf8Test();
-  testCase.testIsValidUtf8_4BytesSamples();
+  testCase.testIsWellFormed_4BytesSamples();
+}
+
+public void testLength_invalidStrings() throws Exception {
+  com.google.common.base.Utf8Test testCase = new com.google.common.base.Utf8Test();
+  testCase.testLength_invalidStrings();
+}
+
+public void testLength_validStrings() throws Exception {
+  com.google.common.base.Utf8Test testCase = new com.google.common.base.Utf8Test();
+  testCase.testLength_validStrings();
 }
 
 public void testShardsHaveExpectedRoundTrippables() throws Exception {
@@ -31,15 +41,5 @@ public void testShardsHaveExpectedRoundTrippables() throws Exception {
 public void testSomeSequences() throws Exception {
   com.google.common.base.Utf8Test testCase = new com.google.common.base.Utf8Test();
   testCase.testSomeSequences();
-}
-
-public void testUtf8Length_invalidStrings() throws Exception {
-  com.google.common.base.Utf8Test testCase = new com.google.common.base.Utf8Test();
-  testCase.testUtf8Length_invalidStrings();
-}
-
-public void testUtf8Length_validStrings() throws Exception {
-  com.google.common.base.Utf8Test testCase = new com.google.common.base.Utf8Test();
-  testCase.testUtf8Length_validStrings();
 }
 }
