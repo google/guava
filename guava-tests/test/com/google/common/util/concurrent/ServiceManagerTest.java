@@ -19,6 +19,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TestLogHandler;
@@ -28,8 +29,10 @@ import junit.framework.TestCase;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Formatter;
@@ -379,6 +382,150 @@ public class ServiceManagerTest extends TestCase {
     // this should be super fast since the only non stopped service is a NoOpService
     stoppingThread.join(1000);
     assertFalse("stopAsync has deadlocked!.", stoppingThread.isAlive());
+  }
+
+  /**
+   * Catches a bug where when constructing a service manager failed, later interactions with the
+   * service could cause IllegalStateExceptions inside the partially constructed ServiceManager.
+   * This ISE wouldn't actually bubble up but would get logged by ExecutionQueue.  This obfuscated
+   * the original error (which was not constructing ServiceManager correctly).
+   */
+  public void testPartiallyConstructedManager() {
+    Logger logger = Logger.getGlobal();
+    logger.setLevel(Level.FINEST);
+    TestLogHandler logHandler = new TestLogHandler();
+    logger.addHandler(logHandler);
+    NoOpService service = new NoOpService();
+    service.startAsync();
+    try {
+      new ServiceManager(Arrays.asList(service));
+      fail();
+    } catch (IllegalArgumentException expected) {}
+    service.stopAsync();
+    // Nothing was logged!
+    assertEquals(0, logHandler.getStoredLogRecords().size());
+  }
+
+  public void testPartiallyConstructedManager_transitionAfterAddListenerBeforeStateIsReady() {
+    // The implementation of this test is pretty sensitive to the implementation :( but we want to
+    // ensure that if weird things happen during construction then we get exceptions.
+    final NoOpService service1 = new NoOpService();
+    // This service will start service1 when addListener is called.  This simulates service1 being
+    // started asynchronously.
+    Service service2 = new Service() {
+      final NoOpService delegate = new NoOpService();
+      @Override public final void addListener(Listener listener, Executor executor) {
+        service1.startAsync();
+        delegate.addListener(listener, executor);
+      }
+      // Delegates from here on down
+      @Override public final Service startAsync() {
+        return delegate.startAsync();
+      }
+
+      @Override public final ListenableFuture<State> start() {
+        return delegate.start();
+      }
+
+      @Override public final Service stopAsync() {
+        return delegate.stopAsync();
+      }
+
+      @Override public final ListenableFuture<State> stop() {
+        return delegate.stop();
+      }
+
+      @Override public State startAndWait() {
+        return delegate.startAndWait();
+      }
+
+      @Override public State stopAndWait() {
+        return delegate.stopAndWait();
+      }
+
+      @Override public final void awaitRunning() {
+        delegate.awaitRunning();
+      }
+
+      @Override public final void awaitRunning(long timeout, TimeUnit unit)
+          throws TimeoutException {
+        delegate.awaitRunning(timeout, unit);
+      }
+
+      @Override public final void awaitTerminated() {
+        delegate.awaitTerminated();
+      }
+
+      @Override public final void awaitTerminated(long timeout, TimeUnit unit)
+          throws TimeoutException {
+        delegate.awaitTerminated(timeout, unit);
+      }
+
+      @Override public final boolean isRunning() {
+        return delegate.isRunning();
+      }
+
+      @Override public final State state() {
+        return delegate.state();
+      }
+
+      @Override public final Throwable failureCause() {
+        return delegate.failureCause();
+      }
+    };
+    try {
+      new ServiceManager(Arrays.asList(service1, service2));
+      fail();
+    } catch (IllegalArgumentException expected) {
+      assertTrue(expected.getMessage().contains("started transitioning asynchronously"));
+    }
+  }
+
+  /**
+   * This test is for a case where two Service.Listener callbacks for the same service would call
+   * transitionService in the wrong order due to a race.  Due to the fact that it is a race this
+   * test isn't guaranteed to expose the issue, but it is at least likely to become flaky if the
+   * race sneaks back in, and in this case flaky means something is definitely wrong.
+   *
+   * <p>Before the bug was fixed this test would fail at least 30% of the time.
+   */
+
+  public void testTransitionRace() throws TimeoutException {
+    for (int k = 0; k < 1000; k++) {
+      List<Service> services = Lists.newArrayList();
+      for (int i = 0; i < 5; i++) {
+        services.add(new SnappyShutdownService(i));
+      }
+      ServiceManager manager = new ServiceManager(services);
+      manager.startAsync().awaitHealthy();
+      manager.stopAsync().awaitStopped(1, TimeUnit.SECONDS);
+    }
+  }
+
+  /**
+   * This service will shutdown very quickly after stopAsync is called and uses a background thread
+   * so that we know that the stopping() listeners will execute on a different thread than the
+   * terminated() listeners.
+   */
+  private static class SnappyShutdownService extends AbstractExecutionThreadService {
+    final int index;
+    final CountDownLatch latch = new CountDownLatch(1);
+
+    SnappyShutdownService(int index) {
+      this.index = index;
+    }
+
+    @Override protected void run() throws Exception {
+      latch.await();
+    }
+
+    @Override protected void triggerShutdown() {
+      latch.countDown();
+    }
+
+    @Override protected String serviceName() {
+      return this.getClass().getSimpleName() + "[" + index + "]";
+    }
   }
 
   public void testNulls() {
