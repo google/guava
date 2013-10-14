@@ -29,36 +29,36 @@ import junit.framework.TestCase;
  */
 @GwtCompatible(emulated = true)
 public class Utf8Test extends TestCase {
-  public void testLength_validStrings() {
-    assertEquals(0, Utf8.length(""));
-    assertEquals(11, Utf8.length("Hello world"));
-    assertEquals(8, Utf8.length("Résumé"));
-    assertEquals(461, Utf8.length("威廉·莎士比亞（William Shakespeare，"
+  public void testEncodedLength_validStrings() {
+    assertEquals(0, Utf8.encodedLength(""));
+    assertEquals(11, Utf8.encodedLength("Hello world"));
+    assertEquals(8, Utf8.encodedLength("Résumé"));
+    assertEquals(461, Utf8.encodedLength("威廉·莎士比亞（William Shakespeare，"
         + "1564年4月26號—1616年4月23號[1]）係隻英國嗰演員、劇作家同詩人，"
         + "有時間佢簡稱莎翁；中國清末民初哈拕翻譯做舌克斯毕、沙斯皮耳、筛斯比耳、"
         + "莎基斯庇尔、索士比尔、夏克思芘尔、希哀苦皮阿、叶斯壁、沙克皮尔、"
         + "狹斯丕爾。[2]莎士比亞編寫過好多作品，佢嗰劇作響西洋文學好有影響，"
         + "哈都拕人翻譯做好多話。"));
     // A surrogate pair
-    assertEquals(4, Utf8.length(
+    assertEquals(4, Utf8.encodedLength(
         newString(Character.MIN_HIGH_SURROGATE, Character.MIN_LOW_SURROGATE)));
   }
   
-  public void testLength_invalidStrings() {
-    testLengthFails(newString(Character.MIN_HIGH_SURROGATE), 0);
-    testLengthFails("foobar" + newString(Character.MIN_HIGH_SURROGATE), 6);
-    testLengthFails(newString(Character.MIN_LOW_SURROGATE), 0);
-    testLengthFails("foobar" + newString(Character.MIN_LOW_SURROGATE), 6);
-    testLengthFails(
+  public void testEncodedLength_invalidStrings() {
+    testEncodedLengthFails(newString(Character.MIN_HIGH_SURROGATE), 0);
+    testEncodedLengthFails("foobar" + newString(Character.MIN_HIGH_SURROGATE), 6);
+    testEncodedLengthFails(newString(Character.MIN_LOW_SURROGATE), 0);
+    testEncodedLengthFails("foobar" + newString(Character.MIN_LOW_SURROGATE), 6);
+    testEncodedLengthFails(
         newString(
             Character.MIN_HIGH_SURROGATE,
             Character.MIN_HIGH_SURROGATE), 0);
   }
   
-  private static void testLengthFails(String invalidString,
+  private static void testEncodedLengthFails(String invalidString,
       int invalidCodePointIndex) {
     try {
-      Utf8.length(invalidString);
+      Utf8.encodedLength(invalidString);
       fail();
     } catch (IllegalArgumentException expected) {
       assertEquals("Unpaired surrogate at index " + invalidCodePointIndex,
