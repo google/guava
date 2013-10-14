@@ -79,10 +79,15 @@ public final class Floats {
    * directly; this method exists only for consistency with the other utilities
    * in this package.
    *
+   * <p><b>Note:</b> this method simply delegates to the JDK method {@link
+   * Float#compare}. It is provided for consistency with the other primitive
+   * types, whose compare methods were not added to the JDK until JDK 7.
+   *
    * @param a the first {@code float} to compare
    * @param b the second {@code float} to compare
    * @return the result of invoking {@link Float#compare(float, float)}
    */
+  // TODO(kevinb): if Ints.compare etc. are ever removed, remove this one too
   public static int compare(float a, float b) {
     return Float.compare(a, b);
   }

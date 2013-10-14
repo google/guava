@@ -82,11 +82,16 @@ public final class Doubles {
    * Double#compareTo compareTo}(b)</code>. As with that method, {@code NaN} is
    * treated as greater than all other values, and {@code 0.0 > -0.0}.
    *
+   * <p><b>Note:</b> this method simply delegates to the JDK method {@link
+   * Double#compare}. It is provided for consistency with the other primitive
+   * types, whose compare methods were not added to the JDK until JDK 7.
+   *
    * @param a the first {@code double} to compare
    * @param b the second {@code double} to compare
    * @return a negative value if {@code a} is less than {@code b}; a positive
    *     value if {@code a} is greater than {@code b}; or zero if they are equal
    */
+  // TODO(kevinb): if Ints.compare etc. are ever removed, remove this one too
   public static int compare(double a, double b) {
     return Double.compare(a, b);
   }

@@ -65,11 +65,15 @@ public final class Booleans {
    * ({@code false} is considered less than {@code true}). The sign of the
    * value returned is the same as that of {@code ((Boolean) a).compareTo(b)}.
    *
+   * <p><b>Note:</b> projects using JDK 7 or later should use the equivalent
+   * {@link Boolean#compare} method instead.
+   *
    * @param a the first {@code boolean} to compare
    * @param b the second {@code boolean} to compare
    * @return a positive number if only {@code a} is {@code true}, a negative
    *     number if only {@code b} is true, or zero if {@code a == b}
    */
+  // TODO(kevinb): if JDK 6 ever becomes a non-concern, remove this
   public static int compare(boolean a, boolean b) {
     return (a == b) ? 0 : (a ? 1 : -1);
   }
