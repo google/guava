@@ -70,7 +70,8 @@ public interface Service {
    *         {@link State#FAILED}. If it has already finished starting, {@link ListenableFuture#get}
    *         returns immediately. Cancelling this future has no effect on the service.
    */
-  @Deprecated ListenableFuture<State> start();
+  @Deprecated
+  ListenableFuture<State> start();
 
   /**
    * Initiates service startup (if necessary), returning once the service has finished starting.
@@ -82,7 +83,8 @@ public interface Service {
    * @throws UncheckedExecutionException if startup failed
    * @return the state of the service when startup finished.
    */
-  @Deprecated State startAndWait();
+  @Deprecated
+  State startAndWait();
 
   /**
    * If the service state is {@link State#NEW}, this initiates service startup and returns
@@ -122,7 +124,8 @@ public interface Service {
    *         {@link ListenableFuture#get} returns immediately. Cancelling this future has no effect
    *         on the service.
    */
-  @Deprecated ListenableFuture<State> stop();
+  @Deprecated
+  ListenableFuture<State> stop();
 
   /**
    * Initiates service shutdown (if necessary), returning once the service has finished stopping. If
@@ -135,7 +138,8 @@ public interface Service {
    * @throws UncheckedExecutionException if the service has failed or fails during shutdown
    * @return the state of the service when shutdown finished.
    */
-  @Deprecated State stopAndWait();
+  @Deprecated
+  State stopAndWait();
 
   /**
    * If the service is {@linkplain State#STARTING starting} or {@linkplain State#RUNNING running},
