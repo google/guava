@@ -47,9 +47,9 @@ public class AbstractIdleServiceTest extends TestCase {
 
     public void testServiceStartStop() throws Exception {
       AbstractIdleService service = new DefaultService();
-      assertEquals(Service.State.RUNNING, service.startAndWait());
+      service.startAsync().awaitRunning();
       assertEquals(Service.State.RUNNING, service.state());
-      assertEquals(Service.State.TERMINATED, service.stopAndWait());
+      service.stopAsync().awaitTerminated();
       assertEquals(Service.State.TERMINATED, service.state());
     }
 
@@ -61,7 +61,7 @@ public class AbstractIdleServiceTest extends TestCase {
         }
       };
       try {
-        service.startAndWait();
+        service.startAsync().awaitRunning();
         fail();
       } catch (RuntimeException e) {
         assertSame(exception, e.getCause());
@@ -76,9 +76,9 @@ public class AbstractIdleServiceTest extends TestCase {
           throw exception;
         }
       };
-      service.startAndWait();
+      service.startAsync().awaitRunning();
       try {
-        service.stopAndWait();
+        service.stopAsync().awaitTerminated();
         fail();
       } catch (RuntimeException e) {
         assertSame(exception, e.getCause());
@@ -90,7 +90,7 @@ public class AbstractIdleServiceTest extends TestCase {
   public void testStart() {
     TestService service = new TestService();
     assertEquals(0, service.startUpCalled);
-    service.startAndWait();
+    service.startAsync().awaitRunning();
     assertEquals(1, service.startUpCalled);
     assertEquals(Service.State.RUNNING, service.state());
     ASSERT.that(service.transitionStates).has().exactly(Service.State.STARTING).inOrder();
@@ -106,7 +106,7 @@ public class AbstractIdleServiceTest extends TestCase {
     };
     assertEquals(0, service.startUpCalled);
     try {
-      service.startAndWait();
+      service.startAsync().awaitRunning();
       fail();
     } catch (RuntimeException e) {
       assertSame(exception, e.getCause());
@@ -118,7 +118,7 @@ public class AbstractIdleServiceTest extends TestCase {
 
   public void testStop_withoutStart() {
     TestService service = new TestService();
-    service.stopAndWait();
+    service.stopAsync().awaitTerminated();
     assertEquals(0, service.startUpCalled);
     assertEquals(0, service.shutDownCalled);
     assertEquals(Service.State.TERMINATED, service.state());
@@ -127,10 +127,10 @@ public class AbstractIdleServiceTest extends TestCase {
 
   public void testStop_afterStart() {
     TestService service = new TestService();
-    service.startAndWait();
+    service.startAsync().awaitRunning();
     assertEquals(1, service.startUpCalled);
     assertEquals(0, service.shutDownCalled);
-    service.stopAndWait();
+    service.stopAsync().awaitTerminated();
     assertEquals(1, service.startUpCalled);
     assertEquals(1, service.shutDownCalled);
     assertEquals(Service.State.TERMINATED, service.state());
@@ -146,11 +146,11 @@ public class AbstractIdleServiceTest extends TestCase {
         throw exception;
       }
     };
-    service.startAndWait();
+    service.startAsync().awaitRunning();
     assertEquals(1, service.startUpCalled);
     assertEquals(0, service.shutDownCalled);
     try {
-      service.stopAndWait();
+      service.stopAsync().awaitTerminated();
       fail();
     } catch (RuntimeException e) {
       assertSame(exception, e.getCause());
@@ -165,9 +165,9 @@ public class AbstractIdleServiceTest extends TestCase {
   public void testServiceToString() {
     AbstractIdleService service = new TestService();
     assertEquals("TestService [NEW]", service.toString());
-    service.startAndWait();
+    service.startAsync().awaitRunning();
     assertEquals("TestService [RUNNING]", service.toString());
-    service.stopAndWait();
+    service.stopAsync().awaitTerminated();
     assertEquals("TestService [TERMINATED]", service.toString());
   }
 
@@ -181,7 +181,7 @@ public class AbstractIdleServiceTest extends TestCase {
       }
     };
     try {
-      service.start().get(1, TimeUnit.MILLISECONDS);
+      service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS);
       fail("Expected timeout");
     } catch (TimeoutException e) {
       ASSERT.that(e.getMessage()).contains(Service.State.STARTING.toString());
