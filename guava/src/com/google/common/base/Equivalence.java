@@ -143,7 +143,7 @@ public abstract class Equivalence<T> {
   /**
    * Returns a wrapper of {@code reference} that implements
    * {@link Wrapper#equals(Object) Object.equals()} such that
-   * {@code wrap(this, a).equals(wrap(this, b))} if and only if {@code this.equivalent(a, b)}.
+   * {@code wrap(a).equals(wrap(b))} if and only if {@code equivalent(a, b)}.
    * 
    * @since 10.0
    */
