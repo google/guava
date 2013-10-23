@@ -49,6 +49,9 @@ public class Utf8Benchmark {
           // Mostly 1-byte UTF-8 sequences, mixed with occasional 2-byte
           // sequences - "Western European" text
           return 0x90;
+        } else if (userFriendly.matches("(?i)(?:Branch.*Prediction.*Hostile)")) {
+          // Defeat branch predictor for: c < 0x80 ; branch taken 50% of the time.
+          return 0x100;
         } else if (userFriendly.matches("(?i)(?:Greek|Cyrillic|European|ISO.?8859)")) {
           // Mostly 2-byte UTF-8 sequences - "European" text
           return 0x800;
@@ -78,27 +81,38 @@ public class Utf8Benchmark {
    * performance models of different kinds of common human text.
    * @see MaxCodePoint#decode
    */
-  @Param({"0x80", "0x90", "0x800", "0x10000", "0x10ffff"}) MaxCodePoint maxCodePoint;
+  @Param({"0x80", "0x90", "0x100", "0x800", "0x10000", "0x10ffff"}) MaxCodePoint maxCodePoint;
 
-  @Param({"100"}) int byteArrayCount;
+  @Param({"100"}) int stringCount;
   @Param({"16384"}) int charCount;
+  private CharSequence[] seqs;  // actually, all StringBuilders
+  private String[] strings;
   private byte[][] byteArrays;
 
+  /**
+   * Compute arrays of valid unicode text, and store it in 3 forms:
+   * byte arrays, Strings, and StringBuilders (in a CharSequence[] to
+   * make it a little harder for the JVM).
+   */
   @BeforeExperiment void setUp() {
     final long seed = 99;
     final Random rnd = new Random(seed);
-    byteArrays = new byte[byteArrayCount][];
-    for (int i = 0; i < byteArrayCount; i++) {
+    seqs = new CharSequence[stringCount];
+    strings = new String[stringCount];
+    byteArrays = new byte[stringCount][];
+    for (int i = 0; i < stringCount; i++) {
       StringBuilder sb = new StringBuilder();
       for (int j = 0; j < charCount; j++) {
         int codePoint;
+        // discard illegal surrogate "codepoints"
         do {
           codePoint = rnd.nextInt(maxCodePoint.value);
         } while (isSurrogate(codePoint));
         sb.appendCodePoint(codePoint);
       }
-      byte[] bytes = sb.toString().getBytes(Charsets.UTF_8);
-      byteArrays[i] = bytes;
+      seqs[i] = sb;
+      strings[i] = sb.toString();
+      byteArrays[i] = strings[i].getBytes(Charsets.UTF_8);
     }
   }
 
@@ -113,6 +127,38 @@ public class Utf8Benchmark {
       for (byte[] byteArray : byteArrays) {
         if (!Utf8.isWellFormed(byteArray)) {
           throw new Error("unexpected invalid UTF-8");
+        }
+      }
+    }
+  }
+
+  /**
+   * Benchmarks {@link Utf8#length} on valid strings containing
+   * pseudo-randomly-generated codePoints less than {@code
+   * maxCodePoint}.  A constant seed is used, so separate runs perform
+   * identical computations.
+   */
+  @Benchmark void lengthOfString(int reps) {
+    for (int i = 0; i < reps; i++) {
+      for (String string : strings) {
+        if (Utf8.encodedLength(string) == 1237482374) {
+          throw new Error("Unlikely! We're just defeating the optimizer!");
+        }
+      }
+    }
+  }
+
+  /**
+   * Benchmarks {@link Utf8#length} on valid StringBuilders containing
+   * pseudo-randomly-generated codePoints less than {@code
+   * maxCodePoint}.  A constant seed is used, so separate runs perform
+   * identical computations.
+   */
+  @Benchmark void lengthOfStringBuilder(int reps) {
+    for (int i = 0; i < reps; i++) {
+      for (CharSequence seq : seqs) {
+        if (Utf8.encodedLength(seq) == 1237482374) {
+          throw new Error("Unlikely! We're just defeating the optimizer!");
         }
       }
     }
