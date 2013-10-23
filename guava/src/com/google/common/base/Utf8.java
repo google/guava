@@ -46,25 +46,26 @@ public final class Utf8 {
    *     surrogates)
    */
   public static int encodedLength(CharSequence sequence) {
-    long utf8Length = 0;
-    for (int charIndex = 0; charIndex < sequence.length(); charIndex++) {
-      char c = sequence.charAt(charIndex);
-      // From http://en.wikipedia.org/wiki/UTF-8#Description
+    int utf16Length = sequence.length();
+    long utf8Length = utf16Length;  // Optimize for runs of ASCII
+    for (int i = 0; i < utf16Length; i++) {
+      char c = sequence.charAt(i);
       if (c < 0x80) {
-        utf8Length += 1;
+        // already counted
       } else if (c < 0x800) {
-        utf8Length += 2;
-      } else if (c < Character.MIN_SURROGATE || Character.MAX_SURROGATE < c) {
-        utf8Length += 3;
+        utf8Length += 1;
       } else {
-        // Expect a surrogate pair.
-        int cp = Character.codePointAt(sequence, charIndex);
-        if (cp < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
-          // The pair starts with a low surrogate, or no character follows the high surrogate.
-          throw new IllegalArgumentException("Unpaired surrogate at index " + charIndex);
+        utf8Length += 2;
+        // jdk7+: if (Character.isSurrogate(c)) {
+        if (Character.MIN_SURROGATE <= c && c <= Character.MAX_SURROGATE) {
+          // Expect a surrogate pair.
+          int cp = Character.codePointAt(sequence, i);
+          if (cp < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
+            // The pair starts with a low surrogate, or no character follows the high surrogate.
+            throw new IllegalArgumentException("Unpaired surrogate at index " + i);
+          }
+          i++;
         }
-        utf8Length += 4;
-        charIndex++;
       }
     }
     // return Ints.checkedCast(utf8Length);
