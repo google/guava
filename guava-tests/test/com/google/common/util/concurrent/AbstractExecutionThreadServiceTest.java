@@ -198,9 +198,14 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
   public void testServiceThrowOnRun() throws Exception {
     ThrowOnRunService service = new ThrowOnRunService();
 
-    service.startAsync().awaitRunning();
-
-    executionThread.join();
+    service.startAsync();
+    try {
+      service.awaitTerminated();
+      fail();
+    } catch (IllegalStateException expected) {
+      executionThread.join();
+      assertEquals(thrownByExecutionThread, expected.getCause());
+    }
     assertTrue(service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
     assertEquals("kaboom!", thrownByExecutionThread.getMessage());
@@ -210,8 +215,14 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     ThrowOnRunService service = new ThrowOnRunService();
     service.throwOnShutDown = true;
 
-    service.startAsync().awaitRunning();
-    executionThread.join();
+    service.startAsync();
+    try {
+      service.awaitTerminated();
+      fail();
+    } catch (IllegalStateException expected) {
+      executionThread.join();
+      assertEquals(thrownByExecutionThread, expected.getCause());
+    }
 
     assertTrue(service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
