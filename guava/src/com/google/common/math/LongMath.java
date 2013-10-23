@@ -399,7 +399,7 @@ public final class LongMath {
 
   /**
    * Returns {@code x mod m}. This differs from {@code x % m} in that it always returns a
-   * non-negative result.
+   * non-negative result less than m.
    *
    * <p>For example:
    *
@@ -421,7 +421,7 @@ public final class LongMath {
 
   /**
    * Returns {@code x mod m}. This differs from {@code x % m} in that it always returns a
-   * non-negative result.
+   * non-negative result less than m.
    *
    * <p>For example:
    *
