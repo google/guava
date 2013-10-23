@@ -87,4 +87,9 @@ public void testTrimTrailingFrom() throws Exception {
   com.google.common.base.CharMatcherTest testCase = new com.google.common.base.CharMatcherTest();
   testCase.testTrimTrailingFrom();
 }
+
+public void testWhitespaceBreakingWhitespaceSubset() throws Exception {
+  com.google.common.base.CharMatcherTest testCase = new com.google.common.base.CharMatcherTest();
+  testCase.testWhitespaceBreakingWhitespaceSubset();
+}
 }

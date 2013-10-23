@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.CharMatcher.BREAKING_WHITESPACE;
+import static com.google.common.base.CharMatcher.WHITESPACE;
 import static com.google.common.base.CharMatcher.anyOf;
 import static com.google.common.base.CharMatcher.forPredicate;
 import static com.google.common.base.CharMatcher.inRange;
@@ -66,6 +68,14 @@ public class CharMatcherTest extends TestCase {
 
   // The rest of the behavior of ANY and DEFAULT will be covered in the tests for
   // the text processing methods below.
+
+  public void testWhitespaceBreakingWhitespaceSubset() throws Exception {
+    for (int c = 0; c <= Character.MAX_VALUE; c++) {
+      if (BREAKING_WHITESPACE.apply((char) c)) {
+        assertTrue(Integer.toHexString(c), WHITESPACE.apply((char) c));
+      }
+    }
+  }
 
   // The next tests require ICU4J and have, at least for now, been sliced out
   // of the open-source view of the tests.
