@@ -231,7 +231,7 @@ public final class Predicates {
       }
     };
 
-    @SuppressWarnings("unchecked") // these Object predicates work for any T
+    @SuppressWarnings("unchecked") // safe contravariant cast
     <T> Predicate<T> withNarrowedType() {
       return (Predicate<T>) this;
     }
@@ -434,9 +434,9 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  @SuppressWarnings("unchecked")
   private static <T> List<Predicate<? super T>> asList(
       Predicate<? super T> first, Predicate<? super T> second) {
+    // TODO(kevinb): understand why we still get a warning despite @SafeVarargs!
     return Arrays.<Predicate<? super T>>asList(first, second);
   }
 

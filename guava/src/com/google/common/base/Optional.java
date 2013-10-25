@@ -74,9 +74,8 @@ public abstract class Optional<T> implements Serializable {
   /**
    * Returns an {@code Optional} instance with no contained reference.
    */
-  @SuppressWarnings("unchecked")
   public static <T> Optional<T> absent() {
-    return (Optional<T>) Absent.INSTANCE;
+    return Absent.withType();
   }
 
   /**

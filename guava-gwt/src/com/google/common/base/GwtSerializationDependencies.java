@@ -32,8 +32,6 @@ import javax.annotation.Nullable;
  * @author Chris Povirk
  */
 @GwtCompatible
-// None of these classes are instantiated, let alone serialized:
-@SuppressWarnings("serial")
 final class GwtSerializationDependencies {
   private GwtSerializationDependencies() {}
 

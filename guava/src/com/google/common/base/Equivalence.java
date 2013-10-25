@@ -191,20 +191,21 @@ public abstract class Equivalence<T> {
     @Override public boolean equals(@Nullable Object obj) {
       if (obj == this) {
         return true;
-      } else if (obj instanceof Wrapper) {
-        Wrapper<?> that = (Wrapper<?>) obj;
-        /*
-         * We cast to Equivalence<Object> here because we can't check the type of the reference held
-         * by the other wrapper.  But, by checking that the Equivalences are equal, we know that
-         * whatever type it is, it is assignable to the type handled by this wrapper's equivalence.
-         */
-        @SuppressWarnings("unchecked")
-        Equivalence<Object> equivalence = (Equivalence<Object>) this.equivalence;
-        return equivalence.equals(that.equivalence)
-            && equivalence.equivalent(this.reference, that.reference);
-      } else {
-        return false;
       }
+      if (obj instanceof Wrapper) {
+        Wrapper<?> that = (Wrapper<?>) obj; // note: not necessarily a Wrapper<T>
+
+        if (this.equivalence.equals(that.equivalence)) {
+          /*
+           * We'll accept that as sufficient "proof" that either equivalence should be able to
+           * handle either reference, so it's safe to circumvent compile-time type checking.
+           */
+          @SuppressWarnings("unchecked")
+          Equivalence<Object> equivalence = (Equivalence<Object>) this.equivalence;
+          return equivalence.equivalent(this.reference, that.reference);
+        }
+      }
+      return false;
     }
 
     /**

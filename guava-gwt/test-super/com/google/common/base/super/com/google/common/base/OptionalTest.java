@@ -261,26 +261,32 @@ public final class OptionalTest extends TestCase {
    * mentioned in the method Javadoc does in fact compile.
    */
 
+  @SuppressWarnings("unused") // compilation test
   public void testSampleCodeError1() {
     Optional<Integer> optionalInt = getSomeOptionalInt();
     // Number value = optionalInt.or(0.5); // error
   }
 
+  @SuppressWarnings("unused") // compilation test
   public void testSampleCodeError2() {
     FluentIterable<? extends Number> numbers = getSomeNumbers();
     Optional<? extends Number> first = numbers.first();
     // Number value = first.or(0.5); // error
   }
 
-  @SuppressWarnings("unchecked") // safe covariant cast
+  @SuppressWarnings("unused") // compilation test
   public void testSampleCodeFine1() {
-    Optional<Number> optionalInt = (Optional) getSomeOptionalInt();
+    Optional<Number> optionalInt = Optional.of((Number) 1);
     Number value = optionalInt.or(0.5); // fine
   }
 
-  @SuppressWarnings("unchecked") // safe covariant cast
+  @SuppressWarnings("unused") // compilation test
   public void testSampleCodeFine2() {
     FluentIterable<? extends Number> numbers = getSomeNumbers();
+
+    // Sadly, the following is what users will have to do in some circumstances.
+
+    @SuppressWarnings("unchecked") // safe covariant cast
     Optional<Number> first = (Optional) numbers.first();
     Number value = first.or(0.5); // fine
   }

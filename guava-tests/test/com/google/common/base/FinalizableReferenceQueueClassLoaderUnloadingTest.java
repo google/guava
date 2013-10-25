@@ -107,19 +107,15 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
     // Now make a parallel FRQ and an associated FinalizableWeakReference to an object, in order to
     // exercise some classes from the parallel ClassLoader.
     AtomicReference<Object> sepFrqA = new AtomicReference<Object>(sepFrqC.newInstance());
-    @SuppressWarnings("unchecked")
-    Class<? extends WeakReference<?>> sepFwrC = (Class<? extends WeakReference<?>>)
-        sepLoader.loadClass(MyFinalizableWeakReference.class.getName());
-    Constructor<? extends WeakReference<?>> sepFwrCons =
-        sepFwrC.getConstructor(Object.class, sepFrqC);
+    Class<?> sepFwrC = sepLoader.loadClass(MyFinalizableWeakReference.class.getName());
+    Constructor<?> sepFwrCons = sepFwrC.getConstructor(Object.class, sepFrqC);
     // The object that we will wrap in FinalizableWeakReference is a Stopwatch.
     Class<?> sepStopwatchC = sepLoader.loadClass(Stopwatch.class.getName());
     assertSame(sepLoader, sepStopwatchC.getClassLoader());
     AtomicReference<Object> sepStopwatchA =
         new AtomicReference<Object>(sepStopwatchC.newInstance());
-    AtomicReference<WeakReference<?>> sepStopwatchRef =
-        new AtomicReference<WeakReference<?>>(
-            sepFwrCons.newInstance(sepStopwatchA.get(), sepFrqA.get()));
+    AtomicReference<WeakReference<?>> sepStopwatchRef = new AtomicReference<WeakReference<?>>(
+        (WeakReference<?>) sepFwrCons.newInstance(sepStopwatchA.get(), sepFrqA.get()));
     assertNotNull(sepStopwatchA.get());
     // Clear all references to the Stopwatch and wait for it to be gc'd.
     sepStopwatchA.set(null);
@@ -225,10 +221,8 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
     assertNotSame(frqUserC, sepFrqUserC);
     assertSame(sepLoader, sepFrqUserC.getClassLoader());
 
-    @SuppressWarnings("unchecked")
-    Callable<WeakReference<Object>> sepFrqUser =
-        (Callable<WeakReference<Object>>) sepFrqUserC.newInstance();
-    WeakReference<Object> finalizableWeakReference = sepFrqUser.call();
+    Callable<?> sepFrqUser = (Callable<?>) sepFrqUserC.newInstance();
+    WeakReference<?> finalizableWeakReference = (WeakReference<?>) sepFrqUser.call();
 
     GcFinalization.awaitClear(finalizableWeakReference);
 

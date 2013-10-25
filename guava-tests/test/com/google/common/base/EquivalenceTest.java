@@ -34,8 +34,7 @@ import junit.framework.TestCase;
  */
 @GwtCompatible(emulated = true)
 public class EquivalenceTest extends TestCase {
-
-  @SuppressWarnings("unchecked") // Iterable<String>...
+  @SuppressWarnings("unchecked") // varargs
   public void testPairwiseEquivalent() {
     EquivalenceTester.of(Equivalence.equals().<String>pairwise())
         .addEquivalenceGroup(ImmutableList.<String>of())

@@ -34,6 +34,7 @@ public final class Defaults {
   private static final Map<Class<?>, Object> DEFAULTS;
 
   static {
+    // Only add to this map via put(Map, Class<T>, T)
     Map<Class<?>, Object> map = new HashMap<Class<?>, Object>();
     put(map, boolean.class, false);
     put(map, char.class, '\0');
@@ -55,8 +56,10 @@ public final class Defaults {
    * false} for {@code boolean} and {@code '\0'} for {@code char}. For non-primitive types and
    * {@code void}, null is returned.
    */
-  @SuppressWarnings("unchecked")
   public static <T> T defaultValue(Class<T> type) {
-    return (T) DEFAULTS.get(checkNotNull(type));
+    // Primitives.wrap(type).cast(...) would avoid the warning, but we can't use that from here
+    @SuppressWarnings("unchecked") // the put method enforces this key-value relationship
+    T t = (T) DEFAULTS.get(checkNotNull(type));
+    return t;
   }
 }

@@ -297,7 +297,7 @@ public class JoinerTest extends TestCase {
     assertEquals("1:2;1:3;3:4;5:6;5:10", sb2.toString());
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
+  @SuppressWarnings("ReturnValueIgnored") // testing for exception
   public void test_skipNulls_onMap() {
     Joiner j = Joiner.on(",").skipNulls();
     try {

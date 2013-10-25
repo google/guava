@@ -74,6 +74,7 @@ public final class Functions {
   /**
    * Returns the identity function.
    */
+  // implementation is "fully variant"; E has become a "pass-through" type
   @SuppressWarnings("unchecked")
   public static <E> Function<E, E> identity() {
     return (Function<E, E>) IdentityFunction.INSTANCE;

@@ -636,7 +636,7 @@ public class SplitterTest extends TestCase {
     ASSERT.that(items).isEmpty();
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
+  @SuppressWarnings("ReturnValueIgnored") // testing for exception
   public void testInvalidZeroLimit() {
     try {
       COMMA_SPLITTER.limit(0);
@@ -725,7 +725,7 @@ public class SplitterTest extends TestCase {
     ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
+  @SuppressWarnings("ReturnValueIgnored") // testing for exception
   public void testMapSplitter_emptySeparator() {
     try {
       COMMA_SPLITTER.withKeyValueSeparator("");
