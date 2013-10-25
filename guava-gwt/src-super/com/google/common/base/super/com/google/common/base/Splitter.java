@@ -173,12 +173,12 @@ public final class Splitter {
           Splitter splitter, CharSequence toSplit) {
         return new SplittingIterator(splitter, toSplit) {
           @Override public int separatorStart(int start) {
-            int delimeterLength = separator.length();
+            int separatorLength = separator.length();
 
             positions:
-            for (int p = start, last = toSplit.length() - delimeterLength;
+            for (int p = start, last = toSplit.length() - separatorLength;
                 p <= last; p++) {
-              for (int i = 0; i < delimeterLength; i++) {
+              for (int i = 0; i < separatorLength; i++) {
                 if (toSplit.charAt(i + p) != separator.charAt(i)) {
                   continue positions;
                 }
