@@ -271,13 +271,13 @@ public final class InternetDomainNameTest extends TestCase {
   public void testParent() {
     assertEquals(
         "com",
-        InternetDomainName.from("google.com").parent().name());
+        InternetDomainName.from("google.com").parent().toString());
     assertEquals(
         "uk",
-        InternetDomainName.from("co.uk").parent().name());
+        InternetDomainName.from("co.uk").parent().toString());
     assertEquals(
         "google.com",
-        InternetDomainName.from("www.google.com").parent().name());
+        InternetDomainName.from("www.google.com").parent().toString());
 
     try {
       InternetDomainName.from("com").parent();
@@ -289,7 +289,7 @@ public final class InternetDomainNameTest extends TestCase {
   public void testChild() {
     InternetDomainName domain = InternetDomainName.from("foo.com");
 
-    assertEquals("www.foo.com", domain.child("www").name());
+    assertEquals("www.foo.com", domain.child("www").toString());
 
     try {
       domain.child("www.");
@@ -302,7 +302,7 @@ public final class InternetDomainNameTest extends TestCase {
   public void testParentChild() {
     InternetDomainName origin = InternetDomainName.from("foo.com");
     InternetDomainName parent = origin.parent();
-    assertEquals("com", parent.name());
+    assertEquals("com", parent.toString());
 
     // These would throw an exception if leniency were not preserved during parent() and child()
     // calls.
@@ -365,14 +365,14 @@ public final class InternetDomainNameTest extends TestCase {
         expectedName = expectedName.substring(0, expectedName.length() - 1);
       }
 
-      assertEquals(expectedName, domain.name());
+      assertEquals(expectedName, domain.toString());
     }
   }
 
   public void testExclusion() {
     InternetDomainName domain = InternetDomainName.from("foo.nic.uk");
     assertTrue(domain.hasPublicSuffix());
-    assertEquals("uk", domain.publicSuffix().name());
+    assertEquals("uk", domain.publicSuffix().toString());
 
     // Behold the weirdness!
     assertFalse(domain.publicSuffix().isPublicSuffix());
@@ -384,8 +384,8 @@ public final class InternetDomainNameTest extends TestCase {
 
     InternetDomainName domain = InternetDomainName.from("www.essex.sch.uk");
     assertTrue(domain.hasPublicSuffix());
-    assertEquals("essex.sch.uk", domain.publicSuffix().name());
-    assertEquals("www.essex.sch.uk", domain.topPrivateDomain().name());
+    assertEquals("essex.sch.uk", domain.publicSuffix().toString());
+    assertEquals("www.essex.sch.uk", domain.topPrivateDomain().toString());
   }
 
   public void testEquality() {

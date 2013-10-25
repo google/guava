@@ -100,7 +100,7 @@ public final class HostSpecifier {
     final InternetDomainName domain = InternetDomainName.from(host);
 
     if (domain.hasPublicSuffix()) {
-      return new HostSpecifier(domain.name());
+      return new HostSpecifier(domain.toString());
     }
 
     throw new IllegalArgumentException(
