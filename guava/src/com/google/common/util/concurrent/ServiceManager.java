@@ -191,6 +191,8 @@ public final class ServiceManager {
     }
     this.state = new ServiceManagerState(copy);
     this.services = copy;
+    WeakReference<ServiceManagerState> stateReference = 
+        new WeakReference<ServiceManagerState>(state);
     for (Service service : copy) {
       // We give each listener its own SynchronizedExecutor to ensure that the state transitions
       // are run in the same order that they occur.  The Service.Listener api guarantees us only
@@ -200,7 +202,7 @@ public final class ServiceManager {
       //
       // This is necessary to prevent transitions being played back in the wrong order due to thread
       // races to acquire the monitor in ServiceManagerState.
-      service.addListener(new ServiceListener(service, state), new SynchronizedExecutor());
+      service.addListener(new ServiceListener(service, stateReference), new SynchronizedExecutor());
       // We check the state after adding the listener as a way to ensure that our listener was added
       // to a NEW service.
       checkArgument(service.state() == NEW, "Can only manage NEW services, %s", service);
@@ -739,13 +741,15 @@ public final class ServiceManager {
     // constructing the ServiceManager we don't pointlessly keep updating the state.
     final WeakReference<ServiceManagerState> state;
     
-    ServiceListener(Service service, ServiceManagerState state) {
+    ServiceListener(Service service, WeakReference<ServiceManagerState> state) {
       this.service = service;
-      this.state = new WeakReference<ServiceManagerState>(state);
+      this.state = state;
     }
     
     @Override public void starting() {
-      if (maybeTransition(NEW, STARTING)) {
+      ServiceManagerState state = this.state.get();
+      if (state != null) {
+        state.transitionService(service, NEW, STARTING);
         if (!(service instanceof NoOpService)) {
           logger.log(Level.FINE, "Starting {0}.", service);
         }
@@ -753,36 +757,41 @@ public final class ServiceManager {
     }
 
     @Override public void running() {
-      maybeTransition(STARTING, RUNNING);
+      ServiceManagerState state = this.state.get();
+      if (state != null) {
+        state.transitionService(service, STARTING, RUNNING);
+      }
     }
     
     @Override public void stopping(State from) {
-      maybeTransition(from, STOPPING);
+      ServiceManagerState state = this.state.get();
+      if (state != null) {
+        state.transitionService(service, from, STOPPING);
+      }
     }
     
     @Override public void terminated(State from) {
-      if (maybeTransition(from, TERMINATED)) {
+      ServiceManagerState state = this.state.get();
+      if (state != null) {
         if (!(service instanceof NoOpService)) {
           logger.log(Level.FINE, "Service {0} has terminated. Previous state was: {1}", 
               new Object[] {service, from});
         }
+        state.transitionService(service, from, TERMINATED);
       }
     }
     
     @Override public void failed(State from, Throwable failure) {
-      if (maybeTransition(from, FAILED)) {
-        logger.log(Level.SEVERE, "Service " + service + " has failed in the " + from + " state.", 
-            failure);
-      }
-    }
-    
-    boolean maybeTransition(State from, State to) {
       ServiceManagerState state = this.state.get();
       if (state != null) {
-        state.transitionService(service, from, to);
-        return true;
+        // Log before the transition, so that if the process exits in response to server failure,
+        // there is a higher likelihood that the cause will be in the logs.
+        if (!(service instanceof NoOpService)) {
+          logger.log(Level.SEVERE, "Service " + service + " has failed in the " + from + " state.",
+              failure);
+        }
+        state.transitionService(service, from, FAILED);
       }
-      return false;
     }
   }
   
