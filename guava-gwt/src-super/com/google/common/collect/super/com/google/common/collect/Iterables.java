@@ -112,8 +112,7 @@ public final class Iterables {
    * Returns {@code true} if {@code iterable} contains any object for which {@code equals(element)}
    * is true.
    */
-  public static boolean contains(Iterable<?> iterable, @Nullable Object element)
-  {
+  public static boolean contains(Iterable<?> iterable, @Nullable Object element) {
     if (iterable instanceof Collection) {
       Collection<?> collection = (Collection<?>) iterable;
       return Collections2.safeContains(collection, element);
