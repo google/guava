@@ -79,11 +79,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return copyOf(all.iterator());
   }
 
-  /** @deprecated */
-  @Deprecated public static <E> ImmutableSet<E> of(E[] elements) {
-    return copyOf(elements);
-  }
-
   public static <E> ImmutableSet<E> copyOf(E[] elements) {
     checkNotNull(elements);
     switch (elements.length) {

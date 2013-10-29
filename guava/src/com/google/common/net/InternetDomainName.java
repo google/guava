@@ -58,7 +58,7 @@ import javax.annotation.Nullable;
  * <li>Unicode dot separators other than the ASCII period ({@code '.'}) are
  * converted to the ASCII period.
  * </ol>
- * <p>The normalized values will be returned from {@link #name()} and
+ * <p>The normalized values will be returned from {@link #toString()} and
  * {@link #parts()}, and will be reflected in the result of
  * {@link #equals(Object)}.
  *
@@ -189,20 +189,6 @@ public final class InternetDomainName {
   }
 
   /**
-   * A deprecated synonym for {@link #from(String)}.
-   *
-   * @param domain A domain name (not IP address)
-   * @throws IllegalArgumentException if {@code name} is not syntactically valid
-   *     according to {@link #isValid}
-   * @since 8.0 (previously named {@code from})
-   * @deprecated Use {@link #from(String)}
-   */
-  @Deprecated
-  public static InternetDomainName fromLenient(String domain) {
-    return from(domain);
-  }
-
-  /**
    * Returns an instance of {@link InternetDomainName} after lenient
    * validation.  Specifically, validation against <a
    * href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
@@ -309,16 +295,6 @@ public final class InternetDomainName {
     }
 
     return true;
-  }
-
-  /**
-   * A deprecated synonym for {@link #toString()}.
-   *
-   * @deprecated Use {@link #toString()}
-   */
-  @Deprecated
-  public String name() {
-    return toString();
   }
 
   /**
