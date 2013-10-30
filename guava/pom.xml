@@ -15,18 +15,13 @@
     utility classes, google's collections, io classes, and much
     much more.
 
-    Guava has two code dependencies - javax.annotation
-    per the JSR-305 spec and javax.inject per the JSR-330 spec.
+    Guava has only one code dependency - javax.annotation,
+    per the JSR-305 spec.
   </description>
   <dependencies>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
-      <optional>true</optional><!-- needed only for annotations -->
-    </dependency>
-    <dependency>
-      <groupId>javax.inject</groupId>
-      <artifactId>javax.inject</artifactId>
       <optional>true</optional><!-- needed only for annotations -->
     </dependency>
     <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
