@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
@@ -1600,7 +1600,7 @@ public final class Multimaps {
     }
 
     @Override public int remove(@Nullable Object element, int occurrences) {
-      checkArgument(occurrences >= 0);
+      checkNonnegative(occurrences, "occurrences");
       if (occurrences == 0) {
         return count(element);
       }

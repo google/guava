@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
@@ -238,7 +239,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
   @Override
   public int add(@Nullable E element, int occurrences) {
-    checkArgument(occurrences >= 0, "occurrences must be >= 0 but was %s", occurrences);
+    checkNonnegative(occurrences, "occurrences");
     if (occurrences == 0) {
       return count(element);
     }
@@ -259,7 +260,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
   @Override
   public int remove(@Nullable Object element, int occurrences) {
-    checkArgument(occurrences >= 0, "occurrences must be >= 0 but was %s", occurrences);
+    checkNonnegative(occurrences, "occurrences");
     if (occurrences == 0) {
       return count(element);
     }
@@ -284,7 +285,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
   @Override
   public int setCount(@Nullable E element, int count) {
-    checkArgument(count >= 0);
+    checkNonnegative(count, "count");
     if (!range.contains(element)) {
       checkArgument(count == 0);
       return 0;
@@ -305,8 +306,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
   @Override
   public boolean setCount(@Nullable E element, int oldCount, int newCount) {
-    checkArgument(newCount >= 0);
-    checkArgument(oldCount >= 0);
+    checkNonnegative(newCount, "newCount");
+    checkNonnegative(oldCount, "oldCount");
     checkArgument(range.contains(element));
 
     AvlNode<E> root = rootReference.get();

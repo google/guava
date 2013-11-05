@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
@@ -105,7 +106,7 @@ public final class Lists {
   }
 
   @VisibleForTesting static int computeArrayListCapacity(int arraySize) {
-    checkArgument(arraySize >= 0);
+    checkNonnegative(arraySize, "arraySize");
 
     // TODO(kevinb): Figure out the right behavior, and document it
     return Ints.saturatedCast(5L + arraySize + (arraySize / 10));
@@ -170,7 +171,7 @@ public final class Lists {
   @GwtCompatible(serializable = true)
   public static <E> ArrayList<E> newArrayListWithCapacity(
       int initialArraySize) {
-    checkArgument(initialArraySize >= 0);  // for GWT.
+    checkNonnegative(initialArraySize, "initialArraySize"); // for GWT.
     return new ArrayList<E>(initialArraySize);
   }
 

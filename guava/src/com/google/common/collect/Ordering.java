@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -644,7 +644,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   public <E extends T> List<E> leastOf(Iterator<E> elements, int k) {
     checkNotNull(elements);
-    checkArgument(k >= 0, "k (%s) must be nonnegative", k);
+    checkNonnegative(k, "k");
 
     if (k == 0 || !elements.hasNext()) {
       return ImmutableList.of();

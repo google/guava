@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
@@ -224,9 +224,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
 
   private LinkedHashMultimap(int keyCapacity, int valueSetCapacity) {
     super(new LinkedHashMap<K, Collection<V>>(keyCapacity));
-
-    checkArgument(valueSetCapacity >= 0,
-        "expectedValuesPerKey must be >= 0 but was %s", valueSetCapacity);
+    checkNonnegative(valueSetCapacity, "expectedValuesPerKey");
 
     this.valueSetCapacity = valueSetCapacity;
     this.multimapHeaderEntry = new ValueEntry<K, V>(null, null, 0, null);

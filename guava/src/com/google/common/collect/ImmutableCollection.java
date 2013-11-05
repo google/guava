@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -318,7 +318,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
     int size;
     
     ArrayBasedBuilder(int initialCapacity) {
-      checkArgument(initialCapacity >= 0, "capacity must be >= 0 but was %s", initialCapacity);
+      checkNonnegative(initialCapacity, "initialCapacity");
       this.contents = new Object[initialCapacity];
       this.size = 0;
     }

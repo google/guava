@@ -220,7 +220,7 @@ public final class Multisets {
     ImmutableEntry(@Nullable E element, int count) {
       this.element = element;
       this.count = count;
-      checkArgument(count >= 0);
+      checkNonnegative(count, "count");
     }
 
     @Override

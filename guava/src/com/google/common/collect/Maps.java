@@ -22,6 +22,7 @@ import static com.google.common.base.Predicates.compose;
 import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -200,7 +201,7 @@ public final class Maps {
    */
   static int capacity(int expectedSize) {
     if (expectedSize < 3) {
-      checkArgument(expectedSize >= 0);
+      checkNonnegative(expectedSize, "expectedSize");
       return expectedSize + 1;
     }
     if (expectedSize < Ints.MAX_POWER_OF_TWO) {
