@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.primitives.Primitives;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -31,8 +32,10 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0 (imported from Google Collections Library)
  */
-public final class ImmutableClassToInstanceMap<B> extends
-    ForwardingMap<Class<? extends B>, B> implements ClassToInstanceMap<B> {
+public final class ImmutableClassToInstanceMap<B> 
+    extends ForwardingMap<Class<? extends B>, B> 
+    implements ClassToInstanceMap<B>, Serializable {
+  
   /**
    * Returns a new builder. The generated builder is equivalent to the builder
    * created by the {@link Builder} constructor.
