@@ -28,11 +28,6 @@ public void testEncodedLength_validStrings() throws Exception {
   testCase.testEncodedLength_validStrings();
 }
 
-public void testEncodedLength_validStrings2() throws Exception {
-  com.google.common.base.Utf8Test testCase = new com.google.common.base.Utf8Test();
-  testCase.testEncodedLength_validStrings2();
-}
-
 public void testIsWellFormed_4BytesSamples() throws Exception {
   com.google.common.base.Utf8Test testCase = new com.google.common.base.Utf8Test();
   testCase.testIsWellFormed_4BytesSamples();
