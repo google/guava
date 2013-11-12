@@ -140,7 +140,7 @@ public abstract class ForwardingTestCase extends TestCase {
         }
       } catch (Throwable cause) {
         throw new InvocationTargetException(cause,
-            method.toString() + " with args: " + Arrays.toString(parameters));
+            method + " with args: " + Arrays.toString(parameters));
       }
     }
   }

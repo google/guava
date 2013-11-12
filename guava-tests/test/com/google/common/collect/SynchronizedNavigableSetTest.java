@@ -27,7 +27,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -156,7 +156,7 @@ public class SynchronizedNavigableSetTest extends TestCase {
 
           @Override protected NavigableSet<String> create(String[] elements) {
             NavigableSet<String> innermost = new SafeTreeSet<String>();
-            innermost.addAll(Arrays.asList(elements));
+            Collections.addAll(innermost, elements);
             TestSet<String> inner = new TestSet<String>(innermost, MUTEX);
             NavigableSet<String> outer =
                 Synchronized.navigableSet(inner, MUTEX);

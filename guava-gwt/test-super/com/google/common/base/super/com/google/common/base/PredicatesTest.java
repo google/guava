@@ -578,8 +578,7 @@ public class PredicatesTest extends TestCase {
 
   public void assertEqualHashCode(
       Predicate<? super Integer> expected, Predicate<? super Integer> actual) {
-    assertEquals(actual.toString() + " should hash like " + expected.toString(),
-        expected.hashCode(), actual.hashCode());
+    assertEquals(actual + " should hash like " + expected, expected.hashCode(), actual.hashCode());
   }
 
   public void testHashCodeForBooleanOperations() {

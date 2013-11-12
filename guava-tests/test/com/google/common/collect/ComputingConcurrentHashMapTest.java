@@ -25,6 +25,7 @@ import static com.google.common.collect.MapMakerInternalMapTest.checkEvictionQue
 import static com.google.common.collect.MapMakerInternalMapTest.checkExpirationTimes;
 
 import com.google.common.base.Function;
+import com.google.common.base.Functions;
 import com.google.common.collect.MapMaker.ComputingMapAdapter;
 import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMakerInternalMap.ReferenceEntry;
@@ -71,12 +72,7 @@ public class ComputingConcurrentHashMapTest extends TestCase {
   // constructor tests
 
   public void testComputingFunction() {
-    Function<Object, Object> computingFunction = new Function<Object, Object>() {
-      @Override
-      public Object apply(Object from) {
-        return from;
-      }
-    };
+    Function<Object, Object> computingFunction = Functions.identity();
     ComputingConcurrentHashMap<Object, Object> map =
         makeComputingMap(createMapMaker(), computingFunction);
     assertSame(computingFunction, map.computingFunction);

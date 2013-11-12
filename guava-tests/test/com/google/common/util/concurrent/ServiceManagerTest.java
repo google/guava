@@ -294,8 +294,7 @@ public class ServiceManagerTest extends TestCase {
     for (Service service : services) {
       assertEquals(service.toString(), state, service.state());
       assertEquals(service.toString(), service.isRunning(), state == Service.State.RUNNING);
-      assertTrue(managerServices + " should contain " + service.toString(),
-          managerServices.contains(service));
+      assertTrue(managerServices + " should contain " + service, managerServices.contains(service));
     }
   }
 

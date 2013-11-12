@@ -450,8 +450,9 @@ public class ImmutableListTest extends TestCase {
       assertTrue(concurrentlyMutatedList.getAllStates()
           .contains(copyOfIterable));
 
-      // Check that it's a RegularImmutableList iff it is nonempty:
-      assertEquals(copyOfIterable.size() == 0, copyOfIterable.isEmpty());
+      // Check that we didn't end up with a RegularImmutableList of size 1.
+      assertEquals(copyOfIterable.size() == 1,
+          copyOfIterable instanceof SingletonImmutableList);
     }
 
     private static void runConcurrentlyMutatedTest(WrapWithIterable wrap) {

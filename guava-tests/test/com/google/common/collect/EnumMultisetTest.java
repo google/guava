@@ -109,7 +109,7 @@ public class EnumMultisetTest extends TestCase {
   
   public void testCreateEmptyWithoutClassFails() {
     try {
-      Multiset<Color> ms = EnumMultiset.create(ImmutableList.<Color> of());
+      EnumMultiset.create(ImmutableList.<Color> of());
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
@@ -145,7 +145,7 @@ public class EnumMultisetTest extends TestCase {
   public void testEquals() throws Exception {
     new ClassSanityTester()
         .setSampleInstances(Class.class, ImmutableList.of(Color.class))
-        .setSampleInstances(Enum.class, ImmutableList.copyOf(Color.values()))
+        .setSampleInstances(Enum.class, EnumSet.allOf(Color.class))
         .setSampleInstances(Iterable.class,
             ImmutableList.of(ImmutableList.of(Color.RED), ImmutableList.of(Color.GREEN)))
         .forAllPublicStaticMethods(EnumMultiset.class)
@@ -156,7 +156,7 @@ public class EnumMultisetTest extends TestCase {
   public void testNulls() throws Exception {
     new NullPointerTester()
         .setDefault(Class.class, Color.class)
-        .setDefault(Iterable.class, ImmutableList.copyOf(Color.values()))
+        .setDefault(Iterable.class, EnumSet.allOf(Color.class))
         .testAllPublicStaticMethods(EnumMultiset.class);
   }
 }

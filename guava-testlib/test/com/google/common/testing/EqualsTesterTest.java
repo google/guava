@@ -177,8 +177,8 @@ public class EqualsTesterTest extends TestCase {
     try {
       equalsTester.testEquals();
     } catch (AssertionFailedError e) {
-      assertErrorMessage(e, reference.toString() + " [group 1, item 1]");
-      assertErrorMessage(e, notEqualObject1.toString() + " [group 1, item 2]");
+      assertErrorMessage(e, reference + " [group 1, item 1]");
+      assertErrorMessage(e, notEqualObject1 + " [group 1, item 2]");
       return;
     }
     fail("Should get not equal to equal object error");

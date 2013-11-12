@@ -78,7 +78,7 @@ public class TreeMultisetTest extends TestCase {
           @Override
           protected Multiset<String> create(String[] elements) {
             Multiset<String> result = TreeMultiset.create(NullsBeforeB.INSTANCE);
-            result.addAll(Arrays.asList(elements));
+            Collections.addAll(result, elements);
             return result;
           }
 

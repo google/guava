@@ -27,6 +27,7 @@ import junit.framework.TestSuite;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.NavigableSet;
 import java.util.Set;
@@ -165,7 +166,7 @@ public class ForwardingNavigableSetTest extends ForwardingSortedSetTest {
         SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override protected Set<String> create(String[] elements) {
             SafeTreeSet<String> set = new SafeTreeSet<String>(Ordering.natural().nullsFirst());
-            set.addAll(Arrays.asList(elements));
+            Collections.addAll(set, elements);
             return new StandardImplForwardingNavigableSet<String>(set);
           }
 

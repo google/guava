@@ -33,7 +33,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -235,7 +234,7 @@ public class MultisetsCollectionTest extends TestCase {
       @Override
       protected Multiset<String> create(String[] elements) {
         Multiset<String> multiset = LinkedHashMultiset.create();
-        multiset.addAll(Arrays.asList(elements));
+        Collections.addAll(multiset, elements);
         multiset.addAll(ELEMENTS_TO_FILTER_OUT);
         return Multisets.filter(multiset, PREDICATE);
       }

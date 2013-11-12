@@ -523,8 +523,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
           @Override protected void verify(List<T> elements) {
             assertEquals(Sets.newHashSet(elements),
                 Sets.newHashSet(mmHeap.iterator()));
-            assertTrue("Invalid MinMaxHeap: " + mmHeap.toString(),
-                mmHeap.isIntact());
+            assertTrue("Invalid MinMaxHeap: " + mmHeap, mmHeap.isIntact());
           }
         };
     tester.ignoreSunJavaBug6529795();

@@ -30,6 +30,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
@@ -56,7 +57,7 @@ public class SafeTreeSetTest extends TestCase {
       @Override protected Set<String> create(String[] elements) {
         NavigableSet<String> set =
             new SafeTreeSet<String>(Ordering.natural().nullsFirst());
-        set.addAll(Arrays.asList(elements));
+        Collections.addAll(set, elements);
         return set;
       }
 

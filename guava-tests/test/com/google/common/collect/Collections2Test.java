@@ -92,7 +92,7 @@ public class Collections2Test extends TestCase {
           @Override public Collection<String> create(String[] elements) {
             List<String> unfiltered = newArrayList();
             unfiltered.add("yyy");
-            unfiltered.addAll(asList(elements));
+            Collections.addAll(unfiltered, elements);
             unfiltered.add("zzz");
             return Collections2.filter(unfiltered, NOT_YYY_ZZZ);
           }
@@ -113,7 +113,7 @@ public class Collections2Test extends TestCase {
         new TestStringCollectionGenerator() {
           @Override public Collection<String> create(String[] elements) {
             List<String> unfiltered = newArrayList();
-            unfiltered.addAll(asList(elements));
+            Collections.addAll(unfiltered, elements);
             return Collections2.filter(unfiltered, NOT_YYY_ZZZ);
           }
         })
@@ -134,7 +134,7 @@ public class Collections2Test extends TestCase {
           @Override public Collection<String> create(String[] elements) {
             List<String> unfiltered = newLinkedList();
             unfiltered.add("yyy");
-            unfiltered.addAll(asList(elements));
+            Collections.addAll(unfiltered, elements);
             unfiltered.add("zzz");
             return Collections2.filter(unfiltered, NOT_YYY_ZZZ);
           }

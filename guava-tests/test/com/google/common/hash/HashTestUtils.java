@@ -337,7 +337,7 @@ final class HashTestUtils {
         int maxCount = 20; // the probability of error here is miniscule
         boolean diff = false;
 
-        while (diff == false) {
+        while (!diff) {
           int delta = (1 << i) | (1 << j);
           int key1 = rand.nextInt();
           // apply delta

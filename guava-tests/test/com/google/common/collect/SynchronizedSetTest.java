@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,9 +49,7 @@ public class SynchronizedSetTest extends TestCase {
           protected Set<String> create(String[] elements) {
             TestSet<String> inner = new TestSet<String>(new HashSet<String>(), MUTEX);
             Set<String> outer = Synchronized.set(inner, inner.mutex);
-            for (String e : elements) {
-              outer.add(e);
-            }
+            Collections.addAll(outer, elements);
             return outer;
           }
         })

@@ -172,9 +172,7 @@ public class EventSubscriberTest extends TestCase {
    * @param arg  argument to record.
    */
   public void recordingMethod(Object arg) {
-    if (methodCalled == true) {
-      throw new IllegalStateException("Method called more than once.");
-    }
+    assertFalse(methodCalled);
     methodCalled = true;
     methodArgument = arg;
   }

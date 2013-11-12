@@ -321,7 +321,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   private void assertEvents(String... events) {
-    assertEquals(Arrays.asList(events).toString(), ticker.readEventsAndClear());
+    assertEquals(Arrays.toString(events), ticker.readEventsAndClear());
   }
 
   private static class FakeTicker extends RateLimiter.SleepingTicker {

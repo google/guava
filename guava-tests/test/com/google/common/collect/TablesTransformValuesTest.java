@@ -41,9 +41,10 @@ public class TablesTransformValuesTest extends AbstractTableTest {
       Object... data) {
     Table<String, Integer, String> table = HashBasedTable.create();
     checkArgument(data.length % 3 == 0);
-    for (int i = 0; i < data.length; i+= 3) {
-      String value = (data[i+2] == null) ? null : data[i+2].toString() + "transformed";
-      table.put((String) data[i], (Integer) data[i+1], value);
+    for (int i = 0; i < data.length; i += 3) {
+      String value =
+          (data[i + 2] == null) ? null : (data[i + 2] + "transformed");
+      table.put((String) data[i], (Integer) data[i + 1], value);
     }
     return Tables.transformValues(table, FIRST_CHARACTER);
   }

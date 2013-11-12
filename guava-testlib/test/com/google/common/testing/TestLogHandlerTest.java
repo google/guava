@@ -54,7 +54,7 @@ public class TestLogHandlerTest extends TestCase {
   public void test() throws Exception {
     assertTrue(handler.getStoredLogRecords().isEmpty());
     ExampleClassUnderTest.foo();
-    LogRecord record = handler.getStoredLogRecords().iterator().next();
+    LogRecord record = handler.getStoredLogRecords().get(0);
     assertEquals(Level.INFO, record.getLevel());
     assertEquals("message", record.getMessage());
     assertSame(EXCEPTION, record.getThrown());
@@ -66,7 +66,7 @@ public class TestLogHandlerTest extends TestCase {
     assertTrue(handler.getStoredLogRecords().isEmpty());
     ExampleClassUnderTest.foo();
     ExampleClassUnderTest.foo();
-    for (LogRecord record : handler.getStoredLogRecords()) {
+    for (LogRecord unused : handler.getStoredLogRecords()) {
       ExampleClassUnderTest.foo();
     }
   }

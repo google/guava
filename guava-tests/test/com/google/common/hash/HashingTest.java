@@ -421,8 +421,8 @@ public class HashingTest extends TestCase {
           && Modifier.isPublic(method.getModifiers()) // only the public methods
           && method.getParameterTypes().length == 0) { // only the seed-less grapes^W hash functions
         HashFunction hashFunction = (HashFunction) method.invoke(Hashing.class);
-        assertTrue("There should be at least 3 entries in KNOWN_HASHES for "
-            + hashFunction.toString(), KNOWN_HASHES.row(hashFunction).size() >= 3);
+        assertTrue("There should be at least 3 entries in KNOWN_HASHES for " + hashFunction,
+            KNOWN_HASHES.row(hashFunction).size() >= 3);
       }
     }
   }

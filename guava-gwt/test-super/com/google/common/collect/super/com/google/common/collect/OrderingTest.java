@@ -29,6 +29,7 @@ import com.google.common.base.Functions;
 import com.google.common.collect.Ordering.ArbitraryOrdering;
 import com.google.common.collect.Ordering.IncomparableValueException;
 import com.google.common.collect.testing.Helpers;
+import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 
 import junit.framework.TestCase;
@@ -1054,7 +1055,7 @@ public class OrderingTest extends TestCase {
     // order of 't'.
     @Override
     public int compareTo(Composite<T> that) {
-      return rank < that.rank ? -1 : rank > that.rank ? 1 : 0;
+      return Ints.compare(rank, that.rank);
     }
 
     static <T> Function<Composite<T>, T> getValueFunction() {

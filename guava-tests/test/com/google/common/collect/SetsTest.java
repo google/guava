@@ -211,7 +211,7 @@ public class SetsTest extends TestCase {
           @Override public Set<String> create(String[] elements) {
             Set<String> unfiltered = Sets.newLinkedHashSet();
             unfiltered.add("yyy");
-            unfiltered.addAll(Arrays.asList(elements));
+            Collections.addAll(unfiltered, elements);
             unfiltered.add("zzz");
             return Sets.filter(unfiltered, Collections2Test.NOT_YYY_ZZZ);
           }
