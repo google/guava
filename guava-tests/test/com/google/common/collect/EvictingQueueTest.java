@@ -66,27 +66,55 @@ public class EvictingQueueTest extends TestCase {
     } catch (NoSuchElementException expected) {}
   }
 
+  public void testRemainingCapacity_maxSize0() {
+    EvictingQueue<String> queue = EvictingQueue.create(0);
+    assertEquals(0, queue.remainingCapacity());
+  }
+
+  public void testRemainingCapacity_maxSize1() {
+    EvictingQueue<String> queue = EvictingQueue.create(1);
+    assertEquals(1, queue.remainingCapacity());
+    queue.add("hi");
+    assertEquals(0, queue.remainingCapacity());
+  }
+
+  public void testRemainingCapacity_maxSize3() {
+    EvictingQueue<String> queue = EvictingQueue.create(3);
+    assertEquals(3, queue.remainingCapacity());
+    queue.add("hi");
+    assertEquals(2, queue.remainingCapacity());
+    queue.add("hi");
+    assertEquals(1, queue.remainingCapacity());
+    queue.add("hi");
+    assertEquals(0, queue.remainingCapacity());
+  }
+
   public void testEvictingAfterOne() throws Exception {
     EvictingQueue<String> queue = EvictingQueue.create(1);
     assertEquals(0, queue.size());
+    assertEquals(1, queue.remainingCapacity());
 
     assertTrue(queue.add("hi"));
     assertEquals("hi", queue.element());
     assertEquals("hi", queue.peek());
     assertEquals(1, queue.size());
+    assertEquals(0, queue.remainingCapacity());
 
     assertTrue(queue.add("there"));
     assertEquals("there", queue.element());
     assertEquals("there", queue.peek());
     assertEquals(1, queue.size());
+    assertEquals(0, queue.remainingCapacity());
 
     assertEquals("there", queue.remove());
     assertEquals(0, queue.size());
+    assertEquals(1, queue.remainingCapacity());
   }
 
   public void testEvictingAfterThree() throws Exception {
     EvictingQueue<String> queue = EvictingQueue.create(3);
     assertEquals(0, queue.size());
+    assertEquals(3, queue.remainingCapacity());
 
     assertTrue(queue.add("one"));
     assertTrue(queue.add("two"));
@@ -94,32 +122,39 @@ public class EvictingQueueTest extends TestCase {
     assertEquals("one", queue.element());
     assertEquals("one", queue.peek());
     assertEquals(3, queue.size());
+    assertEquals(0, queue.remainingCapacity());
 
     assertTrue(queue.add("four"));
     assertEquals("two", queue.element());
     assertEquals("two", queue.peek());
     assertEquals(3, queue.size());
+    assertEquals(0, queue.remainingCapacity());
 
     assertEquals("two", queue.remove());
     assertEquals(2, queue.size());
+    assertEquals(1, queue.remainingCapacity());
   }
 
   public void testAddAll() throws Exception {
     EvictingQueue<String> queue = EvictingQueue.create(3);
     assertEquals(0, queue.size());
+    assertEquals(3, queue.remainingCapacity());
 
     assertTrue(queue.addAll(asList("one", "two", "three")));
     assertEquals("one", queue.element());
     assertEquals("one", queue.peek());
     assertEquals(3, queue.size());
+    assertEquals(0, queue.remainingCapacity());
 
     assertTrue(queue.addAll(asList("four")));
     assertEquals("two", queue.element());
     assertEquals("two", queue.peek());
     assertEquals(3, queue.size());
+    assertEquals(0, queue.remainingCapacity());
 
     assertEquals("two", queue.remove());
     assertEquals(2, queue.size());
+    assertEquals(1, queue.remainingCapacity());
   }
 
   public void testNullPointerExceptions() {
