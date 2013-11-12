@@ -20,6 +20,9 @@ import com.google.common.annotations.GwtCompatible;
 
 import junit.framework.TestCase;
 
+import java.util.HashMap;
+import java.util.Random;
+
 /**
  * Unit tests for {@link Utf8}.
  *
@@ -43,7 +46,39 @@ public class Utf8Test extends TestCase {
     assertEquals(4, Utf8.encodedLength(
         newString(Character.MIN_HIGH_SURROGATE, Character.MIN_LOW_SURROGATE)));
   }
-  
+
+  public void testEncodedLength_validStrings2() {
+    HashMap<Integer, Integer> utf8Lengths = new HashMap<Integer, Integer>();
+    utf8Lengths.put(0x00, 1);
+    utf8Lengths.put(0x7f, 1);
+    utf8Lengths.put(0x80, 2);
+    utf8Lengths.put(0x7ff, 2);
+    utf8Lengths.put(0x800, 3);
+    utf8Lengths.put(Character.MIN_SUPPLEMENTARY_CODE_POINT - 1, 3);
+    utf8Lengths.put(Character.MIN_SUPPLEMENTARY_CODE_POINT, 4);
+    utf8Lengths.put(Character.MAX_CODE_POINT, 4);
+
+    Integer[] codePoints = utf8Lengths.keySet().toArray(new Integer[]{});
+    StringBuilder sb = new StringBuilder();
+    Random rnd = new Random();
+    for (int trial = 0; trial < 100; trial++) {
+      sb.setLength(0);
+      int utf8Length = 0;
+      for (int i = 0; i < 6; i++) {
+        Integer randomCodePoint = codePoints[rnd.nextInt(codePoints.length)];
+        sb.appendCodePoint(randomCodePoint);
+        utf8Length += utf8Lengths.get(randomCodePoint);
+        if (utf8Length != Utf8.encodedLength(sb)) {
+          StringBuilder repro = new StringBuilder();
+          for (int j = 0; j < sb.length(); j++) {
+            repro.append(" " + (int) sb.charAt(j));  // GWT compatible
+          }
+          assertEquals(repro.toString(), utf8Length, Utf8.encodedLength(sb));
+        }
+      }
+    }
+  }
+
   public void testEncodedLength_invalidStrings() {
     testEncodedLengthFails(newString(Character.MIN_HIGH_SURROGATE), 0);
     testEncodedLengthFails("foobar" + newString(Character.MIN_HIGH_SURROGATE), 6);
@@ -54,7 +89,7 @@ public class Utf8Test extends TestCase {
             Character.MIN_HIGH_SURROGATE,
             Character.MIN_HIGH_SURROGATE), 0);
   }
-  
+
   private static void testEncodedLengthFails(String invalidString,
       int invalidCodePointIndex) {
     try {
@@ -168,7 +203,7 @@ public class Utf8Test extends TestCase {
     }
     assertEquals(EXPECTED_FOUR_BYTE_ROUNDTRIPPABLE_COUNT, actual);
   }
-  
+
   private String newString(char... chars) {
     return new String(chars);
   }

@@ -46,34 +46,56 @@ public final class Utf8 {
    *     surrogates)
    */
   public static int encodedLength(CharSequence sequence) {
+    // Warning to maintainers: this implementation is highly optimized.
     int utf16Length = sequence.length();
-    long utf8Length = utf16Length;  // Optimize for runs of ASCII
-    for (int i = 0; i < utf16Length; i++) {
+    int utf8Length = utf16Length;
+    int i = 0;
+
+    // This loop optimizes for pure ASCII.
+    while (i < utf16Length && sequence.charAt(i) < 0x80) {
+      i++;
+    }
+
+    // This loop optimizes for chars less than 0x800.
+    for (; i < utf16Length; i++) {
       char c = sequence.charAt(i);
-      if (c < 0x80) {
-        // already counted
-      } else if (c < 0x800) {
-        utf8Length += 1;
+      if (c < 0x800) {
+        utf8Length += ((0x7f - c) >>> 31);  // branch free!
+      } else {
+        utf8Length += encodedLengthGeneral(sequence, i);
+        break;
+      }
+    }
+
+    if (utf8Length < utf16Length) {
+      // Necessary and sufficient condition for overflow because of maximum 3x expansion
+      throw new IllegalArgumentException("UTF-8 length does not fit in int: "
+                                         + (utf8Length + (1L << 32)));
+    }
+    return utf8Length;
+  }
+
+  private static int encodedLengthGeneral(CharSequence sequence, int start) {
+    int utf16Length = sequence.length();
+    int utf8Length = 0;
+    for (int i = start; i < utf16Length; i++) {
+      char c = sequence.charAt(i);
+      if (c < 0x800) {
+        utf8Length += (0x7f - c) >>> 31; // branch free!
       } else {
         utf8Length += 2;
         // jdk7+: if (Character.isSurrogate(c)) {
         if (Character.MIN_SURROGATE <= c && c <= Character.MAX_SURROGATE) {
-          // Expect a surrogate pair.
+          // Check that we have a well-formed surrogate pair.
           int cp = Character.codePointAt(sequence, i);
           if (cp < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
-            // The pair starts with a low surrogate, or no character follows the high surrogate.
             throw new IllegalArgumentException("Unpaired surrogate at index " + i);
           }
           i++;
         }
       }
     }
-    // return Ints.checkedCast(utf8Length);
-    int result = (int) utf8Length;
-    if (result != utf8Length) {
-      throw new IllegalArgumentException("UTF-8 length does not fit in int: " + utf8Length);
-    }
-    return result;
+    return utf8Length;
   }
 
   /**
