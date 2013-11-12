@@ -62,16 +62,16 @@ public final class Hashing {
     int bits = checkPositiveAndMakeMultipleOf32(minimumBits);
 
     if (bits == 32) {
-      return GOOD_FAST_HASH_FUNCTION_32;
+      return Murmur3_32Holder.GOOD_FAST_HASH_FUNCTION_32;
     }
     if (bits <= 128) {
-      return GOOD_FAST_HASH_FUNCTION_128;
+      return Murmur3_128Holder.GOOD_FAST_HASH_FUNCTION_128;
     }
 
     // Otherwise, join together some 128-bit murmur3s
     int hashFunctionsNeeded = (bits + 127) / 128;
     HashFunction[] hashFunctions = new HashFunction[hashFunctionsNeeded];
-    hashFunctions[0] = GOOD_FAST_HASH_FUNCTION_128;
+    hashFunctions[0] = Murmur3_128Holder.GOOD_FAST_HASH_FUNCTION_128;
     int seed = GOOD_FAST_HASH_SEED;
     for (int i = 1; i < hashFunctionsNeeded; i++) {
       seed += 1500450271; // a prime; shouldn't matter
@@ -85,12 +85,6 @@ public final class Hashing {
    * dependent on the hash codes they produce will fail sooner.
    */
   private static final int GOOD_FAST_HASH_SEED = (int) System.currentTimeMillis();
-
-  /** Returned by {@link #goodFastHash} when {@code minimumBits <= 32}. */
-  private static final HashFunction GOOD_FAST_HASH_FUNCTION_32 = murmur3_32(GOOD_FAST_HASH_SEED);
-
-  /** Returned by {@link #goodFastHash} when {@code 32 < minimumBits <= 128}. */
-  private static final HashFunction GOOD_FAST_HASH_FUNCTION_128 = murmur3_128(GOOD_FAST_HASH_SEED);
 
   /**
    * Returns a hash function implementing the
@@ -113,10 +107,15 @@ public final class Hashing {
    * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
    */
   public static HashFunction murmur3_32() {
-    return MURMUR3_32;
+    return Murmur3_32Holder.MURMUR3_32;
   }
 
-  private static final HashFunction MURMUR3_32 = new Murmur3_32HashFunction(0);
+  private static class Murmur3_32Holder {
+    static final HashFunction MURMUR3_32 = new Murmur3_32HashFunction(0);
+
+    /** Returned by {@link #goodFastHash} when {@code minimumBits <= 32}. */
+    static final HashFunction GOOD_FAST_HASH_FUNCTION_32 = murmur3_32(GOOD_FAST_HASH_SEED);
+  }
 
   /**
    * Returns a hash function implementing the
@@ -139,10 +138,15 @@ public final class Hashing {
    * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
   public static HashFunction murmur3_128() {
-    return MURMUR3_128;
+    return Murmur3_128Holder.MURMUR3_128;
   }
 
-  private static final HashFunction MURMUR3_128 = new Murmur3_128HashFunction(0);
+  private static class Murmur3_128Holder {
+    static final HashFunction MURMUR3_128 = new Murmur3_128HashFunction(0);
+
+    /** Returned by {@link #goodFastHash} when {@code 32 < minimumBits <= 128}. */
+    static final HashFunction GOOD_FAST_HASH_FUNCTION_128 = murmur3_128(GOOD_FAST_HASH_SEED);
+  }
 
   /**
    * Returns a hash function implementing the
@@ -152,11 +156,13 @@ public final class Hashing {
    * @since 15.0
    */
   public static HashFunction sipHash24() {
-    return SIP_HASH_24;
+    return SipHash24Holder.SIP_HASH_24;
   }
 
-  private static final HashFunction SIP_HASH_24 =
-      new SipHashFunction(2, 4, 0x0706050403020100L, 0x0f0e0d0c0b0a0908L);
+  private static class SipHash24Holder {
+    static final HashFunction SIP_HASH_24 =
+        new SipHashFunction(2, 4, 0x0706050403020100L, 0x0f0e0d0c0b0a0908L);
+  }
 
   /**
    * Returns a hash function implementing the
@@ -174,43 +180,51 @@ public final class Hashing {
    * the MD5 {@link MessageDigest}.
    */
   public static HashFunction md5() {
-    return MD5;
+    return Md5Holder.MD5;
   }
 
-  private static final HashFunction MD5 = new MessageDigestHashFunction("MD5", "Hashing.md5()");
+  private static class Md5Holder {
+    static final HashFunction MD5 = new MessageDigestHashFunction("MD5", "Hashing.md5()");
+  }
 
   /**
    * Returns a hash function implementing the SHA-1 algorithm (160 hash bits) by delegating to the
    * SHA-1 {@link MessageDigest}.
    */
   public static HashFunction sha1() {
-    return SHA_1;
+    return Sha1Holder.SHA_1;
   }
 
-  private static final HashFunction SHA_1 =
-      new MessageDigestHashFunction("SHA-1", "Hashing.sha1()");
+  private static class Sha1Holder {
+    static final HashFunction SHA_1 =
+        new MessageDigestHashFunction("SHA-1", "Hashing.sha1()");
+  }
 
   /**
    * Returns a hash function implementing the SHA-256 algorithm (256 hash bits) by delegating to
    * the SHA-256 {@link MessageDigest}.
    */
   public static HashFunction sha256() {
-    return SHA_256;
+    return Sha256Holder.SHA_256;
   }
 
-  private static final HashFunction SHA_256 =
-      new MessageDigestHashFunction("SHA-256", "Hashing.sha256()");
+  private static class Sha256Holder {
+    static final HashFunction SHA_256 =
+        new MessageDigestHashFunction("SHA-256", "Hashing.sha256()");
+  }
 
   /**
    * Returns a hash function implementing the SHA-512 algorithm (512 hash bits) by delegating to the
    * SHA-512 {@link MessageDigest}.
    */
   public static HashFunction sha512() {
-    return SHA_512;
+    return Sha512Holder.SHA_512;
   }
 
-  private static final HashFunction SHA_512 =
-      new MessageDigestHashFunction("SHA-512", "Hashing.sha512()");
+  private static class Sha512Holder {
+    static final HashFunction SHA_512 =
+        new MessageDigestHashFunction("SHA-512", "Hashing.sha512()");
+  }
 
   /**
    * Returns a hash function implementing the CRC-32 checksum algorithm (32 hash bits) by delegating
@@ -222,11 +236,13 @@ public final class Hashing {
    * @since 14.0
    */
   public static HashFunction crc32() {
-    return CRC_32;
+    return Crc32Holder.CRC_32;
   }
 
-  private static final HashFunction CRC_32 =
-      checksumHashFunction(ChecksumType.CRC_32, "Hashing.crc32()");
+  private static class Crc32Holder {
+    static final HashFunction CRC_32 =
+        checksumHashFunction(ChecksumType.CRC_32, "Hashing.crc32()");
+  }
 
   /**
    * Returns a hash function implementing the Adler-32 checksum algorithm (32 hash bits) by
@@ -238,11 +254,13 @@ public final class Hashing {
    * @since 14.0
    */
   public static HashFunction adler32() {
-    return ADLER_32;
+    return Adler32Holder.ADLER_32;
   }
 
-  private static final HashFunction ADLER_32 =
-      checksumHashFunction(ChecksumType.ADLER_32, "Hashing.adler32()");
+  private static class Adler32Holder {
+    static final HashFunction ADLER_32 =
+        checksumHashFunction(ChecksumType.ADLER_32, "Hashing.adler32()");
+  }
 
   private static HashFunction checksumHashFunction(ChecksumType type, String toString) {
     return new ChecksumHashFunction(type, type.bits, toString);
@@ -271,10 +289,6 @@ public final class Hashing {
     @Override
     public abstract Checksum get();
   }
-
-  // Lazy initialization holder class idiom.
-  // TODO(user): Investigate whether we need to still use this idiom now that we have a fallback
-  // option for our use of Unsafe.
 
   /**
    * Assigns to {@code hashCode} a "bucket" in the range {@code [0, buckets)}, in a uniform
