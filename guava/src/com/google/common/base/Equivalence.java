@@ -90,9 +90,9 @@ public abstract class Equivalence<T> {
    *     {@code hash(x}} consistently return the same value provided {@code x} remains unchanged
    *     according to the definition of the equivalence. The hash need not remain consistent from
    *     one execution of an application to another execution of the same application.
-   * <li>It is <i>distributable accross equivalence</i>: for any references {@code x} and {@code y},
+   * <li>It is <i>distributable across equivalence</i>: for any references {@code x} and {@code y},
    *     if {@code equivalent(x, y)}, then {@code hash(x) == hash(y)}. It is <i>not</i> necessary
-   *     that the hash be distributable accorss <i>inequivalence</i>. If {@code equivalence(x, y)}
+   *     that the hash be distributable across <i>inequivalence</i>. If {@code equivalence(x, y)}
    *     is false, {@code hash(x) == hash(y)} may still be true.
    * <li>{@code hash(null)} is {@code 0}.
    * </ul>
