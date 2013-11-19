@@ -211,35 +211,6 @@ public final class Stopwatch {
   }
 
   /**
-   * Returns the current elapsed time shown on this stopwatch, expressed
-   * in the desired time unit, with any fraction rounded down.
-   *
-   * <p>Note that the overhead of measurement can be more than a microsecond, so
-   * it is generally not useful to specify {@link TimeUnit#NANOSECONDS}
-   * precision here.
-   *
-   * @deprecated Use {@link Stopwatch#elapsed(TimeUnit)} instead. This method is
-   *     scheduled to be removed in Guava release 16.0.
-   */
-  @Deprecated
-  public long elapsedTime(TimeUnit desiredUnit) {
-    return elapsed(desiredUnit);
-  }
-
-  /**
-   * Returns the current elapsed time shown on this stopwatch, expressed
-   * in milliseconds, with any fraction rounded down. This is identical to
-   * {@code elapsed(TimeUnit.MILLISECONDS)}.
-   *
-   * @deprecated Use {@code stopwatch.elapsed(MILLISECONDS)} instead. This
-   *     method is scheduled to be removed in Guava release 16.0.
-   */
-  @Deprecated
-  public long elapsedMillis() {
-    return elapsed(MILLISECONDS);
-  }
-
-  /**
    * Returns a string representation of the current elapsed time.
    */
   @GwtIncompatible("String.format()")
