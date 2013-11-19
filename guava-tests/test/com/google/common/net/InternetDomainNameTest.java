@@ -102,8 +102,8 @@ public final class InternetDomainNameTest extends TestCase {
   private static final List<String> PS = ImmutableList.of(
       "com",
       "co.uk",
-      "foo.ar",
-      "xxxxxx.ar",
+      "foo.bd",
+      "xxxxxx.bd",
       "org.mK",
       "us",
       "uk\uFF61com.",  // Alternate dot character
