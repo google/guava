@@ -441,7 +441,7 @@ public class HashingTest extends TestCase {
 
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester()
-        .setDefault(HashCode.class, HashCode.fromInt(0));
+        .setDefault(HashCode.class, HashCode.fromLong(0));
     tester.testAllPublicStaticMethods(Hashing.class);
   }
 
