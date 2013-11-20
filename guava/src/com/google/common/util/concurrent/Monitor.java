@@ -202,12 +202,40 @@ import javax.annotation.concurrent.GuardedBy;
 public final class Monitor {
   // TODO(user): Use raw LockSupport or AbstractQueuedSynchronizer instead of ReentrantLock.
   // TODO(user): "Port" jsr166 tests for ReentrantLock.
+  //
   // TODO(user): Change API to make it impossible to use a Guard with the "wrong" monitor,
   //    by making the monitor implicit, and to eliminate other sources of IMSE.
   //    Imagine:
   //    guard.lock();
   //    try { /* monitor locked and guard satisfied here */ }
   //    finally { guard.unlock(); }
+  // Here are Justin's design notes about this:
+  //
+  // This idea has come up from time to time, and I think one of my
+  // earlier versions of Monitor even did something like this. I ended
+  // up strongly favoring the current interface.
+  //
+  // I probably can't remember all the reasons (it's possible you
+  // could find them in the code review archives), but here are a few:
+  //
+  // 1. What about leaving/unlocking? Are you going to do
+  //    guard.enter() paired with monitor.leave()? That might get
+  //    confusing. It's nice for the finally block to look as close as
+  //    possible to the thing right before the try. You could have
+  //    guard.leave(), but that's a little odd as well because the
+  //    guard doesn't have anything to do with leaving. You can't
+  //    really enforce that the guard you're leaving is the same one
+  //    you entered with, and it doesn't actually matter.
+  //
+  // 2. Since you can enter the monitor without a guard at all, some
+  //    places you'll have monitor.enter()/monitor.leave() and other
+  //    places you'll have guard.enter()/guard.leave() even though
+  //    it's the same lock being acquired underneath. Always using
+  //    monitor.enterXXX()/monitor.leave() will make it really clear
+  //    which lock is held at any point in the code.
+  //
+  // 3. I think "enterWhen(notEmpty)" reads better than "notEmpty.enter()".
+  //
   // TODO(user): Implement ReentrantLock features:
   //    - toString() method
   //    - getOwner() method
