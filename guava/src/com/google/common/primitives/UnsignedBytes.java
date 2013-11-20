@@ -86,7 +86,10 @@ public final class UnsignedBytes {
    *     than 255
    */
   public static byte checkedCast(long value) {
-    checkArgument(value >> Byte.SIZE == 0, "out of range: %s", value);
+    if ((value >> Byte.SIZE) != 0) {
+      // don't use checkArgument here, to avoid boxing
+      throw new IllegalArgumentException("Out of range: " + value);
+    }
     return (byte) value;
   }
 
