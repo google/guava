@@ -142,6 +142,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /**
    * Determines whether a character is a digit according to
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.
+   * If you only care to match ASCII digits, you can use {@code inRange('0', '9')}.
    */
   public static final CharMatcher DIGIT = new RangesMatcher(
       "CharMatcher.DIGIT", ZEROES.toCharArray(), NINES.toCharArray());
