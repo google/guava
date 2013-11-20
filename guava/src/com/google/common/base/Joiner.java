@@ -222,7 +222,6 @@ public class Joiner {
       }
 
       @Override public Joiner useForNull(String nullText) {
-        checkNotNull(nullText); // weird: just to satisfy NullPointerTester.
         throw new UnsupportedOperationException("already specified useForNull");
       }
 
@@ -261,12 +260,10 @@ public class Joiner {
       }
 
       @Override public Joiner useForNull(String nullText) {
-        checkNotNull(nullText); // weird: just to satisfy NullPointerTester.
         throw new UnsupportedOperationException("already specified skipNulls");
       }
 
       @Override public MapJoiner withKeyValueSeparator(String kvs) {
-        checkNotNull(kvs); // weird: just to satisfy NullPointerTester.
         throw new UnsupportedOperationException("can't use .skipNulls() with maps");
       }
     };
@@ -299,7 +296,7 @@ public class Joiner {
    *
    * @since 2.0 (imported from Google Collections Library)
    */
-  public final static class MapJoiner {
+  public static final class MapJoiner {
     private final Joiner joiner;
     private final String keyValueSeparator;
 
