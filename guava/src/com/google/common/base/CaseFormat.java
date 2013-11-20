@@ -21,7 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 
 /**
- * Utility class for converting between various ASCII case formats.
+ * Utility class for converting between various ASCII case formats. Behavior is undefined for
+ * non-ASCII input.
  *
  * @author Mike Bostock
  * @since 1.0
