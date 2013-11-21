@@ -16,8 +16,9 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
-import com.google.common.base.Preconditions;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -52,8 +53,7 @@ public final class LineReader {
    * {@code Readable} object.
    */
   public LineReader(Readable readable) {
-    Preconditions.checkNotNull(readable);
-    this.readable = readable;
+    this.readable = checkNotNull(readable);
     this.reader = (readable instanceof Reader) ? (Reader) readable : null;
   }
 
