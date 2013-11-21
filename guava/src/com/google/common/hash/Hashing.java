@@ -20,7 +20,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
 
-import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.util.Iterator;
 import java.util.zip.Adler32;
@@ -412,11 +411,11 @@ public final class Hashing {
 
     @Override
     HashCode makeHash(Hasher[] hashers) {
-      // TODO(user): Get rid of the ByteBuffer here?
       byte[] bytes = new byte[bits / 8];
-      ByteBuffer buffer = ByteBuffer.wrap(bytes);
+      int i = 0;
       for (Hasher hasher : hashers) {
-        buffer.put(hasher.hash().asBytes());
+        HashCode newHash = hasher.hash();
+        i += newHash.writeBytesTo(bytes, i, newHash.bits() / 8);
       }
       return HashCode.fromBytesNoCopy(bytes);
     }
