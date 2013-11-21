@@ -622,6 +622,9 @@ public final class Ascii {
       seq = string;
     }
 
-    return seq.subSequence(0, truncationLength) + truncationIndicator;
+    return new StringBuilder(maxLength)
+        .append(seq, 0, truncationLength)
+        .append(truncationIndicator)
+        .toString();
   }
 }
