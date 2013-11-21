@@ -42,4 +42,19 @@ public void testToUpperCase() throws Exception {
   com.google.common.base.AsciiTest testCase = new com.google.common.base.AsciiTest();
   testCase.testToUpperCase();
 }
+
+public void testTruncate() throws Exception {
+  com.google.common.base.AsciiTest testCase = new com.google.common.base.AsciiTest();
+  testCase.testTruncate();
+}
+
+public void testTruncateIllegalArguments() throws Exception {
+  com.google.common.base.AsciiTest testCase = new com.google.common.base.AsciiTest();
+  testCase.testTruncateIllegalArguments();
+}
+
+public void testTruncateWithCustomTruncationIndicator() throws Exception {
+  com.google.common.base.AsciiTest testCase = new com.google.common.base.AsciiTest();
+  testCase.testTruncateWithCustomTruncationIndicator();
+}
 }
