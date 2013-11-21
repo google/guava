@@ -376,27 +376,34 @@ public abstract class RateLimiter {
   }
 
   /**
-   * Acquires a permit from this {@code RateLimiter}, blocking until the request can be granted.
+   * Acquires the given number of permits from this {@code RateLimiter}, blocking until the
+   * request can be granted. Tells the amount of time slept, if any.
    *
    * <p>This method is equivalent to {@code acquire(1)}.
+   *
+   * @return time spent sleeping to enforce rate, in seconds; 0.0 if not rate-limited
+   * @since 16.0 (present in 13.0 with {@code void} return type})
    */
-  public void acquire() {
-    acquire(1);
+  public double acquire() {
+    return acquire(1);
   }
 
   /**
    * Acquires the given number of permits from this {@code RateLimiter}, blocking until the
-   * request be granted.
+   * request can be granted. Tells the amount of time slept, if any.
    *
    * @param permits the number of permits to acquire
+   * @return time spent sleeping to enforce rate, in seconds; 0.0 if not rate-limited
+   * @since 16.0 (present in 13.0 with {@code void} return type})
    */
-  public void acquire(int permits) {
+  public double acquire(int permits) {
     checkPermits(permits);
     long microsToWait;
     synchronized (mutex) {
       microsToWait = reserveNextTicket(permits, readSafeMicros());
     }
     ticker.sleepMicrosUninterruptibly(microsToWait);
+    return 1.0 * microsToWait / TimeUnit.SECONDS.toMicros(1L);
   }
 
   /**

@@ -33,6 +33,8 @@ import java.util.concurrent.TimeUnit;
  * @author Dimitris Andreou
  */
 public class RateLimiterTest extends TestCase {
+  private static final double EPSILON = 1e-8;
+
   /**
    * The ticker gathers events and presents them as strings.
    * R0.6 means a delay of 0.6 seconds caused by the (R)ateLimiter
@@ -76,6 +78,15 @@ public class RateLimiterTest extends TestCase {
     ticker.sleepMillis(200);    // U0.20, we are ready for the next request...
     limiter.acquire();          // R0.00, ...which is granted immediately
     limiter.acquire();          // R0.20
+    assertEvents("R0.00", "U0.20", "R0.00", "R0.20");
+  }
+
+  public void testSimpleAcquireReturnValues() {
+    RateLimiter limiter = RateLimiter.create(ticker, 5.0);
+    assertEquals(0.0, limiter.acquire(), EPSILON);  // R0.00
+    ticker.sleepMillis(200);                        // U0.20, we are ready for the next request...
+    assertEquals(0.0, limiter.acquire(), EPSILON);  // R0.00, ...which is granted immediately
+    assertEquals(0.2, limiter.acquire(), EPSILON);  // R0.20
     assertEvents("R0.00", "U0.20", "R0.00", "R0.20");
   }
 
