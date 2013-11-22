@@ -63,6 +63,11 @@ import javax.annotation.Nullable;
 public abstract class CharSource implements InputSupplier<Reader> {
 
   /**
+   * Constructor for use by subclasses.
+   */
+  protected CharSource() {}
+
+  /**
    * Opens a new {@link Reader} for reading from this source. This method should return a new,
    * independent reader each time it is called.
    *

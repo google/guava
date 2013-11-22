@@ -59,6 +59,11 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
   private static final int BUF_SIZE = 0x1000; // 4K
 
   /**
+   * Constructor for use by subclasses.
+   */
+  protected ByteSource() {}
+
+  /**
    * Returns a {@link CharSource} view of this byte source that decodes bytes read from this source
    * as characters using the given {@link Charset}.
    */

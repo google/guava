@@ -47,6 +47,11 @@ import java.nio.charset.Charset;
 public abstract class ByteSink implements OutputSupplier<OutputStream> {
 
   /**
+   * Constructor for use by subclasses.
+   */
+  protected ByteSink() {}
+
+  /**
    * Returns a {@link CharSink} view of this {@code ByteSink} that writes characters to this sink
    * as bytes encoded with the given {@link Charset charset}.
    */

@@ -49,6 +49,11 @@ import java.nio.charset.Charset;
 public abstract class CharSink implements OutputSupplier<Writer> {
 
   /**
+   * Constructor for use by subclasses.
+   */
+  protected CharSink() {}
+
+  /**
    * Opens a new {@link Writer} for writing to this sink. This method should return a new,
    * independent writer each time it is called.
    *
