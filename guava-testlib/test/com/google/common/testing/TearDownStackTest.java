@@ -16,9 +16,6 @@
 
 package com.google.common.testing;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import com.google.common.annotations.GwtCompatible;
 
 import junit.framework.TestCase;
