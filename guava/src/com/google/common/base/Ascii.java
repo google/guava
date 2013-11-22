@@ -22,6 +22,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * Static methods pertaining to ASCII characters (those in the range of values
  * {@code 0x00} through {@code 0x7F}), and to strings containing such
@@ -545,49 +547,20 @@ public final class Ascii {
 
   /**
    * Truncates the given character sequence to the given maximum length. If the length of the
-   * sequence is not greater than {@code maxLength}, the sequence will be returned as a string
-   * with no changes. Otherwise, the returned string will be exactly {@code maxLength} chars in
-   * length and will end with "..." as an indicator that it was truncated.
+   * sequence is greater than {@code maxLength}, the returned string will be exactly
+   * {@code maxLength} chars in length and will end with the given {@code truncationIndicator}.
+   * Otherwise, the sequence will be returned as a string with no changes to the content.
    *
    * <p>Examples:
    *
-   * <pre>    {@code
-   *   Ascii.truncate("foobar", 7); // returns "foobar"
-   *   Ascii.truncate("foobar", 5); // returns "fo..." }</pre>
-   *
-   * <p><b>Note:</b> This method <i>may</i> work with certain non-ASCII text but is not safe for
-   * use with Unicode text in general for many reasons, including but not limited to:
-   *
-   * <ul>
-   *   <li>it may split surrogate pairs</li>
-   *   <li>it may split characters and combining characters</li>
-   *   <li>it does not consider word boundaries</li>
-   *   <li>if truncating for display to users, there are other considerations that must be taken
-   *   into account</li>
-   * </ul>
-   *
-   * @throws IllegalArgumentException if {@code maxLength} is less than 3
-   * @since 16.0
-   */
-  @Beta
-  public static String truncate(CharSequence seq, int maxLength) {
-    return truncate(seq, maxLength, "...");
-  }
-
-  /**
-   * Truncates the given character sequence to the given maximum length. If the length of the
-   * sequence is not greater than {@code maxLength}, the sequence will be returned as a string
-   * with no changes. Otherwise, the returned string will be exactly {@code maxLength} chars in
-   * length and will end with the given {@code truncationIndicator} string.
-   *
-   * <p>Examples:
-   *
-   * <pre>    {@code
+   * <pre>   {@code
    *   Ascii.truncate("foobar", 7, "..."); // returns "foobar"
    *   Ascii.truncate("foobar", 5, "..."); // returns "fo..." }</pre>
    *
    * <p><b>Note:</b> This method <i>may</i> work with certain non-ASCII text but is not safe for
-   * use with Unicode text in general for many reasons, including but not limited to:
+   * use with arbitrary Unicode text. It is mostly intended for use with text that is known to be
+   * safe for use with it (such as all-ASCII text) and for simple debugging text. When using this
+   * method, consider the following:
    *
    * <ul>
    *   <li>it may split surrogate pairs</li>
@@ -595,20 +568,25 @@ public final class Ascii {
    *   <li>it does not consider word boundaries</li>
    *   <li>if truncating for display to users, there are other considerations that must be taken
    *   into account</li>
+   *   <li>the appropriate truncation indicator may be locale-dependent</li>
+   *   <li>it is safe to use non-ASCII characters in the truncation indicator</li>
    * </ul>
    *
-   * <p>Using non-ASCII characters for the truncation indicator is not a problem, however.
    *
    * @throws IllegalArgumentException if {@code maxLength} is less than the length of
    *     {@code truncationIndicator}
    * @since 16.0
    */
   @Beta
+  @CheckReturnValue
   public static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {
     checkNotNull(seq);
 
     // length to truncate the sequence to, not including the truncation indicator
     int truncationLength = maxLength - truncationIndicator.length();
+
+    // in this worst case, this allows a maxLength equal to the length of the truncationIndicator,
+    // meaning that a string will be truncated to just the truncation indicator itself
     checkArgument(truncationLength >= 0,
         "maxLength (%s) must be >= length of the truncation indicator (%s)",
         maxLength, truncationIndicator.length());

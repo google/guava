@@ -82,13 +82,10 @@ public class AsciiTest extends TestCase {
   }
 
   public void testTruncate() {
-    assertEquals("foobar", Ascii.truncate("foobar", 10));
-    assertEquals("fo...", Ascii.truncate("foobar", 5));
-    assertEquals("foobar", Ascii.truncate("foobar", 6));
-    assertEquals("", Ascii.truncate("", 6));
-  }
-
-  public void testTruncateWithCustomTruncationIndicator() {
+    assertEquals("foobar", Ascii.truncate("foobar", 10, "..."));
+    assertEquals("fo...", Ascii.truncate("foobar", 5, "..."));
+    assertEquals("foobar", Ascii.truncate("foobar", 6, "..."));
+    assertEquals("...", Ascii.truncate("foobar", 3, "..."));
     assertEquals("foobar", Ascii.truncate("foobar", 10, "…"));
     assertEquals("foo…", Ascii.truncate("foobar", 4, "…"));
     assertEquals("fo--", Ascii.truncate("foobar", 4, "--"));
@@ -101,23 +98,24 @@ public class AsciiTest extends TestCase {
   }
 
   public void testTruncateIllegalArguments() {
+    String truncated = null;
     try {
-      Ascii.truncate("foobar", 2);
+      truncated = Ascii.truncate("foobar", 2, "...");
       fail();
     } catch (IllegalArgumentException expected) {}
 
     try {
-      Ascii.truncate("foobar", 8, "1234567890");
+      truncated = Ascii.truncate("foobar", 8, "1234567890");
       fail();
     } catch (IllegalArgumentException expected) {}
 
     try {
-      Ascii.truncate("foobar", -1);
+      truncated = Ascii.truncate("foobar", -1, "...");
       fail();
     } catch (IllegalArgumentException expected) {}
 
     try {
-      Ascii.truncate("foobar", -1, "");
+      truncated = Ascii.truncate("foobar", -1, "");
       fail();
     } catch (IllegalArgumentException expected) {}
   }

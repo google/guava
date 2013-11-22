@@ -52,9 +52,4 @@ public void testTruncateIllegalArguments() throws Exception {
   com.google.common.base.AsciiTest testCase = new com.google.common.base.AsciiTest();
   testCase.testTruncateIllegalArguments();
 }
-
-public void testTruncateWithCustomTruncationIndicator() throws Exception {
-  com.google.common.base.AsciiTest testCase = new com.google.common.base.AsciiTest();
-  testCase.testTruncateWithCustomTruncationIndicator();
-}
 }
