@@ -210,18 +210,6 @@ public final class ServiceManager {
   }
 
   /**
-   * Constructs a new instance for managing the given services. This constructor is provided so that
-   * dependency injection frameworks can inject instances of {@link ServiceManager}.
-   *
-   * @param services The services to manage
-   *
-   * @throws IllegalStateException if not all services are {@link State#NEW new}.
-   */
-  ServiceManager(Set<Service> services) {
-    this((Iterable<Service>) services);
-  }
-
-  /**
    * Registers a {@link Listener} to be {@linkplain Executor#execute executed} on the given
    * executor. The listener will not have previous state changes replayed, so it is
    * suggested that listeners are added before any of the managed services are
