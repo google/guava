@@ -128,13 +128,13 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
   ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException;
 
   /**
-   * Discouraged. Provided to satisfy the {@code Function} interface; use {@link #get} or
-   * {@link #getUnchecked} instead.
-   *
+   * @deprecated Provided to satisfy the {@code Function} interface; use {@link #get} or
+   *     {@link #getUnchecked} instead.
    * @throws UncheckedExecutionException if an exception was thrown while loading the value. (As
    *     described in the documentation for {@link #getUnchecked}, {@code LoadingCache} should be
    *     used as a {@code Function} only with cache loaders that throw only unchecked exceptions.)
    */
+  @Deprecated
   @Override
   V apply(K key);
 
