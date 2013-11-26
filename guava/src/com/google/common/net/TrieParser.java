@@ -18,13 +18,13 @@ package com.google.common.net;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 import java.util.List;
 
 /**
- * Parser for a set of reversed domain names stored as a serialized radix tree.
+ * Parser for a map of reversed domain names stored as a serialized radix tree.
  */
 @GwtCompatible
 class TrieParser {
@@ -32,11 +32,11 @@ class TrieParser {
   private static final Joiner PREFIX_JOINER = Joiner.on("");
 
   /**
-   * Parses a serialized trie representation of a set of reversed TLDs into an immutable set
+   * Parses a serialized trie representation of a map of reversed TLDs into an immutable map
    * of TLDs.
    */
-  static ImmutableSet<String> parseTrie(CharSequence encoded) {
-    ImmutableSet.Builder<String> builder = ImmutableSet.builder();
+  static ImmutableMap<String, TldType> parseTrie(CharSequence encoded) {
+    ImmutableMap.Builder<String, TldType> builder = ImmutableMap.builder();
     int encodedLen = encoded.length();
     int idx = 0;
     while (idx < encodedLen) {
@@ -54,13 +54,13 @@ class TrieParser {
    * @param stack The prefixes that preceed the characters represented by this node. Each entry
    * of the stack is in reverse order.
    * @param encoded The serialized trie.
-   * @param builder A set builder to which all entries will be added.
+   * @param builder A map builder to which all entries will be added.
    * @return The number of characters consumed from {@code encoded}.
    */
   private static int doParseTrieToBuilder(
       List<CharSequence> stack,
       CharSequence encoded,
-      ImmutableSet.Builder<String> builder) {
+      ImmutableMap.Builder<String, TldType> builder) {
 
     int encodedLen = encoded.length();
     int idx = 0;
@@ -69,29 +69,31 @@ class TrieParser {
     // Read all of the characters for this node.
     for ( ; idx < encodedLen; idx++) {
       c = encoded.charAt(idx);
-      if (c == '&' || c == '?' || c == '!') {
+      if (c == '&' || c == '?' || c == '!' || c == ':' || c == ',') {
         break;
       }
     }
 
     stack.add(0, reverse(encoded.subSequence(0, idx)));
 
-    if (c == '!' || c == '?') {
-      // '!' represents an interior node that represents an entry in the set.
-      // '?' represents a leaf node, which always represents an entry in set.
+    if (c == '!' || c == '?' || c == ':' || c == ',') {
+      // '!' represents an interior node that represents an ICANN entry in the map.
+      // '?' represents a leaf node, which represents an ICANN entry in map.
+      // ':' represents an interior node that represents a private entry in the map
+      // ',' represents a leaf node, which represents a private entry in the map.
       String domain = PREFIX_JOINER.join(stack);
       if (domain.length() > 0) {
-        builder.add(domain);
+        builder.put(domain, TldType.fromCode(c));
       }
     }
     idx++;
 
-    if (c != '?') {
+    if (c != '?' && c != ',') {
       while (idx < encodedLen) {
         // Read all the children
         idx += doParseTrieToBuilder(stack, encoded.subSequence(idx, encodedLen), builder);
-        if (encoded.charAt(idx) == '?') {
-          // An extra '?' after a child node indicates the end of all children of this node.
+        if (encoded.charAt(idx) == '?' || encoded.charAt(idx) == ',') {
+          // An extra '?' or ',' after a child node indicates the end of all children of this node.
           idx++;
           break;
         }
