@@ -369,7 +369,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
         return set;
       }
     } else if (elements instanceof EnumSet) {
-      EnumSet<?> enumSet = EnumSet.copyOf((EnumSet<?>) elements);
+      EnumSet<? extends Enum<?>> enumSet = EnumSet.copyOf((EnumSet<? extends Enum<?>>) elements);
       @SuppressWarnings("unchecked")
       // immutable collections are safe for covariant casts
       ImmutableSet<E> result = (ImmutableSet<E>) ImmutableEnumSet.asImmutable(enumSet);
