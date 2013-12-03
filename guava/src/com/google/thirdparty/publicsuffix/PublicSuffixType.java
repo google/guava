@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.common.net;
+package com.google.thirdparty.publicsuffix;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -22,7 +22,7 @@ import com.google.common.annotations.GwtCompatible;
  * Specifies the type of a top-level domain definition.
  */
 @GwtCompatible
-enum TldType {
+enum PublicSuffixType {
 
   /** private definition of a top-level domain */
   PRIVATE(':', ','),
@@ -35,22 +35,22 @@ enum TldType {
   /** The character used for a leaf node in the trie encoding */
   private final char leafNodeCode;
 
-  private TldType(char innerNodeCode, char leafNodeCode) {
+  private PublicSuffixType(char innerNodeCode, char leafNodeCode) {
     this.innerNodeCode = innerNodeCode;
     this.leafNodeCode = leafNodeCode;
   }
 
-  public char getLeafNodeCode() {
+  char getLeafNodeCode() {
     return leafNodeCode;
   }
 
-  public char getInnerNodeCode() {
+  char getInnerNodeCode() {
     return innerNodeCode;
   }
 
-  /** Returns a TldType of the right type according to the given code */
-  public static TldType fromCode(char code) {
-    for (TldType value : values()) {
+  /** Returns a PublicSuffixType of the right type according to the given code */
+  static PublicSuffixType fromCode(char code) {
+    for (PublicSuffixType value : values()) {
       if (value.getInnerNodeCode() == code || value.getLeafNodeCode() == code) {
         return value;
       }
@@ -58,7 +58,7 @@ enum TldType {
     throw new IllegalArgumentException("No enum corresponding to given code: " + code);
   }
 
-  public static TldType fromIsPrivate(boolean isPrivate) {
+  static PublicSuffixType fromIsPrivate(boolean isPrivate) {
     return isPrivate ? PRIVATE : ICANN;
   }
 }

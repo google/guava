@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.common.net;
+package com.google.thirdparty.publicsuffix;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Joiner;
@@ -32,11 +32,11 @@ class TrieParser {
   private static final Joiner PREFIX_JOINER = Joiner.on("");
 
   /**
-   * Parses a serialized trie representation of a map of reversed TLDs into an immutable map
-   * of TLDs.
+   * Parses a serialized trie representation of a map of reversed public
+   * suffixes into an immutable map of public suffixes.
    */
-  static ImmutableMap<String, TldType> parseTrie(CharSequence encoded) {
-    ImmutableMap.Builder<String, TldType> builder = ImmutableMap.builder();
+  static ImmutableMap<String, PublicSuffixType> parseTrie(CharSequence encoded) {
+    ImmutableMap.Builder<String, PublicSuffixType> builder = ImmutableMap.builder();
     int encodedLen = encoded.length();
     int idx = 0;
     while (idx < encodedLen) {
@@ -51,8 +51,8 @@ class TrieParser {
   /**
    * Parses a trie node and returns the number of characters consumed.
    *
-   * @param stack The prefixes that preceed the characters represented by this node. Each entry
-   * of the stack is in reverse order.
+   * @param stack The prefixes that preceed the characters represented by this
+   *     node. Each entry of the stack is in reverse order.
    * @param encoded The serialized trie.
    * @param builder A map builder to which all entries will be added.
    * @return The number of characters consumed from {@code encoded}.
@@ -60,7 +60,7 @@ class TrieParser {
   private static int doParseTrieToBuilder(
       List<CharSequence> stack,
       CharSequence encoded,
-      ImmutableMap.Builder<String, TldType> builder) {
+      ImmutableMap.Builder<String, PublicSuffixType> builder) {
 
     int encodedLen = encoded.length();
     int idx = 0;
@@ -83,7 +83,7 @@ class TrieParser {
       // ',' represents a leaf node, which represents a private entry in the map.
       String domain = PREFIX_JOINER.join(stack);
       if (domain.length() > 0) {
-        builder.put(domain, TldType.fromCode(c));
+        builder.put(domain, PublicSuffixType.fromCode(c));
       }
     }
     idx++;
@@ -126,7 +126,7 @@ class TrieParser {
 
     return new String(buffer);
   }
-      
+
   private static void swap(char[] buffer, int f, int s) {
     char tmp = buffer[f];
     buffer[f] = buffer[s];

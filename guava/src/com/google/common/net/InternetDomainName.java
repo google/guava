@@ -27,6 +27,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;
 
 import java.util.List;
 
@@ -169,14 +170,14 @@ public final class InternetDomainName {
     for (int i = 0; i < partsSize; i++) {
       String ancestorName = DOT_JOINER.join(parts.subList(i, partsSize));
 
-      if (TldPatterns.EXACT.containsKey(ancestorName)) {
+      if (PublicSuffixPatterns.EXACT.containsKey(ancestorName)) {
         return i;
       }
 
       // Excluded domains (e.g. !nhs.uk) use the next highest
       // domain as the effective public suffix (e.g. uk).
 
-      if (TldPatterns.EXCLUDED.containsKey(ancestorName)) {
+      if (PublicSuffixPatterns.EXCLUDED.containsKey(ancestorName)) {
         return i + 1;
       }
 
@@ -507,7 +508,7 @@ public final class InternetDomainName {
    */
   private static boolean matchesWildcardPublicSuffix(String domain) {
     final String[] pieces = domain.split(DOT_REGEX, 2);
-    return pieces.length == 2 && TldPatterns.UNDER.containsKey(pieces[1]);
+    return pieces.length == 2 && PublicSuffixPatterns.UNDER.containsKey(pieces[1]);
   }
 
   /**
