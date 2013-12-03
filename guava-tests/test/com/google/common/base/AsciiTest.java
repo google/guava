@@ -119,4 +119,31 @@ public class AsciiTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {}
   }
+
+  public void testEqualsIgnoreCase() {
+    assertTrue(Ascii.equalsIgnoreCase("", ""));
+    assertFalse(Ascii.equalsIgnoreCase("", "x"));
+    assertFalse(Ascii.equalsIgnoreCase("x", ""));
+    assertTrue(Ascii.equalsIgnoreCase(LOWER, UPPER));
+    assertTrue(Ascii.equalsIgnoreCase(UPPER, LOWER));
+    // Create new strings here to avoid early-out logic.
+    assertTrue(Ascii.equalsIgnoreCase(new String(IGNORED), new String(IGNORED)));
+    // Compare to: "\u00c1".equalsIgnoreCase("\u00e1") == true
+    assertFalse(Ascii.equalsIgnoreCase("\u00c1", "\u00e1"));
+    // Test chars just outside the alphabetic range ('A'-1 vs 'a'-1, 'Z'+1 vs 'z'+1)
+    assertFalse(Ascii.equalsIgnoreCase("@", "`"));
+    assertFalse(Ascii.equalsIgnoreCase("[", "{"));
+  }
+
+  public void testEqualsIgnoreCaseUnicodeEquivalence() {
+    // Note that it's possible in future that the JDK's idea to toUpperCase() or equalsIgnoreCase()
+    // may change and break assumptions in this test [*]. This is not a bug in the implementation of
+    // Ascii.equalsIgnoreCase(), but it is a signal that its documentation may need updating as
+    // regards edge cases.
+
+    // The Unicode point {@code 00df} is the lowercase form of sharp-S (ß), whose uppercase is "SS".
+    assertEquals("pa\u00dfword".toUpperCase(), "PASSWORD");    // [*]
+    assertFalse("pa\u00dfword".equalsIgnoreCase("PASSWORD"));  // [*]
+    assertFalse(Ascii.equalsIgnoreCase("pa\u00dfword", "PASSWORD"));
+  }
 }

@@ -533,6 +533,8 @@ public final class Ascii {
    * return {@code false}.
    */
   public static boolean isLowerCase(char c) {
+    // Note: This was benchmarked against the alternate expression "(char)(c - 'a') < 26" (Nov '13)
+    // and found to perform at least as well, or better.
     return (c >= 'a') && (c <= 'z');
   }
 
@@ -604,5 +606,62 @@ public final class Ascii {
         .append(seq, 0, truncationLength)
         .append(truncationIndicator)
         .toString();
+  }
+
+  /**
+   * Indicates whether the contents of the given character sequences {@code s1} and {@code s2} are
+   * equal, ignoring the case of any ASCII alphabetic characters between {@code 'a'} and {@code 'z'}
+   * or {@code 'A'} and {@code 'Z'} inclusive.
+   *
+   * <p>This method is significantly faster than {@link String#equalsIgnoreCase} and should be used
+   * in preference if at least one of the parameters is known to contain only ASCII characters.
+   *
+   * <p>Note however that this method does not always behave identically to expressions such as:
+   * <ul>
+   * <li>{@code string.toUpperCase().equals("UPPER CASE ASCII")}
+   * <li>{@code string.toLowerCase().equals("lower case ascii")}
+   * </ul>
+   * <p>due to case-folding of some non-ASCII characters (which does not occur in
+   * {@link String#equalsIgnoreCase}). However in almost all cases that ASCII strings are used,
+   * the author probably wanted the behavior provided by this method rather than the subtle and
+   * sometimes surprising behavior of {@code toUpperCase()} and {@code toLowerCase()}.
+   *
+   * @since 16.0
+   */
+  @Beta
+  public static boolean equalsIgnoreCase(CharSequence s1, CharSequence s2) {
+    // Calling length() is the null pointer check (so do it before we can exit early).
+    int length = s1.length();
+    if (s1 == s2) {
+      return true;
+    }
+    if (length != s2.length()) {
+      return false;
+    }
+    for (int i = 0; i < length; i++) {
+      char c1 = s1.charAt(i);
+      char c2 = s2.charAt(i);
+      if (c1 == c2) {
+        continue;
+      }
+      int alphaIndex = getAlphaIndex(c1);
+      // This was also benchmarked using '&' to avoid branching (but always evaluate the rhs),
+      // however this showed no obvious improvement.
+      if (alphaIndex < 26 && alphaIndex == getAlphaIndex(c2)) {
+        continue;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Returns the non-negative index value of the alpha character {@code c}, regardless of case.
+   * Ie, 'a'/'A' returns 0 and 'z'/'Z' returns 25. Non-alpha characters return a value of 26 or
+   * greater.
+   */
+  private static int getAlphaIndex(char c) {
+    // Fold upper-case ASCII to lower-case and make zero-indexed and unsigned (by casting to char).
+    return (char) ((c | 0x20) - 'a');
   }
 }
