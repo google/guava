@@ -420,7 +420,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
      * Removes all {@code Column} mappings whose row key and value satisfy the
      * given predicate.
      */
-    boolean removeIf(Predicate<? super Entry<R, V>> predicate) {
+    boolean removeFromColumnIf(Predicate<? super Entry<R, V>> predicate) {
       boolean changed = false;
       Iterator<Entry<R, Map<C, V>>> iterator
           = backingMap.entrySet().iterator();
@@ -464,7 +464,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       }
 
       @Override public void clear() {
-        removeIf(alwaysTrue());
+        removeFromColumnIf(alwaysTrue());
       }
 
       @Override public boolean contains(Object o) {
@@ -484,7 +484,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       }
 
       @Override public boolean retainAll(Collection<?> c) {
-        return removeIf(not(in(c)));
+        return removeFromColumnIf(not(in(c)));
       }
     }
 
@@ -530,7 +530,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       }
 
       @Override public boolean retainAll(final Collection<?> c) {
-        return removeIf(Maps.<R>keyPredicateOnEntries(not(in(c))));
+        return removeFromColumnIf(Maps.<R>keyPredicateOnEntries(not(in(c))));
       }
     }
 
@@ -545,15 +545,15 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       }
 
       @Override public boolean remove(Object obj) {
-        return obj != null && removeIf(Maps.<V>valuePredicateOnEntries(equalTo(obj)));
+        return obj != null && removeFromColumnIf(Maps.<V>valuePredicateOnEntries(equalTo(obj)));
       }
 
       @Override public boolean removeAll(final Collection<?> c) {
-        return removeIf(Maps.<V>valuePredicateOnEntries(in(c)));
+        return removeFromColumnIf(Maps.<V>valuePredicateOnEntries(in(c)));
       }
 
       @Override public boolean retainAll(final Collection<?> c) {
-        return removeIf(Maps.<V>valuePredicateOnEntries(not(in(c))));
+        return removeFromColumnIf(Maps.<V>valuePredicateOnEntries(not(in(c))));
       }
     }
   }

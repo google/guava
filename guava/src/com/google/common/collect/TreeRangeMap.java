@@ -488,7 +488,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
         SubRangeMap.this.clear();
       }
       
-      private boolean removeIf(Predicate<? super Entry<Range<K>, V>> predicate) {
+      private boolean removeEntryIf(Predicate<? super Entry<Range<K>, V>> predicate) {
         List<Range<K>> toRemove = Lists.newArrayList();
         for (Entry<Range<K>, V> entry : entrySet()) {
           if (predicate.apply(entry)) {
@@ -511,7 +511,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
           
           @Override
           public boolean retainAll(Collection<?> c) {
-            return removeIf(compose(not(in(c)), Maps.<Range<K>>keyFunction()));
+            return removeEntryIf(compose(not(in(c)), Maps.<Range<K>>keyFunction()));
           }
         };
       }
@@ -555,7 +555,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
           
           @Override
           public boolean retainAll(Collection<?> c) {
-            return removeIf(not(in(c)));
+            return removeEntryIf(not(in(c)));
           }
           
           @Override
@@ -575,12 +575,12 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
         return new Maps.Values<Range<K>, V>(this) {          
           @Override
           public boolean removeAll(Collection<?> c) {
-            return removeIf(compose(in(c), Maps.<V>valueFunction()));            
+            return removeEntryIf(compose(in(c), Maps.<V>valueFunction()));            
           }
           
           @Override
           public boolean retainAll(Collection<?> c) {
-            return removeIf(compose(not(in(c)), Maps.<V>valueFunction()));
+            return removeEntryIf(compose(not(in(c)), Maps.<V>valueFunction()));
           }
         };
       }
