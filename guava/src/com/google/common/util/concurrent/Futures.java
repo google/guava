@@ -32,6 +32,7 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -39,6 +40,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -1474,6 +1476,8 @@ public final class Futures {
     final AtomicInteger remaining;
     FutureCombiner<V, C> combiner;
     List<Optional<V>> values;
+    final Object seenExceptionsLock = new Object();
+    Set<Throwable> seenExceptions;
 
     CombinedFuture(
         ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
@@ -1550,17 +1554,27 @@ public final class Futures {
     /**
      * Fails this future with the given Throwable if {@link #allMustSucceed} is
      * true. Also, logs the throwable if it is an {@link Error} or if
-     * {@link #allMustSucceed} is {@code true} and the throwable did not cause
-     * this future to fail.
+     * {@link #allMustSucceed} is {@code true}, the throwable did not cause
+     * this future to fail, and it is the first time we've seen that particular Throwable.
      */
     private void setExceptionAndMaybeLog(Throwable throwable) {
-      boolean result = false;
+      boolean visibleFromOutputFuture = false;
+      boolean firstTimeSeeingThisException = true;
       if (allMustSucceed) {
         // As soon as the first one fails, throw the exception up.
         // The result of all other inputs is then ignored.
-        result = super.setException(throwable);
+        visibleFromOutputFuture = super.setException(throwable);
+
+        synchronized (seenExceptionsLock) {
+          if (seenExceptions == null) {
+            seenExceptions = Sets.newHashSet();
+          }
+          firstTimeSeeingThisException = seenExceptions.add(throwable);
+        }
       }
-      if (throwable instanceof Error || (allMustSucceed && !result)) {
+
+      if (throwable instanceof Error
+          || (allMustSucceed && !visibleFromOutputFuture && firstTimeSeeingThisException)) {
         logger.log(Level.SEVERE, "input future failed.", throwable);
       }
     }
