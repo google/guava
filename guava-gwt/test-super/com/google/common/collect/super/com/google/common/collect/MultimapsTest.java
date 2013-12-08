@@ -448,7 +448,6 @@ public class MultimapsTest extends TestCase {
           }
         };
 
-    tester.ignoreSunJavaBug6529795();
     tester.test();
   }
 

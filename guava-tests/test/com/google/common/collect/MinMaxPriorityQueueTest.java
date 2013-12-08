@@ -526,7 +526,6 @@ public class MinMaxPriorityQueueTest extends TestCase {
             assertTrue("Invalid MinMaxHeap: " + mmHeap, mmHeap.isIntact());
           }
         };
-    tester.ignoreSunJavaBug6529795();
     tester.test();
   }
 

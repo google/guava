@@ -93,11 +93,6 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
       IteratorTester.KnownOrder knownOrder, Iterable<E> elements) {
     new IteratorTester<E>(Platform.collectionIteratorTesterNumIterations(), features, elements,
         knownOrder) {
-      {
-        // TODO: don't set this universally
-        ignoreSunJavaBug6529795();
-      }
-
       @Override protected Iterator<E> newTargetIterator() {
         resetCollection();
         return collection.iterator();
