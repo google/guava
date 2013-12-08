@@ -329,7 +329,7 @@ public final class Splitter {
 
     return new Iterable<String>() {
       @Override public Iterator<String> iterator() {
-        return spliterator(sequence);
+        return splittingIterator(sequence);
       }
       @Override public String toString() {
         return Joiner.on(", ")
@@ -340,7 +340,7 @@ public final class Splitter {
     };
   }
 
-  private Iterator<String> spliterator(CharSequence sequence) {
+  private Iterator<String> splittingIterator(CharSequence sequence) {
     return strategy.iterator(this, sequence);
   }
 
@@ -357,7 +357,7 @@ public final class Splitter {
   public List<String> splitToList(CharSequence sequence) {
     checkNotNull(sequence);
 
-    Iterator<String> iterator = spliterator(sequence);
+    Iterator<String> iterator = splittingIterator(sequence);
     List<String> result = new ArrayList<String>();
 
     while (iterator.hasNext()) {
@@ -441,7 +441,7 @@ public final class Splitter {
     public Map<String, String> split(CharSequence sequence) {
       Map<String, String> map = new LinkedHashMap<String, String>();
       for (String entry : outerSplitter.split(sequence)) {
-        Iterator<String> entryFields = entrySplitter.spliterator(entry);
+        Iterator<String> entryFields = entrySplitter.splittingIterator(entry);
 
         checkArgument(entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);
         String key = entryFields.next();
