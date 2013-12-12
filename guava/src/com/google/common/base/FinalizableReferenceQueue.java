@@ -66,11 +66,13 @@ import java.util.logging.Logger;
  *     Reference&lt;?> reference = new FinalizablePhantomReference&lt;MyServer>(myServer, frq) {
  *       &#64;Override public void finalizeReferent() {
  *         references.remove(this):
- *         ...log a message about how nobody called close()...
- *         try {
- *           serverSocket.close();
- *         } catch (IOException e) {
- *           ...
+ *         if (!serverSocket.isClosed()) {
+ *           ...log a message about how nobody called close()...
+ *           try {
+ *             serverSocket.close();
+ *           } catch (IOException e) {
+ *             ...
+ *           }
  *         }
  *       }
  *     };
