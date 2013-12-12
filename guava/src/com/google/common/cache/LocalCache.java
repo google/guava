@@ -2292,7 +2292,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         throw new AssertionError();
       }
 
-      checkState(!Thread.holdsLock(e), "Recursive load");
+      checkState(!Thread.holdsLock(e), "Recursive load of: %s", key);
       // don't consider expiration as we're concurrent with loading
       try {
         V value = valueReference.waitForValue();
