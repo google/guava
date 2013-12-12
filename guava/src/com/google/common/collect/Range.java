@@ -447,10 +447,12 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
   }
 
   /**
-   * Equivalent to {@link #contains}; provided only to satisfy the {@link Predicate} interface. When
-   * using a reference of type {@code Range}, always invoke {@link #contains} directly instead.
+   * @deprecated Provided only to satisfy the {@link Predicate} interface; use {@link #contains}
+   *     instead.
    */
-  @Override public boolean apply(C input) {
+  @Deprecated
+  @Override
+  public boolean apply(C input) {
     return contains(input);
   }
 

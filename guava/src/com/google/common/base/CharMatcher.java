@@ -1327,13 +1327,13 @@ public abstract class CharMatcher implements Predicate<Character> {
     return builder.toString();
   }
 
-  // Predicate interface
-
   /**
-   * Equivalent to {@link #matches}; provided only to satisfy the {@link Predicate} interface. When
-   * using a reference of type {@code CharMatcher}, invoke {@link #matches} directly instead.
+   * @deprecated Provided only to satisfy the {@link Predicate} interface; use {@link #matches}
+   *     instead.
    */
-  @Override public boolean apply(Character character) {
+  @Deprecated
+  @Override
+  public boolean apply(Character character) {
     return matches(character);
   }
 

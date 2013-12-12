@@ -127,11 +127,12 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * Equivalent to {@link #mightContain}; provided only to satisfy the {@link Predicate} interface.
-   * When using a reference of type {@code BloomFilter}, always invoke {@link #mightContain}
-   * directly instead.
+   * @deprecated Provided only to satisfy the {@link Predicate} interface; use {@link #mightContain}
+   *     instead.
    */
-  @Override public boolean apply(T input) {
+  @Deprecated
+  @Override
+  public boolean apply(T input) {
     return mightContain(input);
   }
 
