@@ -130,6 +130,7 @@ public interface Cache<K, V> {
   /**
    * Returns a current snapshot of this cache's cumulative statistics. All stats are initialized
    * to zero, and are monotonically increasing over the lifetime of the cache.
+   *
    */
   CacheStats stats();
 
