@@ -114,8 +114,8 @@ public final class Utf8 {
 
   /**
    * Returns whether the given byte array slice is a well-formed UTF-8 byte sequence, as defined by
-   * {@link #isWellFormed(byte[]). Note that this can be false even when {@code isWellFormed(bytes)}
-   * is true.
+   * {@link #isWellFormed(byte[])}. Note that this can be false even when {@code
+   * isWellFormed(bytes)} is true.
    *
    * @param bytes the input buffer
    * @param off the offset in the buffer of the first byte to read
