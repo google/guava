@@ -38,6 +38,52 @@ import java.util.logging.Logger;
  * finalized. If this object is garbage collected earlier, the backing thread will not invoke {@code
  * finalizeReferent()} on the remaining references.
  *
+ * <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a
+ * a {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the
+ * {@code ServerSocket} is closed even if the {@code MyServer} object is garbage-collected without
+ * calling its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but
+ * that has a number of well-known problems. Here is how you might use this class instead:
+ *
+ * <pre>
+ * public class MyServer implements Closeable {
+ *   private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
+ *   // You might also share this between several objects.
+ *
+ *   private static final Set&lt;Reference&lt;?>> references = Sets.newConcurrentHashSet();
+ *   // This ensures that the FinalizablePhantomReference itself is not garbage-collected.
+ *
+ *   private final ServerSocket serverSocket;
+ *
+ *   private MyServer(...) {
+ *     ...
+ *     this.serverSocket = new ServerSocket(...);
+ *     ...
+ *   }
+ *
+ *   public static MyServer create(...) {
+ *     MyServer myServer = new MyServer(...);
+ *     final ServerSocket serverSocket = myServer.serverSocket;
+ *     Reference&lt;?> reference = new FinalizablePhantomReference&lt;MyServer>(myServer, frq) {
+ *       &#64;Override public void finalizeReferent() {
+ *         references.remove(this):
+ *         ...log a message about how nobody called close()...
+ *         try {
+ *           serverSocket.close();
+ *         } catch (IOException e) {
+ *           ...
+ *         }
+ *       }
+ *     };
+ *     references.add(reference);
+ *     return myServer;
+ *   }
+ *
+ *   &#64;Override public void close() {
+ *     serverSocket.close();
+ *   }
+ * }
+ * </pre>
+ *
  * @author Bob Lee
  * @since 2.0 (imported from Google Collections Library)
  */
