@@ -572,6 +572,17 @@ public final class Lists {
     @Override public T get(int index) {
       return function.apply(fromList.get(index));
     }
+    @Override public Iterator<T> iterator() {
+      return listIterator();
+    }
+    @Override public ListIterator<T> listIterator(int index) {
+      return new TransformedListIterator<F, T>(fromList.listIterator(index)) {
+        @Override
+        T transform(F from) {
+          return function.apply(from);
+        }
+      };
+    }
     @Override public boolean isEmpty() {
       return fromList.isEmpty();
     }

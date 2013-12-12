@@ -681,6 +681,20 @@ public class ListsTest extends TestCase {
     assertTransformListIterator(list);
   }
 
+  public void testTransformPreservesIOOBEsThrownByFunction() {
+    try {
+      Lists.transform(ImmutableList.of("foo", "bar"), new Function<String, String>() {
+        @Override
+        public String apply(String input) {
+          throw new IndexOutOfBoundsException();
+        }
+      }).toArray();
+      fail();
+    } catch (IndexOutOfBoundsException expected) {
+      // success
+    }
+  }
+
   private static void assertTransformListIterator(List<String> list) {
     ListIterator<String> iterator = list.listIterator(1);
     assertEquals(1, iterator.nextIndex());

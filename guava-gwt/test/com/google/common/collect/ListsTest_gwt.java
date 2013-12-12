@@ -233,6 +233,11 @@ public void testTransformModifiableSequential() throws Exception {
   testCase.testTransformModifiableSequential();
 }
 
+public void testTransformPreservesIOOBEsThrownByFunction() throws Exception {
+  com.google.common.collect.ListsTest testCase = new com.google.common.collect.ListsTest();
+  testCase.testTransformPreservesIOOBEsThrownByFunction();
+}
+
 public void testTransformRandomAccess() throws Exception {
   com.google.common.collect.ListsTest testCase = new com.google.common.collect.ListsTest();
   testCase.testTransformRandomAccess();
