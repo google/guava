@@ -800,6 +800,13 @@ public abstract class Ordering<T> implements Comparator<T> {
    * performed is <i>stable</i>, meaning that such elements will appear in the
    * resulting list in the same order they appeared in the input.
    *
+   * <p>This implementation copies {@code iterable} to an array, sorts the 
+   * array, and creates an {@code ArrayList} from the array, incurring two 
+   * copies. The traditional implementation of copying to an {@code ArrayList}
+   * and using {@code Collections.sort} incurs three copies, as 
+   * {@code Collections.sort} internally copies the elements to an array,
+   * sorts them, and dumps them back.
+   *
    * @param iterable the elements to be copied and sorted
    * @return a new list containing the given elements in sorted order
    */
@@ -818,6 +825,13 @@ public abstract class Ordering<T> implements Comparator<T> {
    * elements that are duplicates according to the comparator. The sort
    * performed is <i>stable</i>, meaning that such elements will appear in the
    * resulting list in the same order they appeared in the input.
+   *
+   * <p>This implementation copies {@code iterable} to an array, sorts the 
+   * array, and returns an {@code ImmutableList} view of the array, incurring 
+   * one copy. In contrast, the "traditional" implementation of copying 
+   * {@code iterable} to an {@code ArrayList}, using {@code Collections.sort},
+   * and using {@code ImmutableList.copyOf} would perform four copies of the 
+   * data.
    *
    * @param iterable the elements to be copied and sorted
    * @return a new immutable list containing the given elements in sorted order
