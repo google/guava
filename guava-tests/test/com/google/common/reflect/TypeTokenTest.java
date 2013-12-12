@@ -1257,6 +1257,19 @@ public class TypeTokenTest extends TestCase {
     assertEquals(TypeToken.of(String.class), params.get(1).getType());
   }
 
+  public void testMethod_equals() throws NoSuchMethodException {
+    Method getMethod = List.class.getMethod("get", int.class);
+    Method setMethod = List.class.getMethod("set", int.class, Object.class);
+    new EqualsTester()
+        .addEqualityGroup(Invokable.from(getMethod), Invokable.from(getMethod))
+        .addEqualityGroup(Invokable.from(setMethod))
+        .addEqualityGroup(new TypeToken<List<Integer>>() {}.method(getMethod))
+        .addEqualityGroup(new TypeToken<List<String>>() {}.method(getMethod))
+        .addEqualityGroup(new TypeToken<List<Integer>>() {}.method(setMethod))
+        .addEqualityGroup(new TypeToken<List<String>>() {}.method(setMethod))
+        .testEquals();
+  }
+
   private interface Loser<E extends Throwable> {
     void lose() throws E;
   }
@@ -1291,6 +1304,19 @@ public class TypeTokenTest extends TestCase {
       TypeToken.of(String.class).constructor(constructor);
       fail();
     } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testConstructor_equals() throws NoSuchMethodException {
+    Constructor<?> defaultConstructor = ArrayList.class.getConstructor();
+    Constructor<?> oneArgConstructor = ArrayList.class.getConstructor(int.class);
+    new EqualsTester()
+        .addEqualityGroup(Invokable.from(defaultConstructor), Invokable.from(defaultConstructor))
+        .addEqualityGroup(Invokable.from(oneArgConstructor))
+        .addEqualityGroup(new TypeToken<ArrayList<Integer>>() {}.constructor(defaultConstructor))
+        .addEqualityGroup(new TypeToken<ArrayList<String>>() {}.constructor(defaultConstructor))
+        .addEqualityGroup(new TypeToken<ArrayList<Integer>>() {}.constructor(oneArgConstructor))
+        .addEqualityGroup(new TypeToken<ArrayList<String>>() {}.constructor(oneArgConstructor))
+        .testEquals();
   }
 
   private static class Container<T> {

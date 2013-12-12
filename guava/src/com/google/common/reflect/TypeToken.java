@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ForwardingSet;
@@ -504,6 +505,9 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       @Override public TypeToken<T> getOwnerType() {
         return TypeToken.this;
       }
+      @Override public String toString() {
+        return getOwnerType() + "." + super.toString();
+      }
     };
   }
 
@@ -527,6 +531,9 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       }
       @Override public TypeToken<T> getOwnerType() {
         return TypeToken.this;
+      }
+      @Override public String toString() {
+        return getOwnerType() + "(" + Joiner.on(", ").join(getGenericParameterTypes()) + ")";
       }
     };
   }

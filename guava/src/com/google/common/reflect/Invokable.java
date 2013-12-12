@@ -167,7 +167,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   /** Returns the type of {@code T}. */
   // Overridden in TypeToken#method() and TypeToken#constructor()
   @SuppressWarnings("unchecked") // The declaring class is T.
-  public TypeToken<T> getOwnerType() {
+  @Override public TypeToken<T> getOwnerType() {
     return (TypeToken<T>) TypeToken.of(getDeclaringClass());
   }
 
@@ -185,7 +185,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   
   static class MethodInvokable<T> extends Invokable<T, Object> {
 
-    private final Method method;
+    final Method method;
 
     MethodInvokable(Method method) {
       super(method);
@@ -229,7 +229,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
 
   static class ConstructorInvokable<T> extends Invokable<T, T> {
 
-    private final Constructor<?> constructor;
+    final Constructor<?> constructor;
 
     ConstructorInvokable(Constructor<?> constructor) {
       super(constructor);

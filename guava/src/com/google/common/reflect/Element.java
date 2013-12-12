@@ -45,6 +45,10 @@ class Element extends AccessibleObject implements Member {
     this.member = member;
   }
 
+  public TypeToken<?> getOwnerType() {
+    return TypeToken.of(getDeclaringClass());
+  }
+
   @Override public final boolean isAnnotationPresent(Class<? extends Annotation> annotationClass) {
     return accessibleObject.isAnnotationPresent(annotationClass);
   }
@@ -149,7 +153,7 @@ class Element extends AccessibleObject implements Member {
   @Override public boolean equals(@Nullable Object obj) {
     if (obj instanceof Element) {
       Element that = (Element) obj;
-      return member.equals(that.member);
+      return getOwnerType().equals(that.getOwnerType()) && member.equals(that.member);
     }
     return false;
   }
