@@ -20,9 +20,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.List;
@@ -47,14 +49,29 @@ public class AbstractInvocationHandlerTest extends TestCase {
     assertEquals(Proxy.getInvocationHandler(proxy).toString(), proxy.toString());
   }
 
+  interface A {}
+  interface B{}
+
   public void testEquals() {
+    class AB implements A, B {}
+    class BA implements B, A {}
+    AB ab = new AB();
+    BA ba = new BA();
     new EqualsTester()
         .addEqualityGroup(newDelegatingList(LIST1))
         // Actually, this violates List#equals contract.
         // But whatever, no one is going to proxy List (hopefully).
         .addEqualityGroup(newDelegatingList(LIST1))
         .addEqualityGroup(newDelegatingList(LIST2))
-        .addEqualityGroup(newDelegatingListWithEquals(LIST1), newDelegatingListWithEquals(LIST1))
+        .addEqualityGroup(
+            newProxyWithEqualsForInterfaces(List.class, Runnable.class),
+            newProxyWithEqualsForInterfaces(List.class, Runnable.class))
+        .addEqualityGroup(
+            newProxyWithEqualsForInterfaces(Runnable.class, List.class))
+        .addEqualityGroup(
+            newDelegatingListWithEquals(LIST1),
+            newDelegatingListWithEquals(LIST1),
+            SerializableTester.reserialize(newDelegatingListWithEquals(LIST1)))
         .addEqualityGroup(
             newDelegatingListWithEquals(LIST2),
             newProxyWithSubHandler1(LIST2), // Makes sure type of handler doesn't affect equality
@@ -88,7 +105,14 @@ public class AbstractInvocationHandlerTest extends TestCase {
     return Reflection.newProxy(List.class, new SubHandler2(delegate));
   }
 
-  private static class DelegatingInvocationHandler extends AbstractInvocationHandler {
+  private static Object newProxyWithEqualsForInterfaces(
+      Class<?>... interfaces) {
+    return Proxy.newProxyInstance(AbstractInvocationHandlerTest.class.getClassLoader(),
+        interfaces, new DelegatingInvocationHandlerWithEquals("a string"));
+  }
+
+  private static class DelegatingInvocationHandler extends AbstractInvocationHandler
+      implements Serializable {
     final Object delegate;
 
     DelegatingInvocationHandler(Object delegate) {
@@ -122,6 +146,10 @@ public class AbstractInvocationHandlerTest extends TestCase {
 
     @Override public int hashCode() {
       return delegate.hashCode();
+    }
+
+    @Override public String toString() {
+      return "another arbitrary string";
     }
   }
 
