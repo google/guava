@@ -38,7 +38,6 @@ public class EqualsTesterTest extends TestCase {
   private ValidTestObject equalObject1;
   private ValidTestObject equalObject2;
   private ValidTestObject notEqualObject1;
-  private ValidTestObject notEqualObject2;
 
   @Override
   public void setUp() throws Exception {
@@ -48,7 +47,6 @@ public class EqualsTesterTest extends TestCase {
     equalObject1 = new ValidTestObject(1, 2);
     equalObject2 = new ValidTestObject(1, 2);
     notEqualObject1 = new ValidTestObject(0, 2);
-    notEqualObject2 = new ValidTestObject(1, 0);
   }
 
   /**
@@ -362,7 +360,7 @@ public class EqualsTesterTest extends TestCase {
   }
 
   /** Test class that violates reflexitivity.  It is not equal to itself */
-  private static class NonReflexiveObject{
+  private static class NonReflexiveObject {
 
     @Override public boolean equals(Object o) {
       return false;
@@ -374,7 +372,7 @@ public class EqualsTesterTest extends TestCase {
   }
 
   /** Test class that returns true if the test object is null */
-  private static class InvalidEqualsNullObject{
+  private static class InvalidEqualsNullObject {
 
     @Override public boolean equals(Object o) {
       return o == this || o == null;
@@ -388,7 +386,7 @@ public class EqualsTesterTest extends TestCase {
   /**
    * Test class that returns true even if the test object is of the wrong class
    */
-  private static class InvalidEqualsIncompatibleClassObject{
+  private static class InvalidEqualsIncompatibleClassObject {
 
     @Override public boolean equals(Object o) {
       if (o == null) {

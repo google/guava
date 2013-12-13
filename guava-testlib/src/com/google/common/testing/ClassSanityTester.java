@@ -542,8 +542,8 @@ public final class ClassSanityTester {
     // Each group is a List of items, each item has a list of factory args.
     final List<List<List<Object>>> argGroups = Lists.newArrayList();
     argGroups.add(ImmutableList.of(args, equalArgs));
-    EqualsTester tester = new EqualsTester().setItemReporter(new ItemReporter() {
-      @Override String reportItem(Item item) {
+    EqualsTester tester = new EqualsTester(new ItemReporter() {
+      @Override String reportItem(Item<?> item) {
         List<Object> factoryArgs = argGroups.get(item.groupNumber).get(item.itemNumber);
         return factory.getName() + "(" + Joiner.on(", ").useForNull("null").join(factoryArgs) + ")";
       }

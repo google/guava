@@ -22,11 +22,10 @@ import static junit.framework.Assert.assertTrue;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.testing.RelationshipTester.RelationshipAssertion;
 
 import java.util.List;
 
@@ -76,12 +75,18 @@ public final class EqualsTester {
   private static final int REPETITIONS = 3;
 
   private final List<List<Object>> equalityGroups = Lists.newArrayList();
-  private RelationshipTester.ItemReporter itemReporter = new RelationshipTester.ItemReporter();
+  private final RelationshipTester.ItemReporter itemReporter;
 
   /**
    * Constructs an empty EqualsTester instance
    */
-  public EqualsTester() {}
+  public EqualsTester() {
+    this(new RelationshipTester.ItemReporter());
+  }
+
+  EqualsTester(RelationshipTester.ItemReporter itemReporter) {
+    this.itemReporter = checkNotNull(itemReporter);
+  }
 
   /**
    * Adds {@code equalityGroup} with objects that are supposed to be equal to
@@ -98,22 +103,7 @@ public final class EqualsTester {
    */
   public EqualsTester testEquals() {
     RelationshipTester<Object> delegate = new RelationshipTester<Object>(
-        new RelationshipAssertion<Object>() {
-          @Override public void assertRelated(Object item, Object related) {
-            assertEquals("$ITEM must be Object#equals to $RELATED", item, related);
-            int itemHash = item.hashCode();
-            int relatedHash = related.hashCode();
-            assertEquals("the Object#hashCode (" + itemHash + ") of $ITEM must be equal to the "
-                + "Object#hashCode (" + relatedHash +") of $RELATED", itemHash, relatedHash);
-          }
-
-          @Override public void assertUnrelated(Object item, Object unrelated) {
-            // TODO(cpovirk): should this implementation (and
-            // RelationshipAssertions in general) accept null inputs?
-            assertTrue("$ITEM must not be Object#equals to $UNRELATED",
-              !Objects.equal(item, unrelated));
-          }
-        }, itemReporter);
+        Equivalence.equals(), "Object#equals", "Object#hashCode", itemReporter);
     for (List<Object> group : equalityGroups) {
       delegate.addRelatedGroup(group);
     }
@@ -121,11 +111,6 @@ public final class EqualsTester {
       testItems();
       delegate.test();
     }
-    return this;
-  }
-
-  EqualsTester setItemReporter(RelationshipTester.ItemReporter reporter) {
-    this.itemReporter = checkNotNull(reporter);
     return this;
   }
 

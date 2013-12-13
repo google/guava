@@ -25,7 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.testing.RelationshipTester.RelationshipAssertion;
+import com.google.common.testing.RelationshipTester.ItemReporter;
 
 import java.util.List;
 
@@ -65,22 +65,10 @@ import java.util.List;
   private final RelationshipTester<T> delegate;
   private final List<T> items = Lists.newArrayList();
 
-  EquivalenceTester(final Equivalence<? super T> equivalence) {
+  private EquivalenceTester(Equivalence<? super T> equivalence) {
     this.equivalence = checkNotNull(equivalence);
-    this.delegate = new RelationshipTester<T>(new RelationshipAssertion<T>() {
-      @Override public void assertRelated(T item, T related) {
-        assertTrue("$ITEM must be equivalent to $RELATED", equivalence.equivalent(item, related));
-        int itemHash = equivalence.hash(item);
-        int relatedHash = equivalence.hash(related);
-        assertEquals("the hash (" + itemHash + ") of $ITEM must be equal to the hash ("
-            + relatedHash + ") of $RELATED", itemHash, relatedHash);
-      }
-
-      @Override public void assertUnrelated(T item, T unrelated) {
-        assertTrue("$ITEM must be inequivalent to $UNRELATED",
-            !equivalence.equivalent(item, unrelated));
-      }
-    });
+    this.delegate = new RelationshipTester<T>(
+        equivalence, "equivalent", "hash", new ItemReporter());
   }
 
   public static <T> EquivalenceTester<T> of(Equivalence<? super T> equivalence) {
@@ -114,6 +102,10 @@ import java.util.List;
 
   private void testItems() {
     for (T item : items) {
+      /*
+       * TODO(cpovirk): consider no longer running these equivalent() tests on every Equivalence,
+       * since the Equivalence base type now implements this logic itself
+       */
       assertTrue(item + " must be inequivalent to null", !equivalence.equivalent(item, null));
       assertTrue("null must be inequivalent to " + item, !equivalence.equivalent(null, item));
       assertTrue(item + " must be equivalent to itself", equivalence.equivalent(item, item));

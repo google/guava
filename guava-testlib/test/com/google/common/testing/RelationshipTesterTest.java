@@ -17,7 +17,6 @@
 package com.google.common.testing;
 
 import com.google.common.testing.RelationshipTester.ItemReporter;
-import com.google.common.testing.RelationshipTester.RelationshipAssertion;
 
 import junit.framework.TestCase;
 
@@ -30,10 +29,6 @@ public class RelationshipTesterTest extends TestCase {
 
   public void testNulls() {
     new ClassSanityTester()
-        .setDefault(RelationshipAssertion.class, new RelationshipAssertion<Object>() {
-          @Override void assertRelated(Object item, Object related) {}
-          @Override void assertUnrelated(Object item, Object unrelated) {}
-        })
         .setDefault(ItemReporter.class, new ItemReporter())
         .testNulls(RelationshipTester.class);
   }

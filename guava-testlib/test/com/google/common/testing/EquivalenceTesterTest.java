@@ -155,7 +155,7 @@ public class EquivalenceTesterTest extends TestCase {
       tester.addEquivalenceGroup(group1Item1).addEquivalenceGroup(group2Item1).test();
     } catch (AssertionFailedError expected) {
       ASSERT.that(expected.getMessage()).contains(
-          "TestObject{group=1, item=1} [group 1, item 1] must be inequivalent to "
+          "TestObject{group=1, item=1} [group 1, item 1] must not be equivalent to "
           + "TestObject{group=2, item=1} [group 2, item 1]");
       return;
     }
