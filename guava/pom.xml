@@ -108,6 +108,7 @@
           <linksource>true</linksource>
           <links>
             <link>http://jsr-305.googlecode.com/svn/trunk/javadoc</link>
+            <link>http://docs.oracle.com/javase/7/docs/api/</link>
           </links>
           <!-- TODO(cpovirk): can we use includeDependencySources and a local com.oracle.java:jdk-lib:noversion:sources instead of all this unzipping and manual sourcepath modification? -->
           <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources</sourcepath>
