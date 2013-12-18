@@ -68,6 +68,11 @@ public void testPublicSuffix() throws Exception {
   testCase.testPublicSuffix();
 }
 
+public void testToString() throws Exception {
+  com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
+  testCase.testToString();
+}
+
 public void testTopPrivateDomain() throws Exception {
   com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
   testCase.testTopPrivateDomain();
