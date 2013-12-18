@@ -19,6 +19,7 @@ package com.google.common.io;
 import static com.google.common.io.SourceSinkFactory.CharSourceFactory;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import junit.framework.TestSuite;
 
@@ -139,6 +140,48 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
 
   public void testIsEmpty() throws IOException {
     assertEquals(expected.isEmpty(), source.isEmpty());
+  }
+
+  public void testReadLines_withProcessor() throws IOException {
+    List<String> list = source.readLines(new LineProcessor<List<String>>() {
+      List<String> list = Lists.newArrayList();
+
+      @Override
+      public boolean processLine(String line) throws IOException {
+        list.add(line);
+        return true;
+      }
+
+      @Override
+      public List<String> getResult() {
+        return list;
+      }
+    });
+
+    assertExpectedLines(list);
+  }
+
+  public void testReadLines_withProcessor_stopsOnFalse() throws IOException {
+    List<String> list = source.readLines(new LineProcessor<List<String>>() {
+      List<String> list = Lists.newArrayList();
+
+      @Override
+      public boolean processLine(String line) throws IOException {
+        list.add(line);
+        return false;
+      }
+
+      @Override
+      public List<String> getResult() {
+        return list;
+      }
+    });
+
+    if (expectedLines.isEmpty()) {
+      assertTrue(list.isEmpty());
+    } else {
+      assertEquals(expectedLines.subList(0, 1), list);
+    }
   }
 
   private void assertExpectedString(String string) {

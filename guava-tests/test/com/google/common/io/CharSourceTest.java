@@ -24,6 +24,7 @@ import static com.google.common.io.TestOption.WRITE_THROWS;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.testing.TestLogHandler;
 
 import junit.framework.TestSuite;
@@ -34,6 +35,7 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.EnumSet;
+import java.util.List;
 
 /**
  * Tests for the default implementations of {@code CharSource} methods.
@@ -115,6 +117,46 @@ public class CharSourceTest extends IoTestCase {
   public void testReadLines_toList() throws IOException {
     TestCharSource lines = new TestCharSource(LINES);
     assertEquals(ImmutableList.of("foo", "bar", "baz", "something"), lines.readLines());
+    assertTrue(lines.wasStreamOpened() && lines.wasStreamClosed());
+  }
+
+  public void testReadLines_withProcessor() throws IOException {
+    TestCharSource lines = new TestCharSource(LINES);
+    List<String> list = lines.readLines(new LineProcessor<List<String>>() {
+      List<String> list = Lists.newArrayList();
+
+      @Override
+      public boolean processLine(String line) throws IOException {
+        list.add(line);
+        return true;
+      }
+
+      @Override
+      public List<String> getResult() {
+        return list;
+      }
+    });
+    assertEquals(ImmutableList.of("foo", "bar", "baz", "something"), list);
+    assertTrue(lines.wasStreamOpened() && lines.wasStreamClosed());
+  }
+
+  public void testReadLines_withProcessor_stopsOnFalse() throws IOException {
+    TestCharSource lines = new TestCharSource(LINES);
+    List<String> list = lines.readLines(new LineProcessor<List<String>>() {
+      List<String> list = Lists.newArrayList();
+
+      @Override
+      public boolean processLine(String line) throws IOException {
+        list.add(line);
+        return false;
+      }
+
+      @Override
+      public List<String> getResult() {
+        return list;
+      }
+    });
+    assertEquals(ImmutableList.of("foo"), list);
     assertTrue(lines.wasStreamOpened() && lines.wasStreamClosed());
   }
 

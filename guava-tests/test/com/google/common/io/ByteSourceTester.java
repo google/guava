@@ -166,6 +166,25 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
     }));
   }
 
+  public void testRead_usingByteProcessor() throws IOException {
+    byte[] readBytes = source.read(new ByteProcessor<byte[]>() {
+      final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+      @Override
+      public boolean processBytes(byte[] buf, int off, int len) throws IOException {
+        out.write(buf, off, len);
+        return true;
+      }
+
+      @Override
+      public byte[] getResult() {
+        return out.toByteArray();
+      }
+    });
+
+    assertExpectedBytes(readBytes);
+  }
+
   public void testHash() throws IOException {
     HashCode expectedHash = Hashing.md5().hashBytes(expected);
     assertEquals(expectedHash, source.hash(Hashing.md5()));

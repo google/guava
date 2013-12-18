@@ -118,6 +118,51 @@ public class ByteSourceTest extends IoTestCase {
     assertTrue(source.wasStreamOpened() && source.wasStreamClosed());
   }
 
+  public void testRead_withProcessor() throws IOException {
+    final byte[] processedBytes = new byte[bytes.length];
+    ByteProcessor<byte[]> processor = new ByteProcessor<byte[]>() {
+      int pos;
+
+      @Override
+      public boolean processBytes(byte[] buf, int off, int len) throws IOException {
+        System.arraycopy(buf, off, processedBytes, pos, len);
+        pos += len;
+        return true;
+      }
+
+      @Override
+      public byte[] getResult() {
+        return processedBytes;
+      }
+    };
+
+    source.read(processor);
+    assertTrue(source.wasStreamOpened() && source.wasStreamClosed());
+
+    assertArrayEquals(bytes, processedBytes);
+  }
+
+  public void testRead_withProcessor_stopsOnFalse() throws IOException {
+    ByteProcessor<Void> processor = new ByteProcessor<Void>() {
+      boolean firstCall = true;
+
+      @Override
+      public boolean processBytes(byte[] buf, int off, int len) throws IOException {
+        assertTrue("consume() called twice", firstCall);
+        firstCall = false;
+        return false;
+      }
+
+      @Override
+      public Void getResult() {
+        return null;
+      }
+    };
+
+    source.read(processor);
+    assertTrue(source.wasStreamOpened() && source.wasStreamClosed());
+  }
+
   public void testHash() throws IOException {
     ByteSource byteSource = new TestByteSource("hamburger\n".getBytes(Charsets.US_ASCII));
 
