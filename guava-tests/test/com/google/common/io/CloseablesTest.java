@@ -64,18 +64,9 @@ public class CloseablesTest extends TestCase {
     doClose(mockCloseable, false);
   }
 
-  public void testCloseQuietly_closeableWithEatenException()
-      throws IOException {
-    // make sure that no exception is thrown by CloseQuietly when the mock does
-    // throw an exception on close
-    setupCloseable(true);
-    Closeables.closeQuietly(mockCloseable);
-  }
-
   public void testCloseNull() throws IOException {
     Closeables.close(null, true);
     Closeables.close(null, false);
-    Closeables.closeQuietly(null);
   }
 
   @Override protected void setUp() throws Exception {

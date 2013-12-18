@@ -22,7 +22,7 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.common.io.Closeables;
+import com.google.common.io.Closer;
 import com.google.common.io.Resources;
 import com.google.common.reflect.ClassPath.ClassInfo;
 import com.google.common.reflect.ClassPath.ResourceInfo;
@@ -433,15 +433,20 @@ public class ClassPathTest extends TestCase {
     // Without version, the manifest is silently ignored. Ugh!
     manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
     manifest.getMainAttributes().put(Attributes.Name.CLASS_PATH, jarFile.getName());
-    JarOutputStream jarOut = new JarOutputStream(new FileOutputStream(jarFile), manifest);
+
+    Closer closer = Closer.create();
     try {
+      FileOutputStream fileOut = closer.register(new FileOutputStream(jarFile));
+      JarOutputStream jarOut = closer.register(new JarOutputStream(fileOut));
       for (String entry : entries) {
         jarOut.putNextEntry(new ZipEntry(entry));
         Resources.copy(ClassPathTest.class.getResource(entry), jarOut);
         jarOut.closeEntry();
       }
+    } catch (Throwable e) {
+      throw closer.rethrow(e);
     } finally {
-      Closeables.closeQuietly(jarOut);
+      closer.close();
     }
   }
 

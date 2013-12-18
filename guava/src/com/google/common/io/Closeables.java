@@ -84,18 +84,4 @@ public final class Closeables {
       }
     }
   }
-
-  /**
-   * Equivalent to calling {@code close(closeable, true)}, but with no IOException in the signature.
-   *
-   * @param closeable the {@code Closeable} object to be closed, or null, in which case this method
-   *     does nothing
-   */
-  public static void closeQuietly(@Nullable Closeable closeable) {
-    try {
-      close(closeable, true);
-    } catch (IOException e) {
-      logger.log(Level.SEVERE, "IOException should not have been thrown.", e);
-    }
-  }
 }
