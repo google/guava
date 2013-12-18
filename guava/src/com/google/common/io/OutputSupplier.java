@@ -23,7 +23,14 @@ import java.io.IOException;
  *
  * @author Chris Nokleberg
  * @since 1.0
+ * @deprecated For {@code OutputSupplier<? extends OutputStream>}, use
+ *     {@link ByteSink} instead. For {@code OutputSupplier<? extends Writer>},
+ *     use {@link CharSink}. Implementations of {@code OutputSupplier} that
+ *     don't fall into one of those categories do not benefit from any of the
+ *     methods in {@code common.io} and should use a different interface. This
+ *     interface is scheduled for removal in June 2015.
  */
+@Deprecated
 public interface OutputSupplier<T> {
 
   /**

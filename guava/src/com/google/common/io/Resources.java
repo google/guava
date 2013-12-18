@@ -54,7 +54,10 @@ public final class Resources {
    *
    * @param url the URL to read from
    * @return the factory
+   * @deprecated Use {@link #asByteSource(URL)} instead. This method is
+   *     scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static InputSupplier<InputStream> newInputStreamSupplier(URL url) {
     return ByteStreams.asInputSupplier(asByteSource(url));
   }
@@ -98,14 +101,18 @@ public final class Resources {
    * @param charset the charset used to decode the input stream; see {@link
    *     Charsets} for helpful predefined constants
    * @return the factory
+   * @deprecated Use {@link #asCharSource(URL, Charset)} instead. This method
+   *     is scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static InputSupplier<InputStreamReader> newReaderSupplier(
       URL url, Charset charset) {
     return CharStreams.asInputSupplier(asCharSource(url, charset));
   }
 
   /**
-   * Returns a {@link CharSource} that reads from the given URL using the given character set.
+   * Returns a {@link CharSource} that reads from the given URL using the given
+   * character set.
    *
    * @since 14.0
    */

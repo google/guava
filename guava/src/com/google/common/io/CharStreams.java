@@ -67,7 +67,10 @@ public final class CharStreams {
    *
    * @param value the string to read
    * @return the factory
+   * @deprecated Use {@link CharSource#wrap(CharSequence}} instead. This method
+   *     is scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static InputSupplier<StringReader> newReaderSupplier(
       final String value) {
     return asInputSupplier(CharSource.wrap(value));
@@ -81,7 +84,10 @@ public final class CharStreams {
    * @param charset the charset used to decode the input stream; see {@link
    *     Charsets} for helpful predefined constants
    * @return the factory
+   * @deprecated Use {@link ByteSource#asCharSource(Charset)} instead. This
+   *     method is scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static InputSupplier<InputStreamReader> newReaderSupplier(
       final InputSupplier<? extends InputStream> in, final Charset charset) {
     return asInputSupplier(
@@ -96,7 +102,10 @@ public final class CharStreams {
    * @param charset the charset used to encode the output stream; see {@link
    *     Charsets} for helpful predefined constants
    * @return the factory
+   * @deprecated Use {@link ByteSink#asCharSink(Charset)} instead. This method
+   *     is scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(
       final OutputSupplier<? extends OutputStream> out, final Charset charset) {
     return asOutputSupplier(
@@ -110,7 +119,10 @@ public final class CharStreams {
    * @param from the character sequence to write
    * @param to the output supplier
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@link CharSink#write(CharSequence)} instead. This method
+   *     is scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static <W extends Appendable & Closeable> void write(CharSequence from,
       OutputSupplier<W> to) throws IOException {
     asCharSink(to).write(from);
@@ -125,7 +137,10 @@ public final class CharStreams {
    * @param to the output factory
    * @return the number of characters copied
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@link CharSource#copyTo(CharSink) instead. This method is
+   *     scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static <R extends Readable & Closeable,
       W extends Appendable & Closeable> long copy(InputSupplier<R> from,
       OutputSupplier<W> to) throws IOException {
@@ -141,7 +156,10 @@ public final class CharStreams {
    * @param to the object to write to
    * @return the number of characters copied
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@link CharSource#copyTo(Appendable)} instead. This method
+   *     is scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static <R extends Readable & Closeable> long copy(
       InputSupplier<R> from, Appendable to) throws IOException {
     return asCharSource(from).copyTo(to);
@@ -189,7 +207,10 @@ public final class CharStreams {
    * @param supplier the factory to read from
    * @return a string containing all the characters
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@link CharSource#read()} instead. This method is
+   *     scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static <R extends Readable & Closeable> String toString(
       InputSupplier<R> supplier) throws IOException {
     return asCharSource(supplier).read();
@@ -217,7 +238,10 @@ public final class CharStreams {
    * @param supplier the factory to read from
    * @return the first line, or null if the reader is empty
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@link CharSource#readFirstLine()} instead. This method is
+   *     scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static <R extends Readable & Closeable> String readFirstLine(
       InputSupplier<R> supplier) throws IOException {
     return asCharSource(supplier).readFirstLine();
@@ -231,7 +255,11 @@ public final class CharStreams {
    * @param supplier the factory to read from
    * @return a mutable {@link List} containing all the lines
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@link CharSource#readLines()} instead, but note that it
+   *     returns an {@code ImmutableList}. This method is scheduled for removal
+   *     in Guava 18.0.
    */
+  @Deprecated
   public static <R extends Readable & Closeable> List<String> readLines(
       InputSupplier<R> supplier) throws IOException {
     Closer closer = Closer.create();
@@ -302,7 +330,10 @@ public final class CharStreams {
    * @param callback the LineProcessor to use to handle the lines
    * @return the output of processing the lines
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@link CharSource#readLines(LineProcessor)} instead. This
+   *     method is scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static <R extends Readable & Closeable, T> T readLines(
       InputSupplier<R> supplier, LineProcessor<T> callback) throws IOException {
     checkNotNull(supplier);
@@ -333,7 +364,10 @@ public final class CharStreams {
    * @param suppliers the suppliers to concatenate
    * @return a supplier that will return a reader containing the concatenated
    *     data
+   * @deprecated Use {@link CharSource#concat(Iterable)} instead. This method
+   *     is scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static InputSupplier<Reader> join(
       final Iterable<? extends InputSupplier<? extends Reader>> suppliers) {
     checkNotNull(suppliers);
@@ -347,7 +381,13 @@ public final class CharStreams {
     return asInputSupplier(CharSource.concat(sources));
   }
 
-  /** Varargs form of {@link #join(Iterable)}. */
+  /**
+   * Varargs form of {@link #join(Iterable)}.
+   *
+   * @deprecated Use {@link CharSource#concat(CharSource[])} instead. This
+   *     method is scheduled for removal in Guava 18.0.
+   */
+  @Deprecated
   @SuppressWarnings("unchecked") // suppress "possible heap pollution" warning in JDK7
   public static InputSupplier<Reader> join(
       InputSupplier<? extends Reader>... suppliers) {
@@ -501,7 +541,12 @@ public final class CharStreams {
    * suppliers to sources and sinks.
    *
    * @since 15.0
+   * @deprecated Convert all {@code InputSupplier<? extends Readable>}
+   *     implementations to extend {@link CharSource} or provide a method for
+   *     viewing the object as a {@code CharSource}. This method is scheduled
+   *     for removal in Guava 18.0.
    */
+  @Deprecated
   public static CharSource asCharSource(
       final InputSupplier<? extends Readable> supplier) {
     checkNotNull(supplier);
@@ -526,7 +571,12 @@ public final class CharStreams {
    * suppliers to sources and sinks.
    *
    * @since 15.0
+   * @deprecated Convert all {@code OutputSupplier<? extends Appendable>}
+   *     implementations to extend {@link CharSink} or provide a method for
+   *     viewing the object as a {@code CharSink}. This method is scheduled
+   *     for removal in Guava 18.0.
    */
+  @Deprecated
   public static CharSink asCharSink(
       final OutputSupplier<? extends Appendable> supplier) {
     checkNotNull(supplier);

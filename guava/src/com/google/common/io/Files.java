@@ -238,7 +238,10 @@ public final class Files {
    *
    * @param file the file to read from
    * @return the factory
+   * @deprecated Use {@link #asByteSource(File)}. This method is scheduled for
+   *     removal in Guava 18.0.
    */
+  @Deprecated
   public static InputSupplier<FileInputStream> newInputStreamSupplier(
       final File file) {
     return ByteStreams.asInputSupplier(asByteSource(file));
@@ -250,7 +253,10 @@ public final class Files {
    *
    * @param file the file to write to
    * @return the factory
+   * @deprecated Use {@link #asByteSink(File)}. This method is scheduled for
+   *     removal in Guava 18.0.
    */
+  @Deprecated
   public static OutputSupplier<FileOutputStream> newOutputStreamSupplier(
       File file) {
     return newOutputStreamSupplier(file, false);
@@ -264,7 +270,11 @@ public final class Files {
    * @param append if true, the encoded characters will be appended to the file;
    *     otherwise the file is overwritten
    * @return the factory
+   * @deprecated Use {@link #asByteSink(File, FileWriteMode...)}, passing
+   *     {@link FileWriteMode#APPEND} for append. This method is scheduled for
+   *     removal in Guava 18.0.
    */
+  @Deprecated
   public static OutputSupplier<FileOutputStream> newOutputStreamSupplier(
       final File file, final boolean append) {
     return ByteStreams.asOutputSupplier(asByteSink(file, modes(append)));
@@ -284,7 +294,10 @@ public final class Files {
    * @param charset the charset used to decode the input stream; see {@link
    *     Charsets} for helpful predefined constants
    * @return the factory
+   * @deprecated Use {@link #asCharSource(File, Charset)}. This method is
+   *     scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static InputSupplier<InputStreamReader> newReaderSupplier(File file,
       Charset charset) {
     return CharStreams.asInputSupplier(asCharSource(file, charset));
@@ -298,7 +311,10 @@ public final class Files {
    * @param charset the charset used to encode the output stream; see {@link
    *     Charsets} for helpful predefined constants
    * @return the factory
+   * @deprecated Use {@link #asCharSink(File, Charset)}. This method is
+   *     scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(File file,
       Charset charset) {
     return newWriterSupplier(file, charset, false);
@@ -314,7 +330,11 @@ public final class Files {
    * @param append if true, the encoded characters will be appended to the file;
    *     otherwise the file is overwritten
    * @return the factory
+   * @deprecated Use {@link #asCharSink(File, Charset, FileWriteMode...)},
+   *     passing {@link FileWriteMode#APPEND} for append. This method is
+   *     scheduled for removal in Guava 18.0.
    */
+  @Deprecated
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(File file,
       Charset charset, boolean append) {
     return CharStreams.asOutputSupplier(asCharSink(file, charset, modes(append)));
@@ -354,7 +374,11 @@ public final class Files {
    * @param from the input factory
    * @param to the destination file
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@code from.copyTo(Files.asByteSink(to))} after changing
+   *     {@code from} to a {@code ByteSource} if necessary. This method is
+   *     scheduled to be removed in Guava 18.0.
    */
+  @Deprecated
   public static void copy(InputSupplier<? extends InputStream> from, File to)
       throws IOException {
     ByteStreams.asByteSource(from).copyTo(asByteSink(to));
@@ -378,7 +402,11 @@ public final class Files {
    * @param from the source file
    * @param to the output factory
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@code Files.asByteSource(from).copyTo(to)} after changing
+   *     {@code to} to a {@code ByteSink} if necessary. This method is
+   *     scheduled to be removed in Guava 18.0.
    */
+  @Deprecated
   public static void copy(File from, OutputSupplier<? extends OutputStream> to)
       throws IOException {
     asByteSource(from).copyTo(ByteStreams.asByteSink(to));
@@ -424,7 +452,11 @@ public final class Files {
    * @param charset the charset used to encode the output stream; see {@link
    *     Charsets} for helpful predefined constants
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@code from.copyTo(Files.asCharSink(to, charset))} after
+   *     changing {@code from} to a {@code CharSource} if necessary. This
+   *     method is scheduled to be removed in Guava 18.0.
    */
+  @Deprecated
   public static <R extends Readable & Closeable> void copy(
       InputSupplier<R> from, File to, Charset charset) throws IOException {
     CharStreams.asCharSource(from).copyTo(asCharSink(to, charset));
@@ -486,7 +518,11 @@ public final class Files {
    *     Charsets} for helpful predefined constants
    * @param to the appendable supplier
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@code Files.asCharSource(from, charset).copyTo(to)} after
+   *     changing {@code to} to a {@code CharSink} if necessary. This method is
+   *     scheduled to be removed in Guava 18.0.
    */
+  @Deprecated
   public static <W extends Appendable & Closeable> void copy(File from,
       Charset charset, OutputSupplier<W> to) throws IOException {
     asCharSource(from, charset).copyTo(CharStreams.asCharSink(to));

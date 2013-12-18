@@ -70,7 +70,7 @@ public abstract class CharSink implements OutputSupplier<Writer> {
    * @since 15.0
    * @deprecated This method is only provided for temporary compatibility with the
    *     {@link OutputSupplier} interface and should not be called directly. Use
-   *     {@link #openStream} instead.
+   *     {@link #openStream} instead. This method is scheduled for removal in Guava 18.0.
    */
   @Override
   @Deprecated

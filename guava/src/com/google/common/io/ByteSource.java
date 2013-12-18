@@ -19,6 +19,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.HashCode;
@@ -88,7 +89,7 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
    * @since 15.0
    * @deprecated This method is only provided for temporary compatibility with the
    *     {@link InputSupplier} interface and should not be called directly. Use {@link #openStream}
-   *     instead.
+   *     instead. This method is scheduled for removal in Guava 18.0.
    */
   @Override
   @Deprecated
@@ -269,6 +270,30 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     try {
       InputStream in = closer.register(openStream());
       return ByteStreams.toByteArray(in);
+    } catch (Throwable e) {
+      throw closer.rethrow(e);
+    } finally {
+      closer.close();
+    }
+  }
+
+  /**
+   * Reads the contents of this byte source using the given {@code processor} to process bytes as
+   * they are read. Stops when all bytes have been read or the consumer returns {@code false}.
+   * Returns the result produced by the processor.
+   *
+   * @throws IOException if an I/O error occurs in the process of reading from this source or if
+   *     {@code processor} throws an {@code IOException}
+   * @since 16.0
+   */
+  @Beta
+  public <T> T read(ByteProcessor<T> processor) throws IOException {
+    checkNotNull(processor);
+
+    Closer closer = Closer.create();
+    try {
+      InputStream in = closer.register(openStream());
+      return ByteStreams.readBytes(in, processor);
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -513,6 +538,12 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     public long copyTo(OutputStream output) throws IOException {
       output.write(bytes);
       return bytes.length;
+    }
+
+    @Override
+    public <T> T read(ByteProcessor<T> processor) throws IOException {
+      processor.processBytes(bytes, 0, bytes.length);
+      return processor.getResult();
     }
 
     @Override
