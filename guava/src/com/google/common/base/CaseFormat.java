@@ -21,6 +21,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
+import java.io.Serializable;
+
+import javax.annotation.Nullable;
+
 /**
  * Utility class for converting between various ASCII case formats. Behavior is undefined for
  * non-ASCII input.
@@ -151,19 +155,49 @@ public enum CaseFormat {
    * @since 16.0
    */
   @Beta
-  public Converter<String, String> converterTo(final CaseFormat targetFormat) {
-    checkNotNull(targetFormat);
-    return new Converter<String, String>() {
-      @Override protected String doForward(String s) {
-        // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
-        return s == null ? null : to(targetFormat, s);
-      }
+  public Converter<String, String> converterTo(CaseFormat targetFormat) {
+    return new StringConverter(this, targetFormat);
+  }
 
-      @Override protected String doBackward(String s) {
-        // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
-        return s == null ? null : targetFormat.to(CaseFormat.this, s);
+  private static final class StringConverter
+      extends Converter<String, String> implements Serializable {
+
+    private final CaseFormat sourceFormat;
+    private final CaseFormat targetFormat;
+
+    StringConverter(CaseFormat sourceFormat, CaseFormat targetFormat) {
+      this.sourceFormat = checkNotNull(sourceFormat);
+      this.targetFormat = checkNotNull(targetFormat);
+    }
+
+    @Override protected String doForward(String s) {
+      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
+      return s == null ? null : sourceFormat.to(targetFormat, s);
+    }
+
+    @Override protected String doBackward(String s) {
+      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
+      return s == null ? null : targetFormat.to(sourceFormat, s);
+    }
+
+    @Override public boolean equals(@Nullable Object object) {
+      if (object instanceof StringConverter) {
+        StringConverter that = (StringConverter) object;
+        return sourceFormat.equals(that.sourceFormat)
+            && targetFormat.equals(that.targetFormat);
       }
-    };
+      return false;
+    }
+
+    @Override public int hashCode() {
+      return sourceFormat.hashCode() ^ targetFormat.hashCode();
+    }
+
+    @Override public String toString() {
+      return sourceFormat + ".converterTo(" + targetFormat + ")";
+    }
+
+    private static final long serialVersionUID = 0L;
   }
 
   abstract String normalizeWord(String word);

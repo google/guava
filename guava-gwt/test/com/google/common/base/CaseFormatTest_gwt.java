@@ -33,6 +33,16 @@ public void testConverter_nullConversions() throws Exception {
   testCase.testConverter_nullConversions();
 }
 
+public void testConverter_serialization() throws Exception {
+  com.google.common.base.CaseFormatTest testCase = new com.google.common.base.CaseFormatTest();
+  testCase.testConverter_serialization();
+}
+
+public void testConverter_toString() throws Exception {
+  com.google.common.base.CaseFormatTest testCase = new com.google.common.base.CaseFormatTest();
+  testCase.testConverter_toString();
+}
+
 public void testIdentity() throws Exception {
   com.google.common.base.CaseFormatTest testCase = new com.google.common.base.CaseFormatTest();
   testCase.testIdentity();

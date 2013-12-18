@@ -32,6 +32,7 @@ import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.Maps.ValueDifferenceImpl;
 import com.google.common.collect.SetsTest.Derived;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -912,6 +913,22 @@ public class MapsTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {
     }
+  }
+
+  public void testAsConverter_toString() {
+    ImmutableBiMap<String, Integer> biMap = ImmutableBiMap.of(
+        "one", 1,
+        "two", 2);
+    Converter<String, Integer> converter = Maps.asConverter(biMap);
+    assertEquals("Maps.asConverter({one=1, two=2})", converter.toString());
+  }
+
+  public void testAsConverter_serialization() {
+    ImmutableBiMap<String, Integer> biMap = ImmutableBiMap.of(
+        "one", 1,
+        "two", 2);
+    Converter<String, Integer> converter = Maps.asConverter(biMap);
+    SerializableTester.reserializeAndAssert(converter);
   }
 
   public void testUnmodifiableBiMap() {

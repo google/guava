@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -120,6 +121,10 @@ public class EnumsTest extends TestCase {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     assertNull(converter.convert(null));
     assertNull(converter.reverse().convert(null));
+  }
+
+  public void testStringConverter_serialization() {
+    SerializableTester.reserializeAndAssert(Enums.stringConverter(TestEnum.class));
   }
 
   @Retention(RetentionPolicy.RUNTIME)

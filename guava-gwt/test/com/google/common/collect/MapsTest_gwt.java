@@ -43,6 +43,16 @@ public void testAsConverter_nullConversions() throws Exception {
   testCase.testAsConverter_nullConversions();
 }
 
+public void testAsConverter_serialization() throws Exception {
+  com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
+  testCase.testAsConverter_serialization();
+}
+
+public void testAsConverter_toString() throws Exception {
+  com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
+  testCase.testAsConverter_toString();
+}
+
 public void testAsConverter_withNullMapping() throws Exception {
   com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
   testCase.testAsConverter_withNullMapping();

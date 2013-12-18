@@ -53,6 +53,11 @@ public void testStringConverter_reverse() throws Exception {
   testCase.testStringConverter_reverse();
 }
 
+public void testStringConverter_serialization() throws Exception {
+  com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
+  testCase.testStringConverter_serialization();
+}
+
 public void testValueOfFunction() throws Exception {
   com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
   testCase.testValueOfFunction();

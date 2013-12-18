@@ -23,6 +23,7 @@ import static com.google.common.base.CaseFormat.UPPER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -195,6 +196,20 @@ public class CaseFormatTest extends TestCase {
       for (CaseFormat inner : CaseFormat.values()) {
         assertNull(outer.converterTo(inner).convert(null));
         assertNull(outer.converterTo(inner).reverse().convert(null));
+      }
+    }
+  }
+
+  public void testConverter_toString() {
+    assertEquals(
+        "LOWER_HYPHEN.converterTo(UPPER_CAMEL)",
+        LOWER_HYPHEN.converterTo(UPPER_CAMEL).toString());
+  }
+
+  public void testConverter_serialization() {
+    for (CaseFormat outer : CaseFormat.values()) {
+      for (CaseFormat inner : CaseFormat.values()) {
+        SerializableTester.reserializeAndAssert(outer.converterTo(inner));
       }
     }
   }

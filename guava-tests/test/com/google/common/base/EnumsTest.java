@@ -139,6 +139,17 @@ public class EnumsTest extends TestCase {
     assertNull(converter.reverse().convert(null));
   }
 
+  @GwtIncompatible("Class.getName()")
+  public void testStringConverter_toString() {
+    assertEquals(
+        "Enums.stringConverter(com.google.common.base.EnumsTest$TestEnum.class)",
+        Enums.stringConverter(TestEnum.class).toString());
+  }
+
+  public void testStringConverter_serialization() {
+    SerializableTester.reserializeAndAssert(Enums.stringConverter(TestEnum.class));
+  }
+
   @GwtIncompatible("NullPointerTester")
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
