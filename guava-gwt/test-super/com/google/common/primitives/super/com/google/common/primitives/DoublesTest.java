@@ -20,6 +20,7 @@ import static java.lang.Double.NaN;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Converter;
 import com.google.common.collect.testing.Helpers;
 
 import junit.framework.TestCase;
@@ -392,4 +393,30 @@ public class DoublesTest extends TestCase {
   private static final String[] BAD_TRY_PARSE_INPUTS =
     { "", "+-", "+-0", " 5", "32 ", " 55 ", "infinity", "POSITIVE_INFINITY", "0x9A", "0x9A.bE-5",
       ".", ".e5", "NaNd", "InfinityF" };
+
+  public void testStringConverter_convert() {
+    Converter<String, Double> converter = Doubles.stringConverter();
+    assertEquals((Double) 1.0, converter.convert("1.0"));
+    assertEquals((Double) 0.0, converter.convert("0.0"));
+    assertEquals((Double) (-1.0), converter.convert("-1.0"));
+    assertEquals((Double) 1.0, converter.convert("1"));
+    assertEquals((Double) 0.0, converter.convert("0"));
+    assertEquals((Double) (-1.0), converter.convert("-1"));
+    assertEquals((Double) 1e6, converter.convert("1e6"));
+    assertEquals((Double) 1e-6, converter.convert("1e-6"));
+  }
+
+  public void testStringConverter_convertError() {
+    try {
+      Doubles.stringConverter().convert("notanumber");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+  }
+
+  public void testStringConverter_nullConversions() {
+    assertNull(Doubles.stringConverter().convert(null));
+    assertNull(Doubles.stringConverter().reverse().convert(null));
+  }
 }
+

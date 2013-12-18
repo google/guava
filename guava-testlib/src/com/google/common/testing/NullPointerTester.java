@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Converter;
 import com.google.common.base.Objects;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.ImmutableList;
@@ -396,10 +397,37 @@ public final class NullPointerTester {
       T defaultType = (T) getFirstTypeParameter(type.getType());
       return defaultType;
     }
+    if (type.getRawType() == Converter.class) {
+      TypeToken<?> convertFromType = type.resolveType(
+          Converter.class.getTypeParameters()[0]);
+      TypeToken<?> convertToType = type.resolveType(
+          Converter.class.getTypeParameters()[1]);
+      @SuppressWarnings("unchecked") // returns default for both F and T
+      T defaultConverter = (T) defaultConverter(convertFromType, convertToType);
+      return defaultConverter;
+    }
     if (type.getRawType().isInterface()) {
       return newDefaultReturningProxy(type);
     }
     return null;
+  }
+
+  private <F, T> Converter<F, T> defaultConverter(
+      final TypeToken<F> convertFromType, final TypeToken<T> convertToType) {
+    return new Converter<F, T>() {
+      @Override protected T doForward(F a) {
+        return doConvert(convertToType, a);
+      }
+      @Override protected F doBackward(T b) {
+        return doConvert(convertFromType, b);
+      }
+
+      private /*static*/ <S> S doConvert(TypeToken<S> type, Object in) {
+        // TODO(kevinb): remove null boilerplate (convert() will do it
+        // automatically)
+        return in == null ? null : checkNotNull(getDefaultValue(type));
+      }
+    };
   }
 
   private static TypeToken<?> getFirstTypeParameter(Type type) {

@@ -21,7 +21,9 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Converter;
 
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -278,6 +280,44 @@ public final class Shorts {
       pos += array.length;
     }
     return result;
+  }
+
+  private static final class ShortConverter
+      extends Converter<String, Short> implements Serializable {
+    static final ShortConverter INSTANCE = new ShortConverter();
+
+    @Override
+    protected Short doForward(String value) {
+      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
+      return value == null ? null : Short.decode(value);
+    }
+
+    @Override
+    protected String doBackward(Short value) {
+      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
+      return value == null ? null : value.toString();
+    }
+
+    @Override
+    public String toString() {
+      return "Shorts.stringConverter()";
+    }
+
+    private Object readResolve() {
+      return INSTANCE;
+    }
+    private static final long serialVersionUID = 1;
+  }
+
+  /**
+   * Returns a serializable converter object that converts between strings and
+   * shorts using {@link Short#decode} and {@link Short#toString()}.
+   *
+   * @since 16.0
+   */
+  @Beta
+  public static Converter<String, Short> stringConverter() {
+    return ShortConverter.INSTANCE;
   }
 
   /**
@@ -546,3 +586,4 @@ public final class Shorts {
     private static final long serialVersionUID = 0;
   }
 }
+

@@ -91,6 +91,37 @@ public class EnumsTest extends TestCase {
     assertEquals(Optional.absent(), Enums.getIfPresent(TestEnum.class, "WOMBAT"));
   }
 
+  public void testStringConverter_convert() {
+    Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
+    assertEquals(TestEnum.CHEETO, converter.convert("CHEETO"));
+    assertEquals(TestEnum.HONDA, converter.convert("HONDA"));
+    assertEquals(TestEnum.POODLE, converter.convert("POODLE"));
+    assertNull(converter.convert(null));
+    assertNull(converter.reverse().convert(null));
+  }
+
+  public void testStringConverter_convertError() {
+    Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
+    try {
+      converter.convert("xxx");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testStringConverter_reverse() {
+    Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
+    assertEquals("CHEETO", converter.reverse().convert(TestEnum.CHEETO));
+    assertEquals("HONDA", converter.reverse().convert(TestEnum.HONDA));
+    assertEquals("POODLE", converter.reverse().convert(TestEnum.POODLE));
+  }
+
+  public void testStringConverter_nullConversions() {
+    Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
+    assertNull(converter.convert(null));
+    assertNull(converter.reverse().convert(null));
+  }
+
   @Retention(RetentionPolicy.RUNTIME)
   private @interface ExampleAnnotation {}
 
@@ -99,3 +130,4 @@ public class EnumsTest extends TestCase {
     BAR
   }
 }
+

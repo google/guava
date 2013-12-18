@@ -66,6 +66,7 @@ public final class Enums {
    * @param enumClass the {@link Class} of the {@code Enum} declaring the
    *     constant values.
    */
+  // TODO(user): Deprecate in favor of Enums.stringConverter()
   public static <T extends Enum<T>> Function<String, T> valueOfFunction(Class<T> enumClass) {
     return new ValueOfFunction<T>(enumClass);
   }
@@ -124,5 +125,36 @@ public final class Enums {
     } catch (IllegalArgumentException iae) {
       return Optional.absent();
     }
+  }
+
+  /**
+   * Returns a converter that converts between strings and {@code enum} values
+   * of type {@code enumClass} using {@link Enum#valueOf(Class, String)} and
+   * {@link Enum#name()}.
+   * The converter will throw an {@code IllegalArgumentException} if the
+   * argument is not the name of any enum constant in the specified enum.
+   *
+   * @since 16.0
+   */
+  // TODO(user): Make this serializable.
+  public static <T extends Enum<T>> Converter<String, T> stringConverter(
+      final Class<T> enumClass) {
+    checkNotNull(enumClass);
+    return new Converter<String, T>() {
+      @Override
+      protected T doForward(String value) {
+        // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
+        return value == null ? null : Enum.valueOf(enumClass, value);
+      }
+
+      @Override
+      protected String doBackward(T enumValue) {
+        // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
+        return enumValue == null ? null : enumValue.name();
+      }
+      @Override public String toString() {
+        return "Enums.stringConverter(" + enumClass + ")";
+      }
+    };
   }
 }

@@ -21,6 +21,7 @@ import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Converter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
@@ -298,6 +299,11 @@ public class DoublesTest extends TestCase {
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
+  @GwtIncompatible("SerializableTester")
+  public void testStringConverterSerialization() {
+    SerializableTester.reserializeAndAssert(Doubles.stringConverter());
+  }
+
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
     List<Double> none = Arrays.<Double>asList();
@@ -496,5 +502,46 @@ public class DoublesTest extends TestCase {
   @GwtIncompatible("NullPointerTester")
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Doubles.class);
+  }
+
+  public void testStringConverter_convert() {
+    Converter<String, Double> converter = Doubles.stringConverter();
+    assertEquals((Double) 1.0, converter.convert("1.0"));
+    assertEquals((Double) 0.0, converter.convert("0.0"));
+    assertEquals((Double) (-1.0), converter.convert("-1.0"));
+    assertEquals((Double) 1.0, converter.convert("1"));
+    assertEquals((Double) 0.0, converter.convert("0"));
+    assertEquals((Double) (-1.0), converter.convert("-1"));
+    assertEquals((Double) 1e6, converter.convert("1e6"));
+    assertEquals((Double) 1e-6, converter.convert("1e-6"));
+  }
+
+  public void testStringConverter_convertError() {
+    try {
+      Doubles.stringConverter().convert("notanumber");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+  }
+
+  public void testStringConverter_nullConversions() {
+    assertNull(Doubles.stringConverter().convert(null));
+    assertNull(Doubles.stringConverter().reverse().convert(null));
+  }
+
+  @GwtIncompatible("Double.toString returns different value in GWT.")
+  public void testStringConverter_reverse() {
+    Converter<String, Double> converter = Doubles.stringConverter();
+    assertEquals("1.0", converter.reverse().convert(1.0));
+    assertEquals("0.0", converter.reverse().convert(0.0));
+    assertEquals("-1.0", converter.reverse().convert(-1.0));
+    assertEquals("1000000.0", converter.reverse().convert(1e6));
+    assertEquals("1.0E-6", converter.reverse().convert(1e-6));
+  }
+
+  @GwtIncompatible("NullPointerTester")
+  public void testStringConverter_nullPointerTester() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicInstanceMethods(Doubles.stringConverter());
   }
 }

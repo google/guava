@@ -18,6 +18,35 @@ public class MapsTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
+public void testAsConverter_inverse() throws Exception {
+  com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
+  testCase.testAsConverter_inverse();
+}
+
+public void testAsConverter_isAView() throws Exception {
+  com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
+  testCase.testAsConverter_isAView();
+}
+
+public void testAsConverter_noMapping() throws Exception {
+  com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
+  testCase.testAsConverter_noMapping();
+}
+
+public void testAsConverter_nominal() throws Exception {
+  com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
+  testCase.testAsConverter_nominal();
+}
+
+public void testAsConverter_nullConversions() throws Exception {
+  com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
+  testCase.testAsConverter_nullConversions();
+}
+
+public void testAsConverter_withNullMapping() throws Exception {
+  com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
+  testCase.testAsConverter_withNullMapping();
+}
 
 public void testAsMap() throws Exception {
   com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();

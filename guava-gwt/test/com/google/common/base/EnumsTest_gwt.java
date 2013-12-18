@@ -33,6 +33,26 @@ public void testGetIfPresent_whenNoMatchingConstant() throws Exception {
   testCase.testGetIfPresent_whenNoMatchingConstant();
 }
 
+public void testStringConverter_convert() throws Exception {
+  com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
+  testCase.testStringConverter_convert();
+}
+
+public void testStringConverter_convertError() throws Exception {
+  com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
+  testCase.testStringConverter_convertError();
+}
+
+public void testStringConverter_nullConversions() throws Exception {
+  com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
+  testCase.testStringConverter_nullConversions();
+}
+
+public void testStringConverter_reverse() throws Exception {
+  com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
+  testCase.testStringConverter_reverse();
+}
+
 public void testValueOfFunction() throws Exception {
   com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
   testCase.testValueOfFunction();

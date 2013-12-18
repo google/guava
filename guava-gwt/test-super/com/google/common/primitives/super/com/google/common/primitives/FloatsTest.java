@@ -383,4 +383,18 @@ public class FloatsTest extends TestCase {
   private static final String[] BAD_TRY_PARSE_INPUTS =
     { "", "+-", "+-0", " 5", "32 ", " 55 ", "infinity", "POSITIVE_INFINITY", "0x9A", "0x9A.bE-5",
       ".", ".e5", "NaNd", "InfinityF" };
+
+  public void testStringConverter_convertError() {
+    try {
+      Floats.stringConverter().convert("notanumber");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+  }
+
+  public void testStringConverter_nullConversions() {
+    assertNull(Floats.stringConverter().convert(null));
+    assertNull(Floats.stringConverter().reverse().convert(null));
+  }
 }
+

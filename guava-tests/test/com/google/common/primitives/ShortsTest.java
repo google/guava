@@ -18,6 +18,7 @@ package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Converter;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -322,6 +323,11 @@ public class ShortsTest extends TestCase {
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
+  @GwtIncompatible("SerializableTester")
+  public void testStringConverterSerialization() {
+    SerializableTester.reserializeAndAssert(Shorts.stringConverter());
+  }
+
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
     List<Short> none = Arrays.<Short>asList();
@@ -420,5 +426,47 @@ public class ShortsTest extends TestCase {
   @GwtIncompatible("NullPointerTester")
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Shorts.class);
+  }
+
+  public void testStringConverter_convert() {
+    Converter<String, Short> converter = Shorts.stringConverter();
+    assertEquals((Short) (short) 1, converter.convert("1"));
+    assertEquals((Short) (short) 0, converter.convert("0"));
+    assertEquals((Short) (short) (-1), converter.convert("-1"));
+    assertEquals((Short) (short) 255, converter.convert("0xff"));
+    assertEquals((Short) (short) 255, converter.convert("0xFF"));
+    assertEquals((Short) (short) (-255), converter.convert("-0xFF"));
+    assertEquals((Short) (short) 255, converter.convert("#0000FF"));
+    assertEquals((Short) (short) 438, converter.convert("0666"));
+  }
+
+  public void testStringConverter_convertError() {
+    try {
+      Shorts.stringConverter().convert("notanumber");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+  }
+
+  public void testStringConverter_nullConversions() {
+    assertNull(Shorts.stringConverter().convert(null));
+    assertNull(Shorts.stringConverter().reverse().convert(null));
+  }
+
+  public void testStringConverter_reverse() {
+    Converter<String, Short> converter = Shorts.stringConverter();
+    assertEquals("1", converter.reverse().convert((short) 1));
+    assertEquals("0", converter.reverse().convert((short) 0));
+    assertEquals("-1", converter.reverse().convert((short) -1));
+    assertEquals("255", converter.reverse().convert((short) 0xff));
+    assertEquals("255", converter.reverse().convert((short) 0xFF));
+    assertEquals("-255", converter.reverse().convert((short) -0xFF));
+    assertEquals("438", converter.reverse().convert((short) 0666));
+  }
+
+  @GwtIncompatible("NullPointerTester")
+  public void testStringConverter_nullPointerTester() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicInstanceMethods(Shorts.stringConverter());
   }
 }

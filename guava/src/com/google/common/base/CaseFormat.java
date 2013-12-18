@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -142,6 +143,27 @@ public enum CaseFormat {
     return (i == 0)
       ? format.normalizeFirstWord(s)
       : out.append(format.normalizeWord(s.substring(i))).toString();
+  }
+
+  /**
+   * Returns a {@code Converter} that converts strings from this format to {@code targetFormat}.
+   *
+   * @since 16.0
+   */
+  @Beta
+  public Converter<String, String> converterTo(final CaseFormat targetFormat) {
+    checkNotNull(targetFormat);
+    return new Converter<String, String>() {
+      @Override protected String doForward(String s) {
+        // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
+        return s == null ? null : to(targetFormat, s);
+      }
+
+      @Override protected String doBackward(String s) {
+        // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
+        return s == null ? null : targetFormat.to(CaseFormat.this, s);
+      }
+    };
   }
 
   abstract String normalizeWord(String word);

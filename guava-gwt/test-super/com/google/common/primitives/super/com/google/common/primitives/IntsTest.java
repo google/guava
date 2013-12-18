@@ -17,6 +17,7 @@
 package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Converter;
 import com.google.common.collect.testing.Helpers;
 
 import junit.framework.TestCase;
@@ -353,4 +354,41 @@ public class IntsTest extends TestCase {
   public void testAsListEmpty() {
     assertSame(Collections.emptyList(), Ints.asList(EMPTY));
   }
+
+  public void testStringConverter_convert() {
+    Converter<String, Integer> converter = Ints.stringConverter();
+    assertEquals((Integer) 1, converter.convert("1"));
+    assertEquals((Integer) 0, converter.convert("0"));
+    assertEquals((Integer) (-1), converter.convert("-1"));
+    assertEquals((Integer) 255, converter.convert("0xff"));
+    assertEquals((Integer) 255, converter.convert("0xFF"));
+    assertEquals((Integer) (-255), converter.convert("-0xFF"));
+    assertEquals((Integer) 255, converter.convert("#0000FF"));
+    assertEquals((Integer) 438, converter.convert("0666"));
+  }
+
+  public void testStringConverter_convertError() {
+    try {
+      Ints.stringConverter().convert("notanumber");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+  }
+
+  public void testStringConverter_nullConversions() {
+    assertNull(Ints.stringConverter().convert(null));
+    assertNull(Ints.stringConverter().reverse().convert(null));
+  }
+
+  public void testStringConverter_reverse() {
+    Converter<String, Integer> converter = Ints.stringConverter();
+    assertEquals("1", converter.reverse().convert(1));
+    assertEquals("0", converter.reverse().convert(0));
+    assertEquals("-1", converter.reverse().convert(-1));
+    assertEquals("255", converter.reverse().convert(0xff));
+    assertEquals("255", converter.reverse().convert(0xFF));
+    assertEquals("-255", converter.reverse().convert(-0xFF));
+    assertEquals("438", converter.reverse().convert(0666));
+  }
 }
+

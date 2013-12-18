@@ -23,7 +23,9 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static java.lang.Float.NEGATIVE_INFINITY;
 import static java.lang.Float.POSITIVE_INFINITY;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Converter;
 
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -257,6 +259,46 @@ public final class Floats {
       pos += array.length;
     }
     return result;
+  }
+
+  private static final class FloatConverter
+      extends Converter<String, Float> implements Serializable {
+    static final FloatConverter INSTANCE = new FloatConverter();
+
+    @Override
+    protected Float doForward(String value) {
+      // TODO(kevinb): remove null boilerplate (convert() will do it
+      // automatically)
+      return value == null ? null : Float.valueOf(value);
+    }
+
+    @Override
+    protected String doBackward(Float value) {
+      // TODO(kevinb): remove null boilerplate (convert() will do it
+      // automatically)
+      return value == null ? null : value.toString();
+    }
+
+    @Override
+    public String toString() {
+      return "Floats.stringConverter()";
+    }
+
+    private Object readResolve() {
+      return INSTANCE;
+    }
+    private static final long serialVersionUID = 1;
+  }
+
+  /**
+   * Returns a serializable converter object that converts between strings and
+   * floats using {@link Float#valueOf} and {@link Float#toString()}.
+   *
+   * @since 16.0
+   */
+  @Beta
+  public static Converter<String, Float> stringConverter() {
+    return FloatConverter.INSTANCE;
   }
 
   /**
@@ -533,3 +575,4 @@ public final class Floats {
     private static final long serialVersionUID = 0;
   }
 }
+

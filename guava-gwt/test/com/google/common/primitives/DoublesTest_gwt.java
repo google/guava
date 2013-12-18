@@ -118,6 +118,21 @@ public void testMin_noArgs() throws Exception {
   testCase.testMin_noArgs();
 }
 
+public void testStringConverter_convert() throws Exception {
+  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
+  testCase.testStringConverter_convert();
+}
+
+public void testStringConverter_convertError() throws Exception {
+  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
+  testCase.testStringConverter_convertError();
+}
+
+public void testStringConverter_nullConversions() throws Exception {
+  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
+  testCase.testStringConverter_nullConversions();
+}
+
 public void testToArray() throws Exception {
   com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
   testCase.testToArray();

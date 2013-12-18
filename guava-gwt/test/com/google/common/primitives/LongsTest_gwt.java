@@ -123,6 +123,26 @@ public void testMin_noArgs() throws Exception {
   testCase.testMin_noArgs();
 }
 
+public void testStringConverter_convert() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testStringConverter_convert();
+}
+
+public void testStringConverter_convertError() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testStringConverter_convertError();
+}
+
+public void testStringConverter_nullConversions() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testStringConverter_nullConversions();
+}
+
+public void testStringConverter_reverse() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testStringConverter_reverse();
+}
+
 public void testToArray() throws Exception {
   com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
   testCase.testToArray();

@@ -25,6 +25,7 @@ import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Converter;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -1145,6 +1146,80 @@ public class MapsTest extends TestCase {
           return super.equals(o);
         }
       };
+  }
+
+  public void testAsConverter_nominal() throws Exception {
+    ImmutableBiMap<String, Integer> biMap = ImmutableBiMap.of(
+        "one", 1,
+        "two", 2);
+    Converter<String, Integer> converter = Maps.asConverter(biMap);
+    for (Entry<String, Integer> entry : biMap.entrySet()) {
+      assertSame(entry.getValue(), converter.convert(entry.getKey()));
+    }
+  }
+
+  public void testAsConverter_inverse() throws Exception {
+    ImmutableBiMap<String, Integer> biMap = ImmutableBiMap.of(
+        "one", 1,
+        "two", 2);
+    Converter<String, Integer> converter = Maps.asConverter(biMap);
+    for (Entry<String, Integer> entry : biMap.entrySet()) {
+      assertSame(entry.getKey(), converter.reverse().convert(entry.getValue()));
+    }
+  }
+
+  public void testAsConverter_noMapping() throws Exception {
+    ImmutableBiMap<String, Integer> biMap = ImmutableBiMap.of(
+        "one", 1,
+        "two", 2);
+    Converter<String, Integer> converter = Maps.asConverter(biMap);
+    try {
+      converter.convert("three");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testAsConverter_nullConversions() throws Exception {
+    ImmutableBiMap<String, Integer> biMap = ImmutableBiMap.of(
+        "one", 1,
+        "two", 2);
+    Converter<String, Integer> converter = Maps.asConverter(biMap);
+    assertNull(converter.convert(null));
+    assertNull(converter.reverse().convert(null));
+  }
+
+  public void testAsConverter_isAView() throws Exception {
+    BiMap<String, Integer> biMap = HashBiMap.create();
+    biMap.put("one", 1);
+    biMap.put("two", 2);
+    Converter<String, Integer> converter = Maps.asConverter(biMap);
+
+    assertSame(1, converter.convert("one"));
+    assertSame(2, converter.convert("two"));
+    try {
+      converter.convert("three");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+
+    biMap.put("three", 3);
+
+    assertSame(1, converter.convert("one"));
+    assertSame(2, converter.convert("two"));
+    assertSame(3, converter.convert("three"));
+  }
+
+  public void testAsConverter_withNullMapping() throws Exception {
+    BiMap<String, Integer> biMap = HashBiMap.create();
+    biMap.put("one", 1);
+    biMap.put("two", 2);
+    biMap.put("three", null);
+    try {
+      Maps.asConverter(biMap).convert("three");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testUnmodifiableBiMap() {

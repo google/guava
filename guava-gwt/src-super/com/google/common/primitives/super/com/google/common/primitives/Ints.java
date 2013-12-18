@@ -21,7 +21,9 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Converter;
 
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -277,6 +279,46 @@ public final class Ints {
       pos += array.length;
     }
     return result;
+  }
+
+  private static final class IntConverter
+      extends Converter<String, Integer> implements Serializable {
+    static final IntConverter INSTANCE = new IntConverter();
+
+    @Override
+    // TODO(kevinb): remove null boilerplate (convert() will do it
+    // automatically)
+    protected Integer doForward(String value) {
+      return value == null ? null : Integer.decode(value);
+    }
+
+    @Override
+    protected String doBackward(Integer value) {
+      // TODO(kevinb): remove null boilerplate (convert() will do it
+      // automatically)
+      return value == null ? null : value.toString();
+    }
+
+    @Override
+    public String toString() {
+      return "Ints.stringConverter()";
+    }
+
+    private Object readResolve() {
+      return INSTANCE;
+    }
+    private static final long serialVersionUID = 1;
+  }
+
+  /**
+   * Returns a serializable converter object that converts between strings and
+   * integers using {@link Integer#decode} and {@link Integer#toString()}.
+   *
+   * @since 16.0
+   */
+  @Beta
+  public static Converter<String, Integer> stringConverter() {
+    return IntConverter.INSTANCE;
   }
 
   /**
@@ -544,3 +586,4 @@ public final class Ints {
     private static final long serialVersionUID = 0;
   }
 }
+

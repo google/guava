@@ -18,6 +18,20 @@ public class CaseFormatTest_gwt extends com.google.gwt.junit.client.GWTTestCase 
 @Override public String getModuleName() {
   return "com.google.common.base.testModule";
 }
+public void testConverterToBackward() throws Exception {
+  com.google.common.base.CaseFormatTest testCase = new com.google.common.base.CaseFormatTest();
+  testCase.testConverterToBackward();
+}
+
+public void testConverterToForward() throws Exception {
+  com.google.common.base.CaseFormatTest testCase = new com.google.common.base.CaseFormatTest();
+  testCase.testConverterToForward();
+}
+
+public void testConverter_nullConversions() throws Exception {
+  com.google.common.base.CaseFormatTest testCase = new com.google.common.base.CaseFormatTest();
+  testCase.testConverter_nullConversions();
+}
 
 public void testIdentity() throws Exception {
   com.google.common.base.CaseFormatTest testCase = new com.google.common.base.CaseFormatTest();

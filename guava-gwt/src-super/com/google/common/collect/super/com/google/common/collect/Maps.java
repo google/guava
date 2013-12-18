@@ -26,6 +26,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Converter;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner.MapJoiner;
@@ -1094,6 +1095,40 @@ public final class Maps {
     @Override public int hashCode() {
       return Sets.hashCodeImpl(this);
     }
+  }
+
+  /**
+   * Returns a {@link Converter} that converts values using {@link BiMap#get bimap.get()},
+   * and whose inverse view converts values using
+   * {@link BiMap#inverse bimap.inverse()}{@code .get()}
+   *
+   * @param bimap the bimap to view as a converter
+   * @return a converter that is a view of the specified bimap
+   * @since 16.0
+   */
+  @Beta
+  public static <A, B> Converter<A, B> asConverter(final BiMap<A, B> bimap) {
+    checkNotNull(bimap);
+    return new Converter<A, B>() {
+      @Override
+      protected B doForward(A a) {
+        return convert(bimap, a);
+      }
+      @Override
+      protected A doBackward(B b) {
+        return convert(bimap.inverse(), b);
+      }
+
+      private /*static*/ <X, Y> Y convert(BiMap<X, Y> bimap, X input) {
+        // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
+        if (input == null) {
+          return null;
+        }
+        Y output = bimap.get(input);
+        checkArgument(output != null, "No non-null mapping present for input: %s", input);
+        return output;
+      }
+    };
   }
 
   /**

@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Converter;
 
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -356,7 +357,7 @@ public final class Longs {
       }
       accum -= digit;
     }
-
+    
     if (negative) {
       return accum;
     } else if (accum == Long.MIN_VALUE) {
@@ -364,6 +365,43 @@ public final class Longs {
     } else {
       return -accum;
     }
+  }
+
+  private static final class LongConverter extends Converter<String, Long> implements Serializable {
+    static final LongConverter INSTANCE = new LongConverter();
+
+    @Override
+    protected Long doForward(String value) {
+      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
+      return value == null ? null : Long.decode(value);
+    }
+
+    @Override
+    protected String doBackward(Long value) {
+      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
+      return value == null ? null : value.toString();
+    }
+
+    @Override
+    public String toString() {
+      return "Longs.stringConverter()";
+    }
+
+    private Object readResolve() {
+      return INSTANCE;
+    }
+    private static final long serialVersionUID = 1;
+  }
+
+  /**
+   * Returns a serializable converter object that converts between strings and
+   * longs using {@link Long#decode} and {@link Long#toString()}.
+   *
+   * @since 16.0
+   */
+  @Beta
+  public static Converter<String, Long> stringConverter() {
+    return LongConverter.INSTANCE;
   }
 
   /**

@@ -175,4 +175,28 @@ public class CaseFormatTest extends TestCase {
     assertEquals("FOO", UPPER_UNDERSCORE.to(UPPER_UNDERSCORE, "FOO"));
     assertEquals("FOO_BAR", UPPER_UNDERSCORE.to(UPPER_UNDERSCORE, "FOO_BAR"));
   }
+
+  public void testConverterToForward() {
+    assertEquals("FooBar", UPPER_UNDERSCORE.converterTo(UPPER_CAMEL).convert("FOO_BAR"));
+    assertEquals("fooBar", UPPER_UNDERSCORE.converterTo(LOWER_CAMEL).convert("FOO_BAR"));
+    assertEquals("FOO_BAR", UPPER_CAMEL.converterTo(UPPER_UNDERSCORE).convert("FooBar"));
+    assertEquals("FOO_BAR", LOWER_CAMEL.converterTo(UPPER_UNDERSCORE).convert("fooBar"));
+  }
+
+  public void testConverterToBackward() {
+    assertEquals("FOO_BAR", UPPER_UNDERSCORE.converterTo(UPPER_CAMEL).reverse().convert("FooBar"));
+    assertEquals("FOO_BAR", UPPER_UNDERSCORE.converterTo(LOWER_CAMEL).reverse().convert("fooBar"));
+    assertEquals("FooBar", UPPER_CAMEL.converterTo(UPPER_UNDERSCORE).reverse().convert("FOO_BAR"));
+    assertEquals("fooBar", LOWER_CAMEL.converterTo(UPPER_UNDERSCORE).reverse().convert("FOO_BAR"));
+  }
+
+  public void testConverter_nullConversions() {
+    for (CaseFormat outer : CaseFormat.values()) {
+      for (CaseFormat inner : CaseFormat.values()) {
+        assertNull(outer.converterTo(inner).convert(null));
+        assertNull(outer.converterTo(inner).reverse().convert(null));
+      }
+    }
+  }
 }
+

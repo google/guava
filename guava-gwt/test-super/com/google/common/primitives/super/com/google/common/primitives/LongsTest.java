@@ -20,6 +20,7 @@ import static java.lang.Long.MAX_VALUE;
 import static java.lang.Long.MIN_VALUE;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Converter;
 import com.google.common.collect.testing.Helpers;
 
 import junit.framework.TestCase;
@@ -375,6 +376,42 @@ public class LongsTest extends TestCase {
     assertSame(Collections.emptyList(), Longs.asList(EMPTY));
   }
 
+  public void testStringConverter_convert() {
+    Converter<String, Long> converter = Longs.stringConverter();
+    assertEquals((Long) 1L, converter.convert("1"));
+    assertEquals((Long) 0L, converter.convert("0"));
+    assertEquals((Long) (-1L), converter.convert("-1"));
+    assertEquals((Long) 255L, converter.convert("0xff"));
+    assertEquals((Long) 255L, converter.convert("0xFF"));
+    assertEquals((Long) (-255L), converter.convert("-0xFF"));
+    assertEquals((Long) 255L, converter.convert("#0000FF"));
+    assertEquals((Long) 438L, converter.convert("0666"));
+  }
+
+  public void testStringConverter_convertError() {
+    try {
+      Longs.stringConverter().convert("notanumber");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+  }
+
+  public void testStringConverter_nullConversions() {
+    assertNull(Longs.stringConverter().convert(null));
+    assertNull(Longs.stringConverter().reverse().convert(null));
+  }
+
+  public void testStringConverter_reverse() {
+    Converter<String, Long> converter = Longs.stringConverter();
+    assertEquals("1", converter.reverse().convert(1L));
+    assertEquals("0", converter.reverse().convert(0L));
+    assertEquals("-1", converter.reverse().convert(-1L));
+    assertEquals("255", converter.reverse().convert(0xffL));
+    assertEquals("255", converter.reverse().convert(0xFFL));
+    assertEquals("-255", converter.reverse().convert(-0xFFL));
+    assertEquals("438", converter.reverse().convert(0666L));
+  }
+
   /**
    * Applies {@link Longs#tryParse(String)} to the given string and asserts that
    * the result is as expected.
@@ -383,3 +420,4 @@ public class LongsTest extends TestCase {
     assertEquals(expected, Longs.tryParse(value));
   }
 }
+

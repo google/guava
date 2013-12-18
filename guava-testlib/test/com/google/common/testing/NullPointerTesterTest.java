@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.truth0.Truth.ASSERT;
 
+import com.google.common.base.Converter;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
@@ -1183,6 +1184,30 @@ public class NullPointerTesterTest extends TestCase {
 
   public void testDefaultValueResolvedForPackagePrivateMethod() {
     new DefaultValueForPackagePrivateMethodResolvedToStringChecker().check();
+  }
+
+  private static class ConverterDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(Converter<String, Integer> c, String s) {
+      calledWith(c, s);
+    }
+
+    void check() {
+      runTester();
+      @SuppressWarnings("unchecked") // We are checking it anyway
+      Converter<String, Integer> defaultConverter = (Converter<String, Integer>)
+          getDefaultParameterValue(0);
+      assertEquals(Integer.valueOf(0), defaultConverter.convert("anything"));
+      assertEquals("", defaultConverter.reverse().convert(123));
+      assertNull(defaultConverter.convert(null));
+      assertNull(defaultConverter.reverse().convert(null));
+    }
+  }
+
+  public void testConverterDefaultValue() {
+    new ConverterDefaultValueChecker().check();
   }
 
   private static class VisibilityMethods {
