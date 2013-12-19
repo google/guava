@@ -297,6 +297,7 @@ public abstract class MultimapBuilder<K0, V0> {
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */
     public ListMultimapBuilder<K0, Object> arrayListValues(final int expectedValuesPerKey) {
+      checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
       return new ListMultimapBuilder<K0, Object>() {
         @Override
         public <K extends K0, V> ListMultimap<K, V> build() {
