@@ -18,9 +18,9 @@ public class MultimapBuilderTest_gwt extends com.google.gwt.junit.client.GWTTest
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
-public void testGenerics() throws Exception {
+public void testGenerics_gwtCompatible() throws Exception {
   com.google.common.collect.MultimapBuilderTest testCase = new com.google.common.collect.MultimapBuilderTest();
-  testCase.testGenerics();
+  testCase.testGenerics_gwtCompatible();
 }
 
 public void testSerialization() throws Exception {
@@ -28,8 +28,8 @@ public void testSerialization() throws Exception {
   testCase.testSerialization();
 }
 
-public void testTreeKeys() throws Exception {
+public void testTreeKeys_gwtCompatible() throws Exception {
   com.google.common.collect.MultimapBuilderTest testCase = new com.google.common.collect.MultimapBuilderTest();
-  testCase.testTreeKeys();
+  testCase.testTreeKeys_gwtCompatible();
 }
 }

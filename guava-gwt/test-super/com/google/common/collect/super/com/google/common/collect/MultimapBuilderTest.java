@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.MultimapBuilder.MultimapBuilderWithKeys;
 import com.google.common.testing.SerializableTester;
 
@@ -35,14 +34,6 @@ import java.util.SortedSet;
 @GwtCompatible(emulated = true)
 public class MultimapBuilderTest extends TestCase {
 
-  @GwtIncompatible("doesn't build without explicit type parameters on build() methods")
-  public void testGenerics() {
-    ListMultimap<String, Integer> a = MultimapBuilder.hashKeys().arrayListValues().build();
-    SortedSetMultimap<String, Integer> b = MultimapBuilder.linkedHashKeys().treeSetValues().build();
-    SetMultimap<String, Integer> c =
-        MultimapBuilder.treeKeys(String.CASE_INSENSITIVE_ORDER).hashSetValues().build();
-  }
-
   public void testGenerics_gwtCompatible() {
     ListMultimap<String, Integer> a =
         MultimapBuilder.hashKeys().arrayListValues().<String, Integer>build();
@@ -50,13 +41,6 @@ public class MultimapBuilderTest extends TestCase {
         MultimapBuilder.linkedHashKeys().treeSetValues().<String, Integer>build();
     SetMultimap<String, Integer> c = MultimapBuilder.treeKeys(String.CASE_INSENSITIVE_ORDER)
         .hashSetValues().<String, Integer>build();
-  }
-
-  @GwtIncompatible("doesn't build without explicit type parameters on build() methods")
-  public void testTreeKeys() {
-    ListMultimap<String, Integer> multimap = MultimapBuilder.treeKeys().arrayListValues().build();
-    assertTrue(multimap.keySet() instanceof SortedSet);
-    assertTrue(multimap.asMap() instanceof SortedMap);
   }
 
   public void testTreeKeys_gwtCompatible() {
@@ -82,3 +66,4 @@ public class MultimapBuilderTest extends TestCase {
     }
   }
 }
+
