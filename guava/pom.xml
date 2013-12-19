@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent-jdk5</artifactId>
-    <version>16.0-SNAPSHOT</version>
+    <version>16.0-rc1</version>
   </parent>
   <artifactId>guava-jdk5</artifactId>
   <name>Guava: Google Core Libraries for Java (JDK5 Backport)</name>
