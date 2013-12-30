@@ -22,17 +22,6 @@ import java.util.concurrent.TimeUnit;
  * @author Jesse Wilson
  */
 final class Platform {
-
-  private static final char[] CHAR_BUFFER = new char[1024];
-
-  static char[] charBufferFromThreadLocal() {
-    // ThreadLocal is not available to GWT, so we always reuse the same
-    // instance.  It is always safe to return the same instance because
-    // javascript is single-threaded, and only used by blocks that doesn't
-    // involve async callbacks.
-    return CHAR_BUFFER;
-  }
-
   static CharMatcher precomputeCharMatcher(CharMatcher matcher) {
     // CharMatcher.precomputed() produces CharMatchers that are maybe a little
     // faster (and that's debatable), but definitely more memory-hungry. We're
