@@ -100,7 +100,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
   // SPI methods (what subclasses must implement)
 
   /**
-   * Returns a representation of {@code a} as an instance of type {@code B}.
+   * Returns a representation of {@code a} as an instance of type {@code B}. If {@code a} cannot be
+   * converted, an unchecked exception (such as {@link IllegalArgumentException}) should be thrown.
    *
    * @param a the instance to convert; will never be null
    * @return the converted instance; <b>must not</b> be null
@@ -108,17 +109,16 @@ public abstract class Converter<A, B> implements Function<A, B> {
   protected abstract B doForward(A a);
 
   /**
-   * Returns a representation of {@code b} as an instance of type {@code A}.
+   * Returns a representation of {@code b} as an instance of type {@code A}. If {@code b} cannot be
+   * converted, an unchecked exception (such as {@link IllegalArgumentException}) should be thrown.
    *
    * @param b the instance to convert; will never be null
    * @return the converted instance; <b>must not</b> be null
-   * @throws RuntimeException if {@code b} is not an instance this converter can convert; this
-   *     should typically be an {@code IllegalArgumentException}
-   * @throws UnsupportedOperationException if this converter cannot convert in the reverse
-   *     direction. This should be very rare. Note that if backward conversion is not only
-   *     unimplemented but unimplement<i>able</i> (for example, consider a {@code
-   *     Converter<Chicken, ChickenNugget>}), then this is not logically a converter at all, and it
-   *     would be misleading to extend this class.
+   * @throws UnsupportedOperationException if backward conversion is not implemented; this should be
+   *     very rare. Note that if backward conversion is not only unimplemented but
+   *     unimplement<i>able</i> (for example, consider a {@code Converter<Chicken, ChickenNugget>}),
+   *     then this is not logically a {@code Converter} at all, and should just implement {@link
+   *     Function}.
    */
   protected abstract A doBackward(B b);
 
@@ -135,6 +135,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
 
   B correctedDoForward(A a) {
     if (handleNullAutomatically) {
+      // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return a == null ? null : checkNotNull(doForward(a));
     } else {
       return doForward(a);
@@ -143,6 +144,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
 
   A correctedDoBackward(B b) {
     if (handleNullAutomatically) {
+      // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return b == null ? null : checkNotNull(doBackward(b));
     } else {
       return doBackward(b);
@@ -340,7 +342,45 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return super.equals(object);
   }
 
-  // Static singleton converters
+  // Static converters
+
+  private static final class FunctionBasedConverter<A, B>
+      extends Converter<A, B> implements Serializable {
+    private final Function<? super A, ? extends B> forwardFunction;
+    private final Function<? super B, ? extends A> backwardFunction;
+
+    private FunctionBasedConverter(
+        Function<? super A, ? extends B> forwardFunction,
+        Function<? super B, ? extends A> backwardFunction) {
+      this.forwardFunction = checkNotNull(forwardFunction);
+      this.backwardFunction = checkNotNull(backwardFunction);
+    }
+
+    @Override protected B doForward(A a) {
+      return forwardFunction.apply(a);
+    }
+
+    @Override protected A doBackward(B b) {
+      return backwardFunction.apply(b);
+    }
+
+    @Override public boolean equals(@Nullable Object object) {
+      if (object instanceof FunctionBasedConverter) {
+        FunctionBasedConverter<?, ?> that = (FunctionBasedConverter<?, ?>) object;
+        return this.forwardFunction.equals(that.forwardFunction)
+            && this.backwardFunction.equals(that.backwardFunction);
+      }
+      return false;
+    }
+
+    @Override public int hashCode() {
+      return forwardFunction.hashCode() * 31 + backwardFunction.hashCode();
+    }
+
+    @Override public String toString() {
+      return "Converter.from(" + forwardFunction + ", " + backwardFunction + ")";
+    }
+  }
 
   /**
    * Returns a serializable converter that always converts or reverses an object to itself.
