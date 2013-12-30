@@ -286,17 +286,13 @@ public final class Ints {
     static final IntConverter INSTANCE = new IntConverter();
 
     @Override
-    // TODO(kevinb): remove null boilerplate (convert() will do it
-    // automatically)
     protected Integer doForward(String value) {
-      return value == null ? null : Integer.decode(value);
+      return Integer.decode(value);
     }
 
     @Override
     protected String doBackward(Integer value) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it
-      // automatically)
-      return value == null ? null : value.toString();
+      return value.toString();
     }
 
     @Override
