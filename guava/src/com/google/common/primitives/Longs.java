@@ -372,14 +372,12 @@ public final class Longs {
 
     @Override
     protected Long doForward(String value) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
-      return value == null ? null : Long.decode(value);
+      return Long.decode(value);
     }
 
     @Override
     protected String doBackward(Long value) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
-      return value == null ? null : value.toString();
+      return value.toString();
     }
 
     @Override

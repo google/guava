@@ -416,16 +416,14 @@ public final class NullPointerTester {
       final TypeToken<F> convertFromType, final TypeToken<T> convertToType) {
     return new Converter<F, T>() {
       @Override protected T doForward(F a) {
-        return doConvert(convertToType, a);
+        return doConvert(convertToType);
       }
       @Override protected F doBackward(T b) {
-        return doConvert(convertFromType, b);
+        return doConvert(convertFromType);
       }
 
-      private /*static*/ <S> S doConvert(TypeToken<S> type, Object in) {
-        // TODO(kevinb): remove null boilerplate (convert() will do it
-        // automatically)
-        return in == null ? null : checkNotNull(getDefaultValue(type));
+      private /*static*/ <S> S doConvert(TypeToken<S> type) {
+        return checkNotNull(getDefaultValue(type));
       }
     };
   }
