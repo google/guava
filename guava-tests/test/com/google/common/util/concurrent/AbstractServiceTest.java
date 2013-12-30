@@ -325,7 +325,7 @@ public class AbstractServiceTest extends TestCase {
 
   /**
    * The user of this service should call {@link #notifyStarted} and {@link
-   * #notifyStopped} after calling {@link #start} and {@link #stop}.
+   * #notifyStopped} after calling {@link #startAsync} and {@link #stopAsync}.
    */
   private static class ManualSwitchedService extends AbstractService {
     boolean doStartCalled = false;
