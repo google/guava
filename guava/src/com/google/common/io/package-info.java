@@ -15,22 +15,21 @@
  */
 
 /**
- * This package contains utility methods and classes for working with Java I/O,
+ * This package contains utility methods and classes for working with Java I/O;
  * for example input streams, output streams, readers, writers, and files.
  *
- * <p>Many of the methods are based on the
- * {@link com.google.common.io.InputSupplier} and
- * {@link com.google.common.io.OutputSupplier} interfaces. They are used as
- * factories for I/O objects that might throw {@link java.io.IOException} when
- * being created. The advantage of using a factory is that the helper methods in
- * this package can take care of closing the resource properly, even if an
- * exception is thrown. The {@link com.google.common.io.ByteStreams},
- * {@link com.google.common.io.CharStreams}, and
- * {@link com.google.common.io.Files} classes all have static helper methods to
- * create new factories and to work with them.
+ * <p>At the core of this package are the Source/Sink types:
+ * {@link com.google.common.io.ByteSource ByteSource},
+ * {@link com.google.common.io.CharSource CharSource},
+ * {@link com.google.common.io.ByteSink ByteSink} and
+ * {@link com.google.common.io.CharSink CharSink}. They are factories for I/O streams that
+ * provide many convenience methods that handle both opening and closing streams for you.
  *
  * <p>This package is a part of the open-source
- * <a href="http://guava-libraries.googlecode.com">Guava libraries</a>.
+ * <a href="http://guava-libraries.googlecode.com">Guava libraries</a>. For more information on
+ * Sources and Sinks as well as other features of this package, see
+ * <a href="https://code.google.com/p/guava-libraries/wiki/IOExplained">I/O Explained</a> on the
+ * Guava wiki.
  *
  * @author Chris Nokleberg
  */
