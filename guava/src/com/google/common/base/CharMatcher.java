@@ -872,6 +872,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
   }
 
+  @GwtIncompatible("SmallCharMatcher")
   private static boolean isSmall(int totalCharacters, int tableLength) {
     return totalCharacters <= SmallCharMatcher.MAX_SIZE
         && tableLength > (totalCharacters * 4 * Character.SIZE);
