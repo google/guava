@@ -87,9 +87,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
 
   /** Constructor for use by subclasses. */
   protected Converter() {
-    this(
-        true
-        );
+    this(true);
   }
 
   /**
