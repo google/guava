@@ -239,6 +239,7 @@
             </goals>
             <configuration>
               <module>com.google.common.GuavaTests</module>
+              <strict>true</strict>
               <includes>**/GwtTestSuite.java</includes>
               <mode>htmlunit</mode>
               <testTimeOut>600</testTimeOut>
