@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -70,6 +69,7 @@ public interface Service {
    *         {@link State#FAILED}. If it has already finished starting, {@link ListenableFuture#get}
    *         returns immediately. Cancelling this future has no effect on the service.
    */
+
   @Deprecated
   ListenableFuture<State> start();
 
@@ -83,6 +83,7 @@ public interface Service {
    * @throws UncheckedExecutionException if startup failed
    * @return the state of the service when startup finished.
    */
+
   @Deprecated
   State startAndWait();
 
@@ -124,6 +125,7 @@ public interface Service {
    *         {@link ListenableFuture#get} returns immediately. Cancelling this future has no effect
    *         on the service.
    */
+
   @Deprecated
   ListenableFuture<State> stop();
 
@@ -138,6 +140,7 @@ public interface Service {
    * @throws UncheckedExecutionException if the service has failed or fails during shutdown
    * @return the state of the service when shutdown finished.
    */
+
   @Deprecated
   State stopAndWait();
 
@@ -319,8 +322,8 @@ public interface Service {
   abstract class Listener {
     /**
      * Called when the service transitions from {@linkplain State#NEW NEW} to
-     * {@linkplain State#STARTING STARTING}. This occurs when {@link Service#start} or
-     * {@link Service#startAndWait} is called the first time.
+     * {@linkplain State#STARTING STARTING}. This occurs when {@link Service#startAsync} is called
+     * the first time.
      */
     public void starting() {}
 
@@ -333,7 +336,7 @@ public interface Service {
     /**
      * Called when the service transitions to the {@linkplain State#STOPPING STOPPING} state. The
      * only valid values for {@code from} are {@linkplain State#STARTING STARTING} or
-     * {@linkplain State#RUNNING RUNNING}.  This occurs when {@link Service#stop} is called.
+     * {@linkplain State#RUNNING RUNNING}.  This occurs when {@link Service#stopAsync} is called.
      *
      * @param from The previous state that is being transitioned from.
      */

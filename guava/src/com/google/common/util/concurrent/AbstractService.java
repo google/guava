@@ -109,6 +109,7 @@ public abstract class AbstractService implements Service {
 
   /** Constructor for use by subclasses. */
   protected AbstractService() {
+
     // Add a listener to update the futures. This needs to be added first so that it is executed
     // before the other listeners. This way the other listeners can access the completed futures.
     addListener(
@@ -142,26 +143,27 @@ public abstract class AbstractService implements Service {
               case STOPPING:
                 shutdown.setException(failure);
                 break;
-              case TERMINATED:  /* fall-through */
-              case FAILED:  /* fall-through */
-              case NEW:  /* fall-through */
+              case TERMINATED:  // fall-through
+              case FAILED:  // fall-through
+              case NEW:  // fall-through
               default:
                 throw new AssertionError("Unexpected from state: " + from);
             }
           }
         },
         MoreExecutors.sameThreadExecutor());
+
   }
 
   /**
-   * This method is called by {@link #start} to initiate service startup. The invocation of this
-   * method should cause a call to {@link #notifyStarted()}, either during this method's run, or
-   * after it has returned. If startup fails, the invocation should cause a call to
+   * This method is called by {@link #startAsync} to initiate service startup. The invocation of
+   * this method should cause a call to {@link #notifyStarted()}, either during this method's run,
+   * or after it has returned. If startup fails, the invocation should cause a call to
    * {@link #notifyFailed(Throwable)} instead.
    *
    * <p>This method should return promptly; prefer to do work on a different thread where it is
-   * convenient. It is invoked exactly once on service startup, even when {@link #start} is called
-   * multiple times.
+   * convenient. It is invoked exactly once on service startup, even when {@link #startAsync} is
+   * called multiple times.
    */
   protected abstract void doStart();
 
@@ -172,8 +174,8 @@ public abstract class AbstractService implements Service {
    * {@link #notifyFailed(Throwable)} instead.
    *
    * <p> This method should return promptly; prefer to do work on a different thread where it is
-   * convenient. It is invoked exactly once on service shutdown, even when {@link #stop} is called
-   * multiple times.
+   * convenient. It is invoked exactly once on service shutdown, even when {@link #stopAsync} is
+   * called multiple times.
    */
   protected abstract void doStop();
 
@@ -215,13 +217,6 @@ public abstract class AbstractService implements Service {
   }
 
   @Override public final Service stopAsync() {
-    stop();
-    return this;
-  }
-
-  @Deprecated
-  @Override
-  public final ListenableFuture<State> stop() {
     if (monitor.enterIf(isStoppable)) {
       try {
         State previous = state();
@@ -256,6 +251,12 @@ public abstract class AbstractService implements Service {
         executeListeners();
       }
     }
+    return this;
+  }
+
+  @Deprecated
+  @Override
+  public final ListenableFuture<State> stop() {
     return shutdown;
   }
 
@@ -309,7 +310,6 @@ public abstract class AbstractService implements Service {
   @Override public final void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {
     if (monitor.enterWhenUninterruptibly(isStopped, timeout, unit)) {
       try {
-        State state = state();
         checkCurrentState(TERMINATED);
       } finally {
         monitor.leave();
@@ -472,9 +472,7 @@ public abstract class AbstractService implements Service {
     return getClass().getSimpleName() + " [" + state() + "]";
   }
 
-  /**
-   * A change from one service state to another, plus the result of the change.
-   */
+  // A change from one service state to another, plus the result of the change.
   private class Transition extends AbstractFuture<State> {
     @Override
     public State get(long timeout, TimeUnit unit)

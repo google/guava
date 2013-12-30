@@ -213,7 +213,7 @@ public final class ServiceManager {
    * Registers a {@link Listener} to be {@linkplain Executor#execute executed} on the given 
    * executor. The listener will not have previous state changes replayed, so it is 
    * suggested that listeners are added before any of the managed services are 
-   * {@linkplain Service#start started}.
+   * {@linkplain Service#startAsync started}.
    *
    * <p>There is no guaranteed ordering of execution of listeners, but any listener added through 
    * this method is guaranteed to be called whenever there is a state change.
@@ -236,7 +236,7 @@ public final class ServiceManager {
   /**
    * Registers a {@link Listener} to be run when this {@link ServiceManager} changes state. The 
    * listener will not have previous state changes replayed, so it is suggested that listeners are 
-   * added before any of the managed services are {@linkplain Service#start started}.
+   * added before any of the managed services are {@linkplain Service#startAsync started}.
    *
    * <p>There is no guaranteed ordering of execution of listeners, but any listener added through 
    * this method is guaranteed to be called whenever there is a state change.
@@ -250,8 +250,8 @@ public final class ServiceManager {
   }
 
   /**
-   * Initiates service {@linkplain Service#start startup} on all the services being managed.  It is
-   * only valid to call this method if all of the services are {@linkplain State#NEW new}.
+   * Initiates service {@linkplain Service#startAsync startup} on all the services being managed.  
+   * It is only valid to call this method if all of the services are {@linkplain State#NEW new}.
    * 
    * @return this
    * @throws IllegalStateException if any of the Services are not {@link State#NEW new} when the 
@@ -304,8 +304,8 @@ public final class ServiceManager {
   }
 
   /**
-   * Initiates service {@linkplain Service#stop shutdown} if necessary on all the services being 
-   * managed. 
+   * Initiates service {@linkplain Service#stopAsync shutdown} if necessary on all the services
+   * being managed. 
    *    
    * @return this
    */

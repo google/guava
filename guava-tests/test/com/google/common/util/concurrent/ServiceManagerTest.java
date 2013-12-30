@@ -422,12 +422,12 @@ public class ServiceManagerTest extends TestCase {
         return delegate.startAsync();
       }
 
-      @Override public final ListenableFuture<State> start() {
-        return delegate.start();
-      }
-
       @Override public final Service stopAsync() {
         return delegate.stopAsync();
+      }
+
+      @Override public final ListenableFuture<State> start() {
+        return delegate.start();
       }
 
       @Override public final ListenableFuture<State> stop() {

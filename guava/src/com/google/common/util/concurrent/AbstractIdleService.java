@@ -109,13 +109,13 @@ public abstract class AbstractIdleService implements Service {
   // We override instead of using ForwardingService so that these can be final.
 
   @Deprecated
-  @Override 
+  @Override
    public final ListenableFuture<State> start() {
     return delegate.start();
   }
 
   @Deprecated
-  @Override 
+  @Override
    public final State startAndWait() {
     return delegate.startAndWait();
   }
@@ -129,31 +129,31 @@ public abstract class AbstractIdleService implements Service {
   }
 
   @Deprecated
-  @Override 
+  @Override
   public final ListenableFuture<State> stop() {
     return delegate.stop();
   }
 
   @Deprecated
-  @Override 
+  @Override
   public final State stopAndWait() {
     return delegate.stopAndWait();
   }
-  
+
   /**
    * @since 13.0
    */
   @Override public final void addListener(Listener listener, Executor executor) {
     delegate.addListener(listener, executor);
   }
-  
+
   /**
    * @since 14.0
    */
   @Override public final Throwable failureCause() {
     return delegate.failureCause();
   }
-  
+
   /**
    * @since 15.0
    */
@@ -161,7 +161,7 @@ public abstract class AbstractIdleService implements Service {
     delegate.startAsync();
     return this;
   }
-  
+
   /**
    * @since 15.0
    */
@@ -169,35 +169,35 @@ public abstract class AbstractIdleService implements Service {
     delegate.stopAsync();
     return this;
   }
-  
+
   /**
    * @since 15.0
    */
   @Override public final void awaitRunning() {
     delegate.awaitRunning();
   }
-  
+
   /**
    * @since 15.0
    */
   @Override public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
     delegate.awaitRunning(timeout, unit);
   }
-  
+
   /**
    * @since 15.0
    */
   @Override public final void awaitTerminated() {
     delegate.awaitTerminated();
   }
-  
+
   /**
    * @since 15.0
    */
   @Override public final void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {
     delegate.awaitTerminated(timeout, unit);
   }
-  
+
   /**
    * Returns the name of this service. {@link AbstractIdleService} may include the name in debugging
    * output.
