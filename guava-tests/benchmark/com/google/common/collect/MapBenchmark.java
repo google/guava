@@ -21,6 +21,7 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A microbenchmark that tests the performance of get() on various map
+ * A microbenchmark that tests the performance of get() and iteration on various map
  * implementations.  Forked from {@link SetContainsBenchmark}.
  *
  * @author Nicholaus Shupe
@@ -169,7 +170,7 @@ public class MapBenchmark {
             isUserTypeFast, random, hitRate, size);
 
     if (sortedData) {
-      List<Element> valueList = Lists.newArrayList(sampleData.getValuesInSet());
+      List<Element> valueList = new ArrayList<>(sampleData.getValuesInSet());
       Collections.sort(valueList);
       values = valueList;
     } else {
@@ -202,5 +203,31 @@ public class MapBenchmark {
       dummy += impl.create(values).size();
     }
     return dummy;
+  }
+
+  @Benchmark boolean iterateWithEntrySet(int reps) {
+    Map<Element, Element> map = mapToTest;
+
+    boolean dummy = false;
+    for (int i = 0; i < reps; i++) {
+      for (Map.Entry<Element, Element> entry : map.entrySet()) {
+        dummy ^= entry.getKey() != entry.getValue();
+      }
+    }
+    return dummy;
+  }
+
+  @Benchmark boolean iterateWithKeySetAndGet(int reps) {
+    Map<Element, Element> map = mapToTest;
+
+    boolean dummy = false;
+    for (int i = 0; i < reps; i++) {
+      for (Element key : map.keySet()) {
+        Element value = map.get(key);
+        dummy ^= key != value;
+      }
+    }
+    return dummy;
+
   }
 }
