@@ -129,11 +129,13 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *
    * @return the converted value; is null <i>if and only if</i> {@code a} is null
    */
-  @Nullable public final B convert(@Nullable A a) {
+  @Nullable
+  public final B convert(@Nullable A a) {
     return correctedDoForward(a);
   }
 
-  B correctedDoForward(A a) {
+  @Nullable
+  B correctedDoForward(@Nullable A a) {
     if (handleNullAutomatically) {
       // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return a == null ? null : checkNotNull(doForward(a));
@@ -142,7 +144,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
   }
 
-  A correctedDoBackward(B b) {
+  @Nullable
+  A correctedDoBackward(@Nullable B b) {
     if (handleNullAutomatically) {
       // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return b == null ? null : checkNotNull(doBackward(b));
@@ -165,13 +168,19 @@ public abstract class Converter<A, B> implements Function<A, B> {
       @Override public Iterator<B> iterator() {
         return new Iterator<B>() {
           private final Iterator<? extends A> fromIterator = fromIterable.iterator();
-          @Override public boolean hasNext() {
+
+          @Override
+          public boolean hasNext() {
             return fromIterator.hasNext();
           }
-          @Override public B next() {
+
+          @Override
+          public B next() {
             return convert(fromIterator.next());
           }
-          @Override public void remove() {
+
+          @Override
+          public void remove() {
             fromIterator.remove();
           }
         };
@@ -194,9 +203,6 @@ public abstract class Converter<A, B> implements Function<A, B> {
     final Converter<A, B> original;
 
     ReverseConverter(Converter<A, B> original) {
-      // Rely on backing converter to handle null if desired, not us.
-      // Actually, since we override correctedDo*, nothing will use this field now anyway.
-      super(false);
       this.original = original;
     }
 
@@ -207,27 +213,35 @@ public abstract class Converter<A, B> implements Function<A, B> {
      * be reached.
      */
 
-    @Override protected A doForward(@Nullable B b) {
+    @Override
+    protected A doForward(B b) {
       throw new AssertionError();
     }
 
-    @Override protected B doBackward(@Nullable A a) {
+    @Override
+    protected B doBackward(A a) {
       throw new AssertionError();
     }
 
-    @Override A correctedDoForward(B b) {
+    @Override
+    @Nullable
+    A correctedDoForward(@Nullable B b) {
       return original.correctedDoBackward(b);
     }
 
-    @Override B correctedDoBackward(A a) {
+    @Override
+    @Nullable
+    B correctedDoBackward(@Nullable A a) {
       return original.correctedDoForward(a);
     }
 
-    @Override public Converter<A, B> reverse() {
+    @Override
+    public Converter<A, B> reverse() {
       return original;
     }
 
-    @Override public boolean equals(@Nullable Object object) {
+    @Override
+    public boolean equals(@Nullable Object object) {
       if (object instanceof ReverseConverter) {
         ReverseConverter<?, ?> that = (ReverseConverter<?, ?>) object;
         return this.original.equals(that.original);
@@ -235,11 +249,13 @@ public abstract class Converter<A, B> implements Function<A, B> {
       return false;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return ~original.hashCode();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return original + ".reverse()";
     }
 
@@ -263,9 +279,6 @@ public abstract class Converter<A, B> implements Function<A, B> {
     final Converter<B, C> second;
 
     ConverterComposition(Converter<A, B> first, Converter<B, C> second) {
-      // Rely on backing converter to handle null if desired, not us.
-      // Actually, since we override correctedDo*, nothing will use this field now anyway.
-      super(false);
       this.first = first;
       this.second = second;
     }
@@ -277,23 +290,30 @@ public abstract class Converter<A, B> implements Function<A, B> {
      * after which the do* methods should never be reached.
      */
 
-    @Override protected C doForward(@Nullable A a) {
+    @Override
+    protected C doForward(A a) {
       throw new AssertionError();
     }
 
-    @Override protected A doBackward(@Nullable C c) {
+    @Override
+    protected A doBackward(C c) {
       throw new AssertionError();
     }
 
-    @Override C correctedDoForward(@Nullable A a) {
+    @Override
+    @Nullable
+    C correctedDoForward(@Nullable A a) {
       return second.correctedDoForward(first.correctedDoForward(a));
     }
 
-    @Override A correctedDoBackward(@Nullable C c) {
+    @Override
+    @Nullable
+    A correctedDoBackward(@Nullable C c) {
       return first.correctedDoBackward(second.correctedDoBackward(c));
     }
 
-    @Override public boolean equals(@Nullable Object object) {
+    @Override
+    public boolean equals(@Nullable Object object) {
       if (object instanceof ConverterComposition) {
         ConverterComposition<?, ?, ?> that = (ConverterComposition<?, ?, ?>) object;
         return this.first.equals(that.first)
@@ -302,11 +322,13 @@ public abstract class Converter<A, B> implements Function<A, B> {
       return false;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return 31 * first.hashCode() + second.hashCode();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return first + ".andThen(" + second + ")";
     }
 
@@ -322,7 +344,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
    */
   @Deprecated
   @Override
-  @Nullable public final B apply(@Nullable A a) {
+  @Nullable
+  public final B apply(@Nullable A a) {
     return convert(a);
   }
 
@@ -356,15 +379,18 @@ public abstract class Converter<A, B> implements Function<A, B> {
       this.backwardFunction = checkNotNull(backwardFunction);
     }
 
-    @Override protected B doForward(A a) {
+    @Override
+    protected B doForward(A a) {
       return forwardFunction.apply(a);
     }
 
-    @Override protected A doBackward(B b) {
+    @Override
+    protected A doBackward(B b) {
       return backwardFunction.apply(b);
     }
 
-    @Override public boolean equals(@Nullable Object object) {
+    @Override
+    public boolean equals(@Nullable Object object) {
       if (object instanceof FunctionBasedConverter) {
         FunctionBasedConverter<?, ?> that = (FunctionBasedConverter<?, ?>) object;
         return this.forwardFunction.equals(that.forwardFunction)
@@ -373,11 +399,13 @@ public abstract class Converter<A, B> implements Function<A, B> {
       return false;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return forwardFunction.hashCode() * 31 + backwardFunction.hashCode();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "Converter.from(" + forwardFunction + ", " + backwardFunction + ")";
     }
   }
@@ -397,19 +425,23 @@ public abstract class Converter<A, B> implements Function<A, B> {
   private static final class IdentityConverter<T> extends Converter<T, T> implements Serializable {
     static final IdentityConverter INSTANCE = new IdentityConverter();
 
-    @Override protected T doForward(@Nullable T t) {
+    @Override
+    protected T doForward(T t) {
       return t;
     }
 
-    @Override protected T doBackward(@Nullable T t) {
+    @Override
+    protected T doBackward(T t) {
       return t;
     }
 
-    @Override public IdentityConverter<T> reverse() {
+    @Override
+    public IdentityConverter<T> reverse() {
       return this;
     }
 
-    @Override public <S> Converter<T, S> andThen(Converter<T, S> otherConverter) {
+    @Override
+    public <S> Converter<T, S> andThen(Converter<T, S> otherConverter) {
       return checkNotNull(otherConverter, "otherConverter");
     }
 
@@ -418,7 +450,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
      * optimization and opened up a weird type-safety problem.
      */
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "Converter.identity()";
     }
 
