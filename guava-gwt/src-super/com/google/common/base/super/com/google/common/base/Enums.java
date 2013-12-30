@@ -133,14 +133,12 @@ public final class Enums {
 
     @Override
     protected T doForward(String value) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
-      return value == null ? null : Enum.valueOf(enumClass, value);
+      return Enum.valueOf(enumClass, value);
     }
 
     @Override
     protected String doBackward(T enumValue) {
-      // TODO(kevinb): remove null boilerplate once convert() does it automatically
-      return enumValue == null ? null : enumValue.name();
+      return enumValue.name();
     }
 
     @Override

@@ -275,16 +275,12 @@ public final class Doubles {
 
     @Override
     protected Double doForward(String value) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it
-      // automatically)
-      return value == null ? null : Double.valueOf(value);
+      return Double.valueOf(value);
     }
 
     @Override
     protected String doBackward(Double value) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it
-      // automatically)
-      return value == null ? null : value.toString();
+      return value.toString();
     }
 
     @Override

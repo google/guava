@@ -340,14 +340,12 @@ public final class Shorts {
 
     @Override
     protected Short doForward(String value) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
-      return value == null ? null : Short.decode(value);
+      return Short.decode(value);
     }
 
     @Override
     protected String doBackward(Short value) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
-      return value == null ? null : value.toString();
+      return value.toString();
     }
 
     @Override

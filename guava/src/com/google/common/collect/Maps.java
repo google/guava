@@ -1331,10 +1331,6 @@ public final class Maps {
     }
 
     private static <X, Y> Y convert(BiMap<X, Y> bimap, X input) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
-      if (input == null) {
-        return null;
-      }
       Y output = bimap.get(input);
       checkArgument(output != null, "No non-null mapping present for input: %s", input);
       return output;
