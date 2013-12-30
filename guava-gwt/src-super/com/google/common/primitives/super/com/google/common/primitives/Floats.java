@@ -267,16 +267,12 @@ public final class Floats {
 
     @Override
     protected Float doForward(String value) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it
-      // automatically)
-      return value == null ? null : Float.valueOf(value);
+      return Float.valueOf(value);
     }
 
     @Override
     protected String doBackward(Float value) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it
-      // automatically)
-      return value == null ? null : value.toString();
+      return value.toString();
     }
 
     @Override
