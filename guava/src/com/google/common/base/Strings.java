@@ -163,8 +163,8 @@ public final class Strings {
     final long longSize = (long) len * (long) count;
     final int size = (int) longSize;
     if (size != longSize) {
-      throw new ArrayIndexOutOfBoundsException("Required array size too large: "
-          + String.valueOf(longSize));
+      throw new ArrayIndexOutOfBoundsException(
+          "Required array size too large: " + longSize);
     }
 
     final char[] array = new char[size];

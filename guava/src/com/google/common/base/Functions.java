@@ -224,7 +224,7 @@ public final class Functions {
     }
 
     @Override public String toString() {
-      return g.toString() + "(" + f.toString() + ")";
+      return g + "(" + f + ")";
     }
 
     private static final long serialVersionUID = 0;
