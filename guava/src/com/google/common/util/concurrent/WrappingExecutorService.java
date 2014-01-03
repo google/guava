@@ -51,9 +51,10 @@ abstract class WrappingExecutorService implements ExecutorService {
   }
 
   /**
-   * Wraps a task  before it is submitted to the underlying Executor.
-   * Though specified in terms of Callable, this method is also applied to
-   * Runnable tasks.
+   * Wraps a task before it is submitted to the underlying executor. Though
+   * specified in terms of {@link Callable}, this method is also applied to
+   * {@link Runnable} tasks (unless {@link #wrapTest(Runnable}} is overridden
+   * with different behavior).
    */
   protected abstract <T> Callable<T> wrapTask(Callable<T> callable);
 

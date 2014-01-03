@@ -1136,7 +1136,6 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
       if (submap == map) {
         AbstractMapBasedMultimap.this.clear();
       } else {
-
         Iterators.clear(new AsMapIterator());
       }
     }

@@ -137,7 +137,7 @@ public final class CharStreams {
    * @param to the output factory
    * @return the number of characters copied
    * @throws IOException if an I/O error occurs
-   * @deprecated Use {@link CharSource#copyTo(CharSink) instead. This method is
+   * @deprecated Use {@link CharSource#copyTo(CharSink)} instead. This method is
    *     scheduled for removal in Guava 18.0.
    */
   @Deprecated
