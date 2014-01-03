@@ -16,12 +16,13 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -180,7 +181,7 @@ public class MapBenchmark {
             isUserTypeFast, random, hitRate, size);
 
     if (sortedData) {
-      List<Element> valueList = new ArrayList<>(sampleData.getValuesInSet());
+      List<Element> valueList = newArrayList(sampleData.getValuesInSet());
       Collections.sort(valueList);
       values = valueList;
     } else {
