@@ -150,8 +150,9 @@ public abstract class CharMatcher implements Predicate<Character> {
       "CharMatcher.DIGIT", ZEROES.toCharArray(), NINES.toCharArray());
 
   /**
-   * Determines whether a character is a digit according to {@link Character#isDigit(char) Java's
-   * definition}. If you only care to match ASCII digits, you can use {@code inRange('0', '9')}.
+   * Determines whether a character is a digit according to {@linkplain Character#isDigit(char)
+   * Java's definition}. If you only care to match ASCII digits, you can use {@code
+   * inRange('0', '9')}.
    */
   public static final CharMatcher JAVA_DIGIT = new CharMatcher("CharMatcher.JAVA_DIGIT") {
     @Override public boolean matches(char c) {
@@ -160,8 +161,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   };
 
   /**
-   * Determines whether a character is a letter according to {@link Character#isLetter(char) Java's
-   * definition}. If you only care to match letters of the Latin alphabet, you can use {@code
+   * Determines whether a character is a letter according to {@linkplain Character#isLetter(char)
+   * Java's definition}. If you only care to match letters of the Latin alphabet, you can use {@code
    * inRange('a', 'z').or(inRange('A', 'Z'))}.
    */
   public static final CharMatcher JAVA_LETTER = new CharMatcher("CharMatcher.JAVA_LETTER") {
@@ -171,7 +172,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   };
 
   /**
-   * Determines whether a character is a letter or digit according to {@link
+   * Determines whether a character is a letter or digit according to {@linkplain
    * Character#isLetterOrDigit(char) Java's definition}.
    */
   public static final CharMatcher JAVA_LETTER_OR_DIGIT =
@@ -182,8 +183,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   };
 
   /**
-   * Determines whether a character is upper case according to {@link Character#isUpperCase(char)
-   * Java's definition}.
+   * Determines whether a character is upper case according to {@linkplain
+   * Character#isUpperCase(char) Java's definition}.
    */
   public static final CharMatcher JAVA_UPPER_CASE =
       new CharMatcher("CharMatcher.JAVA_UPPER_CASE") {
@@ -193,8 +194,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   };
 
   /**
-   * Determines whether a character is lower case according to {@link Character#isLowerCase(char)
-   * Java's definition}.
+   * Determines whether a character is lower case according to {@linkplain
+   * Character#isLowerCase(char) Java's definition}.
    */
   public static final CharMatcher JAVA_LOWER_CASE =
       new CharMatcher("CharMatcher.JAVA_LOWER_CASE") {
