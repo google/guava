@@ -218,7 +218,11 @@ public final class BigIntegerMath {
         return sqrtFloor;
       case CEILING:
       case UP:
-        return sqrtFloor.pow(2).equals(x) ? sqrtFloor : sqrtFloor.add(BigInteger.ONE);
+        int sqrtFloorInt = sqrtFloor.intValue();
+        boolean sqrtFloorIsExact =
+            (sqrtFloorInt * sqrtFloorInt == x.intValue()) // fast check mod 2^32
+            && sqrtFloor.pow(2).equals(x); // slow exact check
+        return sqrtFloorIsExact ? sqrtFloor : sqrtFloor.add(BigInteger.ONE);
       case HALF_DOWN:
       case HALF_UP:
       case HALF_EVEN:
