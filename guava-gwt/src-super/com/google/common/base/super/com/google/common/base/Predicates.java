@@ -210,24 +210,40 @@ public final class Predicates {
 
   // Package private for GWT serialization.
   enum ObjectPredicate implements Predicate<Object> {
+    /** @see Predicates#alwaysTrue() */
     ALWAYS_TRUE {
       @Override public boolean apply(@Nullable Object o) {
         return true;
       }
+      @Override public String toString() {
+        return "Predicates.alwaysTrue()";
+      }
     },
+    /** @see Predicates#alwaysFalse() */
     ALWAYS_FALSE {
       @Override public boolean apply(@Nullable Object o) {
         return false;
       }
+      @Override public String toString() {
+        return "Predicates.alwaysFalse()";
+      }
     },
+    /** @see Predicates#isNull() */
     IS_NULL {
       @Override public boolean apply(@Nullable Object o) {
         return o == null;
       }
+      @Override public String toString() {
+        return "Predicates.isNull()";
+      }
     },
+    /** @see Predicates#notNull() */
     NOT_NULL {
       @Override public boolean apply(@Nullable Object o) {
         return o != null;
+      }
+      @Override public String toString() {
+        return "Predicates.notNull()";
       }
     };
 
@@ -259,7 +275,7 @@ public final class Predicates {
       return false;
     }
     @Override public String toString() {
-      return "Not(" + predicate.toString() + ")";
+      return "Predicates.not(" + predicate.toString() + ")";
     }
     private static final long serialVersionUID = 0;
   }
@@ -295,7 +311,7 @@ public final class Predicates {
       return false;
     }
     @Override public String toString() {
-      return "And(" + COMMA_JOINER.join(components) + ")";
+      return "Predicates.and(" + COMMA_JOINER.join(components) + ")";
     }
     private static final long serialVersionUID = 0;
   }
@@ -329,7 +345,7 @@ public final class Predicates {
       return false;
     }
     @Override public String toString() {
-      return "Or(" + COMMA_JOINER.join(components) + ")";
+      return "Predicates.or(" + COMMA_JOINER.join(components) + ")";
     }
     private static final long serialVersionUID = 0;
   }
@@ -357,7 +373,7 @@ public final class Predicates {
       return false;
     }
     @Override public String toString() {
-      return "IsEqualTo(" + target + ")";
+      return "Predicates.equalTo(" + target + ")";
     }
     private static final long serialVersionUID = 0;
   }
@@ -394,7 +410,7 @@ public final class Predicates {
     }
 
     @Override public String toString() {
-      return "In(" + target + ")";
+      return "Predicates.in(" + target + ")";
     }
     private static final long serialVersionUID = 0;
   }
