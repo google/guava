@@ -25,9 +25,7 @@ import com.google.common.testing.AbstractPackageSanityTests;
  */
 
 public class PackageSanityTests extends AbstractPackageSanityTests {
-
-  @Override
-  protected void setUp() throws Exception {
+  public PackageSanityTests() {
     publicApiOnly();
   }
 }
