@@ -25,9 +25,12 @@ import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListenableFutureTask;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
 
 /**
  * Computes or retrieves values, based on a key, for use in populating a {@link LoadingCache}.
@@ -163,6 +166,46 @@ public abstract class CacheLoader<K, V> {
   @Beta
   public static <V> CacheLoader<Object, V> from(Supplier<V> supplier) {
     return new SupplierToCacheLoader<V>(supplier);
+  }
+
+  /**
+   * Returns a {@code CacheLoader} which wraps {@code loader}, executing calls to
+   * {@link CacheLoader#reload} using {@code executor}.
+   *
+   * <p>This method is useful only when {@code loader.reload} has a synchronous implementation,
+   * such as {@linkplain #reload the default implementation}.
+   *
+   * @since 17.0
+   */
+  @Beta
+  @GwtIncompatible("Executor + Futures")
+  public static <K, V> CacheLoader<K, V> asyncReload(final CacheLoader<K, V> loader,
+      final Executor executor) {
+    checkNotNull(loader);
+    checkNotNull(executor);
+    return new CacheLoader<K, V>() {
+      @Override
+      public V load(K key) throws Exception {
+        return loader.load(key);
+      }
+
+      @Override
+      public ListenableFuture<V> reload(final K key, final V oldValue) throws Exception {
+        ListenableFutureTask<V> task = ListenableFutureTask.create(new Callable<V>() {
+          @Override
+          public V call() throws Exception {
+            return loader.reload(key, oldValue).get();
+          }
+        });
+        executor.execute(task);
+        return task;
+      }
+
+      @Override
+      public Map<K, V> loadAll(Iterable<? extends K> keys) throws Exception {
+        return loader.loadAll(keys);
+      }
+    };
   }
 
   private static final class SupplierToCacheLoader<V>
