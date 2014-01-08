@@ -25,6 +25,12 @@
       <optional>true</optional><!-- needed only for annotations -->
     </dependency>
     <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>guava-bootstrap-jdk5</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -55,6 +61,13 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <fork>true</fork>
+          <!-- Prepend guava-bootstrap to avoid an API incompatibility between JDK5 and JDK6 -->
+          <compilerArgument>-Xbootclasspath/p:${project.build.directory}/dependency/guava-bootstrap-${project.version}.jar</compilerArgument>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
@@ -63,6 +76,16 @@
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
+          <execution>
+            <id>prep-guava-bootstrap</id>
+            <phase>process-sources</phase>
+            <goals><goal>copy-dependencies</goal></goals>
+            <configuration>
+              <includeArtifactIds>guava-bootstrap</includeArtifactIds>
+              <excludeTransitive>true</excludeTransitive>
+              <includeScope>provided</includeScope>
+            </configuration>
+          </execution>
           <execution>
             <id>unpack-jdk-sources</id>
             <phase>site</phase>

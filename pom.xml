@@ -57,6 +57,7 @@
   </developers>
   <modules>
     <module>guava</module>
+    <module>guava-bootstrap</module>
     <module>guava-testlib</module>
     <module>guava-tests</module>
   </modules>
