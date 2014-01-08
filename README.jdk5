@@ -1,0 +1,30 @@
+Guava: Google Core Libraries for Java
+=====================================
+
+This is the JDK5 backport of Guava.  As such, it has a variety of
+code removed, most notably code that uses Math.scalb, Deque and 
+its inheritors, NavigableMap, NavigableSet and their inheritors,
+and lots of methods that don't make sense without the above. 
+Additionally, TimeUnit only supports SECONDS as the highest
+granular time unit, so all uses of MINUTES, DAYS, HOURS have been
+re-cast in terms of SECONDS.  Lastly, Charset-accepting methods
+on String and elsewhere were added in 1.6, so all charsets are 
+passed in by using Charset.FOO.name(), and exceptions are trapped
+or thrown as appropriate. 
+
+The JDK5 backport builds with Maven, but has two ideosyncrasies.
+Firstly, it requries a custom ExecutorService which we build
+in a boostrap project which is included in the build of Guava.
+Secondly, the maven build will, in the backport, use a bootstrap
+rt.jar classpath based on a standard sun JDK on unix.  But this
+is overridable on a Mac by passing in:
+
+-Dbootstrap.classes=/path/to/my/classes.jar
+
+This was instituted so that you can build on a 1.6 JDK, and get
+the appropriate behavior around @Overrides use for interface
+methods but pass in a JDK5 classes jar.  Adding the JDK5 jar 
+ensures that no APIs introduced in 1.6 slipped past our cleanup.
+
+If you have difficulties building, please try setting the above
+property to a known rt.jar or classes.jar.
