@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -32,6 +33,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;

@@ -17,8 +17,8 @@ package com.google.common.collect;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
+import com.google.common.collect.testing.SortedSetTestSuiteBuilder;
 import com.google.common.collect.testing.TestSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -115,7 +115,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableRangeSetTest.class);
-    suite.addTest(NavigableSetTestSuiteBuilder.using(new ImmutableRangeSetIntegerAsSetGenerator())
+    suite.addTest(SortedSetTestSuiteBuilder.using(new ImmutableRangeSetIntegerAsSetGenerator())
         .named("ImmutableRangeSet.asSet[DiscreteDomain.integers[]]")
         .withFeatures(
             CollectionSize.ANY,
@@ -126,7 +126,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             CollectionFeature.SERIALIZABLE)
         .createTestSuite());
 
-    suite.addTest(NavigableSetTestSuiteBuilder.using(
+    suite.addTest(SortedSetTestSuiteBuilder.using(
           new ImmutableRangeSetBigIntegerAsSetGenerator())
         .named("ImmutableRangeSet.asSet[DiscreteDomain.bigIntegers[]]")
         .withFeatures(

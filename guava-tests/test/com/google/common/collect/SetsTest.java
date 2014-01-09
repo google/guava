@@ -21,6 +21,7 @@ import static com.google.common.collect.Sets.newEnumSet;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.powerSet;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
+import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod;
 import static java.io.ObjectStreamConstants.TC_REFERENCE;
 import static java.io.ObjectStreamConstants.baseWireHandle;
 import static java.util.Collections.emptySet;
@@ -203,6 +204,7 @@ public class SetsTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY)
+        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite();
   }
 
@@ -221,7 +223,8 @@ public class SetsTest extends TestCase {
         .named("Sets.filter, no nulls")
         .withFeatures(SetFeature.GENERAL_PURPOSE, CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
-        .suppressing(getIteratorKnownOrderRemoveSupportedMethod()).createTestSuite());
+        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
+        .createTestSuite());
 
     return suite;
   }
@@ -247,6 +250,7 @@ public class SetsTest extends TestCase {
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_QUERIES)
+        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite();
   }
 

@@ -17,7 +17,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>guava-testlib</artifactId>
+      <artifactId>guava-testlib-jdk5</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
@@ -50,6 +50,13 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <fork>true</fork>
+          <!-- Prepend guava-bootstrap to avoid an API incompatibility between JDK5 and JDK6 -->
+          <compilerArgument>-Xbootclasspath/p:${project.build.directory}/dependency/guava-bootstrap-${project.version}.jar</compilerArgument>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>

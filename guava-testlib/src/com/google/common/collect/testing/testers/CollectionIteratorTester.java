@@ -131,4 +131,15 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
     return Helpers.getMethod(
         CollectionIteratorTester.class, "testIterator_knownOrderRemoveUnsupported");
   }
+
+  /**
+   * Returns the {@link Method} instance for
+   * {@link #testIterator_knownOrderRemoveSupported()} so that tests of
+   * {@code Sets.filter} can suppress it under JDK5.
+   */
+  @GwtIncompatible("reflection")
+  public static Method getIteratorKnownOrderRemoveSupportedMethod() {
+    return Helpers.getMethod(
+        CollectionIteratorTester.class, "testIterator_knownOrderRemoveSupported");
+  }
 }

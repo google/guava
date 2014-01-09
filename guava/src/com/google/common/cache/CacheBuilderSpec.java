@@ -416,19 +416,15 @@ public final class CacheBuilderSpec {
       checkArgument(value != null && !value.isEmpty(), "value of key %s omitted", key);
       try {
         char lastChar = value.charAt(value.length() - 1);
-        TimeUnit timeUnit;
+        long multiplier = 1;
         switch (lastChar) {
           case 'd':
-            timeUnit = TimeUnit.DAYS;
-            break;
+            multiplier *= 24;
           case 'h':
-            timeUnit = TimeUnit.HOURS;
-            break;
+            multiplier *= 60;
           case 'm':
-            timeUnit = TimeUnit.MINUTES;
-            break;
+            multiplier *= 60;
           case 's':
-            timeUnit = TimeUnit.SECONDS;
             break;
           default:
             throw new IllegalArgumentException(
@@ -437,7 +433,7 @@ public final class CacheBuilderSpec {
         }
 
         long duration = Long.parseLong(value.substring(0, value.length() - 1));
-        parseDuration(spec, duration, timeUnit);
+        parseDuration(spec, duration * multiplier, TimeUnit.SECONDS);
       } catch (NumberFormatException e) {
         throw new IllegalArgumentException(
             String.format("key %s value set to %s, must be integer", key, value));
