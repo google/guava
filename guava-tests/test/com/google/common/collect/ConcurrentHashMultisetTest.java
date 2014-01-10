@@ -42,7 +42,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -63,14 +62,6 @@ public class ConcurrentHashMultisetTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("ConcurrentHashMultiset")
         .createTestSuite());
-    suite.addTest(MultisetTestSuiteBuilder.using(concurrentSkipListMultisetGenerator())
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.GENERAL_PURPOSE,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ConcurrentSkipListMultiset")
-        .createTestSuite());
     suite.addTestSuite(ConcurrentHashMultisetTest.class);
     return suite;
   }
@@ -79,22 +70,6 @@ public class ConcurrentHashMultisetTest extends TestCase {
     return new TestStringMultisetGenerator() {
       @Override protected Multiset<String> create(String[] elements) {
         return ConcurrentHashMultiset.create(asList(elements));
-      }
-    };
-  }
-
-  private static TestStringMultisetGenerator concurrentSkipListMultisetGenerator() {
-    return new TestStringMultisetGenerator() {
-      @Override protected Multiset<String> create(String[] elements) {
-        Multiset<String> multiset = new ConcurrentHashMultiset<String>(
-            new ConcurrentSkipListMap<String, AtomicInteger>());
-        Collections.addAll(multiset, elements);
-        return multiset;
-      }
-
-      @Override
-      public List<String> order(List<String> insertionOrder) {
-        return Ordering.natural().sortedCopy(insertionOrder);
       }
     };
   }

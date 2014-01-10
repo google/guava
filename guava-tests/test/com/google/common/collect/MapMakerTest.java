@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
-import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -222,10 +222,10 @@ public class MapMakerTest extends TestCase {
 
     @SuppressWarnings("deprecation") // test of deprecated method
     public void testExpiration_setTwice() {
-      MapMaker maker = new MapMaker().expireAfterWrite(1, HOURS);
+      MapMaker maker = new MapMaker().expireAfterWrite(1 * 60 * 60, SECONDS);
       try {
         // even to the same value is not allowed
-        maker.expireAfterWrite(1, HOURS);
+        maker.expireAfterWrite(1 * 60 * 60, SECONDS);
         fail();
       } catch (IllegalStateException expected) {
       }

@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NavigableSet;
+import java.util.SortedSet;
 
 import javax.annotation.Nullable;
 
@@ -66,7 +66,7 @@ public class ForwardingSortedMultisetTest extends ForwardingMultisetTest {
     }
 
     @Override
-    public NavigableSet<E> elementSet() {
+    public SortedSet<E> elementSet() {
       return new StandardElementSet();
     }
 

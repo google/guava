@@ -73,11 +73,11 @@ public class FilesTest extends IoTestCase {
   public void testToByteArray() throws IOException {
     File asciiFile = getTestFile("ascii.txt");
     File i18nFile = getTestFile("i18n.txt");
-    assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII),
+    assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII.name()),
         Files.toByteArray(asciiFile)));
-    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8),
+    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8.name()),
         Files.toByteArray(i18nFile)));
-    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8),
+    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8.name()),
         Files.asByteSource(i18nFile).read()));
   }
 
@@ -88,7 +88,7 @@ public class FilesTest extends IoTestCase {
     try {
       InputStream in = closer.register(new FileInputStream(asciiFile));
       byte[] bytes = Files.readFile(in, asciiFile.length());
-      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII), bytes));
+      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII.name()), bytes));
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -103,7 +103,7 @@ public class FilesTest extends IoTestCase {
     try {
       InputStream in = closer.register(new FileInputStream(asciiFile));
       byte[] bytes = Files.readFile(in, 10);
-      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII), bytes));
+      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII.name()), bytes));
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -118,7 +118,7 @@ public class FilesTest extends IoTestCase {
     try {
       InputStream in = closer.register(new FileInputStream(asciiFile));
       byte[] bytes = Files.readFile(in, 500);
-      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII), bytes));
+      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII.name()), bytes));
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -133,7 +133,7 @@ public class FilesTest extends IoTestCase {
     try {
       InputStream in = closer.register(new FileInputStream(asciiFile));
       byte[] bytes = Files.readFile(in, 0);
-      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII), bytes));
+      assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII.name()), bytes));
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {

@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 import org.easymock.EasyMock;
 
 import java.io.ByteArrayInputStream;
-import java.util.Arrays;
 
 /**
  * Tests for {@link HashingInputStream}.
@@ -77,7 +76,7 @@ public class HashingInputStreamTest extends TestCase {
   }
 
   public void testRead_putByteArrayAtPos() throws Exception {
-    EasyMock.expect(hasher.putBytes(aryEq(Arrays.copyOfRange(testBytes, 0, 3)), eq(0), eq(3)))
+    EasyMock.expect(hasher.putBytes(aryEq(new byte[] {'y', 'a', 'm'}), eq(0), eq(3)))
         .andReturn(hasher).once();
     EasyMock.replay(hasher);
     HashingInputStream in = new HashingInputStream(hashFunction, buffer);

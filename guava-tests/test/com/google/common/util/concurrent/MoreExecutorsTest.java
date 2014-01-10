@@ -357,7 +357,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       @Override public void run() {}
     };
 
-    future = service.schedule(runnable, 5, TimeUnit.MINUTES);
+    future = service.schedule(runnable, 5 * 60, TimeUnit.SECONDS);
     future.cancel(true);
     assertTrue(future.isCancelled());
     delegateFuture = (ScheduledFuture<?>) delegateQueue.element();
@@ -365,7 +365,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
 
     delegateQueue.clear();
 
-    future = service.scheduleAtFixedRate(runnable, 5, 5, TimeUnit.MINUTES);
+    future = service.scheduleAtFixedRate(runnable, 5 * 60, 5 * 60, TimeUnit.SECONDS);
     future.cancel(true);
     assertTrue(future.isCancelled());
     delegateFuture = (ScheduledFuture<?>) delegateQueue.element();
@@ -373,7 +373,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
 
     delegateQueue.clear();
 
-    future = service.scheduleWithFixedDelay(runnable, 5, 5, TimeUnit.MINUTES);
+    future = service.scheduleWithFixedDelay(runnable, 5 * 60, 5 * 60, TimeUnit.SECONDS);
     future.cancel(true);
     assertTrue(future.isCancelled());
     delegateFuture = (ScheduledFuture<?>) delegateQueue.element();

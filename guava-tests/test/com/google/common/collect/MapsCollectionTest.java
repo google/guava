@@ -42,6 +42,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -464,13 +465,21 @@ public class MapsCollectionTest extends TestCase {
   }
   
   private static String encode(String str) {
-    return BaseEncoding.base64().encode(str.getBytes(Charsets.UTF_8));
+    try {
+      return BaseEncoding.base64().encode(str.getBytes(Charsets.UTF_8.name()));
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError(e);
+    }
   }
   
   private static final Function<String, String> DECODE_FUNCTION = new Function<String, String>() {
     @Override
     public String apply(String input) {
-      return new String(BaseEncoding.base64().decode(input), Charsets.UTF_8);
+      try {
+        return new String(BaseEncoding.base64().decode(input), Charsets.UTF_8.name());
+      } catch (UnsupportedEncodingException e) {
+        throw new AssertionError(e);
+      }
     }    
   };
   

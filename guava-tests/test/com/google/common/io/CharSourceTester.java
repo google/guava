@@ -139,7 +139,7 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
   }
 
   public void testIsEmpty() throws IOException {
-    assertEquals(expected.isEmpty(), source.isEmpty());
+    assertEquals(expected.length() == 0, source.isEmpty());
   }
 
   public void testReadLines_withProcessor() throws IOException {
