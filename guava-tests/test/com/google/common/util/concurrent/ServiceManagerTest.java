@@ -390,7 +390,7 @@ public class ServiceManagerTest extends TestCase {
    * the original error (which was not constructing ServiceManager correctly).
    */
   public void testPartiallyConstructedManager() {
-    Logger logger = Logger.getGlobal();
+    Logger logger = Logger.getLogger("global");
     logger.setLevel(Level.FINEST);
     TestLogHandler logHandler = new TestLogHandler();
     logger.addHandler(logHandler);
