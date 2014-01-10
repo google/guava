@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 /**
@@ -339,8 +340,7 @@ public class PreconditionsTest extends TestCase {
 
   private static final Object IGNORE_ME = new Object() {
     @Override public String toString() {
-      fail();
-      return null;
+      throw new AssertionFailedError();
     }
   };
 

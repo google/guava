@@ -40,6 +40,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 import com.google.common.testing.NullPointerTester;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -305,8 +306,7 @@ public class IteratorsTest extends TestCase {
         new Predicate<String>() {
           @Override
           public boolean apply(String s) {
-            fail("Should never be evaluated");
-            return false;
+            throw new AssertionFailedError("Should never be evaluated");
           }
         });
 

@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.NullPointerTester;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import java.io.IOException;
@@ -321,8 +322,7 @@ public class JoinerTest extends TestCase {
       return "foo".subSequence(start, end);
     }
     @Override public String toString() {
-      fail("shouldn't be invoked");
-      return null;
+      throw new AssertionFailedError("shouldn't be invoked");
     }
   }
 

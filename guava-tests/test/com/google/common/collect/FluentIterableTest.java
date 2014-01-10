@@ -30,6 +30,7 @@ import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.testing.NullPointerTester;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -85,8 +86,7 @@ public class FluentIterableTest extends TestCase {
     List<Integer> nums = asList(1, 2, 3, 4, 5);
     List<Integer> collection = new ArrayList<Integer>(nums) {
       @Override public Iterator<Integer> iterator() {
-        fail("Don't iterate me!");
-        return null;
+        throw new AssertionFailedError("Don't iterate me!");
       }
     };
     assertEquals(5, FluentIterable.from(collection).size());
