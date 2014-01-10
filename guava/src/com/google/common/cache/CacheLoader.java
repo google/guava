@@ -168,6 +168,8 @@ public abstract class CacheLoader<K, V> {
     return new SupplierToCacheLoader<V>(supplier);
   }
 
+  // TODO(user): Remove this
+
   /**
    * Returns a {@code CacheLoader} which wraps {@code loader}, executing calls to
    * {@link CacheLoader#reload} using {@code executor}.
@@ -179,7 +181,7 @@ public abstract class CacheLoader<K, V> {
    */
   @Beta
   @GwtIncompatible("Executor + Futures")
-  public static <K, V> CacheLoader<K, V> asyncReload(final CacheLoader<K, V> loader,
+  public static <K, V> CacheLoader<K, V> asyncReloading(final CacheLoader<K, V> loader,
       final Executor executor) {
     checkNotNull(loader);
     checkNotNull(executor);
