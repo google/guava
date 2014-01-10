@@ -34,18 +34,6 @@ import java.util.SortedMap;
 public abstract class SortedMapInterfaceTest<K, V>
     extends MapInterfaceTest<K, V> {
 
-  /** A key type that is not assignable to any classes but Object. */
-  private static final class IncompatibleComparableKeyType
-      implements Comparable<IncompatibleComparableKeyType> {
-    @Override public String toString() {
-      return "IncompatibleComparableKeyType";
-    }
-    @Override
-    public int compareTo(IncompatibleComparableKeyType o) {
-      throw new ClassCastException();
-    }
-  }
-
   protected SortedMapInterfaceTest(boolean allowsNullKeys,
       boolean allowsNullValues, boolean supportsPut, boolean supportsRemove,
       boolean supportsClear) {
@@ -128,7 +116,7 @@ public abstract class SortedMapInterfaceTest<K, V>
       return;
     }
     Iterator<Entry<K, V>> iterator = map.entrySet().iterator();
-    Entry<K, V> firstEntry = iterator.next();
+    iterator.next(); // advance
     Entry<K, V> secondEntry = iterator.next();
     K key = secondEntry.getKey();
     SortedMap<K, V> subMap = map.tailMap(key);
