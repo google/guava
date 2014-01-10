@@ -19,6 +19,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Ascii;
 import com.google.common.base.Splitter;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
@@ -413,8 +414,7 @@ public abstract class CharSource implements InputSupplier<Reader> {
 
     @Override
     public String toString() {
-      CharSequence shortened = (seq.length() <= 15) ? seq : seq.subSequence(0, 12) + "...";
-      return "CharSource.wrap(" + shortened + ")";
+      return "CharSource.wrap(" + Ascii.truncate(seq, 30, "...") + ")";
     }
   }
 
