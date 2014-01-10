@@ -231,8 +231,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<Foo> input = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
       @Override public ListenableFuture<Bar> apply(Foo unused) {
-        fail("Unexpeted call to apply.");
-        return null;
+        throw new AssertionFailedError("Unexpeted call to apply.");
       }
     };
     assertTrue(Futures.transform(input, function).cancel(false));
@@ -245,8 +244,7 @@ public class FuturesTest extends TestCase {
     SettableFuture<Foo> input = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
       @Override public ListenableFuture<Bar> apply(Foo unused) {
-        fail("Unexpeted call to apply.");
-        return null;
+        throw new AssertionFailedError("Unexpeted call to apply.");
       }
     };
     assertTrue(Futures.transform(input, function).cancel(true));

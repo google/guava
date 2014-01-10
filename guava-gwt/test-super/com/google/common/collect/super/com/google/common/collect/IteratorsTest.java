@@ -28,6 +28,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import java.util.Collections;
@@ -258,8 +259,7 @@ public class IteratorsTest extends TestCase {
         new Predicate<String>() {
           @Override
           public boolean apply(String s) {
-            fail("Should never be evaluated");
-            return false;
+            throw new AssertionFailedError("Should never be evaluated");
           }
         });
 

@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import java.io.Serializable;
@@ -46,8 +47,8 @@ public class PredicatesTest extends TestCase {
       new Predicate<Integer>() {
     @Override
     public boolean apply(Integer i) {
-      fail("This predicate should never have been evaluated");
-      return false;
+      throw new AssertionFailedError(
+          "This predicate should never have been evaluated");
     }
   };
 
