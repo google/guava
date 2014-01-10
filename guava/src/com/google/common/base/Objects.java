@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.util.Arrays;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -51,6 +52,7 @@ public final class Objects {
    * <p>This assumes that any non-null objects passed to this function conform
    * to the {@code equals()} contract.
    */
+  @CheckReturnValue
   public static boolean equal(@Nullable Object a, @Nullable Object b) {
     return a == b || (a != null && a.equals(b));
   }
