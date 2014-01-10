@@ -134,8 +134,6 @@ public abstract class CacheLoader<K, V> {
     return new SupplierToCacheLoader<V>(supplier);
   }
 
-  // TODO(user): Remove this
-
   private static final class SupplierToCacheLoader<V>
       extends CacheLoader<Object, V> implements Serializable {
     private final Supplier<V> computingSupplier;
@@ -166,3 +164,4 @@ public abstract class CacheLoader<K, V> {
     }
   }
 }
+

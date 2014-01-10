@@ -168,8 +168,6 @@ public abstract class CacheLoader<K, V> {
     return new SupplierToCacheLoader<V>(supplier);
   }
 
-  // TODO(user): Remove this
-
   /**
    * Returns a {@code CacheLoader} which wraps {@code loader}, executing calls to
    * {@link CacheLoader#reload} using {@code executor}.
