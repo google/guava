@@ -376,7 +376,7 @@ public abstract class RateLimiter {
   }
 
   /**
-   * Acquires the given number of permits from this {@code RateLimiter}, blocking until the
+   * Acquires a single permit from this {@code RateLimiter}, blocking until the
    * request can be granted. Tells the amount of time slept, if any.
    *
    * <p>This method is equivalent to {@code acquire(1)}.
@@ -397,13 +397,34 @@ public abstract class RateLimiter {
    * @since 16.0 (present in 13.0 with {@code void} return type})
    */
   public double acquire(int permits) {
-    checkPermits(permits);
-    long microsToWait;
-    synchronized (mutex) {
-      microsToWait = reserveNextTicket(permits, readSafeMicros());
-    }
+    long microsToWait = reserve(permits);
     ticker.sleepMicrosUninterruptibly(microsToWait);
     return 1.0 * microsToWait / TimeUnit.SECONDS.toMicros(1L);
+  }
+
+  /**
+   * Reserves a single permit from this {@code RateLimiter} for future use, returning the number of
+   * microseconds until the reservation.
+   *
+   * <p>This method is equivalent to {@code reserve(1)}.
+   *
+   * @return time in microseconds to wait until the resource can be acquired.
+   */
+  long reserve() {
+    return reserve(1);
+  }
+
+  /**
+   * Reserves the given number of permits from this {@code RateLimiter} for future use, returning
+   * the number of microseconds until the reservation can be consumed.
+   *
+   * @return time in microseconds to wait until the resource can be acquired.
+   */
+  long reserve(int permits) {
+    checkPermits(permits);
+    synchronized (mutex) {
+      return reserveNextTicket(permits, readSafeMicros());
+    }
   }
 
   /**
@@ -483,10 +504,12 @@ public abstract class RateLimiter {
 
   /**
    * Reserves next ticket and returns the wait time that the caller must wait for.
+   *
+   * <p>The return value is guaranteed to be non-negative.
    */
   private long reserveNextTicket(double requiredPermits, long nowMicros) {
     resync(nowMicros);
-    long microsToNextFreeTicket = nextFreeTicketMicros - nowMicros;
+    long microsToNextFreeTicket = Math.max(0, nextFreeTicketMicros - nowMicros);
     double storedPermitsToSpend = Math.min(requiredPermits, this.storedPermits);
     double freshPermits = requiredPermits - storedPermitsToSpend;
 
