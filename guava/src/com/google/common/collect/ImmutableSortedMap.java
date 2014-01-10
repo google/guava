@@ -26,7 +26,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.NavigableMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -57,7 +56,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 public abstract class ImmutableSortedMap<K, V>
-    extends ImmutableSortedMapFauxverideShim<K, V> implements NavigableMap<K, V> {
+    extends ImmutableSortedMapFauxverideShim<K, V> implements SortedMap<K, V> {
   /*
    * TODO(kevinb): Confirm that ImmutableSortedMap is faster to construct and
    * uses less memory than TreeMap; then say so in the class Javadoc.
@@ -496,7 +495,6 @@ public abstract class ImmutableSortedMap<K, V>
    *
    * @since 12.0
    */
-  @Override
   public abstract ImmutableSortedMap<K, V> headMap(K toKey, boolean inclusive);
 
   /**
@@ -532,7 +530,6 @@ public abstract class ImmutableSortedMap<K, V>
    *
    * @since 12.0
    */
-  @Override
   public ImmutableSortedMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey,
       boolean toInclusive) {
     checkNotNull(fromKey);
@@ -570,55 +567,44 @@ public abstract class ImmutableSortedMap<K, V>
    *
    * @since 12.0
    */
-  @Override
   public abstract ImmutableSortedMap<K, V> tailMap(K fromKey, boolean inclusive);
 
-  @Override
   public Entry<K, V> lowerEntry(K key) {
     return headMap(key, false).lastEntry();
   }
 
-  @Override
   public K lowerKey(K key) {
     return keyOrNull(lowerEntry(key));
   }
 
-  @Override
   public Entry<K, V> floorEntry(K key) {
     return headMap(key, true).lastEntry();
   }
 
-  @Override
   public K floorKey(K key) {
     return keyOrNull(floorEntry(key));
   }
 
-  @Override
   public Entry<K, V> ceilingEntry(K key) {
     return tailMap(key, true).firstEntry();
   }
 
-  @Override
   public K ceilingKey(K key) {
     return keyOrNull(ceilingEntry(key));
   }
 
-  @Override
   public Entry<K, V> higherEntry(K key) {
     return tailMap(key, false).firstEntry();
   }
 
-  @Override
   public K higherKey(K key) {
     return keyOrNull(higherEntry(key));
   }
 
-  @Override
   public Entry<K, V> firstEntry() {
     return isEmpty() ? null : entrySet().asList().get(0);
   }
 
-  @Override
   public Entry<K, V> lastEntry() {
     return isEmpty() ? null : entrySet().asList().get(size() - 1);
   }
@@ -630,7 +616,6 @@ public abstract class ImmutableSortedMap<K, V>
    * @deprecated Unsupported operation.
    */
   @Deprecated
-  @Override
   public final Entry<K, V> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
@@ -642,14 +627,12 @@ public abstract class ImmutableSortedMap<K, V>
    * @deprecated Unsupported operation.
    */
   @Deprecated
-  @Override
   public final Entry<K, V> pollLastEntry() {
     throw new UnsupportedOperationException();
   }
 
   private transient ImmutableSortedMap<K, V> descendingMap;
 
-  @Override
   public ImmutableSortedMap<K, V> descendingMap() {
     ImmutableSortedMap<K, V> result = descendingMap;
     if (result == null) {
@@ -660,12 +643,10 @@ public abstract class ImmutableSortedMap<K, V>
 
   abstract ImmutableSortedMap<K, V> createDescendingMap();
 
-  @Override
   public ImmutableSortedSet<K> navigableKeySet() {
     return keySet();
   }
 
-  @Override
   public ImmutableSortedSet<K> descendingKeySet() {
     return keySet().descendingSet();
   }

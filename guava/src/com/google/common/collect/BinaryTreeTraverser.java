@@ -22,10 +22,9 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Optional;
 
-import java.util.ArrayDeque;
 import java.util.BitSet;
-import java.util.Deque;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * A variant of {@link TreeTraverser} for binary trees, providing additional traversals specific to
@@ -37,7 +36,7 @@ import java.util.Iterator;
 @Beta
 @GwtCompatible(emulated = true)
 public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
-  // TODO(user): make this GWT-compatible when we've checked in ArrayDeque and BitSet emulation
+  // TODO(user): make this GWT-compatible when we've checked in LinkedList and BitSet emulation
 
   /**
    * Returns the left child of the specified node, or {@link Optional#absent()} if the specified
@@ -97,10 +96,10 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
    */
   private final class PreOrderIterator extends UnmodifiableIterator<T>
       implements PeekingIterator<T> {
-    private final Deque<T> stack;
+    private final LinkedList<T> stack;
 
     PreOrderIterator(T root) {
-      this.stack = new ArrayDeque<T>();
+      this.stack = new LinkedList<T>();
       stack.addLast(root);
     }
 
@@ -132,11 +131,11 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
    * Optimized implementation of postOrderIterator for binary trees.
    */
   private final class PostOrderIterator extends UnmodifiableIterator<T> {
-    private final Deque<T> stack;
+    private final LinkedList<T> stack;
     private final BitSet hasExpanded;
 
     PostOrderIterator(T root) {
-      this.stack = new ArrayDeque<T>();
+      this.stack = new LinkedList<T>();
       stack.addLast(root);
       this.hasExpanded = new BitSet();
     }
@@ -177,11 +176,11 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
   }
 
   private final class InOrderIterator extends AbstractIterator<T> {
-    private final Deque<T> stack;
+    private final LinkedList<T> stack;
     private final BitSet hasExpandedLeft;
 
     InOrderIterator(T root) {
-      this.stack = new ArrayDeque<T>();
+      this.stack = new LinkedList<T>();
       this.hasExpandedLeft = new BitSet();
       stack.addLast(root);
     }
@@ -204,7 +203,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
     }
   }
 
-  private static <T> void pushIfPresent(Deque<T> stack, Optional<T> node) {
+  private static <T> void pushIfPresent(LinkedList<T> stack, Optional<T> node) {
     if (node.isPresent()) {
       stack.addLast(node.get());
     }

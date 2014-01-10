@@ -21,9 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -52,7 +51,7 @@ import java.util.Queue;
 @Beta
 @GwtCompatible(emulated = true)
 public abstract class TreeTraverser<T> {
-  // TODO(user): make this GWT-compatible when we've checked in ArrayDeque emulation
+  // TODO(user): make this GWT-compatible when we've checked in LinkedList emulation
 
   /**
    * Returns the children of the specified node.  Must not contain null.
@@ -82,10 +81,10 @@ public abstract class TreeTraverser<T> {
   }
 
   private final class PreOrderIterator extends UnmodifiableIterator<T> {
-    private final Deque<Iterator<T>> stack;
+    private final LinkedList<Iterator<T>> stack;
 
     PreOrderIterator(T root) {
-      this.stack = new ArrayDeque<Iterator<T>>();
+      this.stack = new LinkedList<Iterator<T>>();
       stack.addLast(Iterators.singletonIterator(checkNotNull(root)));
     }
 
@@ -142,10 +141,10 @@ public abstract class TreeTraverser<T> {
   }
 
   private final class PostOrderIterator extends AbstractIterator<T> {
-    private final ArrayDeque<PostOrderNode<T>> stack;
+    private final LinkedList<PostOrderNode<T>> stack;
 
     PostOrderIterator(T root) {
-      this.stack = new ArrayDeque<PostOrderNode<T>>();
+      this.stack = new LinkedList<PostOrderNode<T>>();
       stack.addLast(expand(root));
     }
 
@@ -191,7 +190,7 @@ public abstract class TreeTraverser<T> {
     private final Queue<T> queue;
 
     BreadthFirstIterator(T root) {
-      this.queue = new ArrayDeque<T>();
+      this.queue = new LinkedList<T>();
       queue.add(root);
     }
 

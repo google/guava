@@ -17,22 +17,19 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
-import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Deque;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Static utility methods pertaining to {@link Queue} and {@link Deque} instances.
+ * Static utility methods pertaining to {@link Queue} instances.
  * Also see this class's counterparts {@link Lists}, {@link Sets}, and {@link Maps}.
  *
  * @author Kurt Alfred Kluever
@@ -49,32 +46,6 @@ public final class Queues {
    */
   public static <E> ArrayBlockingQueue<E> newArrayBlockingQueue(int capacity) {
     return new ArrayBlockingQueue<E>(capacity);
-  }
-
-  // ArrayDeque
-
-  /**
-   * Creates an empty {@code ArrayDeque}.
-   *
-   * @since 12.0
-   */
-  public static <E> ArrayDeque<E> newArrayDeque() {
-    return new ArrayDeque<E>();
-  }
-
-  /**
-   * Creates an {@code ArrayDeque} containing the elements of the specified iterable,
-   * in the order they are returned by the iterable's iterator.
-   *
-   * @since 12.0
-   */
-  public static <E> ArrayDeque<E> newArrayDeque(Iterable<? extends E> elements) {
-    if (elements instanceof Collection) {
-      return new ArrayDeque<E>(Collections2.cast(elements));
-    }
-    ArrayDeque<E> deque = new ArrayDeque<E>();
-    Iterables.addAll(deque, elements);
-    return deque;
   }
 
   // ConcurrentLinkedQueue
@@ -98,43 +69,6 @@ public final class Queues {
     ConcurrentLinkedQueue<E> queue = new ConcurrentLinkedQueue<E>();
     Iterables.addAll(queue, elements);
     return queue;
-  }
-
-  // LinkedBlockingDeque
-
-  /**
-   * Creates an empty {@code LinkedBlockingDeque} with a capacity of {@link Integer#MAX_VALUE}.
-   *
-   * @since 12.0
-   */
-  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque() {
-    return new LinkedBlockingDeque<E>();
-  }
-
-  /**
-   * Creates an empty {@code LinkedBlockingDeque} with the given (fixed) capacity.
-   *
-   * @throws IllegalArgumentException if {@code capacity} is less than 1
-   * @since 12.0
-   */
-  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(int capacity) {
-    return new LinkedBlockingDeque<E>(capacity);
-  }
-
-  /**
-   * Creates a {@code LinkedBlockingDeque} with a capacity of {@link Integer#MAX_VALUE},
-   * containing the elements of the specified iterable,
-   * in the order they are returned by the iterable's iterator.
-   *
-   * @since 12.0
-   */
-  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(Iterable<? extends E> elements) {
-    if (elements instanceof Collection) {
-      return new LinkedBlockingDeque<E>(Collections2.cast(elements));
-    }
-    LinkedBlockingDeque<E> deque = new LinkedBlockingDeque<E>();
-    Iterables.addAll(deque, elements);
-    return deque;
   }
 
   // LinkedBlockingQueue
@@ -363,37 +297,5 @@ public final class Queues {
   @Beta
   public static <E> Queue<E> synchronizedQueue(Queue<E> queue) {
     return Synchronized.queue(queue, null);
-  }
-
-  /**
-   * Returns a synchronized (thread-safe) deque backed by the specified deque. In order to
-   * guarantee serial access, it is critical that <b>all</b> access to the backing deque is
-   * accomplished through the returned deque.
-   *
-   * <p>It is imperative that the user manually synchronize on the returned deque when accessing
-   * any of the deque's iterators: <pre>   {@code
-   *
-   *   Deque<E> deque = Queues.synchronizedDeque(Queues.<E>newArrayDeque());
-   *   ...
-   *   deque.add(element);  // Needn't be in synchronized block
-   *   ...
-   *   synchronized (deque) {  // Must synchronize on deque!
-   *     Iterator<E> i = deque.iterator(); // Must be in synchronized block
-   *     while (i.hasNext()) {
-   *       foo(i.next());
-   *     }
-   *   }}</pre>
-   *
-   * <p>Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * <p>The returned deque will be serializable if the specified deque is serializable.
-   *
-   * @param deque the deque to be wrapped in a synchronized view
-   * @return a synchronized view of the specified deque
-   * @since 15.0
-   */
-  @Beta
-  public static <E> Deque<E> synchronizedDeque(Deque<E> deque) {
-    return Synchronized.deque(deque, null);
   }
 }

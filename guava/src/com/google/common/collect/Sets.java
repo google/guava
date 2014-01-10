@@ -25,6 +25,8 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Arrays;
@@ -37,7 +39,6 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
@@ -512,7 +513,103 @@ public final class Sets {
    * @throws IllegalArgumentException if {@code map} is not empty
    */
   public static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
-    return Platform.newSetFromMap(map);
+    return new SetFromMap<E>(map);
+  }
+
+  private static class SetFromMap<E> extends AbstractSet<E> implements Set<E>, Serializable {
+    private final Map<E, Boolean> m; // The backing map
+    private transient Set<E> s; // Its keySet
+
+    SetFromMap(Map<E, Boolean> map) {
+      checkArgument(map.isEmpty(), "Map is non-empty");
+      m = map;
+      s = map.keySet();
+    }
+
+    @Override
+    public void clear() {
+      m.clear();
+    }
+
+    @Override
+    public int size() {
+      return m.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+      return m.isEmpty();
+    }
+
+    @Override
+    public boolean contains(Object o) {
+      return m.containsKey(o);
+    }
+
+    @Override
+    public boolean remove(Object o) {
+      return m.remove(o) != null;
+    }
+
+    @Override
+    public boolean add(E e) {
+      return m.put(e, Boolean.TRUE) == null;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+      return s.iterator();
+    }
+
+    @Override
+    public Object[] toArray() {
+      return s.toArray();
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+      return s.toArray(a);
+    }
+
+    @Override
+    public String toString() {
+      return s.toString();
+    }
+
+    @Override
+    public int hashCode() {
+      return s.hashCode();
+    }
+
+    @Override
+    public boolean equals(@Nullable Object object) {
+      return this == object || this.s.equals(object);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+      return s.containsAll(c);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+      return s.removeAll(c);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+      return s.retainAll(c);
+    }
+
+    // addAll is the only inherited implementation
+    @GwtIncompatible("not needed in emulated source")
+    private static final long serialVersionUID = 0;
+
+    @GwtIncompatible("java.io.ObjectInputStream")
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+      stream.defaultReadObject();
+      s = m.keySet();
+    }
   }
 
   /**
@@ -869,129 +966,6 @@ public final class Sets {
         }
         sortedUnfiltered = sortedUnfiltered.headSet(element);
       }
-    }
-  }
-
-  /**
-   * Returns the elements of a {@code NavigableSet}, {@code unfiltered}, that
-   * satisfy a predicate. The returned set is a live view of {@code unfiltered};
-   * changes to one affect the other.
-   *
-   * <p>The resulting set's iterator does not support {@code remove()}, but all
-   * other set methods are supported. When given an element that doesn't satisfy
-   * the predicate, the set's {@code add()} and {@code addAll()} methods throw
-   * an {@link IllegalArgumentException}. When methods such as
-   * {@code removeAll()} and {@code clear()} are called on the filtered set,
-   * only elements that satisfy the filter will be removed from the underlying
-   * set.
-   *
-   * <p>The returned set isn't threadsafe or serializable, even if
-   * {@code unfiltered} is.
-   *
-   * <p>Many of the filtered set's methods, such as {@code size()}, iterate across
-   * every element in the underlying set and determine which elements satisfy
-   * the filter. When a live view is <i>not</i> needed, it may be faster to copy
-   * {@code Iterables.filter(unfiltered, predicate)} and use the copy.
-   *
-   * <p><b>Warning:</b> {@code predicate} must be <i>consistent with equals</i>,
-   * as documented at {@link Predicate#apply}. Do not provide a predicate such as
-   * {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent with
-   * equals. (See {@link Iterables#filter(Iterable, Class)} for related
-   * functionality.)
-   *
-   * @since 14.0
-   */
-  @GwtIncompatible("NavigableSet")
-  @SuppressWarnings("unchecked")
-  public static <E> NavigableSet<E> filter(
-      NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
-    if (unfiltered instanceof FilteredSet) {
-      // Support clear(), removeAll(), and retainAll() when filtering a filtered
-      // collection.
-      FilteredSet<E> filtered = (FilteredSet<E>) unfiltered;
-      Predicate<E> combinedPredicate
-          = Predicates.<E>and(filtered.predicate, predicate);
-      return new FilteredNavigableSet<E>(
-          (NavigableSet<E>) filtered.unfiltered, combinedPredicate);
-    }
-
-    return new FilteredNavigableSet<E>(
-        checkNotNull(unfiltered), checkNotNull(predicate));
-  }
-
-  @GwtIncompatible("NavigableSet")
-  private static class FilteredNavigableSet<E> extends FilteredSortedSet<E>
-      implements NavigableSet<E> {
-    FilteredNavigableSet(NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
-      super(unfiltered, predicate);
-    }
-
-    NavigableSet<E> unfiltered() {
-      return (NavigableSet<E>) unfiltered;
-    }
-
-    @Override
-    @Nullable
-    public E lower(E e) {
-      return Iterators.getNext(headSet(e, false).descendingIterator(), null);
-    }
-
-    @Override
-    @Nullable
-    public E floor(E e) {
-      return Iterators.getNext(headSet(e, true).descendingIterator(), null);
-    }
-
-    @Override
-    public E ceiling(E e) {
-      return Iterables.getFirst(tailSet(e, true), null);
-    }
-
-    @Override
-    public E higher(E e) {
-      return Iterables.getFirst(tailSet(e, false), null);
-    }
-
-    @Override
-    public E pollFirst() {
-      return Iterables.removeFirstMatching(unfiltered(), predicate);
-    }
-
-    @Override
-    public E pollLast() {
-      return Iterables.removeFirstMatching(unfiltered().descendingSet(), predicate);
-    }
-
-    @Override
-    public NavigableSet<E> descendingSet() {
-      return Sets.filter(unfiltered().descendingSet(), predicate);
-    }
-
-    @Override
-    public Iterator<E> descendingIterator() {
-      return Iterators.filter(unfiltered().descendingIterator(), predicate);
-    }
-
-    @Override
-    public E last() {
-      return descendingIterator().next();
-    }
-
-    @Override
-    public NavigableSet<E> subSet(
-        E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-      return filter(
-          unfiltered().subSet(fromElement, fromInclusive, toElement, toInclusive), predicate);
-    }
-
-    @Override
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-      return filter(unfiltered().headSet(toElement, inclusive), predicate);
-    }
-
-    @Override
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-      return filter(unfiltered().tailSet(fromElement, inclusive), predicate);
     }
   }
 
@@ -1369,170 +1343,6 @@ public final class Sets {
   }
 
   /**
-   * Returns an unmodifiable view of the specified navigable set. This method
-   * allows modules to provide users with "read-only" access to internal
-   * navigable sets. Query operations on the returned set "read through" to the
-   * specified set, and attempts to modify the returned set, whether direct or
-   * via its collection views, result in an
-   * {@code UnsupportedOperationException}.
-   *
-   * <p>The returned navigable set will be serializable if the specified
-   * navigable set is serializable.
-   *
-   * @param set the navigable set for which an unmodifiable view is to be
-   *        returned
-   * @return an unmodifiable view of the specified navigable set
-   * @since 12.0
-   */
-  @GwtIncompatible("NavigableSet")
-  public static <E> NavigableSet<E> unmodifiableNavigableSet(
-      NavigableSet<E> set) {
-    if (set instanceof ImmutableSortedSet
-        || set instanceof UnmodifiableNavigableSet) {
-      return set;
-    }
-    return new UnmodifiableNavigableSet<E>(set);
-  }
-
-  @GwtIncompatible("NavigableSet")
-  static final class UnmodifiableNavigableSet<E>
-      extends ForwardingSortedSet<E> implements NavigableSet<E>, Serializable {
-    private final NavigableSet<E> delegate;
-
-    UnmodifiableNavigableSet(NavigableSet<E> delegate) {
-      this.delegate = checkNotNull(delegate);
-    }
-
-    @Override
-    protected SortedSet<E> delegate() {
-      return Collections.unmodifiableSortedSet(delegate);
-    }
-
-    @Override
-    public E lower(E e) {
-      return delegate.lower(e);
-    }
-
-    @Override
-    public E floor(E e) {
-      return delegate.floor(e);
-    }
-
-    @Override
-    public E ceiling(E e) {
-      return delegate.ceiling(e);
-    }
-
-    @Override
-    public E higher(E e) {
-      return delegate.higher(e);
-    }
-
-    @Override
-    public E pollFirst() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public E pollLast() {
-      throw new UnsupportedOperationException();
-    }
-
-    private transient UnmodifiableNavigableSet<E> descendingSet;
-
-    @Override
-    public NavigableSet<E> descendingSet() {
-      UnmodifiableNavigableSet<E> result = descendingSet;
-      if (result == null) {
-        result = descendingSet = new UnmodifiableNavigableSet<E>(
-            delegate.descendingSet());
-        result.descendingSet = this;
-      }
-      return result;
-    }
-
-    @Override
-    public Iterator<E> descendingIterator() {
-      return Iterators.unmodifiableIterator(delegate.descendingIterator());
-    }
-
-    @Override
-    public NavigableSet<E> subSet(
-        E fromElement,
-        boolean fromInclusive,
-        E toElement,
-        boolean toInclusive) {
-      return unmodifiableNavigableSet(delegate.subSet(
-          fromElement,
-          fromInclusive,
-          toElement,
-          toInclusive));
-    }
-
-    @Override
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-      return unmodifiableNavigableSet(delegate.headSet(toElement, inclusive));
-    }
-
-    @Override
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-      return unmodifiableNavigableSet(
-          delegate.tailSet(fromElement, inclusive));
-    }
-
-    private static final long serialVersionUID = 0;
-  }
-
-  /**
-   * Returns a synchronized (thread-safe) navigable set backed by the specified
-   * navigable set.  In order to guarantee serial access, it is critical that
-   * <b>all</b> access to the backing navigable set is accomplished
-   * through the returned navigable set (or its views).
-   *
-   * <p>It is imperative that the user manually synchronize on the returned
-   * sorted set when iterating over it or any of its {@code descendingSet},
-   * {@code subSet}, {@code headSet}, or {@code tailSet} views. <pre>   {@code
-   *
-   *   NavigableSet<E> set = synchronizedNavigableSet(new TreeSet<E>());
-   *    ...
-   *   synchronized (set) {
-   *     // Must be in the synchronized block
-   *     Iterator<E> it = set.iterator();
-   *     while (it.hasNext()) {
-   *       foo(it.next());
-   *     }
-   *   }}</pre>
-   *
-   * <p>or: <pre>   {@code
-   *
-   *   NavigableSet<E> set = synchronizedNavigableSet(new TreeSet<E>());
-   *   NavigableSet<E> set2 = set.descendingSet().headSet(foo);
-   *    ...
-   *   synchronized (set) { // Note: set, not set2!!!
-   *     // Must be in the synchronized block
-   *     Iterator<E> it = set2.descendingIterator();
-   *     while (it.hasNext())
-   *       foo(it.next());
-   *     }
-   *   }}</pre>
-   *
-   * <p>Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * <p>The returned navigable set will be serializable if the specified
-   * navigable set is serializable.
-   *
-   * @param navigableSet the navigable set to be "wrapped" in a synchronized
-   *    navigable set.
-   * @return a synchronized view of the specified navigable set.
-   * @since 13.0
-   */
-  @GwtIncompatible("NavigableSet")
-  public static <E> NavigableSet<E> synchronizedNavigableSet(
-      NavigableSet<E> navigableSet) {
-    return Synchronized.navigableSet(navigableSet);
-  }
-
-  /**
    * Remove each element in an iterable from a set.
    */
   static boolean removeAllImpl(Set<?> set, Iterator<?> iterator) {
@@ -1559,140 +1369,6 @@ public final class Sets {
       return Iterators.removeAll(set.iterator(), collection);
     } else {
       return removeAllImpl(set, collection.iterator());
-    }
-  }
-
-  @GwtIncompatible("NavigableSet")
-  static class DescendingSet<E> extends ForwardingNavigableSet<E> {
-    private final NavigableSet<E> forward;
-
-    DescendingSet(NavigableSet<E> forward) {
-      this.forward = forward;
-    }
-
-    @Override
-    protected NavigableSet<E> delegate() {
-      return forward;
-    }
-
-    @Override
-    public E lower(E e) {
-      return forward.higher(e);
-    }
-
-    @Override
-    public E floor(E e) {
-      return forward.ceiling(e);
-    }
-
-    @Override
-    public E ceiling(E e) {
-      return forward.floor(e);
-    }
-
-    @Override
-    public E higher(E e) {
-      return forward.lower(e);
-    }
-
-    @Override
-    public E pollFirst() {
-      return forward.pollLast();
-    }
-
-    @Override
-    public E pollLast() {
-      return forward.pollFirst();
-    }
-
-    @Override
-    public NavigableSet<E> descendingSet() {
-      return forward;
-    }
-
-    @Override
-    public Iterator<E> descendingIterator() {
-      return forward.iterator();
-    }
-
-    @Override
-    public NavigableSet<E> subSet(
-        E fromElement,
-        boolean fromInclusive,
-        E toElement,
-        boolean toInclusive) {
-      return forward.subSet(toElement, toInclusive, fromElement, fromInclusive).descendingSet();
-    }
-
-    @Override
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-      return forward.tailSet(toElement, inclusive).descendingSet();
-    }
-
-    @Override
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-      return forward.headSet(fromElement, inclusive).descendingSet();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Comparator<? super E> comparator() {
-      Comparator<? super E> forwardComparator = forward.comparator();
-      if (forwardComparator == null) {
-        return (Comparator) Ordering.natural().reverse();
-      } else {
-        return reverse(forwardComparator);
-      }
-    }
-
-    // If we inline this, we get a javac error.
-    private static <T> Ordering<T> reverse(Comparator<T> forward) {
-      return Ordering.from(forward).reverse();
-    }
-
-    @Override
-    public E first() {
-      return forward.last();
-    }
-
-    @Override
-    public SortedSet<E> headSet(E toElement) {
-      return standardHeadSet(toElement);
-    }
-
-    @Override
-    public E last() {
-      return forward.first();
-    }
-
-    @Override
-    public SortedSet<E> subSet(E fromElement, E toElement) {
-      return standardSubSet(fromElement, toElement);
-    }
-
-    @Override
-    public SortedSet<E> tailSet(E fromElement) {
-      return standardTailSet(fromElement);
-    }
-
-    @Override
-    public Iterator<E> iterator() {
-      return forward.descendingIterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-      return standardToArray();
-    }
-
-    @Override
-    public <T> T[] toArray(T[] array) {
-      return standardToArray(array);
-    }
-
-    @Override
-    public String toString() {
-      return standardToString();
     }
   }
 }

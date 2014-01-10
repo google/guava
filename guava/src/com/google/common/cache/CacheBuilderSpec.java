@@ -135,7 +135,7 @@ public final class CacheBuilderSpec {
    */
   public static CacheBuilderSpec parse(String cacheBuilderSpecification) {
     CacheBuilderSpec spec = new CacheBuilderSpec(cacheBuilderSpecification);
-    if (!cacheBuilderSpecification.isEmpty()) {
+    if (cacheBuilderSpecification.length() != 0) {
       for (String keyValuePair : KEYS_SPLITTER.split(cacheBuilderSpecification)) {
         List<String> keyAndValue = ImmutableList.copyOf(KEY_VALUE_SPLITTER.split(keyValuePair));
         checkArgument(!keyAndValue.isEmpty(), "blank key-value pair");
@@ -289,7 +289,7 @@ public final class CacheBuilderSpec {
 
     @Override
     public void parse(CacheBuilderSpec spec, String key, String value) {
-      checkArgument(value != null && !value.isEmpty(), "value of key %s omitted", key);
+      checkArgument(value != null && value.length() != 0, "value of key %s omitted", key);
       try {
         parseInteger(spec, Integer.parseInt(value));
       } catch (NumberFormatException e) {
@@ -305,7 +305,7 @@ public final class CacheBuilderSpec {
 
     @Override
     public void parse(CacheBuilderSpec spec, String key, String value) {
-      checkArgument(value != null && !value.isEmpty(), "value of key %s omitted", key);
+      checkArgument(value != null && value.length() != 0, "value of key %s omitted", key);
       try {
         parseLong(spec, Long.parseLong(value));
       } catch (NumberFormatException e) {
@@ -413,7 +413,7 @@ public final class CacheBuilderSpec {
 
     @Override
     public void parse(CacheBuilderSpec spec, String key, String value) {
-      checkArgument(value != null && !value.isEmpty(), "value of key %s omitted", key);
+      checkArgument(value != null && value.length() != 0, "value of key %s omitted", key);
       try {
         char lastChar = value.charAt(value.length() - 1);
         long multiplier = 1;
