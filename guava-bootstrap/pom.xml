@@ -14,8 +14,11 @@
     way that makes it impossible for our invokeAll/invokeAny methods to
     match both at compile time. This project builds a JDK6-like copy of
     ExecutorService (but with JDK5 compiler settings to ensure that it will
-    work with JRE5 at runtime).  This project's is then used in the bootstrap
-    class path of Guava proper.
+    work with JRE5 at runtime). It also builds a version of
+    AbstractExecutorService that is equivalent to a JDK5 version but using
+    the JDK6 type parameters for the invokeAll/invokeAny methods just as with
+    ExecutorService. This project's is then used in the bootstrap class path
+    of Guava proper.
   </description>
   <build>
     <plugins>
