@@ -87,7 +87,7 @@ public class CacheLoaderTest extends TestCase {
 
     QueuingExecutor executor = new QueuingExecutor();
     CacheLoader<Object, Object> asyncReloader =
-        CacheLoader.asyncReload(baseLoader, executor);
+        CacheLoader.asyncReloading(baseLoader, executor);
 
     asyncReloader.load(new Object());
     asyncReloader.reload(new Object(), new Object());
