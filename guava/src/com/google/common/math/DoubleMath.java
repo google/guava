@@ -19,6 +19,8 @@ package com.google.common.math;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.math.DoubleUtils.IMPLICIT_BIT;
 import static com.google.common.math.DoubleUtils.SIGNIFICAND_BITS;
+import static com.google.common.math.DoubleUtils.copySign;
+import static com.google.common.math.DoubleUtils.getExponent;
 import static com.google.common.math.DoubleUtils.getSignificand;
 import static com.google.common.math.DoubleUtils.isFinite;
 import static com.google.common.math.DoubleUtils.isNormal;
@@ -27,8 +29,6 @@ import static com.google.common.math.MathPreconditions.checkInRange;
 import static com.google.common.math.MathPreconditions.checkNonNegative;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 import static java.lang.Math.abs;
-import static java.lang.Math.copySign;
-import static java.lang.Math.getExponent;
 import static java.lang.Math.log;
 import static java.lang.Math.rint;
 
@@ -80,7 +80,7 @@ public final class DoubleMath {
         if (isMathematicalInteger(x)) {
           return x;
         } else {
-          return x + Math.copySign(1.0, x);
+          return x + copySign(1.0, x);
         }
 
       case HALF_EVEN:
@@ -340,7 +340,7 @@ public final class DoubleMath {
   public static boolean fuzzyEquals(double a, double b, double tolerance) {
     MathPreconditions.checkNonNegative("tolerance", tolerance);
     return
-          Math.copySign(a - b, 1.0) <= tolerance
+          copySign(a - b, 1.0) <= tolerance
            // copySign(x, 1.0) is a branch-free version of abs(x), but with different NaN semantics
           || (a == b) // needed to ensure that infinities equal themselves
           || (Double.isNaN(a) && Double.isNaN(b));
