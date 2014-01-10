@@ -599,6 +599,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
 
   public void testExecutors_nullCheck() throws Exception {
     new ClassSanityTester()
+        .setDefault(RateLimiter.class, RateLimiter.create(1.0))
         .forAllPublicStaticMethods(MoreExecutors.class)
         .thatReturn(Executor.class)
         .testNulls();
