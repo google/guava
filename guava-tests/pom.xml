@@ -22,6 +22,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>guava-bootstrap-jdk5</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
     </dependency>
@@ -51,12 +57,22 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-          <fork>true</fork>
           <!-- Prepend guava-bootstrap to avoid an API incompatibility between JDK5 and JDK6 -->
-          <compilerArgument>-Xbootclasspath/p:${project.build.directory}/dependency/guava-bootstrap-${project.version}.jar</compilerArgument>
+          <compilerArgument>-Xbootclasspath/p:${project.build.directory}/dependency/guava-bootstrap-jdk5-${project.version}.jar</compilerArgument>
         </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>prep-guava-bootstrap</id>
+            <phase>process-sources</phase>
+            <goals><goal>copy-dependencies</goal></goals>
+            <configuration>
+              <includeArtifactIds>guava-bootstrap-jdk5</includeArtifactIds>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>

@@ -62,11 +62,8 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-          <fork>true</fork>
           <!-- Prepend guava-bootstrap to avoid an API incompatibility between JDK5 and JDK6 -->
-          <compilerArgument>-Xbootclasspath/p:${project.build.directory}/dependency/guava-bootstrap-${project.version}.jar</compilerArgument>
+          <compilerArgument>-Xbootclasspath/p:${project.build.directory}/dependency/guava-bootstrap-jdk5-${project.version}.jar</compilerArgument>
         </configuration>
       </plugin>
       <plugin>
@@ -81,9 +78,7 @@
             <phase>process-sources</phase>
             <goals><goal>copy-dependencies</goal></goals>
             <configuration>
-              <includeArtifactIds>guava-bootstrap</includeArtifactIds>
-              <excludeTransitive>true</excludeTransitive>
-              <includeScope>provided</includeScope>
+              <includeArtifactIds>guava-bootstrap-jdk5</includeArtifactIds>
             </configuration>
           </execution>
           <execution>
