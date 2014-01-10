@@ -45,8 +45,8 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
     MockExecutor mock = new MockExecutor();
     TestExecutor testExecutor = new TestExecutor(mock);
     
-    testExecutor.schedule(DO_NOTHING, 10, TimeUnit.MINUTES);
-    mock.assertLastMethodCalled("scheduleRunnable", 10, TimeUnit.MINUTES);
+    testExecutor.schedule(DO_NOTHING, 10, TimeUnit.SECONDS);
+    mock.assertLastMethodCalled("scheduleRunnable", 10, TimeUnit.SECONDS);
     
     testExecutor.schedule(Executors.callable(DO_NOTHING), 5, TimeUnit.SECONDS);
     mock.assertLastMethodCalled("scheduleCallable", 5, TimeUnit.SECONDS);
@@ -55,8 +55,8 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
   public void testSchedule_repeating() {
     MockExecutor mock = new MockExecutor();
     TestExecutor testExecutor = new TestExecutor(mock);
-    testExecutor.scheduleWithFixedDelay(DO_NOTHING, 100, 10, TimeUnit.MINUTES);
-    mock.assertLastMethodCalled("scheduleWithFixedDelay", 100, 10, TimeUnit.MINUTES);
+    testExecutor.scheduleWithFixedDelay(DO_NOTHING, 100, 10, TimeUnit.SECONDS);
+    mock.assertLastMethodCalled("scheduleWithFixedDelay", 100, 10, TimeUnit.SECONDS);
     
     testExecutor.scheduleAtFixedRate(DO_NOTHING, 3, 7, TimeUnit.SECONDS);
     mock.assertLastMethodCalled("scheduleAtFixedRate", 3, 7, TimeUnit.SECONDS);
