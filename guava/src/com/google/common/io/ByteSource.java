@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Ascii;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.HashCode;
@@ -555,7 +556,8 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
 
     @Override
     public String toString() {
-      return "ByteSource.wrap(" + BaseEncoding.base16().encode(bytes) + ")";
+      return "ByteSource.wrap("
+          + Ascii.truncate(BaseEncoding.base16().encode(bytes), 30, "...") + ")";
     }
   }
 
