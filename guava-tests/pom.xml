@@ -25,7 +25,7 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>guava-bootstrap-jdk5</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
