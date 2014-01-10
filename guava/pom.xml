@@ -8,7 +8,7 @@
     <version>16.0-SNAPSHOT</version>
   </parent>
   <artifactId>guava-jdk5</artifactId>
-  <name>Guava: Google Core Libraries for Java</name>
+  <name>Guava: Google Core Libraries for Java (JDK5 Backport)</name>
   <packaging>bundle</packaging>
   <description>
     Guava is a suite of core and expanded libraries that include

@@ -1,30 +1,38 @@
-Guava: Google Core Libraries for Java
-=====================================
+Guava: Google Core Libraries for Java (JDK5 Backport)
+=====================================================
 
-This is the JDK5 backport of Guava.  As such, it has a variety of
-code removed, most notably code that uses Math.scalb, Deque and 
-its inheritors, NavigableMap, NavigableSet and their inheritors,
-and lots of methods that don't make sense without the above. 
-Additionally, TimeUnit only supports SECONDS as the highest
-granular time unit, so all uses of MINUTES, DAYS, HOURS have been
-re-cast in terms of SECONDS.  Lastly, Charset-accepting methods
-on String and elsewhere were added in 1.6, so all charsets are 
-passed in by using Charset.FOO.name(), and exceptions are trapped
-or thrown as appropriate. 
+This is the JDK5 backport of Guava. Notable differences from the
+JDK6 version of Guava include:
 
-The JDK5 backport builds with Maven, but has two ideosyncrasies.
-Firstly, it requries a custom ExecutorService which we build
-in a boostrap project which is included in the build of Guava.
-Secondly, the maven build will, in the backport, use a bootstrap
-rt.jar classpath based on a standard sun JDK on unix.  But this
-is overridable on a Mac by passing in:
+- A variety of code is removed, most notably code that uses
+  `Math.scalb`, `Deque` and its inheritors, `NavigableMap`,
+  `NavigableSet` and their inheritors, and lots of methods that don't
+  make sense without the above. 
+- `TimeUnit` only supports `SECONDS` as the highest granularity time
+  unit in 1.5, so all uses of `MINUTES`, `DAYS` and `HOURS` have been
+  re-cast in terms of `SECONDS`.
+- `Charset`-accepting methods on `String` and elsewhere were added in
+  1.6, so all charsets are passed in by using `Charsets.FOO.name()`,
+  and exceptions are trapped or thrown as appropriate. 
+- The guava-gwt module is disabled by not including it in the list
+  of modules in the parent pom.xml.
 
--Dbootstrap.classes=/path/to/my/classes.jar
+The JDK5 backport builds with Maven, but has a number of
+ideosyncrasies.
 
-This was instituted so that you can build on a 1.6 JDK, and get
-the appropriate behavior around @Overrides use for interface
-methods but pass in a JDK5 classes jar.  Adding the JDK5 jar 
-ensures that no APIs introduced in 1.6 slipped past our cleanup.
-
-If you have difficulties building, please try setting the above
-property to a known rt.jar or classes.jar.
+- While it uses `-source 1.5` and `-target 1.5` and produces valid 1.5
+  compatible class files, the backport does not build with JDK5.
+  @Override annotations on interface methods are retained.
+- It requries a custom ExecutorService and AbstractExecutorService,
+  which we build in a boostrap project which is included in the build
+  of guava, guava-testlib and guava-tests.
+- The Maven build will use a bootstrap rt.jar classpath based on a
+  standard sun JDK on unix. But this is overridable on a Mac by
+  passing in `-Dbootstrap.classes=/path/to/my/classes.jar`. Since
+  the backport will not build with JDK5, a JDK5 `rt.jar` should be used
+  to ensure that no JDK6+ APIs are used. If you have difficulties
+  building, please try setting the `bootstrap.classes` property to a
+  known `rt.jar` or `classes.jar`.
+- Some tests will fail when run under JDK5 due to `guava-testlib` and
+  `guava-tests` having dependencies on other libraries that are compiled
+  with `-target 1.6`.

@@ -8,7 +8,7 @@
     <version>16.0-SNAPSHOT</version>
   </parent>
   <artifactId>guava-tests-jdk5</artifactId>
-  <name>Guava Unit Tests</name>
+  <name>Guava Unit Tests (JDK5 Backport)</name>
   <description>
     The unit tests for the Guava libraries - separated into a
     separate artifact to allow for the testlibs to depend on guava

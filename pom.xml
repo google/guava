@@ -13,7 +13,7 @@
   <artifactId>guava-parent-jdk5</artifactId>
   <version>16.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Guava Maven Parent</name>
+  <name>Guava Maven Parent (JDK5 Backport)</name>
   <url>http://code.google.com/p/guava-libraries</url>
   <properties>
     <gpg.skip>true</gpg.skip>
@@ -58,6 +58,7 @@
   <modules>
     <module>guava</module>
     <module>guava-bootstrap</module>
+    <!-- guava-gwt not included for JDK5 backport -->
     <module>guava-testlib</module>
     <module>guava-tests</module>
   </modules>

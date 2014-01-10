@@ -8,7 +8,7 @@
     <version>16.0-SNAPSHOT</version>
   </parent>
   <artifactId>guava-testlib-jdk5</artifactId>
-  <name>Guava Testing Library</name>
+  <name>Guava Testing Library (JDK5 Backport)</name>
   <description>
     Guava testlib is a set of java classes used for more convenient
     unit testing - particularly to assist the tests for Guava itself.

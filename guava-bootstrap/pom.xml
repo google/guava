@@ -8,7 +8,7 @@
     <version>16.0-SNAPSHOT</version>
   </parent>
   <artifactId>guava-bootstrap-jdk5</artifactId>
-  <name>Guava Compilation Bootstrap Classes</name>
+  <name>Guava Compilation Bootstrap Classes (JDK5 Backport)</name>
   <description>
     ExecutorService's type parameters changed between JDK5 and JDK6 in a
     way that makes it impossible for our invokeAll/invokeAny methods to
