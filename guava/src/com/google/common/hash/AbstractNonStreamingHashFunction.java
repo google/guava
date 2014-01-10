@@ -20,6 +20,7 @@ import com.google.common.base.Preconditions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 /**
@@ -55,7 +56,11 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
   }
 
   @Override public HashCode hashString(CharSequence input, Charset charset) {
-    return hashBytes(input.toString().getBytes(charset));
+    try {
+      return hashBytes(input.toString().getBytes(charset.name()));
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError(e);
+    }
   }
 
   @Override public HashCode hashInt(int input) {

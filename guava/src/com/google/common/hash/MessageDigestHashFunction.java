@@ -152,7 +152,13 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
       done = true;
       return (bytes == digest.getDigestLength())
           ? HashCode.fromBytesNoCopy(digest.digest())
-          : HashCode.fromBytesNoCopy(Arrays.copyOf(digest.digest(), bytes));
+          : HashCode.fromBytesNoCopy(copyOf(digest.digest(), bytes));
     }
+  }
+
+  private static byte[] copyOf(byte[] array, int length) {
+    byte[] newArray = new byte[length];
+    System.arraycopy(array, 0, newArray, 0, Math.min(length, array.length));
+    return newArray;
   }
 }

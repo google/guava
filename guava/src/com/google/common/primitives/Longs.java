@@ -333,7 +333,7 @@ public final class Longs {
    */
   @Beta
   public static Long tryParse(String string) {
-    if (checkNotNull(string).isEmpty()) {
+    if (checkNotNull(string).length() == 0) {
       return null;
     }
     boolean negative = string.charAt(0) == '-';

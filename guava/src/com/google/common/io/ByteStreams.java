@@ -238,7 +238,7 @@ public final class ByteStreams {
       if (read == -1) {
         // end of stream before reading expectedSize bytes
         // just return the bytes read so far
-        return Arrays.copyOf(bytes, off);
+        return copyOf(bytes, off);
       }
       remaining -= read;
     }
@@ -258,6 +258,12 @@ public final class ByteStreams {
     System.arraycopy(bytes, 0, result, 0, bytes.length);
     out.writeTo(result, bytes.length);
     return result;
+  }
+
+  private static byte[] copyOf(byte[] array, int length) {
+    byte[] newArray = new byte[length];
+    System.arraycopy(array, 0, newArray, 0, length);
+    return newArray;
   }
 
   /**

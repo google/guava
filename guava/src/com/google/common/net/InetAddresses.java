@@ -570,7 +570,7 @@ public final class InetAddresses {
     Preconditions.checkArgument(isCompatIPv4Address(ip),
         "Address '%s' is not IPv4-compatible.", toAddrString(ip));
 
-    return getInet4Address(Arrays.copyOfRange(ip.getAddress(), 12, 16));
+    return getInet4Address(copyOfRange(ip.getAddress(), 12, 16));
   }
 
   /**
@@ -603,7 +603,7 @@ public final class InetAddresses {
     Preconditions.checkArgument(is6to4Address(ip),
         "Address '%s' is not a 6to4 address.", toAddrString(ip));
 
-    return getInet4Address(Arrays.copyOfRange(ip.getAddress(), 2, 6));
+    return getInet4Address(copyOfRange(ip.getAddress(), 2, 6));
   }
 
   /**
@@ -695,14 +695,14 @@ public final class InetAddresses {
         "Address '%s' is not a Teredo address.", toAddrString(ip));
 
     byte[] bytes = ip.getAddress();
-    Inet4Address server = getInet4Address(Arrays.copyOfRange(bytes, 4, 8));
+    Inet4Address server = getInet4Address(copyOfRange(bytes, 4, 8));
 
     int flags = ByteStreams.newDataInput(bytes, 8).readShort() & 0xffff;
 
     // Teredo obfuscates the mapped client port, per section 4 of the RFC.
     int port = ~ByteStreams.newDataInput(bytes, 10).readShort() & 0xffff;
 
-    byte[] clientBytes = Arrays.copyOfRange(bytes, 12, 16);
+    byte[] clientBytes = copyOfRange(bytes, 12, 16);
     for (int i = 0; i < clientBytes.length; i++) {
       // Teredo obfuscates the mapped client IP, per section 4 of the RFC.
       clientBytes[i] = (byte) ~clientBytes[i];
@@ -759,7 +759,7 @@ public final class InetAddresses {
     Preconditions.checkArgument(isIsatapAddress(ip),
         "Address '%s' is not an ISATAP address.", toAddrString(ip));
 
-    return getInet4Address(Arrays.copyOfRange(ip.getAddress(), 12, 16));
+    return getInet4Address(copyOfRange(ip.getAddress(), 12, 16));
   }
 
   /**
@@ -1007,5 +1007,12 @@ public final class InetAddresses {
       }
     }
     return true;
+  }
+
+  private static byte[] copyOfRange(byte[] array, int start, int end) {
+    int length = end - start;
+    byte[] newArray = new byte[length];
+    System.arraycopy(array, start, newArray, 0, length);
+    return newArray;
   }
 }
