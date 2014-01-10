@@ -233,18 +233,6 @@ public class StopwatchTest extends TestCase {
     stopwatch.start();
     ticker.advance(5000000000L);
     assertEquals("5.000 s", stopwatch.toString());
-    stopwatch.reset();
-    stopwatch.start();
-    ticker.advance((long) (1.5 * 60 * 1000000000L));
-    assertEquals("1.500 min", stopwatch.toString());
-    stopwatch.reset();
-    stopwatch.start();
-    ticker.advance((long) (2.5 * 60 * 60 * 1000000000L));
-    assertEquals("2.500 h", stopwatch.toString());
-    stopwatch.reset();
-    stopwatch.start();
-    ticker.advance((long) (7.25 * 24 * 60 * 60 * 1000000000L));
-    assertEquals("7.250 d", stopwatch.toString());
   }
 
 }
