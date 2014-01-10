@@ -63,6 +63,11 @@ import javax.annotation.Nullable;
  *
  * <ul>
  * <li>Extend this class and override {@link #doForward} and {@link #doBackward}
+ * <li>Create a simple, static converter from a {@link com.google.common.collect.BiMap} using
+ * {@link com.google.common.collect.Maps#asConverter}. This is the preferred way to fake a converter
+ * in unit tests. Do <b>not</b> mock converter.
+ * <li>Several common implementations are provided, such as {@link Enums#stringConverter},
+ * {@link CaseFormat#converterTo}, and {@link com.google.common.primitives.Ints#stringConverter}.
  * </ul>
  *
  * <p>Using a converter:
@@ -73,6 +78,7 @@ import javax.annotation.Nullable;
  * <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or {@code
  *     converter.reverse().convertAll(bs)}
  * <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link Function} is accepted
+ * <li>Do <b>not</b> call {@link #doForward} or {@link #doBackward} directly
  * </ul>
  *
  * @author Mike Ward
