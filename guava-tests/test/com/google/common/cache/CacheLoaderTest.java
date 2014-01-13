@@ -45,7 +45,7 @@ public class CacheLoaderTest extends TestCase {
     }
 
     private void runNext() {
-      tasks.pop().run();
+      tasks.removeFirst().run();
     }
   }
 

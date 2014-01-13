@@ -123,7 +123,7 @@ public final class Closer implements Closeable {
   // close. this word no longer has any meaning to me.
   public <C extends Closeable> C register(@Nullable C closeable) {
     if (closeable != null) {
-      stack.push(closeable);
+      stack.addFirst(closeable);
     }
 
     return closeable;
@@ -209,7 +209,7 @@ public final class Closer implements Closeable {
 
     // close closeables in LIFO order
     while (!stack.isEmpty()) {
-      Closeable closeable = stack.pop();
+      Closeable closeable = stack.removeFirst();
       try {
         closeable.close();
       } catch (Throwable e) {
