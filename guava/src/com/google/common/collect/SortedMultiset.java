@@ -23,10 +23,13 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedSet;
+import java.util.Set;
 
 /**
  * A {@link Multiset} which maintains the ordering of its elements, according to
- * either their natural order or an explicit {@link Comparator}. In all cases,
+ * either their natural order or an explicit {@link Comparator}. This order is
+ * reflected when iterating over the sorted multiset, either directly, or through
+ * its {@code elementSet} or {@code entrySet} views.  In all cases,
  * this implementation uses {@link Comparable#compareTo} or
  * {@link Comparator#compare} instead of {@link Object#equals} to determine
  * equivalence of instances.
@@ -82,6 +85,14 @@ public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterab
    * @since 14.0
    */
   @Override SortedSet<E> elementSet();
+  
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The {@code entrySet}'s iterator returns entries in ascending element
+   * order according to the this multiset's comparator.
+   */
+  @Override Set<Entry<E>> entrySet();
 
   /**
    * {@inheritDoc}
