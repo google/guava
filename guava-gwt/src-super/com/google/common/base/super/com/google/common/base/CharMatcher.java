@@ -53,6 +53,7 @@ import javax.annotation.CheckReturnValue;
 @Beta // Possibly change from chars to code points; decide constants vs. methods
 @GwtCompatible(emulated = true)
 public abstract class CharMatcher implements Predicate<Character> {
+
   // Constants
   /**
    * Determines whether a character is a breaking whitespace (that is, a whitespace which can be
@@ -217,10 +218,10 @@ public abstract class CharMatcher implements Predicate<Character> {
    * PRIVATE_USE according to ICU4J.
    */
   public static final CharMatcher INVISIBLE = new RangesMatcher("CharMatcher.INVISIBLE", (
-      "\u0000\u007f\u00ad\u0600\u06dd\u070f\u1680\u180e\u2000\u2028\u205f\u206a\u3000\ud800\ufeff"
-      + "\ufff9\ufffa").toCharArray(), (
-      "\u0020\u00a0\u00ad\u0604\u06dd\u070f\u1680\u180e\u200f\u202f\u2064\u206f\u3000\uf8ff\ufeff"
-      + "\ufff9\ufffb").toCharArray());
+      "\u0000\u007f\u00ad\u0600\u061c\u06dd\u070f\u1680\u180e\u2000\u2028\u205f\u2066\u2067\u2068"
+      + "\u2069\u206a\u3000\ud800\ufeff\ufff9\ufffa").toCharArray(), (
+      "\u0020\u00a0\u00ad\u0604\u061c\u06dd\u070f\u1680\u180e\u200f\u202f\u2064\u2066\u2067\u2068"
+      + "\u2069\u206f\u3000\uf8ff\ufeff\ufff9\ufffb").toCharArray());
 
   private static String showCharacter(char c) {
     String hex = "0123456789ABCDEF";
@@ -1191,6 +1192,14 @@ public abstract class CharMatcher implements Predicate<Character> {
     return description;
   }
 
+  static final String WHITESPACE_TABLE = ""
+      + "\u2002\u3000\r\u0085\u200A\u2005\u2000\u3000"
+      + "\u2029\u000B\u3000\u2008\u2003\u205F\u3000\u1680"
+      + "\u0009\u0020\u2006\u2001\u202F\u00A0\u000C\u2009"
+      + "\u3000\u2004\u3000\u3000\u2028\n\u2007\u3000";
+  static final int WHITESPACE_MULTIPLIER = 1682554634;
+  static final int WHITESPACE_SHIFT = Integer.numberOfLeadingZeros(WHITESPACE_TABLE.length() - 1);
+
   /**
    * Determines whether a character is whitespace according to the latest Unicode standard, as
    * illustrated
@@ -1203,18 +1212,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * to date.
    */
   public static final CharMatcher WHITESPACE = new FastMatcher("WHITESPACE") {
-    private static final String TABLE = "\u0009\u3000\n\u0009\u0009\u0009\u202F\u0009"
-        + "\u0009\u2001\u2006\u0009\u0009\u0009\u0009\u0009"
-        + "\u180E\u0009\u2029\u0009\u0009\u0009\u2000\u2005"
-        + "\u200A\u0009\u0009\u0009\r\u0009\u0009\u2028"
-        + "\u1680\u0009\u00A0\u0009\u2004\u2009\u0009\u0009"
-        + "\u0009\u000C\u205F\u0009\u0009\u0020\u0009\u0009"
-        + "\u2003\u2008\u0009\u0009\u0009\u000B\u0085\u0009"
-        + "\u0009\u0009\u0009\u0009\u0009\u2002\u2007\u0009";
-
     @Override
     public boolean matches(char c) {
-      return TABLE.charAt((-844444961 * c) >>> 26) == c;
+      return WHITESPACE_TABLE.charAt((WHITESPACE_MULTIPLIER * c) >>> WHITESPACE_SHIFT) == c;
     }
   };
 }
