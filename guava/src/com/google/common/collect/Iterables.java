@@ -267,8 +267,12 @@ public final class Iterables {
   }
 
   /**
-   * Returns a string representation of {@code iterable}, with the format
-   * {@code [e1, e2, ..., en]}.
+   * Returns a string representation of {@code iterable}, with the format {@code
+   * [e1, e2, ..., en]} (that is, identical to {@link java.util.Arrays
+   * Arrays}{@code .toString(Iterables.toArray(iterable))}). Note that for
+   * <i>most</i> implementations of {@link Collection}, {@code
+   * collection.toString()} also gives the same result, but that behavior is not
+   * generally guaranteed.
    */
   public static String toString(Iterable<?> iterable) {
     return Iterators.toString(iterable.iterator());
