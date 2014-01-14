@@ -80,17 +80,68 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
   
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
-  public void testPutAllNullValueOnPresentKey() {
+  public void testPutAllNullValueOnPresentKey_supported() {
     assertTrue(multimap().putAll(sampleKeys().e0, Lists.newArrayList(sampleValues().e3, null)));
     assertGet(sampleKeys().e0, sampleValues().e0, sampleValues().e3, null);
   }
   
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
-  public void testPutAllNullValueOnAbsentKey() {
+  public void testPutAllNullValueOnAbsentKey_supported() {
     assertTrue(multimap().putAll(sampleKeys().e3, Lists.newArrayList(sampleValues().e3, null)));
     assertGet(sampleKeys().e3, sampleValues().e3, null);
   }
+
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
+  public void testPutAllNullValueSingle_unsupported() {
+    multimap().putAll(sampleKeys().e1, Lists.newArrayList((V) null));
+    expectUnchanged();
+  }
+
+  // In principle, it would be nice to apply these two tests to keys with existing values, too.
   
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
+  public void testPutAllNullValueNullLast_unsupported() {
+    int size = getNumElements();
+
+    try {
+      multimap().putAll(sampleKeys().e3, Lists.newArrayList(sampleValues().e3, null));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+
+    Collection<V> values = multimap().get(sampleKeys().e3);
+    if (values.size() == 0) {
+      expectUnchanged();
+      // Be extra thorough in case internal state was corrupted by the expected null.
+      assertEquals(Lists.newArrayList(), Lists.newArrayList(values));
+      assertEquals(size, multimap().size());
+    } else {
+      assertEquals(Lists.newArrayList(sampleValues().e3), Lists.newArrayList(values));
+      assertEquals(size + 1, multimap().size());
+    }
+  }
+
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
+  public void testPutAllNullValueNullFirst_unsupported() {
+    int size = getNumElements();
+
+    try {
+      multimap().putAll(sampleKeys().e3, Lists.newArrayList(null, sampleValues().e3));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+
+    /*
+     * In principle, a Multimap implementation could add e3 first before failing on the null. But
+     * that seems unlikely enough to be worth complicating the test over, especially if there's any
+     * chance that a permissive test could mask a bug.
+     */
+    expectUnchanged();
+    // Be extra thorough in case internal state was corrupted by the expected null.
+    assertEquals(Lists.newArrayList(), Lists.newArrayList(multimap().get(sampleKeys().e3)));
+    assertEquals(size, multimap().size());
+  }
+
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_KEYS})
   public void testPutAllOnPresentNullKey() {
     assertTrue(multimap().putAll(null, Lists.newArrayList(sampleValues().e3, sampleValues().e4)));

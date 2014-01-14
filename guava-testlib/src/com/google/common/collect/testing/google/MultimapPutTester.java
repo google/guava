@@ -103,13 +103,24 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   }
 
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
-  public void testPutNullValue() {
+  public void testPutNullValue_supported() {
     int size = getNumElements();
 
     multimap().put(sampleKeys().e3, null);
 
-    assertGet(sampleKeys().e3, Lists.newArrayList((V)null)); // ImmutableList.of can't take null.
+    assertGet(sampleKeys().e3, Lists.newArrayList((V) null)); // ImmutableList.of can't take null.
     assertEquals(size + 1, multimap().size());
+  }
+
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
+  public void testPutNullValue_unsupported() {
+    try {
+      multimap().put(sampleKeys().e1, null);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+
+    expectUnchanged();
   }
 
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_KEYS})
