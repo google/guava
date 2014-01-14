@@ -59,26 +59,30 @@ import javax.annotation.Nullable;
 
  * <h3>Common ways to use</h3>
  *
- * <p>Creating a converter:
+ * <p>Getting a converter:
  *
  * <ul>
- * <li>Extend this class and override {@link #doForward} and {@link #doBackward}
- * <li>Create a simple, static converter from a {@link com.google.common.collect.BiMap} using
- * {@link com.google.common.collect.Maps#asConverter}. This is the preferred way to fake a converter
- * in unit tests. Do <b>not</b> mock converter.
- * <li>Several common implementations are provided, such as {@link Enums#stringConverter},
- * {@link CaseFormat#converterTo}, and {@link com.google.common.primitives.Ints#stringConverter}.
+ * <li>Use a provided converter implementation, such as {@link Enums#stringConverter}, {@link
+ *     com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the {@linkplain
+ *     #reverse reverse} views of these.
+ * <li>Convert between specific preset values using {@link
+ *     com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to create
+ *     a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
+ *     {@code Converter} type using a mocking framework.
+ * <li>Otherwise, extend this class and implement its {@link #doForward} and {@link #doBackward}
+ *     methods.
  * </ul>
  *
  * <p>Using a converter:
  *
  * <ul>
- * <li>Convert one instance in the "forward" direction using {@code converter.convert(a)}
- * <li>Convert multiple instances "forward" using {@code converter.convertAll(as)}
+ * <li>Convert one instance in the "forward" direction using {@code converter.convert(a)}.
+ * <li>Convert multiple instances "forward" using {@code converter.convertAll(as)}.
  * <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or {@code
- *     converter.reverse().convertAll(bs)}
+ *     converter.reverse().convertAll(bs)}.
  * <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link Function} is accepted
- * <li>Do <b>not</b> call {@link #doForward} or {@link #doBackward} directly
+ * <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to be
+ *     overridden.
  * </ul>
  *
  * @author Mike Ward
@@ -276,7 +280,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * are.
    */
   public <C> Converter<A, C> andThen(Converter<B, C> secondConverter) {
-    return ConverterComposition.of(this, checkNotNull(secondConverter, "secondConverter"));
+    return new ConverterComposition<A, B, C>(this, checkNotNull(secondConverter));
   }
 
   private static final class ConverterComposition<A, B, C>
@@ -336,10 +340,6 @@ public abstract class Converter<A, B> implements Function<A, B> {
     @Override
     public String toString() {
       return first + ".andThen(" + second + ")";
-    }
-
-    static <A, B, C> Converter<A, C> of(Converter<A, B> first, Converter<B, C> second) {
-      return new ConverterComposition<A, B, C>(first, second);
     }
 
     private static final long serialVersionUID = 0L;
