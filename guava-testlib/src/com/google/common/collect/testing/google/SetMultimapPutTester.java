@@ -17,6 +17,7 @@ package com.google.common.collect.testing.google;
 import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.Helpers.copyToSet;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 
 import com.google.common.annotations.GwtCompatible;
@@ -61,5 +62,13 @@ public class SetMultimapPutTester<K, V>
       assertEquals(expectedValues, values);
       assertGet(k, expectedValues);
     }
+  }
+
+  @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
+  @CollectionSize.Require(absent = ZERO)
+  public void testPutDuplicateValue_null() {
+    initMultimapWithNullValue();
+    assertFalse(multimap().put(getKeyForNullValue(), null));
+    expectContents(createArrayWithNullValue());
   }
 }
