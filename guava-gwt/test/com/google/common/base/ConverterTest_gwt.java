@@ -58,6 +58,11 @@ public void testReverse() throws Exception {
   testCase.testReverse();
 }
 
+public void testReverseReverse() throws Exception {
+  com.google.common.base.ConverterTest testCase = new com.google.common.base.ConverterTest();
+  testCase.testReverseReverse();
+}
+
 public void testSerialization_andThen() throws Exception {
   com.google.common.base.ConverterTest testCase = new com.google.common.base.ConverterTest();
   testCase.testSerialization_andThen();
