@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.Iterables.unmodifiableIterable;
 import static com.google.common.collect.Sets.newEnumSet;
 import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.Sets.powerSet;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static java.util.Collections.emptySet;
@@ -543,7 +544,7 @@ public class SetsTest extends TestCase {
   public void testPowerSetIteration_iteratorTester_fast() {
     ImmutableSet<Integer> elements = ImmutableSet.of(1, 2);
 
-    Set<Set<Integer>> expected = newHashSet();
+    Set<Set<Integer>> expected = newLinkedHashSet();
     expected.add(ImmutableSet.<Integer>of());
     expected.add(ImmutableSet.of(1));
     expected.add(ImmutableSet.of(2));
