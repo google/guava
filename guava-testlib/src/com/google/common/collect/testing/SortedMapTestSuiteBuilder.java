@@ -72,9 +72,11 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
     return derivedSuites;
   }
 
-  @Override protected SortedSetTestSuiteBuilder<K> createDerivedKeySetSuite(
+  @Override protected SetTestSuiteBuilder<K> createDerivedKeySetSuite(
       TestSetGenerator<K> keySetGenerator) {
-    return SortedSetTestSuiteBuilder.using((TestSortedSetGenerator<K>) keySetGenerator);
+    return keySetGenerator instanceof TestSortedSetGenerator
+        ? SortedSetTestSuiteBuilder.using((TestSortedSetGenerator<K>) keySetGenerator)
+        : SetTestSuiteBuilder.using(keySetGenerator);
   }
 
   /**

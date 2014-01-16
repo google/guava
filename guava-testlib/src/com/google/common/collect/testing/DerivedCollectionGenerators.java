@@ -82,10 +82,12 @@ public final class DerivedCollectionGenerators {
 
   // TODO: investigate some API changes to SampleElements that would tidy up
   // parts of the following classes.
-  
+
   static <K, V> TestSetGenerator<K> keySetGenerator(
       OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>> mapGenerator) {
-    if (mapGenerator.getInnerGenerator() instanceof TestSortedMapGenerator) {
+    TestContainerGenerator<Map<K, V>, Entry<K, V>> generator = mapGenerator.getInnerGenerator();
+    if (generator instanceof TestSortedMapGenerator
+        && ((TestSortedMapGenerator<K, V>) generator).create().keySet() instanceof SortedSet) {
       return new MapSortedKeySetGenerator<K, V>(mapGenerator);
     } else {
       return new MapKeySetGenerator<K, V>(mapGenerator);
