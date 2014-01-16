@@ -37,9 +37,11 @@ import junit.framework.TestSuite;
 
 import org.easymock.EasyMock;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -464,31 +466,64 @@ public class ImmutableSortedMultisetTest extends TestCase {
   }
 
   public void testCopyOfDefensiveCopy() {
+    // Depending on JDK version, either toArray() or toArray(T[]) may be called... use this class
+    // rather than mocking to ensure that one of those methods is called.
+    class TestArrayList<E> extends ArrayList<E> {
+      boolean toArrayCalled = false;
+
+      @Override
+      public Object[] toArray() {
+        toArrayCalled = true;
+        return super.toArray();
+      }
+
+      @Override
+      public <T> T[] toArray(T[] a) {
+        toArrayCalled = true;
+        return super.toArray(a);
+      }
+    }
+
     // Test that toArray() is used to make a defensive copy in copyOf(), so concurrently modified
     // synchronized collections can be safely copied.
-    @SuppressWarnings("unchecked")
-    Collection<String> toCopy = EasyMock.createMock(Collection.class);
-    EasyMock.expect(toCopy.toArray()).andReturn(new Object[0]);
-    EasyMock.replay(toCopy);
+    TestArrayList<String> toCopy = new TestArrayList<String>();
     ImmutableSortedMultiset<String> multiset =
         ImmutableSortedMultiset.copyOf(Ordering.natural(), toCopy);
-    EasyMock.verify(toCopy);
+    assertTrue(toCopy.toArrayCalled);
   }
 
   @SuppressWarnings("unchecked")
   public void testCopyOfSortedDefensiveCopy() {
+    // Depending on JDK version, either toArray() or toArray(T[]) may be called... use this class
+    // rather than mocking to ensure that one of those methods is called.
+    class TestHashSet<E> extends HashSet<E> {
+      boolean toArrayCalled = false;
+
+      @Override
+      public Object[] toArray() {
+        toArrayCalled = true;
+        return super.toArray();
+      }
+
+      @Override
+      public <T> T[] toArray(T[] a) {
+        toArrayCalled = true;
+        return super.toArray(a);
+      }
+    }
+
     // Test that toArray() is used to make a defensive copy in copyOf(), so concurrently modified
     // synchronized collections can be safely copied.
     SortedMultiset<String> toCopy = EasyMock.createMock(SortedMultiset.class);
-    Set<Entry<String>> entrySet = EasyMock.createMock(Set.class);
+    TestHashSet<Entry<String>> entrySet = new TestHashSet<Entry<String>>();
     EasyMock.expect((Comparator<Comparable>) toCopy.comparator())
       .andReturn(Ordering.natural());
     EasyMock.expect(toCopy.entrySet()).andReturn(entrySet);
-    EasyMock.expect(entrySet.toArray()).andReturn(new Object[0]);
-    EasyMock.replay(toCopy, entrySet);
+    EasyMock.replay(toCopy);
     ImmutableSortedMultiset<String> multiset =
         ImmutableSortedMultiset.copyOfSorted(toCopy);
-    EasyMock.verify(toCopy, entrySet);
+    EasyMock.verify(toCopy);
+    assertTrue(entrySet.toArrayCalled);
   }
 
   private static class IntegerDiv10 implements Comparable<IntegerDiv10> {

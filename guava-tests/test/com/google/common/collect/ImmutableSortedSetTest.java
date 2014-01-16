@@ -748,7 +748,8 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
   @GwtIncompatible("SerializableTester")
   public void testDifferentComparator_serialization() {
-    Comparator<Comparable<?>> comparator = Collections.reverseOrder();
+    // don't use Collections.reverseOrder(); it didn't reserialize to the same instance in JDK5
+    Comparator<Comparable<?>> comparator = Ordering.natural().reverse();
     SortedSet<String> set = new ImmutableSortedSet.Builder<String>(comparator)
         .add("a", "b", "c").build();
     SortedSet<String> copy = SerializableTester.reserializeAndAssert(set);
