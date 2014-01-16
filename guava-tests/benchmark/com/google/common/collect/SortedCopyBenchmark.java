@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The Guava Authors
+ * Copyright (C) 2014 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -14,73 +14,106 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
- * A benchmark to determine the overhead of sorting with {@link Ordering#from(Comparator)}, or with
- * {@link Ordering#natural()}, as opposed to using the inlined {@link Arrays#sort(Object[])}
- * implementation, which uses {@link Comparable#compareTo} directly.
+ * Provides supporting data for performance notes in the documentation of {@link
+ * Ordering#sortedCopy} and {@link Ordering#immutableSortedCopy}, as well as for
+ * automated code suggestions.
  *
- * @author Louis Wasserman
  */
 public class SortedCopyBenchmark {
-  private final Integer[][] inputArrays = new Integer[0x100][];
+  @Param({"1", "10", "1000", "1000000"}) int size; // logarithmic triangular
 
-  @Param({"10000"})
-  int n;
+  @Param boolean mutable;
+
+  @Param InputOrder inputOrder;
+
+  enum InputOrder {
+    SORTED {
+      @Override void arrange(List<Integer> list) {
+        Collections.sort(list);
+      }
+    },
+    ALMOST_SORTED {
+      @Override void arrange(List<Integer> list) {
+        Collections.sort(list);
+        if (list.size() > 1) {
+          // Start looking in the middle, for the heck of it
+          int i = (list.size() - 1) / 2;
+          // Find two that are different - it would be extraordinarily unlikely not to
+          while (list.get(i).equals(list.get(i + 1))) {
+            i++;
+          }
+          Collections.swap(list, i, i + 1);
+        }
+      }
+    },
+    RANDOM {
+      @Override void arrange(List<Integer> list) {}
+    };
+
+    abstract void arrange(List<Integer> list);
+  }
+
+  private ImmutableList<Integer> input;
 
   @BeforeExperiment
-  void setUp() throws Exception {
-    Random rng = new Random();
-    for (int i = 0; i < 0x100; i++) {
-      Integer[] array = new Integer[n];
-      for (int j = 0; j < n; j++) {
-        array[j] = rng.nextInt();
+  void setUp() {
+    checkArgument(size > 0, "empty collection not supported");
+    List<Integer> temp = new ArrayList<Integer>(size);
+
+    Random random = new Random();
+    while (temp.size() < size) {
+      temp.add(random.nextInt());
+    }
+    inputOrder.arrange(temp);
+    input = ImmutableList.copyOf(temp);
+  }
+
+  @Benchmark
+  int collections(int reps) {
+    int dummy = 0;
+    // Yes, this could be done more elegantly
+    if (mutable) {
+      for (int i = 0; i < reps; i++) {
+        List<Integer> copy = new ArrayList<Integer>(input);
+        Collections.sort(copy);
+        dummy += copy.get(0);
       }
-      inputArrays[i] = array;
+    } else {
+      for (int i = 0; i < reps; i++) {
+        List<Integer> copy = new ArrayList<Integer>(input);
+        Collections.sort(copy);
+        dummy += ImmutableList.copyOf(copy).get(0);
+      }
     }
+    return dummy;
   }
 
-  @Benchmark int arraysSortNoComparator(int reps) {
-    int tmp = 0;
-    for (int i = 0; i < reps; i++) {
-      Integer[] copy = inputArrays[i & 0xFF].clone();
-      Arrays.sort(copy);
-      tmp += copy[0];
+  @Benchmark
+  int ordering(int reps) {
+    int dummy = 0;
+    if (mutable) {
+      for (int i = 0; i < reps; i++) {
+        dummy += ORDERING.sortedCopy(input).get(0);
+      }
+    } else {
+      for (int i = 0; i < reps; i++) {
+        dummy += ORDERING.immutableSortedCopy(input).get(0);
+      }
     }
-    return tmp;
+    return dummy;
   }
 
-  @Benchmark int arraysSortOrderingNatural(int reps) {
-    int tmp = 0;
-    for (int i = 0; i < reps; i++) {
-      Integer[] copy = inputArrays[i & 0xFF].clone();
-      Arrays.sort(copy, Ordering.natural());
-      tmp += copy[0];
-    }
-    return tmp;
-  }
-
-  private static final Comparator<Integer> NATURAL_INTEGER = new Comparator<Integer>() {
-    @Override
-    public int compare(Integer o1, Integer o2) {
-      return o1.compareTo(o2);
-    }
-  };
-
-  @Benchmark int arraysSortOrderingFromNatural(int reps) {
-    int tmp = 0;
-    for (int i = 0; i < reps; i++) {
-      Integer[] copy = inputArrays[i & 0xFF].clone();
-      Arrays.sort(copy, Ordering.from(NATURAL_INTEGER));
-      tmp += copy[0];
-    }
-    return tmp;
-  }
+  private static final Ordering<Integer> ORDERING = Ordering.natural();
 }
