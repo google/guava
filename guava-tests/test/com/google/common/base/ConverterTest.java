@@ -93,6 +93,11 @@ public class ConverterTest extends TestCase {
         .testEquals();
   }
 
+  public void testReverseReverse() {
+    Converter<String, Long> converter = STR_TO_LONG;
+    assertEquals(converter, converter.reverse().reverse());
+  }
+
   public void testApply() {
     assertEquals(LONG_VAL, STR_TO_LONG.apply(STR_VAL));
   }
