@@ -367,49 +367,6 @@ public abstract class Converter<A, B> implements Function<A, B> {
 
   // Static converters
 
-  private static final class FunctionBasedConverter<A, B>
-      extends Converter<A, B> implements Serializable {
-    private final Function<? super A, ? extends B> forwardFunction;
-    private final Function<? super B, ? extends A> backwardFunction;
-
-    private FunctionBasedConverter(
-        Function<? super A, ? extends B> forwardFunction,
-        Function<? super B, ? extends A> backwardFunction) {
-      this.forwardFunction = checkNotNull(forwardFunction);
-      this.backwardFunction = checkNotNull(backwardFunction);
-    }
-
-    @Override
-    protected B doForward(A a) {
-      return forwardFunction.apply(a);
-    }
-
-    @Override
-    protected A doBackward(B b) {
-      return backwardFunction.apply(b);
-    }
-
-    @Override
-    public boolean equals(@Nullable Object object) {
-      if (object instanceof FunctionBasedConverter) {
-        FunctionBasedConverter<?, ?> that = (FunctionBasedConverter<?, ?>) object;
-        return this.forwardFunction.equals(that.forwardFunction)
-            && this.backwardFunction.equals(that.backwardFunction);
-      }
-      return false;
-    }
-
-    @Override
-    public int hashCode() {
-      return forwardFunction.hashCode() * 31 + backwardFunction.hashCode();
-    }
-
-    @Override
-    public String toString() {
-      return "Converter.from(" + forwardFunction + ", " + backwardFunction + ")";
-    }
-  }
-
   /**
    * Returns a serializable converter that always converts or reverses an object to itself.
    */
