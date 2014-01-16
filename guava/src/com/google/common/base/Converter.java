@@ -95,6 +95,9 @@ import javax.annotation.Nullable;
 public abstract class Converter<A, B> implements Function<A, B> {
   private final boolean handleNullAutomatically;
 
+  // We lazily cache the reverse view to avoid allocating on every call to reverse().
+  private transient Converter<B, A> reverse;
+
   /** Constructor for use by subclasses. */
   protected Converter() {
     this(true);
@@ -204,8 +207,10 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *
    * <p>The returned converter is serializable if {@code this} converter is.
    */
+  // TODO(user): Make this method final
   public Converter<B, A> reverse() {
-    return new ReverseConverter<A, B>(this);
+    Converter<B, A> result = reverse;
+    return (result == null) ? reverse = new ReverseConverter<A, B>(this) : result;
   }
 
   private static final class ReverseConverter<A, B>
