@@ -207,15 +207,14 @@ public class FuturesTest extends TestCase {
   private static class Bar {}
   private static class BarChild extends Bar {}
 
-  public void testTransform_ListenableFuture_genericsNull() throws Exception {
+  public void testTransform_genericsNull() throws Exception {
     ListenableFuture<?> nullFuture = Futures.immediateFuture(null);
     ListenableFuture<?> transformedFuture =
         Futures.transform(nullFuture, Functions.constant(null));
     assertNull(transformedFuture.get());
   }
 
-  public void testTransform_ListenableFuture_genericsHierarchy()
-      throws Exception {
+  public void testTransform_genericsHierarchy() throws Exception {
     ListenableFuture<FooChild> future = Futures.immediateFuture(null);
     final BarChild barChild = new BarChild();
     Function<Foo, BarChild> function = new Function<Foo, BarChild>() {
@@ -227,7 +226,7 @@ public class FuturesTest extends TestCase {
     assertSame(barChild, bar);
   }
 
-  public void testTransform_ListenableFuture_cancelPropagatesToInput() throws Exception {
+  public void testTransform_cancelPropagatesToInput() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
       @Override public ListenableFuture<Bar> apply(Foo unused) {
@@ -239,8 +238,7 @@ public class FuturesTest extends TestCase {
     assertFalse(input.wasInterrupted());
   }
 
-  public void testTransform_ListenableFuture_interruptPropagatesToInput()
-      throws Exception {
+  public void testTransform_interruptPropagatesToInput() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
       @Override public ListenableFuture<Bar> apply(Foo unused) {
@@ -252,8 +250,7 @@ public class FuturesTest extends TestCase {
     assertTrue(input.wasInterrupted());
   }
 
-  public void testTransform_ListenableFuture_cancelPropagatesToAsyncOutput()
-      throws Exception {
+  public void testTransform_cancelPropagatesToAsyncOutput() throws Exception {
     ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
     final SettableFuture<Bar> secondary = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
@@ -266,7 +263,7 @@ public class FuturesTest extends TestCase {
     assertFalse(secondary.wasInterrupted());
   }
 
-  public void testTransform_ListenableFuture_interruptPropagatesToAsyncOutput()
+  public void testTransform_interruptPropagatesToAsyncOutput()
       throws Exception {
     ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
     final SettableFuture<Bar> secondary = SettableFuture.create();
@@ -281,11 +278,10 @@ public class FuturesTest extends TestCase {
   }
 
   /**
-   * {@link ListenableFuture} variant of
-   * {@link #testTransformValueRemainsMemoized_Future()}.
+   * Tests that the function is invoked only once, even if it throws an
+   * exception.
    */
-  public void testTransformValueRemainsMemoized_ListenableFuture()
-      throws Exception {
+  public void testTransformValueRemainsMemoized() throws Exception {
     class Holder {
       int value = 2;
     }
@@ -333,11 +329,11 @@ public class FuturesTest extends TestCase {
   static class MyRuntimeException extends RuntimeException {}
 
   /**
-   * {@link ListenableFuture} variant of
-   * {@link #testTransformExceptionRemainsMemoized_Future()}.
+   * Test that the function is invoked only once, even if it throws an
+   * exception. Also, test that that function's result is wrapped in an
+   * ExecutionException.
    */
-  public void testTransformExceptionRemainsMemoized_ListenableFuture()
-      throws Throwable {
+  public void testTransformExceptionRemainsMemoized() throws Throwable {
     // We need to test with two input futures since ExecutionList.execute
     // doesn't catch Errors and we cannot depend on the order that our
     // transformations run. (So it is possible that the Error being thrown
@@ -379,20 +375,6 @@ public class FuturesTest extends TestCase {
         }
       }
     }
-  }
-
-  private static <I, O> Function<I, O> newOneTimeValueReturner(final O output) {
-    return new Function<I, O>() {
-      int calls = 0;
-
-      @Override
-      public O apply(I arg0) {
-        if (++calls > 1) {
-          fail();
-        }
-        return output;
-      }
-    };
   }
 
   private static Function<Integer, Integer> newOneTimeExceptionThrower() {
