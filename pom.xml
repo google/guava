@@ -20,6 +20,7 @@
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>**/*Test.java</test.include>
     <truth.version>0.13</truth.version>
+    <bootstrap.classes>${java.home}/lib/rt.jar</bootstrap.classes>
   </properties>
   <issueManagement>
     <system>code.google.com</system>
