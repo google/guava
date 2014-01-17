@@ -46,14 +46,22 @@ import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
 import com.google.common.cache.TestingRemovalListeners.QueuingRemovalListener;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.testing.MapTestSuiteBuilder;
+import com.google.common.collect.testing.TestStringMapGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.FakeTicker;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import com.google.common.testing.TestLogHandler;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import java.io.Serializable;
 import java.lang.ref.Reference;
@@ -62,7 +70,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -73,6 +83,26 @@ import java.util.logging.LogRecord;
  * @author Charles Fry
  */
 public class LocalCacheTest extends TestCase {
+
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTestSuite(LocalCacheTest.class);
+    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
+          @Override public Map<String, String> create(
+              Entry<String, String>[] entries) {
+            LocalCache<String, String> map = makeLocalCache(createCacheBuilder());
+            for (Entry<String, String> entry : entries) {
+              map.put(entry.getKey(), entry.getValue());
+            }
+            return map;
+          }
+
+        }).named("LocalCache with defaults")
+        .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
+    return suite;
+  }
 
   static final int SMALL_MAX_SIZE = DRAIN_THRESHOLD * 5;
 
@@ -107,7 +137,8 @@ public class LocalCacheTest extends TestCase {
     assertSame(t, popLoggedThrowable());
   }
 
-  private static <K, V> LocalCache<K, V> makeLocalCache(CacheBuilder<K, V> builder) {
+  private static <K, V> LocalCache<K, V> makeLocalCache(
+      CacheBuilder<? super K, ? super V> builder) {
     return new LocalCache<K, V>(builder, null);
   }
 
@@ -543,6 +574,16 @@ public class LocalCacheTest extends TestCase {
     Object two = map.get(key, loader);
     assertNotSame(one, two);
     assertEquals(2, loader.getCount());
+  }
+
+  public void testValues() {
+    LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder());
+    map.put("foo", "bar");
+    map.put("baz", "bar");
+    map.put("quux", "quux");
+    assertFalse(map.values() instanceof Set);
+    assertTrue(map.values().removeAll(ImmutableSet.of("bar")));
+    assertEquals(1, map.size());
   }
 
   public void testCopyEntry_computing() {
