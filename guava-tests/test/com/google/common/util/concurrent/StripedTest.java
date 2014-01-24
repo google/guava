@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.collect.Iterables.concat;
 
 import com.google.common.base.Functions;
+import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -33,7 +34,11 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Tests for Striped.
@@ -51,14 +56,40 @@ public class StripedTest extends TestCase {
         Striped.semaphore(256, 1));
   }
 
+  private static final Supplier<ReadWriteLock> READ_WRITE_LOCK_SUPPLIER =
+      new Supplier<ReadWriteLock>() {
+    @Override public ReadWriteLock get() {
+      return new ReentrantReadWriteLock();
+    }
+  };
+
+  private static final Supplier<Lock> LOCK_SUPPLER = new Supplier<Lock>() {
+    @Override public Lock get() {
+      return new ReentrantLock();
+    }
+  };
+
+  private static final Supplier<Semaphore> SEMAPHORE_SUPPLER = new Supplier<Semaphore>() {
+    @Override public Semaphore get() {
+      return new Semaphore(1, false);
+    }
+  };
+
   private static List<Striped<?>> weakImplementations() {
-    return ImmutableList.of(
-        Striped.lazyWeakReadWriteLock(50),
-        Striped.lazyWeakReadWriteLock(64),
-        Striped.lazyWeakLock(50),
-        Striped.lazyWeakLock(64),
-        Striped.lazyWeakSemaphore(50, 1),
-        Striped.lazyWeakSemaphore(64, 1));
+    return ImmutableList.<Striped<?>>builder()
+        .add(new Striped.SmallLazyStriped<ReadWriteLock>(50, READ_WRITE_LOCK_SUPPLIER))
+        .add(new Striped.SmallLazyStriped<ReadWriteLock>(64, READ_WRITE_LOCK_SUPPLIER))
+        .add(new Striped.LargeLazyStriped<ReadWriteLock>(50, READ_WRITE_LOCK_SUPPLIER))
+        .add(new Striped.LargeLazyStriped<ReadWriteLock>(64, READ_WRITE_LOCK_SUPPLIER))
+        .add(new Striped.SmallLazyStriped<Lock>(50, LOCK_SUPPLER))
+        .add(new Striped.SmallLazyStriped<Lock>(64, LOCK_SUPPLER))
+        .add(new Striped.LargeLazyStriped<Lock>(50, LOCK_SUPPLER))
+        .add(new Striped.LargeLazyStriped<Lock>(64, LOCK_SUPPLER))
+        .add(new Striped.SmallLazyStriped<Semaphore>(50, SEMAPHORE_SUPPLER))
+        .add(new Striped.SmallLazyStriped<Semaphore>(64, SEMAPHORE_SUPPLER))
+        .add(new Striped.LargeLazyStriped<Semaphore>(50, SEMAPHORE_SUPPLER))
+        .add(new Striped.LargeLazyStriped<Semaphore>(64, SEMAPHORE_SUPPLER))
+        .build();
   }
 
   private static Iterable<Striped<?>> allImplementations() {
@@ -170,7 +201,7 @@ public class StripedTest extends TestCase {
         Striped.lazyWeakReadWriteLock(Integer.MAX_VALUE))) {
       for (int i = 0; i < 3; i++) {
         // doesn't throw exception
-        striped.get(new Integer(Integer.MAX_VALUE - i));
+        striped.getAt(Integer.MAX_VALUE - i);
       }
     }
   }

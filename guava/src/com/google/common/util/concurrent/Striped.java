@@ -19,19 +19,25 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Objects.firstNonNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.MapMaker;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -81,6 +87,13 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 @Beta
 public abstract class Striped<L> {
+  /**
+   * If there are at least this many stripes, we assume the memory usage of a ConcurrentMap will be
+   * smaller than a large array.  (This assumes that in the lazy case, most stripes are unused. As
+   * always, if many stripes are in use, a non-lazy striped makes more sense.)
+   */
+  private static final int LARGE_LAZY_CUTOFF = 1024;
+
   private Striped() {}
 
   /**
@@ -132,13 +145,25 @@ public abstract class Striped<L> {
   public Iterable<L> bulkGet(Iterable<?> keys) {
     // Initially using the array to store the keys, then reusing it to store the respective L's
     final Object[] array = Iterables.toArray(keys, Object.class);
+    if (array.length == 0) {
+      return ImmutableList.of();
+    }
     int[] stripes = new int[array.length];
     for (int i = 0; i < array.length; i++) {
       stripes[i] = indexFor(array[i]);
     }
     Arrays.sort(stripes);
-    for (int i = 0; i < array.length; i++) {
-      array[i] = getAt(stripes[i]);
+    // optimize for runs of identical stripes
+    int previousStripe = stripes[0];
+    array[0] = getAt(previousStripe);
+    for (int i = 1; i < array.length; i++) {
+      int currentStripe = stripes[i];
+      if (currentStripe == previousStripe) {
+        array[i] = array[i - 1];
+      } else {
+        array[i] = getAt(currentStripe);
+        previousStripe = currentStripe;
+      }
     }
     /*
      * Note that the returned Iterable holds references to the returned stripes, to avoid
@@ -173,7 +198,7 @@ public abstract class Striped<L> {
    */
   public static Striped<Lock> lock(int stripes) {
     return new CompactStriped<Lock>(stripes, new Supplier<Lock>() {
-      public Lock get() {
+      @Override public Lock get() {
         return new PaddedLock();
       }
     });
@@ -187,11 +212,17 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Lock>}
    */
   public static Striped<Lock> lazyWeakLock(int stripes) {
-    return new LazyStriped<Lock>(stripes, new Supplier<Lock>() {
-      public Lock get() {
+    return lazy(stripes, new Supplier<Lock>() {
+      @Override public Lock get() {
         return new ReentrantLock(false);
       }
     });
+  }
+
+  private static <L> Striped<L> lazy(int stripes, Supplier<L> supplier) {
+    return stripes < LARGE_LAZY_CUTOFF 
+        ? new SmallLazyStriped<L>(stripes, supplier)
+        : new LargeLazyStriped<L>(stripes, supplier);
   }
 
   /**
@@ -204,7 +235,7 @@ public abstract class Striped<L> {
    */
   public static Striped<Semaphore> semaphore(int stripes, final int permits) {
     return new CompactStriped<Semaphore>(stripes, new Supplier<Semaphore>() {
-      public Semaphore get() {
+      @Override public Semaphore get() {
         return new PaddedSemaphore(permits);
       }
     });
@@ -219,8 +250,8 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Semaphore>}
    */
   public static Striped<Semaphore> lazyWeakSemaphore(int stripes, final int permits) {
-    return new LazyStriped<Semaphore>(stripes, new Supplier<Semaphore>() {
-      public Semaphore get() {
+    return lazy(stripes, new Supplier<Semaphore>() {
+      @Override public Semaphore get() {
         return new Semaphore(permits, false);
       }
     });
@@ -245,13 +276,13 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<ReadWriteLock>}
    */
   public static Striped<ReadWriteLock> lazyWeakReadWriteLock(int stripes) {
-    return new LazyStriped<ReadWriteLock>(stripes, READ_WRITE_LOCK_SUPPLIER);
+    return lazy(stripes, READ_WRITE_LOCK_SUPPLIER);
   }
 
   // ReentrantReadWriteLock is large enough to make padding probably unnecessary
   private static final Supplier<ReadWriteLock> READ_WRITE_LOCK_SUPPLIER =
       new Supplier<ReadWriteLock>() {
-    public ReadWriteLock get() {
+    @Override public ReadWriteLock get() {
       return new ReentrantReadWriteLock();
     }
   };
@@ -304,16 +335,85 @@ public abstract class Striped<L> {
   }
 
   /**
-   * Implementation of Striped where up to 2^k stripes can be represented, using a Cache
+   * Implementation of Striped where up to 2^k stripes can be represented, using an
+   * AtomicReferenceArray of size 2^k. To map a user key into a stripe, we take a k-bit slice of the
+   * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.
+   */
+  @VisibleForTesting static class SmallLazyStriped<L> extends PowerOfTwoStriped<L> {
+    final AtomicReferenceArray<ArrayReference<? extends L>> locks;
+    final Supplier<L> supplier;
+    final int size;
+    final ReferenceQueue<L> queue = new ReferenceQueue<L>();
+
+    SmallLazyStriped(int stripes, Supplier<L> supplier) {
+      super(stripes);
+      this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;
+      this.locks = new AtomicReferenceArray<ArrayReference<? extends L>>(size);
+      this.supplier = supplier;
+    }
+
+    @Override public L getAt(int index) {
+      if (size != Integer.MAX_VALUE) {
+        Preconditions.checkElementIndex(index, size());
+      } // else no check necessary, all index values are valid
+      ArrayReference<? extends L> existingRef = locks.get(index);
+      L existing = existingRef == null ? null : existingRef.get();
+      if (existing != null) {
+        return existing;
+      }
+      L created = supplier.get();
+      ArrayReference<L> newRef = new ArrayReference<L>(created, index, queue);
+      while (!locks.compareAndSet(index, existingRef, newRef)) {
+        // we raced, we need to re-read and try again
+        existingRef = locks.get(index);
+        existing = existingRef == null ? null : existingRef.get();
+        if (existing != null) {
+          return existing;
+        }
+      }
+      drainQueue();
+      return created;
+    }
+    
+    // N.B. Draining the queue is only necessary to ensure that we don't accumulate empty references
+    // in the array.  We could skip this if we decide we don't care about holding on to Reference
+    // objects indefinitely.
+    private void drainQueue() {
+      Reference<? extends L> ref;
+      while ((ref = queue.poll()) != null) {
+        // We only ever register ArrayReferences with the queue so this is always safe.
+        ArrayReference<? extends L> arrayRef = (ArrayReference<? extends L>) ref;
+        // Try to clear out the array slot, n.b. if we fail that is fine, in either case the
+        // arrayRef will be out of the array after this step.
+        locks.compareAndSet(arrayRef.index, arrayRef, null);
+      }
+    }
+
+    @Override public int size() {
+      return size;
+    }
+
+    private static final class ArrayReference<L> extends WeakReference<L> {
+      final int index;
+
+      ArrayReference(L referent, int index, ReferenceQueue<L> queue) {
+        super(referent, queue);
+        this.index = index;
+      }
+    }
+  }
+
+  /**
+   * Implementation of Striped where up to 2^k stripes can be represented, using a ConcurrentMap
    * where the key domain is [0..2^k). To map a user key into a stripe, we take a k-bit slice of the
    * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.
    */
-  private static class LazyStriped<L> extends PowerOfTwoStriped<L> {
+  @VisibleForTesting static class LargeLazyStriped<L> extends PowerOfTwoStriped<L> {
     final ConcurrentMap<Integer, L> locks;
     final Supplier<L> supplier;
     final int size;
 
-    LazyStriped(int stripes, Supplier<L> supplier) {
+    LargeLazyStriped(int stripes, Supplier<L> supplier) {
       super(stripes);
       this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;
       this.supplier = supplier;
