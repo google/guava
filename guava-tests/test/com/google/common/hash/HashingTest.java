@@ -17,6 +17,7 @@
 package com.google.common.hash;
 
 import static com.google.common.hash.Hashing.ConcatenatedHashFunction;
+import static com.google.common.hash.Hashing.goodFastHash;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
@@ -453,6 +454,36 @@ public class HashingTest extends TestCase {
     assertSeededHashFunctionEquals(Hashing.class);
   }
 
+  /**
+   * Tests equality of {@link Hashing#goodFastHash} instances. This test must be separate from
+   * {@link #testSeededHashFunctionEquals} because the parameter to {@code goodFastHash} is a size,
+   * not a seed, and because that size is rounded up. Thus, {@code goodFastHash} instances with
+   * different parameters can be equal. That fact is a problem for {@code
+   * testSeededHashFunctionEquals}.
+   */
+  public void testGoodFastHashEquals() throws Exception {
+    HashFunction hashFunction1a = goodFastHash(1);
+    HashFunction hashFunction1b = goodFastHash(32);
+    HashFunction hashFunction2a = goodFastHash(33);
+    HashFunction hashFunction2b = goodFastHash(128);
+    HashFunction hashFunction3a = goodFastHash(129);
+    HashFunction hashFunction3b = goodFastHash(256);
+    HashFunction hashFunction4a = goodFastHash(257);
+    HashFunction hashFunction4b = goodFastHash(384);
+
+    new EqualsTester()
+        .addEqualityGroup(hashFunction1a, hashFunction1b)
+        .addEqualityGroup(hashFunction2a, hashFunction2b)
+        .addEqualityGroup(hashFunction3a, hashFunction3b)
+        .addEqualityGroup(hashFunction4a, hashFunction4b)
+        .testEquals();
+
+    assertEquals(hashFunction1a.toString(), hashFunction1b.toString());
+    assertEquals(hashFunction2a.toString(), hashFunction2b.toString());
+    assertEquals(hashFunction3a.toString(), hashFunction3b.toString());
+    assertEquals(hashFunction4a.toString(), hashFunction4b.toString());
+  }
+
   static void assertSeedlessHashFunctionEquals(Class<?> clazz) throws Exception {
     for (Method method : clazz.getDeclaredMethods()) {
       if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
@@ -478,14 +509,14 @@ public class HashingTest extends TestCase {
     for (Method method : clazz.getDeclaredMethods()) {
       if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
           && Modifier.isPublic(method.getModifiers()) // only the public methods
-          && method.getParameterTypes().length != 0) { // only the seeded hash functions
+          && method.getParameterTypes().length != 0 // only the seeded hash functions
+          && !method.getName().equals("goodFastHash")) { // tested in testGoodFastHashEquals
         Object[] params1 = new Object[method.getParameterTypes().length];
         Object[] params2 = new Object[method.getParameterTypes().length];
         for (int i = 0; i < params1.length; i++) {
           if (method.getParameterTypes()[i] == int.class) {
-            // These have to be positive because Hashing#goodFastHash needs a positive (bit) value
-            params1[i] = random.nextInt(1000) + 1;
-            params2[i] = random.nextInt(1000) + 1;
+            params1[i] = random.nextInt();
+            params2[i] = random.nextInt();
           } else if (method.getParameterTypes()[i] == long.class) {
             params1[i] = random.nextLong();
             params2[i] = random.nextLong();
