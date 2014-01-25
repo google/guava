@@ -844,7 +844,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     public V get(Object k) {
       K key = (K) k;
       V value = compute(key);
-      checkNotNull(value, computingFunction + " returned null for key " + key + ".");
+      checkNotNull(value, "%s returned null for key %s.", computingFunction, key);
       notifyRemoval(key, value);
       return value;
     }
