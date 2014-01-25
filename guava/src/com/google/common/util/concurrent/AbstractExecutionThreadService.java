@@ -39,7 +39,7 @@ import java.util.logging.Logger;
 public abstract class AbstractExecutionThreadService implements Service {
   private static final Logger logger = Logger.getLogger(
       AbstractExecutionThreadService.class.getName());
-
+  
   /* use AbstractService for state management */
   private final Service delegate = new AbstractService() {
     @Override protected final void doStart() {
@@ -62,7 +62,7 @@ public abstract class AbstractExecutionThreadService implements Service {
                 try {
                   shutDown();
                 } catch (Exception ignored) {
-                  logger.log(Level.WARNING,
+                  logger.log(Level.WARNING, 
                       "Error while attempting to shut down the service"
                       + " after failure.", ignored);
                 }
@@ -92,7 +92,7 @@ public abstract class AbstractExecutionThreadService implements Service {
 
   /**
    * Start the service. This method is invoked on the execution thread.
-   *
+   * 
    * <p>By default this method does nothing.
    */
   protected void startUp() throws Exception {}
@@ -115,7 +115,7 @@ public abstract class AbstractExecutionThreadService implements Service {
 
   /**
    * Stop the service. This method is invoked on the execution thread.
-   *
+   * 
    * <p>By default this method does nothing.
    */
   // TODO: consider supporting a TearDownTestCase-like API
@@ -123,7 +123,7 @@ public abstract class AbstractExecutionThreadService implements Service {
 
   /**
    * Invoked to request the service to stop.
-   *
+   * 
    * <p>By default this method does nothing.
    */
   protected void triggerShutdown() {}
@@ -135,8 +135,8 @@ public abstract class AbstractExecutionThreadService implements Service {
    * priority. The returned executor's {@link Executor#execute(Runnable)
    * execute()} method is called when this service is started, and should return
    * promptly.
-   *
-   * <p>The default implementation returns a new {@link Executor} that sets the
+   * 
+   * <p>The default implementation returns a new {@link Executor} that sets the 
    * name of its threads to the string returned by {@link #serviceName}
    */
   protected Executor executor() {
@@ -152,20 +152,6 @@ public abstract class AbstractExecutionThreadService implements Service {
     return serviceName() + " [" + state() + "]";
   }
 
-  // We override instead of using ForwardingService so that these can be final.
-
-  @Deprecated
-  @Override
-  public final ListenableFuture<State> start() {
-    return delegate.start();
-  }
-
-  @Deprecated
-  @Override
-   public final State startAndWait() {
-    return delegate.startAndWait();
-  }
-
   @Override public final boolean isRunning() {
     return delegate.isRunning();
   }
@@ -174,32 +160,20 @@ public abstract class AbstractExecutionThreadService implements Service {
     return delegate.state();
   }
 
-  @Deprecated
-  @Override
-   public final ListenableFuture<State> stop() {
-    return delegate.stop();
-  }
-
-  @Deprecated
-  @Override
-   public final State stopAndWait() {
-    return delegate.stopAndWait();
-  }
-
   /**
    * @since 13.0
    */
   @Override public final void addListener(Listener listener, Executor executor) {
     delegate.addListener(listener, executor);
   }
-
+  
   /**
    * @since 14.0
    */
   @Override public final Throwable failureCause() {
     return delegate.failureCause();
   }
-
+  
   /**
    * @since 15.0
    */
@@ -207,7 +181,7 @@ public abstract class AbstractExecutionThreadService implements Service {
     delegate.startAsync();
     return this;
   }
-
+  
   /**
    * @since 15.0
    */
@@ -215,35 +189,35 @@ public abstract class AbstractExecutionThreadService implements Service {
     delegate.stopAsync();
     return this;
   }
-
+  
   /**
    * @since 15.0
    */
   @Override public final void awaitRunning() {
     delegate.awaitRunning();
   }
-
+  
   /**
    * @since 15.0
    */
   @Override public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
     delegate.awaitRunning(timeout, unit);
   }
-
+  
   /**
    * @since 15.0
    */
   @Override public final void awaitTerminated() {
     delegate.awaitTerminated();
   }
-
+  
   /**
    * @since 15.0
    */
   @Override public final void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {
     delegate.awaitTerminated(timeout, unit);
   }
-
+  
   /**
    * Returns the name of this service. {@link AbstractExecutionThreadService}
    * may include the name in debugging output.
