@@ -22,8 +22,11 @@ import com.google.caliper.Param;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Provides supporting data for performance notes in the documentation of {@link
@@ -48,12 +51,7 @@ public class SortedCopyBenchmark {
       @Override void arrange(List<Integer> list) {
         Collections.sort(list);
         if (list.size() > 1) {
-          // Start looking in the middle, for the heck of it
           int i = (list.size() - 1) / 2;
-          // Find two that are different - it would be extraordinarily unlikely not to
-          while (list.get(i).equals(list.get(i + 1))) {
-            i++;
-          }
           Collections.swap(list, i, i + 1);
         }
       }
@@ -70,14 +68,15 @@ public class SortedCopyBenchmark {
   @BeforeExperiment
   void setUp() {
     checkArgument(size > 0, "empty collection not supported");
-    List<Integer> temp = new ArrayList<Integer>(size);
+    Set<Integer> set = new LinkedHashSet<Integer>(size);
 
     Random random = new Random();
-    while (temp.size() < size) {
-      temp.add(random.nextInt());
+    while (set.size() < size) {
+      set.add(random.nextInt());
     }
-    inputOrder.arrange(temp);
-    input = ImmutableList.copyOf(temp);
+    List<Integer> list = new ArrayList<Integer>(set);
+    inputOrder.arrange(list);
+    input = ImmutableList.copyOf(list);
   }
 
   @Benchmark
@@ -110,6 +109,21 @@ public class SortedCopyBenchmark {
     } else {
       for (int i = 0; i < reps; i++) {
         dummy += ORDERING.immutableSortedCopy(input).get(0);
+      }
+    }
+    return dummy;
+  }
+
+  @Benchmark
+  int sortedSet(int reps) {
+    int dummy = 0;
+    if (mutable) {
+      for (int i = 0; i < reps; i++) {
+        dummy += new TreeSet<Integer>(input).first();
+      }
+    } else {
+      for (int i = 0; i < reps; i++) {
+        dummy += ImmutableSortedSet.copyOf(input).first();
       }
     }
     return dummy;
