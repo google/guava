@@ -228,6 +228,15 @@ public final class MediaType {
   public static final MediaType ATOM_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "atom+xml");
   public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
   /**
+   * Media type for <a href="http://en.wikipedia.org/wiki/Embedded_OpenType">Embedded OpenType</a>
+   * fonts. This is
+   * <a href="http://www.iana.org/assignments/media-types/application/vnd.ms-fontobject">registered
+   * </a> with the IANA.
+   *
+   * @since 17.0
+   */
+  public static final MediaType EOT = createConstant(APPLICATION_TYPE, "vnd.ms-fontobject");
+  /**
    * As described in the <a href="http://idpf.org/epub">International Digital Publishing Forum</a>
    * EPUB is the distribution and interchange format standard for digital publications and
    * documents. This media type is defined in the
@@ -301,10 +310,30 @@ public final class MediaType {
   public static final MediaType PROTOBUF = createConstant(APPLICATION_TYPE, "protobuf");
   public static final MediaType RDF_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rdf+xml");
   public static final MediaType RTF_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rtf");
+  /**
+   * Media type for SFNT fonts (which includes
+   * <a href="http://en.wikipedia.org/wiki/TrueType/">TrueType</a> and
+   * <a href="http://en.wikipedia.org/wiki/OpenType/">OpenType</a> fonts). This is
+   * <a href="http://www.iana.org/assignments/media-types/application/font-sfnt">registered</a>
+   * with the IANA.
+   *
+   * @since 17.0
+   */
+  public static final MediaType SFNT = createConstant(APPLICATION_TYPE, "font-sfnt");
   public static final MediaType SHOCKWAVE_FLASH = createConstant(APPLICATION_TYPE,
       "x-shockwave-flash");
   public static final MediaType SKETCHUP = createConstant(APPLICATION_TYPE, "vnd.sketchup.skp");
   public static final MediaType TAR = createConstant(APPLICATION_TYPE, "x-tar");
+  /**
+   * Media type for the
+   * <a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font Format</a> (WOFF)
+   * <a href="http://www.w3.org/TR/WOFF/">defined</a> by the W3C. This is
+   * <a href="http://www.iana.org/assignments/media-types/application/font-woff">registered</a>
+   * with the IANA.
+   *
+   * @since 17.0
+   */
+  public static final MediaType WOFF = createConstant(APPLICATION_TYPE, "font-woff");
   public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");
   /**
    * Media type for Extensible Resource Descriptors. This is not yet registered with the IANA, but
