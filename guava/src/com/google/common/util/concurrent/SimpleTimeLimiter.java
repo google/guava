@@ -86,7 +86,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     checkNotNull(target);
     checkNotNull(interfaceType);
     checkNotNull(timeoutUnit);
-    checkArgument(timeoutDuration > 0, "bad timeout: " + timeoutDuration);
+    checkArgument(timeoutDuration > 0, "bad timeout: %s", timeoutDuration);
     checkArgument(interfaceType.isInterface(),
         "interfaceType must be an interface type");
 
