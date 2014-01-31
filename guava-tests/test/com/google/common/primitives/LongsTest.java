@@ -464,6 +464,7 @@ public class LongsTest extends TestCase {
         Longs.tryParse(BigInteger.valueOf(MAX_VALUE).add(BigInteger.ONE).toString()));
     assertNull("Min integer - 1",
         Longs.tryParse(BigInteger.valueOf(MIN_VALUE).subtract(BigInteger.ONE).toString()));
+    assertNull(Longs.tryParse("\u0662\u06f3"));
   }
 
   /**

@@ -320,6 +320,8 @@ public final class Longs {
    *
    * <p>Unlike {@link Long#parseLong(String)}, this method returns
    * {@code null} instead of throwing an exception if parsing fails.
+   * Additionally, this method only accepts ASCII digits, and returns
+   * {@code null} if non-ASCII digits are present in the string.
    *
    * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even
    * under JDK 7, despite the change to {@link Long#parseLong(String)} for
