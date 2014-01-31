@@ -481,6 +481,7 @@ public class IntsTest extends TestCase {
         Ints.tryParse(Long.toString(((long) GREATEST) + 1)));
     assertNull("Min integer - 1",
         Ints.tryParse(Long.toString(((long) LEAST) - 1)));
+    assertNull(Ints.tryParse("\u0662\u06f3"));
   }
 
   /**

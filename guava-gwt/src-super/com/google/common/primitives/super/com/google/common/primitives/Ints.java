@@ -27,6 +27,7 @@ import com.google.common.base.Converter;
 
 import java.io.Serializable;
 import java.util.AbstractList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -580,6 +581,23 @@ public final class Ints {
     }
 
     private static final long serialVersionUID = 0;
+  }
+  
+  private static final byte[] asciiDigits = new byte[128];
+  
+  static {
+    Arrays.fill(asciiDigits, (byte) -1);
+    for (int i = 0; i <= 9; i++) {
+      asciiDigits['0' + i] = (byte) i;
+    }
+    for (int i = 0; i <= 26; i++) {
+      asciiDigits['A' + i] = (byte) (10 + i);
+      asciiDigits['a' + i] = (byte) (10 + i);
+    }
+  }
+  
+  private static int digit(char c) {
+    return (c < 128) ? asciiDigits[c] : -1;
   }
 }
 
