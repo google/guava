@@ -706,7 +706,7 @@ public final class Ints {
   @CheckForNull
   @GwtIncompatible("TODO") static Integer tryParse(
       String string, int radix) {
-    if (checkNotNull(string).isEmpty()) {
+    if (checkNotNull(string).length() == 0) {
       return null;
     }
     if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
