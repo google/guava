@@ -113,7 +113,7 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
     Class<?> sepStopwatchC = sepLoader.loadClass(Stopwatch.class.getName());
     assertSame(sepLoader, sepStopwatchC.getClassLoader());
     AtomicReference<Object> sepStopwatchA =
-        new AtomicReference<Object>(sepStopwatchC.newInstance());
+        new AtomicReference<Object>(sepStopwatchC.getMethod("createUnstarted").invoke(null));
     AtomicReference<WeakReference<?>> sepStopwatchRef = new AtomicReference<WeakReference<?>>(
         (WeakReference<?>) sepFwrCons.newInstance(sepStopwatchA.get(), sepFrqA.get()));
     assertNotNull(sepStopwatchA.get());

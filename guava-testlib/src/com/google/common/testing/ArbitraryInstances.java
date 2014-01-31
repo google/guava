@@ -28,6 +28,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
+import com.google.common.base.Stopwatch;
 import com.google.common.base.Ticker;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ClassToInstanceMap;
@@ -185,6 +186,7 @@ public final class ArbitraryInstances {
       .put(Predicate.class, Predicates.alwaysTrue())
       .put(Equivalence.class, Equivalence.equals())
       .put(Ticker.class, Ticker.systemTicker())
+      .put(Stopwatch.class, Stopwatch.createUnstarted())
       // io types
       .put(InputStream.class, new ByteArrayInputStream(new byte[0]))
       .put(ByteArrayInputStream.class, new ByteArrayInputStream(new byte[0]))
