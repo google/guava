@@ -144,7 +144,7 @@ final class Types {
    * Returns a new {@link TypeVariable} that belongs to {@code declaration} with
    * {@code name} and {@code bounds}.
    */
-  static <D extends GenericDeclaration> TypeVariable<D> newTypeVariable(
+  static <D extends GenericDeclaration> TypeVariable<D> newArtificialTypeVariable(
       D declaration, String name, Type... bounds) {
     return new TypeVariableImpl<D>(
         declaration,
@@ -349,12 +349,22 @@ final class Types {
     }
 
     @Override public boolean equals(Object obj) {
-      if (obj instanceof TypeVariable) {
-        TypeVariable<?> that = (TypeVariable<?>) obj;
-        return name.equals(that.getName())
-            && genericDeclaration.equals(that.getGenericDeclaration());
+      if (NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY) {
+        if (obj instanceof TypeVariableImpl) {
+          TypeVariableImpl<?> that = (TypeVariableImpl<?>) obj;
+          return name.equals(that.getName())
+              && genericDeclaration.equals(that.getGenericDeclaration())
+              && bounds.equals(that.bounds);
+        }
+        return false;
+      } else {
+        if (obj instanceof TypeVariable) {
+          TypeVariable<?> that = (TypeVariable<?>) obj;
+          return name.equals(that.getName())
+              && genericDeclaration.equals(that.getGenericDeclaration());
+        }
+        return false;
       }
-      return false;
     }
   }
 
@@ -477,6 +487,22 @@ final class Types {
       }
       return builder.build();
     }
+  }
+
+  /**
+   * Per https://code.google.com/p/guava-libraries/issues/detail?id=1635,
+   * In JDK 1.7.0_51-b13, TypeVariableImpl.equals() is changed to no longer be equal to custom
+   * TypeVariable implementations. As a result, we need to make sure our TypeVariable implementation
+   * respects symmetry.
+   * Moreoever, we don't want to reconstruct a native type variable <A> using our implementation
+   * unless some of its bounds have changed in resolution. This avoids creating inequal TypeVariable
+   * implementation unnecessarily. When the bounds do change however, it's fine for the synthetic
+   * TypeVariable to be unequal to any native TypeVariable anyway.
+   */
+  static class NativeTypeVariableEquals<X> {
+    static final boolean NATIVE_TYPE_VARIABLE_ONLY =
+        !NativeTypeVariableEquals.class.getTypeParameters()[0].equals(
+            newArtificialTypeVariable(NativeTypeVariableEquals.class, "X"));
   }
 
   private Types() {}
