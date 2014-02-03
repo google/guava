@@ -544,4 +544,20 @@ public class TypeTokenResolutionTest extends TestCase {
       throw new RuntimeException(e);
     }
   }
+
+  public void testTwoStageResolution() {
+    class ForTwoStageResolution<A extends Number> {
+      <B extends A> void verifyTwoStageResolution() {
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        Type type = new TypeToken<B>(getClass()) {}
+            // B's bound may have already resolved to something.
+            // Make sure it can still further resolve when given a context.
+            .where(new TypeParameter<B>() {}, (Class) Integer.class)
+            .getType();
+        assertEquals(Integer.class, type);
+      }
+    }
+    new ForTwoStageResolution<Integer>().verifyTwoStageResolution();
+    new ForTwoStageResolution<Integer>() {}.verifyTwoStageResolution();
+  }
 }
