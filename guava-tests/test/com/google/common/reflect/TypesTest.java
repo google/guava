@@ -19,6 +19,7 @@ package com.google.common.reflect;
 import static java.util.Arrays.asList;
 import static org.truth0.Truth.ASSERT;
 
+import com.google.common.collect.Lists;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.NullPointerTester.Visibility;
@@ -311,33 +312,49 @@ public class TypesTest extends TestCase {
     assertEqualTypeVariable(objectBoundJvmType, objectBound);
     assertEqualTypeVariable(upperBoundJvmType, upperBound);
 
-    new EqualsTester()
+    new TypeVariableEqualsTester()
         .addEqualityGroup(noBoundJvmType, noBound)
         .addEqualityGroup(objectBoundJvmType, objectBound)
-        .addEqualityGroup(
-            upperBoundJvmType, upperBound,
-            withBounds(upperBoundJvmType, CharSequence.class)) // bounds ignored
+        .addEqualityGroup(upperBoundJvmType, upperBound)
         .testEquals();
   }
 
   public void testNewTypeVariable_primitiveTypeBound() {
     try {
-      Types.newTypeVariable(List.class, "E", int.class);
+      Types.newArtificialTypeVariable(List.class, "E", int.class);
       fail();
     } catch (IllegalArgumentException expected) {}
   }
 
   public void testNewTypeVariable_serializable() throws Exception {
     try {
-      SerializableTester.reserialize(Types.newTypeVariable(List.class, "E"));
+      SerializableTester.reserialize(Types.newArtificialTypeVariable(List.class, "E"));
       fail();
     } catch (RuntimeException expected) {}
   }
 
   private static <D extends GenericDeclaration> TypeVariable<D> withBounds(
       TypeVariable<D> typeVariable, Type... bounds) {
-    return Types.newTypeVariable(
+    return Types.newArtificialTypeVariable(
         typeVariable.getGenericDeclaration(), typeVariable.getName(), bounds);
+  }
+
+  private static class TypeVariableEqualsTester {
+    private final EqualsTester tester = new EqualsTester();
+
+    TypeVariableEqualsTester addEqualityGroup(Type jvmType, Type... types) {
+      if (Types.NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY) {
+        tester.addEqualityGroup(jvmType);
+        tester.addEqualityGroup((Object[]) types);
+      } else {
+        tester.addEqualityGroup(Lists.asList(jvmType, types).toArray());
+      }
+      return this;
+    }
+
+    void testEquals() {
+      tester.testEquals();
+    }
   }
 
   private static void assertEqualTypeVariable(
@@ -346,7 +363,9 @@ public class TypesTest extends TestCase {
     assertEquals(expected.getName(), actual.getName());
     assertEquals(
         expected.getGenericDeclaration(), actual.getGenericDeclaration());
-    assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
+    if (!Types.NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY) {
+      assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
+    }
     ASSERT.that(actual.getBounds()).has().exactlyAs(asList(expected.getBounds())).inOrder();
   }
 
