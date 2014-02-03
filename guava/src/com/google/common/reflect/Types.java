@@ -350,6 +350,7 @@ final class Types {
 
     @Override public boolean equals(Object obj) {
       if (NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY) {
+        // equal only to our TypeVariable implementation with identical bounds
         if (obj instanceof TypeVariableImpl) {
           TypeVariableImpl<?> that = (TypeVariableImpl<?>) obj;
           return name.equals(that.getName())
@@ -358,6 +359,7 @@ final class Types {
         }
         return false;
       } else {
+        // equal to any TypeVariable implementation regardless of bounds
         if (obj instanceof TypeVariable) {
           TypeVariable<?> that = (TypeVariable<?>) obj;
           return name.equals(that.getName())
@@ -494,12 +496,12 @@ final class Types {
    * In JDK 1.7.0_51-b13, TypeVariableImpl.equals() is changed to no longer be equal to custom
    * TypeVariable implementations. As a result, we need to make sure our TypeVariable implementation
    * respects symmetry.
-   * Moreoever, we don't want to reconstruct a native type variable <A> using our implementation
-   * unless some of its bounds have changed in resolution. This avoids creating inequal TypeVariable
-   * implementation unnecessarily. When the bounds do change however, it's fine for the synthetic
+   * Moreover, we don't want to reconstruct a native type variable <A> using our implementation
+   * unless some of its bounds have changed in resolution. This avoids creating unequal TypeVariable
+   * implementation unnecessarily. When the bounds do change, however, it's fine for the synthetic
    * TypeVariable to be unequal to any native TypeVariable anyway.
    */
-  static class NativeTypeVariableEquals<X> {
+  static final class NativeTypeVariableEquals<X> {
     static final boolean NATIVE_TYPE_VARIABLE_ONLY =
         !NativeTypeVariableEquals.class.getTypeParameters()[0].equals(
             newArtificialTypeVariable(NativeTypeVariableEquals.class, "X"));
