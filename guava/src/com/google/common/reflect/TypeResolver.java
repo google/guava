@@ -265,15 +265,34 @@ public final class TypeResolver {
           return var;
         }
         Type[] resolvedBounds = new TypeResolver(forDependants).resolveTypes(bounds);
-        // Starting from JDK 7u51, JDK built-in TypeVariable implementations aren't equal to custom
-        // implementations any more. So if a type variable isn't changed during resolution, we avoid
-        // constructing custom TypeVariable implementation.
-        // Only do this shortcut under the new JDK behavior. It doesn't work under the current (old)
-        // JDK behavior because currently <T extends B> and <T extends String> are considered equal
-        // when B resolves to String.
-        // That means even when the bounds compare equal, they may still have resolved to some
-        // different types.
-        // In the new JDK, this shortcut works fine.
+        /*
+         * We'd like to simply create our own TypeVariable with the newly resolved bounds. There's
+         * just one problem: Starting with JDK 7u51, the JDK TypeVariable's equals() method doesn't
+         * recognize instances of our TypeVariable implementation. This is a problem because users
+         * compare TypeVariables from the JDK against TypeVariables returned by TypeResolver. To
+         * work with all JDK versions, TypeResolver must return the appropriate TypeVariable
+         * implementation in each of the three possible cases:
+         *
+         * 1. Prior to JDK 7u51, the JDK TypeVariable implementation interoperates with ours.
+         * Therefore, we can always create our own TypeVariable.
+         *
+         * 2. Starting with JDK 7u51, the JDK TypeVariable implementations does not interoperate
+         * with ours. Therefore, we have to be careful about whether we create our own TypeVariable:
+         *
+         * 2a. If the resolved types are identical to the original types, then we can return the
+         * original, identical JDK TypeVariable. By doing so, we sidestep the problem entirely.
+         *
+         * 2b. If the resolved types are different from the original types, things are trickier. The
+         * only way to get a TypeVariable instance for the resolved types is to create our own. The
+         * created TypeVariable will not interoperate with any JDK TypeVariable. But this is OK: We
+         * don't _want_ our new TypeVariable to be equal to the JDK TypeVariable because it has
+         * _different bounds_ than the JDK TypeVariable. And it wouldn't make sense for our new
+         * TypeVariable to be equal to any _other_ JDK TypeVariable, either, because any other JDK
+         * TypeVariable must have a different declaration or name. The only TypeVariable that our
+         * new TypeVariable _will_ be equal to is an equivalent TypeVariable that was also created
+         * by us. And that equality is guaranteed to hold because it doesn't involve the JDK
+         * TypeVariable implementation at all.
+         */
         if (Types.NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY
             && Arrays.equals(bounds, resolvedBounds)) {
           return var;
@@ -455,10 +474,10 @@ public final class TypeResolver {
 
     /** Wraps {@code t} in a {@code TypeVariableKey} if it's a type variable. */
     static Object forLookup(Type t) {
-      if (t instanceof TypeVariable<?>) {
+      if (t instanceof TypeVariable) {
         return new TypeVariableKey((TypeVariable<?>) t);
       } else {
-        return t;
+        return null;
       }
     }
 
@@ -467,7 +486,7 @@ public final class TypeResolver {
      * the same {@code GenericDeclaration}.
      */
     boolean equalsType(Type type) {
-      if (type instanceof TypeVariable<?>) {
+      if (type instanceof TypeVariable) {
         return equalsTypeVariable((TypeVariable<?>) type);
       } else {
         return false;
