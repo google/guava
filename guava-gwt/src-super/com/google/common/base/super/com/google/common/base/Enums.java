@@ -51,7 +51,8 @@ public final class Enums {
    *     scheduled for removal in Guava 18.0.
    */
   @Deprecated
-  public static <T extends Enum<T>> Function<String, T> valueOfFunction(Class<T> enumClass) {
+  public static <T extends Enum<T>> Function<String, T> valueOfFunction(
+      Class<T> enumClass) {
     return new ValueOfFunction<T>(enumClass);
   }
 
@@ -163,4 +164,3 @@ public final class Enums {
     private static final long serialVersionUID = 0L;
   }
 }
-
