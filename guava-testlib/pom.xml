@@ -59,6 +59,10 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
     </plugins>
