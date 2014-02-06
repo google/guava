@@ -39,6 +39,7 @@ public final class Charsets {
 
   /**
    * UTF-8: eight-bit UCS Transformation Format.
+   *
    */
   public static final Charset UTF_8 = Charset.forName("UTF-8");
 
@@ -49,4 +50,3 @@ public final class Charsets {
    * Javadocs for the list of built-in character encodings.
    */
 }
-
