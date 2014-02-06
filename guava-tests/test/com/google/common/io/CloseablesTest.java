@@ -24,8 +24,11 @@ import static org.easymock.EasyMock.verify;
 
 import junit.framework.TestCase;
 
+import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
 
 /**
  * Unit tests for {@link Closeables}.
@@ -64,9 +67,30 @@ public class CloseablesTest extends TestCase {
     doClose(mockCloseable, false);
   }
 
+  public void testCloseQuietly_inputStreamWithEatenException() throws IOException {
+    TestInputStream in = new TestInputStream(
+        new ByteArrayInputStream(new byte[1]), TestOption.CLOSE_THROWS);
+    Closeables.closeQuietly(in);
+    assertTrue(in.closed());
+  }
+
+  public void testCloseQuietly_readerWithEatenException() throws IOException {
+    TestReader in = new TestReader(TestOption.CLOSE_THROWS);
+    Closeables.closeQuietly(in);
+    assertTrue(in.closed());
+  }
+
   public void testCloseNull() throws IOException {
     Closeables.close(null, true);
     Closeables.close(null, false);
+  }
+
+  public void testCloseQuietlyNull_inputStream() {
+    Closeables.closeQuietly((InputStream) null);
+  }
+
+  public void testCloseQuietlyNull_reader() {
+    Closeables.closeQuietly((Reader) null);
   }
 
   @Override protected void setUp() throws Exception {
