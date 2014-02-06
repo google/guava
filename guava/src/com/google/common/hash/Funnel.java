@@ -30,8 +30,8 @@ import java.io.Serializable;
  *   public enum PersonFunnel implements Funnel<Person> {
  *     INSTANCE;
  *     public void funnel(Person person, PrimitiveSink into) {
- *       into.putString(person.getFirstName())
- *           .putString(person.getLastName())
+ *       into.putUnencodedChars(person.getFirstName())
+ *           .putUnencodedChars(person.getLastName())
  *           .putInt(person.getAge());
  *     }
  *   }}</pre>
