@@ -647,8 +647,10 @@ public final class Files {
   }
 
   /**
-   * Moves the file from one path to another. This method can rename a file or
-   * move it to a different directory, like the Unix {@code mv} command.
+   * Moves a file from one path to another. This method can rename a file
+   * and/or move it to a different directory. In either case {@code to} must
+   * be the target path for the file itself; not just the new name for the
+   * file or the path to the new parent directory.
    *
    * @param from the source file
    * @param to the destination file
