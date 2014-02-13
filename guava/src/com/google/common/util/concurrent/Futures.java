@@ -859,7 +859,8 @@ public final class Futures {
         }
 
         final ListenableFuture<? extends O> outputFuture = this.outputFuture =
-            function.apply(sourceResult);
+            Preconditions.checkNotNull(function.apply(sourceResult),
+                "AsyncFunction may not return null.");
         if (isCancelled()) {
           outputFuture.cancel(wasInterrupted());
           this.outputFuture = null;
