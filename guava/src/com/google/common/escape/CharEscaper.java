@@ -101,10 +101,11 @@ public abstract class CharEscaper extends Escaper {
       int charsSkipped = index - lastEscape;
 
       // This is the size needed to add the replacement, not the full size
-      // needed by the string. We only regrow when we absolutely must.
+      // needed by the string. We only regrow when we absolutely must, and
+      // when we do grow, grow enough to avoid excessive growing. Grow.
       int sizeNeeded = destIndex + charsSkipped + rlen;
       if (destSize < sizeNeeded) {
-        destSize = sizeNeeded + (slen - index) + DEST_PAD;
+        destSize = sizeNeeded + DEST_PAD_MULTIPLIER * (slen - index);
         dest = growBuffer(dest, destIndex, destSize);
       }
 
@@ -167,7 +168,7 @@ public abstract class CharEscaper extends Escaper {
   }
 
   /**
-   * The amount of padding to use when growing the escape buffer.
+   * The multiplier for padding to use when growing the escape buffer.
    */
-  private static final int DEST_PAD = 32;
+  private static final int DEST_PAD_MULTIPLIER = 2;
 }
