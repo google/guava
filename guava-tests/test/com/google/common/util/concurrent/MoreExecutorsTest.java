@@ -33,8 +33,11 @@ import static com.google.common.util.concurrent.MoreExecutors.invokeAnyImpl;
 import static com.google.common.util.concurrent.MoreExecutors.listeningDecorator;
 import static com.google.common.util.concurrent.MoreExecutors.renamingDecorator;
 import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
+import static com.google.common.util.concurrent.MoreExecutors.shutdownAndAwaitTermination;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.truth0.Truth.ASSERT;
@@ -68,6 +71,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -620,5 +624,70 @@ public class MoreExecutorsTest extends JSR166TestCase {
         hook.join();
       }
     }
+  }
+
+  /* Half of a 1-second timeout in nanoseconds */
+  private static final long HALF_SECOND_NANOS = NANOSECONDS.convert(1L, SECONDS) / 2;
+
+  public void testShutdownAndAwaitTermination_immediateShutdown() throws Exception {
+    ExecutorService service = Executors.newSingleThreadExecutor();
+    assertTrue(shutdownAndAwaitTermination(service, 1L, SECONDS));
+    assertTrue(service.isTerminated());
+  }
+
+  public void testShutdownAndAwaitTermination_immediateShutdownInternal() throws Exception {
+    ExecutorService service = mock(ExecutorService.class);
+    when(service.awaitTermination(HALF_SECOND_NANOS, NANOSECONDS)).thenReturn(true);
+    when(service.isTerminated()).thenReturn(true);
+    assertTrue(shutdownAndAwaitTermination(service, 1L, SECONDS));
+    verify(service).shutdown();
+    verify(service).awaitTermination(HALF_SECOND_NANOS, NANOSECONDS);
+  }
+
+  public void testShutdownAndAwaitTermination_forcedShutDownInternal() throws Exception {
+    ExecutorService service = mock(ExecutorService.class);
+    when(service.awaitTermination(HALF_SECOND_NANOS, NANOSECONDS))
+        .thenReturn(false).thenReturn(true);
+    when(service.isTerminated()).thenReturn(true);
+    assertTrue(shutdownAndAwaitTermination(service, 1L, SECONDS));
+    verify(service).shutdown();
+    verify(service, times(2)).awaitTermination(HALF_SECOND_NANOS, NANOSECONDS);
+    verify(service).shutdownNow();
+  }
+
+  public void testShutdownAndAwaitTermination_nonTerminationInternal() throws Exception {
+    ExecutorService service = mock(ExecutorService.class);
+    when(service.awaitTermination(HALF_SECOND_NANOS, NANOSECONDS))
+        .thenReturn(false).thenReturn(false);
+    assertFalse(shutdownAndAwaitTermination(service, 1L, SECONDS));
+    verify(service).shutdown();
+    verify(service, times(2)).awaitTermination(HALF_SECOND_NANOS, NANOSECONDS);
+    verify(service).shutdownNow();
+  }
+
+  public void testShutdownAndAwaitTermination_interruptedInternal() throws Exception {
+    final ExecutorService service = mock(ExecutorService.class);
+    when(service.awaitTermination(HALF_SECOND_NANOS, NANOSECONDS))
+        .thenThrow(new InterruptedException());
+
+    final AtomicBoolean terminated = new AtomicBoolean();
+    // we need to keep this in a flag because t.isInterrupted() returns false after t.join()
+    final AtomicBoolean interrupted = new AtomicBoolean();
+    // we need to use another thread because it will be interrupted and thus using
+    // the current one, owned by JUnit, would make the test fail
+    Thread thread = new Thread(new Runnable() {
+      @Override
+      public void run() {
+        terminated.set(shutdownAndAwaitTermination(service, 1L, SECONDS));
+        interrupted.set(Thread.currentThread().isInterrupted());
+      }
+    });
+    thread.start();
+    thread.join();
+    verify(service).shutdown();
+    verify(service).awaitTermination(HALF_SECOND_NANOS, NANOSECONDS);
+    verify(service).shutdownNow();
+    assertTrue(interrupted.get());
+    assertFalse(terminated.get());
   }
 }

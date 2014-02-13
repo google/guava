@@ -841,4 +841,52 @@ public final class MoreExecutors {
       }
     };
   }
+
+  /**
+   * Shuts down the given executor gradually, first disabling new submissions and later cancelling
+   * existing tasks.
+   *
+   * <p>The method takes the following steps:
+   * <ol>
+   *  <li>calls {@link ExecutorService#shutdown()}, disabling acceptance of new submitted tasks.
+   *  <li>waits for half of the specified timeout.
+   *  <li>if the timeout expires, it calls {@link ExecutorService#shutdownNow()}, cancelling
+   *  pending tasks and interrupting running tasks.
+   *  <li>waits for the other half of the specified timeout.
+   * </ol>
+   *
+   * <p>If, at any step of the process, the given executor is terminated or the calling thread is
+   * interrupted, the method may return without executing any remaining steps.
+   *
+   * @param service the {@code ExecutorService} to shut down
+   * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
+   * @param unit the time unit of the timeout argument
+   * @return {@code true) if the pool was terminated successfully, {@code false} if the
+   *     {@code ExecutorService} could not terminate <b>or</b> the thread running this method
+   *     is interrupted while waiting for the {@code ExecutorService} to terminate
+   * @since 17.0
+   */
+  @Beta
+  public static boolean shutdownAndAwaitTermination(
+      ExecutorService service, long timeout, TimeUnit unit) {
+    checkNotNull(unit);
+    // Disable new tasks from being submitted
+    service.shutdown();
+    try {
+      long halfTimeoutNanos = TimeUnit.NANOSECONDS.convert(timeout, unit) / 2;
+      // Wait for half the duration of the timeout for existing tasks to terminate
+      if (!service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS)) {
+        // Cancel currently executing tasks
+        service.shutdownNow();
+        // Wait the other half of the timeout for tasks to respond to being cancelled
+        service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS);
+      }
+    } catch (InterruptedException ie) {
+      // Preserve interrupt status
+      Thread.currentThread().interrupt();
+      // (Re-)Cancel if current thread also interrupted
+      service.shutdownNow();
+    }
+    return service.isTerminated();
+  }
 }
