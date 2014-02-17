@@ -615,7 +615,7 @@ public final class MediaType {
       }
       return create(type, subtype, parameters.build());
     } catch (IllegalStateException e) {
-      throw new IllegalArgumentException(e);
+      throw new IllegalArgumentException("Could not parse '" + input + "'", e);
     }
   }
 
