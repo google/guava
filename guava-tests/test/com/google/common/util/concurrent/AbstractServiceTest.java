@@ -43,6 +43,7 @@ import javax.annotation.concurrent.GuardedBy;
  */
 public class AbstractServiceTest extends TestCase {
 
+  private static final long LONG_TIMEOUT_MILLIS = 2500;
   private Thread executionThread;
   private Throwable thrownByExecutionThread;
 
@@ -353,7 +354,7 @@ public class AbstractServiceTest extends TestCase {
     service.startAsync().awaitRunning();
     assertEquals(State.RUNNING, service.state());
     service.stopAsync();
-    waiter.join(100);  // ensure that the await in the other thread is triggered
+    waiter.join(LONG_TIMEOUT_MILLIS);  // ensure that the await in the other thread is triggered
     assertFalse(waiter.isAlive());
   }
 
@@ -376,7 +377,7 @@ public class AbstractServiceTest extends TestCase {
     assertEquals(State.RUNNING, service.state());
     service.notifyFailed(EXCEPTION);
     assertEquals(State.FAILED, service.state());
-    waiter.join(100);
+    waiter.join(LONG_TIMEOUT_MILLIS);
     assertFalse(waiter.isAlive());
     assertTrue(exception.get() instanceof IllegalStateException);
     assertEquals(EXCEPTION, exception.get().getCause());
@@ -693,7 +694,7 @@ public class AbstractServiceTest extends TestCase {
       }
     };
     thread.start();
-    thread.join(100);
+    thread.join(LONG_TIMEOUT_MILLIS);
     assertFalse(thread + " is deadlocked", thread.isAlive());
   }
 
@@ -704,7 +705,7 @@ public class AbstractServiceTest extends TestCase {
         service.awaitRunning();
       }
     }, MoreExecutors.sameThreadExecutor());
-    service.startAsync().awaitRunning(10, TimeUnit.MILLISECONDS);
+    service.startAsync().awaitRunning(LONG_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
     service.stopAsync();
   }
 
@@ -723,7 +724,7 @@ public class AbstractServiceTest extends TestCase {
       }
     };
     thread.start();
-    thread.join(100);
+    thread.join(LONG_TIMEOUT_MILLIS);
     assertFalse(thread + " is deadlocked", thread.isAlive());
   }
 
