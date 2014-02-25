@@ -120,7 +120,6 @@ public final class Ints {
    * @return a negative value if {@code a} is less than {@code b}; a positive
    *     value if {@code a} is greater than {@code b}; or zero if they are equal
    */
-  // TODO(kevinb): if JDK 6 ever becomes a non-concern, remove this
   public static int compare(int a, int b) {
     return (a < b) ? -1 : ((a > b) ? 1 : 0);
   }
@@ -582,9 +581,9 @@ public final class Ints {
 
     private static final long serialVersionUID = 0;
   }
-  
+
   private static final byte[] asciiDigits = new byte[128];
-  
+
   static {
     Arrays.fill(asciiDigits, (byte) -1);
     for (int i = 0; i <= 9; i++) {
@@ -595,9 +594,8 @@ public final class Ints {
       asciiDigits['a' + i] = (byte) (10 + i);
     }
   }
-  
+
   private static int digit(char c) {
     return (c < 128) ? asciiDigits[c] : -1;
   }
 }
-

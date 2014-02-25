@@ -90,7 +90,6 @@ public final class Longs {
    * @return a negative value if {@code a} is less than {@code b}; a positive
    *     value if {@code a} is greater than {@code b}; or zero if they are equal
    */
-  // TODO(kevinb): if JDK 6 ever becomes a non-concern, remove this
   public static int compare(long a, long b) {
     return (a < b) ? -1 : ((a > b) ? 1 : 0);
   }
@@ -359,7 +358,7 @@ public final class Longs {
       }
       accum -= digit;
     }
-    
+
     if (negative) {
       return accum;
     } else if (accum == Long.MIN_VALUE) {

@@ -92,7 +92,6 @@ public final class Doubles {
    * @return a negative value if {@code a} is less than {@code b}; a positive
    *     value if {@code a} is greater than {@code b}; or zero if they are equal
    */
-  // TODO(kevinb): if Ints.compare etc. are ever removed, remove this one too
   public static int compare(double a, double b) {
     return Double.compare(a, b);
   }

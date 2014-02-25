@@ -73,7 +73,6 @@ public final class Booleans {
    * @return a positive number if only {@code a} is {@code true}, a negative
    *     number if only {@code b} is true, or zero if {@code a == b}
    */
-  // TODO(kevinb): if JDK 6 ever becomes a non-concern, remove this
   public static int compare(boolean a, boolean b) {
     return (a == b) ? 0 : (a ? 1 : -1);
   }
