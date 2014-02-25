@@ -18,6 +18,11 @@ public class HostAndPortTest_gwt extends com.google.gwt.junit.client.GWTTestCase
 @Override public String getModuleName() {
   return "com.google.common.net.testModule";
 }
+public void testFromHost() throws Exception {
+  com.google.common.net.HostAndPortTest testCase = new com.google.common.net.HostAndPortTest();
+  testCase.testFromHost();
+}
+
 public void testFromParts() throws Exception {
   com.google.common.net.HostAndPortTest testCase = new com.google.common.net.HostAndPortTest();
   testCase.testFromParts();

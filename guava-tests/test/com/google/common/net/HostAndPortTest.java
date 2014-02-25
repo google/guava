@@ -165,6 +165,28 @@ public class HostAndPortTest extends TestCase {
     }
   }
 
+  public void testFromHost() {
+    HostAndPort hp = HostAndPort.fromHost("gmail.com");
+    assertEquals("gmail.com", hp.getHostText());
+    assertFalse(hp.hasPort());
+
+    hp = HostAndPort.fromHost("[::1]");
+    assertEquals("::1", hp.getHostText());
+    assertFalse(hp.hasPort());
+
+    try {
+      HostAndPort.fromHost("gmail.com:80");
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+
+    try {
+      HostAndPort.fromHost("[gmail.com]");
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testGetPortOrDefault() {
     assertEquals(80, HostAndPort.fromString("host:80").getPortOrDefault(123));
     assertEquals(123, HostAndPort.fromString("host").getPortOrDefault(123));
