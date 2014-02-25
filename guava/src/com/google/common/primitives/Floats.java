@@ -88,7 +88,6 @@ public final class Floats {
    * @param b the second {@code float} to compare
    * @return the result of invoking {@link Float#compare(float, float)}
    */
-  // TODO(kevinb): if Ints.compare etc. are ever removed, remove this one too
   public static int compare(float a, float b) {
     return Float.compare(a, b);
   }

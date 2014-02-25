@@ -123,7 +123,6 @@ public final class Ints {
    * @return a negative value if {@code a} is less than {@code b}; a positive
    *     value if {@code a} is greater than {@code b}; or zero if they are equal
    */
-  // TODO(kevinb): if JDK 6 ever becomes a non-concern, remove this
   public static int compare(int a, int b) {
     return (a < b) ? -1 : ((a > b) ? 1 : 0);
   }
