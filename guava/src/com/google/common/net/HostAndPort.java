@@ -138,6 +138,23 @@ public final class HostAndPort implements Serializable {
   }
 
   /**
+   * Build a HostAndPort instance from a host only.
+   *
+   * <p>Note: Non-bracketed IPv6 literals are allowed.
+   * Use {@link #requireBracketsForIPv6()} to prohibit these.
+   *
+   * @param host the host-only string to parse.  Must not contain a port number.
+   * @return if parsing was successful, a populated HostAndPort object.
+   * @throws IllegalArgumentException if {@code host} contains a port number.
+   * @since 17.0
+   */
+  public static HostAndPort fromHost(String host) {
+    HostAndPort parsedHost = fromString(host);
+    checkArgument(!parsedHost.hasPort(), "Host has a port: %s", host);
+    return parsedHost;
+  }
+
+  /**
    * Split a freeform string into a host and port, without strict validation.
    *
    * Note that the host-only formats will leave the port field undefined.  You
@@ -278,7 +295,8 @@ public final class HostAndPort implements Serializable {
   /** Rebuild the host:port string, including brackets if necessary. */
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder(host.length() + 7);
+    // "[]:12345" requires 8 extra bytes.
+    StringBuilder builder = new StringBuilder(host.length() + 8);
     if (host.indexOf(':') >= 0) {
       builder.append('[').append(host).append(']');
     } else {
