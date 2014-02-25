@@ -978,7 +978,7 @@ public final class Iterators {
 
   /**
    * Deletes and returns the next value from the iterator, or returns
-   * {@code defaultValue} if there is no such value.
+   * {@code null} if there is no such value.
    */
   @Nullable
   static <T> T pollNext(Iterator<T> iterator) {
