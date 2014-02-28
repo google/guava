@@ -68,7 +68,7 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
             MapFeature.RESTRICTS_KEYS,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY,
-            MapFeature.ALLOWS_NULL_QUERIES)
+            MapFeature.ALLOWS_ANY_NULL_QUERIES)
         .createTestSuite());
 
     return suite;

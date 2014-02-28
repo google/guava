@@ -18,7 +18,7 @@ package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -73,12 +73,12 @@ public class MultimapContainsKeyTester<K, V>
     assertTrue(multimap().containsKey(null));
   }
 
-  @MapFeature.Require(ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testContainsKeyNullAbsent() {
     assertFalse(multimap().containsKey(null));
   }
 
-  @MapFeature.Require(absent = ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testContainsKeyNullDisallowed() {
     try {
       multimap().containsKey(null);

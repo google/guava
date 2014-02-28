@@ -36,11 +36,36 @@ import java.util.Set;
 public enum MapFeature implements Feature<Map> {
   /**
    * The map does not throw {@code NullPointerException} on calls such as
-   * {@code containsKey(null)}, {@code get(null)}, or {@code remove(null)}.
+   * {@code containsKey(null)}, {@code get(null)},
+   * {@code keySet().contains(null)} or {@code remove(null)}.
    */
-  ALLOWS_NULL_QUERIES,
-  ALLOWS_NULL_KEYS (ALLOWS_NULL_QUERIES),
-  ALLOWS_NULL_VALUES,
+  ALLOWS_NULL_KEY_QUERIES,
+  ALLOWS_NULL_KEYS(ALLOWS_NULL_KEY_QUERIES),
+  /**
+   * The map does not throw {@code NullPointerException} on calls such as
+   * {@code containsValue(null)}, {@code values().contains(null)} or
+   * {@code values().remove(null)}.
+   */
+  ALLOWS_NULL_VALUE_QUERIES,
+  ALLOWS_NULL_VALUES(ALLOWS_NULL_VALUE_QUERIES),
+  /**
+   * The map does not throw {@code NullPointerException} on calls such as
+   * {@code entrySet().contains(null)} or {@code entrySet().remove(null)}
+   */
+  ALLOWS_NULL_ENTRY_QUERIES,
+  /**
+   * The map does not throw {@code NullPointerException} on any {@code null}
+   * queries.
+   *
+   * @see #ALLOWS_NULL_KEY_QUERIES
+   * @see #ALLOWS_NULL_VALUE_QUERIES
+   * @see #ALLOWS_NULL_ENTRY_QUERIES
+   */
+  ALLOWS_ANY_NULL_QUERIES(
+      ALLOWS_NULL_ENTRY_QUERIES,
+      ALLOWS_NULL_KEY_QUERIES,
+      ALLOWS_NULL_VALUE_QUERIES
+  ),
   RESTRICTS_KEYS,
   RESTRICTS_VALUES,
   SUPPORTS_PUT,

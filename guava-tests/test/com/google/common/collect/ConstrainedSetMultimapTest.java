@@ -64,6 +64,7 @@ public class ConstrainedSetMultimapTest extends TestCase {
         .withFeatures(
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
             MapFeature.GENERAL_PURPOSE,
             CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE,

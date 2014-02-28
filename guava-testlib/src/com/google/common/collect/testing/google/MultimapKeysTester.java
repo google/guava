@@ -18,7 +18,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 import static org.truth0.Truth.ASSERT;
 
@@ -56,7 +56,7 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
         Multisets.immutableEntry(sampleKeys().e1, 1));
   }
   
-  @MapFeature.Require(ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testKeysCountAbsentNullKey() {
     assertEquals(0, multimap().keys().count(null));
   }

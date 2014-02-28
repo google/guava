@@ -94,7 +94,7 @@ public class TreeRangeMapTest extends TestCase {
       .withFeatures(
           CollectionSize.ANY,
           MapFeature.SUPPORTS_REMOVE,
-          MapFeature.ALLOWS_NULL_QUERIES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           CollectionFeature.KNOWN_ORDER,
           CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
       .createTestSuite());
@@ -149,7 +149,7 @@ public class TreeRangeMapTest extends TestCase {
       .withFeatures(
           CollectionSize.ANY,
           MapFeature.SUPPORTS_REMOVE,
-          MapFeature.ALLOWS_NULL_QUERIES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           CollectionFeature.KNOWN_ORDER)
       .createTestSuite());
     return suite;

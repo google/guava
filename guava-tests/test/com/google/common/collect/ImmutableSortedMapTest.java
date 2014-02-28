@@ -70,7 +70,7 @@ public class ImmutableSortedMapTest extends TestCase {
             CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
             CollectionFeature.KNOWN_ORDER,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            MapFeature.ALLOWS_NULL_QUERIES)
+            MapFeature.ALLOWS_ANY_NULL_QUERIES)
         .named("ImmutableSortedMap")
         .createTestSuite());
 

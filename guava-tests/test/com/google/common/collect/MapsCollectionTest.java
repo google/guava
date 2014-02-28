@@ -96,6 +96,7 @@ public class MapsCollectionTest extends TestCase {
             CollectionSize.ANY,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.ALLOWS_NULL_KEYS,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION,
             CollectionFeature.SERIALIZABLE)
         .createTestSuite());
@@ -305,6 +306,7 @@ public class MapsCollectionTest extends TestCase {
       .withFeatures(
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
       .createTestSuite());
@@ -321,6 +323,7 @@ public class MapsCollectionTest extends TestCase {
       .withFeatures(
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
       .createTestSuite());
@@ -337,6 +340,7 @@ public class MapsCollectionTest extends TestCase {
       .withFeatures(
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
       .createTestSuite());
@@ -354,6 +358,7 @@ public class MapsCollectionTest extends TestCase {
       .withFeatures(
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
       .createTestSuite());
@@ -391,6 +396,7 @@ public class MapsCollectionTest extends TestCase {
       .withFeatures(
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
       .createTestSuite());
@@ -407,6 +413,7 @@ public class MapsCollectionTest extends TestCase {
       .withFeatures(
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           MapFeature.GENERAL_PURPOSE,
           CollectionSize.ANY)
       .createTestSuite());
@@ -639,6 +646,7 @@ public class MapsCollectionTest extends TestCase {
           CollectionSize.ANY,
           CollectionFeature.KNOWN_ORDER,
           MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           MapFeature.SUPPORTS_REMOVE,
           CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
       .createTestSuite());
@@ -657,6 +665,7 @@ public class MapsCollectionTest extends TestCase {
           CollectionSize.ANY,
           CollectionFeature.KNOWN_ORDER,
           MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           MapFeature.SUPPORTS_REMOVE,
           CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
       .createTestSuite());

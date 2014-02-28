@@ -76,6 +76,7 @@ public class LinkedListMultimapTest extends TestCase {
       .withFeatures(
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           MapFeature.GENERAL_PURPOSE,
           CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
           CollectionFeature.SERIALIZABLE,

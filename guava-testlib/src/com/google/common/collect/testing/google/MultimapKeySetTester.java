@@ -17,7 +17,7 @@ package com.google.common.collect.testing.google;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
@@ -49,7 +49,7 @@ public class MultimapKeySetTester<K, V> extends AbstractMultimapTester<K, V, Mul
     assertTrue(multimap().keySet().contains(null));
   }
   
-  @MapFeature.Require(ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testKeySetContainsNullKeyAbsent() {
     assertFalse(multimap().keySet().contains(null));
   }

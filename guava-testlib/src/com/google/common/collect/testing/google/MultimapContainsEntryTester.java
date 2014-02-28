@@ -18,8 +18,9 @@ package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -59,15 +60,29 @@ public class MultimapContainsEntryTester<K, V>
     assertTrue(multimap().containsEntry(null, null));
   }
 
-  @MapFeature.Require(ALLOWS_NULL_QUERIES)
+  @MapFeature.Require({ ALLOWS_NULL_KEY_QUERIES, ALLOWS_NULL_VALUE_QUERIES })
   public void testContainsEntryNullNo() {
     assertFalse(multimap().containsEntry(null, null));
   }
 
-  @MapFeature.Require(absent = ALLOWS_NULL_QUERIES)
-  public void testContainsEntryNullDisallowed() {
+  @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
+  public void testContainsEntryNullDisallowedBecauseKeyQueriesDisallowed() {
     try {
-      multimap().containsEntry(null, null);
+      multimap().containsEntry(null, sampleValues().e3);
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+      // success
+    }
+  }
+
+  /**
+   * Copy of the {@link #testContainsEntryNullDisallowed} test. Needed because
+   * "optional" feature requirements are not supported.
+   */
+  @MapFeature.Require(absent = ALLOWS_NULL_VALUE_QUERIES)
+  public void testContainsEntryNullDisallowedBecauseValueQueriesDisallowed() {
+    try {
+      multimap().containsEntry(sampleKeys().e3, null);
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
       // success

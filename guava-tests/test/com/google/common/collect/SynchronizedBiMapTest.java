@@ -47,6 +47,7 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
             MapFeature.GENERAL_PURPOSE,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION)
         .createTestSuite());
@@ -56,6 +57,7 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
             MapFeature.GENERAL_PURPOSE,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION,
             CollectionFeature.SERIALIZABLE)

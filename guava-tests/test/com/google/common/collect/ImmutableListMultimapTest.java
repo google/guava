@@ -63,7 +63,7 @@ public class ImmutableListMultimapTest extends TestCase {
     suite.addTest(ListMultimapTestSuiteBuilder.using(new ImmutableListMultimapGenerator())
       .named("ImmutableListMultimap")
       .withFeatures(
-          MapFeature.ALLOWS_NULL_QUERIES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           CollectionFeature.SERIALIZABLE,
           CollectionFeature.KNOWN_ORDER,
           CollectionSize.ANY)

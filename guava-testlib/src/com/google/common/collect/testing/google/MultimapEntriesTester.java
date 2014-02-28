@@ -18,8 +18,9 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 import static org.truth0.Truth.ASSERT;
 
@@ -53,7 +54,7 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
         Helpers.mapEntry((K) null, getValueForNullKey()));
   }
   
-  @MapFeature.Require(ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testContainsEntryWithNullKeyAbsent() {
     assertFalse(multimap().entries().contains(Helpers.mapEntry(null, sampleValues().e0)));
   }
@@ -66,7 +67,7 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
         Helpers.mapEntry(getKeyForNullValue(), (V) null));
   }
   
-  @MapFeature.Require(ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryWithNullValueAbsent() {
     assertFalse(multimap().entries().contains(
         Helpers.mapEntry(sampleKeys().e0, null)));

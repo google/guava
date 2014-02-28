@@ -18,8 +18,8 @@ package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 import static org.truth0.Truth.ASSERT;
@@ -79,7 +79,7 @@ public class MultimapAsMapGetTester<K, V> extends AbstractMultimapTester<K, V, M
   }
   
   @CollectionSize.Require(absent = ZERO)
-  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_QUERIES})
+  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_VALUE_QUERIES})
   public void testRemoveNullValue() {
     Collection<V> result = multimap().asMap().get(sampleKeys().e0);
     assertFalse(result.remove(null));

@@ -19,7 +19,7 @@ import static com.google.common.collect.testing.Helpers.assertContentsAnyOrder;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
@@ -145,12 +145,12 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
     ASSERT.that(multimap().get(null)).has().item(getValueForNullKey());
   }
 
-  @MapFeature.Require(ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testGetNullAbsent() {
     ASSERT.that(multimap().get(null)).isEmpty();
   }
 
-  @MapFeature.Require(absent = ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testGetNullForbidden() {
     try {
       multimap().get(null);

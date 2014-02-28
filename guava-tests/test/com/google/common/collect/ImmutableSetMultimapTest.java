@@ -62,7 +62,7 @@ public class ImmutableSetMultimapTest extends TestCase {
       })
       .named("ImmutableSetMultimap")
       .withFeatures(
-          MapFeature.ALLOWS_NULL_QUERIES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES,
           CollectionFeature.KNOWN_ORDER,
           CollectionFeature.SERIALIZABLE,
           CollectionSize.ANY)

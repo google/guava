@@ -18,7 +18,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 import static org.truth0.Truth.ASSERT;
@@ -70,12 +70,12 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
     ASSERT.that(multimap().asMap().get(null)).has().exactly(getValueForNullKey());
   }
  
-  @MapFeature.Require(ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testAsMapGetNullKeyAbsent() {
     ASSERT.that(multimap().asMap().get(null)).isNull();
   }
  
-  @MapFeature.Require(absent = ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testAsMapGetNullKeyUnsupported() {
     try {
       multimap().asMap().get(null);

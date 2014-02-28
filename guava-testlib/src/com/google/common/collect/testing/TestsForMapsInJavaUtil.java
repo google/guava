@@ -123,6 +123,7 @@ public class TestsForMapsInJavaUtil {
         .withFeatures(
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ONE)
         .suppressing(suppressForSingletonMap())
@@ -142,6 +143,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.GENERAL_PURPOSE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.SERIALIZABLE,
@@ -163,6 +165,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.GENERAL_PURPOSE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.KNOWN_ORDER,
@@ -211,6 +214,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.GENERAL_PURPOSE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionFeature.KNOWN_ORDER,

@@ -79,7 +79,8 @@ public class SafeTreeMapTest extends TestCase {
         return insertionOrder;
       }
     }).withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-        MapFeature.ALLOWS_NULL_KEYS, MapFeature.ALLOWS_NULL_VALUES, MapFeature.GENERAL_PURPOSE,
+        MapFeature.ALLOWS_NULL_KEYS, MapFeature.ALLOWS_NULL_VALUES,
+        MapFeature.ALLOWS_ANY_NULL_QUERIES, MapFeature.GENERAL_PURPOSE,
         CollectionFeature.SUPPORTS_ITERATOR_REMOVE, CollectionFeature.SERIALIZABLE).named(
         "SafeTreeMap with null-friendly comparator").createTestSuite());
     return suite;

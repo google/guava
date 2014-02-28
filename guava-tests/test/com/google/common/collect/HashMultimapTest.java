@@ -55,6 +55,7 @@ public class HashMultimapTest extends TestCase {
         .withFeatures(
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
             MapFeature.GENERAL_PURPOSE,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE,

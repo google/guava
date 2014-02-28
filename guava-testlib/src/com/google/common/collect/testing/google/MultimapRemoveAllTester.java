@@ -18,8 +18,8 @@ package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_ANY_NULL_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 import static org.truth0.Truth.ASSERT;
 
@@ -86,7 +86,7 @@ public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, 
     expectMissing(Helpers.mapEntry((K) null, getValueForNullKey()));
   }
 
-  @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_NULL_QUERIES })
+  @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_ANY_NULL_QUERIES})
   public void testRemoveAllNullKeyAbsent() {
     ASSERT.that(multimap().removeAll(null)).isEmpty();
     expectUnchanged();
