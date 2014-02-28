@@ -944,6 +944,11 @@ public final class Iterables {
         public Iterator<T> iterator() {
           return new ConsumingQueueIterator<T>((Queue<T>) iterable);
         }
+
+        @Override
+        public String toString() {
+          return "Iterables.consumingIterable(...)";
+        }
       };
     }
 
@@ -953,6 +958,11 @@ public final class Iterables {
       @Override
       public Iterator<T> iterator() {
         return Iterators.consumingIterator(iterable.iterator());
+      }
+
+      @Override
+      public String toString() {
+        return "Iterables.consumingIterable(...)";
       }
     };
   }

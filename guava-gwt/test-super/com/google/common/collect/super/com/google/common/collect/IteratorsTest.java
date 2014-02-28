@@ -1227,6 +1227,8 @@ public class IteratorsTest extends TestCase {
     Iterator<String> consumingIterator =
         Iterators.consumingIterator(list.iterator());
 
+    assertEquals("Iterators.consumingIterator(...)", consumingIterator.toString());
+
     ASSERT.that(list).has().exactly("a", "b").inOrder();
 
     assertTrue(consumingIterator.hasNext());

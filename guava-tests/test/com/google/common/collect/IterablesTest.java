@@ -1124,6 +1124,7 @@ public class IterablesTest extends TestCase {
 
     // Test & Verify
     Iterable<String> consumingIterable = Iterables.consumingIterable(list);
+    assertEquals("Iterables.consumingIterable(...)", consumingIterable.toString());
     Iterator<String> consumingIterator = consumingIterable.iterator();
 
     ASSERT.that(list).has().exactly("a", "b").inOrder();
