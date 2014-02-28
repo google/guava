@@ -402,13 +402,10 @@ public class ArbitraryInstancesTest extends TestCase {
     public NonPublicClass() {}
   }
 
-  private static class WithPrivateConstructor {}
-
-  
   private static class WithPrivateConstructor {
     public static final WithPrivateConstructor INSTANCE = new WithPrivateConstructor();
   }
-  
+
   public static class NoDefaultConstructor {
     public NoDefaultConstructor(@SuppressWarnings("unused") int i) {}
   }
