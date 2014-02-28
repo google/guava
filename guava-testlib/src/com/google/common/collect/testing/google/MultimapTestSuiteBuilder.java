@@ -201,9 +201,6 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
     if (!derivedFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
       derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
     }
-    if (derivedFeatures.remove(MapFeature.ALLOWS_NULL_QUERIES)) {
-      derivedFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
-    }
     if (derivedFeatures.remove(MapFeature.SUPPORTS_REMOVE)) {
       derivedFeatures.add(CollectionFeature.SUPPORTS_REMOVE);
     }
@@ -212,12 +209,23 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
 
   static Set<Feature<?>> computeEntriesFeatures(
       Set<Feature<?>> multimapFeatures) {
-    return computeDerivedCollectionFeatures(multimapFeatures);
+    Set<Feature<?>> result = computeDerivedCollectionFeatures(multimapFeatures);
+    if (multimapFeatures.contains(MapFeature.ALLOWS_NULL_ENTRY_QUERIES)) {
+      result.add(CollectionFeature.ALLOWS_NULL_QUERIES);
+    }
+    return result;
   }
 
   static Set<Feature<?>> computeValuesFeatures(
       Set<Feature<?>> multimapFeatures) {
-    return computeDerivedCollectionFeatures(multimapFeatures);
+    Set<Feature<?>> result = computeDerivedCollectionFeatures(multimapFeatures);
+    if (multimapFeatures.contains(MapFeature.ALLOWS_NULL_VALUES)) {
+      result.add(CollectionFeature.ALLOWS_NULL_VALUES);
+    }
+    if (multimapFeatures.contains(MapFeature.ALLOWS_NULL_VALUE_QUERIES)) {
+      result.add(CollectionFeature.ALLOWS_NULL_QUERIES);
+    }
+    return result;
   }
 
   static Set<Feature<?>> computeKeysFeatures(
@@ -225,6 +233,9 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
     Set<Feature<?>> result = computeDerivedCollectionFeatures(multimapFeatures);
     if (multimapFeatures.contains(MapFeature.ALLOWS_NULL_KEYS)) {
       result.add(CollectionFeature.ALLOWS_NULL_VALUES);
+    }
+    if (multimapFeatures.contains(MapFeature.ALLOWS_NULL_KEY_QUERIES)) {
+      result.add(CollectionFeature.ALLOWS_NULL_QUERIES);
     }
     return result;
   }
@@ -243,6 +254,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
     derivedFeatures.remove(MapFeature.GENERAL_PURPOSE);
     derivedFeatures.remove(MapFeature.SUPPORTS_PUT);
     derivedFeatures.remove(MapFeature.ALLOWS_NULL_VALUES);
+    derivedFeatures.add(MapFeature.ALLOWS_NULL_VALUE_QUERIES);
     derivedFeatures.add(MapFeature.REJECTS_DUPLICATES_AT_CREATION);
     if (!derivedFeatures.contains(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
       derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
@@ -258,7 +270,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
       .put(MapFeature.GENERAL_PURPOSE, ListFeature.SUPPORTS_ADD_WITH_INDEX)
       .put(MapFeature.GENERAL_PURPOSE, ListFeature.SUPPORTS_REMOVE_WITH_INDEX)
       .put(MapFeature.GENERAL_PURPOSE, ListFeature.SUPPORTS_SET)
-      .put(MapFeature.ALLOWS_NULL_QUERIES, CollectionFeature.ALLOWS_NULL_QUERIES)
+      .put(MapFeature.ALLOWS_NULL_VALUE_QUERIES,
+          CollectionFeature.ALLOWS_NULL_QUERIES)
       .put(MapFeature.ALLOWS_NULL_VALUES, CollectionFeature.ALLOWS_NULL_VALUES)
       .put(MapFeature.SUPPORTS_REMOVE, CollectionFeature.SUPPORTS_REMOVE)
       .put(MapFeature.SUPPORTS_PUT, CollectionFeature.SUPPORTS_ADD)

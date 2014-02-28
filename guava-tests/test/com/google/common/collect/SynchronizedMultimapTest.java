@@ -65,7 +65,8 @@ public class SynchronizedMultimapTest extends TestCase {
           CollectionFeature.SERIALIZABLE,
           CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
           MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.ALLOWS_NULL_VALUES)
+          MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.ALLOWS_ANY_NULL_QUERIES)
       .createTestSuite());
     return suite;
   }

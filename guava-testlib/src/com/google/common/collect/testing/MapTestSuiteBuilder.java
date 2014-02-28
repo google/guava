@@ -148,7 +148,9 @@ public class MapTestSuiteBuilder<K, V>
       Set<Feature<?>> mapFeatures) {
     Set<Feature<?>> entrySetFeatures =
         computeCommonDerivedCollectionFeatures(mapFeatures);
-    entrySetFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
+    if (mapFeatures.contains(MapFeature.ALLOWS_NULL_ENTRY_QUERIES)) {
+      entrySetFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
+    }
     return entrySetFeatures;
   }
 
@@ -162,7 +164,7 @@ public class MapTestSuiteBuilder<K, V>
     keySetFeatures.add(CollectionFeature.SUBSET_VIEW);
     if (mapFeatures.contains(MapFeature.ALLOWS_NULL_KEYS)) {
       keySetFeatures.add(CollectionFeature.ALLOWS_NULL_VALUES);
-    } else if (mapFeatures.contains(MapFeature.ALLOWS_NULL_QUERIES)) {
+    } else if (mapFeatures.contains(MapFeature.ALLOWS_NULL_KEY_QUERIES)) {
       keySetFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
     }
 
@@ -173,7 +175,7 @@ public class MapTestSuiteBuilder<K, V>
       Set<Feature<?>> mapFeatures) {
     Set<Feature<?>> valuesCollectionFeatures =
         computeCommonDerivedCollectionFeatures(mapFeatures);
-    if (mapFeatures.contains(MapFeature.ALLOWS_NULL_QUERIES)) {
+    if (mapFeatures.contains(MapFeature.ALLOWS_NULL_VALUE_QUERIES)) {
       valuesCollectionFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
     }
     if (mapFeatures.contains(MapFeature.ALLOWS_NULL_VALUES)) {

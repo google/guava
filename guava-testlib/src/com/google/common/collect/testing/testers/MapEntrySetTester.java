@@ -20,8 +20,9 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -70,7 +71,7 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
         .entrySet().contains(Helpers.mapEntry(samples.e0.getKey(), IncomparableType.INSTANCE)));
   }
   
-  @MapFeature.Require(ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testContainsEntryWithNullKeyAbsent() {
     assertFalse(getMap()
         .entrySet().contains(Helpers.mapEntry(null, samples.e0.getValue())));
@@ -84,7 +85,7 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
         .entrySet().contains(Helpers.mapEntry(null, getValueForNullKey())));
   }
   
-  @MapFeature.Require(ALLOWS_NULL_QUERIES)
+  @MapFeature.Require(ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryWithNullValueAbsent() {
     assertFalse(getMap()
         .entrySet().contains(Helpers.mapEntry(samples.e0.getKey(), null)));

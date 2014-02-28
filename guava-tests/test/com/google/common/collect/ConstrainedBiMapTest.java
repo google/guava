@@ -58,6 +58,7 @@ public class ConstrainedBiMapTest extends TestCase {
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
             MapFeature.GENERAL_PURPOSE,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION)
         .createTestSuite());
