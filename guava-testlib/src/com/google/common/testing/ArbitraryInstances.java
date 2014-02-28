@@ -87,6 +87,7 @@ import java.io.Writer;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -103,6 +104,7 @@ import java.nio.LongBuffer;
 import java.nio.ShortBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Currency;
@@ -143,11 +145,13 @@ import javax.annotation.Nullable;
  * Supplies an arbitrary "default" instance for a wide range of types, often useful in testing
  * utilities.
  * 
- * <p>Covers common types defined in {@code java.lang}, {@code java.lang.reflect}, {@code java.io},
- * {@code java.nio}, {@code java.math}, {@code java.util}, {@code java.util.concurrent},
- * {@code java.util.regex}, {@code com.google.common.base}, {@code com.google.common.collect}
- * and {@code com.google.common.primitives}. In addition, any public class that exposes a public
- * parameter-less constructor will be "new"d and returned.
+ * <p>Covers arrays, enums and common types defined in {@code java.lang}, {@code java.lang.reflect},
+ * {@code java.io}, {@code java.nio}, {@code java.math}, {@code java.util}, {@code
+ * java.util.concurrent}, {@code java.util.regex}, {@code com.google.common.base}, {@code
+ * com.google.common.collect} and {@code com.google.common.primitives}. In addition, if the type
+ * exposes at least one public static final constant of the same type, one of the constants will be
+ * used; or if the class exposes a public parameter-less constructor then it will be "new"d and
+ * returned.
  * 
  * <p>All default instances returned by {@link #get} are generics-safe. Clients won't get type
  * errors for using {@code get(Comparator.class)} as a {@code Comparator<Foo>}, for example.
@@ -161,6 +165,12 @@ import javax.annotation.Nullable;
  */
 @Beta
 public final class ArbitraryInstances {
+
+  private static final Ordering<Field> BY_FIELD_NAME = new Ordering<Field>() {
+    @Override public int compare(Field left, Field right) {
+      return left.getName().compareTo(right.getName());
+    }
+  };
 
   private static final ClassToInstanceMap<Object> DEFAULTS = ImmutableClassToInstanceMap.builder()
       // primitives
@@ -298,8 +308,8 @@ public final class ArbitraryInstances {
   private static final Logger logger = Logger.getLogger(ArbitraryInstances.class.getName());
 
   /**
-   * Returns an arbitrary value for {@code type} as the null value, or {@code null} if empty-ness is
-   * unknown for the type.
+   * Returns an arbitrary instance for {@code type}, or {@code null} if no arbitrary instance can
+   * be determined.
    */
   @Nullable public static <T> T get(Class<T> type) {
     T defaultValue = DEFAULTS.getInstance(type);
@@ -324,13 +334,13 @@ public final class ArbitraryInstances {
       return jvmDefault;
     }
     if (Modifier.isAbstract(type.getModifiers()) || !Modifier.isPublic(type.getModifiers())) {
-      return null;
+      return arbitraryConstantInstanceOrNull(type);
     }
     final Constructor<T> constructor;
     try {
       constructor = type.getConstructor();
     } catch (NoSuchMethodException e) {
-      return null;
+      return arbitraryConstantInstanceOrNull(type);
     }
     constructor.setAccessible(true); // accessibility check is too slow
     try {
@@ -341,13 +351,36 @@ public final class ArbitraryInstances {
       throw new AssertionError(impossible);
     } catch (InvocationTargetException e) {
       logger.log(Level.WARNING, "Exception while invoking default constructor.", e.getCause());
-      return null;
+      return arbitraryConstantInstanceOrNull(type);
     }
   }
 
-  @SuppressWarnings("unchecked") // same component type means same array type
+  @Nullable private static <T> T arbitraryConstantInstanceOrNull(Class<T> type) {
+    Field[] fields = type.getDeclaredFields();
+    Arrays.sort(fields, BY_FIELD_NAME);
+    for (Field field : fields) {
+      if (Modifier.isPublic(field.getModifiers())
+          && Modifier.isStatic(field.getModifiers())
+          && Modifier.isFinal(field.getModifiers())) {
+        if (field.getGenericType() == field.getType()
+            && type.isAssignableFrom(field.getType())) {
+          field.setAccessible(true);
+          try {
+            T constant = type.cast(field.get(null));
+            if (constant != null) {
+              return constant;
+            }
+          } catch (IllegalAccessException impossible) {
+            throw new AssertionError(impossible);
+          }
+        }
+      }
+    }
+    return null;
+  }
+
   private static <T> T createEmptyArray(Class<T> arrayType) {
-    return (T) Array.newInstance(arrayType.getComponentType(), 0);
+    return arrayType.cast(Array.newInstance(arrayType.getComponentType(), 0));
   }
 
   // Internal implementations of some classes, with public default constructor that get() needs.
