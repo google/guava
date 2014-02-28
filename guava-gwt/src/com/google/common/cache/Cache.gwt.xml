@@ -11,8 +11,6 @@
   </source>
    
   <super-source path="super"/>
-    
-  <inherits name="java.util.Util"/>
    
   <inherits name="com.google.common.annotations.Annotations"/>
    
@@ -21,5 +19,7 @@
   <inherits name="com.google.common.collect.Collect"/>
    
   <inherits name="com.google.common.util.concurrent.Concurrent"/>
+   
+  <inherits name="java.util.Util"/>
     
 </module>
