@@ -9,4 +9,6 @@
    
   <source path=""/>
     
+  <add-linker name="std"/>
+   
 </module>
