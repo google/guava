@@ -973,6 +973,11 @@ public final class Iterators {
         iterator.remove();
         return next;
       }
+
+      @Override
+      public String toString() {
+        return "Iterators.consumingIterator(...)";
+      }
     };
   }
 
