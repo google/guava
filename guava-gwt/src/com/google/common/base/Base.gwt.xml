@@ -12,6 +12,10 @@
    
   <super-source path="super"/>
    
+  <inherits name="java.nio.charset.Charset"/>
+   
+  <inherits name="java.util.Util"/>
+   
   <inherits name="com.google.common.annotations.Annotations"/>
    
   <inherits name="com.google.gwt.corp.emul.java.nio.charset.Charset"/>

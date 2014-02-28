@@ -11,6 +11,8 @@
   </source>
    
   <super-source path="super"/>
+    
+  <inherits name="java.util.Util"/>
    
   <inherits name="com.google.common.annotations.Annotations"/>
    
