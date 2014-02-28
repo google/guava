@@ -11,8 +11,6 @@
    
   <source path=""/>
     
-  <add-linker name="std"/>
-   
   <super-source path="super"/>
    
 </module>
