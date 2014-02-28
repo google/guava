@@ -1169,6 +1169,7 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   private static class NoPublicStaticMethods {
+    @SuppressWarnings("unused") // To test non-public factory isn't used.
     static String notPublic() {
       return "";
     }
