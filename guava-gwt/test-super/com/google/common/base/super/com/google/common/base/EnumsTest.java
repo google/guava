@@ -92,6 +92,12 @@ public class EnumsTest extends TestCase {
     assertEquals(Optional.absent(), Enums.getIfPresent(TestEnum.class, "WOMBAT"));
   }
 
+  // Create a second ClassLoader and use it to get a second version of the TestEnum class.
+  // Run Enums.getIfPresent on that other TestEnum and then return a WeakReference containing the
+  // new ClassLoader. If Enums.getIfPresent does caching that prevents the shadow TestEnum
+  // (and therefore its ClassLoader) from being unloaded, then this WeakReference will never be
+  // cleared.
+
   public void testStringConverter_convert() {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     assertEquals(TestEnum.CHEETO, converter.convert("CHEETO"));
