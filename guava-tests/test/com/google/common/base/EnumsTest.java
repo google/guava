@@ -18,7 +18,9 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.GcFinalization;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
@@ -26,7 +28,11 @@ import junit.framework.TestCase;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
+import java.net.URLClassLoader;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Tests for {@link Enums}.
@@ -99,6 +105,37 @@ public class EnumsTest extends TestCase {
 
   public void testGetIfPresent_whenNoMatchingConstant() {
     assertEquals(Optional.absent(), Enums.getIfPresent(TestEnum.class, "WOMBAT"));
+  }
+
+  @GwtIncompatible("weak references")
+  public void testGetIfPresent_doesNotPreventClassUnloading() throws Exception {
+    WeakReference<?> shadowLoaderReference = doTestClassUnloading();
+    GcFinalization.awaitClear(shadowLoaderReference);
+  }
+
+  // Create a second ClassLoader and use it to get a second version of the TestEnum class.
+  // Run Enums.getIfPresent on that other TestEnum and then return a WeakReference containing the
+  // new ClassLoader. If Enums.getIfPresent does caching that prevents the shadow TestEnum
+  // (and therefore its ClassLoader) from being unloaded, then this WeakReference will never be
+  // cleared.
+  @GwtIncompatible("weak references")
+  private WeakReference<?> doTestClassUnloading() throws Exception {
+    URLClassLoader myLoader = (URLClassLoader) getClass().getClassLoader();
+    URLClassLoader shadowLoader = new URLClassLoader(myLoader.getURLs(), null);
+    @SuppressWarnings("unchecked")
+    Class<TestEnum> shadowTestEnum =
+        (Class<TestEnum>) Class.forName(TestEnum.class.getName(), false, shadowLoader);
+    assertNotSame(shadowTestEnum, TestEnum.class);
+    Set<TestEnum> shadowConstants = new HashSet<TestEnum>();
+    for (TestEnum constant : TestEnum.values()) {
+      Optional<TestEnum> result = Enums.getIfPresent(shadowTestEnum, constant.name());
+      assertTrue(result.isPresent());
+      shadowConstants.add(result.get());
+    }
+    assertEquals(ImmutableSet.copyOf(shadowTestEnum.getEnumConstants()), shadowConstants);
+    Optional<TestEnum> result = Enums.getIfPresent(shadowTestEnum, "blibby");
+    assertFalse(result.isPresent());
+    return new WeakReference<ClassLoader>(shadowLoader);
   }
 
   public void testStringConverter_convert() {
