@@ -32,6 +32,7 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
 
 import java.lang.reflect.Constructor;
@@ -42,6 +43,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CancellationException;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -1066,6 +1068,52 @@ public final class Futures {
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return listFuture(ImmutableList.copyOf(futures), false,
         MoreExecutors.sameThreadExecutor());
+  }
+
+  /**
+   * Returns a list of delegate futures that correspond to the futures received in the order
+   * that they complete. Delegate futures return the same value or throw the same exception
+   * as the corresponding input future returns/throws.
+   *
+   * <p>Cancelling a delegate future has no effect on any input future, since the delegate future
+   * does not correspond to a specific input future until the appropriate number of input
+   * futures have completed. At that point, it is too late to cancel the input future.
+   * The input future's result, which cannot be stored into the cancelled delegate future,
+   * is ignored.
+   *
+   * @since 17.0
+   */
+  @Beta
+  public static <T> ImmutableList<ListenableFuture<T>> inCompletionOrder(
+      Iterable<? extends ListenableFuture<? extends T>> futures) {
+    // A CLQ may be overkill here.  We could save some pointers/memory by synchronizing on an
+    // ArrayDeque
+    final ConcurrentLinkedQueue<AsyncSettableFuture<T>> delegates =
+        Queues.newConcurrentLinkedQueue();
+    ImmutableList.Builder<ListenableFuture<T>> listBuilder = ImmutableList.builder();
+    // Using SerializingExecutor here will ensure that each CompletionOrderListener executes
+    // atomically and therefore that each returned future is guaranteed to be in completion order.
+    // N.B. there are some cases where the use of this executor could have possibly surprising
+    // effects when input futures finish at approximately the same time _and_ the output futures
+    // have sameThreadExecutor listeners. In this situation, the listeners may end up running on a
+    // different thread than if they were attached to the corresponding input future.  We believe
+    // this to be a negligible cost since:
+    // 1. Using the sameThreadExecutor implies that your callback is safe to run on any thread.
+    // 2. This would likely only be noticeable if you were doing something expensive or blocking on
+    //    a sameThreadExecutor listener on one of the output futures which is an antipattern anyway.
+    SerializingExecutor executor = new SerializingExecutor(MoreExecutors.sameThreadExecutor());
+    for (final ListenableFuture<? extends T> future : futures) {
+      AsyncSettableFuture<T> delegate = AsyncSettableFuture.create();
+      // Must make sure to add the delegate to the queue first in case the future is already done
+      delegates.add(delegate);
+      future.addListener(new Runnable() {
+        @Override public void run() {
+          delegates.remove().setFuture(future);
+        }
+      }, executor);
+      listBuilder.add(delegate);
+    }
+    return listBuilder.build();
   }
 
   /**

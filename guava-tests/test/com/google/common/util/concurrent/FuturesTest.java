@@ -2342,6 +2342,128 @@ public class FuturesTest extends TestCase {
     }
   }
 
+  public void testCompletionOrder() throws Exception {
+    SettableFuture<Long> future1 = SettableFuture.create();
+    SettableFuture<Long> future2 = SettableFuture.create();
+    SettableFuture<Long> future3 = SettableFuture.create();
+    SettableFuture<Long> future4 = SettableFuture.create();
+    SettableFuture<Long> future5 = SettableFuture.create();
+
+    ImmutableList<ListenableFuture<Long>> futures = Futures.inCompletionOrder(
+        ImmutableList.<ListenableFuture<Long>>of(future1, future2, future3, future4, future5));
+    future2.set(1L);
+    future5.set(2L);
+    future1.set(3L);
+    future3.set(4L);
+    future4.set(5L);
+
+    long expected = 1L;
+    for (ListenableFuture<Long> future : futures) {
+      assertEquals((Long) expected, future.get());
+      expected++;
+    }
+  }
+
+  public void testCompletionOrderExceptionThrown() throws Exception {
+    SettableFuture<Long> future1 = SettableFuture.create();
+    SettableFuture<Long> future2 = SettableFuture.create();
+    SettableFuture<Long> future3 = SettableFuture.create();
+    SettableFuture<Long> future4 = SettableFuture.create();
+    SettableFuture<Long> future5 = SettableFuture.create();
+
+    ImmutableList<ListenableFuture<Long>> futures = Futures.inCompletionOrder(
+        ImmutableList.<ListenableFuture<Long>>of(future1, future2, future3, future4, future5));
+    future2.set(1L);
+    future5.setException(new IllegalStateException("2L"));
+    future1.set(3L);
+    future3.set(4L);
+    future4.set(5L);
+
+    long expected = 1L;
+    for (ListenableFuture<Long> future : futures) {
+      if (expected != 2) {
+        assertEquals((Long) expected, future.get());
+      } else {
+        try {
+          future.get();
+          fail();
+        } catch (ExecutionException e) {
+          // Expected
+          assertEquals("2L", e.getCause().getMessage());
+        }
+      }
+      expected++;
+    }
+  }
+
+  public void testCompletionOrderFutureCancelled() throws Exception {
+    SettableFuture<Long> future1 = SettableFuture.create();
+    SettableFuture<Long> future2 = SettableFuture.create();
+    SettableFuture<Long> future3 = SettableFuture.create();
+    SettableFuture<Long> future4 = SettableFuture.create();
+    SettableFuture<Long> future5 = SettableFuture.create();
+
+    ImmutableList<ListenableFuture<Long>> futures = Futures.inCompletionOrder(
+        ImmutableList.<ListenableFuture<Long>>of(future1, future2, future3, future4, future5));
+    future2.set(1L);
+    future5.set(2L);
+    future1.set(3L);
+    future3.cancel(true);
+    future4.set(5L);
+
+    long expected = 1L;
+    for (ListenableFuture<Long> future : futures) {
+      if (expected != 4) {
+        assertEquals((Long) expected, future.get());
+      } else {
+        try {
+          future.get();
+          fail();
+        } catch (CancellationException e) {
+          // Expected
+        }
+      }
+      expected++;
+    }
+  }
+
+  public void testCancellingADelegateDoesNotPropagate() throws Exception {
+    SettableFuture<Long> future1 = SettableFuture.create();
+    SettableFuture<Long> future2 = SettableFuture.create();
+
+    ImmutableList<ListenableFuture<Long>> delegates = Futures.inCompletionOrder(
+        ImmutableList.<ListenableFuture<Long>>of(future1, future2));
+
+    future1.set(1L);
+    // Cannot cancel a complete delegate
+    assertFalse(delegates.get(0).cancel(true));
+    // Cancel the delegate before the input future is done
+    assertTrue(delegates.get(1).cancel(true));
+    // Setting the future still works since cancellation didn't propagate
+    assertTrue(future2.set(2L));
+    // Second check to ensure the input future was not cancelled
+    assertEquals((Long) 2L, future2.get());
+  }
+
+  // Mostly an example of how it would look like to use a list of mixed types
+  public void testCompletionOrderMixedBagOTypes() throws Exception {
+    SettableFuture<Long> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    SettableFuture<Integer> future3 = SettableFuture.create();
+
+    ImmutableList<? extends ListenableFuture<?>> inputs =
+        ImmutableList.<ListenableFuture<?>>of(future1, future2, future3);
+    ImmutableList<ListenableFuture<Object>> futures = Futures.inCompletionOrder(inputs);
+    future2.set("1L");
+    future1.set(2L);
+    future3.set(3);
+
+    ImmutableList<?> expected = ImmutableList.of("1L", 2L, 3);
+    for (int i = 0; i < expected.size(); i++) {
+      assertEquals(expected.get(i), futures.get(i).get());
+    }
+  }
+
   public static final class TwoArgConstructorException extends Exception {
     public TwoArgConstructorException(String message, Throwable cause) {
       super(message, cause);
