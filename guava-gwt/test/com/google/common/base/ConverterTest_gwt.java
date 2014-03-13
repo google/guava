@@ -38,6 +38,11 @@ public void testConverter() throws Exception {
   testCase.testConverter();
 }
 
+public void testFrom() throws Exception {
+  com.google.common.base.ConverterTest testCase = new com.google.common.base.ConverterTest();
+  testCase.testFrom();
+}
+
 public void testIdentityConverter() throws Exception {
   com.google.common.base.ConverterTest testCase = new com.google.common.base.ConverterTest();
   testCase.testIdentityConverter();
@@ -66,6 +71,11 @@ public void testReverseReverse() throws Exception {
 public void testSerialization_andThen() throws Exception {
   com.google.common.base.ConverterTest testCase = new com.google.common.base.ConverterTest();
   testCase.testSerialization_andThen();
+}
+
+public void testSerialization_from() throws Exception {
+  com.google.common.base.ConverterTest testCase = new com.google.common.base.ConverterTest();
+  testCase.testSerialization_from();
 }
 
 public void testSerialization_identity() throws Exception {

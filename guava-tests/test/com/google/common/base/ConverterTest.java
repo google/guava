@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Functions.toStringFunction;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -149,6 +151,23 @@ public class ConverterTest extends TestCase {
     assertSame(Converter.identity(), Converter.identity());
   }
 
+  public void testFrom() {
+    Function<String, Integer> forward = new Function<String, Integer>() {
+      @Override public Integer apply(String input) {
+        return Integer.parseInt(input);
+      }
+    };
+    Function<Object, String> backward = toStringFunction();
+
+    Converter<String, Number> converter = Converter.<String, Number>from(forward, backward);
+
+    assertNull(converter.convert(null));
+    assertNull(converter.reverse().convert(null));
+
+    assertEquals((Integer) 5, converter.convert("5"));
+    assertEquals("5", converter.reverse().convert(5));
+  }
+
   public void testNullIsPassedThrough() {
     Converter<String, String> nullsArePassed = sillyConverter(false);
     assertEquals("forward", nullsArePassed.convert("foo"));
@@ -191,5 +210,10 @@ public class ConverterTest extends TestCase {
     Converter<Long, String> reverseConverter = Longs.stringConverter().reverse();
     Converter<String, String> composedConverter = converterA.andThen(reverseConverter);
     SerializableTester.reserializeAndAssert(composedConverter);
+  }
+
+  public void testSerialization_from() {
+    Converter<String, String> dumb = Converter.from(toStringFunction(), toStringFunction());
+    SerializableTester.reserializeAndAssert(dumb);
   }
 }
