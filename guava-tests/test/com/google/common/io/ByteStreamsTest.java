@@ -135,7 +135,7 @@ public class ByteStreamsTest extends IoTestCase {
     ByteArrayDataInput in = ByteStreams.newDataInput(b);
     try {
       in.readInt();
-      fail();
+      fail("expected exception");
     } catch (IllegalStateException expected) {
     }
   }
@@ -146,7 +146,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(0x76543210, in.readInt());
     try {
       in.readInt();
-      fail();
+      fail("expected exception");
     } catch (IllegalStateException expected) {
     }
   }
@@ -163,7 +163,7 @@ public class ByteStreamsTest extends IoTestCase {
     byte[] actual = new byte[bytes.length * 2];
     try {
       in.readFully(actual);
-      fail();
+      fail("expected exception");
     } catch (IllegalStateException ex) {
       assertTrue(ex.getCause() instanceof EOFException);
     }
@@ -244,12 +244,12 @@ public class ByteStreamsTest extends IoTestCase {
     }
     try {
       in.readByte();
-      fail();
+      fail("expected exception");
     } catch (IllegalStateException ex) {
       assertTrue(ex.getCause() instanceof EOFException);
     }
   }
-  
+
   public void testNewDataInput_readUnsignedByte() {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
     for (int i = 0; i < bytes.length; i++) {
@@ -257,7 +257,7 @@ public class ByteStreamsTest extends IoTestCase {
     }
     try {
       in.readUnsignedByte();
-      fail();
+      fail("expected exception");
     } catch (IllegalStateException ex) {
       assertTrue(ex.getCause() instanceof EOFException);
     }
@@ -268,18 +268,21 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(0x56787654, in.readInt());
     try {
       in.readInt();
-      fail();
+      fail("expected exception");
     } catch (IllegalStateException expected) {
     }
   }
 
   public void testNewDataInput_skip() {
     ByteArrayDataInput in = ByteStreams.newDataInput(new byte[2]);
-    in.skipBytes(2);
-    try {
-      in.skipBytes(1);
-    } catch (IllegalStateException expected) {
-    }
+    assertEquals(2, in.skipBytes(2));
+    assertEquals(0, in.skipBytes(1));
+  }
+
+  public void testNewDataInput_BAIS() {
+    ByteArrayInputStream bais = new ByteArrayInputStream(new byte[] {0x12, 0x34, 0x56, 0x78});
+    ByteArrayDataInput in = ByteStreams.newDataInput(bais);
+    assertEquals(0x12345678, in.readInt());
   }
 
   public void testNewDataOutput_empty() {
@@ -377,6 +380,14 @@ public class ByteStreamsTest extends IoTestCase {
     out.writeFloat(Float.intBitsToFloat(0x12345678));
     out.writeFloat(Float.intBitsToFloat(0x76543210));
     assertEquals(bytes, out.toByteArray());
+  }
+
+  public void testNewDataOutput_BAOS() {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ByteArrayDataOutput out = ByteStreams.newDataOutput(baos);
+    out.writeInt(0x12345678);
+    assertEquals(4, baos.size());
+    assertEquals(new byte[] {0x12, 0x34, 0x56, 0x78}, baos.toByteArray());
   }
 
   public void testToByteArray_withSize_givenCorrectSize() throws IOException {

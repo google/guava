@@ -293,7 +293,7 @@ public final class ByteStreams {
    * bytes} array from the beginning.
    */
   public static ByteArrayDataInput newDataInput(byte[] bytes) {
-    return new ByteArrayDataInputStream(bytes);
+    return newDataInput(new ByteArrayInputStream(bytes));
   }
 
   /**
@@ -305,19 +305,27 @@ public final class ByteStreams {
    */
   public static ByteArrayDataInput newDataInput(byte[] bytes, int start) {
     checkPositionIndex(start, bytes.length);
-    return new ByteArrayDataInputStream(bytes, start);
+    return newDataInput(
+        new ByteArrayInputStream(bytes, start, bytes.length - start));
+  }
+
+  /**
+   * Returns a new {@link ByteArrayDataInput} instance to read from the given
+   * {@code ByteArrayInputStream}. The given input stream is not reset before
+   * being read from by the returned {@code ByteArrayDataInput}.
+   *
+   * @since 17.0
+   */
+  public static ByteArrayDataInput newDataInput(
+      ByteArrayInputStream byteArrayInputStream) {
+    return new ByteArrayDataInputStream(checkNotNull(byteArrayInputStream));
   }
 
   private static class ByteArrayDataInputStream implements ByteArrayDataInput {
     final DataInput input;
 
-    ByteArrayDataInputStream(byte[] bytes) {
-      this.input = new DataInputStream(new ByteArrayInputStream(bytes));
-    }
-
-    ByteArrayDataInputStream(byte[] bytes, int start) {
-      this.input = new DataInputStream(
-          new ByteArrayInputStream(bytes, start, bytes.length - start));
+    ByteArrayDataInputStream(ByteArrayInputStream byteArrayInputStream) {
+      this.input = new DataInputStream(byteArrayInputStream);
     }
 
     @Override public void readFully(byte b[]) {
@@ -447,7 +455,7 @@ public final class ByteStreams {
    * Returns a new {@link ByteArrayDataOutput} instance with a default size.
    */
   public static ByteArrayDataOutput newDataOutput() {
-    return new ByteArrayDataOutputStream();
+    return newDataOutput(new ByteArrayOutputStream());
   }
 
   /**
@@ -458,7 +466,26 @@ public final class ByteStreams {
    */
   public static ByteArrayDataOutput newDataOutput(int size) {
     checkArgument(size >= 0, "Invalid size: %s", size);
-    return new ByteArrayDataOutputStream(size);
+    return newDataOutput(new ByteArrayOutputStream(size));
+  }
+
+  /**
+   * Returns a new {@link ByteArrayDataOutput} instance which writes to the
+   * given {@code ByteArrayOutputStream}. The given output stream is not reset
+   * before being written to by the returned {@code ByteArrayDataOutput} and
+   * new data will be appended to any existing content.
+   *
+   * <p>Note that if the given output stream was not empty or is modified after
+   * the {@code ByteArrayDataOutput} is created, the contract for
+   * {@link ByteArrayDataOutput#toByteArray} will not be honored (the bytes
+   * returned in the byte array may not be exactly what was written via calls to
+   * {@code ByteArrayDataOutput}).
+   *
+   * @since 17.0
+   */
+  public static ByteArrayDataOutput newDataOutput(
+      ByteArrayOutputStream byteArrayOutputSteam) {
+    return new ByteArrayDataOutputStream(checkNotNull(byteArrayOutputSteam));
   }
 
   @SuppressWarnings("deprecation") // for writeBytes
@@ -467,14 +494,6 @@ public final class ByteStreams {
 
     final DataOutput output;
     final ByteArrayOutputStream byteArrayOutputSteam;
-
-    ByteArrayDataOutputStream() {
-      this(new ByteArrayOutputStream());
-    }
-
-    ByteArrayDataOutputStream(int size) {
-      this(new ByteArrayOutputStream(size));
-    }
 
     ByteArrayDataOutputStream(ByteArrayOutputStream byteArrayOutputSteam) {
       this.byteArrayOutputSteam = byteArrayOutputSteam;
