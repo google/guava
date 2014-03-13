@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
 
 import junit.framework.TestCase;
 
@@ -40,7 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class SerializingExecutorTest extends TestCase {
   private static class FakeExecutor implements Executor {
-    Queue<Runnable> tasks = Queues.newArrayDeque();
+    Queue<Runnable> tasks = Lists.newLinkedList();
     @Override public void execute(Runnable command) {
       tasks.add(command);
     }

@@ -18,7 +18,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.base.Preconditions;
 
-import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
@@ -52,7 +52,7 @@ final class SerializingExecutor implements Executor {
 
   /** A list of Runnables to be run in order. */
   @GuardedBy("internalLock")
-  private final Queue<Runnable> waitQueue = new ArrayDeque<Runnable>();
+  private final Queue<Runnable> waitQueue = new LinkedList<Runnable>();
 
   /**
    * We explicitly keep track of if the TaskRunner is currently scheduled to
