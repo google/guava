@@ -36,6 +36,8 @@ import static java.math.RoundingMode.UNNECESSARY;
 import static java.math.RoundingMode.UP;
 import static java.util.Arrays.asList;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.primitives.Doubles;
@@ -54,6 +56,7 @@ import java.util.List;
  *
  * @author Louis Wasserman
  */
+@GwtCompatible(emulated = true)
 public class DoubleMathTest extends TestCase {
 
   private static final BigDecimal MAX_INT_AS_BIG_DECIMAL = BigDecimal.valueOf(Integer.MAX_VALUE);
@@ -76,6 +79,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToInt(double, RoundingMode)")
   public void testRoundIntegralDoubleToInt() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
@@ -93,6 +97,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToInt(double, RoundingMode)")
   public void testRoundFractionalDoubleToInt() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
@@ -110,6 +115,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToInt(double, RoundingMode)")
   public void testRoundExactIntegralDoubleToInt() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       BigDecimal expected = new BigDecimal(d).setScale(0, UNNECESSARY);
@@ -125,6 +131,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToInt(double, RoundingMode)")
   public void testRoundExactFractionalDoubleToIntFails() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
       try {
@@ -134,6 +141,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToInt(double, RoundingMode)")
   public void testRoundNaNToIntAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       try {
@@ -143,6 +151,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToInt(double, RoundingMode)")
   public void testRoundInfiniteToIntAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       try {
@@ -156,6 +165,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToLong(double, RoundingMode)")
   public void testRoundIntegralDoubleToLong() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
@@ -173,6 +183,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToLong(double, RoundingMode)")
   public void testRoundFractionalDoubleToLong() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
@@ -190,6 +201,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToLong(double, RoundingMode)")
   public void testRoundExactIntegralDoubleToLong() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       // every mode except UNNECESSARY
@@ -206,6 +218,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToLong(double, RoundingMode)")
   public void testRoundExactFractionalDoubleToLongFails() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
       try {
@@ -215,6 +228,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToLong(double, RoundingMode)")
   public void testRoundNaNToLongAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       try {
@@ -224,6 +238,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToLong(double, RoundingMode)")
   public void testRoundInfiniteToLongAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       try {
@@ -237,6 +252,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToBigInteger(double, RoundingMode)")
   public void testRoundIntegralDoubleToBigInteger() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
@@ -246,6 +262,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToBigInteger(double, RoundingMode)")
   public void testRoundFractionalDoubleToBigInteger() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
@@ -255,6 +272,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToBigInteger(double, RoundingMode)")
   public void testRoundExactIntegralDoubleToBigInteger() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       BigDecimal expected = new BigDecimal(d).setScale(0, UNNECESSARY);
@@ -262,6 +280,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToBigInteger(double, RoundingMode)")
   public void testRoundExactFractionalDoubleToBigIntegerFails() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
       try {
@@ -271,6 +290,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToBigInteger(double, RoundingMode)")
   public void testRoundNaNToBigIntegerAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       try {
@@ -280,6 +300,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToBigInteger(double, RoundingMode)")
   public void testRoundInfiniteToBigIntegerAlwaysFails() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       try {
@@ -293,6 +314,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.roundToBigInteger(double, RoundingMode)")
   public void testRoundLog2Floor() {
     for (double d : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
       int log2 = DoubleMath.log2(d, FLOOR);
@@ -301,6 +323,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.log2(double, RoundingMode), StrictMath")
   public void testRoundLog2Ceiling() {
     for (double d : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
       int log2 = DoubleMath.log2(d, CEILING);
@@ -310,6 +333,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.log2(double, RoundingMode), StrictMath")
   public void testRoundLog2Down() {
     for (double d : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
       int log2 = DoubleMath.log2(d, DOWN);
@@ -325,6 +349,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.log2(double, RoundingMode), StrictMath")
   public void testRoundLog2Up() {
     for (double d : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
       int log2 = DoubleMath.log2(d, UP);
@@ -340,6 +365,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.log2(double, RoundingMode)")
   public void testRoundLog2Half() {
     // We don't expect perfect rounding accuracy.
     for (int exp : asList(-1022, -50, -1, 0, 1, 2, 3, 4, 100, 1022, 1023)) {
@@ -357,6 +383,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.log2(double, RoundingMode)")
   public void testRoundLog2Exact() {
     for (double x : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
       boolean isPowerOfTwo = StrictMath.pow(2.0, DoubleMath.log2(x, FLOOR)) == x;
@@ -370,6 +397,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.log2(double, RoundingMode)")
   public void testRoundLog2ThrowsOnZerosInfinitiesAndNaN() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       for (double d :
@@ -382,6 +410,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.log2(double, RoundingMode)")
   public void testRoundLog2ThrowsOnNegative() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       for (double d : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
@@ -393,12 +422,14 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.isPowerOfTwo, DoubleMath.log2(double, RoundingMode), StrictMath")
   public void testIsPowerOfTwoYes() {
     for (int i = -1074; i <= 1023; i++) {
       assertTrue(DoubleMath.isPowerOfTwo(StrictMath.pow(2.0, i)));
     }
   }
 
+  @GwtIncompatible("DoubleMath.isPowerOfTwo, DoubleMath.log2(double, RoundingMode), StrictMath")
   public void testIsPowerOfTwo() {
     for (double x : ALL_DOUBLE_CANDIDATES) {
       boolean expected = x > 0 && !Double.isInfinite(x) && !Double.isNaN(x)
@@ -407,6 +438,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("#trueLog2, Math.ulp")
   public void testLog2Accuracy() {
     for (double d : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
       double dmLog2 = DoubleMath.log2(d);
@@ -438,6 +470,7 @@ public class DoubleMathTest extends TestCase {
     assertTrue(Double.isNaN(DoubleMath.log2(Double.NaN)));
   }
 
+  @GwtIncompatible("StrictMath")
   private strictfp double trueLog2(double d) {
     double trueLog2 = StrictMath.log(d) / StrictMath.log(2);
     // increment until it's >= the true value
@@ -455,18 +488,21 @@ public class DoubleMathTest extends TestCase {
     return trueLog2;
   }
 
+  @GwtIncompatible("DoubleMath.isMathematicalInteger")
   public void testIsMathematicalIntegerIntegral() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       assertTrue(DoubleMath.isMathematicalInteger(d));
     }
   }
 
+  @GwtIncompatible("DoubleMath.isMathematicalInteger")
   public void testIsMathematicalIntegerFractional() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
       assertFalse(DoubleMath.isMathematicalInteger(d));
     }
   }
 
+  @GwtIncompatible("DoubleMath.isMathematicalInteger")
   public void testIsMathematicalIntegerNotFinite() {
     for (double d :
         Arrays.asList(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NaN)) {
@@ -474,6 +510,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Math.ulp")
   public void testFactorial() {
     for (int i = 0; i <= DoubleMath.MAX_FACTORIAL; i++) {
       double actual = BigIntegerMath.factorial(i).doubleValue();
@@ -607,6 +644,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.mean")
   public void testMean_doubleVarargs() {
     assertEquals(-1.375, DoubleMath.mean(1.1, -2.2, 4.4, -8.8), 1.0e-10);
     assertEquals(1.1, DoubleMath.mean(1.1), 1.0e-10);
@@ -622,16 +660,19 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.mean")
   public void testMean_intVarargs() {
     assertEquals(-13.75, DoubleMath.mean(11, -22, 44, -88), 1.0e-10);
     assertEquals(11.0, DoubleMath.mean(11), 1.0e-10);
   }
 
+  @GwtIncompatible("DoubleMath.mean")
   public void testMean_longVarargs() {
     assertEquals(-13.75, DoubleMath.mean(11L, -22L, 44L, -88L), 1.0e-10);
     assertEquals(11.0, DoubleMath.mean(11L), 1.0e-10);
   }
 
+  @GwtIncompatible("DoubleMath.mean")
   public void testMean_emptyVarargs() {
     try {
       DoubleMath.mean();
@@ -640,6 +681,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.mean")
   public void testMean_doubleIterable() {
     assertEquals(-1.375, DoubleMath.mean(ImmutableList.of(1.1, -2.2, 4.4, -8.8)), 1.0e-10);
     assertEquals(1.1, DoubleMath.mean(ImmutableList.of(1.1)), 1.0e-10);
@@ -660,6 +702,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.mean")
   public void testMean_intIterable() {
     assertEquals(-13.75, DoubleMath.mean(ImmutableList.of(11, -22, 44, -88)), 1.0e-10);
     assertEquals(11, DoubleMath.mean(ImmutableList.of(11)), 1.0e-10);
@@ -670,6 +713,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.mean")
   public void testMean_longIterable() {
     assertEquals(-13.75, DoubleMath.mean(ImmutableList.of(11L, -22L, 44L, -88L)), 1.0e-10);
     assertEquals(11, DoubleMath.mean(ImmutableList.of(11L)), 1.0e-10);
@@ -680,6 +724,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.mean")
   public void testMean_intIterator() {
     assertEquals(-13.75, DoubleMath.mean(ImmutableList.of(11, -22, 44, -88).iterator()), 1.0e-10);
     assertEquals(11, DoubleMath.mean(ImmutableList.of(11).iterator()), 1.0e-10);
@@ -690,6 +735,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("DoubleMath.mean")
   public void testMean_longIterator() {
     assertEquals(-13.75, DoubleMath.mean(ImmutableList.of(11L, -22L, 44L, -88L).iterator()),
         1.0e-10);
@@ -701,6 +747,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(double.class, 3.0);

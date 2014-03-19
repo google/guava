@@ -32,6 +32,8 @@ import static java.lang.Math.getExponent;
 import static java.lang.Math.log;
 import static java.lang.Math.rint;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Booleans;
 
@@ -45,11 +47,13 @@ import java.util.Iterator;
  * @author Louis Wasserman
  * @since 11.0
  */
+@GwtCompatible(emulated = true)
 public final class DoubleMath {
   /*
    * This method returns a value y such that rounding y DOWN (towards zero) gives the same result
    * as rounding x according to the specified mode.
    */
+  @GwtIncompatible("#isMathematicalInteger, com.google.common.math.DoubleUtils")
   static double roundIntermediate(double x, RoundingMode mode) {
     if (!isFinite(x)) {
       throw new ArithmeticException("input is infinite or NaN");
@@ -123,6 +127,7 @@ public final class DoubleMath {
    *         {@link RoundingMode#UNNECESSARY}
    *         </ul>
    */
+  @GwtIncompatible("#roundIntermediate")
   public static int roundToInt(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRange(z > MIN_INT_AS_DOUBLE - 1.0 & z < MAX_INT_AS_DOUBLE + 1.0);
@@ -146,6 +151,7 @@ public final class DoubleMath {
    *         {@link RoundingMode#UNNECESSARY}
    *         </ul>
    */
+  @GwtIncompatible("#roundIntermediate")
   public static long roundToLong(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRange(MIN_LONG_AS_DOUBLE - z < 1.0 & z < MAX_LONG_AS_DOUBLE_PLUS_ONE);
@@ -170,6 +176,8 @@ public final class DoubleMath {
    *         {@link RoundingMode#UNNECESSARY}
    *         </ul>
    */
+  @GwtIncompatible("#roundIntermediate, java.lang.Math.getExponent, "
+      + "com.google.common.math.DoubleUtils")
   public static BigInteger roundToBigInteger(double x, RoundingMode mode) {
     x = roundIntermediate(x, mode);
     if (MIN_LONG_AS_DOUBLE - x < 1.0 & x < MAX_LONG_AS_DOUBLE_PLUS_ONE) {
@@ -185,6 +193,7 @@ public final class DoubleMath {
    * Returns {@code true} if {@code x} is exactly equal to {@code 2^k} for some finite integer
    * {@code k}.
    */
+  @GwtIncompatible("com.google.common.math.DoubleUtils")
   public static boolean isPowerOfTwo(double x) {
     return x > 0.0 && isFinite(x) && LongMath.isPowerOfTwo(getSignificand(x));
   }
@@ -219,6 +228,7 @@ public final class DoubleMath {
    * @throws IllegalArgumentException if {@code x <= 0.0}, {@code x} is NaN, or {@code x} is
    *         infinite
    */
+  @GwtIncompatible("java.lang.Math.getExponent, com.google.common.math.DoubleUtils")
   @SuppressWarnings("fallthrough")
   public static int log2(double x, RoundingMode mode) {
     checkArgument(x > 0.0 && isFinite(x), "x must be positive and finite");
@@ -265,6 +275,7 @@ public final class DoubleMath {
    * <p>This is equivalent to, but not necessarily implemented as, the expression {@code
    * !Double.isNaN(x) && !Double.isInfinite(x) && x == Math.rint(x)}.
    */
+  @GwtIncompatible("java.lang.Math.getExponent, com.google.common.math.DoubleUtils")
   public static boolean isMathematicalInteger(double x) {
     return isFinite(x)
         && (x == 0.0 ||
@@ -372,6 +383,7 @@ public final class DoubleMath {
     }
   }
 
+  @GwtIncompatible("com.google.common.math.DoubleUtils")
   private static final class MeanAccumulator {
 
     private long count = 0;
@@ -394,6 +406,7 @@ public final class DoubleMath {
    * Returns the arithmetic mean of the values. There must be at least one value, and they must all
    * be finite.
    */
+  @GwtIncompatible("MeanAccumulator")
   public static double mean(double... values) {
     MeanAccumulator accumulator = new MeanAccumulator();
     for (double value : values) {
@@ -406,6 +419,7 @@ public final class DoubleMath {
    * Returns the arithmetic mean of the values. There must be at least one value. The values will
    * be converted to doubles, which does not cause any loss of precision for ints.
    */
+  @GwtIncompatible("MeanAccumulator")
   public static double mean(int... values) {
     MeanAccumulator accumulator = new MeanAccumulator();
     for (int value : values) {
@@ -419,6 +433,7 @@ public final class DoubleMath {
    * be converted to doubles, which causes loss of precision for longs of magnitude over 2^53
    * (slightly over 9e15).
    */
+  @GwtIncompatible("MeanAccumulator")
   public static double mean(long... values) {
     MeanAccumulator accumulator = new MeanAccumulator();
     for (long value : values) {
@@ -432,6 +447,7 @@ public final class DoubleMath {
    * be finite. The values will be converted to doubles, which may cause loss of precision for some
    * numeric types.
    */
+  @GwtIncompatible("MeanAccumulator")
   public static double mean(Iterable<? extends Number> values) {
     MeanAccumulator accumulator = new MeanAccumulator();
     for (Number value : values) {
@@ -445,6 +461,7 @@ public final class DoubleMath {
    * be finite. The values will be converted to doubles, which may cause loss of precision for some
    * numeric types.
    */
+  @GwtIncompatible("MeanAccumulator")
   public static double mean(Iterator<? extends Number> values) {
     MeanAccumulator accumulator = new MeanAccumulator();
     while (values.hasNext()) {
