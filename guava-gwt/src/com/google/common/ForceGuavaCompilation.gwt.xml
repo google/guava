@@ -16,6 +16,8 @@
   <!-- com.google.common.testing.Testing is located in
        GuavaTests under guava-gwt/test -->
 
-  <source path="" />
+  <source path="">
+    <include name="ForceGuavaCompilationEntryPoint.java" />
+  </source>
   <entry-point class="com.google.common.ForceGuavaCompilationEntryPoint" />
 </module>
