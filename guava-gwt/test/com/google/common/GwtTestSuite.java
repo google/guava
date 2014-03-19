@@ -35,11 +35,6 @@ public class GwtTestSuite extends TestCase {
     GWTTestSuite suite = new GWTTestSuite();
     for (ClassInfo info
         : ClassPath.from(GwtTestSuite.class.getClassLoader()).getTopLevelClasses()) {
-      // TODO(cpovirk): why is this problematic when combined with the others but fine on its own?
-      if (info.getName().equals("com.google.common.util.concurrent.AtomicLongMapTest_gwt")) {
-        continue;
-      }
-
       if (info.getName().endsWith("_gwt")) {
         Class<?> clazz = info.load();
         // TODO(cpovirk): why does asSubclass() throw? Is it something about ClassLoaders?
