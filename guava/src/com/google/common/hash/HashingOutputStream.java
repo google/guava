@@ -64,4 +64,11 @@ public final class HashingOutputStream extends FilterOutputStream {
   public HashCode hash() {
     return hasher.hash();
   }
+
+  // Overriding close() because FilterOutputStream's close() method pre-JDK8 has bad behavior:
+  // it silently ignores any exception thrown by flush(). Instead, just close the delegate stream.
+  // It should flush itself if necessary.
+  @Override public void close() throws IOException {
+    out.close();
+  }
 }
