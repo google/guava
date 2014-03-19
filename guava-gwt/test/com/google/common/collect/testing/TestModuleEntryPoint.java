@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 The Guava Authors
+ * Copyright (C) 2010 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,15 @@
 
 package com.google.common.collect.testing;
 
-import static com.google.common.collect.testing.Helpers.NullsBeforeB;
-import static com.google.common.collect.testing.Helpers.testComparator;
-
-import com.google.common.annotations.GwtCompatible;
-
-import junit.framework.TestCase;
+import com.google.gwt.core.client.EntryPoint;
 
 /**
- * Unit test for {@link Helpers}.
+ * A dummy entry point of the test module.
  *
- * @author Chris Povirk
+ * @author Hayward Chan
  */
-@GwtCompatible
-public class HelpersTest extends TestCase {
-  public void testNullsBeforeB() {
-    testComparator(NullsBeforeB.INSTANCE, "a", "azzzzzz", null, "b", "c");
+public class TestModuleEntryPoint implements EntryPoint {
+
+  @Override public void onModuleLoad() {
   }
 }

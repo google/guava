@@ -20,6 +20,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static java.util.Collections.emptyList;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -35,6 +36,7 @@ import java.util.NoSuchElementException;
  *
  * @author Mick Killianey
  */
+@GwtCompatible
 @SuppressWarnings("serial") // No serialization is used in this test
 public class IteratorTesterTest extends TestCase {
 

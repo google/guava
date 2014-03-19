@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 import junit.framework.TestCase;
 
 import java.util.Collections;
@@ -27,6 +29,7 @@ import java.util.NoSuchElementException;
  *
  * @author Kevin Bourrillion
  */
+@GwtCompatible
 public class MinimalIterableTest extends TestCase {
 
   public void testOf_empty() {

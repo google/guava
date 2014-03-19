@@ -13,24 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.google.common.collect.testing;
-
-import static com.google.common.collect.testing.Helpers.NullsBeforeB;
-import static com.google.common.collect.testing.Helpers.testComparator;
-
-import com.google.common.annotations.GwtCompatible;
-
-import junit.framework.TestCase;
-
-/**
- * Unit test for {@link Helpers}.
- *
- * @author Chris Povirk
- */
-@GwtCompatible
-public class HelpersTest extends TestCase {
-  public void testNullsBeforeB() {
-    testComparator(NullsBeforeB.INSTANCE, "a", "azzzzzz", null, "b", "c");
-  }
+public class HelpersTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
+@Override public String getModuleName() {
+  return "com.google.common.collect.testing.testModule";
+}
+public void testNullsBeforeB() throws Exception {
+  com.google.common.collect.testing.HelpersTest testCase = new com.google.common.collect.testing.HelpersTest();
+  testCase.testNullsBeforeB();
+}
 }
