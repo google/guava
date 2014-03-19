@@ -31,8 +31,6 @@ import java.util.Set;
 /**
  * Utilities for collecting and validating tester requirements from annotations.
  *
- * <p>This class can be referenced in GWT tests.
- *
  * @author George van den Driessche
  */
 public class FeatureUtil {
