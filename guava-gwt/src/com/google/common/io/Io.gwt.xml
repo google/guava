@@ -22,4 +22,6 @@
    
   <inherits name="com.google.common.primitives.Primitives"/>
     
+  <inherits name="com.google.gwt.core.Core"/>
+   
 </module>
