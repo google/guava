@@ -13,12 +13,6 @@
   <inherits name="com.google.common.xml.Xml" />
   <inherits name="com.google.thirdparty.publicsuffix.PublicSuffixPatterns" />
   <inherits name="com.google.thirdparty.publicsuffix.PublicSuffixType" />
-  <!--
-  TODO(cpovirk): Figure out why the compiler crashes without this. In
-  particular, should we be including User in the .gwt.xml of some of our
-  modules?
-  -->
-  <inherits name="com.google.gwt.user.User" />
 
   <!-- com.google.common.testing.Testing is located in
        GuavaTests under guava-gwt/test -->

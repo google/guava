@@ -22,4 +22,6 @@
      
   <inherits name="org.truth0.Truth"/>
    
+  <inherits name="com.google.gwt.core.Core"/>
+   
 </module>

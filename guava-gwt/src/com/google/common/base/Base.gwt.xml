@@ -14,10 +14,14 @@
    
   <super-source path="super"/>
    
+  <inherits name="com.google.gwt.rpc.RPC"/>
+   
   <inherits name="com.google.common.annotations.Annotations"/>
    
   <inherits name="java.nio.charset.Charset"/>
    
   <inherits name="java.util.Util"/>
-     
+    
+  <inherits name="com.google.gwt.core.Core"/>
+   
 </module>
