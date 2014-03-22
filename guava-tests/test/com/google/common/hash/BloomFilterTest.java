@@ -16,6 +16,8 @@
 
 package com.google.common.hash;
 
+import static com.google.common.hash.BloomFilterStrategies.BitArray;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.math.LongMath;
 import com.google.common.primitives.Ints;
@@ -37,10 +39,24 @@ import javax.annotation.Nullable;
  */
 public class BloomFilterTest extends TestCase {
 
-  public void testCreateAndCheckBloomFilterWithKnownFalsePositives() {
+  public void testLargeBloomFilterDoesntOverflow() {
+    long numBits = Integer.MAX_VALUE;
+    numBits++;
+
+    BitArray bitArray = new BitArray(numBits);
+    assertTrue(
+        "BitArray.bitSize() must return a positive number, but was " + bitArray.bitSize(),
+        bitArray.bitSize() > 0);
+
+    // Ideally we would also test the bitSize() overflow of this BF, but it runs out of heap space
+    // BloomFilter.create(Funnels.unencodedCharsFunnel(), 244412641, 1e-11);
+  }
+
+  public void testCreateAndCheckMitz32BloomFilterWithKnownFalsePositives() {
     int numInsertions = 1000000;
-    BloomFilter<CharSequence> bf =
-        BloomFilter.create(Funnels.unencodedCharsFunnel(), numInsertions);
+    BloomFilter<CharSequence> bf = BloomFilter.create(
+        Funnels.unencodedCharsFunnel(), numInsertions, 0.03,
+        BloomFilterStrategies.MURMUR128_MITZ_32);
 
     // Insert "numInsertions" even numbers into the BF.
     for (int i = 0; i < numInsertions * 2; i += 2) {
