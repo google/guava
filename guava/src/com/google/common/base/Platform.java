@@ -18,6 +18,8 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Methods factored out so that they can be emulated differently in GWT.
  *
@@ -34,5 +36,12 @@ final class Platform {
 
   static CharMatcher precomputeCharMatcher(CharMatcher matcher) {
     return matcher.precomputedInternal();
+  }
+
+  static <T extends Enum<T>> Optional<T> getEnumIfPresent(Class<T> enumClass, String value) {
+    WeakReference<? extends Enum<?>> ref = Enums.getEnumConstants(enumClass).get(value);
+    return ref == null
+        ? Optional.<T>absent()
+        : Optional.of(enumClass.cast(ref.get()));
   }
 }

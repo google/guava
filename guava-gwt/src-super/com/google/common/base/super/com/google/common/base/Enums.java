@@ -101,14 +101,11 @@ public final class Enums {
    *
    * @since 12.0
    */
-  public static <T extends Enum<T>> Optional<T> getIfPresent(Class<T> enumClass, String value) {
+  public static <T extends Enum<T>> Optional<T> getIfPresent(
+      Class<T> enumClass, String value) {
     checkNotNull(enumClass);
     checkNotNull(value);
-    try {
-      return Optional.of(Enum.valueOf(enumClass, value));
-    } catch (IllegalArgumentException iae) {
-      return Optional.absent();
-    }
+    return Platform.getEnumIfPresent(enumClass, value);
   }
 
   /**
