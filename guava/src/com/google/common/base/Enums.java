@@ -23,7 +23,12 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import javax.annotation.Nullable;
 
@@ -120,13 +125,40 @@ public final class Enums {
    *
    * @since 12.0
    */
-  public static <T extends Enum<T>> Optional<T> getIfPresent(Class<T> enumClass, String value) {
+  public static <T extends Enum<T>> Optional<T> getIfPresent(
+      Class<T> enumClass, String value) {
     checkNotNull(enumClass);
     checkNotNull(value);
-    try {
-      return Optional.of(Enum.valueOf(enumClass, value));
-    } catch (IllegalArgumentException iae) {
-      return Optional.absent();
+    return Platform.getEnumIfPresent(enumClass, value);
+  }
+
+  @GwtIncompatible("java.lang.ref.WeakReference")
+  private static final Map<Class<? extends Enum<?>>, Map<String, WeakReference<? extends Enum<?>>>>
+      enumConstantCache = new WeakHashMap
+              <Class<? extends Enum<?>>, Map<String, WeakReference<? extends Enum<?>>>>();
+
+  @GwtIncompatible("java.lang.ref.WeakReference")
+  private static <T extends Enum<T>> Map<String, WeakReference<? extends Enum<?>>> populateCache(
+      Class<T> enumClass) {
+    Map<String, WeakReference<? extends Enum<?>>> result
+        = new HashMap<String, WeakReference<? extends Enum<?>>>();
+    for (T enumInstance : EnumSet.allOf(enumClass)) {
+      result.put(enumInstance.name(), new WeakReference<Enum<?>>(enumInstance));
+    }
+    enumConstantCache.put(enumClass, result);
+    return result;
+  }
+
+  @GwtIncompatible("java.lang.ref.WeakReference")
+  static <T extends Enum<T>> Map<String, WeakReference<? extends Enum<?>>> getEnumConstants(
+      Class<T> enumClass) {
+    synchronized (enumConstantCache) {
+      Map<String, WeakReference<? extends Enum<?>>> constants =
+          enumConstantCache.get(enumClass);
+      if (constants == null) {
+        constants = populateCache(enumClass);
+      }
+      return constants;
     }
   }
 

@@ -36,5 +36,13 @@ final class Platform {
     return TimeUnit.MILLISECONDS.toNanos(System.currentTimeMillis());
   }
 
+  static <T extends Enum<T>> Optional<T> getEnumIfPresent(Class<T> enumClass, String value) {
+    try {
+      return Optional.of(Enum.valueOf(enumClass, value));
+    } catch (IllegalArgumentException iae) {
+      return Optional.absent();
+    }
+  }
+
   private Platform() {}
 }
