@@ -147,7 +147,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      * @param count the number of hits to record
      * @since 11.0
      */
-    public void recordHits(int count);
+    void recordHits(int count);
 
     /**
      * Records cache misses. This should be called when a cache request returns a value that was
@@ -160,7 +160,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      * @param count the number of misses to record
      * @since 11.0
      */
-    public void recordMisses(int count);
+    void recordMisses(int count);
 
     /**
      * Records the successful load of a new entry. This should be called when a cache request
@@ -170,7 +170,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      * @param loadTime the number of nanoseconds the cache spent computing or retrieving the new
      *     value
      */
-    public void recordLoadSuccess(long loadTime);
+    void recordLoadSuccess(long loadTime);
 
     /**
      * Records the failed load of a new entry. This should be called when a cache request causes
@@ -180,20 +180,20 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      * @param loadTime the number of nanoseconds the cache spent computing or retrieving the new
      *     value prior to an exception being thrown
      */
-    public void recordLoadException(long loadTime);
+    void recordLoadException(long loadTime);
 
     /**
      * Records the eviction of an entry from the cache. This should only been called when an entry
      * is evicted due to the cache's eviction strategy, and not as a result of manual {@linkplain
      * Cache#invalidate invalidations}.
      */
-    public void recordEviction();
+    void recordEviction();
 
     /**
      * Returns a snapshot of this counter's values. Note that this may be an inconsistent view, as
      * it may be interleaved with update operations.
      */
-    public CacheStats snapshot();
+    CacheStats snapshot();
   }
 
   /**
