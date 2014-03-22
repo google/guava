@@ -77,7 +77,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
   // Note: We use this instead of java.util.BitSet because we need access to the long[] data field
   static class BitArray {
     final long[] data;
-    int bitCount;
+    long bitCount;
 
     BitArray(long bits) {
       this(new long[Ints.checkedCast(LongMath.divide(bits, 64, RoundingMode.CEILING))]);
@@ -87,7 +87,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     BitArray(long[] data) {
       checkArgument(data.length > 0, "data length is zero!");
       this.data = data;
-      int bitCount = 0;
+      long bitCount = 0;
       for (long value : data) {
         bitCount += Long.bitCount(value);
       }
@@ -95,26 +95,26 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     /** Returns true if the bit changed value. */
-    boolean set(int index) {
+    boolean set(long index) {
       if (!get(index)) {
-        data[index >> 6] |= (1L << index);
+        data[(int) (index >>> 6)] |= (1L << index);
         bitCount++;
         return true;
       }
       return false;
     }
 
-    boolean get(int index) {
-      return (data[index >> 6] & (1L << index)) != 0;
+    boolean get(long index) {
+      return (data[(int) (index >>> 6)] & (1L << index)) != 0;
     }
 
     /** Number of bits */
-    int bitSize() {
-      return data.length * Long.SIZE;
+    long bitSize() {
+      return (long) data.length * Long.SIZE;
     }
 
     /** Number of set bits (1s) */
-    int bitCount() {
+    long bitCount() {
       return bitCount;
     }
 

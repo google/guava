@@ -270,11 +270,19 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   public static <T> BloomFilter<T> create(
       Funnel<T> funnel, int expectedInsertions /* n */, double fpp) {
+    return create(funnel, expectedInsertions, fpp, BloomFilterStrategies.MURMUR128_MITZ_32);
+  }
+
+  @VisibleForTesting
+  static <T> BloomFilter<T> create(
+      Funnel<T> funnel, int expectedInsertions /* n */, double fpp, Strategy strategy) {
     checkNotNull(funnel);
     checkArgument(expectedInsertions >= 0, "Expected insertions (%s) must be >= 0",
         expectedInsertions);
     checkArgument(fpp > 0.0, "False positive probability (%s) must be > 0.0", fpp);
     checkArgument(fpp < 1.0, "False positive probability (%s) must be < 1.0", fpp);
+    checkNotNull(strategy);
+
     if (expectedInsertions == 0) {
       expectedInsertions = 1;
     }
@@ -287,8 +295,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
     long numBits = optimalNumOfBits(expectedInsertions, fpp);
     int numHashFunctions = optimalNumOfHashFunctions(expectedInsertions, numBits);
     try {
-      return new BloomFilter<T>(new BitArray(numBits), numHashFunctions, funnel,
-          BloomFilterStrategies.MURMUR128_MITZ_32);
+      return new BloomFilter<T>(new BitArray(numBits), numHashFunctions, funnel, strategy);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Could not create BloomFilter of " + numBits + " bits", e);
     }
