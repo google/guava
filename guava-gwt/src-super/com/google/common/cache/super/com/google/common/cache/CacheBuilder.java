@@ -121,7 +121,7 @@ import javax.annotation.CheckReturnValue;
  * visible to read or write operations.
  *
  * <p>Certain cache configurations will result in the accrual of periodic maintenance tasks which
- * will be performed during write operations, or during occasional read operations in the absense of
+ * will be performed during write operations, or during occasional read operations in the absence of
  * writes. The {@link Cache#cleanUp} method of the returned cache will also perform maintenance, but
  * calling it should not be necessary with a high throughput cache. Only caches built with
  * {@linkplain #removalListener removalListener}, {@linkplain #expireAfterWrite expireAfterWrite},
