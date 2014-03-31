@@ -96,6 +96,15 @@ public abstract class HashCode {
   abstract void writeBytesToImpl(byte[] dest, int offset, int maxLength);
 
   /**
+   * Returns a mutable view of the underlying bytes for the given {@code HashCode} if it is a
+   * byte-based hashcode. Otherwise it returns {@link HashCode#asBytes}. Do <i>not</i> mutate this
+   * array or else you will break the immutability contract of {@code HashCode}.
+   */
+  byte[] getBytesInternal() {
+    return asBytes();
+  }
+
+  /**
    * Creates a 32-bit {@code HashCode} representation of the given int value. The underlying bytes
    * are interpreted in little endian order.
    *
@@ -276,6 +285,11 @@ public abstract class HashCode {
     @Override
     void writeBytesToImpl(byte[] dest, int offset, int maxLength) {
       System.arraycopy(bytes, 0, dest, offset, maxLength);
+    }
+
+    @Override
+    byte[] getBytesInternal() {
+      return bytes;
     }
 
     private static final long serialVersionUID = 0;
