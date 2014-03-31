@@ -97,7 +97,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
       long hash2 = upperEight(bytes);
 
       boolean bitsChanged = false;
-      long combinedHash = hash1 + hash2;
+      long combinedHash = hash1;
       for (int i = 0; i < numHashFunctions; i++) {
         // Make the combined hash positive and indexable
         bitsChanged |= bits.set((combinedHash & Long.MAX_VALUE) % bitSize);
@@ -114,7 +114,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
       long hash1 = lowerEight(bytes);
       long hash2 = upperEight(bytes);
 
-      long combinedHash = hash1 + hash2;
+      long combinedHash = hash1;
       for (int i = 0; i < numHashFunctions; i++) {
         // Make the combined hash positive and indexable
         if (!bits.get((combinedHash & Long.MAX_VALUE) % bitSize)) {
