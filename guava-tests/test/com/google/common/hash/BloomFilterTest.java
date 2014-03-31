@@ -111,15 +111,15 @@ public class BloomFilterTest extends TestCase {
     // Now we check for known false positives using a set of known false positives.
     // (These are all of the false positives under 900.)
     ImmutableSet<Integer> falsePositives = ImmutableSet.of(
-        1, 143, 231, 287, 311, 319, 331, 421, 457, 547, 599, 659, 723);
+        15, 25, 287, 319, 381, 399, 421, 465, 529, 697, 767, 857);
     for (int i = 1; i < 900; i += 2) {
       if (!falsePositives.contains(i)) {
         assertFalse("BF should not contain " + i, bf.mightContain(Integer.toString(i)));
       }
     }
 
-    // Check that there are exactly 29651 false positives for this BF.
-    int knownNumberOfFalsePositives = 29651;
+    // Check that there are exactly 30104 false positives for this BF.
+    int knownNumberOfFalsePositives = 30104;
     int numFpp = 0;
     for (int i = 1; i < numInsertions * 2; i += 2) {
       if (bf.mightContain(Integer.toString(i))) {
