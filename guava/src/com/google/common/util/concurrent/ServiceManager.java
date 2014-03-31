@@ -49,9 +49,11 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.ListenerCallQueue.Callback;
 import com.google.common.util.concurrent.Service.State;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -66,7 +68,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.concurrent.GuardedBy;
-import javax.annotation.concurrent.Immutable;
 
 /**
  * A manager for monitoring and controlling a set of {@linkplain Service services}. This class
@@ -123,7 +124,17 @@ import javax.annotation.concurrent.Immutable;
 @Beta
 public final class ServiceManager {
   private static final Logger logger = Logger.getLogger(ServiceManager.class.getName());
-  
+  private static final Callback<Listener> HEALTHY_CALLBACK = new Callback<Listener>("healthy()") {
+    @Override void call(Listener listener) {
+      listener.healthy();
+    }
+  };
+  private static final Callback<Listener> STOPPED_CALLBACK = new Callback<Listener>("stopped()") {
+    @Override void call(Listener listener) {
+      listener.stopped();
+    }
+  };
+
   /**
    * A listener for the aggregate state changes of the services that are under management. Users
    * that need to listen to more fine-grained events (such as when each particular {@linkplain
@@ -191,6 +202,7 @@ public final class ServiceManager {
     this.services = copy;
     WeakReference<ServiceManagerState> stateReference = 
         new WeakReference<ServiceManagerState>(state);
+    Executor sameThreadExecutor = MoreExecutors.sameThreadExecutor();
     for (Service service : copy) {
       // We give each listener its own SynchronizedExecutor to ensure that the state transitions
       // are run in the same order that they occur.  The Service.Listener api guarantees us only
@@ -200,7 +212,7 @@ public final class ServiceManager {
       //
       // This is necessary to prevent transitions being played back in the wrong order due to thread
       // races to acquire the monitor in ServiceManagerState.
-      service.addListener(new ServiceListener(service, stateReference), new SynchronizedExecutor());
+      service.addListener(new ServiceListener(service, stateReference), sameThreadExecutor);
       // We check the state after adding the listener as a way to ensure that our listener was added
       // to a NEW service.
       checkArgument(service.state() == NEW, "Can only manage NEW services, %s", service);
@@ -216,12 +228,15 @@ public final class ServiceManager {
    * suggested that listeners are added before any of the managed services are 
    * {@linkplain Service#startAsync started}.
    *
-   * <p>There is no guaranteed ordering of execution of listeners, but any listener added through 
-   * this method is guaranteed to be called whenever there is a state change.
+   * <p>{@code addListener} guarantees execution ordering across calls to a given listener but not
+   * across calls to multiple listeners. Specifically, a given listener will have its callbacks
+   * invoked in the same order as the underlying service enters those states. Additionally, at most
+   * one of the listener's callbacks will execute at once. However, multiple listeners' callbacks
+   * may execute concurrently, and listeners may execute in an order different from the one in which
+   * they were registered.
    *
-   * <p>Exceptions thrown by a listener will be propagated up to the executor. Any exception thrown 
-   * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException} or an exception 
-   * thrown by {@linkplain MoreExecutors#sameThreadExecutor inline execution}) will be caught and
+   * <p>RuntimeExceptions thrown by a listener will be caught and logged. Any exception thrown 
+   * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException}) will be caught and
    * logged.
    * 
    * <p> For fast, lightweight listeners that would be safe to execute in any thread, consider 
@@ -239,10 +254,14 @@ public final class ServiceManager {
    * listener will not have previous state changes replayed, so it is suggested that listeners are 
    * added before any of the managed services are {@linkplain Service#startAsync started}.
    *
-   * <p>There is no guaranteed ordering of execution of listeners, but any listener added through 
-   * this method is guaranteed to be called whenever there is a state change.
+   * <p>{@code addListener} guarantees execution ordering across calls to a given listener but not
+   * across calls to multiple listeners. Specifically, a given listener will have its callbacks
+   * invoked in the same order as the underlying service enters those states. Additionally, at most
+   * one of the listener's callbacks will execute at once. However, multiple listeners' callbacks
+   * may execute concurrently, and listeners may execute in an order different from the one in which
+   * they were registered.
    *
-   * <p>Exceptions thrown by a listener will be will be caught and logged.
+   * <p>RuntimeExceptions thrown by a listener will be caught and logged.
    * 
    * @param listener the listener to run when the manager changes state
    */
@@ -447,19 +466,9 @@ public final class ServiceManager {
 
     /** The listeners to notify during a state transition. */
     @GuardedBy("monitor")
-    final List<ListenerExecutorPair> listeners = Lists.newArrayList();
+    final List<ListenerCallQueue<Listener>> listeners = 
+        Collections.synchronizedList(new ArrayList<ListenerCallQueue<Listener>>());
 
-    /**
-     * The queue of listeners that are waiting to be executed.
-     *
-     * <p>Enqueue operations should be protected by {@link #monitor} while dequeue operations are
-     * not protected. Holding {@link #monitor} while enqueuing ensures that listeners in the queue
-     * are in the correct order and {@link ExecutionQueue} ensures that they are executed in the
-     * correct order.
-     */
-    @GuardedBy("monitor")
-    final ExecutionQueue queuedListeners = new ExecutionQueue();
-    
     /**
      * It is implicitly assumed that all the services are NEW and that they will all remain NEW 
      * until all the Listeners are installed and {@link #markReady()} is called.  It is our caller's
@@ -507,7 +516,7 @@ public final class ServiceManager {
       try {
         // no point in adding a listener that will never be called
         if (!stoppedGuard.isSatisfied()) {
-          listeners.add(new ListenerExecutorPair(listener, executor));
+          listeners.add(new ListenerCallQueue<Listener>(listener, executor));
         }
       } finally {
         monitor.leave();
@@ -639,8 +648,7 @@ public final class ServiceManager {
           // N.B. if we miss the STARTING event then we will never record a startup time.
           stopwatch.stop();
           if (!(service instanceof NoOpService)) {
-            logger.log(Level.FINE, "Started {0} in {1}.",
-                new Object[] {service, stopwatch});
+            logger.log(Level.FINE, "Started {0} in {1}.", new Object[] {service, stopwatch});
           }
         }
         // Queue our listeners
@@ -656,8 +664,6 @@ public final class ServiceManager {
           fireHealthyListeners();
         } else if (states.count(TERMINATED) + states.count(FAILED) == numberOfServices) {
           fireStoppedListeners();
-          // no more listeners could possibly be called, so clear them out to save some memory.
-          listeners.clear();
         }
       } finally {
         monitor.leave();
@@ -668,42 +674,31 @@ public final class ServiceManager {
 
     @GuardedBy("monitor")
     void fireStoppedListeners() {
-      for (final ListenerExecutorPair pair : listeners) {
-        queuedListeners.add(new Runnable() {
-          @Override public void run() {
-            pair.listener.stopped();
-          }
-        }, pair.executor);
-      }
+      STOPPED_CALLBACK.enqueueOn(listeners);
     }
 
     @GuardedBy("monitor")
     void fireHealthyListeners() {
-      for (final ListenerExecutorPair pair : listeners) {
-        queuedListeners.add(new Runnable() {
-          @Override public void run() {
-            pair.listener.healthy();
-          }
-        }, pair.executor);
-      }
+      HEALTHY_CALLBACK.enqueueOn(listeners);
     }
 
     @GuardedBy("monitor")
     void fireFailedListeners(final Service service) {
-      for (final ListenerExecutorPair pair : listeners) {
-        queuedListeners.add(new Runnable() {
-          @Override public void run() {
-            pair.listener.failure(service);
-          }
-        }, pair.executor);
-      }
+      new Callback<Listener>("failed({service=" + service + "})") {
+        @Override void call(Listener listener) {
+          listener.failure(service);
+        }
+      }.enqueueOn(listeners);
     }
 
-    /** Attempts to execute all the listeners in {@link #queuedListeners}. */
+    /** Attempts to execute all the listeners in {@link #listeners}. */
     void executeListeners() {
       checkState(!monitor.isOccupiedByCurrentThread(), 
           "It is incorrect to execute listeners with the monitor held.");
-      queuedListeners.execute();
+      // iterate by index to avoid concurrent modification exceptions
+      for (int i = 0; i < listeners.size(); i++) {
+        listeners.get(i).execute();
+      }
     }
 
     @GuardedBy("monitor")
@@ -781,17 +776,6 @@ public final class ServiceManager {
     }
   }
   
-  /** Simple value object binding a listener to its executor. */
-  @Immutable private static final class ListenerExecutorPair {
-    final Listener listener;
-    final Executor executor;
-    
-    ListenerExecutorPair(Listener listener, Executor executor) {
-      this.listener = listener;
-      this.executor = executor;
-    }
-  }
-  
   /**
    * A {@link Service} instance that does nothing.  This is only useful as a placeholder to
    * ensure that the {@link ServiceManager} functions properly even when it is managing no services.
@@ -807,16 +791,4 @@ public final class ServiceManager {
   
   /** This is never thrown but only used for logging. */
   private static final class EmptyServiceManagerWarning extends Throwable {}
-  
-  /** 
-   * A same-thread executor that executes all the runnables from within a synchronized block.
-   * 
-   * <p>This ensures that tasks submitted to the executor run in the same order that they were 
-   * submitted.
-   */
-  private static final class SynchronizedExecutor implements Executor {
-    @Override public synchronized void execute(Runnable command) {
-      command.run();
-    }
-  }
 }
