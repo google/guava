@@ -151,12 +151,15 @@ public interface Service {
    * service changes state. The listener will not have previous state changes replayed, so it is 
    * suggested that listeners are added before the service starts.
    *
-   * <p>There is no guaranteed ordering of execution of listeners, but any listener added through 
-   * this method is guaranteed to be called whenever there is a state change.
+   * <p>{@code addListener} guarantees execution ordering across calls to a given listener but not
+   * across calls to multiple listeners. Specifically, a given listener will have its callbacks
+   * invoked in the same order as the underlying service enters those states. Additionally, at most
+   * one of the listener's callbacks will execute at once. However, multiple listeners' callbacks
+   * may execute concurrently, and listeners may execute in an order different from the one in which
+   * they were registered.
    *
-   * <p>Exceptions thrown by a listener will be propagated up to the executor. Any exception thrown 
-   * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException} or an exception 
-   * thrown by {@linkplain MoreExecutors#sameThreadExecutor inline execution}) will be caught and
+   * <p>RuntimeExceptions thrown by a listener will be caught and logged. Any exception thrown 
+   * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException}) will be caught and
    * logged.
    * 
    * @param listener the listener to run when the service changes state is complete

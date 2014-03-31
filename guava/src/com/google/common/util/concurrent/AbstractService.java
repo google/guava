@@ -27,14 +27,17 @@ import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
 
 import com.google.common.annotations.Beta;
-import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.ListenerCallQueue.Callback;
 import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 import javax.annotation.concurrent.Immutable;
@@ -51,6 +54,46 @@ import javax.annotation.concurrent.Immutable;
  */
 @Beta
 public abstract class AbstractService implements Service {
+  private static final Callback<Listener> STARTING_CALLBACK =
+      new Callback<Listener>("starting()") {
+        @Override void call(Listener listener) {
+          listener.starting();
+        }
+      };
+  private static final Callback<Listener> RUNNING_CALLBACK =
+      new Callback<Listener>("running()") {
+        @Override void call(Listener listener) {
+          listener.running();
+        }
+      };
+  private static final Callback<Listener> STOPPING_FROM_STARTING_CALLBACK =
+      stoppingCallback(STARTING);
+  private static final Callback<Listener> STOPPING_FROM_RUNNING_CALLBACK =
+      stoppingCallback(RUNNING);
+
+  private static final Callback<Listener> TERMINATED_FROM_NEW_CALLBACK =
+      terminatedCallback(NEW);
+  private static final Callback<Listener> TERMINATED_FROM_RUNNING_CALLBACK =
+      terminatedCallback(RUNNING);
+  private static final Callback<Listener> TERMINATED_FROM_STOPPING_CALLBACK =
+      terminatedCallback(STOPPING);
+
+  private static Callback<Listener> terminatedCallback(final State from) {
+    return new Callback<Listener>("terminated({from = " + from + "})") {
+      @Override void call(Listener listener) {
+        listener.terminated(from);
+      }
+    };
+  }
+
+  private static Callback<Listener> stoppingCallback(final State from) {
+    return new Callback<Listener>("stopping({from = " + from + "})") {
+      @Override void call(Listener listener) {
+        listener.stopping(from);
+      }
+    };
+  }
+
   private final Monitor monitor = new Monitor();
 
   private final Guard isStartable = new Guard(monitor) {
@@ -81,15 +124,8 @@ public abstract class AbstractService implements Service {
    * The listeners to notify during a state transition.
    */
   @GuardedBy("monitor")
-  private final List<ListenerExecutorPair> listeners = Lists.newArrayList();
-
-  /**
-   * The queue of listeners that are waiting to be executed.
-   *
-   * <p>Enqueue operations should be protected by {@link #monitor} while calling
-   * {@link ExecutionQueue#execute()} should not be protected.
-   */
-  private final ExecutionQueue queuedListeners = new ExecutionQueue();
+  private final List<ListenerCallQueue<Listener>> listeners =
+      Collections.synchronizedList(new ArrayList<ListenerCallQueue<Listener>>());
 
   /**
    * The current state of the service.  This should be written with the lock held but can be read
@@ -374,9 +410,8 @@ public abstract class AbstractService implements Service {
     checkNotNull(executor, "executor");
     monitor.enter();
     try {
-      State currentState = state();
-      if (currentState != TERMINATED && currentState != FAILED) {
-        listeners.add(new ListenerExecutorPair(listener, executor));
+      if (!state().isTerminal()) {
+        listeners.add(new ListenerCallQueue<Listener>(listener, executor));
       }
     } finally {
       monitor.leave();
@@ -388,83 +423,67 @@ public abstract class AbstractService implements Service {
   }
 
   /**
-   * Attempts to execute all the listeners in {@link #queuedListeners} while not holding the
+   * Attempts to execute all the listeners in {@link #listeners} while not holding the
    * {@link #monitor}.
    */
   private void executeListeners() {
     if (!monitor.isOccupiedByCurrentThread()) {
-      queuedListeners.execute();
+      // iterate by index to avoid concurrent modification exceptions
+      for (int i = 0; i < listeners.size(); i++) {
+        listeners.get(i).execute();
+      }
     }
   }
 
   @GuardedBy("monitor")
   private void starting() {
-    for (final ListenerExecutorPair pair : listeners) {
-      queuedListeners.add(new Runnable() {
-        @Override public void run() {
-          pair.listener.starting();
-        }
-      }, pair.executor);
-    }
+    STARTING_CALLBACK.enqueueOn(listeners);
   }
 
   @GuardedBy("monitor")
   private void running() {
-    for (final ListenerExecutorPair pair : listeners) {
-      queuedListeners.add(new Runnable() {
-        @Override public void run() {
-          pair.listener.running();
-        }
-      }, pair.executor);
-    }
+    RUNNING_CALLBACK.enqueueOn(listeners);
   }
 
   @GuardedBy("monitor")
   private void stopping(final State from) {
-    for (final ListenerExecutorPair pair : listeners) {
-      queuedListeners.add(new Runnable() {
-        @Override public void run() {
-          pair.listener.stopping(from);
-        }
-      }, pair.executor);
+    if (from == State.STARTING) {
+      STOPPING_FROM_STARTING_CALLBACK.enqueueOn(listeners);
+    } else if (from == State.RUNNING) {
+      STOPPING_FROM_RUNNING_CALLBACK.enqueueOn(listeners);
+    } else {
+      throw new AssertionError();
     }
   }
 
   @GuardedBy("monitor")
   private void terminated(final State from) {
-    for (final ListenerExecutorPair pair : listeners) {
-      queuedListeners.add(new Runnable() {
-        @Override public void run() {
-          pair.listener.terminated(from);
-        }
-      }, pair.executor);
+    switch(from) {
+      case NEW:
+        TERMINATED_FROM_NEW_CALLBACK.enqueueOn(listeners);
+        break;
+      case RUNNING:
+        TERMINATED_FROM_RUNNING_CALLBACK.enqueueOn(listeners);
+        break;
+      case STOPPING:
+        TERMINATED_FROM_STOPPING_CALLBACK.enqueueOn(listeners);
+        break;
+      case STARTING:
+      case TERMINATED:
+      case FAILED:
+      default:
+        throw new AssertionError();
     }
-    // There are no more state transitions so we can clear this out.
-    listeners.clear();
   }
 
   @GuardedBy("monitor")
   private void failed(final State from, final Throwable cause) {
-    for (final ListenerExecutorPair pair : listeners) {
-      queuedListeners.add(new Runnable() {
-        @Override public void run() {
-          pair.listener.failed(from, cause);
-        }
-      }, pair.executor);
-    }
-    // There are no more state transitions so we can clear this out.
-    listeners.clear();
-  }
-
-  /** A simple holder for a listener and its executor. */
-  private static class ListenerExecutorPair {
-    final Listener listener;
-    final Executor executor;
-
-    ListenerExecutorPair(Listener listener, Executor executor) {
-      this.listener = listener;
-      this.executor = executor;
-    }
+    // can't memoize this one due to the exception
+    new Callback<Listener>("failed({from = " + from + ", cause = " + cause + "})") {
+      @Override void call(Listener listener) {
+        listener.failed(from, cause);
+      }
+    }.enqueueOn(listeners);
   }
 
   /**
