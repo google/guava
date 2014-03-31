@@ -156,7 +156,7 @@ public class SplitterTest extends TestCase {
 
   public void testCharacterSplitOnOnlyDelimitersOmitEmptyStrings() {
     Iterable<String> empty = Splitter.on('.').omitEmptyStrings().split("...");
-    ASSERT.that(empty);
+    ASSERT.that(empty).isEmpty();
   }
 
   public void testCharacterSplitWithTrim() {

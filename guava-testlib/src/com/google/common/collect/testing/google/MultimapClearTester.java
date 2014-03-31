@@ -49,11 +49,11 @@ public class MultimapClearTester<K, V> extends AbstractMultimapTester<K, V, Mult
     assertEquals(0, multimap().size());
     assertTrue(multimap().isEmpty());
     assertEquals(multimap(), getSubjectGenerator().create());
-    ASSERT.that(multimap().entries().isEmpty());
-    ASSERT.that(multimap().asMap().isEmpty());
-    ASSERT.that(multimap().keySet().isEmpty());
-    ASSERT.that(multimap().keys().isEmpty());
-    ASSERT.that(multimap().values().isEmpty());
+    ASSERT.that(multimap().entries()).isEmpty();
+    ASSERT.that(multimap().asMap()).isEmpty();
+    ASSERT.that(multimap().keySet()).isEmpty();
+    ASSERT.that(multimap().keys()).isEmpty();
+    ASSERT.that(multimap().values()).isEmpty();
     for (K key : sampleKeys()) {
       assertGet(key);
     }
