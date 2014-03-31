@@ -117,6 +117,19 @@ public class HashCodeTest extends TestCase {
     assertEquals("00ab0000", hashCode.toString());
   }
 
+  public void testGetBytesInternal_noCloneOccurs() {
+    byte[] bytes = new byte[] { (byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00 };
+    HashCode hashCode = HashCode.fromBytes(bytes);
+
+    assertEquals(0x0000abcd, hashCode.asInt());
+    assertEquals("cdab0000", hashCode.toString());
+
+    hashCode.getBytesInternal()[0] = (byte) 0x00;
+
+    assertEquals(0x0000ab00, hashCode.asInt());
+    assertEquals("00ab0000", hashCode.toString());
+  }
+
   public void testPadToLong() {
     assertEquals(0x1111111111111111L, HashCode.fromLong(0x1111111111111111L).padToLong());
     assertEquals(0x9999999999999999L, HashCode.fromLong(0x9999999999999999L).padToLong());
