@@ -38,7 +38,6 @@ import javax.annotation.Nullable;
  * @author Dimitris Andreou
  */
 public class BloomFilterTest extends TestCase {
-
   public void testLargeBloomFilterDoesntOverflow() {
     long numBits = Integer.MAX_VALUE;
     numBits++;
@@ -91,6 +90,47 @@ public class BloomFilterTest extends TestCase {
     double expectedFpp = bf.expectedFpp();
     // The normal order of (expected, actual) is reversed here on purpose.
     assertEquals(actualFpp, expectedFpp, 0.00015);
+  }
+
+  public void testCreateAndCheckBloomFilterWithKnownFalsePositives64() {
+    int numInsertions = 1000000;
+    BloomFilter<CharSequence> bf = BloomFilter.create(
+        Funnels.unencodedCharsFunnel(), numInsertions, 0.03,
+        BloomFilterStrategies.MURMUR128_MITZ_64);
+
+    // Insert "numInsertions" even numbers into the BF.
+    for (int i = 0; i < numInsertions * 2; i += 2) {
+      bf.put(Integer.toString(i));
+    }
+
+    // Assert that the BF "might" have all of the even numbers.
+    for (int i = 0; i < numInsertions * 2; i += 2) {
+      assertTrue(bf.mightContain(Integer.toString(i)));
+    }
+
+    // Now we check for known false positives using a set of known false positives.
+    // (These are all of the false positives under 900.)
+    ImmutableSet<Integer> falsePositives = ImmutableSet.of(
+        1, 143, 231, 287, 311, 319, 331, 421, 457, 547, 599, 659, 723);
+    for (int i = 1; i < 900; i += 2) {
+      if (!falsePositives.contains(i)) {
+        assertFalse("BF should not contain " + i, bf.mightContain(Integer.toString(i)));
+      }
+    }
+
+    // Check that there are exactly 29651 false positives for this BF.
+    int knownNumberOfFalsePositives = 29651;
+    int numFpp = 0;
+    for (int i = 1; i < numInsertions * 2; i += 2) {
+      if (bf.mightContain(Integer.toString(i))) {
+        numFpp++;
+      }
+    }
+    assertEquals(knownNumberOfFalsePositives, numFpp);
+    double actualFpp = (double) knownNumberOfFalsePositives / numInsertions;
+    double expectedFpp = bf.expectedFpp();
+    // The normal order of (expected, actual) is reversed here on purpose.
+    assertEquals(actualFpp, expectedFpp, 0.00033);
   }
 
   /**
@@ -361,7 +401,8 @@ public class BloomFilterTest extends TestCase {
    * Only appending a new constant is allowed.
    */
   public void testBloomFilterStrategies() {
-    assertEquals(1, BloomFilterStrategies.values().length);
+    assertEquals(2, BloomFilterStrategies.values().length);
     assertEquals(BloomFilterStrategies.MURMUR128_MITZ_32, BloomFilterStrategies.values()[0]);
+    assertEquals(BloomFilterStrategies.MURMUR128_MITZ_64, BloomFilterStrategies.values()[1]);
   }
 }
