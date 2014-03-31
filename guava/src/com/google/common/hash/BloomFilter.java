@@ -270,7 +270,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   public static <T> BloomFilter<T> create(
       Funnel<T> funnel, int expectedInsertions /* n */, double fpp) {
-    return create(funnel, expectedInsertions, fpp, BloomFilterStrategies.MURMUR128_MITZ_32);
+    return create(funnel, expectedInsertions, fpp, BloomFilterStrategies.MURMUR128_MITZ_64);
   }
 
   @VisibleForTesting
