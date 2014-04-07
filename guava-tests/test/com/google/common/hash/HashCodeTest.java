@@ -338,10 +338,8 @@ public class HashCodeTest extends TestCase {
   private static ClassSanityTester.FactoryMethodReturnValueTester sanityTester() {
     return new ClassSanityTester()
         .setDefault(byte[].class, new byte[] {1, 2, 3, 4})
-        .setSampleInstances(byte[].class,
-            ImmutableList.of(new byte[] {1, 2, 3, 4}, new byte[] {5, 6, 7, 8}))
-        .setSampleInstances(String.class,
-            ImmutableList.of("7f8005ff0e", "7f8005ff0e"))
+        .setDistinctValues(byte[].class, new byte[] {1, 2, 3, 4}, new byte[] {5, 6, 7, 8})
+        .setDistinctValues(String.class, "7f8005ff0e", "7f8005ff0f")
         .forAllPublicStaticMethods(HashCode.class);
   }
 
