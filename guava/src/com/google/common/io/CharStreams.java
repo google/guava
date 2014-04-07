@@ -67,7 +67,7 @@ public final class CharStreams {
    *
    * @param value the string to read
    * @return the factory
-   * @deprecated Use {@link CharSource#wrap(CharSequence}} instead. This method
+   * @deprecated Use {@link CharSource#wrap(CharSequence)} instead. This method
    *     is scheduled for removal in Guava 18.0.
    */
   @Deprecated
