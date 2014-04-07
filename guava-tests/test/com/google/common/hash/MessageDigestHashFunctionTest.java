@@ -16,6 +16,7 @@
 
 package com.google.common.hash;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
@@ -54,6 +55,34 @@ public class MessageDigestHashFunctionTest extends TestCase {
       for (String algorithmToTest : ALGORITHMS.keySet()) {
         assertMessageDigestHashing(HashTestUtils.ascii(stringToTest), algorithmToTest);
       }
+    }
+  }
+
+  public void testPutAfterHash() {
+    Hasher sha1 = Hashing.sha1().newHasher();
+
+    assertEquals("2fd4e1c67a2d28fced849ee1bb76e7391b93eb12",
+        sha1.putString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8)
+            .hash()
+            .toString());
+    try {
+      sha1.putInt(42);
+      fail();
+    } catch (IllegalStateException expected) {
+    }
+  }
+
+  public void testHashTwice() {
+    Hasher sha1 = Hashing.sha1().newHasher();
+
+    assertEquals("2fd4e1c67a2d28fced849ee1bb76e7391b93eb12",
+        sha1.putString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8)
+            .hash()
+            .toString());
+    try {
+      sha1.hash();
+      fail();
+    } catch (IllegalStateException expected) {
     }
   }
 
