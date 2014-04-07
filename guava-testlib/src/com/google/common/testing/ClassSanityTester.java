@@ -16,6 +16,7 @@
 
 package com.google.common.testing;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
@@ -99,7 +100,7 @@ public final class ClassSanityTester {
 
   private final MutableClassToInstanceMap<Object> defaultValues =
       MutableClassToInstanceMap.create();
-  private final ListMultimap<Class<?>, Object> sampleInstances = ArrayListMultimap.create();
+  private final ListMultimap<Class<?>, Object> distinctValues = ArrayListMultimap.create();
   private final NullPointerTester nullPointerTester = new NullPointerTester();
 
   public ClassSanityTester() {
@@ -141,10 +142,32 @@ public final class ClassSanityTester {
    */
   public <T> ClassSanityTester setSampleInstances(Class<T> type, Iterable<? extends T> instances) {
     ImmutableList<? extends T> samples = ImmutableList.copyOf(instances);
-    sampleInstances.putAll(checkNotNull(type), samples);
+    distinctValues.putAll(checkNotNull(type), samples);
     if (!samples.isEmpty()) {
       setDefault(type, samples.get(0));
     }
+    return this;
+  }
+
+  /**
+   * Sets distinct values for {@code type}, so that when a class {@code Foo} is tested for {@link
+   * Object#equals} and {@link Object#hashCode}, and its construction requires a parameter of {@code
+   * type}, the distinct values of {@code type} can be passed as parametrs to create {@code Foo}
+   * instances that are unequal.
+   *
+   * <p>Only necessary for types that {@link ClassSanityTester} doesn't already know how to create
+   * distinct values.
+   *
+   * @return this tester instance
+   * @since 17.0
+   */
+  public <T> ClassSanityTester setDistinctValues(Class<T> type, T value1, T value2) {
+    checkNotNull(type);
+    checkNotNull(value1);
+    checkNotNull(value2);
+    checkArgument(!Objects.equal(value1, value2), "Duplicate value provided.");
+    distinctValues.replaceValues(type, ImmutableList.of(value1, value2));
+    setDefault(type, value1);
     return this;
   }
 
@@ -601,7 +624,7 @@ public final class ClassSanityTester {
         == createInstance(factory, args).hashCode();
   }
 
-  // sampleInstances is a type-safe class-values mapping, but we don't have a type-safe data
+  // distinctValues is a type-safe class-values mapping, but we don't have a type-safe data
   // structure to hold the mappings.
   @SuppressWarnings({"unchecked", "rawtypes"})
   private FreshValueGenerator newFreshValueGenerator() {
@@ -610,7 +633,7 @@ public final class ClassSanityTester {
         return getDummyValue(TypeToken.of(interfaceType).method(method).getReturnType());
       }
     };
-    for (Map.Entry<Class<?>, Collection<Object>> entry : sampleInstances.asMap().entrySet()) {
+    for (Map.Entry<Class<?>, Collection<Object>> entry : distinctValues.asMap().entrySet()) {
       generator.addSampleInstances((Class) entry.getKey(), entry.getValue());
     }
     return generator;

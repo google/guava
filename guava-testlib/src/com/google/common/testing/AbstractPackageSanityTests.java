@@ -264,6 +264,16 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     tester.setDefault(type, value);
   }
 
+  /**
+   * Sets two distinct values for {@code type}. These values can be used for both null pointer
+   * testing and equals testing.
+   *
+   * @since 17.0
+   */
+  protected final <T> void setDistinctValues(Class<T> type, T value1, T value2) {
+    tester.setDistinctValues(type, value1, value2);
+  }
+
   /** Specifies that classes that satisfy the given predicate aren't tested for sanity. */
   protected final void ignoreClasses(Predicate<? super Class<?>> condition) {
     this.classFilter = and(this.classFilter, not(condition));
