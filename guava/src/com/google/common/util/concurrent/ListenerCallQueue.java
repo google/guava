@@ -19,7 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Queues;
+import com.google.common.collect.Lists;
 
 import java.util.Queue;
 import java.util.concurrent.Executor;
@@ -59,7 +59,7 @@ final class ListenerCallQueue<L> implements Runnable {
   private final L listener;
   private final Executor executor;
 
-  @GuardedBy("this") private final Queue<Callback<L>> waitQueue = Queues.newArrayDeque();
+  @GuardedBy("this") private final Queue<Callback<L>> waitQueue = Lists.newLinkedList();
   @GuardedBy("this") private boolean isThreadScheduled;
 
   ListenerCallQueue(L listener, Executor executor) {
