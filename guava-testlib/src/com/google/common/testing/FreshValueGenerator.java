@@ -53,6 +53,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Range;
 import com.google.common.collect.RowSortedTable;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -480,226 +481,230 @@ class FreshValueGenerator {
     };
   }
 
-  @Generates static private <E> Iterable<E> freshIterable(E freshElement) {
+  @Generates private static <C extends Comparable> Range<C> freshRange(C freshElement) {
+    return Range.singleton(freshElement);
+  }
+
+  @Generates private static <E> Iterable<E> freshIterable(E freshElement) {
     return freshList(freshElement);
   }
 
-  @Generates static private <E> Collection<E> freshCollection(E freshElement) {
+  @Generates private static <E> Collection<E> freshCollection(E freshElement) {
     return freshList(freshElement);
   }
 
-  @Generates static private <E> List<E> freshList(E freshElement) {
+  @Generates private static <E> List<E> freshList(E freshElement) {
     return freshArrayList(freshElement);
   }
 
-  @Generates static private <E> ArrayList<E> freshArrayList(E freshElement) {
+  @Generates private static <E> ArrayList<E> freshArrayList(E freshElement) {
     ArrayList<E> list = Lists.newArrayList();
     list.add(freshElement);
     return list;
   }
 
-  @Generates static private <E> LinkedList<E> freshLinkedList(E freshElement) {
+  @Generates private static <E> LinkedList<E> freshLinkedList(E freshElement) {
     LinkedList<E> list = Lists.newLinkedList();
     list.add(freshElement);
     return list;
   }
 
-  @Generates static private <E> ImmutableList<E> freshImmutableList(E freshElement) {
+  @Generates private static <E> ImmutableList<E> freshImmutableList(E freshElement) {
     return ImmutableList.of(freshElement);
   }
 
-  @Generates static private <E> ImmutableCollection<E> freshImmutableCollection(E freshElement) {
+  @Generates private static <E> ImmutableCollection<E> freshImmutableCollection(E freshElement) {
     return freshImmutableList(freshElement);
   }
 
-  @Generates static private <E> Set<E> freshSet(E freshElement) {
+  @Generates private static <E> Set<E> freshSet(E freshElement) {
     return freshHashSet(freshElement);
   }
 
-  @Generates static private <E> HashSet<E> freshHashSet(E freshElement) {
+  @Generates private static <E> HashSet<E> freshHashSet(E freshElement) {
     return freshLinkedHashSet(freshElement);
   }
 
-  @Generates static private <E> LinkedHashSet<E> freshLinkedHashSet(E freshElement) {
+  @Generates private static <E> LinkedHashSet<E> freshLinkedHashSet(E freshElement) {
     LinkedHashSet<E> set = Sets.newLinkedHashSet();
     set.add(freshElement);
     return set;
   }
 
-  @Generates static private <E> ImmutableSet<E> freshImmutableSet(E freshElement) {
+  @Generates private static <E> ImmutableSet<E> freshImmutableSet(E freshElement) {
     return ImmutableSet.of(freshElement);
   }
 
-  @Generates static private <E extends Comparable<? super E>> SortedSet<E>
+  @Generates private static <E extends Comparable<? super E>> SortedSet<E>
       freshSortedSet(E freshElement) {
     return freshNavigableSet(freshElement);
   }
 
-  @Generates static private <E extends Comparable<? super E>> NavigableSet<E>
+  @Generates private static <E extends Comparable<? super E>> NavigableSet<E>
       freshNavigableSet(E freshElement) {
     return freshTreeSet(freshElement);
   }
 
-  @Generates static private <E extends Comparable<? super E>> TreeSet<E> freshTreeSet(
+  @Generates private static <E extends Comparable<? super E>> TreeSet<E> freshTreeSet(
       E freshElement) {
     TreeSet<E> set = Sets.newTreeSet();
     set.add(freshElement);
     return set;
   }
 
-  @Generates static private <E extends Comparable<? super E>> ImmutableSortedSet<E>
+  @Generates private static <E extends Comparable<? super E>> ImmutableSortedSet<E>
       freshImmutableSortedSet(E freshElement) {
     return ImmutableSortedSet.of(freshElement);
   }
 
-  @Generates static private <E> Multiset<E> freshMultiset(E freshElement) {
+  @Generates private static <E> Multiset<E> freshMultiset(E freshElement) {
     return freshHashMultiset(freshElement);
   }
 
-  @Generates static private <E> HashMultiset<E> freshHashMultiset(E freshElement) {
+  @Generates private static <E> HashMultiset<E> freshHashMultiset(E freshElement) {
     HashMultiset<E> multiset = HashMultiset.create();
     multiset.add(freshElement);
     return multiset;
   }
 
-  @Generates static private <E> LinkedHashMultiset<E> freshLinkedHashMultiset(E freshElement) {
+  @Generates private static <E> LinkedHashMultiset<E> freshLinkedHashMultiset(E freshElement) {
     LinkedHashMultiset<E> multiset = LinkedHashMultiset.create();
     multiset.add(freshElement);
     return multiset;
   }
 
-  @Generates static private <E> ImmutableMultiset<E> freshImmutableMultiset(E freshElement) {
+  @Generates private static <E> ImmutableMultiset<E> freshImmutableMultiset(E freshElement) {
     return ImmutableMultiset.of(freshElement);
   }
 
-  @Generates static private <E extends Comparable<E>> SortedMultiset<E> freshSortedMultiset(
+  @Generates private static <E extends Comparable<E>> SortedMultiset<E> freshSortedMultiset(
       E freshElement) {
     return freshTreeMultiset(freshElement);
   }
 
-  @Generates static private <E extends Comparable<E>> TreeMultiset<E> freshTreeMultiset(
+  @Generates private static <E extends Comparable<E>> TreeMultiset<E> freshTreeMultiset(
       E freshElement) {
     TreeMultiset<E> multiset = TreeMultiset.create();
     multiset.add(freshElement);
     return multiset;
   }
 
-  @Generates static private <E extends Comparable<E>> ImmutableSortedMultiset<E>
+  @Generates private static <E extends Comparable<E>> ImmutableSortedMultiset<E>
       freshImmutableSortedMultiset(E freshElement) {
     return ImmutableSortedMultiset.of(freshElement);
   }
 
-  @Generates static private <K, V> Map<K, V> freshMap(K key, V value) {
+  @Generates private static <K, V> Map<K, V> freshMap(K key, V value) {
     return freshHashdMap(key, value);
   }
 
-  @Generates static private <K, V> HashMap<K, V> freshHashdMap(K key, V value) {
+  @Generates private static <K, V> HashMap<K, V> freshHashdMap(K key, V value) {
     return freshLinkedHashMap(key, value);
   }
 
-  @Generates static private <K, V> LinkedHashMap<K, V> freshLinkedHashMap(K key, V value) {
+  @Generates private static <K, V> LinkedHashMap<K, V> freshLinkedHashMap(K key, V value) {
     LinkedHashMap<K, V> map = Maps.newLinkedHashMap();
     map.put(key, value);
     return map;
   }
 
-  @Generates static private <K, V> ImmutableMap<K, V> freshImmutableMap(K key, V value) {
+  @Generates private static <K, V> ImmutableMap<K, V> freshImmutableMap(K key, V value) {
     return ImmutableMap.of(key, value);
   }
 
-  @Generates static private <K, V> ConcurrentMap<K, V> freshConcurrentMap(K key, V value) {
+  @Generates private static <K, V> ConcurrentMap<K, V> freshConcurrentMap(K key, V value) {
     ConcurrentMap<K, V> map = Maps.newConcurrentMap();
     map.put(key, value);
     return map;
   }
 
-  @Generates static private <K extends Comparable<? super K>, V> SortedMap<K, V>
+  @Generates private static <K extends Comparable<? super K>, V> SortedMap<K, V>
       freshSortedMap(K key, V value) {
     return freshNavigableMap(key, value);
   }
 
-  @Generates static private <K extends Comparable<? super K>, V> NavigableMap<K, V>
+  @Generates private static <K extends Comparable<? super K>, V> NavigableMap<K, V>
       freshNavigableMap(K key, V value) {
     return freshTreeMap(key, value);
   }
 
-  @Generates static private <K extends Comparable<? super K>, V> TreeMap<K, V> freshTreeMap(
+  @Generates private static <K extends Comparable<? super K>, V> TreeMap<K, V> freshTreeMap(
       K key, V value) {
     TreeMap<K, V> map = Maps.newTreeMap();
     map.put(key, value);
     return map;
   }
 
-  @Generates static private <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V>
+  @Generates private static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V>
       freshImmutableSortedMap(K key, V value) {
     return ImmutableSortedMap.of(key, value);
   }
 
-  @Generates static private <K, V> Multimap<K, V> freshMultimap(K key, V value) {
+  @Generates private static <K, V> Multimap<K, V> freshMultimap(K key, V value) {
     return freshListMultimap(key, value);
   }
 
-  @Generates static private <K, V> ImmutableMultimap<K, V> freshImmutableMultimap(K key, V value) {
+  @Generates private static <K, V> ImmutableMultimap<K, V> freshImmutableMultimap(K key, V value) {
     return ImmutableMultimap.of(key, value);
   }
 
-  @Generates static private <K, V> ListMultimap<K, V> freshListMultimap(K key, V value) {
+  @Generates private static <K, V> ListMultimap<K, V> freshListMultimap(K key, V value) {
     return freshArrayListMultimap(key, value);
   }
 
-  @Generates static private <K, V> ArrayListMultimap<K, V> freshArrayListMultimap(K key, V value) {
+  @Generates private static <K, V> ArrayListMultimap<K, V> freshArrayListMultimap(K key, V value) {
     ArrayListMultimap<K, V> multimap = ArrayListMultimap.create();
     multimap.put(key, value);
     return multimap;
   }
 
-  @Generates static private <K, V> ImmutableListMultimap<K, V> freshImmutableListMultimap(
+  @Generates private static <K, V> ImmutableListMultimap<K, V> freshImmutableListMultimap(
       K key, V value) {
     return ImmutableListMultimap.of(key, value);
   }
 
-  @Generates static private <K, V> SetMultimap<K, V> freshSetMultimap(K key, V value) {
+  @Generates private static <K, V> SetMultimap<K, V> freshSetMultimap(K key, V value) {
     return freshLinkedHashMultimap(key, value);
   }
 
-  @Generates static private <K, V> HashMultimap<K, V> freshHashMultimap(K key, V value) {
+  @Generates private static <K, V> HashMultimap<K, V> freshHashMultimap(K key, V value) {
     HashMultimap<K, V> multimap = HashMultimap.create();
     multimap.put(key, value);
     return multimap;
   }
 
-  @Generates static private <K, V> LinkedHashMultimap<K, V> freshLinkedHashMultimap(
+  @Generates private static <K, V> LinkedHashMultimap<K, V> freshLinkedHashMultimap(
       K key, V value) {
     LinkedHashMultimap<K, V> multimap = LinkedHashMultimap.create();
     multimap.put(key, value);
     return multimap;
   }
 
-  @Generates static private <K, V> ImmutableSetMultimap<K, V> freshImmutableSetMultimap(
+  @Generates private static <K, V> ImmutableSetMultimap<K, V> freshImmutableSetMultimap(
       K key, V value) {
     return ImmutableSetMultimap.of(key, value);
   }
 
-  @Generates static private <K, V> BiMap<K, V> freshBimap(K key, V value) {
+  @Generates private static <K, V> BiMap<K, V> freshBimap(K key, V value) {
     return freshHashBiMap(key, value);
   }
 
-  @Generates static private <K, V> HashBiMap<K, V> freshHashBiMap(K key, V value) {
+  @Generates private static <K, V> HashBiMap<K, V> freshHashBiMap(K key, V value) {
     HashBiMap<K, V> bimap = HashBiMap.create();
     bimap.put(key, value);
     return bimap;
   }
 
-  @Generates static private <K, V> ImmutableBiMap<K, V> freshImmutableBimap(
+  @Generates private static <K, V> ImmutableBiMap<K, V> freshImmutableBimap(
       K key, V value) {
     return ImmutableBiMap.of(key, value);
   }
 
-  @Generates static private <R, C, V> Table<R, C, V> freshTable(R row, C column, V value) {
+  @Generates private static <R, C, V> Table<R, C, V> freshTable(R row, C column, V value) {
     return freshHashBasedTable(row, column, value);
   }
 
-  @Generates static private <R, C, V> HashBasedTable<R, C, V> freshHashBasedTable(
+  @Generates private static <R, C, V> HashBasedTable<R, C, V> freshHashBasedTable(
       R row, C column, V value) {
     HashBasedTable<R, C, V> table = HashBasedTable.create();
     table.put(row, column, value);
@@ -707,20 +712,20 @@ class FreshValueGenerator {
   }
 
   @SuppressWarnings("rawtypes") // TreeBasedTable.create() is defined as such
-  @Generates static private <R extends Comparable, C extends Comparable, V> RowSortedTable<R, C, V>
+  @Generates private static <R extends Comparable, C extends Comparable, V> RowSortedTable<R, C, V>
       freshRowSortedTable(R row, C column, V value) {
     return freshTreeBasedTable(row, column, value);
   }
 
   @SuppressWarnings("rawtypes") // TreeBasedTable.create() is defined as such
-  @Generates static private <R extends Comparable, C extends Comparable, V> TreeBasedTable<R, C, V>
+  @Generates private static <R extends Comparable, C extends Comparable, V> TreeBasedTable<R, C, V>
       freshTreeBasedTable(R row, C column, V value) {
     TreeBasedTable<R, C, V> table = TreeBasedTable.create();
     table.put(row, column, value);
     return table;
   }
 
-  @Generates static private <R, C, V> ImmutableTable<R, C, V> freshImmutableTable(
+  @Generates private static <R, C, V> ImmutableTable<R, C, V> freshImmutableTable(
       R row, C column, V value) {
     return ImmutableTable.of(row, column, value);
   }

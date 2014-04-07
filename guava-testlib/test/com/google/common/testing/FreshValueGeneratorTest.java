@@ -50,6 +50,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Range;
 import com.google.common.collect.RowSortedTable;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -161,6 +162,10 @@ public class FreshValueGeneratorTest extends TestCase {
     int[] a1 = generator.generate(int[].class);
     int[] a2 = generator.generate(int[].class);
     assertTrue(a1[0] != a2[0]);
+  }
+
+  public void testRange() {
+    assertFreshInstance(new TypeToken<Range<String>>() {});
   }
 
   public void testImmutableList() {
