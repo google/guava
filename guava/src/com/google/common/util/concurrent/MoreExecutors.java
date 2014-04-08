@@ -767,6 +767,7 @@ public final class MoreExecutors {
    * right before each task is run.  The renaming is best effort, if a {@link SecurityManager}
    * prevents the renaming then it will be skipped but the tasks will still execute.
    *
+   *
    * @param executor The executor to decorate
    * @param nameSupplier The source of names for each task
    */
@@ -791,6 +792,7 @@ public final class MoreExecutors {
    * <p>The names are retrieved from the {@code nameSupplier} on the thread that is being renamed
    * right before each task is run.  The renaming is best effort, if a {@link SecurityManager}
    * prevents the renaming then it will be skipped but the tasks will still execute.
+   *
    *
    * @param service The executor to decorate
    * @param nameSupplier The source of names for each task
@@ -820,6 +822,7 @@ public final class MoreExecutors {
    * <p>The names are retrieved from the {@code nameSupplier} on the thread that is being renamed
    * right before each task is run.  The renaming is best effort, if a {@link SecurityManager}
    * prevents the renaming then it will be skipped but the tasks will still execute.
+   *
    *
    * @param service The executor to decorate
    * @param nameSupplier The source of names for each task
