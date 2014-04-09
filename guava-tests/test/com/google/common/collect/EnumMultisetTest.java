@@ -72,8 +72,12 @@ public class EnumMultisetTest extends TestCase {
     };
   }
 
-  private static enum Color {
+  private enum Color {
     BLUE, RED, YELLOW, GREEN, WHITE
+  }
+
+  private enum Gender {
+    MALE, FEMALE
   }
 
   public void testClassCreate() {
@@ -141,14 +145,21 @@ public class EnumMultisetTest extends TestCase {
     assertEquals(3, uniqueEntries.size());
   }
 
+  // Wrapper of EnumMultiset factory methods, because we need to skip create(Class).
+  // create(Enum1.class) is equal to create(Enum2.class) but testEquals() expects otherwise.
+  // For the same reason, we need to skip create(Iterable, Class).
+  private static class EnumMultisetFactory {
+    public static <E extends Enum<E>> EnumMultiset<E> create(Iterable<E> elements) {
+      return EnumMultiset.create(elements);
+    }
+  }
+
   @GwtIncompatible("reflection")
   public void testEquals() throws Exception {
     new ClassSanityTester()
-        .setSampleInstances(Class.class, ImmutableList.of(Color.class))
-        .setSampleInstances(Enum.class, EnumSet.allOf(Color.class))
-        .setSampleInstances(Iterable.class,
-            ImmutableList.of(ImmutableList.of(Color.RED), ImmutableList.of(Color.GREEN)))
-        .forAllPublicStaticMethods(EnumMultiset.class)
+        .setDistinctValues(Class.class, Color.class, Gender.class)
+        .setDistinctValues(Enum.class, Color.BLUE, Color.RED)
+        .forAllPublicStaticMethods(EnumMultisetFactory.class)
         .testEquals();
   }
 
