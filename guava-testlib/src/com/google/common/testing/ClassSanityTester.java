@@ -120,7 +120,7 @@ public final class ClassSanityTester {
     setDefault(Class.class, Class.class);
   }
 
-  /** 
+  /**
    * Sets the default value for {@code type}. The default value isn't used in testing {@link
    * Object#equals} because more than one sample instances are needed for testing inequality.
    * To set sample instances for equality testing, use {@link #setSampleInstances} instead.
@@ -134,7 +134,7 @@ public final class ClassSanityTester {
   /**
    * Sets sample instances for {@code type} for purpose of {@code equals} testing, where different
    * values are needed to test inequality.
-   * 
+   *
    * <p>Used for types that {@link ClassSanityTester} doesn't already know how to sample.
    * It's usually necessary to add two unequal instances for each type, with the exception that if
    * the sample instance is to be passed to a {@link Nullable} parameter,  one non-null sample is
@@ -285,7 +285,7 @@ public final class ClassSanityTester {
       throw Throwables.propagate(e);
     }
   }
-  
+ 
   void doTestEquals(Class<?> cls)
       throws ParameterNotInstantiableException, IllegalAccessException,
              InvocationTargetException, FactoryMethodReturnsNullException {
@@ -412,7 +412,7 @@ public final class ClassSanityTester {
 
     /**
      * Tests null checks against the instance methods of the return values, if any.
-     * 
+     *
      * <p>Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
@@ -440,7 +440,7 @@ public final class ClassSanityTester {
      * Tests {@link Object#equals} and {@link Object#hashCode} against the return values of the
      * static methods, by asserting that when equal parameters are passed to the same static method,
      * the return value should also be equal; and vice versa.
-     * 
+     *
      * <p>Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
@@ -459,7 +459,7 @@ public final class ClassSanityTester {
 
     /**
      * Runs serialization test on the return values of the static methods.
-     * 
+     *
      * <p>Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
@@ -484,7 +484,7 @@ public final class ClassSanityTester {
 
     /**
      * Runs equals and serialization test on the return values.
-     * 
+     *
      * <p>Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
@@ -536,7 +536,7 @@ public final class ClassSanityTester {
   /**
    * Instantiates using {@code factory}. If {@code factory} is annotated with {@link Nullable} and
    * returns null, null will be returned.
-   * 
+   *
    * @throws ParameterNotInstantiableException if the static methods cannot be invoked because
    *         the default value of a parameter cannot be determined.
    * @throws IllegalAccessException if the class isn't public or is nested inside a non-public
@@ -549,7 +549,7 @@ public final class ClassSanityTester {
     return invoke(factory, getDummyArguments(factory));
   }
 
-  private void testEqualsUsing(final Invokable<?, ?> factory) 
+  private void testEqualsUsing(final Invokable<?, ?> factory)
       throws ParameterNotInstantiableException, IllegalAccessException,
       InvocationTargetException, FactoryMethodReturnsNullException {
     List<Parameter> params = factory.getParameters();
@@ -574,7 +574,10 @@ public final class ClassSanityTester {
     tester.addEqualityGroup(instance, createInstance(factory, equalArgs));
     for (int i = 0; i < params.size(); i++) {
       List<Object> newArgs = Lists.newArrayList(args);
-      Object newArg = argGenerators.get(i).generate(params.get(i).getType().getRawType());
+      Object newArg = argGenerators.get(i).generate(params.get(i).getType());
+      if (newArg == null) {
+        newArg = argGenerators.get(i).generate(params.get(i).getType().getRawType());
+      }
       if (Objects.equal(args.get(i), newArg)) {
         // no value variance, no equality group
         continue;
