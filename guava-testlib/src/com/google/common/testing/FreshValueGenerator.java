@@ -22,6 +22,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
 import com.google.common.base.Ticker;
@@ -61,6 +62,7 @@ import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.common.collect.TreeMultiset;
+import com.google.common.primitives.Primitives;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
 import com.google.common.reflect.AbstractInvocationHandler;
@@ -81,6 +83,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -140,6 +143,7 @@ class FreshValueGenerator {
 
   private final AtomicInteger differentiator = new AtomicInteger(1);
   private final ListMultimap<Class<?>, Object> sampleInstances = ArrayListMultimap.create();
+  private final Set<Type> generatedOptionalTypes = Sets.newHashSet();
 
   <T> void addSampleInstances(Class<T> type, Iterable<? extends T> instances) {
     sampleInstances.putAll(checkNotNull(type), checkNotNull(instances));
@@ -154,20 +158,7 @@ class FreshValueGenerator {
    * <li>null if no fresh value can be generated.
    * </ul>
    */
-  @Nullable final <T> T generate(TypeToken<T> type) {
-    // Not completely safe since sample instances are registered by raw types.
-    // But we assume the generic type parameters are mostly unimportant for these dummy values,
-    // because what really matters are equals/hashCode.
-    @SuppressWarnings("unchecked")
-    T result = (T) generateIfPossible(type);
-    return result;
-  }
-
-  @Nullable final <T> T generate(Class<T> type) {
-    return generate(TypeToken.of(type));
-  }
-  
-  @Nullable private Object generateIfPossible(TypeToken<?> type) {
+  @Nullable Object generate(TypeToken<?> type) {
     Class<?> rawType = type.getRawType();
     List<Object> samples = sampleInstances.get(rawType);
     Object sample = nextInstance(samples, null);
@@ -180,8 +171,13 @@ class FreshValueGenerator {
     if (type.isArray()) {
       TypeToken<?> componentType = type.getComponentType();
       Object array = Array.newInstance(componentType.getRawType(), 1);
-      Array.set(array, 0, generateIfPossible(componentType));
+      Array.set(array, 0, generate(componentType));
       return array;
+    }
+    if (rawType == Optional.class && generatedOptionalTypes.add(type.getType())) {
+      // For any Optional<T>, we'll first generate absent(). The next call generates a distinct
+      // value of T to be wrapped in Optional.of().
+      return Optional.absent();
     }
     Method generator = GENERATORS.get(rawType);
     if (generator != null) {
@@ -192,9 +188,13 @@ class FreshValueGenerator {
         TypeToken<?> paramType = type.resolveType(typeVars[i]);
         // We require all @Generates methods to either be parameter-less or accept non-null
         // fresh values for their generic parameter types.
-        Object argValue = generateIfPossible(paramType);
+        Object argValue = generate(paramType);
         if (argValue == null) {
-          return defaultGenerate(rawType);
+          // When a parameter of a @Generates method cannot be created,
+          // The type most likely is a collection.
+          // Our distinct proxy doesn't work for collections.
+          // So just refuse to generate.
+          return null;
         }
         args.add(argValue);
       }
@@ -209,7 +209,11 @@ class FreshValueGenerator {
     return defaultGenerate(rawType);
   }
 
-  private Object defaultGenerate(Class<?> rawType) {
+  @Nullable final <T> T generate(Class<T> type) {
+    return Primitives.wrap(type).cast(generate(TypeToken.of(type)));
+  }
+
+  private <T> T defaultGenerate(Class<T> rawType) {
     if (rawType.isInterface()) {
       // always create a new proxy
       return newProxy(rawType);
@@ -224,7 +228,7 @@ class FreshValueGenerator {
   private final class FreshInvocationHandler extends AbstractInvocationHandler {
     private final int identity = freshInt();
     private final Class<?> interfaceType;
-    
+
     FreshInvocationHandler(Class<?> interfaceType) {
       this.interfaceType = interfaceType;
     }
@@ -417,6 +421,10 @@ class FreshValueGenerator {
   }
 
   // common.base
+  @Generates private <T> Optional<T> freshOptional(T value) {
+    return Optional.of(value);
+  }
+
   @Generates private Joiner freshJoiner() {
     return Joiner.on(freshString());
   }

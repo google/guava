@@ -20,6 +20,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Ticker;
@@ -176,8 +177,6 @@ public class FreshValueGeneratorTest extends TestCase {
         new FreshValueGenerator().generate(new TypeToken<ImmutableList<Integer>>() {}));
     assertValueAndTypeEquals(ImmutableList.of(new FreshValueGenerator().generate(String.class)),
         new FreshValueGenerator().generate(new TypeToken<ImmutableList<?>>() {}));
-    assertValueAndTypeEquals(ImmutableList.of(),
-        new FreshValueGenerator().generate(new TypeToken<ImmutableList<EmptyEnum>>() {}));
   }
 
   public void testImmutableSet() {
@@ -188,8 +187,6 @@ public class FreshValueGeneratorTest extends TestCase {
         new FreshValueGenerator().generate(new TypeToken<ImmutableSet<Number>>() {}));
     assertValueAndTypeEquals(ImmutableSet.of(new FreshValueGenerator().generate(Number.class)),
         new FreshValueGenerator().generate(new TypeToken<ImmutableSet<? extends Number>>() {}));
-    assertValueAndTypeEquals(ImmutableSet.of(),
-        new FreshValueGenerator().generate(new TypeToken<ImmutableSet<EmptyEnum>>() {}));
   }
 
   public void testImmutableSortedSet() {
@@ -197,8 +194,6 @@ public class FreshValueGeneratorTest extends TestCase {
     assertValueAndTypeEquals(
         ImmutableSortedSet.of(new FreshValueGenerator().generate(String.class)),
         new FreshValueGenerator().generate(new TypeToken<ImmutableSortedSet<String>>() {}));
-    assertValueAndTypeEquals(ImmutableSortedSet.of(),
-        new FreshValueGenerator().generate(new TypeToken<ImmutableSortedSet<EmptyEnum>>() {}));
   }
 
   public void testImmutableMultiset() {
@@ -207,16 +202,14 @@ public class FreshValueGeneratorTest extends TestCase {
         new FreshValueGenerator().generate(new TypeToken<ImmutableMultiset<String>>() {}));
     assertValueAndTypeEquals(ImmutableMultiset.of(new FreshValueGenerator().generate(Number.class)),
         new FreshValueGenerator().generate(new TypeToken<ImmutableMultiset<Number>>() {}));
-    assertValueAndTypeEquals(ImmutableMultiset.of(),
-        new FreshValueGenerator().generate(new TypeToken<ImmutableMultiset<EmptyEnum>>() {}));
+    assertNotInstantiable(new TypeToken<ImmutableMultiset<EmptyEnum>>() {});
   }
 
   public void testImmutableCollection() {
     assertFreshInstance(new TypeToken<ImmutableCollection<String>>() {});
     assertValueAndTypeEquals(ImmutableList.of(new FreshValueGenerator().generate(String.class)),
         new FreshValueGenerator().generate(new TypeToken<ImmutableCollection<String>>() {}));
-    assertValueAndTypeEquals(ImmutableList.of(),
-        new FreshValueGenerator().generate(new TypeToken<ImmutableCollection<EmptyEnum>>() {}));
+    assertNotInstantiable(new TypeToken<ImmutableCollection<EmptyEnum>>() {});
   }
 
   public void testImmutableMap() {
@@ -225,8 +218,6 @@ public class FreshValueGeneratorTest extends TestCase {
     assertValueAndTypeEquals(
         ImmutableMap.of(generator.generate(String.class), generator.generate(int.class)),
         new FreshValueGenerator().generate(new TypeToken<ImmutableMap<String, Integer>>() {}));
-    assertValueAndTypeEquals(ImmutableMap.of(),
-        new FreshValueGenerator().generate(new TypeToken<ImmutableMap<EmptyEnum, String>>() {}));
   }
 
   public void testImmutableSortedMap() {
@@ -236,9 +227,6 @@ public class FreshValueGeneratorTest extends TestCase {
         ImmutableSortedMap.of(generator.generate(String.class), generator.generate(int.class)),
         new FreshValueGenerator().generate(
             new TypeToken<ImmutableSortedMap<String, Integer>>() {}));
-    assertValueAndTypeEquals(ImmutableSortedMap.of(),
-        new FreshValueGenerator().generate(
-            new TypeToken<ImmutableSortedMap<EmptyEnum, String>>() {}));
   }
 
   public void testImmutableMultimap() {
@@ -247,9 +235,7 @@ public class FreshValueGeneratorTest extends TestCase {
     assertValueAndTypeEquals(
         ImmutableMultimap.of(generator.generate(String.class), generator.generate(int.class)),
         new FreshValueGenerator().generate(new TypeToken<ImmutableMultimap<String, Integer>>() {}));
-    assertValueAndTypeEquals(ImmutableMultimap.of(),
-        new FreshValueGenerator().generate(
-            new TypeToken<ImmutableMultimap<EmptyEnum, String>>() {}));
+    assertNotInstantiable(new TypeToken<ImmutableMultimap<EmptyEnum, String>>() {});
   }
 
   public void testImmutableListMultimap() {
@@ -259,9 +245,6 @@ public class FreshValueGeneratorTest extends TestCase {
         ImmutableListMultimap.of(generator.generate(String.class), generator.generate(int.class)),
         new FreshValueGenerator().generate(
             new TypeToken<ImmutableListMultimap<String, Integer>>() {}));
-    assertValueAndTypeEquals(ImmutableListMultimap.of(),
-        new FreshValueGenerator().generate(
-            new TypeToken<ImmutableListMultimap<EmptyEnum, String>>() {}));
   }
 
   public void testImmutableSetMultimap() {
@@ -271,9 +254,6 @@ public class FreshValueGeneratorTest extends TestCase {
         ImmutableSetMultimap.of(generator.generate(String.class), generator.generate(int.class)),
         new FreshValueGenerator().generate(
             new TypeToken<ImmutableSetMultimap<String, Integer>>() {}));
-    assertValueAndTypeEquals(ImmutableSetMultimap.of(),
-        new FreshValueGenerator().generate(
-            new TypeToken<ImmutableSetMultimap<EmptyEnum, String>>() {}));
   }
 
   public void testImmutableBiMap() {
@@ -283,9 +263,6 @@ public class FreshValueGeneratorTest extends TestCase {
         ImmutableBiMap.of(generator.generate(String.class), generator.generate(int.class)),
         new FreshValueGenerator().generate(
             new TypeToken<ImmutableBiMap<String, Integer>>() {}));
-    assertValueAndTypeEquals(ImmutableBiMap.of(),
-        new FreshValueGenerator().generate(
-            new TypeToken<ImmutableBiMap<EmptyEnum, String>>() {}));
   }
 
   public void testImmutableTable() {
@@ -297,9 +274,6 @@ public class FreshValueGeneratorTest extends TestCase {
             generator.generate(new TypeToken<ImmutableList<String>>() {})),
         new FreshValueGenerator().generate(
             new TypeToken<ImmutableTable<String, Integer, ImmutableList<String>>>() {}));
-    assertValueAndTypeEquals(ImmutableTable.of(),
-        new FreshValueGenerator().generate(
-            new TypeToken<ImmutableTable<EmptyEnum, String, Integer>>() {}));
   }
 
   public void testList() {
@@ -310,7 +284,7 @@ public class FreshValueGeneratorTest extends TestCase {
         new FreshValueGenerator().generate(new TypeToken<List<Integer>>() {}));
     assertValueAndTypeEquals(Lists.newArrayList(new FreshValueGenerator().generate(String.class)),
         new FreshValueGenerator().generate(new TypeToken<List<?>>() {}));
-    assertFreshInstance(new TypeToken<List<EmptyEnum>>() {});
+    assertNotInstantiable(new TypeToken<List<EmptyEnum>>() {});
   }
 
   public void testArrayList() {
@@ -321,14 +295,13 @@ public class FreshValueGeneratorTest extends TestCase {
         new FreshValueGenerator().generate(new TypeToken<ArrayList<Integer>>() {}));
     assertValueAndTypeEquals(Lists.newArrayList(new FreshValueGenerator().generate(String.class)),
         new FreshValueGenerator().generate(new TypeToken<ArrayList<?>>() {}));
-    assertNotNull(new FreshValueGenerator().generate(new TypeToken<ArrayList<EmptyEnum>>() {}));
+    assertNotInstantiable(new TypeToken<ArrayList<EmptyEnum>>() {});
   }
 
   public void testLinkedList() {
     assertFreshInstance(new TypeToken<LinkedList<String>>() {});
     assertValueAndTypeEquals(newLinkedList(new FreshValueGenerator().generate(String.class)),
         new FreshValueGenerator().generate(new TypeToken<LinkedList<String>>() {}));
-    assertNotNull(new FreshValueGenerator().generate(new TypeToken<LinkedList<EmptyEnum>>() {}));
   }
 
   public void testSet() {
@@ -336,7 +309,7 @@ public class FreshValueGeneratorTest extends TestCase {
     assertValueAndTypeEquals(
         newLinkedHashSet(new FreshValueGenerator().generate(Number.class)),
         new FreshValueGenerator().generate(new TypeToken<Set<? extends Number>>() {}));
-    assertFreshInstance(new TypeToken<Set<EmptyEnum>>() {});
+    assertNotInstantiable(new TypeToken<Set<EmptyEnum>>() {});
   }
 
   public void testHashSet() {
@@ -351,7 +324,6 @@ public class FreshValueGeneratorTest extends TestCase {
     assertValueAndTypeEquals(
         newLinkedHashSet(new FreshValueGenerator().generate(Number.class)),
         new FreshValueGenerator().generate(new TypeToken<LinkedHashSet<? extends Number>>() {}));
-    assertNotNull(new FreshValueGenerator().generate(new TypeToken<LinkedHashSet<EmptyEnum>>() {}));
   }
 
   public void testTreeSet() {
@@ -360,7 +332,7 @@ public class FreshValueGeneratorTest extends TestCase {
     expected.add(new FreshValueGenerator().generate(String.class));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(new TypeToken<TreeSet<? extends CharSequence>>() {}));
-    assertNotNull(new FreshValueGenerator().generate(new TypeToken<TreeSet<EmptyEnum>>() {}));
+    assertNotInstantiable(new TypeToken<TreeSet<EmptyEnum>>() {});
   }
 
   public void testSortedSet() {
@@ -369,7 +341,7 @@ public class FreshValueGeneratorTest extends TestCase {
     expected.add(new FreshValueGenerator().generate(String.class));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(new TypeToken<SortedSet<String>>() {}));
-    assertFreshInstance(new TypeToken<SortedSet<EmptyEnum>>() {});
+    assertNotInstantiable(new TypeToken<SortedSet<EmptyEnum>>() {});
   }
 
   public void testNavigableSet() {
@@ -378,7 +350,7 @@ public class FreshValueGeneratorTest extends TestCase {
     expected.add(new FreshValueGenerator().generate(String.class));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(new TypeToken<NavigableSet<String>>() {}));
-    assertFreshInstance(new TypeToken<NavigableSet<EmptyEnum>>() {});
+    assertNotInstantiable(new TypeToken<NavigableSet<EmptyEnum>>() {});
   }
 
   public void testMultiset() {
@@ -387,7 +359,7 @@ public class FreshValueGeneratorTest extends TestCase {
     expected.add(new FreshValueGenerator().generate(String.class));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(new TypeToken<Multiset<String>>() {}));
-    assertFreshInstance(new TypeToken<Multiset<EmptyEnum>>() {});
+    assertNotInstantiable(new TypeToken<Multiset<EmptyEnum>>() {});
   }
 
   public void testSortedMultiset() {
@@ -396,7 +368,7 @@ public class FreshValueGeneratorTest extends TestCase {
     expected.add(new FreshValueGenerator().generate(String.class));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(new TypeToken<SortedMultiset<String>>() {}));
-    assertFreshInstance(new TypeToken<Multiset<EmptyEnum>>() {});
+    assertNotInstantiable(new TypeToken<Multiset<EmptyEnum>>() {});
   }
 
   public void testHashMultiset() {
@@ -428,21 +400,21 @@ public class FreshValueGeneratorTest extends TestCase {
     assertValueAndTypeEquals(
         ImmutableSortedMultiset.of(new FreshValueGenerator().generate(String.class)),
         new FreshValueGenerator().generate(new TypeToken<ImmutableSortedMultiset<String>>() {}));
-    assertFreshInstance(new TypeToken<Multiset<EmptyEnum>>() {});
+    assertNotInstantiable(new TypeToken<Multiset<EmptyEnum>>() {});
   }
 
   public void testCollection() {
     assertFreshInstance(new TypeToken<Collection<String>>() {});
     assertValueAndTypeEquals(Lists.newArrayList(new FreshValueGenerator().generate(String.class)),
         new FreshValueGenerator().generate(new TypeToken<Collection<String>>() {}));
-    assertFreshInstance(new TypeToken<Collection<EmptyEnum>>() {});
+    assertNotInstantiable(new TypeToken<Collection<EmptyEnum>>() {});
   }
 
   public void testIterable() {
     assertFreshInstance(new TypeToken<Iterable<String>>() {});
     assertValueAndTypeEquals(Lists.newArrayList(new FreshValueGenerator().generate(String.class)),
         new FreshValueGenerator().generate(new TypeToken<Iterable<String>>() {}));
-    assertFreshInstance(new TypeToken<Iterable<EmptyEnum>>() {});
+    assertNotInstantiable(new TypeToken<Iterable<EmptyEnum>>() {});
   }
 
   public void testMap() {
@@ -452,7 +424,7 @@ public class FreshValueGeneratorTest extends TestCase {
     expected.put(generator.generate(String.class), generator.generate(int.class));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(new TypeToken<Map<String, Integer>>() {}));
-    assertFreshInstance(new TypeToken<Map<EmptyEnum, String>>() {});
+    assertNotInstantiable(new TypeToken<Map<EmptyEnum, String>>() {});
   }
 
   public void testHashMap() {
@@ -462,8 +434,6 @@ public class FreshValueGeneratorTest extends TestCase {
     expected.put(generator.generate(String.class), generator.generate(int.class));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(new TypeToken<HashMap<String, Integer>>() {}));
-    assertNotNull(
-        new FreshValueGenerator().generate(new TypeToken<HashMap<EmptyEnum, Integer>>() {}));
   }
 
   public void testLinkedHashMap() {
@@ -473,8 +443,6 @@ public class FreshValueGeneratorTest extends TestCase {
     expected.put(generator.generate(String.class), generator.generate(int.class));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(new TypeToken<LinkedHashMap<String, Integer>>() {}));
-    assertNotNull(
-        new FreshValueGenerator().generate(new TypeToken<LinkedHashMap<EmptyEnum, String>>() {}));
   }
 
   public void testTreeMap() {
@@ -484,7 +452,7 @@ public class FreshValueGeneratorTest extends TestCase {
     expected.put(generator.generate(String.class), generator.generate(int.class));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(new TypeToken<TreeMap<String, Integer>>() {}));
-    assertNotNull(new FreshValueGenerator().generate(new TypeToken<LinkedHashSet<EmptyEnum>>() {}));
+    assertNotInstantiable(new TypeToken<LinkedHashSet<EmptyEnum>>() {});
   }
 
   public void testSortedMap() {
@@ -495,7 +463,7 @@ public class FreshValueGeneratorTest extends TestCase {
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(
             new TypeToken<SortedMap<String, Integer>>() {}));
-    assertFreshInstance(new TypeToken<SortedMap<EmptyEnum, String>>() {});
+    assertNotInstantiable(new TypeToken<SortedMap<EmptyEnum, String>>() {});
   }
 
   public void testNavigableMap() {
@@ -506,7 +474,7 @@ public class FreshValueGeneratorTest extends TestCase {
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(
             new TypeToken<NavigableMap<String, Integer>>() {}));
-    assertFreshInstance(new TypeToken<NavigableMap<EmptyEnum, String>>() {});
+    assertNotInstantiable(new TypeToken<NavigableMap<EmptyEnum, String>>() {});
   }
 
   public void testConcurrentMap() {
@@ -516,7 +484,7 @@ public class FreshValueGeneratorTest extends TestCase {
     expected.put(generator.generate(String.class), generator.generate(int.class));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(new TypeToken<ConcurrentMap<String, Integer>>() {}));
-    assertFreshInstance(new TypeToken<ConcurrentMap<EmptyEnum, String>>() {});
+    assertNotInstantiable(new TypeToken<ConcurrentMap<EmptyEnum, String>>() {});
   }
 
   public void testMultimap() {
@@ -526,7 +494,7 @@ public class FreshValueGeneratorTest extends TestCase {
     expected.put(generator.generate(String.class), generator.generate(int.class));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(new TypeToken<Multimap<String, Integer>>() {}));
-    assertFreshInstance(new TypeToken<Multimap<EmptyEnum, String>>() {});
+    assertNotInstantiable(new TypeToken<Multimap<EmptyEnum, String>>() {});
   }
 
   public void testHashMultimap() {
@@ -556,7 +524,7 @@ public class FreshValueGeneratorTest extends TestCase {
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(
             new TypeToken<ListMultimap<String, Integer>>() {}));
-    assertFreshInstance(new TypeToken<ListMultimap<EmptyEnum, String>>() {});
+    assertNotInstantiable(new TypeToken<ListMultimap<EmptyEnum, String>>() {});
   }
 
   public void testArrayListMultimap() {
@@ -577,7 +545,7 @@ public class FreshValueGeneratorTest extends TestCase {
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(
             new TypeToken<SetMultimap<String, Integer>>() {}));
-    assertFreshInstance(new TypeToken<SetMultimap<EmptyEnum, String>>() {});
+    assertNotInstantiable(new TypeToken<SetMultimap<EmptyEnum, String>>() {});
   }
 
   public void testBiMap() {
@@ -588,7 +556,7 @@ public class FreshValueGeneratorTest extends TestCase {
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(
             new TypeToken<BiMap<String, Integer>>() {}));
-    assertFreshInstance(new TypeToken<BiMap<EmptyEnum, String>>() {});
+    assertNotInstantiable(new TypeToken<BiMap<EmptyEnum, String>>() {});
   }
 
   public void testHashBiMap() {
@@ -604,19 +572,19 @@ public class FreshValueGeneratorTest extends TestCase {
   public void testTable() {
     assertFreshInstance(new TypeToken<Table<String, ?, ?>>() {});
     FreshValueGenerator generator = new FreshValueGenerator();
-    Table<String, Integer, List<String>> expected = HashBasedTable.create();
+    Table<String, Integer, Object> expected = HashBasedTable.create();
     expected.put(generator.generate(String.class), generator.generate(int.class),
             generator.generate(new TypeToken<List<String>>() {}));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(
             new TypeToken<Table<String, Integer, List<String>>>() {}));
-    assertFreshInstance(new TypeToken<Table<EmptyEnum, String, Integer>>() {});
+    assertNotInstantiable(new TypeToken<Table<EmptyEnum, String, Integer>>() {});
   }
 
   public void testHashBasedTable() {
     assertFreshInstance(new TypeToken<HashBasedTable<String, ?, ?>>() {});
     FreshValueGenerator generator = new FreshValueGenerator();
-    HashBasedTable<String, Integer, List<String>> expected = HashBasedTable.create();
+    HashBasedTable<String, Integer, Object> expected = HashBasedTable.create();
     expected.put(generator.generate(String.class), generator.generate(int.class),
             generator.generate(new TypeToken<List<String>>() {}));
     assertValueAndTypeEquals(expected,
@@ -627,19 +595,19 @@ public class FreshValueGeneratorTest extends TestCase {
   public void testRowSortedTable() {
     assertFreshInstance(new TypeToken<RowSortedTable<String, ?, ?>>() {});
     FreshValueGenerator generator = new FreshValueGenerator();
-    RowSortedTable<String, Integer, List<String>> expected = TreeBasedTable.create();
+    RowSortedTable<String, Integer, Object> expected = TreeBasedTable.create();
     expected.put(generator.generate(String.class), generator.generate(int.class),
             generator.generate(new TypeToken<List<String>>() {}));
     assertValueAndTypeEquals(expected,
         new FreshValueGenerator().generate(
             new TypeToken<RowSortedTable<String, Integer, List<String>>>() {}));
-    assertFreshInstance(new TypeToken<RowSortedTable<EmptyEnum, String, Integer>>() {});
+    assertNotInstantiable(new TypeToken<RowSortedTable<EmptyEnum, String, Integer>>() {});
   }
 
   public void testTreeBasedTable() {
     assertFreshInstance(new TypeToken<TreeBasedTable<String, ?, ?>>() {});
     FreshValueGenerator generator = new FreshValueGenerator();
-    TreeBasedTable<String, Integer, List<String>> expected = TreeBasedTable.create();
+    TreeBasedTable<String, Integer, Object> expected = TreeBasedTable.create();
     expected.put(generator.generate(String.class), generator.generate(int.class),
             generator.generate(new TypeToken<List<String>>() {}));
     assertValueAndTypeEquals(expected,
@@ -656,6 +624,20 @@ public class FreshValueGeneratorTest extends TestCase {
     assertEqualInstance(EmptyEnum.class, null);
     assertEqualInstance(OneConstantEnum.class, OneConstantEnum.CONSTANT1);
     assertFreshInstance(TwoConstantEnum.class);
+    assertFreshInstance(new TypeToken<Optional<OneConstantEnum>>() {});
+  }
+
+  public void testOptional() {
+    FreshValueGenerator generator = new FreshValueGenerator();
+    assertEquals(Optional.absent(), generator.generate(new TypeToken<Optional<String>>() {}));
+    assertEquals(Optional.of("1"), generator.generate(new TypeToken<Optional<String>>() {}));
+    // Test that the first generated instance for different Optional<T> is always absent().
+    // Having generated Optional<String> instances doesn't prevent absent() from being generated for
+    // other Optional types.
+    assertEquals(Optional.absent(),
+        generator.generate(new TypeToken<Optional<OneConstantEnum>>() {}));
+    assertEquals(Optional.of(OneConstantEnum.CONSTANT1),
+        generator.generate(new TypeToken<Optional<OneConstantEnum>>() {}));
   }
 
   public void testAddSampleInstances_twoInstances() {
@@ -700,10 +682,10 @@ public class FreshValueGeneratorTest extends TestCase {
     }
   }
 
-  private static <T> void assertFreshInstance(TypeToken<T> type) {
+  private static void assertFreshInstance(TypeToken<?> type) {
     FreshValueGenerator generator = new FreshValueGenerator();
-    T value1 = generator.generate(type);
-    T value2 = generator.generate(type);
+    Object value1 = generator.generate(type);
+    Object value2 = generator.generate(type);
     assertNotNull("Null returned for " + type, value1);
     assertFalse("Equal instance " + value1 + " returned for " + type, value1.equals(value2));
   }
@@ -731,6 +713,10 @@ public class FreshValueGeneratorTest extends TestCase {
   private static void assertValueAndTypeEquals(Object expected, Object actual) {
     assertEquals(expected, actual);
     assertEquals(expected.getClass(), actual.getClass());
+  }
+
+  private static void assertNotInstantiable(TypeToken<?> type) {
+    assertNull(new FreshValueGenerator().generate(type));
   }
 
   private static <E> LinkedHashSet<E> newLinkedHashSet(E element) {

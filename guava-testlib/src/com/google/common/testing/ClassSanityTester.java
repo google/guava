@@ -49,6 +49,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -132,16 +133,27 @@ public final class ClassSanityTester {
   }
 
   /**
-   * Sets sample instances for {@code type} for purpose of {@code equals} testing, where different
-   * values are needed to test inequality.
+   * Sets sample instances for {@code type}, so that when a class {@code Foo} is tested for {@link
+   * Object#equals} and {@link Object#hashCode}, and its construction requires a parameter of {@code
+   * type}, the sample instances can be passed to create {@code Foo} instances that are unequal.
    *
-   * <p>Used for types that {@link ClassSanityTester} doesn't already know how to sample.
-   * It's usually necessary to add two unequal instances for each type, with the exception that if
-   * the sample instance is to be passed to a {@link Nullable} parameter,  one non-null sample is
-   * sufficient. Setting an empty list will clear sample instances for {@code type}.
+   * <p>Used for types where {@link ClassSanityTester} doesn't already know how to instantiate
+   * distinct values. It's usually necessary to add two unequal instances for each type, with the
+   * exception that if the sample instance is to be passed to a {@link Nullable} parameter, one
+   * non-null sample is sufficient. Setting an empty list will clear sample instances for {@code
+   * type}.
+
+   *
+
+   * @deprecated Use {@link #setDistinctValues} instead.
    */
+  @Deprecated
   public <T> ClassSanityTester setSampleInstances(Class<T> type, Iterable<? extends T> instances) {
     ImmutableList<? extends T> samples = ImmutableList.copyOf(instances);
+    Set<Object> uniqueValues = new HashSet<Object>();
+    for (T instance : instances) {
+      checkArgument(uniqueValues.add(instance), "Duplicate value: %s", instance);
+    }
     distinctValues.putAll(checkNotNull(type), samples);
     if (!samples.isEmpty()) {
       setDefault(type, samples.get(0));
@@ -152,10 +164,13 @@ public final class ClassSanityTester {
   /**
    * Sets distinct values for {@code type}, so that when a class {@code Foo} is tested for {@link
    * Object#equals} and {@link Object#hashCode}, and its construction requires a parameter of {@code
-   * type}, the distinct values of {@code type} can be passed as parametrs to create {@code Foo}
+   * type}, the distinct values of {@code type} can be passed as parameters to create {@code Foo}
    * instances that are unequal.
    *
-   * <p>Only necessary for types that {@link ClassSanityTester} doesn't already know how to create
+   * <p>Calling {@code setDistinctValues(type, v1, v2)} also sets the default value for {@code type}
+   * that's used for {@link #testNulls}.
+   *
+   * <p>Only necessary for types where {@link ClassSanityTester} doesn't already know how to create
    * distinct values.
    *
    * @return this tester instance
@@ -287,8 +302,8 @@ public final class ClassSanityTester {
   }
  
   void doTestEquals(Class<?> cls)
-      throws ParameterNotInstantiableException, IllegalAccessException,
-             InvocationTargetException, FactoryMethodReturnsNullException {
+      throws ParameterNotInstantiableException, ParameterHasNoDistinctValueException,
+             IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {
     if (cls.isEnum()) {
       return;
     }
@@ -298,9 +313,10 @@ public final class ClassSanityTester {
     }
     int numberOfParameters = factories.get(0).getParameters().size();
     List<ParameterNotInstantiableException> paramErrors = Lists.newArrayList();
+    List<ParameterHasNoDistinctValueException> distinctValueErrors = Lists.newArrayList();
     List<InvocationTargetException> instantiationExceptions = Lists.newArrayList();
     List<FactoryMethodReturnsNullException> nullErrors = Lists.newArrayList();
-    // Try factories with the greatest number of parameters first.
+    // Try factories with the greatest number of parameters.
     for (Invokable<?, ?> factory : factories) {
       if (factory.getParameters().size() == numberOfParameters) {
         try {
@@ -308,6 +324,8 @@ public final class ClassSanityTester {
           return;
         } catch (ParameterNotInstantiableException e) {
           paramErrors.add(e);
+        } catch (ParameterHasNoDistinctValueException e) {
+          distinctValueErrors.add(e);
         } catch (InvocationTargetException e) {
           instantiationExceptions.add(e);
         } catch (FactoryMethodReturnsNullException e) {
@@ -316,6 +334,7 @@ public final class ClassSanityTester {
       }
     }
     throwFirst(paramErrors);
+    throwFirst(distinctValueErrors);
     throwFirst(instantiationExceptions);
     throwFirst(nullErrors);
   }
@@ -550,8 +569,9 @@ public final class ClassSanityTester {
   }
 
   private void testEqualsUsing(final Invokable<?, ?> factory)
-      throws ParameterNotInstantiableException, IllegalAccessException,
-      InvocationTargetException, FactoryMethodReturnsNullException {
+
+      throws ParameterNotInstantiableException, ParameterHasNoDistinctValueException,
+             IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {
     List<Parameter> params = factory.getParameters();
     List<FreshValueGenerator> argGenerators = Lists.newArrayListWithCapacity(params.size());
     List<Object> args = Lists.newArrayListWithCapacity(params.size());
@@ -575,12 +595,12 @@ public final class ClassSanityTester {
     for (int i = 0; i < params.size(); i++) {
       List<Object> newArgs = Lists.newArrayList(args);
       Object newArg = argGenerators.get(i).generate(params.get(i).getType());
-      if (newArg == null) {
-        newArg = argGenerators.get(i).generate(params.get(i).getType().getRawType());
-      }
-      if (Objects.equal(args.get(i), newArg)) {
-        // no value variance, no equality group
-        continue;
+
+      if (newArg == null || Objects.equal(args.get(i), newArg)) {
+        if (params.get(i).getType().getRawType().isEnum()) {
+          continue; // Nothing better we can do if it's single-value enum
+        }
+        throw new ParameterHasNoDistinctValueException(params.get(i));
       }
       newArgs.set(i, newArg);
       tester.addEqualityGroup(createInstance(factory, newArgs));
@@ -758,6 +778,18 @@ public final class ClassSanityTester {
   }
 
   /**
+   * Thrown if the test fails to generate two distinct non-null values of a constructor or factory
+   * parameter in order to test {@link Object#equals} and {@link Object#hashCode} of the declaring
+   * class.
+   */
+  @VisibleForTesting static class ParameterHasNoDistinctValueException extends Exception {
+    ParameterHasNoDistinctValueException(Parameter parameter) {
+        super("Cannot generate distinct value for parameter " + parameter
+            + " of " + parameter.getDeclaringInvokable());
+    }
+  }
+
+  /**
    * Thrown if the test tries to invoke a static factory method to test instance methods but the
    * factory returned null.
    */
@@ -789,3 +821,4 @@ public final class ClassSanityTester {
     }
   }
 }
+
