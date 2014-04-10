@@ -251,6 +251,19 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
     return Objects.hashCode(numHashFunctions, funnel, strategy, bits);
   }
 
+  private static final Strategy DEFAULT_STRATEGY =
+      getDefaultStrategyFromSystemProperty();
+
+  @VisibleForTesting
+  static final String USE_MITZ32_PROPERTY = "com.google.common.hash.BloomFilter.useMitz32";
+
+  @VisibleForTesting
+  static Strategy getDefaultStrategyFromSystemProperty() {
+    return Boolean.parseBoolean(System.getProperty(USE_MITZ32_PROPERTY))
+        ? BloomFilterStrategies.MURMUR128_MITZ_32
+        : BloomFilterStrategies.MURMUR128_MITZ_64;
+  }
+
   /**
    * Creates a {@link BloomFilter BloomFilter<T>} with the expected number of
    * insertions and expected false positive probability.
@@ -274,7 +287,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   public static <T> BloomFilter<T> create(
       Funnel<T> funnel, int expectedInsertions /* n */, double fpp) {
-    return create(funnel, expectedInsertions, fpp, BloomFilterStrategies.MURMUR128_MITZ_32);
+    return create(funnel, expectedInsertions, fpp, DEFAULT_STRATEGY);
   }
 
   @VisibleForTesting

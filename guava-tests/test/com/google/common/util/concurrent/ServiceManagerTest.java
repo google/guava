@@ -337,17 +337,22 @@ public class ServiceManagerTest extends TestCase {
   }
 
   /**
-   * This is for a case where a long running Listener using the sameThreadListener could deadlock
-   * another thread calling stopAsync().
+   * Tests that a ServiceManager can be fully shut down if one of its failure listeners is slow or
+   * even permanently blocked.
    */
 
   public void testListenerDeadlock() throws InterruptedException {
     final CountDownLatch failEnter = new CountDownLatch(1);
+    final CountDownLatch failLeave = new CountDownLatch(1);
+    final CountDownLatch afterStarted = new CountDownLatch(1);
     Service failRunService = new AbstractService() {
       @Override protected void doStart() {
         new Thread() {
           @Override public void run() {
             notifyStarted();
+            // We need to wait for the main thread to leave the ServiceManager.startAsync call to
+            // ensure that the thread running the failure callbacks is not the main thread.
+            Uninterruptibles.awaitUninterruptibly(afterStarted);
             notifyFailed(new Exception("boom"));
           }
         }.start();
@@ -361,14 +366,15 @@ public class ServiceManagerTest extends TestCase {
     manager.addListener(new ServiceManager.Listener() {
       @Override public void failure(Service service) {
         failEnter.countDown();
-        // block forever!
-        Uninterruptibles.awaitUninterruptibly(new CountDownLatch(1));
+        // block until after the service manager is shutdown
+        Uninterruptibles.awaitUninterruptibly(failLeave);
       }
     }, MoreExecutors.sameThreadExecutor());
+    manager.startAsync();
+    afterStarted.countDown();
     // We do not call awaitHealthy because, due to races, that method may throw an exception.  But
     // we really just want to wait for the thread to be in the failure callback so we wait for that
     // explicitly instead.
-    manager.startAsync();
     failEnter.await();
     assertFalse("State should be updated before calling listeners", manager.isHealthy());
     // now we want to stop the services.
@@ -381,6 +387,7 @@ public class ServiceManagerTest extends TestCase {
     // this should be super fast since the only non stopped service is a NoOpService
     stoppingThread.join(1000);
     assertFalse("stopAsync has deadlocked!.", stoppingThread.isAlive());
+    failLeave.countDown();  // release the background thread
   }
 
   /**
