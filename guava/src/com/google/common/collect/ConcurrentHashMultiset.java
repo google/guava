@@ -472,14 +472,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     };
   }
 
-  private transient EntrySet entrySet;
-
-  @Override public Set<Multiset.Entry<E>> entrySet() {
-    EntrySet result = entrySet;
-    if (result == null) {
-      entrySet = result = new EntrySet();
-    }
-    return result;
+  @Override public Set<Multiset.Entry<E>> createEntrySet() {
+    return new EntrySet();
   }
 
   @Override int distinctElements() {
