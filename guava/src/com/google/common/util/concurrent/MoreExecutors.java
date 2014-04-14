@@ -859,12 +859,13 @@ public final class MoreExecutors {
    * </ol>
    *
    * <p>If, at any step of the process, the given executor is terminated or the calling thread is
-   * interrupted, the method may return without executing any remaining steps.
+   * interrupted, the method calls {@link ExecutorService#shutdownNow()}, cancelling
+   * pending tasks and interrupting running tasks.
    *
    * @param service the {@code ExecutorService} to shut down
    * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
    * @param unit the time unit of the timeout argument
-   * @return {@code true) if the pool was terminated successfully, {@code false} if the
+   * @return {@code true} if the pool was terminated successfully, {@code false} if the
    *     {@code ExecutorService} could not terminate <b>or</b> the thread running this method
    *     is interrupted while waiting for the {@code ExecutorService} to terminate
    * @since 17.0
