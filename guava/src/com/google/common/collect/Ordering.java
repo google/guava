@@ -216,6 +216,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * is expected.
    *
    * <p>The returned comparator is serializable.
+   *
+   * @since 13.0
    */
   @GwtCompatible(serializable = true)
   @SuppressWarnings("unchecked")
