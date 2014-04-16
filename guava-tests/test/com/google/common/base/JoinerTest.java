@@ -356,10 +356,7 @@ public class JoinerTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester()
-        // This is necessary because of the generics hackery we have to temporarily support
-        // parameters which implement both Iterator and Iterable.;
-        .setDefault(Object.class, ImmutableSet.of().iterator());
+    NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Joiner.class);
     tester.testInstanceMethods(Joiner.on(","), NullPointerTester.Visibility.PACKAGE);
     tester.testInstanceMethods(Joiner.on(",").skipNulls(), NullPointerTester.Visibility.PACKAGE);
