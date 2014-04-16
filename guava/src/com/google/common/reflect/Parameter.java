@@ -19,6 +19,7 @@ package com.google.common.reflect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 
 import java.lang.annotation.Annotation;
@@ -81,8 +82,44 @@ public final class Parameter implements AnnotatedElement {
     return getDeclaredAnnotations();
   }
 
+  /**
+   * @since 17.0
+   */
+  // @Override on JDK8
+  public <A extends Annotation> A[] getAnnotationsByType(Class<A> annotationType) {
+    return getDeclaredAnnotationsByType(annotationType);
+  }
+
+  /**
+   * @since 17.0
+   */
+  // @Override on JDK8
   @Override public Annotation[] getDeclaredAnnotations() {
     return annotations.toArray(new Annotation[annotations.size()]);
+  }
+
+  /**
+   * @since 17.0
+   */
+  // @Override on JDK8
+  @Nullable
+  public <A extends Annotation> A getDeclaredAnnotation(Class<A> annotationType) {
+    checkNotNull(annotationType);
+    return FluentIterable.from(annotations)
+        .filter(annotationType)
+        .first()
+        .orNull();
+  }
+
+  /**
+   * @since 17.0
+   */
+  // @Override on JDK8
+  public <A extends Annotation> A[]
+      getDeclaredAnnotationsByType(Class<A> annotationType) {
+    return FluentIterable.from(annotations)
+        .filter(annotationType)
+        .toArray(annotationType);
   }
 
   @Override public boolean equals(@Nullable Object obj) {
