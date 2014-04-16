@@ -17,6 +17,7 @@
     This project includes GWT-friendly sources.
   </description>
   <properties>
+    <gwt.test.include>**/GwtTestSuite.java</gwt.test.include>
     <gwt.version>2.5.0-rc1</gwt.version>
   </properties>
   <dependencies>
@@ -240,7 +241,7 @@
             <configuration>
               <module>com.google.common.GuavaTests</module>
               <strict>true</strict>
-              <includes>**/GwtTestSuite.java</includes>
+              <includes>${gwt.test.include}</includes>
               <mode>htmlunit</mode>
               <testTimeOut>600</testTimeOut>
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
