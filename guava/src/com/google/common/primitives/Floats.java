@@ -388,7 +388,7 @@ public final class Floats {
     public int compare(float[] left, float[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
-        int result = Floats.compare(left[i], right[i]);
+        int result = Float.compare(left[i], right[i]);
         if (result != 0) {
           return result;
         }
