@@ -67,7 +67,7 @@ public class TypesTest extends TestCase {
     assertEquals(jvmType.hashCode(), ourType.hashCode());
     assertEquals(HashMap.class, ourType.getRawType());
     ASSERT.that(ourType.getActualTypeArguments())
-        .iteratesOverSequence(jvmType.getActualTypeArguments());
+        .iteratesAs(jvmType.getActualTypeArguments());
     assertEquals(Arrays.asList(
             String.class,
             Types.newArrayType(Types.newArrayType(int.class))),
@@ -108,7 +108,7 @@ public class TypesTest extends TestCase {
     assertEquals(Map.class, ourType.getOwnerType());
     assertEquals(Map.Entry.class, ourType.getRawType());
     ASSERT.that(ourType.getActualTypeArguments())
-        .iteratesOverSequence(jvmType.getActualTypeArguments());
+        .iteratesAs(jvmType.getActualTypeArguments());
   }
 
   public void testNewParameterizedType_serializable() {

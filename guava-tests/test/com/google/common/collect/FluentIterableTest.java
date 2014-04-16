@@ -189,7 +189,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<TypeA> alist =
         FluentIterable.from(asList(new TypeA(), new TypeA(), hasBoth, new TypeA()));
     Iterable<TypeB> blist = alist.filter(TypeB.class);
-    ASSERT.that(blist).iteratesOverSequence(hasBoth);
+    ASSERT.that(blist).iteratesAs(hasBoth);
   }
 
   public void testAnyMatch() {
@@ -450,7 +450,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<String> tail = FluentIterable.from(set).skip(1);
     set.remove("b");
     set.addAll(Lists.newArrayList("X", "Y", "Z"));
-    ASSERT.that(tail).iteratesOverSequence("c", "X", "Y", "Z");
+    ASSERT.that(tail).iteratesAs("c", "X", "Y", "Z");
   }
 
   public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
@@ -458,7 +458,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<String> tail = FluentIterable.from(list).skip(1);
     list.subList(1, 3).clear();
     list.addAll(0, Lists.newArrayList("X", "Y", "Z"));
-    ASSERT.that(tail).iteratesOverSequence("Y", "Z", "a");
+    ASSERT.that(tail).iteratesAs("Y", "Z", "a");
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {

@@ -374,7 +374,7 @@ public class IterablesTest extends TestCase {
     int n = 4;
     Iterable<Integer> repeated
         = Iterables.concat(Collections.nCopies(n, iterable));
-    ASSERT.that(repeated).iteratesOverSequence(
+    ASSERT.that(repeated).iteratesAs(
         1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3);
   }
 
@@ -603,7 +603,7 @@ public class IterablesTest extends TestCase {
     Iterable<String> tail = skip(set, 1);
     set.remove("b");
     set.addAll(newArrayList("A", "B", "C"));
-    ASSERT.that(tail).iteratesOverSequence("c", "A", "B", "C");
+    ASSERT.that(tail).iteratesAs("c", "A", "B", "C");
   }
 
   public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
@@ -611,7 +611,7 @@ public class IterablesTest extends TestCase {
     Iterable<String> tail = skip(list, 1);
     list.subList(1, 3).clear();
     list.addAll(0, newArrayList("A", "B", "C"));
-    ASSERT.that(tail).iteratesOverSequence("B", "C", "a");
+    ASSERT.that(tail).iteratesAs("B", "C", "a");
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {
