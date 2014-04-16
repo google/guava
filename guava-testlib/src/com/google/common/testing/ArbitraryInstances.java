@@ -213,7 +213,7 @@ public final class ArbitraryInstances {
       .put(DoubleBuffer.class, DoubleBuffer.allocate(0))
       .put(File.class, new File(""))
       // All collections are immutable empty. So safe for any type parameter.
-      .put(Iterator.class, Iterators.emptyIterator())
+      .put(Iterator.class, ImmutableSet.of().iterator())
       .put(PeekingIterator.class, Iterators.peekingIterator(Iterators.emptyIterator()))
       .put(ListIterator.class, ImmutableList.of().listIterator())
       .put(Iterable.class, ImmutableSet.of())

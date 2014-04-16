@@ -40,7 +40,6 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MapConstraint;
 import com.google.common.collect.MapDifference;
@@ -165,7 +164,7 @@ public class ArbitraryInstancesTest extends TestCase {
   }
 
   public void testGet_collections() {
-    assertEquals(Iterators.emptyIterator(), ArbitraryInstances.get(Iterator.class));
+    assertEquals(ImmutableSet.of().iterator(), ArbitraryInstances.get(Iterator.class));
     assertFalse(ArbitraryInstances.get(PeekingIterator.class).hasNext());
     assertFalse(ArbitraryInstances.get(ListIterator.class).hasNext());
     assertEquals(ImmutableSet.of(), ArbitraryInstances.get(Iterable.class));
