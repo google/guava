@@ -41,12 +41,18 @@ public final class Charsets {
   /**
    * US-ASCII: seven-bit ASCII, the Basic Latin block of the Unicode character set (ISO646-US).
    *
+   * <p><b>Note:</b> projects using JDK 7 or later should use
+   * {@link java.nio.charset.StandardCharsets#US_ASCII} instead.
+   *
    */
   @GwtIncompatible("Non-UTF-8 Charset")
   public static final Charset US_ASCII = Charset.forName("US-ASCII");
 
   /**
    * ISO-8859-1: ISO Latin Alphabet Number 1 (ISO-LATIN-1).
+   *
+   * <p><b>Note:</b> projects using JDK 7 or later should use
+   * {@link java.nio.charset.StandardCharsets#ISO_8859_1} instead.
    *
    */
   @GwtIncompatible("Non-UTF-8 Charset")
@@ -55,11 +61,17 @@ public final class Charsets {
   /**
    * UTF-8: eight-bit UCS Transformation Format.
    *
+   * <p><b>Note:</b> projects using JDK 7 or later should use
+   * {@link java.nio.charset.StandardCharsets#UTF_8} instead.
+   *
    */
   public static final Charset UTF_8 = Charset.forName("UTF-8");
 
   /**
    * UTF-16BE: sixteen-bit UCS Transformation Format, big-endian byte order.
+   *
+   * <p><b>Note:</b> projects using JDK 7 or later should use
+   * {@link java.nio.charset.StandardCharsets#UTF_16BE} instead.
    *
    */
   @GwtIncompatible("Non-UTF-8 Charset")
@@ -68,6 +80,9 @@ public final class Charsets {
   /**
    * UTF-16LE: sixteen-bit UCS Transformation Format, little-endian byte order.
    *
+   * <p><b>Note:</b> projects using JDK 7 or later should use
+   * {@link java.nio.charset.StandardCharsets#UTF_16LE} instead.
+   *
    */
   @GwtIncompatible("Non-UTF-8 Charset")
   public static final Charset UTF_16LE = Charset.forName("UTF-16LE");
@@ -75,6 +90,9 @@ public final class Charsets {
   /**
    * UTF-16: sixteen-bit UCS Transformation Format, byte order identified by an optional byte-order
    * mark.
+   *
+   * <p><b>Note:</b> projects using JDK 7 or later should use
+   * {@link java.nio.charset.StandardCharsets#UTF_16} instead.
    *
    */
   @GwtIncompatible("Non-UTF-8 Charset")

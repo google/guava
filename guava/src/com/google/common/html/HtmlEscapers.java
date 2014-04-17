@@ -49,7 +49,7 @@ public final class HtmlEscapers {
    * other Unicode encodings can).
    *
    *
-   * <p><b>Note</b>: This escaper only performs minimal escaping to make content
+   * <p><b>Note:</b> This escaper only performs minimal escaping to make content
    * structurally compatible with HTML. Specifically, it does not perform entity
    * replacement (symbolic or numeric), so it does not replace non-ASCII code
    * points with character references. This escaper escapes only the following

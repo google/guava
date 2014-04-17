@@ -654,7 +654,7 @@ public final class Maps {
    * Removal operations write through to the backing set.  The returned map
    * does not support put operations.
    *
-   * <p><b>Warning</b>: If the function rejects {@code null}, caution is
+   * <p><b>Warning:</b> If the function rejects {@code null}, caution is
    * required to make sure the set does not contain {@code null}, because the
    * view cannot stop {@code null} from being added to the set.
    *
@@ -690,7 +690,7 @@ public final class Maps {
    * Removal operations write through to the backing set.  The returned map does
    * not support put operations.
    *
-   * <p><b>Warning</b>: If the function rejects {@code null}, caution is
+   * <p><b>Warning:</b> If the function rejects {@code null}, caution is
    * required to make sure the set does not contain {@code null}, because the
    * view cannot stop {@code null} from being added to the set.
    *

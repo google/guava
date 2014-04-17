@@ -28,7 +28,7 @@ import com.google.common.escape.Escapers;
  * autoescaping. For example, consider <a href="http://www.xom.nu/">XOM</a> or
  * <a href="http://www.jdom.org/">JDOM</a>.
  *
- * <p><b>Note</b>: Currently the escapers provided by this class do not escape
+ * <p><b>Note:</b> Currently the escapers provided by this class do not escape
  * any characters outside the ASCII character range. Unlike HTML escaping the
  * XML escapers will not escape non-ASCII characters to their numeric entity
  * replacements. These XML escapers provide the minimal level of escaping to
@@ -69,7 +69,7 @@ public class XmlEscapers {
    * <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the
    * XML specification.
    *
-   * <p><b>Note</b>: Double and single quotes are not escaped, so it is <b>not
+   * <p><b>Note:</b> Double and single quotes are not escaped, so it is <b>not
    * safe</b> to use this escaper to escape attribute values. Use
    * {@link #xmlContentEscaper} if the output can appear in element content or
    * {@link #xmlAttributeEscaper} in attribute values.

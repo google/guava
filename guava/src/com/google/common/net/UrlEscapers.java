@@ -74,7 +74,7 @@ public final class UrlEscapers {
    * recommend using the ampersand unless you must interoperate with systems
    * that require semicolons.
    *
-   * <p><b>Note</b>: Unlike other escapers, URL escapers produce uppercase
+   * <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase
    * hexadecimal sequences. From <a href="http://www.ietf.org/rfc/rfc3986.txt">
    * RFC 3986</a>:<br>
    * <i>"URI producers and normalizers should use uppercase hexadecimal digits
@@ -116,7 +116,7 @@ public final class UrlEscapers {
    *     representation of the byte value.
    * </ul>
    *
-   * <p><b>Note</b>: Unlike other escapers, URL escapers produce uppercase
+   * <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase
    * hexadecimal sequences. From <a href="http://www.ietf.org/rfc/rfc3986.txt">
    * RFC 3986</a>:<br>
    * <i>"URI producers and normalizers should use uppercase hexadecimal digits
@@ -154,7 +154,7 @@ public final class UrlEscapers {
    *     representation of the byte value.
    * </ul>
    *
-   * <p><b>Note</b>: Unlike other escapers, URL escapers produce uppercase
+   * <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase
    * hexadecimal sequences. From <a href="http://www.ietf.org/rfc/rfc3986.txt">
    * RFC 3986</a>:<br>
    * <i>"URI producers and normalizers should use uppercase hexadecimal digits
