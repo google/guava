@@ -46,7 +46,7 @@ import java.util.Set;
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests a
  * {@code SortedMultiset} implementation.
  *
- * <p><b>Warning</b>: expects that {@code E} is a String.
+ * <p><b>Warning:</b> expects that {@code E} is a String.
  *
  * @author Louis Wasserman
  */

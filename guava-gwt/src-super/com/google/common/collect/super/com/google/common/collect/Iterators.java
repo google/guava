@@ -100,6 +100,10 @@ public final class Iterators {
    *
    * <p>The {@link Iterable} equivalent of this method is {@link
    * ImmutableSet#of()}.
+   *
+   * <p><b>Note:</b> projects using JDK 7 or later should use
+   * {@link Collections#emptyIterator} instead.
+   *
    */
   public static <T> UnmodifiableIterator<T> emptyIterator() {
     return emptyListIterator();

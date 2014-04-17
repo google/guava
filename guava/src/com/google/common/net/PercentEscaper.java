@@ -46,7 +46,7 @@ import com.google.common.escape.UnicodeEscaper;
  * <p>For performance reasons the only currently supported character encoding of
  * this class is UTF-8.
  *
- * <p><b>Note</b>: This escaper produces uppercase hexadecimal sequences. From
+ * <p><b>Note:</b> This escaper produces uppercase hexadecimal sequences. From
  * <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:<br>
  * <i>"URI producers and normalizers should use uppercase hexadecimal digits
  * for all percent-encodings."</i>

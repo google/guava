@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  * An immutable {@link Table} with reliable user-specified iteration order.
  * Does not permit null keys or values.
  *
- * <p><b>Note</b>: Although this class is not final, it cannot be subclassed as
+ * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
  * it has no public or protected constructors. Thus, instances of this class are
  * guaranteed to be immutable.
  *

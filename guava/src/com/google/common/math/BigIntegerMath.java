@@ -305,7 +305,7 @@ public final class BigIntegerMath {
    * Returns {@code n!}, that is, the product of the first {@code n} positive
    * integers, or {@code 1} if {@code n == 0}.
    *
-   * <p><b>Warning</b>: the result takes <i>O(n log n)</i> space, so use cautiously.
+   * <p><b>Warning:</b> the result takes <i>O(n log n)</i> space, so use cautiously.
    *
    * <p>This uses an efficient binary recursive algorithm to compute the factorial
    * with balanced multiplies.  It also removes all the 2s from the intermediate
@@ -393,7 +393,7 @@ public final class BigIntegerMath {
    * Returns {@code n} choose {@code k}, also known as the binomial coefficient of {@code n} and
    * {@code k}, that is, {@code n! / (k! (n - k)!)}.
    *
-   * <p><b>Warning</b>: the result can take as much as <i>O(k log n)</i> space.
+   * <p><b>Warning:</b> the result can take as much as <i>O(k log n)</i> space.
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
