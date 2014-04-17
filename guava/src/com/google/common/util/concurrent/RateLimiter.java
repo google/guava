@@ -16,10 +16,16 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.util.concurrent.TimeUnit.MICROSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Ticker;
+import com.google.common.base.Stopwatch;
 
 import java.util.concurrent.TimeUnit;
 
@@ -239,12 +245,12 @@ public abstract class RateLimiter {
        * Due to the slight delay of T1, T2 would have to sleep till 2.05 seconds,
        * and T3 would also have to sleep till 3.05 seconds.
      */
-    return create(SleepingTicker.SYSTEM_TICKER, permitsPerSecond);
+    return create(SleepingStopwatch.createFromSystemTimer(), permitsPerSecond);
   }
 
   @VisibleForTesting
-  static RateLimiter create(SleepingTicker ticker, double permitsPerSecond) {
-    RateLimiter rateLimiter = new Bursty(ticker, 1.0 /* maxBurstSeconds */);
+  static RateLimiter create(SleepingStopwatch stopwatch, double permitsPerSecond) {
+    RateLimiter rateLimiter = new SmoothBursty(stopwatch, 1.0 /* maxBurstSeconds */);
     rateLimiter.setRate(permitsPerSecond);
     return rateLimiter;
   }
@@ -272,22 +278,22 @@ public abstract class RateLimiter {
    * @param unit the time unit of the warmupPeriod argument
    */
   public static RateLimiter create(double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
-    return create(SleepingTicker.SYSTEM_TICKER, permitsPerSecond, warmupPeriod, unit);
+    return create(SleepingStopwatch.createFromSystemTimer(), permitsPerSecond, warmupPeriod, unit);
   }
 
   @VisibleForTesting
   static RateLimiter create(
-      SleepingTicker ticker, double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
-    RateLimiter rateLimiter = new WarmingUp(ticker, warmupPeriod, unit);
+      SleepingStopwatch stopwatch, double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
+    RateLimiter rateLimiter = new SmoothWarmingUp(stopwatch, warmupPeriod, unit);
     rateLimiter.setRate(permitsPerSecond);
     return rateLimiter;
   }
 
   @VisibleForTesting
   static RateLimiter createWithCapacity(
-      SleepingTicker ticker, double permitsPerSecond, long maxBurstBuildup, TimeUnit unit) {
+      SleepingStopwatch stopwatch, double permitsPerSecond, long maxBurstBuildup, TimeUnit unit) {
     double maxBurstSeconds = unit.toNanos(maxBurstBuildup) / 1E+9;
-    Bursty rateLimiter = new Bursty(ticker, maxBurstSeconds);
+    SmoothBursty rateLimiter = new SmoothBursty(stopwatch, maxBurstSeconds);
     rateLimiter.setRate(permitsPerSecond);
     return rateLimiter;
   }
@@ -296,41 +302,12 @@ public abstract class RateLimiter {
    * The underlying timer; used both to measure elapsed time and sleep as necessary. A separate
    * object to facilitate testing.
    */
-  private final SleepingTicker ticker;
-
-  /**
-   * The timestamp when the RateLimiter was created; used to avoid possible overflow/time-wrapping
-   * errors.
-   */
-  private final long offsetNanos;
-
-  /**
-   * The currently stored permits.
-   */
-  double storedPermits;
-
-  /**
-   * The maximum number of stored permits.
-   */
-  double maxPermits;
-
-  /**
-   * The interval between two unit requests, at our stable rate. E.g., a stable rate of 5 permits
-   * per second has a stable interval of 200ms.
-   */
-  volatile double stableIntervalMicros;
+  private final SleepingStopwatch stopwatch;
 
   private final Object mutex = new Object();
 
-  /**
-   * The time when the next request (no matter its size) will be granted. After granting a request,
-   * this is pushed further in the future. Large requests push this further than small requests.
-   */
-  private long nextFreeTicketMicros = 0L; // could be either in the past or future
-
-  private RateLimiter(SleepingTicker ticker) {
-    this.ticker = ticker;
-    this.offsetNanos = ticker.read();
+  private RateLimiter(SleepingStopwatch stopwatch) {
+    this.stopwatch = checkNotNull(stopwatch);
   }
 
   /**
@@ -352,17 +329,14 @@ public abstract class RateLimiter {
    * @param permitsPerSecond the new stable rate of this {@code RateLimiter}. Must be positive
    */
   public final void setRate(double permitsPerSecond) {
-    Preconditions.checkArgument(permitsPerSecond > 0.0
-        && !Double.isNaN(permitsPerSecond), "rate must be positive");
+    checkArgument(
+        permitsPerSecond > 0.0 && !Double.isNaN(permitsPerSecond), "rate must be positive");
     synchronized (mutex) {
-      resync(readSafeMicros());
-      double stableIntervalMicros = TimeUnit.SECONDS.toMicros(1L) / permitsPerSecond;
-      this.stableIntervalMicros = stableIntervalMicros;
-      doSetRate(permitsPerSecond, stableIntervalMicros);
+      doSetRate(permitsPerSecond, stopwatch.readMicros());
     }
   }
 
-  abstract void doSetRate(double permitsPerSecond, double stableIntervalMicros);
+  abstract void doSetRate(double permitsPerSecond, long nowMicros);
 
   /**
    * Returns the stable rate (as {@code permits per seconds}) with which this
@@ -371,9 +345,7 @@ public abstract class RateLimiter {
    * this {@code RateLimiter}, and it is only updated after invocations
    * to {@linkplain #setRate}.
    */
-  public final double getRate() {
-    return TimeUnit.SECONDS.toMicros(1L) / stableIntervalMicros;
-  }
+  public abstract double getRate();
 
   /**
    * Acquires a single permit from this {@code RateLimiter}, blocking until the
@@ -398,8 +370,8 @@ public abstract class RateLimiter {
    */
   public double acquire(int permits) {
     long microsToWait = reserve(permits);
-    ticker.sleepMicrosUninterruptibly(microsToWait);
-    return 1.0 * microsToWait / TimeUnit.SECONDS.toMicros(1L);
+    stopwatch.sleepMicrosUninterruptibly(microsToWait);
+    return 1.0 * microsToWait / SECONDS.toMicros(1L);
   }
 
   /**
@@ -420,10 +392,10 @@ public abstract class RateLimiter {
    *
    * @return time in microseconds to wait until the resource can be acquired.
    */
-  long reserve(int permits) {
+  final long reserve(int permits) {
     checkPermits(permits);
     synchronized (mutex) {
-      return reserveNextTicket(permits, readSafeMicros());
+      return reserveNextTicket(permits, stopwatch.readMicros());
     }
   }
 
@@ -454,7 +426,7 @@ public abstract class RateLimiter {
    * @since 14.0
    */
   public boolean tryAcquire(int permits) {
-    return tryAcquire(permits, 0, TimeUnit.MICROSECONDS);
+    return tryAcquire(permits, 0, MICROSECONDS);
   }
 
   /**
@@ -468,7 +440,7 @@ public abstract class RateLimiter {
    * @since 14.0
    */
   public boolean tryAcquire() {
-    return tryAcquire(1, 0, TimeUnit.MICROSECONDS);
+    return tryAcquire(1, 0, MICROSECONDS);
   }
 
   /**
@@ -487,66 +459,112 @@ public abstract class RateLimiter {
     checkPermits(permits);
     long microsToWait;
     synchronized (mutex) {
-      long nowMicros = readSafeMicros();
-      if (nextFreeTicketMicros > nowMicros + timeoutMicros) {
+      long nowMicros = stopwatch.readMicros();
+      if (!canAcquire(nowMicros, nowMicros + timeoutMicros)) {
         return false;
       } else {
         microsToWait = reserveNextTicket(permits, nowMicros);
       }
     }
-    ticker.sleepMicrosUninterruptibly(microsToWait);
+    stopwatch.sleepMicrosUninterruptibly(microsToWait);
     return true;
   }
 
-  private static void checkPermits(int permits) {
-    Preconditions.checkArgument(permits > 0, "Requested permits must be positive");
-  }
+  abstract boolean canAcquire(long nowMicros, long deadlineMicros);
 
-  /**
-   * Reserves next ticket and returns the wait time that the caller must wait for.
-   *
-   * <p>The return value is guaranteed to be non-negative.
-   */
-  private long reserveNextTicket(double requiredPermits, long nowMicros) {
-    resync(nowMicros);
-    long microsToNextFreeTicket = Math.max(0, nextFreeTicketMicros - nowMicros);
-    double storedPermitsToSpend = Math.min(requiredPermits, this.storedPermits);
-    double freshPermits = requiredPermits - storedPermitsToSpend;
-
-    long waitMicros = storedPermitsToWaitTime(this.storedPermits, storedPermitsToSpend)
-        + (long) (freshPermits * stableIntervalMicros);
-
-    this.nextFreeTicketMicros = nextFreeTicketMicros + waitMicros;
-    this.storedPermits -= storedPermitsToSpend;
-    return microsToNextFreeTicket;
-  }
-
-  /**
-   * Translates a specified portion of our currently stored permits which we want to
-   * spend/acquire, into a throttling time. Conceptually, this evaluates the integral
-   * of the underlying function we use, for the range of
-   * [(storedPermits - permitsToTake), storedPermits].
-   *
-   * This always holds: {@code 0 <= permitsToTake <= storedPermits}
-   */
-  abstract long storedPermitsToWaitTime(double storedPermits, double permitsToTake);
-
-  private void resync(long nowMicros) {
-    // if nextFreeTicket is in the past, resync to now
-    if (nowMicros > nextFreeTicketMicros) {
-      storedPermits = Math.min(maxPermits,
-          storedPermits + (nowMicros - nextFreeTicketMicros) / stableIntervalMicros);
-      nextFreeTicketMicros = nowMicros;
-    }
-  }
-
-  private long readSafeMicros() {
-    return TimeUnit.NANOSECONDS.toMicros(ticker.read() - offsetNanos);
-  }
+  abstract long reserveNextTicket(int requiredPermits, long nowMicros);
 
   @Override
   public String toString() {
-    return String.format("RateLimiter[stableRate=%3.1fqps]", 1000000.0 / stableIntervalMicros);
+    return String.format("RateLimiter[stableRate=%3.1fqps]", getRate());
+  }
+
+  private abstract static class SmoothRateLimiter extends RateLimiter {
+    /**
+     * The currently stored permits.
+     */
+    double storedPermits;
+
+    /**
+     * The maximum number of stored permits.
+     */
+    double maxPermits;
+
+    /**
+     * The interval between two unit requests, at our stable rate. E.g., a stable rate of 5 permits
+     * per second has a stable interval of 200ms.
+     */
+    volatile double stableIntervalMicros;
+
+    /**
+     * The time when the next request (no matter its size) will be granted. After granting a
+     * request, this is pushed further in the future. Large requests push this further than small
+     * requests.
+     */
+    private long nextFreeTicketMicros = 0L; // could be either in the past or future
+
+    private SmoothRateLimiter(SleepingStopwatch stopwatch) {
+      super(stopwatch);
+    }
+
+    @Override
+    final void doSetRate(double permitsPerSecond, long nowMicros) {
+      resync(nowMicros);
+      double stableIntervalMicros = SECONDS.toMicros(1L) / permitsPerSecond;
+      this.stableIntervalMicros = stableIntervalMicros;
+      doSetRate(permitsPerSecond, stableIntervalMicros);
+    }
+
+    abstract void doSetRate(double permitsPerSecond, double stableIntervalMicros);
+
+    @Override
+    public final double getRate() {
+      return SECONDS.toMicros(1L) / stableIntervalMicros;
+    }
+
+    @Override
+    final boolean canAcquire(long nowMicros, long deadlineMicros) {
+      return nextFreeTicketMicros <= deadlineMicros;
+    }
+
+    /**
+     * Reserves next ticket and returns the wait time that the caller must wait for.
+     *
+     * <p>The return value is guaranteed to be non-negative.
+     */
+    @Override
+    long reserveNextTicket(int requiredPermits, long nowMicros) {
+      resync(nowMicros);
+      long microsToNextFreeTicket = max(0, nextFreeTicketMicros - nowMicros);
+      double storedPermitsToSpend = min(requiredPermits, this.storedPermits);
+      double freshPermits = requiredPermits - storedPermitsToSpend;
+
+      long waitMicros = storedPermitsToWaitTime(this.storedPermits, storedPermitsToSpend)
+          + (long) (freshPermits * stableIntervalMicros);
+
+      this.nextFreeTicketMicros = nextFreeTicketMicros + waitMicros;
+      this.storedPermits -= storedPermitsToSpend;
+      return microsToNextFreeTicket;
+    }
+
+    /**
+     * Translates a specified portion of our currently stored permits which we want to
+     * spend/acquire, into a throttling time. Conceptually, this evaluates the integral
+     * of the underlying function we use, for the range of
+     * [(storedPermits - permitsToTake), storedPermits].
+     *
+     * This always holds: {@code 0 <= permitsToTake <= storedPermits}
+     */
+    abstract long storedPermitsToWaitTime(double storedPermits, double permitsToTake);
+
+    private void resync(long nowMicros) {
+      // if nextFreeTicket is in the past, resync to now
+      if (nowMicros > nextFreeTicketMicros) {
+        storedPermits = min(maxPermits,
+            storedPermits + (nowMicros - nextFreeTicketMicros) / stableIntervalMicros);
+        nextFreeTicketMicros = nowMicros;
+      }
+    }
   }
 
   /**
@@ -624,7 +642,7 @@ public abstract class RateLimiter {
    *   to have halfPermits being spend in double the usual time (half the rate), while their
    *   respective rate is steadily ramping up
    */
-  private static class WarmingUp extends RateLimiter {
+  private static final class SmoothWarmingUp extends SmoothRateLimiter {
 
     final long warmupPeriodMicros;
     /**
@@ -634,8 +652,8 @@ public abstract class RateLimiter {
     private double slope;
     private double halfPermits;
 
-    WarmingUp(SleepingTicker ticker, long warmupPeriod, TimeUnit timeUnit) {
-      super(ticker);
+    SmoothWarmingUp(SleepingStopwatch stopwatch, long warmupPeriod, TimeUnit timeUnit) {
+      super(stopwatch);
       this.warmupPeriodMicros = timeUnit.toMicros(warmupPeriod);
     }
 
@@ -663,7 +681,7 @@ public abstract class RateLimiter {
       long micros = 0;
       // measuring the integral on the right part of the function (the climbing line)
       if (availablePermitsAboveHalf > 0.0) {
-        double permitsAboveHalfToTake = Math.min(availablePermitsAboveHalf, permitsToTake);
+        double permitsAboveHalfToTake = min(availablePermitsAboveHalf, permitsToTake);
         micros = (long) (permitsAboveHalfToTake * (permitsToTime(availablePermitsAboveHalf)
             + permitsToTime(availablePermitsAboveHalf - permitsAboveHalfToTake)) / 2.0);
         permitsToTake -= permitsAboveHalfToTake;
@@ -684,12 +702,12 @@ public abstract class RateLimiter {
    * unused) is defined in terms of time, in this sense: if a RateLimiter is 2qps, and this
    * time is specified as 10 seconds, we can save up to 2 * 10 = 20 permits.
    */
-  private static class Bursty extends RateLimiter {
+  private static final class SmoothBursty extends SmoothRateLimiter {
     /** The work (permits) of how many seconds can be saved up if this RateLimiter is unused? */
     final double maxBurstSeconds;
 
-    Bursty(SleepingTicker ticker, double maxBurstSeconds) {
-      super(ticker);
+    SmoothBursty(SleepingStopwatch stopwatch, double maxBurstSeconds) {
+      super(stopwatch);
       this.maxBurstSeconds = maxBurstSeconds;
     }
 
@@ -709,21 +727,37 @@ public abstract class RateLimiter {
   }
 
   @VisibleForTesting
-  static abstract class SleepingTicker extends Ticker {
+  abstract static class SleepingStopwatch {
+    /*
+     * We always hold the mutex when calling this. TODO(cpovirk): Is that important? Perhaps we need
+     * to guarantee that each call to reserveNextTicket, etc. sees a value >= the previous? Also, is
+     * it OK that we don't hold the mutex when sleeping?
+     */
+    abstract long readMicros();
+
     abstract void sleepMicrosUninterruptibly(long micros);
 
-    static final SleepingTicker SYSTEM_TICKER = new SleepingTicker() {
-      @Override
-      public long read() {
-        return systemTicker().read();
-      }
+    static final SleepingStopwatch createFromSystemTimer() {
+      return new SleepingStopwatch() {
+        final Stopwatch stopwatch = Stopwatch.createStarted();
 
-      @Override
-      public void sleepMicrosUninterruptibly(long micros) {
-        if (micros > 0) {
-          Uninterruptibles.sleepUninterruptibly(micros, TimeUnit.MICROSECONDS);
+        @Override
+        long readMicros() {
+          return stopwatch.elapsed(MICROSECONDS);
         }
-      }
-    };
+
+        @Override
+        public void sleepMicrosUninterruptibly(long micros) {
+          if (micros > 0) {
+            Uninterruptibles.sleepUninterruptibly(micros, MICROSECONDS);
+          }
+        }
+      };
+    }
+  }
+
+  private static int checkPermits(int permits) {
+    checkArgument(permits > 0, "Requested permits (%s) must be positive", permits);
+    return permits;
   }
 }
