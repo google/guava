@@ -200,13 +200,38 @@ public class RateLimiterTest extends TestCase {
     assertEvents("R0.00", "R1.00", "R1.00", "R0.50", "R1.00", "R2.00");
   }
 
-  public void testTryGate() {
+  public void testTryAcquire_noWaitAllowed() {
     RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
     assertTrue(limiter.tryAcquire(0, SECONDS));
     assertFalse(limiter.tryAcquire(0, SECONDS));
     assertFalse(limiter.tryAcquire(0, SECONDS));
     stopwatch.sleepMillis(100);
     assertFalse(limiter.tryAcquire(0, SECONDS));
+  }
+
+  public void testTryAcquire_someWaitAllowed() {
+    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    assertTrue(limiter.tryAcquire(0, SECONDS));
+    assertTrue(limiter.tryAcquire(200, MILLISECONDS));
+    assertFalse(limiter.tryAcquire(100, MILLISECONDS));
+    stopwatch.sleepMillis(100);
+    assertTrue(limiter.tryAcquire(100, MILLISECONDS));
+  }
+
+  public void testTryAcquire_overflow() {
+    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    assertTrue(limiter.tryAcquire(0, MICROSECONDS));
+    stopwatch.sleepMillis(100);
+    assertTrue(limiter.tryAcquire(Long.MAX_VALUE, MICROSECONDS));
+  }
+
+  public void testTryAcquire_negative() {
+    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    assertTrue(limiter.tryAcquire(5, 0, SECONDS));
+    stopwatch.sleepMillis(900);
+    assertFalse(limiter.tryAcquire(1, Long.MIN_VALUE, SECONDS));
+    stopwatch.sleepMillis(100);
+    assertTrue(limiter.tryAcquire(1, -1, SECONDS));
   }
 
   public void testSimpleWeights() {

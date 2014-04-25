@@ -475,7 +475,7 @@ public abstract class RateLimiter {
    * @return {@code true} if the permits were acquired, {@code false} otherwise
    */
   public boolean tryAcquire(int permits, long timeout, TimeUnit unit) {
-    long timeoutMicros = unit.toMicros(timeout);
+    long timeoutMicros = max(unit.toMicros(timeout), 0);
     checkPermits(permits);
     long microsToWait;
     synchronized (mutex()) {
@@ -491,7 +491,7 @@ public abstract class RateLimiter {
   }
 
   private final boolean canAcquire(long nowMicros, long timeoutMicros) {
-    return earliestAvailable(nowMicros) <= nowMicros + timeoutMicros;
+    return earliestAvailable(nowMicros) - timeoutMicros <= nowMicros;
   }
 
   abstract long earliestAvailable(long nowMicros);
