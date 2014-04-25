@@ -60,6 +60,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Handler;
@@ -275,6 +276,22 @@ public class FuturesTest extends TestCase {
     assertTrue(Futures.transform(immediate, function).cancel(true));
     assertTrue(secondary.isCancelled());
     assertTrue(secondary.wasInterrupted());
+  }
+
+  public void testTransform_rejectionPropagatesToOutput()
+      throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    ExecutorService executor = MoreExecutors.sameThreadExecutor();
+    ListenableFuture<String> transformed =
+        Futures.transform(input, Functions.toStringFunction(), executor);
+    executor.shutdown();
+    input.set(new Foo());
+    try {
+      transformed.get(5, TimeUnit.SECONDS);
+      fail();
+    } catch (ExecutionException expected) {
+      assertTrue(expected.getCause() instanceof RejectedExecutionException);
+    }
   }
 
   /**
