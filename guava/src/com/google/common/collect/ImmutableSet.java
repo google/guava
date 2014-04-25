@@ -298,7 +298,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    */
   public static <E> ImmutableSet<E> copyOf(Iterable<? extends E> elements) {
     return (elements instanceof Collection)
-        ? copyOf(Collections2.cast(elements))
+        ? copyOf((Collection<? extends E>) elements)
         : copyOf(elements.iterator());
   }
 
