@@ -38,11 +38,6 @@ public void testEqualsIgnoreCase() throws Exception {
   testCase.testEqualsIgnoreCase();
 }
 
-public void testEqualsIgnoreCaseUnicodeEquivalence() throws Exception {
-  com.google.common.base.AsciiTest testCase = new com.google.common.base.AsciiTest();
-  testCase.testEqualsIgnoreCaseUnicodeEquivalence();
-}
-
 public void testToLowerCase() throws Exception {
   com.google.common.base.AsciiTest testCase = new com.google.common.base.AsciiTest();
   testCase.testToLowerCase();
