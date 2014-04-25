@@ -345,13 +345,7 @@ public abstract class RateLimiter {
    * this {@code RateLimiter}, and it is only updated after invocations
    * to {@linkplain #setRate}.
    */
-  public final double getRate() {
-    synchronized (mutex) {
-      return doGetRate();
-    }
-  }
-
-  abstract double doGetRate();
+  public abstract double getRate();
 
   /**
    * Acquires a single permit from this {@code RateLimiter}, blocking until the
@@ -466,7 +460,7 @@ public abstract class RateLimiter {
     long microsToWait;
     synchronized (mutex) {
       long nowMicros = stopwatch.readMicros();
-      if (!canAcquire(nowMicros, timeoutMicros)) {
+      if (!canAcquire(nowMicros, nowMicros + timeoutMicros)) {
         return false;
       } else {
         microsToWait = reserveNextTicket(permits, nowMicros);
@@ -476,11 +470,7 @@ public abstract class RateLimiter {
     return true;
   }
 
-  private final boolean canAcquire(long nowMicros, long timeoutMicros) {
-    return earliestAvailable(nowMicros) <= nowMicros + timeoutMicros;
-  }
-
-  abstract long earliestAvailable(long nowMicros);
+  abstract boolean canAcquire(long nowMicros, long deadlineMicros);
 
   abstract long reserveNextTicket(int requiredPermits, long nowMicros);
 
@@ -504,7 +494,7 @@ public abstract class RateLimiter {
      * The interval between two unit requests, at our stable rate. E.g., a stable rate of 5 permits
      * per second has a stable interval of 200ms.
      */
-    double stableIntervalMicros;
+    volatile double stableIntervalMicros;
 
     /**
      * The time when the next request (no matter its size) will be granted. After granting a
@@ -528,13 +518,13 @@ public abstract class RateLimiter {
     abstract void doSetRate(double permitsPerSecond, double stableIntervalMicros);
 
     @Override
-    final double doGetRate() {
+    public final double getRate() {
       return SECONDS.toMicros(1L) / stableIntervalMicros;
     }
 
     @Override
-    final long earliestAvailable(long nowMicros) {
-      return nextFreeTicketMicros;
+    final boolean canAcquire(long nowMicros, long deadlineMicros) {
+      return nextFreeTicketMicros <= deadlineMicros;
     }
 
     /**
@@ -757,7 +747,7 @@ public abstract class RateLimiter {
         }
 
         @Override
-        void sleepMicrosUninterruptibly(long micros) {
+        public void sleepMicrosUninterruptibly(long micros) {
           if (micros > 0) {
             Uninterruptibles.sleepUninterruptibly(micros, MICROSECONDS);
           }
