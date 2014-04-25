@@ -320,8 +320,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
       Object featureAsObject = feature; // to work around bogus JDK warning
       if (featureAsObject instanceof Enum) {
         Enum<?> f = (Enum<?>) featureAsObject;
-        temp.add(Platform.classGetSimpleName(
-            f.getDeclaringClass()) + "." + feature);
+        temp.add(f.getDeclaringClass().getSimpleName() + "." + feature);
       } else {
         temp.add(feature.toString());
       }
