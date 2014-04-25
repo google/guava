@@ -224,7 +224,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   public static <E> ImmutableList<E> copyOf(Iterable<? extends E> elements) {
     checkNotNull(elements); // TODO(kevinb): is this here only for GWT?
     return (elements instanceof Collection)
-      ? copyOf(Collections2.cast(elements))
+      ? copyOf((Collection<? extends E>) elements)
       : copyOf(elements.iterator());
   }
 
