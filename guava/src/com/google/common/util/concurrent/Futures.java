@@ -19,7 +19,6 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
@@ -42,6 +41,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
@@ -78,8 +78,6 @@ public final class Futures {
    *
    * <p>Also, since it is a shared instance it should be generally cheaper and faster than
    * {@link MoreExecutors#sameThreadExecutor}.
-   *
-   * <p>TODO(user): consider replacing all uses of sameThreadExecutor with this.
    */
   private static final Executor INLINE_EXECUTOR = new Executor() {
     @Override public void execute(Runnable runnable) {
@@ -390,7 +388,7 @@ public final class Futures {
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback) {
-    return withFallback(input, fallback, sameThreadExecutor());
+    return withFallback(input, fallback, INLINE_EXECUTOR);
   }
 
   /**
@@ -501,7 +499,7 @@ public final class Futures {
                   setException(t);
                 }
               }
-            }, sameThreadExecutor());
+            }, INLINE_EXECUTOR);
           } catch (Throwable e) {
             setException(e);
           }
@@ -1019,8 +1017,7 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       ListenableFuture<? extends V>... futures) {
-    return listFuture(ImmutableList.copyOf(futures), true,
-        MoreExecutors.sameThreadExecutor());
+    return listFuture(ImmutableList.copyOf(futures), true, INLINE_EXECUTOR);
   }
 
   /**
@@ -1042,8 +1039,58 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
-    return listFuture(ImmutableList.copyOf(futures), true,
-        MoreExecutors.sameThreadExecutor());
+    return listFuture(ImmutableList.copyOf(futures), true, INLINE_EXECUTOR);
+  }
+
+  private static final class WrappedCombiner<T> implements Callable<T> {
+    final Callable<T> delegate;
+    CombinerFuture<T> outputFuture;
+
+    WrappedCombiner(Callable<T> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override public T call() throws Exception {
+      try {
+        return delegate.call();
+      } catch (ExecutionException e) {
+        outputFuture.setException(e.getCause());
+      } catch (CancellationException e) {
+        outputFuture.cancel(false);
+      }
+      // at this point the return value doesn't matter since we already called setException or
+      // cancel so the future is done.
+      return null;
+    }
+  }
+
+  private static final class CombinerFuture<V> extends ListenableFutureTask<V> {
+    ImmutableList<ListenableFuture<?>> futures;
+
+    CombinerFuture(Callable<V> callable, ImmutableList<ListenableFuture<?>> futures) {
+      super(callable);
+      this.futures = futures;
+    }
+
+    @Override public boolean cancel(boolean mayInterruptIfRunning) {
+      ImmutableList<ListenableFuture<?>> futures = this.futures;
+      if (super.cancel(mayInterruptIfRunning)) {
+        for (ListenableFuture<?> future : futures) {
+          future.cancel(mayInterruptIfRunning);
+        }
+        return true;
+      }
+      return false;
+    }
+
+    @Override protected void done() {
+      super.done();
+      futures = null;
+    }
+
+    @Override protected void setException(Throwable t) {
+      super.setException(t);
+    }
   }
 
   /**
@@ -1080,7 +1127,7 @@ public final class Futures {
             setException(t);
           }
         }
-      }, sameThreadExecutor());
+      }, INLINE_EXECUTOR);
     }
   }
 
@@ -1102,8 +1149,7 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
       ListenableFuture<? extends V>... futures) {
-    return listFuture(ImmutableList.copyOf(futures), false,
-        MoreExecutors.sameThreadExecutor());
+    return listFuture(ImmutableList.copyOf(futures), false, INLINE_EXECUTOR);
   }
 
   /**
@@ -1124,8 +1170,7 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
-    return listFuture(ImmutableList.copyOf(futures), false,
-        MoreExecutors.sameThreadExecutor());
+    return listFuture(ImmutableList.copyOf(futures), false, INLINE_EXECUTOR);
   }
 
   /**
@@ -1159,7 +1204,7 @@ public final class Futures {
     // 1. Using the sameThreadExecutor implies that your callback is safe to run on any thread.
     // 2. This would likely only be noticeable if you were doing something expensive or blocking on
     //    a sameThreadExecutor listener on one of the output futures which is an antipattern anyway.
-    SerializingExecutor executor = new SerializingExecutor(MoreExecutors.sameThreadExecutor());
+    SerializingExecutor executor = new SerializingExecutor(INLINE_EXECUTOR);
     for (final ListenableFuture<? extends T> future : futures) {
       AsyncSettableFuture<T> delegate = AsyncSettableFuture.create();
       // Must make sure to add the delegate to the queue first in case the future is already done
@@ -1225,7 +1270,7 @@ public final class Futures {
    */
   public static <V> void addCallback(ListenableFuture<V> future,
       FutureCallback<? super V> callback) {
-    addCallback(future, callback, MoreExecutors.sameThreadExecutor());
+    addCallback(future, callback, INLINE_EXECUTOR);
   }
 
   /**
@@ -1624,7 +1669,7 @@ public final class Futures {
           // The combiner may also hold state, so free that as well
           CombinedFuture.this.combiner = null;
         }
-      }, MoreExecutors.sameThreadExecutor());
+      }, INLINE_EXECUTOR);
 
       // Now begin the "real" initialization.
 
