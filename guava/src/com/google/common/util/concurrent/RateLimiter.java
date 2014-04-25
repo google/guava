@@ -304,7 +304,21 @@ public abstract class RateLimiter {
    */
   private final SleepingStopwatch stopwatch;
 
-  private final Object mutex = new Object();
+  // Can't be initialized in the constructor because mocks don't call the constructor.
+  private volatile Object mutexDoNotUseDirectly;
+
+  private Object mutex() {
+    Object mutex = mutexDoNotUseDirectly;
+    if (mutex == null) {
+      synchronized (this) {
+        mutex = mutexDoNotUseDirectly;
+        if (mutex == null) {
+          mutexDoNotUseDirectly = mutex = new Object();
+        }
+      }
+    }
+    return mutex;
+  }
 
   private RateLimiter(SleepingStopwatch stopwatch) {
     this.stopwatch = checkNotNull(stopwatch);
@@ -331,7 +345,7 @@ public abstract class RateLimiter {
   public final void setRate(double permitsPerSecond) {
     checkArgument(
         permitsPerSecond > 0.0 && !Double.isNaN(permitsPerSecond), "rate must be positive");
-    synchronized (mutex) {
+    synchronized (mutex()) {
       doSetRate(permitsPerSecond, stopwatch.readMicros());
     }
   }
@@ -345,7 +359,13 @@ public abstract class RateLimiter {
    * this {@code RateLimiter}, and it is only updated after invocations
    * to {@linkplain #setRate}.
    */
-  public abstract double getRate();
+  public final double getRate() {
+    synchronized (mutex()) {
+      return doGetRate();
+    }
+  }
+
+  abstract double doGetRate();
 
   /**
    * Acquires a single permit from this {@code RateLimiter}, blocking until the
@@ -394,7 +414,7 @@ public abstract class RateLimiter {
    */
   final long reserve(int permits) {
     checkPermits(permits);
-    synchronized (mutex) {
+    synchronized (mutex()) {
       return reserveNextTicket(permits, stopwatch.readMicros());
     }
   }
@@ -458,9 +478,9 @@ public abstract class RateLimiter {
     long timeoutMicros = unit.toMicros(timeout);
     checkPermits(permits);
     long microsToWait;
-    synchronized (mutex) {
+    synchronized (mutex()) {
       long nowMicros = stopwatch.readMicros();
-      if (!canAcquire(nowMicros, nowMicros + timeoutMicros)) {
+      if (!canAcquire(nowMicros, timeoutMicros)) {
         return false;
       } else {
         microsToWait = reserveNextTicket(permits, nowMicros);
@@ -470,7 +490,11 @@ public abstract class RateLimiter {
     return true;
   }
 
-  abstract boolean canAcquire(long nowMicros, long deadlineMicros);
+  private final boolean canAcquire(long nowMicros, long timeoutMicros) {
+    return earliestAvailable(nowMicros) <= nowMicros + timeoutMicros;
+  }
+
+  abstract long earliestAvailable(long nowMicros);
 
   abstract long reserveNextTicket(int requiredPermits, long nowMicros);
 
@@ -494,7 +518,7 @@ public abstract class RateLimiter {
      * The interval between two unit requests, at our stable rate. E.g., a stable rate of 5 permits
      * per second has a stable interval of 200ms.
      */
-    volatile double stableIntervalMicros;
+    double stableIntervalMicros;
 
     /**
      * The time when the next request (no matter its size) will be granted. After granting a
@@ -518,13 +542,13 @@ public abstract class RateLimiter {
     abstract void doSetRate(double permitsPerSecond, double stableIntervalMicros);
 
     @Override
-    public final double getRate() {
+    final double doGetRate() {
       return SECONDS.toMicros(1L) / stableIntervalMicros;
     }
 
     @Override
-    final boolean canAcquire(long nowMicros, long deadlineMicros) {
-      return nextFreeTicketMicros <= deadlineMicros;
+    final long earliestAvailable(long nowMicros) {
+      return nextFreeTicketMicros;
     }
 
     /**
@@ -747,7 +771,7 @@ public abstract class RateLimiter {
         }
 
         @Override
-        public void sleepMicrosUninterruptibly(long micros) {
+        void sleepMicrosUninterruptibly(long micros) {
           if (micros > 0) {
             Uninterruptibles.sleepUninterruptibly(micros, MICROSECONDS);
           }
