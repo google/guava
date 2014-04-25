@@ -83,7 +83,7 @@ public final class Parameter implements AnnotatedElement {
   }
 
   /**
-   * @since 17.0
+   * @since 18.0
    */
   // @Override on JDK8
   public <A extends Annotation> A[] getAnnotationsByType(Class<A> annotationType) {
@@ -91,7 +91,7 @@ public final class Parameter implements AnnotatedElement {
   }
 
   /**
-   * @since 17.0
+   * @since 18.0
    */
   // @Override on JDK8
   @Override public Annotation[] getDeclaredAnnotations() {
@@ -99,7 +99,7 @@ public final class Parameter implements AnnotatedElement {
   }
 
   /**
-   * @since 17.0
+   * @since 18.0
    */
   // @Override on JDK8
   @Nullable
@@ -112,7 +112,7 @@ public final class Parameter implements AnnotatedElement {
   }
 
   /**
-   * @since 17.0
+   * @since 18.0
    */
   // @Override on JDK8
   public <A extends Annotation> A[]
