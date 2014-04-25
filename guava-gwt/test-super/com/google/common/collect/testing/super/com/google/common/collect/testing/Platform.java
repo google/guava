@@ -74,9 +74,5 @@ final class Platform {
     return builder.toString();
   }
   
-  static String classGetSimpleName(Class<?> clazz) {
-    throw new UnsupportedOperationException("Shouldn't be called in GWT.");
-  }
-
   private Platform() {}
 }

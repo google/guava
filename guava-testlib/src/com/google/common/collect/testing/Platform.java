@@ -51,9 +51,5 @@ final class Platform {
     return String.format(template, args);
   }
 
-  static String classGetSimpleName(Class<?> clazz) {
-    return clazz.getSimpleName();
-  }
-
   private Platform() {}
 }
