@@ -55,13 +55,6 @@ public class XmlEscapers {
   // For each xxxEscaper() method, please add links to external reference pages
   // that are considered authoritative for the behavior of that escaper.
 
-  // TODO(user): When this escaper strips \uFFFE & \uFFFF, add this doc.
-  // <p>This escaper also silently removes non-whitespace control characters and
-  // the character values {@code 0xFFFE} and {@code 0xFFFF} which are not
-  // permitted in XML. For more detail see section
-  // <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
-  // the XML specification.
-
   /**
    * Returns an {@link Escaper} instance that escapes special characters in a
    * string so it can safely be included in an XML document as element content.
@@ -73,6 +66,12 @@ public class XmlEscapers {
    * safe</b> to use this escaper to escape attribute values. Use
    * {@link #xmlContentEscaper} if the output can appear in element content or
    * {@link #xmlAttributeEscaper} in attribute values.
+   *
+   * <p>This escaper substitutes {@code 0xFFFD} for non-whitespace control
+   * characters and the character values {@code 0xFFFE} and {@code 0xFFFF} which
+   * are not permitted in XML. For more detail see section <a
+   * href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of the
+   * XML specification.
    *
    * <p>This escaper does not escape non-ASCII characters to their numeric
    * character references (NCR). Any non-ASCII characters appearing in the input
@@ -93,6 +92,12 @@ public class XmlEscapers {
    * See section
    * <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize">3.3.3</a>
    * of the XML specification.
+   *
+   * <p>This escaper substitutes {@code 0xFFFD} for non-whitespace control
+   * characters and the character values {@code 0xFFFE} and {@code 0xFFFF} which
+   * are not permitted in XML. For more detail see section <a
+   * href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of the
+   * XML specification.
    *
    * <p>This escaper does not escape non-ASCII characters to their numeric
    * character references (NCR). However, horizontal tab {@code '\t'}, line feed
@@ -116,19 +121,23 @@ public class XmlEscapers {
     // The char values \uFFFE and \uFFFF are explicitly not allowed in XML
     // (Unicode code points above \uFFFF are represented via surrogate pairs
     // which means they are treated as pairs of safe characters).
-    // TODO(user): When refactoring done change the \uFFFF below to \uFFFD
-    builder.setSafeRange(Character.MIN_VALUE, '\uFFFF');
-    // Unsafe characters are removed.
-    builder.setUnsafeReplacement("");
+    builder.setSafeRange(Character.MIN_VALUE, '\uFFFD');
+    // Unsafe characters are replaced with the Unicode replacement character.
+    builder.setUnsafeReplacement("\uFFFD");
 
-    // Except for '\n', '\t' and '\r' we remove all ASCII control characters.
-    // An alternative to this would be to make a map that simply replaces the
-    // allowed ASCII whitespace characters with themselves and set the minimum
-    // safe character to 0x20. However this would slow down the escaping of
-    // simple strings that contain '\t','\n' or '\r'.
+    /*
+     * Except for \n, \t, and \r, all ASCII control characters are replaced with
+     * the Unicode replacement character.
+     *
+     * Implementation note: An alternative to the following would be to make a
+     * map that simply replaces the allowed ASCII whitespace characters with
+     * themselves and to set the minimum safe character to 0x20. However this
+     * would slow down the escaping of simple strings that contain \t, \n, or
+     * \r.
+     */
     for (char c = MIN_ASCII_CONTROL_CHAR; c <= MAX_ASCII_CONTROL_CHAR; c++) {
       if (c != '\t' && c != '\n' && c != '\r') {
-        builder.addEscape(c, "");
+        builder.addEscape(c, "\uFFFD");
       }
     }
 
