@@ -48,8 +48,10 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,6 +73,20 @@ import javax.annotation.Nullable;
  */
 @Beta
 public final class Futures {
+  /**
+   * A 'same thread executor' that isn't an executor service and therefore cannot reject tasks.
+   *
+   * <p>Also, since it is a shared instance it should be generally cheaper and faster than
+   * {@link MoreExecutors#sameThreadExecutor}.
+   *
+   * <p>TODO(user): consider replacing all uses of sameThreadExecutor with this.
+   */
+  private static final Executor INLINE_EXECUTOR = new Executor() {
+    @Override public void execute(Runnable runnable) {
+      runnable.run();
+    }
+  };
+
   private Futures() {}
 
   /**
@@ -560,7 +576,10 @@ public final class Futures {
    */
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function) {
-    return transform(input, function, MoreExecutors.sameThreadExecutor());
+    ChainingListenableFuture<I, O> output =
+        new ChainingListenableFuture<I, O>(function, input);
+    input.addListener(output, INLINE_EXECUTOR);
+    return output;
   }
 
   /**
@@ -605,10 +624,41 @@ public final class Futures {
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {
+    checkNotNull(executor);
     ChainingListenableFuture<I, O> output =
         new ChainingListenableFuture<I, O>(function, input);
-    input.addListener(output, executor);
+    input.addListener(rejectionPropagatingRunnable(output, output, executor), INLINE_EXECUTOR);
     return output;
+  }
+
+  /**
+   * Returns a Runnable that will invoke the delegate Runnable on the delegate executor, but if the
+   * task is rejected, it will propagate that rejection to the output future.
+   */
+  private static Runnable rejectionPropagatingRunnable(
+      final AbstractFuture<?> outputFuture,
+      final Runnable delegateTask,
+      final Executor delegateExecutor) {
+    return new Runnable() {
+      @Override public void run() {
+        final AtomicBoolean thrownFromDelegate = new AtomicBoolean(true);
+        try {
+          delegateExecutor.execute(new Runnable() {
+            @Override public void run() {
+              thrownFromDelegate.set(false);
+              delegateTask.run();
+            }
+          });
+        } catch (RejectedExecutionException e) {
+          if (thrownFromDelegate.get()) {
+            // wrap exception?
+            outputFuture.setException(e);
+          }
+          // otherwise it must have been thrown from a transitive call and the delegate runnable
+          // should have handled it.
+        }
+      }
+    };
   }
 
   /**
@@ -666,7 +716,11 @@ public final class Futures {
    */
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       final Function<? super I, ? extends O> function) {
-    return transform(input, function, MoreExecutors.sameThreadExecutor());
+    checkNotNull(function);
+    ChainingListenableFuture<I, O> output =
+        new ChainingListenableFuture<I, O>(asAsyncFunction(function), input);
+    input.addListener(output, INLINE_EXECUTOR);
+    return output;
   }
 
   /**
@@ -709,14 +763,18 @@ public final class Futures {
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       final Function<? super I, ? extends O> function, Executor executor) {
     checkNotNull(function);
-    AsyncFunction<I, O> wrapperFunction
-        = new AsyncFunction<I, O>() {
-            @Override public ListenableFuture<O> apply(I input) {
-              O output = function.apply(input);
-              return immediateFuture(output);
-            }
-        };
-    return transform(input, wrapperFunction, executor);
+    return transform(input, asAsyncFunction(function), executor);
+  }
+
+  /** Wraps the given function as an AsyncFunction. */
+  private static <I, O> AsyncFunction<I, O> asAsyncFunction(
+      final Function<? super I, ? extends O> function) {
+    return new AsyncFunction<I, O>() {
+      @Override public ListenableFuture<O> apply(I input) {
+        O output = function.apply(input);
+        return immediateFuture(output);
+      }
+    };
   }
 
   /**
@@ -887,7 +945,7 @@ public final class Futures {
                 ChainingListenableFuture.this.outputFuture = null;
               }
             }
-          }, MoreExecutors.sameThreadExecutor());
+          }, INLINE_EXECUTOR);
       } catch (UndeclaredThrowableException e) {
         // Set the cause of the exception as this future's exception
         setException(e.getCause());
