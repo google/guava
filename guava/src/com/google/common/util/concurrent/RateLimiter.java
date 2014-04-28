@@ -248,6 +248,10 @@ public abstract class RateLimiter {
     return create(SleepingStopwatch.createFromSystemTimer(), permitsPerSecond);
   }
 
+  /*
+   * TODO(cpovirk): make SleepingStopwatch the last parameter throughout the class so that the
+   * overloads follow the usual convention: Foo(int), Foo(int, SleepingStopwatch)
+   */
   @VisibleForTesting
   static RateLimiter create(SleepingStopwatch stopwatch, double permitsPerSecond) {
     RateLimiter rateLimiter = new SmoothBursty(stopwatch, 1.0 /* maxBurstSeconds */);
@@ -490,7 +494,7 @@ public abstract class RateLimiter {
     return true;
   }
 
-  private final boolean canAcquire(long nowMicros, long timeoutMicros) {
+  private boolean canAcquire(long nowMicros, long timeoutMicros) {
     return earliestAvailable(nowMicros) - timeoutMicros <= nowMicros;
   }
 
