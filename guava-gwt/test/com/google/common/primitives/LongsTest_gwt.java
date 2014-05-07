@@ -167,4 +167,9 @@ public void testToByteArray() throws Exception {
   com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
   testCase.testToByteArray();
 }
+
+public void testTryParse() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testTryParse();
+}
 }

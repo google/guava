@@ -446,7 +446,6 @@ public class LongsTest extends TestCase {
     tester.testAllPublicInstanceMethods(Longs.stringConverter());
   }
 
-  @GwtIncompatible("AndroidInteger")
   public void testTryParse() {
     tryParseAndAssertEquals(0L, "0");
     tryParseAndAssertEquals(0L, "-0");
@@ -460,10 +459,14 @@ public class LongsTest extends TestCase {
     assertNull(Longs.tryParse("-"));
     assertNull(Longs.tryParse("+1"));
     assertNull(Longs.tryParse("999999999999999999999999"));
-    assertNull("Max integer + 1",
+    assertNull("Max long + 1",
         Longs.tryParse(BigInteger.valueOf(MAX_VALUE).add(BigInteger.ONE).toString()));
-    assertNull("Min integer - 1",
+    assertNull("Max long * 10",
+        Longs.tryParse(BigInteger.valueOf(MAX_VALUE).multiply(BigInteger.TEN).toString()));
+    assertNull("Min long - 1",
         Longs.tryParse(BigInteger.valueOf(MIN_VALUE).subtract(BigInteger.ONE).toString()));
+    assertNull("Min long * 10",
+        Longs.tryParse(BigInteger.valueOf(MIN_VALUE).multiply(BigInteger.TEN).toString()));
     assertNull(Longs.tryParse("\u0662\u06f3"));
   }
 
