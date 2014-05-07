@@ -18,6 +18,7 @@ package com.google.common.hash;
 
 import static com.google.common.hash.BloomFilterStrategies.BitArray;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.math.LongMath;
 import com.google.common.primitives.Ints;
@@ -120,6 +121,47 @@ public class BloomFilterTest extends TestCase {
 
     // Check that there are exactly 30104 false positives for this BF.
     int knownNumberOfFalsePositives = 30104;
+    int numFpp = 0;
+    for (int i = 1; i < numInsertions * 2; i += 2) {
+      if (bf.mightContain(Integer.toString(i))) {
+        numFpp++;
+      }
+    }
+    assertEquals(knownNumberOfFalsePositives, numFpp);
+    double actualFpp = (double) knownNumberOfFalsePositives / numInsertions;
+    double expectedFpp = bf.expectedFpp();
+    // The normal order of (expected, actual) is reversed here on purpose.
+    assertEquals(actualFpp, expectedFpp, 0.00033);
+  }
+
+  public void testCreateAndCheckBloomFilterWithKnownUtf8FalsePositives64() {
+    int numInsertions = 1000000;
+    BloomFilter<CharSequence> bf = BloomFilter.create(
+        Funnels.stringFunnel(Charsets.UTF_8), numInsertions, 0.03,
+        BloomFilterStrategies.MURMUR128_MITZ_64);
+
+    // Insert "numInsertions" even numbers into the BF.
+    for (int i = 0; i < numInsertions * 2; i += 2) {
+      bf.put(Integer.toString(i));
+    }
+
+    // Assert that the BF "might" have all of the even numbers.
+    for (int i = 0; i < numInsertions * 2; i += 2) {
+      assertTrue(bf.mightContain(Integer.toString(i)));
+    }
+
+    // Now we check for known false positives using a set of known false positives.
+    // (These are all of the false positives under 900.)
+    ImmutableSet<Integer> falsePositives =
+        ImmutableSet.of(129, 471, 723, 89, 751, 835, 871);
+    for (int i = 1; i < 900; i += 2) {
+      if (!falsePositives.contains(i)) {
+        assertFalse("BF should not contain " + i, bf.mightContain(Integer.toString(i)));
+      }
+    }
+
+    // Check that there are exactly 29763 false positives for this BF.
+    int knownNumberOfFalsePositives = 29763;
     int numFpp = 0;
     for (int i = 1; i < numInsertions * 2; i += 2) {
       if (bf.mightContain(Integer.toString(i))) {
