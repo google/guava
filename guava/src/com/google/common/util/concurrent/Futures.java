@@ -1783,7 +1783,6 @@ public final class Futures {
         }
       }
     }
-
   }
 
   /** Used for {@link #allAsList} and {@link #successfulAsList}. */
