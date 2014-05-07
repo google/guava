@@ -13,8 +13,6 @@ package com.google.common.cache;
 
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 /**
  * A package-local class holding common representation and mechanics
  * for classes supporting dynamic striping on 64bit values. The class
@@ -192,7 +190,7 @@ abstract class Striped64 extends Number {
      * @param hc the hash code holder
      * @param wasUncontended false if CAS failed before call
      */
-    final void retryUpdate(long x, @Nullable int[] hc, boolean wasUncontended) {
+    final void retryUpdate(long x, int[] hc, boolean wasUncontended) {
         int h;
         if (hc == null) {
             threadHashCode.set(hc = new int[1]); // Initialize randomly
