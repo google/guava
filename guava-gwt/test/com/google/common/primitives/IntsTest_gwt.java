@@ -162,4 +162,9 @@ public void testToArray_withNull() throws Exception {
   com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
   testCase.testToArray_withNull();
 }
+
+public void testTryParse() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testTryParse();
+}
 }

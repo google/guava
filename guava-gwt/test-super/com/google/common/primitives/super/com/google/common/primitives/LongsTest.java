@@ -25,6 +25,7 @@ import com.google.common.collect.testing.Helpers;
 
 import junit.framework.TestCase;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -410,6 +411,30 @@ public class LongsTest extends TestCase {
     assertEquals("255", converter.reverse().convert(0xFFL));
     assertEquals("-255", converter.reverse().convert(-0xFFL));
     assertEquals("438", converter.reverse().convert(0666L));
+  }
+
+  public void testTryParse() {
+    tryParseAndAssertEquals(0L, "0");
+    tryParseAndAssertEquals(0L, "-0");
+    tryParseAndAssertEquals(1L, "1");
+    tryParseAndAssertEquals(-1L, "-1");
+    tryParseAndAssertEquals(8900L, "8900");
+    tryParseAndAssertEquals(-8900L, "-8900");
+    tryParseAndAssertEquals(MAX_VALUE, Long.toString(MAX_VALUE));
+    tryParseAndAssertEquals(MIN_VALUE, Long.toString(MIN_VALUE));
+    assertNull(Longs.tryParse(""));
+    assertNull(Longs.tryParse("-"));
+    assertNull(Longs.tryParse("+1"));
+    assertNull(Longs.tryParse("999999999999999999999999"));
+    assertNull("Max long + 1",
+        Longs.tryParse(BigInteger.valueOf(MAX_VALUE).add(BigInteger.ONE).toString()));
+    assertNull("Max long * 10",
+        Longs.tryParse(BigInteger.valueOf(MAX_VALUE).multiply(BigInteger.TEN).toString()));
+    assertNull("Min long - 1",
+        Longs.tryParse(BigInteger.valueOf(MIN_VALUE).subtract(BigInteger.ONE).toString()));
+    assertNull("Min long * 10",
+        Longs.tryParse(BigInteger.valueOf(MIN_VALUE).multiply(BigInteger.TEN).toString()));
+    assertNull(Longs.tryParse("\u0662\u06f3"));
   }
 
   /**

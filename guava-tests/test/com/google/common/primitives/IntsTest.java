@@ -463,7 +463,6 @@ public class IntsTest extends TestCase {
     tester.testAllPublicInstanceMethods(Ints.stringConverter());
   }
 
-  @GwtIncompatible("AndroidInteger")
   public void testTryParse() {
     tryParseAndAssertEquals(0, "0");
     tryParseAndAssertEquals(0, "-0");
@@ -479,8 +478,14 @@ public class IntsTest extends TestCase {
     assertNull(Ints.tryParse("9999999999999999"));
     assertNull("Max integer + 1",
         Ints.tryParse(Long.toString(((long) GREATEST) + 1)));
+    assertNull("Max integer * 10",
+        Ints.tryParse(Long.toString(((long) GREATEST) * 10)));
     assertNull("Min integer - 1",
         Ints.tryParse(Long.toString(((long) LEAST) - 1)));
+    assertNull("Min integer * 10",
+        Ints.tryParse(Long.toString(((long) LEAST) * 10)));
+    assertNull("Max long", Ints.tryParse(Long.toString(Long.MAX_VALUE)));
+    assertNull("Min long", Ints.tryParse(Long.toString(Long.MIN_VALUE)));
     assertNull(Ints.tryParse("\u0662\u06f3"));
   }
 
@@ -488,7 +493,6 @@ public class IntsTest extends TestCase {
    * Applies {@link Ints#tryParse(String)} to the given string and asserts that
    * the result is as expected.
    */
-  @GwtIncompatible("AndroidInteger")
   private static void tryParseAndAssertEquals(Integer expected, String value) {
     assertEquals(expected, Ints.tryParse(value));
   }

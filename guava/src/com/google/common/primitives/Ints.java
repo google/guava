@@ -675,7 +675,6 @@ public final class Ints {
    */
   @Beta
   @CheckForNull
-  @GwtIncompatible("TODO")
   public static Integer tryParse(String string) {
     return tryParse(string, 10);
   }
@@ -702,8 +701,7 @@ public final class Ints {
    * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or
    *     {@code radix > Character.MAX_RADIX}
    */
-  @CheckForNull
-  @GwtIncompatible("TODO") static Integer tryParse(
+  @CheckForNull static Integer tryParse(
       String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;
