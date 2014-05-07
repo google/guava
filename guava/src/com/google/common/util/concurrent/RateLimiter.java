@@ -227,7 +227,8 @@ public abstract class RateLimiter {
    * requests being smoothly limited at the stable rate of {@code permitsPerSecond}.
    *
    * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in
-   *        how many permits become available per second. Must be positive
+   *        how many permits become available per second
+   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero
    */
   // TODO(user): "This is equivalent to
   //                 {@code createWithCapacity(permitsPerSecond, 1, TimeUnit.SECONDS)}".
@@ -276,12 +277,15 @@ public abstract class RateLimiter {
    * will follow), and if it is left unused for long enough, it will return to that state.
    *
    * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in
-   *        how many permits become available per second. Must be positive
+   *        how many permits become available per second
    * @param warmupPeriod the duration of the period where the {@code RateLimiter} ramps up its
    *        rate, before reaching its stable (maximum) rate
    * @param unit the time unit of the warmupPeriod argument
+   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or
+   *     {@code warmupPeriod} is negative
    */
   public static RateLimiter create(double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
+    checkArgument(warmupPeriod >= 0, "warmupPeriod must not be negative: %s", warmupPeriod);
     return create(SleepingStopwatch.createFromSystemTimer(), permitsPerSecond, warmupPeriod, unit);
   }
 
@@ -289,15 +293,6 @@ public abstract class RateLimiter {
   static RateLimiter create(
       SleepingStopwatch stopwatch, double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
     RateLimiter rateLimiter = new SmoothWarmingUp(stopwatch, warmupPeriod, unit);
-    rateLimiter.setRate(permitsPerSecond);
-    return rateLimiter;
-  }
-
-  @VisibleForTesting
-  static RateLimiter createWithCapacity(
-      SleepingStopwatch stopwatch, double permitsPerSecond, long maxBurstBuildup, TimeUnit unit) {
-    double maxBurstSeconds = unit.toNanos(maxBurstBuildup) / 1E+9;
-    SmoothBursty rateLimiter = new SmoothBursty(stopwatch, maxBurstSeconds);
     rateLimiter.setRate(permitsPerSecond);
     return rateLimiter;
   }
@@ -344,7 +339,8 @@ public abstract class RateLimiter {
    * e.g. if the {@code RateLimiter} was configured with a warmup period of 20 seconds,
    * it still has a warmup period of 20 seconds after this method invocation.
    *
-   * @param permitsPerSecond the new stable rate of this {@code RateLimiter}. Must be positive
+   * @param permitsPerSecond the new stable rate of this {@code RateLimiter}
+   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero
    */
   public final void setRate(double permitsPerSecond) {
     checkArgument(
@@ -390,6 +386,7 @@ public abstract class RateLimiter {
    *
    * @param permits the number of permits to acquire
    * @return time spent sleeping to enforce rate, in seconds; 0.0 if not rate-limited
+   * @throws IllegalArgumentException if the requested number of permits is negative or zero
    * @since 16.0 (present in 13.0 with {@code void} return type})
    */
   public double acquire(int permits) {
@@ -431,9 +428,10 @@ public abstract class RateLimiter {
    *
    * <p>This method is equivalent to {@code tryAcquire(1, timeout, unit)}.
    *
-   * @param timeout the maximum time to wait for the permit
+   * @param timeout the maximum time to wait for the permit. Negative values are treated as zero.
    * @param unit the time unit of the timeout argument
    * @return {@code true} if the permit was acquired, {@code false} otherwise
+   * @throws IllegalArgumentException if the requested number of permits is negative or zero
    */
   public boolean tryAcquire(long timeout, TimeUnit unit) {
     return tryAcquire(1, timeout, unit);
@@ -447,6 +445,7 @@ public abstract class RateLimiter {
    *
    * @param permits the number of permits to acquire
    * @return {@code true} if the permits were acquired, {@code false} otherwise
+   * @throws IllegalArgumentException if the requested number of permits is negative or zero
    * @since 14.0
    */
   public boolean tryAcquire(int permits) {
@@ -474,9 +473,10 @@ public abstract class RateLimiter {
    * before the timeout expired.
    *
    * @param permits the number of permits to acquire
-   * @param timeout the maximum time to wait for the permits
+   * @param timeout the maximum time to wait for the permits. Negative values are treated as zero.
    * @param unit the time unit of the timeout argument
    * @return {@code true} if the permits were acquired, {@code false} otherwise
+   * @throws IllegalArgumentException if the requested number of permits is negative or zero
    */
   public boolean tryAcquire(int permits, long timeout, TimeUnit unit) {
     long timeoutMicros = max(unit.toMicros(timeout), 0);

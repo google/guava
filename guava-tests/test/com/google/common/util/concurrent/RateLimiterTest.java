@@ -76,11 +76,45 @@ public class RateLimiterTest extends TestCase {
     try {
       limiter.setRate(0.0);
       fail();
-    } catch (IllegalArgumentException ok) {}
+    } catch (IllegalArgumentException expected) {}
     try {
       limiter.setRate(-10.0);
       fail();
-    } catch (IllegalArgumentException ok) {}
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testAcquireParameterValidation() {
+    RateLimiter limiter = RateLimiter.create(999);
+    try {
+      limiter.acquire(0);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      limiter.acquire(-1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      limiter.tryAcquire(0);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      limiter.tryAcquire(-1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      limiter.tryAcquire(0, 1, SECONDS);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      limiter.tryAcquire(-1, 1, SECONDS);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testSimpleWithWait() {
@@ -115,6 +149,23 @@ public class RateLimiterTest extends TestCase {
     assertEvents("U1.00", "U1.00",
         "R0.00", "R0.00", "R0.00", "R0.00", // first request and burst
         "R0.20");
+  }
+
+  public void testCreateWarmupParameterValidation() {
+    RateLimiter.create(1.0, 1, NANOSECONDS);
+    RateLimiter.create(1.0, 0, NANOSECONDS);
+
+    try {
+      RateLimiter.create(0.0, 1, NANOSECONDS);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+
+    try {
+      RateLimiter.create(1.0, -1, NANOSECONDS);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testWarmUp() {
@@ -172,24 +223,6 @@ public class RateLimiterTest extends TestCase {
         "U4.25", // #6
         "R0.00, R0.72, R0.66, R0.59, R0.53, R0.47, R0.41", // #7
         "R0.34, R0.28, R0.25, R0.25"); // #7 (cont.), note, this matches #5
-  }
-
-  public void testBursty() {
-    RateLimiter limiter = RateLimiter.createWithCapacity(stopwatch, 1.0, 10, SECONDS);
-    stopwatch.sleepMillis(10000); // reach full capacity
-    limiter.acquire(11); // all these are served in a burst (10 + 1 by borrowing from the future)
-    limiter.acquire(1); // out of capacity, we have to wait
-    limiter.acquire(1); // and wait
-    stopwatch.sleepMillis(3000); // fill up 3 permits
-    limiter.acquire(5); // we had 3 ready, thus we borrow 2 permits
-    limiter.acquire(1); // this acquire() will also repay for the previous acquire()
-    assertEvents(
-        "U10.00",
-        "R0.00", // 10 permits grabbed
-        "R1.00", "R1.00", // 1 and 1
-        "U3.00", "R0.00", // 5 grabbed
-        "R3.00" // 1 grabbed
-        );
   }
 
   public void testBurstyAndUpdate() {
