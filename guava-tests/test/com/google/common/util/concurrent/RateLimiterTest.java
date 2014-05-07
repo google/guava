@@ -16,11 +16,15 @@
 
 package com.google.common.util.concurrent;
 
+import static java.lang.reflect.Modifier.isStatic;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.mockito.Mockito.mock;
 
+import com.google.common.collect.ImmutableClassToInstanceMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.NullPointerTester.Visibility;
@@ -28,9 +32,11 @@ import com.google.common.util.concurrent.RateLimiter.SleepingStopwatch;
 
 import junit.framework.TestCase;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Tests for RateLimiter.
@@ -390,4 +396,36 @@ public class RateLimiterTest extends TestCase {
       return events.toString();
     }
   }
+
+  public void testMocking() throws Exception {
+    RateLimiter mock = mock(RateLimiter.class);
+    for (Method method : RateLimiter.class.getMethods()) {
+      if (!isStatic(method.getModifiers())
+          && !NOT_WORKING_ON_MOCKS.contains(method.getName())
+          && !method.getDeclaringClass().equals(Object.class)) {
+        method.invoke(mock, arbitraryParameters(method));
+      }
+    }
+  }
+
+  private static Object[] arbitraryParameters(Method method) {
+    Class<?>[] parameterTypes = method.getParameterTypes();
+    Object[] params = new Object[parameterTypes.length];
+    for (int i = 0; i < parameterTypes.length; i++) {
+      params[i] = PARAMETER_VALUES.get(parameterTypes[i]);
+    }
+    return params;
+  }
+
+  private static final ImmutableSet<String> NOT_WORKING_ON_MOCKS =
+      ImmutableSet.of("latestPermitAgeSec", "setRate");
+
+  // We would use ArbitraryInstances, but it returns 0, invalid for many RateLimiter methods.
+  private static final ImmutableClassToInstanceMap<Object> PARAMETER_VALUES =
+      ImmutableClassToInstanceMap.builder()
+          .put(int.class, 1)
+          .put(long.class, 1L)
+          .put(double.class, 1.0)
+          .put(TimeUnit.class, SECONDS)
+          .build();
 }
