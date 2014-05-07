@@ -46,11 +46,6 @@ import java.util.concurrent.TimeUnit;
 public class RateLimiterTest extends TestCase {
   private static final double EPSILON = 1e-8;
 
-  /**
-   * The stopwatch gathers events and presents them as strings.
-   * R0.6 means a delay of 0.6 seconds caused by the (R)ateLimiter
-   * U1.0 means the (U)ser caused the stopwatch to sleep for a second.
-   */
   private final FakeStopwatch stopwatch = new FakeStopwatch();
 
   public void testSimple() {
@@ -393,7 +388,12 @@ public class RateLimiterTest extends TestCase {
     assertEquals(Arrays.toString(events), stopwatch.readEventsAndClear());
   }
 
-  private static class FakeStopwatch extends SleepingStopwatch {
+  /**
+   * The stopwatch gathers events and presents them as strings.
+   * R0.6 means a delay of 0.6 seconds caused by the (R)ateLimiter
+   * U1.0 means the (U)ser caused the stopwatch to sleep for a second.
+   */
+  static class FakeStopwatch extends SleepingStopwatch {
     long instant = 0L;
     final List<String> events = Lists.newArrayList();
 
