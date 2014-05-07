@@ -214,7 +214,7 @@ public class FeatureUtil {
   private static TesterRequirements buildTesterRequirements(
       Annotation testerAnnotation)
       throws ConflictingRequirementsException {
-    Class<? extends Annotation> annotationClass = testerAnnotation.getClass();
+    Class<? extends Annotation> annotationClass = testerAnnotation.annotationType();
     final Feature<?>[] presentFeatures;
     final Feature<?>[] absentFeatures;
     try {
