@@ -2,12 +2,12 @@
 <module>
   <inherits name="com.google.gwt.user.User"/>
   <inherits name="com.google.gwt.junit.JUnit"/>
+  <inherits name="com.google.common.annotations.Annotations"/>
   <inherits name="com.google.common.base.Base"/>
   <inherits name="com.google.common.collect.Collect"/>
   <inherits name="com.google.common.math.Math"/>
   <inherits name="com.google.common.testing.Testing"/>
   <inherits name="org.truth0.Truth"/>
-  <inherits name="com.google.common.annotations.Annotations"/>
   <entry-point class="com.google.common.math.TestModuleEntryPoint"/>
    
   <source path=""/>
