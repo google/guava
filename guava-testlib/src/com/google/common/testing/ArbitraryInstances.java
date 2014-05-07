@@ -137,6 +137,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
@@ -172,6 +173,17 @@ public final class ArbitraryInstances {
     }
   };
 
+  /**
+   * Returns a new {@code MatchResult} that corresponds to a successful match. Apache Harmony (used
+   * in Android) requires a successful match in order to generate a {@code MatchResult}:
+   * http://goo.gl/5VQFmC
+   */
+  private static MatchResult newMatchResult() {
+    Matcher matcher = Pattern.compile(".").matcher("X");
+    matcher.find();
+    return matcher.toMatchResult();
+  }
+
   private static final ClassToInstanceMap<Object> DEFAULTS = ImmutableClassToInstanceMap.builder()
       // primitives
       .put(Object.class, "")
@@ -183,7 +195,7 @@ public final class ArbitraryInstances {
       .put(CharSequence.class, "")
       .put(String.class, "")
       .put(Pattern.class, Pattern.compile(""))
-      .put(MatchResult.class, Pattern.compile("").matcher("").toMatchResult())
+      .put(MatchResult.class, newMatchResult())
       .put(TimeUnit.class, TimeUnit.SECONDS)
       .put(Charset.class, Charsets.UTF_8)
       .put(Currency.class, Currency.getInstance(Locale.US))
