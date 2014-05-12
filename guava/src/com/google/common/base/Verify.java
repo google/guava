@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  *     are for. Note that assertions are not enabled by default; they are essentially considered
  *     "compiled comments."
  *
- * <li>An explicit {@code if/throw} (as illustrated above) is always acceptable; we still recommend
+ * <li>An explicit {@code if/throw} (as illustrated below) is always acceptable; we still recommend
  *     using our {@link VerifyException} exception type. Throwing a plain {@link RuntimeException}
  *     is frowned upon.
  *
