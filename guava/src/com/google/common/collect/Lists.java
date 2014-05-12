@@ -72,12 +72,16 @@ public final class Lists {
   // ArrayList
 
   /**
-   * Creates a <i>mutable</i>, empty {@code ArrayList} instance.
+   * Creates a <i>mutable</i>, empty {@code ArrayList} instance (for Java 6 and
+   * earlier).
    *
    * <p><b>Note:</b> if mutability is not required, use {@link
    * ImmutableList#of()} instead.
    *
-   * @return a new, empty {@code ArrayList}
+   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and
+   * should be treated as deprecated. Instead, use the {@code ArrayList}
+   * {@linkplain ArrayList#ArrayList() constructor} directly, taking advantage
+   * of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E> ArrayList<E> newArrayList() {
@@ -88,12 +92,18 @@ public final class Lists {
    * Creates a <i>mutable</i> {@code ArrayList} instance containing the given
    * elements.
    *
-   * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use an overload of {@link ImmutableList#of()} (for varargs) or
-   * {@link ImmutableList#copyOf(Object[])} (for an array) instead.
+   * <p><b>Note:</b> essentially the only reason to use this method is when you
+   * will need to add or remove elements later. Otherwise, for non-null elements
+   * use {@link ImmutableList#of()} (for varargs) or {@link
+   * ImmutableList#copyOf(Object[])} (for an array) instead. If any elements
+   * might be null, or you need support for {@link List#set(int, Object)}, use
+   * {@link Arrays#asList}.
    *
-   * @param elements the elements that the list should contain, in order
-   * @return a new {@code ArrayList} containing those elements
+   * <p>Note that even when you do need the ability to add or remove, this method
+   * provides only a tiny bit of syntactic sugar for {@code newArrayList(}{@link
+   * Arrays#asList asList}{@code (...))}, or for creating an empty list then
+   * calling {@link Collections#addAll}. This method is not actually very useful
+   * and will likely be deprecated in the future.
    */
   @GwtCompatible(serializable = true)
   public static <E> ArrayList<E> newArrayList(E... elements) {
@@ -114,13 +124,18 @@ public final class Lists {
 
   /**
    * Creates a <i>mutable</i> {@code ArrayList} instance containing the given
-   * elements.
+   * elements; a very thin shortcut for creating an empty list then calling
+   * {@link Iterables#addAll}.
    *
    * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableList#copyOf(Iterator)} instead.
+   * non-null, use {@link ImmutableList#copyOf(Iterable)} instead. (Or, change
+   * {@code elements} to be a {@link FluentIterable} and call
+   * {@code elements.toList()}.)
    *
-   * @param elements the elements that the list should contain, in order
-   * @return a new {@code ArrayList} containing those elements
+   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link
+   * Collection}, you don't need this method. Use the {@code ArrayList}
+   * {@linkplain ArrayList#ArrayList(Collection) constructor} directly, taking
+   * advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E> ArrayList<E> newArrayList(Iterable<? extends E> elements) {
@@ -133,13 +148,11 @@ public final class Lists {
 
   /**
    * Creates a <i>mutable</i> {@code ArrayList} instance containing the given
-   * elements.
+   * elements; a very thin shortcut for creating an empty list and then calling
+   * {@link Iterators#addAll}.
    *
    * <p><b>Note:</b> if mutability is not required and the elements are
    * non-null, use {@link ImmutableList#copyOf(Iterator)} instead.
-   *
-   * @param elements the elements that the list should contain, in order
-   * @return a new {@code ArrayList} containing those elements
    */
   @GwtCompatible(serializable = true)
   public static <E> ArrayList<E> newArrayList(Iterator<? extends E> elements) {
@@ -149,17 +162,15 @@ public final class Lists {
   }
 
   /**
-   * Creates an {@code ArrayList} instance backed by an array of the
-   * <i>exact</i> size specified; equivalent to
-   * {@link ArrayList#ArrayList(int)}.
+   * Creates an {@code ArrayList} instance backed by an array with the specified
+   * initial size; simply delegates to {@link ArrayList#ArrayList(int)}.
    *
-   * <p><b>Note:</b> if you know the exact size your list will be, consider
-   * using a fixed-size list ({@link Arrays#asList(Object[])}) or an {@link
-   * ImmutableList} instead of a growable {@link ArrayList}.
-   *
-   * <p><b>Note:</b> If you have only an <i>estimate</i> of the eventual size of
-   * the list, consider padding this estimate by a suitable amount, or simply
-   * use {@link #newArrayListWithExpectedSize(int)} instead.
+   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and
+   * should be treated as deprecated. Instead, use {@code new }{@link
+   * ArrayList#ArrayList(int) ArrayList}{@code <>(int)} directly, taking
+   * advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   * (Unlike here, there is no risk of overload ambiguity, since the {@code
+   * ArrayList} constructors very wisely did not accept varargs.)
    *
    * @param initialArraySize the exact size of the initial backing array for
    *     the returned array list ({@code ArrayList} documentation calls this
@@ -176,13 +187,14 @@ public final class Lists {
   }
 
   /**
-   * Creates an {@code ArrayList} instance sized appropriately to hold an
-   * <i>estimated</i> number of elements without resizing. A small amount of
-   * padding is added in case the estimate is low.
+   * Creates an {@code ArrayList} instance to hold {@code estimatedSize}
+   * elements, <i>plus</i> an unspecified amount of padding; you almost
+   * certainly mean to call {@link #newArrayListWithCapacity} (see that method
+   * for further advice on usage).
    *
-   * <p><b>Note:</b> If you know the <i>exact</i> number of elements the list
-   * will hold, or prefer to calculate your own amount of padding, refer to
-   * {@link #newArrayListWithCapacity(int)}.
+   * <p><b>Note:</b> This method will soon be deprecated. Even in the rare case
+   * that you do want some amount of padding, it's best if you choose your
+   * desired amount explicitly.
    *
    * @param estimatedSize an estimate of the eventual {@link List#size()} of
    *     the new list

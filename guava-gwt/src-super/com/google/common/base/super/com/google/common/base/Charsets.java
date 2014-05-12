@@ -40,7 +40,7 @@ public final class Charsets {
   /**
    * UTF-8: eight-bit UCS Transformation Format.
    *
-   * <p><b>Note:</b> projects using JDK 7 or later should use
+   * <p><b>Note for Java 7 and later:</b> this constant should be treated as deprecated; use
    * {@link java.nio.charset.StandardCharsets#UTF_8} instead.
    *
    */

@@ -115,8 +115,8 @@ public final class Ints {
    * Compares the two specified {@code int} values. The sign of the value
    * returned is the same as that of {@code ((Integer) a).compareTo(b)}.
    *
-   * <p><b>Note:</b> projects using JDK 7 or later should use the equivalent
-   * {@link Integer#compare} method instead.
+   * <p><b>Note for Java 7 and later:</b> this method should be treated as
+   * deprecated; use the equivalent {@link Integer#compare} method instead.
    *
    * @param a the first {@code int} to compare
    * @param b the second {@code int} to compare

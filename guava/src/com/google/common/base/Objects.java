@@ -52,9 +52,9 @@ public final class Objects {
    * <p>This assumes that any non-null objects passed to this function conform
    * to the {@code equals()} contract.
    *
-   * <p><b>Note:</b> projects using JDK 7 or later should use
-   * {@link java.util.Objects#equals} instead.
-
+   * <p><b>Note for Java 7 and later:</b> This method should be treated as
+   * deprecated; use {@link java.util.Objects#equals} instead.
+   *
    */
   @CheckReturnValue
   public static boolean equal(@Nullable Object a, @Nullable Object b) {
@@ -78,8 +78,8 @@ public final class Objects {
    * <p><b>Warning:</b> When a single object is supplied, the returned hash code
    * does not equal the hash code of that object.
    *
-   * <p><b>Note:</b> projects using JDK 7 or later should use
-   * {@link java.util.Objects#hash} instead.
+   * <p><b>Note for Java 7 and later:</b> This method should be treated as
+   * deprecated; use {@link java.util.Objects#hash} instead.
    *
    */
   public static int hashCode(@Nullable Object... objects) {
