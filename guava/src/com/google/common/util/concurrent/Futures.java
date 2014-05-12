@@ -44,7 +44,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
@@ -866,7 +865,6 @@ public final class Futures {
     private AsyncFunction<? super I, ? extends O> function;
     private ListenableFuture<? extends I> inputFuture;
     private volatile ListenableFuture<? extends O> outputFuture;
-    private final CountDownLatch outputCreated = new CountDownLatch(1);
 
     private ChainingListenableFuture(
         AsyncFunction<? super I, ? extends O> function,
@@ -955,8 +953,6 @@ public final class Futures {
         // Don't pin inputs beyond completion
         function = null;
         inputFuture = null;
-        // Allow our get routines to examine outputFuture now.
-        outputCreated.countDown();
       }
     }
   }
