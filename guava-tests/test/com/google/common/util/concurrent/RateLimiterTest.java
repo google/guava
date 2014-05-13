@@ -130,6 +130,15 @@ public class RateLimiterTest extends TestCase {
     assertEvents("R0.00", "U0.20", "R0.00", "R0.20");
   }
 
+  public void testSimpleAcquireEarliestAvailableIsInPast() {
+    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
+    assertEquals(0.0, limiter.acquire(), EPSILON);
+    stopwatch.sleepMillis(400);
+    assertEquals(0.0, limiter.acquire(), EPSILON);
+    assertEquals(0.0, limiter.acquire(), EPSILON);
+    assertEquals(0.2, limiter.acquire(), EPSILON);
+  }
+
   public void testOneSecondBurst() {
     RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
     stopwatch.sleepMillis(1000); // max capacity reached
