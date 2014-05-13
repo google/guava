@@ -21,7 +21,6 @@ import com.google.common.util.concurrent.Service.State;
 
 import junit.framework.TestCase;
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -32,6 +31,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Unit test for {@link AbstractScheduledService}.
@@ -149,71 +149,53 @@ public class AbstractScheduledServiceTest extends TestCase {
   }
 
   public void testDefaultExecutorIsShutdownWhenServiceIsStopped() throws Exception {
-    final CountDownLatch terminationLatch = new CountDownLatch(1);
+    final AtomicReference<ScheduledExecutorService> executor = Atomics.newReference();
     AbstractScheduledService service = new AbstractScheduledService() {
-      volatile ScheduledExecutorService executorService;
       @Override protected void runOneIteration() throws Exception {}
 
       @Override protected ScheduledExecutorService executor() {
-        if (executorService == null) {
-          executorService = super.executor();
-          // Add a listener that will be executed after the listener that shuts down the executor.
-          addListener(new Listener() {
-            @Override public void terminated(State from) {
-              terminationLatch.countDown();
-            }
-            }, MoreExecutors.sameThreadExecutor());
-        }
-        return executorService;
+        executor.set(super.executor());
+        return executor.get();
       }
 
       @Override protected Scheduler scheduler() {
         return Scheduler.newFixedDelaySchedule(0, 1, TimeUnit.MILLISECONDS);
-      }};
+      }
+    };
 
-      service.startAsync();
-      assertFalse(service.executor().isShutdown());
-      service.awaitRunning();
-      service.stopAsync();
-      terminationLatch.await();
-      assertTrue(service.executor().isShutdown());
-      assertTrue(service.executor().awaitTermination(100, TimeUnit.MILLISECONDS));
+    service.startAsync();
+    assertFalse(service.executor().isShutdown());
+    service.awaitRunning();
+    service.stopAsync();
+    service.awaitTerminated();
+    assertTrue(executor.get().awaitTermination(100, TimeUnit.MILLISECONDS));
   }
 
   public void testDefaultExecutorIsShutdownWhenServiceFails() throws Exception {
-    final CountDownLatch failureLatch = new CountDownLatch(1);
+    final AtomicReference<ScheduledExecutorService> executor = Atomics.newReference();
     AbstractScheduledService service = new AbstractScheduledService() {
-      volatile ScheduledExecutorService executorService;
-      @Override protected void runOneIteration() throws Exception {}
-
       @Override protected void startUp() throws Exception {
         throw new Exception("Failed");
       }
 
+      @Override protected void runOneIteration() throws Exception {}
+
       @Override protected ScheduledExecutorService executor() {
-        if (executorService == null) {
-          executorService = super.executor();
-          // Add a listener that will be executed after the listener that shuts down the executor.
-          addListener(new Listener() {
-            @Override public void failed(State from, Throwable failure) {
-              failureLatch.countDown();
-            }
-            }, MoreExecutors.sameThreadExecutor());
-        }
-        return executorService;
+        executor.set(super.executor());
+        return executor.get();
       }
 
       @Override protected Scheduler scheduler() {
         return Scheduler.newFixedDelaySchedule(0, 1, TimeUnit.MILLISECONDS);
-      }};
+      }
+    };
 
-      try {
-        service.startAsync().awaitRunning();
-        fail("Expected service to fail during startup");
-      } catch (IllegalStateException expected) {}
-      failureLatch.await();
-      assertTrue(service.executor().isShutdown());
-      assertTrue(service.executor().awaitTermination(100, TimeUnit.MILLISECONDS));
+    try {
+      service.startAsync().awaitRunning();
+      fail("Expected service to fail during startup");
+    } catch (IllegalStateException expected) {}
+
+    assertTrue(executor.get().awaitTermination(100, TimeUnit.MILLISECONDS));
   }
 
   public void testSchedulerOnlyCalledOnce() throws Exception {
