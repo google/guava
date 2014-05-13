@@ -22,9 +22,11 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -272,6 +274,46 @@ public final class Uninterruptibles {
           // TimeUnit.sleep() treats negative timeouts just like zero.
           NANOSECONDS.sleep(remainingNanos);
           return;
+        } catch (InterruptedException e) {
+          interrupted = true;
+          remainingNanos = end - System.nanoTime();
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  /**
+   * Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit)
+   * tryAcquire(1, timeout, unit)} uninterruptibly.
+   *
+   * @since 18.0
+   */
+  public static boolean tryAcquireUninterruptibly(
+      Semaphore semaphore, long timeout, TimeUnit unit) {
+    return tryAcquireUninterruptibly(semaphore, 1, timeout, unit);
+  }
+
+  /**
+   * Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit)
+   * tryAcquire(permits, timeout, unit)} uninterruptibly.
+   *
+   * @since 18.0
+   */
+  public static boolean tryAcquireUninterruptibly(
+      Semaphore semaphore, int permits, long timeout, TimeUnit unit) {
+    boolean interrupted = false;
+    try {
+      long remainingNanos = unit.toNanos(timeout);
+      long end = System.nanoTime() + remainingNanos;
+
+      while (true) {
+        try {
+          // Semaphore treats negative timeouts just like zero.
+          return semaphore.tryAcquire(permits, remainingNanos, NANOSECONDS);
         } catch (InterruptedException e) {
           interrupted = true;
           remainingNanos = end - System.nanoTime();
