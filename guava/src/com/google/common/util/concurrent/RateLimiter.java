@@ -396,27 +396,15 @@ public abstract class RateLimiter {
   }
 
   /**
-   * Reserves a single permit from this {@code RateLimiter} for future use, returning the number of
-   * microseconds until the reservation.
-   *
-   * <p>This method is equivalent to {@code reserve(1)}.
-   *
-   * @return time in microseconds to wait until the resource can be acquired.
-   */
-  long reserve() {
-    return reserve(1);
-  }
-
-  /**
    * Reserves the given number of permits from this {@code RateLimiter} for future use, returning
    * the number of microseconds until the reservation can be consumed.
    *
-   * @return time in microseconds to wait until the resource can be acquired.
+   * @return time in microseconds to wait until the resource can be acquired, never negative
    */
   final long reserve(int permits) {
     checkPermits(permits);
     synchronized (mutex()) {
-      return reserveNextTicket(permits, stopwatch.readMicros());
+      return reserveAndGetWaitLength(permits, stopwatch.readMicros());
     }
   }
 
@@ -487,7 +475,7 @@ public abstract class RateLimiter {
       if (!canAcquire(nowMicros, timeoutMicros)) {
         return false;
       } else {
-        microsToWait = reserveNextTicket(permits, nowMicros);
+        microsToWait = reserveAndGetWaitLength(permits, nowMicros);
       }
     }
     stopwatch.sleepMicrosUninterruptibly(microsToWait);
@@ -495,12 +483,35 @@ public abstract class RateLimiter {
   }
 
   private boolean canAcquire(long nowMicros, long timeoutMicros) {
-    return earliestAvailable(nowMicros) - timeoutMicros <= nowMicros;
+    return queryEarliestAvailable(nowMicros) - timeoutMicros <= nowMicros;
   }
 
-  abstract long earliestAvailable(long nowMicros);
+  /**
+   * Reserves next ticket and returns the wait time that the caller must wait for.
+   *
+   * @return the required wait time, never negative
+   */
+  final long reserveAndGetWaitLength(int permits, long nowMicros) {
+    long momentAvailable = reserveEarliestAvailable(permits, nowMicros);
+    return max(momentAvailable - nowMicros, 0);
+  }
 
-  abstract long reserveNextTicket(int requiredPermits, long nowMicros);
+  /**
+   * Returns the earliest time that permits are available (with one caveat).
+   *
+   * @return the time that permits are available, or, if permits are available immediately, an
+   *     arbitrary past or present time
+   */
+  abstract long queryEarliestAvailable(long nowMicros);
+
+  /**
+   * Reserves the requested number of permits and returns the time that those permits can be used
+   * (with one caveat).
+   *
+   * @return the time that the permits may be used, or, if the permits may be used immediately, an
+   *     arbitrary past or present time
+   */
+  abstract long reserveEarliestAvailable(int permits, long nowMicros);
 
   @Override
   public String toString() {
@@ -551,19 +562,14 @@ public abstract class RateLimiter {
     }
 
     @Override
-    final long earliestAvailable(long nowMicros) {
+    final long queryEarliestAvailable(long nowMicros) {
       return nextFreeTicketMicros;
     }
 
-    /**
-     * Reserves next ticket and returns the wait time that the caller must wait for.
-     *
-     * <p>The return value is guaranteed to be non-negative.
-     */
     @Override
-    long reserveNextTicket(int requiredPermits, long nowMicros) {
+    final long reserveEarliestAvailable(int requiredPermits, long nowMicros) {
       resync(nowMicros);
-      long microsToNextFreeTicket = max(0, nextFreeTicketMicros - nowMicros);
+      long returnValue = nextFreeTicketMicros;
       double storedPermitsToSpend = min(requiredPermits, this.storedPermits);
       double freshPermits = requiredPermits - storedPermitsToSpend;
 
@@ -572,7 +578,7 @@ public abstract class RateLimiter {
 
       this.nextFreeTicketMicros = nextFreeTicketMicros + waitMicros;
       this.storedPermits -= storedPermitsToSpend;
-      return microsToNextFreeTicket;
+      return returnValue;
     }
 
     /**
@@ -758,8 +764,8 @@ public abstract class RateLimiter {
   abstract static class SleepingStopwatch {
     /*
      * We always hold the mutex when calling this. TODO(cpovirk): Is that important? Perhaps we need
-     * to guarantee that each call to reserveNextTicket, etc. sees a value >= the previous? Also, is
-     * it OK that we don't hold the mutex when sleeping?
+     * to guarantee that each call to reserveEarliestAvailable, etc. sees a value >= the previous?
+     * Also, is it OK that we don't hold the mutex when sleeping?
      */
     abstract long readMicros();
 
