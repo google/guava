@@ -21,7 +21,6 @@ import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.mockito.Mockito.mock;
 
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableSet;
@@ -31,6 +30,9 @@ import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.util.concurrent.RateLimiter.SleepingStopwatch;
 
 import junit.framework.TestCase;
+
+import org.easymock.EasyMock;
+import org.mockito.Mockito;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -440,12 +442,15 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testMocking() throws Exception {
-    RateLimiter mock = mock(RateLimiter.class);
+    RateLimiter mockito = Mockito.mock(RateLimiter.class);
+    RateLimiter easyMock = EasyMock.createNiceMock(RateLimiter.class);
+    EasyMock.replay(easyMock);
     for (Method method : RateLimiter.class.getMethods()) {
       if (!isStatic(method.getModifiers())
           && !NOT_WORKING_ON_MOCKS.contains(method.getName())
           && !method.getDeclaringClass().equals(Object.class)) {
-        method.invoke(mock, arbitraryParameters(method));
+        method.invoke(mockito, arbitraryParameters(method));
+        method.invoke(easyMock, arbitraryParameters(method));
       }
     }
   }
