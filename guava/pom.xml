@@ -50,6 +50,7 @@
               javax.inject;resolution:=optional,
               sun.misc.*;resolution:=optional
             </Import-Package>
+            <Bundle-DocURL>https://guava-libraries.googlecode.com/</Bundle-DocURL>
           </instructions>
         </configuration>
       </plugin>
