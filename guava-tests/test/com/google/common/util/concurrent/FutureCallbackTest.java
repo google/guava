@@ -129,6 +129,19 @@ public class FutureCallbackTest extends TestCase {
     Mockito.verifyNoMoreInteractions(callback);
   }
 
+  public void testWildcardFuture() {
+    SettableFuture<String> settable = SettableFuture.create();
+    ListenableFuture<?> f = settable;
+    FutureCallback<Object> callback = new FutureCallback<Object>() {
+      @Override
+      public void onSuccess(Object result) {}
+
+      @Override
+      public void onFailure(Throwable t) {}
+    };
+    Futures.addCallback(f, callback);
+  }
+
   private class CountingSameThreadExecutor implements Executor {
     int runCount = 0;
     @Override
