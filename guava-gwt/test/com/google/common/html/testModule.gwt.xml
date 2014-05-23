@@ -5,6 +5,7 @@
   <inherits name="com.google.common.base.Base"/>
   <inherits name="com.google.common.escape.testing.Testing"/>
   <inherits name="com.google.common.html.Html"/>
+  <inherits name="org.truth0.Truth"/>
   <entry-point class="com.google.common.html.TestModuleEntryPoint"/>
    
   <source path=""/>
