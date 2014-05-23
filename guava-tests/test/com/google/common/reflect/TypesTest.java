@@ -66,8 +66,8 @@ public class TypesTest extends TestCase {
     assertEquals(jvmType.toString(), ourType.toString());
     assertEquals(jvmType.hashCode(), ourType.hashCode());
     assertEquals(HashMap.class, ourType.getRawType());
-    ASSERT.that(ourType.getActualTypeArguments())
-        .iteratesAs(jvmType.getActualTypeArguments());
+    ASSERT.that(ourType.getActualTypeArguments()).asList()
+        .has().exactlyAs(asList(jvmType.getActualTypeArguments())).inOrder();
     assertEquals(Arrays.asList(
             String.class,
             Types.newArrayType(Types.newArrayType(int.class))),
@@ -107,8 +107,8 @@ public class TypesTest extends TestCase {
     assertEquals(jvmType.toString(), ourType.toString());
     assertEquals(Map.class, ourType.getOwnerType());
     assertEquals(Map.Entry.class, ourType.getRawType());
-    ASSERT.that(ourType.getActualTypeArguments())
-        .iteratesAs(jvmType.getActualTypeArguments());
+    ASSERT.that(ourType.getActualTypeArguments()).asList()
+        .has().exactlyAs(asList(jvmType.getActualTypeArguments())).inOrder();
   }
 
   public void testNewParameterizedType_serializable() {
@@ -268,9 +268,9 @@ public class TypesTest extends TestCase {
       WildcardType expected, WildcardType actual) {
     assertEquals(expected.toString(), actual.toString());
     assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
-    ASSERT.that(actual.getLowerBounds())
+    ASSERT.that(actual.getLowerBounds()).asList()
         .has().exactlyAs(asList(expected.getLowerBounds())).inOrder();
-    ASSERT.that(actual.getUpperBounds())
+    ASSERT.that(actual.getUpperBounds()).asList()
         .has().exactlyAs(asList(expected.getUpperBounds())).inOrder();
   }
 
@@ -366,7 +366,8 @@ public class TypesTest extends TestCase {
     if (!Types.NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY) {
       assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
     }
-    ASSERT.that(actual.getBounds()).has().exactlyAs(asList(expected.getBounds())).inOrder();
+    ASSERT.that(actual.getBounds()).asList()
+        .has().exactlyAs(asList(expected.getBounds())).inOrder();
   }
 
   /**

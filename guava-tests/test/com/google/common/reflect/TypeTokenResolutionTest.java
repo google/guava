@@ -124,7 +124,7 @@ public class TypeTokenResolutionTest extends TestCase {
         parameterized.parameterizedType());
     assertEquals(TypeTokenResolutionTest.class, resolved.getOwnerType());
     assertEquals(Bar.class, resolved.getRawType());
-    ASSERT.that(resolved.getActualTypeArguments()).has().item(String.class);
+    ASSERT.that(resolved.getActualTypeArguments()).asList().has().item(String.class);
   }
   
   private interface StringListPredicate extends Predicate<List<String>> {}
