@@ -196,8 +196,8 @@ public class PopulatedCachesTest extends TestCase {
 
       Set<Object> expected = Maps.newHashMap(cache.asMap()).keySet();
       ASSERT.that(keys).has().exactlyAs(expected);
-      ASSERT.that(keys.toArray()).has().exactlyAs(expected);
-      ASSERT.that(keys.toArray(new Object[0])).has().exactlyAs(expected);
+      ASSERT.that(keys.toArray()).asList().has().exactlyAs(expected);
+      ASSERT.that(keys.toArray(new Object[0])).asList().has().exactlyAs(expected);
 
       new EqualsTester()
           .addEqualityGroup(cache.asMap().keySet(), keys)
@@ -223,8 +223,8 @@ public class PopulatedCachesTest extends TestCase {
 
       Collection<Object> expected = Maps.newHashMap(cache.asMap()).values();
       ASSERT.that(values).has().exactlyAs(expected);
-      ASSERT.that(values.toArray()).has().exactlyAs(expected);
-      ASSERT.that(values.toArray(new Object[0])).has().exactlyAs(expected);
+      ASSERT.that(values.toArray()).asList().has().exactlyAs(expected);
+      ASSERT.that(values.toArray(new Object[0])).asList().has().exactlyAs(expected);
 
       assertEquals(WARMUP_SIZE, values.size());
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
@@ -248,8 +248,9 @@ public class PopulatedCachesTest extends TestCase {
 
       Set<?> expected = Maps.newHashMap(cache.asMap()).entrySet();
       ASSERT.that(entries).has().exactlyAs((Collection<Entry<Object, Object>>) expected);
-      ASSERT.that(entries.toArray()).has().exactlyAs((Collection<Object>) expected);
-      ASSERT.that(entries.toArray(new Entry[0])).has().exactlyAs((Collection<Entry>) expected);
+      ASSERT.that(entries.toArray()).asList().has().exactlyAs((Collection<Object>) expected);
+      ASSERT.that(entries.toArray(new Entry[0])).asList()
+          .has().exactlyAs((Collection<Entry>) expected);
 
       new EqualsTester()
           .addEqualityGroup(cache.asMap().entrySet(), entries)

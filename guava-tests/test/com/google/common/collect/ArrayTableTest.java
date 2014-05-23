@@ -400,9 +400,9 @@ public class ArrayTableTest extends AbstractTableTest {
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Character[][] array = table.toArray(Character.class);
     assertEquals(3, array.length);
-    ASSERT.that(array[0]).has().exactly('a', null, 'c').inOrder();
-    ASSERT.that(array[1]).has().exactly('b', null, null).inOrder();
-    ASSERT.that(array[2]).has().exactly(null, null, null).inOrder();
+    ASSERT.that(array[0]).asList().has().exactly('a', null, 'c').inOrder();
+    ASSERT.that(array[1]).asList().has().exactly('b', null, null).inOrder();
+    ASSERT.that(array[2]).asList().has().exactly(null, null, null).inOrder();
     table.set(0, 2, 'd');
     assertEquals((Character) 'c', array[0][2]);
     array[0][2] = 'e';

@@ -19,7 +19,7 @@
     <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>**/*Test.java</test.include>
-    <truth.version>0.13</truth.version>
+    <truth.version>0.18</truth.version>
   </properties>
   <issueManagement>
     <system>code.google.com</system>

@@ -98,7 +98,7 @@ public class ObjectArraysTest extends TestCase {
     String[] result = ObjectArrays.concat(
         new String[0], new String[] { "a", "b" }, String.class);
     assertEquals(String[].class, result.getClass());
-    ASSERT.that(result).has().exactly("a", "b").inOrder();
+    ASSERT.that(result).asList().has().exactly("a", "b").inOrder();
   }
 
   @GwtIncompatible("ObjectArrays.concat(Object[], Object[], Class)")
@@ -106,7 +106,7 @@ public class ObjectArraysTest extends TestCase {
     String[] result = ObjectArrays.concat(
         new String[] { "a", "b" }, new String[0], String.class);
     assertEquals(String[].class, result.getClass());
-    ASSERT.that(result).has().exactly("a", "b").inOrder();
+    ASSERT.that(result).asList().has().exactly("a", "b").inOrder();
   }
 
   @GwtIncompatible("ObjectArrays.concat(Object[], Object[], Class)")
@@ -114,7 +114,7 @@ public class ObjectArraysTest extends TestCase {
     String[] result = ObjectArrays.concat(
         new String[] { "a", "b" }, new String[] { "c", "d" }, String.class);
     assertEquals(String[].class, result.getClass());
-    ASSERT.that(result).has().exactly("a", "b", "c", "d").inOrder();
+    ASSERT.that(result).asList().has().exactly("a", "b", "c", "d").inOrder();
   }
 
   @GwtIncompatible("ObjectArrays.concat(Object[], Object[], Class)")
@@ -170,32 +170,32 @@ public class ObjectArraysTest extends TestCase {
 
   public void testPrependZeroElements() {
     String[] result = ObjectArrays.concat("foo", new String[] {});
-    ASSERT.that(result).has().item("foo");
+    ASSERT.that(result).asList().has().item("foo");
   }
 
   public void testPrependOneElement() {
     String[] result = ObjectArrays.concat("foo", new String[] { "bar" });
-    ASSERT.that(result).has().exactly("foo", "bar").inOrder();
+    ASSERT.that(result).asList().has().exactly("foo", "bar").inOrder();
   }
 
   public void testPrependTwoElements() {
     String[] result = ObjectArrays.concat("foo", new String[] { "bar", "baz" });
-    ASSERT.that(result).has().exactly("foo", "bar", "baz").inOrder();
+    ASSERT.that(result).asList().has().exactly("foo", "bar", "baz").inOrder();
   }
 
   public void testAppendZeroElements() {
     String[] result = ObjectArrays.concat(new String[] {}, "foo");
-    ASSERT.that(result).has().item("foo");
+    ASSERT.that(result).asList().has().item("foo");
   }
 
   public void testAppendOneElement() {
     String[] result = ObjectArrays.concat(new String[] { "foo" }, "bar");
-    ASSERT.that(result).has().exactly("foo", "bar").inOrder();
+    ASSERT.that(result).asList().has().exactly("foo", "bar").inOrder();
   }
 
   public void testAppendTwoElements() {
     String[] result = ObjectArrays.concat(new String[] { "foo", "bar" }, "baz");
-    ASSERT.that(result).has().exactly("foo", "bar", "baz").inOrder();
+    ASSERT.that(result).asList().has().exactly("foo", "bar", "baz").inOrder();
   }
 
   public void testEmptyArrayToEmpty() {
