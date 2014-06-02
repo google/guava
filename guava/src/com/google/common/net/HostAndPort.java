@@ -213,7 +213,6 @@ public final class HostAndPort implements Serializable {
   private static String[] getHostAndPortFromBracketedHost(String hostPortString) {
     int colonIndex = 0;
     int closeBracketIndex = 0;
-    boolean hasPort = false;
     checkArgument(hostPortString.charAt(0) == '[',
         "Bracketed host-port string must start with a bracket: %s", hostPortString);
     colonIndex = hostPortString.indexOf(':');
