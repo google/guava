@@ -506,7 +506,6 @@ public class TreeRangeSet<C extends Comparable<?>>
 
     @Override
     Iterator<Entry<Cut<C>, Range<C>>> descendingEntryIterator() {
-      Iterator<Range<C>> itr;
       /*
        * firstComplementRangeUpperBound is the upper bound of the last complement range with lower
        * bound inside complementLowerBoundWindow.
