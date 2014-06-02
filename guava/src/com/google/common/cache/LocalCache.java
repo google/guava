@@ -2016,7 +2016,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
      * The weight of the live elements in this segment's region.
      */
     @GuardedBy("Segment.this")
-    int totalWeight;
+    long totalWeight;
 
     /**
      * Number of updates that alter the size of the table. This is used during bulk-read methods to

@@ -131,6 +131,21 @@ public class CacheEvictionTest extends TestCase {
     CacheTesting.checkValidState(cache);
   }
 
+  public void testEviction_overflow() {
+    CountingRemovalListener<Object, Object> removalListener = countingRemovalListener();
+    IdentityLoader<Object> loader = identityLoader();
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .concurrencyLevel(1)
+        .maximumWeight(1L << 31)
+        .weigher(constantWeigher(Integer.MAX_VALUE))
+        .removalListener(removalListener)
+        .build(loader);
+    cache.getUnchecked(objectWithHash(0));
+    cache.getUnchecked(objectWithHash(0));
+    CacheTesting.processPendingNotifications(cache);
+    assertEquals(1, removalListener.getCount());
+  }
+
   public void testUpdateRecency_onGet() {
     IdentityLoader<Integer> loader = identityLoader();
     final LoadingCache<Integer, Integer> cache =
@@ -289,5 +304,13 @@ public class CacheEvictionTest extends TestCase {
     for (int i : keys) {
       cache.getUnchecked(i);
     }
+  }
+
+  private Object objectWithHash(final int hash) {
+    return new Object() {
+      @Override public int hashCode() {
+        return hash;
+      }
+    };
   }
 }
