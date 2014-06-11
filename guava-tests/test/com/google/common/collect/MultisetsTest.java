@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Tests for {@link Multisets}.
@@ -76,7 +77,14 @@ public class MultisetsTest extends TestCase {
     ASSERT.that(multiset).isEmpty();
   }
 
-  public void testRemoveOccurrencesEmpty() {
+  public void testRemoveOccurrencesIterableEmpty() {
+    Multiset<String> multiset = HashMultiset.create();
+    Iterable<String> toRemove = Arrays.asList("a", "b", "a");
+    assertFalse(Multisets.removeOccurrences(multiset, toRemove));
+    assertTrue(multiset.isEmpty());
+  }
+
+  public void testRemoveOccurrencesMultisetEmpty() {
     Multiset<String> multiset = HashMultiset.create();
     Multiset<String> toRemove =
         HashMultiset.create(Arrays.asList("a", "b", "a"));
@@ -208,7 +216,7 @@ public class MultisetsTest extends TestCase {
     ASSERT.that(multiset).has().exactly("a", "b").inOrder();
   }
 
-  public void testRemoveEmptyOccurrences() {
+  public void testRemoveEmptyOccurrencesMultiset() {
     Multiset<String> multiset =
         TreeMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> toRemove = HashMultiset.create();
@@ -216,11 +224,27 @@ public class MultisetsTest extends TestCase {
     ASSERT.that(multiset).has().exactly("a", "a", "b").inOrder();
   }
 
-  public void testRemoveOccurrences() {
+  public void testRemoveOccurrencesMultiset() {
     Multiset<String> multiset =
         TreeMultiset.create(Arrays.asList("a", "b", "a", "c"));
     Multiset<String> toRemove =
         HashMultiset.create(Arrays.asList("a", "b", "b"));
+    assertTrue(Multisets.removeOccurrences(multiset, toRemove));
+    ASSERT.that(multiset).has().exactly("a", "c").inOrder();
+  }
+
+  public void testRemoveEmptyOccurrencesIterable() {
+    Multiset<String> multiset =
+        TreeMultiset.create(Arrays.asList("a", "b", "a"));
+    Iterable<String> toRemove = ImmutableList.of();
+    assertFalse(Multisets.removeOccurrences(multiset, toRemove));
+    ASSERT.that(multiset).has().exactly("a", "a", "b").inOrder();
+  }
+
+  public void testRemoveOccurrencesMultisetIterable() {
+    Multiset<String> multiset =
+        TreeMultiset.create(Arrays.asList("a", "b", "a", "c"));
+    List<String> toRemove = Arrays.asList("a", "b", "b");
     assertTrue(Multisets.removeOccurrences(multiset, toRemove));
     ASSERT.that(multiset).has().exactly("a", "c").inOrder();
   }

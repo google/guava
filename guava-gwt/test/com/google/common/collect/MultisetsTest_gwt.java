@@ -83,19 +83,34 @@ public void testNewTreeMultisetNonGeneric() throws Exception {
   testCase.testNewTreeMultisetNonGeneric();
 }
 
-public void testRemoveEmptyOccurrences() throws Exception {
+public void testRemoveEmptyOccurrencesIterable() throws Exception {
   com.google.common.collect.MultisetsTest testCase = new com.google.common.collect.MultisetsTest();
-  testCase.testRemoveEmptyOccurrences();
+  testCase.testRemoveEmptyOccurrencesIterable();
 }
 
-public void testRemoveOccurrences() throws Exception {
+public void testRemoveEmptyOccurrencesMultiset() throws Exception {
   com.google.common.collect.MultisetsTest testCase = new com.google.common.collect.MultisetsTest();
-  testCase.testRemoveOccurrences();
+  testCase.testRemoveEmptyOccurrencesMultiset();
 }
 
-public void testRemoveOccurrencesEmpty() throws Exception {
+public void testRemoveOccurrencesIterableEmpty() throws Exception {
   com.google.common.collect.MultisetsTest testCase = new com.google.common.collect.MultisetsTest();
-  testCase.testRemoveOccurrencesEmpty();
+  testCase.testRemoveOccurrencesIterableEmpty();
+}
+
+public void testRemoveOccurrencesMultiset() throws Exception {
+  com.google.common.collect.MultisetsTest testCase = new com.google.common.collect.MultisetsTest();
+  testCase.testRemoveOccurrencesMultiset();
+}
+
+public void testRemoveOccurrencesMultisetEmpty() throws Exception {
+  com.google.common.collect.MultisetsTest testCase = new com.google.common.collect.MultisetsTest();
+  testCase.testRemoveOccurrencesMultisetEmpty();
+}
+
+public void testRemoveOccurrencesMultisetIterable() throws Exception {
+  com.google.common.collect.MultisetsTest testCase = new com.google.common.collect.MultisetsTest();
+  testCase.testRemoveOccurrencesMultisetIterable();
 }
 
 public void testRetainEmptyOccurrences() throws Exception {
