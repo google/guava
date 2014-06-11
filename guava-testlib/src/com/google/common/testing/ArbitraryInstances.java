@@ -68,6 +68,11 @@ import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.google.common.collect.TreeBasedTable;
 import com.google.common.collect.TreeMultimap;
+import com.google.common.io.ByteSink;
+import com.google.common.io.ByteSource;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.CharSink;
+import com.google.common.io.CharSource;
 import com.google.common.primitives.Primitives;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
@@ -224,6 +229,10 @@ public final class ArbitraryInstances {
       .put(FloatBuffer.class, FloatBuffer.allocate(0))
       .put(DoubleBuffer.class, DoubleBuffer.allocate(0))
       .put(File.class, new File(""))
+      .put(ByteSource.class, ByteSource.empty())
+      .put(CharSource.class, CharSource.empty())
+      .put(ByteSink.class, NullByteSink.INSTANCE)
+      .put(CharSink.class, NullByteSink.INSTANCE.asCharSink(Charsets.UTF_8))
       // All collections are immutable empty. So safe for any type parameter.
       .put(Iterator.class, ImmutableSet.of().iterator())
       .put(PeekingIterator.class, Iterators.peekingIterator(Iterators.emptyIterator()))
@@ -441,6 +450,14 @@ public final class ArbitraryInstances {
 
     public static final class DummyExecutor implements Executor, Serializable {
       @Override public void execute(Runnable command) {}
+    }
+  }
+
+  private static final class NullByteSink extends ByteSink implements Serializable {
+    private static final NullByteSink INSTANCE = new NullByteSink();
+
+    @Override public OutputStream openStream() {
+      return ByteStreams.nullOutputStream();
     }
   }
 

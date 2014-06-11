@@ -53,6 +53,10 @@ import com.google.common.collect.SortedMapDifference;
 import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.collect.Table;
+import com.google.common.io.ByteSink;
+import com.google.common.io.ByteSource;
+import com.google.common.io.CharSink;
+import com.google.common.io.CharSource;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
 import com.google.common.util.concurrent.AtomicDouble;
@@ -306,7 +310,7 @@ public class ArbitraryInstancesTest extends TestCase {
         Appendable.class, StringBuilder.class, StringBuffer.class,
         Throwable.class, Exception.class);
   }
-  
+
   public void testGet_io() throws IOException {
     assertEquals(-1, ArbitraryInstances.get(InputStream.class).read());
     assertEquals(-1, ArbitraryInstances.get(ByteArrayInputStream.class).read());
@@ -328,6 +332,10 @@ public class ArbitraryInstancesTest extends TestCase {
         ByteArrayOutputStream.class, OutputStream.class,
         Writer.class, StringWriter.class,
         PrintStream.class, PrintWriter.class);
+    assertEquals(ByteSource.empty(), ArbitraryInstances.get(ByteSource.class));
+    assertEquals(CharSource.empty(), ArbitraryInstances.get(CharSource.class));
+    assertNotNull(ArbitraryInstances.get(ByteSink.class));
+    assertNotNull(ArbitraryInstances.get(CharSink.class));
   }
 
   public void testGet_reflect() {
