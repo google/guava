@@ -723,7 +723,8 @@ public final class Multisets {
    *
    * @return {@code true} if {@code multisetToModify} was changed as a result of
    *         this operation
-   * @since 10.0
+   * @since 18.0 (present in 10.0 with a requirement that the second parameter
+   *     be a {@code Multiset})
    */
   public static boolean removeOccurrences(
       Multiset<?> multisetToModify, Iterable<?> occurrencesToRemove) {
