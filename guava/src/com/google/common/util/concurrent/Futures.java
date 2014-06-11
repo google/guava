@@ -360,9 +360,8 @@ public final class Futures {
    * (whether the {@code Future} itself is slow or heavyweight to complete is
    * irrelevant), consider {@linkplain #withFallback(ListenableFuture,
    * FutureFallback, Executor) supplying an executor}. If you do not supply an
-   * executor, {@code withFallback} will use {@link
-   * MoreExecutors#sameThreadExecutor sameThreadExecutor}, which carries some
-   * caveats for heavier operations. For example, the call to {@code
+   * executor, {@code withFallback} will use an inline executor, which carries
+   * some caveats for heavier operations. For example, the call to {@code
    * fallback.create} may run on an unpredictable or undesirable thread:
    *
    * <ul>
@@ -375,9 +374,9 @@ public final class Futures {
    * </ul>
    *
    * <p>Also note that, regardless of which thread executes the {@code
-   * sameThreadExecutor} {@code fallback.create}, all other registered but
-   * unexecuted listeners are prevented from running during its execution, even
-   * if those listeners are to run in other executors.
+   * fallback.create}, all other registered but unexecuted listeners are
+   * prevented from running during its execution, even if those listeners are
+   * to run in other executors.
    *
    * @param input the primary input {@code Future}
    * @param fallback the {@link FutureFallback} implementation to be called if
@@ -538,9 +537,8 @@ public final class Futures {
    * (whether the {@code Future} itself is slow or heavyweight to complete is
    * irrelevant), consider {@linkplain #transform(ListenableFuture,
    * AsyncFunction, Executor) supplying an executor}. If you do not supply an
-   * executor, {@code transform} will use {@link
-   * MoreExecutors#sameThreadExecutor sameThreadExecutor}, which carries some
-   * caveats for heavier operations. For example, the call to {@code
+   * executor, {@code transform} will use an inline executor, which carries
+   * some caveats for heavier operations. For example, the call to {@code
    * function.apply} may run on an unpredictable or undesirable thread:
    *
    * <ul>
@@ -553,9 +551,9 @@ public final class Futures {
    * </ul>
    *
    * <p>Also note that, regardless of which thread executes the {@code
-   * sameThreadExecutor} {@code function.apply}, all other registered but
-   * unexecuted listeners are prevented from running during its execution, even
-   * if those listeners are to run in other executors.
+   * function.apply}, all other registered but unexecuted listeners are
+   * prevented from running during its execution, even if those listeners are
+   * to run in other executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future and that of the future returned by the
@@ -676,10 +674,10 @@ public final class Futures {
    *
    * <p>Note: If the transformation is slow or heavyweight, consider {@linkplain
    * #transform(ListenableFuture, Function, Executor) supplying an executor}.
-   * If you do not supply an executor, {@code transform} will use {@link
-   * MoreExecutors#sameThreadExecutor sameThreadExecutor}, which carries some
-   * caveats for heavier operations.  For example, the call to {@code
-   * function.apply} may run on an unpredictable or undesirable thread:
+   * If you do not supply an executor, {@code transform} will use an inline
+   * executor, which carries some caveats for heavier operations.  For example,
+   * the call to {@code function.apply} may run on an unpredictable or
+   * undesirable thread:
    *
    * <ul>
    * <li>If the input {@code Future} is done at the time {@code transform} is
@@ -691,9 +689,9 @@ public final class Futures {
    * </ul>
    *
    * <p>Also note that, regardless of which thread executes the {@code
-   * sameThreadExecutor} {@code function.apply}, all other registered but
-   * unexecuted listeners are prevented from running during its execution, even
-   * if those listeners are to run in other executors.
+   * function.apply}, all other registered but unexecuted listeners are
+   * prevented from running during its execution, even if those listeners are
+   * to run in other executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future. That is, if the returned {@code Future}
@@ -1239,9 +1237,8 @@ public final class Futures {
    * <p>Note: If the callback is slow or heavyweight, consider {@linkplain
    * #addCallback(ListenableFuture, FutureCallback, Executor) supplying an
    * executor}. If you do not supply an executor, {@code addCallback} will use
-   * {@link MoreExecutors#sameThreadExecutor sameThreadExecutor}, which carries
-   * some caveats for heavier operations. For example, the callback may run on
-   * an unpredictable or undesirable thread:
+   * an inline executor, which carries some caveats for heavier operations. For
+   * example, the callback may run on an unpredictable or undesirable thread:
    *
    * <ul>
    * <li>If the input {@code Future} is done at the time {@code addCallback} is
@@ -1252,10 +1249,10 @@ public final class Futures {
    * network thread.
    * </ul>
    *
-   * <p>Also note that, regardless of which thread executes the {@code
-   * sameThreadExecutor} callback, all other registered but unexecuted listeners
-   * are prevented from running during its execution, even if those listeners
-   * are to run in other executors.
+   * <p>Also note that, regardless of which thread executes the callback, all
+   * other registered but unexecuted listeners are prevented from running
+   * during its execution, even if those listeners are to run in other
+   * executors.
    *
    * <p>For a more general interface to attach a completion listener to a
    * {@code Future}, see {@link ListenableFuture#addListener addListener}.
