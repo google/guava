@@ -95,7 +95,14 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
     return false;
   }
 
-  abstract static class Builder<E> {
+  /**
+   * Abstract base class for builders of {@link ImmutableCollection} types.
+   *
+   * @since 10.0
+   */
+  public abstract static class Builder<E> {
+
+    Builder() {}
 
     public abstract Builder<E> add(E element);
 
