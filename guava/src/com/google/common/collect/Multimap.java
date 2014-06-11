@@ -106,10 +106,10 @@ import javax.annotation.Nullable;
  * chronological order.
  *
  * <p><b>Warning:</b> instances of type {@code Multimap} may not implement
- * {@link Object#equals} or {@link Object#hashCode} in the way you expect
- * (multimaps containing the same key-value pairs, even in the same order,
- * may or may not be equal). The recommended subinterfaces provide a much
- * stronger guarantee.
+ * {@link Object#equals} in the way you expect.  Multimaps containing the same
+ * key-value pairs, even in the same order, may or may not be equal and may or
+ * may not have the same {@code hashCode}. The recommended subinterfaces
+ * provide much stronger guarantees.
  *
  * <h3>Comparison to a map of collections</h3>
  *
@@ -378,10 +378,12 @@ public interface Multimap<K, V> {
    * <p>The hash code of a multimap is defined as the hash code of the map view,
    * as returned by {@link Multimap#asMap}.
    *
-   * <p><b>Warning:</b> because {@link Collection#hashCode} is generally
-   * unspecified, multimaps containing the same key-value pairs, even in the
-   * same order, may or may not have the same hash code. The recommended
-   * subinterfaces provide a much stronger guarantee.
+   * <p>In general, two multimaps with identical key-value mappings may or may
+   * not have the same hash codes, depending on the implementation. For
+   * example, two {@link SetMultimap} instances with the same key-value
+   * mappings will have the same {@code hashCode}, but the {@code hashCode}
+   * of {@link ListMultimap} instances depends on the ordering of the values 
+   * for each key.
    */
   @Override
   int hashCode();
