@@ -149,6 +149,7 @@ public class MathTesting {
     longValues.addAll(Iterables.transform(POSITIVE_INTEGER_CANDIDATES, TO_LONG));
     // Add boundary values manually to avoid over/under flow (this covers 2^N for 31 and 63).
     longValues.add(Integer.MAX_VALUE + 1L, Long.MAX_VALUE - 1L, Long.MAX_VALUE);
+
     // Now add values near 2^N for lots of values of N.
     for (int exponent : asList(32, 33, 39, 40, 41, 47, 48, 49, 55, 56, 57)) {
       long x = 1L << exponent;
