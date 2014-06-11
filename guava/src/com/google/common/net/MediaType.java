@@ -227,6 +227,9 @@ public final class MediaType {
   public static final MediaType APPLICATION_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xml");
   public static final MediaType ATOM_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "atom+xml");
   public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
+
+  public static final MediaType X_PROTOBUF = createConstant(APPLICATION_TYPE, "x-protobuf");
+
   /**
    * Media type for <a href="http://en.wikipedia.org/wiki/Embedded_OpenType">Embedded OpenType</a>
    * fonts. This is
