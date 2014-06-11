@@ -85,21 +85,21 @@ class AnnotatedSubscriberFinder implements SubscriberFindingStrategy {
       throw Throwables.propagate(e.getCause());
     }
   }
-  
+
   private static final class MethodIdentifier {
     private final String name;
     private final List<Class<?>> parameterTypes;
-    
+
     MethodIdentifier(Method method) {
       this.name = method.getName();
       this.parameterTypes = Arrays.asList(method.getParameterTypes());
     }
-    
+
     @Override
     public int hashCode() {
       return Objects.hashCode(name, parameterTypes);
     }
-    
+
     @Override
     public boolean equals(@Nullable Object o) {
       if (o instanceof MethodIdentifier) {
@@ -115,14 +115,15 @@ class AnnotatedSubscriberFinder implements SubscriberFindingStrategy {
     Map<MethodIdentifier, Method> identifiers = Maps.newHashMap();
     for (Class<?> superClazz : supers) {
       for (Method superClazzMethod : superClazz.getMethods()) {
-        if (superClazzMethod.isAnnotationPresent(Subscribe.class)) {
+        if (superClazzMethod.isAnnotationPresent(Subscribe.class)
+            && !superClazzMethod.isBridge()) {
           Class<?>[] parameterTypes = superClazzMethod.getParameterTypes();
           if (parameterTypes.length != 1) {
             throw new IllegalArgumentException("Method " + superClazzMethod
                 + " has @Subscribe annotation, but requires " + parameterTypes.length
                 + " arguments.  Event subscriber methods must require a single argument.");
           }
-          
+
           MethodIdentifier ident = new MethodIdentifier(superClazzMethod);
           if (!identifiers.containsKey(ident)) {
             identifiers.put(ident, superClazzMethod);

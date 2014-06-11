@@ -27,6 +27,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Test case for {@link EventBus}.
@@ -285,13 +286,35 @@ public class EventBusTest extends TestCase {
     }
   }
 
+  /**
+   * Tests that bridge methods are not subscribed to events. In Java 8,
+   * annotations are included on the bridge method in addition to the original
+   * method, which causes both the original and bridge methods to be subscribed
+   * (since both are annotated @Subscribe) without specifically checking for
+   * bridge methods.
+   */
+  public void testRegistrationWithBridgeMethod() {
+    final AtomicInteger calls = new AtomicInteger();
+    bus.register(new Callback<String>() {
+      @Subscribe
+      @Override
+      public void call(String s) {
+        calls.incrementAndGet();
+      }
+    });
+
+    bus.post("hello");
+
+    assertEquals(1, calls.get());
+  }
+
   private <T> void assertContains(T element, Collection<T> collection) {
     assertTrue("Collection must contain " + element,
         collection.contains(element));
   }
 
   /**
-   * Records a thrown exception information.
+   * Records thrown exception information.
    */
   private static final class RecordingSubscriberExceptionHandler
       implements SubscriberExceptionHandler {
@@ -304,7 +327,6 @@ public class EventBusTest extends TestCase {
         SubscriberExceptionContext context) {
       this.exception = exception;
       this.context = context;
-
     }
   }
 
@@ -348,22 +370,25 @@ public class EventBusTest extends TestCase {
     }
   }
 
-  public interface HierarchyFixtureInterface {
+  private interface HierarchyFixtureInterface {
     // Exists only for hierarchy mapping; no members.
   }
 
-  public interface HierarchyFixtureSubinterface
+  private interface HierarchyFixtureSubinterface
       extends HierarchyFixtureInterface {
     // Exists only for hierarchy mapping; no members.
   }
 
-  public static class HierarchyFixtureParent
+  private static class HierarchyFixtureParent
       implements HierarchyFixtureSubinterface {
     // Exists only for hierarchy mapping; no members.
   }
 
-  public static class HierarchyFixture extends HierarchyFixtureParent {
+  private static class HierarchyFixture extends HierarchyFixtureParent {
     // Exists only for hierarchy mapping; no members.
   }
 
+  private interface Callback<T> {
+    void call(T t);
+  }
 }
