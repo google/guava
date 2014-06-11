@@ -96,9 +96,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
   }
 
   /**
-   * Abstract base class for builders of {@link ImmutableCollection} types.
-   *
-   * @since 10.0
+   * GWT emulated version of {@link ImmutableCollection.Builder}.
    */
   public abstract static class Builder<E> {
 
