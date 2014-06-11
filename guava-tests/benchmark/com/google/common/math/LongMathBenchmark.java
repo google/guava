@@ -44,8 +44,8 @@ public class LongMathBenchmark {
   void setUp() {
     for (int i = 0; i < ARRAY_SIZE; i++) {
       exponents[i] = randomExponent();
-      positive[i] = randomPositiveBigInteger(Long.SIZE - 2).longValue();
-      nonnegative[i] = randomNonNegativeBigInteger(Long.SIZE - 2).longValue();
+      positive[i] = randomPositiveBigInteger(Long.SIZE - 1).longValue();
+      nonnegative[i] = randomNonNegativeBigInteger(Long.SIZE - 1).longValue();
       longs[i] = RANDOM_SOURCE.nextLong();
       factorialArguments[i] = RANDOM_SOURCE.nextInt(30);
       binomialArguments[i][1] = RANDOM_SOURCE.nextInt(MathBenchmarking.biggestBinomials.length);
@@ -96,6 +96,17 @@ public class LongMathBenchmark {
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
       tmp += LongMath.binomial(binomialArguments[j][0], binomialArguments[j][1]);
+    }
+    return tmp;
+  }
+  
+  @Benchmark int isPrime(int reps) {
+    int tmp = 0;
+    for (int i = 0; i < reps; i++) {
+      int j = i & ARRAY_MASK;
+      if (LongMath.isPrime(positive[j])) {
+        tmp++;
+      }
     }
     return tmp;
   }
