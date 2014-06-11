@@ -56,7 +56,7 @@ public final class LongMath {
   public static boolean isPowerOfTwo(long x) {
     return x > 0 & (x & (x - 1)) == 0;
   }
-  
+
   /**
    * Returns 1 if {@code x < y} as unsigned longs, and 0 otherwise.  Assumes that x - y fits into a
    * signed long.  The implementation is branch-free, and benchmarks suggest it is measurably
@@ -227,14 +227,14 @@ public final class LongMath {
           return result;
         } else {
           int nBits = LongMath.log2(n, RoundingMode.CEILING);
-          
+
           long result = 1;
           long numerator = n--;
           long denominator = 1;
-          
+
           int numeratorBits = nBits;
           // This is an upper bound on log2(numerator, ceiling).
-          
+
           /*
            * We want to do this in long math for speed, but want to avoid overflow. We adapt the
            * technique previously used by BigIntegerMath: maintain separate numerator and
@@ -259,7 +259,7 @@ public final class LongMath {
         }
     }
   }
-  
+
   /**
    * Returns (x * numerator / denominator), which is assumed to come out to an integral value.
    */
@@ -314,4 +314,3 @@ public final class LongMath {
 
   private LongMath() {}
 }
-
