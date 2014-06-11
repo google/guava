@@ -380,3 +380,4 @@ public class ImmutableMultisetTest extends TestCase {
         .testEquals();
   }
 }
+
