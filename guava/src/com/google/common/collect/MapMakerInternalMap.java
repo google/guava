@@ -496,13 +496,13 @@ class MapMakerInternalMap<K, V>
      * @param original the entry to copy
      * @param newNext entry in the same bucket
      */
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     <K, V> ReferenceEntry<K, V> copyEntry(
         Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
       return newEntry(segment, original.getKey(), original.getHash(), newNext);
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     <K, V> void copyExpirableEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
       // TODO(fry): when we link values instead of entries this method can go
       // away, as can connectExpirables, nullifyExpirable.
@@ -514,7 +514,7 @@ class MapMakerInternalMap<K, V>
       nullifyExpirable(original);
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     <K, V> void copyEvictableEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
       // TODO(fry): when we link values instead of entries this method can go
       // away, as can connectEvictables, nullifyEvictable.
@@ -1028,7 +1028,7 @@ class MapMakerInternalMap<K, V>
       this.time = time;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextExpirable = nullEntry();
 
     @Override
@@ -1041,7 +1041,7 @@ class MapMakerInternalMap<K, V>
       this.nextExpirable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousExpirable = nullEntry();
 
     @Override
@@ -1063,7 +1063,7 @@ class MapMakerInternalMap<K, V>
 
     // The code below is exactly the same for each evictable entry type.
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextEvictable = nullEntry();
 
     @Override
@@ -1076,7 +1076,7 @@ class MapMakerInternalMap<K, V>
       this.nextEvictable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousEvictable = nullEntry();
 
     @Override
@@ -1110,7 +1110,7 @@ class MapMakerInternalMap<K, V>
       this.time = time;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextExpirable = nullEntry();
 
     @Override
@@ -1123,7 +1123,7 @@ class MapMakerInternalMap<K, V>
       this.nextExpirable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousExpirable = nullEntry();
 
     @Override
@@ -1138,7 +1138,7 @@ class MapMakerInternalMap<K, V>
 
     // The code below is exactly the same for each evictable entry type.
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextEvictable = nullEntry();
 
     @Override
@@ -1151,7 +1151,7 @@ class MapMakerInternalMap<K, V>
       this.nextEvictable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousEvictable = nullEntry();
 
     @Override
@@ -1283,7 +1283,7 @@ class MapMakerInternalMap<K, V>
       this.time = time;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextExpirable = nullEntry();
 
     @Override
@@ -1296,7 +1296,7 @@ class MapMakerInternalMap<K, V>
       this.nextExpirable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousExpirable = nullEntry();
 
     @Override
@@ -1319,7 +1319,7 @@ class MapMakerInternalMap<K, V>
 
     // The code below is exactly the same for each evictable entry type.
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextEvictable = nullEntry();
 
     @Override
@@ -1332,7 +1332,7 @@ class MapMakerInternalMap<K, V>
       this.nextEvictable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousEvictable = nullEntry();
 
     @Override
@@ -1367,7 +1367,7 @@ class MapMakerInternalMap<K, V>
       this.time = time;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextExpirable = nullEntry();
 
     @Override
@@ -1380,7 +1380,7 @@ class MapMakerInternalMap<K, V>
       this.nextExpirable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousExpirable = nullEntry();
 
     @Override
@@ -1395,7 +1395,7 @@ class MapMakerInternalMap<K, V>
 
     // The code below is exactly the same for each evictable entry type.
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextEvictable = nullEntry();
 
     @Override
@@ -1408,7 +1408,7 @@ class MapMakerInternalMap<K, V>
       this.nextEvictable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousEvictable = nullEntry();
 
     @Override
@@ -1541,7 +1541,7 @@ class MapMakerInternalMap<K, V>
       this.time = time;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextExpirable = nullEntry();
 
     @Override
@@ -1554,7 +1554,7 @@ class MapMakerInternalMap<K, V>
       this.nextExpirable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousExpirable = nullEntry();
 
     @Override
@@ -1577,7 +1577,7 @@ class MapMakerInternalMap<K, V>
 
     // The code below is exactly the same for each evictable entry type.
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextEvictable = nullEntry();
 
     @Override
@@ -1590,7 +1590,7 @@ class MapMakerInternalMap<K, V>
       this.nextEvictable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousEvictable = nullEntry();
 
     @Override
@@ -1625,7 +1625,7 @@ class MapMakerInternalMap<K, V>
       this.time = time;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextExpirable = nullEntry();
 
     @Override
@@ -1638,7 +1638,7 @@ class MapMakerInternalMap<K, V>
       this.nextExpirable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousExpirable = nullEntry();
 
     @Override
@@ -1653,7 +1653,7 @@ class MapMakerInternalMap<K, V>
 
     // The code below is exactly the same for each evictable entry type.
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> nextEvictable = nullEntry();
 
     @Override
@@ -1666,7 +1666,7 @@ class MapMakerInternalMap<K, V>
       this.nextEvictable = next;
     }
 
-    @GuardedBy("Segment.this")
+    // Guarded By Segment.this
     ReferenceEntry<K, V> previousEvictable = nullEntry();
 
     @Override
@@ -1821,7 +1821,7 @@ class MapMakerInternalMap<K, V>
   /**
    * This method is a convenience for testing. Code should call {@link Segment#newEntry} directly.
    */
-  @GuardedBy("Segment.this")
+  // Guarded By Segment.this
   @VisibleForTesting
   ReferenceEntry<K, V> newEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
     return segmentFor(hash).newEntry(key, hash, next);
@@ -1830,7 +1830,7 @@ class MapMakerInternalMap<K, V>
   /**
    * This method is a convenience for testing. Code should call {@link Segment#copyEntry} directly.
    */
-  @GuardedBy("Segment.this")
+  // Guarded By Segment.this
   @VisibleForTesting
   ReferenceEntry<K, V> copyEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
     int hash = original.getHash();
@@ -1840,7 +1840,7 @@ class MapMakerInternalMap<K, V>
   /**
    * This method is a convenience for testing. Code should call {@link Segment#setValue} instead.
    */
-  @GuardedBy("Segment.this")
+  // Guarded By Segment.this
   @VisibleForTesting
   ValueReference<K, V> newValueReference(ReferenceEntry<K, V> entry, V value) {
     int hash = entry.getHash();
@@ -1924,13 +1924,13 @@ class MapMakerInternalMap<K, V>
     return now - entry.getExpirationTime() > 0;
   }
 
-  @GuardedBy("Segment.this")
+  // Guarded By Segment.this
   static <K, V> void connectExpirables(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
     previous.setNextExpirable(next);
     next.setPreviousExpirable(previous);
   }
 
-  @GuardedBy("Segment.this")
+  // Guarded By Segment.this
   static <K, V> void nullifyExpirable(ReferenceEntry<K, V> nulled) {
     ReferenceEntry<K, V> nullEntry = nullEntry();
     nulled.setNextExpirable(nullEntry);
@@ -1956,13 +1956,13 @@ class MapMakerInternalMap<K, V>
   }
 
   /** Links the evitables together. */
-  @GuardedBy("Segment.this")
+  // Guarded By Segment.this
   static <K, V> void connectEvictables(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
     previous.setNextEvictable(next);
     next.setPreviousEvictable(previous);
   }
 
-  @GuardedBy("Segment.this")
+  // Guarded By Segment.this
   static <K, V> void nullifyEvictable(ReferenceEntry<K, V> nulled) {
     ReferenceEntry<K, V> nullEntry = nullEntry();
     nulled.setNextEvictable(nullEntry);
