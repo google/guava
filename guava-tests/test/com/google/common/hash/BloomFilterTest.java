@@ -28,6 +28,8 @@ import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.math.RoundingMode;
 import java.util.Random;
 
@@ -436,6 +438,19 @@ public class BloomFilterTest extends TestCase {
     assertEquals(bf.expectedFpp(), copy.expectedFpp());
 
     SerializableTester.reserializeAndAssert(bf);
+  }
+
+  public void testCustomSerialization() throws Exception {
+    Funnel<byte[]> funnel = Funnels.byteArrayFunnel();
+    BloomFilter<byte[]> bf = BloomFilter.create(funnel, 100);
+    for (int i = 0; i < 100; i++) {
+      bf.put(Ints.toByteArray(i));
+    }
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    bf.writeTo(out);
+
+    assertEquals(bf, BloomFilter.readFrom(new ByteArrayInputStream(out.toByteArray()), funnel));
   }
 
   /**
