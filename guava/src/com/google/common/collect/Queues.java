@@ -294,7 +294,6 @@ public final class Queues {
    * @return a synchronized view of the specified queue
    * @since 14.0
    */
-  @Beta
   public static <E> Queue<E> synchronizedQueue(Queue<E> queue) {
     return Synchronized.queue(queue, null);
   }
