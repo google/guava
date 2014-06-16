@@ -371,7 +371,8 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   @VisibleForTesting
   static int optimalNumOfHashFunctions(long n, long m) {
-    return Math.max(1, (int) Math.round(m / n * Math.log(2)));
+    // (m / n) * log(2), but avoid truncation due to division!
+    return Math.max(1, (int) Math.round((double) m / n * Math.log(2)));
   }
 
   /**
