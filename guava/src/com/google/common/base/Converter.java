@@ -284,7 +284,14 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * <p>The returned converter is serializable if {@code this} converter and {@code secondConverter}
    * are.
    */
-  public <C> Converter<A, C> andThen(Converter<B, C> secondConverter) {
+  public final <C> Converter<A, C> andThen(Converter<B, C> secondConverter) {
+    return doAndThen(secondConverter);
+  }
+
+  /**
+   * Package-private non-final implementation of andThen() so only we can override it.
+   */
+  <C> Converter<A, C> doAndThen(Converter<B, C> secondConverter) {
     return new ConverterComposition<A, B, C>(this, checkNotNull(secondConverter));
   }
 
@@ -472,7 +479,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    public <S> Converter<T, S> andThen(Converter<T, S> otherConverter) {
+    <S> Converter<T, S> doAndThen(Converter<T, S> otherConverter) {
       return checkNotNull(otherConverter, "otherConverter");
     }
 
