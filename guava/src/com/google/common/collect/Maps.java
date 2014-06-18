@@ -2942,6 +2942,11 @@ public final class Maps {
     }
 
     @Override
+    public boolean isEmpty() {
+      return !Iterables.any(unfiltered.entrySet(), entryPredicate);
+    }
+
+    @Override
     @Nullable
     public V get(@Nullable Object key) {
       return filteredDelegate.get(key);
