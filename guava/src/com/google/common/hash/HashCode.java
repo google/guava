@@ -105,6 +105,12 @@ public abstract class HashCode {
   }
 
   /**
+   * Returns whether this {@code HashCode} and that {@code HashCode} have the same value, given that
+   * they have the same number of bits.
+   */
+  abstract boolean equalsSameBits(HashCode that);
+
+  /**
    * Creates a 32-bit {@code HashCode} representation of the given int value. The underlying bytes
    * are interpreted in little endian order.
    *
@@ -155,6 +161,10 @@ public abstract class HashCode {
       for (int i = 0; i < maxLength; i++) {
         dest[offset + i] = (byte) (hash >> (i * 8));
       }
+    }
+
+    @Override boolean equalsSameBits(HashCode that) {
+      return hash == that.asInt();
     }
 
     private static final long serialVersionUID = 0;
@@ -215,6 +225,11 @@ public abstract class HashCode {
       for (int i = 0; i < maxLength; i++) {
         dest[offset + i] = (byte) (hash >> (i * 8));
       }
+    }
+
+    @Override
+    boolean equalsSameBits(HashCode that) {
+      return hash == that.asLong();
     }
 
     private static final long serialVersionUID = 0;
@@ -292,6 +307,11 @@ public abstract class HashCode {
       return bytes;
     }
 
+    @Override
+    boolean equalsSameBits(HashCode that) {
+      return MessageDigest.isEqual(bytes, that.getBytesInternal());
+    }
+
     private static final long serialVersionUID = 0;
   }
 
@@ -334,9 +354,7 @@ public abstract class HashCode {
   public final boolean equals(@Nullable Object object) {
     if (object instanceof HashCode) {
       HashCode that = (HashCode) object;
-      // Undocumented: this is a non-short-circuiting equals(), in case this is a cryptographic
-      // hash code, in which case we don't want to leak timing information
-      return MessageDigest.isEqual(this.asBytes(), that.asBytes());
+      return bits() == that.bits() && equalsSameBits(that);
     }
     return false;
   }
