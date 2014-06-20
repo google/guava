@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 
 import java.io.IOException;
@@ -222,7 +222,7 @@ public final class Resources {
    * @throws IllegalArgumentException if the resource is not found
    */
   public static URL getResource(String resourceName) {
-    ClassLoader loader = Objects.firstNonNull(
+    ClassLoader loader = MoreObjects.firstNonNull(
         Thread.currentThread().getContextClassLoader(),
         Resources.class.getClassLoader());
     URL url = loader.getResource(resourceName);

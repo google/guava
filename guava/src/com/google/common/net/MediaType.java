@@ -30,6 +30,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableListMultimap;
@@ -440,7 +441,7 @@ public final class MediaType {
     builder.put(normalizedAttribute, normalizeParameterValue(normalizedAttribute, value));
     MediaType mediaType = new MediaType(type, subtype, builder.build());
     // Return one of the constants if the media type is a known type.
-    return Objects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
+    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
   }
 
   /**
@@ -565,7 +566,7 @@ public final class MediaType {
     }
     MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());
     // Return one of the constants if the media type is a known type.
-    return Objects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
+    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
   }
 
   private static String normalizeToken(String token) {

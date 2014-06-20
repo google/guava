@@ -16,7 +16,6 @@
 
 package com.google.common.cache;
 
-import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -24,6 +23,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
@@ -244,11 +244,11 @@ public final class CacheBuilder<K, V> {
   }
 
   Equivalence<Object> getKeyEquivalence() {
-    return firstNonNull(keyEquivalence, getKeyStrength().defaultEquivalence());
+    return MoreObjects.firstNonNull(keyEquivalence, getKeyStrength().defaultEquivalence());
   }
 
   Equivalence<Object> getValueEquivalence() {
-    return firstNonNull(valueEquivalence, getValueStrength().defaultEquivalence());
+    return MoreObjects.firstNonNull(valueEquivalence, getValueStrength().defaultEquivalence());
   }
 
   /**
@@ -351,7 +351,7 @@ public final class CacheBuilder<K, V> {
   // Make a safe contravariant cast now so we don't have to do it over and over.
   @SuppressWarnings("unchecked")
   <K1 extends K, V1 extends V> Weigher<K1, V1> getWeigher() {
-    return (Weigher<K1, V1>) Objects.firstNonNull(weigher, OneWeigher.INSTANCE);
+    return (Weigher<K1, V1>) MoreObjects.firstNonNull(weigher, OneWeigher.INSTANCE);
   }
 
   CacheBuilder<K, V> setKeyStrength(Strength strength) {
@@ -361,7 +361,7 @@ public final class CacheBuilder<K, V> {
   }
 
   Strength getKeyStrength() {
-    return firstNonNull(keyStrength, Strength.STRONG);
+    return MoreObjects.firstNonNull(keyStrength, Strength.STRONG);
   }
 
   CacheBuilder<K, V> setValueStrength(Strength strength) {
@@ -371,7 +371,7 @@ public final class CacheBuilder<K, V> {
   }
 
   Strength getValueStrength() {
-    return firstNonNull(valueStrength, Strength.STRONG);
+    return MoreObjects.firstNonNull(valueStrength, Strength.STRONG);
   }
 
   /**
@@ -502,7 +502,8 @@ public final class CacheBuilder<K, V> {
   // Make a safe contravariant cast now so we don't have to do it over and over.
   @SuppressWarnings("unchecked")
   <K1 extends K, V1 extends V> RemovalListener<K1, V1> getRemovalListener() {
-    return (RemovalListener<K1, V1>) Objects.firstNonNull(removalListener, NullListener.INSTANCE);
+    return (RemovalListener<K1, V1>)
+        MoreObjects.firstNonNull(removalListener, NullListener.INSTANCE);
   }
 
   /**

@@ -16,10 +16,10 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.MoreObjects;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -351,7 +351,7 @@ public class ImmutableSetMultimap<K, V>
   @Override public ImmutableSet<V> get(@Nullable K key) {
     // This cast is safe as its type is known in constructor.
     ImmutableSet<V> set = (ImmutableSet<V>) map.get(key);
-    return firstNonNull(set, emptySet);
+    return MoreObjects.firstNonNull(set, emptySet);
   }
 
   private transient ImmutableSetMultimap<V, K> inverse;

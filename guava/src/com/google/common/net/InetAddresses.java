@@ -17,7 +17,7 @@
 package com.google.common.net;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
@@ -646,8 +646,8 @@ public final class InetAddresses {
       Preconditions.checkArgument((flags >= 0) && (flags <= 0xffff),
           "flags '%s' is out of range (0 <= flags <= 0xffff)", flags);
       
-      this.server = Objects.firstNonNull(server, ANY4);
-      this.client = Objects.firstNonNull(client, ANY4);
+      this.server = MoreObjects.firstNonNull(server, ANY4);
+      this.client = MoreObjects.firstNonNull(client, ANY4);
       this.port = port;
       this.flags = flags;
     }

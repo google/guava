@@ -16,10 +16,9 @@
 
 package com.google.common.util.concurrent;
 
-import static com.google.common.base.Objects.firstNonNull;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
@@ -430,7 +429,7 @@ public abstract class Striped<L> {
       }
       L created = supplier.get();
       existing = locks.putIfAbsent(index, created);
-      return firstNonNull(existing, created);
+      return MoreObjects.firstNonNull(existing, created);
     }
 
     @Override public int size() {

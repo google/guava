@@ -14,7 +14,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -25,6 +24,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Throwables;
 import com.google.common.base.Ticker;
@@ -153,7 +153,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Equivalence<Object> getKeyEquivalence() {
-    return firstNonNull(keyEquivalence, getKeyStrength().defaultEquivalence());
+    return MoreObjects.firstNonNull(keyEquivalence, getKeyStrength().defaultEquivalence());
   }
 
   /**
@@ -278,7 +278,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Strength getKeyStrength() {
-    return firstNonNull(keyStrength, Strength.STRONG);
+    return MoreObjects.firstNonNull(keyStrength, Strength.STRONG);
   }
 
   /**
@@ -347,7 +347,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Strength getValueStrength() {
-    return firstNonNull(valueStrength, Strength.STRONG);
+    return MoreObjects.firstNonNull(valueStrength, Strength.STRONG);
   }
 
   /**
@@ -445,7 +445,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Ticker getTicker() {
-    return firstNonNull(ticker, Ticker.systemTicker());
+    return MoreObjects.firstNonNull(ticker, Ticker.systemTicker());
   }
 
   /**

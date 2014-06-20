@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.MapMaker.RemovalListener;
 import com.google.common.collect.MapMaker.RemovalNotification;
 
@@ -128,7 +128,7 @@ abstract class GenericMapMaker<K0, V0> {
   @SuppressWarnings("unchecked") // safe covariant cast
   @GwtIncompatible("To be supported")
   <K extends K0, V extends V0> RemovalListener<K, V> getRemovalListener() {
-    return (RemovalListener<K, V>) Objects.firstNonNull(removalListener, NullListener.INSTANCE);
+    return (RemovalListener<K, V>) MoreObjects.firstNonNull(removalListener, NullListener.INSTANCE);
   }
 
   /**
