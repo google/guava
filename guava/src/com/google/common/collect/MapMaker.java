@@ -25,7 +25,6 @@ import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.base.Throwables;
 import com.google.common.base.Ticker;
 import com.google.common.collect.MapMakerInternalMap.Strength;
@@ -594,7 +593,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @Override
   public String toString() {
-    Objects.ToStringHelper s = Objects.toStringHelper(this);
+    MoreObjects.ToStringHelper s = MoreObjects.toStringHelper(this);
     if (initialCapacity != UNSET_INT) {
       s.add("initialCapacity", initialCapacity);
     }

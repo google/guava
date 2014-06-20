@@ -26,7 +26,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.base.Ticker;
@@ -832,7 +831,7 @@ public final class CacheBuilder<K, V> {
    */
   @Override
   public String toString() {
-    Objects.ToStringHelper s = Objects.toStringHelper(this);
+    MoreObjects.ToStringHelper s = MoreObjects.toStringHelper(this);
     if (initialCapacity != UNSET_INT) {
       s.add("initialCapacity", initialCapacity);
     }

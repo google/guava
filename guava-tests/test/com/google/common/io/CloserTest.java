@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
@@ -422,7 +423,7 @@ public class CloserTest extends TestCase {
 
     @Override
     public String toString() {
-      return Objects.toStringHelper(this)
+      return MoreObjects.toStringHelper(this)
           .add("closeable", closeable)
           .add("thrown", thrown)
           .add("suppressed", suppressed)
