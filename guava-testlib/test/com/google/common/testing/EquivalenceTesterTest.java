@@ -21,7 +21,7 @@ import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 
@@ -199,7 +199,7 @@ public class EquivalenceTesterTest extends TestCase {
     }
 
     @Override public String toString() {
-      return Objects.toStringHelper("TestObject")
+      return MoreObjects.toStringHelper("TestObject")
           .add("group", group)
           .add("item", item)
           .toString();

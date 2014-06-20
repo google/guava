@@ -32,7 +32,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Collections2;
@@ -395,7 +395,7 @@ public final class ServiceManager {
   }
   
   @Override public String toString() {
-    return Objects.toStringHelper(ServiceManager.class)
+    return MoreObjects.toStringHelper(ServiceManager.class)
         .add("services", Collections2.filter(services, not(instanceOf(NoOpService.class))))
         .toString();
   }

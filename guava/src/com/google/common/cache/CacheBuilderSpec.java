@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.cache.LocalCache.Strength;
@@ -233,7 +234,7 @@ public final class CacheBuilderSpec {
    */
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).addValue(toParsableString()).toString();
+    return MoreObjects.toStringHelper(this).addValue(toParsableString()).toString();
   }
 
   @Override
