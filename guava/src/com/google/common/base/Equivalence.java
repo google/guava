@@ -326,7 +326,7 @@ public abstract class Equivalence<T> {
     @Override protected boolean doEquivalent(Object a, Object b) {
       return a.equals(b);
     }
-    @Override public int doHash(Object o) {
+    @Override protected int doHash(Object o) {
       return o.hashCode();
     }
 
