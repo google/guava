@@ -49,7 +49,7 @@ public final class MoreObjects {
    * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}.
    */
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
-    return Objects.firstNonNull(first, second);
+    return first != null ? first : checkNotNull(second);
   }
 
   /**
@@ -125,7 +125,8 @@ public final class MoreObjects {
    * {@link Class#getSimpleName()} is not GWT compatible yet, so we
    * provide our own implementation.
    */
-  private static String simpleName(Class<?> clazz) {
+  // Package-private so Objects can call it.
+  static String simpleName(Class<?> clazz) {
     String name = clazz.getName();
 
     // the nth anonymous class has a class name ending in "Outer$n"
