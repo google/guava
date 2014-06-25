@@ -62,7 +62,7 @@ public class HttpHeadersTest extends TestCase {
        * fields, they will cause similar problems, and we may want to switch
        * this check to isAccessible().
        */
-      if (!field.isSynthetic() && field.getType() == String.class) {
+      if (!field.isSynthetic()) {
         builder.add(field);
       }
     }
