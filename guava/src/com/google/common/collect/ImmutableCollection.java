@@ -61,7 +61,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
     if (size == 0) {
       return ObjectArrays.EMPTY_ARRAY;
     }
-    Object[] result = new Object[size()];
+    Object[] result = new Object[size];
     copyIntoArray(result, 0);
     return result;
   }
