@@ -219,8 +219,8 @@ public class ByteSourceTest extends IoTestCase {
 
   /**
    * @param input      the size of the input source
-   * @param offset     the first argument to {@link ByteStreams#slice}
-   * @param length     the second argument to {@link ByteStreams#slice}
+   * @param offset     the first argument to {@link ByteSource#slice}
+   * @param length     the second argument to {@link ByteSource#slice}
    * @param expectRead the number of bytes we expect to read
    */
   private static void assertCorrectSlice(

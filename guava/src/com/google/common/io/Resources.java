@@ -26,7 +26,6 @@ import com.google.common.collect.Lists;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -47,20 +46,6 @@ import java.util.List;
 @Beta
 public final class Resources {
   private Resources() {}
-
-  /**
-   * Returns a factory that will supply instances of {@link InputStream} that
-   * read from the given URL.
-   *
-   * @param url the URL to read from
-   * @return the factory
-   * @deprecated Use {@link #asByteSource(URL)} instead. This method is
-   *     scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static InputSupplier<InputStream> newInputStreamSupplier(URL url) {
-    return ByteStreams.asInputSupplier(asByteSource(url));
-  }
 
   /**
    * Returns a {@link ByteSource} that reads from the given URL.
@@ -91,23 +76,6 @@ public final class Resources {
     public String toString() {
       return "Resources.asByteSource(" + url + ")";
     }
-  }
-
-  /**
-   * Returns a factory that will supply instances of
-   * {@link InputStreamReader} that read a URL using the given character set.
-   *
-   * @param url the URL to read from
-   * @param charset the charset used to decode the input stream; see {@link
-   *     Charsets} for helpful predefined constants
-   * @return the factory
-   * @deprecated Use {@link #asCharSource(URL, Charset)} instead. This method
-   *     is scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static InputSupplier<InputStreamReader> newReaderSupplier(
-      URL url, Charset charset) {
-    return CharStreams.asInputSupplier(asCharSource(url, charset));
   }
 
   /**
@@ -158,7 +126,7 @@ public final class Resources {
    */
   public static <T> T readLines(URL url, Charset charset,
       LineProcessor<T> callback) throws IOException {
-    return CharStreams.readLines(newReaderSupplier(url, charset), callback);
+    return asCharSource(url, charset).readLines(callback);
   }
 
   /**

@@ -62,7 +62,7 @@ import javax.annotation.Nullable;
  * @since 14.0
  * @author Colin Decker
  */
-public abstract class CharSource implements InputSupplier<Reader> {
+public abstract class CharSource {
 
   /**
    * Constructor for use by subclasses.
@@ -78,21 +78,6 @@ public abstract class CharSource implements InputSupplier<Reader> {
    * @throws IOException if an I/O error occurs in the process of opening the reader
    */
   public abstract Reader openStream() throws IOException;
-
-  /**
-   * This method is a temporary method provided for easing migration from suppliers to sources and
-   * sinks.
-   *
-   * @since 15.0
-   * @deprecated This method is only provided for temporary compatibility with the
-   *     {@link InputSupplier} interface and should not be called directly. Use {@link #openStream}
-   *     instead. This method is scheduled for removal in Guava 18.0.
-   */
-  @Override
-  @Deprecated
-  public final Reader getInput() throws IOException {
-    return openStream();
-  }
 
   /**
    * Opens a new {@link BufferedReader} for reading from this source. This method should return a
