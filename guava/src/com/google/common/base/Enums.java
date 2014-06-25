@@ -63,61 +63,6 @@ public final class Enums {
   }
 
   /**
-   * Returns a {@link Function} that maps an {@link Enum} name to the associated {@code Enum}
-   * constant. The {@code Function} will return {@code null} if the {@code Enum} constant
-   * does not exist.
-   *
-   * @param enumClass the {@link Class} of the {@code Enum} declaring the constant values
-   * @deprecated Use {@link Enums#stringConverter} instead. Note that the string converter has
-   *     slightly different behavior: it throws {@link IllegalArgumentException} if the enum
-   *     constant does not exist rather than returning {@code null}. It also converts {@code null}
-   *     to {@code null} rather than throwing {@link NullPointerException}. This method is
-   *     scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static <T extends Enum<T>> Function<String, T> valueOfFunction(
-      Class<T> enumClass) {
-    return new ValueOfFunction<T>(enumClass);
-  }
-
-  /**
-   * A {@link Function} that maps an {@link Enum} name to the associated constant, or {@code null}
-   * if the constant does not exist.
-   */
-  private static final class ValueOfFunction<T extends Enum<T>>
-      implements Function<String, T>, Serializable {
-
-    private final Class<T> enumClass;
-
-    private ValueOfFunction(Class<T> enumClass) {
-      this.enumClass = checkNotNull(enumClass);
-    }
-
-    @Override
-    public T apply(String value) {
-      try {
-        return Enum.valueOf(enumClass, value);
-      } catch (IllegalArgumentException e) {
-        return null;
-      }
-    }
-
-    @Override public boolean equals(@Nullable Object obj) {
-      return obj instanceof ValueOfFunction && enumClass.equals(((ValueOfFunction) obj).enumClass);
-    }
-
-    @Override public int hashCode() {
-      return enumClass.hashCode();
-    }
-
-    @Override public String toString() {
-      return "Enums.valueOf(" + enumClass + ")";
-    }
-
-    private static final long serialVersionUID = 0;
-  }
-
-  /**
    * Returns an optional enum constant for the given type, using {@link Enum#valueOf}. If the
    * constant does not exist, {@link Optional#absent} is returned. A common use case is for parsing
    * user input or falling back to a default enum constant. For example,

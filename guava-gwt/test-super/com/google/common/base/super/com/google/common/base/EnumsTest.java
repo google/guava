@@ -17,7 +17,6 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
@@ -40,33 +39,6 @@ public class EnumsTest extends TestCase {
   }
 
   private enum OtherEnum {}
-
-  public void testValueOfFunction() {
-    Function<String, TestEnum> function = Enums.valueOfFunction(TestEnum.class);
-    assertEquals(TestEnum.CHEETO, function.apply("CHEETO"));
-    assertEquals(TestEnum.HONDA, function.apply("HONDA"));
-    assertEquals(TestEnum.POODLE, function.apply("POODLE"));
-  }
-
-  public void testValueOfFunction_caseSensitive() {
-    Function<String, TestEnum> function = Enums.valueOfFunction(TestEnum.class);
-    assertNull(function.apply("cHEETO"));
-    assertNull(function.apply("Honda"));
-    assertNull(function.apply("poodlE"));
-  }
-
-  public void testValueOfFunction_nullWhenNoMatchingConstant() {
-    Function<String, TestEnum> function = Enums.valueOfFunction(TestEnum.class);
-    assertNull(function.apply("WOMBAT"));
-  }
-
-  public void testValueOfFunction_equals() {
-    new EqualsTester()
-        .addEqualityGroup(
-            Enums.valueOfFunction(TestEnum.class), Enums.valueOfFunction(TestEnum.class))
-        .addEqualityGroup(Enums.valueOfFunction(OtherEnum.class))
-        .testEquals();
-  }
 
   public void testGetIfPresent() {
     assertEquals(Optional.of(TestEnum.CHEETO), Enums.getIfPresent(TestEnum.class, "CHEETO"));

@@ -57,24 +57,4 @@ public void testStringConverter_serialization() throws Exception {
   com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
   testCase.testStringConverter_serialization();
 }
-
-public void testValueOfFunction() throws Exception {
-  com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
-  testCase.testValueOfFunction();
-}
-
-public void testValueOfFunction_caseSensitive() throws Exception {
-  com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
-  testCase.testValueOfFunction_caseSensitive();
-}
-
-public void testValueOfFunction_equals() throws Exception {
-  com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
-  testCase.testValueOfFunction_equals();
-}
-
-public void testValueOfFunction_nullWhenNoMatchingConstant() throws Exception {
-  com.google.common.base.EnumsTest testCase = new com.google.common.base.EnumsTest();
-  testCase.testValueOfFunction_nullWhenNoMatchingConstant();
-}
 }

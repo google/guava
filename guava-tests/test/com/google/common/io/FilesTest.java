@@ -170,22 +170,6 @@ public class FilesTest extends IoTestCase {
         .isNotEqualTo(I18N);
   }
 
-  public void testCopyCharacters() throws IOException {
-    File i18nFile = getTestFile("i18n.txt");
-    File temp = createTempFile();
-    Files.copy(i18nFile, Charsets.UTF_8,
-        Files.asCharSink(temp, Charsets.UTF_8));
-    assertEquals(I18N, Files.toString(temp, Charsets.UTF_8));
-
-    Files.copy(Files.asCharSource(i18nFile, Charsets.UTF_8), temp,
-        Charsets.UTF_8);
-    assertEquals(I18N, Files.toString(temp, Charsets.UTF_8));
-
-    Files.copy(i18nFile, Charsets.UTF_8,
-        Files.asCharSink(temp, Charsets.UTF_16LE));
-    assertEquals(I18N, Files.toString(temp, Charsets.UTF_16LE));
-  }
-
   public void testWriteString() throws IOException {
     File temp = createTempFile();
     Files.write(I18N, temp, Charsets.UTF_16LE);
@@ -227,20 +211,6 @@ public class FilesTest extends IoTestCase {
     StringBuilder sb = new StringBuilder();
     Files.copy(i18nFile, Charsets.UTF_8, sb);
     assertEquals(I18N, sb.toString());
-  }
-
-  public void testCopyToByteSink() throws IOException {
-    File i18nFile = getTestFile("i18n.txt");
-    File temp = createTempFile();
-    Files.copy(i18nFile, Files.asByteSink(temp));
-    assertEquals(I18N, Files.toString(temp, Charsets.UTF_8));
-  }
-
-  public void testCopyFromByteSource() throws IOException {
-    File i18nFile = getTestFile("i18n.txt");
-    File temp = createTempFile();
-    Files.copy(Files.asByteSource(i18nFile), temp);
-    assertEquals(I18N, Files.toString(temp, Charsets.UTF_8));
   }
 
   public void testCopyFile() throws IOException {

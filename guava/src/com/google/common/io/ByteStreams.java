@@ -21,10 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
-import com.google.common.hash.HashCode;
-import com.google.common.hash.HashFunction;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -54,107 +50,6 @@ public final class ByteStreams {
   private static final int BUF_SIZE = 0x1000; // 4K
 
   private ByteStreams() {}
-
-  /**
-   * Returns a factory that will supply instances of
-   * {@link ByteArrayInputStream} that read from the given byte array.
-   *
-   * @param b the input buffer
-   * @return the factory
-   * @deprecated Use {@link ByteSource#wrap(byte[])} instead. This method is
-   *     scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static InputSupplier<ByteArrayInputStream> newInputStreamSupplier(
-      byte[] b) {
-    return asInputSupplier(ByteSource.wrap(b));
-  }
-
-  /**
-   * Returns a factory that will supply instances of
-   * {@link ByteArrayInputStream} that read from the given byte array.
-   *
-   * @param b the input buffer
-   * @param off the offset in the buffer of the first byte to read
-   * @param len the maximum number of bytes to read from the buffer
-   * @return the factory
-   * @deprecated Use {@code ByteSource.wrap(b).slice(off, len)} instead. This
-   *     method is scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static InputSupplier<ByteArrayInputStream> newInputStreamSupplier(
-      final byte[] b, final int off, final int len) {
-    return asInputSupplier(ByteSource.wrap(b).slice(off, len));
-  }
-
-  /**
-   * Writes a byte array to an output stream from the given supplier.
-   *
-   * @param from the bytes to write
-   * @param to the output supplier
-   * @throws IOException if an I/O error occurs
-   * @deprecated Use {@link ByteSink#write(byte[])} instead. This method is
-   *     scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static void write(byte[] from,
-      OutputSupplier<? extends OutputStream> to) throws IOException {
-    asByteSink(to).write(from);
-  }
-
-  /**
-   * Opens input and output streams from the given suppliers, copies all
-   * bytes from the input to the output, and closes the streams.
-   *
-   * @param from the input factory
-   * @param to the output factory
-   * @return the number of bytes copied
-   * @throws IOException if an I/O error occurs
-   * @deprecated Use {@link ByteSource#copyTo(ByteSink)} instead. This method
-   *     is scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static long copy(InputSupplier<? extends InputStream> from,
-      OutputSupplier<? extends OutputStream> to) throws IOException {
-    return asByteSource(from).copyTo(asByteSink(to));
-  }
-
-  /**
-   * Opens an input stream from the supplier, copies all bytes from the
-   * input to the output, and closes the input stream. Does not close
-   * or flush the output stream.
-   *
-   * @param from the input factory
-   * @param to the output stream to write to
-   * @return the number of bytes copied
-   * @throws IOException if an I/O error occurs
-   * @deprecated Use {@link ByteSource#copyTo(OutputStream)} instead. This
-   *      method is scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static long copy(InputSupplier<? extends InputStream> from,
-      OutputStream to) throws IOException {
-    return asByteSource(from).copyTo(to);
-  }
-
-  /**
-   * Opens an output stream from the supplier, copies all bytes from the input
-   * to the output, and closes the output stream. Does not close or flush the
-   * input stream.
-   *
-   * @param from the input stream to read from
-   * @param to the output factory
-   * @return the number of bytes copied
-   * @throws IOException if an I/O error occurs
-   * @since 10.0
-   * @deprecated Use {@link ByteSink#writeFrom(InputStream)} instead. This
-   *     method is scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static long copy(InputStream from,
-      OutputSupplier<? extends OutputStream> to) throws IOException {
-    return asByteSink(to).writeFrom(from);
-  }
 
   /**
    * Copies all bytes from the input stream to the output stream.
@@ -272,20 +167,6 @@ public final class ByteStreams {
     void writeTo(byte[] b, int off) {
       System.arraycopy(buf, 0, b, off, count);
     }
-  }
-
-  /**
-   * Returns the data from a {@link InputStream} factory as a byte array.
-   *
-   * @param supplier the factory
-   * @throws IOException if an I/O error occurs
-   * @deprecated Use {@link ByteSource#read()} instead. This method is
-   *     scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static byte[] toByteArray(
-      InputSupplier<? extends InputStream> supplier) throws IOException {
-    return asByteSource(supplier).read();
   }
 
   /**
@@ -727,31 +608,6 @@ public final class ByteStreams {
   }
 
   /**
-   * Returns the length of a supplied input stream, in bytes.
-   *
-   * @deprecated Use {@link ByteSource#size()} instead. This method is
-   *     scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static long length(
-      InputSupplier<? extends InputStream> supplier) throws IOException {
-    return asByteSource(supplier).size();
-  }
-
-  /**
-   * Returns true if the supplied input streams contain the same bytes.
-   *
-   * @throws IOException if an I/O error occurs
-   * @deprecated Use {@link ByteSource#contentEquals(ByteSource)} instead. This
-   *     method is scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static boolean equal(InputSupplier<? extends InputStream> supplier1,
-      InputSupplier<? extends InputStream> supplier2) throws IOException {
-    return asByteSource(supplier1).contentEquals(asByteSource(supplier2));
-  }
-
-  /**
    * Attempts to read enough bytes from the stream to fill the given byte array,
    * with the same behavior as {@link DataInput#readFully(byte[])}.
    * Does not close the stream.
@@ -820,34 +676,6 @@ public final class ByteStreams {
   }
 
   /**
-   * Process the bytes of a supplied stream
-   *
-   * @param supplier the input stream factory
-   * @param processor the object to which to pass the bytes of the stream
-   * @return the result of the byte processor
-   * @throws IOException if an I/O error occurs
-   * @deprecated Use {@link ByteSource#read(ByteProcessor)} instead. This
-   *     method is scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static <T> T readBytes(
-      InputSupplier<? extends InputStream> supplier,
-      ByteProcessor<T> processor) throws IOException {
-    checkNotNull(supplier);
-    checkNotNull(processor);
-
-    Closer closer = Closer.create();
-    try {
-      InputStream in = closer.register(supplier.getInput());
-      return readBytes(in, processor);
-    } catch (Throwable e) {
-      throw closer.rethrow(e);
-    } finally {
-      closer.close();
-    }
-  }
-
-  /**
    * Process the bytes of the given input stream using the given processor.
    *
    * @param input the input stream to process
@@ -867,25 +695,6 @@ public final class ByteStreams {
       read = input.read(buf);
     } while (read != -1 && processor.processBytes(buf, 0, read));
     return processor.getResult();
-  }
-
-  /**
-   * Computes the hash code of the data supplied by {@code supplier} using {@code
-   * hashFunction}.
-   *
-   * @param supplier the input stream factory
-   * @param hashFunction the hash function to use to hash the data
-   * @return the {@link HashCode} of all of the bytes in the input stream
-   * @throws IOException if an I/O error occurs
-   * @since 12.0
-   * @deprecated Use {@link ByteSource#hash(HashFunction)} instead. This method
-   *     is scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static HashCode hash(
-      InputSupplier<? extends InputStream> supplier, HashFunction hashFunction)
-      throws IOException {
-    return asByteSource(supplier).hash(hashFunction);
   }
 
   /**
@@ -928,144 +737,5 @@ public final class ByteStreams {
       total += result;
     }
     return total;
-  }
-
-  /**
-   * Returns an {@link InputSupplier} that returns input streams from the
-   * an underlying supplier, where each stream starts at the given
-   * offset and is limited to the specified number of bytes.
-   *
-   * @param supplier the supplier from which to get the raw streams
-   * @param offset the offset in bytes into the underlying stream where
-   *     the returned streams will start
-   * @param length the maximum length of the returned streams
-   * @throws IllegalArgumentException if offset or length are negative
-   * @deprecated Use {@link ByteSource#slice(int, int)} instead. This method is
-   *     scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static InputSupplier<InputStream> slice(
-      final InputSupplier<? extends InputStream> supplier,
-      final long offset,
-      final long length) {
-    return asInputSupplier(asByteSource(supplier).slice(offset, length));
-  }
-
-  /**
-   * Joins multiple {@link InputStream} suppliers into a single supplier.
-   * Streams returned from the supplier will contain the concatenated data from
-   * the streams of the underlying suppliers.
-   *
-   * <p>Only one underlying input stream will be open at a time. Closing the
-   * joined stream will close the open underlying stream.
-   *
-   * <p>Reading from the joined stream will throw a {@link NullPointerException}
-   * if any of the suppliers are null or return null.
-   *
-   * @param suppliers the suppliers to concatenate
-   * @return a supplier that will return a stream containing the concatenated
-   *     stream data
-   * @deprecated Use {@link ByteSource#concat(Iterable)} instead. This method
-   *     is scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static InputSupplier<InputStream> join(
-      final Iterable<? extends InputSupplier<? extends InputStream>> suppliers) {
-    checkNotNull(suppliers);
-    Iterable<ByteSource> sources = Iterables.transform(suppliers,
-        new Function<InputSupplier<? extends InputStream>, ByteSource>() {
-          @Override
-          public ByteSource apply(InputSupplier<? extends InputStream> input) {
-            return asByteSource(input);
-          }
-        });
-    return asInputSupplier(ByteSource.concat(sources));
-  }
-
-  /**
-   * Varargs form of {@link #join(Iterable)}.
-   *
-   * @deprecated Use {@link ByteSource#concat(ByteSource[])} instead. This
-   *     method is scheduled for removal in Guava 18.0.
-   */
-  @Deprecated
-  @SuppressWarnings("unchecked") // suppress "possible heap pollution" warning in JDK7
-  public static InputSupplier<InputStream> join(
-      InputSupplier<? extends InputStream>... suppliers) {
-    return join(Arrays.asList(suppliers));
-  }
-
-  // TODO(user): Remove these once Input/OutputSupplier methods are removed
-
-  /**
-   * Returns a view of the given {@code InputStream} supplier as a
-   * {@code ByteSource}.
-   *
-   * <p>This method is a temporary method provided for easing migration from
-   * suppliers to sources and sinks.
-   *
-   * @since 15.0
-   * @deprecated Convert all {@code InputSupplier<? extends InputStream>}
-   *     implementations to extend {@link ByteSource} or provide a method for
-   *     viewing the object as a {@code ByteSource}. This method is scheduled
-   *     for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static ByteSource asByteSource(
-      final InputSupplier<? extends InputStream> supplier) {
-    checkNotNull(supplier);
-    return new ByteSource() {
-      @Override
-      public InputStream openStream() throws IOException {
-        return supplier.getInput();
-      }
-
-      @Override
-      public String toString() {
-        return "ByteStreams.asByteSource(" + supplier + ")";
-      }
-    };
-  }
-
-  /**
-   * Returns a view of the given {@code OutputStream} supplier as a
-   * {@code ByteSink}.
-   *
-   * <p>This method is a temporary method provided for easing migration from
-   * suppliers to sources and sinks.
-   *
-   * @since 15.0
-   * @deprecated Convert all {@code OutputSupplier<? extends OutputStream>}
-   *     implementations to extend {@link ByteSink} or provide a method for
-   *     viewing the object as a {@code ByteSink}. This method is scheduled
-   *     for removal in Guava 18.0.
-   */
-  @Deprecated
-  public static ByteSink asByteSink(
-      final OutputSupplier<? extends OutputStream> supplier) {
-    checkNotNull(supplier);
-    return new ByteSink() {
-      @Override
-      public OutputStream openStream() throws IOException {
-        return supplier.getOutput();
-      }
-
-      @Override
-      public String toString() {
-        return "ByteStreams.asByteSink(" + supplier + ")";
-      }
-    };
-  }
-
-  @SuppressWarnings("unchecked") // used internally where known to be safe
-  static <S extends InputStream> InputSupplier<S> asInputSupplier(
-      final ByteSource source) {
-    return (InputSupplier) checkNotNull(source);
-  }
-
-  @SuppressWarnings("unchecked") // used internally where known to be safe
-  static <S extends OutputStream> OutputSupplier<S> asOutputSupplier(
-      final ByteSink sink) {
-    return (OutputSupplier) checkNotNull(sink);
   }
 }
