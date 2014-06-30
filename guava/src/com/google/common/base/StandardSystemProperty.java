@@ -19,6 +19,8 @@ package com.google.common.base;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 
+import javax.annotation.Nullable;
+
 /**
  * Represents a {@linkplain System#getProperties() standard system property}.
  *
@@ -130,6 +132,7 @@ public enum StandardSystemProperty {
    * Returns the current value for this system property by delegating to
    * {@link System#getProperty(String)}.
    */
+  @Nullable
   public String value() {
     return System.getProperty(key);
   }

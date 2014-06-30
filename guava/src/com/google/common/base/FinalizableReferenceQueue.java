@@ -30,6 +30,8 @@ import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.Nullable;
+
 /**
  * A reference queue with an associated background thread that dequeues references and invokes
  * {@link FinalizableReference#finalizeReferent()} on them.
@@ -228,6 +230,7 @@ public class FinalizableReferenceQueue implements Closeable {
      *
      * @throws SecurityException if we don't have the appropriate privileges
      */
+    @Nullable
     Class<?> loadFinalizer();
   }
 
