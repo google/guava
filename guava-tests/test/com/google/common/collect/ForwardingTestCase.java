@@ -115,6 +115,28 @@ public abstract class ForwardingTestCase extends TestCase {
       return Iterators.emptyModifiableIterator();
     } else if (returnType.isArray()) {
       return Array.newInstance(returnType.getComponentType(), 0);
+    } else if ("java.util.function.Predicate".equals(returnType.getCanonicalName())
+        || ("java.util.function.Consumer".equals(returnType.getCanonicalName()))) {
+      // Generally, methods that accept java.util.function.* instances
+      // don't like to get null values.  We generate them dynamically
+      // using Proxy so that we can have Java 7 compliant code.
+      InvocationHandler handler = new InvocationHandler() {
+          @Override public Object invoke(Object proxy, Method method,
+              Object[] args) {
+            // Crude, but acceptable until we can use Java 8.  Other
+            // methods have default implementations, and it is hard to
+            // distinguish.
+            if ("test".equals(method.getName())
+                || "accept".equals(method.getName())) {
+              return getDefaultValue(method.getReturnType());
+            }
+            throw new IllegalStateException(
+                "Unexpected " + method + " invoked on " + proxy);
+          }
+        };
+      return Proxy.newProxyInstance(returnType.getClassLoader(),
+          new Class[] { returnType },
+          handler);
     } else {
       return null;
     }
