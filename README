@@ -32,9 +32,9 @@ release in which they are first deprecated. You must fix your
 references before this time. If you don't, any manner of breakage
 could result (you are not guaranteed a compilation error).
 
-3. Serialized forms of ALL objects are subject to change. Do not
-persist these and assume they can be read by a future version of the
-library.
+3. Serialized forms of ALL objects are subject to change unless noted
+otherwise. Do not persist these and assume they can be read by a
+future version of the library.
 
 4. Our classes are not designed to protect against a malicious caller.
 You should not use them for communication between trusted and
