@@ -27,7 +27,6 @@ import static com.google.common.collect.testing.testers.MapPutAllTester.getPutAl
 import static com.google.common.collect.testing.testers.MapPutTester.getPutNullKeyUnsupportedMethod;
 
 import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -39,6 +38,10 @@ import java.util.Map;
  * tests that trip known bugs in OpenJDK 6 or higher.
  *
  * @author Kevin Bourrillion
+ */
+/*
+ * TODO(cpovirk): consider renaming this class in light of our now running it
+ * under JDK7
  */
 public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
   public static Test suite() {
@@ -79,12 +82,5 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
     return Arrays.asList(
         getContainsEntryWithIncomparableKeyMethod(),
         getContainsEntryWithIncomparableValueMethod()); 
-  }
-
-  @Override public Test testsForEnumMap() {
-    // Do nothing.
-    // TODO: work around the reused-entry problem
-    // http://bugs.sun.com/view_bug.do?bug_id=6312706
-    return new TestSuite();
   }
 }
