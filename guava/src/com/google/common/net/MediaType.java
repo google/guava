@@ -282,6 +282,15 @@ public final class MediaType {
   public static final MediaType KML = createConstant(APPLICATION_TYPE, "vnd.google-earth.kml+xml");
   public static final MediaType KMZ = createConstant(APPLICATION_TYPE, "vnd.google-earth.kmz");
   public static final MediaType MBOX = createConstant(APPLICATION_TYPE, "mbox");
+
+  /**
+   * Media type for
+   * <a href="http://goo.gl/1pGBFm">Apple over-the-air mobile configuration profiles</a>.
+   *
+   * @since 18.0
+   */
+  public static final MediaType APPLE_MOBILE_CONFIG =
+      createConstant(APPLICATION_TYPE, "x-apple-aspen-config");
   public static final MediaType MICROSOFT_EXCEL = createConstant(APPLICATION_TYPE, "vnd.ms-excel");
   public static final MediaType MICROSOFT_POWERPOINT =
       createConstant(APPLICATION_TYPE, "vnd.ms-powerpoint");
