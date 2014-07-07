@@ -99,7 +99,7 @@ public final class Futures {
    * @since 9.0 (source-compatible since 1.0)
    */
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
-      ListenableFuture<V> future, Function<Exception, X> mapper) {
+      ListenableFuture<V> future, Function<? super Exception, X> mapper) {
     return new MappingCheckedFuture<V, X>(checkNotNull(future), mapper);
   }
 
@@ -1803,10 +1803,10 @@ public final class Futures {
   private static class MappingCheckedFuture<V, X extends Exception> extends
       AbstractCheckedFuture<V, X> {
 
-    final Function<Exception, X> mapper;
+    final Function<? super Exception, X> mapper;
 
     MappingCheckedFuture(ListenableFuture<V> delegate,
-        Function<Exception, X> mapper) {
+        Function<? super Exception, X> mapper) {
       super(delegate);
 
       this.mapper = checkNotNull(mapper);
