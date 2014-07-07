@@ -27,7 +27,7 @@ removed, at any time. If your code is a library itself (i.e. it is
 used on the CLASSPATH of users outside your own control), you should
 not use beta APIs, unless you repackage them (e.g. using ProGuard).
 
-2. Deprecated non-beta APIs will be removed eighteen months after the
+2. Deprecated non-beta APIs will be removed two years after the
 release in which they are first deprecated. You must fix your
 references before this time. If you don't, any manner of breakage
 could result (you are not guaranteed a compilation error).
@@ -40,7 +40,7 @@ library.
 You should not use them for communication between trusted and
 untrusted code.
 
-5. We unit-test and benchmark the libraries using only OpenJDK 1.6 on
+5. We unit-test and benchmark the libraries using only OpenJDK 1.7 on
 Linux. Some features, especially in com.google.common.io, may not work
 correctly in other environments.
 
