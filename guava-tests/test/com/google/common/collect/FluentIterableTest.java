@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -66,6 +67,11 @@ public class FluentIterableTest extends TestCase {
   public void testFrom_alreadyFluentIterable() {
     FluentIterable<Integer> iterable = FluentIterable.from(asList(1));
     assertSame(iterable, FluentIterable.from(iterable));
+  }
+
+  public void testOfArray() {
+    assertEquals(ImmutableList.of("1", "2", "3", "4"),
+        Lists.newArrayList(FluentIterable.of(new Object[] {"1", "2", "3", "4"})));
   }
 
   public void testSize1Collection() {
@@ -158,6 +164,32 @@ public class FluentIterableTest extends TestCase {
     iterator.remove();
     assertFalse(iterator.hasNext());
     assertFalse(cycle.iterator().hasNext());
+  }
+
+  public void testAppend() {
+    FluentIterable<Integer> result =
+        FluentIterable.<Integer>from(asList(1, 2, 3)).append(Lists.newArrayList(4, 5, 6));
+    assertEquals(asList(1, 2, 3, 4, 5, 6), Lists.newArrayList(result));
+    assertEquals("[1, 2, 3, 4, 5, 6]", result.toString());
+
+    result = FluentIterable.<Integer>from(asList(1, 2, 3)).append(4, 5, 6);
+    assertEquals(asList(1, 2, 3, 4, 5, 6), Lists.newArrayList(result));
+    assertEquals("[1, 2, 3, 4, 5, 6]", result.toString());
+  }
+
+  public void testAppend_emptyList() {
+    FluentIterable<Integer> result =
+        FluentIterable.<Integer>from(asList(1, 2, 3)).append(Lists.<Integer>newArrayList());
+    assertEquals(asList(1, 2, 3), Lists.newArrayList(result));
+  }
+
+  @SuppressWarnings("ReturnValueIgnored")
+  public void testAppend_nullPointerException() {
+    try {
+      FluentIterable.<Integer>from(asList(1, 2)).append((List<Integer>) null);
+      fail("Appending null iterable should throw NPE.");
+    } catch (NullPointerException expected) {
+    }
   }
 
   /*
@@ -684,6 +716,14 @@ public class FluentIterableTest extends TestCase {
 
     ASSERT.that(FluentIterable.from(iterable).copyInto(list))
         .has().exactly(1, 2, 3, 9, 8, 7).inOrder();
+  }
+
+  public void testJoin() {
+    assertEquals("2,1,3,4", fluent(2, 1, 3, 4).join(Joiner.on(",")));
+  }
+
+  public void testJoin_empty() {
+    assertEquals("", fluent().join(Joiner.on(",")));
   }
 
   public void testGet() {
