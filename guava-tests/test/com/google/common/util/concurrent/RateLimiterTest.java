@@ -297,18 +297,40 @@ public class RateLimiterTest extends TestCase {
     limiter.acquire(Integer.MAX_VALUE);
     assertEvents("R0.00", "R0.00", "R0.00"); // no wait, infinite rate!
 
-    limiter.setRate(1.0);
+    limiter.setRate(2.0);
     limiter.acquire();
     limiter.acquire();
     limiter.acquire();
-    assertEvents("R0.00", "R1.00", "R1.00"); // we repay the last request (but that had no cost)
-    // and then we go to 1 second per request mode
+    limiter.acquire();
+    limiter.acquire();
+    assertEvents(
+        "R0.00", // First comes the saved-up burst, which defaults to a 1-second burst (2 requests).
+        "R0.00",
+        "R0.00", // Now comes the free request.
+        "R0.50", // Now it's 0.5 seconds per request.
+        "R0.50");
 
     limiter.setRate(Double.POSITIVE_INFINITY);
     limiter.acquire();
     limiter.acquire();
     limiter.acquire();
-    assertEvents("R1.00", "R0.00", "R0.00"); // we repay the last request (1sec), then back to +oo
+    assertEvents("R0.50", "R0.00", "R0.00"); // we repay the last request (.5sec), then back to +oo
+  }
+
+  /** https://code.google.com/p/guava-libraries/issues/detail?id=1791 */
+  public void testInfinity_BustyTimeElapsed() {
+    RateLimiter limiter = RateLimiter.create(stopwatch, Double.POSITIVE_INFINITY);
+    stopwatch.instant += 1000000;
+    limiter.setRate(2.0);
+    for (int i = 0; i < 5; i++) {
+      limiter.acquire();
+    }
+    assertEvents(
+        "R0.00", // First comes the saved-up burst, which defaults to a 1-second burst (2 requests).
+        "R0.00",
+        "R0.00", // Now comes the free request.
+        "R0.50", // Now it's 0.5 seconds per request.
+        "R0.50");
   }
 
   public void testInfinity_WarmUp() {
@@ -330,6 +352,16 @@ public class RateLimiterTest extends TestCase {
     limiter.acquire();
     limiter.acquire();
     assertEvents("R1.00", "R0.00", "R0.00");
+  }
+
+  public void testInfinity_WarmUpTimeElapsed() {
+    RateLimiter limiter = RateLimiter.create(stopwatch, Double.POSITIVE_INFINITY, 10, SECONDS);
+    stopwatch.instant += 1000000;
+    limiter.setRate(1.0);
+    for (int i = 0; i < 5; i++) {
+      limiter.acquire();
+    }
+    assertEvents("R0.00", "R1.00", "R1.00", "R1.00", "R1.00");
   }
 
   /**
