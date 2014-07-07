@@ -136,4 +136,16 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   public static Method getAddNullUnsupportedMethod() {
     return Helpers.getMethod(CollectionAddTester.class, "testAdd_nullUnsupported");
   }
+
+  /**
+   * Returns the {@link Method} instance for {@link
+   * #testAdd_unsupportedNotPresent()} so that tests can suppress it with
+   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we figure out
+   * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
+   * support for {@code entrySet().add()}</a>.
+   */
+  @GwtIncompatible("reflection")
+  public static Method getAddUnsupportedNotPresentMethod() {
+    return Helpers.getMethod(CollectionAddTester.class, "testAdd_unsupportedNotPresent");
+  }
 }
