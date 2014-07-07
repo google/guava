@@ -290,9 +290,14 @@ abstract class SmoothRateLimiter extends RateLimiter {
     void doSetRate(double permitsPerSecond, double stableIntervalMicros) {
       double oldMaxPermits = this.maxPermits;
       maxPermits = maxBurstSeconds * permitsPerSecond;
-      storedPermits = (oldMaxPermits == 0.0)
-          ? 0.0 // initial state
-          : storedPermits * maxPermits / oldMaxPermits;
+      if (oldMaxPermits == Double.POSITIVE_INFINITY) {
+        // if we don't special-case this, we would get storedPermits == NaN, below
+        storedPermits = maxPermits;
+      } else {
+        storedPermits = (oldMaxPermits == 0.0)
+            ? 0.0 // initial state
+            : storedPermits * maxPermits / oldMaxPermits;
+      }
     }
   
     @Override
