@@ -174,4 +174,28 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   public static Method getAddAllNullUnsupportedMethod() {
     return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_nullUnsupported");
   }
+
+  /**
+   * Returns the {@link Method} instance for {@link
+   * #testAddAll_unsupportedNonePresent()} so that tests can suppress it with
+   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we figure out
+   * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
+   * support for {@code entrySet().add()}</a>.
+   */
+  @GwtIncompatible("reflection")
+  public static Method getAddAllUnsupportedNonePresentMethod() {
+    return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedNonePresent");
+  }
+
+  /**
+   * Returns the {@link Method} instance for {@link
+   * #testAddAll_unsupportedSomePresent()} so that tests can suppress it with
+   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we figure out
+   * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
+   * support for {@code entrySet().add()}</a>.
+   */
+  @GwtIncompatible("reflection")
+  public static Method getAddAllUnsupportedSomePresentMethod() {
+    return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedSomePresent");
+  }
 }
