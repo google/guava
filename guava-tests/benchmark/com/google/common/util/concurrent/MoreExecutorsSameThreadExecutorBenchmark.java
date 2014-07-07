@@ -65,7 +65,7 @@ public class MoreExecutorsSameThreadExecutorBenchmark {
   
   CountingRunnable countingRunnable = new CountingRunnable();
 
-  Set<Thread> threads = new HashSet<>();
+  Set<Thread> threads = new HashSet<Thread>();
   
   @BeforeExperiment void before() {
     executor = impl.executor();
