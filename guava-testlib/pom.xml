@@ -29,7 +29,7 @@
       <scope>compile</scope><!-- testlib must carry these transitively -->
     </dependency>
     <dependency>
-      <groupId>org.truth0</groupId>
+      <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
       <scope>compile</scope><!-- testlib must carry these transitively -->
     </dependency>

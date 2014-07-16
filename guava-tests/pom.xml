@@ -38,7 +38,7 @@
       <artifactId>mockito-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.truth0</groupId>
+      <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
     </dependency>
     <dependency>
