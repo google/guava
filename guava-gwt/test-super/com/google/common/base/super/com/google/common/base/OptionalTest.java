@@ -16,7 +16,7 @@
 
 package com.google.common.base;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.FluentIterable;
@@ -218,34 +218,34 @@ public final class OptionalTest extends TestCase {
   public void testPresentInstances_allPresent() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.of("b"), Optional.of("c"));
-    ASSERT.that(Optional.presentInstances(optionals)).iteratesAs("a", "b", "c");
+    assertThat(Optional.presentInstances(optionals)).iteratesAs("a", "b", "c");
   }
 
   public void testPresentInstances_allAbsent() {
     List<Optional<Object>> optionals =
         ImmutableList.of(Optional.absent(), Optional.absent());
-    ASSERT.that(Optional.presentInstances(optionals)).isEmpty();
+    assertThat(Optional.presentInstances(optionals)).isEmpty();
   }
 
   public void testPresentInstances_somePresent() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
-    ASSERT.that(Optional.presentInstances(optionals)).iteratesAs("a", "c");
+    assertThat(Optional.presentInstances(optionals)).iteratesAs("a", "c");
   }
 
   public void testPresentInstances_callingIteratorTwice() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
     Iterable<String> onlyPresent = Optional.presentInstances(optionals);
-    ASSERT.that(onlyPresent).iteratesAs("a", "c");
-    ASSERT.that(onlyPresent).iteratesAs("a", "c");
+    assertThat(onlyPresent).iteratesAs("a", "c");
+    assertThat(onlyPresent).iteratesAs("a", "c");
   }
 
   public void testPresentInstances_wildcards() {
     List<Optional<? extends Number>> optionals =
         ImmutableList.<Optional<? extends Number>>of(Optional.<Double>absent(), Optional.of(2));
     Iterable<Number> onlyPresent = Optional.presentInstances(optionals);
-    ASSERT.that(onlyPresent).iteratesAs(2);
+    assertThat(onlyPresent).iteratesAs(2);
   }
 
   private static Optional<Integer> getSomeOptionalInt() {
