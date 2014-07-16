@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -115,6 +116,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 18.0
    */
+  @Beta
   public static <E> FluentIterable<E> of(E[] elements) {
     return from(Lists.newArrayList(elements));
   }
@@ -170,6 +172,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 18.0
    */
+  @Beta
   @CheckReturnValue
   public final FluentIterable<E> append(Iterable<? extends E> other) {
     return from(Iterables.concat(iterable, other));
@@ -181,6 +184,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 18.0
    */
+  @Beta
   @CheckReturnValue
   public final FluentIterable<E> append(E... elements) {
     return from(Iterables.concat(iterable, Arrays.asList(elements)));
@@ -496,6 +500,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 18.0
    */
+  @Beta
   public final String join(Joiner joiner) {
     return joiner.join(this);
   }
