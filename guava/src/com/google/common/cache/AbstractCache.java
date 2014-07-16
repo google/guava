@@ -71,7 +71,10 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
       if (!result.containsKey(key)) {
         @SuppressWarnings("unchecked")
         K castKey = (K) key;
-        result.put(castKey, getIfPresent(key));
+        V value = getIfPresent(key);
+        if (value != null) {
+          result.put(castKey, value);
+        }
       }
     }
     return ImmutableMap.copyOf(result);

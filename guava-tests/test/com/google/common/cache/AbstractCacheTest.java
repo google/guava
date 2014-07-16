@@ -19,6 +19,7 @@ package com.google.common.cache;
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 import junit.framework.TestCase;
@@ -33,7 +34,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class AbstractCacheTest extends TestCase {
 
-  public void testGetAllPresent() {
+  public void testGetIfPresent() {
     final AtomicReference<Object> valueRef = new AtomicReference<Object>();
     Cache<Object, Object> cache = new AbstractCache<Object, Object>() {
       @Override
@@ -47,6 +48,34 @@ public class AbstractCacheTest extends TestCase {
     Object newValue = new Object();
     valueRef.set(newValue);
     assertSame(newValue, cache.getIfPresent(new Object()));
+  }
+
+  public void testGetAllPresent_empty() {
+    Cache<Object, Object> cache = new AbstractCache<Object, Object>() {
+      @Override
+      public Object getIfPresent(Object key) {
+        return null;
+      }
+    };
+
+    assertEquals(
+        ImmutableMap.of(),
+        cache.getAllPresent(ImmutableList.of(new Object())));
+  }
+
+  public void testGetAllPresent_cached() {
+    final Object cachedKey = new Object();
+    final Object cachedValue = new Object();
+    Cache<Object, Object> cache = new AbstractCache<Object, Object>() {
+      @Override
+      public Object getIfPresent(Object key) {
+        return cachedKey.equals(key) ? cachedValue : null;
+      }
+    };
+
+    assertEquals(
+        ImmutableMap.of(cachedKey, cachedValue),
+        cache.getAllPresent(ImmutableList.of(cachedKey, new Object())));
   }
 
   public void testInvalidateAll() {
