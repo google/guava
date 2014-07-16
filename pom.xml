@@ -19,7 +19,7 @@
     <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>**/*Test.java</test.include>
-    <truth.version>0.20</truth.version>
+    <truth.version>0.22</truth.version>
     <bootstrap.classes>${java.home}/lib/rt.jar</bootstrap.classes>
   </properties>
   <issueManagement>
@@ -223,7 +223,7 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.truth0</groupId>
+        <groupId>com.google.truth</groupId>
         <artifactId>truth</artifactId>
         <version>${truth.version}</version>
         <scope>test</scope>

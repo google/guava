@@ -67,7 +67,7 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.truth0</groupId>
+      <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
       <version>${truth.version}</version>
       <classifier>gwt</classifier>

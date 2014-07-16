@@ -27,10 +27,9 @@ import com.google.common.primitives.Primitives;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import com.google.common.truth.CollectionSubject;
 
 import junit.framework.TestCase;
-
-import org.truth0.subjects.CollectionSubject;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -1509,7 +1508,7 @@ public class TypeTokenTest extends TestCase {
   private static <T, X> TypeToken<T> substitute(TypeToken<T> type, Class<X> arg) {
     return type.where(new TypeParameter<X>() {}, arg);
   }
-  
+
   private abstract static class ToReproduceGenericSignatureFormatError<V> {
     private abstract class BaseOuter {
       abstract class BaseInner {}
