@@ -265,11 +265,11 @@ public final class MoreExecutors {
    *        >mostly source-compatible</a> since 3.0)
    */
   public static ListeningExecutorService sameThreadExecutor() {
-    return new SameThreadExecutorService();
+    return new DirectExecutorService();
   }
 
   // See sameThreadExecutor javadoc for behavioral notes.
-  private static class SameThreadExecutorService
+  private static class DirectExecutorService
       extends AbstractListeningExecutorService {
     /**
      * Lock used whenever accessing the state variables
