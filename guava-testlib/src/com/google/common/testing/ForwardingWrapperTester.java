@@ -31,6 +31,7 @@ import com.google.common.reflect.Reflection;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -74,6 +75,12 @@ public final class ForwardingWrapperTester {
     Method[] methods = getMostConcreteMethods(interfaceType);
     AccessibleObject.setAccessible(methods, true);
     for (Method method : methods) {
+      // Under java 8, interfaces can have default methods that aren't abstract.
+      // No need to verify them.
+      // Can't check isDefault() for JDK 7 compatibility.
+      if (!Modifier.isAbstract(method.getModifiers())) {
+        continue;
+      }
       // The interface could be package-private or private.
       // filter out equals/hashCode/toString
       if (method.getName().equals("equals")
