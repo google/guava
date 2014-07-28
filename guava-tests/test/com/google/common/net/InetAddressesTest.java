@@ -724,4 +724,51 @@ public class InetAddressesTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {}
   }
+
+  public void testDecrementIPv4() throws UnknownHostException {
+    InetAddress address660 = InetAddress.getByName("172.24.66.0");
+    InetAddress address66255 = InetAddress.getByName("172.24.66.255");
+    InetAddress address670 = InetAddress.getByName("172.24.67.0");
+
+    InetAddress address = address670;
+    address = InetAddresses.decrement(address);
+
+    assertEquals(address66255, address);
+
+    for (int i = 0; i < 255; i++) {
+      address = InetAddresses.decrement(address);
+    }
+    assertEquals(address660, address);
+
+    InetAddress address0000 = InetAddress.getByName("0.0.0.0");
+    address = address0000;
+    try {
+      address = InetAddresses.decrement(address);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testDecrementIPv6() throws UnknownHostException {
+    InetAddress addressV6660 = InetAddress.getByName("2001:db8::6600");
+    InetAddress addressV666ff = InetAddress.getByName("2001:db8::66ff");
+    InetAddress addressV6670 = InetAddress.getByName("2001:db8::6700");
+
+    InetAddress address = addressV6670;
+    address = InetAddresses.decrement(address);
+
+    assertEquals(addressV666ff, address);
+
+    for (int i = 0; i < 255; i++) {
+      address = InetAddresses.decrement(address);
+    }
+    assertEquals(addressV6660, address);
+
+    InetAddress addressV6000000 =
+        InetAddress.getByName("0:0:0:0:0:0:0:0");
+    address = addressV6000000;
+    try {
+      address = InetAddresses.decrement(address);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
 }
