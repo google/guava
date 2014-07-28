@@ -204,14 +204,6 @@ public final class ServiceManager {
         new WeakReference<ServiceManagerState>(state);
     Executor sameThreadExecutor = MoreExecutors.sameThreadExecutor();
     for (Service service : copy) {
-      // We give each listener its own SynchronizedExecutor to ensure that the state transitions
-      // are run in the same order that they occur.  The Service.Listener api guarantees us only
-      // that the transitions are submitted to the executor in the same order that they occur, so by
-      // synchronizing the executions of each listeners callbacks we can ensure that the entire
-      // execution of the listener occurs in the same order as the transitions themselves.
-      //
-      // This is necessary to prevent transitions being played back in the wrong order due to thread
-      // races to acquire the monitor in ServiceManagerState.
       service.addListener(new ServiceListener(service, stateReference), sameThreadExecutor);
       // We check the state after adding the listener as a way to ensure that our listener was added
       // to a NEW service.
@@ -284,6 +276,7 @@ public final class ServiceManager {
     }
     for (Service service : services) {
       try {
+        state.tryStartTiming(service);
         service.startAsync();
       } catch (IllegalStateException e) {
         // This can happen if the service has already been started or stopped (e.g. by another 
@@ -478,8 +471,21 @@ public final class ServiceManager {
     ServiceManagerState(ImmutableCollection<Service> services) {
       this.numberOfServices = services.size();
       servicesByState.putAll(NEW, services);
-      for (Service service : services) {
-        startupTimers.put(service, Stopwatch.createUnstarted());
+    }
+
+    /**
+     * Attempts to start the timer immediately prior to the service being started via 
+     * {@link Service#startAsync()}.
+     */
+    void tryStartTiming(Service service) {
+      monitor.enter();
+      try {
+        Stopwatch stopwatch = startupTimers.get(service);
+        if (stopwatch == null) {
+          startupTimers.put(service, Stopwatch.createStarted());
+        }
+      } finally {
+        monitor.leave();
       }
     }
 
@@ -584,17 +590,12 @@ public final class ServiceManager {
       List<Entry<Service, Long>> loadTimes;
       monitor.enter();
       try {
-        loadTimes = Lists.newArrayListWithCapacity(
-            states.size() - states.count(NEW) + states.count(STARTING));
+        loadTimes = Lists.newArrayListWithCapacity(startupTimers.size());
+        // N.B. There will only be an entry in the map if the service has started
         for (Entry<Service, Stopwatch> entry : startupTimers.entrySet()) {
           Service service = entry.getKey();
           Stopwatch stopWatch = entry.getValue();
-          // N.B. we check the service state in the multimap rather than via Service.state() because
-          // the multimap is guaranteed to be in sync with our timers while the Service.state() is
-          // not.  Due to happens-before ness of the monitor this 'weirdness' will not be observable
-          // by our caller.
-          if (!stopWatch.isRunning() && !servicesByState.containsEntry(NEW, service) 
-              && !(service instanceof NoOpService)) {
+          if (!stopWatch.isRunning() && !(service instanceof NoOpService)) {
             loadTimes.add(Maps.immutableEntry(service, stopWatch.elapsed(MILLISECONDS)));
           }
         }
@@ -641,11 +642,13 @@ public final class ServiceManager {
             "Service %s in the state map unexpectedly at %s", service, to);
         // Update the timer
         Stopwatch stopwatch = startupTimers.get(service);
-        if (from == NEW) {
-          stopwatch.start();
+        if (stopwatch == null) {
+          // This means the service was started by some means other than ServiceManager.startAsync
+          stopwatch = Stopwatch.createStarted();
+          startupTimers.put(service, stopwatch);
         }
         if (to.compareTo(RUNNING) >= 0 && stopwatch.isRunning()) {
-          // N.B. if we miss the STARTING event then we will never record a startup time.
+          // N.B. if we miss the STARTING event then we may never record a startup time.
           stopwatch.stop();
           if (!(service instanceof NoOpService)) {
             logger.log(Level.FINE, "Started {0} in {1}.", new Object[] {service, stopwatch});
