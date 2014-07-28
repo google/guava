@@ -211,12 +211,21 @@ public final class Lists {
   // LinkedList
 
   /**
-   * Creates an empty {@code LinkedList} instance.
+   * Creates a <i>mutable</i>, empty {@code LinkedList} instance (for Java 6 and
+   * earlier).
    *
-   * <p><b>Note:</b> if you need an immutable empty {@link List}, use
-   * {@link ImmutableList#of()} instead.
+   * <p><b>Note:</b> if you won't be adding any elements to the list, use {@link
+   * ImmutableList#of()} instead.
    *
-   * @return a new, empty {@code LinkedList}
+   * <p><b>Performance note:</b> {@link ArrayList} and {@link
+   * java.util.ArrayDeque} consistently outperform {@code LinkedList} except in
+   * certain rare and specific situations. Unless you have spent a lot of time
+   * benchmarking your specific needs, use one of those instead.
+   *
+   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and
+   * should be treated as deprecated. Instead, use the {@code LinkedList}
+   * {@linkplain LinkedList#LinkedList() constructor} directly, taking advantage
+   * of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E> LinkedList<E> newLinkedList() {
@@ -224,10 +233,24 @@ public final class Lists {
   }
 
   /**
-   * Creates a {@code LinkedList} instance containing the given elements.
+   * Creates a <i>mutable</i> {@code LinkedList} instance containing the given
+   * elements; a very thin shortcut for creating an empty list then calling
+   * {@link Iterables#addAll}.
    *
-   * @param elements the elements that the list should contain, in order
-   * @return a new {@code LinkedList} containing those elements
+   * <p><b>Note:</b> if mutability is not required and the elements are
+   * non-null, use {@link ImmutableList#copyOf(Iterable)} instead. (Or, change
+   * {@code elements} to be a {@link FluentIterable} and call
+   * {@code elements.toList()}.)
+   *
+   * <p><b>Performance note:</b> {@link ArrayList} and {@link
+   * java.util.ArrayDeque} consistently outperform {@code LinkedList} except in
+   * certain rare and specific situations. Unless you have spent a lot of time
+   * benchmarking your specific needs, use one of those instead.
+   *
+   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link
+   * Collection}, you don't need this method. Use the {@code LinkedList}
+   * {@linkplain LinkedList#LinkedList(Collection) constructor} directly, taking
+   * advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
   public static <E> LinkedList<E> newLinkedList(
