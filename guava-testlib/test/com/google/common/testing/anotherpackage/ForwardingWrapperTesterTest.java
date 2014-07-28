@@ -16,7 +16,7 @@
 
 package com.google.common.testing.anotherpackage;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
@@ -222,7 +222,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
       tester.testForwarding(interfaceType, wrapperFunction);
     } catch (AssertionError expected) {
       for (String message : expectedMessages) {
-        ASSERT.that(expected.getMessage()).contains(message);
+        assertThat(expected.getMessage()).contains(message);
       }
       return;
     }

@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -99,32 +99,32 @@ public class ObjectArraysTest extends TestCase {
 
   public void testPrependZeroElements() {
     String[] result = ObjectArrays.concat("foo", new String[] {});
-    ASSERT.that(result).asList().has().item("foo");
+    assertThat(result).asList().has().item("foo");
   }
 
   public void testPrependOneElement() {
     String[] result = ObjectArrays.concat("foo", new String[] { "bar" });
-    ASSERT.that(result).asList().has().exactly("foo", "bar").inOrder();
+    assertThat(result).asList().has().exactly("foo", "bar").inOrder();
   }
 
   public void testPrependTwoElements() {
     String[] result = ObjectArrays.concat("foo", new String[] { "bar", "baz" });
-    ASSERT.that(result).asList().has().exactly("foo", "bar", "baz").inOrder();
+    assertThat(result).asList().has().exactly("foo", "bar", "baz").inOrder();
   }
 
   public void testAppendZeroElements() {
     String[] result = ObjectArrays.concat(new String[] {}, "foo");
-    ASSERT.that(result).asList().has().item("foo");
+    assertThat(result).asList().has().item("foo");
   }
 
   public void testAppendOneElement() {
     String[] result = ObjectArrays.concat(new String[] { "foo" }, "bar");
-    ASSERT.that(result).asList().has().exactly("foo", "bar").inOrder();
+    assertThat(result).asList().has().exactly("foo", "bar").inOrder();
   }
 
   public void testAppendTwoElements() {
     String[] result = ObjectArrays.concat(new String[] { "foo", "bar" }, "baz");
-    ASSERT.that(result).asList().has().exactly("foo", "bar", "baz").inOrder();
+    assertThat(result).asList().has().exactly("foo", "bar", "baz").inOrder();
   }
 
   public void testEmptyArrayToEmpty() {

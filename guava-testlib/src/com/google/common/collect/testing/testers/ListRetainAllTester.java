@@ -20,7 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.MinimalCollection;
@@ -67,6 +67,6 @@ public class ListRetainAllTester<E> extends AbstractListTester<E> {
   public void testRetainAll_countIgnored() {
     resetContainer(getSubjectGenerator().create(samples.e0, samples.e2, samples.e1, samples.e0));
     assertTrue(getList().retainAll(Arrays.asList(samples.e0, samples.e1)));
-    ASSERT.that(getList()).has().exactly(samples.e0, samples.e1, samples.e0).inOrder();
+    assertThat(getList()).has().exactly(samples.e0, samples.e1, samples.e0).inOrder();
   }
 }

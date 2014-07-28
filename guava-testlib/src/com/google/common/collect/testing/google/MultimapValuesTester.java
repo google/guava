@@ -17,7 +17,7 @@ package com.google.common.collect.testing.google;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Lists;
@@ -41,7 +41,7 @@ public class MultimapValuesTester<K, V> extends AbstractMultimapTester<K, V, Mul
     for (Map.Entry<K, V> entry : getSampleElements()) {
       expected.add(entry.getValue());
     }
-    ASSERT.that(multimap().values()).has().exactlyAs(expected);
+    assertThat(multimap().values()).has().exactlyAs(expected);
   }
   
   @CollectionFeature.Require(KNOWN_ORDER)
@@ -50,7 +50,7 @@ public class MultimapValuesTester<K, V> extends AbstractMultimapTester<K, V, Mul
     for (Map.Entry<K, V> entry : getOrderedElements()) {
       expected.add(entry.getValue());
     }
-    ASSERT.that(multimap().values()).has().exactlyAs(expected).inOrder();
+    assertThat(multimap().values()).has().exactlyAs(expected).inOrder();
   }
   
   

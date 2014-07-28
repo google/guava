@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -121,13 +121,13 @@ public class LinkedHashMultisetTest extends TestCase {
     ms.add("a");
     ms.add("b", 2);
     ms.add("c");
-    ASSERT.that(ms.elementSet()).has().exactly("a", "b", "c").inOrder();
+    assertThat(ms.elementSet()).has().exactly("a", "b", "c").inOrder();
     ms.remove("b");
-    ASSERT.that(ms.elementSet()).has().exactly("a", "b", "c").inOrder();
+    assertThat(ms.elementSet()).has().exactly("a", "b", "c").inOrder();
     ms.add("b");
-    ASSERT.that(ms.elementSet()).has().exactly("a", "b", "c").inOrder();
+    assertThat(ms.elementSet()).has().exactly("a", "b", "c").inOrder();
     ms.remove("b", 2);
     ms.add("b");
-    ASSERT.that(ms.elementSet()).has().exactly("a", "c", "b").inOrder();
+    assertThat(ms.elementSet()).has().exactly("a", "c", "b").inOrder();
   }
 }

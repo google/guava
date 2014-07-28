@@ -18,9 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -418,7 +418,7 @@ public class ListsTest extends TestCase {
   }
 
   private void checkFooBarBazList(List<String> list) {
-    ASSERT.that(list).has().exactly("foo", "bar", "baz").inOrder();
+    assertThat(list).has().exactly("foo", "bar", "baz").inOrder();
     assertEquals(3, list.size());
     assertIndexIsOutOfBounds(list, -1);
     assertEquals("foo", list.get(0));
@@ -429,7 +429,7 @@ public class ListsTest extends TestCase {
 
   public void testAsList1Small() {
     List<String> list = Lists.asList("foo", new String[0]);
-    ASSERT.that(list).has().item("foo");
+    assertThat(list).has().item("foo");
     assertEquals(1, list.size());
     assertIndexIsOutOfBounds(list, -1);
     assertEquals("foo", list.get(0));
@@ -460,7 +460,7 @@ public class ListsTest extends TestCase {
   @GwtIncompatible("SerializableTester")
   public void testAsList2Small() {
     List<String> list = Lists.asList("foo", "bar", new String[0]);
-    ASSERT.that(list).has().exactly("foo", "bar").inOrder();
+    assertThat(list).has().exactly("foo", "bar").inOrder();
     assertEquals(2, list.size());
     assertIndexIsOutOfBounds(list, -1);
     assertEquals("foo", list.get(0));
@@ -532,24 +532,24 @@ public class ListsTest extends TestCase {
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x1() {
-    ASSERT.that(Lists.cartesianProduct(list(1), list(2))).has().item(list(1, 2));
+    assertThat(Lists.cartesianProduct(list(1), list(2))).has().item(list(1, 2));
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x2() {
-    ASSERT.that(Lists.cartesianProduct(list(1), list(2, 3)))
+    assertThat(Lists.cartesianProduct(list(1), list(2, 3)))
         .has().exactly(list(1, 2), list(1, 3)).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary2x2() {
-    ASSERT.that(Lists.cartesianProduct(list(1, 2), list(3, 4)))
+    assertThat(Lists.cartesianProduct(list(1, 2), list(3, 4)))
         .has().exactly(list(1, 3), list(1, 4), list(2, 3), list(2, 4)).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_2x2x2() {
-    ASSERT.that(Lists.cartesianProduct(list(0, 1), list(0, 1), list(0, 1))).has().exactly(
+    assertThat(Lists.cartesianProduct(list(0, 1), list(0, 1), list(0, 1))).has().exactly(
         list(0, 0, 0), list(0, 0, 1), list(0, 1, 0), list(0, 1, 1),
         list(1, 0, 0), list(1, 0, 1), list(1, 1, 0), list(1, 1, 1)).inOrder();
   }
@@ -574,7 +574,7 @@ public class ListsTest extends TestCase {
     List<Object> exp3 = list((Object) 2, "3");
     List<Object> exp4 = list((Object) 2, "4");
 
-    ASSERT.that(Lists.<Object>cartesianProduct(x, y))
+    assertThat(Lists.<Object>cartesianProduct(x, y))
         .has().exactly(exp1, exp2, exp3, exp4).inOrder();
   }
 

@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Table.Cell;
@@ -62,7 +62,7 @@ public class RegularImmutableTableTest extends AbstractImmutableTableTest {
   public void testValues() {
     for (ImmutableTable<Character, Integer, String> testInstance :
         getTestInstances()) {
-      ASSERT.that(testInstance.values())
+      assertThat(testInstance.values())
           .has().exactly("foo", "bar", "baz")
           .inOrder();
     }

@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
@@ -117,7 +117,7 @@ public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   }
 
   public void testValues() {
-    ASSERT.that(testTable.values()).has().item("blah");
+    assertThat(testTable.values()).has().item("blah");
   }
 
   @Override Iterable<ImmutableTable<Character, Integer, String>> getTestInstances() {

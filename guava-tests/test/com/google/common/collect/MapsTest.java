@@ -20,8 +20,8 @@ import static com.google.common.collect.Maps.transformEntries;
 import static com.google.common.collect.Maps.transformValues;
 import static com.google.common.collect.Maps.unmodifiableNavigableMap;
 import static com.google.common.collect.testing.Helpers.mapEntry;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -244,9 +244,9 @@ public class MapsTest extends TestCase {
     assertEquals(Collections.emptyMap(), map);
     map.put(new Derived("foo"), 1);
     map.put(new Derived("bar"), 2);
-    ASSERT.that(map.keySet()).has().exactly(
+    assertThat(map.keySet()).has().exactly(
         new Derived("bar"), new Derived("foo")).inOrder();
-    ASSERT.that(map.values()).has().exactly(2, 1).inOrder();
+    assertThat(map.values()).has().exactly(2, 1).inOrder();
     assertNull(map.comparator());
   }
 
@@ -255,9 +255,9 @@ public class MapsTest extends TestCase {
     assertEquals(Collections.emptyMap(), map);
     map.put(new LegacyComparable("foo"), 1);
     map.put(new LegacyComparable("bar"), 2);
-    ASSERT.that(map.keySet()).has().exactly(
+    assertThat(map.keySet()).has().exactly(
         new LegacyComparable("bar"), new LegacyComparable("foo")).inOrder();
-    ASSERT.that(map.values()).has().exactly(2, 1).inOrder();
+    assertThat(map.values()).has().exactly(2, 1).inOrder();
     assertNull(map.comparator());
   }
 
@@ -526,13 +526,13 @@ public class MapsTest extends TestCase {
     SortedMapDifference<Integer, String> diff1 =
         Maps.difference(left, right);
     assertFalse(diff1.areEqual());
-    ASSERT.that(diff1.entriesOnlyOnLeft().entrySet()).has().exactly(
+    assertThat(diff1.entriesOnlyOnLeft().entrySet()).has().exactly(
         Maps.immutableEntry(4, "d"), Maps.immutableEntry(2, "b")).inOrder();
-    ASSERT.that(diff1.entriesOnlyOnRight().entrySet()).has().item(
+    assertThat(diff1.entriesOnlyOnRight().entrySet()).has().item(
         Maps.immutableEntry(6, "z"));
-    ASSERT.that(diff1.entriesInCommon().entrySet()).has().item(
+    assertThat(diff1.entriesInCommon().entrySet()).has().item(
         Maps.immutableEntry(1, "a"));
-    ASSERT.that(diff1.entriesDiffering().entrySet()).has().exactly(
+    assertThat(diff1.entriesDiffering().entrySet()).has().exactly(
         Maps.immutableEntry(5, ValueDifferenceImpl.create("e", "g")),
         Maps.immutableEntry(3, ValueDifferenceImpl.create("c", "f"))).inOrder();
     assertEquals("not equal: only on left={4=d, 2=b}: only on right={6=z}: "
@@ -541,11 +541,11 @@ public class MapsTest extends TestCase {
     SortedMapDifference<Integer, String> diff2 =
         Maps.difference(right, left);
     assertFalse(diff2.areEqual());
-    ASSERT.that(diff2.entriesOnlyOnLeft().entrySet()).has().item(
+    assertThat(diff2.entriesOnlyOnLeft().entrySet()).has().item(
         Maps.immutableEntry(6, "z"));
-    ASSERT.that(diff2.entriesOnlyOnRight().entrySet()).has().exactly(
+    assertThat(diff2.entriesOnlyOnRight().entrySet()).has().exactly(
         Maps.immutableEntry(2, "b"), Maps.immutableEntry(4, "d")).inOrder();
-    ASSERT.that(diff1.entriesInCommon().entrySet()).has().item(
+    assertThat(diff1.entriesInCommon().entrySet()).has().item(
         Maps.immutableEntry(1, "a"));
     assertEquals(ImmutableMap.of(
             3, ValueDifferenceImpl.create("f", "c"),
@@ -565,13 +565,13 @@ public class MapsTest extends TestCase {
         Maps.difference(left, right);
     left.put(6, "z");
     assertFalse(diff1.areEqual());
-    ASSERT.that(diff1.entriesOnlyOnLeft().entrySet()).has().exactly(
+    assertThat(diff1.entriesOnlyOnLeft().entrySet()).has().exactly(
         Maps.immutableEntry(2, "b"), Maps.immutableEntry(4, "d")).inOrder();
-    ASSERT.that(diff1.entriesOnlyOnRight().entrySet()).has().item(
+    assertThat(diff1.entriesOnlyOnRight().entrySet()).has().item(
         Maps.immutableEntry(6, "z"));
-    ASSERT.that(diff1.entriesInCommon().entrySet()).has().item(
+    assertThat(diff1.entriesInCommon().entrySet()).has().item(
         Maps.immutableEntry(1, "a"));
-    ASSERT.that(diff1.entriesDiffering().entrySet()).has().exactly(
+    assertThat(diff1.entriesDiffering().entrySet()).has().exactly(
         Maps.immutableEntry(3, ValueDifferenceImpl.create("c", "f")),
         Maps.immutableEntry(5, ValueDifferenceImpl.create("e", "g"))).inOrder();
     try {
@@ -628,7 +628,7 @@ public class MapsTest extends TestCase {
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
     assertEquals(Integer.valueOf(5), map.get("three"));
     assertNull(map.get("five"));
-    ASSERT.that(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).has().exactly(
         mapEntry("one", 3),
         mapEntry("two", 3),
         mapEntry("three", 5)).inOrder();
@@ -651,13 +651,13 @@ public class MapsTest extends TestCase {
     Map<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
     assertEquals(Integer.valueOf(3), map.remove("two"));
-    ASSERT.that(strings).has().exactly("one", "three").inOrder();
+    assertThat(strings).has().exactly("one", "three").inOrder();
   }
 
   public void testAsMapEmpty() {
     Set<String> strings = ImmutableSet.of();
     Map<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
-    ASSERT.that(map.entrySet()).isEmpty();
+    assertThat(map.entrySet()).isEmpty();
     assertTrue(map.isEmpty());
     assertNull(map.get("five"));
   }
@@ -684,14 +684,14 @@ public class MapsTest extends TestCase {
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
     assertEquals(Integer.valueOf(5), map.get("three"));
     assertNull(map.get("five"));
-    ASSERT.that(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).has().exactly(
         mapEntry("one", 3),
         mapEntry("three", 5),
         mapEntry("two", 3)).inOrder();
-    ASSERT.that(map.tailMap("onea").entrySet()).has().exactly(
+    assertThat(map.tailMap("onea").entrySet()).has().exactly(
         mapEntry("three", 5),
         mapEntry("two", 3)).inOrder();
-    ASSERT.that(map.subMap("one", "two").entrySet()).has().exactly(
+    assertThat(map.subMap("one", "two").entrySet()).has().exactly(
         mapEntry("one", 3),
         mapEntry("three", 5)).inOrder();
   }
@@ -717,7 +717,7 @@ public class MapsTest extends TestCase {
     assertEquals(
         ImmutableSortedMap.of("five", 4, "four", 4, "three", 5),
         headMap);
-    ASSERT.that(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).has().exactly(
         mapEntry("five", 4),
         mapEntry("four", 4),
         mapEntry("three", 5),
@@ -730,7 +730,7 @@ public class MapsTest extends TestCase {
     SortedMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
     assertEquals(Integer.valueOf(3), map.remove("two"));
-    ASSERT.that(strings).has().exactly("one", "three").inOrder();
+    assertThat(strings).has().exactly("one", "three").inOrder();
   }
 
   public void testAsMapSortedSubViewKeySetsDoNotSupportAdd() {
@@ -761,7 +761,7 @@ public class MapsTest extends TestCase {
   public void testAsMapSortedEmpty() {
     SortedSet<String> strings = new NonNavigableSortedSet();
     SortedMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
-    ASSERT.that(map.entrySet()).isEmpty();
+    assertThat(map.entrySet()).isEmpty();
     assertTrue(map.isEmpty());
     assertNull(map.get("five"));
   }
@@ -780,14 +780,14 @@ public class MapsTest extends TestCase {
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
     assertEquals(Integer.valueOf(5), map.get("three"));
     assertNull(map.get("five"));
-    ASSERT.that(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).has().exactly(
         mapEntry("one", 3),
         mapEntry("three", 5),
         mapEntry("two", 3)).inOrder();
-    ASSERT.that(map.tailMap("onea").entrySet()).has().exactly(
+    assertThat(map.tailMap("onea").entrySet()).has().exactly(
         mapEntry("three", 5),
         mapEntry("two", 3)).inOrder();
-    ASSERT.that(map.subMap("one", "two").entrySet()).has().exactly(
+    assertThat(map.subMap("one", "two").entrySet()).has().exactly(
         mapEntry("one", 3),
         mapEntry("three", 5)).inOrder();
 
@@ -809,19 +809,19 @@ public class MapsTest extends TestCase {
     assertEquals("one", map.floorKey("r"));
     assertEquals("three", map.floorKey("three"));
 
-    ASSERT.that(map.descendingMap().entrySet()).has().exactly(
+    assertThat(map.descendingMap().entrySet()).has().exactly(
         mapEntry("two", 3),
         mapEntry("three", 5),
         mapEntry("one", 3)).inOrder();
     assertEquals(map.headMap("three", true),
         map.descendingMap().tailMap("three", true));
-    ASSERT.that(map.tailMap("three", false).entrySet()).has().item(
+    assertThat(map.tailMap("three", false).entrySet()).has().item(
         mapEntry("two", 3));
     assertNull(map.tailMap("three", true).lowerEntry("three"));
-    ASSERT.that(map.headMap("two", false).values()).has().exactly(3, 5).inOrder();
-    ASSERT.that(map.headMap("two", false).descendingMap().values())
+    assertThat(map.headMap("two", false).values()).has().exactly(3, 5).inOrder();
+    assertThat(map.headMap("two", false).descendingMap().values())
         .has().exactly(5, 3).inOrder();
-    ASSERT.that(map.descendingKeySet()).has().exactly(
+    assertThat(map.descendingKeySet()).has().exactly(
         "two", "three", "one").inOrder();
 
     assertEquals(mapEntry("one", 3), map.pollFirstEntry());
@@ -851,7 +851,7 @@ public class MapsTest extends TestCase {
     assertEquals(
         ImmutableSortedMap.of("five", 4, "four", 4, "three", 5),
         headMap);
-    ASSERT.that(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).has().exactly(
         mapEntry("five", 4),
         mapEntry("four", 4),
         mapEntry("three", 5),
@@ -862,10 +862,10 @@ public class MapsTest extends TestCase {
 
     strings.add("six");
     strings.remove("two");
-    ASSERT.that(tailMap.entrySet()).has().exactly(
+    assertThat(tailMap.entrySet()).has().exactly(
         mapEntry("six", 3),
         mapEntry("three", 5)).inOrder();
-    ASSERT.that(subMap.entrySet()).has().exactly(
+    assertThat(subMap.entrySet()).has().exactly(
         mapEntry("five", 4),
         mapEntry("four", 4),
         mapEntry("six", 3)).inOrder();
@@ -878,10 +878,10 @@ public class MapsTest extends TestCase {
     NavigableMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
     assertEquals(Integer.valueOf(3), map.remove("two"));
-    ASSERT.that(strings).has().exactly("one", "three").inOrder();
+    assertThat(strings).has().exactly("one", "three").inOrder();
     assertEquals(mapEntry("three", 5),
         map.subMap("one", false, "zzz", true).pollLastEntry());
-    ASSERT.that(strings).has().item("one");
+    assertThat(strings).has().item("one");
   }
 
   @GwtIncompatible("NavigableMap")
@@ -919,7 +919,7 @@ public class MapsTest extends TestCase {
   public void testAsMapNavigableEmpty() {
     NavigableSet<String> strings = ImmutableSortedSet.of();
     NavigableMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
-    ASSERT.that(map.entrySet()).isEmpty();
+    assertThat(map.entrySet()).isEmpty();
     assertTrue(map.isEmpty());
     assertNull(map.get("five"));
   }
@@ -928,7 +928,7 @@ public class MapsTest extends TestCase {
     Iterable<String> strings = ImmutableList.of("one", "two", "three");
     ImmutableMap<String, Integer> map = Maps.toMap(strings, LENGTH_FUNCTION);
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
-    ASSERT.that(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).has().exactly(
         mapEntry("one", 3),
         mapEntry("two", 3),
         mapEntry("three", 5)).inOrder();
@@ -938,7 +938,7 @@ public class MapsTest extends TestCase {
     Iterator<String> strings = ImmutableList.of("one", "two", "three").iterator();
     ImmutableMap<String, Integer> map = Maps.toMap(strings, LENGTH_FUNCTION);
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
-    ASSERT.that(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).has().exactly(
         mapEntry("one", 3),
         mapEntry("two", 3),
         mapEntry("three", 5)).inOrder();
@@ -948,7 +948,7 @@ public class MapsTest extends TestCase {
     Iterable<String> strings = ImmutableList.of("one", "two", "three", "two", "one");
     ImmutableMap<String, Integer> map = Maps.toMap(strings, LENGTH_FUNCTION);
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
-    ASSERT.that(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).has().exactly(
         mapEntry("one", 3),
         mapEntry("two", 3),
         mapEntry("three", 5)).inOrder();

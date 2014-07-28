@@ -19,7 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
@@ -117,7 +117,7 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
         getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
-      ASSERT.that(navigableMap.headMap(entries.get(i).getKey()).entrySet())
+      assertThat(navigableMap.headMap(entries.get(i).getKey()).entrySet())
           .iteratesAs(entries.subList(0, i));
     }
   }
@@ -127,7 +127,7 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
         getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
-      ASSERT.that(navigableMap.tailMap(entries.get(i).getKey()).entrySet())
+      assertThat(navigableMap.tailMap(entries.get(i).getKey()).entrySet())
           .iteratesAs(entries.subList(i, entries.size()));
     }
   }
@@ -138,7 +138,7 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
       for (int j = i + 1; j < entries.size(); j++) {
-        ASSERT.that(navigableMap
+        assertThat(navigableMap
                  .subMap(entries.get(i).getKey(), entries.get(j).getKey())
                  .entrySet())
             .iteratesAs(entries.subList(i, j)); 

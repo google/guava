@@ -16,7 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.OPEN;
 import static com.google.common.collect.Range.range;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtIncompatible;
 
@@ -114,13 +114,13 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       assertEquals(expected.ceilingEntry(key), navigableMap.ceilingEntry(key));
       assertEquals(expected.higherEntry(key), navigableMap.higherEntry(key));
       for (boolean inclusive : new boolean[] {false, true}) {
-        ASSERT.that(navigableMap.headMap(key, inclusive).entrySet())
+        assertThat(navigableMap.headMap(key, inclusive).entrySet())
             .has().exactlyAs(expected.headMap(key, inclusive).entrySet()).inOrder();
-        ASSERT.that(navigableMap.tailMap(key, inclusive).entrySet())
+        assertThat(navigableMap.tailMap(key, inclusive).entrySet())
             .has().exactlyAs(expected.tailMap(key, inclusive).entrySet()).inOrder();
-        ASSERT.that(navigableMap.headMap(key, inclusive).descendingMap().entrySet())
+        assertThat(navigableMap.headMap(key, inclusive).descendingMap().entrySet())
             .has().exactlyAs(expected.headMap(key, inclusive).descendingMap().entrySet()).inOrder();
-        ASSERT.that(navigableMap.tailMap(key, inclusive).descendingMap().entrySet())
+        assertThat(navigableMap.tailMap(key, inclusive).descendingMap().entrySet())
             .has().exactlyAs(expected.tailMap(key, inclusive).descendingMap().entrySet()).inOrder();
       }
     }
@@ -151,7 +151,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       complement.remove(range);
 
       assertEquals(complement, rangeSet.complement());
-      ASSERT.that(rangeSet.complement().asRanges())
+      assertThat(rangeSet.complement().asRanges())
           .has().exactlyAs(complement.asRanges()).inOrder();
     }
   }
@@ -289,8 +289,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 4));
     rangeSet.add(Range.open(2, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.atLeast(6)).inOrder();
   }
 
@@ -299,8 +299,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 4));
     rangeSet.add(Range.open(4, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.atLeast(6)).inOrder();
   }
 
@@ -309,8 +309,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     rangeSet.add(Range.open(2, 4));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closed(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
@@ -319,8 +319,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     rangeSet.add(Range.closed(1, 4));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closed(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
@@ -329,8 +329,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     rangeSet.add(Range.closed(3, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closed(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
@@ -339,8 +339,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closed(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
@@ -349,8 +349,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 4));
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closed(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
@@ -359,8 +359,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closed(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
@@ -369,8 +369,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 4));
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closed(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
@@ -378,8 +378,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();
     rangeSet.add(Range.closedOpen(3, 3));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).isEmpty();
-    ASSERT.that(rangeSet.complement().asRanges()).has().exactly(Range.<Integer>all()).inOrder();
+    assertThat(rangeSet.asRanges()).isEmpty();
+    assertThat(rangeSet.complement().asRanges()).has().exactly(Range.<Integer>all()).inOrder();
   }
 
   public void testFillHoleExactly() {
@@ -388,8 +388,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closedOpen(4, 6));
     rangeSet.add(Range.closedOpen(3, 4));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.atLeast(6)).inOrder();
   }
 
@@ -399,8 +399,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closedOpen(4, 6));
     rangeSet.add(Range.closedOpen(2, 5));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.atLeast(6)).inOrder();
   }
 
@@ -436,18 +436,18 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(a);
     rangeSet.add(b);
     if (a.isEmpty() && b.isEmpty()) {
-      ASSERT.that(rangeSet.asRanges()).isEmpty();
+      assertThat(rangeSet.asRanges()).isEmpty();
     } else if (a.isEmpty()) {
-      ASSERT.that(rangeSet.asRanges()).has().item(b);
+      assertThat(rangeSet.asRanges()).has().item(b);
     } else if (b.isEmpty()) {
-      ASSERT.that(rangeSet.asRanges()).has().item(a);
+      assertThat(rangeSet.asRanges()).has().item(a);
     } else if (a.isConnected(b)) {
-      ASSERT.that(rangeSet.asRanges()).has().exactly(a.span(b)).inOrder();
+      assertThat(rangeSet.asRanges()).has().exactly(a.span(b)).inOrder();
     } else {
       if (a.lowerEndpoint() < b.lowerEndpoint()) {
-        ASSERT.that(rangeSet.asRanges()).has().exactly(a, b).inOrder();
+        assertThat(rangeSet.asRanges()).has().exactly(a, b).inOrder();
       } else {
-        ASSERT.that(rangeSet.asRanges()).has().exactly(b, a).inOrder();
+        assertThat(rangeSet.asRanges()).has().exactly(b, a).inOrder();
       }
     }
   }
@@ -457,8 +457,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     rangeSet.remove(Range.closedOpen(3, 3));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.closed(1, 6));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
@@ -467,8 +467,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 5));
     rangeSet.remove(Range.closedOpen(3, 5));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.singleton(5));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.singleton(5));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(5), Range.greaterThan(5)).inOrder();
   }
 
@@ -477,8 +477,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 5));
     rangeSet.remove(Range.openClosed(3, 5));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.singleton(3));
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().item(Range.singleton(3));
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.lessThan(3), Range.greaterThan(3)).inOrder();
   }
 
@@ -487,8 +487,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.atMost(6));
     rangeSet.remove(Range.closedOpen(3, 4));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().exactly(Range.lessThan(3), Range.closed(4, 6)).inOrder();
-    ASSERT.that(rangeSet.complement().asRanges())
+    assertThat(rangeSet.asRanges()).has().exactly(Range.lessThan(3), Range.closed(4, 6)).inOrder();
+    assertThat(rangeSet.complement().asRanges())
         .has().exactly(Range.closedOpen(3, 4), Range.greaterThan(6)).inOrder();
   }
 
@@ -497,7 +497,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.remove(Range.closedOpen(1, 3));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().exactly(Range.closed(3, 6)).inOrder();
+    assertThat(rangeSet.asRanges()).has().exactly(Range.closed(3, 6)).inOrder();
   }
 
   public void testRemovePartFromBelowLowerBound() {
@@ -505,7 +505,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.remove(Range.closed(1, 3));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().exactly(Range.openClosed(3, 6)).inOrder();
+    assertThat(rangeSet.asRanges()).has().exactly(Range.openClosed(3, 6)).inOrder();
   }
 
   public void testRemovePartFromAboveUpperBound() {
@@ -513,7 +513,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.remove(Range.closed(6, 9));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).has().exactly(Range.closedOpen(3, 6)).inOrder();
+    assertThat(rangeSet.asRanges()).has().exactly(Range.closedOpen(3, 6)).inOrder();
   }
 
   public void testRemoveExact() {
@@ -521,7 +521,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.remove(Range.closed(3, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).isEmpty();
+    assertThat(rangeSet.asRanges()).isEmpty();
   }
 
   public void testRemoveAllFromBelowLowerBound() {
@@ -529,7 +529,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.remove(Range.closed(2, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).isEmpty();
+    assertThat(rangeSet.asRanges()).isEmpty();
   }
 
   public void testRemoveAllFromAboveUpperBound() {
@@ -537,7 +537,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.remove(Range.closed(3, 7));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).isEmpty();
+    assertThat(rangeSet.asRanges()).isEmpty();
   }
 
   public void testRemoveAllExtendingBothDirections() {
@@ -545,7 +545,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.remove(Range.closed(2, 7));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).isEmpty();
+    assertThat(rangeSet.asRanges()).isEmpty();
   }
 
   public void testRangeContaining1() {

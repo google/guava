@@ -20,8 +20,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.testing.Helpers.nefariousMapEntry;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -205,7 +205,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(multimap.hashCode(), unmodifiable.hashCode());
     assertEquals(multimap, unmodifiable);
 
-    ASSERT.that(unmodifiable.asMap().get("bar")).has().exactly(5, -1);
+    assertThat(unmodifiable.asMap().get("bar")).has().exactly(5, -1);
     assertNull(unmodifiable.asMap().get("missing"));
 
     assertFalse(unmodifiable.entries() instanceof Serializable);
@@ -362,11 +362,11 @@ public class MultimapsTest extends TestCase {
     assertFalse(map.containsKey("bar"));
     assertEquals(map.keySet(), multimapView.keySet());
     assertEquals(map.keySet(), multimapView.keys().elementSet());
-    ASSERT.that(multimapView.keys()).has().item("foo");
-    ASSERT.that(multimapView.values()).has().item(1);
-    ASSERT.that(multimapView.entries()).has().item(
+    assertThat(multimapView.keys()).has().item("foo");
+    assertThat(multimapView.values()).has().item(1);
+    assertThat(multimapView.entries()).has().item(
         Maps.immutableEntry("foo", 1));
-    ASSERT.that(multimapView.asMap().entrySet()).has().item(
+    assertThat(multimapView.asMap().entrySet()).has().item(
         Maps.immutableEntry(
             "foo", (Collection<Integer>) Collections.singleton(1)));
     multimapView.clear();
@@ -514,7 +514,7 @@ public class MultimapsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
       // expected
     }
-    ASSERT.that(multimap.entries()).has().exactly(
+    assertThat(multimap.entries()).has().exactly(
         Maps.immutableEntry(Color.RED, 1),
         Maps.immutableEntry(Color.BLUE, 2));
   }
@@ -732,7 +732,7 @@ public class MultimapsTest extends TestCase {
     SetMultimap<String, Integer> filtered = Multimaps.filterKeys(
         multimap, Predicates.in(ImmutableSet.of("foo", "bar")));
     Set<Integer> bazSet = filtered.get("baz");
-    ASSERT.that(bazSet).isEmpty();
+    assertThat(bazSet).isEmpty();
     try {
       bazSet.add(5);
       fail("Expected IllegalArgumentException");
@@ -755,7 +755,7 @@ public class MultimapsTest extends TestCase {
     ListMultimap<String, Integer> filtered = Multimaps.filterKeys(
         multimap, Predicates.in(ImmutableSet.of("foo", "bar")));
     List<Integer> bazList = filtered.get("baz");
-    ASSERT.that(bazList).isEmpty();
+    assertThat(bazList).isEmpty();
     try {
       bazList.add(5);
       fail("Expected IllegalArgumentException");

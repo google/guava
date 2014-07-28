@@ -16,7 +16,7 @@
 
 package com.google.common.eventbus.outside;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
@@ -79,11 +79,11 @@ public class AnnotatedSubscriberFinderTests {
     }
 
     public void testNonSubscriber() {
-      ASSERT.that(getSubscriber().nonSubscriberEvents).isEmpty();
+      assertThat(getSubscriber().nonSubscriberEvents).isEmpty();
     }
 
     public void testSubscriber() {
-      ASSERT.that(getSubscriber().subscriberEvents).has().item(EVENT);
+      assertThat(getSubscriber().subscriberEvents).has().item(EVENT);
     }
 
     @Override
@@ -119,11 +119,11 @@ public class AnnotatedSubscriberFinderTests {
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
+      assertThat(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testOverriddenNotAnnotatedInSubclass() {
-      ASSERT.that(getSubscriber().overriddenInSubclassEvents).has().item(EVENT);
+      assertThat(getSubscriber().overriddenInSubclassEvents).has().item(EVENT);
     }
 
     @Override
@@ -199,29 +199,27 @@ public class AnnotatedSubscriberFinderTests {
     }
 
     public void testNotOverriddenInSubclass() {
-      ASSERT.that(getSubscriber().notOverriddenInSubclassEvents).has().item(EVENT);
+      assertThat(getSubscriber().notOverriddenInSubclassEvents).has().item(EVENT);
     }
 
     public void testOverriddenNotAnnotatedInSubclass() {
-      ASSERT.that(getSubscriber().overriddenNotAnnotatedInSubclassEvents).has().item(EVENT);
+      assertThat(getSubscriber().overriddenNotAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testDifferentlyOverriddenNotAnnotatedInSubclass() {
-      ASSERT
-          .that(getSubscriber().differentlyOverriddenNotAnnotatedInSubclassGoodEvents)
+      assertThat(getSubscriber().differentlyOverriddenNotAnnotatedInSubclassGoodEvents)
           .has().item(EVENT);
-      ASSERT.that(getSubscriber().differentlyOverriddenNotAnnotatedInSubclassBadEvents).isEmpty();
+      assertThat(getSubscriber().differentlyOverriddenNotAnnotatedInSubclassBadEvents).isEmpty();
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
+      assertThat(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testDifferentlyOverriddenAndAnnotatedInSubclass() {
-      ASSERT
-          .that(getSubscriber().differentlyOverriddenAnnotatedInSubclassGoodEvents)
+      assertThat(getSubscriber().differentlyOverriddenAnnotatedInSubclassGoodEvents)
           .has().item(EVENT);
-      ASSERT.that(getSubscriber().differentlyOverriddenAnnotatedInSubclassBadEvents).isEmpty();
+      assertThat(getSubscriber().differentlyOverriddenAnnotatedInSubclassBadEvents).isEmpty();
     }
 
     @Override
@@ -255,11 +253,11 @@ public class AnnotatedSubscriberFinderTests {
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
+      assertThat(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testOverriddenInSubclassNowhereAnnotated() {
-      ASSERT.that(getSubscriber().overriddenInSubclassNowhereAnnotatedEvents).isEmpty();
+      assertThat(getSubscriber().overriddenInSubclassNowhereAnnotatedEvents).isEmpty();
     }
 
     @Override
@@ -302,15 +300,15 @@ public class AnnotatedSubscriberFinderTests {
     }
 
     public void testNeitherOverriddenNorAnnotated() {
-      ASSERT.that(getSubscriber().neitherOverriddenNorAnnotatedEvents).isEmpty();
+      assertThat(getSubscriber().neitherOverriddenNorAnnotatedEvents).isEmpty();
     }
 
     public void testOverriddenInSubclassNowhereAnnotated() {
-      ASSERT.that(getSubscriber().overriddenInSubclassNowhereAnnotatedEvents).isEmpty();
+      assertThat(getSubscriber().overriddenInSubclassNowhereAnnotatedEvents).isEmpty();
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
+      assertThat(getSubscriber().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     @Override
@@ -412,35 +410,35 @@ public class AnnotatedSubscriberFinderTests {
     }
 
     public void testAnnotatedIn1() {
-      ASSERT.that(getSubscriber().annotatedIn1Events).has().item(EVENT);
+      assertThat(getSubscriber().annotatedIn1Events).has().item(EVENT);
     }
 
     public void testAnnotatedIn2() {
-      ASSERT.that(getSubscriber().annotatedIn2Events).has().item(EVENT);
+      assertThat(getSubscriber().annotatedIn2Events).has().item(EVENT);
     }
 
     public void testAnnotatedIn1And2() {
-      ASSERT.that(getSubscriber().annotatedIn1And2Events).has().item(EVENT);
+      assertThat(getSubscriber().annotatedIn1And2Events).has().item(EVENT);
     }
 
     public void testAnnotatedIn1And2AndClass() {
-      ASSERT.that(getSubscriber().annotatedIn1And2AndClassEvents).has().item(EVENT);
+      assertThat(getSubscriber().annotatedIn1And2AndClassEvents).has().item(EVENT);
     }
 
     public void testDeclaredIn1AnnotatedIn2() {
-      ASSERT.that(getSubscriber().declaredIn1AnnotatedIn2Events).has().item(EVENT);
+      assertThat(getSubscriber().declaredIn1AnnotatedIn2Events).has().item(EVENT);
     }
 
     public void testDeclaredIn1AnnotatedInClass() {
-      ASSERT.that(getSubscriber().declaredIn1AnnotatedInClassEvents).has().item(EVENT);
+      assertThat(getSubscriber().declaredIn1AnnotatedInClassEvents).has().item(EVENT);
     }
 
     public void testDeclaredIn2AnnotatedInClass() {
-      ASSERT.that(getSubscriber().declaredIn2AnnotatedInClassEvents).has().item(EVENT);
+      assertThat(getSubscriber().declaredIn2AnnotatedInClassEvents).has().item(EVENT);
     }
 
     public void testNowhereAnnotated() {
-      ASSERT.that(getSubscriber().nowhereAnnotatedEvents).isEmpty();
+      assertThat(getSubscriber().nowhereAnnotatedEvents).isEmpty();
     }
 
     @Override

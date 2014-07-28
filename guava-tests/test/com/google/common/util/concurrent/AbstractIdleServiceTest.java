@@ -16,7 +16,7 @@
 
 package com.google.common.util.concurrent;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Lists;
 
@@ -93,7 +93,7 @@ public class AbstractIdleServiceTest extends TestCase {
     service.startAsync().awaitRunning();
     assertEquals(1, service.startUpCalled);
     assertEquals(Service.State.RUNNING, service.state());
-    ASSERT.that(service.transitionStates).has().exactly(Service.State.STARTING).inOrder();
+    assertThat(service.transitionStates).has().exactly(Service.State.STARTING).inOrder();
   }
 
   public void testStart_failed() {
@@ -113,7 +113,7 @@ public class AbstractIdleServiceTest extends TestCase {
     }
     assertEquals(1, service.startUpCalled);
     assertEquals(Service.State.FAILED, service.state());
-    ASSERT.that(service.transitionStates).has().exactly(Service.State.STARTING).inOrder();
+    assertThat(service.transitionStates).has().exactly(Service.State.STARTING).inOrder();
   }
 
   public void testStop_withoutStart() {
@@ -122,7 +122,7 @@ public class AbstractIdleServiceTest extends TestCase {
     assertEquals(0, service.startUpCalled);
     assertEquals(0, service.shutDownCalled);
     assertEquals(Service.State.TERMINATED, service.state());
-    ASSERT.that(service.transitionStates).isEmpty();
+    assertThat(service.transitionStates).isEmpty();
   }
 
   public void testStop_afterStart() {
@@ -134,7 +134,7 @@ public class AbstractIdleServiceTest extends TestCase {
     assertEquals(1, service.startUpCalled);
     assertEquals(1, service.shutDownCalled);
     assertEquals(Service.State.TERMINATED, service.state());
-    ASSERT.that(service.transitionStates)
+    assertThat(service.transitionStates)
         .has().exactly(Service.State.STARTING, Service.State.STOPPING).inOrder();
   }
 
@@ -158,7 +158,7 @@ public class AbstractIdleServiceTest extends TestCase {
     assertEquals(1, service.startUpCalled);
     assertEquals(1, service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
-    ASSERT.that(service.transitionStates)
+    assertThat(service.transitionStates)
         .has().exactly(Service.State.STARTING, Service.State.STOPPING).inOrder();
   }
 
@@ -184,7 +184,7 @@ public class AbstractIdleServiceTest extends TestCase {
       service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS);
       fail("Expected timeout");
     } catch (TimeoutException e) {
-      ASSERT.that(e.getMessage()).contains(Service.State.STARTING.toString());
+      assertThat(e.getMessage()).contains(Service.State.STARTING.toString());
     }
   }
 

@@ -17,8 +17,8 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -295,7 +295,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
         .add("d", "e", "f")
         .add("g", "h", "i", "j")
         .build();
-    ASSERT.that(set).has().exactly(
+    assertThat(set).has().exactly(
         "a", "b", "c", "d", "e", "f", "g", "h", "i", "j").inOrder();
   }
 
@@ -303,9 +303,9 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     ImmutableSet.Builder<String> builder = this.<String>builder()
         .add("a")
         .add("b");
-    ASSERT.that(builder.build()).has().exactly("a", "b").inOrder();
+    assertThat(builder.build()).has().exactly("a", "b").inOrder();
     builder.add("c", "d");
-    ASSERT.that(builder.build()).has().exactly("a", "b", "c", "d").inOrder();
+    assertThat(builder.build()).has().exactly("a", "b", "c", "d").inOrder();
   }
 
   public void testBuilderWithDuplicateElements() {
@@ -325,9 +325,9 @@ public abstract class AbstractImmutableSetTest extends TestCase {
         .add("a")
         .add("a", "a")
         .add("b");
-    ASSERT.that(builder.build()).has().exactly("a", "b").inOrder();
+    assertThat(builder.build()).has().exactly("a", "b").inOrder();
     builder.add("a", "b", "c", "c");
-    ASSERT.that(builder.build()).has().exactly("a", "b", "c").inOrder();
+    assertThat(builder.build()).has().exactly("a", "b", "c").inOrder();
   }
 
   public void testBuilderAddAll() {
@@ -337,7 +337,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
         .addAll(a)
         .addAll(b)
         .build();
-    ASSERT.that(set).has().exactly("a", "b", "c", "d", "e").inOrder();
+    assertThat(set).has().exactly("a", "b", "c", "d", "e").inOrder();
   }
 
   static final int LAST_COLOR_ADDED = 0x00BFFF;

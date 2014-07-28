@@ -18,7 +18,7 @@ package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -49,11 +49,11 @@ public class MultimapClearTester<K, V> extends AbstractMultimapTester<K, V, Mult
     assertEquals(0, multimap().size());
     assertTrue(multimap().isEmpty());
     assertEquals(multimap(), getSubjectGenerator().create());
-    ASSERT.that(multimap().entries()).isEmpty();
-    ASSERT.that(multimap().asMap()).isEmpty();
-    ASSERT.that(multimap().keySet()).isEmpty();
-    ASSERT.that(multimap().keys()).isEmpty();
-    ASSERT.that(multimap().values()).isEmpty();
+    assertThat(multimap().entries()).isEmpty();
+    assertThat(multimap().asMap()).isEmpty();
+    assertThat(multimap().keySet()).isEmpty();
+    assertThat(multimap().keys()).isEmpty();
+    assertThat(multimap().values()).isEmpty();
     for (K key : sampleKeys()) {
       assertGet(key);
     }
@@ -102,7 +102,7 @@ public class MultimapClearTester<K, V> extends AbstractMultimapTester<K, V, Mult
       resetContainer();
       Collection<V> collection = multimap().get(key);
       multimap().clear();
-      ASSERT.that(collection).isEmpty();
+      assertThat(collection).isEmpty();
     }
   }
 
@@ -114,7 +114,7 @@ public class MultimapClearTester<K, V> extends AbstractMultimapTester<K, V, Mult
       Collection<V> collection = multimap().asMap().get(key);
       if (collection != null) {
         multimap().clear();
-        ASSERT.that(collection).isEmpty();
+        assertThat(collection).isEmpty();
       }
     }
   }
@@ -123,13 +123,13 @@ public class MultimapClearTester<K, V> extends AbstractMultimapTester<K, V, Mult
   public void testClearPropagatesToAsMap() {
     Map<K, Collection<V>> asMap = multimap().asMap();
     multimap().clear();
-    ASSERT.that(asMap).isEmpty();
+    assertThat(asMap).isEmpty();
   }
 
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testClearPropagatesToEntries() {
     Collection<Entry<K, V>> entries = multimap().entries();
     multimap().clear();
-    ASSERT.that(entries).isEmpty();
+    assertThat(entries).isEmpty();
   }
 }

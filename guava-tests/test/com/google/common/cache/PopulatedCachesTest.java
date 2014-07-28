@@ -17,9 +17,9 @@ package com.google.common.cache;
 import static com.google.common.cache.CacheTesting.checkEmpty;
 import static com.google.common.cache.CacheTesting.checkValidState;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilderFactory.DurationSpec;
@@ -195,9 +195,9 @@ public class PopulatedCachesTest extends TestCase {
       List<Entry<Object, Object>> warmed = warmUp(cache);
 
       Set<Object> expected = Maps.newHashMap(cache.asMap()).keySet();
-      ASSERT.that(keys).has().exactlyAs(expected);
-      ASSERT.that(keys.toArray()).asList().has().exactlyAs(expected);
-      ASSERT.that(keys.toArray(new Object[0])).asList().has().exactlyAs(expected);
+      assertThat(keys).has().exactlyAs(expected);
+      assertThat(keys.toArray()).asList().has().exactlyAs(expected);
+      assertThat(keys.toArray(new Object[0])).asList().has().exactlyAs(expected);
 
       new EqualsTester()
           .addEqualityGroup(cache.asMap().keySet(), keys)
@@ -222,9 +222,9 @@ public class PopulatedCachesTest extends TestCase {
       List<Entry<Object, Object>> warmed = warmUp(cache);
 
       Collection<Object> expected = Maps.newHashMap(cache.asMap()).values();
-      ASSERT.that(values).has().exactlyAs(expected);
-      ASSERT.that(values.toArray()).asList().has().exactlyAs(expected);
-      ASSERT.that(values.toArray(new Object[0])).asList().has().exactlyAs(expected);
+      assertThat(values).has().exactlyAs(expected);
+      assertThat(values.toArray()).asList().has().exactlyAs(expected);
+      assertThat(values.toArray(new Object[0])).asList().has().exactlyAs(expected);
 
       assertEquals(WARMUP_SIZE, values.size());
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
@@ -247,9 +247,9 @@ public class PopulatedCachesTest extends TestCase {
       List<Entry<Object, Object>> warmed = warmUp(cache, WARMUP_MIN, WARMUP_MAX);
 
       Set<?> expected = Maps.newHashMap(cache.asMap()).entrySet();
-      ASSERT.that(entries).has().exactlyAs((Collection<Entry<Object, Object>>) expected);
-      ASSERT.that(entries.toArray()).asList().has().exactlyAs((Collection<Object>) expected);
-      ASSERT.that(entries.toArray(new Entry[0])).asList()
+      assertThat(entries).has().exactlyAs((Collection<Entry<Object, Object>>) expected);
+      assertThat(entries.toArray()).asList().has().exactlyAs((Collection<Object>) expected);
+      assertThat(entries.toArray(new Entry[0])).asList()
           .has().exactlyAs((Collection<Entry>) expected);
 
       new EqualsTester()

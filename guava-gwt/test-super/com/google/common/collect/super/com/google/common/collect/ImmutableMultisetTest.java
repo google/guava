@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.MinimalCollection;
@@ -348,13 +348,13 @@ public class ImmutableMultisetTest extends TestCase {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
     assertEquals(c, ImmutableMultiset.of("a", "b", "a"));
     assertEquals(c, ImmutableMultiset.of("a", "a", "b"));
-    ASSERT.that(c).isNotEqualTo(ImmutableMultiset.of("a", "b"));
-    ASSERT.that(c).isNotEqualTo(ImmutableMultiset.of("a", "b", "c", "d"));
+    assertThat(c).isNotEqualTo(ImmutableMultiset.of("a", "b"));
+    assertThat(c).isNotEqualTo(ImmutableMultiset.of("a", "b", "c", "d"));
   }
 
   public void testIterationOrder() {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
-    ASSERT.that(c).has().exactly("a", "a", "b").inOrder();
+    assertThat(c).has().exactly("a", "a", "b").inOrder();
   }
 
   public void testMultisetWrites() {

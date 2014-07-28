@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -99,13 +99,13 @@ public class TreeMultimapExplicitTest extends TestCase {
     tree.put("google", 6);
     tree.put("tree", 0);
     tree.put("tree", 3);
-    ASSERT.that(tree.keySet()).has().exactly("tree", "google").inOrder();
-    ASSERT.that(tree.get("google")).has().exactly(6, 2).inOrder();
+    assertThat(tree.keySet()).has().exactly("tree", "google").inOrder();
+    assertThat(tree.get("google")).has().exactly(6, 2).inOrder();
 
     TreeMultimap<String, Integer> copy = TreeMultimap.create(tree);
     assertEquals(tree, copy);
-    ASSERT.that(copy.keySet()).has().exactly("google", "tree").inOrder();
-    ASSERT.that(copy.get("google")).has().exactly(2, 6).inOrder();
+    assertThat(copy.keySet()).has().exactly("google", "tree").inOrder();
+    assertThat(copy.get("google")).has().exactly(2, 6).inOrder();
     assertEquals(Ordering.natural(), copy.keyComparator());
     assertEquals(Ordering.natural(), copy.valueComparator());
     assertEquals(Ordering.natural(), copy.get("google").comparator());
@@ -130,14 +130,14 @@ public class TreeMultimapExplicitTest extends TestCase {
 
   public void testOrderedGet() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    ASSERT.that(multimap.get(null)).has().exactly(7, 3, 1).inOrder();
-    ASSERT.that(multimap.get("google")).has().exactly(6, 2).inOrder();
-    ASSERT.that(multimap.get("tree")).has().exactly(null, 0).inOrder();
+    assertThat(multimap.get(null)).has().exactly(7, 3, 1).inOrder();
+    assertThat(multimap.get("google")).has().exactly(6, 2).inOrder();
+    assertThat(multimap.get("tree")).has().exactly(null, 0).inOrder();
   }
 
   public void testOrderedKeySet() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    ASSERT.that(multimap.keySet()).has().exactly(null, "tree", "google").inOrder();
+    assertThat(multimap.keySet()).has().exactly(null, "tree", "google").inOrder();
   }
 
   public void testOrderedAsMapEntries() {
@@ -146,18 +146,18 @@ public class TreeMultimapExplicitTest extends TestCase {
         multimap.asMap().entrySet().iterator();
     Map.Entry<String, Collection<Integer>> entry = iterator.next();
     assertEquals(null, entry.getKey());
-    ASSERT.that(entry.getValue()).has().exactly(7, 3, 1);
+    assertThat(entry.getValue()).has().exactly(7, 3, 1);
     entry = iterator.next();
     assertEquals("tree", entry.getKey());
-    ASSERT.that(entry.getValue()).has().exactly(null, 0);
+    assertThat(entry.getValue()).has().exactly(null, 0);
     entry = iterator.next();
     assertEquals("google", entry.getKey());
-    ASSERT.that(entry.getValue()).has().exactly(6, 2);
+    assertThat(entry.getValue()).has().exactly(6, 2);
   }
 
   public void testOrderedEntries() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    ASSERT.that(multimap.entries()).has().exactly(
+    assertThat(multimap.entries()).has().exactly(
         Maps.immutableEntry((String) null, 7),
         Maps.immutableEntry((String) null, 3),
         Maps.immutableEntry((String) null, 1),
@@ -169,7 +169,7 @@ public class TreeMultimapExplicitTest extends TestCase {
 
   public void testOrderedValues() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    ASSERT.that(multimap.values()).has().exactly(7, 3, 1, null, 0, 6, 2).inOrder();
+    assertThat(multimap.values()).has().exactly(7, 3, 1, null, 0, 6, 2).inOrder();
   }
 
   public void testComparator() {
@@ -211,8 +211,8 @@ public class TreeMultimapExplicitTest extends TestCase {
     TreeMultimap<String, Integer> multimap = createPopulate();
     TreeMultimap<String, Integer> copy
         = SerializableTester.reserializeAndAssert(multimap);
-    ASSERT.that(copy.values()).has().exactly(7, 3, 1, null, 0, 6, 2).inOrder();
-    ASSERT.that(copy.keySet()).has().exactly(null, "tree", "google").inOrder();
+    assertThat(copy.values()).has().exactly(7, 3, 1, null, 0, 6, 2).inOrder();
+    assertThat(copy.keySet()).has().exactly(null, "tree", "google").inOrder();
     assertEquals(multimap.keyComparator(), copy.keyComparator());
     assertEquals(multimap.valueComparator(), copy.valueComparator());
   }

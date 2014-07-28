@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -101,7 +101,7 @@ public class FilteredCollectionsTest extends TestCase {
         target.add(4);
         C addThenFilter = filter(createUnfiltered(target), EVEN);
 
-        ASSERT.that(filterThenAdd).has().exactlyAs(addThenFilter);
+        assertThat(filterThenAdd).has().exactlyAs(addThenFilter);
       }
     }
 
@@ -157,7 +157,7 @@ public class FilteredCollectionsTest extends TestCase {
         } catch (IllegalArgumentException expected) {
         }
 
-        ASSERT.that(filteredToModify).has().exactlyAs(filtered);
+        assertThat(filteredToModify).has().exactlyAs(filtered);
       }
     }
 
@@ -191,7 +191,7 @@ public class FilteredCollectionsTest extends TestCase {
             Predicates.not(Predicates.and(EVEN, PRIME_DIGIT)));
 
         filtered2.clear();
-        ASSERT.that(unfiltered).has().exactlyAs(inverseFiltered);
+        assertThat(unfiltered).has().exactlyAs(inverseFiltered);
       }
     }
   }
@@ -328,7 +328,7 @@ public class FilteredCollectionsTest extends TestCase {
         NavigableSet<Integer> filtered = filter(createUnfiltered(contents), EVEN);
         NavigableSet<Integer> unfiltered = createUnfiltered(filtered);
 
-        ASSERT.that(filtered.descendingSet()).has().exactlyAs(unfiltered.descendingSet()).inOrder();
+        assertThat(filtered.descendingSet()).has().exactlyAs(unfiltered.descendingSet()).inOrder();
       }
     }
 

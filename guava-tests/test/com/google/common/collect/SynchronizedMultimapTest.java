@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -204,11 +204,11 @@ public class SynchronizedMultimapTest extends TestCase {
             ArrayListMultimap.<String, Integer>create());
     multimap.putAll("foo", Arrays.asList(3, -1, 2, 4, 1));
     multimap.putAll("bar", Arrays.asList(1, 2, 3, 1));
-    ASSERT.that(multimap.removeAll("foo")).has().exactly(3, -1, 2, 4, 1).inOrder();
+    assertThat(multimap.removeAll("foo")).has().exactly(3, -1, 2, 4, 1).inOrder();
     assertFalse(multimap.containsKey("foo"));
-    ASSERT.that(multimap.replaceValues("bar", Arrays.asList(6, 5)))
+    assertThat(multimap.replaceValues("bar", Arrays.asList(6, 5)))
         .has().exactly(1, 2, 3, 1).inOrder();
-    ASSERT.that(multimap.get("bar")).has().exactly(6, 5).inOrder();
+    assertThat(multimap.get("bar")).has().exactly(6, 5).inOrder();
   }
 
   public void testSynchronizedSortedSetMultimap() {
@@ -217,11 +217,11 @@ public class SynchronizedMultimapTest extends TestCase {
             TreeMultimap.<String, Integer>create());
     multimap.putAll("foo", Arrays.asList(3, -1, 2, 4, 1));
     multimap.putAll("bar", Arrays.asList(1, 2, 3, 1));
-    ASSERT.that(multimap.removeAll("foo")).has().exactly(-1, 1, 2, 3, 4).inOrder();
+    assertThat(multimap.removeAll("foo")).has().exactly(-1, 1, 2, 3, 4).inOrder();
     assertFalse(multimap.containsKey("foo"));
-    ASSERT.that(multimap.replaceValues("bar", Arrays.asList(6, 5)))
+    assertThat(multimap.replaceValues("bar", Arrays.asList(6, 5)))
         .has().exactly(1, 2, 3).inOrder();
-    ASSERT.that(multimap.get("bar")).has().exactly(5, 6).inOrder();
+    assertThat(multimap.get("bar")).has().exactly(5, 6).inOrder();
   }
 
   public void testSynchronizedArrayListMultimapRandomAccess() {

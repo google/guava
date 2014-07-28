@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.testing.EqualsTester;
@@ -89,7 +89,7 @@ public class LinkedListMultimapTest extends TestCase {
     LinkedListMultimap<String, Integer> copy =
         LinkedListMultimap.create(multimap);
     assertEquals(multimap, copy);
-    ASSERT.that(copy.entries()).has().exactlyAs(multimap.entries()).inOrder();
+    assertThat(copy.entries()).has().exactlyAs(multimap.entries()).inOrder();
   }
 
   public void testCreateFromSize() {
@@ -183,10 +183,10 @@ public class LinkedListMultimapTest extends TestCase {
     List<Integer> foos = map.get("foo");
     Collection<Integer> values = map.values();
     assertEquals(asList(1, 2), foos);
-    ASSERT.that(values).has().exactly(1, 2, 3).inOrder();
+    assertThat(values).has().exactly(1, 2, 3).inOrder();
     map.clear();
     assertEquals(Collections.emptyList(), foos);
-    ASSERT.that(values).isEmpty();
+    assertThat(values).isEmpty();
     assertEquals("[]", map.entries().toString());
     assertEquals("{}", map.toString());
   }
@@ -210,7 +210,7 @@ public class LinkedListMultimapTest extends TestCase {
     map.put("bar", 4);
     assertEquals("[bar=1, foo=2, bar=3, bar=4]",
         map.entries().toString());
-    ASSERT.that(map.keys()).has().exactly("bar", "foo", "bar", "bar").inOrder();
+    assertThat(map.keys()).has().exactly("bar", "foo", "bar", "bar").inOrder();
     map.keys().remove("bar"); // bar is no longer the first key!
     assertEquals("{foo=[2], bar=[3, 4]}", map.toString());
   }
@@ -256,7 +256,7 @@ public class LinkedListMultimapTest extends TestCase {
         = map.asMap().entrySet().iterator();
     Map.Entry<String, Collection<Integer>> entry = entries.next();
     assertEquals("bar", entry.getKey());
-    ASSERT.that(entry.getValue()).has().exactly(1, 3).inOrder();
+    assertThat(entry.getValue()).has().exactly(1, 3).inOrder();
     try {
       entry.setValue(Arrays.<Integer>asList());
       fail("UnsupportedOperationException expected");
@@ -264,7 +264,7 @@ public class LinkedListMultimapTest extends TestCase {
     entries.remove(); // clear
     entry = entries.next();
     assertEquals("foo", entry.getKey());
-    ASSERT.that(entry.getValue()).has().item(2);
+    assertThat(entry.getValue()).has().item(2);
     assertFalse(entries.hasNext());
     assertEquals("{foo=[2]}", map.toString());
   }

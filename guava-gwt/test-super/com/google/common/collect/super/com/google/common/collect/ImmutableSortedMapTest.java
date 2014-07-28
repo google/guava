@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Joiner;
@@ -611,7 +611,7 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testHeadMapInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).headMap("three", true);
-    ASSERT.that(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).has().exactly(
         Maps.immutableEntry("one", 1),
         Maps.immutableEntry("three", 3)).inOrder();
   }
@@ -620,14 +620,14 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testHeadMapExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).headMap("three", false);
-    ASSERT.that(map.entrySet()).has().exactly(Maps.immutableEntry("one", 1)).inOrder();
+    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("one", 1)).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs
   public void testTailMapInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).tailMap("three", true);
-    ASSERT.that(map.entrySet()).has().exactly(Maps.immutableEntry("three", 3),
+    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("three", 3),
         Maps.immutableEntry("two", 2)).inOrder();
   }
 
@@ -635,21 +635,21 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testTailMapExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).tailMap("three", false);
-    ASSERT.that(map.entrySet()).has().exactly(Maps.immutableEntry("two", 2)).inOrder();
+    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("two", 2)).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs
   public void testSubMapExclusiveExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", false, "two", false);
-    ASSERT.that(map.entrySet()).has().exactly(Maps.immutableEntry("three", 3)).inOrder();
+    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("three", 3)).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs
   public void testSubMapInclusiveExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", true, "two", false);
-    ASSERT.that(map.entrySet()).has().exactly(Maps.immutableEntry("one", 1),
+    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("one", 1),
         Maps.immutableEntry("three", 3)).inOrder();
   }
 
@@ -657,7 +657,7 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testSubMapExclusiveInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", false, "two", true);
-    ASSERT.that(map.entrySet()).has().exactly(Maps.immutableEntry("three", 3),
+    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("three", 3),
         Maps.immutableEntry("two", 2)).inOrder();
   }
 
@@ -665,7 +665,7 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testSubMapInclusiveInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", true, "two", true);
-    ASSERT.that(map.entrySet()).has().exactly(Maps.immutableEntry("one", 1),
+    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("one", 1),
         Maps.immutableEntry("three", 3), Maps.immutableEntry("two", 2)).inOrder();
   }
 

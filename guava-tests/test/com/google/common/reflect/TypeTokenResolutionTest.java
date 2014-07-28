@@ -16,7 +16,7 @@
 
 package com.google.common.reflect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
@@ -124,7 +124,7 @@ public class TypeTokenResolutionTest extends TestCase {
         parameterized.parameterizedType());
     assertEquals(TypeTokenResolutionTest.class, resolved.getOwnerType());
     assertEquals(Bar.class, resolved.getRawType());
-    ASSERT.that(resolved.getActualTypeArguments()).asList().has().item(String.class);
+    assertThat(resolved.getActualTypeArguments()).asList().has().item(String.class);
   }
   
   private interface StringListPredicate extends Predicate<List<String>> {}

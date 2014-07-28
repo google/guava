@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Throwables.propagateIfInstanceOf;
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.allAsList;
 import static com.google.common.util.concurrent.Futures.get;
 import static com.google.common.util.concurrent.Futures.getUnchecked;
@@ -28,7 +29,6 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.expect;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -838,7 +838,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
+    assertThat(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
   }
 
   public void testAllAsList_emptyList() throws Exception {
@@ -1013,7 +1013,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
+    assertThat(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
   }
 
   /**
@@ -1481,7 +1481,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
+    assertThat(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
   }
 
   public void testSuccessfulAsList_emptyList() throws Exception {
@@ -1524,7 +1524,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().exactly(null, DATA2).inOrder();
+    assertThat(results).has().exactly(null, DATA2).inOrder();
   }
 
   public void testSuccessfulAsList_totalFailure() throws Exception {
@@ -1545,7 +1545,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().exactly(null, null).inOrder();
+    assertThat(results).has().exactly(null, null).inOrder();
   }
 
   public void testSuccessfulAsList_cancelled() throws Exception {
@@ -1566,7 +1566,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().exactly(null, DATA2).inOrder();
+    assertThat(results).has().exactly(null, DATA2).inOrder();
   }
 
   public void testSuccessfulAsList_resultCancelled() throws Exception {
@@ -1692,7 +1692,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).has().exactly(null, null, DATA3).inOrder();
+    assertThat(results).has().exactly(null, null, DATA3).inOrder();
   }
 
   /** Non-Error exceptions are never logged. */
@@ -2354,7 +2354,7 @@ public class FuturesTest extends TestCase {
           ExceptionWithoutThrowableConstructor.class);
       fail();
     } catch (ExceptionWithoutThrowableConstructor expected) {
-      ASSERT.that(expected.getMessage()).contains("mymessage");
+      assertThat(expected.getMessage()).contains("mymessage");
       assertEquals(CHECKED_EXCEPTION, expected.getCause());
     }
   }

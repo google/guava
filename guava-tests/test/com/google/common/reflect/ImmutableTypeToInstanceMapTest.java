@@ -16,7 +16,7 @@
 
 package com.google.common.reflect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
@@ -109,7 +109,7 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
             .put(type, array)
             .build();
     assertEquals(1, map.size());
-    ASSERT.that(map.getInstance(type)).asList().has().exactly(array[0]).inOrder();
+    assertThat(map.getInstance(type)).asList().has().exactly(array[0]).inOrder();
   }
 
   public void testWildcardType() {

@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -286,13 +286,13 @@ public class ArrayTableTest extends AbstractTableTest {
   public void testRowKeyList() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    ASSERT.that(table.rowKeyList()).has().exactly("foo", "bar", "cat").inOrder();
+    assertThat(table.rowKeyList()).has().exactly("foo", "bar", "cat").inOrder();
   }
 
   public void testColumnKeyList() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    ASSERT.that(table.columnKeyList()).has().exactly(1, 2, 3).inOrder();
+    assertThat(table.columnKeyList()).has().exactly(1, 2, 3).inOrder();
   }
 
   public void testGetMissingKeys() {
@@ -400,9 +400,9 @@ public class ArrayTableTest extends AbstractTableTest {
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Character[][] array = table.toArray(Character.class);
     assertEquals(3, array.length);
-    ASSERT.that(array[0]).asList().has().exactly('a', null, 'c').inOrder();
-    ASSERT.that(array[1]).asList().has().exactly('b', null, null).inOrder();
-    ASSERT.that(array[2]).asList().has().exactly(null, null, null).inOrder();
+    assertThat(array[0]).asList().has().exactly('a', null, 'c').inOrder();
+    assertThat(array[1]).asList().has().exactly('b', null, null).inOrder();
+    assertThat(array[2]).asList().has().exactly(null, null, null).inOrder();
     table.set(0, 2, 'd');
     assertEquals((Character) 'c', array[0][2]);
     array[0][2] = 'e';

@@ -14,7 +14,7 @@
 
 package com.google.common.collect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
@@ -143,7 +143,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   public void testEmpty() {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.of();
 
-    ASSERT.that(rangeSet.asRanges()).isEmpty();
+    assertThat(rangeSet.asRanges()).isEmpty();
     assertEquals(ImmutableRangeSet.<Integer>all(), rangeSet.complement());
     assertFalse(rangeSet.contains(0));
     assertFalse(rangeSet.encloses(Range.singleton(0)));
@@ -154,7 +154,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   public void testAll() {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.all();
 
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.<Integer>all());
+    assertThat(rangeSet.asRanges()).has().item(Range.<Integer>all());
     assertTrue(rangeSet.contains(0));
     assertTrue(rangeSet.encloses(Range.<Integer>all()));
     assertTrue(rangeSet.enclosesAll(rangeSet));
@@ -164,7 +164,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   public void testSingleBoundedRange() {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.of(Range.closedOpen(1, 5));
 
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.closedOpen(1, 5));
+    assertThat(rangeSet.asRanges()).has().item(Range.closedOpen(1, 5));
 
     assertTrue(rangeSet.encloses(Range.closed(3, 4)));
     assertTrue(rangeSet.encloses(Range.closedOpen(1, 4)));
@@ -185,7 +185,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   public void testSingleBoundedBelowRange() {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.of(Range.greaterThan(2));
 
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.greaterThan(2));
+    assertThat(rangeSet.asRanges()).has().item(Range.greaterThan(2));
 
     assertTrue(rangeSet.encloses(Range.closed(3, 4)));
     assertTrue(rangeSet.encloses(Range.greaterThan(3)));
@@ -202,7 +202,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   public void testSingleBoundedAboveRange() {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.of(Range.atMost(3));
 
-    ASSERT.that(rangeSet.asRanges()).has().item(Range.atMost(3));
+    assertThat(rangeSet.asRanges()).has().item(Range.atMost(3));
 
     assertTrue(rangeSet.encloses(Range.closed(2, 3)));
     assertTrue(rangeSet.encloses(Range.lessThan(1)));
@@ -220,7 +220,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
         .add(Range.closed(5, 8)).add(Range.closedOpen(1, 3)).build();
 
-    ASSERT.that(rangeSet.asRanges())
+    assertThat(rangeSet.asRanges())
         .has().exactly(Range.closedOpen(1, 3), Range.closed(5, 8)).inOrder();
 
     assertTrue(rangeSet.encloses(Range.closed(1, 2)));
@@ -241,7 +241,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
         .add(Range.greaterThan(6)).add(Range.closedOpen(1, 3)).build();
 
-    ASSERT.that(rangeSet.asRanges())
+    assertThat(rangeSet.asRanges())
         .has().exactly(Range.closedOpen(1, 3), Range.greaterThan(6)).inOrder();
 
     assertTrue(rangeSet.encloses(Range.closed(1, 2)));
@@ -261,7 +261,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
         .add(Range.atMost(0)).add(Range.closedOpen(2, 5)).build();
 
-    ASSERT.that(rangeSet.asRanges())
+    assertThat(rangeSet.asRanges())
         .has().exactly(Range.atMost(0), Range.closedOpen(2, 5)).inOrder();
 
     assertTrue(rangeSet.encloses(Range.closed(2, 4)));
@@ -391,7 +391,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
     ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomain.integers());
     assertEquals(expectedSet, asSet);
-    ASSERT.that(asSet).has().exactlyAs(expectedSet).inOrder();
+    assertThat(asSet).has().exactlyAs(expectedSet).inOrder();
     assertTrue(asSet.containsAll(expectedSet));
     SerializableTester.reserializeAndAssert(asSet);
   }

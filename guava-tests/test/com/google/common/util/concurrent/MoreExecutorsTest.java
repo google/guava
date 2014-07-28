@@ -29,6 +29,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.invokeAnyImpl;
 import static com.google.common.util.concurrent.MoreExecutors.listeningDecorator;
 import static com.google.common.util.concurrent.MoreExecutors.renamingDecorator;
@@ -40,7 +41,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Suppliers;
 import com.google.common.base.Throwables;
@@ -275,10 +275,10 @@ public class MoreExecutorsTest extends JSR166TestCase {
     List<Future<String>> results;
 
     results = service.invokeAll(callables);
-    ASSERT.that(getOnlyElement(results)).isA(ListenableFutureTask.class);
+    assertThat(getOnlyElement(results)).isA(ListenableFutureTask.class);
 
     results = service.invokeAll(callables, 1, SECONDS);
-    ASSERT.that(getOnlyElement(results)).isA(ListenableFutureTask.class);
+    assertThat(getOnlyElement(results)).isA(ListenableFutureTask.class);
 
     /*
      * TODO(cpovirk): move ForwardingTestCase somewhere common, and use it to

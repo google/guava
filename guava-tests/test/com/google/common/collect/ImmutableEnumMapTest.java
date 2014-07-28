@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -74,7 +74,7 @@ public class ImmutableEnumMapTest extends TestCase {
     ImmutableMap<AnEnum, String> map = Maps.immutableEnumMap(
         ImmutableMap.of(AnEnum.C, "c", AnEnum.A, "a", AnEnum.E, "e"));
 
-    ASSERT.that(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).has().exactly(
         Helpers.mapEntry(AnEnum.A, "a"),
         Helpers.mapEntry(AnEnum.C, "c"),
         Helpers.mapEntry(AnEnum.E, "e")).inOrder();
