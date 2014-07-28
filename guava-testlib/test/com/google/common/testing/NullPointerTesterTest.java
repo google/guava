@@ -18,7 +18,7 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Converter;
 import com.google.common.base.Function;
@@ -1269,7 +1269,7 @@ public class NullPointerTesterTest extends TestCase {
       new NullPointerTester().testAllPublicConstructors(Inner.class);
       fail();
     } catch (IllegalArgumentException expected) {
-      ASSERT.that(expected.getMessage()).contains("inner class");
+      assertThat(expected.getMessage()).contains("inner class");
     }
   }
 }

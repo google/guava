@@ -16,8 +16,8 @@
 
 package com.google.common.reflect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.collect.Lists;
 import com.google.common.testing.EqualsTester;
@@ -66,7 +66,7 @@ public class TypesTest extends TestCase {
     assertEquals(jvmType.toString(), ourType.toString());
     assertEquals(jvmType.hashCode(), ourType.hashCode());
     assertEquals(HashMap.class, ourType.getRawType());
-    ASSERT.that(ourType.getActualTypeArguments()).asList()
+    assertThat(ourType.getActualTypeArguments()).asList()
         .has().exactlyAs(asList(jvmType.getActualTypeArguments())).inOrder();
     assertEquals(Arrays.asList(
             String.class,
@@ -107,7 +107,7 @@ public class TypesTest extends TestCase {
     assertEquals(jvmType.toString(), ourType.toString());
     assertEquals(Map.class, ourType.getOwnerType());
     assertEquals(Map.Entry.class, ourType.getRawType());
-    ASSERT.that(ourType.getActualTypeArguments()).asList()
+    assertThat(ourType.getActualTypeArguments()).asList()
         .has().exactlyAs(asList(jvmType.getActualTypeArguments())).inOrder();
   }
 
@@ -268,9 +268,9 @@ public class TypesTest extends TestCase {
       WildcardType expected, WildcardType actual) {
     assertEquals(expected.toString(), actual.toString());
     assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
-    ASSERT.that(actual.getLowerBounds()).asList()
+    assertThat(actual.getLowerBounds()).asList()
         .has().exactlyAs(asList(expected.getLowerBounds())).inOrder();
-    ASSERT.that(actual.getUpperBounds()).asList()
+    assertThat(actual.getUpperBounds()).asList()
         .has().exactlyAs(asList(expected.getUpperBounds())).inOrder();
   }
 
@@ -366,7 +366,7 @@ public class TypesTest extends TestCase {
     if (!Types.NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY) {
       assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
     }
-    ASSERT.that(actual.getBounds()).asList()
+    assertThat(actual.getBounds()).asList()
         .has().exactlyAs(asList(expected.getBounds())).inOrder();
   }
 

@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Joiner;
@@ -404,7 +404,7 @@ public class ImmutableBiMapTest extends TestCase {
           ImmutableMap.of("one", 1, "two", 2, "three", 3, "four", 4));
       Set<String> keys = bimap.keySet();
       assertEquals(Sets.newHashSet("one", "two", "three", "four"), keys);
-      ASSERT.that(keys).has().exactly("one", "two", "three", "four").inOrder();
+      assertThat(keys).has().exactly("one", "two", "three", "four").inOrder();
     }
 
     public void testValues() {
@@ -412,7 +412,7 @@ public class ImmutableBiMapTest extends TestCase {
           ImmutableMap.of("one", 1, "two", 2, "three", 3, "four", 4));
       Set<Integer> values = bimap.values();
       assertEquals(Sets.newHashSet(1, 2, 3, 4), values);
-      ASSERT.that(values).has().exactly(1, 2, 3, 4).inOrder();
+      assertThat(values).has().exactly(1, 2, 3, 4).inOrder();
     }
 
     public void testDoubleInverse() {

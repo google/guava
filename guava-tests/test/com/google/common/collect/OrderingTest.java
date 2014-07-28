@@ -20,8 +20,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -157,7 +157,7 @@ public class OrderingTest extends TestCase {
         = Ordering.explicit(2, 8, 6, 1, 7, 5, 3, 4, 0, 9);
     List<Integer> list = Arrays.asList(0, 3, 5, 6, 7, 8, 9);
     Collections.sort(list, c);
-    ASSERT.that(list).has().exactly(8, 6, 7, 5, 3, 0, 9).inOrder();
+    assertThat(list).has().exactly(8, 6, 7, 5, 3, 0, 9).inOrder();
     reserializeAndAssert(c);
   }
 

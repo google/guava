@@ -16,9 +16,9 @@ package com.google.common.cache;
 
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.cache.TestingCacheLoaders.IdentityLoader;
 import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
@@ -260,42 +260,42 @@ public class CacheExpirationTest extends TestCase {
       ticker.advance(1, MILLISECONDS);
     }
     Set<Integer> keySet = cache.asMap().keySet();
-    ASSERT.that(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    assertThat(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     // 0 expires
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    assertThat(keySet).has().exactly(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     // reorder
     getAll(cache, asList(0, 1, 2));
     CacheTesting.drainRecencyQueues(cache);
     ticker.advance(2, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
+    assertThat(keySet).has().exactly(3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
 
     // 3 expires
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(4, 5, 6, 7, 8, 9, 0, 1, 2);
+    assertThat(keySet).has().exactly(4, 5, 6, 7, 8, 9, 0, 1, 2);
 
     // reorder
     getAll(cache, asList(5, 7, 9));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(4, 6, 8, 0, 1, 2, 5, 7, 9);
+    assertThat(keySet).has().exactly(4, 6, 8, 0, 1, 2, 5, 7, 9);
 
     // 4 expires
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(6, 8, 0, 1, 2, 5, 7, 9);
+    assertThat(keySet).has().exactly(6, 8, 0, 1, 2, 5, 7, 9);
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(6, 8, 0, 1, 2, 5, 7, 9);
+    assertThat(keySet).has().exactly(6, 8, 0, 1, 2, 5, 7, 9);
 
     // 6 expires
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(8, 0, 1, 2, 5, 7, 9);
+    assertThat(keySet).has().exactly(8, 0, 1, 2, 5, 7, 9);
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(8, 0, 1, 2, 5, 7, 9);
+    assertThat(keySet).has().exactly(8, 0, 1, 2, 5, 7, 9);
 
     // 8 expires
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(0, 1, 2, 5, 7, 9);
+    assertThat(keySet).has().exactly(0, 1, 2, 5, 7, 9);
   }
 
   public void testExpirationOrder_write() throws ExecutionException {
@@ -312,37 +312,37 @@ public class CacheExpirationTest extends TestCase {
       ticker.advance(1, MILLISECONDS);
     }
     Set<Integer> keySet = cache.asMap().keySet();
-    ASSERT.that(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    assertThat(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     // 0 expires
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    assertThat(keySet).has().exactly(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     // get doesn't stop 1 from expiring
     getAll(cache, asList(0, 1, 2));
     CacheTesting.drainRecencyQueues(cache);
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(2, 3, 4, 5, 6, 7, 8, 9, 0);
+    assertThat(keySet).has().exactly(2, 3, 4, 5, 6, 7, 8, 9, 0);
 
     // get(K, Callable) doesn't stop 2 from expiring
     cache.get(2, Callables.returning(-2));
     CacheTesting.drainRecencyQueues(cache);
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(3, 4, 5, 6, 7, 8, 9, 0);
+    assertThat(keySet).has().exactly(3, 4, 5, 6, 7, 8, 9, 0);
 
     // asMap.put saves 3
     cache.asMap().put(3, -3);
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(4, 5, 6, 7, 8, 9, 0, 3);
+    assertThat(keySet).has().exactly(4, 5, 6, 7, 8, 9, 0, 3);
 
     // asMap.replace saves 4
     cache.asMap().replace(4, -4);
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(5, 6, 7, 8, 9, 0, 3, 4);
+    assertThat(keySet).has().exactly(5, 6, 7, 8, 9, 0, 3, 4);
 
     // 5 expires
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(6, 7, 8, 9, 0, 3, 4);
+    assertThat(keySet).has().exactly(6, 7, 8, 9, 0, 3, 4);
   }
 
   public void testExpirationOrder_writeAccess() throws ExecutionException {
@@ -365,33 +365,33 @@ public class CacheExpirationTest extends TestCase {
     ticker.advance(1, MILLISECONDS);
 
     Set<Integer> keySet = cache.asMap().keySet();
-    ASSERT.that(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    assertThat(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     // get saves 1, 3; 0, 2, 4 expire
     getAll(cache, asList(1, 3));
     CacheTesting.drainRecencyQueues(cache);
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(5, 6, 7, 8, 9, 1, 3);
+    assertThat(keySet).has().exactly(5, 6, 7, 8, 9, 1, 3);
 
     // get saves 6, 8; 5, 7, 9 expire
     getAll(cache, asList(6, 8));
     CacheTesting.drainRecencyQueues(cache);
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(1, 3, 6, 8);
+    assertThat(keySet).has().exactly(1, 3, 6, 8);
 
     // get fails to save 1, put saves 3
     cache.asMap().put(3, -3);
     getAll(cache, asList(1));
     CacheTesting.drainRecencyQueues(cache);
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(6, 8, 3);
+    assertThat(keySet).has().exactly(6, 8, 3);
 
     // get(K, Callable) fails to save 8, replace saves 6
     cache.asMap().replace(6, -6);
     cache.get(8, Callables.returning(-8));
     CacheTesting.drainRecencyQueues(cache);
     ticker.advance(1, MILLISECONDS);
-    ASSERT.that(keySet).has().exactly(3, 6);
+    assertThat(keySet).has().exactly(3, 6);
   }
 
   private void runRemovalScheduler(LoadingCache<String, Integer> cache,

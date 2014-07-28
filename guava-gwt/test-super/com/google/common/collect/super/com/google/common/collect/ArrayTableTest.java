@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
@@ -279,13 +279,13 @@ public class ArrayTableTest extends AbstractTableTest {
   public void testRowKeyList() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    ASSERT.that(table.rowKeyList()).has().exactly("foo", "bar", "cat").inOrder();
+    assertThat(table.rowKeyList()).has().exactly("foo", "bar", "cat").inOrder();
   }
 
   public void testColumnKeyList() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    ASSERT.that(table.columnKeyList()).has().exactly(1, 2, 3).inOrder();
+    assertThat(table.columnKeyList()).has().exactly(1, 2, 3).inOrder();
   }
 
   public void testGetMissingKeys() {

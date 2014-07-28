@@ -16,7 +16,7 @@
 
 package com.google.common.util.concurrent;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.testing.NullPointerTester;
 
@@ -83,7 +83,7 @@ public class ThreadFactoryBuilderTest extends TestCase {
     ThreadFactory threadFactory2 = builder.build();
     Thread thread3 = threadFactory2.newThread(monitoredRunnable);
     checkThreadPoolName(thread3, 1);
-    ASSERT.that(
+    assertThat(
         thread2.getName().substring(0, thread.getName().lastIndexOf('-')))
         .isNotEqualTo(
             thread3.getName().substring(0, thread.getName().lastIndexOf('-')));

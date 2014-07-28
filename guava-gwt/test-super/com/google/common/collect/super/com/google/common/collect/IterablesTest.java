@@ -20,9 +20,9 @@ import static com.google.common.collect.Iterables.skip;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -374,7 +374,7 @@ public class IterablesTest extends TestCase {
     int n = 4;
     Iterable<Integer> repeated
         = Iterables.concat(Collections.nCopies(n, iterable));
-    ASSERT.that(repeated).iteratesAs(
+    assertThat(repeated).iteratesAs(
         1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3);
   }
 
@@ -451,7 +451,7 @@ public class IterablesTest extends TestCase {
     List<String> freshlyAdded = newArrayList("freshly", "added");
 
     boolean changed = Iterables.addAll(alreadyThere, freshlyAdded);
-    ASSERT.that(alreadyThere).has().exactly(
+    assertThat(alreadyThere).has().exactly(
         "already", "there", "freshly", "added").inOrder();
     assertTrue(changed);
   }
@@ -603,7 +603,7 @@ public class IterablesTest extends TestCase {
     Iterable<String> tail = skip(set, 1);
     set.remove("b");
     set.addAll(newArrayList("A", "B", "C"));
-    ASSERT.that(tail).iteratesAs("c", "A", "B", "C");
+    assertThat(tail).iteratesAs("c", "A", "B", "C");
   }
 
   public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
@@ -611,7 +611,7 @@ public class IterablesTest extends TestCase {
     Iterable<String> tail = skip(list, 1);
     list.subList(1, 3).clear();
     list.addAll(0, newArrayList("A", "B", "C"));
-    ASSERT.that(tail).iteratesAs("B", "C", "a");
+    assertThat(tail).iteratesAs("B", "C", "a");
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {
@@ -1042,16 +1042,16 @@ public class IterablesTest extends TestCase {
     assertEquals("Iterables.consumingIterable(...)", consumingIterable.toString());
     Iterator<String> consumingIterator = consumingIterable.iterator();
 
-    ASSERT.that(list).has().exactly("a", "b").inOrder();
+    assertThat(list).has().exactly("a", "b").inOrder();
 
     assertTrue(consumingIterator.hasNext());
-    ASSERT.that(list).has().exactly("a", "b").inOrder();
+    assertThat(list).has().exactly("a", "b").inOrder();
     assertEquals("a", consumingIterator.next());
-    ASSERT.that(list).has().item("b");
+    assertThat(list).has().item("b");
 
     assertTrue(consumingIterator.hasNext());
     assertEquals("b", consumingIterator.next());
-    ASSERT.that(list).isEmpty();
+    assertThat(list).isEmpty();
 
     assertFalse(consumingIterator.hasNext());
   }

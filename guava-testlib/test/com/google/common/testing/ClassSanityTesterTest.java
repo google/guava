@@ -17,7 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Functions;
 import com.google.common.base.Optional;
@@ -312,7 +312,7 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       tester.testEquals(BadEquals.class);
     } catch (AssertionFailedError expected) {
-      ASSERT.that(expected.getMessage()).contains("create(null)");
+      assertThat(expected.getMessage()).contains("create(null)");
       return;
     }
     fail("should have failed");
@@ -322,7 +322,7 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       tester.testEquals(BadEqualsWithParameterizedType.class);
     } catch (AssertionFailedError expected) {
-      ASSERT.that(expected.getMessage()).contains("create([[1]])");
+      assertThat(expected.getMessage()).contains("create([[1]])");
       return;
     }
     fail("should have failed");
@@ -359,7 +359,7 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       tester.testEquals(cls);
     } catch (AssertionFailedError expected) {
-      ASSERT.that(expected.getMessage()).contains(cls.getSimpleName() + "(");
+      assertThat(expected.getMessage()).contains(cls.getSimpleName() + "(");
       return;
     }
     fail("should have failed");
@@ -472,7 +472,7 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       tester.instantiate(FactoryMethodReturnsNullButNotAnnotated.class);
     } catch (AssertionFailedError expected) {
-      ASSERT.that(expected.getMessage()).contains("@Nullable");
+      assertThat(expected.getMessage()).contains("@Nullable");
       return;
     }
     fail("should have failed");

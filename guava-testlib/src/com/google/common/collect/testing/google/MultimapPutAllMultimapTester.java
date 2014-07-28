@@ -19,7 +19,7 @@ package com.google.common.collect.testing.google;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -109,6 +109,6 @@ public class MultimapPutAllMultimapTester<K, V>
     int getCollectionSize = getCollection.size();
     assertTrue(multimap().putAll(source));
     assertEquals(getCollectionSize + 1, getCollection.size());
-    ASSERT.that(getCollection).has().allOf(sampleValues().e3);
+    assertThat(getCollection).has().allOf(sampleValues().e3);
   }
 }

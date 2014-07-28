@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -221,7 +221,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<TypeA> alist =
         FluentIterable.from(asList(new TypeA(), new TypeA(), hasBoth, new TypeA()));
     Iterable<TypeB> blist = alist.filter(TypeB.class);
-    ASSERT.that(blist).iteratesAs(hasBoth);
+    assertThat(blist).iteratesAs(hasBoth);
   }
 
   public void testAnyMatch() {
@@ -482,7 +482,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<String> tail = FluentIterable.from(set).skip(1);
     set.remove("b");
     set.addAll(Lists.newArrayList("X", "Y", "Z"));
-    ASSERT.that(tail).iteratesAs("c", "X", "Y", "Z");
+    assertThat(tail).iteratesAs("c", "X", "Y", "Z");
   }
 
   public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
@@ -490,7 +490,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<String> tail = FluentIterable.from(list).skip(1);
     list.subList(1, 3).clear();
     list.addAll(0, Lists.newArrayList("X", "Y", "Z"));
-    ASSERT.that(tail).iteratesAs("Y", "Z", "a");
+    assertThat(tail).iteratesAs("Y", "Z", "a");
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {
@@ -506,7 +506,7 @@ public class FluentIterableTest extends TestCase {
     List<String> list = Lists.newArrayList("a", "b", "c");
     FluentIterable<String> tail = FluentIterable.from(list).skip(2);
     list.subList(0, 2).clear();
-    ASSERT.that(tail).isEmpty();
+    assertThat(tail).isEmpty();
   }
 
   @SuppressWarnings("ReturnValueIgnored")
@@ -560,11 +560,11 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testToSet() {
-    ASSERT.that(fluent(1, 2, 3, 4).toSet()).has().exactly(1, 2, 3, 4).inOrder();
+    assertThat(fluent(1, 2, 3, 4).toSet()).has().exactly(1, 2, 3, 4).inOrder();
   }
 
   public void testToSet_removeDuplicates() {
-    ASSERT.that(fluent(1, 2, 1, 2).toSet()).has().exactly(1, 2).inOrder();
+    assertThat(fluent(1, 2, 1, 2).toSet()).has().exactly(1, 2).inOrder();
   }
 
   public void testToSet_empty() {
@@ -572,17 +572,17 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testToSortedSet() {
-    ASSERT.that(fluent(1, 4, 2, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
+    assertThat(fluent(1, 4, 2, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
         .has().exactly(4, 3, 2, 1).inOrder();
   }
 
   public void testToSortedSet_removeDuplicates() {
-    ASSERT.that(fluent(1, 4, 1, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
+    assertThat(fluent(1, 4, 1, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
         .has().exactly(4, 3, 1).inOrder();
   }
 
   public void testToMap() {
-    ASSERT.that(fluent(1, 2, 3).toMap(Functions.toStringFunction()).entrySet())
+    assertThat(fluent(1, 2, 3).toMap(Functions.toStringFunction()).entrySet())
         .has().exactly(
             Maps.immutableEntry(1, "1"),
             Maps.immutableEntry(2, "2"),
@@ -689,17 +689,17 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testCopyInto_List() {
-    ASSERT.that(fluent(1, 3, 5).copyInto(Lists.newArrayList(1, 2)))
+    assertThat(fluent(1, 3, 5).copyInto(Lists.newArrayList(1, 2)))
         .has().exactly(1, 2, 1, 3, 5).inOrder();
   }
 
   public void testCopyInto_Set() {
-    ASSERT.that(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2)))
+    assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2)))
         .has().exactly(1, 2, 3, 5);
   }
 
   public void testCopyInto_SetAllDuplicates() {
-    ASSERT.that(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2, 3, 5)))
+    assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2, 3, 5)))
         .has().exactly(1, 2, 3, 5);
   }
 
@@ -714,7 +714,7 @@ public class FluentIterableTest extends TestCase {
       }
     };
 
-    ASSERT.that(FluentIterable.from(iterable).copyInto(list))
+    assertThat(FluentIterable.from(iterable).copyInto(list))
         .has().exactly(1, 2, 3, 9, 8, 7).inOrder();
   }
 

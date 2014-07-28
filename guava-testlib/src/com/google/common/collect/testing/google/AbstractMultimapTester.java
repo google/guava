@@ -16,7 +16,7 @@
 
 package com.google.common.collect.testing.google;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -145,18 +145,18 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   protected void assertGet(K key, Collection<V> values) {
-    ASSERT.that(multimap().get(key)).has().exactlyAs(values);
+    assertThat(multimap().get(key)).has().exactlyAs(values);
 
     if (!values.isEmpty()) {
-      ASSERT.that(multimap().asMap().get(key)).has().exactlyAs(values);
+      assertThat(multimap().asMap().get(key)).has().exactlyAs(values);
       assertFalse(multimap().isEmpty());
     } else {
-      ASSERT.that(multimap().asMap().get(key)).isNull();
+      assertThat(multimap().asMap().get(key)).isNull();
     }
 
     // TODO(user): Add proper overrides to prevent autoboxing.
     // Truth+autoboxing == compile error. Cast int to long to fix:
-    ASSERT.that(multimap().get(key).size()).is((long) values.size());
+    assertThat(multimap().get(key).size()).is((long) values.size());
 
     assertEquals(values.size() > 0, multimap().containsKey(key));
     assertEquals(values.size() > 0, multimap().keySet().contains(key));

@@ -21,7 +21,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
@@ -150,7 +150,7 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
   public void testRemoveAllIgnoresCount() {
     initThreeCopies();
     assertTrue(getMultiset().removeAll(Collections.singleton(samples.e0)));
-    ASSERT.that(getMultiset()).isEmpty();
+    assertThat(getMultiset()).isEmpty();
   }
   
   @CollectionSize.Require(SEVERAL)

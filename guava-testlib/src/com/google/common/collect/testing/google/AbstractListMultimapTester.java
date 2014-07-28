@@ -14,7 +14,7 @@
 
 package com.google.common.collect.testing.google;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
@@ -36,13 +36,13 @@ public class AbstractListMultimapTester<K, V>
   }
 
   protected void assertGet(K key, Collection<V> values) {
-    ASSERT.that(multimap().get(key)).has().exactlyAs(values).inOrder();
+    assertThat(multimap().get(key)).has().exactlyAs(values).inOrder();
 
     if (!values.isEmpty()) {
-      ASSERT.that(multimap().asMap().get(key)).has().exactlyAs(values).inOrder();
+      assertThat(multimap().asMap().get(key)).has().exactlyAs(values).inOrder();
       assertFalse(multimap().isEmpty());
     } else {
-      ASSERT.that(multimap().asMap().get(key)).isNull();
+      assertThat(multimap().asMap().get(key)).isNull();
     }
 
     assertEquals(values.size(), multimap().get(key).size());

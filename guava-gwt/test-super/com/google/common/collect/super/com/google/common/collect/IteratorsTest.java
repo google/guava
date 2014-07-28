@@ -20,8 +20,8 @@ import static com.google.common.collect.Iterators.advance;
 import static com.google.common.collect.Iterators.get;
 import static com.google.common.collect.Iterators.getLast;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -613,7 +613,7 @@ public class IteratorsTest extends TestCase {
 
     boolean changed = Iterators.addAll(alreadyThere,
                                        Iterators.<String>emptyIterator());
-    ASSERT.that(alreadyThere).has().exactly("already", "there").inOrder();
+    assertThat(alreadyThere).has().exactly("already", "there").inOrder();
     assertFalse(changed);
   }
 
@@ -623,7 +623,7 @@ public class IteratorsTest extends TestCase {
 
     boolean changed = Iterators.addAll(alreadyThere, freshlyAdded.iterator());
 
-    ASSERT.that(alreadyThere).has().exactly("already", "there", "freshly", "added");
+    assertThat(alreadyThere).has().exactly("already", "there", "freshly", "added");
     assertTrue(changed);
   }
 
@@ -633,7 +633,7 @@ public class IteratorsTest extends TestCase {
     List<String> oneMore = Lists.newArrayList("there");
 
     boolean changed = Iterators.addAll(alreadyThere, oneMore.iterator());
-    ASSERT.that(alreadyThere).has().exactly("already", "there").inOrder();
+    assertThat(alreadyThere).has().exactly("already", "there").inOrder();
     assertFalse(changed);
   }
 
@@ -1229,16 +1229,16 @@ public class IteratorsTest extends TestCase {
 
     assertEquals("Iterators.consumingIterator(...)", consumingIterator.toString());
 
-    ASSERT.that(list).has().exactly("a", "b").inOrder();
+    assertThat(list).has().exactly("a", "b").inOrder();
 
     assertTrue(consumingIterator.hasNext());
-    ASSERT.that(list).has().exactly("a", "b").inOrder();
+    assertThat(list).has().exactly("a", "b").inOrder();
     assertEquals("a", consumingIterator.next());
-    ASSERT.that(list).has().item("b");
+    assertThat(list).has().item("b");
 
     assertTrue(consumingIterator.hasNext());
     assertEquals("b", consumingIterator.next());
-    ASSERT.that(list).isEmpty();
+    assertThat(list).isEmpty();
 
     assertFalse(consumingIterator.hasNext());
   }

@@ -19,7 +19,7 @@ package com.google.common.cache;
 import static com.google.common.cache.CacheBuilder.EMPTY_STATS;
 import static com.google.common.cache.LocalCacheTest.SMALL_MAX_SIZE;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.cache.LocalCache.LocalLoadingCache;
 import com.google.common.cache.LocalCache.Segment;
@@ -160,17 +160,17 @@ public class LocalLoadingCacheTest extends TestCase {
     assertNull(map.put(three, one));
     assertNull(map.put(one, two));
 
-    ASSERT.that(map).hasKey(three).withValue(one);
-    ASSERT.that(map).hasKey(one).withValue(two);
+    assertThat(map).hasKey(three).withValue(one);
+    assertThat(map).hasKey(one).withValue(two);
 
     //TODO(user): Confirm with fry@ that this is a reasonable substitute.
     //Set<Map.Entry<Object, Object>> entries = map.entrySet();
-    //ASSERT.that(entries).has().exactly(
+    //assertThat(entries).has().exactly(
     //    Maps.immutableEntry(three, one), Maps.immutableEntry(one, two));
     //Set<Object> keys = map.keySet();
-    //ASSERT.that(keys).has().exactly(one, three);
+    //assertThat(keys).has().exactly(one, three);
     //Collection<Object> values = map.values();
-    //ASSERT.that(values).has().exactly(one, two);
+    //assertThat(values).has().exactly(one, two);
 
     map.clear();
 

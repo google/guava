@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -119,9 +119,9 @@ public class ArrayListMultimapTest extends TestCase {
     ListMultimap<String, Integer> multimap = create();
     multimap.putAll("foo", asList(1, 2, 3, 4, 5));
     List<Integer> list = multimap.get("foo");
-    ASSERT.that(multimap.get("foo")).has().exactly(1, 2, 3, 4, 5).inOrder();
+    assertThat(multimap.get("foo")).has().exactly(1, 2, 3, 4, 5).inOrder();
     List<Integer> sublist = list.subList(0, 5);
-    ASSERT.that(sublist).has().exactly(1, 2, 3, 4, 5).inOrder();
+    assertThat(sublist).has().exactly(1, 2, 3, 4, 5).inOrder();
 
     sublist.clear();
     assertTrue(sublist.isEmpty());
@@ -190,7 +190,7 @@ public class ArrayListMultimapTest extends TestCase {
     multimap.put("bar", 3);
     multimap.trimToSize();
     assertEquals(3, multimap.size());
-    ASSERT.that(multimap.get("foo")).has().exactly(1, 2).inOrder();
-    ASSERT.that(multimap.get("bar")).has().item(3);
+    assertThat(multimap.get("foo")).has().exactly(1, 2).inOrder();
+    assertThat(multimap.get("bar")).has().item(3);
   }
 }

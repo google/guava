@@ -15,8 +15,8 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Multiset.Entry;
@@ -422,13 +422,13 @@ public class ImmutableSortedMultisetTest extends TestCase {
   public void testSerialization_multiple() {
     Collection<String> c = ImmutableSortedMultiset.of("a", "b", "a");
     Collection<String> copy = SerializableTester.reserializeAndAssert(c);
-    ASSERT.that(copy).has().exactly("a", "a", "b").inOrder();
+    assertThat(copy).has().exactly("a", "a", "b").inOrder();
   }
 
   public void testSerialization_elementSet() {
     Multiset<String> c = ImmutableSortedMultiset.of("a", "b", "a");
     Collection<String> copy = SerializableTester.reserializeAndAssert(c.elementSet());
-    ASSERT.that(copy).has().exactly("a", "b").inOrder();
+    assertThat(copy).has().exactly("a", "b").inOrder();
   }
 
   public void testSerialization_entrySet() {
@@ -440,13 +440,13 @@ public class ImmutableSortedMultisetTest extends TestCase {
     Collection<String> c = ImmutableSortedMultiset.of("a", "b", "a");
     assertEquals(c, ImmutableSortedMultiset.of("a", "b", "a"));
     assertEquals(c, ImmutableSortedMultiset.of("a", "a", "b"));
-    ASSERT.that(c).isNotEqualTo(ImmutableSortedMultiset.of("a", "b"));
-    ASSERT.that(c).isNotEqualTo(ImmutableSortedMultiset.of("a", "b", "c", "d"));
+    assertThat(c).isNotEqualTo(ImmutableSortedMultiset.of("a", "b"));
+    assertThat(c).isNotEqualTo(ImmutableSortedMultiset.of("a", "b", "c", "d"));
   }
 
   public void testIterationOrder() {
     Collection<String> c = ImmutableSortedMultiset.of("a", "b", "a");
-    ASSERT.that(c).has().exactly("a", "a", "b").inOrder();
+    assertThat(c).has().exactly("a", "a", "b").inOrder();
   }
 
   public void testMultisetWrites() {

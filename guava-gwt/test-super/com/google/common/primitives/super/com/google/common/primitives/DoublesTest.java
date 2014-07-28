@@ -16,8 +16,8 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Double.NaN;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Converter;
@@ -345,7 +345,7 @@ public class DoublesTest extends TestCase {
     list.set(0, (double) 2);
     assertTrue(Arrays.equals(new double[] {(double) 2, (double) 1}, array));
     array[1] = (double) 3;
-    ASSERT.that(list).has().exactly((double) 2, (double) 3).inOrder();
+    assertThat(list).has().exactly((double) 2, (double) 3).inOrder();
   }
 
   public void testAsList_toArray_roundTrip() {

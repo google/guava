@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -68,9 +68,9 @@ public class ConstraintsTest extends TestCase {
     constrained.add("qux");
     constrained.addAll(asList("cat", "dog"));
     /* equals and hashCode aren't defined for Collection */
-    ASSERT.that(collection).has()
+    assertThat(collection).has()
         .exactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
-    ASSERT.that(constrained).has()
+    assertThat(constrained).has()
         .exactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
   }
 
@@ -86,8 +86,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    ASSERT.that(constrained).has().exactly("foo", "bar").inOrder();
-    ASSERT.that(collection).has().exactly("foo", "bar").inOrder();
+    assertThat(constrained).has().exactly("foo", "bar").inOrder();
+    assertThat(collection).has().exactly("foo", "bar").inOrder();
   }
 
   public void testConstrainedSetLegal() {
@@ -100,8 +100,8 @@ public class ConstraintsTest extends TestCase {
     assertTrue(constrained.equals(set));
     assertEquals(set.toString(), constrained.toString());
     assertEquals(set.hashCode(), constrained.hashCode());
-    ASSERT.that(set).has().exactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
-    ASSERT.that(constrained).has()
+    assertThat(set).has().exactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
+    assertThat(constrained).has()
         .exactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
   }
 
@@ -116,8 +116,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    ASSERT.that(constrained).has().exactly("foo", "bar").inOrder();
-    ASSERT.that(set).has().exactly("foo", "bar").inOrder();
+    assertThat(constrained).has().exactly("foo", "bar").inOrder();
+    assertThat(set).has().exactly("foo", "bar").inOrder();
   }
 
   public void testConstrainedSortedSetLegal() {
@@ -131,8 +131,8 @@ public class ConstraintsTest extends TestCase {
     assertTrue(constrained.equals(sortedSet));
     assertEquals(sortedSet.toString(), constrained.toString());
     assertEquals(sortedSet.hashCode(), constrained.hashCode());
-    ASSERT.that(sortedSet).has().exactly("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT).inOrder();
-    ASSERT.that(constrained).has()
+    assertThat(sortedSet).has().exactly("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT).inOrder();
+    assertThat(constrained).has()
         .exactly("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT).inOrder();
     assertNull(constrained.comparator());
     assertEquals("bar", constrained.first());
@@ -163,8 +163,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    ASSERT.that(constrained).has().exactly("bar", "foo").inOrder();
-    ASSERT.that(sortedSet).has().exactly("bar", "foo").inOrder();
+    assertThat(constrained).has().exactly("bar", "foo").inOrder();
+    assertThat(sortedSet).has().exactly("bar", "foo").inOrder();
   }
 
   public void testConstrainedListLegal() {
@@ -181,17 +181,17 @@ public class ConstraintsTest extends TestCase {
     assertTrue(constrained.equals(list));
     assertEquals(list.toString(), constrained.toString());
     assertEquals(list.hashCode(), constrained.hashCode());
-    ASSERT.that(list).has().exactly(
+    assertThat(list).has().exactly(
         "foo", "cow", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
-    ASSERT.that(constrained).has().exactly(
+    assertThat(constrained).has().exactly(
         "foo", "cow", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
     ListIterator<String> iterator = constrained.listIterator();
     iterator.next();
     iterator.set("sun");
     constrained.listIterator(2).add("sky");
-    ASSERT.that(list).has().exactly(
+    assertThat(list).has().exactly(
         "sun", "cow", "sky", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
-    ASSERT.that(constrained).has().exactly(
+    assertThat(constrained).has().exactly(
         "sun", "cow", "sky", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
     assertTrue(constrained instanceof RandomAccess);
   }
@@ -249,8 +249,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(1, asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    ASSERT.that(constrained).has().exactly("foo", "bar").inOrder();
-    ASSERT.that(list).has().exactly("foo", "bar").inOrder();
+    assertThat(constrained).has().exactly("foo", "bar").inOrder();
+    assertThat(list).has().exactly("foo", "bar").inOrder();
   }
 
   public void testNefariousAddAll() {
@@ -259,8 +259,8 @@ public class ConstraintsTest extends TestCase {
         list, TEST_CONSTRAINT);
     Collection<String> onceIterable = onceIterableCollection("baz");
     constrained.addAll(onceIterable);
-    ASSERT.that(constrained).has().exactly("foo", "bar", "baz").inOrder();
-    ASSERT.that(list).has().exactly("foo", "bar", "baz").inOrder();
+    assertThat(constrained).has().exactly("foo", "bar", "baz").inOrder();
+    assertThat(list).has().exactly("foo", "bar", "baz").inOrder();
   }
 
   /**

@@ -18,7 +18,7 @@ package com.google.common.io;
 
 import static com.google.common.io.Files.createTempDir;
 import static com.google.common.io.Files.touch;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
@@ -166,7 +166,7 @@ public class FilesTest extends IoTestCase {
     File i18nFile = getTestFile("i18n.txt");
     assertEquals(ASCII, Files.toString(asciiFile, Charsets.US_ASCII));
     assertEquals(I18N, Files.toString(i18nFile, Charsets.UTF_8));
-    ASSERT.that(Files.toString(i18nFile, Charsets.US_ASCII))
+    assertThat(Files.toString(i18nFile, Charsets.US_ASCII))
         .isNotEqualTo(I18N);
   }
 
@@ -357,7 +357,7 @@ public class FilesTest extends IoTestCase {
     temp.setLastModified(0);
     assertEquals(0, temp.lastModified());
     Files.touch(temp);
-    ASSERT.that(temp.lastModified()).isNotEqualTo(0);
+    assertThat(temp.lastModified()).isNotEqualTo(0);
   }
 
   public void testCreateParentDirs_root() throws IOException {
@@ -532,7 +532,7 @@ public class FilesTest extends IoTestCase {
         return collector;
       }
     };
-    ASSERT.that(Files.readLines(temp, Charsets.UTF_8, collect)).isEmpty();
+    assertThat(Files.readLines(temp, Charsets.UTF_8, collect)).isEmpty();
 
     PrintWriter w = new PrintWriter(Files.newWriter(temp, Charsets.UTF_8));
     w.println("hello");
@@ -541,7 +541,7 @@ public class FilesTest extends IoTestCase {
     w.println("");
     w.close();
     Files.readLines(temp, Charsets.UTF_8, collect);
-    ASSERT.that(collect.getResult())
+    assertThat(collect.getResult())
         .has().exactly("hello", "", " world  ", "").inOrder();
 
     LineProcessor<List<String>> collectNonEmptyLines =
@@ -562,7 +562,7 @@ public class FilesTest extends IoTestCase {
           }
         };
     Files.readLines(temp, Charsets.UTF_8, collectNonEmptyLines);
-    ASSERT.that(collectNonEmptyLines.getResult()).has().exactly(
+    assertThat(collectNonEmptyLines.getResult()).has().exactly(
         "hello", " world  ").inOrder();
 
     assertTrue(temp.delete());

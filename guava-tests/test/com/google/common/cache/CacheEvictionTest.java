@@ -18,8 +18,8 @@ import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.cache.TestingWeighers.intKeyWeigher;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.cache.CacheTesting.Receiver;
 import com.google.common.cache.LocalCache.ReferenceEntry;
@@ -184,27 +184,27 @@ public class CacheEvictionTest extends TestCase {
         .build(loader);
     CacheTesting.warmUp(cache, 0, 10);
     Set<Integer> keySet = cache.asMap().keySet();
-    ASSERT.that(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    assertThat(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     // re-order
     getAll(cache, asList(0, 1, 2));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
+    assertThat(keySet).has().exactly(3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
 
     // evict 3, 4, 5
     getAll(cache, asList(10, 11, 12));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(6, 7, 8, 9, 0, 1, 2, 10, 11, 12);
+    assertThat(keySet).has().exactly(6, 7, 8, 9, 0, 1, 2, 10, 11, 12);
 
     // re-order
     getAll(cache, asList(6, 7, 8));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(9, 0, 1, 2, 10, 11, 12, 6, 7, 8);
+    assertThat(keySet).has().exactly(9, 0, 1, 2, 10, 11, 12, 6, 7, 8);
 
     // evict 9, 0, 1
     getAll(cache, asList(13, 14, 15));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(2, 10, 11, 12, 6, 7, 8, 13, 14, 15);
+    assertThat(keySet).has().exactly(2, 10, 11, 12, 6, 7, 8, 13, 14, 15);
   }
 
   public void testEviction_weightedLru() {
@@ -217,37 +217,37 @@ public class CacheEvictionTest extends TestCase {
         .build(loader);
     CacheTesting.warmUp(cache, 0, 10);
     Set<Integer> keySet = cache.asMap().keySet();
-    ASSERT.that(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    assertThat(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     // re-order
     getAll(cache, asList(0, 1, 2));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
+    assertThat(keySet).has().exactly(3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
 
     // evict 3, 4, 5
     getAll(cache, asList(10));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(6, 7, 8, 9, 0, 1, 2, 10);
+    assertThat(keySet).has().exactly(6, 7, 8, 9, 0, 1, 2, 10);
 
     // re-order
     getAll(cache, asList(6, 7, 8));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(9, 0, 1, 2, 10, 6, 7, 8);
+    assertThat(keySet).has().exactly(9, 0, 1, 2, 10, 6, 7, 8);
 
     // evict 9, 1, 2, 10
     getAll(cache, asList(15));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(0, 6, 7, 8, 15);
+    assertThat(keySet).has().exactly(0, 6, 7, 8, 15);
 
     // fill empty space
     getAll(cache, asList(9));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(0, 6, 7, 8, 15, 9);
+    assertThat(keySet).has().exactly(0, 6, 7, 8, 15, 9);
 
     // evict 6
     getAll(cache, asList(1));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(0, 7, 8, 15, 9, 1);
+    assertThat(keySet).has().exactly(0, 7, 8, 15, 9, 1);
   }
 
   public void testEviction_overweight() {
@@ -260,17 +260,17 @@ public class CacheEvictionTest extends TestCase {
         .build(loader);
     CacheTesting.warmUp(cache, 0, 10);
     Set<Integer> keySet = cache.asMap().keySet();
-    ASSERT.that(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    assertThat(keySet).has().exactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     // add an at-the-maximum-weight entry
     getAll(cache, asList(45));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(0, 45);
+    assertThat(keySet).has().exactly(0, 45);
 
     // add an over-the-maximum-weight entry
     getAll(cache, asList(46));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().item(0);
+    assertThat(keySet).has().item(0);
   }
 
   public void testEviction_invalidateAll() {
@@ -282,22 +282,22 @@ public class CacheEvictionTest extends TestCase {
         .build(loader);
 
     Set<Integer> keySet = cache.asMap().keySet();
-    ASSERT.that(keySet).isEmpty();
+    assertThat(keySet).isEmpty();
 
     // add 0, 1, 2, 3, 4
     getAll(cache, asList(0, 1, 2, 3, 4));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(0, 1, 2, 3, 4);
+    assertThat(keySet).has().exactly(0, 1, 2, 3, 4);
 
     // invalidate all
     cache.invalidateAll();
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).isEmpty();
+    assertThat(keySet).isEmpty();
 
     // add 5, 6, 7, 8, 9, 10, 11, 12
     getAll(cache, asList(5, 6, 7, 8, 9, 10, 11, 12));
     CacheTesting.drainRecencyQueues(cache);
-    ASSERT.that(keySet).has().exactly(5, 6, 7, 8, 9, 10, 11, 12);
+    assertThat(keySet).has().exactly(5, 6, 7, 8, 9, 10, 11, 12);
   }
 
   private void getAll(LoadingCache<Integer, Integer> cache, List<Integer> keys) {

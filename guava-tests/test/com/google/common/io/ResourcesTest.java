@@ -17,7 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.CharMatcher.WHITESPACE;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
@@ -56,7 +56,7 @@ public class ResourcesTest extends IoTestCase {
   public void testToString() throws IOException {
     URL resource = getClass().getResource("testdata/i18n.txt");
     assertEquals(I18N, Resources.toString(resource, Charsets.UTF_8));
-    ASSERT.that(Resources.toString(resource, Charsets.US_ASCII))
+    assertThat(Resources.toString(resource, Charsets.US_ASCII))
         .isNotEqualTo(I18N);
   }
 

@@ -16,7 +16,7 @@
 
 package com.google.common.base;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
@@ -48,7 +48,7 @@ public class SplitterTest extends TestCase {
   public void testCharacterSimpleSplit() {
     String simple = "a,b,c";
     Iterable<String> letters = COMMA_SPLITTER.split(simple);
-    ASSERT.that(letters).iteratesAs("a", "b", "c");
+    assertThat(letters).iteratesAs("a", "b", "c");
   }
 
   /**
@@ -62,7 +62,7 @@ public class SplitterTest extends TestCase {
   public void testCharacterSimpleSplitToList() {
     String simple = "a,b,c";
     List<String> letters = COMMA_SPLITTER.splitToList(simple);
-    ASSERT.that(letters).iteratesAs("a", "b", "c");
+    assertThat(letters).iteratesAs("a", "b", "c");
   }
 
   public void testToString() {
@@ -74,37 +74,37 @@ public class SplitterTest extends TestCase {
   public void testCharacterSimpleSplitWithNoDelimiter() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.on('.').split(simple);
-    ASSERT.that(letters).iteratesAs("a,b,c");
+    assertThat(letters).iteratesAs("a,b,c");
   }
 
   public void testCharacterSplitWithDoubleDelimiter() {
     String doubled = "a,,b,c";
     Iterable<String> letters = COMMA_SPLITTER.split(doubled);
-    ASSERT.that(letters).iteratesAs("a", "", "b", "c");
+    assertThat(letters).iteratesAs("a", "", "b", "c");
   }
 
   public void testCharacterSplitWithDoubleDelimiterAndSpace() {
     String doubled = "a,, b,c";
     Iterable<String> letters = COMMA_SPLITTER.split(doubled);
-    ASSERT.that(letters).iteratesAs("a", "", " b", "c");
+    assertThat(letters).iteratesAs("a", "", " b", "c");
   }
 
   public void testCharacterSplitWithTrailingDelimiter() {
     String trailing = "a,b,c,";
     Iterable<String> letters = COMMA_SPLITTER.split(trailing);
-    ASSERT.that(letters).iteratesAs("a", "b", "c", "");
+    assertThat(letters).iteratesAs("a", "b", "c", "");
   }
 
   public void testCharacterSplitWithLeadingDelimiter() {
     String leading = ",a,b,c";
     Iterable<String> letters = COMMA_SPLITTER.split(leading);
-    ASSERT.that(letters).iteratesAs("", "a", "b", "c");
+    assertThat(letters).iteratesAs("", "a", "b", "c");
   }
 
   public void testCharacterSplitWithMulitpleLetters() {
     Iterable<String> testCharacteringMotto = Splitter.on('-').split(
         "Testing-rocks-Debugging-sucks");
-    ASSERT.that(testCharacteringMotto).iteratesAs(
+    assertThat(testCharacteringMotto).iteratesAs(
         "Testing", "rocks", "Debugging", "sucks");
   }
 
@@ -112,7 +112,7 @@ public class SplitterTest extends TestCase {
     Iterable<String> testCharacteringMotto = Splitter
         .on(CharMatcher.WHITESPACE)
         .split("Testing\nrocks\tDebugging sucks");
-    ASSERT.that(testCharacteringMotto).iteratesAs(
+    assertThat(testCharacteringMotto).iteratesAs(
         "Testing", "rocks", "Debugging", "sucks");
   }
 
@@ -120,40 +120,40 @@ public class SplitterTest extends TestCase {
     String doubled = "a..b.c";
     Iterable<String> letters = Splitter.on('.')
         .omitEmptyStrings().split(doubled);
-    ASSERT.that(letters).iteratesAs("a", "b", "c");
+    assertThat(letters).iteratesAs("a", "b", "c");
   }
 
   public void testCharacterSplitEmptyToken() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on('.').trimResults()
         .split(emptyToken);
-    ASSERT.that(letters).iteratesAs("a", "", "c");
+    assertThat(letters).iteratesAs("a", "", "c");
   }
 
   public void testCharacterSplitEmptyTokenOmitEmptyStrings() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on('.')
         .omitEmptyStrings().trimResults().split(emptyToken);
-    ASSERT.that(letters).iteratesAs("a", "c");
+    assertThat(letters).iteratesAs("a", "c");
   }
 
   public void testCharacterSplitOnEmptyString() {
     Iterable<String> nothing = Splitter.on('.').split("");
-    ASSERT.that(nothing).iteratesAs("");
+    assertThat(nothing).iteratesAs("");
   }
 
   public void testCharacterSplitOnEmptyStringOmitEmptyStrings() {
-    ASSERT.that(Splitter.on('.').omitEmptyStrings().split("")).isEmpty();
+    assertThat(Splitter.on('.').omitEmptyStrings().split("")).isEmpty();
   }
 
   public void testCharacterSplitOnOnlyDelimiter() {
     Iterable<String> blankblank = Splitter.on('.').split(".");
-    ASSERT.that(blankblank).iteratesAs("", "");
+    assertThat(blankblank).iteratesAs("", "");
   }
 
   public void testCharacterSplitOnOnlyDelimitersOmitEmptyStrings() {
     Iterable<String> empty = Splitter.on('.').omitEmptyStrings().split("...");
-    ASSERT.that(empty).isEmpty();
+    assertThat(empty).isEmpty();
   }
 
   public void testCharacterSplitWithTrim() {
@@ -162,50 +162,50 @@ public class SplitterTest extends TestCase {
     Iterable<String> family = COMMA_SPLITTER
         .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
         .split(jacksons);
-    ASSERT.that(family).iteratesAs(
+    assertThat(family).iteratesAs(
         "(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)");
   }
 
   public void testStringSimpleSplit() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.on(',').split(simple);
-    ASSERT.that(letters).iteratesAs("a", "b", "c");
+    assertThat(letters).iteratesAs("a", "b", "c");
   }
 
   public void testStringSimpleSplitWithNoDelimiter() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.on('.').split(simple);
-    ASSERT.that(letters).iteratesAs("a,b,c");
+    assertThat(letters).iteratesAs("a,b,c");
   }
 
   public void testStringSplitWithDoubleDelimiter() {
     String doubled = "a,,b,c";
     Iterable<String> letters = Splitter.on(',').split(doubled);
-    ASSERT.that(letters).iteratesAs("a", "", "b", "c");
+    assertThat(letters).iteratesAs("a", "", "b", "c");
   }
 
   public void testStringSplitWithDoubleDelimiterAndSpace() {
     String doubled = "a,, b,c";
     Iterable<String> letters = Splitter.on(',').split(doubled);
-    ASSERT.that(letters).iteratesAs("a", "", " b", "c");
+    assertThat(letters).iteratesAs("a", "", " b", "c");
   }
 
   public void testStringSplitWithTrailingDelimiter() {
     String trailing = "a,b,c,";
     Iterable<String> letters = Splitter.on(',').split(trailing);
-    ASSERT.that(letters).iteratesAs("a", "b", "c", "");
+    assertThat(letters).iteratesAs("a", "b", "c", "");
   }
 
   public void testStringSplitWithLeadingDelimiter() {
     String leading = ",a,b,c";
     Iterable<String> letters = Splitter.on(',').split(leading);
-    ASSERT.that(letters).iteratesAs("", "a", "b", "c");
+    assertThat(letters).iteratesAs("", "a", "b", "c");
   }
 
   public void testStringSplitWithMultipleLetters() {
     Iterable<String> testStringingMotto = Splitter.on('-').split(
         "Testing-rocks-Debugging-sucks");
-    ASSERT.that(testStringingMotto).iteratesAs(
+    assertThat(testStringingMotto).iteratesAs(
         "Testing", "rocks", "Debugging", "sucks");
   }
 
@@ -213,46 +213,46 @@ public class SplitterTest extends TestCase {
     String doubled = "a..b.c";
     Iterable<String> letters = Splitter.on('.')
         .omitEmptyStrings().split(doubled);
-    ASSERT.that(letters).iteratesAs("a", "b", "c");
+    assertThat(letters).iteratesAs("a", "b", "c");
   }
 
   public void testStringSplitEmptyToken() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on('.').trimResults()
         .split(emptyToken);
-    ASSERT.that(letters).iteratesAs("a", "", "c");
+    assertThat(letters).iteratesAs("a", "", "c");
   }
 
   public void testStringSplitEmptyTokenOmitEmptyStrings() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on('.')
         .omitEmptyStrings().trimResults().split(emptyToken);
-    ASSERT.that(letters).iteratesAs("a", "c");
+    assertThat(letters).iteratesAs("a", "c");
   }
 
   public void testStringSplitWithLongDelimiter() {
     String longDelimiter = "a, b, c";
     Iterable<String> letters = Splitter.on(", ").split(longDelimiter);
-    ASSERT.that(letters).iteratesAs("a", "b", "c");
+    assertThat(letters).iteratesAs("a", "b", "c");
   }
 
   public void testStringSplitWithLongLeadingDelimiter() {
     String longDelimiter = ", a, b, c";
     Iterable<String> letters = Splitter.on(", ").split(longDelimiter);
-    ASSERT.that(letters).iteratesAs("", "a", "b", "c");
+    assertThat(letters).iteratesAs("", "a", "b", "c");
   }
 
   public void testStringSplitWithLongTrailingDelimiter() {
     String longDelimiter = "a, b, c, ";
     Iterable<String> letters = Splitter.on(", ").split(longDelimiter);
-    ASSERT.that(letters).iteratesAs("a", "b", "c", "");
+    assertThat(letters).iteratesAs("a", "b", "c", "");
   }
 
   public void testStringSplitWithDelimiterSubstringInValue() {
     String fourCommasAndFourSpaces = ",,,,    ";
     Iterable<String> threeCommasThenThreeSpaces = Splitter.on(", ").split(
         fourCommasAndFourSpaces);
-    ASSERT.that(threeCommasThenThreeSpaces).iteratesAs(",,,", "   ");
+    assertThat(threeCommasThenThreeSpaces).iteratesAs(",,,", "   ");
   }
 
   public void testStringSplitWithEmptyString() {
@@ -265,21 +265,21 @@ public class SplitterTest extends TestCase {
 
   public void testStringSplitOnEmptyString() {
     Iterable<String> notMuch = Splitter.on('.').split("");
-    ASSERT.that(notMuch).iteratesAs("");
+    assertThat(notMuch).iteratesAs("");
   }
 
   public void testStringSplitOnEmptyStringOmitEmptyString() {
-    ASSERT.that(Splitter.on('.').omitEmptyStrings().split("")).isEmpty();
+    assertThat(Splitter.on('.').omitEmptyStrings().split("")).isEmpty();
   }
 
   public void testStringSplitOnOnlyDelimiter() {
     Iterable<String> blankblank = Splitter.on('.').split(".");
-    ASSERT.that(blankblank).iteratesAs("", "");
+    assertThat(blankblank).iteratesAs("", "");
   }
 
   public void testStringSplitOnOnlyDelimitersOmitEmptyStrings() {
     Iterable<String> empty = Splitter.on('.').omitEmptyStrings().split("...");
-    ASSERT.that(empty).isEmpty();
+    assertThat(empty).isEmpty();
   }
 
   public void testStringSplitWithTrim() {
@@ -288,7 +288,7 @@ public class SplitterTest extends TestCase {
     Iterable<String> family = Splitter.on(',')
         .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
         .split(jacksons);
-    ASSERT.that(family).iteratesAs(
+    assertThat(family).iteratesAs(
         "(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)");
   }
 
@@ -341,41 +341,41 @@ public class SplitterTest extends TestCase {
   public void testFixedLengthSimpleSplit() {
     String simple = "abcde";
     Iterable<String> letters = Splitter.fixedLength(2).split(simple);
-    ASSERT.that(letters).iteratesAs("ab", "cd", "e");
+    assertThat(letters).iteratesAs("ab", "cd", "e");
   }
 
   public void testFixedLengthSplitEqualChunkLength() {
     String simple = "abcdef";
     Iterable<String> letters = Splitter.fixedLength(2).split(simple);
-    ASSERT.that(letters).iteratesAs("ab", "cd", "ef");
+    assertThat(letters).iteratesAs("ab", "cd", "ef");
   }
 
   public void testFixedLengthSplitOnlyOneChunk() {
     String simple = "abc";
     Iterable<String> letters = Splitter.fixedLength(3).split(simple);
-    ASSERT.that(letters).iteratesAs("abc");
+    assertThat(letters).iteratesAs("abc");
   }
 
   public void testFixedLengthSplitSmallerString() {
     String simple = "ab";
     Iterable<String> letters = Splitter.fixedLength(3).split(simple);
-    ASSERT.that(letters).iteratesAs("ab");
+    assertThat(letters).iteratesAs("ab");
   }
 
   public void testFixedLengthSplitEmptyString() {
     String simple = "";
     Iterable<String> letters = Splitter.fixedLength(3).split(simple);
-    ASSERT.that(letters).iteratesAs("");
+    assertThat(letters).iteratesAs("");
   }
 
   public void testFixedLengthSplitEmptyStringWithOmitEmptyStrings() {
-    ASSERT.that(Splitter.fixedLength(3).omitEmptyStrings().split("")).isEmpty();
+    assertThat(Splitter.fixedLength(3).omitEmptyStrings().split("")).isEmpty();
   }
 
   public void testFixedLengthSplitIntoChars() {
     String simple = "abcd";
     Iterable<String> letters = Splitter.fixedLength(1).split(simple);
-    ASSERT.that(letters).iteratesAs("a", "b", "c", "d");
+    assertThat(letters).iteratesAs("a", "b", "c", "d");
   }
 
   public void testFixedLengthSplitZeroChunkLen() {
@@ -397,79 +397,79 @@ public class SplitterTest extends TestCase {
   public void testLimitLarge() {
     String simple = "abcd";
     Iterable<String> letters = Splitter.fixedLength(1).limit(100).split(simple);
-    ASSERT.that(letters).iteratesAs("a", "b", "c", "d");
+    assertThat(letters).iteratesAs("a", "b", "c", "d");
   }
 
   public void testLimitOne() {
     String simple = "abcd";
     Iterable<String> letters = Splitter.fixedLength(1).limit(1).split(simple);
-    ASSERT.that(letters).iteratesAs("abcd");
+    assertThat(letters).iteratesAs("abcd");
   }
 
   public void testLimitFixedLength() {
     String simple = "abcd";
     Iterable<String> letters = Splitter.fixedLength(1).limit(2).split(simple);
-    ASSERT.that(letters).iteratesAs("a", "bcd");
+    assertThat(letters).iteratesAs("a", "bcd");
   }
 
   public void testLimitSeparator() {
     String simple = "a,b,c,d";
     Iterable<String> items = COMMA_SPLITTER.limit(2).split(simple);
-    ASSERT.that(items).iteratesAs("a", "b,c,d");
+    assertThat(items).iteratesAs("a", "b,c,d");
   }
 
   public void testLimitExtraSeparators() {
     String text = "a,,,b,,c,d";
     Iterable<String> items = COMMA_SPLITTER.limit(2).split(text);
-    ASSERT.that(items).iteratesAs("a", ",,b,,c,d");
+    assertThat(items).iteratesAs("a", ",,b,,c,d");
   }
 
   public void testLimitExtraSeparatorsOmitEmpty() {
     String text = "a,,,b,,c,d";
     Iterable<String> items = COMMA_SPLITTER.limit(2).omitEmptyStrings().split(text);
-    ASSERT.that(items).iteratesAs("a", "b,,c,d");
+    assertThat(items).iteratesAs("a", "b,,c,d");
   }
 
   public void testLimitExtraSeparatorsOmitEmpty3() {
     String text = "a,,,b,,c,d";
     Iterable<String> items = COMMA_SPLITTER.limit(3).omitEmptyStrings().split(text);
-    ASSERT.that(items).iteratesAs("a", "b", "c,d");
+    assertThat(items).iteratesAs("a", "b", "c,d");
   }
 
   public void testLimitExtraSeparatorsTrim() {
     String text = ",,a,,  , b ,, c,d ";
     Iterable<String> items = COMMA_SPLITTER.limit(2).omitEmptyStrings().trimResults().split(text);
-    ASSERT.that(items).iteratesAs("a", "b ,, c,d");
+    assertThat(items).iteratesAs("a", "b ,, c,d");
   }
 
   public void testLimitExtraSeparatorsTrim3() {
     String text = ",,a,,  , b ,, c,d ";
     Iterable<String> items = COMMA_SPLITTER.limit(3).omitEmptyStrings().trimResults().split(text);
-    ASSERT.that(items).iteratesAs("a", "b", "c,d");
+    assertThat(items).iteratesAs("a", "b", "c,d");
   }
 
   public void testLimitExtraSeparatorsTrim1() {
     String text = ",,a,,  , b ,, c,d ";
     Iterable<String> items = COMMA_SPLITTER.limit(1).omitEmptyStrings().trimResults().split(text);
-    ASSERT.that(items).iteratesAs("a,,  , b ,, c,d");
+    assertThat(items).iteratesAs("a,,  , b ,, c,d");
   }
 
   public void testLimitExtraSeparatorsTrim1NoOmit() {
     String text = ",,a,,  , b ,, c,d ";
     Iterable<String> items = COMMA_SPLITTER.limit(1).trimResults().split(text);
-    ASSERT.that(items).iteratesAs(",,a,,  , b ,, c,d");
+    assertThat(items).iteratesAs(",,a,,  , b ,, c,d");
   }
 
   public void testLimitExtraSeparatorsTrim1Empty() {
     String text = "";
     Iterable<String> items = COMMA_SPLITTER.limit(1).split(text);
-    ASSERT.that(items).iteratesAs("");
+    assertThat(items).iteratesAs("");
   }
 
   public void testLimitExtraSeparatorsTrim1EmptyOmit() {
     String text = "";
     Iterable<String> items = COMMA_SPLITTER.omitEmptyStrings().limit(1).split(text);
-    ASSERT.that(items).isEmpty();
+    assertThat(items).isEmpty();
   }
 
   @SuppressWarnings("ReturnValueIgnored") // testing for exception
@@ -492,8 +492,8 @@ public class SplitterTest extends TestCase {
         .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
     ImmutableMap<String, String> expected =
           ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
-    ASSERT.that(m).isEqualTo(expected);
-    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(m).isEqualTo(expected);
+    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_trimmedEntries() {
@@ -504,8 +504,8 @@ public class SplitterTest extends TestCase {
     ImmutableMap<String, String> expected =
         ImmutableMap.of("boy  ", " tom", "girl", " tina", "cat  ", " kitty", "dog", " tommy");
 
-    ASSERT.that(m).isEqualTo(expected);
-    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(m).isEqualTo(expected);
+    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_trimmedKeyValue() {
@@ -514,8 +514,8 @@ public class SplitterTest extends TestCase {
             "boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
     ImmutableMap<String, String> expected =
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
-    ASSERT.that(m).isEqualTo(expected);
-    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(m).isEqualTo(expected);
+    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_notTrimmed() {
@@ -523,8 +523,8 @@ public class SplitterTest extends TestCase {
         " boy:tom , girl: tina , cat :kitty , dog:  tommy ");
     ImmutableMap<String, String> expected =
         ImmutableMap.of(" boy", "tom ", " girl", " tina ", " cat ", "kitty ", " dog", "  tommy ");
-    ASSERT.that(m).isEqualTo(expected);
-    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(m).isEqualTo(expected);
+    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_CharacterSeparator() {
@@ -536,8 +536,8 @@ public class SplitterTest extends TestCase {
     ImmutableMap<String, String> expected =
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
 
-    ASSERT.that(m).isEqualTo(expected);
-    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(m).isEqualTo(expected);
+    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_multiCharacterSeparator() {
@@ -549,8 +549,8 @@ public class SplitterTest extends TestCase {
     ImmutableMap<String, String> expected =
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
 
-    ASSERT.that(m).isEqualTo(expected);
-    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(m).isEqualTo(expected);
+    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
   @SuppressWarnings("ReturnValueIgnored") // testing for exception
@@ -575,8 +575,8 @@ public class SplitterTest extends TestCase {
         .withKeyValueSeparator(":")
         .split("boy:tom,girl:tina,cat:kitty,dog:tommy");
 
-    ASSERT.that(m.keySet()).iteratesAs("boy", "girl", "cat", "dog");
-    ASSERT.that(m).isEqualTo(
+    assertThat(m.keySet()).iteratesAs("boy", "girl", "cat", "dog");
+    assertThat(m).isEqualTo(
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy"));
 
     // try in a different order
@@ -584,8 +584,8 @@ public class SplitterTest extends TestCase {
         .withKeyValueSeparator(":")
         .split("girl:tina,boy:tom,dog:tommy,cat:kitty");
 
-    ASSERT.that(m.keySet()).iteratesAs("girl", "boy", "dog", "cat");
-    ASSERT.that(m).isEqualTo(
+    assertThat(m.keySet()).iteratesAs("girl", "boy", "dog", "cat");
+    assertThat(m).isEqualTo(
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy"));
   }
 

@@ -22,7 +22,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -43,14 +43,14 @@ import java.util.Map.Entry;
 @GwtCompatible
 public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testEntries() {
-    ASSERT.that(multimap().entries()).has().exactlyAs(getSampleElements());
+    assertThat(multimap().entries()).has().exactlyAs(getSampleElements());
   }
   
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testContainsEntryWithNullKeyPresent() {
     initMultimapWithNullKey();
-    ASSERT.that(multimap().entries()).has().allOf(
+    assertThat(multimap().entries()).has().allOf(
         Helpers.mapEntry((K) null, getValueForNullKey()));
   }
   
@@ -63,7 +63,7 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
   @MapFeature.Require(ALLOWS_NULL_VALUES)
   public void testContainsEntryWithNullValuePresent() {
     initMultimapWithNullValue();
-    ASSERT.that(multimap().entries()).has().allOf(
+    assertThat(multimap().entries()).has().allOf(
         Helpers.mapEntry(getKeyForNullValue(), (V) null));
   }
   

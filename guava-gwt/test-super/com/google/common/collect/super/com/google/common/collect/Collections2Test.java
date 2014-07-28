@@ -18,9 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.Collections.nCopies;
-import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -79,7 +79,7 @@ public class Collections2Test extends TestCase {
         Collections2.orderedPermutations(list);
 
     assertEquals(1, permutationSet.size());
-    ASSERT.that(permutationSet).has().item(list);
+    assertThat(permutationSet).has().item(list);
 
     Iterator<List<Integer>> permutations = permutationSet.iterator();
 

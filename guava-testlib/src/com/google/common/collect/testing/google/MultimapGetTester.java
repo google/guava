@@ -23,7 +23,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -122,7 +122,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
     assertFalse(multimap().containsKey(k0));
     assertFalse(multimap().containsEntry(k0, v0));
-    ASSERT.that(result).isEmpty();
+    assertThat(result).isEmpty();
 
     V v1 = sampleValues().e1;
     V v2 = sampleValues().e2;
@@ -130,8 +130,8 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
     assertTrue(result.add(v1));
     assertTrue(result.add(v2));
 
-    ASSERT.that(result).has().exactly(v1, v2);
-    ASSERT.that(multimap().get(k0)).has().exactly(v1, v2);
+    assertThat(result).has().exactly(v1, v2);
+    assertThat(multimap().get(k0)).has().exactly(v1, v2);
     assertTrue(multimap().containsKey(k0));
     assertFalse(multimap().containsEntry(k0, v0));
     assertTrue(multimap().containsEntry(k0, v2));
@@ -142,12 +142,12 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @CollectionSize.Require(absent = ZERO)
   public void testGetNullPresent() {
     initMultimapWithNullKey();
-    ASSERT.that(multimap().get(null)).has().item(getValueForNullKey());
+    assertThat(multimap().get(null)).has().item(getValueForNullKey());
   }
 
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testGetNullAbsent() {
-    ASSERT.that(multimap().get(null)).isEmpty();
+    assertThat(multimap().get(null)).isEmpty();
   }
 
   @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
@@ -164,7 +164,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @CollectionSize.Require(absent = ZERO)
   public void testGetWithNullValue() {
     initMultimapWithNullValue();
-    ASSERT.that(multimap().get(getKeyForNullValue()))
+    assertThat(multimap().get(getKeyForNullValue()))
         .has().item(null);
   }
 }
