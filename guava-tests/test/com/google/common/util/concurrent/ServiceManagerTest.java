@@ -63,10 +63,10 @@ public class ServiceManagerTest extends TestCase {
    * A NoOp service that will delay the startup and shutdown notification for a configurable amount
    * of time.
    */
-  private static class NoOpDelayedSerivce extends NoOpService {
+  private static class NoOpDelayedService extends NoOpService {
     private long delay;
 
-    public NoOpDelayedSerivce(long delay) {
+    public NoOpDelayedService(long delay) {
       this.delay = delay;
     }
 
@@ -109,8 +109,8 @@ public class ServiceManagerTest extends TestCase {
   }
 
   public void testServiceStartupTimes() {
-    Service a = new NoOpDelayedSerivce(150);
-    Service b = new NoOpDelayedSerivce(353);
+    Service a = new NoOpDelayedService(150);
+    Service b = new NoOpDelayedService(353);
     ServiceManager serviceManager = new ServiceManager(asList(a, b));
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
@@ -124,14 +124,14 @@ public class ServiceManagerTest extends TestCase {
     // 1. service times are accurate when the service is started by the manager
     // 2. service times are recorded when the service is not started by the manager (but they may
     // not be accurate).
-    final Service b = new NoOpDelayedSerivce(353) {
+    final Service b = new NoOpDelayedService(353) {
       @Override protected void doStart() {
         super.doStart();
-        // This will delay service listener execution
+        // This will delay service listener execution at least 150 milliseconds
         Uninterruptibles.sleepUninterruptibly(150, TimeUnit.MILLISECONDS);
       }
     };
-    Service a = new NoOpDelayedSerivce(150) {
+    Service a = new NoOpDelayedService(150) {
       @Override protected void doStart() {
         b.startAsync();
         super.doStart();
@@ -142,7 +142,11 @@ public class ServiceManagerTest extends TestCase {
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
     assertEquals(2, startupTimes.size());
     assertThat(startupTimes.get(a)).isInclusivelyInRange(150, Long.MAX_VALUE);
-    assertThat(startupTimes.get(b)).isInclusivelyInRange(0, 353 - 150);
+    // Service b startup takes at least 353 millis, but starting the timer is delayed by at least
+    // 150 milliseconds. so in a perfect world the timing would be 353-150=203ms, but since either
+    // of our sleep calls can be arbitrarily delayed we should just assert that there is a time
+    // recorded.
+    assertThat(startupTimes.get(b)).isNotNull();
   }
 
   public void testServiceStartStop() {
@@ -244,7 +248,7 @@ public class ServiceManagerTest extends TestCase {
   }
 
   public void testTimeouts() throws Exception {
-    Service a = new NoOpDelayedSerivce(50);
+    Service a = new NoOpDelayedService(50);
     ServiceManager manager = new ServiceManager(asList(a));
     manager.startAsync();
     try {
