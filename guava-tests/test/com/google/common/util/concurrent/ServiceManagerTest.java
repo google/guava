@@ -15,6 +15,7 @@
  */
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
 import com.google.common.collect.ImmutableMap;
@@ -114,8 +115,34 @@ public class ServiceManagerTest extends TestCase {
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
     assertEquals(2, startupTimes.size());
-    assertTrue(startupTimes.get(a) >= 150);
-    assertTrue(startupTimes.get(b) >= 353);
+    assertThat(startupTimes.get(a)).isInclusivelyInRange(150, Long.MAX_VALUE);
+    assertThat(startupTimes.get(b)).isInclusivelyInRange(353, Long.MAX_VALUE);
+  }
+
+  public void testServiceStartupTimes_selfStartingServices() {
+    // This tests to ensure that:
+    // 1. service times are accurate when the service is started by the manager
+    // 2. service times are recorded when the service is not started by the manager (but they may
+    // not be accurate).
+    final Service b = new NoOpDelayedSerivce(353) {
+      @Override protected void doStart() {
+        super.doStart();
+        // This will delay service listener execution
+        Uninterruptibles.sleepUninterruptibly(150, TimeUnit.MILLISECONDS);
+      }
+    };
+    Service a = new NoOpDelayedSerivce(150) {
+      @Override protected void doStart() {
+        b.startAsync();
+        super.doStart();
+      }
+    };
+    ServiceManager serviceManager = new ServiceManager(asList(a, b));
+    serviceManager.startAsync().awaitHealthy();
+    ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
+    assertEquals(2, startupTimes.size());
+    assertThat(startupTimes.get(a)).isInclusivelyInRange(150, Long.MAX_VALUE);
+    assertThat(startupTimes.get(b)).isInclusivelyInRange(0, 353 - 150);
   }
 
   public void testServiceStartStop() {
