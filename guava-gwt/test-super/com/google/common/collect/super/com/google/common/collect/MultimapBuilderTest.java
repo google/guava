@@ -17,12 +17,9 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.MultimapBuilder.MultimapBuilderWithKeys;
-import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
-import java.math.RoundingMode;
 import java.util.SortedMap;
 import java.util.SortedSet;
 
@@ -48,22 +45,6 @@ public class MultimapBuilderTest extends TestCase {
         MultimapBuilder.treeKeys().arrayListValues().<String, Integer>build();
     assertTrue(multimap.keySet() instanceof SortedSet);
     assertTrue(multimap.asMap() instanceof SortedMap);
-  }
-
-  public void testSerialization() {
-    for (MultimapBuilderWithKeys<?> builderWithKeys : ImmutableList.of(
-        MultimapBuilder.hashKeys(), MultimapBuilder.linkedHashKeys(), MultimapBuilder.treeKeys(),
-        MultimapBuilder.enumKeys(RoundingMode.class))) {
-      for (MultimapBuilder<?, ?> builder : ImmutableList.of(
-          builderWithKeys.arrayListValues(),
-          builderWithKeys.linkedListValues(),
-          builderWithKeys.hashSetValues(),
-          builderWithKeys.linkedHashSetValues(),
-          builderWithKeys.treeSetValues(),
-          builderWithKeys.enumSetValues(RoundingMode.class))) {
-        SerializableTester.reserializeAndAssert(builder.build());
-      }
-    }
   }
 }
 

@@ -23,11 +23,6 @@ public void testGenerics_gwtCompatible() throws Exception {
   testCase.testGenerics_gwtCompatible();
 }
 
-public void testSerialization() throws Exception {
-  com.google.common.collect.MultimapBuilderTest testCase = new com.google.common.collect.MultimapBuilderTest();
-  testCase.testSerialization();
-}
-
 public void testTreeKeys_gwtCompatible() throws Exception {
   com.google.common.collect.MultimapBuilderTest testCase = new com.google.common.collect.MultimapBuilderTest();
   testCase.testTreeKeys_gwtCompatible();

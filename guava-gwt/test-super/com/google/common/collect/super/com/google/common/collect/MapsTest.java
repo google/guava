@@ -810,37 +810,6 @@ public class MapsTest extends TestCase {
     }
   }
 
-  /**
-   * Constructs a "nefarious" map entry with the specified key and value,
-   * meaning an entry that is suitable for testing that map entries cannot be
-   * modified via a nefarious implementation of equals. This is used for testing
-   * unmodifiable collections of map entries; for example, it should not be
-   * possible to access the raw (modifiable) map entry via a nefarious equals
-   * method.
-   */
-  public static <K, V> Map.Entry<K, V> nefariousEntry(
-      final K key, final V value) {
-    return new AbstractMapEntry<K, V>() {
-        @Override public K getKey() {
-          return key;
-        }
-        @Override public V getValue() {
-          return value;
-        }
-        @Override public V setValue(V value) {
-          throw new UnsupportedOperationException();
-        }
-        @SuppressWarnings("unchecked")
-        @Override public boolean equals(Object o) {
-          if (o instanceof Map.Entry) {
-            Map.Entry<K, V> e = (Map.Entry<K, V>) o;
-            e.setValue(value); // muhahaha!
-          }
-          return super.equals(o);
-        }
-      };
-  }
-
   public void testAsConverter_nominal() throws Exception {
     ImmutableBiMap<String, Integer> biMap = ImmutableBiMap.of(
         "one", 1,
