@@ -645,7 +645,7 @@ public final class InetAddresses {
           "port '%s' is out of range (0 <= port <= 0xffff)", port);
       Preconditions.checkArgument((flags >= 0) && (flags <= 0xffff),
           "flags '%s' is out of range (0 <= flags <= 0xffff)", flags);
-      
+
       this.server = MoreObjects.firstNonNull(server, ANY4);
       this.client = MoreObjects.firstNonNull(client, ANY4);
       this.port = port;
@@ -966,6 +966,29 @@ public final class InetAddresses {
       reversed[i] = addr[addr.length - i - 1];
     }
     return InetAddress.getByAddress(reversed);
+  }
+
+  /**
+   * Returns a new InetAddress that is one less than the passed in address.
+   * This method works for both IPv4 and IPv6 addresses.
+   *
+   * @param address the InetAddress to decrement
+   * @return a new InetAddress that is one less than the passed in address
+   * @throws IllegalArgumentException if InetAddress is at the beginning of its range
+   * @since 18.0
+   */
+  public static InetAddress decrement(InetAddress address) {
+    byte[] addr = address.getAddress();
+    int i = addr.length - 1;
+    while (i >= 0 && addr[i] == (byte) 0x00) {
+      addr[i] = (byte) 0xff;
+      i--;
+    }
+
+    Preconditions.checkArgument(i >= 0, "Decrementing %s would wrap.", address);
+
+    addr[i]--;
+    return bytesToInetAddress(addr);
   }
 
   /**
