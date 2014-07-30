@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
@@ -72,18 +73,6 @@ import javax.annotation.Nullable;
  */
 @Beta
 public final class Futures {
-  /**
-   * A 'same thread executor' that isn't an executor service and therefore cannot reject tasks.
-   *
-   * <p>Also, since it is a shared instance it should be generally cheaper and faster than
-   * {@link MoreExecutors#sameThreadExecutor}.
-   */
-  private static final Executor INLINE_EXECUTOR = new Executor() {
-    @Override public void execute(Runnable runnable) {
-      runnable.run();
-    }
-  };
-
   private Futures() {}
 
   /**
@@ -386,7 +375,7 @@ public final class Futures {
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback) {
-    return withFallback(input, fallback, INLINE_EXECUTOR);
+    return withFallback(input, fallback, directExecutor());
   }
 
   /**
@@ -497,7 +486,7 @@ public final class Futures {
                   setException(t);
                 }
               }
-            }, INLINE_EXECUTOR);
+            }, directExecutor());
           } catch (Throwable e) {
             setException(e);
           }
@@ -573,7 +562,7 @@ public final class Futures {
       AsyncFunction<? super I, ? extends O> function) {
     ChainingListenableFuture<I, O> output =
         new ChainingListenableFuture<I, O>(function, input);
-    input.addListener(output, INLINE_EXECUTOR);
+    input.addListener(output, directExecutor());
     return output;
   }
 
@@ -622,7 +611,7 @@ public final class Futures {
     checkNotNull(executor);
     ChainingListenableFuture<I, O> output =
         new ChainingListenableFuture<I, O>(function, input);
-    input.addListener(rejectionPropagatingRunnable(output, output, executor), INLINE_EXECUTOR);
+    input.addListener(rejectionPropagatingRunnable(output, output, executor), directExecutor());
     return output;
   }
 
@@ -714,7 +703,7 @@ public final class Futures {
     checkNotNull(function);
     ChainingListenableFuture<I, O> output =
         new ChainingListenableFuture<I, O>(asAsyncFunction(function), input);
-    input.addListener(output, INLINE_EXECUTOR);
+    input.addListener(output, directExecutor());
     return output;
   }
 
@@ -939,7 +928,7 @@ public final class Futures {
                 ChainingListenableFuture.this.outputFuture = null;
               }
             }
-          }, INLINE_EXECUTOR);
+          }, directExecutor());
       } catch (UndeclaredThrowableException e) {
         // Set the cause of the exception as this future's exception
         setException(e.getCause());
@@ -1011,7 +1000,7 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       ListenableFuture<? extends V>... futures) {
-    return listFuture(ImmutableList.copyOf(futures), true, INLINE_EXECUTOR);
+    return listFuture(ImmutableList.copyOf(futures), true, directExecutor());
   }
 
   /**
@@ -1033,7 +1022,7 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
-    return listFuture(ImmutableList.copyOf(futures), true, INLINE_EXECUTOR);
+    return listFuture(ImmutableList.copyOf(futures), true, directExecutor());
   }
 
   private static final class WrappedCombiner<T> implements Callable<T> {
@@ -1121,7 +1110,7 @@ public final class Futures {
             setException(t);
           }
         }
-      }, INLINE_EXECUTOR);
+      }, directExecutor());
     }
   }
 
@@ -1143,7 +1132,7 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
       ListenableFuture<? extends V>... futures) {
-    return listFuture(ImmutableList.copyOf(futures), false, INLINE_EXECUTOR);
+    return listFuture(ImmutableList.copyOf(futures), false, directExecutor());
   }
 
   /**
@@ -1164,7 +1153,7 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
-    return listFuture(ImmutableList.copyOf(futures), false, INLINE_EXECUTOR);
+    return listFuture(ImmutableList.copyOf(futures), false, directExecutor());
   }
 
   /**
@@ -1198,7 +1187,7 @@ public final class Futures {
     // 1. Using the sameThreadExecutor implies that your callback is safe to run on any thread.
     // 2. This would likely only be noticeable if you were doing something expensive or blocking on
     //    a sameThreadExecutor listener on one of the output futures which is an antipattern anyway.
-    SerializingExecutor executor = new SerializingExecutor(INLINE_EXECUTOR);
+    SerializingExecutor executor = new SerializingExecutor(directExecutor());
     for (final ListenableFuture<? extends T> future : futures) {
       AsyncSettableFuture<T> delegate = AsyncSettableFuture.create();
       // Must make sure to add the delegate to the queue first in case the future is already done
@@ -1263,7 +1252,7 @@ public final class Futures {
    */
   public static <V> void addCallback(ListenableFuture<V> future,
       FutureCallback<? super V> callback) {
-    addCallback(future, callback, INLINE_EXECUTOR);
+    addCallback(future, callback, directExecutor());
   }
 
   /**
@@ -1662,7 +1651,7 @@ public final class Futures {
           // The combiner may also hold state, so free that as well
           CombinedFuture.this.combiner = null;
         }
-      }, INLINE_EXECUTOR);
+      }, directExecutor());
 
       // Now begin the "real" initialization.
 

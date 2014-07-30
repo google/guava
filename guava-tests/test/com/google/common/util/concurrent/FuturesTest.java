@@ -24,7 +24,8 @@ import static com.google.common.util.concurrent.Futures.getUnchecked;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.successfulAsList;
-import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -281,7 +282,7 @@ public class FuturesTest extends TestCase {
   public void testTransform_rejectionPropagatesToOutput()
       throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
-    ExecutorService executor = MoreExecutors.sameThreadExecutor();
+    ExecutorService executor = newDirectExecutorService();
     ListenableFuture<String> transformed =
         Futures.transform(input, Functions.toStringFunction(), executor);
     executor.shutdown();
@@ -437,7 +438,7 @@ public class FuturesTest extends TestCase {
 
   public void testTransform_Executor() throws Exception {
     Object value = new Object();
-    ExecutorSpy spy = new ExecutorSpy(MoreExecutors.sameThreadExecutor());
+    ExecutorSpy spy = new ExecutorSpy(directExecutor());
 
     assertFalse(spy.wasExecuted);
 
@@ -824,7 +825,7 @@ public class FuturesTest extends TestCase {
 
     // Attach a listener
     SingleCallListener listener = new SingleCallListener();
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
 
     // Satisfy each input and check the output
     assertFalse(compound.isDone());
@@ -846,7 +847,7 @@ public class FuturesTest extends TestCase {
     listener.expectCall();
     List<ListenableFuture<String>> futures = ImmutableList.of();
     ListenableFuture<List<String>> compound = Futures.allAsList(futures);
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
     assertTrue(compound.isDone());
     assertTrue(compound.get().isEmpty());
     assertTrue(listener.wasCalled());
@@ -857,7 +858,7 @@ public class FuturesTest extends TestCase {
     listener.expectCall();
     @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = Futures.allAsList();
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
     assertTrue(compound.isDone());
     assertTrue(compound.get().isEmpty());
     assertTrue(listener.wasCalled());
@@ -870,7 +871,7 @@ public class FuturesTest extends TestCase {
     @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
 
     listener.expectCall();
     Throwable exception = new Throwable("failed1");
@@ -936,7 +937,7 @@ public class FuturesTest extends TestCase {
     @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
 
     listener.expectCall();
     future1.cancel(true);
@@ -1007,7 +1008,7 @@ public class FuturesTest extends TestCase {
     // Attach a listener
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
 
     assertTrue(compound.isDone());
     assertTrue(listener.wasCalled());
@@ -1467,7 +1468,7 @@ public class FuturesTest extends TestCase {
 
     // Attach a listener
     SingleCallListener listener = new SingleCallListener();
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
 
     // Satisfy each input and check the output
     assertFalse(compound.isDone());
@@ -1489,7 +1490,7 @@ public class FuturesTest extends TestCase {
     listener.expectCall();
     List<ListenableFuture<String>> futures = ImmutableList.of();
     ListenableFuture<List<String>> compound = Futures.successfulAsList(futures);
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
     assertTrue(compound.isDone());
     assertTrue(compound.get().isEmpty());
     assertTrue(listener.wasCalled());
@@ -1500,7 +1501,7 @@ public class FuturesTest extends TestCase {
     listener.expectCall();
     @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound = Futures.successfulAsList();
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
     assertTrue(compound.isDone());
     assertTrue(compound.get().isEmpty());
     assertTrue(listener.wasCalled());
@@ -1513,7 +1514,7 @@ public class FuturesTest extends TestCase {
     @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2);
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
 
     assertFalse(compound.isDone());
     future1.setException(new Throwable("failed1"));
@@ -1534,7 +1535,7 @@ public class FuturesTest extends TestCase {
     @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2);
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
 
     assertFalse(compound.isDone());
     future1.setException(new Throwable("failed1"));
@@ -1555,7 +1556,7 @@ public class FuturesTest extends TestCase {
     @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2);
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
 
     assertFalse(compound.isDone());
     future1.cancel(true);
@@ -1641,7 +1642,7 @@ public class FuturesTest extends TestCase {
         // Now attempt to trigger the exception:
         future2.set(DATA2);
       }
-    }, sameThreadExecutor());
+    }, directExecutor());
     assertTrue(compound.cancel(false));
     assertTrue(compound.isCancelled());
     assertTrue(future1.isCancelled());
@@ -1678,7 +1679,7 @@ public class FuturesTest extends TestCase {
     @SuppressWarnings("unchecked") // array is never modified
     ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2, future3);
-    compound.addListener(listener, MoreExecutors.sameThreadExecutor());
+    compound.addListener(listener, directExecutor());
 
     // First is cancelled, second fails, third succeeds
     assertFalse(compound.isDone());

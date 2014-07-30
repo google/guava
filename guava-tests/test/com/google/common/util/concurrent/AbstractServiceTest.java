@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.lang.Thread.currentThread;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -258,7 +259,7 @@ public class AbstractServiceTest extends TestCase {
       @Override public void stopping(State from) {
         stopppingCount.incrementAndGet();
       }
-    }, MoreExecutors.sameThreadExecutor());
+    }, directExecutor());
 
     service.startAsync();
     service.stopAsync();
@@ -686,7 +687,7 @@ public class AbstractServiceTest extends TestCase {
     final StartFailingService service = new StartFailingService();
     service.startAsync();
     assertEquals(State.FAILED, service.state());
-    service.addListener(new RecordingListener(service), MoreExecutors.sameThreadExecutor());
+    service.addListener(new RecordingListener(service), directExecutor());
     Thread thread = new Thread() {
       @Override public void run() {
         // Internally stopAsync() grabs a lock, this could be any such method on AbstractService.
@@ -704,7 +705,7 @@ public class AbstractServiceTest extends TestCase {
       @Override public void running() {
         service.awaitRunning();
       }
-    }, MoreExecutors.sameThreadExecutor());
+    }, directExecutor());
     service.startAsync().awaitRunning(LONG_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
     service.stopAsync();
   }
@@ -715,7 +716,7 @@ public class AbstractServiceTest extends TestCase {
       @Override public void terminated(State from) {
         service.stopAsync().awaitTerminated();
       }
-    }, MoreExecutors.sameThreadExecutor());
+    }, directExecutor());
     service.startAsync().awaitRunning();
 
     Thread thread = new Thread() {
@@ -812,7 +813,7 @@ public class AbstractServiceTest extends TestCase {
   private static class RecordingListener extends Listener {
     static RecordingListener record(Service service) {
       RecordingListener listener = new RecordingListener(service);
-      service.addListener(listener, MoreExecutors.sameThreadExecutor());
+      service.addListener(listener, directExecutor());
       return listener;
     }
 

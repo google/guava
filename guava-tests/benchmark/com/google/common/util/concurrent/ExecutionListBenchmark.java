@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+
 import com.google.caliper.AfterExperiment;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
@@ -45,10 +47,6 @@ import javax.annotation.concurrent.GuardedBy;
 @VmOptions({"-Xms3g", "-Xmx3g"})
 public class ExecutionListBenchmark {
   private static final int NUM_THREADS = 10;  // make a param?
-
-  // We execute the listeners on the sameThreadExecutor because we don't really care about what the
-  // listeners are doing, and they aren't doing much.
-  private static final Executor SAME_THREAD_EXECUTOR = MoreExecutors.sameThreadExecutor();
 
   // simple interface to wrap our two implementations.
   interface ExecutionListWrapper {
@@ -189,7 +187,7 @@ public class ExecutionListBenchmark {
   public Object measureSize() {
     list = impl.newExecutionList();
     for (int i = 0; i < numListeners; i++) {
-      list.add(listener, SAME_THREAD_EXECUTOR);
+      list.add(listener, directExecutor());
     }
     return list.getImpl();
   }
@@ -200,7 +198,7 @@ public class ExecutionListBenchmark {
       list = impl.newExecutionList();
       listenerLatch = new CountDownLatch(numListeners);
       for (int j = 0; j < numListeners; j++) {
-        list.add(listener, SAME_THREAD_EXECUTOR);
+        list.add(listener, directExecutor());
         returnValue += listenerLatch.getCount();
       }
       list.execute();
@@ -216,7 +214,7 @@ public class ExecutionListBenchmark {
       list.execute();
       listenerLatch = new CountDownLatch(numListeners);
       for (int j = 0; j < numListeners; j++) {
-        list.add(listener, SAME_THREAD_EXECUTOR);
+        list.add(listener, directExecutor());
         returnValue += listenerLatch.getCount();
       }
       returnValue += listenerLatch.getCount();
@@ -234,7 +232,7 @@ public class ExecutionListBenchmark {
     Runnable addTask = new Runnable() {
       @Override public void run() {
         for (int i = 0; i < numListeners; i++) {
-          list.add(listener, SAME_THREAD_EXECUTOR);
+          list.add(listener, directExecutor());
         }
       }
     };
@@ -256,7 +254,7 @@ public class ExecutionListBenchmark {
     Runnable addTask = new Runnable() {
       @Override public void run() {
         for (int i = 0; i < numListeners; i++) {
-          list.add(listener, SAME_THREAD_EXECUTOR);
+          list.add(listener, directExecutor());
         }
       }
     };

@@ -22,6 +22,7 @@ import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Service.State.FAILED;
 import static com.google.common.util.concurrent.Service.State.NEW;
 import static com.google.common.util.concurrent.Service.State.RUNNING;
@@ -202,9 +203,8 @@ public final class ServiceManager {
     this.services = copy;
     WeakReference<ServiceManagerState> stateReference =
         new WeakReference<ServiceManagerState>(state);
-    Executor sameThreadExecutor = MoreExecutors.sameThreadExecutor();
     for (Service service : copy) {
-      service.addListener(new ServiceListener(service, stateReference), sameThreadExecutor);
+      service.addListener(new ServiceListener(service, stateReference), directExecutor());
       // We check the state after adding the listener as a way to ensure that our listener was added
       // to a NEW service.
       checkArgument(service.state() == NEW, "Can only manage NEW services, %s", service);
@@ -258,7 +258,7 @@ public final class ServiceManager {
    * @param listener the listener to run when the manager changes state
    */
   public void addListener(Listener listener) {
-    state.addListener(listener, MoreExecutors.sameThreadExecutor());
+    state.addListener(listener, directExecutor());
   }
 
   /**

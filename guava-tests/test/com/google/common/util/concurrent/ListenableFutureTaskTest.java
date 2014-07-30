@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+
 import junit.framework.TestCase;
 
 import java.util.concurrent.Callable;
@@ -64,7 +66,7 @@ public class ListenableFutureTaskTest extends TestCase {
       public void run() {
         listenerLatch.countDown();
       }
-    }, MoreExecutors.sameThreadExecutor());
+    }, directExecutor());
   }
 
   @Override
