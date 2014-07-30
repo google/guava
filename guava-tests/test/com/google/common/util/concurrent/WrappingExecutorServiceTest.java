@@ -16,6 +16,9 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+import static com.google.common.util.concurrent.Runnables.doNothing;
+
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
@@ -40,12 +43,6 @@ import java.util.concurrent.TimeoutException;
  */
 public class WrappingExecutorServiceTest extends TestCase {
   private static final String RESULT_VALUE = "ran";
-  private static final Runnable DO_NOTHING = new Runnable() {
-    @Override
-    public void run() {
-    }
-  };
-
   // Uninteresting delegations
   public void testDelegations() throws InterruptedException {
     MockExecutor mock = new MockExecutor();
@@ -66,7 +63,7 @@ public class WrappingExecutorServiceTest extends TestCase {
   public void testExecute() {
     MockExecutor mock = new MockExecutor();
     TestExecutor testExecutor = new TestExecutor(mock);
-    testExecutor.execute(DO_NOTHING);
+    testExecutor.execute(doNothing());
     mock.assertLastMethodCalled("execute");
   }
 
@@ -74,14 +71,14 @@ public class WrappingExecutorServiceTest extends TestCase {
     {
       MockExecutor mock = new MockExecutor();
       TestExecutor testExecutor = new TestExecutor(mock);
-      Future<?> f = testExecutor.submit(DO_NOTHING);
+      Future<?> f = testExecutor.submit(doNothing());
       mock.assertLastMethodCalled("submit");
       f.get();
     }
     {
       MockExecutor mock = new MockExecutor();
       TestExecutor testExecutor = new TestExecutor(mock);
-      Future<String> f = testExecutor.submit(DO_NOTHING, RESULT_VALUE);
+      Future<String> f = testExecutor.submit(doNothing(), RESULT_VALUE);
       mock.assertLastMethodCalled("submit");
       assertEquals(RESULT_VALUE, f.get());
     }
@@ -195,7 +192,7 @@ public class WrappingExecutorServiceTest extends TestCase {
   private static final class MockExecutor implements ExecutorService {
     private String lastMethodCalled = "";
     private long lastTimeoutInMillis = -1;
-    private ExecutorService inline = MoreExecutors.sameThreadExecutor();
+    private ExecutorService inline = newDirectExecutorService();
 
     public void assertLastMethodCalled(String method) {
       assertEquals(method, lastMethodCalled);

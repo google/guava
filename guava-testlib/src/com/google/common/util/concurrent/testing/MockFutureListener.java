@@ -16,9 +16,10 @@
 
 package com.google.common.util.concurrent.testing;
 
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+
 import com.google.common.annotations.Beta;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.MoreExecutors;
 
 import junit.framework.Assert;
 
@@ -42,7 +43,7 @@ public class MockFutureListener implements Runnable {
     this.countDownLatch = new CountDownLatch(1);
     this.future = future;
 
-    future.addListener(this, MoreExecutors.sameThreadExecutor());
+    future.addListener(this, directExecutor());
   }
 
   @Override

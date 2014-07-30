@@ -342,7 +342,7 @@ public class ServiceManagerTest extends TestCase {
     logger.addHandler(logHandler);
     ServiceManager manager = new ServiceManager(Arrays.<Service>asList());
     RecordingListener listener = new RecordingListener();
-    manager.addListener(listener, MoreExecutors.sameThreadExecutor());
+    manager.addListener(listener);
     manager.startAsync().awaitHealthy();
     assertTrue(manager.isHealthy());
     assertTrue(listener.healthyCalled);
@@ -400,7 +400,7 @@ public class ServiceManagerTest extends TestCase {
         // block until after the service manager is shutdown
         Uninterruptibles.awaitUninterruptibly(failLeave);
       }
-    }, MoreExecutors.sameThreadExecutor());
+    });
     manager.startAsync();
     afterStarted.countDown();
     // We do not call awaitHealthy because, due to races, that method may throw an exception.  But

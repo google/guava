@@ -16,6 +16,9 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+
 import com.google.caliper.AfterExperiment;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
@@ -29,25 +32,20 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A benchmark comparing the {@link MoreExecutors#sameThreadExecutor()} to a trivial
- * implementation.
+ * A benchmark comparing the {@link MoreExecutors#newDirectExecutorService()} to
+ * {@link MoreExecutors#directExecutor}.
  */
 @VmOptions({"-Xms12g", "-Xmx12g", "-d64"})
-public class MoreExecutorsSameThreadExecutorBenchmark {
-  private static final Executor INLINE_EXECUTOR = new Executor() {
-    @Override public void execute(Runnable command) {
-      command.run();
-    }
-  };
+public class MoreExecutorsDirectExecutorBenchmark {
   enum Impl {
-    OLD {
+    EXECUTOR_SERVICE {
       @Override Executor executor() {
-        return MoreExecutors.sameThreadExecutor();
+        return newDirectExecutorService();
       }
     },
-    NEW {
+    EXECUTOR {
       @Override Executor executor() {
-        return INLINE_EXECUTOR;
+        return directExecutor();
       }
     };
     abstract Executor executor();
@@ -83,7 +81,7 @@ public class MoreExecutorsSameThreadExecutorBenchmark {
     }
   }
 
-  @AfterExperiment void after() throws InterruptedException {
+  @AfterExperiment void after() {
     for (Thread thread : threads) {
       thread.interrupt();  // try to get them to exit
     }

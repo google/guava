@@ -750,7 +750,7 @@ public final class MoreExecutors {
       @Override public void run() {
         queue.add(future);
       }
-    }, MoreExecutors.sameThreadExecutor());
+    }, directExecutor());
     return future;
   }
 

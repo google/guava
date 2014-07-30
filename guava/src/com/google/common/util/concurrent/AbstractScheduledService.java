@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
@@ -299,7 +301,8 @@ public abstract class AbstractScheduledService implements Service {
       }
       @Override public void failed(State from, Throwable failure) {
         executor.shutdown();
-      }}, MoreExecutors.sameThreadExecutor());
+      }
+    }, directExecutor());
     return executor;
   }
 

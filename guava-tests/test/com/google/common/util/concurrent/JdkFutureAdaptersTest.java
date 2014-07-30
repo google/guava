@@ -19,7 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.JdkFutureAdapters.listenInPoolThread;
-import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -56,7 +56,7 @@ public class JdkFutureAdaptersTest extends TestCase {
     NonListenableSettableFuture<String> abstractFuture =
         NonListenableSettableFuture.create();
     abstractFuture.set(DATA1);
-    ExecutorSpy spy = new ExecutorSpy(sameThreadExecutor());
+    ExecutorSpy spy = new ExecutorSpy(directExecutor());
     ListenableFuture<String> listenableFuture =
         listenInPoolThread(abstractFuture, spy);
 
@@ -69,7 +69,7 @@ public class JdkFutureAdaptersTest extends TestCase {
 
     // #addListener() will run the listener immediately because the Future is
     // already finished (we explicitly set the result of it above).
-    listenableFuture.addListener(singleCallListener, sameThreadExecutor());
+    listenableFuture.addListener(singleCallListener, directExecutor());
     assertEquals(DATA1, listenableFuture.get());
 
     // 'spy' should have been ignored since 'abstractFuture' was done before
@@ -128,7 +128,7 @@ public class JdkFutureAdaptersTest extends TestCase {
     assertFalse(singleCallListener.wasCalled());
     assertFalse(listenableFuture.isDone());
 
-    listenableFuture.addListener(singleCallListener, sameThreadExecutor());
+    listenableFuture.addListener(singleCallListener, directExecutor());
     /*
      * Don't shut down until the listenInPoolThread task has been accepted to
      * run. We want to see what happens when it's interrupted, not when it's
@@ -235,7 +235,7 @@ public class JdkFutureAdaptersTest extends TestCase {
      * listenInPoolThread-spawned thread completes:
      */
     RecordingRunnable earlyListener = new RecordingRunnable();
-    listenable.addListener(earlyListener, sameThreadExecutor());
+    listenable.addListener(earlyListener, directExecutor());
 
     input.allowGetToComplete.countDown();
     // Now give the get() thread time to finish:
@@ -243,7 +243,7 @@ public class JdkFutureAdaptersTest extends TestCase {
 
     // Now test an additional addListener call, which will be run in-thread:
     RecordingRunnable lateListener = new RecordingRunnable();
-    listenable.addListener(lateListener, sameThreadExecutor());
+    listenable.addListener(lateListener, directExecutor());
     assertTrue(lateListener.wasRun.await(1, SECONDS));
   }
 

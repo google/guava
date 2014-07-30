@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+
 import com.google.common.util.concurrent.ListenerCallQueue.Callback;
 
 import junit.framework.TestCase;
@@ -39,7 +41,7 @@ public class ListenerCallQueueTest extends TestCase {
   public void testAddAndExecute() {
     Object listenerInstance = new Object();
     ListenerCallQueue<Object> queue =
-        new ListenerCallQueue<Object>(listenerInstance, MoreExecutors.sameThreadExecutor());
+        new ListenerCallQueue<Object>(listenerInstance, directExecutor());
 
     AtomicInteger counter = new AtomicInteger();
     queue.add(incrementingCallback(counter, 1));
@@ -54,7 +56,7 @@ public class ListenerCallQueueTest extends TestCase {
   public void testAddAndExecute_withExceptions() {
     Object listenerInstance = new Object();
     ListenerCallQueue<Object> queue =
-        new ListenerCallQueue<Object>(listenerInstance, MoreExecutors.sameThreadExecutor());
+        new ListenerCallQueue<Object>(listenerInstance, directExecutor());
 
     AtomicInteger counter = new AtomicInteger();
     queue.add(incrementingCallback(counter, 1));

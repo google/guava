@@ -16,10 +16,9 @@
 
 package com.google.common.util.concurrent;
 
-import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.testing.NullPointerTester;
-import com.google.common.util.concurrent.ExecutionList;
 
 import junit.framework.TestCase;
 
@@ -59,7 +58,7 @@ public class ExecutionListTest extends TestCase {
       @Override public void run() {
         runCalled.getAndIncrement();
       }
-    }, MoreExecutors.sameThreadExecutor());
+    }, directExecutor());
     list.execute();
     assertEquals(1, runCalled.get());
     list.execute();
@@ -79,7 +78,7 @@ public class ExecutionListTest extends TestCase {
         }
         runCalled.getAndIncrement();
       }
-    }, MoreExecutors.sameThreadExecutor());
+    }, directExecutor());
     Runnable execute = new Runnable() {
       @Override public void run() {
         list.execute();
@@ -116,7 +115,7 @@ public class ExecutionListTest extends TestCase {
               integer.compareAndSet(expectedCount, expectedCount + 1);
             }
           },
-          MoreExecutors.sameThreadExecutor());
+          MoreExecutors.directExecutor());
     }
     list.execute();
     assertEquals(10, integer.get());
@@ -135,9 +134,9 @@ public class ExecutionListTest extends TestCase {
   }
 
   public void testExceptionsCaught() {
-    list.add(THROWING_RUNNABLE, sameThreadExecutor());
+    list.add(THROWING_RUNNABLE, directExecutor());
     list.execute();
-    list.add(THROWING_RUNNABLE, sameThreadExecutor());
+    list.add(THROWING_RUNNABLE, directExecutor());
   }
 
   public void testNulls() {
