@@ -98,7 +98,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   private final int numHashFunctions;
 
   /** The funnel to translate Ts to bytes */
-  private final Funnel<T> funnel;
+  private final Funnel<? super T> funnel;
 
   /**
    * The strategy we employ to map an element T to {@code numHashFunctions} bit indexes.
@@ -108,7 +108,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   /**
    * Creates a BloomFilter.
    */
-  private BloomFilter(BitArray bits, int numHashFunctions, Funnel<T> funnel,
+  private BloomFilter(BitArray bits, int numHashFunctions, Funnel<? super T> funnel,
       Strategy strategy) {
     checkArgument(numHashFunctions > 0,
         "numHashFunctions (%s) must be > 0", numHashFunctions);
@@ -294,13 +294,13 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @return a {@code BloomFilter}
    */
   public static <T> BloomFilter<T> create(
-      Funnel<T> funnel, int expectedInsertions /* n */, double fpp) {
+      Funnel<? super T> funnel, int expectedInsertions /* n */, double fpp) {
     return create(funnel, expectedInsertions, fpp, DEFAULT_STRATEGY);
   }
 
   @VisibleForTesting
   static <T> BloomFilter<T> create(
-      Funnel<T> funnel, int expectedInsertions /* n */, double fpp, Strategy strategy) {
+      Funnel<? super T> funnel, int expectedInsertions /* n */, double fpp, Strategy strategy) {
     checkNotNull(funnel);
     checkArgument(expectedInsertions >= 0, "Expected insertions (%s) must be >= 0",
         expectedInsertions);
@@ -342,7 +342,8 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    *     {@code BloomFilter<T>}; must be positive
    * @return a {@code BloomFilter}
    */
-  public static <T> BloomFilter<T> create(Funnel<T> funnel, int expectedInsertions /* n */) {
+  public static <T> BloomFilter<T> create(
+      Funnel<? super T> funnel, int expectedInsertions /* n */) {
     return create(funnel, expectedInsertions, 0.03); // FYI, for 3%, we always get 5 hash functions
   }
 
@@ -399,7 +400,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   private static class SerialForm<T> implements Serializable {
     final long[] data;
     final int numHashFunctions;
-    final Funnel<T> funnel;
+    final Funnel<? super T> funnel;
     final Strategy strategy;
 
     SerialForm(BloomFilter<T> bf) {
