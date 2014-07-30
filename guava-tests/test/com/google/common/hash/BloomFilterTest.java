@@ -16,9 +16,9 @@
 
 package com.google.common.hash;
 
+import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.hash.BloomFilterStrategies.BitArray;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.math.LongMath;
 import com.google.common.primitives.Ints;
@@ -56,7 +56,7 @@ public class BloomFilterTest extends TestCase {
 
   public void testCreateAndCheckMitz32BloomFilterWithKnownFalsePositives() {
     int numInsertions = 1000000;
-    BloomFilter<CharSequence> bf = BloomFilter.create(
+    BloomFilter<String> bf = BloomFilter.create(
         Funnels.unencodedCharsFunnel(), numInsertions, 0.03,
         BloomFilterStrategies.MURMUR128_MITZ_32);
 
@@ -97,7 +97,7 @@ public class BloomFilterTest extends TestCase {
 
   public void testCreateAndCheckBloomFilterWithKnownFalsePositives64() {
     int numInsertions = 1000000;
-    BloomFilter<CharSequence> bf = BloomFilter.create(
+    BloomFilter<String> bf = BloomFilter.create(
         Funnels.unencodedCharsFunnel(), numInsertions, 0.03,
         BloomFilterStrategies.MURMUR128_MITZ_64);
 
@@ -138,8 +138,8 @@ public class BloomFilterTest extends TestCase {
 
   public void testCreateAndCheckBloomFilterWithKnownUtf8FalsePositives64() {
     int numInsertions = 1000000;
-    BloomFilter<CharSequence> bf = BloomFilter.create(
-        Funnels.stringFunnel(Charsets.UTF_8), numInsertions, 0.03,
+    BloomFilter<String> bf = BloomFilter.create(
+        Funnels.stringFunnel(UTF_8), numInsertions, 0.03,
         BloomFilterStrategies.MURMUR128_MITZ_64);
 
     // Insert "numInsertions" even numbers into the BF.
@@ -277,8 +277,8 @@ public class BloomFilterTest extends TestCase {
   }
 
   public void testCopy() {
-    BloomFilter<CharSequence> original = BloomFilter.create(Funnels.unencodedCharsFunnel(), 100);
-    BloomFilter<CharSequence> copy = original.copy();
+    BloomFilter<String> original = BloomFilter.create(Funnels.unencodedCharsFunnel(), 100);
+    BloomFilter<String> copy = original.copy();
     assertNotSame(original, copy);
     assertEquals(original, copy);
   }
@@ -322,11 +322,11 @@ public class BloomFilterTest extends TestCase {
   }
 
   public void testEquals() {
-    BloomFilter<CharSequence> bf1 = BloomFilter.create(Funnels.unencodedCharsFunnel(), 100);
+    BloomFilter<String> bf1 = BloomFilter.create(Funnels.unencodedCharsFunnel(), 100);
     bf1.put("1");
     bf1.put("2");
 
-    BloomFilter<CharSequence> bf2 = BloomFilter.create(Funnels.unencodedCharsFunnel(), 100);
+    BloomFilter<String> bf2 = BloomFilter.create(Funnels.unencodedCharsFunnel(), 100);
     bf2.put("1");
     bf2.put("2");
 
@@ -369,7 +369,7 @@ public class BloomFilterTest extends TestCase {
 
   public void testPutReturnValue() {
     for (int i = 0; i < 10; i++) {
-      BloomFilter<CharSequence> bf = BloomFilter.create(Funnels.unencodedCharsFunnel(), 100);
+      BloomFilter<String> bf = BloomFilter.create(Funnels.unencodedCharsFunnel(), 100);
       for (int j = 0; j < 10; j++) {
         String value = new Object().toString();
         boolean mightContain = bf.mightContain(value);
