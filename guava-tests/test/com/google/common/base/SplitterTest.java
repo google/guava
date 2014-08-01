@@ -665,7 +665,7 @@ public class SplitterTest extends TestCase {
     ImmutableMap<String, String> expected =
           ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_trimmedEntries() {
@@ -677,7 +677,7 @@ public class SplitterTest extends TestCase {
         ImmutableMap.of("boy  ", " tom", "girl", " tina", "cat  ", " kitty", "dog", " tommy");
 
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_trimmedKeyValue() {
@@ -687,7 +687,7 @@ public class SplitterTest extends TestCase {
     ImmutableMap<String, String> expected =
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_notTrimmed() {
@@ -696,7 +696,7 @@ public class SplitterTest extends TestCase {
     ImmutableMap<String, String> expected =
         ImmutableMap.of(" boy", "tom ", " girl", " tina ", " cat ", "kitty ", " dog", "  tommy ");
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_CharacterSeparator() {
@@ -709,7 +709,7 @@ public class SplitterTest extends TestCase {
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
 
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_multiCharacterSeparator() {
@@ -722,7 +722,7 @@ public class SplitterTest extends TestCase {
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
 
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).is(asList(expected.entrySet()));
+    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
   }
 
   @SuppressWarnings("ReturnValueIgnored") // testing for exception

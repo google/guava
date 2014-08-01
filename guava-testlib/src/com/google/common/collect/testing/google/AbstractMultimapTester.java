@@ -156,7 +156,7 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
 
     // TODO(user): Add proper overrides to prevent autoboxing.
     // Truth+autoboxing == compile error. Cast int to long to fix:
-    assertThat(multimap().get(key).size()).is((long) values.size());
+    assertThat(multimap().get(key).size()).isEqualTo((long) values.size());
 
     assertEquals(values.size() > 0, multimap().containsKey(key));
     assertEquals(values.size() > 0, multimap().keySet().contains(key));
