@@ -228,8 +228,8 @@ public class MapConstraintsTest extends TestCase {
         .put("dag", 11).build());
     assertTrue(multimap.equals(constrained));
     assertTrue(constrained.equals(multimap));
-    assertThat(ImmutableList.copyOf(multimap.entries()))
-        .is(ImmutableList.copyOf(constrained.entries()));
+    assertThat(ImmutableList.copyOf(multimap.entries())).isEqualTo(
+        ImmutableList.copyOf(constrained.entries()));
     assertThat(constrained.asMap().get("foo")).has().item(1);
     assertNull(constrained.asMap().get("missing"));
     assertEquals(multimap.asMap(), constrained.asMap());
@@ -405,8 +405,8 @@ public class MapConstraintsTest extends TestCase {
           .add(TEST_VALUE);
       fail("TestValueException expected");
     } catch (TestValueException expected) {}
-    assertThat(ImmutableList.copyOf(multimap.entries()))
-        .is(ImmutableList.copyOf(constrained.entries()));
+    assertThat(ImmutableList.copyOf(multimap.entries())).isEqualTo(
+        ImmutableList.copyOf(constrained.entries()));
     assertEquals(multimap.asMap(), constrained.asMap());
     assertEquals(multimap.values(), constrained.values());
     assertEquals(multimap.keys(), constrained.keys());

@@ -128,22 +128,22 @@ public class TreeTraverserTest extends TestCase {
   }
 
   public void testPreOrder() {
-    assertThat(iterationOrder(ADAPTER.preOrderTraversal(h))).is("hdabcegf");
-    assertThat(binaryIterationOrder(BIN_ADAPTER.preOrderTraversal(bd))).is("dbacefg");
+    assertThat(iterationOrder(ADAPTER.preOrderTraversal(h))).isEqualTo("hdabcegf");
+    assertThat(binaryIterationOrder(BIN_ADAPTER.preOrderTraversal(bd))).isEqualTo("dbacefg");
   }
 
   public void testPostOrder() {
-    assertThat(iterationOrder(ADAPTER.postOrderTraversal(h))).is("abcdefgh");
-    assertThat(binaryIterationOrder(BIN_ADAPTER.postOrderTraversal(bd))).is("acbgfed");
+    assertThat(iterationOrder(ADAPTER.postOrderTraversal(h))).isEqualTo("abcdefgh");
+    assertThat(binaryIterationOrder(BIN_ADAPTER.postOrderTraversal(bd))).isEqualTo("acbgfed");
   }
 
   public void testBreadthOrder() {
-    assertThat(iterationOrder(ADAPTER.breadthFirstTraversal(h))).is("hdegabcf");
-    assertThat(binaryIterationOrder(BIN_ADAPTER.breadthFirstTraversal(bd))).is("dbeacfg");
+    assertThat(iterationOrder(ADAPTER.breadthFirstTraversal(h))).isEqualTo("hdegabcf");
+    assertThat(binaryIterationOrder(BIN_ADAPTER.breadthFirstTraversal(bd))).isEqualTo("dbeacfg");
   }
 
   public void testInOrder() {
-    assertThat(binaryIterationOrder(BIN_ADAPTER.inOrderTraversal(bd))).is("abcdegf");
+    assertThat(binaryIterationOrder(BIN_ADAPTER.inOrderTraversal(bd))).isEqualTo("abcdegf");
   }
 
   @GwtIncompatible("NullPointerTester")
