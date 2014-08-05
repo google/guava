@@ -284,7 +284,7 @@ public final class DoubleMath {
 
   /**
    * Returns {@code n!}, that is, the product of the first {@code n} positive
-   * integers, {@code 1} if {@code n == 0}, or e n!}, or
+   * integers, {@code 1} if {@code n == 0}, or {@code n!}, or
    * {@link Double#POSITIVE_INFINITY} if {@code n! > Double.MAX_VALUE}.
    *
    * <p>The result is within 1 ulp of the true value.
