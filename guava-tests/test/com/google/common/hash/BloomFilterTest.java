@@ -467,23 +467,4 @@ public class BloomFilterTest extends TestCase {
     assertEquals(BloomFilterStrategies.MURMUR128_MITZ_32, BloomFilterStrategies.values()[0]);
     assertEquals(BloomFilterStrategies.MURMUR128_MITZ_64, BloomFilterStrategies.values()[1]);
   }
-
-  public void testGetDefaultStrategyFromSystemProperty() {
-    // clear the property to test the case when the property is not set (the default)
-    System.clearProperty(BloomFilter.USE_MITZ32_PROPERTY);
-    assertEquals(BloomFilterStrategies.MURMUR128_MITZ_64,
-        BloomFilter.getDefaultStrategyFromSystemProperty());
-
-    System.setProperty(BloomFilter.USE_MITZ32_PROPERTY, "true");
-    assertEquals(BloomFilterStrategies.MURMUR128_MITZ_32,
-        BloomFilter.getDefaultStrategyFromSystemProperty());
-
-    System.setProperty(BloomFilter.USE_MITZ32_PROPERTY, "TRUE");
-    assertEquals(BloomFilterStrategies.MURMUR128_MITZ_32,
-        BloomFilter.getDefaultStrategyFromSystemProperty());
-
-    System.setProperty(BloomFilter.USE_MITZ32_PROPERTY, "false");
-    assertEquals(BloomFilterStrategies.MURMUR128_MITZ_64,
-        BloomFilter.getDefaultStrategyFromSystemProperty());
-  }
 }

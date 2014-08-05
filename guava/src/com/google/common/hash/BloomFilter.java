@@ -260,17 +260,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   private static final Strategy DEFAULT_STRATEGY =
-      getDefaultStrategyFromSystemProperty();
-
-  @VisibleForTesting
-  static final String USE_MITZ32_PROPERTY = "com.google.common.hash.BloomFilter.useMitz32";
-
-  @VisibleForTesting
-  static Strategy getDefaultStrategyFromSystemProperty() {
-    return Boolean.parseBoolean(System.getProperty(USE_MITZ32_PROPERTY))
-        ? BloomFilterStrategies.MURMUR128_MITZ_32
-        : BloomFilterStrategies.MURMUR128_MITZ_64;
-  }
+      BloomFilterStrategies.MURMUR128_MITZ_64;
 
   /**
    * Creates a {@link BloomFilter BloomFilter<T>} with the expected number of
