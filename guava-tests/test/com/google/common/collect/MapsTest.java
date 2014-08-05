@@ -146,7 +146,7 @@ public class MapsTest extends TestCase {
        */
       HashMap<Integer, Void> map2 = Maps.newHashMapWithExpectedSize(size);
       map2.putAll(map1);
-      assertEquals("table size after adding " + size + "elements",
+      assertEquals("table size after adding " + size + " elements: ",
           initialBuckets, bucketsOf(map2));
     }
   }
@@ -156,7 +156,8 @@ public class MapsTest extends TestCase {
     Field tableField = HashMap.class.getDeclaredField("table");
     tableField.setAccessible(true);
     Object[] table = (Object[]) tableField.get(hashMap);
-    return table.length;
+    // In JDK8, table is set lazily, so it may be null.
+    return table == null ? 0 : table.length;
   }
 
   public void testCapacityForLargeSizes() {
