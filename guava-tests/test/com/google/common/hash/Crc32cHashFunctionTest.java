@@ -14,8 +14,6 @@
 
 package com.google.common.hash;
 
-import static com.google.common.base.Charsets.UTF_8;
-
 import junit.framework.TestCase;
 
 import java.util.Arrays;
@@ -79,11 +77,11 @@ public class Crc32cHashFunctionTest extends TestCase {
   }
 
   // Known values from http://www.evanjones.ca/crc32c.html
-  public void testSomeOtherKnownValues() {
-    assertCrc(0x22620404, "The quick brown fox jumps over the lazy dog".getBytes(UTF_8));
-    assertCrc(0xE3069283, "123456789".getBytes(UTF_8));
-    assertCrc(0xf3dbd4fe, "1234567890".getBytes(UTF_8));
-    assertCrc(0xBFE92A83, "23456789".getBytes(UTF_8));
+  public void testSomeOtherKnownValues() throws Exception {
+    assertCrc(0x22620404, "The quick brown fox jumps over the lazy dog".getBytes("UTF-8"));
+    assertCrc(0xE3069283, "123456789".getBytes("UTF-8"));
+    assertCrc(0xf3dbd4fe, "1234567890".getBytes("UTF-8"));
+    assertCrc(0xBFE92A83, "23456789".getBytes("UTF-8"));
   }
 
   /**
