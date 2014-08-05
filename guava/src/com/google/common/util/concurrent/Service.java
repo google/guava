@@ -165,7 +165,7 @@ public interface Service {
    * @param listener the listener to run when the service changes state is complete
    * @param executor the executor in which the listeners callback methods will be run. For fast,
    *     lightweight listeners that would be safe to execute in any thread, consider 
-   *     {@link MoreExecutors#sameThreadExecutor}.
+   *     {@link MoreExecutors#directExecutor}.
    * @since 13.0
    */
   void addListener(Listener listener, Executor executor);

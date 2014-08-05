@@ -65,7 +65,7 @@ public final class TestingExecutors {
    * returned to the caller (unless the executor has been shutdown).
    *
    * <p>The returned executor is backed by the executor returned by
-   * {@link MoreExecutors#sameThreadExecutor} and subject to the same
+   * {@link MoreExecutors#newDirectExecutorService} and subject to the same
    * constraints.
    *
    * <p>Although all tasks are immediately executed in the thread that

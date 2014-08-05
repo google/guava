@@ -349,7 +349,8 @@ public final class Futures {
    * (whether the {@code Future} itself is slow or heavyweight to complete is
    * irrelevant), consider {@linkplain #withFallback(ListenableFuture,
    * FutureFallback, Executor) supplying an executor}. If you do not supply an
-   * executor, {@code withFallback} will use an inline executor, which carries
+   * executor, {@code withFallback} will use a
+   * {@linkplain MoreExecutors#directExecutor direct executor}, which carries
    * some caveats for heavier operations. For example, the call to {@code
    * fallback.create} may run on an unpredictable or undesirable thread:
    *
@@ -402,7 +403,7 @@ public final class Futures {
    *           // exception happens.
    *           return immediateFuture(0);
    *         }
-   *       }, sameThreadExecutor());}</pre>
+   *       }, directExecutor());}</pre>
    *
    * <p>The fallback can also choose to propagate the original exception when
    * desired:
@@ -420,13 +421,13 @@ public final class Futures {
    *           }
    *           return immediateFailedFuture(t);
    *         }
-   *       }, sameThreadExecutor());}</pre>
+   *       }, directExecutor());}</pre>
    *
    * <p>When the execution of {@code fallback.create} is fast and lightweight
    * (though the {@code Future} it returns need not meet these criteria),
    * consider {@linkplain #withFallback(ListenableFuture, FutureFallback)
    * omitting the executor} or explicitly specifying {@code
-   * sameThreadExecutor}. However, be aware of the caveats documented in the
+   * directExecutor}. However, be aware of the caveats documented in the
    * link above.
    *
    * @param input the primary input {@code Future}
@@ -526,7 +527,8 @@ public final class Futures {
    * (whether the {@code Future} itself is slow or heavyweight to complete is
    * irrelevant), consider {@linkplain #transform(ListenableFuture,
    * AsyncFunction, Executor) supplying an executor}. If you do not supply an
-   * executor, {@code transform} will use an inline executor, which carries
+   * executor, {@code transform} will use a
+   * {@linkplain MoreExecutors#directExecutor direct executor}, which carries
    * some caveats for heavier operations. For example, the call to {@code
    * function.apply} may run on an unpredictable or undesirable thread:
    *
@@ -594,7 +596,7 @@ public final class Futures {
    * <p>When the execution of {@code function.apply} is fast and lightweight
    * (though the {@code Future} it returns need not meet these criteria),
    * consider {@linkplain #transform(ListenableFuture, AsyncFunction) omitting
-   * the executor} or explicitly specifying {@code sameThreadExecutor}.
+   * the executor} or explicitly specifying {@code directExecutor}.
    * However, be aware of the caveats documented in the link above.
    *
    * @param input The future to transform
@@ -734,7 +736,7 @@ public final class Futures {
    *
    * <p>When the transformation is fast and lightweight, consider {@linkplain
    * #transform(ListenableFuture, Function) omitting the executor} or
-   * explicitly specifying {@code sameThreadExecutor}. However, be aware of the
+   * explicitly specifying {@code directExecutor}. However, be aware of the
    * caveats documented in the link above.
    *
    * @param input The future to transform
@@ -1181,12 +1183,12 @@ public final class Futures {
     // atomically and therefore that each returned future is guaranteed to be in completion order.
     // N.B. there are some cases where the use of this executor could have possibly surprising
     // effects when input futures finish at approximately the same time _and_ the output futures
-    // have sameThreadExecutor listeners. In this situation, the listeners may end up running on a
+    // have directExecutor listeners. In this situation, the listeners may end up running on a
     // different thread than if they were attached to the corresponding input future.  We believe
     // this to be a negligible cost since:
-    // 1. Using the sameThreadExecutor implies that your callback is safe to run on any thread.
+    // 1. Using the directExecutor implies that your callback is safe to run on any thread.
     // 2. This would likely only be noticeable if you were doing something expensive or blocking on
-    //    a sameThreadExecutor listener on one of the output futures which is an antipattern anyway.
+    //    a directExecutor listener on one of the output futures which is an antipattern anyway.
     SerializingExecutor executor = new SerializingExecutor(directExecutor());
     for (final ListenableFuture<? extends T> future : futures) {
       AsyncSettableFuture<T> delegate = AsyncSettableFuture.create();
@@ -1226,8 +1228,9 @@ public final class Futures {
    * <p>Note: If the callback is slow or heavyweight, consider {@linkplain
    * #addCallback(ListenableFuture, FutureCallback, Executor) supplying an
    * executor}. If you do not supply an executor, {@code addCallback} will use
-   * an inline executor, which carries some caveats for heavier operations. For
-   * example, the callback may run on an unpredictable or undesirable thread:
+   * a {@linkplain MoreExecutors#directExecutor direct executor}, which carries
+   * some caveats for heavier operations. For example, the callback may run on
+   * an unpredictable or undesirable thread:
    *
    * <ul>
    * <li>If the input {@code Future} is done at the time {@code addCallback} is
@@ -1280,7 +1283,7 @@ public final class Futures {
    *
    * <p>When the callback is fast and lightweight, consider {@linkplain
    * #addCallback(ListenableFuture, FutureCallback) omitting the executor} or
-   * explicitly specifying {@code sameThreadExecutor}. However, be aware of the
+   * explicitly specifying {@code directExecutor}. However, be aware of the
    * caveats documented in the link above.
    *
    * <p>For a more general interface to attach a completion listener to a
