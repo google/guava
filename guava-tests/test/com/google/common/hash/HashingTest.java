@@ -414,6 +414,9 @@ public class HashingTest extends TestCase {
           .put(Hashing.sipHash24(), EMPTY_STRING, "310e0edd47db6f72")
           .put(Hashing.sipHash24(), TQBFJOTLD, "e46f1fdc05612752")
           .put(Hashing.sipHash24(), TQBFJOTLDP, "9b602581fce4d4f8")
+          .put(Hashing.crc32c(), EMPTY_STRING, "00000000")
+          .put(Hashing.crc32c(), TQBFJOTLD, "04046222")
+          .put(Hashing.crc32c(), TQBFJOTLDP, "b3970019")
           .build();
 
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {
