@@ -99,7 +99,7 @@ import javax.annotation.concurrent.GuardedBy;
  *           System.exit(1);
  *         }
  *       },
- *       MoreExecutors.sameThreadExecutor());
+ *       MoreExecutors.directExecutor());
  *
  *     Runtime.getRuntime().addShutdownHook(new Thread() {
  *       public void run() {

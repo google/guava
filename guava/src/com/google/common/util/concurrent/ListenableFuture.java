@@ -97,12 +97,12 @@ public interface ListenableFuture<V> extends Future<V> {
    * <p>Exceptions thrown by a listener will be propagated up to the executor.
    * Any exception thrown during {@code Executor.execute} (e.g., a {@code
    * RejectedExecutionException} or an exception thrown by {@linkplain
-   * MoreExecutors#sameThreadExecutor inline execution}) will be caught and
+   * MoreExecutors#directExecutor direct execution}) will be caught and
    * logged.
    *
    * <p>Note: For fast, lightweight listeners that would be safe to execute in
-   * any thread, consider {@link MoreExecutors#sameThreadExecutor}. For heavier
-   * listeners, {@code sameThreadExecutor()} carries some caveats.  For
+   * any thread, consider {@link MoreExecutors#directExecutor}. For heavier
+   * listeners, {@code directExecutor()} carries some caveats.  For
    * example, the listener may run on an unpredictable or undesirable thread:
    *
    * <ul>
@@ -115,7 +115,7 @@ public interface ListenableFuture<V> extends Future<V> {
    * </ul>
    *
    * <p>Also note that, regardless of which thread executes the
-   * {@code sameThreadExecutor()} listener, all other registered but unexecuted
+   * {@code directExecutor()} listener, all other registered but unexecuted
    * listeners are prevented from running during its execution, even if those
    * listeners are to run in other executors.
    *

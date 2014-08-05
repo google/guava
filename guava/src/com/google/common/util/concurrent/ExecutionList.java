@@ -37,7 +37,7 @@ import javax.annotation.concurrent.GuardedBy;
  * <p>Exceptions thrown by a listener will be propagated up to the executor.
  * Any exception thrown during {@code Executor.execute} (e.g., a {@code
  * RejectedExecutionException} or an exception thrown by {@linkplain
- * MoreExecutors#sameThreadExecutor inline execution}) will be caught and
+ * MoreExecutors#directExecutor direct execution}) will be caught and
  * logged.
  *
  * @author Nishant Thakkar
@@ -66,15 +66,15 @@ public final class ExecutionList {
    * executed immediately.
    *
    * <p>Note: For fast, lightweight listeners that would be safe to execute in
-   * any thread, consider {@link MoreExecutors#sameThreadExecutor}. For heavier
-   * listeners, {@code sameThreadExecutor()} carries some caveats: First, the
+   * any thread, consider {@link MoreExecutors#directExecutor}. For heavier
+   * listeners, {@code directExecutor()} carries some caveats: First, the
    * thread that the listener runs in depends on whether the {@code
    * ExecutionList} has been executed at the time it is added. In particular,
    * listeners may run in the thread that calls {@code add}. Second, the thread
    * that calls {@link #execute} may be an internal implementation thread, such
-   * as an RPC network thread, and {@code sameThreadExecutor()} listeners may
+   * as an RPC network thread, and {@code directExecutor()} listeners may
    * run in this thread. Finally, during the execution of a {@code
-   * sameThreadExecutor} listener, all other registered but unexecuted
+   * directExecutor} listener, all other registered but unexecuted
    * listeners are prevented from running, even if those listeners are to run
    * in other executors.
    */
