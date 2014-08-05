@@ -16,11 +16,8 @@
 
 package com.google.common.eventbus;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.Beta;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 
 /**
@@ -32,11 +29,6 @@ import java.util.concurrent.Executor;
  */
 @Beta
 public class AsyncEventBus extends EventBus {
-  private final Executor executor;
-
-  /** the queue of events is shared across all threads */
-  private final ConcurrentLinkedQueue<EventWithSubscriber> eventsToDispatch =
-      new ConcurrentLinkedQueue<EventWithSubscriber>();
 
   /**
    * Creates a new AsyncEventBus that will use {@code executor} to dispatch
@@ -48,8 +40,7 @@ public class AsyncEventBus extends EventBus {
    *        been posted to this event bus.
    */
   public AsyncEventBus(String identifier, Executor executor) {
-    super(identifier);
-    this.executor = checkNotNull(executor);
+    super(identifier, executor, Dispatcher.legacyAsync(), LoggingHandler.INSTANCE);
   }
 
   /**
@@ -64,8 +55,7 @@ public class AsyncEventBus extends EventBus {
    * @since 16.0
    */
   public AsyncEventBus(Executor executor, SubscriberExceptionHandler subscriberExceptionHandler) {
-    super(subscriberExceptionHandler);
-    this.executor = checkNotNull(executor);
+    super("default", executor, Dispatcher.legacyAsync(), subscriberExceptionHandler);
   }
 
   /**
@@ -77,45 +67,6 @@ public class AsyncEventBus extends EventBus {
    *        been posted to this event bus.
    */
   public AsyncEventBus(Executor executor) {
-    super("default");
-    this.executor = checkNotNull(executor);
-  }
-
-  @Override
-  void enqueueEvent(Object event, EventSubscriber subscriber) {
-    eventsToDispatch.offer(new EventWithSubscriber(event, subscriber));
-  }
-
-  /**
-   * Dispatch {@code events} in the order they were posted, regardless of
-   * the posting thread.
-   */
-  @SuppressWarnings("deprecation") // only deprecated for external subclasses
-  @Override
-  protected void dispatchQueuedEvents() {
-    while (true) {
-      EventWithSubscriber eventWithSubscriber = eventsToDispatch.poll();
-      if (eventWithSubscriber == null) {
-        break;
-      }
-
-      dispatch(eventWithSubscriber.event, eventWithSubscriber.subscriber);
-    }
-  }
-
-  /**
-   * Calls the {@link #executor} to dispatch {@code event} to {@code subscriber}.
-   */
-  @Override
-  void dispatch(final Object event, final EventSubscriber subscriber) {
-    checkNotNull(event);
-    checkNotNull(subscriber);
-    executor.execute(
-        new Runnable() {
-          @Override
-          public void run() {
-            AsyncEventBus.super.dispatch(event, subscriber);
-          }
-        });
+    super("default", executor, Dispatcher.legacyAsync(), LoggingHandler.INSTANCE);
   }
 }
