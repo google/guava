@@ -466,7 +466,7 @@ public final class Monitor {
    * the time to acquire the lock and the time to wait for the guard to be satisfied, and may be
    * interrupted.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean enterWhen(Guard guard, long time, TimeUnit unit) throws InterruptedException {
     long timeoutNanos = unit.toNanos(time);
@@ -507,7 +507,7 @@ public final class Monitor {
    * Enters this monitor when the guard is satisfied. Blocks at most the given time, including
    * both the time to acquire the lock and the time to wait for the guard to be satisfied.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean enterWhenUninterruptibly(Guard guard, long time, TimeUnit unit) {
     long timeoutNanos = unit.toNanos(time);
@@ -562,7 +562,7 @@ public final class Monitor {
    * Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but
    * does not wait for the guard to be satisfied.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean enterIf(Guard guard) {
     if (guard.monitor != this) {
@@ -585,7 +585,7 @@ public final class Monitor {
    * Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does
    * not wait for the guard to be satisfied, and may be interrupted.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean enterIfInterruptibly(Guard guard) throws InterruptedException {
     if (guard.monitor != this) {
@@ -608,7 +608,7 @@ public final class Monitor {
    * Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
    * lock, but does not wait for the guard to be satisfied.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean enterIf(Guard guard, long time, TimeUnit unit) {
     if (guard.monitor != this) {
@@ -632,7 +632,7 @@ public final class Monitor {
    * Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
    * lock, but does not wait for the guard to be satisfied, and may be interrupted.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean enterIfInterruptibly(Guard guard, long time, TimeUnit unit)
       throws InterruptedException {
@@ -660,7 +660,7 @@ public final class Monitor {
    *
    * <p><b>Note:</b> This method disregards the fairness setting of this monitor.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean tryEnterIf(Guard guard) {
     if (guard.monitor != this) {
