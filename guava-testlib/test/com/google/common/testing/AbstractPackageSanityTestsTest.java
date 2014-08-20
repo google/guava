@@ -67,6 +67,14 @@ public class AbstractPackageSanityTestsTest extends TestCase {
     assertThat(findClassesToTest(ImmutableList.of(Foo.class))).has().item(Foo.class);
   }
 
+  public void testFindClassesToTeset_ignoreUnderscores() {
+    assertThat(findClassesToTest(ImmutableList.of(Foo.class, Foo_Bar.class)))
+        .has().exactly(Foo.class, Foo_Bar.class);
+    sanityTests.ignoreClasses(AbstractPackageSanityTests.UNDERSCORE_IN_NAME);
+    assertThat(findClassesToTest(ImmutableList.of(Foo.class, Foo_Bar.class)))
+        .has().exactly(Foo.class);
+  }
+
   public void testFindClassesToTest_withCorrespondingTestClassButNotExplicitlyTested() {
     assertThat(findClassesToTest(ImmutableList.of(Foo.class, FooTest.class), "testNotThere"))
         .has().exactly(Foo.class).inOrder();
@@ -96,6 +104,8 @@ public class AbstractPackageSanityTestsTest extends TestCase {
   static class EmptyTestSuite {}
 
   static class Foo {}
+
+  static class Foo_Bar {}
 
   public static class PublicFoo {}
 
