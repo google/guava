@@ -45,34 +45,36 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
   public void testEntries() {
     assertThat(multimap().entries()).has().exactlyAs(getSampleElements());
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testContainsEntryWithNullKeyPresent() {
     initMultimapWithNullKey();
-    assertThat(multimap().entries()).has().allOf(
-        Helpers.mapEntry((K) null, getValueForNullKey()));
+    // TODO(user): Change this back to Truth
+    assertTrue(multimap().entries().contains(
+        Helpers.mapEntry((K) null, getValueForNullKey())));
   }
-  
+
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testContainsEntryWithNullKeyAbsent() {
     assertFalse(multimap().entries().contains(Helpers.mapEntry(null, sampleValues().e0)));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(ALLOWS_NULL_VALUES)
   public void testContainsEntryWithNullValuePresent() {
     initMultimapWithNullValue();
-    assertThat(multimap().entries()).has().allOf(
-        Helpers.mapEntry(getKeyForNullValue(), (V) null));
+    // TODO(user): Change this back to Truth
+    assertTrue(multimap().entries().contains(
+        Helpers.mapEntry(getKeyForNullValue(), (V) null)));
   }
-  
+
   @MapFeature.Require(ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryWithNullValueAbsent() {
     assertFalse(multimap().entries().contains(
         Helpers.mapEntry(sampleKeys().e0, null)));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemovePropagatesToMultimap() {
@@ -82,7 +84,7 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
     assertEquals(getNumElements() - 1, multimap().size());
     assertFalse(multimap().containsEntry(sampleKeys().e0, sampleValues().e0));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllPropagatesToMultimap() {
@@ -92,7 +94,7 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
     assertEquals(getNumElements() - 1, multimap().size());
     assertFalse(multimap().containsEntry(sampleKeys().e0, sampleValues().e0));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRetainAllPropagatesToMultimap() {
@@ -104,7 +106,7 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
     assertEquals(1, multimap().size());
     assertTrue(multimap().containsEntry(sampleKeys().e0, sampleValues().e0));
   }
-  
+
   @CollectionSize.Require(ONE)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   public void testIteratorRemovePropagatesToMultimap() {
@@ -115,7 +117,7 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
     iterator.remove();
     assertTrue(multimap().isEmpty());
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testEntriesRemainValidAfterRemove() {
@@ -128,4 +130,3 @@ public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Mu
     assertEquals(value, entry.getValue());
   }
 }
-

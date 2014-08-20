@@ -49,7 +49,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {}
   }
-  
+
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutEmpty() {
     int size = getNumElements();
@@ -148,7 +148,8 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
     Collection<Entry<K, V>> entries = multimap().entries();
     assertFalse(entries.contains(Helpers.mapEntry(sampleKeys().e3, sampleValues().e3)));
     multimap().put(sampleKeys().e3, sampleValues().e3);
-    assertThat(entries).has().allOf(Helpers.mapEntry(sampleKeys().e3, sampleValues().e3));
+    // TODO(user): Change this back to Truth
+    assertTrue(entries.contains(Helpers.mapEntry(sampleKeys().e3, sampleValues().e3)));
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -157,7 +158,8 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
     Collection<Entry<K, V>> entries = multimap().entries();
     assertFalse(entries.contains(Helpers.mapEntry(sampleKeys().e0, sampleValues().e3)));
     multimap().put(sampleKeys().e0, sampleValues().e3);
-    assertThat(entries).has().allOf(Helpers.mapEntry(sampleKeys().e0, sampleValues().e3));
+    // TODO(user): Change this back to Truth
+    assertTrue(entries.contains(Helpers.mapEntry(sampleKeys().e0, sampleValues().e3)));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
