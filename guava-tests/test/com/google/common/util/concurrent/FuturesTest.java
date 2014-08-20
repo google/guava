@@ -34,6 +34,7 @@ import static org.easymock.EasyMock.expect;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -152,9 +153,46 @@ public class FuturesTest extends TestCase {
   }
 
   public void testImmediateCancelledFuture() throws Exception {
-    ListenableFuture<String> future =
-        Futures.immediateCancelledFuture();
+    ListenableFuture<String> future = CallerClass1.immediateCancelledFuture();
     assertTrue(future.isCancelled());
+
+    try {
+      CallerClass2.get(future);
+      fail();
+    } catch (CancellationException e) {
+      // There should be two CancellationException chained together.  The outer one should have the
+      // stack trace of where the get() call was made, and the inner should have the stack trace of
+      // where the immediateCancelledFuture() call was made.
+      List<StackTraceElement> stackTrace = ImmutableList.copyOf(e.getStackTrace());
+      assertFalse(Iterables.any(stackTrace, hasClassName(CallerClass1.class)));
+      assertTrue(Iterables.any(stackTrace, hasClassName(CallerClass2.class)));
+
+      assertTrue(e.getCause() instanceof CancellationException);
+      stackTrace = ImmutableList.copyOf(e.getCause().getStackTrace());
+      assertTrue(Iterables.any(stackTrace, hasClassName(CallerClass1.class)));
+      assertFalse(Iterables.any(stackTrace, hasClassName(CallerClass2.class)));
+    }
+  }
+
+  private static Predicate<StackTraceElement> hasClassName(final Class<?> clazz) {
+    return new Predicate<StackTraceElement>() {
+      @Override
+      public boolean apply(StackTraceElement element) {
+        return element.getClassName().equals(clazz.getName());
+      }
+    };
+  }
+
+  private static final class CallerClass1 {
+    static ListenableFuture<String> immediateCancelledFuture() {
+      return Futures.immediateCancelledFuture();
+    }
+  }
+
+  private static final class CallerClass2 {
+    static <V> V get(ListenableFuture<V> future) throws ExecutionException, InterruptedException {
+      return future.get();
+    }
   }
 
   private static class MyException extends Exception {}
