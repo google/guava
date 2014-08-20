@@ -115,8 +115,10 @@ public class ServiceManagerTest extends TestCase {
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
     assertEquals(2, startupTimes.size());
-    assertThat(startupTimes.get(a)).isInclusivelyInRange(150, Long.MAX_VALUE);
-    assertThat(startupTimes.get(b)).isInclusivelyInRange(353, Long.MAX_VALUE);
+    // TODO(user): Use assertThat(startupTimes.get(a)).isAtLeast(150);
+    assertTrue(startupTimes.get(a) >= 150);
+    // TODO(user): Use assertThat(startupTimes.get(b)).isAtLeast(353);
+    assertTrue(startupTimes.get(b) >= 353);
   }
 
   public void testServiceStartupTimes_selfStartingServices() {
@@ -141,7 +143,8 @@ public class ServiceManagerTest extends TestCase {
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
     assertEquals(2, startupTimes.size());
-    assertThat(startupTimes.get(a)).isInclusivelyInRange(150, Long.MAX_VALUE);
+    // TODO(user): Use assertThat(startupTimes.get(a)).isAtLeast(150);
+    assertTrue(startupTimes.get(a) >= 150);
     // Service b startup takes at least 353 millis, but starting the timer is delayed by at least
     // 150 milliseconds. so in a perfect world the timing would be 353-150=203ms, but since either
     // of our sleep calls can be arbitrarily delayed we should just assert that there is a time
