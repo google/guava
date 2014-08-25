@@ -444,11 +444,11 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
-   * Specifies a nanosecond-precision time source for use in determining when entries should be
-   * expired. By default, {@link System#nanoTime} is used.
+   * Specifies a nanosecond-precision time source for this cache. By default,
+   * {@link System#nanoTime} is used.
    *
-   * <p>The primary intent of this method is to facilitate testing of caches which have been
-   * configured with {@link #expireAfterWrite} or {@link #expireAfterAccess}.
+   * <p>The primary intent of this method is to facilitate testing of caches with a fake or mock
+   * time source.
    *
    * @throws IllegalStateException if a ticker was already set
    */
