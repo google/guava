@@ -170,11 +170,14 @@ public final class CacheBuilder<K, V> {
             public void recordEviction() {}
 
             @Override
+            public void recordPut() {}
+
+            @Override
             public CacheStats snapshot() {
               return EMPTY_STATS;
             }
           });
-  static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0, 0);
+  static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0, 0, 0);
 
   static final Supplier<StatsCounter> CACHE_STATS_COUNTER =
       new Supplier<StatsCounter>() {

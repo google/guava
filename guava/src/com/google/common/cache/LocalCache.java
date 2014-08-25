@@ -2927,6 +2927,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         evictEntries(newEntry);
         return null;
       } finally {
+        statsCounter.recordPut();
         unlock();
         postWriteCleanup();
       }

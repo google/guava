@@ -111,6 +111,7 @@ public class AbstractCacheTest extends TestCase {
     assertEquals(0, stats.totalLoadTime());
     assertEquals(0.0, stats.averageLoadPenalty());
     assertEquals(0, stats.evictionCount());
+    assertEquals(0, stats.putCount());
   }
 
   public void testSingleSimpleStats() {
@@ -130,6 +131,11 @@ public class AbstractCacheTest extends TestCase {
     for (int i = 0; i < 27; i++) {
       counter.recordEviction();
     }
+
+    for (int i = 0; i < 41; i++) {
+      counter.recordPut();
+    }
+
     CacheStats stats = counter.snapshot();
     int requestCount = 11 + 23;
     assertEquals(requestCount, stats.requestCount());
@@ -144,6 +150,7 @@ public class AbstractCacheTest extends TestCase {
     assertEquals(214, stats.totalLoadTime());
     assertEquals(214.0 / (13 + 17), stats.averageLoadPenalty());
     assertEquals(27, stats.evictionCount());
+    assertEquals(41, stats.putCount());
   }
 
   public void testSimpleStatsIncrementBy() {
@@ -168,6 +175,10 @@ public class AbstractCacheTest extends TestCase {
       counter1.recordEviction();
     }
 
+    for (int i = 0; i < 53; i++) {
+      counter1.recordPut();
+    }
+
     SimpleStatsCounter counter2 = new SimpleStatsCounter();
     for (int i = 0; i < 27; i++) {
       counter2.recordHits(1);
@@ -187,8 +198,12 @@ public class AbstractCacheTest extends TestCase {
       counter2.recordEviction();
     }
 
+    for (int i = 0; i < 47; i++) {
+      counter2.recordPut();
+    }
+
     counter1.incrementBy(counter2);
-    assertEquals(new CacheStats(38, 60, 44, 54, totalLoadTime, 66),
+    assertEquals(new CacheStats(38, 60, 44, 54, totalLoadTime, 66, 100),
         counter1.snapshot());
   }
 
