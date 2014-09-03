@@ -23,6 +23,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -255,10 +256,12 @@ public final class AtomicLongMap<K> {
    * of the zero values have been removed and others have not.
    */
   public void removeAllZeros() {
-    for (K key : map.keySet()) {
-      AtomicLong atomic = map.get(key);
+    Iterator<Map.Entry<K, AtomicLong>> entryIterator = map.entrySet().iterator();
+    while (entryIterator.hasNext()) {
+      Map.Entry<K, AtomicLong> entry = entryIterator.next();
+      AtomicLong atomic = entry.getValue();
       if (atomic != null && atomic.get() == 0L) {
-        map.remove(key, atomic);
+        entryIterator.remove();
       }
     }
   }
