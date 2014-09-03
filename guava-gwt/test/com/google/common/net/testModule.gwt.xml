@@ -14,8 +14,6 @@
    
   <source path=""/>
    
-  <resource path="super/com/google/common/net"/>
-   
   <super-source path="super"/>
    
 </module>

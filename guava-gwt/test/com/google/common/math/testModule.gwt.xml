@@ -12,8 +12,6 @@
    
   <source path=""/>
    
-  <resource path="super/com/google/common/math"/>
-   
   <super-source path="super"/>
    
 </module>
