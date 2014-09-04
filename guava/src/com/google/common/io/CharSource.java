@@ -16,10 +16,10 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Ascii;
 import com.google.common.base.Splitter;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
@@ -162,7 +162,7 @@ public abstract class CharSource {
    *
    * @throws IOException if an I/O error occurs in the process of reading from this source
    */
-  public @Nullable String readFirstLine() throws IOException {
+  @Nullable public String readFirstLine() throws IOException {
     Closer closer = Closer.create();
     try {
       BufferedReader reader = closer.register(openBufferedStream());
@@ -399,7 +399,69 @@ public abstract class CharSource {
 
     @Override
     public String toString() {
-      return "CharSource.wrap(" + Ascii.truncate(seq, 30, "...") + ")";
+      return "CharSource.wrap(" + truncate(seq, 30, "...") + ")";
+    }
+
+    /**
+     * Truncates the given character sequence to the given maximum length. If the length of the
+     * sequence is greater than {@code maxLength}, the returned string will be exactly
+     * {@code maxLength} chars in length and will end with the given {@code truncationIndicator}.
+     * Otherwise, the sequence will be returned as a string with no changes to the content.
+     *
+     * <p>Examples:
+     *
+     * <pre>   {@code
+     *   truncate("foobar", 7, "..."); // returns "foobar"
+     *   truncate("foobar", 5, "..."); // returns "fo..." }</pre>
+     *
+     * <p><b>Note:</b> This method <i>may</i> work with certain non-ASCII text but is not safe for
+     * use with arbitrary Unicode text. It is mostly intended for use with text that is known to be
+     * safe for use with it (such as all-ASCII text) and for simple debugging text. When using this
+     * method, consider the following:
+     *
+     * <ul>
+     *   <li>it may split surrogate pairs</li>
+     *   <li>it may split characters and combining characters</li>
+     *   <li>it does not consider word boundaries</li>
+     *   <li>if truncating for display to users, there are other considerations that must be taken
+     *   into account</li>
+     *   <li>the appropriate truncation indicator may be locale-dependent</li>
+     *   <li>it is safe to use non-ASCII characters in the truncation indicator</li>
+     * </ul>
+     *
+     *
+     * @throws IllegalArgumentException if {@code maxLength} is less than the length of
+     *     {@code truncationIndicator}
+     */
+    /*
+     * <p>TODO(user, cpovirk): Use Ascii.truncate once it is available in our internal copy of
+     * guava_jdk5.
+     */
+    private static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {
+      checkNotNull(seq);
+
+      // length to truncate the sequence to, not including the truncation indicator
+      int truncationLength = maxLength - truncationIndicator.length();
+
+      // in this worst case, this allows a maxLength equal to the length of the truncationIndicator,
+      // meaning that a string will be truncated to just the truncation indicator itself
+      checkArgument(truncationLength >= 0,
+          "maxLength (%s) must be >= length of the truncation indicator (%s)",
+          maxLength, truncationIndicator.length());
+
+      if (seq.length() <= maxLength) {
+        String string = seq.toString();
+        if (string.length() <= maxLength) {
+          return string;
+        }
+        // if the length of the toString() result was > maxLength for some reason, truncate that
+        seq = string;
+      }
+
+      return new StringBuilder(maxLength)
+          .append(seq, 0, truncationLength)
+          .append(truncationIndicator)
+          .toString();
     }
   }
 
