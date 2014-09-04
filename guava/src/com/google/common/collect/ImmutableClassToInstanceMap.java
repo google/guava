@@ -36,6 +36,28 @@ public final class ImmutableClassToInstanceMap<B>
     extends ForwardingMap<Class<? extends B>, B> 
     implements ClassToInstanceMap<B>, Serializable {
   
+  private static final ImmutableClassToInstanceMap<Object> EMPTY = 
+      new ImmutableClassToInstanceMap<Object>(
+          ImmutableMap.<Class<?>, Object>of());
+  
+  /**
+   * Returns an empty {@code ImmutableClassToInstanceMap}.
+   */
+  @SuppressWarnings("unchecked")
+  public static <B> ImmutableClassToInstanceMap<B> of() {
+    return (ImmutableClassToInstanceMap<B>) EMPTY;
+  }
+  
+  /**
+   * Returns an {@code ImmutableClassToInstanceMap} containing a single entry.
+   */
+  public static <B, T extends B> ImmutableClassToInstanceMap<B> of(
+      Class<T> type, T value) {
+    ImmutableMap<Class<? extends B>, B> map = 
+        ImmutableMap.<Class<? extends B>, B>of(type, value);
+    return new ImmutableClassToInstanceMap<B>(map);
+  }
+  
   /**
    * Returns a new builder. The generated builder is equivalent to the builder
    * created by the {@link Builder} constructor.
@@ -104,7 +126,12 @@ public final class ImmutableClassToInstanceMap<B>
      * @throws IllegalArgumentException if duplicate keys were added
      */
     public ImmutableClassToInstanceMap<B> build() {
-      return new ImmutableClassToInstanceMap<B>(mapBuilder.build());
+      ImmutableMap<Class<? extends B>, B> map = mapBuilder.build();
+      if (map.isEmpty()) {
+        return of();
+      } else {
+        return new ImmutableClassToInstanceMap<B>(map);
+      }
     }
   }
 
@@ -160,5 +187,9 @@ public final class ImmutableClassToInstanceMap<B>
   @Override
   public <T extends B> T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();
+  }
+  
+  Object readResolve() {
+    return isEmpty() ? of() : this;
   }
 }
