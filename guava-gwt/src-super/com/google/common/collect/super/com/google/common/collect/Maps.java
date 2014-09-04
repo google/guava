@@ -410,10 +410,10 @@ public final class Maps {
       Equivalence<? super V> valueEquivalence) {
     Preconditions.checkNotNull(valueEquivalence);
 
-    Map<K, V> onlyOnLeft = newHashMap();
-    Map<K, V> onlyOnRight = new HashMap<K, V>(right); // will whittle it down
-    Map<K, V> onBoth = newHashMap();
-    Map<K, MapDifference.ValueDifference<V>> differences = newHashMap();
+    Map<K, V> onlyOnLeft = newLinkedHashMap();
+    Map<K, V> onlyOnRight = new LinkedHashMap<K, V>(right); // will whittle it down
+    Map<K, V> onBoth = newLinkedHashMap();
+    Map<K, MapDifference.ValueDifference<V>> differences = newLinkedHashMap();
     doDifference(left, right, valueEquivalence, onlyOnLeft, onlyOnRight, onBoth, differences);
     return new MapDifferenceImpl<K, V>(onlyOnLeft, onlyOnRight, onBoth, differences);
   }
