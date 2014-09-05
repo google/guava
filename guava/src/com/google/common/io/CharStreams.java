@@ -260,7 +260,7 @@ public final class CharStreams {
     return new AppendableWriter(target);
   }
 
-  // TODO(user): Remove these once Input/OutputSupplier methods are removed
+  // TODO(cgdecker): Remove these once Input/OutputSupplier methods are removed
 
   static Reader asReader(final Readable readable) {
     checkNotNull(readable);
