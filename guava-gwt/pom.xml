@@ -229,10 +229,44 @@
             </goals>
             <configuration>
               <module>com.google.common.ForceGuavaCompilation</module>
-              <strict>true</strict>
+              <failOnError>true</failOnError>
+              <logLevel>DEBUG</logLevel>
               <validateOnly>true</validateOnly>
             </configuration>
           </execution>
+          <!--
+            GWT issues some scary warnings while running tests, but I believe they are harmless.
+            Let's take the warnings for one module, c.g.c.base.testModule, as an example:
+
+              [INFO] Validating units:
+              [INFO]    Ignored 53 units with compilation errors in first pass.
+              [INFO] Compile with -strict or with -logLevel set to TRACE or DEBUG to see all errors.
+
+            Turning up the log level, we see that GWT is trying to compile classes from other
+            packages, like RangeTest. The reason for this is that GWT doesn't distinguish between
+            .java files in c.g.c.collect.Collect, a module that the c.g.c.base test module inherits,
+            and .java files in c.g.c.collect.testModule, one that it doesn't[*]. Consequently,
+            c.g.c.base.testModule transitively pulls in .java files from both modules while reading
+            the module description of only the prod module. And the prod module doesn't inherit all
+            the modules that the test module classes use, so we get errors.
+
+            The good news is that, despite ignoring errors here, GWT does fail if any errors affect
+            classes that are actually used in the module under test.
+
+            One way to eliminate the warnings is to make base.testModule include the not really
+            necessary <inherits> lines for c.g.c.collect.testModule, etc. However, adding <inherits>
+            lines could make c.g.c.base.testModule transitively inherit from extra modules. If some
+            of those modules are ones that it uses but forgets to list in its own <inherits>, we'd
+            like to get an error. Currently we do, but if we add the extra <inherits> lines, we
+            won't.
+
+            I have one idea for a better approach, but it's painful, and I haven't tested it: We
+            could postprocess Collect.gwt.xml to add <skip> lines for all the files that should be
+            covered by testModule.gwt.xml. Maybe I'll try it someday.
+
+            [*] https://code.google.com/p/google-web-toolkit/wiki/ResourceOracle#When_multiple_PathPrefix_es_have_the_same_path
+                https://code.google.com/p/google-web-toolkit/issues/detail?id=7581
+            -->
           <execution>
             <id>gwt-test</id>
             <goals>
@@ -240,8 +274,8 @@
             </goals>
             <configuration>
               <module>com.google.common.GuavaTests</module>
-              <strict>true</strict>
               <includes>${gwt.test.include}</includes>
+              <logLevel>DEBUG</logLevel>
               <mode>htmlunit</mode>
               <testTimeOut>600</testTimeOut>
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
