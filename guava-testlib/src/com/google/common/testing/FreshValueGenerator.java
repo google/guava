@@ -407,6 +407,21 @@ class FreshValueGenerator {
   }
 
   @Generates private Currency freshCurrency() {
+    try {
+      Method method = Currency.class.getMethod("getAvailableCurrencies");
+      @SuppressWarnings("unchecked") // getAvailableCurrencies() returns Set<Currency>.
+      Set<Currency> currencies = (Set<Currency>) method.invoke(null);
+      return nextInstance(currencies, Currency.getInstance(Locale.US));
+    } catch (NoSuchMethodException notJava7) {
+      return preJava7FreshCurrency();
+    } catch (InvocationTargetException cantCallGetAvailableCurrencies) {
+      return preJava7FreshCurrency();
+    } catch (IllegalAccessException impossible) {
+      throw new AssertionError(impossible);
+    }
+  }
+
+  private Currency preJava7FreshCurrency() {
     for (Set<Locale> uselessLocales = Sets.newHashSet(); ; ) {
       Locale locale = freshLocale();
       if (uselessLocales.contains(locale)) { // exhausted all locales
