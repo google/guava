@@ -285,7 +285,7 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
   private static final class ComputingValueReference<K, V> implements ValueReference<K, V> {
     final Function<? super K, ? extends V> computingFunction;
 
-    @GuardedBy("ComputingValueReference.this") // writes
+    @GuardedBy("this") // writes
     volatile ValueReference<K, V> computedReference = unset();
 
     public ComputingValueReference(Function<? super K, ? extends V> computingFunction) {
