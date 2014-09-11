@@ -83,8 +83,8 @@ public abstract class ImmutableSortedMap<K, V>
       return emptyMap(comparator);
     }
 
-    ImmutableList.Builder<K> keyBuilder = ImmutableList.builder();
-    ImmutableList.Builder<V> valueBuilder = ImmutableList.builder();
+    ImmutableList.Builder<K> keyBuilder = new ImmutableList.Builder<K>(size);
+    ImmutableList.Builder<V> valueBuilder = new ImmutableList.Builder<V>(size);
     for (int i = 0; i < size; i++) {
       Entry<K, V> entry = entries[i];
       keyBuilder.add(entry.getKey());
