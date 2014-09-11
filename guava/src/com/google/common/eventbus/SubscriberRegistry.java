@@ -47,7 +47,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.annotation.Nullable;
-import javax.annotation.concurrent.GuardedBy;
 
 /**
  * Registry of subscribers to a single event bus.
@@ -62,7 +61,6 @@ final class SubscriberRegistry {
    * <p>The {@link CopyOnWriteArraySet} values make it easy and relatively lightweight to get an
    * immutable snapshot of all current subscribers to an event without any locking.
    */
-  @GuardedBy("lock")
   private final ConcurrentMap<Class<?>, CopyOnWriteArraySet<Subscriber>> subscribers =
       Maps.newConcurrentMap();
 
