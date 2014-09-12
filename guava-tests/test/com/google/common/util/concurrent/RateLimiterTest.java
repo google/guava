@@ -175,7 +175,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testWarmUp() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS);
+    RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS, 3.0);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #1
     }
@@ -199,8 +199,48 @@ public class RateLimiterTest extends TestCase {
         "R0.00, R0.50, R0.50, R0.50, R0.50, R0.50, R0.50, R0.50"); // #7
   }
 
+  public void testWarmUpWithColdFactor() {
+    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0, 4000, MILLISECONDS, 10.0);
+    for (int i = 0; i < 8; i++) {
+      limiter.acquire(); // #1
+    }
+    stopwatch.sleepMillis(200); // #2: to repay for the last acquire
+    stopwatch.sleepMillis(4000); // #3: becomes cold again
+    for (int i = 0; i < 8; i++) {
+      limiter.acquire(); // // #4
+    }
+    stopwatch.sleepMillis(200); // #5: to repay for the last acquire
+    stopwatch.sleepMillis(1000); // #6: still warm! It would take another 3 seconds to go cold
+    for (int i = 0; i < 8; i++) {
+      limiter.acquire(); // #7
+    }
+    assertEvents(
+        "R0.00, R1.75, R1.26, R0.76, R0.30, R0.20, R0.20, R0.20", // #1
+        "U0.20", // #2
+        "U4.00", // #3
+        "R0.00, R1.75, R1.26, R0.76, R0.30, R0.20, R0.20, R0.20", // #4
+        "U0.20", // #5
+        "U1.00", // #6
+        "R0.00, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20"); // #7
+  }
+
+  public void testWarmUpWithColdFactor1() {
+    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0, 4000, MILLISECONDS, 1.0);
+    for (int i = 0; i < 8; i++) {
+      limiter.acquire(); // #1
+    }
+    stopwatch.sleepMillis(340); // #2
+    for (int i = 0; i < 8; i++) {
+      limiter.acquire(); // #3
+    }
+    assertEvents(
+        "R0.00, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20", // #1
+        "U0.34", // #2
+        "R0.00, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20"); // #3
+  }
+
   public void testWarmUpAndUpdate() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS);
+    RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS, 3.0);
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // // #1
     }
@@ -229,6 +269,38 @@ public class RateLimiterTest extends TestCase {
         "U4.25", // #6
         "R0.00, R0.72, R0.66, R0.59, R0.53, R0.47, R0.41", // #7
         "R0.34, R0.28, R0.25, R0.25"); // #7 (cont.), note, this matches #5
+  }
+
+  public void testWarmUpAndUpdateWithColdFactor() {
+    RateLimiter limiter = RateLimiter.create(stopwatch, 5.0, 4000, MILLISECONDS, 10.0);
+    for (int i = 0; i < 8; i++) {
+      limiter.acquire(); // #1
+    }
+    stopwatch.sleepMillis(4200); // #2: back to cold state (warmup period + repay last acquire)
+    for (int i = 0; i < 3; i++) { // only three steps, we're somewhere in the warmup period
+      limiter.acquire(); // #3
+    }
+
+    limiter.setRate(10.0); // double the rate!
+    limiter.acquire(); // #4, we repay the debt of the last acquire (imposed by the old rate)
+    for (int i = 0; i < 4; i++) {
+      limiter.acquire(); // #5
+    }
+    stopwatch.sleepMillis(4100); // #6, back to cold state (warmup period + repay last acquire)
+    for (int i = 0; i < 11; i++) {
+      limiter.acquire(); // #7, showing off the warmup starting from totally cold
+    }
+
+    // make sure the areas (times) remain the same, while permits are different
+    assertEvents(
+        "R0.00, R1.75, R1.26, R0.76, R0.30, R0.20, R0.20, R0.20", // #1
+        "U4.20", // #2
+        "R0.00, R1.75, R1.26", // #3, after that the rate changes
+        "R0.76", // #4, this is what the throttling would be with the old rate
+        "R0.20, R0.10, R0.10, R0.10", // #5
+        "U4.10", // #6
+        "R0.00, R0.94, R0.81, R0.69, R0.57, R0.44, R0.32", // #7
+        "R0.20, R0.10, R0.10, R0.10"); // #7 (cont.), note, this matches #5
   }
 
   public void testBurstyAndUpdate() {
@@ -335,7 +407,7 @@ public class RateLimiterTest extends TestCase {
 
   public void testInfinity_WarmUp() {
     RateLimiter limiter = RateLimiter.create(
-        stopwatch, Double.POSITIVE_INFINITY, 10, SECONDS);
+        stopwatch, Double.POSITIVE_INFINITY, 10, SECONDS, 3.0);
     limiter.acquire(Integer.MAX_VALUE / 4);
     limiter.acquire(Integer.MAX_VALUE / 2);
     limiter.acquire(Integer.MAX_VALUE);
@@ -355,7 +427,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testInfinity_WarmUpTimeElapsed() {
-    RateLimiter limiter = RateLimiter.create(stopwatch, Double.POSITIVE_INFINITY, 10, SECONDS);
+    RateLimiter limiter = RateLimiter.create(stopwatch, Double.POSITIVE_INFINITY, 10, SECONDS, 3.0);
     stopwatch.instant += 1000000;
     limiter.setRate(1.0);
     for (int i = 0; i < 5; i++) {
@@ -393,17 +465,19 @@ public class RateLimiterTest extends TestCase {
    */
   public void testTimeToWarmUpIsHonouredEvenWithWeights() {
     Random random = new Random();
-    int maxPermits = 10;
+    int warmupPermits = 10;
+    double[] coldFactorsToTest = { 2.0, 3.0, 10.0 };
     double[] qpsToTest = { 4.0, 2.0, 1.0, 0.5, 0.1 };
     for (int trial = 0; trial < 100; trial++) {
-      for (double qps : qpsToTest) {
-        // Since we know that: maxPermits = 0.5 * warmup / stableInterval;
-        // then if maxPermits == 10, we have:
-        // warmupSeconds = 20 / qps
-        long warmupMillis = (long) ((2 * maxPermits / qps) * 1000.0);
-        RateLimiter rateLimiter = RateLimiter.create(
-            stopwatch, qps, warmupMillis, MILLISECONDS);
-        assertEquals(warmupMillis, measureTotalTimeMillis(rateLimiter, maxPermits, random));
+      for (double coldFactor : coldFactorsToTest) {
+        for (double qps : qpsToTest) {
+          // If warmupPermits = maxPermits - thresholdPermits then
+          // warmupPeriod = (1 + coldFactor) * warmupPermits * stableInterval / 2
+          long warmupMillis = (long) ((1 + coldFactor) * warmupPermits / (2.0 * qps) * 1000.0);
+          RateLimiter rateLimiter = RateLimiter.create(
+              stopwatch, qps, warmupMillis, MILLISECONDS, coldFactor);
+          assertEquals(warmupMillis, measureTotalTimeMillis(rateLimiter, warmupPermits, random));
+        }
       }
     }
   }
@@ -411,7 +485,8 @@ public class RateLimiterTest extends TestCase {
   public void testNulls() {
     NullPointerTester tester = new NullPointerTester()
         .setDefault(SleepingStopwatch.class, stopwatch)
-        .setDefault(int.class, 1);
+        .setDefault(int.class, 1)
+        .setDefault(double.class, 1.0d);
     tester.testStaticMethods(RateLimiter.class, Visibility.PACKAGE);
     tester.testInstanceMethods(RateLimiter.create(stopwatch, 5.0), Visibility.PACKAGE);
   }
