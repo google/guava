@@ -20,7 +20,6 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.runner.CaliperMain;
-import com.google.common.base.CharMatcher.FastMatcher;
 
 import java.util.BitSet;
 import java.util.Random;
@@ -39,7 +38,7 @@ public class WhitespaceMatcherBenchmark {
       + "\u0000\u0000\u0085\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a"
       + "\u0000\u0000\u0000\u0000\u0000\u205f\u1680\u0000\u0000\u180e\u0000\u0000\u0000";
 
-  public static final CharMatcher OLD_WHITESPACE = new FastMatcher("CharMatcher.WHITESPACE") {
+  public static final CharMatcher OLD_WHITESPACE = new CharMatcher() {
     @Override public boolean matches(char c) {
       return OLD_WHITESPACE_TABLE.charAt(c % 79) == c;
     }

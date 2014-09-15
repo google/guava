@@ -583,15 +583,15 @@ public class CharMatcherTest extends TestCase {
     // build a precomputed version.
     CharMatcher m1 = is('x');
     assertSame(m1, m1.precomputed());
-    assertSame(m1.toString(), m1.precomputed().toString());
+    assertEquals(m1.toString(), m1.precomputed().toString());
 
     CharMatcher m2 = anyOf("Az");
     assertSame(m2, m2.precomputed());
-    assertSame(m2.toString(), m2.precomputed().toString());
+    assertEquals(m2.toString(), m2.precomputed().toString());
 
     CharMatcher m3 = inRange('A', 'Z');
     assertSame(m3, m3.precomputed());
-    assertSame(m3.toString(), m3.precomputed().toString());
+    assertEquals(m3.toString(), m3.precomputed().toString());
 
     assertSame(CharMatcher.NONE, CharMatcher.NONE.precomputed());
     assertSame(CharMatcher.ANY, CharMatcher.ANY.precomputed());
