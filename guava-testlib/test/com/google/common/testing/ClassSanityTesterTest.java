@@ -35,6 +35,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -543,6 +544,7 @@ public class ClassSanityTesterTest extends TestCase {
     NotInstantiable y = new NotInstantiable();
     tester.setDistinctValues(NotInstantiable.class, x, y);
     assertNotNull(tester.instantiate(ConstructorParameterNotInstantiable.class));
+    tester.testEquals(ConstructorParameterMapOfNotInstantiable.class);
   }
 
   public void testInstantiate_setSampleInstances_empty() throws Exception {
@@ -1183,6 +1185,25 @@ public class ClassSanityTesterTest extends TestCase {
 
   static class ConstructorParameterNotInstantiable {
     public ConstructorParameterNotInstantiable(@SuppressWarnings("unused") NotInstantiable x) {}
+  }
+
+  static class ConstructorParameterMapOfNotInstantiable {
+    private final Map<NotInstantiable, NotInstantiable> m;
+    
+    public ConstructorParameterMapOfNotInstantiable(
+        Map<NotInstantiable, NotInstantiable> m) {
+      this.m = checkNotNull(m);
+    }
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof ConstructorParameterMapOfNotInstantiable) {
+        return m.equals(((ConstructorParameterMapOfNotInstantiable) obj).m);
+      } else {
+        return false;
+      }
+    }
+    @Override public int hashCode() {
+      return m.hashCode();
+    }
   }
 
   // Test that we should get a distinct parameter error when doing equals test.

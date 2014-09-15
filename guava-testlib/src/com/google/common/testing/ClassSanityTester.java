@@ -594,7 +594,7 @@ public final class ClassSanityTester {
     tester.addEqualityGroup(instance, createInstance(factory, equalArgs));
     for (int i = 0; i < params.size(); i++) {
       List<Object> newArgs = Lists.newArrayList(args);
-      Object newArg = argGenerators.get(i).generate(params.get(i).getType());
+      Object newArg = argGenerators.get(i).generateFresh(params.get(i).getType());
 
       if (newArg == null || Objects.equal(args.get(i), newArg)) {
         if (params.get(i).getType().getRawType().isEnum()) {
@@ -667,7 +667,7 @@ public final class ClassSanityTester {
     if (param.isAnnotationPresent(Nullable.class)) {
       return null;
     }
-    Object arg = generator.generate(param.getType());
+    Object arg = generator.generateFresh(param.getType());
     if (arg == null) {
       throw new ParameterNotInstantiableException(param);
     }
