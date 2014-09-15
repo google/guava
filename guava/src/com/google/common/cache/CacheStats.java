@@ -47,7 +47,6 @@ import javax.annotation.Nullable;
  * </ul>
  * <li>When an entry is evicted from the cache, {@code evictionCount} is incremented.
  * <li>No stats are modified when a cache entry is invalidated or manually removed.
- * <li>No stats are modified on a query to {@link Cache#getIfPresent}.
  * <li>No stats are modified by operations invoked on the {@linkplain Cache#asMap asMap} view of
  *     the cache.
  * </ul>
