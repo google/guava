@@ -23,7 +23,6 @@ import com.google.common.base.MoreObjects;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -260,11 +259,9 @@ public class ImmutableSetMultimap<K, V>
     @Override public ImmutableSetMultimap<K, V> build() {
       if (keyComparator != null) {
         Multimap<K, V> sortedCopy = new BuilderMultimap<K, V>();
-        List<Map.Entry<K, Collection<V>>> entries = Lists.newArrayList(
-            builderMultimap.asMap().entrySet());
-        Collections.sort(
-            entries,
-            Ordering.from(keyComparator).<K>onKeys());
+        List<Map.Entry<K, Collection<V>>> entries =
+            Ordering.from(keyComparator).<K>onKeys().immutableSortedCopy(
+                builderMultimap.asMap().entrySet());
         for (Map.Entry<K, Collection<V>> entry : entries) {
           sortedCopy.putAll(entry.getKey(), entry.getValue());
         }

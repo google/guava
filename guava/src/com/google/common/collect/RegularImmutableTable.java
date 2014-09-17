@@ -159,14 +159,12 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
 
     ImmutableSet<R> rowSpace = rowSpaceBuilder.build();
     if (rowComparator != null) {
-      List<R> rowList = Lists.newArrayList(rowSpace);
-      Collections.sort(rowList, rowComparator);
+      List<R> rowList = Ordering.from(rowComparator).immutableSortedCopy(rowSpace);
       rowSpace = ImmutableSet.copyOf(rowList);
     }
     ImmutableSet<C> columnSpace = columnSpaceBuilder.build();
     if (columnComparator != null) {
-      List<C> columnList = Lists.newArrayList(columnSpace);
-      Collections.sort(columnList, columnComparator);
+      List<C> columnList = Ordering.from(columnComparator).immutableSortedCopy(columnSpace);
       columnSpace = ImmutableSet.copyOf(columnList);
     }
 
