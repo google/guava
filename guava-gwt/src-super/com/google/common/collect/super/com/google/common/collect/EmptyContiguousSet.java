@@ -69,6 +69,10 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     return this;
   }
 
+  @Override public boolean contains(Object object) {
+    return false;
+  }
+
   @Override public UnmodifiableIterator<C> iterator() {
     return Iterators.emptyIterator();
   }

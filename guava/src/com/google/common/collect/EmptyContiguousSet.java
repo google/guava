@@ -71,6 +71,10 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     return this;
   }
 
+  @Override public boolean contains(Object object) {
+    return false;
+  }
+
   @GwtIncompatible("not used by GWT emulation")
   @Override int indexOf(Object target) {
     return -1;

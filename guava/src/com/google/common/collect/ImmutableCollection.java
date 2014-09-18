@@ -80,9 +80,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
-    return object != null && super.contains(object);
-  }
+  public abstract boolean contains(@Nullable Object object);
 
   /**
    * Guaranteed to throw an exception and leave the collection unmodified.

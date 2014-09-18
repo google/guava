@@ -34,6 +34,11 @@ class DescendingImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
+  public boolean contains(@Nullable Object object) {
+    return forward.contains(object);
+  }
+
+  @Override
   public int size() {
     return forward.size();
   }
