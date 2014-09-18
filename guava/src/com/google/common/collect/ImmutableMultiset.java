@@ -198,7 +198,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   static <E> ImmutableMultiset<E> copyFromEntries(
       Collection<? extends Entry<? extends E>> entries) {
     long size = 0;
-    ImmutableMap.Builder<E, Integer> builder = ImmutableMap.builder();
+    ImmutableMap.Builder<E, Integer> builder =
+        new ImmutableMap.Builder<E, Integer>(entries.size());
     for (Entry<? extends E> entry : entries) {
       int count = entry.getCount();
       if (count > 0) {

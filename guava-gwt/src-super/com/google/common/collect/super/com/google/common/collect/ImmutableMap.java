@@ -86,9 +86,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   public static class Builder<K, V> {
-    final List<Entry<K, V>> entries = Lists.newArrayList();
+    final List<Entry<K, V>> entries;
 
-    public Builder() {}
+    public Builder() {
+      this.entries = Lists.newArrayList();
+    }
+
+    Builder(int initCapacity) {
+      this.entries = Lists.newArrayListWithCapacity(initCapacity);
+    }
 
     public Builder<K, V> put(K key, V value) {
       entries.add(entryOf(key, value));
