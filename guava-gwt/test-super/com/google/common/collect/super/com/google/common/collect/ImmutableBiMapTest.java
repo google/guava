@@ -131,6 +131,13 @@ public class ImmutableBiMapTest extends TestCase {
       assertMapEquals(map.inverse(), 1, "one");
     }
 
+    public void testBuilder_withImmutableEntry() {
+      ImmutableBiMap<String, Integer> map = new Builder<String, Integer>()
+          .put(Maps.immutableEntry("one", 1))
+          .build();
+      assertMapEquals(map, "one", 1);
+    }
+
     public void testBuilder() {
       ImmutableBiMap<String, Integer> map
           = ImmutableBiMap.<String, Integer>builder()

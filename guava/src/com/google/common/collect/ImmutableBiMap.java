@@ -17,8 +17,10 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ImmutableMap.Builder;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * An immutable {@link BiMap} with reliable user-specified iteration order. Does
@@ -142,6 +144,17 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
      */
     @Override public Builder<K, V> put(K key, V value) {
       super.put(key, value);
+      return this;
+    }
+
+    /**
+     * Adds the given {@code entry} to the bimap.  Duplicate keys or values
+     * are not allowed, and will cause {@link #build} to fail.
+     *
+     * @since 19.0
+     */
+    @Override public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
+      super.put(entry);
       return this;
     }
 

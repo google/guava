@@ -78,6 +78,11 @@ public void testBuilderReuse__CreationTests() throws Exception {
   testCase.testBuilderReuse();
 }
 
+public void testBuilder_withImmutableEntry__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableBiMapTest.CreationTests testCase = new com.google.common.collect.ImmutableBiMapTest.CreationTests();
+  testCase.testBuilder_withImmutableEntry();
+}
+
 public void testCopyOf__CreationTests() throws Exception {
   com.google.common.collect.ImmutableBiMapTest.CreationTests testCase = new com.google.common.collect.ImmutableBiMapTest.CreationTests();
   testCase.testCopyOf();
