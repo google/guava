@@ -310,7 +310,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return ImmutableEnumMap.asImmutable(copy);
   }
 
-  private static final Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Entry<?, ?>[0];
+  static final Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Entry<?, ?>[0];
 
   ImmutableMap() {}
 

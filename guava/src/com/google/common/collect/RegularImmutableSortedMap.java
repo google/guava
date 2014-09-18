@@ -32,7 +32,8 @@ final class RegularImmutableSortedMap<K, V> extends ImmutableSortedMap<K, V> {
   private final transient RegularImmutableSortedSet<K> keySet;
   private final transient ImmutableList<V> valueList;
 
-  RegularImmutableSortedMap(RegularImmutableSortedSet<K> keySet, ImmutableList<V> valueList) {
+  RegularImmutableSortedMap(
+      RegularImmutableSortedSet<K> keySet, ImmutableList<V> valueList) {
     this.keySet = keySet;
     this.valueList = valueList;
   }
@@ -103,8 +104,8 @@ final class RegularImmutableSortedMap<K, V> extends ImmutableSortedMap<K, V> {
     } else if (fromIndex == toIndex) {
       return emptyMap(comparator());
     } else {
-      return from(
-          keySet.getSubSet(fromIndex, toIndex),
+      return new RegularImmutableSortedMap<K, V>(
+          (RegularImmutableSortedSet<K>) keySet.getSubSet(fromIndex, toIndex),
           valueList.subList(fromIndex, toIndex));
     }
   }
