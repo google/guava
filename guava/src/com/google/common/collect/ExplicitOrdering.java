@@ -29,7 +29,7 @@ final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
   final ImmutableMap<T, Integer> rankMap;
 
   ExplicitOrdering(List<T> valuesInOrder) {
-    this(buildRankMap(valuesInOrder));
+    this(Lists.indexMap(valuesInOrder));
   }
 
   ExplicitOrdering(ImmutableMap<T, Integer> rankMap) {
@@ -46,16 +46,6 @@ final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
       throw new IncomparableValueException(value);
     }
     return rank;
-  }
-
-  private static <T> ImmutableMap<T, Integer> buildRankMap(
-      List<T> valuesInOrder) {
-    ImmutableMap.Builder<T, Integer> builder = ImmutableMap.builder();
-    int rank = 0;
-    for (T value : valuesInOrder) {
-      builder.put(value, rank++);
-    }
-    return builder.build();
   }
 
   @Override public boolean equals(@Nullable Object object) {

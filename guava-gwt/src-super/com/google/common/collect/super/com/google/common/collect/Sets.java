@@ -1118,12 +1118,7 @@ public final class Sets {
     final ImmutableMap<E, Integer> inputSet;
 
     PowerSet(Set<E> input) {
-      ImmutableMap.Builder<E, Integer> builder = ImmutableMap.builder();
-      int i = 0;
-      for (E e : checkNotNull(input)) {
-        builder.put(e, i++);
-      }
-      this.inputSet = builder.build();
+      this.inputSet = Lists.indexMap(input);
       checkArgument(inputSet.size() <= 30,
           "Too many elements to create power set: %s > 30", inputSet.size());
     }

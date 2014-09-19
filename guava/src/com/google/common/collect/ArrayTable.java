@@ -30,7 +30,6 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -153,8 +152,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
      * columnKeys is empty but rowKeys isn't, the table is empty but
      * containsRow() can return true and rowKeySet() isn't empty.
      */
-    rowKeyToIndex = index(rowList);
-    columnKeyToIndex = index(columnList);
+    rowKeyToIndex = Lists.indexMap(rowList);
+    columnKeyToIndex = Lists.indexMap(columnList);
 
     @SuppressWarnings("unchecked")
     V[][] tmpArray
@@ -162,14 +161,6 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     array = tmpArray;
     // Necessary because in GWT the arrays are initialized with "undefined" instead of null.
     eraseAll();
-  }
-
-  private static <E> ImmutableMap<E, Integer> index(List<E> list) {
-    ImmutableMap.Builder<E, Integer> columnBuilder = ImmutableMap.builder();
-    for (int i = 0; i < list.size(); i++) {
-      columnBuilder.put(list.get(i), i);
-    }
-    return columnBuilder.build();
   }
 
   private ArrayTable(Table<R, C, V> table) {

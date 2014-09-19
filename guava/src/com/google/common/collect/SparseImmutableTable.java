@@ -36,10 +36,9 @@ final class SparseImmutableTable<R, C, V>
 
   SparseImmutableTable(ImmutableList<Cell<R, C, V>> cellList,
       ImmutableSet<R> rowSpace, ImmutableSet<C> columnSpace) {
-    Map<R, Integer> rowIndex = Maps.newHashMap();
+    Map<R, Integer> rowIndex = Lists.indexMap(rowSpace.asList());
     Map<R, Map<C, V>> rows = Maps.newLinkedHashMap();
     for (R row : rowSpace) {
-      rowIndex.put(row, rows.size());
       rows.put(row, new LinkedHashMap<C, V>());
     }
     Map<C, Map<R, V>> columns = Maps.newLinkedHashMap();

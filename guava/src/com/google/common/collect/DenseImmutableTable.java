@@ -40,23 +40,13 @@ final class DenseImmutableTable<R, C, V>
   private final int[] iterationOrderRow;
   private final int[] iterationOrderColumn;
 
-  private static <E> ImmutableMap<E, Integer> makeIndex(ImmutableSet<E> set) {
-    ImmutableMap.Builder<E, Integer> indexBuilder = ImmutableMap.builder();
-    int i = 0;
-    for (E key : set) {
-      indexBuilder.put(key, i);
-      i++;
-    }
-    return indexBuilder.build();
-  }
-
   DenseImmutableTable(ImmutableList<Cell<R, C, V>> cellList,
       ImmutableSet<R> rowSpace, ImmutableSet<C> columnSpace) {
     @SuppressWarnings("unchecked")
     V[][] array = (V[][]) new Object[rowSpace.size()][columnSpace.size()];
     this.values = array;
-    this.rowKeyToIndex = makeIndex(rowSpace);
-    this.columnKeyToIndex = makeIndex(columnSpace);
+    this.rowKeyToIndex = Lists.indexMap(rowSpace.asList());
+    this.columnKeyToIndex = Lists.indexMap(columnSpace.asList());
     rowCounts = new int[rowKeyToIndex.size()];
     columnCounts = new int[columnKeyToIndex.size()];
     int[] iterationOrderRow = new int[cellList.size()];
