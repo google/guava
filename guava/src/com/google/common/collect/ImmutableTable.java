@@ -96,7 +96,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
               onlyCell.getColumnKey(), onlyCell.getValue());
         default:
           ImmutableSet.Builder<Cell<R, C, V>> cellSetBuilder
-              = ImmutableSet.builder();
+              = new ImmutableSet.Builder<Cell<R, C, V>>(size);
           for (Cell<? extends R, ? extends C, ? extends V> cell :
               table.cellSet()) {
             /*

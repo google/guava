@@ -964,6 +964,7 @@ public final class Maps {
    */
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterable<V> values, Function<? super V, K> keyFunction) {
+    // TODO(user): consider presizing the builder if values is a Collection
     return uniqueIndex(values.iterator(), keyFunction);
   }
 

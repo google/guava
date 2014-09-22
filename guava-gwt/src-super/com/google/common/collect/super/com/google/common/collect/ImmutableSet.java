@@ -169,9 +169,15 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
   public static class Builder<E> extends ImmutableCollection.Builder<E> {
     // accessed directly by ImmutableSortedSet
-    final ArrayList<E> contents = Lists.newArrayList();
+    final ArrayList<E> contents;
 
-    public Builder() {}
+    public Builder() {
+      this.contents = Lists.newArrayList();
+    }
+    
+    Builder(int initialCapacity) {
+      this.contents = Lists.newArrayListWithCapacity(initialCapacity);
+    }
 
     @Override public Builder<E> add(E element) {
       contents.add(checkNotNull(element));

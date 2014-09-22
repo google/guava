@@ -253,7 +253,8 @@ public class ImmutableListMultimap<K, V>
       }
     }
 
-    ImmutableMap.Builder<K, ImmutableList<V>> builder = ImmutableMap.builder();
+    ImmutableMap.Builder<K, ImmutableList<V>> builder =
+        new ImmutableMap.Builder<K, ImmutableList<V>>(multimap.asMap().size());
     int size = 0;
 
     for (Entry<? extends K, ? extends Collection<? extends V>> entry

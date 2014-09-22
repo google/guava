@@ -20,7 +20,9 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -149,29 +151,27 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
       forCellsInternal(Iterable<Cell<R, C, V>> cells,
           @Nullable Comparator<? super R> rowComparator,
           @Nullable Comparator<? super C> columnComparator) {
-    ImmutableSet.Builder<R> rowSpaceBuilder = ImmutableSet.builder();
-    ImmutableSet.Builder<C> columnSpaceBuilder = ImmutableSet.builder();
+    Set<R> rowSpaceBuilder = new LinkedHashSet<R>();
+    Set<C> columnSpaceBuilder = new LinkedHashSet<C>();
     ImmutableList<Cell<R, C, V>> cellList = ImmutableList.copyOf(cells);
-    for (Cell<R, C, V> cell : cellList) {
+    for (Cell<R, C, V> cell : cells) {
       rowSpaceBuilder.add(cell.getRowKey());
       columnSpaceBuilder.add(cell.getColumnKey());
     }
 
-    ImmutableSet<R> rowSpace = rowSpaceBuilder.build();
-    if (rowComparator != null) {
-      List<R> rowList = Ordering.from(rowComparator).immutableSortedCopy(rowSpace);
-      rowSpace = ImmutableSet.copyOf(rowList);
-    }
-    ImmutableSet<C> columnSpace = columnSpaceBuilder.build();
-    if (columnComparator != null) {
-      List<C> columnList = Ordering.from(columnComparator).immutableSortedCopy(columnSpace);
-      columnSpace = ImmutableSet.copyOf(columnList);
-    }
+    ImmutableSet<R> rowSpace = (rowComparator == null)
+        ? ImmutableSet.copyOf(rowSpaceBuilder)
+        : ImmutableSet.copyOf(
+            Ordering.from(rowComparator).immutableSortedCopy(rowSpaceBuilder));
+    ImmutableSet<C> columnSpace = (columnComparator == null)
+        ? ImmutableSet.copyOf(columnSpaceBuilder)
+        : ImmutableSet.copyOf(
+            Ordering.from(columnComparator).immutableSortedCopy(columnSpaceBuilder));
 
     // use a dense table if more than half of the cells have values
     // TODO(gak): tune this condition based on empirical evidence
-    return (cellList.size() > (((long) rowSpace.size() * columnSpace.size()) / 2)) ?
-        new DenseImmutableTable<R, C, V>(cellList, rowSpace, columnSpace) :
-        new SparseImmutableTable<R, C, V>(cellList, rowSpace, columnSpace);
+    return (cellList.size() > (((long) rowSpace.size() * columnSpace.size()) / 2)) 
+        ? new DenseImmutableTable<R, C, V>(cellList, rowSpace, columnSpace)
+        : new SparseImmutableTable<R, C, V>(cellList, rowSpace, columnSpace);
   }
 }

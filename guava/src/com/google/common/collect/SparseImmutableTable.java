@@ -65,13 +65,15 @@ final class SparseImmutableTable<R, C, V>
     }
     this.iterationOrderRow = iterationOrderRow;
     this.iterationOrderColumn = iterationOrderColumn;
-    ImmutableMap.Builder<R, Map<C, V>> rowBuilder = ImmutableMap.builder();
+    ImmutableMap.Builder<R, Map<C, V>> rowBuilder = 
+        new ImmutableMap.Builder<R, Map<C, V>>(rows.size());
     for (Map.Entry<R, Map<C, V>> row : rows.entrySet()) {
       rowBuilder.put(row.getKey(), ImmutableMap.copyOf(row.getValue()));
     }
     this.rowMap = rowBuilder.build();
     
-    ImmutableMap.Builder<C, Map<R, V>> columnBuilder = ImmutableMap.builder();
+    ImmutableMap.Builder<C, Map<R, V>> columnBuilder = 
+        new ImmutableMap.Builder<C, Map<R, V>>(columns.size());
     for (Map.Entry<C, Map<R, V>> col : columns.entrySet()) {
       columnBuilder.put(col.getKey(), ImmutableMap.copyOf(col.getValue()));
     }

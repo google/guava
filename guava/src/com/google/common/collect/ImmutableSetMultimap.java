@@ -313,7 +313,8 @@ public class ImmutableSetMultimap<K, V>
       }
     }
 
-    ImmutableMap.Builder<K, ImmutableSet<V>> builder = ImmutableMap.builder();
+    ImmutableMap.Builder<K, ImmutableSet<V>> builder = 
+        new ImmutableMap.Builder<K, ImmutableSet<V>>(multimap.asMap().size());
     int size = 0;
 
     for (Entry<? extends K, ? extends Collection<? extends V>> entry
