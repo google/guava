@@ -301,7 +301,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   private static <K extends Enum<K>, V> ImmutableMap<K, V> copyOfEnumMap(
-      Map<K, ? extends V> original) {
+      EnumMap<K, ? extends V> original) {
     EnumMap<K, V> copy = new EnumMap<K, V>(original);
     for (Map.Entry<?, ?> entry : copy.entrySet()) {
       checkEntryNotNull(entry.getKey(), entry.getValue());
