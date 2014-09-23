@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.Beta;
@@ -433,41 +432,38 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Beta
   public ImmutableSetMultimap<K, V> asMultimap() {
     ImmutableSetMultimap<K, V> result = multimapView;
-    return (result == null) ? (multimapView = createMultimapView()) : result;
+    return (result == null)
+        ? (multimapView = new ImmutableSetMultimap<K, V>(
+            new MapViewOfValuesAsSingletonSets(), size(), null))
+        : result;
   }
 
-  private ImmutableSetMultimap<K, V> createMultimapView() {
-    ImmutableMap<K, ImmutableSet<V>> map = viewMapValuesAsSingletonSets();
-    return new ImmutableSetMultimap<K, V>(map, map.size(), null);
-  }
-
-  private ImmutableMap<K, ImmutableSet<V>> viewMapValuesAsSingletonSets() {
-    return new MapViewOfValuesAsSingletonSets<K, V>(this);
-  }
-
-  private static final class MapViewOfValuesAsSingletonSets<K, V>
-      extends ImmutableMap<K, ImmutableSet<V>> {
-    private final ImmutableMap<K, V> delegate;
-
-    MapViewOfValuesAsSingletonSets(ImmutableMap<K, V> delegate) {
-      this.delegate = checkNotNull(delegate);
-    }
+  private final class MapViewOfValuesAsSingletonSets extends ImmutableMap<K, ImmutableSet<V>> {
 
     @Override public int size() {
-      return delegate.size();
+      return ImmutableMap.this.size();
     }
 
     @Override public boolean containsKey(@Nullable Object key) {
-      return delegate.containsKey(key);
+      return ImmutableMap.this.containsKey(key);
     }
 
     @Override public ImmutableSet<V> get(@Nullable Object key) {
-      V outerValue = delegate.get(key);
+      V outerValue = ImmutableMap.this.get(key);
       return (outerValue == null) ? null : ImmutableSet.of(outerValue);
     }
 
     @Override boolean isPartialView() {
-      return false;
+      return ImmutableMap.this.isPartialView();
+    }
+
+    @Override public int hashCode() {
+      // ImmutableSet.of(value).hashCode() == value.hashCode(), so the hashes are the same
+      return ImmutableMap.this.hashCode();
+    }
+
+    @Override boolean isHashCodeFast() {
+      return ImmutableMap.this.isHashCodeFast();
     }
 
     @Override ImmutableSet<Entry<K, ImmutableSet<V>>> createEntrySet() {
@@ -478,7 +474,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
         @Override
         public UnmodifiableIterator<Entry<K, ImmutableSet<V>>> iterator() {
-          final Iterator<Entry<K, V>> backingIterator = delegate.entrySet().iterator();
+          final Iterator<Entry<K, V>> backingIterator = ImmutableMap.this.entrySet().iterator();
           return new UnmodifiableIterator<Entry<K, ImmutableSet<V>>>() {
             @Override public boolean hasNext() {
               return backingIterator.hasNext();
