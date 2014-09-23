@@ -40,15 +40,15 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private final transient ImmutableMapEntry<K, V>[] table;
   // 'and' with an int to get a table index
   private final transient int mask;
-
+  
   RegularImmutableMap(TerminalEntry<?, ?>... theEntries) {
     this(theEntries.length, theEntries);
   }
-
+  
   /**
    * Constructor for RegularImmutableMap that takes as input an array of {@code TerminalEntry}
    * entries.  Assumes that these entries have already been checked for null.
-   *
+   * 
    * <p>This allows reuse of the entry objects from the array in the actual implementation.
    */
   RegularImmutableMap(int size, TerminalEntry<?, ?>[] theEntries) {
@@ -68,10 +68,10 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
           : new NonTerminalMapEntry<K, V>(entry, existing);
       table[tableIndex] = newEntry;
       entries[entryIndex] = newEntry;
-      checkNoConflictInBucket(key, newEntry, existing);
+      checkNoConflictInKeyBucket(key, newEntry, existing);
     }
   }
-
+  
   /**
    * Constructor for RegularImmutableMap that makes no assumptions about the input entries.
    */
@@ -95,18 +95,17 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
           : new NonTerminalMapEntry<K, V>(key, value, existing);
       table[tableIndex] = newEntry;
       entries[entryIndex] = newEntry;
-      checkNoConflictInBucket(key, newEntry, existing);
+      checkNoConflictInKeyBucket(key, newEntry, existing);
     }
   }
 
-  // TODO(user): consider sharing this code with RegularImmutableBiMap
-  private static void checkNoConflictInBucket(
-      Object key, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> bucketHead) {
-    for (; bucketHead != null; bucketHead = bucketHead.getNextInKeyBucket()) {
-      checkNoConflict(!key.equals(bucketHead.getKey()), "key", entry, bucketHead);
+  static void checkNoConflictInKeyBucket(
+      Object key, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> keyBucketHead) {
+    for (; keyBucketHead != null; keyBucketHead = keyBucketHead.getNextInKeyBucket()) {
+      checkNoConflict(!key.equals(keyBucketHead.getKey()), "key", entry, keyBucketHead);
     }
   }
-
+  
   private static final class NonTerminalMapEntry<K, V> extends ImmutableMapEntry<K, V> {
     private final ImmutableMapEntry<K, V> nextInKeyBucket;
 
@@ -130,7 +129,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     ImmutableMapEntry<K, V> getNextInValueBucket() {
       return null;
     }
-
+    
   }
 
   /**
@@ -141,15 +140,19 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private static final double MAX_LOAD_FACTOR = 1.2;
 
   @Override public V get(@Nullable Object key) {
-    // TODO(user): consider sharing this code with RegularImmutableBiMap
+    return get(key, table, mask);
+  }
+  
+  @Nullable 
+  static <V> V get(@Nullable Object key, ImmutableMapEntry<?, V>[] keyTable, int mask) {
     if (key == null) {
       return null;
     }
     int index = Hashing.smear(key.hashCode()) & mask;
-    for (ImmutableMapEntry<K, V> entry = table[index];
+    for (ImmutableMapEntry<?, V> entry = keyTable[index];
         entry != null;
         entry = entry.getNextInKeyBucket()) {
-      K candidateKey = entry.getKey();
+      Object candidateKey = entry.getKey();
 
       /*
        * Assume that equals uses the == optimization when appropriate, and that
@@ -168,7 +171,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   public int size() {
     return entries.length;
   }
-
+  
   @Override boolean isPartialView() {
     return false;
   }
