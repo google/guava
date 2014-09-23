@@ -132,7 +132,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * throw {@link UnsupportedOperationException}.
    */
   static <K, V> TerminalEntry<K, V> entryOf(K key, V value) {
-    checkEntryNotNull(key, value);
     return new TerminalEntry<K, V>(key, value);
   }
 
