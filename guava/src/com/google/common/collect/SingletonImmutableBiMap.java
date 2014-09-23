@@ -48,10 +48,6 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     this.inverse = inverse;
   }
 
-  SingletonImmutableBiMap(Entry<? extends K, ? extends V> entry) {
-    this(entry.getKey(), entry.getValue());
-  }
-
   @Override public V get(@Nullable Object key) {
     return singleKey.equals(key) ? singleValue : null;
   }
