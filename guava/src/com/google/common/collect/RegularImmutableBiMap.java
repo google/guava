@@ -197,32 +197,17 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new ImmutableMapEntrySet<K, V>() {
-      @Override
-      ImmutableMap<K, V> map() {
-        return RegularImmutableBiMap.this;
-      }
+    return new ImmutableMapEntrySet.RegularEntrySet<K, V>(this, entries);
+  }
 
-      @Override
-      public UnmodifiableIterator<Entry<K, V>> iterator() {
-        return asList().iterator();
-      }
+  @Override
+  boolean isHashCodeFast() {
+    return true;
+  }
 
-      @Override
-      ImmutableList<Entry<K, V>> createAsList() {
-        return new RegularImmutableAsList<Entry<K, V>>(this, entries);
-      }
-
-      @Override
-      boolean isHashCodeFast() {
-        return true;
-      }
-
-      @Override
-      public int hashCode() {
-        return hashCode;
-      }
-    };
+  @Override
+  public int hashCode() {
+    return hashCode;
   }
 
   @Override

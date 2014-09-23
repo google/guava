@@ -175,29 +175,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new EntrySet();
-  }
-
-  /*
-   * TODO(user): consider sharing this with RegularImmutableBiMap, though
-   * that entry set knows its hash code in advance.
-   */
-
-  @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-  private class EntrySet extends ImmutableMapEntrySet<K, V> {
-    @Override ImmutableMap<K, V> map() {
-      return RegularImmutableMap.this;
-    }
-
-    @Override
-    public UnmodifiableIterator<Entry<K, V>> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    ImmutableList<Entry<K, V>> createAsList() {
-      return new RegularImmutableAsList<Entry<K, V>>(this, entries);
-    }
+    return new ImmutableMapEntrySet.RegularEntrySet<K, V>(this, entries);
   }
 
   // This class is never actually serialized directly, but we have to make the

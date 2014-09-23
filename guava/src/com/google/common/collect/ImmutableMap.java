@@ -510,9 +510,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   abstract boolean isPartialView();
 
   @Override public int hashCode() {
-    // not caching hash code since it could change if map values are mutable
-    // in a way that modifies their hash codes
-    return entrySet().hashCode();
+    return Sets.hashCodeImpl(entrySet());
+  }
+
+  boolean isHashCodeFast() {
+    return false;
   }
 
   @Override public String toString() {
