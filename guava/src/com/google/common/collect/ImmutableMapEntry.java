@@ -32,6 +32,16 @@ import javax.annotation.Nullable;
  */
 @GwtIncompatible("unnecessary")
 abstract class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
+  /**
+   * Creates an {@code ImmutableMapEntry} array to hold parameterized entries. The
+   * result must never be upcast back to ImmutableMapEntry[] (or Object[], etc.), or
+   * allowed to escape the class.
+   */
+  @SuppressWarnings("unchecked") // Safe as long as the javadocs are followed
+  static <K, V> ImmutableMapEntry<K, V>[] createEntryArray(int size) {
+    return new ImmutableMapEntry[size];
+  }
+  
   ImmutableMapEntry(K key, V value) {
     super(key, value);
     checkEntryNotNull(key, value);

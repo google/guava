@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
+import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMapEntry.TerminalEntry;
@@ -39,15 +40,15 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private final transient ImmutableMapEntry<K, V>[] table;
   // 'and' with an int to get a table index
   private final transient int mask;
-  
+
   RegularImmutableMap(TerminalEntry<?, ?>... theEntries) {
     this(theEntries.length, theEntries);
   }
-  
+
   /**
    * Constructor for RegularImmutableMap that takes as input an array of {@code TerminalEntry}
    * entries.  Assumes that these entries have already been checked for null.
-   * 
+   *
    * <p>This allows reuse of the entry objects from the array in the actual implementation.
    */
   RegularImmutableMap(int size, TerminalEntry<?, ?>[] theEntries) {
@@ -70,7 +71,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       checkNoConflictInBucket(key, newEntry, existing);
     }
   }
-  
+
   /**
    * Constructor for RegularImmutableMap that makes no assumptions about the input entries.
    */
@@ -98,13 +99,14 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
   }
 
-  private void checkNoConflictInBucket(
-      K key, ImmutableMapEntry<K, V> entry, ImmutableMapEntry<K, V> bucketHead) {
+  // TODO(user): consider sharing this code with RegularImmutableBiMap
+  private static void checkNoConflictInBucket(
+      Object key, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> bucketHead) {
     for (; bucketHead != null; bucketHead = bucketHead.getNextInKeyBucket()) {
       checkNoConflict(!key.equals(bucketHead.getKey()), "key", entry, bucketHead);
     }
   }
-  
+
   private static final class NonTerminalMapEntry<K, V> extends ImmutableMapEntry<K, V> {
     private final ImmutableMapEntry<K, V> nextInKeyBucket;
 
@@ -128,7 +130,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     ImmutableMapEntry<K, V> getNextInValueBucket() {
       return null;
     }
-    
+
   }
 
   /**
@@ -138,17 +140,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    */
   private static final double MAX_LOAD_FACTOR = 1.2;
 
-  /**
-   * Creates an {@code ImmutableMapEntry} array to hold parameterized entries. The
-   * result must never be upcast back to ImmutableMapEntry[] (or Object[], etc.), or
-   * allowed to escape the class.
-   */
-  @SuppressWarnings("unchecked") // Safe as long as the javadocs are followed
-  private ImmutableMapEntry<K, V>[] createEntryArray(int size) {
-    return new ImmutableMapEntry[size];
-  }
-
   @Override public V get(@Nullable Object key) {
+    // TODO(user): consider sharing this code with RegularImmutableBiMap
     if (key == null) {
       return null;
     }
@@ -175,7 +168,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   public int size() {
     return entries.length;
   }
-  
+
   @Override boolean isPartialView() {
     return false;
   }
@@ -184,6 +177,11 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   ImmutableSet<Entry<K, V>> createEntrySet() {
     return new EntrySet();
   }
+
+  /*
+   * TODO(user): consider sharing this with RegularImmutableBiMap, though
+   * that entry set knows its hash code in advance.
+   */
 
   @SuppressWarnings("serial") // uses writeReplace(), not default serialization
   private class EntrySet extends ImmutableMapEntrySet<K, V> {

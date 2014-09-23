@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
+import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMapEntry.TerminalEntry;
@@ -176,11 +177,6 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     ImmutableMapEntry<K, V> getNextInValueBucket() {
       return nextInValueBucket;
     }
-  }
-  
-  @SuppressWarnings("unchecked")
-  private static <K, V> ImmutableMapEntry<K, V>[] createEntryArray(int length) {
-    return new ImmutableMapEntry[length];
   }
 
   @Override
