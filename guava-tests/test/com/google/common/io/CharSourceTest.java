@@ -229,7 +229,7 @@ public class CharSourceTest extends IoTestCase {
     String expected = "abcdabcd";
 
     // read the first 8 chars manually, since there's no equivalent to ByteSource.slice
-    // TODO(cgdecker): Add CharSource.slice?
+    // TODO(user): Add CharSource.slice?
     StringBuilder builder = new StringBuilder();
     Reader reader = concatenated.openStream(); // no need to worry about closing
     for (int i = 0; i < 8; i++) {
