@@ -224,8 +224,6 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
     }
   }
 
-  private static final Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Entry<?, ?>[0];
-
   ImmutableBiMap() {}
 
   /**
