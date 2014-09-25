@@ -18,6 +18,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
+import com.google.common.collect.Multiset.Entry;
 
 import java.io.Serializable;
 import java.util.EnumMap;
@@ -33,7 +35,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-final class ImmutableEnumMap<K extends Enum<K>, V> extends ImmutableMap<K, V> {
+final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutableMap<K, V> {
   static <K extends Enum<K>, V> ImmutableMap<K, V> asImmutable(EnumMap<K, V> map) {
     switch (map.size()) {
       case 0:
@@ -96,30 +98,19 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends ImmutableMap<K, V> {
   }
 
   @Override
-  ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new ImmutableMapEntrySet<K, V>() {
+  UnmodifiableIterator<Entry<K, V>> entryIterator() {
+    return new UnmodifiableIterator<Entry<K, V>>() {
+      private final Iterator<Entry<K, V>> backingIterator = delegate.entrySet().iterator();
 
       @Override
-      ImmutableMap<K, V> map() {
-        return ImmutableEnumMap.this;
+      public boolean hasNext() {
+        return backingIterator.hasNext();
       }
 
       @Override
-      public UnmodifiableIterator<Entry<K, V>> iterator() {
-        return new UnmodifiableIterator<Entry<K, V>>() {
-          private final Iterator<Entry<K, V>> backingIterator = delegate.entrySet().iterator();
-
-          @Override
-          public boolean hasNext() {
-            return backingIterator.hasNext();
-          }
-
-          @Override
-          public Entry<K, V> next() {
-            Entry<K, V> entry = backingIterator.next();
-            return Maps.immutableEntry(entry.getKey(), entry.getValue());
-          }
-        };
+      public Entry<K, V> next() {
+        Entry<K, V> entry = backingIterator.next();
+        return Maps.immutableEntry(entry.getKey(), entry.getValue());
       }
     };
   }

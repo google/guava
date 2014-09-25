@@ -310,6 +310,25 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   static final Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Entry<?, ?>[0];
 
+  abstract static class IteratorBasedImmutableMap<K, V> extends ImmutableMap<K, V> {
+    abstract UnmodifiableIterator<Entry<K, V>> entryIterator();
+
+    @Override
+    ImmutableSet<Entry<K, V>> createEntrySet() {
+      return new ImmutableMapEntrySet<K, V>() {
+        @Override
+        ImmutableMap<K, V> map() {
+          return IteratorBasedImmutableMap.this;
+        }
+
+        @Override
+        public UnmodifiableIterator<Entry<K, V>> iterator() {
+          return entryIterator();
+        }
+      };
+    }
+  }
+
   ImmutableMap() {}
 
   /**
@@ -438,10 +457,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         : result;
   }
 
-  private final class MapViewOfValuesAsSingletonSets extends ImmutableMap<K, ImmutableSet<V>> {
+  private final class MapViewOfValuesAsSingletonSets
+      extends IteratorBasedImmutableMap<K, ImmutableSet<V>> {
 
     @Override public int size() {
       return ImmutableMap.this.size();
+    }
+
+    @Override public ImmutableSet<K> keySet() {
+      return ImmutableMap.this.keySet();
     }
 
     @Override public boolean containsKey(@Nullable Object key) {
@@ -466,31 +490,23 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return ImmutableMap.this.isHashCodeFast();
     }
 
-    @Override ImmutableSet<Entry<K, ImmutableSet<V>>> createEntrySet() {
-      return new ImmutableMapEntrySet<K, ImmutableSet<V>>() {
-        @Override ImmutableMap<K, ImmutableSet<V>> map() {
-          return MapViewOfValuesAsSingletonSets.this;
+    @Override
+    UnmodifiableIterator<Entry<K, ImmutableSet<V>>> entryIterator() {
+      final Iterator<Entry<K, V>> backingIterator = ImmutableMap.this.entrySet().iterator();
+      return new UnmodifiableIterator<Entry<K, ImmutableSet<V>>>() {
+        @Override public boolean hasNext() {
+          return backingIterator.hasNext();
         }
 
-        @Override
-        public UnmodifiableIterator<Entry<K, ImmutableSet<V>>> iterator() {
-          final Iterator<Entry<K, V>> backingIterator = ImmutableMap.this.entrySet().iterator();
-          return new UnmodifiableIterator<Entry<K, ImmutableSet<V>>>() {
-            @Override public boolean hasNext() {
-              return backingIterator.hasNext();
+        @Override public Entry<K, ImmutableSet<V>> next() {
+          final Entry<K, V> backingEntry = backingIterator.next();
+          return new AbstractMapEntry<K, ImmutableSet<V>>() {
+            @Override public K getKey() {
+              return backingEntry.getKey();
             }
 
-            @Override public Entry<K, ImmutableSet<V>> next() {
-              final Entry<K, V> backingEntry = backingIterator.next();
-              return new AbstractMapEntry<K, ImmutableSet<V>>() {
-                @Override public K getKey() {
-                  return backingEntry.getKey();
-                }
-
-                @Override public ImmutableSet<V> getValue() {
-                  return ImmutableSet.of(backingEntry.getValue());
-                }
-              };
+            @Override public ImmutableSet<V> getValue() {
+              return ImmutableSet.of(backingEntry.getValue());
             }
           };
         }
