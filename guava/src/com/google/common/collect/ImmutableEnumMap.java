@@ -19,11 +19,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
-import com.google.common.collect.Multiset.Entry;
 
 import java.io.Serializable;
 import java.util.EnumMap;
-import java.util.Iterator;
 
 import javax.annotation.Nullable;
 
@@ -56,30 +54,8 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
     checkArgument(!delegate.isEmpty());
   }
 
-  @Override
-  ImmutableSet<K> createKeySet() {
-    return new ImmutableSet<K>() {
-
-      @Override
-      public boolean contains(Object object) {
-        return delegate.containsKey(object);
-      }
-
-      @Override
-      public int size() {
-        return ImmutableEnumMap.this.size();
-      }
-
-      @Override
-      public UnmodifiableIterator<K> iterator() {
-        return Iterators.unmodifiableIterator(delegate.keySet().iterator());
-      }
-
-      @Override
-      boolean isPartialView() {
-        return true;
-      }
-    };
+  @Override UnmodifiableIterator<K> keyIterator() {
+    return Iterators.unmodifiableIterator(delegate.keySet().iterator());
   }
 
   @Override
@@ -99,20 +75,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
 
   @Override
   UnmodifiableIterator<Entry<K, V>> entryIterator() {
-    return new UnmodifiableIterator<Entry<K, V>>() {
-      private final Iterator<Entry<K, V>> backingIterator = delegate.entrySet().iterator();
-
-      @Override
-      public boolean hasNext() {
-        return backingIterator.hasNext();
-      }
-
-      @Override
-      public Entry<K, V> next() {
-        Entry<K, V> entry = backingIterator.next();
-        return Maps.immutableEntry(entry.getKey(), entry.getValue());
-      }
-    };
+    return Maps.unmodifiableEntryIterator(delegate.entrySet().iterator());
   }
 
   @Override

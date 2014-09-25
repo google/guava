@@ -26,6 +26,7 @@ import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
@@ -252,6 +253,19 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   ImmutableSet<K> createKeySet() {
     return new ImmutableMapKeySet<K, V>(this);
+  }
+  
+  UnmodifiableIterator<K> keyIterator() {
+    final UnmodifiableIterator<Entry<K, V>> entryIterator = entrySet().iterator();
+    return new UnmodifiableIterator<K>() {
+      @Override public boolean hasNext() {
+        return entryIterator.hasNext();
+      }
+
+      @Override public K next() {
+        return entryIterator.next().getKey();
+      }
+    };
   }
 
   private transient ImmutableCollection<V> cachedValues = null;

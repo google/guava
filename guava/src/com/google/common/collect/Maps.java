@@ -1232,6 +1232,21 @@ public final class Maps {
     };
   }
 
+  static <K, V> UnmodifiableIterator<Entry<K, V>> unmodifiableEntryIterator(
+      final Iterator<Entry<K, V>> entryIterator) {
+    return new UnmodifiableIterator<Entry<K, V>>() {
+      @Override
+      public boolean hasNext() {
+        return entryIterator.hasNext();
+      }
+
+      @Override
+      public Entry<K, V> next() {
+        return unmodifiableEntry(entryIterator.next());
+      }
+    };
+  }
+
   /** @see Multimaps#unmodifiableEntries */
   static class UnmodifiableEntries<K, V>
       extends ForwardingCollection<Entry<K, V>> {
@@ -1246,17 +1261,7 @@ public final class Maps {
     }
 
     @Override public Iterator<Entry<K, V>> iterator() {
-      final Iterator<Entry<K, V>> delegate = super.iterator();
-      return new UnmodifiableIterator<Entry<K, V>>() {
-        @Override
-        public boolean hasNext() {
-          return delegate.hasNext();
-        }
-
-        @Override public Entry<K, V> next() {
-          return unmodifiableEntry(delegate.next());
-        }
-      };
+      return unmodifiableEntryIterator(entries.iterator());
     }
 
     // See java.util.Collections.UnmodifiableEntrySet for details on attacks.
