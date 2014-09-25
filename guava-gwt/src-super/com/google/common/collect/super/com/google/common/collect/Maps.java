@@ -112,21 +112,6 @@ public final class Maps {
     return Iterators.transform(entryIterator, Maps.<V>valueFunction());
   }
 
-  static <K, V> UnmodifiableIterator<V> valueIterator(
-      final UnmodifiableIterator<Entry<K, V>> entryIterator) {
-    return new UnmodifiableIterator<V>() {
-      @Override
-      public boolean hasNext() {
-        return entryIterator.hasNext();
-      }
-
-      @Override
-      public V next() {
-        return entryIterator.next().getValue();
-      }
-    };
-  }
-
   /**
    * Returns an immutable map instance containing the given entries.
    * Internally, the returned map will be backed by an {@link EnumMap}.

@@ -43,7 +43,17 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
 
   @Override
   public UnmodifiableIterator<V> iterator() {
-    return Maps.valueIterator(map.entrySet().iterator());
+    return new UnmodifiableIterator<V>() {
+      final UnmodifiableIterator<Entry<K, V>> entryItr = map.entrySet().iterator();
+
+      @Override public boolean hasNext() {
+        return entryItr.hasNext();
+      }
+
+      @Override public V next() {
+        return entryItr.next().getValue();
+      }      
+    };
   }
 
   @Override
