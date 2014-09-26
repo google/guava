@@ -1277,7 +1277,7 @@ public final class Sets {
     final ImmutableMap<E, Integer> inputSet;
 
     PowerSet(Set<E> input) {
-      this.inputSet = Lists.indexMap(input);
+      this.inputSet = Maps.indexMap(input);
       checkArgument(inputSet.size() <= 30,
           "Too many elements to create power set: %s > 30", inputSet.size());
     }

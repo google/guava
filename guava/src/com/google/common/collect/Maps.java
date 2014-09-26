@@ -35,6 +35,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
 
@@ -3974,5 +3975,18 @@ public final class Maps {
     public String toString() {
       return standardToString();
     }
+  }
+
+  /**
+   * Returns a map from the ith element of list to i.
+   */
+  static <E> ImmutableMap<E, Integer> indexMap(Collection<E> list) {
+    ImmutableMap.Builder<E, Integer> builder =
+        new ImmutableMap.Builder<E, Integer>(list.size());
+    int i = 0;
+    for (E e : list) {
+      builder.put(e, i++);
+    }
+    return builder.build();
   }
 }

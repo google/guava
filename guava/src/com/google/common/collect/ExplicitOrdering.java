@@ -29,7 +29,7 @@ final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
   final ImmutableMap<T, Integer> rankMap;
 
   ExplicitOrdering(List<T> valuesInOrder) {
-    this(Lists.indexMap(valuesInOrder));
+    this(Maps.indexMap(valuesInOrder));
   }
 
   ExplicitOrdering(ImmutableMap<T, Integer> rankMap) {

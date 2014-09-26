@@ -152,8 +152,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
      * columnKeys is empty but rowKeys isn't, the table is empty but
      * containsRow() can return true and rowKeySet() isn't empty.
      */
-    rowKeyToIndex = Lists.indexMap(rowList);
-    columnKeyToIndex = Lists.indexMap(columnList);
+    rowKeyToIndex = Maps.indexMap(rowList);
+    columnKeyToIndex = Maps.indexMap(columnList);
 
     @SuppressWarnings("unchecked")
     V[][] tmpArray

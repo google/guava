@@ -47,8 +47,8 @@ final class DenseImmutableTable<R, C, V>
     @SuppressWarnings("unchecked")
     V[][] array = (V[][]) new Object[rowSpace.size()][columnSpace.size()];
     this.values = array;
-    this.rowKeyToIndex = Lists.indexMap(rowSpace.asList());
-    this.columnKeyToIndex = Lists.indexMap(columnSpace.asList());
+    this.rowKeyToIndex = Maps.indexMap(rowSpace);
+    this.columnKeyToIndex = Maps.indexMap(columnSpace);
     rowCounts = new int[rowKeyToIndex.size()];
     columnCounts = new int[columnKeyToIndex.size()];
     int[] iterationOrderRow = new int[cellList.size()];

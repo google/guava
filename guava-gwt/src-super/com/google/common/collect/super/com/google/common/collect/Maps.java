@@ -2798,4 +2798,17 @@ public final class Maps {
       }
     }
   }
+
+  /**
+   * Returns a map from the ith element of list to i.
+   */
+  static <E> ImmutableMap<E, Integer> indexMap(Collection<E> list) {
+    ImmutableMap.Builder<E, Integer> builder =
+        new ImmutableMap.Builder<E, Integer>(list.size());
+    int i = 0;
+    for (E e : list) {
+      builder.put(e, i++);
+    }
+    return builder.build();
+  }
 }
