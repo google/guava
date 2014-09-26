@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
@@ -179,6 +180,20 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       return put(entry.getKey(), entry.getValue());
     }
+    
+    /**
+     * Adds entries to the built multimap.
+     * 
+     * @since 19.0
+     */
+    @Beta
+    public Builder<K, V> putAll(
+        Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+      for (Entry<? extends K, ? extends V> entry : entries) {
+        put(entry);
+      }
+      return this;
+    }
 
     /**
      * Stores a collection of values with the same key in the built multimap.
@@ -294,6 +309,22 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
       }
     }
     return ImmutableListMultimap.copyOf(multimap);
+  }
+  
+
+  /**
+   * Returns an immutable multimap containing the specified entries.  The
+   * returned multimap iterates over keys in the order they were first
+   * encountered in the input, and the values for each key are iterated in the
+   * order they were encountered.
+   *
+   * @throws NullPointerException if any key, value, or entry is null
+   * @since 19.0
+   */
+  @Beta
+  public static <K, V> ImmutableMultimap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    return ImmutableListMultimap.copyOf(entries);
   }
 
   final transient ImmutableMap<K, ? extends ImmutableCollection<V>> map;

@@ -106,6 +106,17 @@ public abstract class ImmutableSortedMap<K, V>
     return copyOfInternal(map, checkNotNull(comparator));
   }
 
+  public static <K, V> ImmutableSortedMap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    return new Builder<K, V>(NATURAL_ORDER).putAll(entries).build();
+  }
+
+  public static <K, V> ImmutableSortedMap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries, 
+          Comparator<? super K> comparator) {
+    return new Builder<K, V>(comparator).putAll(entries).build();
+  }
+
   public static <K, V> ImmutableSortedMap<K, V> copyOfSorted(
       SortedMap<K, ? extends V> map) {
     // If map has a null comparator, the keys should have a natural ordering,
@@ -187,8 +198,13 @@ public abstract class ImmutableSortedMap<K, V>
     }
 
     @Override public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
-      for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
-        put(entry.getKey(), entry.getValue());
+      return putAll(map.entrySet());
+    }
+    
+    @Override public Builder<K, V> putAll(
+        Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+      for (Entry<? extends K, ? extends V> entry : entries) {
+        put(entry);
       }
       return this;
     }

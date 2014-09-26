@@ -46,27 +46,47 @@ import java.util.Map.Entry;
  */
 @GwtCompatible(emulated = true)
 public class ImmutableSetMultimapTest extends TestCase {
+  private static final class ImmutableSetMultimapGenerator extends
+      TestStringSetMultimapGenerator {
+    @Override
+    protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
+      ImmutableSetMultimap.Builder<String, String> builder = ImmutableSetMultimap.builder();
+      for (Entry<String, String> entry : entries) {
+        builder.put(entry.getKey(), entry.getValue());
+      }
+      return builder.build();
+    }
+  }
+
+  private static final class ImmutableSetMultimapCopyOfEntriesGenerator extends
+      TestStringSetMultimapGenerator {
+    @Override
+    protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
+      return ImmutableSetMultimap.copyOf(Arrays.asList(entries));
+    }
+  }
+
   @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableSetMultimapTest.class);
-    suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
-        @Override
-        protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
-          ImmutableSetMultimap.Builder<String, String> builder = ImmutableSetMultimap.builder();
-          for (Entry<String, String> entry : entries) {
-            builder.put(entry.getKey(), entry.getValue());
-          }
-          return builder.build();
-        }
-      })
-      .named("ImmutableSetMultimap")
-      .withFeatures(
-          MapFeature.ALLOWS_ANY_NULL_QUERIES,
-          CollectionFeature.KNOWN_ORDER,
-          CollectionFeature.SERIALIZABLE,
-          CollectionSize.ANY)
-      .createTestSuite());
+    suite.addTest(SetMultimapTestSuiteBuilder.using(new ImmutableSetMultimapGenerator())
+        .named("ImmutableSetMultimap")
+        .withFeatures(
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
+            CollectionSize.ANY)
+        .createTestSuite());
+    suite.addTest(SetMultimapTestSuiteBuilder.using(
+            new ImmutableSetMultimapCopyOfEntriesGenerator())
+        .named("ImmutableSetMultimap.copyOf[Iterable<Entry>]")
+        .withFeatures(
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
+            CollectionSize.ANY)
+            .createTestSuite());
     return suite;
   }
 

@@ -300,6 +300,11 @@ public final class Iterables {
     return Iterators.getOnlyElement(iterable.iterator(), defaultValue);
   }
 
+  static <T> T[] toArray(Iterable<? extends T> iterable, T[] array) {
+    Collection<? extends T> collection = toCollection(iterable);
+    return collection.toArray(array);
+  }
+
   /**
    * Copies an iterable's elements into an array.
    *

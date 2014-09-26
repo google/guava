@@ -34,6 +34,7 @@ import com.google.common.collect.testing.UnhashableObject;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.MapGenerators.ImmutableMapCopyOfEntriesGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapCopyOfEnumMapGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapCopyOfGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapEntryListGenerator;
@@ -87,7 +88,17 @@ public class ImmutableMapTest extends TestCase {
             CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableMap.copyOf")
+        .named("ImmutableMap.copyOf[Map]")
+        .createTestSuite());
+
+    suite.addTest(MapTestSuiteBuilder.using(new ImmutableMapCopyOfEntriesGenerator())
+        .withFeatures(
+            CollectionSize.ANY,
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .named("ImmutableMap.copyOf[Iterable<Entry>]")
         .createTestSuite());
 
     suite.addTest(MapTestSuiteBuilder.using(new ImmutableMapCopyOfEnumMapGenerator())

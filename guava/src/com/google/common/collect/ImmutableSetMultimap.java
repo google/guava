@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Arrays.asList;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
@@ -208,6 +209,18 @@ public class ImmutableSetMultimap<K, V>
           checkNotNull(entry.getKey()), checkNotNull(entry.getValue()));
       return this;
     }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @since 19.0
+     */
+    @Beta
+    @Override public Builder<K, V> putAll(
+        Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+      super.putAll(entries);
+      return this;
+    }
 
     @Override public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
       Collection<V> collection = builderMultimap.get(checkNotNull(key));
@@ -330,6 +343,22 @@ public class ImmutableSetMultimap<K, V>
 
     return new ImmutableSetMultimap<K, V>(
         builder.build(), size, valueComparator);
+  }
+
+  /**
+   * Returns an immutable multimap containing the specified entries.  The
+   * returned multimap iterates over keys in the order they were first
+   * encountered in the input, and the values for each key are iterated in the
+   * order they were encountered.  If two values for the same key are
+   * {@linkplain Object#equals equal}, the first value encountered is used.
+   *
+   * @throws NullPointerException if any key, value, or entry is null
+   * @since 19.0
+   */
+  @Beta
+  public static <K, V> ImmutableSetMultimap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    return new Builder<K, V>().putAll(entries).build();
   }
 
   /**

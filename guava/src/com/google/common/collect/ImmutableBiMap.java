@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap.Builder;
 
@@ -171,6 +172,20 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
     }
 
     /**
+     * Adds all of the given entries to the built bimap.  Duplicate keys or
+     * values are not allowed, and will cause {@link #build} to fail.
+     *
+     * @throws NullPointerException if any key, value, or entry is null
+     * @since 19.0
+     */
+    @Beta
+    @Override
+    public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+      super.putAll(entries);
+      return this;
+    }
+
+    /**
      * Returns a newly-created immutable bimap.
      *
      * @throws IllegalArgumentException if duplicate keys or values were added
@@ -211,16 +226,30 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
         return bimap;
       }
     }
-    Entry<?, ?>[] entries = map.entrySet().toArray(EMPTY_ENTRY_ARRAY);
-    switch (entries.length) {
+    return copyOf(map.entrySet());
+  }
+
+  /**
+   * Returns an immutable bimap containing the given entries.
+   *
+   * @throws IllegalArgumentException if two keys have the same value or two
+   *         values have the same key
+   * @throws NullPointerException if any key, value, or entry is null
+   * @since 19.0
+   */
+  @Beta
+  public static <K, V> ImmutableBiMap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    Entry<?, ?>[] entryArray = Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);
+    switch (entryArray.length) {
       case 0:
         return of();
       case 1:
         @SuppressWarnings("unchecked") // safe covariant cast in this context
-        Entry<K, V> entry = (Entry<K, V>) entries[0];
+        Entry<K, V> entry = (Entry<K, V>) entryArray[0];
         return of(entry.getKey(), entry.getValue());
       default:
-        return new RegularImmutableBiMap<K, V>(entries);
+        return new RegularImmutableBiMap<K, V>(entryArray);
     }
   }
 

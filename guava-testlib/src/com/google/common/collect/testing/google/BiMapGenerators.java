@@ -21,6 +21,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Maps;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -50,6 +51,12 @@ public class BiMapGenerators {
         builder.put(entry.getKey(), entry.getValue());
       }
       return ImmutableBiMap.copyOf(builder);
+    }
+  }
+  
+  public static class ImmutableBiMapCopyOfEntriesGenerator extends TestStringBiMapGenerator {
+    @Override protected BiMap<String, String> create(Entry<String, String>[] entries) {
+      return ImmutableBiMap.copyOf(Arrays.asList(entries));
     }
   }
 }

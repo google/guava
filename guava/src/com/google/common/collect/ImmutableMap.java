@@ -226,7 +226,20 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      */
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       ensureCapacity(size + map.size());
-      for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
+      return putAll(map.entrySet());
+    }
+
+    /**
+     * Adds all of the given entries to the built map.  Duplicate keys are not
+     * allowed, and will cause {@link #build} to fail.
+     *
+     * @throws NullPointerException if any key, value, or entry is null
+     * @since 19.0
+     */
+    @Beta
+    public Builder<K, V> putAll(
+        Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+      for (Entry<? extends K, ? extends V> entry : entries) {
         put(entry);
       }
       return this;
@@ -280,16 +293,30 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     } else if (map instanceof EnumMap) {
       return copyOfEnumMapUnsafe(map);
     }
-    Entry<?, ?>[] entries = map.entrySet().toArray(EMPTY_ENTRY_ARRAY);
-    switch (entries.length) {
+    return copyOf(map.entrySet());
+  }
+
+  /**
+   * Returns an immutable map containing the specified entries.  The returned
+   * map iterates over entries in the same order as the original iterable.
+   *
+   * @throws NullPointerException if any key, value, or entry is null
+   * @throws IllegalArgumentException if two entries have the same key
+   * @since 19.0
+   */
+  @Beta
+  public static <K, V> ImmutableMap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    Entry<?, ?>[] entryArray = Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);
+    switch (entryArray.length) {
       case 0:
         return of();
       case 1:
         @SuppressWarnings("unchecked") // all entries will be Entry<K, V>'s
-        Entry<K, V> onlyEntry = (Entry<K, V>) entries[0];
+        Entry<K, V> onlyEntry = (Entry<K, V>) entryArray[0];
         return of(onlyEntry.getKey(), onlyEntry.getValue());
       default:
-        return new RegularImmutableMap<K, V>(entries);
+        return new RegularImmutableMap<K, V>(entryArray);
     }
   }
 

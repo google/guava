@@ -21,6 +21,7 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Iterator;
@@ -134,8 +135,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
-      for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
-        put(entry.getKey(), entry.getValue());
+      return putAll(map.entrySet());
+    }
+    
+    public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+      for (Entry<? extends K, ? extends V> entry : entries) {
+        put(entry);
       }
       return this;
     }
@@ -143,22 +148,22 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     public ImmutableMap<K, V> build() {
       return fromEntryList(entries);
     }
+  }
 
-    private static <K, V> ImmutableMap<K, V> fromEntryList(
-        List<Entry<K, V>> entries) {
-      int size = entries.size();
-      switch (size) {
-        case 0:
-          return of();
-        case 1:
-          Entry<K, V> entry = getOnlyElement(entries);
-          return of(entry.getKey(), entry.getValue());
-        default:
-          @SuppressWarnings("unchecked")
-          Entry<K, V>[] entryArray
-              = entries.toArray(new Entry[entries.size()]);
-          return new RegularImmutableMap<K, V>(entryArray);
-      }
+  static <K, V> ImmutableMap<K, V> fromEntryList(
+      Collection<? extends Entry<? extends K, ? extends V>> entries) {
+    int size = entries.size();
+    switch (size) {
+      case 0:
+        return of();
+      case 1:
+        Entry<? extends K, ? extends V> entry = getOnlyElement(entries);
+        return of((K) entry.getKey(), (V) entry.getValue());
+      default:
+        @SuppressWarnings("unchecked")
+        Entry<K, V>[] entryArray
+            = entries.toArray(new Entry[entries.size()]);
+        return new RegularImmutableMap<K, V>(entryArray);
     }
   }
 
@@ -195,6 +200,16 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
               checkNotNull(e.getKey()), checkNotNull(e.getValue()));
         }
         return new RegularImmutableMap<K, V>(orderPreservingCopy);
+    }
+  }
+  
+  public static <K, V> ImmutableMap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    if (entries instanceof Collection) {
+      return fromEntryList(
+          (Collection<? extends Entry<? extends K, ? extends V>>) entries);
+    } else {
+      return fromEntryList(Lists.newArrayList(entries.iterator()));
     }
   }
 
@@ -276,8 +291,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
     return cachedValues = createValues();
   }
-
-  // esnickell is editing here
 
   // cached so that this.multimapView().inverse() only computes inverse once
   private transient ImmutableSetMultimap<K, V> multimapView;

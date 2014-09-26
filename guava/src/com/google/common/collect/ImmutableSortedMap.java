@@ -21,14 +21,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.Maps.keyOrNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.ImmutableMapEntry.TerminalEntry;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -185,7 +187,7 @@ public abstract class ImmutableSortedMap<K, V>
     // Hack around K not being a subtype of Comparable.
     // Unsafe, see ImmutableSortedSetFauxverideShim.
     @SuppressWarnings("unchecked")
-    Ordering<K> naturalOrder = (Ordering<K>) Ordering.<Comparable>natural();
+    Ordering<K> naturalOrder = (Ordering<K>) NATURAL_ORDER;
     return copyOfInternal(map, naturalOrder);
   }
 
@@ -204,6 +206,44 @@ public abstract class ImmutableSortedMap<K, V>
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
       Map<? extends K, ? extends V> map, Comparator<? super K> comparator) {
     return copyOfInternal(map, checkNotNull(comparator));
+  }
+  
+  /**
+   * Returns an immutable map containing the given entries, with keys sorted 
+   * by the provided comparator.
+   *
+   * <p>This method is not type-safe, as it may be called on a map with keys
+   * that are not mutually comparable.
+   *
+   * @throws NullPointerException if any key or value in {@code map} is null
+   * @throws IllegalArgumentException if any two keys are equal according to the
+   *         comparator
+   * @since 19.0              
+   */
+  @Beta
+  public static <K, V> ImmutableSortedMap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    // Hack around K not being a subtype of Comparable.
+    // Unsafe, see ImmutableSortedSetFauxverideShim.
+    @SuppressWarnings("unchecked")
+    Ordering<K> naturalOrder = (Ordering<K>) NATURAL_ORDER;
+    return copyOf(entries, naturalOrder);
+  }
+  
+  /**
+   * Returns an immutable map containing the given entries, with keys sorted 
+   * by the provided comparator.
+   *
+   * @throws NullPointerException if any key or value in {@code map} is null
+   * @throws IllegalArgumentException if any two keys are equal according to the
+   *         comparator
+   * @since 19.0
+   */
+  @Beta
+  public static <K, V> ImmutableSortedMap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries,
+      Comparator<? super K> comparator) {
+    return fromEntries(checkNotNull(comparator), false, entries);
   }
 
   /**
@@ -266,12 +306,12 @@ public abstract class ImmutableSortedMap<K, V>
    */
   private static <K, V> ImmutableSortedMap<K, V> fromEntries(
       Comparator<? super K> comparator, boolean sameComparator, 
-      Collection<? extends Entry<? extends K, ? extends V>> entries) {
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
     // "adding" type params to an array of a raw type should be safe as
     // long as no one can ever cast that same array instance back to a
     // raw type.
     @SuppressWarnings("unchecked")
-    Entry<K, V>[] entryArray = (Entry[]) entries.toArray(EMPTY_ENTRY_ARRAY);
+    Entry<K, V>[] entryArray = (Entry[]) Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);
     return fromEntries(comparator, sameComparator, entryArray, entryArray.length);
   }
   
@@ -412,6 +452,21 @@ public abstract class ImmutableSortedMap<K, V>
      */
     @Override public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       super.putAll(map);
+      return this;
+    }
+    
+    /**
+     * Adds all the given entries to the built map.  Duplicate keys, according 
+     * to the comparator (which might be the keys' natural order), are not 
+     * allowed, and will cause {@link #build} to fail.
+     *
+     * @throws NullPointerException if any key, value, or entry is null
+     * @since 19.0
+     */
+    @Beta
+    @Override
+    public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+      super.putAll(entries);
       return this;
     }
 

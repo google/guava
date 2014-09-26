@@ -47,6 +47,13 @@ public class ImmutableListMultimapTest extends TestCase {
       return builder.build();
     }
   }
+  public static class ImmutableListMultimapCopyOfEntriesGenerator 
+      extends TestStringListMultimapGenerator {
+    @Override
+    protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
+      return ImmutableListMultimap.copyOf(Arrays.asList(entries));
+    }
+  }
 
   public void testBuilder_withImmutableEntry() {
     ImmutableListMultimap<String, Integer> multimap = new Builder<String, Integer>()

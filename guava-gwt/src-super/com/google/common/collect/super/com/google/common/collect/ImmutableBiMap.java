@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * GWT emulation of {@link ImmutableBiMap}.
@@ -83,6 +84,12 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
       super.putAll(map);
       return this;
     }
+    
+    @Override public Builder<K, V> putAll(
+        Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+      super.putAll(entries);
+      return this;
+    }
 
     @Override public ImmutableBiMap<K, V> build() {
       ImmutableMap<K, V> map = super.build();
@@ -107,6 +114,11 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
 
     ImmutableMap<K, V> immutableMap = ImmutableMap.copyOf(map);
     return new RegularImmutableBiMap<K, V>(immutableMap);
+  }
+  
+  public static <K, V> ImmutableBiMap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    return new Builder<K, V>().putAll(entries).build();
   }
 
   ImmutableBiMap(Map<K, V> delegate) {

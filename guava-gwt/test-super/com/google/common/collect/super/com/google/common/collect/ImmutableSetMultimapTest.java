@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableSetMultimap.Builder;
+import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.EqualsTester;
 
@@ -36,6 +37,25 @@ import java.util.Map.Entry;
  */
 @GwtCompatible(emulated = true)
 public class ImmutableSetMultimapTest extends TestCase {
+  private static final class ImmutableSetMultimapGenerator extends
+      TestStringSetMultimapGenerator {
+    @Override
+    protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
+      ImmutableSetMultimap.Builder<String, String> builder = ImmutableSetMultimap.builder();
+      for (Entry<String, String> entry : entries) {
+        builder.put(entry.getKey(), entry.getValue());
+      }
+      return builder.build();
+    }
+  }
+  
+  private static final class ImmutableSetMultimapCopyOfEntriesGenerator extends
+      TestStringSetMultimapGenerator {
+    @Override
+    protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
+      return ImmutableSetMultimap.copyOf(Arrays.asList(entries));
+    }
+  }
 
   public void testBuilder_withImmutableEntry() {
     ImmutableSetMultimap<String, Integer> multimap = new Builder<String, Integer>()

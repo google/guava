@@ -56,6 +56,13 @@ public class ImmutableListMultimapTest extends TestCase {
       return builder.build();
     }
   }
+  public static class ImmutableListMultimapCopyOfEntriesGenerator
+      extends TestStringListMultimapGenerator {
+    @Override
+    protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
+      return ImmutableListMultimap.copyOf(Arrays.asList(entries));
+    }
+  }
 
   @GwtIncompatible("suite")
   public static Test suite() {
@@ -68,6 +75,15 @@ public class ImmutableListMultimapTest extends TestCase {
           CollectionFeature.KNOWN_ORDER,
           CollectionSize.ANY)
       .createTestSuite());
+    suite.addTest(ListMultimapTestSuiteBuilder.using(
+            new ImmutableListMultimapCopyOfEntriesGenerator())
+        .named("ImmutableListMultimap.copyOf[Iterable<Entry>]")
+        .withFeatures(
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionSize.ANY)
+        .createTestSuite());
     suite.addTestSuite(ImmutableListMultimapTest.class);
     return suite;
   }
