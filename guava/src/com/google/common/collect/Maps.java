@@ -740,7 +740,7 @@ public final class Maps {
     return new NavigableAsMapView<K, V>(set, function);
   }
 
-  private static class AsMapView<K, V> extends ImprovedAbstractMap<K, V> {
+  private static class AsMapView<K, V> extends ViewCachingAbstractMap<K, V> {
 
     private final Set<K> set;
     final Function<? super K, V> function;
@@ -1869,7 +1869,7 @@ public final class Maps {
   }
 
   static class TransformedEntriesMap<K, V1, V2>
-      extends ImprovedAbstractMap<K, V2> {
+      extends ViewCachingAbstractMap<K, V2> {
     final Map<K, V1> fromMap;
     final EntryTransformer<? super K, ? super V1, V2> transformer;
 
@@ -2552,7 +2552,7 @@ public final class Maps {
   }
 
   private abstract static class AbstractFilteredMap<K, V>
-      extends ImprovedAbstractMap<K, V> {
+      extends ViewCachingAbstractMap<K, V> {
     final Map<K, V> unfiltered;
     final Predicate<? super Entry<K, V>> predicate;
 
@@ -3293,14 +3293,11 @@ public final class Maps {
   }
 
   /**
-   * {@code AbstractMap} extension that implements {@link #isEmpty()} as {@code
-   * entrySet().isEmpty()} instead of {@code size() == 0} to speed up
-   * implementations where {@code size()} is O(n), and it delegates the {@code
-   * isEmpty()} methods of its key set and value collection to this
-   * implementation.
+   * {@code AbstractMap} extension that makes it easy to cache customized keySet, values,
+   * and entrySet views.
    */
   @GwtCompatible
-  abstract static class ImprovedAbstractMap<K, V> extends AbstractMap<K, V> {
+  abstract static class ViewCachingAbstractMap<K, V> extends AbstractMap<K, V> {
     /**
      * Creates the entry set to be returned by {@link #entrySet()}. This method
      * is invoked at most once on a given map, at the time when {@code entrySet}

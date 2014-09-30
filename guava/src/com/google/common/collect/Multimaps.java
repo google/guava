@@ -1669,7 +1669,7 @@ public final class Multimaps {
    * A skeleton implementation of {@link Multimap#asMap()}.
    */
   static final class AsMap<K, V> extends
-      Maps.ImprovedAbstractMap<K, Collection<V>> {
+      Maps.ViewCachingAbstractMap<K, Collection<V>> {
     private final Multimap<K, V> multimap;
     
     AsMap(Multimap<K, V> multimap) {

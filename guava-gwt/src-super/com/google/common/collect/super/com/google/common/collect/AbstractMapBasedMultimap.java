@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.Maps.ImprovedAbstractMap;
+import com.google.common.collect.Maps.ViewCachingAbstractMap;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
@@ -1065,7 +1065,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
         ? new SortedAsMap((SortedMap<K, Collection<V>>) map) : new AsMap(map);
   }
 
-  private class AsMap extends ImprovedAbstractMap<K, Collection<V>> {
+  private class AsMap extends ViewCachingAbstractMap<K, Collection<V>> {
     /**
      * Usually the same as map, but smaller for the headMap(), tailMap(), or
      * subMap() of a SortedAsMap.

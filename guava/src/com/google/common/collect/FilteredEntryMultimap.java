@@ -24,7 +24,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Maps.ImprovedAbstractMap;
+import com.google.common.collect.Maps.ViewCachingAbstractMap;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -165,7 +165,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
     return changed;
   }
   
-  class AsMap extends ImprovedAbstractMap<K, Collection<V>> {
+  class AsMap extends ViewCachingAbstractMap<K, Collection<V>> {
     @Override
     public boolean containsKey(@Nullable Object key) {
       return get(key) != null;

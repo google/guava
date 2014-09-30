@@ -183,7 +183,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     }
   }
 
-  private abstract static class ArrayMap<K, V> extends Maps.ImprovedAbstractMap<K, V> {
+  private abstract static class ArrayMap<K, V> extends Maps.ViewCachingAbstractMap<K, V> {
     private final ImmutableMap<K, Integer> keyIndex;
 
     private ArrayMap(ImmutableMap<K, Integer> keyIndex) {

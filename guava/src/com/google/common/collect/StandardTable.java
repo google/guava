@@ -28,7 +28,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
-import com.google.common.collect.Maps.ImprovedAbstractMap;
+import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.common.collect.Sets.ImprovedAbstractSet;
 
 import java.io.Serializable;
@@ -255,7 +255,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return new Row(rowKey);
   }
 
-  class Row extends ImprovedAbstractMap<C, V> {
+  class Row extends ViewCachingAbstractMap<C, V> {
     final R rowKey;
 
     Row(R rowKey) {
@@ -393,7 +393,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return new Column(columnKey);
   }
 
-  private class Column extends ImprovedAbstractMap<R, V> {
+  private class Column extends ViewCachingAbstractMap<R, V> {
     final C columnKey;
 
     Column(C columnKey) {
@@ -698,7 +698,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return new RowMap();
   }
 
-  class RowMap extends ImprovedAbstractMap<R, Map<C, V>> {
+  class RowMap extends ViewCachingAbstractMap<R, Map<C, V>> {
     @Override public boolean containsKey(Object key) {
       return containsRow(key);
     }
@@ -760,7 +760,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return (result == null) ? columnMap = new ColumnMap() : result;
   }
 
-  private class ColumnMap extends ImprovedAbstractMap<C, Map<R, V>> {
+  private class ColumnMap extends ViewCachingAbstractMap<C, Map<R, V>> {
     // The cast to C occurs only when the key is in the map, implying that it
     // has the correct type.
     @SuppressWarnings("unchecked")
