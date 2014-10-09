@@ -64,6 +64,14 @@ public class RateLimiterTest extends TestCase {
     assertFalse("Capable of acquiring secondary permit", r.tryAcquire());
   }
 
+  public void testDoubleMinValueCanAcquireExactlyOnce() {
+    RateLimiter r = RateLimiter.create(stopwatch, Double.MIN_VALUE);
+    assertTrue("Unable to acquire initial permit", r.tryAcquire());
+    assertFalse("Capable of acquiring an additional permit", r.tryAcquire());
+    stopwatch.sleepMillis(Integer.MAX_VALUE);
+    assertFalse("Capable of acquiring an additional permit after sleeping", r.tryAcquire());
+  }
+
   public void testSimpleRateUpdate() {
     RateLimiter limiter = RateLimiter.create(5.0, 5, SECONDS);
     assertEquals(5.0, limiter.getRate());

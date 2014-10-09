@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import static java.lang.Math.min;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.math.LongMath;
+
 import java.util.concurrent.TimeUnit;
 
 abstract class SmoothRateLimiter extends RateLimiter {
@@ -352,11 +354,14 @@ abstract class SmoothRateLimiter extends RateLimiter {
     long returnValue = nextFreeTicketMicros;
     double storedPermitsToSpend = min(requiredPermits, this.storedPermits);
     double freshPermits = requiredPermits - storedPermitsToSpend;
-
     long waitMicros = storedPermitsToWaitTime(this.storedPermits, storedPermitsToSpend)
         + (long) (freshPermits * stableIntervalMicros);
 
-    this.nextFreeTicketMicros = nextFreeTicketMicros + waitMicros;
+    try {
+      this.nextFreeTicketMicros = LongMath.checkedAdd(nextFreeTicketMicros, waitMicros);
+    } catch (ArithmeticException e) {
+      this.nextFreeTicketMicros = Long.MAX_VALUE;
+    }
     this.storedPermits -= storedPermitsToSpend;
     return returnValue;
   }
