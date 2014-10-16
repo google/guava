@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
 
+import javax.annotation.Nullable;
+
 /**
  * Static utility methods pertaining to {@code byte} primitives, that are not
  * already found in either {@link Byte} or {@link Arrays}, <i>and interpret
@@ -339,7 +341,7 @@ public final class Bytes {
       return new ByteArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }

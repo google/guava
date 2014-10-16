@@ -33,6 +33,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
 
+import javax.annotation.Nullable;
+
 /**
  * Static utility methods pertaining to {@code char} primitives, that are not
  * already found in either {@link Character} or {@link Arrays}.
@@ -543,7 +545,7 @@ public final class Chars {
       return new CharArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }

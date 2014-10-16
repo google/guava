@@ -34,6 +34,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 /**
  * Static utility methods pertaining to {@code long} primitives, that are not
  * already found in either {@link Long} or {@link Arrays}.
@@ -290,7 +293,7 @@ public final class Longs {
     checkArgument(bytes.length >= BYTES,
         "array too small: %s < %s", bytes.length, BYTES);
     return fromBytes(bytes[0], bytes[1], bytes[2], bytes[3],
-        bytes[4], bytes[5], bytes[6], bytes[7]) ;
+        bytes[4], bytes[5], bytes[6], bytes[7]);
   }
 
   /**
@@ -333,6 +336,8 @@ public final class Longs {
    * @since 14.0
    */
   @Beta
+  @Nullable
+  @CheckForNull
   public static Long tryParse(String string) {
     if (checkNotNull(string).isEmpty()) {
       return null;
@@ -621,7 +626,7 @@ public final class Longs {
       return new LongArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }

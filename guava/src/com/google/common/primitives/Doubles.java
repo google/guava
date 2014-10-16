@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.regex.Pattern;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 /**
@@ -530,7 +531,7 @@ public final class Doubles {
       return new DoubleArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -616,9 +617,10 @@ public final class Doubles {
    *     parsed as a {@code double} value
    * @since 14.0
    */
-  @GwtIncompatible("regular expressions")
-  @Nullable
   @Beta
+  @Nullable
+  @CheckForNull
+  @GwtIncompatible("regular expressions")
   public static Double tryParse(String string) {
     if (FLOATING_POINT_PATTERN.matcher(string).matches()) {
       // TODO(user): could be potentially optimized, but only with

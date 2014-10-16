@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.RandomAccess;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 /**
  * Static utility methods pertaining to {@code int} primitives, that are not
@@ -588,7 +589,7 @@ public final class Ints {
       return new IntArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -674,6 +675,7 @@ public final class Ints {
    * @since 11.0
    */
   @Beta
+  @Nullable
   @CheckForNull
   public static Integer tryParse(String string) {
     return tryParse(string, 10);
@@ -701,6 +703,7 @@ public final class Ints {
    * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or
    *     {@code radix > Character.MAX_RADIX}
    */
+  @Nullable
   @CheckForNull static Integer tryParse(
       String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
