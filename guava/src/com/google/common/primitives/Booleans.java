@@ -27,7 +27,6 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
-import java.util.BitSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -84,7 +83,7 @@ public final class Booleans {
    * {@code array}.
    *
    * <p><b>Note:</b> consider representing the array as a {@link
-   * BitSet} instead, replacing {@code Booleans.contains(array, true)}
+   * java.util.BitSet} instead, replacing {@code Booleans.contains(array, true)}
    * with {@code !bitSet.isEmpty()} and {@code Booleans.contains(array, false)}
    * with {@code bitSet.nextClearBit(0) == sizeOfBitSet}.
    *
@@ -106,9 +105,10 @@ public final class Booleans {
    * Returns the index of the first appearance of the value {@code target} in
    * {@code array}.
    *
-   * <p><b>Note:</b> consider representing the array as a {@link BitSet}
-   * instead, and using {@link BitSet#nextSetBit(int)} or {@link
-   * BitSet#nextClearBit(int)}.
+   * <p><b>Note:</b> consider representing the array as a {@link
+   * java.util.BitSet} instead, and using {@link
+   * java.util.BitSet#nextSetBit(int)} or {@link
+   * java.util.BitSet#nextClearBit(int)}.
    *
    * @param array an array of {@code boolean} values, possibly empty
    * @param target a primitive {@code boolean} value
@@ -308,7 +308,7 @@ public final class Booleans {
    * that method.
    *
    * <p><b>Note:</b> consider representing the collection as a {@link
-   * BitSet} instead.
+   * java.util.BitSet} instead.
    *
    * @param collection a collection of {@code Boolean} objects
    * @return an array containing the same values as {@code collection}, in the
