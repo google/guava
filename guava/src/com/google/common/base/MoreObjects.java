@@ -46,7 +46,7 @@ public final class MoreObjects {
    *
    * @return {@code first} if it is non-null; otherwise {@code second} if it is non-null
    * @throws NullPointerException if both {@code first} and {@code second} are null
-   * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}.
+   * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).
    */
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
     return first != null ? first : checkNotNull(second);
@@ -89,7 +89,7 @@ public final class MoreObjects {
    *
    * @param self the object to generate the string for (typically {@code this}), used only for its
    *     class name
-   * @since 18.0 (since 2.0 as {@code Objects.toStringHelper()}.
+   * @since 18.0 (since 2.0 as {@code Objects.toStringHelper()}).
    */
   public static ToStringHelper toStringHelper(Object self) {
     return new ToStringHelper(simpleName(self.getClass()));
@@ -103,7 +103,7 @@ public final class MoreObjects {
    * <p>Note that in GWT, class names are often obfuscated.
    *
    * @param clazz the {@link Class} of the instance
-   * @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}.
+   * @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}).
    */
   public static ToStringHelper toStringHelper(Class<?> clazz) {
     return new ToStringHelper(simpleName(clazz));
@@ -115,7 +115,7 @@ public final class MoreObjects {
    * Object#getClass()}.
    *
    * @param className the name of the instance type
-   * @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}.
+   * @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}).
    */
   public static ToStringHelper toStringHelper(String className) {
     return new ToStringHelper(className);
@@ -148,7 +148,7 @@ public final class MoreObjects {
    * Support class for {@link MoreObjects#toStringHelper}.
    *
    * @author Jason Lee
-   * @since 18.0 (since 2.0 as {@code Objects.ToStringHelper}.
+   * @since 18.0 (since 2.0 as {@code Objects.ToStringHelper}).
    */
   public static final class ToStringHelper {
     private final String className;
@@ -168,7 +168,7 @@ public final class MoreObjects {
      * properties with null value. The order of calling this method, relative
      * to the {@code add()}/{@code addValue()} methods, is not significant.
      *
-     * @since 18.0 (since 12.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 12.0 as {@code Objects.ToStringHelper.omitNullValues()}).
      */
     public ToStringHelper omitNullValues() {
       omitNullValues = true;
@@ -189,7 +189,7 @@ public final class MoreObjects {
      * Adds a name/value pair to the formatted output in {@code name=value}
      * format.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
     public ToStringHelper add(String name, boolean value) {
       return addHolder(name, String.valueOf(value));
@@ -199,7 +199,7 @@ public final class MoreObjects {
      * Adds a name/value pair to the formatted output in {@code name=value}
      * format.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
     public ToStringHelper add(String name, char value) {
       return addHolder(name, String.valueOf(value));
@@ -209,7 +209,7 @@ public final class MoreObjects {
      * Adds a name/value pair to the formatted output in {@code name=value}
      * format.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
     public ToStringHelper add(String name, double value) {
       return addHolder(name, String.valueOf(value));
@@ -219,7 +219,7 @@ public final class MoreObjects {
      * Adds a name/value pair to the formatted output in {@code name=value}
      * format.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
     public ToStringHelper add(String name, float value) {
       return addHolder(name, String.valueOf(value));
@@ -229,7 +229,7 @@ public final class MoreObjects {
      * Adds a name/value pair to the formatted output in {@code name=value}
      * format.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
     public ToStringHelper add(String name, int value) {
       return addHolder(name, String.valueOf(value));
@@ -239,7 +239,7 @@ public final class MoreObjects {
      * Adds a name/value pair to the formatted output in {@code name=value}
      * format.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
     public ToStringHelper add(String name, long value) {
       return addHolder(name, String.valueOf(value));
@@ -250,8 +250,6 @@ public final class MoreObjects {
      *
      * <p>It is strongly encouraged to use {@link #add(String, Object)} instead
      * and give value a readable name.
-     *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
      */
     public ToStringHelper addValue(@Nullable Object value) {
       return addHolder(value);
@@ -260,12 +258,10 @@ public final class MoreObjects {
     /**
      * Adds an unnamed value to the formatted output.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
-     *
      * <p>It is strongly encouraged to use {@link #add(String, boolean)} instead
      * and give value a readable name.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
     public ToStringHelper addValue(boolean value) {
       return addHolder(String.valueOf(value));
@@ -277,7 +273,7 @@ public final class MoreObjects {
      * <p>It is strongly encouraged to use {@link #add(String, char)} instead
      * and give value a readable name.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
     public ToStringHelper addValue(char value) {
       return addHolder(String.valueOf(value));
@@ -289,7 +285,7 @@ public final class MoreObjects {
      * <p>It is strongly encouraged to use {@link #add(String, double)} instead
      * and give value a readable name.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
     public ToStringHelper addValue(double value) {
       return addHolder(String.valueOf(value));
@@ -301,7 +297,7 @@ public final class MoreObjects {
      * <p>It is strongly encouraged to use {@link #add(String, float)} instead
      * and give value a readable name.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
     public ToStringHelper addValue(float value) {
       return addHolder(String.valueOf(value));
@@ -313,7 +309,7 @@ public final class MoreObjects {
      * <p>It is strongly encouraged to use {@link #add(String, int)} instead
      * and give value a readable name.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
     public ToStringHelper addValue(int value) {
       return addHolder(String.valueOf(value));
@@ -325,7 +321,7 @@ public final class MoreObjects {
      * <p>It is strongly encouraged to use {@link #add(String, long)} instead
      * and give value a readable name.
      *
-     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.omitNullValues()}.
+     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
     public ToStringHelper addValue(long value) {
       return addHolder(String.valueOf(value));
