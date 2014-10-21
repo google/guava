@@ -17,8 +17,8 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Lists.transform;
+import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.newHashSet;
-import static com.google.common.collect.Sets.newTreeSet;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
 
@@ -32,7 +32,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -112,10 +111,11 @@ public class FauxveridesTest extends TestCase {
   private void doHasAllFauxveridesTest(Class<?> descendant, Class<?> ancestor) {
     Set<MethodSignature> required = getAllRequiredToFauxveride(ancestor);
     Set<MethodSignature> found = getAllFauxveridden(descendant, ancestor);
-    required.removeAll(found);
-
-    assertEquals("Must hide public static methods from ancestor classes",
-        Collections.emptySet(), newTreeSet(required));
+    Set<MethodSignature> missing = ImmutableSortedSet.copyOf(difference(required, found));
+    if (!missing.isEmpty()) {
+      fail(String.format("%s should hide the public static methods declared in %s: %s",
+          descendant.getSimpleName(), ancestor.getSimpleName(), missing));
+    }
   }
 
   private static Set<MethodSignature> getAllRequiredToFauxveride(Class<?> ancestor) {
