@@ -275,10 +275,10 @@ public class MoreExecutorsTest extends JSR166TestCase {
     List<Future<String>> results;
 
     results = service.invokeAll(callables);
-    assertThat(getOnlyElement(results)).isA(ListenableFutureTask.class);
+    assertThat(getOnlyElement(results)).isInstanceOf(ListenableFutureTask.class);
 
     results = service.invokeAll(callables, 1, SECONDS);
-    assertThat(getOnlyElement(results)).isA(ListenableFutureTask.class);
+    assertThat(getOnlyElement(results)).isInstanceOf(ListenableFutureTask.class);
 
     /*
      * TODO(cpovirk): move ForwardingTestCase somewhere common, and use it to

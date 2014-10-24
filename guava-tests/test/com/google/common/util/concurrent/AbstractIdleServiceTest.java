@@ -94,7 +94,7 @@ public class AbstractIdleServiceTest extends TestCase {
     service.startAsync().awaitRunning();
     assertEquals(1, service.startUpCalled);
     assertEquals(Service.State.RUNNING, service.state());
-    assertThat(service.transitionStates).has().exactly(Service.State.STARTING).inOrder();
+    assertThat(service.transitionStates).containsExactly(Service.State.STARTING);
   }
 
   public void testStart_failed() {
@@ -114,7 +114,7 @@ public class AbstractIdleServiceTest extends TestCase {
     }
     assertEquals(1, service.startUpCalled);
     assertEquals(Service.State.FAILED, service.state());
-    assertThat(service.transitionStates).has().exactly(Service.State.STARTING).inOrder();
+    assertThat(service.transitionStates).containsExactly(Service.State.STARTING);
   }
 
   public void testStop_withoutStart() {
