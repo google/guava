@@ -113,7 +113,7 @@ public class CacheReferencesTest extends TestCase {
       assertTrue(cache.asMap().containsKey(key2));
       assertEquals(1, cache.size());
       assertEquals(ImmutableSet.of(key2), cache.asMap().keySet());
-      assertThat(cache.asMap().values()).has().item(value2);
+      assertThat(cache.asMap().values()).contains(value2);
       assertEquals(ImmutableSet.of(immutableEntry(key2, value2)), cache.asMap().entrySet());
     }
   }
