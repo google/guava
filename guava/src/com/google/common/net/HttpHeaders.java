@@ -248,4 +248,14 @@ public final class HttpHeaders {
   public static final String X_USER_IP = "X-User-IP";
   /** The HTTP {@code X-XSS-Protection} header field name. */
   public static final String X_XSS_PROTECTION = "X-XSS-Protection";
+  /**
+   * The HTTP <a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing">
+   * {@code Ping-From}</a> header field name.
+   * */
+  public static final String PING_FROM = "Ping-From";
+  /**
+   * The HTTP <a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing">
+   * {code Ping-To}</a> header field name.
+   * */
+  public static final String PING_TO = "Ping-To";
 }
