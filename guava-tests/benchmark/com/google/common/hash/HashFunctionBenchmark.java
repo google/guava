@@ -19,7 +19,6 @@ package com.google.common.hash;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.common.hash.HashFunction;
 
 import java.util.Random;
 
@@ -56,6 +55,15 @@ public class HashFunctionBenchmark {
     int result = 37;
     for (int i = 0; i < reps; i++) {
       result ^= hashFunction.hashBytes(testBytes).asBytes()[0];
+    }
+    return result;
+  }
+
+  @Benchmark int hashFunctionWithOffset(int reps) {
+    HashFunction hashFunction = hashFunctionEnum.getHashFunction();
+    int result = 37;
+    for (int i = 0; i < reps; i++) {
+      result ^= hashFunction.hashBytes(testBytes, 1, testBytes.length - 1).asBytes()[0];
     }
     return result;
   }
