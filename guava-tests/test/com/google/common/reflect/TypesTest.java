@@ -66,12 +66,12 @@ public class TypesTest extends TestCase {
     assertEquals(jvmType.toString(), ourType.toString());
     assertEquals(jvmType.hashCode(), ourType.hashCode());
     assertEquals(HashMap.class, ourType.getRawType());
-    assertThat(ourType.getActualTypeArguments()).asList()
-        .has().exactlyAs(asList(jvmType.getActualTypeArguments())).inOrder();
-    assertEquals(Arrays.asList(
-            String.class,
-            Types.newArrayType(Types.newArrayType(int.class))),
-        Arrays.asList(ourType.getActualTypeArguments()));
+    assertThat(ourType.getActualTypeArguments())
+        .asList()
+        .containsExactlyElementsIn(asList(jvmType.getActualTypeArguments()))
+        .inOrder();
+    assertEquals(Arrays.asList(String.class, Types.newArrayType(Types.newArrayType(int.class))),
+                 Arrays.asList(ourType.getActualTypeArguments()));
     assertEquals(null, ourType.getOwnerType());
   }
 
@@ -107,8 +107,10 @@ public class TypesTest extends TestCase {
     assertEquals(jvmType.toString(), ourType.toString());
     assertEquals(Map.class, ourType.getOwnerType());
     assertEquals(Map.Entry.class, ourType.getRawType());
-    assertThat(ourType.getActualTypeArguments()).asList()
-        .has().exactlyAs(asList(jvmType.getActualTypeArguments())).inOrder();
+    assertThat(ourType.getActualTypeArguments())
+        .asList()
+        .containsExactlyElementsIn(asList(jvmType.getActualTypeArguments()))
+        .inOrder();
   }
 
   public void testNewParameterizedType_serializable() {
@@ -268,10 +270,14 @@ public class TypesTest extends TestCase {
       WildcardType expected, WildcardType actual) {
     assertEquals(expected.toString(), actual.toString());
     assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
-    assertThat(actual.getLowerBounds()).asList()
-        .has().exactlyAs(asList(expected.getLowerBounds())).inOrder();
-    assertThat(actual.getUpperBounds()).asList()
-        .has().exactlyAs(asList(expected.getUpperBounds())).inOrder();
+    assertThat(actual.getLowerBounds())
+        .asList()
+        .containsExactlyElementsIn(asList(expected.getLowerBounds()))
+        .inOrder();
+    assertThat(actual.getUpperBounds())
+        .asList()
+        .containsExactlyElementsIn(asList(expected.getUpperBounds()))
+        .inOrder();
   }
 
   private static class WithTypeVariable {
@@ -366,8 +372,10 @@ public class TypesTest extends TestCase {
     if (!Types.NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY) {
       assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
     }
-    assertThat(actual.getBounds()).asList()
-        .has().exactlyAs(asList(expected.getBounds())).inOrder();
+    assertThat(actual.getBounds())
+        .asList()
+        .containsExactlyElementsIn(asList(expected.getBounds()))
+        .inOrder();
   }
 
   /**

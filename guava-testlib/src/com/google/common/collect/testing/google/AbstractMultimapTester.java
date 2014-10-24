@@ -145,10 +145,10 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   protected void assertGet(K key, Collection<V> values) {
-    assertThat(multimap().get(key)).has().exactlyAs(values);
+    assertThat(multimap().get(key)).containsExactlyElementsIn(values);
 
     if (!values.isEmpty()) {
-      assertThat(multimap().asMap().get(key)).has().exactlyAs(values);
+      assertThat(multimap().asMap().get(key)).containsExactlyElementsIn(values);
       assertFalse(multimap().isEmpty());
     } else {
       assertThat(multimap().asMap().get(key)).isNull();

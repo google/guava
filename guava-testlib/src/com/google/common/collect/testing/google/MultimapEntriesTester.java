@@ -43,9 +43,8 @@ import java.util.Map.Entry;
 @GwtCompatible
 public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testEntries() {
-    assertThat(multimap().entries()).has().exactlyAs(getSampleElements());
+    assertThat(multimap().entries()).containsExactlyElementsIn(getSampleElements());
   }
-  
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testContainsEntryWithNullKeyPresent() {

@@ -36,10 +36,10 @@ public class AbstractListMultimapTester<K, V>
   }
 
   protected void assertGet(K key, Collection<V> values) {
-    assertThat(multimap().get(key)).has().exactlyAs(values).inOrder();
+    assertThat(multimap().get(key)).containsExactlyElementsIn(values).inOrder();
 
     if (!values.isEmpty()) {
-      assertThat(multimap().asMap().get(key)).has().exactlyAs(values).inOrder();
+      assertThat(multimap().asMap().get(key)).containsExactlyElementsIn(values).inOrder();
       assertFalse(multimap().isEmpty());
     } else {
       assertThat(multimap().asMap().get(key)).isNull();

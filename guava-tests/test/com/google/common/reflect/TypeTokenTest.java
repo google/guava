@@ -160,32 +160,32 @@ public class TypeTokenTest extends TestCase {
 
   public void testGetTypes_noSuperclass() {
     TypeToken<Object>.TypeSet types = new TypeToken<Object>() {}.getTypes();
-    assertThat(types).has().item(TypeToken.of(Object.class));
-    assertThat(types.rawTypes()).has().item(Object.class);
+    assertThat(types).contains(TypeToken.of(Object.class));
+    assertThat(types.rawTypes()).contains(Object.class);
     assertThat(types.interfaces()).isEmpty();
     assertThat(types.interfaces().rawTypes()).isEmpty();
-    assertThat(types.classes()).has().item(TypeToken.of(Object.class));
-    assertThat(types.classes().rawTypes()).has().item(Object.class);
+    assertThat(types.classes()).contains(TypeToken.of(Object.class));
+    assertThat(types.classes().rawTypes()).contains(Object.class);
   }
 
   public void testGetTypes_fromInterface() {
     TypeToken<Interface1>.TypeSet types = new TypeToken<Interface1>() {}.getTypes();
-    assertThat(types).has().item(TypeToken.of(Interface1.class));
-    assertThat(types.rawTypes()).has().item(Interface1.class);
-    assertThat(types.interfaces()).has().item(TypeToken.of(Interface1.class));
-    assertThat(types.interfaces().rawTypes()).has().item(Interface1.class);
+    assertThat(types).contains(TypeToken.of(Interface1.class));
+    assertThat(types.rawTypes()).contains(Interface1.class);
+    assertThat(types.interfaces()).contains(TypeToken.of(Interface1.class));
+    assertThat(types.interfaces().rawTypes()).contains(Interface1.class);
     assertThat(types.classes()).isEmpty();
     assertThat(types.classes().rawTypes()).isEmpty();
   }
 
   public void testGetTypes_fromPrimitive() {
     TypeToken<Integer>.TypeSet types = TypeToken.of(int.class).getTypes();
-    assertThat(types).has().item(TypeToken.of(int.class));
-    assertThat(types.rawTypes()).has().item(int.class);
+    assertThat(types).contains(TypeToken.of(int.class));
+    assertThat(types.rawTypes()).contains(int.class);
     assertThat(types.interfaces()).isEmpty();
     assertThat(types.interfaces().rawTypes()).isEmpty();
-    assertThat(types.classes()).has().item(TypeToken.of(int.class));
-    assertThat(types.classes().rawTypes()).has().item(int.class);
+    assertThat(types.classes()).contains(TypeToken.of(int.class));
+    assertThat(types.classes().rawTypes()).contains(int.class);
   }
 
   public void testGetTypes_withInterfacesAndSuperclasses() {
@@ -250,11 +250,10 @@ public class TypeTokenTest extends TestCase {
         TypeToken.of(Interface1.class), TypeToken.of(Class1.class),
         TypeToken.of(Object.class));
     assertSubtypeFirst(types);
-    makeUnmodifiable(types.interfaces())
-        .has().exactly(TypeToken.of(Interface1.class))
-        .inOrder();
+    makeUnmodifiable(types.interfaces()).containsExactly(TypeToken.of(Interface1.class));
     makeUnmodifiable(types.classes())
-        .has().exactly(TypeToken.of(Class1.class), TypeToken.of(Object.class))
+        .has()
+        .exactly(TypeToken.of(Class1.class), TypeToken.of(Object.class))
         .inOrder();
   }
 
@@ -263,11 +262,10 @@ public class TypeTokenTest extends TestCase {
     TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes();
     makeUnmodifiable(types.rawTypes())
         .has().exactly(Interface1.class, Class1.class, Object.class);
-    makeUnmodifiable(types.interfaces().rawTypes())
-        .has().exactly(Interface1.class)
-        .inOrder();
+    makeUnmodifiable(types.interfaces().rawTypes()).containsExactly(Interface1.class);
     makeUnmodifiable(types.classes().rawTypes())
-        .has().exactly(Class1.class, Object.class)
+        .has()
+        .exactly(Class1.class, Object.class)
         .inOrder();
   }
 
@@ -477,7 +475,7 @@ public class TypeTokenTest extends TestCase {
   public <T extends NoInterface&Iterable<String>>
   void testGetGenericInterfaces_typeVariable_boundsAreClassWithInterface() {
     makeUnmodifiable(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .has().exactly(new TypeToken<Iterable<String>>() {});
+        .containsExactly(new TypeToken<Iterable<String>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
@@ -498,7 +496,7 @@ public class TypeTokenTest extends TestCase {
   public <T extends Base&Iterable<T>>
   void testGetGenericInterfaces_typeVariable_boundsAreClassWithFBoundedInterface() {
     makeUnmodifiable(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .has().exactly(new TypeToken<Iterable<T>>() {});
+        .containsExactly(new TypeToken<Iterable<T>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
@@ -511,7 +509,7 @@ public class TypeTokenTest extends TestCase {
   public <T extends Iterable<T>, T1 extends T, T2 extends T1>
   void testGetGenericInterfaces_typeVariable_boundIsTypeVariableAndInterface() {
     makeUnmodifiable(TypeToken.of(new TypeCapture<T2>() {}.capture()).getGenericInterfaces())
-        .has().exactly(TypeToken.of(new TypeCapture<T1>() {}.capture()));
+        .containsExactly(TypeToken.of(new TypeCapture<T1>() {}.capture()));
     assertHasArrayInterfaces(new TypeToken<T2[]>() {});
   }
 
@@ -528,7 +526,7 @@ public class TypeTokenTest extends TestCase {
   public void testGetGenericInterfaces_wildcard_boundIsInterface() {
     TypeToken<Iterable<String>> interfaceType = new TypeToken<Iterable<String>>() {};
     makeUnmodifiable(TypeToken.of(Types.subtypeOf(interfaceType.getType())).getGenericInterfaces())
-        .has().exactly(interfaceType);
+        .containsExactly(interfaceType);
     assertHasArrayInterfaces(new TypeToken<Iterable<String>[]>() {});
   }
 
@@ -1277,7 +1275,7 @@ public class TypeTokenTest extends TestCase {
       throws NoSuchMethodException {
     Method failMethod = Loser.class.getMethod("lose");
     Invokable<T, ?> invokable = new TypeToken<T>(getClass()) {}.method(failMethod);
-    assertThat(invokable.getExceptionTypes()).has().item(TypeToken.of(AssertionError.class));
+    assertThat(invokable.getExceptionTypes()).contains(TypeToken.of(AssertionError.class));
   }
 
   public void testConstructor_getOwnerType() throws NoSuchMethodException {
@@ -1343,7 +1341,7 @@ public class TypeTokenTest extends TestCase {
     @SuppressWarnings("rawtypes") // Reflection API skew
     Constructor<CannotConstruct> constructor = CannotConstruct.class.getConstructor();
     Invokable<T, ?> invokable = new TypeToken<T>(getClass()) {}.constructor(constructor);
-    assertThat(invokable.getExceptionTypes()).has().item(TypeToken.of(AssertionError.class));
+    assertThat(invokable.getExceptionTypes()).contains(TypeToken.of(AssertionError.class));
   }
 
   public void testRejectTypeVariable_class() {

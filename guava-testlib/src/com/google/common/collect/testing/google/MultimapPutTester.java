@@ -139,7 +139,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
     Collection<V> collection = multimap().get(sampleKeys().e3);
     assertThat(collection).isEmpty();
     multimap().put(sampleKeys().e3, sampleValues().e3);
-    assertThat(collection).has().item(sampleValues().e3);
+    assertThat(collection).contains(sampleValues().e3);
     assertEquals(size + 1, multimap().size());
   }
 
@@ -174,7 +174,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
       multimap().put(key, sampleValues().e3);
       expectedCollection.add(sampleValues().e3);
-      assertThat(collection).has().exactlyAs(expectedCollection);
+      assertThat(collection).containsExactlyElementsIn(expectedCollection);
       assertEquals(size + 1, multimap().size());
     }
   }
@@ -194,7 +194,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
       multimap().put(key, sampleValues().e3);
       expectedCollection.add(sampleValues().e3);
-      assertThat(collection).has().exactlyAs(expectedCollection);
+      assertThat(collection).containsExactlyElementsIn(expectedCollection);
       assertEquals(size + 1, multimap().size());
     }
   }
@@ -222,7 +222,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
       multimap().put(key, sampleValues().e3);
       expectedCollection.add(sampleValues().e3);
-      assertThat(collection).has().exactlyAs(expectedCollection);
+      assertThat(collection).containsExactlyElementsIn(expectedCollection);
       assertEquals(size + 1, multimap().size());
     }
   }

@@ -41,19 +41,17 @@ public class MultimapValuesTester<K, V> extends AbstractMultimapTester<K, V, Mul
     for (Map.Entry<K, V> entry : getSampleElements()) {
       expected.add(entry.getValue());
     }
-    assertThat(multimap().values()).has().exactlyAs(expected);
+    assertThat(multimap().values()).containsExactlyElementsIn(expected);
   }
-  
   @CollectionFeature.Require(KNOWN_ORDER)
   public void testValuesInOrder() {
     List<V> expected = Lists.newArrayList();
     for (Map.Entry<K, V> entry : getOrderedElements()) {
       expected.add(entry.getValue());
     }
-    assertThat(multimap().values()).has().exactlyAs(expected).inOrder();
+    assertThat(multimap().values()).containsExactlyElementsIn(expected).inOrder();
   }
-  
-  
+
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   @CollectionSize.Require(ONE)
   public void testValuesIteratorRemove() {

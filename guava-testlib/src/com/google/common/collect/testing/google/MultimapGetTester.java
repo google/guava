@@ -142,7 +142,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @CollectionSize.Require(absent = ZERO)
   public void testGetNullPresent() {
     initMultimapWithNullKey();
-    assertThat(multimap().get(null)).has().item(getValueForNullKey());
+    assertThat(multimap().get(null)).contains(getValueForNullKey());
   }
 
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
@@ -164,7 +164,6 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @CollectionSize.Require(absent = ZERO)
   public void testGetWithNullValue() {
     initMultimapWithNullValue();
-    assertThat(multimap().get(getKeyForNullValue()))
-        .has().item(null);
+    assertThat(multimap().get(getKeyForNullValue())).contains(null);
   }
 }

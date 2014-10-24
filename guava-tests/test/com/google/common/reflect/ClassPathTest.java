@@ -107,7 +107,7 @@ public class ClassPathTest extends TestCase {
         ClassPath.class.getName(), ClassPathTest.class.getName());
     assertThat(classes).has().allOf(anonymousClass, LocalClass.class, ClassPath.class,
         ClassPathTest.class);
-    assertThat(packageNames).has().exactly(ClassPath.class.getPackage().getName());
+    assertThat(packageNames).containsExactly(ClassPath.class.getPackage().getName());
     assertThat(simpleNames).has().allOf("", "Local", "ClassPath", "ClassPathTest");
   }
 
@@ -129,7 +129,7 @@ public class ClassPathTest extends TestCase {
     assertThat(names).has().allOf(ClassPath.class.getName(), ClassPathTest.class.getName());
     assertThat(strings).has().allOf(ClassPath.class.getName(), ClassPathTest.class.getName());
     assertThat(classes).has().allOf(ClassPath.class, ClassPathTest.class);
-    assertThat(packageNames).has().item(ClassPath.class.getPackage().getName());
+    assertThat(packageNames).contains(ClassPath.class.getPackage().getName());
     assertThat(simpleNames).has().allOf("ClassPath", "ClassPathTest");
     assertFalse(classes.contains(ClassInSubPackage.class));
   }
@@ -300,7 +300,7 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative/dir");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("base/with/relative/dir").toURI()).inOrder();
+        .containsExactly(new File("base/with/relative/dir").toURI());
   }
 
   public void testGetClassPathFromManifest_relativeJar() throws IOException {
@@ -308,7 +308,7 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative.jar");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("base/with/relative.jar").toURI()).inOrder();
+        .containsExactly(new File("base/with/relative.jar").toURI());
   }
 
   public void testGetClassPathFromManifest_jarInCurrentDirectory() throws IOException {
@@ -316,21 +316,21 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("current.jar");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("base/current.jar").toURI()).inOrder();
+        .containsExactly(new File("base/current.jar").toURI());
   }
 
   public void testGetClassPathFromManifest_absoluteDirectory() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute/dir");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("/with/absolute/dir").toURI()).inOrder();
+        .containsExactly(new File("/with/absolute/dir").toURI());
   }
 
   public void testGetClassPathFromManifest_absoluteJar() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("/with/absolute.jar").toURI()).inOrder();
+        .containsExactly(new File("/with/absolute.jar").toURI());
   }
 
   public void testGetClassPathFromManifest_multiplePaths() throws IOException {
@@ -348,14 +348,14 @@ public class ClassPathTest extends TestCase {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath(" relative.jar");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("base/relative.jar").toURI()).inOrder();
+        .containsExactly(new File("base/relative.jar").toURI());
   }
 
   public void testGetClassPathFromManifest_trailingBlanks() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("relative.jar ");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("base/relative.jar").toURI()).inOrder();
+        .containsExactly(new File("base/relative.jar").toURI());
   }
 
   public void testGetClassName() {

@@ -58,7 +58,7 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
       if (expectedValues.isEmpty()) {
         assertThat(collection).isNull();
       } else {
-        assertThat(collection).has().exactlyAs(expectedValues);
+        assertThat(collection).containsExactlyElementsIn(expectedValues);
       }
     }
   }
@@ -67,9 +67,8 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testAsMapGetNullKeyPresent() {
     initMultimapWithNullKey();
-    assertThat(multimap().asMap().get(null)).has().exactly(getValueForNullKey());
+    assertThat(multimap().asMap().get(null)).containsExactly(getValueForNullKey());
   }
- 
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testAsMapGetNullKeyAbsent() {
     assertThat(multimap().asMap().get(null)).isNull();

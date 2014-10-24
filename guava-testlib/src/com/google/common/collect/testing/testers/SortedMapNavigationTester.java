@@ -118,7 +118,8 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
       assertThat(navigableMap.headMap(entries.get(i).getKey()).entrySet())
-          .iteratesAs(entries.subList(0, i));
+          .containsExactlyElementsIn(entries.subList(0, i))
+          .inOrder();
     }
   }
   
@@ -128,7 +129,8 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
       assertThat(navigableMap.tailMap(entries.get(i).getKey()).entrySet())
-          .iteratesAs(entries.subList(i, entries.size()));
+          .containsExactlyElementsIn(entries.subList(i, entries.size()))
+          .inOrder();
     }
   }
   
@@ -138,10 +140,9 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
       for (int j = i + 1; j < entries.size(); j++) {
-        assertThat(navigableMap
-                 .subMap(entries.get(i).getKey(), entries.get(j).getKey())
-                 .entrySet())
-            .iteratesAs(entries.subList(i, j)); 
+        assertThat(navigableMap.subMap(entries.get(i).getKey(), entries.get(j).getKey()).entrySet())
+            .containsExactlyElementsIn(entries.subList(i, j))
+            .inOrder();
       }
     }
   }
