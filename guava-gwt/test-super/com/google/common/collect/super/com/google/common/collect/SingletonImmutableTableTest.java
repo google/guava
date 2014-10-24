@@ -117,7 +117,7 @@ public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   }
 
   public void testValues() {
-    assertThat(testTable.values()).has().item("blah");
+    assertThat(testTable.values()).contains("blah");
   }
 
   @Override Iterable<ImmutableTable<Character, Integer, String>> getTestInstances() {

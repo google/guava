@@ -301,7 +301,7 @@ public class SetsTest extends TestCase {
   public void testImmutableEnumSet() {
     Set<SomeEnum> units = Sets.immutableEnumSet(SomeEnum.D, SomeEnum.B);
 
-    assertThat(units).has().exactly(SomeEnum.B, SomeEnum.D).inOrder();
+    assertThat(units).containsExactly(SomeEnum.B, SomeEnum.D).inOrder();
     try {
       units.remove(SomeEnum.B);
       fail("ImmutableEnumSet should throw an exception on remove()");
@@ -316,7 +316,7 @@ public class SetsTest extends TestCase {
   public void testImmutableEnumSet_serialized() {
     Set<SomeEnum> units = Sets.immutableEnumSet(SomeEnum.D, SomeEnum.B);
 
-    assertThat(units).has().exactly(SomeEnum.B, SomeEnum.D).inOrder();
+    assertThat(units).containsExactly(SomeEnum.B, SomeEnum.D).inOrder();
 
     Set<SomeEnum> copy = SerializableTester.reserializeAndAssert(units);
     assertTrue(copy instanceof ImmutableEnumSet);
@@ -329,11 +329,10 @@ public class SetsTest extends TestCase {
 
     ImmutableSet<SomeEnum> one
         = Sets.immutableEnumSet(MinimalIterable.of(SomeEnum.B));
-    assertThat(one).has().item(SomeEnum.B);
+    assertThat(one).contains(SomeEnum.B);
 
-    ImmutableSet<SomeEnum> two
-        = Sets.immutableEnumSet(MinimalIterable.of(SomeEnum.D, SomeEnum.B));
-    assertThat(two).has().exactly(SomeEnum.B, SomeEnum.D).inOrder();
+    ImmutableSet<SomeEnum> two = Sets.immutableEnumSet(MinimalIterable.of(SomeEnum.D, SomeEnum.B));
+    assertThat(two).containsExactly(SomeEnum.B, SomeEnum.D).inOrder();
   }
 
   @GwtIncompatible("java serialization not supported in GWT.")
@@ -488,7 +487,7 @@ public class SetsTest extends TestCase {
     assertTrue(set.isEmpty());
     set.add(new Derived("foo"));
     set.add(new Derived("bar"));
-    assertThat(set).has().exactly(new Derived("bar"), new Derived("foo")).inOrder();
+    assertThat(set).containsExactly(new Derived("bar"), new Derived("foo")).inOrder();
   }
 
   public void testNewTreeSetEmptyNonGeneric() {
@@ -496,8 +495,8 @@ public class SetsTest extends TestCase {
     assertTrue(set.isEmpty());
     set.add(new LegacyComparable("foo"));
     set.add(new LegacyComparable("bar"));
-    assertThat(set).has()
-        .exactly(new LegacyComparable("bar"), new LegacyComparable("foo")).inOrder();
+    assertThat(set).containsExactly(
+        new LegacyComparable("bar"), new LegacyComparable("foo")).inOrder();
   }
 
   public void testNewTreeSetFromCollection() {
@@ -514,7 +513,7 @@ public class SetsTest extends TestCase {
     Iterable<Derived> iterable =
         Arrays.asList(new Derived("foo"), new Derived("bar"));
     TreeSet<Derived> set = Sets.newTreeSet(iterable);
-    assertThat(set).has().exactly(
+    assertThat(set).containsExactly(
         new Derived("bar"), new Derived("foo")).inOrder();
   }
 
@@ -522,7 +521,7 @@ public class SetsTest extends TestCase {
     Iterable<LegacyComparable> iterable =
         Arrays.asList(new LegacyComparable("foo"), new LegacyComparable("bar"));
     TreeSet<LegacyComparable> set = Sets.newTreeSet(iterable);
-    assertThat(set).has().exactly(
+    assertThat(set).containsExactly(
         new LegacyComparable("bar"), new LegacyComparable("foo")).inOrder();
   }
 
@@ -624,7 +623,7 @@ public class SetsTest extends TestCase {
         Sets.newSetFromMap(new LinkedHashMap<Integer, Boolean>());
     set.addAll(SOME_COLLECTION);
     Set<Integer> copy = SerializableTester.reserializeAndAssert(set);
-    assertThat(copy).has().exactly(0, 1).inOrder();
+    assertThat(copy).containsExactly(0, 1).inOrder();
   }
 
   public void testNewSetFromMapIllegal() {
@@ -644,7 +643,7 @@ public class SetsTest extends TestCase {
    */
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_zeroary() {
-    assertThat(Sets.cartesianProduct()).has().exactly(list());
+    assertThat(Sets.cartesianProduct()).containsExactly(list());
   }
 
   /**
@@ -653,7 +652,7 @@ public class SetsTest extends TestCase {
    */
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_unary() {
-    assertThat(Sets.cartesianProduct(set(1, 2))).has().exactly(list(1), list(2));
+    assertThat(Sets.cartesianProduct(set(1, 2))).containsExactly(list(1), list(2));
   }
 
   @SuppressWarnings("unchecked") // varargs!
@@ -682,24 +681,24 @@ public class SetsTest extends TestCase {
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x1() {
-    assertThat(Sets.cartesianProduct(set(1), set(2))).has().item(list(1, 2));
+    assertThat(Sets.cartesianProduct(set(1), set(2))).contains(list(1, 2));
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x2() {
     assertThat(Sets.cartesianProduct(set(1), set(2, 3)))
-        .has().exactly(list(1, 2), list(1, 3)).inOrder();
+        .containsExactly(list(1, 2), list(1, 3)).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary2x2() {
     assertThat(Sets.cartesianProduct(set(1, 2), set(3, 4)))
-        .has().exactly(list(1, 3), list(1, 4), list(2, 3), list(2, 4)).inOrder();
+        .containsExactly(list(1, 3), list(1, 4), list(2, 3), list(2, 4)).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_2x2x2() {
-    assertThat(Sets.cartesianProduct(set(0, 1), set(0, 1), set(0, 1))).has().exactly(
+    assertThat(Sets.cartesianProduct(set(0, 1), set(0, 1), set(0, 1))).containsExactly(
         list(0, 0, 0), list(0, 0, 1), list(0, 1, 0), list(0, 1, 1),
         list(1, 0, 0), list(1, 0, 1), list(1, 1, 0), list(1, 1, 1)).inOrder();
   }
@@ -725,7 +724,7 @@ public class SetsTest extends TestCase {
     List<Object> exp4 = list((Object) 2, "4");
 
     assertThat(Sets.<Object>cartesianProduct(x, y))
-        .has().exactly(exp1, exp2, exp3, exp4).inOrder();
+        .containsExactly(exp1, exp2, exp3, exp4).inOrder();
   }
 
   @SuppressWarnings("unchecked") // varargs!

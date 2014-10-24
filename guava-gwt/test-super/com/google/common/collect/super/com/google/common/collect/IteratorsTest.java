@@ -613,7 +613,7 @@ public class IteratorsTest extends TestCase {
 
     boolean changed = Iterators.addAll(alreadyThere,
                                        Iterators.<String>emptyIterator());
-    assertThat(alreadyThere).has().exactly("already", "there").inOrder();
+    assertThat(alreadyThere).containsExactly("already", "there").inOrder();
     assertFalse(changed);
   }
 
@@ -623,7 +623,7 @@ public class IteratorsTest extends TestCase {
 
     boolean changed = Iterators.addAll(alreadyThere, freshlyAdded.iterator());
 
-    assertThat(alreadyThere).has().exactly("already", "there", "freshly", "added");
+    assertThat(alreadyThere).containsExactly("already", "there", "freshly", "added");
     assertTrue(changed);
   }
 
@@ -633,7 +633,7 @@ public class IteratorsTest extends TestCase {
     List<String> oneMore = Lists.newArrayList("there");
 
     boolean changed = Iterators.addAll(alreadyThere, oneMore.iterator());
-    assertThat(alreadyThere).has().exactly("already", "there").inOrder();
+    assertThat(alreadyThere).containsExactly("already", "there").inOrder();
     assertFalse(changed);
   }
 
@@ -1229,12 +1229,12 @@ public class IteratorsTest extends TestCase {
 
     assertEquals("Iterators.consumingIterator(...)", consumingIterator.toString());
 
-    assertThat(list).has().exactly("a", "b").inOrder();
+    assertThat(list).containsExactly("a", "b").inOrder();
 
     assertTrue(consumingIterator.hasNext());
-    assertThat(list).has().exactly("a", "b").inOrder();
+    assertThat(list).containsExactly("a", "b").inOrder();
     assertEquals("a", consumingIterator.next());
-    assertThat(list).has().item("b");
+    assertThat(list).contains("b");
 
     assertTrue(consumingIterator.hasNext());
     assertEquals("b", consumingIterator.next());

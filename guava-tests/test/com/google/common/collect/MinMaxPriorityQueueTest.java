@@ -355,7 +355,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
       }
     }
     assertTrue(q.isIntact());
-    assertThat(result).has().exactly(1, 15, 13, 8, 14);
+    assertThat(result).containsExactly(1, 15, 13, 8, 14);
   }
 
   /**
@@ -718,23 +718,23 @@ public class MinMaxPriorityQueueTest extends TestCase {
     List<Integer> contents = Lists.newArrayList(expected);
     List<Integer> elements = Lists.newArrayListWithCapacity(size);
     while (!q.isEmpty()) {
-      assertThat(q).has().exactlyAs(contents);
+      assertThat(q).containsExactlyElementsIn(contents);
       Integer next = q.pollFirst();
       contents.remove(next);
-      assertThat(q).has().exactlyAs(contents);
+      assertThat(q).containsExactlyElementsIn(contents);
       for (int i = 0; i <= size; i++) {
         q.add(i);
         contents.add(i);
-        assertThat(q).has().exactlyAs(contents);
+        assertThat(q).containsExactlyElementsIn(contents);
         q.add(next);
         contents.add(next);
-        assertThat(q).has().exactlyAs(contents);
+        assertThat(q).containsExactlyElementsIn(contents);
         q.remove(i);
         assertTrue(contents.remove(Integer.valueOf(i)));
-        assertThat(q).has().exactlyAs(contents);
+        assertThat(q).containsExactlyElementsIn(contents);
         assertEquals(next, q.poll());
         contents.remove(next);
-        assertThat(q).has().exactlyAs(contents);
+        assertThat(q).containsExactlyElementsIn(contents);
       }
       elements.add(next);
     }

@@ -101,7 +101,7 @@ public class FilteredCollectionsTest extends TestCase {
         target.add(4);
         C addThenFilter = filter(createUnfiltered(target), EVEN);
 
-        assertThat(filterThenAdd).has().exactlyAs(addThenFilter);
+        assertThat(filterThenAdd).containsExactlyElementsIn(addThenFilter);
       }
     }
 
@@ -157,7 +157,7 @@ public class FilteredCollectionsTest extends TestCase {
         } catch (IllegalArgumentException expected) {
         }
 
-        assertThat(filteredToModify).has().exactlyAs(filtered);
+        assertThat(filteredToModify).containsExactlyElementsIn(filtered);
       }
     }
 
@@ -191,7 +191,7 @@ public class FilteredCollectionsTest extends TestCase {
             Predicates.not(Predicates.and(EVEN, PRIME_DIGIT)));
 
         filtered2.clear();
-        assertThat(unfiltered).has().exactlyAs(inverseFiltered);
+        assertThat(unfiltered).containsExactlyElementsIn(inverseFiltered);
       }
     }
   }
@@ -328,7 +328,9 @@ public class FilteredCollectionsTest extends TestCase {
         NavigableSet<Integer> filtered = filter(createUnfiltered(contents), EVEN);
         NavigableSet<Integer> unfiltered = createUnfiltered(filtered);
 
-        assertThat(filtered.descendingSet()).has().exactlyAs(unfiltered.descendingSet()).inOrder();
+        assertThat(filtered.descendingSet())
+            .containsExactlyElementsIn(unfiltered.descendingSet())
+            .inOrder();
       }
     }
 
