@@ -34,7 +34,7 @@ final class LongAddables {
   static {
     Supplier<LongAddable> supplier;
     try {
-      new LongAdder();
+      new LongAdder(); // trigger static initialization of the LongAdder class, which may fail
       supplier = new Supplier<LongAddable>() {
         @Override
         public LongAddable get() {
