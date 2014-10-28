@@ -877,7 +877,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    assertThat(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
+    assertThat(results).containsExactly(DATA1, DATA2, DATA3).inOrder();
   }
 
   public void testAllAsList_emptyList() throws Exception {
@@ -1052,7 +1052,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    assertThat(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
+    assertThat(results).containsExactly(DATA1, DATA2, DATA3).inOrder();
   }
 
   /**
@@ -1520,7 +1520,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    assertThat(results).has().exactly(DATA1, DATA2, DATA3).inOrder();
+    assertThat(results).containsExactly(DATA1, DATA2, DATA3).inOrder();
   }
 
   public void testSuccessfulAsList_emptyList() throws Exception {
@@ -1563,7 +1563,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    assertThat(results).has().exactly(null, DATA2).inOrder();
+    assertThat(results).containsExactly(null, DATA2).inOrder();
   }
 
   public void testSuccessfulAsList_totalFailure() throws Exception {
@@ -1584,7 +1584,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    assertThat(results).has().exactly(null, null).inOrder();
+    assertThat(results).containsExactly(null, null).inOrder();
   }
 
   public void testSuccessfulAsList_cancelled() throws Exception {
@@ -1605,7 +1605,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    assertThat(results).has().exactly(null, DATA2).inOrder();
+    assertThat(results).containsExactly(null, DATA2).inOrder();
   }
 
   public void testSuccessfulAsList_resultCancelled() throws Exception {
@@ -1731,7 +1731,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    assertThat(results).has().exactly(null, null, DATA3).inOrder();
+    assertThat(results).containsExactly(null, null, DATA3).inOrder();
   }
 
   /** Non-Error exceptions are never logged. */

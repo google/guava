@@ -68,7 +68,7 @@ public class AbstractPackageSanityTestsTest extends TestCase {
 
   public void testFindClassesToTeset_ignoreUnderscores() {
     assertThat(findClassesToTest(ImmutableList.of(Foo.class, Foo_Bar.class)))
-        .has().exactly(Foo.class, Foo_Bar.class);
+        .containsExactly(Foo.class, Foo_Bar.class);
     sanityTests.ignoreClasses(AbstractPackageSanityTests.UNDERSCORE_IN_NAME);
     assertThat(findClassesToTest(ImmutableList.of(Foo.class, Foo_Bar.class)))
         .containsExactly(Foo.class);
