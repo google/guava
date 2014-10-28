@@ -94,7 +94,7 @@ public class CacheReferencesTest extends TestCase {
       assertSame(value1, cache.getUnchecked(key1));
       assertSame(value2, cache.getUnchecked(key2));
       assertEquals(ImmutableSet.of(key1, key2), cache.asMap().keySet());
-      assertThat(cache.asMap().values()).has().exactly(value1, value2);
+      assertThat(cache.asMap().values()).containsExactly(value1, value2);
       assertEquals(ImmutableSet.of(immutableEntry(key1, value1), immutableEntry(key2, value2)),
           cache.asMap().entrySet());
     }
