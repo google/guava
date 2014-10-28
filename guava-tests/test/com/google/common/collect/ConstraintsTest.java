@@ -86,8 +86,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    assertThat(constrained).has().exactly("foo", "bar").inOrder();
-    assertThat(collection).has().exactly("foo", "bar").inOrder();
+    assertThat(constrained).containsExactly("foo", "bar").inOrder();
+    assertThat(collection).containsExactly("foo", "bar").inOrder();
   }
 
   public void testConstrainedSetLegal() {
@@ -100,7 +100,7 @@ public class ConstraintsTest extends TestCase {
     assertTrue(constrained.equals(set));
     assertEquals(set.toString(), constrained.toString());
     assertEquals(set.hashCode(), constrained.hashCode());
-    assertThat(set).has().exactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
+    assertThat(set).containsExactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
     assertThat(constrained).has()
         .exactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
   }
@@ -116,8 +116,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    assertThat(constrained).has().exactly("foo", "bar").inOrder();
-    assertThat(set).has().exactly("foo", "bar").inOrder();
+    assertThat(constrained).containsExactly("foo", "bar").inOrder();
+    assertThat(set).containsExactly("foo", "bar").inOrder();
   }
 
   public void testConstrainedSortedSetLegal() {
@@ -131,7 +131,8 @@ public class ConstraintsTest extends TestCase {
     assertTrue(constrained.equals(sortedSet));
     assertEquals(sortedSet.toString(), constrained.toString());
     assertEquals(sortedSet.hashCode(), constrained.hashCode());
-    assertThat(sortedSet).has().exactly("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT).inOrder();
+    assertThat(sortedSet)
+        .containsExactly("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT).inOrder();
     assertThat(constrained).has()
         .exactly("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT).inOrder();
     assertNull(constrained.comparator());
@@ -163,8 +164,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    assertThat(constrained).has().exactly("bar", "foo").inOrder();
-    assertThat(sortedSet).has().exactly("bar", "foo").inOrder();
+    assertThat(constrained).containsExactly("bar", "foo").inOrder();
+    assertThat(sortedSet).containsExactly("bar", "foo").inOrder();
   }
 
   public void testConstrainedListLegal() {
@@ -181,17 +182,17 @@ public class ConstraintsTest extends TestCase {
     assertTrue(constrained.equals(list));
     assertEquals(list.toString(), constrained.toString());
     assertEquals(list.hashCode(), constrained.hashCode());
-    assertThat(list).has().exactly(
+    assertThat(list).containsExactly(
         "foo", "cow", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
-    assertThat(constrained).has().exactly(
+    assertThat(constrained).containsExactly(
         "foo", "cow", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
     ListIterator<String> iterator = constrained.listIterator();
     iterator.next();
     iterator.set("sun");
     constrained.listIterator(2).add("sky");
-    assertThat(list).has().exactly(
+    assertThat(list).containsExactly(
         "sun", "cow", "sky", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
-    assertThat(constrained).has().exactly(
+    assertThat(constrained).containsExactly(
         "sun", "cow", "sky", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
     assertTrue(constrained instanceof RandomAccess);
   }
@@ -249,8 +250,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(1, asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    assertThat(constrained).has().exactly("foo", "bar").inOrder();
-    assertThat(list).has().exactly("foo", "bar").inOrder();
+    assertThat(constrained).containsExactly("foo", "bar").inOrder();
+    assertThat(list).containsExactly("foo", "bar").inOrder();
   }
 
   public void testNefariousAddAll() {
@@ -259,8 +260,8 @@ public class ConstraintsTest extends TestCase {
         list, TEST_CONSTRAINT);
     Collection<String> onceIterable = onceIterableCollection("baz");
     constrained.addAll(onceIterable);
-    assertThat(constrained).has().exactly("foo", "bar", "baz").inOrder();
-    assertThat(list).has().exactly("foo", "bar", "baz").inOrder();
+    assertThat(constrained).containsExactly("foo", "bar", "baz").inOrder();
+    assertThat(list).containsExactly("foo", "bar", "baz").inOrder();
   }
 
   /**

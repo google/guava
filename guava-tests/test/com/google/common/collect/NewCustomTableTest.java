@@ -51,11 +51,11 @@ public class NewCustomTableTest extends AbstractTableTest {
 
   public void testRowKeySetOrdering() {
     table = create("foo", 3, 'a', "bar", 1, 'b', "foo", 2, 'c');
-    assertThat(table.rowKeySet()).has().exactly("foo", "bar").inOrder();
+    assertThat(table.rowKeySet()).containsExactly("foo", "bar").inOrder();
   }
 
   public void testRowOrdering() {
     table = create("foo", 3, 'a', "bar", 1, 'b', "foo", 2, 'c');
-    assertThat(table.row("foo").keySet()).has().exactly(2, 3).inOrder();
+    assertThat(table.row("foo").keySet()).containsExactly(2, 3).inOrder();
   }
 }

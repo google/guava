@@ -462,7 +462,7 @@ public class ImmutableBiMapTest extends TestCase {
           ImmutableMap.of("one", 1, "two", 2, "three", 3, "four", 4));
       Set<String> keys = bimap.keySet();
       assertEquals(Sets.newHashSet("one", "two", "three", "four"), keys);
-      assertThat(keys).has().exactly("one", "two", "three", "four").inOrder();
+      assertThat(keys).containsExactly("one", "two", "three", "four").inOrder();
     }
 
     public void testValues() {
@@ -470,7 +470,7 @@ public class ImmutableBiMapTest extends TestCase {
           ImmutableMap.of("one", 1, "two", 2, "three", 3, "four", 4));
       Set<Integer> values = bimap.values();
       assertEquals(Sets.newHashSet(1, 2, 3, 4), values);
-      assertThat(values).has().exactly(1, 2, 3, 4).inOrder();
+      assertThat(values).containsExactly(1, 2, 3, 4).inOrder();
     }
 
     public void testDoubleInverse() {

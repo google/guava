@@ -153,7 +153,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     // now we'll get the varargs overload
     ImmutableSet<String> set = ImmutableSet.of(
         "a", "b", "c", "c", "c", "c", "b", "b", "a", "a", "c", "c", "c", "a");
-    assertThat(set).has().exactly("a", "b", "c").inOrder();
+    assertThat(set).containsExactly("a", "b", "c").inOrder();
   }
 
   public void testCreation_arrayOfArray() {

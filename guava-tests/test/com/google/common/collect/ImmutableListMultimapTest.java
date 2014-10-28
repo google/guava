@@ -279,10 +279,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    assertThat(multimap.keySet()).has().exactly("d", "c", "b", "a").inOrder();
-    assertThat(multimap.values()).has().exactly(2, 4, 3, 6, 5, 2).inOrder();
-    assertThat(multimap.get("a")).has().exactly(5, 2).inOrder();
-    assertThat(multimap.get("b")).has().exactly(3, 6).inOrder();
+    assertThat(multimap.keySet()).containsExactly("d", "c", "b", "a").inOrder();
+    assertThat(multimap.values()).containsExactly(2, 4, 3, 6, 5, 2).inOrder();
+    assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
+    assertThat(multimap.get("b")).containsExactly(3, 6).inOrder();
   }
 
   public void testBuilderOrderKeysByDuplicates() {
@@ -301,10 +301,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("bb", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    assertThat(multimap.keySet()).has().exactly("d", "a", "bb", "cc").inOrder();
-    assertThat(multimap.values()).has().exactly(2, 5, 2, 3, 6, 4).inOrder();
-    assertThat(multimap.get("a")).has().exactly(5, 2).inOrder();
-    assertThat(multimap.get("bb")).has().exactly(3, 6).inOrder();
+    assertThat(multimap.keySet()).containsExactly("d", "a", "bb", "cc").inOrder();
+    assertThat(multimap.values()).containsExactly(2, 5, 2, 3, 6, 4).inOrder();
+    assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
+    assertThat(multimap.get("bb")).containsExactly(3, 6).inOrder();
   }
 
   public void testBuilderOrderValuesBy() {
@@ -318,10 +318,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    assertThat(multimap.keySet()).has().exactly("b", "d", "a", "c").inOrder();
-    assertThat(multimap.values()).has().exactly(6, 3, 2, 5, 2, 4).inOrder();
-    assertThat(multimap.get("a")).has().exactly(5, 2).inOrder();
-    assertThat(multimap.get("b")).has().exactly(6, 3).inOrder();
+    assertThat(multimap.keySet()).containsExactly("b", "d", "a", "c").inOrder();
+    assertThat(multimap.values()).containsExactly(6, 3, 2, 5, 2, 4).inOrder();
+    assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
+    assertThat(multimap.get("b")).containsExactly(6, 3).inOrder();
   }
 
   public void testBuilderOrderKeysAndValuesBy() {
@@ -336,10 +336,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    assertThat(multimap.keySet()).has().exactly("d", "c", "b", "a").inOrder();
-    assertThat(multimap.values()).has().exactly(2, 4, 6, 3, 5, 2).inOrder();
-    assertThat(multimap.get("a")).has().exactly(5, 2).inOrder();
-    assertThat(multimap.get("b")).has().exactly(6, 3).inOrder();
+    assertThat(multimap.keySet()).containsExactly("d", "c", "b", "a").inOrder();
+    assertThat(multimap.values()).containsExactly(2, 4, 6, 3, 5, 2).inOrder();
+    assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
+    assertThat(multimap.get("b")).containsExactly(6, 3).inOrder();
   }
 
   public void testCopyOf() {

@@ -74,7 +74,7 @@ public class ImmutableEnumMapTest extends TestCase {
     ImmutableMap<AnEnum, String> map = Maps.immutableEnumMap(
         ImmutableMap.of(AnEnum.C, "c", AnEnum.A, "a", AnEnum.E, "e"));
 
-    assertThat(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).containsExactly(
         Helpers.mapEntry(AnEnum.A, "a"),
         Helpers.mapEntry(AnEnum.C, "c"),
         Helpers.mapEntry(AnEnum.E, "e")).inOrder();

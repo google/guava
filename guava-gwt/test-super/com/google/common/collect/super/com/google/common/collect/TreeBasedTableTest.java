@@ -117,8 +117,8 @@ public class TreeBasedTableTest extends AbstractTableTest {
     table.put("foo", 12, 'b');
     table.put("bar", 5, 'c');
     table.put("cat", 8, 'd');
-    assertThat(table.rowKeySet()).has().exactly("foo", "cat", "bar").inOrder();
-    assertThat(table.row("foo").keySet()).has().exactly(12, 3).inOrder();
+    assertThat(table.rowKeySet()).containsExactly("foo", "cat", "bar").inOrder();
+    assertThat(table.row("foo").keySet()).containsExactly(12, 3).inOrder();
   }
 
   public void testCreateCopy() {
@@ -129,8 +129,8 @@ public class TreeBasedTableTest extends AbstractTableTest {
     original.put("bar", 5, 'c');
     original.put("cat", 8, 'd');
     table = TreeBasedTable.create(original);
-    assertThat(table.rowKeySet()).has().exactly("foo", "cat", "bar").inOrder();
-    assertThat(table.row("foo").keySet()).has().exactly(12, 3).inOrder();
+    assertThat(table.rowKeySet()).containsExactly("foo", "cat", "bar").inOrder();
+    assertThat(table.row("foo").keySet()).containsExactly(12, 3).inOrder();
     assertEquals(original, table);
   }
 

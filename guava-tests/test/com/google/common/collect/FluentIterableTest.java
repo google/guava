@@ -560,11 +560,11 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testToSet() {
-    assertThat(fluent(1, 2, 3, 4).toSet()).has().exactly(1, 2, 3, 4).inOrder();
+    assertThat(fluent(1, 2, 3, 4).toSet()).containsExactly(1, 2, 3, 4).inOrder();
   }
 
   public void testToSet_removeDuplicates() {
-    assertThat(fluent(1, 2, 1, 2).toSet()).has().exactly(1, 2).inOrder();
+    assertThat(fluent(1, 2, 1, 2).toSet()).containsExactly(1, 2).inOrder();
   }
 
   public void testToSet_empty() {
@@ -573,17 +573,17 @@ public class FluentIterableTest extends TestCase {
 
   public void testToSortedSet() {
     assertThat(fluent(1, 4, 2, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
-        .has().exactly(4, 3, 2, 1).inOrder();
+        .containsExactly(4, 3, 2, 1).inOrder();
   }
 
   public void testToSortedSet_removeDuplicates() {
     assertThat(fluent(1, 4, 1, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
-        .has().exactly(4, 3, 1).inOrder();
+        .containsExactly(4, 3, 1).inOrder();
   }
 
   public void testToMap() {
     assertThat(fluent(1, 2, 3).toMap(Functions.toStringFunction()).entrySet())
-        .has().exactly(
+        .containsExactly(
             Maps.immutableEntry(1, "1"),
             Maps.immutableEntry(2, "2"),
             Maps.immutableEntry(3, "3")).inOrder();
@@ -690,17 +690,17 @@ public class FluentIterableTest extends TestCase {
 
   public void testCopyInto_List() {
     assertThat(fluent(1, 3, 5).copyInto(Lists.newArrayList(1, 2)))
-        .has().exactly(1, 2, 1, 3, 5).inOrder();
+        .containsExactly(1, 2, 1, 3, 5).inOrder();
   }
 
   public void testCopyInto_Set() {
     assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2)))
-        .has().exactly(1, 2, 3, 5);
+        .containsExactly(1, 2, 3, 5);
   }
 
   public void testCopyInto_SetAllDuplicates() {
     assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2, 3, 5)))
-        .has().exactly(1, 2, 3, 5);
+        .containsExactly(1, 2, 3, 5);
   }
 
   public void testCopyInto_NonCollection() {
@@ -715,7 +715,7 @@ public class FluentIterableTest extends TestCase {
     };
 
     assertThat(FluentIterable.from(iterable).copyInto(list))
-        .has().exactly(1, 2, 3, 9, 8, 7).inOrder();
+        .containsExactly(1, 2, 3, 9, 8, 7).inOrder();
   }
 
   public void testJoin() {

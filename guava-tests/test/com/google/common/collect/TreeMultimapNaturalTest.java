@@ -283,14 +283,14 @@ public class TreeMultimapNaturalTest extends TestCase {
 
   public void testOrderedGet() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    assertThat(multimap.get("foo")).has().exactly(1, 3, 7).inOrder();
-    assertThat(multimap.get("google")).has().exactly(2, 6).inOrder();
-    assertThat(multimap.get("tree")).has().exactly(0, 4).inOrder();
+    assertThat(multimap.get("foo")).containsExactly(1, 3, 7).inOrder();
+    assertThat(multimap.get("google")).containsExactly(2, 6).inOrder();
+    assertThat(multimap.get("tree")).containsExactly(0, 4).inOrder();
   }
 
   public void testOrderedKeySet() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    assertThat(multimap.keySet()).has().exactly("foo", "google", "tree").inOrder();
+    assertThat(multimap.keySet()).containsExactly("foo", "google", "tree").inOrder();
   }
 
   public void testOrderedAsMapEntries() {
@@ -299,18 +299,18 @@ public class TreeMultimapNaturalTest extends TestCase {
         multimap.asMap().entrySet().iterator();
     Map.Entry<String, Collection<Integer>> entry = iterator.next();
     assertEquals("foo", entry.getKey());
-    assertThat(entry.getValue()).has().exactly(1, 3, 7);
+    assertThat(entry.getValue()).containsExactly(1, 3, 7);
     entry = iterator.next();
     assertEquals("google", entry.getKey());
-    assertThat(entry.getValue()).has().exactly(2, 6);
+    assertThat(entry.getValue()).containsExactly(2, 6);
     entry = iterator.next();
     assertEquals("tree", entry.getKey());
-    assertThat(entry.getValue()).has().exactly(0, 4);
+    assertThat(entry.getValue()).containsExactly(0, 4);
   }
 
   public void testOrderedEntries() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    assertThat(multimap.entries()).has().exactly(
+    assertThat(multimap.entries()).containsExactly(
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("foo", 3),
         Maps.immutableEntry("foo", 7),
@@ -322,7 +322,7 @@ public class TreeMultimapNaturalTest extends TestCase {
 
   public void testOrderedValues() {
     TreeMultimap<String, Integer> multimap = createPopulate();
-    assertThat(multimap.values()).has().exactly(
+    assertThat(multimap.values()).containsExactly(
         1, 3, 7, 2, 6, 0, 4).inOrder();
   }
 
@@ -405,8 +405,8 @@ public class TreeMultimapNaturalTest extends TestCase {
     TreeMultimap<String, Integer> multimap = createPopulate();
     TreeMultimap<String, Integer> copy
         = SerializableTester.reserializeAndAssert(multimap);
-    assertThat(copy.values()).has().exactly(1, 3, 7, 2, 6, 0, 4).inOrder();
-    assertThat(copy.keySet()).has().exactly("foo", "google", "tree").inOrder();
+    assertThat(copy.values()).containsExactly(1, 3, 7, 2, 6, 0, 4).inOrder();
+    assertThat(copy.keySet()).containsExactly("foo", "google", "tree").inOrder();
     assertEquals(multimap.keyComparator(), copy.keyComparator());
     assertEquals(multimap.valueComparator(), copy.valueComparator());
   }
@@ -421,9 +421,9 @@ public class TreeMultimapNaturalTest extends TestCase {
     multimap.put(new DerivedComparable("bar"), new DerivedComparable("b"));
     multimap.put(new DerivedComparable("bar"), new DerivedComparable("a"));
     multimap.put(new DerivedComparable("bar"), new DerivedComparable("r"));
-    assertThat(multimap.keySet()).has().exactly(
+    assertThat(multimap.keySet()).containsExactly(
         new DerivedComparable("bar"), new DerivedComparable("foo")).inOrder();
-    assertThat(multimap.values()).has().exactly(
+    assertThat(multimap.values()).containsExactly(
         new DerivedComparable("a"), new DerivedComparable("b"), new DerivedComparable("r"),
         new DerivedComparable("f"), new DerivedComparable("o")).inOrder();
     assertEquals(Ordering.natural(), multimap.keyComparator());
@@ -442,9 +442,9 @@ public class TreeMultimapNaturalTest extends TestCase {
     multimap.put(new LegacyComparable("bar"), new LegacyComparable("b"));
     multimap.put(new LegacyComparable("bar"), new LegacyComparable("a"));
     multimap.put(new LegacyComparable("bar"), new LegacyComparable("r"));
-    assertThat(multimap.keySet()).has().exactly(
+    assertThat(multimap.keySet()).containsExactly(
         new LegacyComparable("bar"), new LegacyComparable("foo")).inOrder();
-    assertThat(multimap.values()).has().exactly(
+    assertThat(multimap.values()).containsExactly(
         new LegacyComparable("a"),
         new LegacyComparable("b"),
         new LegacyComparable("r"),

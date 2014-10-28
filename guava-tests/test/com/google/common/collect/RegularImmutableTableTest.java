@@ -63,7 +63,7 @@ public class RegularImmutableTableTest extends AbstractImmutableTableTest {
     for (ImmutableTable<Character, Integer, String> testInstance :
         getTestInstances()) {
       assertThat(testInstance.values())
-          .has().exactly("foo", "bar", "baz")
+          .containsExactly("foo", "bar", "baz")
           .inOrder();
     }
   }
