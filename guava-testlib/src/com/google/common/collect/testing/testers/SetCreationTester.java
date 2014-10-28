@@ -54,7 +54,7 @@ public class SetCreationTester<E> extends AbstractSetTester<E> {
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testCreateWithDuplicates_nonNullDuplicatesNotRejected() {
     E[] array = createSamplesArray();
-    array[1] = samples.e0;
+    array[1] = samples.e0();
     collection = getSubjectGenerator().create(array);
 
     List<E> expectedWithDuplicateRemoved =
@@ -79,7 +79,7 @@ public class SetCreationTester<E> extends AbstractSetTester<E> {
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testCreateWithDuplicates_nonNullDuplicatesRejected() {
     E[] array = createSamplesArray();
-    array[1] = samples.e0;
+    array[1] = samples.e0();
     try {
       collection = getSubjectGenerator().create(array);
       fail("Should reject duplicate non-null elements at creation");

@@ -47,7 +47,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   public void testEquals_otherMapWithDifferentEntries() {
     Map<K, V> other = newHashMap(getSampleEntries(getNumEntries() - 1));
-    Entry<K, V> e3 = getSubjectGenerator().samples().e3;
+    Entry<K, V> e3 = getSubjectGenerator().samples().e3();
     other.put(e3.getKey(), e3.getValue());
     assertFalse(
         "A Map should not equal another Map containing different entries.",
@@ -59,7 +59,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testEquals_containingNullKey() {
     Collection<Map.Entry<K, V>> entries = getSampleEntries(getNumEntries() - 1);
-    entries.add(entry(null, samples.e3.getValue()));
+    entries.add(entry(null, samples.e3().getValue()));
 
     resetContainer(getSubjectGenerator().create(entries.toArray()));
     assertTrue("A Map should equal any other Map containing the same entries,"
@@ -70,7 +70,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   public void testEquals_otherContainsNullKey() {
     Collection<Map.Entry<K, V>> entries = getSampleEntries(getNumEntries() - 1);
-    entries.add(entry(null, samples.e3.getValue()));
+    entries.add(entry(null, samples.e3().getValue()));
     Map<K, V> other = newHashMap(entries);
 
     assertFalse(
@@ -83,7 +83,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(ALLOWS_NULL_VALUES)
   public void testEquals_containingNullValue() {
     Collection<Map.Entry<K, V>> entries = getSampleEntries(getNumEntries() - 1);
-    entries.add(entry(samples.e3.getKey(), null));
+    entries.add(entry(samples.e3().getKey(), null));
 
     resetContainer(getSubjectGenerator().create(entries.toArray()));
     assertTrue("A Map should equal any other Map containing the same entries,"
@@ -94,7 +94,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   public void testEquals_otherContainsNullValue() {
     Collection<Map.Entry<K, V>> entries = getSampleEntries(getNumEntries() - 1);
-    entries.add(entry(samples.e3.getKey(), null));
+    entries.add(entry(samples.e3().getKey(), null));
     Map<K, V> other = newHashMap(entries);
 
     assertFalse(

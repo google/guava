@@ -109,8 +109,8 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(ZERO)
   public void testEmptyMultisetNearby() {
     for (BoundType type : BoundType.values()) {
-      assertNull(sortedMultiset.headMultiset(samples.e0, type).lastEntry());
-      assertNull(sortedMultiset.tailMultiset(samples.e0, type).firstEntry());
+      assertNull(sortedMultiset.headMultiset(samples.e0(), type).lastEntry());
+      assertNull(sortedMultiset.tailMultiset(samples.e0(), type).firstEntry());
     }
   }
 
@@ -143,11 +143,11 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
 
   @CollectionSize.Require(ONE)
   public void testSingletonMultisetNearby() {
-    assertNull(sortedMultiset.headMultiset(samples.e0, OPEN).lastEntry());
-    assertNull(sortedMultiset.tailMultiset(samples.e0, OPEN).lastEntry());
+    assertNull(sortedMultiset.headMultiset(samples.e0(), OPEN).lastEntry());
+    assertNull(sortedMultiset.tailMultiset(samples.e0(), OPEN).lastEntry());
 
-    assertEquals(a, sortedMultiset.headMultiset(samples.e0, CLOSED).lastEntry());
-    assertEquals(a, sortedMultiset.tailMultiset(samples.e0, CLOSED).firstEntry());
+    assertEquals(a, sortedMultiset.headMultiset(samples.e0(), CLOSED).lastEntry());
+    assertEquals(a, sortedMultiset.tailMultiset(samples.e0(), CLOSED).firstEntry());
   }
 
   @CollectionSize.Require(ONE)

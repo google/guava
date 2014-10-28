@@ -39,26 +39,26 @@ public class MultisetElementSetTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testElementSetReflectsAddAbsent() {
     Set<E> elementSet = getMultiset().elementSet();
-    assertFalse(elementSet.contains(samples.e3));
-    getMultiset().add(samples.e3, 4);
-    assertTrue(elementSet.contains(samples.e3));
+    assertFalse(elementSet.contains(samples.e3()));
+    getMultiset().add(samples.e3(), 4);
+    assertTrue(elementSet.contains(samples.e3()));
   }
   
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testElementSetReflectsRemove() {
     Set<E> elementSet = getMultiset().elementSet();
-    assertTrue(elementSet.contains(samples.e0));
-    getMultiset().removeAll(Collections.singleton(samples.e0));
-    assertFalse(elementSet.contains(samples.e0));
+    assertTrue(elementSet.contains(samples.e0()));
+    getMultiset().removeAll(Collections.singleton(samples.e0()));
+    assertFalse(elementSet.contains(samples.e0()));
   }
 
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testElementSetRemovePropagatesToMultiset() {
     Set<E> elementSet = getMultiset().elementSet();
-    assertTrue(elementSet.remove(samples.e0));
-    assertFalse(getMultiset().contains(samples.e0));
+    assertTrue(elementSet.remove(samples.e0()));
+    assertFalse(getMultiset().contains(samples.e0()));
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -66,14 +66,14 @@ public class MultisetElementSetTester<E> extends AbstractMultisetTester<E> {
   public void testElementSetRemoveDuplicatePropagatesToMultiset() {
     initThreeCopies();
     Set<E> elementSet = getMultiset().elementSet();
-    assertTrue(elementSet.remove(samples.e0));
+    assertTrue(elementSet.remove(samples.e0()));
     assertThat(getMultiset()).isEmpty();
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testElementSetRemoveAbsent() {
     Set<E> elementSet = getMultiset().elementSet();
-    assertFalse(elementSet.remove(samples.e3));
+    assertFalse(elementSet.remove(samples.e3()));
     expectUnchanged();
   }
   

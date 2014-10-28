@@ -88,14 +88,14 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
 
   @CollectionSize.Require(ZERO)
   public void testEmptyMapNearby() {
-    assertNull(navigableMap.lowerEntry(samples.e0.getKey()));
-    assertNull(navigableMap.lowerKey(samples.e0.getKey()));
-    assertNull(navigableMap.floorEntry(samples.e0.getKey()));
-    assertNull(navigableMap.floorKey(samples.e0.getKey()));
-    assertNull(navigableMap.ceilingEntry(samples.e0.getKey()));
-    assertNull(navigableMap.ceilingKey(samples.e0.getKey()));
-    assertNull(navigableMap.higherEntry(samples.e0.getKey()));
-    assertNull(navigableMap.higherKey(samples.e0.getKey()));
+    assertNull(navigableMap.lowerEntry(samples.e0().getKey()));
+    assertNull(navigableMap.lowerKey(samples.e0().getKey()));
+    assertNull(navigableMap.floorEntry(samples.e0().getKey()));
+    assertNull(navigableMap.floorKey(samples.e0().getKey()));
+    assertNull(navigableMap.ceilingEntry(samples.e0().getKey()));
+    assertNull(navigableMap.ceilingKey(samples.e0().getKey()));
+    assertNull(navigableMap.higherEntry(samples.e0().getKey()));
+    assertNull(navigableMap.higherKey(samples.e0().getKey()));
   }
 
   @CollectionSize.Require(ZERO)
@@ -123,14 +123,14 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
 
   @CollectionSize.Require(ONE)
   public void testSingletonMapNearby() {
-    assertNull(navigableMap.lowerEntry(samples.e0.getKey()));
-    assertNull(navigableMap.lowerKey(samples.e0.getKey()));
-    assertEquals(a, navigableMap.floorEntry(samples.e0.getKey()));
-    assertEquals(a.getKey(), navigableMap.floorKey(samples.e0.getKey()));
-    assertEquals(a, navigableMap.ceilingEntry(samples.e0.getKey()));
-    assertEquals(a.getKey(), navigableMap.ceilingKey(samples.e0.getKey()));
-    assertNull(navigableMap.higherEntry(samples.e0.getKey()));
-    assertNull(navigableMap.higherKey(samples.e0.getKey()));
+    assertNull(navigableMap.lowerEntry(samples.e0().getKey()));
+    assertNull(navigableMap.lowerKey(samples.e0().getKey()));
+    assertEquals(a, navigableMap.floorEntry(samples.e0().getKey()));
+    assertEquals(a.getKey(), navigableMap.floorKey(samples.e0().getKey()));
+    assertEquals(a, navigableMap.ceilingEntry(samples.e0().getKey()));
+    assertEquals(a.getKey(), navigableMap.ceilingKey(samples.e0().getKey()));
+    assertNull(navigableMap.higherEntry(samples.e0().getKey()));
+    assertNull(navigableMap.higherKey(samples.e0().getKey()));
   }
 
   @CollectionSize.Require(ONE)

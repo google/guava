@@ -31,11 +31,11 @@ public class MultisetContainsTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testContainsAllMultisetIgnoresFrequency() {
     assertTrue(getMultiset()
-        .containsAll(getSubjectGenerator().create(samples.e0, samples.e0, samples.e0)));
+        .containsAll(getSubjectGenerator().create(samples.e0(), samples.e0(), samples.e0())));
   }
   
   @CollectionSize.Require(absent = ZERO)
   public void testContainsAllListIgnoresFrequency() {
-    assertTrue(getMultiset().containsAll(Arrays.asList(samples.e0, samples.e0, samples.e0)));
+    assertTrue(getMultiset().containsAll(Arrays.asList(samples.e0(), samples.e0(), samples.e0())));
   }
 }

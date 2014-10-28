@@ -164,8 +164,8 @@ public class SortedMultisetTestSuiteBuilder<E> extends
     SampleElements<E> samples = delegate.samples();
     @SuppressWarnings("unchecked")
     List<E> samplesList =
-        Arrays.asList(samples.e0, samples.e1, samples.e2, samples.e3,
-            samples.e4);
+        Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(),
+            samples.e4());
 
     Collections.sort(samplesList, comparator);
     final E firstInclusive = samplesList.get(0);

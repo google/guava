@@ -93,9 +93,9 @@ public class MultimapSizeTester<K, V> extends AbstractMultimapTester<K, V, Multi
   @CollectionSize.Require(SEVERAL)
   public void testSizeMultipleValues() {
     resetContainer(
-        mapEntry(sampleKeys().e0, sampleValues().e0),
-        mapEntry(sampleKeys().e0, sampleValues().e1),
-        mapEntry(sampleKeys().e0, sampleValues().e2));
+        mapEntry(sampleKeys().e0(), sampleValues().e0()),
+        mapEntry(sampleKeys().e0(), sampleValues().e1()),
+        mapEntry(sampleKeys().e0(), sampleValues().e2()));
 
     assertEquals(3, multimap().size());
     assertEquals(3, multimap().entries().size());

@@ -35,11 +35,11 @@ public class MultimapContainsValueTester<K, V>
     extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(absent = ZERO)
   public void testContainsValueYes() {
-    assertTrue(multimap().containsValue(sampleValues().e0));
+    assertTrue(multimap().containsValue(sampleValues().e0()));
   }
 
   public void testContainsValueNo() {
-    assertFalse(multimap().containsValue(sampleValues().e3));
+    assertFalse(multimap().containsValue(sampleValues().e3()));
   }
 
   @MapFeature.Require(ALLOWS_NULL_VALUES)

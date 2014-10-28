@@ -50,7 +50,7 @@ public class MapToStringTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(ONE)
   public void testToString_size1() {
     assertEquals(
-        "size1Map.toString should return {entry}", "{" + samples.e0 + "}", getMap().toString());
+        "size1Map.toString should return {entry}", "{" + samples.e0() + "}", getMap().toString());
   }
 
   @CollectionSize.Require(absent = ZERO)

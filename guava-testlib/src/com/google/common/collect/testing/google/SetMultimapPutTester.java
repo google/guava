@@ -42,7 +42,7 @@ public class SetMultimapPutTester<K, V>
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutDuplicateValuePreservesSize() {
-    assertFalse(multimap().put(sampleKeys().e0, sampleValues().e0));
+    assertFalse(multimap().put(sampleKeys().e0(), sampleValues().e0()));
     assertEquals(getNumElements(), multimap().size());
   }
 

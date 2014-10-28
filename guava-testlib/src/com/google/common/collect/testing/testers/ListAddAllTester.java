@@ -38,15 +38,15 @@ public class ListAddAllTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testAddAll_supportedAllPresent() {
     assertTrue("addAll(allPresent) should return true",
-        getList().addAll(MinimalCollection.of(samples.e0)));
-    expectAdded(samples.e0);
+        getList().addAll(MinimalCollection.of(samples.e0())));
+    expectAdded(samples.e0());
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAll_unsupportedAllPresent() {
     try {
-      getList().addAll(MinimalCollection.of(samples.e0));
+      getList().addAll(MinimalCollection.of(samples.e0()));
       fail("addAll(allPresent) should throw");
     } catch (UnsupportedOperationException expected) {
     }
@@ -56,9 +56,9 @@ public class ListAddAllTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_withDuplicates() {
     MinimalCollection<E> elementsToAdd
-        = MinimalCollection.of(samples.e0, samples.e1, samples.e0, samples.e1);
+        = MinimalCollection.of(samples.e0(), samples.e1(), samples.e0(), samples.e1());
     assertTrue("addAll(hasDuplicates) should return true",
         getList().addAll(elementsToAdd));
-    expectAdded(samples.e0, samples.e1, samples.e0, samples.e1);
+    expectAdded(samples.e0(), samples.e1(), samples.e0(), samples.e1());
   }
 }

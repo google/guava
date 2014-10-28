@@ -239,14 +239,14 @@ public class ImmutableMapTest extends TestCase {
     @Override protected Map<Object, Integer> makePopulatedMap() {
       Colliders colliders = new Colliders();
       return ImmutableMap.of(
-          colliders.e0, 0,
-          colliders.e1, 1,
-          colliders.e2, 2,
-          colliders.e3, 3);
+          colliders.e0(), 0,
+          colliders.e1(), 1,
+          colliders.e2(), 2,
+          colliders.e3(), 3);
     }
 
     @Override protected Object getKeyNotInPopulatedMap() {
-      return new Colliders().e4;
+      return new Colliders().e4();
     }
 
     @Override protected Integer getValueNotInPopulatedMap() {
@@ -264,7 +264,7 @@ public class ImmutableMapTest extends TestCase {
     @Override protected Map<Integer, UnhashableObject> makePopulatedMap() {
       Unhashables unhashables = new Unhashables();
       return ImmutableMap.of(
-          0, unhashables.e0, 1, unhashables.e1, 2, unhashables.e2);
+          0, unhashables.e0(), 1, unhashables.e1(), 2, unhashables.e2());
     }
 
     @Override protected Integer getKeyNotInPopulatedMap() {
@@ -272,7 +272,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     @Override protected UnhashableObject getValueNotInPopulatedMap() {
-      return new Unhashables().e3;
+      return new Unhashables().e3();
     }
   }
 
@@ -281,7 +281,7 @@ public class ImmutableMapTest extends TestCase {
       extends MapTestsWithUnhashableValues {
     @Override protected Map<Integer, UnhashableObject> makePopulatedMap() {
       Unhashables unhashables = new Unhashables();
-      return ImmutableMap.of(0, unhashables.e0);
+      return ImmutableMap.of(0, unhashables.e0());
     }
   }
 

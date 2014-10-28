@@ -56,23 +56,23 @@ public class MultimapKeySetTester<K, V> extends AbstractMultimapTester<K, V, Mul
   
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testKeySetRemovePropagatesToMultimap() {
-    int key0Count = multimap().get(sampleKeys().e0).size();
-    assertEquals(key0Count > 0, multimap().keySet().remove(sampleKeys().e0));
+    int key0Count = multimap().get(sampleKeys().e0()).size();
+    assertEquals(key0Count > 0, multimap().keySet().remove(sampleKeys().e0()));
     assertEquals(getNumElements() - key0Count, multimap().size());
-    assertGet(sampleKeys().e0);
+    assertGet(sampleKeys().e0());
   }
   
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   public void testKeySetIteratorRemove() {
-    int key0Count = multimap().get(sampleKeys().e0).size();
+    int key0Count = multimap().get(sampleKeys().e0()).size();
     Iterator<K> keyItr = multimap().keySet().iterator();
     while (keyItr.hasNext()) {
-      if (keyItr.next().equals(sampleKeys().e0)) {
+      if (keyItr.next().equals(sampleKeys().e0())) {
         keyItr.remove();
       }
     }
     assertEquals(getNumElements() - key0Count, multimap().size());
-    assertGet(sampleKeys().e0);
+    assertGet(sampleKeys().e0());
   }
 }

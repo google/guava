@@ -50,7 +50,7 @@ public abstract class AbstractListIndexOfTester<E>
 
   public void testFind_no() {
     assertEquals(getMethodName() + "(notPresent) should return -1",
-        -1, find(samples.e3));
+        -1, find(samples.e3()));
   }
 
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
@@ -74,7 +74,7 @@ public abstract class AbstractListIndexOfTester<E>
   public void testFind_nonNullWhenNullContained() {
     initCollectionWithNullElement();
     assertEquals(getMethodName() + "(notPresent) should return -1",
-        -1, find(samples.e3));
+        -1, find(samples.e3()));
   }
 
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)

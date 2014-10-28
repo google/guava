@@ -34,45 +34,45 @@ public class MultisetAddTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   public void testAddUnsupported() {
     try {
-      getMultiset().add(samples.e0);
+      getMultiset().add(samples.e0());
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {}
   }
   
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddMeansAddOne() {
-    int originalCount = getMultiset().count(samples.e0);
-    assertTrue(getMultiset().add(samples.e0));
-    assertEquals(originalCount + 1, getMultiset().count(samples.e0));
+    int originalCount = getMultiset().count(samples.e0());
+    assertTrue(getMultiset().add(samples.e0()));
+    assertEquals(originalCount + 1, getMultiset().count(samples.e0()));
   }
   
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddOccurrencesZero() {
-    int originalCount = getMultiset().count(samples.e0);
-    assertEquals("old count", originalCount, getMultiset().add(samples.e0, 0));
+    int originalCount = getMultiset().count(samples.e0());
+    assertEquals("old count", originalCount, getMultiset().add(samples.e0(), 0));
     expectUnchanged();
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddOccurrences() {
-    int originalCount = getMultiset().count(samples.e0);
-    assertEquals("old count", originalCount, getMultiset().add(samples.e0, 2));
-    assertEquals("old count", originalCount + 2, getMultiset().count(samples.e0));
+    int originalCount = getMultiset().count(samples.e0());
+    assertEquals("old count", originalCount, getMultiset().add(samples.e0(), 2));
+    assertEquals("old count", originalCount + 2, getMultiset().count(samples.e0()));
   }
   
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddSeveralTimes() {
-    int originalCount = getMultiset().count(samples.e0);
-    assertEquals(originalCount, getMultiset().add(samples.e0, 2));
-    assertTrue(getMultiset().add(samples.e0));
-    assertEquals(originalCount + 3, getMultiset().add(samples.e0, 1));
-    assertEquals(originalCount + 4, getMultiset().count(samples.e0));
+    int originalCount = getMultiset().count(samples.e0());
+    assertEquals(originalCount, getMultiset().add(samples.e0(), 2));
+    assertTrue(getMultiset().add(samples.e0()));
+    assertEquals(originalCount + 3, getMultiset().add(samples.e0(), 1));
+    assertEquals(originalCount + 4, getMultiset().count(samples.e0()));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   public void testAddOccurrences_unsupported() {
     try {
-      getMultiset().add(samples.e0, 2);
+      getMultiset().add(samples.e0(), 2);
       fail("unsupported multiset.add(E, int) didn't throw exception");
     } catch (UnsupportedOperationException required) {}
   }
@@ -80,19 +80,19 @@ public class MultisetAddTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddOccurrencesNegative() {
     try {
-      getMultiset().add(samples.e0, -1);
+      getMultiset().add(samples.e0(), -1);
       fail("multiset.add(E, -1) didn't throw an exception");
     } catch (IllegalArgumentException required) {}
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddTooMany() {
-    getMultiset().add(samples.e3, Integer.MAX_VALUE);
+    getMultiset().add(samples.e3(), Integer.MAX_VALUE);
     try {
-      getMultiset().add(samples.e3);
+      getMultiset().add(samples.e3());
       fail();
     } catch (IllegalArgumentException expected) {}
-    assertEquals(Integer.MAX_VALUE, getMultiset().count(samples.e3));
+    assertEquals(Integer.MAX_VALUE, getMultiset().count(samples.e3()));
     assertEquals(Integer.MAX_VALUE, getMultiset().size());
   }
   
@@ -110,14 +110,14 @@ public class MultisetAddTester<E> extends AbstractMultisetTester<E> {
   
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_nonEmptyList() {
-    assertTrue(getMultiset().addAll(Arrays.asList(samples.e3, samples.e4, samples.e3)));
-    expectAdded(samples.e3, samples.e4, samples.e3);
+    assertTrue(getMultiset().addAll(Arrays.asList(samples.e3(), samples.e4(), samples.e3())));
+    expectAdded(samples.e3(), samples.e4(), samples.e3());
   }
   
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_nonEmptyMultiset() {
     assertTrue(getMultiset().addAll(
-        getSubjectGenerator().create(samples.e3, samples.e4, samples.e3)));
-    expectAdded(samples.e3, samples.e4, samples.e3);
+        getSubjectGenerator().create(samples.e3(), samples.e4(), samples.e3())));
+    expectAdded(samples.e3(), samples.e4(), samples.e3());
   }
 }

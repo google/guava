@@ -49,10 +49,10 @@ public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
   public void testRemove_present() {
     int initialSize = getMap().size();
     assertEquals("remove(present) should return the associated value",
-        samples.e0.getValue(), getMap().remove(samples.e0.getKey()));
+        samples.e0().getValue(), getMap().remove(samples.e0().getKey()));
     assertEquals("remove(present) should decrease a map's size by one.",
         initialSize - 1, getMap().size());
-    expectMissing(samples.e0);
+    expectMissing(samples.e0());
   }
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION,
@@ -61,7 +61,7 @@ public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
   public void testRemovePresentConcurrentWithEntrySetIteration() {
     try {
       Iterator<Entry<K, V>> iterator = getMap().entrySet().iterator();
-      getMap().remove(samples.e0.getKey());
+      getMap().remove(samples.e0().getKey());
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -75,7 +75,7 @@ public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
   public void testRemovePresentConcurrentWithKeySetIteration() {
     try {
       Iterator<K> iterator = getMap().keySet().iterator();
-      getMap().remove(samples.e0.getKey());
+      getMap().remove(samples.e0().getKey());
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -89,7 +89,7 @@ public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
   public void testRemovePresentConcurrentWithValuesIteration() {
     try {
       Iterator<V> iterator = getMap().values().iterator();
-      getMap().remove(samples.e0.getKey());
+      getMap().remove(samples.e0().getKey());
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -100,7 +100,7 @@ public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemove_notPresent() {
     assertNull("remove(notPresent) should return null",
-        getMap().remove(samples.e3.getKey()));
+        getMap().remove(samples.e3().getKey()));
     expectUnchanged();
   }
 
@@ -121,13 +121,13 @@ public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testRemove_unsupported() {
     try {
-      getMap().remove(samples.e0.getKey());
+      getMap().remove(samples.e0().getKey());
       fail("remove(present) should throw UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {
     }
     expectUnchanged();
     assertEquals("remove(present) should not remove the element",
-        samples.e0.getValue(), get(samples.e0.getKey()));
+        samples.e0().getValue(), get(samples.e0().getKey()));
   }
 
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
@@ -135,11 +135,11 @@ public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
     try {
       assertNull("remove(notPresent) should return null or throw "
           + "UnsupportedOperationException",
-          getMap().remove(samples.e3.getKey()));
+          getMap().remove(samples.e3().getKey()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
-    expectMissing(samples.e3);
+    expectMissing(samples.e3());
   }
 
   @MapFeature.Require(

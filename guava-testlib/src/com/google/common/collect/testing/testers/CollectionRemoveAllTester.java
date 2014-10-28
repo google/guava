@@ -55,7 +55,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAll_nonePresent() {
     assertFalse("removeAll(disjointCollection) should return false",
-        collection.removeAll(MinimalCollection.of(samples.e3)));
+        collection.removeAll(MinimalCollection.of(samples.e3())));
     expectUnchanged();
   }
 
@@ -63,16 +63,16 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_allPresent() {
     assertTrue("removeAll(intersectingCollection) should return true",
-        collection.removeAll(MinimalCollection.of(samples.e0)));
-    expectMissing(samples.e0);
+        collection.removeAll(MinimalCollection.of(samples.e0())));
+    expectMissing(samples.e0());
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_somePresent() {
     assertTrue("removeAll(intersectingCollection) should return true",
-        collection.removeAll(MinimalCollection.of(samples.e0, samples.e3)));
-    expectMissing(samples.e0);
+        collection.removeAll(MinimalCollection.of(samples.e0(), samples.e3())));
+    expectMissing(samples.e0());
   }
 
   @CollectionFeature.Require({SUPPORTS_REMOVE,
@@ -81,7 +81,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
   public void testRemoveAllSomePresentConcurrentWithIteration() {
     try {
       Iterator<E> iterator = collection.iterator();
-      assertTrue(collection.removeAll(MinimalCollection.of(samples.e0, samples.e3)));
+      assertTrue(collection.removeAll(MinimalCollection.of(samples.e0(), samples.e3())));
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -97,9 +97,9 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
   public void testRemoveAll_somePresentLargeCollectionToRemove() {
     assertTrue("removeAll(largeIntersectingCollection) should return true",
         collection.removeAll(MinimalCollection.of(
-            samples.e0, samples.e0, samples.e0,
-            samples.e3, samples.e3, samples.e3)));
-    expectMissing(samples.e0);
+            samples.e0(), samples.e0(), samples.e0(),
+            samples.e3(), samples.e3(), samples.e3())));
+    expectMissing(samples.e0());
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
@@ -118,7 +118,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     try {
       assertFalse("removeAll(disjointCollection) should return false or throw "
           + "UnsupportedOperationException",
-        collection.removeAll(MinimalCollection.of(samples.e3)));
+        collection.removeAll(MinimalCollection.of(samples.e3())));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
@@ -128,13 +128,13 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_unsupportedPresent() {
     try {
-      collection.removeAll(MinimalCollection.of(samples.e0));
+      collection.removeAll(MinimalCollection.of(samples.e0()));
       fail("removeAll(intersectingCollection) should throw "
           + "UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {
     }
     expectUnchanged();
-    assertTrue(collection.contains(samples.e0));
+    assertTrue(collection.contains(samples.e0()));
   }
 
   /*

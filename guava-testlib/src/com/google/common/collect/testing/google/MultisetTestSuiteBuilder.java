@@ -205,11 +205,11 @@ public class MultisetTestSuiteBuilder<E> extends
     public SampleElements<Multiset.Entry<E>> samples() {
       SampleElements<E> samples = gen.samples();
       return new SampleElements<Multiset.Entry<E>>(
-          Multisets.immutableEntry(samples.e0, 3),
-          Multisets.immutableEntry(samples.e1, 4),
-          Multisets.immutableEntry(samples.e2, 1),
-          Multisets.immutableEntry(samples.e3, 5),
-          Multisets.immutableEntry(samples.e4, 2));
+          Multisets.immutableEntry(samples.e0(), 3),
+          Multisets.immutableEntry(samples.e1(), 4),
+          Multisets.immutableEntry(samples.e2(), 1),
+          Multisets.immutableEntry(samples.e3(), 5),
+          Multisets.immutableEntry(samples.e4(), 2));
     }
 
     @Override

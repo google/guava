@@ -38,24 +38,24 @@ public class SetAddAllTester<E> extends AbstractSetTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testAddAll_supportedSomePresent() {
     assertTrue("add(somePresent) should return true",
-        getSet().addAll(MinimalCollection.of(samples.e3, samples.e0)));
-    expectAdded(samples.e3);
+        getSet().addAll(MinimalCollection.of(samples.e3(), samples.e0())));
+    expectAdded(samples.e3());
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_withDuplicates() {
     MinimalCollection<E> elementsToAdd
-        = MinimalCollection.of(samples.e3, samples.e4, samples.e3, samples.e4);
+        = MinimalCollection.of(samples.e3(), samples.e4(), samples.e3(), samples.e4());
     assertTrue("add(hasDuplicates) should return true",
         getSet().addAll(elementsToAdd));
-    expectAdded(samples.e3, samples.e4);
+    expectAdded(samples.e3(), samples.e4());
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAll_supportedAllPresent() {
     assertFalse("add(allPresent) should return false",
-        getSet().addAll(MinimalCollection.of(samples.e0)));
+        getSet().addAll(MinimalCollection.of(samples.e0())));
     expectUnchanged();
   }
 }

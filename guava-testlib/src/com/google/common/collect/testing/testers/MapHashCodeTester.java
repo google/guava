@@ -48,14 +48,14 @@ public class MapHashCodeTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testHashCode_containingNullKey() {
-    Map.Entry<K, V> entryWithNull = entry(null, samples.e3.getValue());
+    Map.Entry<K, V> entryWithNull = entry(null, samples.e3().getValue());
     runEntryWithNullTest(entryWithNull);
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   @MapFeature.Require(ALLOWS_NULL_VALUES)
   public void testHashCode_containingNullValue() {
-    Map.Entry<K, V> entryWithNull = entry(samples.e3.getKey(), null);
+    Map.Entry<K, V> entryWithNull = entry(samples.e3().getKey(), null);
     runEntryWithNullTest(entryWithNull);
   }
 

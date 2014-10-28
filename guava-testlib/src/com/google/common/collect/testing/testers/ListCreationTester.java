@@ -37,7 +37,7 @@ public class ListCreationTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testCreateWithDuplicates() {
     E[] array = createSamplesArray();
-    array[1] = samples.e0;
+    array[1] = samples.e0();
     collection = getSubjectGenerator().create(array);
 
     expectContents(array);

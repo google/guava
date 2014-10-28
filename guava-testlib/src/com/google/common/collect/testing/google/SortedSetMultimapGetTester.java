@@ -30,6 +30,6 @@ public class SortedSetMultimapGetTester<K, V>
   public void testValueComparator() {
     assertEquals(
         multimap().valueComparator(),
-        multimap().get(sampleKeys().e0).comparator());
+        multimap().get(sampleKeys().e0()).comparator());
   }
 }

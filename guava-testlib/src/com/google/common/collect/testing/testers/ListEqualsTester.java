@@ -43,7 +43,7 @@ public class ListEqualsTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   public void testEquals_otherListWithDifferentElements() {
     ArrayList<E> other = new ArrayList<E>(getSampleElements());
-    other.set(other.size() / 2, getSubjectGenerator().samples().e3);
+    other.set(other.size() / 2, getSubjectGenerator().samples().e3());
     assertFalse(
         "A List should not equal another List containing different elements.",
         getList().equals(other));

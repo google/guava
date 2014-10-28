@@ -45,19 +45,19 @@ import java.util.Map.Entry;
 public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAbsent() {
-    assertFalse(multimap().remove(sampleKeys().e0, sampleValues().e1));
+    assertFalse(multimap().remove(sampleKeys().e0(), sampleValues().e1()));
     expectUnchanged();
   }
 
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemovePresent() {
-    assertTrue(multimap().remove(sampleKeys().e0, sampleValues().e0));
+    assertTrue(multimap().remove(sampleKeys().e0(), sampleValues().e0()));
 
-    assertFalse(multimap().containsEntry(sampleKeys().e0, sampleValues().e0));
-    expectMissing(samples.e0);
+    assertFalse(multimap().containsEntry(sampleKeys().e0(), sampleValues().e0()));
+    expectMissing(samples.e0());
     assertEquals(getNumElements() - 1, multimap().size());
-    assertGet(sampleKeys().e0, ImmutableList.<V>of());
+    assertGet(sampleKeys().e0(), ImmutableList.<V>of());
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -84,20 +84,20 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
 
   @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_NULL_KEY_QUERIES})
   public void testRemoveNullKeyAbsent() {
-    assertFalse(multimap().remove(null, sampleValues().e0));
+    assertFalse(multimap().remove(null, sampleValues().e0()));
     expectUnchanged();
   }
 
   @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_NULL_VALUE_QUERIES})
   public void testRemoveNullValueAbsent() {
-    assertFalse(multimap().remove(sampleKeys().e0, null));
+    assertFalse(multimap().remove(sampleKeys().e0(), null));
     expectUnchanged();
   }
 
   @MapFeature.Require(value = SUPPORTS_REMOVE, absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testRemoveNullValueForbidden() {
     try {
-      multimap().remove(sampleKeys().e0, null);
+      multimap().remove(sampleKeys().e0(), null);
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
       // success
@@ -108,7 +108,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
   @MapFeature.Require(value = SUPPORTS_REMOVE, absent = ALLOWS_NULL_KEY_QUERIES)
   public void testRemoveNullKeyForbidden() {
     try {
-      multimap().remove(null, sampleValues().e0);
+      multimap().remove(null, sampleValues().e0());
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
       // success

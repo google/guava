@@ -40,38 +40,38 @@ import java.util.Collection;
 public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllAbsentKey() {
-    assertThat(multimap().removeAll(sampleKeys().e3)).isEmpty();
+    assertThat(multimap().removeAll(sampleKeys().e3())).isEmpty();
     expectUnchanged();
   }
 
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllPresentKey() {
-    assertThat(multimap().removeAll(sampleKeys().e0)).containsExactly(sampleValues().e0);
-    expectMissing(samples.e0);
+    assertThat(multimap().removeAll(sampleKeys().e0())).containsExactly(sampleValues().e0());
+    expectMissing(samples.e0());
   }
 
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllPropagatesToGet() {
-    Collection<V> getResult = multimap().get(sampleKeys().e0);
+    Collection<V> getResult = multimap().get(sampleKeys().e0());
 
-    multimap().removeAll(sampleKeys().e0);
+    multimap().removeAll(sampleKeys().e0());
 
     assertThat(getResult).isEmpty();
-    expectMissing(samples.e0);
+    expectMissing(samples.e0());
   }
 
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllMultipleValues() {
     resetContainer(
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e1),
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e2));
+        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e0()),
+        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e1()),
+        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e2()));
 
-    assertThat(multimap().removeAll(sampleKeys().e0))
-        .containsExactly(sampleValues().e0, sampleValues().e1, sampleValues().e2);
+    assertThat(multimap().removeAll(sampleKeys().e0()))
+        .containsExactly(sampleValues().e0(), sampleValues().e1(), sampleValues().e2());
     assertTrue(multimap().isEmpty());
   }
 

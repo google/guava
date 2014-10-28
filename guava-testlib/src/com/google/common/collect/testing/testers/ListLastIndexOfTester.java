@@ -45,10 +45,10 @@ public class ListLastIndexOfTester<E> extends AbstractListIndexOfTester<E> {
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testLastIndexOf_duplicate() {
     E[] array = createSamplesArray();
-    array[getNumElements() / 2] = samples.e0;
+    array[getNumElements() / 2] = samples.e0();
     collection = getSubjectGenerator().create(array);
     assertEquals(
         "lastIndexOf(duplicate) should return index of last occurrence",
-        getNumElements() / 2, getList().lastIndexOf(samples.e0));
+        getNumElements() / 2, getList().lastIndexOf(samples.e0()));
   }
 }

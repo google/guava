@@ -49,7 +49,7 @@ public class CollectionContainsAllTester<E>
   @CollectionSize.Require(absent = ZERO)
   public void testContainsAll_subset() {
     assertTrue("containsAll(subset) should return true",
-        collection.containsAll(MinimalCollection.of(samples.e0)));
+        collection.containsAll(MinimalCollection.of(samples.e0())));
   }
 
   public void testContainsAll_sameElements() {
@@ -65,12 +65,12 @@ public class CollectionContainsAllTester<E>
 
   public void testContainsAll_partialOverlap() {
     assertFalse("containsAll(partialOverlap) should return false",
-        collection.containsAll(MinimalCollection.of(samples.e0, samples.e3)));
+        collection.containsAll(MinimalCollection.of(samples.e0(), samples.e3())));
   }
 
   public void testContainsAll_disjoint() {
     assertFalse("containsAll(disjoint) should return false",
-        collection.containsAll(MinimalCollection.of(samples.e3)));
+        collection.containsAll(MinimalCollection.of(samples.e3())));
   }
 
   @CollectionFeature.Require(absent = ALLOWS_NULL_QUERIES)

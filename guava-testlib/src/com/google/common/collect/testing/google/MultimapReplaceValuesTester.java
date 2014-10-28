@@ -47,9 +47,9 @@ public class MultimapReplaceValuesTester<K, V>
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE, ALLOWS_NULL_VALUES})
   public void testReplaceValuesWithNullValue() {
     int size = multimap().size();
-    K key = sampleKeys().e0;
+    K key = sampleKeys().e0();
     @SuppressWarnings("unchecked")
-    List<V> values = Arrays.asList(sampleValues().e0, null, sampleValues().e3);
+    List<V> values = Arrays.asList(sampleValues().e0(), null, sampleValues().e3());
     multimap().replaceValues(key, values);
     assertGet(key, values);
   }
@@ -59,7 +59,7 @@ public class MultimapReplaceValuesTester<K, V>
     int size = multimap().size();
     K key = null;
     @SuppressWarnings("unchecked")
-    List<V> values = Arrays.asList(sampleValues().e0, sampleValues().e2, sampleValues().e3);
+    List<V> values = Arrays.asList(sampleValues().e0(), sampleValues().e2(), sampleValues().e3());
     multimap().replaceValues(key, values);
     assertGet(key, values);
   }
@@ -67,9 +67,9 @@ public class MultimapReplaceValuesTester<K, V>
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceEmptyValues() {
     int size = multimap().size();
-    K key = sampleKeys().e3;
+    K key = sampleKeys().e3();
     @SuppressWarnings("unchecked")
-    List<V> values = Arrays.asList(sampleValues().e0, sampleValues().e2, sampleValues().e3);
+    List<V> values = Arrays.asList(sampleValues().e0(), sampleValues().e2(), sampleValues().e3());
     multimap().replaceValues(key, values);
     assertGet(key, values);
     assertEquals(size + values.size(), multimap().size());
@@ -78,7 +78,7 @@ public class MultimapReplaceValuesTester<K, V>
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesWithEmpty() {
     int size = multimap().size();
-    K key = sampleKeys().e0;
+    K key = sampleKeys().e0();
     List<V> oldValues = new ArrayList<V>(multimap().get(key));
     @SuppressWarnings("unchecked")
     List<V> values = Collections.emptyList();
@@ -90,12 +90,12 @@ public class MultimapReplaceValuesTester<K, V>
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesWithDuplicates() {
     int size = multimap().size();
-    K key = sampleKeys().e0;
+    K key = sampleKeys().e0();
     List<V> oldValues = new ArrayList<V>(multimap().get(key));
     List<V> values = Arrays.asList(
-        sampleValues().e0,
-        sampleValues().e3,
-        sampleValues().e0);
+        sampleValues().e0(),
+        sampleValues().e3(),
+        sampleValues().e0());
     assertEquals(oldValues, new ArrayList<V>(multimap().replaceValues(key, values)));
     assertEquals(
         size - oldValues.size() + multimap().get(key).size(),
@@ -108,7 +108,7 @@ public class MultimapReplaceValuesTester<K, V>
   public void testReplaceNonEmptyValues() {
     List<K> keys = Helpers.copyToList(multimap().keySet());
     @SuppressWarnings("unchecked")
-    List<V> values = Arrays.asList(sampleValues().e0, sampleValues().e2, sampleValues().e3);
+    List<V> values = Arrays.asList(sampleValues().e0(), sampleValues().e2(), sampleValues().e3());
 
     for (K k : keys) {
       resetContainer();
@@ -123,21 +123,21 @@ public class MultimapReplaceValuesTester<K, V>
   
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesPropagatesToGet() {
-    K key = sampleKeys().e0;
+    K key = sampleKeys().e0();
     Collection<V> getCollection = multimap().get(key);
     @SuppressWarnings("unchecked")
-    List<V> values = Arrays.asList(sampleValues().e0, sampleValues().e2, sampleValues().e3);
+    List<V> values = Arrays.asList(sampleValues().e0(), sampleValues().e2(), sampleValues().e3());
     multimap().replaceValues(key, values);
     assertThat(getCollection).containsExactly(
-        sampleValues().e0, sampleValues().e2, sampleValues().e3);
+        sampleValues().e0(), sampleValues().e2(), sampleValues().e3());
   }
 
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testReplaceValuesRemoveNotSupported() {
-    List<V> values = Collections.singletonList(sampleValues().e3);
+    List<V> values = Collections.singletonList(sampleValues().e3());
     try {
-      multimap().replaceValues(sampleKeys().e0, values);
+      multimap().replaceValues(sampleKeys().e0(), values);
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {
       // success
@@ -146,9 +146,9 @@ public class MultimapReplaceValuesTester<K, V>
 
   @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testReplaceValuesPutNotSupported() {
-    List<V> values = Collections.singletonList(sampleValues().e3);
+    List<V> values = Collections.singletonList(sampleValues().e3());
     try {
-      multimap().replaceValues(sampleKeys().e0, values);
+      multimap().replaceValues(sampleKeys().e0(), values);
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {
       // success

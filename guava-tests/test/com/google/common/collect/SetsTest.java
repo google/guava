@@ -148,9 +148,9 @@ public class SetsTest extends TestCase {
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override protected Set<String> create(String[] elements) {
             Set<String> set1 = Sets.newHashSet(elements);
-            set1.add(samples().e3);
+            set1.add(samples().e3());
             Set<String> set2 = Sets.newHashSet(elements);
-            set2.add(samples().e4);
+            set2.add(samples().e4());
             return Sets.intersection(set1, set2);
           }
         })
@@ -161,8 +161,8 @@ public class SetsTest extends TestCase {
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override protected Set<String> create(String[] elements) {
             Set<String> set1 = Sets.newHashSet(elements);
-            set1.add(samples().e3);
-            Set<String> set2 = Sets.newHashSet(samples().e3);
+            set1.add(samples().e3());
+            Set<String> set2 = Sets.newHashSet(samples().e3());
             return Sets.difference(set1, set2);
           }
         })

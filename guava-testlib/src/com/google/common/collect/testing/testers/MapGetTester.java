@@ -39,11 +39,11 @@ public class MapGetTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testGet_yes() {
     assertEquals("get(present) should return the associated value",
-        samples.e0.getValue(), get(samples.e0.getKey()));
+        samples.e0().getValue(), get(samples.e0().getKey()));
   }
 
   public void testGet_no() {
-    assertNull("get(notPresent) should return null", get(samples.e3.getKey()));
+    assertNull("get(notPresent) should return null", get(samples.e3().getKey()));
   }
 
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
@@ -63,7 +63,7 @@ public class MapGetTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testGet_nonNullWhenNullContained() {
     initMapWithNullKey();
-    assertNull("get(notPresent) should return null", get(samples.e3.getKey()));
+    assertNull("get(notPresent) should return null", get(samples.e3().getKey()));
   }
 
   @MapFeature.Require(ALLOWS_NULL_KEYS)

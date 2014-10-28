@@ -31,11 +31,11 @@ import java.util.Map;
 @GwtCompatible
 public class SampleElements<E> implements Iterable<E> {
   // TODO: rename e3, e4 => missing1, missing2
-  public final E e0;
-  public final E e1;
-  public final E e2;
-  public final E e3;
-  public final E e4;
+  private final E e0;
+  private final E e1;
+  private final E e2;
+  private final E e3;
+  private final E e4;
 
   public SampleElements(E e0, E e1, E e2, E e3, E e4) {
     this.e0 = e0;
@@ -51,7 +51,7 @@ public class SampleElements<E> implements Iterable<E> {
   }
   
   public List<E> asList() {
-    return Arrays.asList(e0, e1, e2, e3, e4);
+    return Arrays.asList(e0(), e1(), e2(), e3(), e4());
   }
 
   public static class Strings extends SampleElements<String> {
@@ -92,11 +92,31 @@ public class SampleElements<E> implements Iterable<E> {
   public static <K, V> SampleElements<Map.Entry<K, V>> mapEntries(
       SampleElements<K> keys, SampleElements<V> values) {
     return new SampleElements<Map.Entry<K, V>>(
-        Helpers.mapEntry(keys.e0, values.e0),
-        Helpers.mapEntry(keys.e1, values.e1),
-        Helpers.mapEntry(keys.e2, values.e2),
-        Helpers.mapEntry(keys.e3, values.e3),
-        Helpers.mapEntry(keys.e4, values.e4));
+        Helpers.mapEntry(keys.e0(), values.e0()),
+        Helpers.mapEntry(keys.e1(), values.e1()),
+        Helpers.mapEntry(keys.e2(), values.e2()),
+        Helpers.mapEntry(keys.e3(), values.e3()),
+        Helpers.mapEntry(keys.e4(), values.e4()));
+  }
+
+  public E e0() {
+    return e0;
+  }
+
+  public E e1() {
+    return e1;
+  }
+
+  public E e2() {
+    return e2;
+  }
+
+  public E e3() {
+    return e3;
+  }
+
+  public E e4() {
+    return e4;
   }
 
   public static class Unhashables extends SampleElements<UnhashableObject> {

@@ -47,10 +47,10 @@ public class CollectionRemoveTester<E> extends AbstractCollectionTester<E> {
   public void testRemove_present() {
     int initialSize = collection.size();
     assertTrue("remove(present) should return true",
-        collection.remove(samples.e0));
+        collection.remove(samples.e0()));
     assertEquals("remove(present) should decrease a collection's size by one.",
         initialSize - 1, collection.size());
-    expectMissing(samples.e0);
+    expectMissing(samples.e0());
   }
 
   @CollectionFeature.Require({SUPPORTS_REMOVE,
@@ -59,7 +59,7 @@ public class CollectionRemoveTester<E> extends AbstractCollectionTester<E> {
   public void testRemovePresentConcurrentWithIteration() {
     try {
       Iterator<E> iterator = collection.iterator();
-      assertTrue(collection.remove(samples.e0));
+      assertTrue(collection.remove(samples.e0()));
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -70,7 +70,7 @@ public class CollectionRemoveTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemove_notPresent() {
     assertFalse("remove(notPresent) should return false",
-        collection.remove(samples.e3));
+        collection.remove(samples.e3()));
     expectUnchanged();
   }
 
@@ -90,13 +90,13 @@ public class CollectionRemoveTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testRemove_unsupported() {
     try {
-      collection.remove(samples.e0);
+      collection.remove(samples.e0());
       fail("remove(present) should throw UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {
     }
     expectUnchanged();
     assertTrue("remove(present) should not remove the element",
-        collection.contains(samples.e0));
+        collection.contains(samples.e0()));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
@@ -104,11 +104,11 @@ public class CollectionRemoveTester<E> extends AbstractCollectionTester<E> {
     try {
       assertFalse("remove(notPresent) should return false or throw "
           + "UnsupportedOperationException",
-          collection.remove(samples.e3));
+          collection.remove(samples.e3()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
-    expectMissing(samples.e3);
+    expectMissing(samples.e3());
   }
 
   @CollectionFeature.Require(
@@ -141,7 +141,7 @@ public class CollectionRemoveTester<E> extends AbstractCollectionTester<E> {
     } catch (UnsupportedOperationException expected) {
     }
     expectUnchanged();
-    assertTrue(collection.contains(samples.e0));
+    assertTrue(collection.contains(samples.e0()));
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)

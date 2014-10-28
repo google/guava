@@ -53,16 +53,16 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
 
   @Override public void setUp() throws Exception {
     super.setUp();
-    nullKeyEntry = entry(null, samples.e3.getValue());
-    nullValueEntry = entry(samples.e3.getKey(), null);
+    nullKeyEntry = entry(null, samples.e3().getValue());
+    nullValueEntry = entry(samples.e3().getKey(), null);
     nullKeyValueEntry = entry(null, null);
-    presentKeyNullValueEntry = entry(samples.e0.getKey(), null);
+    presentKeyNullValueEntry = entry(samples.e0().getKey(), null);
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPut_supportedNotPresent() {
-    assertNull("put(notPresent, value) should return null", put(samples.e3));
-    expectAdded(samples.e3);
+    assertNull("put(notPresent, value) should return null", put(samples.e3()));
+    expectAdded(samples.e3());
   }
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_PUT})
@@ -70,7 +70,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   public void testPutAbsentConcurrentWithEntrySetIteration() {
     try {
       Iterator<Entry<K, V>> iterator = getMap().entrySet().iterator();
-      put(samples.e3);
+      put(samples.e3());
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -83,7 +83,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   public void testPutAbsentConcurrentWithKeySetIteration() {
     try {
       Iterator<K> iterator = getMap().keySet().iterator();
-      put(samples.e3);
+      put(samples.e3());
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -96,7 +96,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   public void testPutAbsentConcurrentWithValueIteration() {
     try {
       Iterator<V> iterator = getMap().values().iterator();
-      put(samples.e3);
+      put(samples.e3());
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -107,12 +107,12 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testPut_unsupportedNotPresent() {
     try {
-      put(samples.e3);
+      put(samples.e3());
       fail("put(notPresent, value) should throw");
     } catch (UnsupportedOperationException expected) {
     }
     expectUnchanged();
-    expectMissing(samples.e3);
+    expectMissing(samples.e3());
   }
 
   @MapFeature.Require(absent = SUPPORTS_PUT)
@@ -120,7 +120,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   public void testPut_unsupportedPresentExistingValue() {
     try {
       assertEquals("put(present, existingValue) should return present or throw",
-          samples.e0.getValue(), put(samples.e0));
+          samples.e0().getValue(), put(samples.e0()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
@@ -130,7 +130,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testPut_unsupportedPresentDifferentValue() {
     try {
-      getMap().put(samples.e0.getKey(), samples.e3.getValue());
+      getMap().put(samples.e0().getKey(), samples.e3().getValue());
       fail("put(present, differentValue) should throw");
     } catch (UnsupportedOperationException expected) {
     }
@@ -146,7 +146,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_KEYS})
   @CollectionSize.Require(absent = ZERO)
   public void testPut_nullKeySupportedPresent() {
-    Entry<K, V> newEntry = entry(null, samples.e3.getValue());
+    Entry<K, V> newEntry = entry(null, samples.e3().getValue());
     initMapWithNullKey();
     assertEquals("put(present, value) should return the associated value",
         getValueForNullKey(), put(newEntry));
@@ -190,7 +190,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testPut_replaceWithNullValueSupported() {
     assertEquals("put(present, null) should return the associated value",
-        samples.e0.getValue(), put(presentKeyNullValueEntry));
+        samples.e0().getValue(), put(presentKeyNullValueEntry));
     expectReplacement(presentKeyNullValueEntry);
   }
 
@@ -219,7 +219,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
   @CollectionSize.Require(absent = ZERO)
   public void testPut_replaceNullValueWithNonNullSupported() {
-    Entry<K, V> newEntry = entry(getKeyForNullValue(), samples.e3.getValue());
+    Entry<K, V> newEntry = entry(getKeyForNullValue(), samples.e3().getValue());
     initMapWithNullValue();
     assertNull("put(present, value) should return the associated value (null)",
         put(newEntry));

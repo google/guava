@@ -36,8 +36,8 @@ public class SetMultimapPutAllTester<K, V>
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllHandlesDuplicates() {
-    V v0 = sampleValues().e3;
-    V v1 = sampleValues().e2;
+    V v0 = sampleValues().e3();
+    V v1 = sampleValues().e2();
     @SuppressWarnings("unchecked")
     List<V> valuesToPut = Arrays.asList(v0, v1, v0);
 

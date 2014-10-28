@@ -41,9 +41,9 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testMultimapRemoveDeletesFirstOccurrence() {
-    K k = sampleKeys().e0;
-    V v0 = sampleValues().e0;
-    V v1 = sampleValues().e2;
+    K k = sampleKeys().e0();
+    V v0 = sampleValues().e0();
+    V v1 = sampleValues().e2();
     resetContainer(mapEntry(k, v0), mapEntry(k, v1), mapEntry(k, v0));
 
     List<V> list = multimap().get(k);
@@ -55,9 +55,9 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRemoveAtIndexFromGetPropagates() {
-    K k = sampleKeys().e0;
-    V v0 = sampleValues().e0;
-    V v1 = sampleValues().e2;
+    K k = sampleKeys().e0();
+    V v0 = sampleValues().e0();
+    V v1 = sampleValues().e2();
     List<V> values = Arrays.asList(v0, v1, v0);
 
     for (int i = 0; i < 3; i++) {
@@ -75,9 +75,9 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRemoveAtIndexFromAsMapPropagates() {
-    K k = sampleKeys().e0;
-    V v0 = sampleValues().e0;
-    V v1 = sampleValues().e2;
+    K k = sampleKeys().e0();
+    V v0 = sampleValues().e0();
+    V v1 = sampleValues().e2();
     List<V> values = Arrays.asList(v0, v1, v0);
 
     for (int i = 0; i < 3; i++) {
@@ -96,9 +96,9 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRemoveAtIndexFromAsMapEntrySetPropagates() {
-    K k = sampleKeys().e0;
-    V v0 = sampleValues().e0;
-    V v1 = sampleValues().e2;
+    K k = sampleKeys().e0();
+    V v0 = sampleValues().e0();
+    V v1 = sampleValues().e2();
     List<V> values = Arrays.asList(v0, v1, v0);
 
     for (int i = 0; i < 3; i++) {

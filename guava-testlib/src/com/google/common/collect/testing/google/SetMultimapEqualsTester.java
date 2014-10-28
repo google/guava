@@ -33,13 +33,13 @@ public class SetMultimapEqualsTester<K, V>
   @CollectionSize.Require(SEVERAL)
   public void testOrderingDoesntAffectEqualsComparisons() {
     SetMultimap<K, V> multimap1 = getSubjectGenerator().create(
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e1),
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e4));
+        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e0()),
+        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e1()),
+        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e4()));
     SetMultimap<K, V> multimap2 = getSubjectGenerator().create(
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e1),
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e4));
+        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e1()),
+        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e0()),
+        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e4()));
     new EqualsTester()
         .addEqualityGroup(multimap1, multimap2)
         .testEquals();

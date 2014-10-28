@@ -107,16 +107,16 @@ public abstract class AbstractMultisetSetCountTester<E>
   // Unconditional setCount no-ops.
 
   private void assertZeroToZero() {
-    assertSetCount(samples.e3, 0);
+    assertSetCount(samples.e3(), 0);
   }
 
   private void assertOneToOne() {
-    assertSetCount(samples.e0, 1);
+    assertSetCount(samples.e0(), 1);
   }
 
   private void assertThreeToThree() {
     initThreeCopies();
-    assertSetCount(samples.e0, 3);
+    assertSetCount(samples.e0(), 3);
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
@@ -183,7 +183,7 @@ public abstract class AbstractMultisetSetCountTester<E>
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testSetCount_zeroToOne_supported() {
-    assertSetCount(samples.e3, 1);
+    assertSetCount(samples.e3(), 1);
   }
 
   @CollectionFeature.Require({SUPPORTS_ADD,
@@ -191,7 +191,7 @@ public abstract class AbstractMultisetSetCountTester<E>
   public void testSetCountZeroToOneConcurrentWithIteration() {
     try {
       Iterator<E> iterator = collection.iterator();
-      assertSetCount(samples.e3, 1);
+      assertSetCount(samples.e3(), 1);
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -204,7 +204,7 @@ public abstract class AbstractMultisetSetCountTester<E>
   public void testSetCountZeroToOneConcurrentWithEntrySetIteration() {
     try {
       Iterator<Entry<E>> iterator = getMultiset().entrySet().iterator();
-      assertSetCount(samples.e3, 1);
+      assertSetCount(samples.e3(), 1);
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -214,29 +214,29 @@ public abstract class AbstractMultisetSetCountTester<E>
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testSetCount_zeroToThree_supported() {
-    assertSetCount(samples.e3, 3);
+    assertSetCount(samples.e3(), 3);
   }
 
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testSetCount_oneToThree_supported() {
-    assertSetCount(samples.e0, 3);
+    assertSetCount(samples.e0(), 3);
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   public void testSetCount_zeroToOne_unsupported() {
-    assertSetCountIncreasingFailure(samples.e3, 1);
+    assertSetCountIncreasingFailure(samples.e3(), 1);
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   public void testSetCount_zeroToThree_unsupported() {
-    assertSetCountIncreasingFailure(samples.e3, 3);
+    assertSetCountIncreasingFailure(samples.e3(), 3);
   }
 
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   public void testSetCount_oneToThree_unsupported() {
-    assertSetCountIncreasingFailure(samples.e3, 3);
+    assertSetCountIncreasingFailure(samples.e3(), 3);
   }
 
   // Unconditional setCount size decreases:
@@ -244,7 +244,7 @@ public abstract class AbstractMultisetSetCountTester<E>
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testSetCount_oneToZero_supported() {
-    assertSetCount(samples.e0, 0);
+    assertSetCount(samples.e0(), 0);
   }
 
   @CollectionFeature.Require({SUPPORTS_REMOVE,
@@ -253,7 +253,7 @@ public abstract class AbstractMultisetSetCountTester<E>
   public void testSetCountOneToZeroConcurrentWithIteration() {
     try {
       Iterator<E> iterator = collection.iterator();
-      assertSetCount(samples.e0, 0);
+      assertSetCount(samples.e0(), 0);
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -267,7 +267,7 @@ public abstract class AbstractMultisetSetCountTester<E>
   public void testSetCountOneToZeroConcurrentWithEntrySetIteration() {
     try {
       Iterator<Entry<E>> iterator = getMultiset().entrySet().iterator();
-      assertSetCount(samples.e0, 0);
+      assertSetCount(samples.e0(), 0);
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -279,34 +279,34 @@ public abstract class AbstractMultisetSetCountTester<E>
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testSetCount_threeToZero_supported() {
     initThreeCopies();
-    assertSetCount(samples.e0, 0);
+    assertSetCount(samples.e0(), 0);
   }
 
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testSetCount_threeToOne_supported() {
     initThreeCopies();
-    assertSetCount(samples.e0, 1);
+    assertSetCount(samples.e0(), 1);
   }
 
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testSetCount_oneToZero_unsupported() {
-    assertSetCountDecreasingFailure(samples.e0, 0);
+    assertSetCountDecreasingFailure(samples.e0(), 0);
   }
 
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testSetCount_threeToZero_unsupported() {
     initThreeCopies();
-    assertSetCountDecreasingFailure(samples.e0, 0);
+    assertSetCountDecreasingFailure(samples.e0(), 0);
   }
 
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testSetCount_threeToOne_unsupported() {
     initThreeCopies();
-    assertSetCountDecreasingFailure(samples.e0, 1);
+    assertSetCountDecreasingFailure(samples.e0(), 1);
   }
 
   // setCount with nulls:
@@ -365,7 +365,7 @@ public abstract class AbstractMultisetSetCountTester<E>
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testSetCount_negative_removeSupported() {
     try {
-      setCountNoCheckReturnValue(samples.e3, -1);
+      setCountNoCheckReturnValue(samples.e3(), -1);
       fail("calling setCount() with a negative count should throw "
           + "IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
@@ -375,7 +375,7 @@ public abstract class AbstractMultisetSetCountTester<E>
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testSetCount_negative_removeUnsupported() {
     try {
-      setCountNoCheckReturnValue(samples.e3, -1);
+      setCountNoCheckReturnValue(samples.e3(), -1);
       fail("calling setCount() with a negative count should throw "
           + "IllegalArgumentException or UnsupportedOperationException");
     } catch (IllegalArgumentException expected) {

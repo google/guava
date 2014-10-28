@@ -37,11 +37,11 @@ public class MultimapContainsEntryTester<K, V>
     extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(absent = ZERO)
   public void testContainsEntryYes() {
-    assertTrue(multimap().containsEntry(sampleKeys().e0, sampleValues().e0));
+    assertTrue(multimap().containsEntry(sampleKeys().e0(), sampleValues().e0()));
   }
 
   public void testContainsEntryNo() {
-    assertFalse(multimap().containsEntry(sampleKeys().e3, sampleValues().e3));
+    assertFalse(multimap().containsEntry(sampleKeys().e3(), sampleValues().e3()));
   }
 
   public void testContainsEntryAgreesWithGet() {
@@ -68,7 +68,7 @@ public class MultimapContainsEntryTester<K, V>
   @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testContainsEntryNullDisallowedBecauseKeyQueriesDisallowed() {
     try {
-      multimap().containsEntry(null, sampleValues().e3);
+      multimap().containsEntry(null, sampleValues().e3());
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
       // success
@@ -82,7 +82,7 @@ public class MultimapContainsEntryTester<K, V>
   @MapFeature.Require(absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryNullDisallowedBecauseValueQueriesDisallowed() {
     try {
-      multimap().containsEntry(sampleKeys().e3, null);
+      multimap().containsEntry(sampleKeys().e3(), null);
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
       // success
