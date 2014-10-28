@@ -68,12 +68,12 @@ public class ClassPathTest extends TestCase {
       assertNotNull(resource.url());
     }
     String testResourceName = "com/google/common/reflect/test.txt";
-    assertThat(byName.keySet()).has().allOf(
+    assertThat(byName.keySet()).containsAllOf(
         "com/google/common/reflect/ClassPath.class",
         "com/google/common/reflect/ClassPathTest.class",
         "com/google/common/reflect/ClassPathTest$Nested.class",
         testResourceName);
-    assertThat(byToString.keySet()).has().allOf(
+    assertThat(byToString.keySet()).containsAllOf(
         "com.google.common.reflect.ClassPath",
         "com.google.common.reflect.ClassPathTest",
         "com.google.common.reflect.ClassPathTest$Nested",
@@ -101,14 +101,14 @@ public class ClassPathTest extends TestCase {
     }
     class LocalClass {}
     Class<?> anonymousClass = new Object() {}.getClass();
-    assertThat(names).has().allOf(anonymousClass.getName(), LocalClass.class.getName(),
+    assertThat(names).containsAllOf(anonymousClass.getName(), LocalClass.class.getName(),
         ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(strings).has().allOf(anonymousClass.getName(), LocalClass.class.getName(),
+    assertThat(strings).containsAllOf(anonymousClass.getName(), LocalClass.class.getName(),
         ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(classes).has().allOf(anonymousClass, LocalClass.class, ClassPath.class,
+    assertThat(classes).containsAllOf(anonymousClass, LocalClass.class, ClassPath.class,
         ClassPathTest.class);
     assertThat(packageNames).containsExactly(ClassPath.class.getPackage().getName());
-    assertThat(simpleNames).has().allOf("", "Local", "ClassPath", "ClassPathTest");
+    assertThat(simpleNames).containsAllOf("", "Local", "ClassPath", "ClassPathTest");
   }
 
   public void testGetTopLevelClasses() throws Exception {
@@ -126,11 +126,11 @@ public class ClassPathTest extends TestCase {
       packageNames.add(classInfo.getPackageName());
       simpleNames.add(classInfo.getSimpleName());
     }
-    assertThat(names).has().allOf(ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(strings).has().allOf(ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(classes).has().allOf(ClassPath.class, ClassPathTest.class);
+    assertThat(names).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
+    assertThat(strings).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
+    assertThat(classes).containsAllOf(ClassPath.class, ClassPathTest.class);
     assertThat(packageNames).contains(ClassPath.class.getPackage().getName());
-    assertThat(simpleNames).has().allOf("ClassPath", "ClassPathTest");
+    assertThat(simpleNames).containsAllOf("ClassPath", "ClassPathTest");
     assertFalse(classes.contains(ClassInSubPackage.class));
   }
 
@@ -144,7 +144,7 @@ public class ClassPathTest extends TestCase {
       }
       classes.add(classInfo.load());
     }
-    assertThat(classes).has().allOf(ClassPathTest.class, ClassInSubPackage.class);
+    assertThat(classes).containsAllOf(ClassPathTest.class, ClassInSubPackage.class);
   }
 
   public void testGetTopLevelClasses_diamond() throws Exception {
@@ -188,7 +188,7 @@ public class ClassPathTest extends TestCase {
     URLClassLoader child = new URLClassLoader(new URL[] {url2}, parent) {};
     ImmutableMap<URI, ClassLoader> classPathEntries = ClassPath.getClassPathEntries(child);
     assertEquals(ImmutableMap.of(url1.toURI(), parent, url2.toURI(), child),  classPathEntries);
-    assertThat(classPathEntries.keySet()).has().exactly(url1.toURI(), url2.toURI()).inOrder();
+    assertThat(classPathEntries.keySet()).containsExactly(url1.toURI(), url2.toURI()).inOrder();
   }
 
   public void testClassPathEntries_duplicateUri_parentWins() throws Exception {
@@ -337,7 +337,7 @@ public class ClassPathTest extends TestCase {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar relative.jar  relative/dir");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(
+        .containsExactly(
             new File("/with/absolute.jar").toURI(),
             new File("base/relative.jar").toURI(),
             new File("base/relative/dir").toURI())

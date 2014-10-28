@@ -192,7 +192,7 @@ public class TypeTokenTest extends TestCase {
     abstract class Class2 extends Class1 implements Interface12 {}
     abstract class Class3<T> extends Class2 implements Interface3<T> {}
     TypeToken<Class3<String>>.TypeSet types = new TypeToken<Class3<String>>() {}.getTypes();
-    makeUnmodifiable(types).has().exactly(
+    makeUnmodifiable(types).containsExactly(
         new TypeToken<Class3<String>>() {},
         new TypeToken<Interface3<String>>() {},
         new TypeToken<Iterable<String>>() {},
@@ -202,13 +202,13 @@ public class TypeTokenTest extends TestCase {
         TypeToken.of(Interface2.class),
         TypeToken.of(Class1.class),
         TypeToken.of(Object.class));
-    makeUnmodifiable(types.interfaces()).has().exactly(
+    makeUnmodifiable(types.interfaces()).containsExactly(
         new TypeToken<Interface3<String>>() {},
         TypeToken.of(Interface12.class),
         TypeToken.of(Interface1.class),
         TypeToken.of(Interface2.class),
         new TypeToken<Iterable<String>>() {});
-    makeUnmodifiable(types.classes()).has().exactly(
+    makeUnmodifiable(types.classes()).containsExactly(
         new TypeToken<Class3<String>>() {},
         TypeToken.of(Class2.class),
         TypeToken.of(Class1.class),
@@ -220,7 +220,7 @@ public class TypeTokenTest extends TestCase {
     abstract class Class2 extends Class1 implements Interface12 {}
     abstract class Class3<T> extends Class2 implements Interface3<T> {}
     TypeToken<Class3<String>>.TypeSet types = new TypeToken<Class3<String>>() {}.getTypes();
-    makeUnmodifiable(types.rawTypes()).has().exactly(
+    makeUnmodifiable(types.rawTypes()).containsExactly(
         Class3.class, Interface3.class,
         Iterable.class,
         Class2.class,
@@ -229,13 +229,13 @@ public class TypeTokenTest extends TestCase {
         Interface2.class,
         Class1.class,
         Object.class);
-    makeUnmodifiable(types.interfaces().rawTypes()).has().exactly(
+    makeUnmodifiable(types.interfaces().rawTypes()).containsExactly(
         Interface3.class,
         Interface12.class,
         Interface1.class,
         Interface2.class,
         Iterable.class);
-    makeUnmodifiable(types.classes().rawTypes()).has().exactly(
+    makeUnmodifiable(types.classes().rawTypes()).containsExactly(
         Class3.class,
         Class2.class,
         Class1.class,
@@ -246,7 +246,7 @@ public class TypeTokenTest extends TestCase {
   public <A extends Class1 & Interface1, B extends A>
   void testGetTypes_ignoresTypeVariablesByDefault() {
     TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes();
-    makeUnmodifiable(types).has().exactly(
+    makeUnmodifiable(types).containsExactly(
         TypeToken.of(Interface1.class), TypeToken.of(Class1.class),
         TypeToken.of(Object.class));
     assertSubtypeFirst(types);
@@ -261,7 +261,7 @@ public class TypeTokenTest extends TestCase {
   void testGetTypes_rawTypes_ignoresTypeVariablesByDefault() {
     TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes();
     makeUnmodifiable(types.rawTypes())
-        .has().exactly(Interface1.class, Class1.class, Object.class);
+        .containsExactly(Interface1.class, Class1.class, Object.class);
     makeUnmodifiable(types.interfaces().rawTypes()).containsExactly(Interface1.class);
     makeUnmodifiable(types.classes().rawTypes())
         .has()
@@ -273,7 +273,7 @@ public class TypeTokenTest extends TestCase {
   void testGetTypes_manyBounds() {
     TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<A>() {}.capture()).getTypes();
     makeUnmodifiable(types.rawTypes())
-        .has().exactly(Interface1.class, Interface2.class, Interface3.class, Iterable.class);
+        .containsExactly(Interface1.class, Interface2.class, Interface3.class, Iterable.class);
   }
 
   private static void assertSubtypeFirst(TypeToken<?>.TypeSet types) {
@@ -482,14 +482,14 @@ public class TypeTokenTest extends TestCase {
   public <T extends CharSequence&Iterable<String>>
   void testGetGenericInterfaces_typeVariable_boundsAreInterfaces() {
     makeUnmodifiable(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .has().exactly(TypeToken.of(CharSequence.class), new TypeToken<Iterable<String>>() {});
+        .containsExactly(TypeToken.of(CharSequence.class), new TypeToken<Iterable<String>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends CharSequence&Iterable<T>>
   void testGetGenericInterfaces_typeVariable_boundsAreFBoundedInterfaces() {
     makeUnmodifiable(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .has().exactly(TypeToken.of(CharSequence.class), new TypeToken<Iterable<T>>() {});
+        .containsExactly(TypeToken.of(CharSequence.class), new TypeToken<Iterable<T>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 

@@ -345,7 +345,7 @@ public class DoublesTest extends TestCase {
     list.set(0, (double) 2);
     assertTrue(Arrays.equals(new double[] {(double) 2, (double) 1}, array));
     array[1] = (double) 3;
-    assertThat(list).has().exactly((double) 2, (double) 3).inOrder();
+    assertThat(list).containsExactly((double) 2, (double) 3).inOrder();
   }
 
   public void testAsList_toArray_roundTrip() {
