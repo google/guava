@@ -100,10 +100,10 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
     Set<Entry<K, Collection<V>>> asMapEntrySet = multimap().asMap().entrySet();
     Collection<V> valueCollection = Iterables.getOnlyElement(asMapEntrySet).getValue();
     assertThat(valueCollection)
-        .has().exactly(sampleValues().e0, sampleValues().e3);
+        .containsExactly(sampleValues().e0, sampleValues().e3);
     assertTrue(multimap().put(sampleKeys().e0, sampleValues().e4));
     assertThat(valueCollection)
-        .has().exactly(sampleValues().e0, sampleValues().e3, sampleValues().e4);
+        .containsExactly(sampleValues().e0, sampleValues().e3, sampleValues().e4);
   }
 
   @CollectionSize.Require(SEVERAL)

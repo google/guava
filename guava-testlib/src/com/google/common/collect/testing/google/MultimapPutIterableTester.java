@@ -209,6 +209,6 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     assertTrue(multimap().putAll(
         sampleKeys().e0, Lists.newArrayList(sampleValues().e3, sampleValues().e4)));
     assertEquals(getCollectionSize + 2, getCollection.size());
-    assertThat(getCollection).has().allOf(sampleValues().e3, sampleValues().e4);
+    assertThat(getCollection).containsAllOf(sampleValues().e3, sampleValues().e4);
   }
 }

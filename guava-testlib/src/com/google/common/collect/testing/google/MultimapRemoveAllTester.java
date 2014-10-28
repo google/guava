@@ -71,7 +71,7 @@ public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, 
         Helpers.mapEntry(sampleKeys().e0, sampleValues().e2));
 
     assertThat(multimap().removeAll(sampleKeys().e0))
-        .has().exactly(sampleValues().e0, sampleValues().e1, sampleValues().e2);
+        .containsExactly(sampleValues().e0, sampleValues().e1, sampleValues().e2);
     assertTrue(multimap().isEmpty());
   }
 

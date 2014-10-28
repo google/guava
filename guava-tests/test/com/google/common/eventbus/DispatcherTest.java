@@ -62,7 +62,7 @@ public class DispatcherTest extends TestCase {
     dispatcher.dispatch(1, integerSubscribers.iterator());
 
     assertThat(dispatchedSubscribers)
-        .has().exactly(
+        .containsExactly(
             i1, i2, i3, // Integer subscribers are dispatched to first.
             s1, s2,     // Though each integer subscriber dispatches to all string subscribers,
             s1, s2,     // those string subscribers aren't actually dispatched to until all integer
@@ -110,7 +110,7 @@ public class DispatcherTest extends TestCase {
     // useful testable guarantees about the behavior of that dispatcher in a multithreaded
     // environment. Here we simply test that all the expected dispatches happened in some order.
     assertThat(dispatchedSubscribers)
-        .has().exactly(
+        .containsExactly(
             i1, i2, i3,
             s1, s1, s1, s1,
             s2, s2, s2, s2);
@@ -121,7 +121,7 @@ public class DispatcherTest extends TestCase {
     dispatcher.dispatch(1, integerSubscribers.iterator());
 
     assertThat(dispatchedSubscribers)
-        .has().exactly(
+        .containsExactly(
             i1, s1, s2,  // Each integer subscriber immediately dispatches to 2 string subscribers.
             i2, s1, s2,
             i3, s1, s2

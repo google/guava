@@ -542,7 +542,7 @@ public class FilesTest extends IoTestCase {
     w.close();
     Files.readLines(temp, Charsets.UTF_8, collect);
     assertThat(collect.getResult())
-        .has().exactly("hello", "", " world  ", "").inOrder();
+        .containsExactly("hello", "", " world  ", "").inOrder();
 
     LineProcessor<List<String>> collectNonEmptyLines =
         new LineProcessor<List<String>>() {
@@ -562,7 +562,7 @@ public class FilesTest extends IoTestCase {
           }
         };
     Files.readLines(temp, Charsets.UTF_8, collectNonEmptyLines);
-    assertThat(collectNonEmptyLines.getResult()).has().exactly(
+    assertThat(collectNonEmptyLines.getResult()).containsExactly(
         "hello", " world  ").inOrder();
 
     assertTrue(temp.delete());

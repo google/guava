@@ -67,6 +67,6 @@ public class ListRetainAllTester<E> extends AbstractListTester<E> {
   public void testRetainAll_countIgnored() {
     resetContainer(getSubjectGenerator().create(samples.e0, samples.e2, samples.e1, samples.e0));
     assertTrue(getList().retainAll(Arrays.asList(samples.e0, samples.e1)));
-    assertThat(getList()).has().exactly(samples.e0, samples.e1, samples.e0).inOrder();
+    assertThat(getList()).containsExactly(samples.e0, samples.e1, samples.e0).inOrder();
   }
 }

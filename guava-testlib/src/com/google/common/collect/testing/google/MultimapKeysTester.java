@@ -50,8 +50,8 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
     assertEquals(2, keys.count(sampleKeys().e0));
     assertEquals(1, keys.count(sampleKeys().e1));
     assertEquals(3, keys.size());
-    assertThat(keys).has().allOf(sampleKeys().e0, sampleKeys().e1);
-    assertThat(keys.entrySet()).has().allOf(
+    assertThat(keys).containsAllOf(sampleKeys().e0, sampleKeys().e1);
+    assertThat(keys.entrySet()).containsAllOf(
         Multisets.immutableEntry(sampleKeys().e0, 2),
         Multisets.immutableEntry(sampleKeys().e1, 1));
   }
@@ -72,8 +72,8 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
     assertEquals(2, keys.count(null));
     assertEquals(1, keys.count(sampleKeys().e1));
     assertEquals(3, keys.size());
-    assertThat(keys).has().allOf(null, sampleKeys().e1);
-    assertThat(keys.entrySet()).has().allOf(
+    assertThat(keys).containsAllOf(null, sampleKeys().e1);
+    assertThat(keys.entrySet()).containsAllOf(
         Multisets.immutableEntry((K) null, 2),
         Multisets.immutableEntry(sampleKeys().e1, 1));
   }
