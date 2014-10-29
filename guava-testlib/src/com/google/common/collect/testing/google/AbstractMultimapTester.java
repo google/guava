@@ -162,4 +162,44 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
     assertEquals(values.size() > 0, multimap().keySet().contains(key));
     assertEquals(values.size() > 0, multimap().keys().contains(key));
   }
+
+  protected final K k0() {
+    return e0().getKey();
+  }
+
+  protected final V v0() {
+    return e0().getValue();
+  }
+
+  protected final K k1() {
+    return e1().getKey();
+  }
+
+  protected final V v1() {
+    return e1().getValue();
+  }
+
+  protected final K k2() {
+    return e2().getKey();
+  }
+
+  protected final V v2() {
+    return e2().getValue();
+  }
+
+  protected final K k3() {
+    return e3().getKey();
+  }
+
+  protected final V v3() {
+    return e3().getValue();
+  }
+
+  protected final K k4() {
+    return e4().getKey();
+  }
+
+  protected final V v4() {
+    return e4().getValue();
+  }
 }

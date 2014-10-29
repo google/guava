@@ -43,57 +43,57 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllNonEmptyIterableOnPresentKey() {
-    assertTrue(multimap().putAll(sampleKeys().e0(), new Iterable<V>() {
+    assertTrue(multimap().putAll(k0(), new Iterable<V>() {
       @Override
       public Iterator<V> iterator() {
-        return Lists.newArrayList(sampleValues().e3(), sampleValues().e4()).iterator();
+        return Lists.newArrayList(v3(), v4()).iterator();
       }
     }));
-    assertGet(sampleKeys().e0(), sampleValues().e0(), sampleValues().e3(), sampleValues().e4());
+    assertGet(k0(), v0(), v3(), v4());
   }
   
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllNonEmptyCollectionOnPresentKey() {
     assertTrue(multimap().putAll(
-        sampleKeys().e0(), Lists.newArrayList(sampleValues().e3(), sampleValues().e4())));
-    assertGet(sampleKeys().e0(), sampleValues().e0(), sampleValues().e3(), sampleValues().e4());
+        k0(), Lists.newArrayList(v3(), v4())));
+    assertGet(k0(), v0(), v3(), v4());
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllNonEmptyIterableOnAbsentKey() {
-    assertTrue(multimap().putAll(sampleKeys().e3(), new Iterable<V>() {
+    assertTrue(multimap().putAll(k3(), new Iterable<V>() {
       @Override
       public Iterator<V> iterator() {
-        return Lists.newArrayList(sampleValues().e3(), sampleValues().e4()).iterator();
+        return Lists.newArrayList(v3(), v4()).iterator();
       }
     }));
-    assertGet(sampleKeys().e3(), sampleValues().e3(), sampleValues().e4());
+    assertGet(k3(), v3(), v4());
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllNonEmptyCollectionOnAbsentKey() {
     assertTrue(multimap().putAll(
-        sampleKeys().e3(), Lists.newArrayList(sampleValues().e3(), sampleValues().e4())));
-    assertGet(sampleKeys().e3(), sampleValues().e3(), sampleValues().e4());
+        k3(), Lists.newArrayList(v3(), v4())));
+    assertGet(k3(), v3(), v4());
   }
   
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
   public void testPutAllNullValueOnPresentKey_supported() {
-    assertTrue(multimap().putAll(sampleKeys().e0(), Lists.newArrayList(sampleValues().e3(), null)));
-    assertGet(sampleKeys().e0(), sampleValues().e0(), sampleValues().e3(), null);
+    assertTrue(multimap().putAll(k0(), Lists.newArrayList(v3(), null)));
+    assertGet(k0(), v0(), v3(), null);
   }
   
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
   public void testPutAllNullValueOnAbsentKey_supported() {
-    assertTrue(multimap().putAll(sampleKeys().e3(), Lists.newArrayList(sampleValues().e3(), null)));
-    assertGet(sampleKeys().e3(), sampleValues().e3(), null);
+    assertTrue(multimap().putAll(k3(), Lists.newArrayList(v3(), null)));
+    assertGet(k3(), v3(), null);
   }
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   public void testPutAllNullValueSingle_unsupported() {
-    multimap().putAll(sampleKeys().e1(), Lists.newArrayList((V) null));
+    multimap().putAll(k1(), Lists.newArrayList((V) null));
     expectUnchanged();
   }
 
@@ -104,19 +104,19 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     int size = getNumElements();
 
     try {
-      multimap().putAll(sampleKeys().e3(), Lists.newArrayList(sampleValues().e3(), null));
+      multimap().putAll(k3(), Lists.newArrayList(v3(), null));
       fail();
     } catch (NullPointerException expected) {
     }
 
-    Collection<V> values = multimap().get(sampleKeys().e3());
+    Collection<V> values = multimap().get(k3());
     if (values.size() == 0) {
       expectUnchanged();
       // Be extra thorough in case internal state was corrupted by the expected null.
       assertEquals(Lists.newArrayList(), Lists.newArrayList(values));
       assertEquals(size, multimap().size());
     } else {
-      assertEquals(Lists.newArrayList(sampleValues().e3()), Lists.newArrayList(values));
+      assertEquals(Lists.newArrayList(v3()), Lists.newArrayList(values));
       assertEquals(size + 1, multimap().size());
     }
   }
@@ -126,7 +126,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     int size = getNumElements();
 
     try {
-      multimap().putAll(sampleKeys().e3(), Lists.newArrayList(null, sampleValues().e3()));
+      multimap().putAll(k3(), Lists.newArrayList(null, v3()));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -138,21 +138,21 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
      */
     expectUnchanged();
     // Be extra thorough in case internal state was corrupted by the expected null.
-    assertEquals(Lists.newArrayList(), Lists.newArrayList(multimap().get(sampleKeys().e3())));
+    assertEquals(Lists.newArrayList(), Lists.newArrayList(multimap().get(k3())));
     assertEquals(size, multimap().size());
   }
 
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_KEYS})
   public void testPutAllOnPresentNullKey() {
     assertTrue(
-        multimap().putAll(null, Lists.newArrayList(sampleValues().e3(), sampleValues().e4())));
-    assertGet(null, sampleValues().e3(), sampleValues().e4());
+        multimap().putAll(null, Lists.newArrayList(v3(), v4())));
+    assertGet(null, v3(), v4());
   }
 
   @MapFeature.Require(absent = ALLOWS_NULL_KEYS)
   public void testPutAllNullForbidden() {
     try {
-      multimap().putAll(null, Collections.singletonList(sampleValues().e3()));
+      multimap().putAll(null, Collections.singletonList(v3()));
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {
       // success
@@ -163,7 +163,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllEmptyCollectionOnAbsentKey() {
-    assertFalse(multimap().putAll(sampleKeys().e3(), Collections.<V>emptyList()));
+    assertFalse(multimap().putAll(k3(), Collections.<V>emptyList()));
     expectUnchanged();
   }
 
@@ -176,14 +176,14 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
       }
     };
 
-    assertFalse(multimap().putAll(sampleKeys().e3(), iterable));
+    assertFalse(multimap().putAll(k3(), iterable));
     expectUnchanged();
   }
 
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllEmptyIterableOnPresentKey() {
-    multimap().putAll(sampleKeys().e0(), Collections.<V>emptyList());
+    multimap().putAll(k0(), Collections.<V>emptyList());
     expectUnchanged();
   }
   
@@ -196,20 +196,20 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
       public Iterator<V> iterator() {
         checkState(!calledIteratorAlready);
         calledIteratorAlready = true;
-        return Iterators.forArray(sampleValues().e3());
+        return Iterators.forArray(v3());
       }
     };
     
-    multimap().putAll(sampleKeys().e3(), iterable);
+    multimap().putAll(k3(), iterable);
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllPropagatesToGet() {
-    Collection<V> getCollection = multimap().get(sampleKeys().e0());
+    Collection<V> getCollection = multimap().get(k0());
     int getCollectionSize = getCollection.size();
     assertTrue(multimap().putAll(
-        sampleKeys().e0(), Lists.newArrayList(sampleValues().e3(), sampleValues().e4())));
+        k0(), Lists.newArrayList(v3(), v4())));
     assertEquals(getCollectionSize + 2, getCollection.size());
-    assertThat(getCollection).containsAllOf(sampleValues().e3(), sampleValues().e4());
+    assertThat(getCollection).containsAllOf(v3(), v4());
   }
 }

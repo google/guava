@@ -35,11 +35,11 @@ public class MultimapContainsKeyTester<K, V>
     extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(absent = ZERO)
   public void testContainsKeyYes() {
-    assertTrue(multimap().containsKey(sampleKeys().e0()));
+    assertTrue(multimap().containsKey(k0()));
   }
 
   public void testContainsKeyNo() {
-    assertFalse(multimap().containsKey(sampleKeys().e3()));
+    assertFalse(multimap().containsKey(k3()));
   }
 
   public void testContainsKeysFromKeySet() {

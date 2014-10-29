@@ -43,17 +43,17 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
   @CollectionSize.Require(SEVERAL)
   public void testKeys() {
     resetContainer(
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e0()),
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e1()),
-        Helpers.mapEntry(sampleKeys().e1(), sampleValues().e0()));
+        Helpers.mapEntry(k0(), v0()),
+        Helpers.mapEntry(k0(), v1()),
+        Helpers.mapEntry(k1(), v0()));
     Multiset<K> keys = multimap().keys();
-    assertEquals(2, keys.count(sampleKeys().e0()));
-    assertEquals(1, keys.count(sampleKeys().e1()));
+    assertEquals(2, keys.count(k0()));
+    assertEquals(1, keys.count(k1()));
     assertEquals(3, keys.size());
-    assertThat(keys).containsAllOf(sampleKeys().e0(), sampleKeys().e1());
+    assertThat(keys).containsAllOf(k0(), k1());
     assertThat(keys.entrySet()).containsAllOf(
-        Multisets.immutableEntry(sampleKeys().e0(), 2),
-        Multisets.immutableEntry(sampleKeys().e1(), 1));
+        Multisets.immutableEntry(k0(), 2),
+        Multisets.immutableEntry(k1(), 1));
   }
   
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
@@ -65,17 +65,17 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testKeysWithNullKey() {
     resetContainer(
-        Helpers.mapEntry((K) null, sampleValues().e0()),
-        Helpers.mapEntry((K) null, sampleValues().e1()),
-        Helpers.mapEntry(sampleKeys().e1(), sampleValues().e0()));
+        Helpers.mapEntry((K) null, v0()),
+        Helpers.mapEntry((K) null, v1()),
+        Helpers.mapEntry(k1(), v0()));
     Multiset<K> keys = multimap().keys();
     assertEquals(2, keys.count(null));
-    assertEquals(1, keys.count(sampleKeys().e1()));
+    assertEquals(1, keys.count(k1()));
     assertEquals(3, keys.size());
-    assertThat(keys).containsAllOf(null, sampleKeys().e1());
+    assertThat(keys).containsAllOf(null, k1());
     assertThat(keys.entrySet()).containsAllOf(
         Multisets.immutableEntry((K) null, 2),
-        Multisets.immutableEntry(sampleKeys().e1(), 1));
+        Multisets.immutableEntry(k1(), 1));
   }
   
   public void testKeysElementSet() {
@@ -84,8 +84,8 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
 
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testKeysRemove() {
-    int original = multimap().keys().remove(sampleKeys().e0(), 1);
-    assertEquals(Math.max(original - 1, 0), multimap().get(sampleKeys().e0()).size());
+    int original = multimap().keys().remove(k0(), 1);
+    assertEquals(Math.max(original - 1, 0), multimap().get(k0()).size());
   }
   
   @CollectionSize.Require(ONE)
@@ -93,7 +93,7 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
   public void testKeysEntrySetIteratorRemove() {
     Multiset<K> keys = multimap().keys();
     Iterator<Multiset.Entry<K>> itr = keys.entrySet().iterator();
-    assertEquals(Multisets.immutableEntry(sampleKeys().e0(), 1),
+    assertEquals(Multisets.immutableEntry(k0(), 1),
         itr.next());
     itr.remove();
     assertTrue(multimap().isEmpty());
@@ -103,12 +103,12 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testKeysEntrySetRemove() {
     resetContainer(
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e0()),
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e1()),
-        Helpers.mapEntry(sampleKeys().e1(), sampleValues().e0()));
+        Helpers.mapEntry(k0(), v0()),
+        Helpers.mapEntry(k0(), v1()),
+        Helpers.mapEntry(k1(), v0()));
     assertTrue(multimap().keys().entrySet().remove(
-        Multisets.immutableEntry(sampleKeys().e0(), 2)));
+        Multisets.immutableEntry(k0(), 2)));
     assertEquals(1, multimap().size());
-    assertTrue(multimap().containsEntry(sampleKeys().e1(), sampleValues().e0()));
+    assertTrue(multimap().containsEntry(k1(), v0()));
   }
 }

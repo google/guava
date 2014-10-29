@@ -35,9 +35,9 @@ public class ListMultimapReplaceValuesTester<K, V> extends AbstractListMultimapT
   public void testReplaceValuesPreservesOrder() {
     @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(
-        sampleValues().e3(),
-        sampleValues().e1(),
-        sampleValues().e4());
+        v3(),
+        v1(),
+        v4());
 
     for (K k : sampleKeys()) {
       resetContainer();

@@ -19,7 +19,8 @@ package com.google.common.collect.testing.google;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static com.google.common.collect.testing.features.MapFeature.*;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -93,9 +94,9 @@ public class MultimapSizeTester<K, V> extends AbstractMultimapTester<K, V, Multi
   @CollectionSize.Require(SEVERAL)
   public void testSizeMultipleValues() {
     resetContainer(
-        mapEntry(sampleKeys().e0(), sampleValues().e0()),
-        mapEntry(sampleKeys().e0(), sampleValues().e1()),
-        mapEntry(sampleKeys().e0(), sampleValues().e2()));
+        mapEntry(k0(), v0()),
+        mapEntry(k0(), v1()),
+        mapEntry(k0(), v2()));
 
     assertEquals(3, multimap().size());
     assertEquals(3, multimap().entries().size());

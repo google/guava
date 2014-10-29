@@ -41,33 +41,27 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testMultimapRemoveDeletesFirstOccurrence() {
-    K k = sampleKeys().e0();
-    V v0 = sampleValues().e0();
-    V v1 = sampleValues().e2();
-    resetContainer(mapEntry(k, v0), mapEntry(k, v1), mapEntry(k, v0));
+    resetContainer(mapEntry(k0(), v0()), mapEntry(k0(), v1()), mapEntry(k0(), v0()));
 
-    List<V> list = multimap().get(k);
-    multimap().remove(k, v0);
-    assertThat(list).containsExactly(v1, v0).inOrder();
+    List<V> list = multimap().get(k0());
+    multimap().remove(k0(), v0());
+    assertThat(list).containsExactly(v1(), v0()).inOrder();
   }
 
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRemoveAtIndexFromGetPropagates() {
-    K k = sampleKeys().e0();
-    V v0 = sampleValues().e0();
-    V v1 = sampleValues().e2();
-    List<V> values = Arrays.asList(v0, v1, v0);
+    List<V> values = Arrays.asList(v0(), v1(), v0());
 
     for (int i = 0; i < 3; i++) {
-      resetContainer(mapEntry(k, v0), mapEntry(k, v1), mapEntry(k, v0));
+      resetContainer(mapEntry(k0(), v0()), mapEntry(k0(), v1()), mapEntry(k0(), v0()));
       List<V> expectedValues = copyToList(values);
 
-      multimap().get(k).remove(i);
+      multimap().get(k0()).remove(i);
       expectedValues.remove(i);
 
-      assertGet(k, expectedValues);
+      assertGet(k0(), expectedValues);
     }
   }
 
@@ -75,20 +69,17 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRemoveAtIndexFromAsMapPropagates() {
-    K k = sampleKeys().e0();
-    V v0 = sampleValues().e0();
-    V v1 = sampleValues().e2();
-    List<V> values = Arrays.asList(v0, v1, v0);
+    List<V> values = Arrays.asList(v0(), v1(), v0());
 
     for (int i = 0; i < 3; i++) {
-      resetContainer(mapEntry(k, v0), mapEntry(k, v1), mapEntry(k, v0));
+      resetContainer(mapEntry(k0(), v0()), mapEntry(k0(), v1()), mapEntry(k0(), v0()));
       List<V> expectedValues = copyToList(values);
 
-      List<V> asMapValue = (List<V>) multimap().asMap().get(k);
+      List<V> asMapValue = (List<V>) multimap().asMap().get(k0());
       asMapValue.remove(i);
       expectedValues.remove(i);
 
-      assertGet(k, expectedValues);
+      assertGet(k0(), expectedValues);
     }
   }
 
@@ -96,13 +87,10 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testRemoveAtIndexFromAsMapEntrySetPropagates() {
-    K k = sampleKeys().e0();
-    V v0 = sampleValues().e0();
-    V v1 = sampleValues().e2();
-    List<V> values = Arrays.asList(v0, v1, v0);
+    List<V> values = Arrays.asList(v0(), v1(), v0());
 
     for (int i = 0; i < 3; i++) {
-      resetContainer(mapEntry(k, v0), mapEntry(k, v1), mapEntry(k, v0));
+      resetContainer(mapEntry(k0(), v0()), mapEntry(k0(), v1()), mapEntry(k0(), v0()));
       List<V> expectedValues = copyToList(values);
 
       Map.Entry<K, Collection<V>> asMapEntry = multimap().asMap().entrySet().iterator().next();
@@ -110,7 +98,7 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
       asMapValue.remove(i);
       expectedValues.remove(i);
 
-      assertGet(k, expectedValues);
+      assertGet(k0(), expectedValues);
     }
   }
 }

@@ -45,7 +45,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testPutUnsupported() {
     try {
-      multimap().put(sampleKeys().e3(), sampleValues().e3());
+      multimap().put(k3(), v3());
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {}
   }
@@ -54,14 +54,11 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   public void testPutEmpty() {
     int size = getNumElements();
 
-    K key = sampleKeys().e3();
-    V value = sampleValues().e3();
+    assertGet(k3(), ImmutableList.<V>of());
 
-    assertGet(key, ImmutableList.<V>of());
+    assertTrue(multimap().put(k3(), v3()));
 
-    assertTrue(multimap().put(key, value));
-
-    assertGet(key, value);
+    assertGet(k3(), v3());
     assertEquals(size + 1, multimap().size());
   }
 
@@ -70,15 +67,11 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   public void testPutPresent() {
     int size = getNumElements();
 
-    K key = sampleKeys().e0();
-    V oldValue = sampleValues().e0();
-    V newValue = sampleValues().e3();
+    assertGet(k0(), v0());
 
-    assertGet(key, oldValue);
+    assertTrue(multimap().put(k0(), v3()));
 
-    assertTrue(multimap().put(key, newValue));
-
-    assertGet(key, oldValue, newValue);
+    assertGet(k0(), v0(), v3());
     assertEquals(size + 1, multimap().size());
   }
 
@@ -86,19 +79,15 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   public void testPutTwoElements() {
     int size = getNumElements();
 
-    K key = sampleKeys().e0();
-    V v1 = sampleValues().e3();
-    V v2 = sampleValues().e4();
+    List<V> values = Helpers.copyToList(multimap().get(k0()));
 
-    List<V> values = Helpers.copyToList(multimap().get(key));
+    assertTrue(multimap().put(k0(), v1()));
+    assertTrue(multimap().put(k0(), v2()));
 
-    assertTrue(multimap().put(key, v1));
-    assertTrue(multimap().put(key, v2));
+    values.add(v1());
+    values.add(v2());
 
-    values.add(v1);
-    values.add(v2);
-
-    assertGet(key, values);
+    assertGet(k0(), values);
     assertEquals(size + 2, multimap().size());
   }
 
@@ -106,16 +95,16 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   public void testPutNullValue_supported() {
     int size = getNumElements();
 
-    multimap().put(sampleKeys().e3(), null);
+    multimap().put(k3(), null);
 
-    assertGet(sampleKeys().e3(), Lists.newArrayList((V) null)); // ImmutableList.of can't take null.
+    assertGet(k3(), Lists.newArrayList((V) null)); // ImmutableList.of can't take null.
     assertEquals(size + 1, multimap().size());
   }
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   public void testPutNullValue_unsupported() {
     try {
-      multimap().put(sampleKeys().e1(), null);
+      multimap().put(k1(), null);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -127,37 +116,37 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   public void testPutNullKey() {
     int size = getNumElements();
 
-    multimap().put(null, sampleValues().e3());
+    multimap().put(null, v3());
 
-    assertGet(null, sampleValues().e3());
+    assertGet(null, v3());
     assertEquals(size + 1, multimap().size());
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutNotPresentKeyPropagatesToGet() {
     int size = getNumElements();
-    Collection<V> collection = multimap().get(sampleKeys().e3());
+    Collection<V> collection = multimap().get(k3());
     assertThat(collection).isEmpty();
-    multimap().put(sampleKeys().e3(), sampleValues().e3());
-    assertThat(collection).contains(sampleValues().e3());
+    multimap().put(k3(), v3());
+    assertThat(collection).contains(v3());
     assertEquals(size + 1, multimap().size());
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutNotPresentKeyPropagatesToEntries() {
     Collection<Entry<K, V>> entries = multimap().entries();
-    assertFalse(entries.contains(Helpers.mapEntry(sampleKeys().e3(), sampleValues().e3())));
-    multimap().put(sampleKeys().e3(), sampleValues().e3());
-    assertThat(entries).contains(Helpers.mapEntry(sampleKeys().e3(), sampleValues().e3()));
+    assertFalse(entries.contains(Helpers.mapEntry(k3(), v3())));
+    multimap().put(k3(), v3());
+    assertThat(entries).contains(Helpers.mapEntry(k3(), v3()));
   }
 
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutPresentKeyPropagatesToEntries() {
     Collection<Entry<K, V>> entries = multimap().entries();
-    assertFalse(entries.contains(Helpers.mapEntry(sampleKeys().e0(), sampleValues().e3())));
-    multimap().put(sampleKeys().e0(), sampleValues().e3());
-    assertThat(entries).contains(Helpers.mapEntry(sampleKeys().e0(), sampleValues().e3()));
+    assertFalse(entries.contains(Helpers.mapEntry(k0(), v3())));
+    multimap().put(k0(), v3());
+    assertThat(entries).contains(Helpers.mapEntry(k0(), v3()));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
@@ -172,8 +161,8 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
       Collection<V> collection = multimap().get(key);
       Collection<V> expectedCollection = Helpers.copyToList(collection);
 
-      multimap().put(key, sampleValues().e3());
-      expectedCollection.add(sampleValues().e3());
+      multimap().put(key, v3());
+      expectedCollection.add(v3());
       assertThat(collection).containsExactlyElementsIn(expectedCollection);
       assertEquals(size + 1, multimap().size());
     }
@@ -192,8 +181,8 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
       assertNotNull(collection);
       Collection<V> expectedCollection = Helpers.copyToList(collection);
 
-      multimap().put(key, sampleValues().e3());
-      expectedCollection.add(sampleValues().e3());
+      multimap().put(key, v3());
+      expectedCollection.add(v3());
       assertThat(collection).containsExactlyElementsIn(expectedCollection);
       assertEquals(size + 1, multimap().size());
     }
@@ -220,8 +209,8 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
       assertNotNull(collection);
       Collection<V> expectedCollection = Helpers.copyToList(collection);
 
-      multimap().put(key, sampleValues().e3());
-      expectedCollection.add(sampleValues().e3());
+      multimap().put(key, v3());
+      expectedCollection.add(v3());
       assertThat(collection).containsExactlyElementsIn(expectedCollection);
       assertEquals(size + 1, multimap().size());
     }

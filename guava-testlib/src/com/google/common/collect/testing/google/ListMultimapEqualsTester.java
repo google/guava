@@ -32,13 +32,13 @@ public class ListMultimapEqualsTester<K, V> extends AbstractListMultimapTester<K
   @CollectionSize.Require(SEVERAL)
   public void testOrderingAffectsEqualsComparisons() {
     ListMultimap<K, V> multimap1 = getSubjectGenerator().create(
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e0()),
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e1()),
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e0()));
+        Helpers.mapEntry(k0(), v0()),
+        Helpers.mapEntry(k0(), v1()),
+        Helpers.mapEntry(k0(), v0()));
     ListMultimap<K, V> multimap2 = getSubjectGenerator().create(
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e1()),
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e0()),
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e0()));
+        Helpers.mapEntry(k0(), v1()),
+        Helpers.mapEntry(k0(), v0()),
+        Helpers.mapEntry(k0(), v0()));
     new EqualsTester()
         .addEqualityGroup(multimap1)
         .addEqualityGroup(multimap2)

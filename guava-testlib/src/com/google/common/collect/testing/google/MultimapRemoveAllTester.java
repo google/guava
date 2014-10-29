@@ -40,23 +40,23 @@ import java.util.Collection;
 public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllAbsentKey() {
-    assertThat(multimap().removeAll(sampleKeys().e3())).isEmpty();
+    assertThat(multimap().removeAll(k3())).isEmpty();
     expectUnchanged();
   }
 
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllPresentKey() {
-    assertThat(multimap().removeAll(sampleKeys().e0())).containsExactly(sampleValues().e0());
+    assertThat(multimap().removeAll(k0())).containsExactly(v0());
     expectMissing(e0());
   }
 
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllPropagatesToGet() {
-    Collection<V> getResult = multimap().get(sampleKeys().e0());
+    Collection<V> getResult = multimap().get(k0());
 
-    multimap().removeAll(sampleKeys().e0());
+    multimap().removeAll(k0());
 
     assertThat(getResult).isEmpty();
     expectMissing(e0());
@@ -66,12 +66,12 @@ public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, 
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllMultipleValues() {
     resetContainer(
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e0()),
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e1()),
-        Helpers.mapEntry(sampleKeys().e0(), sampleValues().e2()));
+        Helpers.mapEntry(k0(), v0()),
+        Helpers.mapEntry(k0(), v1()),
+        Helpers.mapEntry(k0(), v2()));
 
-    assertThat(multimap().removeAll(sampleKeys().e0()))
-        .containsExactly(sampleValues().e0(), sampleValues().e1(), sampleValues().e2());
+    assertThat(multimap().removeAll(k0()))
+        .containsExactly(v0(), v1(), v2());
     assertTrue(multimap().isEmpty());
   }
 
