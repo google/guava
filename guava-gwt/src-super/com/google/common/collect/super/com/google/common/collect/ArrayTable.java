@@ -23,12 +23,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -181,7 +183,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     }
   }
 
-  private abstract static class ArrayMap<K, V> extends Maps.ViewCachingAbstractMap<K, V> {
+  private abstract static class ArrayMap<K, V> extends IteratorBasedAbstractMap<K, V> {
     private final ImmutableMap<K, Integer> keyIndex;
 
     private ArrayMap(ImmutableMap<K, Integer> keyIndex) {
@@ -214,34 +216,24 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     }
 
     @Override
-    protected Set<Entry<K, V>> createEntrySet() {
-      return new Maps.EntrySet<K, V>() {
+    Iterator<Entry<K, V>> entryIterator() {
+      return new AbstractIndexedListIterator<Entry<K, V>>(size()) {
         @Override
-        Map<K, V> map() {
-          return ArrayMap.this;
-        }
-
-        @Override
-        public Iterator<Entry<K, V>> iterator() {
-          return new AbstractIndexedListIterator<Entry<K, V>>(size()) {
+        protected Entry<K, V> get(final int index) {
+          return new AbstractMapEntry<K, V>() {
             @Override
-            protected Entry<K, V> get(final int index) {
-              return new AbstractMapEntry<K, V>() {
-                @Override
-                public K getKey() {
-                  return ArrayMap.this.getKey(index);
-                }
+            public K getKey() {
+              return ArrayMap.this.getKey(index);
+            }
 
-                @Override
-                public V getValue() {
-                  return ArrayMap.this.getValue(index);
-                }
+            @Override
+            public V getValue() {
+              return ArrayMap.this.getValue(index);
+            }
 
-                @Override
-                public V setValue(V value) {
-                  return ArrayMap.this.setValue(index, value);
-                }
-              };
+            @Override
+            public V setValue(V value) {
+              return ArrayMap.this.setValue(index, value);
             }
           };
         }

@@ -21,6 +21,7 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
+import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -49,7 +50,8 @@ import javax.annotation.Nullable;
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
-public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K, V>, Serializable {
+public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V> 
+    implements BiMap<K, V>, Serializable {
 
   /**
    * Returns a new, empty {@code HashBiMap} with the default initial capacity (16).
@@ -419,61 +421,49 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
   }
 
   @Override
-  public Set<Entry<K, V>> entrySet() {
-    return new EntrySet();
-  }
+  Iterator<Entry<K, V>> entryIterator() {
+    return new Itr<Entry<K, V>>() {
+      @Override
+      Entry<K, V> output(BiEntry<K, V> entry) {
+        return new MapEntry(entry);
+      }
 
-  private final class EntrySet extends Maps.EntrySet<K, V> {
-    @Override
-    Map<K, V> map() {
-      return HashBiMap.this;
-    }
+      class MapEntry extends AbstractMapEntry<K, V> {
+        BiEntry<K, V> delegate;
 
-    @Override
-    public Iterator<Entry<K, V>> iterator() {
-      return new Itr<Entry<K, V>>() {
-        @Override
-        Entry<K, V> output(BiEntry<K, V> entry) {
-          return new MapEntry(entry);
+        MapEntry(BiEntry<K, V> entry) {
+          this.delegate = entry;
         }
 
-        class MapEntry extends AbstractMapEntry<K, V> {
-          BiEntry<K, V> delegate;
-
-          MapEntry(BiEntry<K, V> entry) {
-            this.delegate = entry;
-          }
-
-          @Override public K getKey() {
-            return delegate.key;
-          }
-
-          @Override public V getValue() {
-            return delegate.value;
-          }
-
-          @Override public V setValue(V value) {
-            V oldValue = delegate.value;
-            int valueHash = hash(value);
-            if (valueHash == delegate.valueHash && Objects.equal(value, oldValue)) {
-              return value;
-            }
-            checkArgument(
-                seekByValue(value, valueHash) == null, "value already present: %s", value);
-            delete(delegate);
-            BiEntry<K, V> newEntry =
-                new BiEntry<K, V>(delegate.key, delegate.keyHash, value, valueHash);
-            insert(newEntry);
-            expectedModCount = modCount;
-            if (toRemove == delegate) {
-              toRemove = newEntry;
-            }
-            delegate = newEntry;
-            return oldValue;
-          }
+        @Override public K getKey() {
+          return delegate.key;
         }
-      };
-    }
+
+        @Override public V getValue() {
+          return delegate.value;
+        }
+
+        @Override public V setValue(V value) {
+          V oldValue = delegate.value;
+          int valueHash = hash(value);
+          if (valueHash == delegate.valueHash && Objects.equal(value, oldValue)) {
+            return value;
+          }
+          checkArgument(
+              seekByValue(value, valueHash) == null, "value already present: %s", value);
+          delete(delegate);
+          BiEntry<K, V> newEntry =
+              new BiEntry<K, V>(delegate.key, delegate.keyHash, value, valueHash);
+          insert(newEntry);
+          expectedModCount = modCount;
+          if (toRemove == delegate) {
+            toRemove = newEntry;
+          }
+          delegate = newEntry;
+          return oldValue;
+        }
+      }
+    };
   }
 
   private transient BiMap<V, K> inverse;

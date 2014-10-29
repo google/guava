@@ -26,9 +26,9 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 
 import java.util.AbstractMap;
-import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -208,7 +208,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     return new AsMapOfRanges();
   }
 
-  private final class AsMapOfRanges extends AbstractMap<Range<K>, V> {
+  private final class AsMapOfRanges extends IteratorBasedAbstractMap<Range<K>, V> {
 
     @Override
     public boolean containsKey(@Nullable Object key) {
@@ -226,22 +226,16 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       }
       return null;
     }
-
+    
     @Override
-    public Set<Entry<Range<K>, V>> entrySet() {
-      return new AbstractSet<Entry<Range<K>, V>>() {
+    public int size() {
+      return entriesByLowerBound.size();
+    }
 
-        @SuppressWarnings("unchecked") // it's safe to upcast iterators
-        @Override
-        public Iterator<Entry<Range<K>, V>> iterator() {
-          return (Iterator) entriesByLowerBound.values().iterator();
-        }
-
-        @Override
-        public int size() {
-          return entriesByLowerBound.size();
-        }
-      };
+    @SuppressWarnings("unchecked") // it's safe to upcast iterators
+    @Override
+    Iterator<Entry<Range<K>, V>> entryIterator() {
+      return (Iterator) entriesByLowerBound.values().iterator();
     }
   }
   

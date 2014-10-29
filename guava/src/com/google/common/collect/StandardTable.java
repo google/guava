@@ -28,6 +28,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
+import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.common.collect.Sets.ImprovedAbstractSet;
 
@@ -255,7 +256,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return new Row(rowKey);
   }
 
-  class Row extends ViewCachingAbstractMap<C, V> {
+  class Row extends IteratorBasedAbstractMap<C, V> {
     final R rowKey;
 
     Row(R rowKey) {
@@ -329,57 +330,45 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @Override
-    protected Set<Entry<C, V>> createEntrySet() {
-      return new RowEntrySet();
+    public int size() {
+      Map<C, V> map = backingRowMap();
+      return (map == null) ? 0 : map.size();
     }
 
-    private final class RowEntrySet extends Maps.EntrySet<C, V> {
-      @Override
-      Map<C, V> map() {
-        return Row.this;
+    @Override
+    Iterator<Entry<C, V>> entryIterator() {
+      final Map<C, V> map = backingRowMap();
+      if (map == null) {
+        return Iterators.emptyModifiableIterator();
       }
-
-      @Override
-      public int size() {
-        Map<C, V> map = backingRowMap();
-        return (map == null) ? 0 : map.size();
-      }
-
-      @Override
-      public Iterator<Entry<C, V>> iterator() {
-        final Map<C, V> map = backingRowMap();
-        if (map == null) {
-          return Iterators.emptyModifiableIterator();
+      final Iterator<Entry<C, V>> iterator = map.entrySet().iterator();
+      return new Iterator<Entry<C, V>>() {
+        @Override public boolean hasNext() {
+          return iterator.hasNext();
         }
-        final Iterator<Entry<C, V>> iterator = map.entrySet().iterator();
-        return new Iterator<Entry<C, V>>() {
-          @Override public boolean hasNext() {
-            return iterator.hasNext();
-          }
-          @Override public Entry<C, V> next() {
-            final Entry<C, V> entry = iterator.next();
-            return new ForwardingMapEntry<C, V>() {
-              @Override protected Entry<C, V> delegate() {
-                return entry;
-              }
-              @Override public V setValue(V value) {
-                return super.setValue(checkNotNull(value));
-              }
-              @Override
-              public boolean equals(Object object) {
-                // TODO(user): identify why this affects GWT tests
-                return standardEquals(object);
-              }
-            };
-          }
+        @Override public Entry<C, V> next() {
+          final Entry<C, V> entry = iterator.next();
+          return new ForwardingMapEntry<C, V>() {
+            @Override protected Entry<C, V> delegate() {
+              return entry;
+            }
+            @Override public V setValue(V value) {
+              return super.setValue(checkNotNull(value));
+            }
+            @Override
+            public boolean equals(Object object) {
+              // TODO(user): identify why this affects GWT tests
+              return standardEquals(object);
+            }
+          };
+        }
 
-          @Override
-          public void remove() {
-            iterator.remove();
-            maintainEmptyInvariant();
-          }
-        };
-      }
+        @Override
+        public void remove() {
+          iterator.remove();
+          maintainEmptyInvariant();
+        }
+      };
     }
   }
 

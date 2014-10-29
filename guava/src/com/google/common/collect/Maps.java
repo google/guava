@@ -1869,7 +1869,7 @@ public final class Maps {
   }
 
   static class TransformedEntriesMap<K, V1, V2>
-      extends ViewCachingAbstractMap<K, V2> {
+      extends IteratorBasedAbstractMap<K, V2> {
     final Map<K, V1> fromMap;
     final EntryTransformer<? super K, ? super V1, V2> transformer;
 
@@ -1913,18 +1913,13 @@ public final class Maps {
       return fromMap.keySet();
     }
 
-    @Override
-    protected Set<Entry<K, V2>> createEntrySet() {
-      return new EntrySet<K, V2>() {
-        @Override Map<K, V2> map() {
-          return TransformedEntriesMap.this;
-        }
+    @Override Iterator<Entry<K, V2>> entryIterator() {
+      return Iterators.transform(fromMap.entrySet().iterator(),
+          Maps.<K, V1, V2>asEntryToEntryFunction(transformer));
+    }
 
-        @Override public Iterator<Entry<K, V2>> iterator() {
-          return Iterators.transform(fromMap.entrySet().iterator(),
-              Maps.<K, V1, V2>asEntryToEntryFunction(transformer));
-        }
-      };
+    @Override public Collection<V2> values() {
+      return new Values<K, V2>(this);
     }
   }
 
@@ -3332,6 +3327,30 @@ public final class Maps {
 
     Collection<V> createValues() {
       return new Values<K, V>(this);
+    }
+  }
+
+  abstract static class IteratorBasedAbstractMap<K, V> extends AbstractMap<K, V> {
+    @Override public abstract int size();
+
+    abstract Iterator<Entry<K, V>> entryIterator();
+
+    @Override public Set<Entry<K, V>> entrySet() {
+      return new EntrySet<K, V>() {
+        @Override
+        Map<K, V> map() {
+          return IteratorBasedAbstractMap.this;
+        }
+
+        @Override
+        public Iterator<Entry<K, V>> iterator() {
+          return entryIterator();
+        }
+      };
+    }
+
+    @Override public void clear() {
+      Iterators.clear(entryIterator());
     }
   }
 
