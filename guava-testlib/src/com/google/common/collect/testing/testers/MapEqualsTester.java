@@ -28,7 +28,6 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * Tests {@link java.util.Map#equals}.
@@ -47,8 +46,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   public void testEquals_otherMapWithDifferentEntries() {
     Map<K, V> other = newHashMap(getSampleEntries(getNumEntries() - 1));
-    Entry<K, V> e3 = getSubjectGenerator().samples().e3();
-    other.put(e3.getKey(), e3.getValue());
+    other.put(k3(), v3());
     assertFalse(
         "A Map should not equal another Map containing different entries.",
         getMap().equals(other)
