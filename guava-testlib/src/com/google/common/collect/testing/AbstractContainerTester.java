@@ -237,11 +237,31 @@ public abstract class AbstractContainerTester<C, E>
 
   @SuppressWarnings("unchecked")
   protected MinimalCollection<E> createDisjointCollection() {
-    return MinimalCollection.of(samples.e3(), samples.e4());
+    return MinimalCollection.of(e3(), e4());
   }
 
   @SuppressWarnings("unchecked")
   protected MinimalCollection<E> emptyCollection() {
     return MinimalCollection.<E>of();
+  }
+
+  protected final E e0() {
+    return samples.e0();
+  }
+
+  protected final E e1() {
+    return samples.e1();
+  }
+
+  protected final E e2() {
+    return samples.e2();
+  }
+
+  protected final E e3() {
+    return samples.e3();
+  }
+
+  protected final E e4() {
+    return samples.e4();
   }
 }

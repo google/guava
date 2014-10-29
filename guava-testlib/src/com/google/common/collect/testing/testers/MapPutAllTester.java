@@ -56,8 +56,8 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
 
   @Override public void setUp() throws Exception {
     super.setUp();
-    containsNullKey = singletonList(entry(null, samples.e3().getValue()));
-    containsNullValue = singletonList(entry(samples.e3().getKey(), null));
+    containsNullKey = singletonList(entry(null, e3().getValue()));
+    containsNullValue = singletonList(entry(e3().getKey(), null));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
@@ -78,7 +78,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAll_supportedNonePresent() {
     putAll(createDisjointCollection());
-    expectAdded(samples.e3(), samples.e4());
+    expectAdded(e3(), e4());
   }
 
   @MapFeature.Require(absent = SUPPORTS_PUT)
@@ -89,14 +89,14 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     } catch (UnsupportedOperationException expected) {
     }
     expectUnchanged();
-    expectMissing(samples.e3(), samples.e4());
+    expectMissing(e3(), e4());
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutAll_supportedSomePresent() {
-    putAll(MinimalCollection.of(samples.e3(), samples.e0()));
-    expectAdded(samples.e3());
+    putAll(MinimalCollection.of(e3(), e0()));
+    expectAdded(e3());
   }
 
   @MapFeature.Require({ FAILS_FAST_ON_CONCURRENT_MODIFICATION,
@@ -105,7 +105,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
   public void testPutAllSomePresentConcurrentWithEntrySetIteration() {
     try {
       Iterator<Entry<K, V>> iterator = getMap().entrySet().iterator();
-      putAll(MinimalCollection.of(samples.e3(), samples.e0()));
+      putAll(MinimalCollection.of(e3(), e0()));
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -117,7 +117,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testPutAll_unsupportedSomePresent() {
     try {
-      putAll(MinimalCollection.of(samples.e3(), samples.e0()));
+      putAll(MinimalCollection.of(e3(), e0()));
       fail("putAll(somePresent) should throw");
     } catch (UnsupportedOperationException expected) {
     }
@@ -128,7 +128,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testPutAll_unsupportedAllPresent() {
     try {
-      putAll(MinimalCollection.of(samples.e0()));
+      putAll(MinimalCollection.of(e0()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();

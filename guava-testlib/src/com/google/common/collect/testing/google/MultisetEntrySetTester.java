@@ -57,7 +57,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
         "non-empty multiset.entrySet() iterator.hasNext() returned false",
         iterator.hasNext());
     assertEquals("multiset.entrySet() iterator.next() returned incorrect entry",
-        Multisets.immutableEntry(samples.e0(), 1), iterator.next());
+        Multisets.immutableEntry(e0(), 1), iterator.next());
     assertFalse(
         "size 1 multiset.entrySet() iterator.hasNext() returned true "
             + "after next()",
@@ -74,10 +74,10 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     assertTrue(
         "multiset.entrySet.remove(presentEntry) returned false",
         getMultiset().entrySet().remove(
-            Multisets.immutableEntry(samples.e0(), 1)));
+            Multisets.immutableEntry(e0(), 1)));
     assertFalse(
         "multiset contains element after removing its entry",
-        getMultiset().contains(samples.e0()));
+        getMultiset().contains(e0()));
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -86,10 +86,10 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     assertFalse(
         "multiset.entrySet.remove(missingEntry) returned true",
         getMultiset().entrySet().remove(
-            Multisets.immutableEntry(samples.e0(), 2)));
+            Multisets.immutableEntry(e0(), 2)));
     assertTrue(
         "multiset didn't contain element after removing a missing entry",
-        getMultiset().contains(samples.e0()));
+        getMultiset().contains(e0()));
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -98,10 +98,10 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     assertTrue(
         "multiset.entrySet.removeAll(presentEntry) returned false",
         getMultiset().entrySet().removeAll(
-            Collections.singleton(Multisets.immutableEntry(samples.e0(), 1))));
+            Collections.singleton(Multisets.immutableEntry(e0(), 1))));
     assertFalse(
         "multiset contains element after removing its entry",
-        getMultiset().contains(samples.e0()));
+        getMultiset().contains(e0()));
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -110,10 +110,10 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     assertFalse(
         "multiset.entrySet.remove(missingEntry) returned true",
         getMultiset().entrySet().removeAll(
-            Collections.singleton(Multisets.immutableEntry(samples.e0(), 2))));
+            Collections.singleton(Multisets.immutableEntry(e0(), 2))));
     assertTrue(
         "multiset didn't contain element after removing a missing entry",
-        getMultiset().contains(samples.e0()));
+        getMultiset().contains(e0()));
   }
 
   @CollectionSize.Require(ONE)
@@ -122,10 +122,10 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     assertFalse(
         "multiset.entrySet.retainAll(presentEntry) returned false",
         getMultiset().entrySet().retainAll(
-            Collections.singleton(Multisets.immutableEntry(samples.e0(), 1))));
+            Collections.singleton(Multisets.immutableEntry(e0(), 1))));
     assertTrue(
         "multiset doesn't contains element after retaining its entry",
-        getMultiset().contains(samples.e0()));
+        getMultiset().contains(e0()));
   }
 
   @CollectionSize.Require(ONE)
@@ -134,10 +134,10 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     assertTrue(
         "multiset.entrySet.retainAll(missingEntry) returned true",
         getMultiset().entrySet().retainAll(
-            Collections.singleton(Multisets.immutableEntry(samples.e0(), 2))));
+            Collections.singleton(Multisets.immutableEntry(e0(), 2))));
     assertFalse(
         "multiset contains element after retaining a different entry",
-        getMultiset().contains(samples.e0()));
+        getMultiset().contains(e0()));
   }
   
   @CollectionSize.Require(SEVERAL)
@@ -145,12 +145,12 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
   public void testEntryViewReflectsRemove() {
     initThreeCopies();
-    assertEquals(3, getMultiset().count(samples.e0()));
+    assertEquals(3, getMultiset().count(e0()));
     Multiset.Entry<E> entry = Iterables.getOnlyElement(getMultiset().entrySet());
     assertEquals(3, entry.getCount());
-    assertTrue(getMultiset().remove(samples.e0()));
+    assertTrue(getMultiset().remove(e0()));
     assertEquals(2, entry.getCount());
-    assertTrue(getMultiset().elementSet().remove(samples.e0()));
+    assertTrue(getMultiset().elementSet().remove(e0()));
     assertEquals(0, entry.getCount());
   }
   
@@ -159,7 +159,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
   public void testEntryReflectsIteratorRemove() {
     initThreeCopies();
-    assertEquals(3, getMultiset().count(samples.e0()));
+    assertEquals(3, getMultiset().count(e0()));
     Multiset.Entry<E> entry = Iterables.getOnlyElement(getMultiset().entrySet());
     assertEquals(3, entry.getCount());
     Iterator<E> itr = getMultiset().iterator();
@@ -178,7 +178,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
   public void testEntryReflectsClear() {
     initThreeCopies();
-    assertEquals(3, getMultiset().count(samples.e0()));
+    assertEquals(3, getMultiset().count(e0()));
     Multiset.Entry<E> entry = Iterables.getOnlyElement(getMultiset().entrySet());
     assertEquals(3, entry.getCount());
     getMultiset().clear();
@@ -190,7 +190,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
   public void testEntryReflectsEntrySetClear() {
     initThreeCopies();
-    assertEquals(3, getMultiset().count(samples.e0()));
+    assertEquals(3, getMultiset().count(e0()));
     Multiset.Entry<E> entry = Iterables.getOnlyElement(getMultiset().entrySet());
     assertEquals(3, entry.getCount());
     getMultiset().entrySet().clear();
@@ -202,7 +202,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
   public void testEntryReflectsEntrySetIteratorRemove() {
     initThreeCopies();
-    assertEquals(3, getMultiset().count(samples.e0()));
+    assertEquals(3, getMultiset().count(e0()));
     Iterator<Multiset.Entry<E>> entryItr = getMultiset().entrySet().iterator();
     Multiset.Entry<E> entry = entryItr.next();
     entryItr.remove();
@@ -214,7 +214,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
   public void testEntryReflectsElementSetClear() {
     initThreeCopies();
-    assertEquals(3, getMultiset().count(samples.e0()));
+    assertEquals(3, getMultiset().count(e0()));
     Multiset.Entry<E> entry = Iterables.getOnlyElement(getMultiset().entrySet());
     assertEquals(3, entry.getCount());
     getMultiset().elementSet().clear();
@@ -226,7 +226,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
   public void testEntryReflectsElementSetIteratorRemove() {
     initThreeCopies();
-    assertEquals(3, getMultiset().count(samples.e0()));
+    assertEquals(3, getMultiset().count(e0()));
     Multiset.Entry<E> entry = Iterables.getOnlyElement(getMultiset().entrySet());
     assertEquals(3, entry.getCount());
     Iterator<E> elementItr = getMultiset().elementSet().iterator();
@@ -240,14 +240,14 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
   public void testEntryReflectsRemoveThenAdd() {
     initThreeCopies();
-    assertEquals(3, getMultiset().count(samples.e0()));
+    assertEquals(3, getMultiset().count(e0()));
     Multiset.Entry<E> entry = Iterables.getOnlyElement(getMultiset().entrySet());
     assertEquals(3, entry.getCount());
-    assertTrue(getMultiset().remove(samples.e0()));
+    assertTrue(getMultiset().remove(e0()));
     assertEquals(2, entry.getCount());
-    assertTrue(getMultiset().elementSet().remove(samples.e0()));
+    assertTrue(getMultiset().elementSet().remove(e0()));
     assertEquals(0, entry.getCount());
-    getMultiset().add(samples.e0(), 2);
+    getMultiset().add(e0(), 2);
     assertEquals(2, entry.getCount());
   }
   

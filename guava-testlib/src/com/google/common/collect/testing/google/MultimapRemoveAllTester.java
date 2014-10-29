@@ -48,7 +48,7 @@ public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, 
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllPresentKey() {
     assertThat(multimap().removeAll(sampleKeys().e0())).containsExactly(sampleValues().e0());
-    expectMissing(samples.e0());
+    expectMissing(e0());
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -59,7 +59,7 @@ public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, 
     multimap().removeAll(sampleKeys().e0());
 
     assertThat(getResult).isEmpty();
-    expectMissing(samples.e0());
+    expectMissing(e0());
   }
 
   @CollectionSize.Require(SEVERAL)

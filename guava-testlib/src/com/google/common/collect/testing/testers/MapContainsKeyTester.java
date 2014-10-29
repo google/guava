@@ -38,12 +38,12 @@ public class MapContainsKeyTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testContains_yes() {
     assertTrue("containsKey(present) should return true",
-        getMap().containsKey(samples.e0().getKey()));
+        getMap().containsKey(e0().getKey()));
   }
 
   public void testContains_no() {
     assertFalse("containsKey(notPresent) should return false",
-        getMap().containsKey(samples.e3().getKey()));
+        getMap().containsKey(e3().getKey()));
   }
 
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
@@ -63,7 +63,7 @@ public class MapContainsKeyTester<K, V> extends AbstractMapTester<K, V> {
   public void testContains_nonNullWhenNullContained() {
     initMapWithNullKey();
     assertFalse("containsKey(notPresent) should return false",
-        getMap().containsKey(samples.e3().getKey()));
+        getMap().containsKey(e3().getKey()));
   }
 
   @MapFeature.Require(ALLOWS_NULL_KEYS)

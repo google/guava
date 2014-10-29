@@ -42,20 +42,20 @@ public class MultisetCountTester<E> extends AbstractMultisetTester<E> {
 
   public void testCount_0() {
     assertEquals("multiset.count(missing) didn't return 0",
-        0, getMultiset().count(samples.e3()));
+        0, getMultiset().count(e3()));
   }
 
   @CollectionSize.Require(absent = ZERO)
   public void testCount_1() {
     assertEquals("multiset.count(present) didn't return 1",
-        1, getMultiset().count(samples.e0()));
+        1, getMultiset().count(e0()));
   }
 
   @CollectionSize.Require(SEVERAL)
   public void testCount_3() {
     initThreeCopies();
     assertEquals("multiset.count(thriceContained) didn't return 3",
-        3, getMultiset().count(samples.e0()));
+        3, getMultiset().count(e0()));
   }
 
   @CollectionFeature.Require(ALLOWS_NULL_QUERIES)

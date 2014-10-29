@@ -118,8 +118,8 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
 
   public void testToArray_oversizedArray() {
     E[] array = getSubjectGenerator().createArray(getNumElements() + 2);
-    array[getNumElements()] = samples.e3();
-    array[getNumElements() + 1] = samples.e3();
+    array[getNumElements()] = e3();
+    array[getNumElements() + 1] = e3();
     assertSame("toArray(overSizedE[]) should return the given array",
         array, collection.toArray(array));
 
@@ -139,8 +139,8 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(KNOWN_ORDER)
   public void testToArray_oversizedArray_ordered() {
     E[] array = getSubjectGenerator().createArray(getNumElements() + 2);
-    array[getNumElements()] = samples.e3();
-    array[getNumElements() + 1] = samples.e3();
+    array[getNumElements()] = e3();
+    array[getNumElements() + 1] = e3();
     assertSame("toArray(overSizedE[]) should return the given array",
         array, collection.toArray(array));
 

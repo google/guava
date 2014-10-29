@@ -40,8 +40,8 @@ public class ListAddTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)
   public void testAdd_supportedPresent() {
-    assertTrue("add(present) should return true", getList().add(samples.e0()));
-    expectAdded(samples.e0());
+    assertTrue("add(present) should return true", getList().add(e0()));
+    expectAdded(e0());
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
@@ -52,7 +52,7 @@ public class ListAddTester<E> extends AbstractListTester<E> {
    */
   public void testAdd_unsupportedPresent() {
     try {
-      getList().add(samples.e0());
+      getList().add(e0());
       fail("add(present) should throw");
     } catch (UnsupportedOperationException expected) {
     }

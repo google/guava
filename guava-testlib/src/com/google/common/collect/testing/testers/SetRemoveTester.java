@@ -35,9 +35,9 @@ public class SetRemoveTester<E> extends AbstractSetTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemove_present() {
-    getSet().remove(samples.e0());
+    getSet().remove(e0());
     assertFalse("After remove(present) a set should not contain "
         + "the removed element.",
-        getSet().contains(samples.e0()));
+        getSet().contains(e0()));
   }
 }

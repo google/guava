@@ -113,17 +113,17 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testSubList_subListAddAffectsOriginal() {
     List<E> subList = getList().subList(0, 0);
-    subList.add(samples.e3());
-    expectAdded(0, samples.e3());
+    subList.add(e3());
+    expectAdded(0, e3());
   }
 
   @ListFeature.Require(SUPPORTS_SET)
   @CollectionSize.Require(absent = ZERO)
   public void testSubList_subListSetAffectsOriginal() {
     List<E> subList = getList().subList(0, 1);
-    subList.set(0, samples.e3());
+    subList.set(0, e3());
     List<E> expected = Helpers.copyToList(createSamplesArray());
-    expected.set(0, samples.e3());
+    expected.set(0, e3());
     expectContents(expected);
   }
 
@@ -131,17 +131,17 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testSubList_originalListSetAffectsSubList() {
     List<E> subList = getList().subList(0, 1);
-    getList().set(0, samples.e3());
+    getList().set(0, e3());
     assertEquals("A set() call to a list after a sublist has been created "
         + "should be reflected in the sublist",
-        Collections.singletonList(samples.e3()), subList);
+        Collections.singletonList(e3()), subList);
   }
 
   @ListFeature.Require(SUPPORTS_REMOVE_WITH_INDEX)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testSubList_subListRemoveAffectsOriginalLargeList() {
     List<E> subList = getList().subList(1, 3);
-    subList.remove(samples.e2());
+    subList.remove(e2());
     List<E> expected = Helpers.copyToList(createSamplesArray());
     expected.remove(2);
     expectContents(expected);
@@ -151,17 +151,17 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testSubList_subListAddAtIndexAffectsOriginalLargeList() {
     List<E> subList = getList().subList(2, 3);
-    subList.add(0, samples.e3());
-    expectAdded(2, samples.e3());
+    subList.add(0, e3());
+    expectAdded(2, e3());
   }
 
   @ListFeature.Require(SUPPORTS_SET)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testSubList_subListSetAffectsOriginalLargeList() {
     List<E> subList = getList().subList(1, 2);
-    subList.set(0, samples.e3());
+    subList.set(0, e3());
     List<E> expected = Helpers.copyToList(createSamplesArray());
-    expected.set(1, samples.e3());
+    expected.set(1, e3());
     expectContents(expected);
   }
 
@@ -169,10 +169,10 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testSubList_originalListSetAffectsSubListLargeList() {
     List<E> subList = getList().subList(1, 3);
-    getList().set(1, samples.e3());
+    getList().set(1, e3());
     assertEquals("A set() call to a list after a sublist has been created "
         + "should be reflected in the sublist",
-        Arrays.asList(samples.e3(), samples.e2()), subList);
+        Arrays.asList(e3(), e2()), subList);
   }
 
   public void testSubList_ofSubListEmpty() {

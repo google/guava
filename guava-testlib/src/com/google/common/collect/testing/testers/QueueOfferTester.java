@@ -35,8 +35,8 @@ public class QueueOfferTester<E> extends AbstractQueueTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testOffer_supportedNotPresent() {
     assertTrue("offer(notPresent) should return true",
-        getQueue().offer(samples.e3()));
-    expectAdded(samples.e3());
+        getQueue().offer(e3()));
+    expectAdded(e3());
   }
 
   @CollectionFeature.Require({SUPPORTS_ADD, ALLOWS_NULL_VALUES})

@@ -45,9 +45,9 @@ public class ListIndexOfTester<E> extends AbstractListIndexOfTester<E> {
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testIndexOf_duplicate() {
     E[] array = createSamplesArray();
-    array[getNumElements() / 2] = samples.e0();
+    array[getNumElements() / 2] = e0();
     collection = getSubjectGenerator().create(array);
     assertEquals("indexOf(duplicate) should return index of first occurrence",
-        0, getList().indexOf(samples.e0()));
+        0, getList().indexOf(e0()));
   }
 }

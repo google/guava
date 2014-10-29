@@ -44,19 +44,19 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAdd_supportedNotPresent() {
     assertTrue("add(notPresent) should return true",
-        collection.add(samples.e3()));
-    expectAdded(samples.e3());
+        collection.add(e3()));
+    expectAdded(e3());
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   public void testAdd_unsupportedNotPresent() {
     try {
-      collection.add(samples.e3());
+      collection.add(e3());
       fail("add(notPresent) should throw");
     } catch (UnsupportedOperationException expected) {
     }
     expectUnchanged();
-    expectMissing(samples.e3());
+    expectMissing(e3());
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
@@ -64,7 +64,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   public void testAdd_unsupportedPresent() {
     try {
       assertFalse("add(present) should return false or throw",
-          collection.add(samples.e0()));
+          collection.add(e0()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
@@ -97,7 +97,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   public void testAddConcurrentWithIteration() {
     try {
       Iterator<E> iterator = collection.iterator();
-      assertTrue(collection.add(samples.e3()));
+      assertTrue(collection.add(e3()));
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {

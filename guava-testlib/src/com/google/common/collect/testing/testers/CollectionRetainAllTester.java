@@ -80,22 +80,22 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
      * MinimalCollection, which throws NullPointerException on calls to
      * contains(null).
      */
-    List<E> disjointList = Arrays.asList(samples.e3(), samples.e4());
+    List<E> disjointList = Arrays.asList(e3(), e4());
     disjoint
         = new Target(disjointList, "disjoint");
     superset
         = new Target(MinimalCollection.of(
-            samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4()),
+            e0(), e1(), e2(), e3(), e4()),
             "superset");
     nonEmptyProperSubset
-        = new Target(MinimalCollection.of(samples.e1()), "subset");
+        = new Target(MinimalCollection.of(e1()), "subset");
     sameElements
         = new Target(Arrays.asList(createSamplesArray()), "sameElements");
     containsDuplicates = new Target(
-        MinimalCollection.of(samples.e0(), samples.e0(), samples.e3(), samples.e3()),
+        MinimalCollection.of(e0(), e0(), e3(), e3()),
         "containsDuplicates");
     partialOverlap
-        = new Target(MinimalCollection.of(samples.e2(), samples.e3()),
+        = new Target(MinimalCollection.of(e2(), e3()),
             "partialOverlap");
     nullSingleton
         = new Target(Collections.<E>singleton(null), "nullSingleton");
@@ -122,7 +122,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
   public void testRetainAll_emptyPreviouslyNonEmpty() {
     expectReturnsTrue(empty);
     expectContents();
-    expectMissing(samples.e0(), samples.e1(), samples.e2());
+    expectMissing(e0(), e1(), e2());
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
@@ -153,7 +153,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
   public void testRetainAll_disjointPreviouslyNonEmpty() {
     expectReturnsTrue(disjoint);
     expectContents();
-    expectMissing(samples.e0(), samples.e1(), samples.e2());
+    expectMissing(e0(), e1(), e2());
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
@@ -213,7 +213,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testRetainAll_partialOverlap() {
     expectReturnsTrue(partialOverlap);
-    expectContents(samples.e2());
+    expectContents(e2());
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
@@ -229,14 +229,14 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(ONE)
   public void testRetainAll_containsDuplicatesSizeOne() {
     expectReturnsFalse(containsDuplicates);
-    expectContents(samples.e0());
+    expectContents(e0());
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testRetainAll_containsDuplicatesSizeSeveral() {
     expectReturnsTrue(containsDuplicates);
-    expectContents(samples.e0());
+    expectContents(e0());
   }
 
   // retainAll(nullSingleton)

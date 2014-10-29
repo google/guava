@@ -65,7 +65,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   public void testAddAll_supportedNonePresent() {
     assertTrue("addAll(nonePresent) should return true",
         collection.addAll(createDisjointCollection()));
-    expectAdded(samples.e3(), samples.e4());
+    expectAdded(e3(), e4());
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
@@ -76,23 +76,23 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
     } catch (UnsupportedOperationException expected) {
     }
     expectUnchanged();
-    expectMissing(samples.e3(), samples.e4());
+    expectMissing(e3(), e4());
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAll_supportedSomePresent() {
     assertTrue("addAll(somePresent) should return true",
-        collection.addAll(MinimalCollection.of(samples.e3(), samples.e0())));
-    assertTrue("should contain " + samples.e3(), collection.contains(samples.e3()));
-    assertTrue("should contain " + samples.e0(), collection.contains(samples.e0()));
+        collection.addAll(MinimalCollection.of(e3(), e0())));
+    assertTrue("should contain " + e3(), collection.contains(e3()));
+    assertTrue("should contain " + e0(), collection.contains(e0()));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAll_unsupportedSomePresent() {
     try {
-      collection.addAll(MinimalCollection.of(samples.e3(), samples.e0()));
+      collection.addAll(MinimalCollection.of(e3(), e0()));
       fail("addAll(somePresent) should throw");
     } catch (UnsupportedOperationException expected) {
     }
@@ -105,7 +105,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   public void testAddAllConcurrentWithIteration() {
     try {
       Iterator<E> iterator = collection.iterator();
-      assertTrue(collection.addAll(MinimalCollection.of(samples.e3(), samples.e0())));
+      assertTrue(collection.addAll(MinimalCollection.of(e3(), e0())));
       iterator.next();
       fail("Expected ConcurrentModificationException");
     } catch (ConcurrentModificationException expected) {
@@ -118,7 +118,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   public void testAddAll_unsupportedAllPresent() {
     try {
       assertFalse("addAll(allPresent) should return false or throw",
-          collection.addAll(MinimalCollection.of(samples.e0())));
+          collection.addAll(MinimalCollection.of(e0())));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();

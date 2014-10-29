@@ -82,10 +82,10 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
 
   @CollectionSize.Require(ZERO)
   public void testEmptySetNearby() {
-    assertNull(navigableSet.lower(samples.e0()));
-    assertNull(navigableSet.floor(samples.e0()));
-    assertNull(navigableSet.ceiling(samples.e0()));
-    assertNull(navigableSet.higher(samples.e0()));
+    assertNull(navigableSet.lower(e0()));
+    assertNull(navigableSet.floor(e0()));
+    assertNull(navigableSet.ceiling(e0()));
+    assertNull(navigableSet.higher(e0()));
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -103,10 +103,10 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
 
   @CollectionSize.Require(ONE)
   public void testSingletonSetNearby() {
-    assertNull(navigableSet.lower(samples.e0()));
-    assertEquals(a, navigableSet.floor(samples.e0()));
-    assertEquals(a, navigableSet.ceiling(samples.e0()));
-    assertNull(navigableSet.higher(samples.e0()));
+    assertNull(navigableSet.lower(e0()));
+    assertEquals(a, navigableSet.floor(e0()));
+    assertEquals(a, navigableSet.ceiling(e0()));
+    assertNull(navigableSet.higher(e0()));
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -226,7 +226,7 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
   }
 
   public void testEmptySubSet() {
-    NavigableSet<E> empty = navigableSet.subSet(samples.e0(), false, samples.e0(), false);
+    NavigableSet<E> empty = navigableSet.subSet(e0(), false, e0(), false);
     assertEquals(new TreeSet<E>(), empty);
   }
 

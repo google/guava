@@ -46,7 +46,7 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveNegative() {
     try {
-      getMultiset().remove(samples.e0(), -1);
+      getMultiset().remove(e0(), -1);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {}
     expectUnchanged();
@@ -55,15 +55,15 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testRemoveUnsupported() {
     try {
-      getMultiset().remove(samples.e0(), 2);
+      getMultiset().remove(e0(), 2);
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {}
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveZeroNoOp() {
-    int originalCount = getMultiset().count(samples.e0());
-    assertEquals("old count", originalCount, getMultiset().remove(samples.e0(), 0));
+    int originalCount = getMultiset().count(e0());
+    assertEquals("old count", originalCount, getMultiset().remove(e0(), 0));
     expectUnchanged();
   }
 
@@ -71,10 +71,10 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemove_occurrences_present() {
     assertEquals("multiset.remove(present, 2) didn't return the old count",
-        1, getMultiset().remove(samples.e0(), 2));
+        1, getMultiset().remove(e0(), 2));
     assertFalse("multiset contains present after multiset.remove(present, 2)",
-        getMultiset().contains(samples.e0()));
-    assertEquals(0, getMultiset().count(samples.e0()));
+        getMultiset().contains(e0()));
+    assertEquals(0, getMultiset().count(e0()));
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -82,16 +82,16 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
   public void testRemove_some_occurrences_present() {
     initThreeCopies();
     assertEquals("multiset.remove(present, 2) didn't return the old count",
-        3, getMultiset().remove(samples.e0(), 2));
+        3, getMultiset().remove(e0(), 2));
     assertTrue("multiset contains present after multiset.remove(present, 2)",
-        getMultiset().contains(samples.e0()));
-    assertEquals(1, getMultiset().count(samples.e0()));
+        getMultiset().contains(e0()));
+    assertEquals(1, getMultiset().count(e0()));
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemove_occurrences_absent() {
     assertEquals("multiset.remove(absent, 0) didn't return 0",
-        0, getMultiset().remove(samples.e3(), 2));
+        0, getMultiset().remove(e3(), 2));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
@@ -100,21 +100,21 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
     try {
       assertEquals(
           "multiset.remove(absent, 2) didn't return 0 or throw an exception",
-          0, getMultiset().remove(samples.e3(), 2));
+          0, getMultiset().remove(e3(), 2));
     } catch (UnsupportedOperationException ok) {}
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemove_occurrences_0() {
-    int oldCount = getMultiset().count(samples.e0());
+    int oldCount = getMultiset().count(e0());
     assertEquals("multiset.remove(E, 0) didn't return the old count",
-        oldCount, getMultiset().remove(samples.e0(), 0));
+        oldCount, getMultiset().remove(e0(), 0));
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemove_occurrences_negative() {
     try {
-      getMultiset().remove(samples.e0(), -1);
+      getMultiset().remove(e0(), -1);
       fail("multiset.remove(E, -1) didn't throw an exception");
     } catch (IllegalArgumentException required) {}
   }
@@ -152,7 +152,7 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllIgnoresCount() {
     initThreeCopies();
-    assertTrue(getMultiset().removeAll(Collections.singleton(samples.e0())));
+    assertTrue(getMultiset().removeAll(Collections.singleton(e0())));
     assertThat(getMultiset()).isEmpty();
   }
   
@@ -161,7 +161,7 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
   public void testRetainAllIgnoresCount() {
     initThreeCopies();
     List<E> contents = Helpers.copyToList(getMultiset());
-    assertFalse(getMultiset().retainAll(Collections.singleton(samples.e0())));
+    assertFalse(getMultiset().retainAll(Collections.singleton(e0())));
     expectContents(contents);
   }
   

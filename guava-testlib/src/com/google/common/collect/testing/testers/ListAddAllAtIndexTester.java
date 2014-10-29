@@ -44,15 +44,15 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllAtIndex_supportedAllPresent() {
     assertTrue("addAll(n, allPresent) should return true",
-        getList().addAll(0, MinimalCollection.of(samples.e0())));
-    expectAdded(0, samples.e0());
+        getList().addAll(0, MinimalCollection.of(e0())));
+    expectAdded(0, e0());
   }
 
   @ListFeature.Require(absent = SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllAtIndex_unsupportedAllPresent() {
     try {
-      getList().addAll(0, MinimalCollection.of(samples.e0()));
+      getList().addAll(0, MinimalCollection.of(e0()));
       fail("addAll(n, allPresent) should throw");
     } catch (UnsupportedOperationException expected) {
     }
@@ -63,20 +63,20 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllAtIndex_supportedSomePresent() {
     assertTrue("addAll(n, allPresent) should return true",
-        getList().addAll(0, MinimalCollection.of(samples.e0(), samples.e3())));
-    expectAdded(0, samples.e0(), samples.e3());
+        getList().addAll(0, MinimalCollection.of(e0(), e3())));
+    expectAdded(0, e0(), e3());
   }
 
   @ListFeature.Require(absent = SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllAtIndex_unsupportedSomePresent() {
     try {
-      getList().addAll(0, MinimalCollection.of(samples.e0(), samples.e3()));
+      getList().addAll(0, MinimalCollection.of(e0(), e3()));
       fail("addAll(n, allPresent) should throw");
     } catch (UnsupportedOperationException expected) {
     }
     expectUnchanged();
-    expectMissing(samples.e3());
+    expectMissing(e3());
   }
 
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
@@ -99,10 +99,10 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAllAtIndex_withDuplicates() {
     MinimalCollection<E> elementsToAdd
-        = MinimalCollection.of(samples.e0(), samples.e1(), samples.e0(), samples.e1());
+        = MinimalCollection.of(e0(), e1(), e0(), e1());
     assertTrue("addAll(n, hasDuplicates) should return true",
         getList().addAll(0, elementsToAdd));
-    expectAdded(0, samples.e0(), samples.e1(), samples.e0(), samples.e1());
+    expectAdded(0, e0(), e1(), e0(), e1());
   }
 
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
@@ -161,22 +161,22 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAllAtIndex_negative() {
     try {
-      getList().addAll(-1, MinimalCollection.of(samples.e3()));
+      getList().addAll(-1, MinimalCollection.of(e3()));
       fail("addAll(-1, e) should throw");
     } catch (IndexOutOfBoundsException expected) {
     }
     expectUnchanged();
-    expectMissing(samples.e3());
+    expectMissing(e3());
   }
 
   @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAllAtIndex_tooLarge() {
     try {
-      getList().addAll(getNumElements() + 1, MinimalCollection.of(samples.e3()));
+      getList().addAll(getNumElements() + 1, MinimalCollection.of(e3()));
       fail("addAll(size + 1, e) should throw");
     } catch (IndexOutOfBoundsException expected) {
     }
     expectUnchanged();
-    expectMissing(samples.e3());
+    expectMissing(e3());
   }
 }

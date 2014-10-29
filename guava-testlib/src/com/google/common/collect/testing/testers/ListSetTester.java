@@ -41,7 +41,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_SET)
   @CollectionSize.Require(absent = ZERO)
   public void testSet() {
-    doTestSet(samples.e3());
+    doTestSet(e3());
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -60,7 +60,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
     elements[i] = null;
     collection = getSubjectGenerator().create(elements);
 
-    doTestSet(samples.e3());
+    doTestSet(e3());
   }
 
   private void doTestSet(E newValue) {
@@ -77,7 +77,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_SET)
   public void testSet_indexTooLow() {
     try {
-      getList().set(-1, samples.e3());
+      getList().set(-1, e3());
       fail("set(-1) should throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException expected) {
     }
@@ -88,7 +88,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   public void testSet_indexTooHigh() {
     int index = getNumElements();
     try {
-      getList().set(index, samples.e3());
+      getList().set(index, e3());
       fail("set(size) should throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException expected) {
     }
@@ -99,7 +99,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(absent = SUPPORTS_SET)
   public void testSet_unsupported() {
     try {
-      getList().set(aValidIndex(), samples.e3());
+      getList().set(aValidIndex(), e3());
       fail("set() should throw UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {
     }
@@ -110,7 +110,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(absent = SUPPORTS_SET)
   public void testSet_unsupportedByEmptyList() {
     try {
-      getList().set(0, samples.e3());
+      getList().set(0, e3());
       fail("set() should throw UnsupportedOperationException "
           + "or IndexOutOfBoundsException");
     } catch (UnsupportedOperationException tolerated) {

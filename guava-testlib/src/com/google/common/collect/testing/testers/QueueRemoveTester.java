@@ -52,15 +52,15 @@ public class QueueRemoveTester<E> extends AbstractQueueTester<E> {
   @CollectionSize.Require(ONE)
   public void testRemove_size1() {
     assertEquals("size1Queue.remove() should return first element",
-        samples.e0(), getQueue().remove());
-    expectMissing(samples.e0());
+        e0(), getQueue().remove());
+    expectMissing(e0());
   }
 
   @CollectionFeature.Require({KNOWN_ORDER, SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testRemove_sizeMany() {
     assertEquals("sizeManyQueue.remove() should return first element",
-        samples.e0(), getQueue().remove());
-    expectMissing(samples.e0());
+        e0(), getQueue().remove());
+    expectMissing(e0());
   }
 }

@@ -39,12 +39,12 @@ public class CollectionContainsTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testContains_yes() {
     assertTrue("contains(present) should return true",
-        collection.contains(samples.e0()));
+        collection.contains(e0()));
   }
 
   public void testContains_no() {
     assertFalse("contains(notPresent) should return false",
-        collection.contains(samples.e3()));
+        collection.contains(e3()));
   }
 
   @CollectionFeature.Require(ALLOWS_NULL_QUERIES)
@@ -64,7 +64,7 @@ public class CollectionContainsTester<E> extends AbstractCollectionTester<E> {
   public void testContains_nonNullWhenNullContained() {
     initCollectionWithNullElement();
     assertFalse("contains(notPresent) should return false",
-        collection.contains(samples.e3()));
+        collection.contains(e3()));
   }
 
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)

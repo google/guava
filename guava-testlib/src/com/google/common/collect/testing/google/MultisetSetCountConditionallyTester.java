@@ -51,7 +51,7 @@ public class MultisetSetCountConditionallyTester<E> extends
 
   private void assertSetCountNegativeOldCount() {
     try {
-      getMultiset().setCount(samples.e3(), -1, 1);
+      getMultiset().setCount(e3(), -1, 1);
       fail("calling setCount() with a negative oldCount should throw "
           + "IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
@@ -78,7 +78,7 @@ public class MultisetSetCountConditionallyTester<E> extends
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testSetCountConditional_oldCountTooLarge() {
     assertFalse("setCount() with a too-large oldCount should return false",
-        getMultiset().setCount(samples.e0(), 2, 3));
+        getMultiset().setCount(e0(), 2, 3));
     expectUnchanged();
   }
 
@@ -86,7 +86,7 @@ public class MultisetSetCountConditionallyTester<E> extends
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testSetCountConditional_oldCountTooSmallZero() {
     assertFalse("setCount() with a too-small oldCount should return false",
-        getMultiset().setCount(samples.e0(), 0, 2));
+        getMultiset().setCount(e0(), 0, 2));
     expectUnchanged();
   }
 
@@ -95,8 +95,8 @@ public class MultisetSetCountConditionallyTester<E> extends
   public void testSetCountConditional_oldCountTooSmallNonzero() {
     initThreeCopies();
     assertFalse("setCount() with a too-small oldCount should return false",
-        getMultiset().setCount(samples.e0(), 1, 5));
-    expectContents(nCopies(3, samples.e0()));
+        getMultiset().setCount(e0(), 1, 5));
+    expectContents(nCopies(3, e0()));
   }
 
   /*

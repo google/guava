@@ -34,9 +34,9 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void testPutWithSameValueFails() {
-    K k0 = samples.e0().getKey();
-    K k1 = samples.e1().getKey();
-    V v0 = samples.e0().getValue();
+    K k0 = e0().getKey();
+    K k1 = e1().getKey();
+    V v0 = e0().getValue();
     getMap().put(k0, v0);
     try {
       getMap().put(k1, v0);
@@ -45,16 +45,16 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
       // success
     }
     // verify that the bimap is unchanged
-    expectAdded(samples.e0());
+    expectAdded(e0());
   }
 
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void testPutPresentKeyDifferentValue() {
-    K k0 = samples.e0().getKey();
-    V v0 = samples.e0().getValue();
-    V v1 = samples.e1().getValue();
+    K k0 = e0().getKey();
+    V v0 = e0().getValue();
+    V v1 = e1().getValue();
     getMap().put(k0, v0);
     getMap().put(k0, v1);
     // verify that the bimap is changed, and that the old inverse mapping 
@@ -66,18 +66,18 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void putDistinctKeysDistinctValues() {
-    getMap().put(samples.e0().getKey(), samples.e0().getValue());
-    getMap().put(samples.e1().getKey(), samples.e1().getValue());
-    expectAdded(samples.e0(), samples.e1());
+    getMap().put(e0().getKey(), e0().getValue());
+    getMap().put(e1().getKey(), e1().getValue());
+    expectAdded(e0(), e1());
   }
 
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void testForcePutOverwritesOldValueEntry() {
-    K k0 = samples.e0().getKey();
-    K k1 = samples.e1().getKey();
-    V v0 = samples.e0().getValue();
+    K k0 = e0().getKey();
+    K k1 = e1().getKey();
+    V v0 = e0().getValue();
     getMap().put(k0, v0);
     getMap().forcePut(k1, v0);
     // verify that the bimap is unchanged
@@ -88,12 +88,12 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void testInversePut() {
-    K k0 = samples.e0().getKey();
-    V v0 = samples.e0().getValue();
-    K k1 = samples.e1().getKey();
-    V v1 = samples.e1().getValue();
+    K k0 = e0().getKey();
+    V v0 = e0().getValue();
+    K k1 = e1().getKey();
+    V v1 = e1().getValue();
     getMap().put(k0, v0);
     getMap().inverse().put(v1, k1);
-    expectAdded(samples.e0(), samples.e1());
+    expectAdded(e0(), e1());
   }
 }

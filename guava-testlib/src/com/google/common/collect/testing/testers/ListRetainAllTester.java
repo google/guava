@@ -42,7 +42,7 @@ public class ListRetainAllTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testRetainAll_duplicatesKept() {
     E[] array = createSamplesArray();
-    array[1] = samples.e0();
+    array[1] = e0();
     collection = getSubjectGenerator().create(array);
     assertFalse("containsDuplicates.retainAll(superset) should return false",
         collection.retainAll(MinimalCollection.of(createSamplesArray())));
@@ -54,11 +54,11 @@ public class ListRetainAllTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(SEVERAL)
   public void testRetainAll_duplicatesRemoved() {
     E[] array = createSamplesArray();
-    array[1] = samples.e0();
+    array[1] = e0();
     collection = getSubjectGenerator().create(array);
     assertTrue("containsDuplicates.retainAll(subset) should return true",
-        collection.retainAll(MinimalCollection.of(samples.e2())));
-    expectContents(samples.e2());
+        collection.retainAll(MinimalCollection.of(e2())));
+    expectContents(e2());
   }
   
   @SuppressWarnings("unchecked")
@@ -66,8 +66,8 @@ public class ListRetainAllTester<E> extends AbstractListTester<E> {
   @CollectionSize.Require(SEVERAL)
   public void testRetainAll_countIgnored() {
     resetContainer(
-        getSubjectGenerator().create(samples.e0(), samples.e2(), samples.e1(), samples.e0()));
-    assertTrue(getList().retainAll(Arrays.asList(samples.e0(), samples.e1())));
-    assertThat(getList()).containsExactly(samples.e0(), samples.e1(), samples.e0()).inOrder();
+        getSubjectGenerator().create(e0(), e2(), e1(), e0()));
+    assertTrue(getList().retainAll(Arrays.asList(e0(), e1())));
+    assertThat(getList()).containsExactly(e0(), e1(), e0()).inOrder();
   }
 }

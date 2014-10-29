@@ -38,25 +38,25 @@ public class MultisetReadsTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testElementSet_contains() {
     assertTrue("multiset.elementSet().contains(present) returned false",
-        getMultiset().elementSet().contains(samples.e0()));
+        getMultiset().elementSet().contains(e0()));
   }
 
   @CollectionSize.Require(absent = ZERO)
   public void testEntrySet_contains() {
     assertTrue("multiset.entrySet() didn't contain [present, 1]",
         getMultiset().entrySet().contains(
-            Multisets.immutableEntry(samples.e0(), 1)));
+            Multisets.immutableEntry(e0(), 1)));
   }
 
   public void testEntrySet_contains_count0() {
     assertFalse("multiset.entrySet() contains [missing, 0]",
         getMultiset().entrySet().contains(
-            Multisets.immutableEntry(samples.e3(), 0)));
+            Multisets.immutableEntry(e3(), 0)));
   }
 
   public void testEntrySet_contains_nonentry() {
     assertFalse("multiset.entrySet() contains a non-entry",
-        getMultiset().entrySet().contains(samples.e0()));
+        getMultiset().entrySet().contains(e0()));
   }
 
   public void testEntrySet_twice() {
@@ -73,7 +73,7 @@ public class MultisetReadsTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(ONE)
   public void testEntrySet_hashCode_size1() {
     assertEquals("multiset.entrySet() has incorrect hash code",
-        1 ^ samples.e0().hashCode(), getMultiset().entrySet().hashCode());
+        1 ^ e0().hashCode(), getMultiset().entrySet().hashCode());
   }
 
   public void testEquals_yes() {
@@ -83,7 +83,7 @@ public class MultisetReadsTester<E> extends AbstractMultisetTester<E> {
 
   public void testEquals_differentSize() {
     Multiset<E> other = HashMultiset.create(getSampleElements());
-    other.add(samples.e0());
+    other.add(e0());
     assertFalse("multiset equals a multiset with a different size",
         getMultiset().equals(other));
   }
@@ -91,8 +91,8 @@ public class MultisetReadsTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testEquals_differentElements() {
     Multiset<E> other = HashMultiset.create(getSampleElements());
-    other.remove(samples.e0());
-    other.add(samples.e3());
+    other.remove(e0());
+    other.add(e3());
     assertFalse("multiset equals a multiset with different elements",
         getMultiset().equals(other));
   }
@@ -106,6 +106,6 @@ public class MultisetReadsTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(ONE)
   public void testHashCode_size1() {
     assertEquals("multiset has incorrect hash code",
-        1 ^ samples.e0().hashCode(), getMultiset().hashCode());
+        1 ^ e0().hashCode(), getMultiset().hashCode());
   }
 }

@@ -154,7 +154,7 @@ public abstract class AbstractMapTester<K, V> extends
   @SuppressWarnings("unchecked")
   @Override protected MinimalCollection<Map.Entry<K, V>>
       createDisjointCollection() {
-    return MinimalCollection.of(samples.e3(), samples.e4());
+    return MinimalCollection.of(e3(), e4());
   }
 
   protected int getNumEntries() {

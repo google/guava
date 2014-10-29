@@ -40,7 +40,7 @@ public class SetAddTester<E> extends AbstractSetTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)
   public void testAdd_supportedPresent() {
-    assertFalse("add(present) should return false", getSet().add(samples.e0()));
+    assertFalse("add(present) should return false", getSet().add(e0()));
     expectUnchanged();
   }
 
