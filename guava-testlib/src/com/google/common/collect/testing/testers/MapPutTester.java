@@ -53,10 +53,10 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
 
   @Override public void setUp() throws Exception {
     super.setUp();
-    nullKeyEntry = entry(null, e3().getValue());
-    nullValueEntry = entry(e3().getKey(), null);
+    nullKeyEntry = entry(null, v3());
+    nullValueEntry = entry(k3(), null);
     nullKeyValueEntry = entry(null, null);
-    presentKeyNullValueEntry = entry(e0().getKey(), null);
+    presentKeyNullValueEntry = entry(k0(), null);
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
@@ -120,7 +120,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   public void testPut_unsupportedPresentExistingValue() {
     try {
       assertEquals("put(present, existingValue) should return present or throw",
-          e0().getValue(), put(e0()));
+          v0(), put(e0()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
@@ -130,7 +130,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testPut_unsupportedPresentDifferentValue() {
     try {
-      getMap().put(e0().getKey(), e3().getValue());
+      getMap().put(k0(), v3());
       fail("put(present, differentValue) should throw");
     } catch (UnsupportedOperationException expected) {
     }
@@ -146,7 +146,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_KEYS})
   @CollectionSize.Require(absent = ZERO)
   public void testPut_nullKeySupportedPresent() {
-    Entry<K, V> newEntry = entry(null, e3().getValue());
+    Entry<K, V> newEntry = entry(null, v3());
     initMapWithNullKey();
     assertEquals("put(present, value) should return the associated value",
         getValueForNullKey(), put(newEntry));
@@ -190,7 +190,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testPut_replaceWithNullValueSupported() {
     assertEquals("put(present, null) should return the associated value",
-        e0().getValue(), put(presentKeyNullValueEntry));
+        v0(), put(presentKeyNullValueEntry));
     expectReplacement(presentKeyNullValueEntry);
   }
 
@@ -219,7 +219,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
   @CollectionSize.Require(absent = ZERO)
   public void testPut_replaceNullValueWithNonNullSupported() {
-    Entry<K, V> newEntry = entry(getKeyForNullValue(), e3().getValue());
+    Entry<K, V> newEntry = entry(getKeyForNullValue(), v3());
     initMapWithNullValue();
     assertNull("put(present, value) should return the associated value (null)",
         put(newEntry));

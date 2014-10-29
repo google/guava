@@ -63,18 +63,18 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
 
   public void testContainsEntryWithIncomparableKey() {
     assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(IncomparableType.INSTANCE, e0().getValue())));
+        .entrySet().contains(Helpers.mapEntry(IncomparableType.INSTANCE, v0())));
   }
 
   public void testContainsEntryWithIncomparableValue() {
     assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(e0().getKey(), IncomparableType.INSTANCE)));
+        .entrySet().contains(Helpers.mapEntry(k0(), IncomparableType.INSTANCE)));
   }
   
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testContainsEntryWithNullKeyAbsent() {
     assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(null, e0().getValue())));
+        .entrySet().contains(Helpers.mapEntry(null, v0())));
   }
   
   @CollectionSize.Require(absent = ZERO)
@@ -88,7 +88,7 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryWithNullValueAbsent() {
     assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(e0().getKey(), null)));
+        .entrySet().contains(Helpers.mapEntry(k0(), null)));
   }
   
   @CollectionSize.Require(absent = ZERO)

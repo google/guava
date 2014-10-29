@@ -38,7 +38,7 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveKeyRemovesFromInverse() {
-    getMap().remove(e0().getKey());
+    getMap().remove(k0());
     expectMissing(e0());
   }
 
@@ -46,7 +46,7 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveKeyFromKeySetRemovesFromInverse() {
-    getMap().keySet().remove(e0().getKey());
+    getMap().keySet().remove(k0());
     expectMissing(e0());
   }
 
@@ -54,7 +54,7 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromValuesRemovesFromInverse() {
-    getMap().values().remove(e0().getValue());
+    getMap().values().remove(v0());
     expectMissing(e0());
   }
 
@@ -62,7 +62,7 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromInverseRemovesFromForward() {
-    getMap().inverse().remove(e0().getValue());
+    getMap().inverse().remove(v0());
     expectMissing(e0());
   }
 
@@ -70,7 +70,7 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromInverseKeySetRemovesFromForward() {
-    getMap().inverse().keySet().remove(e0().getValue());
+    getMap().inverse().keySet().remove(v0());
     expectMissing(e0());
   }
 
@@ -78,7 +78,7 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromInverseValuesRemovesFromInverse() {
-    getMap().inverse().values().remove(e0().getKey());
+    getMap().inverse().values().remove(k0());
     expectMissing(e0());
   }
 

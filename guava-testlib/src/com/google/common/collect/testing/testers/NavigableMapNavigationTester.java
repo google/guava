@@ -88,14 +88,14 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
 
   @CollectionSize.Require(ZERO)
   public void testEmptyMapNearby() {
-    assertNull(navigableMap.lowerEntry(e0().getKey()));
-    assertNull(navigableMap.lowerKey(e0().getKey()));
-    assertNull(navigableMap.floorEntry(e0().getKey()));
-    assertNull(navigableMap.floorKey(e0().getKey()));
-    assertNull(navigableMap.ceilingEntry(e0().getKey()));
-    assertNull(navigableMap.ceilingKey(e0().getKey()));
-    assertNull(navigableMap.higherEntry(e0().getKey()));
-    assertNull(navigableMap.higherKey(e0().getKey()));
+    assertNull(navigableMap.lowerEntry(k0()));
+    assertNull(navigableMap.lowerKey(k0()));
+    assertNull(navigableMap.floorEntry(k0()));
+    assertNull(navigableMap.floorKey(k0()));
+    assertNull(navigableMap.ceilingEntry(k0()));
+    assertNull(navigableMap.ceilingKey(k0()));
+    assertNull(navigableMap.higherEntry(k0()));
+    assertNull(navigableMap.higherKey(k0()));
   }
 
   @CollectionSize.Require(ZERO)
@@ -123,14 +123,14 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
 
   @CollectionSize.Require(ONE)
   public void testSingletonMapNearby() {
-    assertNull(navigableMap.lowerEntry(e0().getKey()));
-    assertNull(navigableMap.lowerKey(e0().getKey()));
-    assertEquals(a, navigableMap.floorEntry(e0().getKey()));
-    assertEquals(a.getKey(), navigableMap.floorKey(e0().getKey()));
-    assertEquals(a, navigableMap.ceilingEntry(e0().getKey()));
-    assertEquals(a.getKey(), navigableMap.ceilingKey(e0().getKey()));
-    assertNull(navigableMap.higherEntry(e0().getKey()));
-    assertNull(navigableMap.higherKey(e0().getKey()));
+    assertNull(navigableMap.lowerEntry(k0()));
+    assertNull(navigableMap.lowerKey(k0()));
+    assertEquals(a, navigableMap.floorEntry(k0()));
+    assertEquals(a.getKey(), navigableMap.floorKey(k0()));
+    assertEquals(a, navigableMap.ceilingEntry(k0()));
+    assertEquals(a.getKey(), navigableMap.ceilingKey(k0()));
+    assertNull(navigableMap.higherEntry(k0()));
+    assertNull(navigableMap.higherKey(k0()));
   }
 
   @CollectionSize.Require(ONE)

@@ -56,8 +56,8 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
 
   @Override public void setUp() throws Exception {
     super.setUp();
-    containsNullKey = singletonList(entry(null, e3().getValue()));
-    containsNullValue = singletonList(entry(e3().getKey(), null));
+    containsNullKey = singletonList(entry(null, v3()));
+    containsNullValue = singletonList(entry(k3(), null));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
