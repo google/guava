@@ -27,7 +27,7 @@ import com.google.common.primitives.Primitives;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-import com.google.common.truth.CollectionSubject;
+import com.google.common.truth.IterableSubject;
 
 import junit.framework.TestCase;
 
@@ -252,8 +252,7 @@ public class TypeTokenTest extends TestCase {
     assertSubtypeFirst(types);
     makeUnmodifiable(types.interfaces()).containsExactly(TypeToken.of(Interface1.class));
     makeUnmodifiable(types.classes())
-        .has()
-        .exactly(TypeToken.of(Class1.class), TypeToken.of(Object.class))
+        .containsExactly(TypeToken.of(Class1.class), TypeToken.of(Object.class))
         .inOrder();
   }
 
@@ -264,8 +263,7 @@ public class TypeTokenTest extends TestCase {
         .containsExactly(Interface1.class, Class1.class, Object.class);
     makeUnmodifiable(types.interfaces().rawTypes()).containsExactly(Interface1.class);
     makeUnmodifiable(types.classes().rawTypes())
-        .has()
-        .exactly(Class1.class, Object.class)
+        .containsExactly(Class1.class, Object.class)
         .inOrder();
   }
 
@@ -1656,7 +1654,7 @@ public class TypeTokenTest extends TestCase {
   private static class Base implements BaseInterface {}
   private static class Sub extends Base {}
 
-  private static CollectionSubject<?, Object, ?> makeUnmodifiable(Collection<?> actual) {
+  private static IterableSubject<?, Object, ?> makeUnmodifiable(Collection<?> actual) {
     return assertThat(Collections.<Object>unmodifiableCollection(actual));
   }
 }
