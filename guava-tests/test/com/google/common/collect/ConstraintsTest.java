@@ -68,10 +68,10 @@ public class ConstraintsTest extends TestCase {
     constrained.add("qux");
     constrained.addAll(asList("cat", "dog"));
     /* equals and hashCode aren't defined for Collection */
-    assertThat(collection).has()
-        .exactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
-    assertThat(constrained).has()
-        .exactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
+    assertThat(collection)
+        .containsExactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
+    assertThat(constrained)
+        .containsExactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
   }
 
   public void testConstrainedCollectionIllegal() {
@@ -101,8 +101,8 @@ public class ConstraintsTest extends TestCase {
     assertEquals(set.toString(), constrained.toString());
     assertEquals(set.hashCode(), constrained.hashCode());
     assertThat(set).containsExactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
-    assertThat(constrained).has()
-        .exactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
+    assertThat(constrained)
+        .containsExactly("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
   }
 
   public void testConstrainedSetIllegal() {
@@ -133,8 +133,8 @@ public class ConstraintsTest extends TestCase {
     assertEquals(sortedSet.hashCode(), constrained.hashCode());
     assertThat(sortedSet)
         .containsExactly("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT).inOrder();
-    assertThat(constrained).has()
-        .exactly("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT).inOrder();
+    assertThat(constrained)
+        .containsExactly("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT).inOrder();
     assertNull(constrained.comparator());
     assertEquals("bar", constrained.first());
     assertEquals(TEST_ELEMENT, constrained.last());

@@ -322,8 +322,8 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertTrue(set.headSet("a") instanceof ImmutableSortedSet);
     assertTrue(set.headSet("fish") instanceof ImmutableSortedSet);
     assertThat(set.headSet("fish")).containsExactly("a", "in", "the").inOrder();
-    assertThat(set.headSet("california")).has()
-        .exactly("a", "in", "the", "over", "quick", "jumped").inOrder();
+    assertThat(set.headSet("california"))
+        .containsExactly("a", "in", "the", "over", "quick", "jumped").inOrder();
     assertTrue(set.headSet("a").isEmpty());
     assertTrue(set.headSet("").isEmpty());
   }
