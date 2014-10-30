@@ -85,7 +85,7 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testAsMapRemove() {
-    assertThat(multimap().asMap().remove(k0())).iteratesAs(v0());
+    assertThat(multimap().asMap().remove(k0())).containsExactly(v0()).inOrder();
     assertGet(k0());
     assertEquals(getNumElements() - 1, multimap().size());
   }
@@ -129,7 +129,7 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
     assertTrue(multimap().put(k1(), v4()));
     assertTrue(asMapEntrySet.remove(asMapEntry0));
     assertEquals(1, multimap().size());
-    assertThat(multimap().keySet()).iteratesAs(k1());
+    assertThat(multimap().keySet()).containsExactly(k1()).inOrder();
   }
 
   @CollectionSize.Require(SEVERAL)

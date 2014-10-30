@@ -50,7 +50,7 @@ public class AbstractSequentialIteratorTest extends TestCase {
         return newDoubler(2, 32);
       }
     };
-    assertThat(doubled).iteratesAs(2, 4, 8, 16, 32);
+    assertThat(doubled).containsExactly(2, 4, 8, 16, 32).inOrder();
   }
 
   public void testSampleCode() {

@@ -221,7 +221,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<TypeA> alist =
         FluentIterable.from(asList(new TypeA(), new TypeA(), hasBoth, new TypeA()));
     Iterable<TypeB> blist = alist.filter(TypeB.class);
-    assertThat(blist).iteratesAs(hasBoth);
+    assertThat(blist).containsExactly(hasBoth).inOrder();
   }
 
   public void testAnyMatch() {
@@ -482,7 +482,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<String> tail = FluentIterable.from(set).skip(1);
     set.remove("b");
     set.addAll(Lists.newArrayList("X", "Y", "Z"));
-    assertThat(tail).iteratesAs("c", "X", "Y", "Z");
+    assertThat(tail).containsExactly("c", "X", "Y", "Z").inOrder();
   }
 
   public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
@@ -490,7 +490,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<String> tail = FluentIterable.from(list).skip(1);
     list.subList(1, 3).clear();
     list.addAll(0, Lists.newArrayList("X", "Y", "Z"));
-    assertThat(tail).iteratesAs("Y", "Z", "a");
+    assertThat(tail).containsExactly("Y", "Z", "a").inOrder();
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {

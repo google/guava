@@ -221,7 +221,7 @@ public final class OptionalTest extends TestCase {
   public void testPresentInstances_allPresent() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.of("b"), Optional.of("c"));
-    assertThat(Optional.presentInstances(optionals)).iteratesAs("a", "b", "c");
+    assertThat(Optional.presentInstances(optionals)).containsExactly("a", "b", "c").inOrder();
   }
 
   public void testPresentInstances_allAbsent() {
@@ -233,22 +233,22 @@ public final class OptionalTest extends TestCase {
   public void testPresentInstances_somePresent() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
-    assertThat(Optional.presentInstances(optionals)).iteratesAs("a", "c");
+    assertThat(Optional.presentInstances(optionals)).containsExactly("a", "c").inOrder();
   }
 
   public void testPresentInstances_callingIteratorTwice() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
     Iterable<String> onlyPresent = Optional.presentInstances(optionals);
-    assertThat(onlyPresent).iteratesAs("a", "c");
-    assertThat(onlyPresent).iteratesAs("a", "c");
+    assertThat(onlyPresent).containsExactly("a", "c").inOrder();
+    assertThat(onlyPresent).containsExactly("a", "c").inOrder();
   }
 
   public void testPresentInstances_wildcards() {
     List<Optional<? extends Number>> optionals =
         ImmutableList.<Optional<? extends Number>>of(Optional.<Double>absent(), Optional.of(2));
     Iterable<Number> onlyPresent = Optional.presentInstances(optionals);
-    assertThat(onlyPresent).iteratesAs(2);
+    assertThat(onlyPresent).containsExactly(2).inOrder();
   }
 
   private static Optional<Integer> getSomeOptionalInt() {

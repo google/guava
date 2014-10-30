@@ -603,7 +603,7 @@ public class IterablesTest extends TestCase {
     Iterable<String> tail = skip(set, 1);
     set.remove("b");
     set.addAll(newArrayList("A", "B", "C"));
-    assertThat(tail).iteratesAs("c", "A", "B", "C");
+    assertThat(tail).containsExactly("c", "A", "B", "C").inOrder();
   }
 
   public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
@@ -611,7 +611,7 @@ public class IterablesTest extends TestCase {
     Iterable<String> tail = skip(list, 1);
     list.subList(1, 3).clear();
     list.addAll(0, newArrayList("A", "B", "C"));
-    assertThat(tail).iteratesAs("B", "C", "a");
+    assertThat(tail).containsExactly("B", "C", "a").inOrder();
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {
