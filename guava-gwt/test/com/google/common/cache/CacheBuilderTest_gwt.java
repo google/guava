@@ -107,4 +107,9 @@ public void testTimeToLive_small() throws Exception {
   com.google.common.cache.CacheBuilderTest testCase = new com.google.common.cache.CacheBuilderTest();
   testCase.testTimeToLive_small();
 }
+
+public void testValuesIsNotASet() throws Exception {
+  com.google.common.cache.CacheBuilderTest testCase = new com.google.common.cache.CacheBuilderTest();
+  testCase.testValuesIsNotASet();
+}
 }

@@ -28,6 +28,8 @@ import com.google.common.base.Ticker;
 
 import junit.framework.TestCase;
 
+import java.util.Set;
+
 /**
  * Unit tests for CacheBuilder.
  */
@@ -185,6 +187,10 @@ public class CacheBuilderTest extends TestCase {
       builder = builder.removalListener(testListener);
       fail();
     } catch (IllegalStateException expected) {}
+  }
+
+  public void testValuesIsNotASet() {
+    assertFalse(new CacheBuilder<Object, Object>().build().asMap().values() instanceof Set);
   }
 
   // "Basher tests", where we throw a bunch of stuff at a LoadingCache and check basic invariants.

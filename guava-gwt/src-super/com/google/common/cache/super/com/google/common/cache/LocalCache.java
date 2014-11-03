@@ -27,6 +27,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
+import java.util.AbstractCollection;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.HashMap;
@@ -742,9 +743,6 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
 
-  /**
-   * Abstraction layer for the KeySet, which redirects to cache methods.
-   */
   private final class KeySet extends AbstractCacheSet<K> {
 
     KeySet(ConcurrentMap<?, ?> map) {
@@ -767,13 +765,11 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
   
-  /**
-   * Abstraction layer for the Values set, which redirects to cache methods.
-   */
-  private final class Values extends AbstractCacheSet<V> {
+  private final class Values extends AbstractCollection<V> {
+    final ConcurrentMap<?, ?> map;
 
     Values(ConcurrentMap<?, ?> map) {
-      super(map);
+      this.map = map;
     }
 
     @Override
@@ -785,11 +781,23 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     public boolean contains(Object o) {
       return map.containsValue(o);
     }
+
+    @Override
+    public int size() {
+      return map.size();
+    }
+    
+    @Override
+    public boolean isEmpty() {
+      return map.isEmpty();
+    }
+    
+    @Override
+    public void clear() {
+      map.clear();
+    }
   }
 
-  /**
-   * Abstraction layer for the EntrySet, which redirects to cache methods.
-   */
   private final class EntrySet extends AbstractCacheSet<Entry<K, V>> {
 
     EntrySet(ConcurrentMap<?, ?> map) {

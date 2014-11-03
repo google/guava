@@ -363,6 +363,10 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
   }
 
+  public void testValuesIsNotASet() {
+    assertFalse(new CacheBuilder<Object, Object>().build().asMap().values() instanceof Set);
+  }
+
   @GwtIncompatible("CacheTesting")
   public void testNullCache() {
     CountingRemovalListener<Object, Object> listener = countingRemovalListener();
