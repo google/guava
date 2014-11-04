@@ -107,21 +107,6 @@
             <phase>site</phase>
             <goals><goal>javadoc</goal></goals>
           </execution>
-          <execution>
-            <id>generate-jdiff-site-report</id>
-            <phase>site</phase>
-            <goals><goal>javadoc</goal></goals>
-            <configuration>
-              <doclet>jdiff.JDiff</doclet>
-              <docletPath>${project.basedir}/lib/jdiff.jar</docletPath>
-              <additionalparam>
-                -XDignore.symbol.file -apiname 'Guava ${project.version}'
-              </additionalparam>
-              <useStandardDocletOptions>false</useStandardDocletOptions>
-              <reportOutputDirectory>${project.reporting.outputDirectory}</reportOutputDirectory>
-              <destDir>jdiff</destDir>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
     </plugins>
