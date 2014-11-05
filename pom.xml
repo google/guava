@@ -14,7 +14,7 @@
   <version>19.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
-  <url>http://code.google.com/p/guava-libraries</url>
+  <url>https://github.com/google/guava</url>
   <properties>
     <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
@@ -22,8 +22,8 @@
     <truth.version>0.24</truth.version>
   </properties>
   <issueManagement>
-    <system>code.google.com</system>
-    <url>http://code.google.com/p/guava-libraries/issues</url>
+    <system>GitHub Issues</system>
+    <url>https://github.com/google/guava/issues</url>
   </issueManagement>
   <inceptionYear>2010</inceptionYear>
   <licenses>
@@ -37,9 +37,9 @@
     <maven>3.0.3</maven>
   </prerequisites>
   <scm>
-    <connection>scm:git:https://code.google.com/p/guava-libraries/</connection>
-    <developerConnection>scm:git:https://code.google.com/p/guava-libraries/</developerConnection>
-    <url>http://code.google.com/p/guava-libraries/source/browse</url>
+    <connection>scm:git:https://github.com/google/guava.git</connection>
+    <developerConnection>scm:git:git@github.com:google/guava.git</developerConnection>
+    <url>https://github.com/google/guava</url>
   </scm>
   <developers>
     <developer>
