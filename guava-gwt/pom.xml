@@ -19,6 +19,7 @@
   <properties>
     <gwt.test.include>**/GwtTestSuite.java</gwt.test.include>
     <gwt.version>2.6.1</gwt.version>
+    <gwt.logLevel>DEBUG</gwt.logLevel>
   </properties>
   <dependencies>
     <!-- GWT requires a library's transitive dependencies to be present when
@@ -51,7 +52,7 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava-tests</artifactId>
       <version>${project.version}</version>
-      <classifier>tests</classifier> 
+      <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -230,7 +231,7 @@
             <configuration>
               <module>com.google.common.ForceGuavaCompilation</module>
               <failOnError>true</failOnError>
-              <logLevel>DEBUG</logLevel>
+              <logLevel>${gwt.logLevel}</logLevel>
               <validateOnly>true</validateOnly>
             </configuration>
           </execution>
@@ -275,7 +276,7 @@
             <configuration>
               <module>com.google.common.GuavaTests</module>
               <includes>${gwt.test.include}</includes>
-              <logLevel>DEBUG</logLevel>
+              <logLevel>${gwt.logLevel}</logLevel>
               <mode>htmlunit</mode>
               <testTimeOut>600</testTimeOut>
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
