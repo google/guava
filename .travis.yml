@@ -1,7 +1,12 @@
 language: java
+
 jdk:
   - oraclejdk7
   - openjdk7
+
+env:
+  global:
+    JAVA_OPTS=-Xmx2g
 
 install: mvn install -U -DskipTests=true -Dmaven.javadoc.skip=true -Dgwt.logLevel=INFO
 
