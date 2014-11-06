@@ -265,6 +265,12 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
+  public void testLargeNumberOfInsertions() {
+    // We use horrible FPPs here to keep Java from OOM'ing
+    BloomFilter.create(Funnels.unencodedCharsFunnel(), 42L + Integer.MAX_VALUE, 0.28);
+    BloomFilter.create(Funnels.unencodedCharsFunnel(), 50L * Integer.MAX_VALUE, 0.99);
+  }
+
   private void checkSanity(BloomFilter<Object> bf) {
     assertFalse(bf.mightContain(new Object()));
     assertFalse(bf.apply(new Object()));

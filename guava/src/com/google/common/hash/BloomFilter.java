@@ -284,13 +284,13 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @return a {@code BloomFilter}
    */
   public static <T> BloomFilter<T> create(
-      Funnel<? super T> funnel, int expectedInsertions /* n */, double fpp) {
+      Funnel<? super T> funnel, long expectedInsertions, double fpp) {
     return create(funnel, expectedInsertions, fpp, DEFAULT_STRATEGY);
   }
 
   @VisibleForTesting
   static <T> BloomFilter<T> create(
-      Funnel<? super T> funnel, int expectedInsertions /* n */, double fpp, Strategy strategy) {
+      Funnel<? super T> funnel, long expectedInsertions, double fpp, Strategy strategy) {
     checkNotNull(funnel);
     checkArgument(expectedInsertions >= 0, "Expected insertions (%s) must be >= 0",
         expectedInsertions);
@@ -333,7 +333,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @return a {@code BloomFilter}
    */
   public static <T> BloomFilter<T> create(
-      Funnel<? super T> funnel, int expectedInsertions /* n */) {
+      Funnel<? super T> funnel, long expectedInsertions) {
     return create(funnel, expectedInsertions, 0.03); // FYI, for 3%, we always get 5 hash functions
   }
 
