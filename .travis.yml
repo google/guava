@@ -2,7 +2,6 @@ language: java
 jdk:
   - oraclejdk7
   - openjdk7
-  - openjdk6
 
 install: mvn install -U -DskipTests=true -Dmaven.javadoc.skip=true -Dgwt.logLevel=INFO
 
