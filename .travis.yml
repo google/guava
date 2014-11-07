@@ -4,6 +4,6 @@ jdk:
   - oraclejdk7
   - openjdk7
 
-install: mvn install -U -DskipTests=true -Dgwt.logLevel=INFO
+install: mvn install -U -DskipTests=true -Dgwt.logLevel=WARN
 
-script: mvn verify -U -Dmaven.javadoc.skip=true -Dgwt.logLevel=INFO
+script: mvn verify -U -Dmaven.javadoc.skip=true -Dgwt.logLevel=WARN
