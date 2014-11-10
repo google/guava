@@ -36,7 +36,6 @@ public class AsyncSettableFutureTest extends TestCase {
   /** Tests the initial state of the future. */
   public void testCreate() throws Exception {
     AsyncSettableFuture<Integer> future = AsyncSettableFuture.create();
-    assertFalse(future.isSet());
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
   }
@@ -44,7 +43,6 @@ public class AsyncSettableFutureTest extends TestCase {
   public void testSetValue() throws Exception {
     AsyncSettableFuture<Integer> future = AsyncSettableFuture.create();
     assertTrue(future.setValue(42));
-    assertTrue(future.isSet());
     // Later attempts to set the future should return false.
     assertFalse(future.setValue(23));
     assertFalse(future.setException(new Exception("bar")));
@@ -59,7 +57,6 @@ public class AsyncSettableFutureTest extends TestCase {
     AsyncSettableFuture<Object> future = AsyncSettableFuture.create();
     Exception e = new Exception("foobarbaz");
     assertTrue(future.setException(e));
-    assertTrue(future.isSet());
     // Later attempts to set the future should return false.
     assertFalse(future.setValue(23));
     assertFalse(future.setException(new Exception("quux")));
@@ -79,7 +76,6 @@ public class AsyncSettableFutureTest extends TestCase {
     AsyncSettableFuture<String> future = AsyncSettableFuture.create();
     SettableFuture<String> nested = SettableFuture.create();
     assertTrue(future.setFuture(nested));
-    assertTrue(future.isSet());
     // Later attempts to set the future should return false.
     assertFalse(future.setValue("x"));
     assertFalse(future.setException(new Exception("bar")));
@@ -101,7 +97,6 @@ public class AsyncSettableFutureTest extends TestCase {
     AsyncSettableFuture<Foo> future = AsyncSettableFuture.create();
     SettableFuture<FooChild> nested = SettableFuture.create();
     assertTrue(future.setFuture(nested));
-    assertTrue(future.isSet());
     // Later attempts to set the future should return false.
     assertFalse(future.setValue(new Foo()));
     assertFalse(future.setException(new Exception("bar")));

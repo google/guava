@@ -76,18 +76,6 @@ final class AsyncSettableFuture<V> extends ForwardingListenableFuture<V> {
     return setFuture(Futures.<V>immediateFailedFuture(exception));
   }
 
-  /**
-   * Returns {@code true} if this future has been (possibly asynchronously) set.
-   * Note that a {@code false} result in no way gaurantees that a later call
-   * to, e.g., {@link #setFuture} will succeed, since another thread could
-   * make the call in between.  This is somewhat analogous to {@link #isDone},
-   * but since setting and completing are not the same event, it is useful to
-   * have this method broken out.
-   */
-  public boolean isSet() {
-    return nested.isDone();
-  }
-
   private static final class NestedFuture<V> extends AbstractFuture<ListenableFuture<? extends V>> {
     boolean setFuture(ListenableFuture<? extends V> value) {
       boolean result = set(value);
