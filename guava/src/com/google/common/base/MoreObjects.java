@@ -92,7 +92,7 @@ public final class MoreObjects {
    * @since 18.0 (since 2.0 as {@code Objects.toStringHelper()}).
    */
   public static ToStringHelper toStringHelper(Object self) {
-    return new ToStringHelper(simpleName(self.getClass()));
+    return new ToStringHelper(self.getClass().getSimpleName());
   }
 
   /**
@@ -106,7 +106,7 @@ public final class MoreObjects {
    * @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}).
    */
   public static ToStringHelper toStringHelper(Class<?> clazz) {
-    return new ToStringHelper(simpleName(clazz));
+    return new ToStringHelper(clazz.getSimpleName());
   }
 
   /**
@@ -119,29 +119,6 @@ public final class MoreObjects {
    */
   public static ToStringHelper toStringHelper(String className) {
     return new ToStringHelper(className);
-  }
-
-  /**
-   * {@link Class#getSimpleName()} is not GWT compatible yet, so we
-   * provide our own implementation.
-   */
-  // Package-private so Objects can call it.
-  static String simpleName(Class<?> clazz) {
-    String name = clazz.getName();
-
-    // the nth anonymous class has a class name ending in "Outer$n"
-    // and local inner classes have names ending in "Outer.$1Inner"
-    name = name.replaceAll("\\$[0-9]+", "\\$");
-
-    // we want the name of the inner class all by its lonesome
-    int start = name.lastIndexOf('$');
-
-    // if this isn't an inner class, just find the start of the
-    // top level class name.
-    if (start == -1) {
-      start = name.lastIndexOf('.');
-    }
-    return name.substring(start + 1);
   }
 
   /**

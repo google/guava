@@ -127,7 +127,7 @@ public final class Objects {
    */
   @Deprecated
   public static ToStringHelper toStringHelper(Object self) {
-    return new ToStringHelper(MoreObjects.simpleName(self.getClass()));
+    return new ToStringHelper(self.getClass().getSimpleName());
   }
 
   /**
@@ -144,7 +144,7 @@ public final class Objects {
    */
   @Deprecated
   public static ToStringHelper toStringHelper(Class<?> clazz) {
-    return new ToStringHelper(MoreObjects.simpleName(clazz));
+    return new ToStringHelper(clazz.getSimpleName());
   }
 
   /**

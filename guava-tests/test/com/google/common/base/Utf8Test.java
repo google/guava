@@ -49,7 +49,6 @@ public class Utf8Test extends TestCase {
         newString(Character.MIN_HIGH_SURROGATE, Character.MIN_LOW_SURROGATE)));
   }
 
-  @GwtIncompatible("StringBuilder.appendCodePoint()")
   public void testEncodedLength_validStrings2() {
     HashMap<Integer, Integer> utf8Lengths = new HashMap<Integer, Integer>();
     utf8Lengths.put(0x00, 1);
