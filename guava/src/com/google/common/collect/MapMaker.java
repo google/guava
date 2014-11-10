@@ -51,7 +51,6 @@ import javax.annotation.Nullable;
  * <li>keys or values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
  *     SoftReference soft} references
  * <li>notification of evicted (or otherwise removed) entries
- * <li>on-demand computation of values for keys not already present
  * </ul>
  *
  * <p>Usage example: <pre>   {@code
@@ -490,9 +489,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * Builds a thread-safe map, without on-demand computation of values. This method does not alter
-   * the state of this {@code MapMaker} instance, so it can be invoked again to create multiple
-   * independent maps.
+   * Builds a thread-safe map. This method does not alter the state of this {@code MapMaker}
+   * instance, so it can be invoked again to create multiple independent maps.
    *
    * <p>The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to
    * be performed atomically on the returned map. Additionally, {@code size} and {@code
