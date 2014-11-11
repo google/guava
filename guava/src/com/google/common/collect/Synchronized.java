@@ -843,16 +843,13 @@ final class Synchronized {
       super(delegate, mutex);
     }
 
-    @Override public Iterator<Map.Entry<K, Collection<V>>> iterator() {
+    @Override
+    public Iterator<Map.Entry<K, Collection<V>>> iterator() {
       // Must be manually synchronized.
-      final Iterator<Map.Entry<K, Collection<V>>> iterator = super.iterator();
-      return new ForwardingIterator<Map.Entry<K, Collection<V>>>() {
-        @Override protected Iterator<Map.Entry<K, Collection<V>>> delegate() {
-          return iterator;
-        }
-
-        @Override public Map.Entry<K, Collection<V>> next() {
-          final Map.Entry<K, Collection<V>> entry = super.next();
+      return new TransformedIterator<Map.Entry<K, Collection<V>>, Map.Entry<K, Collection<V>>>(
+          super.iterator()) {
+        @Override
+        Map.Entry<K, Collection<V>> transform(final Map.Entry<K, Collection<V>> entry) {
           return new ForwardingMapEntry<K, Collection<V>>() {
             @Override protected Map.Entry<K, Collection<V>> delegate() {
               return entry;
@@ -1207,13 +1204,9 @@ final class Synchronized {
 
     @Override public Iterator<Collection<V>> iterator() {
       // Must be manually synchronized.
-      final Iterator<Collection<V>> iterator = super.iterator();
-      return new ForwardingIterator<Collection<V>>() {
-        @Override protected Iterator<Collection<V>> delegate() {
-          return iterator;
-        }
-        @Override public Collection<V> next() {
-          return typePreservingCollection(super.next(), mutex);
+      return new TransformedIterator<Collection<V>, Collection<V>>(super.iterator()) {
+        @Override Collection<V> transform(Collection<V> from) {
+          return typePreservingCollection(from, mutex);
         }
       };
     }

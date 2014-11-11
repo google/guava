@@ -580,13 +580,9 @@ public final class MapConstraints {
     }
 
     @Override public Iterator<Entry<K, V>> iterator() {
-      final Iterator<Entry<K, V>> iterator = entries.iterator();
-      return new ForwardingIterator<Entry<K, V>>() {
-        @Override public Entry<K, V> next() {
-          return constrainedEntry(iterator.next(), constraint);
-        }
-        @Override protected Iterator<Entry<K, V>> delegate() {
-          return iterator;
+      return new TransformedIterator<Entry<K, V>, Entry<K, V>>(entries.iterator()) {
+        @Override Entry<K, V> transform(Entry<K, V> from) {
+          return constrainedEntry(from, constraint);
         }
       };
     }
@@ -652,13 +648,10 @@ public final class MapConstraints {
     }
 
     @Override public Iterator<Entry<K, Collection<V>>> iterator() {
-      final Iterator<Entry<K, Collection<V>>> iterator = entries.iterator();
-      return new ForwardingIterator<Entry<K, Collection<V>>>() {
-        @Override public Entry<K, Collection<V>> next() {
-          return constrainedAsMapEntry(iterator.next(), constraint);
-        }
-        @Override protected Iterator<Entry<K, Collection<V>>> delegate() {
-          return iterator;
+      return new TransformedIterator<Entry<K, Collection<V>>, Entry<K, Collection<V>>>(
+          entries.iterator()) {
+        @Override Entry<K, Collection<V>> transform(Entry<K, Collection<V>> from) {
+          return constrainedAsMapEntry(from, constraint);
         }
       };
     }
