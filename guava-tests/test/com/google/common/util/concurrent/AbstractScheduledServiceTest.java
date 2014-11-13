@@ -16,6 +16,9 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.AbstractScheduledService.Scheduler.newFixedDelaySchedule;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.common.util.concurrent.AbstractScheduledService.Scheduler;
 import com.google.common.util.concurrent.Service.State;
 
@@ -29,6 +32,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -41,7 +45,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class AbstractScheduledServiceTest extends TestCase {
 
-  volatile Scheduler configuration = Scheduler.newFixedDelaySchedule(0, 10, TimeUnit.MILLISECONDS);
+  volatile Scheduler configuration = newFixedDelaySchedule(0, 10, TimeUnit.MILLISECONDS);
   volatile ScheduledFuture<?> future = null;
 
   volatile boolean atFixedRateCalled = false;
@@ -159,7 +163,7 @@ public class AbstractScheduledServiceTest extends TestCase {
       }
 
       @Override protected Scheduler scheduler() {
-        return Scheduler.newFixedDelaySchedule(0, 1, TimeUnit.MILLISECONDS);
+        return newFixedDelaySchedule(0, 1, TimeUnit.MILLISECONDS);
       }
     };
 
@@ -186,7 +190,7 @@ public class AbstractScheduledServiceTest extends TestCase {
       }
 
       @Override protected Scheduler scheduler() {
-        return Scheduler.newFixedDelaySchedule(0, 1, TimeUnit.MILLISECONDS);
+        return newFixedDelaySchedule(0, 1, TimeUnit.MILLISECONDS);
       }
     };
 
@@ -311,7 +315,7 @@ public class AbstractScheduledServiceTest extends TestCase {
     }
 
     public void testFixedDelaySchedule() {
-      Scheduler schedule = Scheduler.newFixedDelaySchedule(initialDelay, delay, unit);
+      Scheduler schedule = newFixedDelaySchedule(initialDelay, delay, unit);
       schedule.schedule(null, new ScheduledThreadPoolExecutor(10) {
         @Override
         public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay,
@@ -321,6 +325,47 @@ public class AbstractScheduledServiceTest extends TestCase {
         }
       }, testRunnable);
       assertTrue(called);
+    }
+
+    public void testFixedDelayScheduleFarFuturePotentiallyOverflowingScheduleIsNeverReached()
+        throws Exception {
+      TestAbstractScheduledCustomService service = new TestAbstractScheduledCustomService() {
+        @Override protected Scheduler scheduler() {
+          return newFixedDelaySchedule(Long.MAX_VALUE, Long.MAX_VALUE, SECONDS);
+        }
+      };
+      service.startAsync().awaitRunning();
+      try {
+        service.firstBarrier.await(5, SECONDS);
+        fail();
+      } catch (TimeoutException expected) {
+      }
+      assertEquals(0, service.numIterations.get());
+      service.stopAsync();
+      service.awaitTerminated();
+    }
+
+    public void testCustomSchedulerFarFuturePotentiallyOverflowingScheduleIsNeverReached()
+        throws Exception {
+      TestAbstractScheduledCustomService service = new TestAbstractScheduledCustomService() {
+        @Override protected Scheduler scheduler() {
+          return new AbstractScheduledService.CustomScheduler() {
+            @Override
+            protected Schedule getNextSchedule() throws Exception {
+              return new Schedule(Long.MAX_VALUE, SECONDS);
+            }
+          };
+        }
+      };
+      service.startAsync().awaitRunning();
+      try {
+        service.firstBarrier.await(5, SECONDS);
+        fail();
+      } catch (TimeoutException expected) {
+      }
+      assertEquals(0, service.numIterations.get());
+      service.stopAsync();
+      service.awaitTerminated();
     }
 
     private class TestCustomScheduler extends AbstractScheduledService.CustomScheduler {
