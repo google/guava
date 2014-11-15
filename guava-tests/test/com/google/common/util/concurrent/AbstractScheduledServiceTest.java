@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.AbstractScheduledService.Scheduler.newFixedDelaySchedule;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.util.concurrent.AbstractScheduledService.Scheduler;
@@ -24,8 +25,9 @@ import com.google.common.util.concurrent.Service.State;
 
 import junit.framework.TestCase;
 
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -83,11 +85,11 @@ public class AbstractScheduledServiceTest extends TestCase {
     try {
       future.get();
       fail();
-    } catch (ExecutionException e) {
-      // An execution exception holds a runtime exception (from throwables.propogate) that holds our
-      // original exception.
-      assertEquals(service.runException, e.getCause().getCause());
+    } catch (CancellationException expected) {
     }
+    // An execution exception holds a runtime exception (from throwables.propogate) that holds our
+    // original exception.
+    assertEquals(service.runException, service.failureCause());
     assertEquals(service.state(), Service.State.FAILED);
   }
 
@@ -100,6 +102,27 @@ public class AbstractScheduledServiceTest extends TestCase {
     } catch (IllegalStateException e) {
       assertEquals(service.startUpException, e.getCause());
     }
+    assertEquals(0, service.numberOfTimesRunCalled.get());
+    assertEquals(Service.State.FAILED, service.state());
+  }
+
+  public void testFailOnErrorFromStartUpListener() throws InterruptedException {
+    final Error error = new Error();
+    final CountDownLatch latch = new CountDownLatch(1);
+    TestService service = new TestService();
+    service.addListener(new Service.Listener() {
+      @Override public void running() {
+        throw error;
+      }
+      @Override public void failed(State from, Throwable failure) {
+        assertEquals(State.RUNNING, from);
+        assertEquals(error, failure);
+        latch.countDown();
+      }
+    }, directExecutor());
+    service.startAsync();
+    latch.await();
+
     assertEquals(0, service.numberOfTimesRunCalled.get());
     assertEquals(Service.State.FAILED, service.state());
   }
@@ -461,10 +484,6 @@ public class AbstractScheduledServiceTest extends TestCase {
         // use a bunch of threads so that weird overlapping schedules are more likely to happen.
         return Executors.newScheduledThreadPool(10);
       }
-
-      @Override protected void startUp() throws Exception {}
-
-      @Override protected void shutDown() throws Exception {}
 
       @Override protected Scheduler scheduler() {
         return new CustomScheduler() {
