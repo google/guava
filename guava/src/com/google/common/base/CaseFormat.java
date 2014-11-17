@@ -171,13 +171,11 @@ public enum CaseFormat {
     }
 
     @Override protected String doForward(String s) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
-      return s == null ? null : sourceFormat.to(targetFormat, s);
+      return sourceFormat.to(targetFormat, s);
     }
 
     @Override protected String doBackward(String s) {
-      // TODO(kevinb): remove null boilerplate (convert() will do it automatically)
-      return s == null ? null : targetFormat.to(sourceFormat, s);
+      return targetFormat.to(sourceFormat, s);
     }
 
     @Override public boolean equals(@Nullable Object object) {
