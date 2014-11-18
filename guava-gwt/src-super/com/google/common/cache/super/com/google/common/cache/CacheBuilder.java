@@ -38,20 +38,20 @@ import java.util.logging.Logger;
 import javax.annotation.CheckReturnValue;
 
 /**
- * <p>A builder of {@link Cache}, {@link LoadingCache} and {@link AsyncLoadingCache} instances
- * having any combination of the following features (note that {@code AsyncLoadingCache} does
- * not currently support the last four, marked with [*]):
+ * <p>A builder of {@link LoadingCache} and {@link Cache} instances having any combination of the
+ * following features:
  *
  * <ul>
  * <li>automatic loading of entries into the cache
  * <li>least-recently-used eviction when a maximum size is exceeded
  * <li>time-based expiration of entries, measured since last access or last write
- * <li>keys automatically wrapped in {@linkplain WeakReference weak} references [*]
+ * <li>keys automatically wrapped in {@linkplain WeakReference weak} references
  * <li>values automatically wrapped in {@linkplain WeakReference weak} or
- *     {@linkplain SoftReference soft} references [*]
- * <li>notification of evicted (or otherwise removed) entries [*]
- * <li>accumulation of cache access statistics [*]
+ *     {@linkplain SoftReference soft} references
+ * <li>notification of evicted (or otherwise removed) entries
+ * <li>accumulation of cache access statistics
  * </ul>
+ *
  *
  * <p>These features are all optional; caches can be created using all or none of them. By default
  * cache instances created by {@code CacheBuilder} will not perform any type of eviction.
@@ -105,7 +105,7 @@ import javax.annotation.CheckReturnValue;
  *
  * <p>If {@linkplain #maximumSize(long) maximumSize} or
  * {@linkplain #maximumWeight(long) maximumWeight} is requested entries may be evicted on each cache
- * modification. Note that {@code AsyncLoadingCache} does not currently support weighers.
+ * modification.
  *
  * <p>If {@linkplain #expireAfterWrite expireAfterWrite} or
  * {@linkplain #expireAfterAccess expireAfterAccess} is requested entries may be evicted on each
@@ -118,8 +118,7 @@ import javax.annotation.CheckReturnValue;
  * the cache to be reclaimed by the garbage collector. Entries with reclaimed keys or values may be
  * removed from the cache on each cache modification, on occasional cache accesses, or on calls to
  * {@link Cache#cleanUp}; such entries may be counted in {@link Cache#size}, but will never be
- * visible to read or write operations. Note that {@code AsyncLoadingCache} does not currently
- * support soft or weak keys or values.
+ * visible to read or write operations.
  *
  * <p>Certain cache configurations will result in the accrual of periodic maintenance tasks which
  * will be performed during write operations, or during occasional read operations in the absence of
@@ -128,12 +127,11 @@ import javax.annotation.CheckReturnValue;
  * {@linkplain #removalListener removalListener}, {@linkplain #expireAfterWrite expireAfterWrite},
  * {@linkplain #expireAfterAccess expireAfterAccess}, {@linkplain #weakKeys weakKeys},
  * {@linkplain #weakValues weakValues}, or {@linkplain #softValues softValues} perform periodic
- * maintenance. Note that {@code AsyncLoadingCache} does not currently support removal notification.
+ * maintenance.
  *
  * <p>The caches produced by {@code CacheBuilder} are serializable, and the deserialized caches
  * retain all the configuration properties of the original cache. Note that the serialized form does
- * <i>not</i> include cache contents, but only configuration. Note that {@code AsyncLoadingCache}
- * is not currently serializable.
+ * <i>not</i> include cache contents, but only configuration.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/CachesExplained">caching</a> for a higher-level
@@ -520,7 +518,7 @@ public final class CacheBuilder<K, V> {
     statsCounterSupplier = CACHE_STATS_COUNTER;
     return this;
   }
-  
+
   boolean isRecordingStats() {
     return statsCounterSupplier == CACHE_STATS_COUNTER;
   }
@@ -626,4 +624,3 @@ public final class CacheBuilder<K, V> {
     return s.toString();
   }
 }
-
