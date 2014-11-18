@@ -171,11 +171,11 @@ public abstract class AbstractScheduledService implements Service {
     private final Runnable task = new Runnable() {
       @Override public void run() {
         lock.lock();
-        if (runningTask.isCancelled()) {
-          // task may have been cancelled while blocked on the lock.
-          return;
-        }
         try {
+          if (runningTask.isCancelled()) {
+            // task may have been cancelled while blocked on the lock.
+            return;
+          }
           AbstractScheduledService.this.runOneIteration();
         } catch (Throwable t) {
           try {
