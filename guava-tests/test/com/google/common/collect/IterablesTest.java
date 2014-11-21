@@ -411,8 +411,7 @@ public class IterablesTest extends TestCase {
     int n = 4;
     Iterable<Integer> repeated
         = Iterables.concat(Collections.nCopies(n, iterable));
-    assertThat(repeated).iteratesAs(
-        1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3);
+    assertThat(repeated).containsExactly(1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3).inOrder();
   }
 
   public void testPartition_badSize() {
