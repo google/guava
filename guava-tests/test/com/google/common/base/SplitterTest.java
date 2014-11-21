@@ -107,16 +107,18 @@ public class SplitterTest extends TestCase {
   public void testCharacterSplitWithMulitpleLetters() {
     Iterable<String> testCharacteringMotto = Splitter.on('-').split(
         "Testing-rocks-Debugging-sucks");
-    assertThat(testCharacteringMotto).iteratesAs(
-        "Testing", "rocks", "Debugging", "sucks");
+    assertThat(testCharacteringMotto)
+        .containsExactly("Testing", "rocks", "Debugging", "sucks")
+        .inOrder();
   }
 
   public void testCharacterSplitWithMatcherDelimiter() {
     Iterable<String> testCharacteringMotto = Splitter
         .on(CharMatcher.WHITESPACE)
         .split("Testing\nrocks\tDebugging sucks");
-    assertThat(testCharacteringMotto).iteratesAs(
-        "Testing", "rocks", "Debugging", "sucks");
+    assertThat(testCharacteringMotto)
+        .containsExactly("Testing", "rocks", "Debugging", "sucks")
+        .inOrder();
   }
 
   public void testCharacterSplitWithDoubleDelimiterOmitEmptyStrings() {
@@ -165,8 +167,9 @@ public class SplitterTest extends TestCase {
     Iterable<String> family = COMMA_SPLITTER
         .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
         .split(jacksons);
-    assertThat(family).iteratesAs(
-        "(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)");
+    assertThat(family)
+        .containsExactly("(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)")
+        .inOrder();
   }
 
   public void testStringSimpleSplit() {
@@ -208,8 +211,9 @@ public class SplitterTest extends TestCase {
   public void testStringSplitWithMultipleLetters() {
     Iterable<String> testStringingMotto = Splitter.on('-').split(
         "Testing-rocks-Debugging-sucks");
-    assertThat(testStringingMotto).iteratesAs(
-        "Testing", "rocks", "Debugging", "sucks");
+    assertThat(testStringingMotto)
+        .containsExactly("Testing", "rocks", "Debugging", "sucks")
+        .inOrder();
   }
 
   public void testStringSplitWithDoubleDelimiterOmitEmptyStrings() {
@@ -291,8 +295,9 @@ public class SplitterTest extends TestCase {
     Iterable<String> family = Splitter.on(',')
         .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
         .split(jacksons);
-    assertThat(family).iteratesAs(
-        "(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)");
+    assertThat(family)
+        .containsExactly("(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)")
+        .inOrder();
   }
 
   @GwtIncompatible("Splitter.onPattern")
@@ -445,8 +450,9 @@ public class SplitterTest extends TestCase {
     Iterable<String> family = Splitter.on(Pattern.compile(","))
         .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
         .split(jacksons);
-    assertThat(family).iteratesAs(
-        "(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)");
+    assertThat(family)
+        .containsExactly("(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)")
+        .inOrder();
   }
 
   public void testSplitterIterableIsUnmodifiable_char() {
