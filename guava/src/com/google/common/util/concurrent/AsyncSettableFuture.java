@@ -34,28 +34,18 @@ import javax.annotation.Nullable;
  *
  * @author Stephen Hicks
  */
-final class AsyncSettableFuture<V> extends ForwardingListenableFuture<V> {
+final class AsyncSettableFuture<V> extends AbstractFuture<V> {
+  // TODO(user): add setFuture to SettableFuture and delete this class.
 
   /** Creates a new asynchronously-settable future. */
   public static <V> AsyncSettableFuture<V> create() {
     return new AsyncSettableFuture<V>();
   }
 
-  private final NestedFuture<V> nested = new NestedFuture<V>();
-  private final ListenableFuture<V> dereferenced = Futures.dereference(nested);
-
   private AsyncSettableFuture() {}
 
-  @Override protected ListenableFuture<V> delegate() {
-    return dereferenced;
-  }
-
-  /**
-   * Sets this future to forward to the given future.  Returns {@code true}
-   * if the future was able to be set (i.e. it hasn't been set already).
-   */
-  public boolean setFuture(ListenableFuture<? extends V> future) {
-    return nested.setFuture(checkNotNull(future));
+  @Override public boolean setFuture(ListenableFuture<? extends V> future) {
+    return super.setFuture(checkNotNull(future));
   }
 
   /**
@@ -64,7 +54,7 @@ final class AsyncSettableFuture<V> extends ForwardingListenableFuture<V> {
    * was able to be set (i.e. it hasn't been set already).
    */
   public boolean setValue(@Nullable V value) {
-    return setFuture(Futures.immediateFuture(value));
+    return super.set(value);
   }
 
   /**
@@ -72,17 +62,7 @@ final class AsyncSettableFuture<V> extends ForwardingListenableFuture<V> {
    * Futures#immediateFailedFuture}.  Returns {@code true} if the
    * future was able to be set (i.e. it hasn't been set already).
    */
-  public boolean setException(Throwable exception) {
-    return setFuture(Futures.<V>immediateFailedFuture(exception));
-  }
-
-  private static final class NestedFuture<V> extends AbstractFuture<ListenableFuture<? extends V>> {
-    boolean setFuture(ListenableFuture<? extends V> value) {
-      boolean result = set(value);
-      if (isCancelled()) {
-        value.cancel(wasInterrupted());
-      }
-      return result;
-    }
+  @Override public boolean setException(Throwable exception) {
+    return super.setException(exception);
   }
 }

@@ -26,12 +26,12 @@ import com.google.caliper.api.Footprint;
 import com.google.caliper.api.VmOptions;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.AbstractFutureBenchmarks.OldAbstractFuture;
 
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,7 +44,7 @@ import javax.annotation.concurrent.GuardedBy;
 /**
  * Benchmarks for {@link ExecutionList}.
  */
-@VmOptions({"-Xms3g", "-Xmx3g"})
+@VmOptions({"-Xms8g", "-Xmx8g"})
 public class ExecutionListBenchmark {
   private static final int NUM_THREADS = 10;  // make a param?
 
@@ -146,11 +146,47 @@ public class ExecutionListBenchmark {
           }
         };
       }
+    },
+    ABSTRACT_FUTURE {
+      @Override ExecutionListWrapper newExecutionList() {
+        return new ExecutionListWrapper() {
+          final AbstractFuture<?> future = new AbstractFuture<Object>() {};
+          @Override public void add(Runnable runnable, Executor executor) {
+            future.addListener(runnable, executor);
+          }
+
+          @Override public void execute() {
+            future.set(null);
+          }
+
+          @Override public Object getImpl() {
+            return future;
+          }
+        };
+      }
+    },
+    OLD_ABSTRACT_FUTURE {
+      @Override ExecutionListWrapper newExecutionList() {
+        return new ExecutionListWrapper() {
+          final OldAbstractFuture<Object> future = new OldAbstractFuture<Object>() {};
+          @Override public void add(Runnable runnable, Executor executor) {
+            future.addListener(runnable, executor);
+          }
+
+          @Override public void execute() {
+            future.set(null);
+          }
+
+          @Override public Object getImpl() {
+            return future;
+          }
+        };
+      }
     };
     abstract ExecutionListWrapper newExecutionList();
   }
 
-  private ExecutorService executorService;
+  private ThreadPoolExecutor executorService;
   private CountDownLatch listenerLatch;
   private ExecutionListWrapper list;
 
@@ -169,13 +205,15 @@ public class ExecutionListBenchmark {
         Long.MAX_VALUE,
         TimeUnit.SECONDS,
         new ArrayBlockingQueue<Runnable>(1000));
+    executorService.prestartAllCoreThreads();
     final AtomicInteger integer = new AtomicInteger();
     // Execute a bunch of tasks to ensure that our threads are allocated and hot
     for (int i = 0; i < NUM_THREADS * 10; i++) {
       executorService.submit(new Runnable() {
         @Override public void run() {
           integer.getAndIncrement();
-        }});
+        }
+      });
     }
   }
 
@@ -244,7 +282,7 @@ public class ExecutionListBenchmark {
         executorService.submit(addTask);
       }
       executorService.submit(executeTask);
-      returnValue = (int) listenerLatch.getCount();
+      returnValue += (int) listenerLatch.getCount();
       listenerLatch.await();
     }
     return returnValue;
@@ -266,7 +304,7 @@ public class ExecutionListBenchmark {
       for (int j = 0; j < NUM_THREADS; j++) {
         executorService.submit(addTask);
       }
-      returnValue = (int) listenerLatch.getCount();
+      returnValue += (int) listenerLatch.getCount();
       listenerLatch.await();
     }
     return returnValue;
