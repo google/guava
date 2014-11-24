@@ -468,26 +468,7 @@ public final class Futures {
             return;
           }
           try {
-            running = fallback.create(t);
-            if (isCancelled()) { // in case cancel called in the meantime
-              running.cancel(wasInterrupted());
-              return;
-            }
-            addCallback(running, new FutureCallback<V>() {
-              @Override
-              public void onSuccess(V value) {
-                set(value);
-              }
-
-              @Override
-              public void onFailure(Throwable t) {
-                if (running.isCancelled()) {
-                  cancel(false);
-                } else {
-                  setException(t);
-                }
-              }
-            }, directExecutor());
+            setFuture(fallback.create(t));
           } catch (Throwable e) {
             setException(e);
           }
@@ -853,7 +834,6 @@ public final class Futures {
 
     private AsyncFunction<? super I, ? extends O> function;
     private ListenableFuture<? extends I> inputFuture;
-    private volatile ListenableFuture<? extends O> outputFuture;
 
     private ChainingListenableFuture(
         AsyncFunction<? super I, ? extends O> function,
@@ -869,20 +849,13 @@ public final class Futures {
        * !mayInterruptIfRunning, so we can't move it into interruptTask().
        */
       if (super.cancel(mayInterruptIfRunning)) {
-        // This should never block since only one thread is allowed to cancel
-        // this Future.
-        cancel(inputFuture, mayInterruptIfRunning);
-        cancel(outputFuture, mayInterruptIfRunning);
+        ListenableFuture<? extends I> localInputFuture = inputFuture;
+        if (localInputFuture != null) {
+          inputFuture.cancel(mayInterruptIfRunning);
+        }
         return true;
       }
       return false;
-    }
-
-    private void cancel(@Nullable Future<?> future,
-        boolean mayInterruptIfRunning) {
-      if (future != null) {
-        future.cancel(mayInterruptIfRunning);
-      }
     }
 
     @Override
@@ -903,34 +876,10 @@ public final class Futures {
           return;
         }
 
-        final ListenableFuture<? extends O> outputFuture = this.outputFuture =
+        ListenableFuture<? extends O> outputFuture =
             Preconditions.checkNotNull(function.apply(sourceResult),
                 "AsyncFunction may not return null.");
-        if (isCancelled()) {
-          outputFuture.cancel(wasInterrupted());
-          this.outputFuture = null;
-          return;
-        }
-        outputFuture.addListener(new Runnable() {
-            @Override
-            public void run() {
-              try {
-                set(getUninterruptibly(outputFuture));
-              } catch (CancellationException e) {
-                // Cancel this future and return.
-                // At this point, inputFuture and outputFuture are done, so the
-                // value of mayInterruptIfRunning is irrelevant.
-                cancel(false);
-                return;
-              } catch (ExecutionException e) {
-                // Set the cause of the exception as this future's exception
-                setException(e.getCause());
-              } finally {
-                // Don't pin inputs beyond completion
-                ChainingListenableFuture.this.outputFuture = null;
-              }
-            }
-          }, directExecutor());
+        setFuture(outputFuture);
       } catch (UndeclaredThrowableException e) {
         // Set the cause of the exception as this future's exception
         setException(e.getCause());
@@ -1176,7 +1125,7 @@ public final class Futures {
       Iterable<? extends ListenableFuture<? extends T>> futures) {
     // A CLQ may be overkill here.  We could save some pointers/memory by synchronizing on an
     // ArrayDeque
-    final ConcurrentLinkedQueue<AsyncSettableFuture<T>> delegates =
+    final ConcurrentLinkedQueue<SettableFuture<T>> delegates =
         Queues.newConcurrentLinkedQueue();
     ImmutableList.Builder<ListenableFuture<T>> listBuilder = ImmutableList.builder();
     // Using SerializingExecutor here will ensure that each CompletionOrderListener executes
@@ -1191,7 +1140,7 @@ public final class Futures {
     //    a directExecutor listener on one of the output futures which is an antipattern anyway.
     SerializingExecutor executor = new SerializingExecutor(directExecutor());
     for (final ListenableFuture<? extends T> future : futures) {
-      AsyncSettableFuture<T> delegate = AsyncSettableFuture.create();
+      SettableFuture<T> delegate = SettableFuture.create();
       // Must make sure to add the delegate to the queue first in case the future is already done
       delegates.add(delegate);
       future.addListener(new Runnable() {
