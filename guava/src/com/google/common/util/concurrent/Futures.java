@@ -851,7 +851,7 @@ public final class Futures {
       if (super.cancel(mayInterruptIfRunning)) {
         ListenableFuture<? extends I> localInputFuture = inputFuture;
         if (localInputFuture != null) {
-          inputFuture.cancel(mayInterruptIfRunning);
+          localInputFuture.cancel(mayInterruptIfRunning);
         }
         return true;
       }
