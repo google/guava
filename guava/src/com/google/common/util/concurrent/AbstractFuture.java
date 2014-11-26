@@ -200,6 +200,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   /** A special value to represent failure, when {@link #setException} is called successfully. */
   private static final class Failure {
+    static final Failure FALLBACK_INSTANCE = new Failure(
+        new Throwable("Failure occurred while trying to finish a future.") {
+          @Override public synchronized Throwable fillInStackTrace() {
+            return this;  // no stack trace
+          }
+        });
     final Throwable exception;
 
     Failure(Throwable exception) {
@@ -638,7 +644,21 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
       // the listener is responsible for calling complete, directExecutor is appropriate since
       // all we are doing is unpacking a completed future which should be fast.
-      future.addListener(valueToSet, directExecutor());
+      try {
+        future.addListener(valueToSet, directExecutor());
+      } catch (Throwable t) {
+        // addListener has thrown an exception!  SetFuture.run can't throw any exceptions so this
+        // must have been caused by addListener itself.  The most likely explanation is a
+        // misconfigured mock.  Try to switch to Failure.
+        Failure failure;
+        try {
+          failure = new Failure(t);
+        } catch (Throwable oomMostLikely) {
+          failure = Failure.FALLBACK_INSTANCE;
+        }
+        // Note: The only way this CAS could fail is if cancel() has raced with us. That is ok.
+        ATOMIC_HELPER.casValue(this, valueToSet, failure);
+      }
       return true;
     }
     // The future has already been set to something.  If it is cancellation we should cancel the

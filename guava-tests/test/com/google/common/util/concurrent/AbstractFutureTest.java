@@ -34,6 +34,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -129,6 +130,24 @@ public class AbstractFutureTest extends TestCase {
       }
     };
     assertEquals("foo", future.get(0, TimeUnit.SECONDS));
+  }
+
+  public void testEvilFuture_setFuture() throws Exception {
+    final RuntimeException exception = new RuntimeException("you didn't say the magic word!");
+    AbstractFuture<String> evilFuture = new AbstractFuture<String>() {
+      @Override public void addListener(Runnable r, Executor e) {
+        throw exception;
+      }
+    };
+    AbstractFuture<String> normalFuture = new AbstractFuture<String>() {};
+    normalFuture.setFuture(evilFuture);
+    assertTrue(normalFuture.isDone());
+    try {
+      normalFuture.get();
+      fail();
+    } catch (ExecutionException e) {
+      assertSame(exception, e.getCause());
+    }
   }
 
   public void testRemoveWaiter_interruption() throws Exception {
