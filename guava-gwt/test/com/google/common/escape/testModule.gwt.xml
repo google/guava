@@ -8,6 +8,7 @@
   <inherits name="com.google.common.escape.testing.Testing"/>
   <inherits name="com.google.common.html.Html"/>
   <inherits name="com.google.common.testing.Testing"/>
+  <inherits name="dagger.Dagger-components"/>
   <entry-point class="com.google.common.escape.TestModuleEntryPoint"/>
    
   <source path=""/>
