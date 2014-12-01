@@ -6,7 +6,6 @@
   <inherits name="com.google.common.primitives.Primitives"/>
   <inherits name="com.google.common.testing.Testing"/>
   <inherits name="com.google.common.truth.Truth"/>
-  <inherits name="dagger.Dagger-components"/>
   <entry-point class="com.google.common.primitives.TestModuleEntryPoint"/>
    
   <source path=""/>
