@@ -109,19 +109,19 @@ public class TypeTokenTest extends TestCase {
     assertEquals(new Local<String>() {}.getClass().getGenericSuperclass(), type.getType());
   }
 
-  public void testGenericArrayType() throws Exception {
+  public void testGenericArrayType() {
     TypeToken<List<String>[]> token = new TypeToken<List<String>[]>() {};
     assertEquals(List[].class, token.getRawType());
     assertTrue(token.getType() instanceof GenericArrayType);
   }
 
-  public void testMultiDimensionalGenericArrayType() throws Exception {
+  public void testMultiDimensionalGenericArrayType() {
     TypeToken<List<Long>[][][]> token = new TypeToken<List<Long>[][][]>() {};
     assertEquals(List[][][].class, token.getRawType());
     assertTrue(token.getType() instanceof GenericArrayType);
   }
 
-  public <T> void testGenericVariableTypeArrays() throws Exception {
+  public <T> void testGenericVariableTypeArrays() {
     assertEquals("T[]", new TypeToken<T[]>() {}.toString());
   }
 
@@ -133,7 +133,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   public <F extends Enum<F> & Function<String, Integer> & Iterable<Long>>
-  void testResolveType_fromTypeVariable() throws Exception {
+  void testResolveType_fromTypeVariable() {
     TypeToken<?> f = TypeToken.of(new TypeCapture<F>() {}.capture());
     assertEquals(String.class,
         f.resolveType(Function.class.getTypeParameters()[0]).getType());
@@ -144,13 +144,13 @@ public class TypeTokenTest extends TestCase {
   }
 
   public <E extends Comparable<Iterable<String>> & Iterable<Integer>>
-  void testResolveType_fromTypeVariable_onlyDirectBoundsAreUsed() throws Exception {
+  void testResolveType_fromTypeVariable_onlyDirectBoundsAreUsed() {
     TypeToken<?> e = TypeToken.of(new TypeCapture<E>() {}.capture());
     assertEquals(Integer.class,
         e.resolveType(Iterable.class.getTypeParameters()[0]).getType());
   }
 
-  public void testResolveType_fromWildcard() throws Exception {
+  public void testResolveType_fromWildcard() {
     ParameterizedType withWildcardType = (ParameterizedType)
         new TypeCapture<Comparable<? extends Iterable<String>>>() {}.capture();
     TypeToken<?> wildcardType = TypeToken.of(withWildcardType.getActualTypeArguments()[0]);
@@ -593,41 +593,87 @@ public class TypeTokenTest extends TestCase {
     assertFalse(new TypeToken<T[]>() {}.isAssignableFrom(new TypeToken<T[][]>() {}));
   }
 
-  public void testAssignableWildcardBoundedByArrayToArrayClass() throws Exception {
+  public void testAssignableWildcardBoundedByArrayToArrayClass() {
     Type wildcardType = Types.subtypeOf(Object[].class);
     assertTrue(TypeToken.of(Object[].class).isAssignableFrom(wildcardType));
     assertTrue(TypeToken.of(Object.class).isAssignableFrom(wildcardType));
-    assertTrue(TypeToken.of(wildcardType).isAssignableFrom(wildcardType));
+    assertFalse(TypeToken.of(wildcardType).isAssignableFrom(wildcardType));
     assertFalse(TypeToken.of(int[].class).isAssignableFrom(wildcardType));
   }
 
-  public void testAssignableArrayClassToBoundedWildcard() throws Exception {
-    TypeToken<?> upperBounded = TypeToken.of(Types.subtypeOf(Object[].class));
-    TypeToken<?> lowerBounded = TypeToken.of(Types.supertypeOf(Object[].class));
-    assertTrue(upperBounded.isAssignableFrom(Object[].class));
-    assertTrue(upperBounded.isAssignableFrom(Object[][].class));
-    assertTrue(upperBounded.isAssignableFrom(String[].class));
-    assertTrue(lowerBounded.isAssignableFrom(Object[].class));
-    assertTrue(lowerBounded.isAssignableFrom(Object.class));
-    assertFalse(lowerBounded.isAssignableFrom(Object[][].class));
-    assertFalse(lowerBounded.isAssignableFrom(String[].class));
+  public void testAssignableWildcardTypeParameterToClassTypeParameter() {
+    TypeToken<?> wildcardType = new TypeToken<Iterable<? extends Object[]>>() {};
+    assertFalse(new TypeToken<Iterable<Object[]>>() {}.isAssignableFrom(wildcardType));
+    assertFalse(new TypeToken<Iterable<Object>>() {}.isAssignableFrom(wildcardType));
+    assertTrue(wildcardType.isAssignableFrom(wildcardType));
+    assertFalse(new TypeToken<Iterable<int[]>>() {}.isAssignableFrom(wildcardType));
   }
 
-  public void testAssignableWildcardBoundedByIntArrayToArrayClass() throws Exception {
+  public void testAssignableArrayClassToBoundedWildcard() {
+    TypeToken<?> subtypeOfArray = TypeToken.of(Types.subtypeOf(Object[].class));
+    TypeToken<?> supertypeOfArray = TypeToken.of(Types.supertypeOf(Object[].class));
+    assertFalse(subtypeOfArray.isAssignableFrom(Object[].class));
+    assertFalse(subtypeOfArray.isAssignableFrom(Object[][].class));
+    assertFalse(subtypeOfArray.isAssignableFrom(String[].class));
+    assertTrue(supertypeOfArray.isAssignableFrom(Object[].class));
+    assertFalse(supertypeOfArray.isAssignableFrom(Object.class));
+    assertTrue(supertypeOfArray.isAssignableFrom(Object[][].class));
+    assertTrue(supertypeOfArray.isAssignableFrom(String[].class));
+  }
+
+  public void testAssignableClassTypeParameterToWildcardTypeParameter() {
+    TypeToken<?> subtypeOfArray = new TypeToken<Iterable<? extends Object[]>>() {};
+    TypeToken<?> supertypeOfArray = new TypeToken<Iterable<? super Object[]>>() {};
+    assertTrue(subtypeOfArray.isAssignableFrom(new TypeToken<Iterable<Object[]>>() {}));
+    assertTrue(subtypeOfArray.isAssignableFrom(new TypeToken<Iterable<Object[][]>>() {}));
+    assertTrue(subtypeOfArray.isAssignableFrom(new TypeToken<Iterable<String[]>>() {}));
+    assertTrue(supertypeOfArray.isAssignableFrom(new TypeToken<Iterable<Object[]>>() {}));
+    assertTrue(supertypeOfArray.isAssignableFrom(new TypeToken<Iterable<Object>>() {}));
+    assertFalse(supertypeOfArray.isAssignableFrom(new TypeToken<Iterable<Object[][]>>() {}));
+    assertFalse(supertypeOfArray.isAssignableFrom(new TypeToken<Iterable<String[]>>() {}));
+  }
+
+  public void testAssignableNonParameterizedClassToWildcard() {
+    TypeToken<?> supertypeOfString = TypeToken.of(Types.supertypeOf(String.class));
+    assertFalse(supertypeOfString.isAssignableFrom(supertypeOfString));
+    assertFalse(supertypeOfString.isAssignableFrom(Object.class));
+    assertFalse(supertypeOfString.isAssignableFrom(CharSequence.class));
+    assertTrue(supertypeOfString.isAssignableFrom(String.class));
+    assertTrue(supertypeOfString.isAssignableFrom(Types.subtypeOf(String.class)));
+  }
+
+  public void testAssignableWildcardBoundedByIntArrayToArrayClass() {
     Type wildcardType = Types.subtypeOf(int[].class);
     assertTrue(TypeToken.of(int[].class).isAssignableFrom(wildcardType));
     assertTrue(TypeToken.of(Object.class).isAssignableFrom(wildcardType));
-    assertTrue(TypeToken.of(wildcardType).isAssignableFrom(wildcardType));
+    assertFalse(TypeToken.of(wildcardType).isAssignableFrom(wildcardType));
     assertFalse(TypeToken.of(Object[].class).isAssignableFrom(wildcardType));
   }
 
-  public void testAssignableWildcardToWildcard() throws Exception {
-    TypeToken<?> upperBounded = TypeToken.of(Types.subtypeOf(Object[].class));
-    TypeToken<?> lowerBounded = TypeToken.of(Types.supertypeOf(Object[].class));
-    assertFalse(lowerBounded.isAssignableFrom(upperBounded));
-    assertTrue(lowerBounded.isAssignableFrom(lowerBounded));
-    assertTrue(upperBounded.isAssignableFrom(upperBounded));
-    assertFalse(upperBounded.isAssignableFrom(lowerBounded));
+  public void testAssignableWildcardTypeParameterBoundedByIntArrayToArrayClassTypeParameter() {
+    TypeToken<?> wildcardType = new TypeToken<Iterable<? extends int[]>>() {};
+    assertFalse(new TypeToken<Iterable<int[]>>() {}.isAssignableFrom(wildcardType));
+    assertFalse(new TypeToken<Iterable<Object>>() {}.isAssignableFrom(wildcardType));
+    assertTrue(wildcardType.isAssignableFrom(wildcardType));
+    assertFalse(new TypeToken<Iterable<Object[]>>() {}.isAssignableFrom(wildcardType));
+  }
+
+  public void testAssignableWildcardToWildcard() {
+    TypeToken<?> subtypeOfArray = TypeToken.of(Types.subtypeOf(Object[].class));
+    TypeToken<?> supertypeOfArray = TypeToken.of(Types.supertypeOf(Object[].class));
+    assertTrue(supertypeOfArray.isAssignableFrom(subtypeOfArray));
+    assertFalse(supertypeOfArray.isAssignableFrom(supertypeOfArray));
+    assertFalse(subtypeOfArray.isAssignableFrom(subtypeOfArray));
+    assertFalse(subtypeOfArray.isAssignableFrom(supertypeOfArray));
+  }
+
+  public void testAssignableWildcardTypeParameterToWildcardTypeParameter() {
+    TypeToken<?> subtypeOfArray = new TypeToken<Iterable<? extends Object[]>>() {};
+    TypeToken<?> supertypeOfArray = new TypeToken<Iterable<? super Object[]>>() {};
+    assertFalse(supertypeOfArray.isAssignableFrom(subtypeOfArray));
+    assertTrue(supertypeOfArray.isAssignableFrom(supertypeOfArray));
+    assertTrue(subtypeOfArray.isAssignableFrom(subtypeOfArray));
+    assertFalse(subtypeOfArray.isAssignableFrom(supertypeOfArray));
   }
 
   public <T> void testAssignableGenericArrayToArrayClass() {
@@ -649,7 +695,7 @@ public class TypeTokenTest extends TestCase {
     assertTrue(tokS.isAssignableFrom(Third.class.getGenericSuperclass()));
   }
 
-  public void testAssignableArrayToClass() throws Exception {
+  public void testAssignableArrayToClass() {
     @SuppressWarnings("rawtypes") // Trying to test raw class
     TypeToken<List[]> tokL = new TypeToken<List[]>() {};
     assertTrue(tokL.isAssignableFrom(List[].class));
@@ -710,7 +756,7 @@ public class TypeTokenTest extends TestCase {
         ConcreteSI.class.getGenericSuperclass()));
   }
 
-  public void testGenericArrayTypeToArrayType() throws Exception {
+  public void testGenericArrayTypeToArrayType() {
     TypeToken<List<String>[]> tokL = new TypeToken<List<String>[]>() {};
     TypeToken<ArrayList<String>[]> token =
         new TypeToken<ArrayList<String>[]>() {};
@@ -904,7 +950,7 @@ public class TypeTokenTest extends TestCase {
     assertTrue(new TypeToken<T[][]>() {}.isArray());
   }
 
-  public void testIsArray_wildcardType() throws Exception {
+  public void testIsArray_wildcardType() {
     assertTrue(TypeToken.of(Types.subtypeOf(Object[].class)).isArray());
     assertTrue(TypeToken.of(Types.subtypeOf(int[].class)).isArray());
     assertFalse(TypeToken.of(Types.subtypeOf(Object.class)).isArray());
@@ -947,7 +993,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(new TypeToken<T[]>() {}, new TypeToken<T[][]>() {}.getComponentType());
   }
 
-  public void testGetComponentType_wildcardType() throws Exception {
+  public void testGetComponentType_wildcardType() {
     assertEquals(Types.subtypeOf(Object.class),
         TypeToken.of(Types.subtypeOf(Object[].class)).getComponentType().getType());
     assertEquals(Types.subtypeOf(Object[].class),
@@ -1434,7 +1480,7 @@ public class TypeTokenTest extends TestCase {
     }
   }
 
-  public void testRawTypes() throws Exception {
+  public void testRawTypes() {
     RawTypeConsistencyTester.verifyConsitentRawType();
     assertEquals(Object.class, TypeToken.getRawType(Types.subtypeOf(Object.class)));
     assertEquals(CharSequence.class, TypeToken.getRawType(Types.subtypeOf(CharSequence.class)));

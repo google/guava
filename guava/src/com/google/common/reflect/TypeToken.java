@@ -744,21 +744,23 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   private static boolean isAssignable(Type from, Type to) {
-    if (to.equals(from)) {
-      return true;
-    }
     if (to instanceof WildcardType) {
-      return isAssignableToWildcardType(from, (WildcardType) to);
+      // if "to" is <? super Foo>, "from" can be:
+      // Foo, SubFoo, <? extends Foo>.
+      // if "to" is <? extends Foo>, nothing assignable.
+      return isAssignableToAny(from, ((WildcardType) to).getLowerBounds());
+    }
+    // if "from" is wildcard, it's assignable to "to" if any of its "extends"
+    // bounds is assignable to "to".
+    if (from instanceof WildcardType) {
+      // <? super Base> is of no use in checking 'from' being a subtype of 'to'.
+      return isAssignableFromAny(((WildcardType) from).getUpperBounds(), to);
     }
     // if "from" is type variable, it's assignable if any of its "extends"
     // bounds is assignable to "to".
     if (from instanceof TypeVariable) {
-      return isAssignableFromAny(((TypeVariable<?>) from).getBounds(), to);
-    }
-    // if "from" is wildcard, it'a assignable to "to" if any of its "extends"
-    // bounds is assignable to "to".
-    if (from instanceof WildcardType) {
-      return isAssignableFromAny(((WildcardType) from).getUpperBounds(), to);
+      return from.equals(to)
+          || isAssignableFromAny(((TypeVariable<?>) from).getBounds(), to);
     }
     if (from instanceof GenericArrayType) {
       return isAssignableFromGenericArrayType((GenericArrayType) from, to);
@@ -775,6 +777,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     }
   }
 
+  /** Returns true if at least one of {@code fromTypes} is subtype of {@code to}. */
   private static boolean isAssignableFromAny(Type[] fromTypes, Type to) {
     for (Type from : fromTypes) {
       if (isAssignable(from, to)) {
@@ -784,30 +787,38 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return false;
   }
 
+  /** Returns true if {@code from} is subtype of every type in {@code toTypes}. */
+  private static boolean isAssignableToAll(Type from, Type[] toTypes) {
+    for (Type to : toTypes) {
+      if (!isAssignable(from, to)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /** Returns true if at least one of {@code toTypes} is supertype of {@code from}. */
+  private static boolean isAssignableToAny(Type from, Type[] toTypes) {
+    for (Type to : toTypes) {
+      if (isAssignable(from, to)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** Returns true if all of {@code fromTypes} are subtypes of {@code to}. */
+  private static boolean areAssignableTo(Type[] fromTypes, Type to) {
+    for (Type from : fromTypes) {
+      if (!isAssignable(from, to)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   private static boolean isAssignableToClass(Type from, Class<?> to) {
     return to.isAssignableFrom(getRawType(from));
-  }
-
-  private static boolean isAssignableToWildcardType(
-      Type from, WildcardType to) {
-    // if "to" is <? extends Foo>, "from" can be:
-    // Foo, SubFoo, <? extends Foo>, <? extends SubFoo>, <T extends Foo> or
-    // <T extends SubFoo>.
-    // if "to" is <? super Foo>, "from" can be:
-    // Foo, SuperFoo, <? super Foo> or <? super SuperFoo>.
-    return isAssignable(from, supertypeBound(to)) && isAssignableBySubtypeBound(from, to);
-  }
-
-  private static boolean isAssignableBySubtypeBound(Type from, WildcardType to) {
-    Type toSubtypeBound = subtypeBound(to);
-    if (toSubtypeBound == null) {
-      return true;
-    }
-    Type fromSubtypeBound = subtypeBound(from);
-    if (fromSubtypeBound == null) {
-      return false;
-    }
-    return isAssignable(toSubtypeBound, fromSubtypeBound);
   }
 
   private static boolean isAssignableToParameterizedType(Type from, ParameterizedType to) {
@@ -827,6 +838,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       // String.
       // String is then matched against <? extends CharSequence>.
       Type fromTypeArg = fromTypeToken.resolveType(typeParams[i]).runtimeType;
+
       if (!matchTypeArgument(fromTypeArg, toTypeArgs[i])) {
         return false;
       }
@@ -869,48 +881,15 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       return true;
     }
     if (to instanceof WildcardType) {
-      return isAssignableToWildcardType(from, (WildcardType) to);
+      // if "to" is <? extends Foo>, "from" can be:
+      // Foo, SubFoo, <? extends Foo>, <? extends SubFoo>, <T extends Foo> or
+      // <T extends SubFoo>.
+      // if "to" is <? super Foo>, "from" can be:
+      // Foo, SuperFoo, <? super Foo> or <? super SuperFoo>.
+      return isAssignableToAll(from, ((WildcardType) to).getUpperBounds())
+          && areAssignableTo(((WildcardType) to).getLowerBounds(), from);
     }
     return false;
-  }
-
-  private static Type supertypeBound(Type type) {
-    if (type instanceof WildcardType) {
-      return supertypeBound((WildcardType) type);
-    }
-    return type;
-  }
-
-  private static Type supertypeBound(WildcardType type) {
-    Type[] upperBounds = type.getUpperBounds();
-    if (upperBounds.length == 1) {
-      return supertypeBound(upperBounds[0]);
-    } else if (upperBounds.length == 0) {
-      return Object.class;
-    } else {
-      throw new AssertionError(
-          "There should be at most one upper bound for wildcard type: " + type);
-    }
-  }
-
-  @Nullable private static Type subtypeBound(Type type) {
-    if (type instanceof WildcardType) {
-      return subtypeBound((WildcardType) type);
-    } else {
-      return type;
-    }
-  }
-
-  @Nullable private static Type subtypeBound(WildcardType type) {
-    Type[] lowerBounds = type.getLowerBounds();
-    if (lowerBounds.length == 1) {
-      return subtypeBound(lowerBounds[0]);
-    } else if (lowerBounds.length == 0) {
-      return null;
-    } else {
-      throw new AssertionError(
-          "Wildcard should have at most one lower bound: " + type);
-    }
   }
 
   @VisibleForTesting static Class<?> getRawType(Type type) {
