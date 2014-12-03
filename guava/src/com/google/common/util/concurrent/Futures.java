@@ -1046,20 +1046,11 @@ public final class Futures {
   private static class NonCancellationPropagatingFuture<V>
       extends AbstractFuture<V> {
     NonCancellationPropagatingFuture(final ListenableFuture<V> delegate) {
-      checkNotNull(delegate);
-      addCallback(delegate, new FutureCallback<V>() {
-        @Override
-        public void onSuccess(V result) {
-          set(result);
-        }
-
-        @Override
-        public void onFailure(Throwable t) {
-          if (delegate.isCancelled()) {
-            cancel(false);
-          } else {
-            setException(t);
-          }
+      delegate.addListener(new Runnable() {
+        @Override public void run() {
+          // This prevents cancellation from propagating because we don't assign delegate until
+          // delegate is already done, so calling cancel() on it is a no-op.
+          setFuture(delegate);
         }
       }, directExecutor());
     }
