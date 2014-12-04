@@ -535,8 +535,8 @@ public class TypeTokenTest extends TestCase {
 
   public void testGetGenericInterfaces_withInterfaces() {
     Map<Class<?>, Type> interfaceMap = Maps.newHashMap();
-    for (TypeToken<?> interfaceType:
-        new TypeToken<Implementation<Integer, String>>() {}.getGenericInterfaces()) {
+    for (TypeToken<?> interfaceType
+        : new TypeToken<Implementation<Integer, String>>() {}.getGenericInterfaces()) {
       interfaceMap.put(interfaceType.getRawType(), interfaceType.getType());
     }
     assertEquals(ImmutableMap.of(
@@ -591,6 +591,17 @@ public class TypeTokenTest extends TestCase {
     assertTrue(new TypeToken<T[]>() {}.isAssignableFrom(new TypeToken<T[]>() {}));
     assertTrue(new TypeToken<T[]>() {}.isAssignableFrom(new TypeToken<T1[]>() {}));
     assertFalse(new TypeToken<T[]>() {}.isAssignableFrom(new TypeToken<T[][]>() {}));
+  }
+
+  public <T, T1 extends T> void testAssignableGenericArrayToClass() {
+    assertTrue(TypeToken.of(Object[].class.getSuperclass())
+        .isAssignableFrom(new TypeToken<T[]>() {}));
+    for (Class<?> interfaceType : Object[].class.getInterfaces()) {
+      assertTrue(TypeToken.of(interfaceType)
+          .isAssignableFrom(new TypeToken<T[]>() {}));
+    }
+    assertTrue(TypeToken.of(Object.class).isAssignableFrom(new TypeToken<T[]>() {}));
+    assertFalse(TypeToken.of(String.class).isAssignableFrom(new TypeToken<T[]>() {}));
   }
 
   public void testAssignableWildcardBoundedByArrayToArrayClass() {
@@ -1471,10 +1482,11 @@ public class TypeTokenTest extends TestCase {
 
     static void verifyConsitentRawType() {
       for (Method method : RawTypeConsistencyTester.class.getDeclaredMethods()) {
-        assertEquals(method.getReturnType(), TypeToken.getRawType(method.getGenericReturnType()));
+        assertEquals(method.getReturnType(),
+            TypeToken.of(method.getGenericReturnType()).getRawType());
         for (int i = 0; i < method.getParameterTypes().length; i++) {
           assertEquals(method.getParameterTypes()[i],
-              TypeToken.getRawType(method.getGenericParameterTypes()[i]));
+              TypeToken.of(method.getGenericParameterTypes()[i]).getRawType());
         }
       }
     }
@@ -1482,9 +1494,10 @@ public class TypeTokenTest extends TestCase {
 
   public void testRawTypes() {
     RawTypeConsistencyTester.verifyConsitentRawType();
-    assertEquals(Object.class, TypeToken.getRawType(Types.subtypeOf(Object.class)));
-    assertEquals(CharSequence.class, TypeToken.getRawType(Types.subtypeOf(CharSequence.class)));
-    assertEquals(Object.class, TypeToken.getRawType(Types.supertypeOf(CharSequence.class)));
+    assertEquals(Object.class, TypeToken.of(Types.subtypeOf(Object.class)).getRawType());
+    assertEquals(CharSequence.class,
+        TypeToken.of(Types.subtypeOf(CharSequence.class)).getRawType());
+    assertEquals(Object.class, TypeToken.of(Types.supertypeOf(CharSequence.class)).getRawType());
   }
 
   private abstract static class IKnowMyType<T> {
