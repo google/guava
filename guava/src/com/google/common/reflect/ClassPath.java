@@ -33,8 +33,7 @@ import com.google.common.collect.Sets;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
@@ -88,7 +87,7 @@ public final class ClassPath {
    */
   public static ClassPath from(ClassLoader classloader) throws IOException {
     Scanner scanner = new Scanner();
-    for (Map.Entry<URI, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
+    for (Map.Entry<File, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
       scanner.scan(entry.getKey(), entry.getValue());
     }
     return new ClassPath(scanner.getResources());
@@ -275,9 +274,9 @@ public final class ClassPath {
     }
   }
 
-  @VisibleForTesting static ImmutableMap<URI, ClassLoader> getClassPathEntries(
+  @VisibleForTesting static ImmutableMap<File, ClassLoader> getClassPathEntries(
       ClassLoader classloader) {
-    LinkedHashMap<URI, ClassLoader> entries = Maps.newLinkedHashMap();
+    LinkedHashMap<File, ClassLoader> entries = Maps.newLinkedHashMap();
     // Search parent first, since it's the order ClassLoader#loadClass() uses.
     ClassLoader parent = classloader.getParent();
     if (parent != null) {
@@ -286,14 +285,11 @@ public final class ClassPath {
     if (classloader instanceof URLClassLoader) {
       URLClassLoader urlClassLoader = (URLClassLoader) classloader;
       for (URL entry : urlClassLoader.getURLs()) {
-        URI uri;
-        try {
-          uri = entry.toURI();
-        } catch (URISyntaxException e) {
-          throw new IllegalArgumentException(e);
-        }
-        if (!entries.containsKey(uri)) {
-          entries.put(uri, classloader);
+        if (entry.getProtocol().equals("file")) {
+          File file = new File(entry.getFile());
+          if (!entries.containsKey(file)) {
+            entries.put(file, classloader);
+          }
         }
       }
     }
@@ -304,15 +300,15 @@ public final class ClassPath {
 
     private final ImmutableSortedSet.Builder<ResourceInfo> resources =
         new ImmutableSortedSet.Builder<ResourceInfo>(Ordering.usingToString());
-    private final Set<URI> scannedUris = Sets.newHashSet();
+    private final Set<File> scannedUris = Sets.newHashSet();
 
     ImmutableSortedSet<ResourceInfo> getResources() {
       return resources.build();
     }
 
-    void scan(URI uri, ClassLoader classloader) throws IOException {
-      if (uri.getScheme().equals("file") && scannedUris.add(uri)) {
-        scanFrom(new File(uri), classloader);
+    void scan(File file, ClassLoader classloader) throws IOException {
+      if (scannedUris.add(file)) {
+        scanFrom(file, classloader);
       }
     }
   
@@ -372,8 +368,8 @@ public final class ClassPath {
         return;
       }
       try {
-        for (URI uri : getClassPathFromManifest(file, jarFile.getManifest())) {
-          scan(uri, classloader);
+        for (File path : getClassPathFromManifest(file, jarFile.getManifest())) {
+          scan(path, classloader);
         }
         Enumeration<JarEntry> entries = jarFile.entries();
         while (entries.hasMoreElements()) {
@@ -392,29 +388,32 @@ public final class ClassPath {
   
     /**
      * Returns the class path URIs specified by the {@code Class-Path} manifest attribute, according
-     * to <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/jar/jar.html#Main%20Attributes">
+     * to
+     * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes">
      * JAR File Specification</a>. If {@code manifest} is null, it means the jar file has no
      * manifest, and an empty set will be returned.
      */
-    @VisibleForTesting static ImmutableSet<URI> getClassPathFromManifest(
+    @VisibleForTesting static ImmutableSet<File> getClassPathFromManifest(
         File jarFile, @Nullable Manifest manifest) {
       if (manifest == null) {
         return ImmutableSet.of();
       }
-      ImmutableSet.Builder<URI> builder = ImmutableSet.builder();
+      ImmutableSet.Builder<File> builder = ImmutableSet.builder();
       String classpathAttribute = manifest.getMainAttributes()
           .getValue(Attributes.Name.CLASS_PATH.toString());
       if (classpathAttribute != null) {
         for (String path : CLASS_PATH_ATTRIBUTE_SEPARATOR.split(classpathAttribute)) {
-          URI uri;
+          URL url;
           try {
-            uri = getClassPathEntry(jarFile, path);
-          } catch (URISyntaxException e) {
+            url = getClassPathEntry(jarFile, path);
+          } catch (MalformedURLException e) {
             // Ignore bad entry
             logger.warning("Invalid Class-Path entry: " + path);
             continue;
           }
-          builder.add(uri);
+          if (url.getProtocol().equals("file")) {
+            builder.add(new File(url.getFile()));
+          }
         }
       }
       return builder.build();
@@ -422,18 +421,13 @@ public final class ClassPath {
   
     /**
      * Returns the absolute uri of the Class-Path entry value as specified in
-     * <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/jar/jar.html#Main%20Attributes">
+     * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes">
      * JAR File Specification</a>. Even though the specification only talks about relative urls,
      * absolute urls are actually supported too (for example, in Maven surefire plugin).
      */
-    @VisibleForTesting static URI getClassPathEntry(File jarFile, String path)
-        throws URISyntaxException {
-      URI uri = new URI(path);
-      if (uri.isAbsolute()) {
-        return uri;
-      } else {
-        return new File(jarFile.getParentFile(), path.replace('/', File.separatorChar)).toURI();
-      }
+    @VisibleForTesting static URL getClassPathEntry(File jarFile, String path)
+        throws MalformedURLException {
+      return new URL(jarFile.toURI().toURL(), path);
     }
   }
 
