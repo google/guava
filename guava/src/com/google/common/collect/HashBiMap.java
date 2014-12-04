@@ -647,8 +647,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   @GwtIncompatible("java.io.ObjectInputStream")
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
+    init(16);
     int size = Serialization.readCount(stream);
-    init(size);
     Serialization.populateMap(this, stream, size);
   }
 

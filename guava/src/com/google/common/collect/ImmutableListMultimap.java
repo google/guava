@@ -393,11 +393,11 @@ public class ImmutableListMultimap<K, V>
         throw new InvalidObjectException("Invalid value count " + valueCount);
       }
 
-      Object[] array = new Object[valueCount];
+      ImmutableList.Builder<Object> valuesBuilder = ImmutableList.builder();
       for (int j = 0; j < valueCount; j++) {
-        array[j] = stream.readObject();
+        valuesBuilder.add(stream.readObject());
       }
-      builder.put(key, ImmutableList.copyOf(array));
+      builder.put(key, valuesBuilder.build());
       tmpSize += valueCount;
     }
 
