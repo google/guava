@@ -237,7 +237,32 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         // nothing to do, we must have been cancelled
         return;
       }
-      completeWithFuture(future, this);
+      // TODO(user): Specialize this method in the case that future is an AbstractFuture.  Then
+      // instead of calling .get() and catching exception we can just copy the value field which
+      // should be much cheaper (a single cast and a volatile read, instead of at least 2 reads,
+      // dealing with InterruptedException and possibly throwing/catching exceptions).  The issue is
+      // that some subclasses override .get() and may expect/require it to be called and this would
+      // break those assumptions. Possible ideas for managing this:
+      // 1. limit the optimization to a trusted set of subclasses (subclasses in this package?
+      //    via a package private interface?)
+      // 2. entirely change the subclassing interface e.g. make .get() final. Then users who want to
+      //    do fancy things in .get() will need to use ForwardingFuture.
+      Object valueToSet;
+      try {
+        V v = Uninterruptibles.getUninterruptibly(future);
+        valueToSet = v == null ? NULL : v;
+      } catch (ExecutionException exception) {
+        valueToSet = new Failure(exception.getCause());
+      } catch (CancellationException cancellation) {
+        valueToSet = new Cancellation(false, cancellation);
+      } catch (Throwable t) {
+        valueToSet = new Failure(t);
+      }
+      // The only way this can fail is if we raced with another thread calling cancel(). If we lost
+      // that race then there is nothing to do.
+      if (ATOMIC_HELPER.casValue(AbstractFuture.this, this, valueToSet)) {
+        complete();
+      }
     }
   }
 
@@ -601,89 +626,47 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * completes or when this {@code Future} is cancelled (at which point cancellation will also be
    * propagated to the supplied {@code Future}).
    *
-   * <p>If the supplied future is {@linkplain #isDone done} when this method is called and the call
-   * is accepted, then this future is guaranteed to have been completed with the supplied future.
-   * If the supplied future is not done and the call is accepted, then the future will be set
-   * asynchronously. Note that such a result, though not yet known, cannot by overridden by a call
-   * to a {@code set*} method, only by a call to {@link #cancel}.
+   * <p>When a call to this method returns, the {@code Future} is guaranteed to be
+   * {@linkplain #isDone done} <b>only if</b> (a) the call was accepted (in which case it returns
+   * {@code true}) <b>and</b> (b) the supplied {@code Future} was already done. Otherwise, the
+   * result may have been asynchronously set to a {@code Future} that is not yet done. Note that
+   * such a result, though not yet known, cannot by overridden by a call to a {@code set*} method,
+   * only by a call to {@link #cancel}.
    *
    * @param future the future to delegate to
    * @return true if the attempt was accepted, indicating that the {@code Future} was not previously
-   *     cancelled or set.
+   *     cancelled or set. However, there is no guarantee that the {@code Future} is done.
    * @since 19.0
    */
   @Beta protected boolean setFuture(ListenableFuture<? extends V> future) {
     checkNotNull(future);
-    Object localValue = value;
-    if (localValue == null) {
-      if (future.isDone()) {
-        return completeWithFuture(future, null);
-      }
-      SetFuture valueToSet = new SetFuture(future);
-      if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
-        // the listener is responsible for calling completeWithFuture, directExecutor is appropriate
-        // since all we are doing is unpacking a completed future which should be fast.
+    SetFuture valueToSet = new SetFuture(future);
+    if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
+      // the listener is responsible for calling complete, directExecutor is appropriate since
+      // all we are doing is unpacking a completed future which should be fast.
+      try {
+        future.addListener(valueToSet, directExecutor());
+      } catch (Throwable t) {
+        // addListener has thrown an exception!  SetFuture.run can't throw any exceptions so this
+        // must have been caused by addListener itself.  The most likely explanation is a
+        // misconfigured mock.  Try to switch to Failure.
+        Failure failure;
         try {
-          future.addListener(valueToSet, directExecutor());
-        } catch (Throwable t) {
-          // addListener has thrown an exception!  SetFuture.run can't throw any exceptions so this
-          // must have been caused by addListener itself.  The most likely explanation is a
-          // misconfigured mock.  Try to switch to Failure.
-          Failure failure;
-          try {
-            failure = new Failure(t);
-          } catch (Throwable oomMostLikely) {
-            failure = Failure.FALLBACK_INSTANCE;
-          }
-          // Note: The only way this CAS could fail is if cancel() has raced with us. That is ok.
-          ATOMIC_HELPER.casValue(this, valueToSet, failure);
+          failure = new Failure(t);
+        } catch (Throwable oomMostLikely) {
+          failure = Failure.FALLBACK_INSTANCE;
         }
-        return true;
+        // Note: The only way this CAS could fail is if cancel() has raced with us. That is ok.
+        ATOMIC_HELPER.casValue(this, valueToSet, failure);
       }
-      localValue = value;  // we lost the cas, fall through and maybe cancel
+      return true;
     }
     // The future has already been set to something.  If it is cancellation we should cancel the
     // incoming future.
-    if (localValue instanceof Cancellation) {
+    Object obj = value;
+    if (obj instanceof Cancellation) {
       // we don't care if it fails, this is best-effort.
-      future.cancel(((Cancellation) localValue).wasInterrupted);
-    }
-    return false;
-  }
-
-  /**
-   * Called when a future passed via setFuture has completed.
-   *
-   * @param future the done future to complete this future with.
-   * @param expected the expected value of the {@link #value} field.
-   */
-  private boolean completeWithFuture(ListenableFuture<? extends V> future, Object expected) {
-    // TODO(user): Specialize this method in the case that future is an AbstractFuture.  Then
-    // instead of calling .get() and catching exception we can just copy the value field which
-    // should be much cheaper (a single cast and a volatile read, instead of at least 2 reads,
-    // dealing with InterruptedException and possibly throwing/catching exceptions).  The issue is
-    // that some subclasses override .get() and may expect/require it to be called and this would
-    // break those assumptions. Possible ideas for managing this:
-    // 1. limit the optimization to a trusted set of subclasses (subclasses in this package?
-    //    via a package private interface?)
-    // 2. entirely change the subclassing interface e.g. make .get() final. Then users who want to
-    //    do fancy things in .get() will need to use ForwardingFuture.
-    Object valueToSet;
-    try {
-      V v = Uninterruptibles.getUninterruptibly(future);
-      valueToSet = v == null ? NULL : v;
-    } catch (ExecutionException exception) {
-      valueToSet = new Failure(exception.getCause());
-    } catch (CancellationException cancellation) {
-      valueToSet = new Cancellation(false, cancellation);
-    } catch (Throwable t) {
-      valueToSet = new Failure(t);
-    }
-    // The only way this can fail is if we raced with another thread calling cancel(). If we lost
-    // that race then there is nothing to do.
-    if (ATOMIC_HELPER.casValue(AbstractFuture.this, expected, valueToSet)) {
-      complete();
-      return true;
+      future.cancel(((Cancellation) obj).wasInterrupted);
     }
     return false;
   }
