@@ -529,6 +529,80 @@ public class AbstractFutureTest extends TestCase {
     executor.shutdown();
   }
 
+  // Test to ensure that when calling setFuture with a done future only setFuture or cancel can
+  // return true.
+  public void testSetFutureCancelBash_withDoneFuture() {
+    final CyclicBarrier barrier = new CyclicBarrier(
+        2  // for the setter threads
+        + 1 // for the blocking get thread,
+        + 1); // for the main thread
+    final ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
+    final AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
+    final AtomicBoolean setFutureSuccess = new AtomicBoolean();
+    final AtomicBoolean cancellationSucess = new AtomicBoolean();
+    Callable<Void> cancelRunnable = new Callable<Void>() {
+      @Override public Void call() {
+        cancellationSucess.set(currentFuture.get().cancel(true));
+        awaitUnchecked(barrier);
+        return null;
+      }
+    };
+    Callable<Void> setFutureCompleteSucessFullyRunnable = new Callable<Void>() {
+      final ListenableFuture<String> future = Futures.immediateFuture("hello");
+      @Override public Void call() {
+        setFutureSuccess.set(currentFuture.get().setFuture(future));
+        awaitUnchecked(barrier);
+        return null;
+      }
+    };
+    final Set<Object> finalResults = Collections.synchronizedSet(Sets.newIdentityHashSet());
+    final Runnable collectResultsRunnable = new Runnable() {
+      @Override public void run() {
+        try {
+          String result = Uninterruptibles.getUninterruptibly(currentFuture.get());
+          finalResults.add(result);
+        } catch (ExecutionException e) {
+          finalResults.add(e.getCause());
+        } catch (CancellationException e) {
+          finalResults.add(e.getCause());
+        } finally {
+          awaitUnchecked(barrier);
+        }
+      }
+    };
+    List<Callable<?>> allTasks = new ArrayList<Callable<?>>();
+    allTasks.add(cancelRunnable);
+    allTasks.add(setFutureCompleteSucessFullyRunnable);
+    allTasks.add(Executors.callable(collectResultsRunnable));
+    assertEquals(allTasks.size() + 1, barrier.getParties());  // sanity check
+    for (int i = 0; i < 1000; i++) {
+      Collections.shuffle(allTasks);
+      final AbstractFuture<String> future = new AbstractFuture<String>() {};
+      currentFuture.set(future);
+      for (Callable<?> task : allTasks) {
+        executor.submit(task);
+      }
+      awaitUnchecked(barrier);
+      assertThat(future.isDone()).isTrue();
+      // inspect state and ensure it is correct!
+      // asserts that all get calling threads received the same value
+      Object result = Iterables.getOnlyElement(finalResults);
+      if (result instanceof CancellationException) {
+        assertTrue(future.isCancelled());
+        assertTrue(cancellationSucess.get());
+        assertFalse(setFutureSuccess.get());
+      } else {
+        assertTrue(setFutureSuccess.get());
+        assertFalse(cancellationSucess.get());
+      }
+      // reset for next iteration
+      setFutureSuccess.set(false);
+      cancellationSucess.set(false);
+      finalResults.clear();
+    }
+    executor.shutdown();
+  }
+
   private int awaitUnchecked(final CyclicBarrier barrier) {
     try {
       return barrier.await();
