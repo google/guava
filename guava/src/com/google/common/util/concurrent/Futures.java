@@ -1577,13 +1577,6 @@ public final class Futures {
       addListener(new Runnable() {
         @Override
         public void run() {
-          // Cancel all the component futures.
-          if (CombinedFuture.this.isCancelled()) {
-            for (ListenableFuture<?> future : CombinedFuture.this.futures) {
-              future.cancel(CombinedFuture.this.wasInterrupted());
-            }
-          }
-
           // Let go of the memory held by other futures
           CombinedFuture.this.futures = null;
 
@@ -1627,6 +1620,19 @@ public final class Futures {
           }
         }, listenerExecutor);
       }
+    }
+
+    @Override
+    public boolean cancel(boolean mayInterruptIfRunning) {
+      // Cancel all the component futures.
+      ImmutableCollection<? extends ListenableFuture<?>> futuresToCancel = futures;
+      boolean cancelled = super.cancel(mayInterruptIfRunning);
+      if (cancelled) {
+        for (ListenableFuture<?> future : futuresToCancel) {
+          future.cancel(mayInterruptIfRunning);
+        }
+      }
+      return cancelled;
     }
 
     /**
@@ -1681,15 +1687,18 @@ public final class Futures {
       try {
         checkState(future.isDone(),
             "Tried to set value from future which is not done");
-        V returnValue = getUninterruptibly(future);
-        if (localValues != null) {
-          localValues.set(index, Optional.fromNullable(returnValue));
-        }
-      } catch (CancellationException e) {
-        if (allMustSucceed) {
-          // Set ourselves as cancelled. Let the input futures keep running
-          // as some of them may be used elsewhere.
-          cancel(false);
+        if (future.isCancelled()) {
+          if (allMustSucceed) {
+            // this.cancel propagates the cancellation to children; we use super.cancel
+            // to set our own state but let the input futures keep running
+            // as some of them may be used elsewhere.
+            super.cancel(false);
+          }
+        } else {
+          V returnValue = getUninterruptibly(future);
+          if (localValues != null) {
+            localValues.set(index, Optional.fromNullable(returnValue));
+          }
         }
       } catch (ExecutionException e) {
         setExceptionAndMaybeLog(e.getCause());

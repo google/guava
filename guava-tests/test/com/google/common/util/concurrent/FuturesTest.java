@@ -1006,6 +1006,41 @@ public class FuturesTest extends TestCase {
     assertFalse(future1.wasInterrupted());
   }
 
+  public void testAllAsList_resultCancelledInterrupted_withSecondaryListFuture()
+      throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2);
+    // There was a bug where the event listener for the combined future would
+    // result in the sub-futures being cancelled without being interrupted.
+    ListenableFuture<List<String>> otherCompound =
+        Futures.allAsList(future1, future2);
+
+    assertTrue(compound.cancel(true));
+    assertTrue(future1.isCancelled());
+    assertTrue(future1.wasInterrupted());
+    assertTrue(future2.isCancelled());
+    assertTrue(future2.wasInterrupted());
+    assertTrue(otherCompound.isCancelled());
+  }
+
+  public void testAllAsList_resultCancelled_withSecondaryListFuture()
+      throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2);
+    ListenableFuture<List<String>> otherCompound =
+        Futures.allAsList(future1, future2);
+
+    assertTrue(compound.cancel(false));
+    assertTrue(future1.isCancelled());
+    assertFalse(future1.wasInterrupted());
+    assertTrue(future2.isCancelled());
+    assertFalse(future2.wasInterrupted());
+  }
+
   public void testAllAsList_resultInterrupted() throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
