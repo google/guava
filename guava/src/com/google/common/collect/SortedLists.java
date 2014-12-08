@@ -189,8 +189,7 @@ import javax.annotation.Nullable;
   public static <E extends Comparable> int binarySearch(List<? extends E> list, E e,
       KeyPresentBehavior presentBehavior, KeyAbsentBehavior absentBehavior) {
     checkNotNull(e);
-    return binarySearch(
-        list, checkNotNull(e), Ordering.natural(), presentBehavior, absentBehavior);
+    return binarySearch(list, e, Ordering.natural(), presentBehavior, absentBehavior);
   }
 
   /**
