@@ -109,16 +109,14 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * Waiter links form a Treiber stack, in the {@link #waiters} field.
    */
   private static final class Waiter {
-    static final Waiter TOMBSTONE;
-
-    static {
-      Waiter waiter = new Waiter();
-      waiter.next = null;
-      TOMBSTONE = waiter;
-    }
+    static final Waiter TOMBSTONE = new Waiter(false /* ignored param */);
 
     @Nullable volatile Thread thread;
     @Nullable volatile Waiter next;
+
+    // Constructor for the TOMBSTONE, avoids use of ATOMIC_HELPER in case this class is loaded
+    // before the ATOMIC_HELPER.  Apparently this is possible on some android platforms.
+    Waiter(boolean ignored) {}
 
     Waiter() {
       // avoid volatile write, write is made visible by subsequent CAS on waiters field
