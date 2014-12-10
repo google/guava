@@ -391,12 +391,13 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     if (runtimeType instanceof WildcardType) {
       return getSubtypeFromLowerBounds(subclass, ((WildcardType) runtimeType).getLowerBounds());
     }
-    checkArgument(getRawType().isAssignableFrom(subclass),
-        "%s isn't a subclass of %s", subclass, this);
     // unwrap array type if necessary
     if (isArray()) {
       return getArraySubtype(subclass);
     }
+    // At this point, it's either a raw class or parameterized type.
+    checkArgument(getRawType().isAssignableFrom(subclass),
+        "%s isn't a subclass of %s", subclass, this);
     @SuppressWarnings("unchecked") // guarded by the isAssignableFrom() statement above
     TypeToken<? extends T> subtype = (TypeToken<? extends T>)
         of(resolveTypeArgsForSubclass(subclass));
@@ -482,7 +483,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * @since 14.0
    */
   public final Invokable<T, Object> method(Method method) {
-    checkArgument(of(method.getDeclaringClass()).isAssignableFrom(this),
+    checkArgument(this.extendsFromClass(method.getDeclaringClass()),
         "%s not declared by %s", method, this);
     return new Invokable.MethodInvokable<T>(method) {
       @Override Type getGenericReturnType() {
@@ -768,7 +769,12 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   private boolean extendsFromClass(Class<?> superclass) {
-    return superclass.isAssignableFrom(getRawType());
+    for (Class<?> rawType : getRawTypes()) {
+      if (superclass.isAssignableFrom(rawType)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean extendsFromParameterizedType(ParameterizedType supertype) {

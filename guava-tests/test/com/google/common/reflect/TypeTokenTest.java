@@ -933,6 +933,14 @@ public class TypeTokenTest extends TestCase {
     TypeTokenTest.<Number, Integer>assignabilityTestWithTypeVariables();
   }
 
+  public <From extends String&List<? extends String>>
+  void testMultipleTypeBoundsAssignability() {
+    assertTrue(new Assignability<From, String>() {}.isAssignable());
+    assertFalse(new Assignability<From, Number>() {}.isAssignable());
+    assertTrue(new Assignability<From, Iterable<? extends CharSequence>>() {}.isAssignable());
+    assertFalse(new Assignability<From, Iterable<Object>>() {}.isAssignable());
+  }
+
   private static <N1 extends Number, N11 extends N1>
       void assignabilityTestWithTypeVariables() {
     assertTrue(new Assignability<N11, N1>() {}.isAssignable());
@@ -1054,6 +1062,14 @@ public class TypeTokenTest extends TestCase {
         Types.newParameterizedType(List.class, ListIterable.class.getTypeParameters()[0]));
     assertEquals(expectedType,
         TypeToken.of(ListIterable.class).getSupertype(Iterable.class).getType());
+  }
+
+  public <A, T extends Number&Iterable<A>>
+  void testGetSupertype_typeVariableWithMultipleBounds() {
+    assertEquals(Number.class,
+        new TypeToken<T>(getClass()) {}.getSupertype(Number.class).getType());
+    assertEquals(new TypeToken<Iterable<A>>() {},
+        new TypeToken<T>(getClass()) {}.getSupertype(Iterable.class));
   }
 
   public void testGetSupertype_withoutTypeVariable() {
