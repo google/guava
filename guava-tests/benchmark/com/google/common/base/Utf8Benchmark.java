@@ -117,10 +117,9 @@ public class Utf8Benchmark {
   }
 
   /**
-   * Benchmarks {@link Utf8#isWellFormed} on valid byte arrays
-   * containing pseudo-randomly-generated codePoints less than {@code
-   * maxCodePoint}.  A constant seed is used, so separate runs perform
-   * identical computations.
+   * Benchmarks {@link Utf8#isWellFormed} on valid byte arrays containing
+   * pseudo-randomly-generated codePoints less than {@code maxCodePoint}.
+   * A constant seed is used, so separate runs perform identical computations.
    */
   @Benchmark void isWellFormed(int reps) {
     for (int i = 0; i < reps; i++) {
@@ -133,10 +132,9 @@ public class Utf8Benchmark {
   }
 
   /**
-   * Benchmarks {@link Utf8#length} on valid strings containing
-   * pseudo-randomly-generated codePoints less than {@code
-   * maxCodePoint}.  A constant seed is used, so separate runs perform
-   * identical computations.
+   * Benchmarks {@link Utf8#encodedLength} on valid strings containing
+   * pseudo-randomly-generated codePoints less than {@code maxCodePoint}.
+   * A constant seed is used, so separate runs perform identical computations.
    */
   @Benchmark void lengthOfString(int reps) {
     for (int i = 0; i < reps; i++) {
@@ -149,10 +147,9 @@ public class Utf8Benchmark {
   }
 
   /**
-   * Benchmarks {@link Utf8#length} on valid StringBuilders containing
-   * pseudo-randomly-generated codePoints less than {@code
-   * maxCodePoint}.  A constant seed is used, so separate runs perform
-   * identical computations.
+   * Benchmarks {@link Utf8#encodedLength} on valid StringBuilders containing
+   * pseudo-randomly-generated codePoints less than {@code maxCodePoint}.
+   * A constant seed is used, so separate runs perform identical computations.
    */
   @Benchmark void lengthOfStringBuilder(int reps) {
     for (int i = 0; i < reps; i++) {
