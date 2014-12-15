@@ -707,12 +707,42 @@ public final class Sets {
    * @since 3.0
    */
   public static <E> SetView<E> symmetricDifference(
-      Set<? extends E> set1, Set<? extends E> set2) {
+      final Set<? extends E> set1, final Set<? extends E> set2) {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
-    // TODO(kevinb): Replace this with a more efficient implementation
-    return difference(union(set1, set2), intersection(set1, set2));
+    return new SetView<E>() {
+      @Override public Iterator<E> iterator() {
+        final Iterator<? extends E> itr1 = set1.iterator();
+        final Iterator<? extends E> itr2 = set2.iterator();
+        return new AbstractIterator<E>() {
+          @Override public E computeNext() {
+            while (itr1.hasNext()) {
+              E elem1 = itr1.next();
+              if (!set2.contains(elem1)) {
+                return elem1;
+              }
+            }
+            while (itr2.hasNext()) {
+              E elem2 = itr2.next();
+              if (!set1.contains(elem2)) {
+                return elem2;
+              }
+            }
+            return endOfData();
+          }
+        };
+      }
+      @Override public int size() {
+        return Iterators.size(iterator());
+      }
+      @Override public boolean isEmpty() {
+        return set1.equals(set2);
+      }
+      @Override public boolean contains(Object element) {
+        return set1.contains(element) ^ set2.contains(element);
+      }
+    };
   }
 
   /**
