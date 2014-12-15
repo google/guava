@@ -51,13 +51,13 @@ import javax.annotation.Nullable;
  * {@link #anyMatch})
  * </ul>
  *
- * <p>Here is an example that merges the lists returned by two separate database calls, transforms
- * it by invoking {@code toString()} on each element, and returns the first 10 elements as an
- * {@code ImmutableList}: <pre>   {@code
+ * <p>Here is an example that accepts a list from a database call, filters it based on a predicate,
+ * transforms it by invoking {@code toString()} on each element, and returns the first 10 elements
+ * as an {@code ImmutableList}: <pre>   {@code
  *
  *   FluentIterable
  *       .from(database.getClientList())
- *       .filter(activeInLastMonth())
+ *       .filter(activeInLastMonth)
  *       .transform(Functions.toStringFunction())
  *       .limit(10)
  *       .toList();}</pre>
