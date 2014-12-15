@@ -331,7 +331,7 @@ public final class Splitter {
    * {@code Splitter.on(',').limit(3).trimResults().split(" a , b , c , d ")}
    * results in @{code ["a", "b", "c , d"]}.
    *
-   * @param limit the maximum number of items returns
+   * @param limit the maximum number of items returned
    * @return a splitter with the desired configuration
    * @since 9.0
    */
