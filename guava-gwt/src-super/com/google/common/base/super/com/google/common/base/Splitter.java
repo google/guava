@@ -261,7 +261,8 @@ public final class Splitter {
   /**
    * Returns a splitter that behaves equivalently to {@code this} splitter but
    * stops splitting after it reaches the limit.
-   * The limit defines the maximum number of items returned by the iterator.
+   * The limit defines the maximum number of items returned by the iterator, or
+   * the maximum size of the list returned by {@link #splitToList}.
    *
    * <p>For example,
    * {@code Splitter.on(',').limit(3).split("a,b,c,d")} returns an iterable
