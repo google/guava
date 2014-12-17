@@ -1138,6 +1138,48 @@ public class FuturesTest extends TestCase {
     }
   }
 
+  /**
+   * The same exception happening on multiple futures should not be logged.
+   */
+  @SuppressWarnings("unchecked")
+  public void testAllAsList_logging_same_exception() throws Exception {
+    try {
+      MyException sameInstance = new MyException();
+      Futures.allAsList(immediateFailedFuture(sameInstance),
+          immediateFailedFuture(sameInstance)).get();
+      fail();
+    } catch (ExecutionException e) {
+      assertTrue(e.getCause() instanceof MyException);
+      assertEquals("Nothing should be logged", 0,
+          combinedFutureLogHandler.getStoredLogRecords().size());
+    }
+  }
+
+  /**
+   * Different exceptions happening on multiple futures with the same cause
+   * should not be logged.
+   */
+  @SuppressWarnings("unchecked")
+  public void testAllAsList_logging_same_cause() throws Exception {
+    try {
+      MyException exception1 = new MyException();
+      MyException exception2 = new MyException();
+      MyException exception3 = new MyException();
+
+      MyException sameInstance = new MyException();
+      exception1.initCause(sameInstance);
+      exception2.initCause(sameInstance);
+      exception3.initCause(exception2);
+      Futures.allAsList(immediateFailedFuture(exception1),
+          immediateFailedFuture(exception3)).get();
+      fail();
+    } catch (ExecutionException e) {
+      assertTrue(e.getCause() instanceof MyException);
+      assertEquals("Nothing should be logged", 0,
+          combinedFutureLogHandler.getStoredLogRecords().size());
+    }
+  }
+
   private static String createCombinedResult(Integer i, Boolean b) {
     return "-" + i + "-" + b;
   }

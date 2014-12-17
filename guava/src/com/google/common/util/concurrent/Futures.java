@@ -23,6 +23,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
+import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
@@ -53,6 +54,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -1485,7 +1487,7 @@ public final class Futures {
   private static <X extends Exception> X newWithCause(
       Class<X> exceptionClass, Throwable cause) {
     // getConstructors() guarantees this as long as we don't modify the array.
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     List<Constructor<X>> constructors =
         (List) Arrays.asList(exceptionClass.getConstructors());
     for (Constructor<X> constructor : preferringStrings(constructors)) {
@@ -1549,13 +1551,17 @@ public final class Futures {
     private static final Logger logger =
         Logger.getLogger(CombinedFuture.class.getName());
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static final AtomicReferenceFieldUpdater<CombinedFuture<?, ?>, Set<Throwable>>
+        SEEN_EXCEPTIONS_UDPATER = newUpdater(
+            (Class) CombinedFuture.class, (Class) Set.class, "seenExceptions");
+
     ImmutableCollection<? extends ListenableFuture<? extends V>> futures;
     final boolean allMustSucceed;
     final AtomicInteger remaining;
     FutureCombiner<V, C> combiner;
     List<Optional<V>> values;
-    final Object seenExceptionsLock = new Object();
-    Set<Throwable> seenExceptions;
+    volatile Set<Throwable> seenExceptions;
 
     CombinedFuture(
         ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
@@ -1566,6 +1572,7 @@ public final class Futures {
       this.remaining = new AtomicInteger(futures.size());
       this.combiner = combiner;
       this.values = Lists.newArrayListWithCapacity(futures.size());
+      this.seenExceptions = null; // Initialized once the first time we see an exception
       init(listenerExecutor);
     }
 
@@ -1649,11 +1656,22 @@ public final class Futures {
         // The result of all other inputs is then ignored.
         visibleFromOutputFuture = super.setException(throwable);
 
-        synchronized (seenExceptionsLock) {
-          if (seenExceptions == null) {
-            seenExceptions = Sets.newHashSet();
+        // seenExceptions is only set once; but we don't allocate it until we get a failure
+        Set<Throwable> seenExceptionsLocal = seenExceptions;
+        if (seenExceptionsLocal == null) {
+          SEEN_EXCEPTIONS_UDPATER.compareAndSet(this, null, Sets.<Throwable>newConcurrentHashSet());
+          seenExceptionsLocal = seenExceptions;
+        }
+
+        // Go up the causal chain to see if we've already seen this cause; if we have,
+        // even if it's wrapped by a different exception, don't log it.
+        Throwable currentThrowable = throwable;
+        while (currentThrowable != null) {
+          firstTimeSeeingThisException = seenExceptionsLocal.add(currentThrowable);
+          if (!firstTimeSeeingThisException) {
+            break;
           }
-          firstTimeSeeingThisException = seenExceptions.add(throwable);
+          currentThrowable = currentThrowable.getCause();
         }
       }
 
@@ -1714,6 +1732,8 @@ public final class Futures {
           } else {
             checkState(isDone());
           }
+
+          seenExceptions = null; // Done with tracking seen exceptions
         }
       }
     }
