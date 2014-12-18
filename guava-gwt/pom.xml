@@ -106,7 +106,6 @@
             <configuration>
               <includeArtifactIds>guava</includeArtifactIds>
               <classifier>sources</classifier>
-              <overWrite>true</overWrite>
               <excludeTransitive>true</excludeTransitive>
               <excludes>META-INF/MANIFEST.MF</excludes>
               <outputDirectory>${project.build.directory}/guava-sources</outputDirectory>
@@ -121,7 +120,6 @@
             <configuration>
               <includeArtifactIds>guava-testlib</includeArtifactIds>
               <classifier>sources</classifier>
-              <overWrite>true</overWrite>
               <excludeTransitive>true</excludeTransitive>
               <excludes>META-INF/MANIFEST.MF</excludes>
               <outputDirectory>${project.build.directory}/guava-test-sources</outputDirectory>
@@ -136,7 +134,6 @@
             <configuration>
               <includeArtifactIds>guava-testlib</includeArtifactIds>
               <classifier>test-sources</classifier>
-              <overWrite>true</overWrite>
               <excludeTransitive>true</excludeTransitive>
               <excludes>META-INF/MANIFEST.MF</excludes>
               <outputDirectory>${project.build.directory}/guava-test-sources</outputDirectory>
@@ -151,7 +148,6 @@
             <configuration>
               <includeArtifactIds>guava-tests</includeArtifactIds>
               <classifier>test-sources</classifier>
-              <overWrite>true</overWrite>
               <excludeTransitive>true</excludeTransitive>
               <excludes>META-INF/MANIFEST.MF</excludes>
               <outputDirectory>${project.build.directory}/guava-test-sources</outputDirectory>
