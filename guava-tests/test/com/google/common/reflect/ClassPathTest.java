@@ -65,7 +65,6 @@ public class ClassPathTest extends TestCase {
       assertThat(resource.toString()).isNotEqualTo(JarFile.MANIFEST_NAME);
       byName.put(resource.getResourceName(), resource);
       byToString.put(resource.toString(), resource);
-      assertNotNull(resource.url());
     }
     String testResourceName = "com/google/common/reflect/test.txt";
     assertThat(byName.keySet()).containsAllOf(
