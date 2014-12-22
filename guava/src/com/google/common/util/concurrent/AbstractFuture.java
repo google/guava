@@ -65,6 +65,37 @@ import javax.annotation.Nullable;
  * @since 1.0
  */
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
+
+  /**
+   * A less abstract subclass of AbstractFuture.  This can be used to optimize setFuture by ensuring
+   * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.
+   */
+  abstract static class TrustedFuture<V> extends AbstractFuture<V> {
+    // N.B. cancel is not overridden to be final, because many future utilities need to override
+    // cancel in order to propagate cancellation to other futures.
+
+    @Override public final V get() throws InterruptedException, ExecutionException {
+      return super.get();
+    }
+
+    @Override public final V get(long timeout, TimeUnit unit)
+        throws InterruptedException, ExecutionException, TimeoutException {
+      return super.get(timeout, unit);
+    }
+
+    @Override public final boolean isDone() {
+      return super.isDone();
+    }
+
+    @Override public final boolean isCancelled() {
+      return super.isCancelled();
+    }
+
+    @Override public final void addListener(Runnable listener, Executor executor) {
+      super.addListener(listener, executor);
+    }
+  }
+
   // Logger to log exceptions caught when running listeners.
   private static final Logger log = Logger.getLogger(AbstractFuture.class.getName());
 
@@ -656,26 +687,25 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * @param expected the expected value of the {@link #value} field.
    */
   private boolean completeWithFuture(ListenableFuture<? extends V> future, Object expected) {
-    // TODO(user): Specialize this method in the case that future is an AbstractFuture.  Then
-    // instead of calling .get() and catching exception we can just copy the value field which
-    // should be much cheaper (a single cast and a volatile read, instead of at least 2 reads,
-    // dealing with InterruptedException and possibly throwing/catching exceptions).  The issue is
-    // that some subclasses override .get() and may expect/require it to be called and this would
-    // break those assumptions. Possible ideas for managing this:
-    // 1. limit the optimization to a trusted set of subclasses (subclasses in this package?
-    //    via a package private interface?)
-    // 2. entirely change the subclassing interface e.g. make .get() final. Then users who want to
-    //    do fancy things in .get() will need to use ForwardingFuture.
     Object valueToSet;
-    try {
-      V v = Uninterruptibles.getUninterruptibly(future);
-      valueToSet = v == null ? NULL : v;
-    } catch (ExecutionException exception) {
-      valueToSet = new Failure(exception.getCause());
-    } catch (CancellationException cancellation) {
-      valueToSet = new Cancellation(false, cancellation);
-    } catch (Throwable t) {
-      valueToSet = new Failure(t);
+    if (future instanceof TrustedFuture) {
+      // Break encapsulation for TrustedFuture instances since we know that subclasses cannot
+      // override .get() (since it is final) and therefore this is equivalent to calling .get()
+      // and unpacking the exceptions like we do below (just much faster because it is a single
+      // field read instead of a read, several branches and possibly creating exceptions).
+      valueToSet = ((AbstractFuture<?>) future).value;
+    } else {
+      // Otherwise calculate valueToSet by calling .get()
+      try {
+        V v = Uninterruptibles.getUninterruptibly(future);
+        valueToSet = v == null ? NULL : v;
+      } catch (ExecutionException exception) {
+        valueToSet = new Failure(exception.getCause());
+      } catch (CancellationException cancellation) {
+        valueToSet = new Cancellation(false, cancellation);
+      } catch (Throwable t) {
+        valueToSet = new Failure(t);
+      }
     }
     // The only way this can fail is if we raced with another thread calling cancel(). If we lost
     // that race then there is nothing to do.
@@ -705,7 +735,20 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     for (; reversedList != null; reversedList = reversedList.next) {
       executeListener(reversedList.task, reversedList.executor);
     }
+    // We call this after the listeners on the theory that done() will only be used for 'cleanup'
+    // oriented tasks (e.g. clearing fields) and so can wait behind listeners which may be executing
+    // more important work.  A counter argument would be that done() is trusted code and therefore
+    // it would be safe to run before potentially slow or poorly behaved listeners.  Reevaluate this
+    // once we have more examples of done() implementations.
+    done();
   }
+
+  /**
+   * Callback method that is called immediately after the future is completed.
+   *
+   * <p>This is called exactly once, after all listeners have executed.  By default it does nothing.
+   */
+  void done() {}
 
   /** Clears the {@link #waiters} list and returns the most recently added value. */
   private Waiter clearWaiters() {

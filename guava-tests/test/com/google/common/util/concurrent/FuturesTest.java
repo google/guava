@@ -80,7 +80,7 @@ import javax.annotation.Nullable;
  */
 public class FuturesTest extends TestCase {
   private static final Logger combinedFutureLogger = Logger.getLogger(
-      "com.google.common.util.concurrent.Futures$CombinedFuture");
+      "com.google.common.util.concurrent.Futures$CollectionFuture");
   private final TestLogHandler combinedFutureLogHandler = new TestLogHandler();
 
   private static final String DATA1 = "data";

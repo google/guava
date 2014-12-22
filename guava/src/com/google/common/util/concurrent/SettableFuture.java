@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * @author Sven Mawson
  * @since 9.0 (in 1.0 as {@code ValueFuture})
  */
-public final class SettableFuture<V> extends AbstractFuture<V> {
+public final class SettableFuture<V> extends AbstractFuture.TrustedFuture<V> {
 
   /**
    * Creates a new {@code SettableFuture} in the default state.

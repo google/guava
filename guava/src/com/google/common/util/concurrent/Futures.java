@@ -831,8 +831,8 @@ public final class Futures {
    * href="http://code.google.com/p/guava-libraries/issues/detail?id=1548">we
    * should remove the {@code UndeclaredThrowableException} special case</a>.
    */
-  private static class ChainingListenableFuture<I, O>
-      extends AbstractFuture<O> implements Runnable {
+  private static final class ChainingListenableFuture<I, O>
+      extends AbstractFuture.TrustedFuture<O> implements Runnable {
 
     private AsyncFunction<? super I, ? extends O> function;
     private ListenableFuture<? extends I> inputFuture;
@@ -1045,8 +1045,8 @@ public final class Futures {
   /**
    * A wrapped future that does not propagate cancellation to its delegate.
    */
-  private static class NonCancellationPropagatingFuture<V>
-      extends AbstractFuture<V> {
+  private static final class NonCancellationPropagatingFuture<V>
+      extends AbstractFuture.TrustedFuture<V> {
     NonCancellationPropagatingFuture(final ListenableFuture<V> delegate) {
       delegate.addListener(new Runnable() {
         @Override public void run() {
@@ -1543,30 +1543,30 @@ public final class Futures {
     }
   }
 
-  private interface FutureCombiner<V, C> {
+  private interface FutureCollector<V, C> {
     C combine(List<Optional<V>> values);
   }
 
-  private static class CombinedFuture<V, C> extends AbstractFuture<C> {
+  private static final class CollectionFuture<V, C> extends AbstractFuture.TrustedFuture<C> {
     private static final Logger logger =
-        Logger.getLogger(CombinedFuture.class.getName());
+        Logger.getLogger(CollectionFuture.class.getName());
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private static final AtomicReferenceFieldUpdater<CombinedFuture<?, ?>, Set<Throwable>>
+    private static final AtomicReferenceFieldUpdater<CollectionFuture<?, ?>, Set<Throwable>>
         SEEN_EXCEPTIONS_UDPATER = newUpdater(
-            (Class) CombinedFuture.class, (Class) Set.class, "seenExceptions");
+            (Class) CollectionFuture.class, (Class) Set.class, "seenExceptions");
 
     ImmutableCollection<? extends ListenableFuture<? extends V>> futures;
     final boolean allMustSucceed;
     final AtomicInteger remaining;
-    FutureCombiner<V, C> combiner;
+    FutureCollector<V, C> combiner;
     List<Optional<V>> values;
     volatile Set<Throwable> seenExceptions;
 
-    CombinedFuture(
+    CollectionFuture(
         ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
         boolean allMustSucceed, Executor listenerExecutor,
-        FutureCombiner<V, C> combiner) {
+        FutureCollector<V, C> combiner) {
       this.futures = futures;
       this.allMustSucceed = allMustSucceed;
       this.remaining = new AtomicInteger(futures.size());
@@ -1576,26 +1576,22 @@ public final class Futures {
       init(listenerExecutor);
     }
 
+    @Override void done() {
+      // Let go of the memory held by other futures
+      this.futures = null;
+
+      // By now the values array has either been set as the Future's value,
+      // or (in case of failure) is no longer useful.
+      this.values = null;
+
+      // The combiner may also hold state, so free that as well
+      this.combiner = null;
+    }
+
     /**
      * Must be called at the end of the constructor.
      */
     protected void init(final Executor listenerExecutor) {
-      // First, schedule cleanup to execute when the Future is done.
-      addListener(new Runnable() {
-        @Override
-        public void run() {
-          // Let go of the memory held by other futures
-          CombinedFuture.this.futures = null;
-
-          // By now the values array has either been set as the Future's value,
-          // or (in case of failure) is no longer useful.
-          CombinedFuture.this.values = null;
-
-          // The combiner may also hold state, so free that as well
-          CombinedFuture.this.combiner = null;
-        }
-      }, directExecutor());
-
       // Now begin the "real" initialization.
 
       // Corner case: List is empty.
@@ -1726,7 +1722,7 @@ public final class Futures {
         int newRemaining = remaining.decrementAndGet();
         checkState(newRemaining >= 0, "Less than 0 remaining futures");
         if (newRemaining == 0) {
-          FutureCombiner<V, C> localCombiner = combiner;
+          FutureCollector<V, C> localCombiner = combiner;
           if (localCombiner != null && localValues != null) {
             set(localCombiner.combine(localValues));
           } else {
@@ -1743,9 +1739,9 @@ public final class Futures {
   private static <V> ListenableFuture<List<V>> listFuture(
       ImmutableList<ListenableFuture<? extends V>> futures,
       boolean allMustSucceed, Executor listenerExecutor) {
-    return new CombinedFuture<V, List<V>>(
+    return new CollectionFuture<V, List<V>>(
         futures, allMustSucceed, listenerExecutor,
-        new FutureCombiner<V, List<V>>() {
+        new FutureCollector<V, List<V>>() {
           @Override
           public List<V> combine(List<Optional<V>> values) {
             List<V> result = Lists.newArrayList();
