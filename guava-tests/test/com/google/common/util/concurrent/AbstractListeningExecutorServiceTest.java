@@ -33,26 +33,26 @@ public class AbstractListeningExecutorServiceTest extends TestCase {
 
   public void testSubmit() throws Exception {
     /*
-     * Mostly just tests that ListenableFutureTasks are created and run; tests for
-     * ListenableFutureTask should ensure that listeners are called correctly.
+     * Mostly just tests that TrustedListenableFutureTask are created and run; tests for
+     * TrustedListenableFutureTask should ensure that listeners are called correctly.
      */
 
     TestListeningExecutorService e = new TestListeningExecutorService();
 
     TestRunnable runnable = new TestRunnable();
     ListenableFuture<?> runnableFuture = e.submit(runnable);
-    assertTrue(runnableFuture instanceof ListenableFutureTask);
+    assertTrue(runnableFuture instanceof TrustedListenableFutureTask);
     assertTrue(runnableFuture.isDone());
     assertTrue(runnable.run);
 
     ListenableFuture<String> callableFuture = e.submit(new TestCallable());
-    assertTrue(callableFuture instanceof ListenableFutureTask);
+    assertTrue(callableFuture instanceof TrustedListenableFutureTask);
     assertTrue(callableFuture.isDone());
     assertEquals("foo", callableFuture.get());
 
     TestRunnable runnable2 = new TestRunnable();
     ListenableFuture<Integer> runnableFuture2 = e.submit(runnable2, 3);
-    assertTrue(runnableFuture2 instanceof ListenableFutureTask);
+    assertTrue(runnableFuture2 instanceof TrustedListenableFutureTask);
     assertTrue(runnableFuture2.isDone());
     assertTrue(runnable2.run);
     assertEquals((Integer) 3, runnableFuture2.get());
@@ -81,7 +81,7 @@ public class AbstractListeningExecutorServiceTest extends TestCase {
 
     @Override
     public void execute(Runnable runnable) {
-      assertTrue(runnable instanceof ListenableFutureTask);
+      assertTrue(runnable instanceof TrustedListenableFutureTask);
       runnable.run();
     }
 

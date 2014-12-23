@@ -564,8 +564,8 @@ public final class MoreExecutors {
     @Override
     public ListenableScheduledFuture<?> schedule(
         Runnable command, long delay, TimeUnit unit) {
-      ListenableFutureTask<Void> task =
-          ListenableFutureTask.create(command, null);
+      TrustedListenableFutureTask<Void> task =
+          TrustedListenableFutureTask.create(command, null);
       ScheduledFuture<?> scheduled = delegate.schedule(task, delay, unit);
       return new ListenableScheduledTask<Void>(task, scheduled);
     }
@@ -573,7 +573,7 @@ public final class MoreExecutors {
     @Override
     public <V> ListenableScheduledFuture<V> schedule(
         Callable<V> callable, long delay, TimeUnit unit) {
-      ListenableFutureTask<V> task = ListenableFutureTask.create(callable);
+      TrustedListenableFutureTask<V> task = TrustedListenableFutureTask.create(callable);
       ScheduledFuture<?> scheduled = delegate.schedule(task, delay, unit);
       return new ListenableScheduledTask<V>(task, scheduled);
     }

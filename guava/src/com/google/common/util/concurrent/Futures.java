@@ -978,34 +978,24 @@ public final class Futures {
     return listFuture(ImmutableList.copyOf(futures), true, directExecutor());
   }
 
-  private static final class WrappedCombiner<T> implements Callable<T> {
-    final Callable<T> delegate;
-    CombinerFuture<T> outputFuture;
-
-    WrappedCombiner(Callable<T> delegate) {
-      this.delegate = checkNotNull(delegate);
-    }
-
-    @Override public T call() throws Exception {
-      try {
-        return delegate.call();
-      } catch (ExecutionException e) {
-        outputFuture.setException(e.getCause());
-      } catch (CancellationException e) {
-        outputFuture.cancel(false);
-      }
-      // at this point the return value doesn't matter since we already called setException or
-      // cancel so the future is done.
-      return null;
-    }
-  }
-
-  private static final class CombinerFuture<V> extends ListenableFutureTask<V> {
+  private static final class CombinedFuture<V> extends TrustedListenableFutureTask<V> {
     ImmutableList<ListenableFuture<?>> futures;
 
-    CombinerFuture(Callable<V> callable, ImmutableList<ListenableFuture<?>> futures) {
+    CombinedFuture(Callable<V> callable, ImmutableList<ListenableFuture<?>> futures) {
       super(callable);
       this.futures = futures;
+    }
+
+    @Override void doRun(Callable<V> task) throws Exception {
+      // Very similar to the default implementation, but has specialized handling of
+      // ExecutionExceptions and CancellationExceptions
+      try {
+        set(task.call());
+      } catch (ExecutionException e) {
+        setException(e.getCause());
+      } catch (CancellationException e) {
+        cancel(false);
+      }
     }
 
     @Override public boolean cancel(boolean mayInterruptIfRunning) {
@@ -1019,13 +1009,8 @@ public final class Futures {
       return false;
     }
 
-    @Override protected void done() {
-      super.done();
+    @Override void done() {
       futures = null;
-    }
-
-    @Override protected void setException(Throwable t) {
-      super.setException(t);
     }
   }
 
