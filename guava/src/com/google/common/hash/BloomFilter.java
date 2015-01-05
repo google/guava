@@ -259,9 +259,6 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
     return Objects.hashCode(numHashFunctions, funnel, strategy, bits);
   }
 
-  private static final Strategy DEFAULT_STRATEGY =
-      BloomFilterStrategies.MURMUR128_MITZ_64;
-
   /**
    * Creates a {@link BloomFilter BloomFilter<T>} with the expected number of
    * insertions and expected false positive probability.
@@ -285,7 +282,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   public static <T> BloomFilter<T> create(
       Funnel<? super T> funnel, long expectedInsertions, double fpp) {
-    return create(funnel, expectedInsertions, fpp, DEFAULT_STRATEGY);
+    return create(funnel, expectedInsertions, fpp, BloomFilterStrategies.MURMUR128_MITZ_64);
   }
 
   @VisibleForTesting
