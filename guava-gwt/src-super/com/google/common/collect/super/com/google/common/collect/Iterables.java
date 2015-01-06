@@ -35,6 +35,7 @@ import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Set;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -567,6 +568,7 @@ public final class Iterables {
    * Returns the elements of {@code unfiltered} that satisfy a predicate. The
    * resulting iterable's iterator does not support {@code remove()}.
    */
+  @CheckReturnValue
   public static <T> Iterable<T> filter(
       final Iterable<T> unfiltered, final Predicate<? super T> predicate) {
     checkNotNull(unfiltered);

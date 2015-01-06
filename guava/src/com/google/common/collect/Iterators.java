@@ -46,6 +46,7 @@ import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -641,6 +642,7 @@ public final class Iterators {
   /**
    * Returns the elements of {@code unfiltered} that satisfy a predicate.
    */
+  @CheckReturnValue
   public static <T> UnmodifiableIterator<T> filter(
       final Iterator<T> unfiltered, final Predicate<? super T> predicate) {
     checkNotNull(unfiltered);
@@ -670,6 +672,7 @@ public final class Iterators {
    */
   @SuppressWarnings("unchecked") // can cast to <T> because non-Ts are removed
   @GwtIncompatible("Class.isInstance")
+  @CheckReturnValue
   public static <T> UnmodifiableIterator<T> filter(
       Iterator<?> unfiltered, Class<T> type) {
     return (UnmodifiableIterator<T>) filter(unfiltered, instanceOf(type));

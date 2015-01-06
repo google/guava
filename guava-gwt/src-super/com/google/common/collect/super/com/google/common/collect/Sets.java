@@ -41,6 +41,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -736,6 +737,7 @@ public final class Sets {
    * functionality.)
    */
   // TODO(kevinb): how to omit that last sentence when building GWT javadoc?
+  @CheckReturnValue
   public static <E> Set<E> filter(
       Set<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof SortedSet) {
@@ -799,6 +801,7 @@ public final class Sets {
    *
    * @since 11.0
    */
+  @CheckReturnValue
   public static <E> SortedSet<E> filter(
       SortedSet<E> unfiltered, Predicate<? super E> predicate) {
     return Platform.setsFilterSortedSet(unfiltered, predicate);
