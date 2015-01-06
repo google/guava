@@ -48,6 +48,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -749,6 +750,7 @@ public final class Lists {
    *
    * @since 7.0
    */
+  @CheckReturnValue
   public static <T> List<T> reverse(List<T> list) {
     if (list instanceof ImmutableList) {
       return ((ImmutableList<T>) list).reverse();
