@@ -58,6 +58,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -245,6 +246,7 @@ public final class Futures {
    * be canceled or timed out and its {@code isDone()} method always returns
    * {@code true}.
    */
+  @CheckReturnValue
   public static <V> ListenableFuture<V> immediateFuture(@Nullable V value) {
     return new ImmediateSuccessfulFuture<V>(value);
   }
@@ -257,6 +259,7 @@ public final class Futures {
    * method always returns {@code true}. Calling {@code get()} or {@code
    * checkedGet()} will immediately return the provided value.
    */
+  @CheckReturnValue
   public static <V, X extends Exception> CheckedFuture<V, X>
       immediateCheckedFuture(@Nullable V value) {
     return new ImmediateSuccessfulCheckedFuture<V, X>(value);
@@ -271,6 +274,7 @@ public final class Futures {
    * throw the provided {@code Throwable} wrapped in an {@code
    * ExecutionException}.
    */
+  @CheckReturnValue
   public static <V> ListenableFuture<V> immediateFailedFuture(
       Throwable throwable) {
     checkNotNull(throwable);
@@ -283,6 +287,7 @@ public final class Futures {
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public static <V> ListenableFuture<V> immediateCancelledFuture() {
     return new ImmediateCancelledFuture<V>();
   }
@@ -297,6 +302,7 @@ public final class Futures {
    * ExecutionException}, and calling {@code checkedGet()} will throw the
    * provided exception itself.
    */
+  @CheckReturnValue
   public static <V, X extends Exception> CheckedFuture<V, X>
       immediateFailedCheckedFuture(X exception) {
     checkNotNull(exception);
