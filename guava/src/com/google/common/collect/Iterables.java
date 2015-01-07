@@ -255,6 +255,7 @@ public final class Iterables {
    * of {@code iterable1} is equal to the corresponding element of
    * {@code iterable2}.
    */
+  @CheckReturnValue
   public static boolean elementsEqual(
       Iterable<?> iterable1, Iterable<?> iterable2) {
     if (iterable1 instanceof Collection && iterable2 instanceof Collection) {
