@@ -539,6 +539,7 @@ public final class Lists {
    * then serialize the copy. Other methods similar to this do not implement
    * serialization at all for this reason.
    */
+  @CheckReturnValue
   public static <F, T> List<T> transform(
       List<F> fromList, Function<? super F, ? extends T> function) {
     return (fromList instanceof RandomAccess)

@@ -244,6 +244,7 @@ public final class Collections2 {
    * {@link Lists#transform}. If only an {@code Iterable} is available, use
    * {@link Iterables#transform}.
    */
+  @CheckReturnValue
   public static <F, T> Collection<T> transform(Collection<F> fromCollection,
       Function<? super F, T> function) {
     return new TransformedCollection<F, T>(fromCollection, function);

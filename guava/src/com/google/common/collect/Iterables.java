@@ -710,6 +710,7 @@ public final class Iterables {
    * {@code Collection}, consider {@link Lists#transform} and {@link
    * Collections2#transform}.
    */
+  @CheckReturnValue
   public static <F, T> Iterable<T> transform(final Iterable<F> fromIterable,
       final Function<? super F, ? extends T> function) {
     checkNotNull(fromIterable);
