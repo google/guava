@@ -19,7 +19,7 @@
   <properties>
     <gwt.test.include>**/GwtTestSuite.java</gwt.test.include>
     <gwt.version>2.6.1</gwt.version>
-    <gwt.logLevel>DEBUG</gwt.logLevel>
+    <gwt.logLevel>WARN</gwt.logLevel>
   </properties>
   <dependencies>
     <!-- GWT requires a library's transitive dependencies to be present when
