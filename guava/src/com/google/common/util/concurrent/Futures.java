@@ -1065,6 +1065,7 @@ public final class Futures {
    * @since 10.0
    */
   @Beta
+  @CheckReturnValue
   public static <V> ListenableFuture<List<V>> successfulAsList(
       ListenableFuture<? extends V>... futures) {
     return listFuture(ImmutableList.copyOf(futures), false, directExecutor());
@@ -1086,6 +1087,7 @@ public final class Futures {
    * @since 10.0
    */
   @Beta
+  @CheckReturnValue
   public static <V> ListenableFuture<List<V>> successfulAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return listFuture(ImmutableList.copyOf(futures), false, directExecutor());
