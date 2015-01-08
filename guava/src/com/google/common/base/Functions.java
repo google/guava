@@ -67,7 +67,7 @@ public final class Functions {
     }
 
     @Override public String toString() {
-      return "toString";
+      return "Functions.toStringFunction()";
     }
   }
 
@@ -91,7 +91,7 @@ public final class Functions {
     }
 
     @Override public String toString() {
-      return "identity";
+      return "Functions.identity()";
     }
   }
 
@@ -135,7 +135,7 @@ public final class Functions {
     }
 
     @Override public String toString() {
-      return "forMap(" + map + ")";
+      return "Functions.forMap(" + map + ")";
     }
 
     private static final long serialVersionUID = 0;
@@ -183,7 +183,8 @@ public final class Functions {
     }
 
     @Override public String toString() {
-      return "forMap(" + map + ", defaultValue=" + defaultValue + ")";
+      // TODO(cpovirk): maybe remove "defaultValue=" to make this look like the method call does
+      return "Functions.forMap(" + map + ", defaultValue=" + defaultValue + ")";
     }
 
     private static final long serialVersionUID = 0;
@@ -229,6 +230,7 @@ public final class Functions {
     }
 
     @Override public String toString() {
+      // TODO(cpovirk): maybe make this look like the method call does ("Functions.compose(...)")
       return g + "(" + f + ")";
     }
 
@@ -271,7 +273,7 @@ public final class Functions {
     }
 
     @Override public String toString() {
-      return "forPredicate(" + predicate + ")";
+      return "Functions.forPredicate(" + predicate + ")";
     }
 
     private static final long serialVersionUID = 0;
@@ -312,7 +314,7 @@ public final class Functions {
     }
 
     @Override public String toString() {
-      return "constant(" + value + ")";
+      return "Functions.constant(" + value + ")";
     }
 
     private static final long serialVersionUID = 0;
@@ -355,7 +357,7 @@ public final class Functions {
     }
     
     @Override public String toString() {
-      return "forSupplier(" + supplier + ")";
+      return "Functions.forSupplier(" + supplier + ")";
     }
     
     private static final long serialVersionUID = 0;
