@@ -496,7 +496,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * {@inheritDoc}
    *
    * <p>If a cancellation attempt succeeds on a {@code Future} that had previously been {@linkplain
-   * #setFuture asynchronously set}, then the cancellation will also be propagated to the delegate
+   * #setFuture set asynchronously}, then the cancellation will also be propagated to the delegate
    * {@code Future} that was supplied in the {@code setFuture} call.
    */
   @Override
@@ -582,12 +582,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   /**
-   * Sets the result of this {@code Future} unless this {@code Future} has previously been cancelled
-   * or set (including {@linkplain #setFuture set asynchronously}). When a call to this method
-   * returns, the {@code Future} is guaranteed to be {@linkplain #isDone done} <b>only if</b> the
-   * call was accepted (in which case it returns {@code true}). If it returns {@code false}, the
-   * {@code Future} may have previously been set asynchronously, in which case its result may not be
-   * known yet. That result, though not yet known, cannot by overridden by a call to a {@code set*}
+   * Sets the result of this {@code Future} unless this {@code Future} has already been cancelled or
+   * set (including {@linkplain #setFuture set asynchronously}). When a call to this method returns,
+   * the {@code Future} is guaranteed to be {@linkplain #isDone done} <b>only if</b> the call was
+   * accepted (in which case it returns {@code true}). If it returns {@code false}, the {@code
+   * Future} may have previously been set asynchronously, in which case its result may not be known
+   * yet. That result, though not yet known, cannot by overridden by a call to a {@code set*}
    * method, only by a call to {@link #cancel}.
    *
    * @param value the value to be used as the result
@@ -603,7 +603,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   /**
-   * Sets the failed result of this {@code Future} unless this {@code Future} has previously been
+   * Sets the failed result of this {@code Future} unless this {@code Future} has already been
    * cancelled or set (including {@linkplain #setFuture set asynchronously}). When a call to this
    * method returns, the {@code Future} is guaranteed to be {@linkplain #isDone done} <b>only if</b>
    * the call was accepted (in which case it returns {@code true}). If it returns {@code false}, the
@@ -624,17 +624,20 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   /**
-   * Asynchronously sets the result of this {@code Future} unless this {@code Future} has previously
-   * been cancelled or set (including {@linkplain #setFuture set asynchronously}). If a call to this
-   * method is accepted, this {@code Future} will complete when the supplied {@code Future}
-   * completes or when this {@code Future} is cancelled (at which point cancellation will also be
-   * propagated to the supplied {@code Future}).
+   * Sets the result of this {@code Future} to match the supplied input {@code Future} once the
+   * supplied {@code Future} is done, unless this {@code Future} has already been cancelled or set
+   * (including "set asynchronously," defined below).
    *
    * <p>If the supplied future is {@linkplain #isDone done} when this method is called and the call
-   * is accepted, then this future is guaranteed to have been completed with the supplied future.
-   * If the supplied future is not done and the call is accepted, then the future will be set
-   * asynchronously. Note that such a result, though not yet known, cannot by overridden by a call
-   * to a {@code set*} method, only by a call to {@link #cancel}.
+   * is accepted, then this future is guaranteed to have been completed with the supplied future by
+   * the time this method returns. If the supplied future is not done and the call is accepted, then
+   * the future will be <i>set asynchronously</i>. Note that such a result, though not yet known,
+   * cannot by overridden by a call to a {@code set*} method, only by a call to {@link #cancel}.
+   *
+   * <p>If the call {@code setFuture(delegate)} is accepted and this {@code Future} is later
+   * cancelled, cancellation will be propagated to {@code delegate}. Additionally, any call to
+   * {@code setFuture} after any cancellation will propagate cancellation to the supplied {@code
+   * Future}.
    *
    * @param future the future to delegate to
    * @return true if the attempt was accepted, indicating that the {@code Future} was not previously
