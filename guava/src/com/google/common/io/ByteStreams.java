@@ -47,7 +47,7 @@ import java.util.Arrays;
  */
 @Beta
 public final class ByteStreams {
-  private static final int BUF_SIZE = 0x1000; // 4K
+  private static final int BUF_SIZE = 8192;
 
   private ByteStreams() {}
 

@@ -455,7 +455,7 @@ public class ByteStreamsTest extends IoTestCase {
   }
 
   public void testByteProcessorStopEarly() throws IOException {
-    byte[] array = newPreFilledByteArray(6000);
+    byte[] array = newPreFilledByteArray(10000);
     assertEquals((Integer) 42,
         ByteStreams.readBytes(new ByteArrayInputStream(array),
             new ByteProcessor<Integer>() {
@@ -463,7 +463,7 @@ public class ByteStreamsTest extends IoTestCase {
               public boolean processBytes(byte[] buf, int off, int len) {
                 assertEquals(
                     copyOfRange(buf, off, off + len),
-                    newPreFilledByteArray(4096));
+                    newPreFilledByteArray(8192));
                 return false;
               }
 
