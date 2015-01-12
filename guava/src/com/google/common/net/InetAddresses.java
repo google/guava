@@ -319,7 +319,7 @@ public final class InetAddresses {
    * Convert a byte array into an InetAddress.
    *
    * {@link InetAddress#getByAddress} is documented as throwing a checked
-   * exception "if IP address if of illegal length."  We replace it with
+   * exception "if IP address is of illegal length."  We replace it with
    * an unchecked exception, for use by callers who already know that addr
    * is an array of length 4 or 16.
    *
