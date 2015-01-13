@@ -21,6 +21,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.annotations.Beta;
 
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -152,8 +153,7 @@ public final class GcFinalization {
         /* OK */
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new RuntimeException(
-        String.format("Future not done within %d second timeout", timeoutSeconds));
+    throw formatRuntimeException("Future not done within %d second timeout", timeoutSeconds);
   }
 
   /**
@@ -182,8 +182,8 @@ public final class GcFinalization {
         throw new RuntimeException("Unexpected interrupt while waiting for latch", ie);
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new RuntimeException(
-        String.format("Latch failed to count down within %d second timeout", timeoutSeconds));
+    throw formatRuntimeException(
+        "Latch failed to count down within %d second timeout", timeoutSeconds);
   }
 
   /**
@@ -233,8 +233,8 @@ public final class GcFinalization {
         return;
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new RuntimeException(
-        String.format("Predicate did not become true within %d second timeout", timeoutSeconds));
+    throw formatRuntimeException(
+        "Predicate did not become true within %d second timeout", timeoutSeconds);
   }
 
   /**
@@ -293,5 +293,9 @@ public final class GcFinalization {
 
     // Hope to catch some stragglers queued up behind our finalizable object
     System.runFinalization();
+  }
+
+  private static RuntimeException formatRuntimeException(String format, Object... args) {
+    return new RuntimeException(String.format(Locale.ROOT, format, args));
   }
 }

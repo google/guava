@@ -24,6 +24,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import java.lang.reflect.Method;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -171,7 +172,8 @@ public class EventBus {
     } catch (Throwable e2) {
       // if the handler threw an exception... well, just log it
       logger.log(Level.SEVERE,
-          String.format("Exception %s thrown while handling exception: %s", e2, e), e2);
+          String.format(Locale.ROOT, "Exception %s thrown while handling exception: %s", e2, e),
+          e2);
     }
   }
 

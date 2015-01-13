@@ -29,6 +29,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.Locale;
 
 import javax.annotation.Nullable;
 
@@ -150,8 +151,7 @@ public final class InetAddresses {
 
     // The argument was malformed, i.e. not an IP string literal.
     if (addr == null) {
-      throw new IllegalArgumentException(
-          String.format("'%s' is not an IP string literal.", ipString));
+      throw formatIllegalArgumentException("'%s' is not an IP string literal.", ipString);
     }
 
     return bytesToInetAddress(addr);
@@ -498,8 +498,7 @@ public final class InetAddresses {
     // Parse the address, and make sure the length/version is correct.
     byte[] addr = ipStringToBytes(ipString);
     if (addr == null || addr.length != expectBytes) {
-      throw new IllegalArgumentException(
-          String.format("Not a valid URI IP literal: '%s'", hostAddr));
+      throw formatIllegalArgumentException("Not a valid URI IP literal: '%s'", hostAddr);
     }
 
     return bytesToInetAddress(addr);
@@ -804,8 +803,7 @@ public final class InetAddresses {
       return getTeredoInfo(ip).getClient();
     }
 
-    throw new IllegalArgumentException(
-        String.format("'%s' has no embedded IPv4 address.", toAddrString(ip)));
+    throw formatIllegalArgumentException("'%s' has no embedded IPv4 address.", toAddrString(ip));
   }
 
   /**
@@ -1030,5 +1028,10 @@ public final class InetAddresses {
       }
     }
     return true;
+  }
+
+  private static IllegalArgumentException formatIllegalArgumentException(
+      String format, Object... args) {
+    return new IllegalArgumentException(String.format(Locale.ROOT, format, args));
   }
 }

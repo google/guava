@@ -16,7 +16,6 @@
 
 package com.google.common.hash;
 
-import static com.google.common.hash.Hashing.ConcatenatedHashFunction;
 import static com.google.common.hash.Hashing.goodFastHash;
 
 import com.google.common.base.Charsets;
@@ -24,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table.Cell;
+import com.google.common.hash.Hashing.ConcatenatedHashFunction;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -36,6 +36,7 @@ import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -400,14 +401,14 @@ public class HashingTest extends TestCase {
           .put(Hashing.sha256(), TQBFJOTLDP,
                "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c")
           .put(Hashing.sha512(), EMPTY_STRING,
-               "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce" +
-               "47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e")
+               "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce"
+               + "47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e")
           .put(Hashing.sha512(), TQBFJOTLD,
-               "07e547d9586f6a73f73fbac0435ed76951218fb7d0c8d788a309d785436bbb64" +
-               "2e93a252a954f23912547d1e8a3b5ed6e1bfd7097821233fa0538f3db854fee6")
+               "07e547d9586f6a73f73fbac0435ed76951218fb7d0c8d788a309d785436bbb64"
+               + "2e93a252a954f23912547d1e8a3b5ed6e1bfd7097821233fa0538f3db854fee6")
           .put(Hashing.sha512(), TQBFJOTLDP,
-               "91ea1245f20d46ae9a037a989f54f1f790f0a47607eeb8a14d12890cea77a1bb" +
-               "c6c7ed9cf205e67b7f2b8fd4c7dfd3a7a8617e45f3c463d481c7e586c39ac1ed")
+               "91ea1245f20d46ae9a037a989f54f1f790f0a47607eeb8a14d12890cea77a1bb"
+               + "c6c7ed9cf205e67b7f2b8fd4c7dfd3a7a8617e45f3c463d481c7e586c39ac1ed")
           .put(Hashing.crc32(), EMPTY_STRING, "00000000")
           .put(Hashing.crc32(), TQBFJOTLD, "39a34f41")
           .put(Hashing.crc32(), TQBFJOTLDP, "e9259051")
@@ -437,7 +438,7 @@ public class HashingTest extends TestCase {
       String input = cell.getColumnKey();
       String expected = cell.getValue();
       assertEquals(
-          String.format("Known hash for hash(%s, UTF_8) failed", input),
+          String.format(Locale.ROOT, "Known hash for hash(%s, UTF_8) failed", input),
           expected,
           func.hashString(input, Charsets.UTF_8).toString());
     }

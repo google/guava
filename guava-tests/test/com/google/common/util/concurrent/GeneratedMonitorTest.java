@@ -28,6 +28,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
@@ -475,12 +476,13 @@ public class GeneratedMonitorTest extends TestCase {
 
   private static String nameFor(
       Method method, Scenario scenario, boolean fair, Timeout timeout, Outcome expectedOutcome) {
-    return String.format("%s%s(%s)/%s->%s",
-                         method.getName(),
-                         fair ? "(fair)" : "(nonfair)",
-                         (timeout == null) ? "untimed" : timeout,
-                         scenario,
-                         expectedOutcome);
+    return String.format(Locale.ROOT,
+        "%s%s(%s)/%s->%s",
+        method.getName(),
+        fair ? "(fair)" : "(nonfair)",
+        (timeout == null) ? "untimed" : timeout,
+        scenario,
+        expectedOutcome);
   }
 
   @Override

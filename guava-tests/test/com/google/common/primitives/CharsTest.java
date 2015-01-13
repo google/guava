@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Unit test for {@link Chars}.
@@ -241,7 +242,8 @@ public class CharsTest extends TestCase {
     for (int hi = 0; hi < 256; hi++) {
       for (int lo = 0; lo < 256; lo++) {
         char result = Chars.fromByteArray(new byte[]{(byte) hi, (byte) lo});
-        assertEquals(String.format("hi=%s, lo=%s, expected=%s, result=%s",
+        assertEquals(String.format(Locale.ROOT,
+            "hi=%s, lo=%s, expected=%s, result=%s",
             hi, lo, (int) c, (int) result), c, result);
 
         byte[] bytes = Chars.toByteArray(c);

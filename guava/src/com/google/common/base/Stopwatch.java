@@ -30,6 +30,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -219,7 +220,7 @@ public final class Stopwatch {
     double value = (double) nanos / NANOSECONDS.convert(1, unit);
 
     // Too bad this functionality is not exposed as a regular method call
-    return String.format("%.4g %s", value, abbreviate(unit));
+    return String.format(Locale.ROOT, "%.4g %s", value, abbreviate(unit));
   }
 
   private static TimeUnit chooseUnit(long nanos) {

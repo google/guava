@@ -65,6 +65,8 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <argLine>-Xmx1536M</argLine>
+          <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
+          <argLine>-Duser.language=hi -Duser.country=IN</argLine>
         </configuration>
       </plugin>
       <plugin>

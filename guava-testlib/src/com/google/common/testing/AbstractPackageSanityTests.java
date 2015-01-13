@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -296,7 +297,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
   private static AssertionFailedError sanityError(
       Class<?> cls, List<String> explicitTestNames, String description, Throwable e) {
-    String message = String.format(
+    String message = String.format(Locale.ROOT,
         "Error in automated %s of %s\n"
             + "If the class is better tested explicitly, you can add %s() to %sTest",
         description, cls, explicitTestNames.get(0), cls.getName());

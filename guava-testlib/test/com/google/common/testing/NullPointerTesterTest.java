@@ -44,6 +44,7 @@ import junit.framework.TestCase;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -290,7 +291,7 @@ public class NullPointerTesterTest extends TestCase {
 
     /** To provide sanity during debugging. */
     @Override public String toString() {
-      return String.format("Bar(%s, %s)",
+      return rootLocaleFormat("Bar(%s, %s)",
           actionWhenFirstParamIsNull, actionWhenSecondParamIsNull);
     }
   }
@@ -299,7 +300,7 @@ public class NullPointerTesterTest extends TestCase {
     try {
       new NullPointerTester().testMethod(bar, method);
     } catch (AssertionFailedError incorrectError) {
-      String errorMessage = String.format(
+      String errorMessage = rootLocaleFormat(
           "Should not have flagged method %s for %s", method.getName(), bar);
       assertNull(errorMessage, incorrectError);
     }
@@ -311,7 +312,7 @@ public class NullPointerTesterTest extends TestCase {
     } catch (AssertionFailedError expected) {
       return; // good...we wanted a failure
     }
-    String errorMessage = String.format(
+    String errorMessage = rootLocaleFormat(
         "Should have flagged method %s for %s", method.getName(), bar);
     fail(errorMessage);
   }
@@ -622,7 +623,7 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   @SuppressWarnings("unused") // for NullPointerTester
-  private static abstract class BaseClassThatFailsToThrow {
+  private abstract static class BaseClassThatFailsToThrow {
     public void oneArg(String s) {}
   }
 
@@ -634,7 +635,7 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   @SuppressWarnings("unused") // for NullPointerTester
-  private static abstract class BaseClassThatFailsToThrowForPackagePrivate {
+  private abstract static class BaseClassThatFailsToThrowForPackagePrivate {
     void packagePrivateOneArg(String s) {}
   }
 
@@ -647,7 +648,7 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   @SuppressWarnings("unused") // for NullPointerTester
-  private static abstract class BaseClassThatFailsToThrowForProtected {
+  private abstract static class BaseClassThatFailsToThrowForProtected {
     protected void protectedOneArg(String s) {}
   }
 
@@ -799,7 +800,7 @@ public class NullPointerTesterTest extends TestCase {
     new NullPointerTester().testAllPublicInstanceMethods(new StringFoo());
   }
 
-  private static abstract class DefaultValueChecker {
+  private abstract static class DefaultValueChecker {
 
     private final Map<Integer, Object> arguments = Maps.newHashMap();
 
@@ -1141,7 +1142,7 @@ public class NullPointerTesterTest extends TestCase {
     new GenericInterface2DefaultValueChecker().check();
   }
 
-  private static abstract class AbstractGenericDefaultValueChecker<T>
+  private abstract static class AbstractGenericDefaultValueChecker<T>
       extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
@@ -1162,7 +1163,7 @@ public class NullPointerTesterTest extends TestCase {
     new GenericDefaultValueResolvedToStringChecker().check();
   }
 
-  private static abstract
+  private abstract static
   class AbstractGenericDefaultValueForPackagePrivateMethodChecker<T>
       extends DefaultValueChecker {
 
@@ -1271,5 +1272,9 @@ public class NullPointerTesterTest extends TestCase {
     } catch (IllegalArgumentException expected) {
       assertThat(expected.getMessage()).contains("inner class");
     }
+  }
+
+  private static String rootLocaleFormat(String format, Object... args) {
+    return String.format(Locale.ROOT, format, args);
   }
 }

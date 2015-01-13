@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -534,7 +535,7 @@ public class RateLimiterTest extends TestCase {
 
     void sleepMicros(String caption, long micros) {
       instant += MICROSECONDS.toNanos(micros);
-      events.add(caption + String.format("%3.2f", (micros / 1000000.0)));
+      events.add(caption + String.format(Locale.ROOT, "%3.2f", (micros / 1000000.0)));
     }
 
     @Override

@@ -25,6 +25,8 @@ import static com.google.common.util.concurrent.Service.State.TERMINATED;
 
 import junit.framework.TestCase;
 
+import java.util.Locale;
+
 /**
  * Unit tests for {@link Service}
  */
@@ -49,7 +51,7 @@ public class ServiceTest extends TestCase {
   
   private static <T extends Comparable<? super T>> void assertLessThan(T a, T b) {
     if (a.compareTo(b) >= 0) {
-      fail(String.format("Expected %s to be less than %s", a, b));
+      fail(String.format(Locale.ROOT, "Expected %s to be less than %s", a, b));
     }
   }
 }
