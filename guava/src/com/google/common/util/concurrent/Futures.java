@@ -456,27 +456,31 @@ public final class Futures {
    * A future that falls back on a second, generated future, in case its
    * original future fails.
    */
-  private static class FallbackFuture<V> extends AbstractFuture<V> {
-
-    private volatile ListenableFuture<? extends V> running;
+  private static class FallbackFuture<V> extends AbstractFuture.TrustedFuture<V> {
+    ListenableFuture<? extends V> running;
 
     FallbackFuture(ListenableFuture<? extends V> input,
         final FutureFallback<? extends V> fallback,
         final Executor executor) {
       running = input;
-      addCallback(running, new FutureCallback<V>() {
-        @Override
-        public void onSuccess(V value) {
-          set(value);
-        }
-
-        @Override
-        public void onFailure(Throwable t) {
-          if (isCancelled()) {
+      input.addListener(new Runnable() {
+        @Override public void run() {
+          ListenableFuture<? extends V> localRunning = running;
+          running = null;
+          if (localRunning == null | isCancelled()) {
             return;
           }
+          Throwable throwable;
           try {
-            setFuture(fallback.create(t));
+            set(getUninterruptibly(localRunning));
+            return;
+          } catch (ExecutionException e) {
+            throwable = e.getCause();
+          } catch (Throwable e) {  // this includes cancellation exception
+            throwable = e;
+          }
+          try {
+            setFuture(fallback.create(throwable));
           } catch (Throwable e) {
             setException(e);
           }
@@ -486,8 +490,15 @@ public final class Futures {
 
     @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
+      ListenableFuture<?> current = this.running;
       if (super.cancel(mayInterruptIfRunning)) {
-        running.cancel(mayInterruptIfRunning);
+        // May be null if the original future completed, but we were cancelled while the fallback
+        // is still pending.  This is fine because if the original future completed, then there is
+        // nothing to cancel and if the fallback is pending, cancellation would be handled by
+        // super.cancel().
+        if (current != null) {
+          current.cancel(mayInterruptIfRunning);
+        }
         return true;
       }
       return false;
