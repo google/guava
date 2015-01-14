@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -83,6 +85,7 @@ import java.util.concurrent.RejectedExecutionException;
  * @author Nishant Thakkar
  * @since 1.0
  */
+@GwtCompatible
 public interface ListenableFuture<V> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on

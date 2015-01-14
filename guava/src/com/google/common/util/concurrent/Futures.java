@@ -26,6 +26,8 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
@@ -75,6 +77,7 @@ import javax.annotation.Nullable;
  * @since 1.0
  */
 @Beta
+@GwtCompatible(emulated = true)
 public final class Futures {
   private Futures() {}
 
@@ -90,11 +93,13 @@ public final class Futures {
    *
    * @since 9.0 (source-compatible since 1.0)
    */
+  @GwtIncompatible("TODO")
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       ListenableFuture<V> future, Function<? super Exception, X> mapper) {
     return new MappingCheckedFuture<V, X>(checkNotNull(future), mapper);
   }
 
+  @GwtIncompatible("TODO")
   private abstract static class ImmediateFuture<V>
       implements ListenableFuture<V> {
 
@@ -140,6 +145,7 @@ public final class Futures {
     }
   }
 
+  @GwtIncompatible("TODO")
   private static class ImmediateSuccessfulFuture<V> extends ImmediateFuture<V> {
 
     @Nullable private final V value;
@@ -154,6 +160,7 @@ public final class Futures {
     }
   }
 
+  @GwtIncompatible("TODO")
   private static class ImmediateSuccessfulCheckedFuture<V, X extends Exception>
       extends ImmediateFuture<V> implements CheckedFuture<V, X> {
 
@@ -180,6 +187,7 @@ public final class Futures {
     }
   }
 
+  @GwtIncompatible("TODO")
   private static class ImmediateFailedFuture<V> extends ImmediateFuture<V> {
 
     private final Throwable thrown;
@@ -194,6 +202,7 @@ public final class Futures {
     }
   }
 
+  @GwtIncompatible("TODO")
   private static class ImmediateCancelledFuture<V> extends ImmediateFuture<V> {
 
     private final CancellationException thrown;
@@ -214,6 +223,7 @@ public final class Futures {
     }
   }
 
+  @GwtIncompatible("TODO")
   private static class ImmediateFailedCheckedFuture<V, X extends Exception>
       extends ImmediateFuture<V> implements CheckedFuture<V, X> {
 
@@ -247,6 +257,7 @@ public final class Futures {
    * {@code true}.
    */
   @CheckReturnValue
+  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<V> immediateFuture(@Nullable V value) {
     return new ImmediateSuccessfulFuture<V>(value);
   }
@@ -260,6 +271,7 @@ public final class Futures {
    * checkedGet()} will immediately return the provided value.
    */
   @CheckReturnValue
+  @GwtIncompatible("TODO")
   public static <V, X extends Exception> CheckedFuture<V, X>
       immediateCheckedFuture(@Nullable V value) {
     return new ImmediateSuccessfulCheckedFuture<V, X>(value);
@@ -275,6 +287,7 @@ public final class Futures {
    * ExecutionException}.
    */
   @CheckReturnValue
+  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<V> immediateFailedFuture(
       Throwable throwable) {
     checkNotNull(throwable);
@@ -288,6 +301,7 @@ public final class Futures {
    * @since 14.0
    */
   @CheckReturnValue
+  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<V> immediateCancelledFuture() {
     return new ImmediateCancelledFuture<V>();
   }
@@ -303,6 +317,7 @@ public final class Futures {
    * provided exception itself.
    */
   @CheckReturnValue
+  @GwtIncompatible("TODO")
   public static <V, X extends Exception> CheckedFuture<V, X>
       immediateFailedCheckedFuture(X exception) {
     checkNotNull(exception);
@@ -381,6 +396,7 @@ public final class Futures {
    *     {@code input} fails
    * @since 14.0
    */
+  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback) {
@@ -445,6 +461,7 @@ public final class Futures {
    *     fails
    * @since 14.0
    */
+  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback, Executor executor) {
@@ -456,6 +473,7 @@ public final class Futures {
    * A future that falls back on a second, generated future, in case its
    * original future fails.
    */
+  @GwtIncompatible("TODO")
   private static class FallbackFuture<V> extends AbstractFuture.TrustedFuture<V> {
     ListenableFuture<? extends V> running;
 
@@ -560,6 +578,7 @@ public final class Futures {
    *     or the original input's failure (if not)
    * @since 11.0
    */
+  @GwtIncompatible("TODO")
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function) {
     ChainingListenableFuture<I, O> output =
@@ -607,6 +626,7 @@ public final class Futures {
    *     or the original input's failure (if not)
    * @since 11.0
    */
+  @GwtIncompatible("TODO")
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {
@@ -621,6 +641,7 @@ public final class Futures {
    * Returns a Runnable that will invoke the delegate Runnable on the delegate executor, but if the
    * task is rejected, it will propagate that rejection to the output future.
    */
+  @GwtIncompatible("TODO")
   private static Runnable rejectionPropagatingRunnable(
       final AbstractFuture<?> outputFuture,
       final Runnable delegateTask,
@@ -700,6 +721,7 @@ public final class Futures {
    * @return A future that holds result of the transformation.
    * @since 9.0 (in 1.0 as {@code compose})
    */
+  @GwtIncompatible("TODO")
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       final Function<? super I, ? extends O> function) {
     checkNotNull(function);
@@ -746,6 +768,7 @@ public final class Futures {
    * @return A future that holds result of the transformation.
    * @since 9.0 (in 2.0 as {@code compose})
    */
+  @GwtIncompatible("TODO")
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       final Function<? super I, ? extends O> function, Executor executor) {
     checkNotNull(function);
@@ -753,6 +776,7 @@ public final class Futures {
   }
 
   /** Wraps the given function as an AsyncFunction. */
+  @GwtIncompatible("TODO")
   private static <I, O> AsyncFunction<I, O> asAsyncFunction(
       final Function<? super I, ? extends O> function) {
     return new AsyncFunction<I, O>() {
@@ -786,6 +810,7 @@ public final class Futures {
    * @return A future that returns the result of the transformation.
    * @since 10.0
    */
+  @GwtIncompatible("TODO")
   public static <I, O> Future<O> lazyTransform(final Future<I> input,
       final Function<? super I, ? extends O> function) {
     checkNotNull(input);
@@ -848,6 +873,7 @@ public final class Futures {
    * href="http://code.google.com/p/guava-libraries/issues/detail?id=1548">we
    * should remove the {@code UndeclaredThrowableException} special case</a>.
    */
+  @GwtIncompatible("TODO")
   private static final class ChainingListenableFuture<I, O>
       extends AbstractFuture.TrustedFuture<O> implements Runnable {
 
@@ -936,6 +962,7 @@ public final class Futures {
    * @since 13.0
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
+  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<V> dereference(
       ListenableFuture<? extends ListenableFuture<? extends V>> nested) {
     return Futures.transform((ListenableFuture) nested, (AsyncFunction) DEREFERENCER);
@@ -944,6 +971,7 @@ public final class Futures {
   /**
    * Helper {@code Function} for {@link #dereference}.
    */
+  @GwtIncompatible("TODO")
   private static final AsyncFunction<ListenableFuture<Object>, Object> DEREFERENCER =
       new AsyncFunction<ListenableFuture<Object>, Object>() {
         @Override public ListenableFuture<Object> apply(ListenableFuture<Object> input) {
@@ -968,6 +996,7 @@ public final class Futures {
    * @since 10.0
    */
   @Beta
+  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<List<V>> allAsList(
       ListenableFuture<? extends V>... futures) {
     return listFuture(ImmutableList.copyOf(futures), true, directExecutor());
@@ -990,11 +1019,13 @@ public final class Futures {
    * @since 10.0
    */
   @Beta
+  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<List<V>> allAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return listFuture(ImmutableList.copyOf(futures), true, directExecutor());
   }
 
+  @GwtIncompatible("TODO")
   private static final class CombinedFuture<V> extends TrustedListenableFutureTask<V> {
     ImmutableList<ListenableFuture<?>> futures;
 
@@ -1039,6 +1070,7 @@ public final class Futures {
    *
    * @since 15.0
    */
+  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<V> nonCancellationPropagating(
       ListenableFuture<V> future) {
     return new NonCancellationPropagatingFuture<V>(future);
@@ -1047,6 +1079,7 @@ public final class Futures {
   /**
    * A wrapped future that does not propagate cancellation to its delegate.
    */
+  @GwtIncompatible("TODO")
   private static final class NonCancellationPropagatingFuture<V>
       extends AbstractFuture.TrustedFuture<V> {
     NonCancellationPropagatingFuture(final ListenableFuture<V> delegate) {
@@ -1077,6 +1110,7 @@ public final class Futures {
    */
   @Beta
   @CheckReturnValue
+  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<List<V>> successfulAsList(
       ListenableFuture<? extends V>... futures) {
     return listFuture(ImmutableList.copyOf(futures), false, directExecutor());
@@ -1099,6 +1133,7 @@ public final class Futures {
    */
   @Beta
   @CheckReturnValue
+  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<List<V>> successfulAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return listFuture(ImmutableList.copyOf(futures), false, directExecutor());
@@ -1118,6 +1153,7 @@ public final class Futures {
    * @since 17.0
    */
   @Beta
+  @GwtIncompatible("TODO")
   public static <T> ImmutableList<ListenableFuture<T>> inCompletionOrder(
       Iterable<? extends ListenableFuture<? extends T>> futures) {
     // A CLQ may be overkill here.  We could save some pointers/memory by synchronizing on an
@@ -1199,6 +1235,7 @@ public final class Futures {
    * @param callback The callback to invoke when {@code future} is completed.
    * @since 10.0
    */
+  @GwtIncompatible("TODO")
   public static <V> void addCallback(ListenableFuture<V> future,
       FutureCallback<? super V> callback) {
     addCallback(future, callback, directExecutor());
@@ -1315,6 +1352,7 @@ public final class Futures {
    *         RuntimeException} or does not have a suitable constructor
    * @since 10.0
    */
+  @GwtIncompatible("TODO")
   public static <V, X extends Exception> V get(
       Future<V> future, Class<X> exceptionClass) throws X {
     checkNotNull(future);
@@ -1380,6 +1418,7 @@ public final class Futures {
    *         RuntimeException} or does not have a suitable constructor
    * @since 10.0
    */
+  @GwtIncompatible("TODO")
   public static <V, X extends Exception> V get(
       Future<V> future, long timeout, TimeUnit unit, Class<X> exceptionClass)
       throws X {
@@ -1401,6 +1440,7 @@ public final class Futures {
     }
   }
 
+  @GwtIncompatible("TODO")
   private static <X extends Exception> void wrapAndThrowExceptionOrError(
       Throwable cause, Class<X> exceptionClass) throws X {
     if (cause instanceof Error) {
@@ -1449,6 +1489,7 @@ public final class Futures {
    *         CancellationException}
    * @since 10.0
    */
+  @GwtIncompatible("TODO")
   public static <V> V getUnchecked(Future<V> future) {
     checkNotNull(future);
     try {
@@ -1459,6 +1500,7 @@ public final class Futures {
     }
   }
 
+  @GwtIncompatible("TODO")
   private static void wrapAndThrowUnchecked(Throwable cause) {
     if (cause instanceof Error) {
       throw new ExecutionError((Error) cause);
@@ -1487,7 +1529,7 @@ public final class Futures {
    *
    * If you think you would use this method, let us know.
    */
-
+  @GwtIncompatible("TODO")
   private static <X extends Exception> X newWithCause(
       Class<X> exceptionClass, Throwable cause) {
     // getConstructors() guarantees this as long as we don't modify the array.
@@ -1508,11 +1550,13 @@ public final class Futures {
             + " in response to chained exception", cause);
   }
 
+  @GwtIncompatible("TODO")
   private static <X extends Exception> List<Constructor<X>>
       preferringStrings(List<Constructor<X>> constructors) {
     return WITH_STRING_PARAM_FIRST.sortedCopy(constructors);
   }
 
+  @GwtIncompatible("TODO")
   private static final Ordering<Constructor<?>> WITH_STRING_PARAM_FIRST =
       Ordering.natural().onResultOf(new Function<Constructor<?>, Boolean>() {
         @Override public Boolean apply(Constructor<?> input) {
@@ -1520,6 +1564,7 @@ public final class Futures {
         }
       }).reverse();
 
+  @GwtIncompatible("TODO")
   @Nullable private static <X> X newFromConstructor(
       Constructor<X> constructor, Throwable cause) {
     Class<?>[] paramTypes = constructor.getParameterTypes();
@@ -1547,10 +1592,12 @@ public final class Futures {
     }
   }
 
+  @GwtIncompatible("TODO")
   private interface FutureCollector<V, C> {
     C combine(List<Optional<V>> values);
   }
 
+  @GwtIncompatible("TODO")
   private static final class CollectionFuture<V, C> extends AbstractFuture.TrustedFuture<C> {
     private static final Logger logger =
         Logger.getLogger(CollectionFuture.class.getName());
@@ -1740,6 +1787,7 @@ public final class Futures {
   }
 
   /** Used for {@link #allAsList} and {@link #successfulAsList}. */
+  @GwtIncompatible("TODO")
   private static <V> ListenableFuture<List<V>> listFuture(
       ImmutableList<ListenableFuture<? extends V>> futures,
       boolean allMustSucceed, Executor listenerExecutor) {
@@ -1761,6 +1809,7 @@ public final class Futures {
    * A checked future that uses a function to map from exceptions to the
    * appropriate checked type.
    */
+  @GwtIncompatible("TODO")
   private static class MappingCheckedFuture<V, X extends Exception> extends
       AbstractCheckedFuture<V, X> {
 

@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.concurrent.Future;
 
 /**
@@ -25,6 +27,7 @@ import java.util.concurrent.Future;
  * @author Chris Povirk
  * @since 11.0
  */
+@GwtCompatible
 public interface AsyncFunction<I, O> {
   /**
    * Returns an output {@code Future} to use in place of the given {@code

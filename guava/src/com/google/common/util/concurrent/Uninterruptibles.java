@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 
 import java.util.concurrent.BlockingQueue;
@@ -40,6 +42,7 @@ import java.util.concurrent.TimeoutException;
  * @since 10.0
  */
 @Beta
+@GwtCompatible(emulated = true)
 public final class Uninterruptibles {
 
   // Implementation Note: As of 3-7-11, the logic for each blocking/timeout
@@ -49,6 +52,7 @@ public final class Uninterruptibles {
    * Invokes {@code latch.}{@link CountDownLatch#await() await()}
    * uninterruptibly.
    */
+  @GwtIncompatible("concurrency")
   public static void awaitUninterruptibly(CountDownLatch latch) {
     boolean interrupted = false;
     try {
@@ -72,6 +76,7 @@ public final class Uninterruptibles {
    * {@code latch.}{@link CountDownLatch#await(long, TimeUnit)
    * await(timeout, unit)} uninterruptibly.
    */
+  @GwtIncompatible("concurrency")
   public static boolean awaitUninterruptibly(CountDownLatch latch,
       long timeout, TimeUnit unit) {
     boolean interrupted = false;
@@ -98,6 +103,7 @@ public final class Uninterruptibles {
   /**
    * Invokes {@code toJoin.}{@link Thread#join() join()} uninterruptibly.
    */
+  @GwtIncompatible("concurrency")
   public static void joinUninterruptibly(Thread toJoin) {
     boolean interrupted = false;
     try {
@@ -159,8 +165,9 @@ public final class Uninterruptibles {
    * @throws CancellationException if the computation was cancelled
    * @throws TimeoutException if the wait timed out
    */
+  @GwtIncompatible("TODO")
   public static <V> V getUninterruptibly(
-      Future<V> future, long timeout,  TimeUnit unit)
+      Future<V> future, long timeout, TimeUnit unit)
           throws ExecutionException, TimeoutException {
     boolean interrupted = false;
     try {
@@ -188,6 +195,7 @@ public final class Uninterruptibles {
    * {@code unit.}{@link TimeUnit#timedJoin(Thread, long)
    * timedJoin(toJoin, timeout)} uninterruptibly.
    */
+  @GwtIncompatible("concurrency")
   public static void joinUninterruptibly(Thread toJoin,
       long timeout, TimeUnit unit) {
     Preconditions.checkNotNull(toJoin);
@@ -215,6 +223,7 @@ public final class Uninterruptibles {
   /**
    * Invokes {@code queue.}{@link BlockingQueue#take() take()} uninterruptibly.
    */
+  @GwtIncompatible("concurrency")
   public static <E> E takeUninterruptibly(BlockingQueue<E> queue) {
     boolean interrupted = false;
     try {
@@ -241,6 +250,7 @@ public final class Uninterruptibles {
    * @throws IllegalArgumentException if some property of the specified element
    *     prevents it from being added to the given queue
    */
+  @GwtIncompatible("concurrency")
   public static <E> void putUninterruptibly(BlockingQueue<E> queue, E element) {
     boolean interrupted = false;
     try {
@@ -264,6 +274,7 @@ public final class Uninterruptibles {
    * Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)}
    * uninterruptibly.
    */
+  @GwtIncompatible("concurrency")
   public static void sleepUninterruptibly(long sleepFor, TimeUnit unit) {
     boolean interrupted = false;
     try {
@@ -292,6 +303,7 @@ public final class Uninterruptibles {
    *
    * @since 18.0
    */
+  @GwtIncompatible("concurrency")
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, long timeout, TimeUnit unit) {
     return tryAcquireUninterruptibly(semaphore, 1, timeout, unit);
@@ -303,6 +315,7 @@ public final class Uninterruptibles {
    *
    * @since 18.0
    */
+  @GwtIncompatible("concurrency")
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, int permits, long timeout, TimeUnit unit) {
     boolean interrupted = false;
