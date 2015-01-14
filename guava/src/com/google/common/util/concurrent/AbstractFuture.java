@@ -270,7 +270,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     }
   }
 
-  // TODO(user): investigate using the @Contended annotation on these fields when jdk8 is
+  // TODO(lukes): investigate using the @Contended annotation on these fields when jdk8 is
   // available.
   /**
    * This field encodes the current state of the future.
@@ -305,27 +305,28 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    */
 
   // Gets and Timed Gets
-  //
+  // 
   // * Be responsive to interruption
   // * Don't create Waiter nodes if you aren't going to park, this helps reduce contention on the
   //   waiters field.
   // * Future completion is defined by when #value becomes non-null/non SetFuture
   // * Future completion can be observed if the waiters field contains a TOMBSTONE
 
+  
   // Timed Get
   // There are a few design constraints to consider
-  // * We want to be responsive to small timeouts, unpark() has non trivial latency overheads (I
-  //   have observed 12 micros on 64 bit linux systems to wake up a parked thread).  So if the
+  // * We want to be responsive to small timeouts, unpark() has non trivial latency overheads (I 
+  //   have observed 12 micros on 64 bit linux systems to wake up a parked thread).  So if the 
   //   timeout is small we shouldn't park().  This needs to be traded off with the cpu overhead of
   //   spinning, so we use SPIN_THRESHOLD_NANOS which is what AbstractQueuedSynchronizer uses for
   //   similar purposes.
   // * We want to behave reasonably for timeouts of 0
-  // * We are more responsive to completion than timeouts.  This is because parkNanos depends on
+  // * We are more responsive to completion than timeouts.  This is because parkNanos depends on 
   //   system scheduling and as such we could either miss our deadline, or unpark() could be delayed
   //   so that it looks like we timed out even though we didn't.  For comparison FutureTask respects
-  //   completion preferably and AQS is non-deterministic (depends on where in the queue the waiter
+  //   completion preferably and AQS is non-deterministic (depends on where in the queue the waiter 
   //   is).  If we wanted to be strict about it, we could store the unpark() time in the Waiter
-  //   node and we could use that to make a decision about whether or not we timed out prior to
+  //   node and we could use that to make a decision about whether or not we timed out prior to 
   //   being unparked.
 
   /**
@@ -369,7 +370,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
                 removeWaiter(node);
                 throw new InterruptedException();
               }
-
+  
               // Otherwise re-read and check doneness.  If we loop then it must have been a spurious
               // wakeup
               localValue = value;
@@ -381,7 +382,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
               remainingNanos = endNanos - System.nanoTime();
               if (remainingNanos < SPIN_THRESHOLD_NANOS) {
                 // Remove the waiter, one way or another we are done parking this thread.
-                removeWaiter(node);
+                removeWaiter(node);  
                 break long_wait_loop;  // jump down to the busy wait loop
               }
             }
@@ -505,13 +506,13 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     if (localValue == null | localValue instanceof AbstractFuture.SetFuture) {
       // Try to delay allocating the exception.  At this point we may still lose the CAS, but it is
       // certainly less likely.
-      // TODO(user): this exception actually makes cancellation significantly more expensive :(
+      // TODO(lukes): this exception actually makes cancellation significantly more expensive :(
       // I wonder if we should consider removing it or providing a mechanism to not do it.
       Object valueToSet = new Cancellation(mayInterruptIfRunning,
           new CancellationException("Future.cancel() was called."));
       do {
         if (ATOMIC_HELPER.casValue(this, localValue, valueToSet)) {
-          // We call interuptTask before calling complete(), first which is consistent with
+          // We call interuptTask before calling complete(), first which is consistent with 
           // FutureTask
           if (mayInterruptIfRunning) {
             interruptTask();
@@ -746,9 +747,9 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     done();
   }
 
-  /**
+  /** 
    * Callback method that is called immediately after the future is completed.
-   *
+   * 
    * <p>This is called exactly once, after all listeners have executed.  By default it does nothing.
    */
   void done() {}
@@ -812,10 +813,10 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   /**
-   * {@link AtomicHelper} based on {@link sun.misc.Unsafe}.
-   *
+   * {@link AtomicHelper} based on {@link sun.misc.Unsafe}.  
+   * 
    * <p>Static initialization of this class will fail if the {@link sun.misc.Unsafe} object cannot
-   * be accessed.
+   * be accessed. 
    */
   private static final class UnsafeAtomicHelper extends AtomicHelper {
     static final sun.misc.Unsafe UNSAFE;
@@ -869,7 +870,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     @Override void putNext(Waiter waiter, Waiter next) {
       UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, next);
     }
-
+    
     /** Performs a CAS operation on the {@link #waiters} field. */
     @Override boolean casWaiters(AbstractFuture future, Waiter curr, Waiter next) {
       return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, curr, next);

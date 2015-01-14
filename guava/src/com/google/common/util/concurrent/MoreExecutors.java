@@ -822,8 +822,8 @@ public final class MoreExecutors {
     return result;
   }
 
-  // TODO(user): provide overloads for ListeningExecutorService? ListeningScheduledExecutorService?
-  // TODO(user): provide overloads that take constant strings? Function<Runnable, String>s to
+  // TODO(lukes): provide overloads for ListeningExecutorService? ListeningScheduledExecutorService?
+  // TODO(lukes): provide overloads that take constant strings? Function<Runnable, String>s to
   // calculate names?
 
   /**

@@ -536,7 +536,7 @@ public abstract class ByteSource {
       return hashFunction.hashBytes(bytes);
     }
 
-    // TODO(user): Possibly override slice()
+    // TODO(cgdecker): Possibly override slice()
 
     @Override
     public String toString() {

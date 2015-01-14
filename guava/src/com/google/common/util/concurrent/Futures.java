@@ -1686,7 +1686,7 @@ public final class Futures {
      */
     private void setOneValue(int index, Future<? extends V> future) {
       List<Optional<V>> localValues = values;
-      // TODO(user): This check appears to be redundant since values is
+      // TODO(lukes): This check appears to be redundant since values is
       // assigned null only after the future completes.  However, values
       // is not volatile so it may be possible for us to observe the changes
       // to these two values in a different order... which I think is why
