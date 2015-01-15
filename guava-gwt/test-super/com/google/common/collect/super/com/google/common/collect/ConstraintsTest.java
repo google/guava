@@ -20,8 +20,6 @@ import static java.util.Arrays.asList;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -344,11 +342,5 @@ public class ConstraintsTest extends TestCase {
       }
     };
   }
-
-  @GwtIncompatible("SerializableTester")
-  public void testSerialization() {
-    // TODO: Test serialization of constrained collections.
-    assertSame(Constraints.notNull(),
-        SerializableTester.reserialize(Constraints.notNull()));
-  }
 }
+

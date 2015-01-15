@@ -142,6 +142,11 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
     }
 
     @Override
+    public HashCode hashString(CharSequence input) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
     public HashCode hashString(CharSequence input, Charset charset) {
       throw new UnsupportedOperationException();
     }

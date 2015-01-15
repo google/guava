@@ -18,7 +18,6 @@ package com.google.common.hash;
 
 import static com.google.common.io.BaseEncoding.base16;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
 import com.google.common.jdk5backport.Arrays;
@@ -169,7 +168,7 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testRoundTripHashCodeUsingBaseEncoding() {
-    HashCode hash1 = Hashing.sha1().hashString("foo", Charsets.US_ASCII);
+    HashCode hash1 = Hashing.sha1().hashString("foo");
     HashCode hash2 =
         HashCode.fromBytes(BaseEncoding.base16().lowerCase().decode(hash1.toString()));
     assertEquals(hash1, hash2);
@@ -202,18 +201,18 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testRoundTripHashCodeUsingFromString() {
-    HashCode hash1 = Hashing.sha1().hashString("foo", Charsets.US_ASCII);
+    HashCode hash1 = Hashing.sha1().hashString("foo");
     HashCode hash2 = HashCode.fromString(hash1.toString());
     assertEquals(hash1, hash2);
   }
 
   public void testRoundTrip() {
     for (ExpectedHashCode expected : expectedHashCodes) {
-      String string = HashCode.fromBytes(expected.bytes).toString();
+      String string = HashCodes.fromBytes(expected.bytes).toString();
       assertEquals(expected.toString, string);
       assertEquals(
           expected.toString,
-          HashCode.fromBytes(
+          HashCodes.fromBytes(
               BaseEncoding.base16().lowerCase().decode(string)).toString());
     }
   }
@@ -227,7 +226,7 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testFromStringFailsWithUpperCaseString() {
-    String string = Hashing.sha1().hashString("foo", Charsets.US_ASCII).toString().toUpperCase();
+    String string = Hashing.sha1().hashString("foo").toString().toUpperCase();
     try {
       HashCode.fromString(string);
       fail();
@@ -259,17 +258,17 @@ public class HashCodeTest extends TestCase {
 
   public void testIntWriteBytesTo() {
     byte[] dest = new byte[4];
-    HashCode.fromInt(42).writeBytesTo(dest, 0, 4);
+    HashCodes.fromInt(42).writeBytesTo(dest, 0, 4);
     assertTrue(Arrays.equals(
-        HashCode.fromInt(42).asBytes(),
+        HashCodes.fromInt(42).asBytes(),
         dest));
   }
 
   public void testLongWriteBytesTo() {
     byte[] dest = new byte[8];
-    HashCode.fromLong(42).writeBytesTo(dest, 0, 8);
+    HashCodes.fromLong(42).writeBytesTo(dest, 0, 8);
     assertTrue(Arrays.equals(
-        HashCode.fromLong(42).asBytes(),
+        HashCodes.fromLong(42).asBytes(),
         dest));
   }
 

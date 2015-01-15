@@ -42,12 +42,12 @@ import java.util.concurrent.TimeUnit;
  *     "Generic" equivalent; simple use {@code CacheBuilder} naturally. For general migration
  *     instructions, see the <a
  *     href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker Migration
- *     Guide</a>.
+ *     Guide</a>. This class is scheduled for removal in Guava 16.0.
  */
 @Beta
 @Deprecated
 @GwtCompatible(emulated = true)
-abstract class GenericMapMaker<K0, V0> {
+public abstract class GenericMapMaker<K0, V0> {
   @GwtIncompatible("To be supported")
   enum NullListener implements RemovalListener<Object, Object> {
     INSTANCE;
