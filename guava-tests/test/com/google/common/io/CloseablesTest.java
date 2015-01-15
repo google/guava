@@ -67,6 +67,14 @@ public class CloseablesTest extends TestCase {
     doClose(mockCloseable, false);
   }
 
+  public void testCloseQuietly_closeableWithEatenException()
+      throws IOException {
+    // make sure that no exception is thrown by CloseQuietly when the mock does
+    // throw an exception on close
+    setupCloseable(true);
+    Closeables.closeQuietly(mockCloseable);
+  }
+
   public void testCloseQuietly_inputStreamWithEatenException() throws IOException {
     TestInputStream in = new TestInputStream(
         new ByteArrayInputStream(new byte[1]), TestOption.CLOSE_THROWS);
@@ -83,6 +91,7 @@ public class CloseablesTest extends TestCase {
   public void testCloseNull() throws IOException {
     Closeables.close(null, true);
     Closeables.close(null, false);
+    Closeables.closeQuietly((Closeable) null);
   }
 
   public void testCloseQuietlyNull_inputStream() {
