@@ -146,6 +146,6 @@ abstract class GenericMapMaker<K0, V0> {
    * See {@link MapMaker#makeComputingMap}.
    */
   @Deprecated
-  abstract <K extends K0, V extends V0> ConcurrentMap<K, V> makeComputingMap(
+  public abstract <K extends K0, V extends V0> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction);
 }

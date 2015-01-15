@@ -578,10 +578,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     by {@link com.google.common.cache.CacheBuilder#build}. See the
    *     <a href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker
    *     Migration Guide</a> for more details.
+   *     <b>This method is scheduled for deletion after upgrading Android to Guava 17.0.</b>
    */
   @Deprecated
   @Override
-  <K, V> ConcurrentMap<K, V> makeComputingMap(
+  public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
     return (nullRemovalCause == null)
         ? new MapMaker.ComputingMapAdapter<K, V>(this, computingFunction)

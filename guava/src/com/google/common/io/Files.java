@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.zip.Checksum;
 
 /**
  * Provides utility methods for working with files.
@@ -755,6 +756,25 @@ public final class Files {
   public static <T> T readBytes(File file, ByteProcessor<T> processor)
       throws IOException {
     return ByteStreams.readBytes(newInputStreamSupplier(file), processor);
+  }
+
+  /**
+   * Computes and returns the checksum value for a file.
+   * The checksum object is reset when this method returns successfully.
+   *
+   * @param file the file to read
+   * @param checksum the checksum object
+   * @return the result of {@link Checksum#getValue} after updating the
+   *     checksum object with all of the bytes in the file
+   * @throws IOException if an I/O error occurs
+   * @deprecated Use {@code hash} with the {@code Hashing.crc32()} or
+   *     {@code Hashing.adler32()} hash functions. This method is scheduled
+   *     to be removed in Guava 15.0.
+   */
+  @Deprecated
+  public static long getChecksum(File file, Checksum checksum)
+      throws IOException {
+    return ByteStreams.getChecksum(newInputStreamSupplier(file), checksum);
   }
 
   /**
