@@ -122,10 +122,11 @@ public final class Stopwatch {
    * Creates (but does not start) a new stopwatch using {@link System#nanoTime}
    * as its time source.
    *
-   * @deprecated Use {@link Stopwatch#createUnstarted()} instead.
+   * @deprecated Use {@link Stopwatch#createUnstarted()} instead. This
+   *     constructor is scheduled to be removed in Guava release 17.0.
    */
   @Deprecated
-  Stopwatch() {
+  public Stopwatch() {
     this(Ticker.systemTicker());
   }
 
@@ -133,10 +134,11 @@ public final class Stopwatch {
    * Creates (but does not start) a new stopwatch, using the specified time
    * source.
    *
-   * @deprecated Use {@link Stopwatch#createUnstarted(Ticker)} instead.
+   * @deprecated Use {@link Stopwatch#createUnstarted(Ticker)} instead. This
+   *     constructor is scheduled to be removed in Guava release 17.0.
    */
   @Deprecated
-  Stopwatch(Ticker ticker) {
+  public Stopwatch(Ticker ticker) {
     this.ticker = checkNotNull(ticker, "ticker");
   }
 
@@ -250,3 +252,4 @@ public final class Stopwatch {
     }
   }
 }
+
