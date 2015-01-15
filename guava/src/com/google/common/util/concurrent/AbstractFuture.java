@@ -21,6 +21,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Throwables;
 
 import java.security.AccessController;
@@ -64,6 +65,7 @@ import javax.annotation.Nullable;
  * @author Luke Sandberg
  * @since 1.0
  */
+@GwtCompatible(emulated = true)
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   /**

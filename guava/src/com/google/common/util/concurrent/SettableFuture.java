@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import javax.annotation.Nullable;
 
@@ -30,7 +29,7 @@ import javax.annotation.Nullable;
  * @author Sven Mawson
  * @since 9.0 (in 1.0 as {@code ValueFuture})
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class SettableFuture<V> extends AbstractFuture.TrustedFuture<V> {
 
   /**
@@ -55,7 +54,6 @@ public final class SettableFuture<V> extends AbstractFuture.TrustedFuture<V> {
   }
 
   @Beta
-  @GwtIncompatible("TODO")
   @Override
   public boolean setFuture(ListenableFuture<? extends V> future) {
     return super.setFuture(future);

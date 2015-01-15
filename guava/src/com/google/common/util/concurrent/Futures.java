@@ -99,7 +99,6 @@ public final class Futures {
     return new MappingCheckedFuture<V, X>(checkNotNull(future), mapper);
   }
 
-  @GwtIncompatible("TODO")
   private abstract static class ImmediateFuture<V>
       implements ListenableFuture<V> {
 
@@ -145,7 +144,6 @@ public final class Futures {
     }
   }
 
-  @GwtIncompatible("TODO")
   private static class ImmediateSuccessfulFuture<V> extends ImmediateFuture<V> {
 
     @Nullable private final V value;
@@ -257,7 +255,6 @@ public final class Futures {
    * {@code true}.
    */
   @CheckReturnValue
-  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<V> immediateFuture(@Nullable V value) {
     return new ImmediateSuccessfulFuture<V>(value);
   }
@@ -578,7 +575,6 @@ public final class Futures {
    *     or the original input's failure (if not)
    * @since 11.0
    */
-  @GwtIncompatible("TODO")
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function) {
     ChainingListenableFuture<I, O> output =
@@ -626,7 +622,6 @@ public final class Futures {
    *     or the original input's failure (if not)
    * @since 11.0
    */
-  @GwtIncompatible("TODO")
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {
@@ -641,7 +636,6 @@ public final class Futures {
    * Returns a Runnable that will invoke the delegate Runnable on the delegate executor, but if the
    * task is rejected, it will propagate that rejection to the output future.
    */
-  @GwtIncompatible("TODO")
   private static Runnable rejectionPropagatingRunnable(
       final AbstractFuture<?> outputFuture,
       final Runnable delegateTask,
@@ -721,7 +715,6 @@ public final class Futures {
    * @return A future that holds result of the transformation.
    * @since 9.0 (in 1.0 as {@code compose})
    */
-  @GwtIncompatible("TODO")
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       final Function<? super I, ? extends O> function) {
     checkNotNull(function);
@@ -768,7 +761,6 @@ public final class Futures {
    * @return A future that holds result of the transformation.
    * @since 9.0 (in 2.0 as {@code compose})
    */
-  @GwtIncompatible("TODO")
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       final Function<? super I, ? extends O> function, Executor executor) {
     checkNotNull(function);
@@ -776,7 +768,6 @@ public final class Futures {
   }
 
   /** Wraps the given function as an AsyncFunction. */
-  @GwtIncompatible("TODO")
   private static <I, O> AsyncFunction<I, O> asAsyncFunction(
       final Function<? super I, ? extends O> function) {
     return new AsyncFunction<I, O>() {
@@ -873,7 +864,6 @@ public final class Futures {
    * href="http://code.google.com/p/guava-libraries/issues/detail?id=1548">we
    * should remove the {@code UndeclaredThrowableException} special case</a>.
    */
-  @GwtIncompatible("TODO")
   private static final class ChainingListenableFuture<I, O>
       extends AbstractFuture.TrustedFuture<O> implements Runnable {
 
