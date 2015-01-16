@@ -170,6 +170,10 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     return true;
   }
 
+  protected final boolean wasInterrupted() {
+    return mayInterruptIfRunning;
+  }
+
   private void notifyAndClearListeners() {
     for (Listener listener : listeners) {
       listener.execute();

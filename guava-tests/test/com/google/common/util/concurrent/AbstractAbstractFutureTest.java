@@ -284,8 +284,10 @@ abstract class AbstractAbstractFutureTest extends TestCase {
 
     assertThat(delegate.isDone()).isTrue();
     assertThat(delegate.isCancelled()).isTrue();
+    assertThat(delegate.wasInterrupted()).isFalse();
     assertThat(future.isDone()).isTrue();
     assertThat(future.isCancelled()).isTrue();
+    assertThat(future.wasInterrupted()).isFalse();
   }
 
   public void testInterrupted() throws Exception {
@@ -346,12 +348,14 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   public void testInterrupted_afterDelegated() throws Exception {
     future.setFuture(delegate);
 
-    assertThat(future.cancel(false /* mayInterruptIfRunning */)).isTrue();
+    assertThat(future.cancel(true /* mayInterruptIfRunning */)).isTrue();
 
     assertThat(delegate.isDone()).isTrue();
     assertThat(delegate.isCancelled()).isTrue();
+    assertThat(delegate.wasInterrupted()).isTrue();
     assertThat(future.isDone()).isTrue();
     assertThat(future.isCancelled()).isTrue();
+    assertThat(future.wasInterrupted()).isTrue();
   }
 
   public void testDelegated_delegateIsStillPending() throws Exception {
@@ -464,6 +468,17 @@ abstract class AbstractAbstractFutureTest extends TestCase {
 
     assertThat(future.isCancelled()).isTrue();
     assertThat(delegate.isCancelled()).isTrue();
+    assertThat(delegate.wasInterrupted()).isFalse();
+  }
+
+  public void testDelegated_afterInterrupted() throws Exception {
+    future.cancel(true /** mayInterruptIfRunning */);
+
+    assertThat(future.setFuture(delegate)).isFalse();
+
+    assertThat(future.isCancelled()).isTrue();
+    assertThat(delegate.isCancelled()).isTrue();
+    assertThat(delegate.wasInterrupted()).isTrue();
   }
 
   public void testListenToPending() {

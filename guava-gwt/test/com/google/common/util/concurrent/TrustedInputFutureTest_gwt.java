@@ -66,6 +66,12 @@ public void testDelegated_afterDelegated() throws Exception {
   testCase.testDelegated_afterDelegated();
 }
 
+public void testDelegated_afterInterrupted() throws Exception {
+  com.google.common.util.concurrent.TrustedInputFutureTest testCase = new com.google.common.util.concurrent.TrustedInputFutureTest();
+  testCase.setUp();
+  testCase.testDelegated_afterInterrupted();
+}
+
 public void testDelegated_afterResolved() throws Exception {
   com.google.common.util.concurrent.TrustedInputFutureTest testCase = new com.google.common.util.concurrent.TrustedInputFutureTest();
   testCase.setUp();
