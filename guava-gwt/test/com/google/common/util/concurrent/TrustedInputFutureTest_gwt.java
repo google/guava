@@ -299,4 +299,10 @@ public void testResolved_afterResolved() throws Exception {
   testCase.setUp();
   testCase.testResolved_afterResolved();
 }
+
+public void testSetFutureNull() throws Exception {
+  com.google.common.util.concurrent.TrustedInputFutureTest testCase = new com.google.common.util.concurrent.TrustedInputFutureTest();
+  testCase.setUp();
+  testCase.testSetFutureNull();
+}
 }

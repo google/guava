@@ -624,6 +624,18 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     after.verify();
   }
 
+  public void testSetFutureNull() throws Exception {
+    try {
+      future.setFuture(null);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+
+    assertThat(future.isDone()).isFalse();
+    assertThat(future.set(1)).isTrue();
+    assertThat(future.get()).isEqualTo(1);
+  }
+
   /**
    * Concrete subclass for testing.
    */

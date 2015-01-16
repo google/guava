@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
@@ -151,6 +152,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   protected boolean setFuture(ListenableFuture<? extends V> future) {
+    checkNotNull(future);
+
     // If this future is already cancelled, cancel the delegate.
     if (isCancelled()) {
       future.cancel(mayInterruptIfRunning);
