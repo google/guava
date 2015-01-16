@@ -1277,4 +1277,151 @@ public class NullPointerTesterTest extends TestCase {
   private static String rootLocaleFormat(String format, Object... args) {
     return String.format(Locale.ROOT, format, args);
   }
+
+  private static class ReportsNullViolationsByThrowingNullpointerException {
+
+    public ReportsNullViolationsByThrowingNullpointerException(String arg) {
+      checkNotNull(arg);
+    }
+
+    public static void failWithNullpointerException__static(String arg) {
+      checkNotNull(arg);
+    }
+
+    public void failWithNullpointerException__nonStatic(String arg) {
+      checkNotNull(arg);
+    }
+
+  }
+
+  private static class ReportsNullViolationsByThrowingIllegalArgumentException {
+
+    public ReportsNullViolationsByThrowingIllegalArgumentException(String arg) {
+      if (arg == null) {
+        throw new IllegalArgumentException();
+      }
+    }
+
+    public static void failWithIllegalArgumentException__static(String arg) {
+      if (arg == null) {
+        throw new IllegalArgumentException();
+      }
+    }
+
+    public void failWithIllegalArgumentException__nonStatic(String arg) {
+      if (arg == null) {
+        throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static class ThrowUnsupportedOperations {
+
+    public ThrowUnsupportedOperations() {
+    }
+
+    public ThrowUnsupportedOperations(String arg) {
+      throw new UnsupportedOperationException();
+    }
+
+    public static void unsupportedOperation__static(String arg) {
+      throw new UnsupportedOperationException();
+    }
+
+    public void unsupportedOperation__nonStatic(String arg) {
+      throw new UnsupportedOperationException();
+    }
+  }
+
+  // default policy: NullpointerException or UnsupportedOperationException
+
+  public void testDefaultPolicy__NullPointerExceptionIsOk() {
+    new NullPointerTester()
+            .testAllPublicConstructors(ReportsNullViolationsByThrowingNullpointerException.class);
+    new NullPointerTester()
+            .testAllPublicStaticMethods(ReportsNullViolationsByThrowingNullpointerException.class);
+    new NullPointerTester()
+            .testAllPublicInstanceMethods(new ReportsNullViolationsByThrowingNullpointerException(
+                    "dummy string"));
+  }
+
+  public void testDefaultPolicy__IllegalArgumentExceptionMustFail__constructor() {
+    try {
+      new NullPointerTester()
+              .testAllPublicConstructors(ReportsNullViolationsByThrowingIllegalArgumentException.class);
+      fail();
+    } catch (AssertionError e) {
+      // expected
+    }
+  }
+
+  public void testDefaultPolicy__IllegalArgumentExceptionMustFail__staticMethod() {
+    try {
+      new NullPointerTester()
+              .testAllPublicStaticMethods(ReportsNullViolationsByThrowingNullpointerException.class);
+      fail();
+    } catch (AssertionError e) {
+      // expected
+    }
+  }
+
+  public void testDefaultPolicy__IllegalArgumentExceptionMustFail__nonStaticMethod() {
+    try {
+      new NullPointerTester()
+              .testAllPublicInstanceMethods(new ReportsNullViolationsByThrowingIllegalArgumentException(
+                      "dummy string"));
+      fail();
+    } catch (AssertionError e) {
+      // expected
+    }
+  }
+
+  public void testDefaultPolicy__UnsupportedOperationExceptionIsOk() {
+    new NullPointerTester().testAllPublicConstructors(ThrowUnsupportedOperations.class);
+    new NullPointerTester().testAllPublicStaticMethods(ThrowUnsupportedOperations.class);
+    new NullPointerTester().testAllPublicInstanceMethods(new ThrowUnsupportedOperations());
+  }
+
+  // custom policy: NullpointerException, IllegalArgumentException or UnsupportedOperationException
+
+  public void testAllowIllegalArgumentOnNullViolations__NullPointerExceptionIsOk() {
+    new NullPointerTester().allowIllegalArgumentExceptionOnNullViolations()
+            .testAllPublicConstructors(
+                    ReportsNullViolationsByThrowingNullpointerException.class);
+
+    new NullPointerTester().allowIllegalArgumentExceptionOnNullViolations()
+            .testAllPublicStaticMethods(
+                    ReportsNullViolationsByThrowingNullpointerException.class);
+
+    new NullPointerTester().allowIllegalArgumentExceptionOnNullViolations()
+            .testAllPublicInstanceMethods(
+                    new ReportsNullViolationsByThrowingNullpointerException("dummy string"));
+  }
+
+  public void testAllowIllegalArgumentOnNullViolations__IllegalArgumentExceptionIsOk() {
+    new NullPointerTester().allowIllegalArgumentExceptionOnNullViolations()
+            .testAllPublicConstructors(
+                    ReportsNullViolationsByThrowingIllegalArgumentException.class);
+
+    new NullPointerTester().allowIllegalArgumentExceptionOnNullViolations()
+            .testAllPublicStaticMethods(
+                    ReportsNullViolationsByThrowingIllegalArgumentException.class);
+
+    new NullPointerTester()
+            .allowIllegalArgumentExceptionOnNullViolations()
+            .testAllPublicInstanceMethods(
+                    new ReportsNullViolationsByThrowingIllegalArgumentException("dummy string"));
+  }
+
+  public void testAllowIllegalArgumentOnNullViolations__UnsupportedOperationExceptionIsOk() {
+    new NullPointerTester().allowIllegalArgumentExceptionOnNullViolations()
+            .testAllPublicConstructors(ThrowUnsupportedOperations.class);
+
+    new NullPointerTester().allowIllegalArgumentExceptionOnNullViolations()
+            .testAllPublicStaticMethods(ThrowUnsupportedOperations.class);
+
+    new NullPointerTester().allowIllegalArgumentExceptionOnNullViolations()
+            .testAllPublicInstanceMethods(new ThrowUnsupportedOperations());
+  }
+
 }
