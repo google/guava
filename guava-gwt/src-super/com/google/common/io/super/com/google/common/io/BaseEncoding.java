@@ -443,7 +443,8 @@ public abstract class BaseEncoding {
 
     int decode(char ch) throws IOException {
       if (ch > Ascii.MAX || decodabet[ch] == -1) {
-        throw new DecodingException("Unrecognized character: " + ch);
+        throw new DecodingException("Unrecognized character: "
+            + (CharMatcher.INVISIBLE.matches(ch) ? "0x" + Integer.toHexString(ch) : ch));
       }
       return decodabet[ch];
     }

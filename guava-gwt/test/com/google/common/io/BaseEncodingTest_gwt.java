@@ -28,6 +28,11 @@ public void testBase16() throws Exception {
   testCase.testBase16();
 }
 
+public void testBase16InvalidDecodings() throws Exception {
+  com.google.common.io.BaseEncodingTest testCase = new com.google.common.io.BaseEncodingTest();
+  testCase.testBase16InvalidDecodings();
+}
+
 public void testBase16UpperCaseIsNoOp() throws Exception {
   com.google.common.io.BaseEncodingTest testCase = new com.google.common.io.BaseEncodingTest();
   testCase.testBase16UpperCaseIsNoOp();

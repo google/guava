@@ -18,6 +18,7 @@ import static com.google.common.io.BaseEncoding.base16;
 import static com.google.common.io.BaseEncoding.base32;
 import static com.google.common.io.BaseEncoding.base32Hex;
 import static com.google.common.io.BaseEncoding.base64;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
@@ -29,6 +30,8 @@ import com.google.common.io.BaseEncoding.DecodingException;
 import junit.framework.TestCase;
 
 import java.io.UnsupportedEncodingException;
+
+import javax.annotation.Nullable;
 
 /**
  * Tests for {@code BaseEncoding}.
@@ -93,8 +96,8 @@ public class BaseEncodingTest extends TestCase {
 
   public void testBase64InvalidDecodings() {
     // These contain bytes not in the decodabet.
-    assertFailsToDecode(base64(), "\u007f");
-    assertFailsToDecode(base64(), "Wf2!");
+    assertFailsToDecode(base64(), "\u007f", "Unrecognized character: 0x7f");
+    assertFailsToDecode(base64(), "Wf2!", "Unrecognized character: !");
     // This sentence just isn't base64() encoded.
     assertFailsToDecode(base64(), "let's not talk of love or chains!");
     // A 4n+1 length string is never legal base64().
@@ -176,8 +179,8 @@ public class BaseEncodingTest extends TestCase {
 
   public void testBase32InvalidDecodings() {
     // These contain bytes not in the decodabet.
-    assertFailsToDecode(base32(), "\u007f");
-    assertFailsToDecode(base32(), "Wf2!");
+    assertFailsToDecode(base32(), " ", "Unrecognized character: 0x20");
+    assertFailsToDecode(base32(), "Wf2!", "Unrecognized character: f");
     // This sentence just isn't base32() encoded.
     assertFailsToDecode(base32(), "let's not talk of love or chains!");
     // An 8n+{1,3,6} length string is never legal base32.
@@ -212,8 +215,8 @@ public class BaseEncodingTest extends TestCase {
 
   public void testBase32HexInvalidDecodings() {
     // These contain bytes not in the decodabet.
-    assertFailsToDecode(base32Hex(), "\u007f");
-    assertFailsToDecode(base32Hex(), "Wf2!");
+    assertFailsToDecode(base32Hex(), "\u007f", "Unrecognized character: 0x7f");
+    assertFailsToDecode(base32Hex(), "Wf2!", "Unrecognized character: W");
     // This sentence just isn't base32 encoded.
     assertFailsToDecode(base32Hex(), "let's not talk of love or chains!");
     // An 8n+{1,3,6} length string is never legal base32.
@@ -238,6 +241,15 @@ public class BaseEncodingTest extends TestCase {
 
   public void testBase16UpperCaseIsNoOp() {
     assertSame(base16(), base16().upperCase());
+  }
+
+  public void testBase16InvalidDecodings() {
+    // These contain bytes not in the decodabet.
+    assertFailsToDecode(base16(), "\n", "Unrecognized character: 0xa");
+    assertFailsToDecode(base16(), "EFG", "Unrecognized character: G");
+    // Valid base16 strings always have an even length.
+    assertFailsToDecode(base16(), "A");
+    assertFailsToDecode(base16(), "ABC");
   }
 
   private static void testEncodingWithCasing(
@@ -288,17 +300,26 @@ public class BaseEncodingTest extends TestCase {
   }
 
   private static void assertFailsToDecode(BaseEncoding encoding, String cannotDecode) {
+    assertFailsToDecode(encoding, cannotDecode, null);
+  }
+
+  private static void assertFailsToDecode(
+      BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
     try {
       encoding.decode(cannotDecode);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
-      // success
+      if (expectedMessage != null) {
+        assertThat(expected.getCause()).hasMessage(expectedMessage);
+      }
     }
     try {
       encoding.decodeChecked(cannotDecode);
       fail("Expected DecodingException");
     } catch (DecodingException expected) {
-      // success
+      if (expectedMessage != null) {
+        assertThat(expected).hasMessage(expectedMessage);
+      }
     }
   }
 
