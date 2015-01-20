@@ -389,10 +389,7 @@ public class EqualsTesterTest extends TestCase {
   private static class InvalidEqualsIncompatibleClassObject {
 
     @Override public boolean equals(Object o) {
-      if (o == null) {
-        return false;
-      }
-      return true;
+      return o != null;
     }
 
     @Override public int hashCode() {
