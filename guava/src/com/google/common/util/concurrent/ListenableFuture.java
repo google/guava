@@ -128,6 +128,10 @@ public interface ListenableFuture<V> extends Future<V> {
    * listener interface, see {@link
    * com.google.common.util.concurrent.Futures#addCallback addCallback()}.
    *
+   * <p>Memory consistency effects: Actions in a thread prior to adding a listener
+   * <a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
+   * <i>happen-before</i></a> its execution begins, perhaps in another thread.
+   *
    * @param listener the listener to run when the computation is complete
    * @param executor the executor to run the listener in
    * @throws NullPointerException if the executor or listener was null
