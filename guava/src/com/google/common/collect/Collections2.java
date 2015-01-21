@@ -53,6 +53,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)
  */
+@CheckReturnValue
 @GwtCompatible
 public final class Collections2 {
   private Collections2() {}
@@ -87,7 +88,6 @@ public final class Collections2 {
    */
   // TODO(kevinb): how can we omit that Iterables link when building gwt
   // javadoc?
-  @CheckReturnValue
   public static <E> Collection<E> filter(
       Collection<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredCollection) {
@@ -244,7 +244,6 @@ public final class Collections2 {
    * {@link Lists#transform}. If only an {@code Iterable} is available, use
    * {@link Iterables#transform}.
    */
-  @CheckReturnValue
   public static <F, T> Collection<T> transform(Collection<F> fromCollection,
       Function<? super F, T> function) {
     return new TransformedCollection<F, T>(fromCollection, function);
