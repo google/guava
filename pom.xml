@@ -55,6 +55,10 @@
       <timezone>-8</timezone>
     </developer>
   </developers>
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.org/google/guava</url>
+  </ciManagement>
   <modules>
     <module>guava</module>
     <module>guava-gwt</module>

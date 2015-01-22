@@ -187,6 +187,7 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
+            <id>copy-gwt-files</id>
             <phase>generate-resources</phase>
             <goals><goal>run</goal></goals>
             <configuration>
