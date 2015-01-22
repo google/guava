@@ -685,8 +685,26 @@ public class FuturesTest extends TestCase {
     mocksControl.verify();
   }
 
+  public void testWithFallback_nullInsteadOfFuture() throws Exception {
+    ListenableFuture<?> inputFuture = immediateFailedFuture(new Exception());
+    ListenableFuture<?> chainedFuture =
+        Futures.withFallback(inputFuture, new FutureFallback<Integer>() {
+          @Override public ListenableFuture<Integer> create(Throwable t) {
+            return null;
+          }
+        });
+    try {
+      chainedFuture.get();
+      fail();
+    } catch (ExecutionException expected) {
+      NullPointerException cause = (NullPointerException) expected.getCause();
+      assertThat(cause).hasMessage("FutureFallback.create returned null instead of a Future. "
+          + "Did you mean to return immediateFuture(null)?");
+    }
+  }
+
   public void testTransform_genericsWildcard_AsyncFunction() throws Exception {
-    ListenableFuture<?> nullFuture = Futures.immediateFuture(null);
+    ListenableFuture<?> nullFuture = immediateFuture(null);
     ListenableFuture<?> chainedFuture =
         Futures.transform(nullFuture, constantAsyncFunction(nullFuture));
     assertNull(chainedFuture.get());
@@ -743,6 +761,20 @@ public class FuturesTest extends TestCase {
       fail("should have thrown error");
     } catch (ExecutionException e) {
       assertSame(error, e.getCause());
+    }
+  }
+
+  public void testTransform_asyncFunction_nullInsteadOfFuture() throws Exception {
+    ListenableFuture<?> inputFuture = immediateFuture("a");
+    ListenableFuture<?> chainedFuture =
+        Futures.transform(inputFuture, constantAsyncFunction(null));
+    try {
+      chainedFuture.get();
+      fail();
+    } catch (ExecutionException expected) {
+      NullPointerException cause = (NullPointerException) expected.getCause();
+      assertThat(cause).hasMessage("AsyncFunction.apply returned null instead of a Future. "
+          + "Did you mean to return immediateFuture(null)?");
     }
   }
 
@@ -1031,8 +1063,8 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> future2 = SettableFuture.create();
     ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
-    ListenableFuture<List<String>> otherCompound =
-        Futures.allAsList(future1, future2);
+    // This next call is "unused," but it is an important part of the test. Don't remove it!
+    Futures.allAsList(future1, future2);
 
     assertTrue(compound.cancel(false));
     assertTrue(future1.isCancelled());

@@ -495,7 +495,10 @@ public final class Futures {
             throwable = e;
           }
           try {
-            setFuture(fallback.create(throwable));
+            ListenableFuture<? extends V> replacement = fallback.create(throwable);
+            checkNotNull(replacement, "FutureFallback.create returned null instead of a Future. "
+                + "Did you mean to return immediateFuture(null)?");
+            setFuture(replacement);
           } catch (Throwable e) {
             setException(e);
           }
@@ -911,9 +914,9 @@ public final class Futures {
           return;
         }
 
-        ListenableFuture<? extends O> outputFuture =
-            Preconditions.checkNotNull(function.apply(sourceResult),
-                "AsyncFunction may not return null.");
+        ListenableFuture<? extends O> outputFuture = function.apply(sourceResult);
+        checkNotNull(outputFuture, "AsyncFunction.apply returned null instead of a Future. "
+            + "Did you mean to return immediateFuture(null)?");
         setFuture(outputFuture);
       } catch (UndeclaredThrowableException e) {
         // Set the cause of the exception as this future's exception
