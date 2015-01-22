@@ -64,9 +64,9 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Xmx2G</argLine>
+          <!-- Set max heap for tests. -->
           <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
-          <argLine>-Duser.language=hi -Duser.country=IN</argLine>
+          <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN</argLine>
         </configuration>
       </plugin>
       <plugin>
