@@ -80,6 +80,40 @@ import javax.annotation.Nullable;
 @Beta
 @GwtCompatible(emulated = true)
 public final class Futures {
+
+  // A note on memory visibility.
+  // Many of the utilities in this class (transform, withFallback, withTimeout, asList, combine)
+  // have two requirements that significantly complicate their design.
+  // 1. Cancellation should propagate from the returned future to the input future(s)
+  // 2. The returned futures shouldn't unnecessarily 'pin' their inputs after completion.
+  //
+  // A consequence of these these requirements is that the delegate futures cannot be stored in
+  // final fields.
+  //
+  // For simplicity the rest of this description will discuss Futures.withFallback since it is the
+  // simplest instance, though very similar descriptions apply to many other classes in this file.
+  //
+  // In the constructor of FutureFallback, the delegate future is assigned to a field 'running'.
+  // That field is non-final and non-volatile.  There are 2 places where the 'running' field is read
+  // and where we will have to consider visibility of the write operation in the constructor.
+  //
+  // 1. In the listener that performs the callback.  In this case it is fine since running is
+  //    assigned prior to calling addListener, and addListener has happens-before semantics.
+  //
+  // 2. In cancel() where we propagate cancellation to the input.  In this case it is _not_ fine.
+  //    There is currently nothing that enforces that the write to running in the constructor is
+  //    visible to cancel().  This is because there is no happens before edge between the write and
+  //    a (hypothetical) unsafe read by our caller.
+  //
+  // See: http://cs.oswego.edu/pipermail/concurrency-interest/2015-January/013800.html
+  // For a discussion about this specific issue.
+  //
+  // For the time being we are OK with the problem discussed above since it requires a caller to
+  // introduce a very specific kind of data-race.  And given the other operations performed by these
+  // methods that involve volatile read/write operations, in practise there is no issue.
+  // Future versions of the JMM may revise semantics in such a way that we can safely publish these
+  // objects.
+
   private Futures() {}
 
   /**
