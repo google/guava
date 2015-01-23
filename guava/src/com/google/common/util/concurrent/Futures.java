@@ -52,6 +52,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -524,6 +525,143 @@ public final class Futures {
   }
 
   /**
+   * Returns a future that delegates to another but will finish early (via a
+   * {@link TimeoutException} wrapped in an {@link ExecutionException}) if the
+   * specified duration expires.
+   *
+   * <p>The delegate future is interrupted and cancelled if it times out.
+   *
+   * @param delegate The future to delegate to.
+   * @param time when to timeout the future
+   * @param unit the time unit of the time parameter
+   * @param scheduledExecutor The executor service to enforce the timeout.
+   */
+  @GwtIncompatible("java.util.concurrent.ScheduledExecutorService")
+  static <V> ListenableFuture<V> withTimeout(ListenableFuture<V> delegate,
+      long time, TimeUnit unit, ScheduledExecutorService scheduledExecutor) {
+    TimeoutFuture<V> result = new TimeoutFuture<V>(delegate);
+    TimeoutFuture.Fire<V> fire = new TimeoutFuture.Fire<V>(result);
+    result.timer = scheduledExecutor.schedule(fire, time, unit);
+    delegate.addListener(fire, directExecutor());
+    return result;
+  }
+
+  /**
+   * Future that delegates to another but will finish early (via a {@link
+   * TimeoutException} wrapped in an {@link ExecutionException}) if the
+   * specified duration expires.
+   * The delegate future is interrupted and cancelled if it times out.
+   */
+  private static final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
+    // Memory visibility of these fields.
+    // There are two cases to consider.
+    // 1. visibility of the writes to these fields to Fire.run
+    //    The initial write to delegateRef is made definitely visible via the semantics of
+    //    addListener/SES.schedule.  The later racy write in cancel() is not guaranteed to be
+    //    observed, however that is fine since the correctness is based on the atomic state in
+    //    our base class.
+    //    The initial write to timer is never definitely visible to Fire.run since it is assigned
+    //    after SES.schedule is called. Therefore Fire.run has to check for null.  However, it
+    //    should be visible if Fire.run is called by delegate.addListener since addListener is
+    //    called after the assignment to timer, and importantly this is the main situation in which
+    //    we need to be able to see the write.
+    // 2. visibility of the writes to cancel
+    //    Since these fields are non-final that means that TimeoutFuture is not being 'safely
+    //    published', thus a motivated caller may be able to expose the reference to another thread
+    //    that would then call cancel() and be unable to cancel the delegate.
+    //    There are a number of ways to solve this, none of which are very pretty, and it is
+    //    currently believed to be a purely theoretical problem (since the other actions should
+    //    supply sufficient write-barriers).
+
+    ListenableFuture<V> delegateRef;
+    Future<?> timer;
+
+    TimeoutFuture(ListenableFuture<V> delegate) {
+      this.delegateRef = Preconditions.checkNotNull(delegate);
+    }
+
+    /** A runnable that is called when the delegate or the timer completes. */
+    private static final class Fire<V> implements Runnable {
+      // Holding a strong reference to the enclosing class (as we would do if
+      // this weren't a static nested class) could cause retention of the
+      // delegate's return value (in AbstractFuture) for the duration of the
+      // timeout in the case of successful completion. We clear this on run.
+      TimeoutFuture<V> timeoutFutureRef;
+
+      Fire(TimeoutFuture<V> timeoutFuture) {
+        this.timeoutFutureRef = timeoutFuture;
+      }
+
+      @Override public void run() {
+        // If either of these reads return null then we must be after a successful cancel
+        // or another call to this method.
+        TimeoutFuture<V> timeoutFuture = timeoutFutureRef;
+        if (timeoutFuture == null) {
+          return;
+        }
+        ListenableFuture<V> delegate = timeoutFuture.delegateRef;
+        if (delegate == null) {
+          return;
+        }
+
+        // Unpin all the memory before attempting to complete.  Not only does this save us from
+        // wrapping everything in a finally block, it also ensures that if delegate.cancel() (in the
+        // else block), causes delegate to complete, then it won't reentrantly call back in and
+        // cause TimeoutFuture to finish with cancellation.
+        timeoutFutureRef = null;
+        Future<?> timer = timeoutFuture.timer;
+        timeoutFuture.delegateRef = null;
+        timeoutFuture.timer = null;
+        if (delegate.isDone()) {
+          timeoutFuture.setFuture(delegate);
+          // Try to cancel the timer as an optimization
+          // timer may be null if this call to run was by the timer task since there is no
+          // happens-before edge between the assignment to timer and an execution of the timer
+          // task.
+          if (timer != null) {
+            timer.cancel(false);
+          }
+        } else {
+          // Some users, for better or worse, rely on the delegate definitely being cancelled prior
+          // to the timeout future completing.  We wrap in a try...finally... for the off chance
+          // that cancelling the delegate causes an Error to be thrown from a listener on the
+          // delegate.
+          try {
+            delegate.cancel(true);
+          } finally {
+            // TODO(lukes): this stack trace is particularly useless (all it does is point at the
+            // scheduledexecutorservice thread), consider eliminating it altogether?
+            timeoutFuture.setException(new TimeoutException("Future timed out: " + delegate));
+          }
+        }
+      }
+    }
+
+    @Override public boolean cancel(boolean mayInterruptIfRunning) {
+      Future<?> localTimer = timer;
+      ListenableFuture<V> delegate = delegateRef;
+      if (super.cancel(mayInterruptIfRunning)) {
+        // Either can be null if super.cancel() races with an execution of Fire.run, but it doesn't
+        // matter because either 1. the delegate is already done (so there is no point in
+        // propagating cancellation and Fire.run will cancel the timer. or 2. the timeout occurred
+        // and Fire.run will cancel the delegate
+        // Technically this is also possible in the 'unsafe publishing' case described above.
+        if (delegate != null) {
+          // Unpin and prevent Fire from doing anything if delegate.cancel finishes the delegate.
+          delegateRef = null;
+          delegate.cancel(mayInterruptIfRunning);
+        }
+        if (localTimer != null) {
+          timer = null;
+          localTimer.cancel(false);
+        }
+        return true;
+      }
+      return false;
+    }
+  }
+
+  /**
    * Returns a new {@code ListenableFuture} whose result is asynchronously
    * derived from the result of the given {@code Future}. More precisely, the
    * returned {@code Future} takes its result from a {@code Future} produced by
@@ -871,6 +1009,8 @@ public final class Futures {
       extends AbstractFuture.TrustedFuture<O> implements Runnable {
 
     private AsyncFunction<? super I, ? extends O> function;
+    // In theory, this field might not be visible to a cancel() call in certain circumstances. For
+    // details, see the comments on the fields of TimeoutFuture.
     private ListenableFuture<? extends I> inputFuture;
 
     private ChainingListenableFuture(

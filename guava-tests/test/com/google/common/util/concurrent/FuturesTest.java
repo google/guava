@@ -43,6 +43,7 @@ import com.google.common.collect.Sets;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture;
+import com.google.common.util.concurrent.testing.TestingExecutors;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -63,6 +64,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Handler;
@@ -2746,5 +2748,30 @@ public class FuturesTest extends TestCase {
     AssertionFailedError failure = new AssertionFailedError(message);
     failure.initCause(cause);
     throw failure;
+  }
+
+  /** A future that throws a runtime exception from get. */
+  static class BuggyFuture extends AbstractFuture<String> {
+    @Override public String get() {
+      throw new RuntimeException();
+    }
+    @Override public boolean set(String v) {
+      return super.set(v);
+    }
+  }
+
+  // This test covers a bug where an Error thrown from a callback could cause the TimeoutFuture to
+  // never complete when timing out.  Notably, nothing would get logged since the Error would get
+  // stuck in the ScheduledFuture inside of TimeoutFuture and nothing ever calls get on it.
+
+  // Simulate a timeout that fires before the call the SES.schedule returns but the future is
+  // already completed.
+  public void testWithTimeout_timerWriteNotVisibleToScheduledTask() throws Exception {
+    ListenableFuture<Object> delegate = Futures.immediateFuture(null);
+    ScheduledExecutorService service = TestingExecutors.sameThreadScheduledExecutor();
+    ListenableFuture<Object> timeoutFuture = Futures.withTimeout(
+        delegate, 0, TimeUnit.MILLISECONDS, service);
+    // should complete when the timer task notices that the delegate is done.
+    timeoutFuture.get(1, TimeUnit.SECONDS);
   }
 }
