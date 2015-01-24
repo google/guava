@@ -60,7 +60,7 @@ public final class Futures {
   // A note on memory visibility.
   // Many of the utilities in this class (transform, withFallback, withTimeout, asList, combine)
   // have two requirements that significantly complicate their design.
-  // 1. Cancellation should propagate from the returned future to the input future(s)
+  // 1. Cancellation should propagate from the returned future to the input future(s).
   // 2. The returned futures shouldn't unnecessarily 'pin' their inputs after completion.
   //
   // A consequence of these these requirements is that the delegate futures cannot be stored in
@@ -74,21 +74,32 @@ public final class Futures {
   // and where we will have to consider visibility of the write operation in the constructor.
   //
   // 1. In the listener that performs the callback.  In this case it is fine since running is
-  //    assigned prior to calling addListener, and addListener has happens-before semantics.
+  //    assigned prior to calling addListener, and addListener happens-before any invocation of the
+  //    listener. Notably, this means that 'volatile' is unnecessary to make 'running' visible to
+  //    the listener.
   //
   // 2. In cancel() where we propagate cancellation to the input.  In this case it is _not_ fine.
   //    There is currently nothing that enforces that the write to running in the constructor is
   //    visible to cancel().  This is because there is no happens before edge between the write and
-  //    a (hypothetical) unsafe read by our caller.
+  //    a (hypothetical) unsafe read by our caller. Note: adding 'volatile' does not fix this issue,
+  //    it would just add an edge such that if cancel() observed non-null, then it would also
+  //    definitely observe all earlier writes, but we still have no guarantee that cancel() would
+  //    see the inital write (just stronger guarantees if it does).
   //
   // See: http://cs.oswego.edu/pipermail/concurrency-interest/2015-January/013800.html
-  // For a discussion about this specific issue.
+  // For a (long) discussion about this specific issue and the general futility of life.
   //
   // For the time being we are OK with the problem discussed above since it requires a caller to
   // introduce a very specific kind of data-race.  And given the other operations performed by these
-  // methods that involve volatile read/write operations, in practise there is no issue.
-  // Future versions of the JMM may revise semantics in such a way that we can safely publish these
-  // objects.
+  // methods that involve volatile read/write operations, in practice there is no issue.  Also, the
+  // way in such a visibility issue would surface is most likely as a failure of cancel() to
+  // propagate to the input.  Cancellation propagation is fundamentally racy so this is fine.
+  //
+  // Future versions of the JMM may revise safe construction semantics in such a way that we can
+  // safely publish these objects and we won't need this whole discussion.
+  // TODO(user,lukes): consider adding volatile to all these fields since in current known JVMs
+  // that should resolve the issue.  This comes at the cost of adding more write barriers to the
+  // implementations.
 
   private Futures() {}
 
