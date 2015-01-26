@@ -56,6 +56,7 @@ public class JoinerTest extends TestCase {
   private static final Iterable<Integer> ITERABLE_FOUR_NULLS
       = Arrays.asList((Integer) null, null, null, null);
 
+  @SuppressWarnings("CheckReturnValue")
   public void testNoSpecialNullBehavior() {
     checkNoOutput(J, ITERABLE_);
     checkResult(J, ITERABLE_1, "1");
@@ -235,6 +236,7 @@ public class JoinerTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMap() {
     MapJoiner j = Joiner.on(";").withKeyValueSeparator(":");
     assertEquals("", j.join(ImmutableMap.of()));
@@ -257,6 +259,7 @@ public class JoinerTest extends TestCase {
     assertEquals("1:2;3:4;5:6", sb.toString());
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testEntries() {
     MapJoiner j = Joiner.on(";").withKeyValueSeparator(":");
     assertEquals("", j.join(ImmutableMultimap.of().entries()));

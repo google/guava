@@ -67,6 +67,7 @@ public class Joiner {
   /**
    * Returns a joiner which automatically places {@code separator} between consecutive elements.
    */
+  @CheckReturnValue
   public static Joiner on(String separator) {
     return new Joiner(separator);
   }
@@ -74,6 +75,7 @@ public class Joiner {
   /**
    * Returns a joiner which automatically places {@code separator} between consecutive elements.
    */
+  @CheckReturnValue
   public static Joiner on(char separator) {
     return new Joiner(String.valueOf(separator));
   }
@@ -179,6 +181,7 @@ public class Joiner {
    * Returns a string containing the string representation of each of {@code parts}, using the
    * previously configured separator between each.
    */
+  @CheckReturnValue
   public final String join(Iterable<?> parts) {
     return join(parts.iterator());
   }
@@ -189,6 +192,7 @@ public class Joiner {
    *
    * @since 11.0
    */
+  @CheckReturnValue
   public final String join(Iterator<?> parts) {
     return appendTo(new StringBuilder(), parts).toString();
   }
@@ -197,6 +201,7 @@ public class Joiner {
    * Returns a string containing the string representation of each of {@code parts}, using the
    * previously configured separator between each.
    */
+  @CheckReturnValue
   public final String join(Object[] parts) {
     return join(Arrays.asList(parts));
   }
@@ -205,6 +210,7 @@ public class Joiner {
    * Returns a string containing the string representation of each argument, using the previously
    * configured separator between each.
    */
+  //@CheckReturnValue
   public final String join(@Nullable Object first, @Nullable Object second, Object... rest) {
     return join(iterable(first, second, rest));
   }
@@ -326,6 +332,7 @@ public class Joiner {
      * Returns a string containing the string representation of each entry of {@code map}, using the
      * previously configured separator and key-value separator.
      */
+    @CheckReturnValue
     public String join(Map<?, ?> map) {
       return join(map.entrySet());
     }
@@ -404,6 +411,7 @@ public class Joiner {
      * @since 10.0
      */
     @Beta
+    @CheckReturnValue
     public String join(Iterable<? extends Entry<?, ?>> entries) {
       return join(entries.iterator());
     }
@@ -415,6 +423,7 @@ public class Joiner {
      * @since 11.0
      */
     @Beta
+    @CheckReturnValue
     public String join(Iterator<? extends Entry<?, ?>> entries) {
       return appendTo(new StringBuilder(), entries).toString();
     }

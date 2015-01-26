@@ -222,8 +222,8 @@ public class ArbitraryInstancesTest extends TestCase {
     assertNotNull(ArbitraryInstances.get(CharMatcher.class));
     assertNotNull(ArbitraryInstances.get(Currency.class).getCurrencyCode());
     assertNotNull(ArbitraryInstances.get(Locale.class));
-    ArbitraryInstances.get(Joiner.class).join(ImmutableList.of("a"));
-    ArbitraryInstances.get(Splitter.class).split("a,b");
+    assertNotNull(ArbitraryInstances.get(Joiner.class).join(ImmutableList.of("a")));
+    assertNotNull(ArbitraryInstances.get(Splitter.class).split("a,b"));
     assertFalse(ArbitraryInstances.get(Optional.class).isPresent());
     ArbitraryInstances.get(Stopwatch.class).start();
     assertNotNull(ArbitraryInstances.get(Ticker.class));

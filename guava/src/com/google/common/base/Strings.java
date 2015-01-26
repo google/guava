@@ -34,6 +34,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 3.0
  */
+@CheckReturnValue
 @GwtCompatible
 public final class Strings {
   private Strings() {}
@@ -44,7 +45,6 @@ public final class Strings {
    * @param string the string to test and possibly return
    * @return {@code string} itself if it is non-null; {@code ""} if it is null
    */
-  @CheckReturnValue
   public static String nullToEmpty(@Nullable String string) {
     return (string == null) ? "" : string;
   }

@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -39,6 +40,7 @@ import javax.annotation.Nullable;
  *
  * @since 9.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 @Beta
 public final class Enums {
