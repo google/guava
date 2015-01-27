@@ -580,9 +580,11 @@ public final class Futures {
    * @param time when to timeout the future
    * @param unit the time unit of the time parameter
    * @param scheduledExecutor The executor service to enforce the timeout.
+   *
+   * @since 19.0
    */
   @GwtIncompatible("java.util.concurrent.ScheduledExecutorService")
-  static <V> ListenableFuture<V> withTimeout(ListenableFuture<V> delegate,
+  public static <V> ListenableFuture<V> withTimeout(ListenableFuture<V> delegate,
       long time, TimeUnit unit, ScheduledExecutorService scheduledExecutor) {
     TimeoutFuture<V> result = new TimeoutFuture<V>(delegate);
     TimeoutFuture.Fire<V> fire = new TimeoutFuture.Fire<V>(result);
