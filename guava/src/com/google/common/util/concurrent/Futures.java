@@ -1142,7 +1142,6 @@ public final class Futures {
    * @since 13.0
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
-  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<V> dereference(
       ListenableFuture<? extends ListenableFuture<? extends V>> nested) {
     return Futures.transform((ListenableFuture) nested, (AsyncFunction) DEREFERENCER);
@@ -1151,7 +1150,6 @@ public final class Futures {
   /**
    * Helper {@code Function} for {@link #dereference}.
    */
-  @GwtIncompatible("TODO")
   private static final AsyncFunction<ListenableFuture<Object>, Object> DEREFERENCER =
       new AsyncFunction<ListenableFuture<Object>, Object>() {
         @Override public ListenableFuture<Object> apply(ListenableFuture<Object> input) {
