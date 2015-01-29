@@ -17,6 +17,9 @@
 package com.google.common.base;
 
 import static com.google.common.base.Throwables.getStackTraceAsString;
+import static com.google.common.base.Throwables.lazyStackTrace;
+import static com.google.common.base.Throwables.lazyStackTraceIsLazy;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.quote;
 
@@ -26,6 +29,9 @@ import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
 
 import java.io.FileNotFoundException;
+import java.security.Permission;
+import java.security.Policy;
+import java.security.ProtectionDomain;
 import java.util.List;
 
 /**
@@ -372,7 +378,7 @@ public class ThrowablesTest extends TestCase {
     try {
       sample.oneDeclared();
       fail();
-    } catch (SomeCheckedException e) {
+    } catch (SomeCheckedException expected) {
     }
   }
 
@@ -393,7 +399,7 @@ public class ThrowablesTest extends TestCase {
     try {
       sample.oneDeclared();
       fail();
-    } catch (SomeUncheckedException e) {
+    } catch (SomeUncheckedException expected) {
     }
   }
 
@@ -414,8 +420,8 @@ public class ThrowablesTest extends TestCase {
     try {
       sample.oneDeclared();
       fail();
-    } catch (RuntimeException e) {
-      assertTrue(e.getCause() instanceof SomeOtherCheckedException);
+    } catch (RuntimeException expected) {
+      assertTrue(expected.getCause() instanceof SomeOtherCheckedException);
     }
   }
 
@@ -511,6 +517,49 @@ public class ThrowablesTest extends TestCase {
       causes.add(new RuntimeException());
       fail("List should be unmodifiable");
     } catch (UnsupportedOperationException expected) {
+    }
+  }
+
+  public void testLazyStackTrace() {
+    // Obviously this isn't guaranteed, but it works well enough for now:
+    assertTrue(lazyStackTraceIsLazy());
+
+    Exception e = new Exception();
+    StackTraceElement[] originalStackTrace = e.getStackTrace();
+
+    assertThat(lazyStackTrace(e)).containsExactly(originalStackTrace).inOrder();
+
+    try {
+      lazyStackTrace(e).set(0, null);
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+
+    e.setStackTrace(new StackTraceElement[0]);
+    assertThat(lazyStackTrace(e)).containsExactly(originalStackTrace).inOrder();
+  }
+
+  private void doTestLazyStackTraceFallback() {
+    assertFalse(lazyStackTraceIsLazy());
+
+    Exception e = new Exception();
+
+    assertThat(lazyStackTrace(e)).containsExactly(e.getStackTrace()).inOrder();
+
+    try {
+      lazyStackTrace(e).set(0, null);
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+
+    e.setStackTrace(new StackTraceElement[0]);
+    assertThat(lazyStackTrace(e)).isEmpty();
+  }
+
+  private static class AllowSettingSecurityManagerPolicy extends Policy {
+    @Override
+    public boolean implies(ProtectionDomain pd, Permission perm) {
+      return true;
     }
   }
 
