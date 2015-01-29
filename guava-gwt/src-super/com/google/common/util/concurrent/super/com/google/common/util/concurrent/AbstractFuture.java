@@ -175,6 +175,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   private void notifyAndClearListeners() {
+    // TODO(cpovirk): consider clearing this.delegate
     for (Listener listener : listeners) {
       listener.execute();
     }
@@ -277,6 +278,17 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     @Override
     public void run() {
       if (isCancelled()) {
+        return;
+      }
+
+      if (delegate instanceof TrustedFuture) {
+        AbstractFuture<? extends V> other = (AbstractFuture<? extends V>) delegate;
+        value = other.value;
+        throwable = other.throwable;
+        mayInterruptIfRunning = other.mayInterruptIfRunning;
+        state = other.state;
+
+        notifyAndClearListeners();
         return;
       }
 
