@@ -219,7 +219,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
+  @SuppressWarnings("CheckReturnValue")
   public void testModByZero() {
     for (long a : TEST_LONGS) {
       try {

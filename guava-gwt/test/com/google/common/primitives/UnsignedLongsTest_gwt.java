@@ -73,6 +73,11 @@ public void testParseLong() throws Exception {
   testCase.testParseLong();
 }
 
+public void testParseLongFails() throws Exception {
+  com.google.common.primitives.UnsignedLongsTest testCase = new com.google.common.primitives.UnsignedLongsTest();
+  testCase.testParseLongFails();
+}
+
 public void testParseLongThrowsExceptionForInvalidRadix() throws Exception {
   com.google.common.primitives.UnsignedLongsTest testCase = new com.google.common.primitives.UnsignedLongsTest();
   testCase.testParseLongThrowsExceptionForInvalidRadix();
@@ -81,6 +86,11 @@ public void testParseLongThrowsExceptionForInvalidRadix() throws Exception {
 public void testParseLongWithRadix() throws Exception {
   com.google.common.primitives.UnsignedLongsTest testCase = new com.google.common.primitives.UnsignedLongsTest();
   testCase.testParseLongWithRadix();
+}
+
+public void testParseLongWithRadixLimits() throws Exception {
+  com.google.common.primitives.UnsignedLongsTest testCase = new com.google.common.primitives.UnsignedLongsTest();
+  testCase.testParseLongWithRadixLimits();
 }
 
 public void testRemainder() throws Exception {

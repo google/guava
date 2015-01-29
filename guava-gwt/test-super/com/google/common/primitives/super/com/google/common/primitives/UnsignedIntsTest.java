@@ -42,7 +42,7 @@ public class UnsignedIntsTest extends TestCase {
       0xfffffffdL,
       0xfffffffeL,
       0xffffffffL};
-  
+
   private static final int LEAST = (int) 0L;
   private static final int GREATEST = (int) 0xffffffffL;
 
@@ -61,7 +61,8 @@ public class UnsignedIntsTest extends TestCase {
       }
     }
   }
-  
+
+  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       UnsignedInts.max();
@@ -69,7 +70,7 @@ public class UnsignedIntsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testMax() {
     assertEquals(LEAST, UnsignedInts.max(LEAST));
     assertEquals(GREATEST, UnsignedInts.max(GREATEST));
@@ -78,7 +79,8 @@ public class UnsignedIntsTest extends TestCase {
         (int) 0x12345678L, (int) 0x5a4316b8L,
         (int) 0xff1a618bL, (int) 0L));
   }
-  
+
+  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       UnsignedInts.min();
@@ -140,27 +142,29 @@ public class UnsignedIntsTest extends TestCase {
   }
 
   public void testParseInt() {
-    try {
-      for (long a : UNSIGNED_INTS) {
-        assertEquals((int) a, UnsignedInts.parseUnsignedInt(Long.toString(a)));
-      }
-    } catch (NumberFormatException e) {
-      fail(e.getMessage());
+    for (long a : UNSIGNED_INTS) {
+      assertEquals((int) a, UnsignedInts.parseUnsignedInt(Long.toString(a)));
     }
+  }
 
+  @SuppressWarnings("CheckReturnValue")
+  public void testParseIntFail() {
     try {
       UnsignedInts.parseUnsignedInt(Long.toString(1L << 32));
       fail("Expected NumberFormatException");
     } catch (NumberFormatException expected) {}
   }
 
-  public void testParseIntWithRadix() throws NumberFormatException {
+  public void testParseIntWithRadix() {
     for (long a : UNSIGNED_INTS) {
       for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
         assertEquals((int) a, UnsignedInts.parseUnsignedInt(Long.toString(a, radix), radix));
       }
     }
+  }
 
+  @SuppressWarnings("CheckReturnValue")
+  public void testParseIntWithRadixLimits() {
     // loops through all legal radix values.
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
       // tests can successfully parse a number string with this radix.
@@ -177,6 +181,7 @@ public class UnsignedIntsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testParseIntThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
     // inclusive.
@@ -207,6 +212,7 @@ public class UnsignedIntsTest extends TestCase {
     assertEquals(0, UnsignedInts.decode("0"));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testDecodeIntFails() {
     try {
       // One more than maximum value

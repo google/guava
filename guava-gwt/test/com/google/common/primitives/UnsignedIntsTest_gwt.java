@@ -73,6 +73,11 @@ public void testParseInt() throws Exception {
   testCase.testParseInt();
 }
 
+public void testParseIntFail() throws Exception {
+  com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
+  testCase.testParseIntFail();
+}
+
 public void testParseIntThrowsExceptionForInvalidRadix() throws Exception {
   com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
   testCase.testParseIntThrowsExceptionForInvalidRadix();
@@ -81,6 +86,11 @@ public void testParseIntThrowsExceptionForInvalidRadix() throws Exception {
 public void testParseIntWithRadix() throws Exception {
   com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
   testCase.testParseIntWithRadix();
+}
+
+public void testParseIntWithRadixLimits() throws Exception {
+  com.google.common.primitives.UnsignedIntsTest testCase = new com.google.common.primitives.UnsignedIntsTest();
+  testCase.testParseIntWithRadixLimits();
 }
 
 public void testRemainder() throws Exception {
