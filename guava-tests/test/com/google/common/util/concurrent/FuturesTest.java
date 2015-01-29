@@ -848,7 +848,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     } catch (CancellationException expected) {}
   }
 
-  @GwtIncompatible("dereference")
   public void testDereference_genericsWildcard() throws Exception {
     ListenableFuture<?> inner = Futures.immediateFuture(null);
     ListenableFuture<ListenableFuture<?>> outer =
@@ -857,7 +856,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertNull(dereferenced.get());
   }
 
-  @GwtIncompatible("dereference")
   public void testDereference_genericsHierarchy() throws Exception {
     FooChild fooChild = new FooChild();
     ListenableFuture<FooChild> inner = Futures.immediateFuture(fooChild);
@@ -866,7 +864,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertSame(fooChild, dereferenced.get());
   }
 
-  @GwtIncompatible("dereference")
   public void testDereference_resultCancelsOuter() throws Exception {
     ListenableFuture<ListenableFuture<Foo>> outer = SettableFuture.create();
     ListenableFuture<Foo> dereferenced = Futures.dereference(outer);
@@ -874,7 +871,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertTrue(outer.isCancelled());
   }
 
-  @GwtIncompatible("dereference")
   public void testDereference_resultCancelsInner() throws Exception {
     ListenableFuture<Foo> inner = SettableFuture.create();
     ListenableFuture<ListenableFuture<Foo>> outer = Futures.immediateFuture(inner);
@@ -883,7 +879,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertTrue(inner.isCancelled());
   }
 
-  @GwtIncompatible("dereference")
   public void testDereference_outerCancelsResult() throws Exception {
     ListenableFuture<ListenableFuture<Foo>> outer = SettableFuture.create();
     ListenableFuture<Foo> dereferenced = Futures.dereference(outer);
@@ -891,7 +886,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertTrue(dereferenced.isCancelled());
   }
 
-  @GwtIncompatible("dereference")
   public void testDereference_innerCancelsResult() throws Exception {
     ListenableFuture<Foo> inner = SettableFuture.create();
     ListenableFuture<ListenableFuture<Foo>> outer = Futures.immediateFuture(inner);
