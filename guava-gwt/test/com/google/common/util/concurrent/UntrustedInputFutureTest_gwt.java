@@ -114,10 +114,34 @@ public void testMisbehavingListenerLaterDone() throws Exception {
   testCase.testMisbehavingListenerLaterDone();
 }
 
+public void testNullExecutor() throws Exception {
+  com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
+  testCase.setUp();
+  testCase.testNullExecutor();
+}
+
+public void testNullListener() throws Exception {
+  com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
+  testCase.setUp();
+  testCase.testNullListener();
+}
+
+public void testNullTimeUnit() throws Exception {
+  com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
+  testCase.setUp();
+  testCase.testNullTimeUnit();
+}
+
 public void testPending() throws Exception {
   com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
   testCase.setUp();
   testCase.testPending();
+}
+
+public void testSetExceptionNull() throws Exception {
+  com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
+  testCase.setUp();
+  testCase.testSetExceptionNull();
 }
 
 public void testSetFutureDelegateAlreadyCancelled() throws Exception {
@@ -178,6 +202,12 @@ public void testSetFutureThenInterrupt() throws Exception {
   com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
   testCase.setUp();
   testCase.testSetFutureThenInterrupt();
+}
+
+public void testSetNull() throws Exception {
+  com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
+  testCase.setUp();
+  testCase.testSetNull();
 }
 
 public void testSuccessful() throws Exception {

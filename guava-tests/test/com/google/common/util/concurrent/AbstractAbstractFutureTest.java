@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.Runnables.doNothing;
 import static com.google.common.util.concurrent.TestPlatform.verifyGetOnPendingFuture;
 import static com.google.common.util.concurrent.TestPlatform.verifyTimedGetOnPendingFuture;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -300,15 +301,65 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     class BadRunnableException extends RuntimeException {
     }
 
+    CountingRunnable before = new CountingRunnable();
     Runnable bad = new Runnable() {
       @Override
       public void run() {
         throw new BadRunnableException();
       }
     };
+    CountingRunnable after = new CountingRunnable();
 
+    future.addListener(before, directExecutor());
     future.addListener(bad, directExecutor());
+    future.addListener(after, directExecutor());
+
     future.set(1); // BadRunnableException must not propagate.
+
+    before.assertRun();
+    after.assertRun();
+  }
+
+  public void testNullListener() {
+    try {
+      future.addListener(null, directExecutor());
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testNullExecutor() {
+    try {
+      future.addListener(doNothing(), null);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testNullTimeUnit() throws Exception {
+    future.set(1);
+    try {
+      future.get(0, null);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testSetNull() throws Exception {
+    future.set(null);
+    assertSuccessful(future, null);
+  }
+
+  public void testSetExceptionNull() throws Exception {
+    try {
+      future.setException(null);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+
+    assertThat(future.isDone()).isFalse();
+    assertThat(future.set(1)).isTrue();
+    assertSuccessful(future, 1);
   }
 
   public void testSetFutureNull() throws Exception {
@@ -320,7 +371,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
 
     assertThat(future.isDone()).isFalse();
     assertThat(future.set(1)).isTrue();
-    assertThat(future.get()).isEqualTo(1);
+    assertSuccessful(future, 1);
   }
 
   /**
@@ -366,13 +417,14 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     verifyTimedGetOnPendingFuture(future);
   }
 
-  private static void assertSuccessful(AbstractFuture<Integer> future, int expectedResult)
+  private static void assertSuccessful(AbstractFuture<Integer> future, Integer expectedResult)
       throws InterruptedException, TimeoutException, ExecutionException {
     assertDone(future);
     assertThat(future.isCancelled()).isFalse();
 
-    assertThat(future.get()).is(expectedResult);
-    assertThat(future.get(0, SECONDS)).is(expectedResult);
+    assertThat(future.get()).isEqualTo(expectedResult);
+    assertThat(future.get(0, SECONDS)).isEqualTo(expectedResult);
+    assertThat(future.get(-1, SECONDS)).isEqualTo(expectedResult);
   }
 
   private static void assertFailed(AbstractFuture<Integer> future, Throwable expectedException)

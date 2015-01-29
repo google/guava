@@ -109,6 +109,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   @Override
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
+    checkNotNull(unit);
     return get();
   }
 
@@ -123,6 +124,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   protected boolean setException(Throwable throwable) {
+    checkNotNull(throwable);
     if (!state.permitsPublicUserToTransitionTo(State.FAILURE)) {
       return false;
     }
@@ -255,8 +257,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     final Executor executor;
     
     Listener(Runnable command, Executor executor) {
-      this.command = command;
-      this.executor = executor;
+      this.command = checkNotNull(command);
+      this.executor = checkNotNull(executor);
     }
     
     void execute() {
