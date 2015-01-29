@@ -26,6 +26,7 @@ import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -1451,7 +1452,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     void smartAssertTrue(ImmutableSet<ListenableFuture<String>> inputs,
         Exception cause, boolean expression) {
       if (!expression) {
-        failWithCause(cause, smartToString(inputs));
+        throw failureWithCause(cause, smartToString(inputs));
       }
     }
 
@@ -1531,9 +1532,9 @@ public class FuturesTest extends EmptySetUpAndTearDown {
    * the main test thread forever in the case of failure.
    */
   @GwtIncompatible("threads")
-  private static <V> V pseudoTimedGet(
+  static <V> V pseudoTimedGetUninterruptibly(
       final Future<V> input, long timeout, TimeUnit unit)
-      throws InterruptedException, ExecutionException, TimeoutException {
+      throws ExecutionException, TimeoutException {
     ExecutorService executor = newSingleThreadExecutor();
     Future<V> waiter = executor.submit(new Callable<V>() {
       @Override
@@ -1543,17 +1544,14 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     });
 
     try {
-      return waiter.get(timeout, unit);
+      return getUninterruptibly(waiter, timeout, unit);
     } catch (ExecutionException e) {
       propagateIfInstanceOf(e.getCause(), ExecutionException.class);
       propagateIfInstanceOf(e.getCause(), CancellationException.class);
-      AssertionFailedError error =
-          new AssertionFailedError("Unexpected exception");
-      error.initCause(e);
-      throw error;
+      throw failureWithCause(e, "Unexpected exception");
     } finally {
       executor.shutdownNow();
-      assertTrue(executor.awaitTermination(10, SECONDS));
+      // TODO(cpovirk: assertTrue(awaitTerminationUninterruptibly(executor, 10, SECONDS));
     }
   }
 
@@ -1594,7 +1592,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
           // Same tests with pseudoTimedGet.
           try {
-            List<String> result = conditionalPseudoTimedGet(
+            List<String> result = conditionalPseudoTimedGetUninterruptibly(
                 inputs, iFuture, jFuture, future, 20, MILLISECONDS);
             assertTrue("Got " + result,
                 Arrays.asList("a", null).containsAll(result));
@@ -1650,22 +1648,22 @@ public class FuturesTest extends EmptySetUpAndTearDown {
    * restore the fast but hang-y version.
    */
   @GwtIncompatible("used only in GwtIncompatible tests")
-  private static List<String> conditionalPseudoTimedGet(
+  private static List<String> conditionalPseudoTimedGetUninterruptibly(
       TestFutureBatch inputs,
       ListenableFuture<String> iFuture,
       ListenableFuture<String> jFuture,
       ListenableFuture<List<String>> future,
       int timeout,
       TimeUnit unit)
-      throws InterruptedException, ExecutionException, TimeoutException {
+      throws ExecutionException, TimeoutException {
     /*
      * For faster tests (that may hang indefinitely if the class under test has
      * a bug!), switch the second branch to call untimed future.get() instead of
      * pseudoTimedGet.
      */
     return (inputs.hasDelayed(iFuture, jFuture))
-        ? pseudoTimedGet(future, timeout, unit)
-        : pseudoTimedGet(future, 2500, MILLISECONDS);
+        ? pseudoTimedGetUninterruptibly(future, timeout, unit)
+        : pseudoTimedGetUninterruptibly(future, 2500, MILLISECONDS);
   }
 
   @GwtIncompatible("allAsList")
@@ -2907,10 +2905,10 @@ public class FuturesTest extends EmptySetUpAndTearDown {
         .testNulls();
   }
 
-  private static void failWithCause(Throwable cause, String message) {
+  static AssertionFailedError failureWithCause(Throwable cause, String message) {
     AssertionFailedError failure = new AssertionFailedError(message);
     failure.initCause(cause);
-    throw failure;
+    return failure;
   }
 
   /** A future that throws a runtime exception from get. */

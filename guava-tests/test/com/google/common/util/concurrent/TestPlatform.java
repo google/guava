@@ -16,16 +16,18 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.FuturesTest.failureWithCause;
+import static com.google.common.util.concurrent.FuturesTest.pseudoTimedGetUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static junit.framework.Assert.fail;
 
 import com.google.common.annotations.GwtCompatible;
 
-import junit.framework.AssertionFailedError;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -34,24 +36,24 @@ import java.util.concurrent.TimeoutException;
 @GwtCompatible(emulated = true)
 final class TestPlatform {
   static void verifyGetOnPendingFuture(Future<?> future) {
-    // TODO(cpovirk): implement this properly by calling get() in another thread
-    verifyTimedGetOnPendingFuture(future);
+    checkNotNull(future);
+    try {
+      pseudoTimedGetUninterruptibly(future, 10, MILLISECONDS);
+      fail();
+    } catch (TimeoutException expected) {
+    } catch (ExecutionException e) {
+      throw failureWithCause(e, "");
+    }
   }
 
   static void verifyTimedGetOnPendingFuture(Future<?> future) {
     try {
-      getUninterruptibly(future, 0, TimeUnit.SECONDS);
+      getUninterruptibly(future, 0, SECONDS);
       fail();
     } catch (TimeoutException expected) {
     } catch (ExecutionException e) {
-      failWithCause(e);
+      throw failureWithCause(e, "");
     }
-  }
-
-  private static void failWithCause(Throwable cause) {
-    AssertionFailedError failure = new AssertionFailedError();
-    failure.initCause(cause);
-    throw failure;
   }
 
   private TestPlatform() {}

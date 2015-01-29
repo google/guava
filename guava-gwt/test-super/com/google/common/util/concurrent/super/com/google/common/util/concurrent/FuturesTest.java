@@ -298,10 +298,10 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
   // Mostly an example of how it would look like to use a list of mixed types
 
-  private static void failWithCause(Throwable cause, String message) {
+  static AssertionFailedError failureWithCause(Throwable cause, String message) {
     AssertionFailedError failure = new AssertionFailedError(message);
     failure.initCause(cause);
-    throw failure;
+    return failure;
   }
 
   /** A future that throws a runtime exception from get. */
