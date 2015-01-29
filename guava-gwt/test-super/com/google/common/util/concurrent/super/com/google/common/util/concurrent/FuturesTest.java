@@ -327,6 +327,10 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertTrue(dereferenced.isCancelled());
   }
 
+  private static String createCombinedResult(Integer i, Boolean b) {
+    return "-" + i + "-" + b;
+  }
+
   /*
    * TODO(cpovirk): maybe pass around TestFuture instances instead of
    * ListenableFuture instances
@@ -367,4 +371,3 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   // Simulate a timeout that fires before the call the SES.schedule returns but the future is
   // already completed.
 }
-

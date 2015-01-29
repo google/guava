@@ -18,6 +18,7 @@ public class FuturesTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
 @Override public String getModuleName() {
   return "com.google.common.util.concurrent.testModule";
 }
+
 public void testDereference_genericsHierarchy() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();

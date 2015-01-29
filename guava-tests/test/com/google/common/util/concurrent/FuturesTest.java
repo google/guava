@@ -1272,7 +1272,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     }
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
   private static String createCombinedResult(Integer i, Boolean b) {
     return "-" + i + "-" + b;
   }
