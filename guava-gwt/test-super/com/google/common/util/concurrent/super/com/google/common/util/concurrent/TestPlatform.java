@@ -49,5 +49,9 @@ final class TestPlatform {
     }
   }
 
+  static void verifyThreadWasNotInterrupted() {
+    // There are no threads in GWT so there's nothing to assert.
+  }
+
   private TestPlatform() {}
 }

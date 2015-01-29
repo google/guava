@@ -183,7 +183,10 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       listener.execute();
     }
     listeners = null;
+    done();
   }
+
+  void done() {}
 
   private enum State {
     PENDING {

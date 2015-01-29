@@ -18,6 +18,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 
 import java.util.concurrent.Callable;
@@ -30,6 +32,7 @@ import javax.annotation.Nullable;
  * @author Isaac Shum
  * @since 1.0
  */
+@GwtCompatible(emulated = true)
 public final class Callables {
   private Callables() {}
 
@@ -54,6 +57,7 @@ public final class Callables {
    * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once
    *     for each invocation of the wrapped callable.
    */
+  @GwtIncompatible("threads")
   static <T> Callable<T> threadRenaming(final Callable<T> callable,
       final Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
@@ -83,6 +87,7 @@ public final class Callables {
    * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once
    *     for each invocation of the wrapped callable.
    */
+  @GwtIncompatible("threads")
   static Runnable threadRenaming(final Runnable task, final Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
     checkNotNull(task);
@@ -103,6 +108,7 @@ public final class Callables {
   }
 
   /** Tries to set name of the given {@link Thread}, returns true if successful. */
+  @GwtIncompatible("threads")
   private static boolean trySetName(final String threadName, Thread currentThread) {
     // In AppEngine this will always fail, should we test for that explicitly using
     // MoreExecutors.isAppEngine.  More generally, is there a way to see if we have the modifyThread

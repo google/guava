@@ -1203,7 +1203,6 @@ public final class Futures {
     return listFuture(ImmutableList.copyOf(futures), true, directExecutor());
   }
 
-  @GwtIncompatible("TODO")
   private static final class CombinedFuture<V> extends TrustedListenableFutureTask<V> {
     ImmutableList<ListenableFuture<?>> futures;
 

@@ -22,6 +22,7 @@ import static com.google.common.util.concurrent.FuturesTest.pseudoTimedGetUninte
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.fail;
 
 import com.google.common.annotations.GwtCompatible;
@@ -54,6 +55,10 @@ final class TestPlatform {
     } catch (ExecutionException e) {
       throw failureWithCause(e, "");
     }
+  }
+
+  static void verifyThreadWasNotInterrupted() {
+    assertFalse(Thread.currentThread().isInterrupted());
   }
 
   private TestPlatform() {}

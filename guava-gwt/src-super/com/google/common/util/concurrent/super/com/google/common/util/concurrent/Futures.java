@@ -24,8 +24,10 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -670,6 +672,44 @@ public final class Futures {
           return input;
         }
       };
+
+  private static final class CombinedFuture<V> extends TrustedListenableFutureTask<V> {
+    ImmutableList<ListenableFuture<?>> futures;
+
+    CombinedFuture(Callable<V> callable, ImmutableList<ListenableFuture<?>> futures) {
+      super(callable);
+      this.futures = futures;
+    }
+
+    @Override void doRun(Callable<V> task) throws Exception {
+      // Very similar to the default implementation, but has specialized handling of
+      // ExecutionExceptions and CancellationExceptions
+      try {
+        set(task.call());
+      } catch (ExecutionException e) {
+        setException(e.getCause());
+      } catch (CancellationException e) {
+        cancel(false);
+      }
+    }
+
+    @Override public boolean cancel(boolean mayInterruptIfRunning) {
+      ImmutableList<ListenableFuture<?>> localFutures = this.futures;
+      if (super.cancel(mayInterruptIfRunning)) {
+        if (localFutures != null) {
+          for (ListenableFuture<?> future : localFutures) {
+            future.cancel(mayInterruptIfRunning);
+          }
+        }
+        return true;
+      }
+      return false;
+    }
+
+    @Override void done() {
+      futures = null;
+    }
+  }
 
   /**
    * Registers separate success and failure callbacks to be run when the {@code

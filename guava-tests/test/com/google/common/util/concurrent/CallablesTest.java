@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
@@ -29,6 +31,7 @@ import java.util.concurrent.Callable;
  *
  * @author Isaac Shum
  */
+@GwtCompatible(emulated = true)
 public class CallablesTest extends TestCase {
 
   public void testReturning() throws Exception {
@@ -41,6 +44,7 @@ public class CallablesTest extends TestCase {
     assertSame(value, callable.call());
   }
 
+  @GwtIncompatible("threads")
   public void testRenaming() throws Exception {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
@@ -54,6 +58,7 @@ public class CallablesTest extends TestCase {
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
+  @GwtIncompatible("threads")
   public void testRenaming_exceptionalReturn() throws Exception {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
@@ -70,6 +75,8 @@ public class CallablesTest extends TestCase {
     } catch (MyException expected) {}
     assertEquals(oldName, Thread.currentThread().getName());
   }
+
+  @GwtIncompatible("threads")
 
   public void testRenaming_noPermissions() throws Exception {
     System.setSecurityManager(new SecurityManager() {

@@ -17,6 +17,10 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.Callables.returning;
+import static com.google.common.util.concurrent.TestPlatform.verifyThreadWasNotInterrupted;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import junit.framework.TestCase;
 
@@ -33,6 +37,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Test case for {@link TrustedListenableFutureTask}.
  */
+@GwtCompatible(emulated = true)
 public class TrustedListenableFutureTaskTest extends TestCase {
 
   public void testSuccessful() throws Exception {
@@ -56,7 +61,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
       fail();
     } catch (CancellationException expected) {
     }
-    assertFalse(Thread.currentThread().isInterrupted());
+    verifyThreadWasNotInterrupted();
   }
 
   public void testFailed() throws Exception {
@@ -77,6 +82,8 @@ public class TrustedListenableFutureTaskTest extends TestCase {
       assertEquals(e, executionException.getCause());
     }
   }
+
+  @GwtIncompatible("blocking wait")
 
   public void testCancel_interrupted() throws Exception {
     final AtomicBoolean interruptedExceptionThrown = new AtomicBoolean();
@@ -122,6 +129,8 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     assertTrue(interruptedExceptionThrown.get());
   }
 
+  @GwtIncompatible("blocking wait")
+
   public void testRunIdempotency() throws Exception {
     final int numThreads = 10;
     final ExecutorService executor = Executors.newFixedThreadPool(numThreads);
@@ -152,6 +161,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     executor.shutdown();
   }
 
+  @GwtIncompatible("used only in GwtIncomaptible tests")
   private int awaitUnchecked(CyclicBarrier barrier) {
     try {
       return barrier.await();

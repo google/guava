@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
@@ -33,6 +35,7 @@ import javax.annotation.Nullable;
  * <p>This should be used in preference to {@link ListenableFutureTask} when possible for 
  * performance reasons.
  */
+@GwtCompatible(emulated = true)
 class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     implements RunnableFuture<V> {
 
