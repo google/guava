@@ -177,6 +177,7 @@ public class DoublesTest extends TestCase {
     assertEquals(-1, Doubles.lastIndexOf(new double[] {NaN, 5.0}, NaN));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       Doubles.max();
@@ -198,6 +199,7 @@ public class DoublesTest extends TestCase {
     assertTrue(Double.isNaN(Doubles.max(VALUES)));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       Doubles.min();
@@ -243,6 +245,7 @@ public class DoublesTest extends TestCase {
         Doubles.ensureCapacity(ARRAY1, 2, 1)));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Doubles.ensureCapacity(ARRAY1, -1, 1);
@@ -312,6 +315,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Double> list = Arrays.asList((double) 0, (double) 1, null);
     try {
@@ -406,6 +410,7 @@ public class DoublesTest extends TestCase {
     assertEquals((Double) 1e-6, converter.convert("1e-6"));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testStringConverter_convertError() {
     try {
       Doubles.stringConverter().convert("notanumber");

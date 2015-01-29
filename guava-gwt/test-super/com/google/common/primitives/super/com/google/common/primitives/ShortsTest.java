@@ -73,6 +73,7 @@ public class ShortsTest extends TestCase {
     assertEquals(LEAST, Shorts.saturatedCast(Long.MIN_VALUE));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   private static void assertCastFails(long value) {
     try {
       Shorts.checkedCast(value);
@@ -174,6 +175,7 @@ public class ShortsTest extends TestCase {
         (short) 3));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       Shorts.max();
@@ -190,6 +192,7 @@ public class ShortsTest extends TestCase {
         (short) 5, (short) 3, (short) 0, (short) 9));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       Shorts.min();
@@ -230,6 +233,7 @@ public class ShortsTest extends TestCase {
         Shorts.ensureCapacity(ARRAY1, 2, 1)));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Shorts.ensureCapacity(ARRAY1, -1, 1);
@@ -300,6 +304,7 @@ public class ShortsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Short> list = Arrays.asList((short) 0, (short) 1, null);
     try {
@@ -375,6 +380,7 @@ public class ShortsTest extends TestCase {
     assertEquals((Short) (short) 438, converter.convert("0666"));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testStringConverter_convertError() {
     try {
       Shorts.stringConverter().convert("notanumber");

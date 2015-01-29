@@ -72,6 +72,7 @@ public class CharsTest extends TestCase {
     assertEquals(LEAST, Chars.saturatedCast(Long.MIN_VALUE));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   private void assertCastFails(long value) {
     try {
       Chars.checkedCast(value);
@@ -165,6 +166,7 @@ public class CharsTest extends TestCase {
         (char) 3));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       Chars.max();
@@ -181,6 +183,7 @@ public class CharsTest extends TestCase {
         (char) 5, (char) 3, (char) 0, (char) 9));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       Chars.min();
@@ -221,6 +224,7 @@ public class CharsTest extends TestCase {
         Chars.ensureCapacity(ARRAY1, 2, 1)));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Chars.ensureCapacity(ARRAY1, -1, 1);
@@ -290,6 +294,7 @@ public class CharsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Character> list = Arrays.asList((char) 0, (char) 1, null);
     try {

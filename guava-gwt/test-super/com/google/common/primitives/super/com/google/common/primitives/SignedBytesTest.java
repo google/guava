@@ -62,6 +62,7 @@ public class SignedBytesTest extends TestCase {
     assertEquals(LEAST, SignedBytes.saturatedCast(Long.MIN_VALUE));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   private static void assertCastFails(long value) {
     try {
       SignedBytes.checkedCast(value);
@@ -91,6 +92,7 @@ public class SignedBytesTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       SignedBytes.max();
@@ -106,6 +108,7 @@ public class SignedBytesTest extends TestCase {
         (byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       SignedBytes.min();

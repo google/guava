@@ -40,6 +40,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 11.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class UnsignedInteger extends Number implements Comparable<UnsignedInteger> {
   public static final UnsignedInteger ZERO = fromIntBits(0);
@@ -120,7 +121,6 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * 
    * @since 14.0
    */
-  @CheckReturnValue
   public UnsignedInteger plus(UnsignedInteger val) {
     return fromIntBits(this.value + checkNotNull(val).value);
   }
@@ -131,7 +131,6 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * 
    * @since 14.0
    */
-  @CheckReturnValue
   public UnsignedInteger minus(UnsignedInteger val) {
     return fromIntBits(value - checkNotNull(val).value);
   }
@@ -142,7 +141,6 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * @throws ArithmeticException if {@code val} is zero
    * @since 14.0
    */
-  @CheckReturnValue
   public UnsignedInteger dividedBy(UnsignedInteger val) {
     return fromIntBits(UnsignedInts.divide(value, checkNotNull(val).value));
   }
@@ -153,7 +151,6 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * @throws ArithmeticException if {@code val} is zero
    * @since 14.0
    */
-  @CheckReturnValue
   public UnsignedInteger mod(UnsignedInteger val) {
     return fromIntBits(UnsignedInts.remainder(value, checkNotNull(val).value));
   }

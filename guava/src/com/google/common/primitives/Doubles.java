@@ -39,6 +39,7 @@ import java.util.RandomAccess;
 import java.util.regex.Pattern;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -52,6 +53,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 1.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Doubles {
   private Doubles() {}
