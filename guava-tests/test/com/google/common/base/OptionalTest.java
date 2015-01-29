@@ -47,7 +47,6 @@ public final class OptionalTest extends TestCase {
     assertEquals("training", Optional.of("training").get());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testOf_null() {
     try {
       Optional.of(null);
@@ -74,7 +73,6 @@ public final class OptionalTest extends TestCase {
     assertTrue(Optional.of("training").isPresent());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testGet_absent() {
     Optional<String> optional = Optional.absent();
     try {
@@ -104,7 +102,6 @@ public final class OptionalTest extends TestCase {
     assertEquals("fallback", Optional.absent().or(Suppliers.ofInstance("fallback")));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testOr_nullSupplier_absent() {
     Supplier<Object> nullSupplier = Suppliers.ofInstance(null);
     Optional<Object> absentOptional = Optional.absent();
@@ -176,7 +173,6 @@ public final class OptionalTest extends TestCase {
     assertEquals(Optional.of("42"), Optional.of(42).transform(Functions.toStringFunction()));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testTransform_present_functionReturnsNull() {
     try {
       Optional.of("a").transform(

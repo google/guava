@@ -25,7 +25,6 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -75,7 +74,6 @@ public abstract class Optional<T> implements Serializable {
   /**
    * Returns an {@code Optional} instance with no contained reference.
    */
-  @CheckReturnValue
   public static <T> Optional<T> absent() {
     return Absent.withType();
   }
@@ -83,7 +81,6 @@ public abstract class Optional<T> implements Serializable {
   /**
    * Returns an {@code Optional} instance containing the given non-null reference.
    */
-  @CheckReturnValue
   public static <T> Optional<T> of(T reference) {
     return new Present<T>(checkNotNull(reference));
   }
@@ -92,7 +89,6 @@ public abstract class Optional<T> implements Serializable {
    * If {@code nullableReference} is non-null, returns an {@code Optional} instance containing that
    * reference; otherwise returns {@link Optional#absent}.
    */
-  @CheckReturnValue
   public static <T> Optional<T> fromNullable(@Nullable T nullableReference) {
     return (nullableReference == null)
         ? Optional.<T>absent()
@@ -104,7 +100,6 @@ public abstract class Optional<T> implements Serializable {
   /**
    * Returns {@code true} if this holder contains a (non-null) instance.
    */
-  @CheckReturnValue
   public abstract boolean isPresent();
 
   /**
@@ -145,14 +140,12 @@ public abstract class Optional<T> implements Serializable {
    *   Optional<Number> first = (Optional) numbers.first();
    *   Number value = first.or(0.5); // fine}</pre>
    */
-  @CheckReturnValue
   public abstract T or(T defaultValue);
 
   /**
    * Returns this {@code Optional} if it has a value present; {@code secondChoice}
    * otherwise.
    */
-  @CheckReturnValue
   public abstract Optional<T> or(Optional<? extends T> secondChoice);
 
   /**
@@ -162,7 +155,6 @@ public abstract class Optional<T> implements Serializable {
    * @throws NullPointerException if the supplier returns {@code null}
    */
   @Beta
-  @CheckReturnValue
   public abstract T or(Supplier<? extends T> supplier);
 
   /**
@@ -170,7 +162,6 @@ public abstract class Optional<T> implements Serializable {
    * instance is known to be present, use {@link #get()} instead.
    */
   @Nullable
-  @CheckReturnValue
   public abstract T orNull();
 
   /**
@@ -179,7 +170,6 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public abstract Set<T> asSet();
 
   /**
@@ -191,7 +181,6 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 12.0
    */
-  @CheckReturnValue
   public abstract <V> Optional<V> transform(Function<? super T, V> function);
 
   /**
@@ -224,7 +213,6 @@ public abstract class Optional<T> implements Serializable {
    * @since 11.0 (generics widened in 13.0)
    */
   @Beta
-  @CheckReturnValue
   public static <T> Iterable<T> presentInstances(
       final Iterable<? extends Optional<? extends T>> optionals) {
     checkNotNull(optionals);
