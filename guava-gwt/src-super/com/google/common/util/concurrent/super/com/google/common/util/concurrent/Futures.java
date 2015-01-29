@@ -676,6 +676,60 @@ public final class Futures {
    * Future}'s computation is {@linkplain java.util.concurrent.Future#isDone()
    * complete} or, if the computation is already complete, immediately.
    *
+   * <p>There is no guaranteed ordering of execution of callbacks, but any
+   * callback added through this method is guaranteed to be called once the
+   * computation is complete.
+   *
+   * Example: <pre> {@code
+   * ListenableFuture<QueryResult> future = ...;
+   * addCallback(future,
+   *     new FutureCallback<QueryResult> {
+   *       public void onSuccess(QueryResult result) {
+   *         storeInCache(result);
+   *       }
+   *       public void onFailure(Throwable t) {
+   *         reportError(t);
+   *       }
+   *     });}</pre>
+   *
+   * <p>Note: If the callback is slow or heavyweight, consider {@linkplain
+   * #addCallback(ListenableFuture, FutureCallback, Executor) supplying an
+   * executor}. If you do not supply an executor, {@code addCallback} will use
+   * a {@linkplain MoreExecutors#directExecutor direct executor}, which carries
+   * some caveats for heavier operations. For example, the callback may run on
+   * an unpredictable or undesirable thread:
+   *
+   * <ul>
+   * <li>If the input {@code Future} is done at the time {@code addCallback} is
+   * called, {@code addCallback} will execute the callback inline.
+   * <li>If the input {@code Future} is not yet done, {@code addCallback} will
+   * schedule the callback to be run by the thread that completes the input
+   * {@code Future}, which may be an internal system thread such as an RPC
+   * network thread.
+   * </ul>
+   *
+   * <p>Also note that, regardless of which thread executes the callback, all
+   * other registered but unexecuted listeners are prevented from running
+   * during its execution, even if those listeners are to run in other
+   * executors.
+   *
+   * <p>For a more general interface to attach a completion listener to a
+   * {@code Future}, see {@link ListenableFuture#addListener addListener}.
+   *
+   * @param future The future attach the callback to.
+   * @param callback The callback to invoke when {@code future} is completed.
+   * @since 10.0
+   */
+  public static <V> void addCallback(ListenableFuture<V> future,
+      FutureCallback<? super V> callback) {
+    addCallback(future, callback, directExecutor());
+  }
+
+  /**
+   * Registers separate success and failure callbacks to be run when the {@code
+   * Future}'s computation is {@linkplain java.util.concurrent.Future#isDone()
+   * complete} or, if the computation is already complete, immediately.
+   *
    * <p>The callback is run in {@code executor}.
    * There is no guaranteed ordering of execution of callbacks, but any
    * callback added through this method is guaranteed to be called once the

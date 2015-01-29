@@ -1415,7 +1415,6 @@ public final class Futures {
    * @param callback The callback to invoke when {@code future} is completed.
    * @since 10.0
    */
-  @GwtIncompatible("TODO")
   public static <V> void addCallback(ListenableFuture<V> future,
       FutureCallback<? super V> callback) {
     addCallback(future, callback, directExecutor());

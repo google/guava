@@ -17,16 +17,12 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 
 import junit.framework.TestCase;
 
-import org.mockito.Mockito;
-
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
@@ -96,42 +92,6 @@ public class FutureCallbackTest extends TestCase {
     ListenableFuture<String> f = ThrowingFuture.throwingRuntimeException(e);
     MockCallback callback = new MockCallback(e);
     Futures.addCallback(f, callback);
-  }
-
-  @GwtIncompatible("Mockito")
-  public void testOnSuccessThrowsRuntimeException() throws Exception {
-    RuntimeException exception = new RuntimeException();
-    String result = "result";
-    SettableFuture<String> future = SettableFuture.create();
-    @SuppressWarnings("unchecked") // Safe for a mock
-    FutureCallback<String> callback = Mockito.mock(FutureCallback.class);
-    Futures.addCallback(future, callback);
-    Mockito.doThrow(exception).when(callback).onSuccess(result);
-    future.set(result);
-    assertEquals(result, future.get());
-    Mockito.verify(callback).onSuccess(result);
-    Mockito.verifyNoMoreInteractions(callback);
-  }
-
-  @GwtIncompatible("Mockito")
-  public void testOnSuccessThrowsError() throws Exception {
-    class TestError extends Error {}
-    TestError error = new TestError();
-    String result = "result";
-    SettableFuture<String> future = SettableFuture.create();
-    @SuppressWarnings("unchecked") // Safe for a mock
-    FutureCallback<String> callback = Mockito.mock(FutureCallback.class);
-    Futures.addCallback(future, callback);
-    Mockito.doThrow(error).when(callback).onSuccess(result);
-    try {
-      future.set(result);
-      fail("Should have thrown");
-    } catch (TestError e) {
-      assertSame(error, e);
-    }
-    assertEquals(result, future.get());
-    Mockito.verify(callback).onSuccess(result);
-    Mockito.verifyNoMoreInteractions(callback);
   }
 
   public void testWildcardFuture() {
