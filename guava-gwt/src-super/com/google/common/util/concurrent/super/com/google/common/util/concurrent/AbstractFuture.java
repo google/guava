@@ -114,10 +114,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   @Override
   public void addListener(Runnable runnable, Executor executor) {
+    Listener listener = new Listener(runnable, executor);
     if (isDone()) {
-      executor.execute(runnable);
+      listener.execute();
     } else {
-      listeners.add(new Listener(runnable, executor));
+      listeners.add(listener);
     }
   }
 

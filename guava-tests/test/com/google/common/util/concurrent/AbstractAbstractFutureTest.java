@@ -17,17 +17,20 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.TestPlatform.verifyGetOnPendingFuture;
 import static com.google.common.util.concurrent.TestPlatform.verifyTimedGetOnPendingFuture;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
 
 import junit.framework.TestCase;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Base class for tests for emulated {@link AbstractFuture} that allow subclasses to swap in a
@@ -47,459 +50,253 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   }
 
   public void testPending() {
-    assertThat(future.isDone()).isFalse();
-    assertThat(future.isCancelled()).isFalse();
-
-    verifyGetOnPendingFuture(future);
-    verifyTimedGetOnPendingFuture(future);
+    assertPending(future);
   }
 
-  public void testResolved() throws Exception {
+  public void testSuccessful() throws Exception {
     assertThat(future.set(1)).isTrue();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isFalse();
-
-    assertThat(future.get()).is(1);
-    assertThat(future.get(0, TimeUnit.SECONDS)).is(1);
+    assertSuccessful(future, 1);
   }
 
-  public void testResolved_afterResolved() throws Exception {
-    future.set(2);
-
-    assertThat(future.set(3)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isFalse();
-
-    assertThat(future.get()).is(2);
-  }
-
-  public void testResolved_afterException() throws Exception {
-    Exception cause = new Exception();
-    future.setException(cause);
-
-    assertThat(future.set(3)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isFalse();
-
-    try {
-      future.get();
-      fail();
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isSameAs(cause);
-    }
-  }
-
-  public void testResolved_afterCanceled() throws Exception {
-    future.cancel(false /* mayInterruptIfRunning */);
-
-    assertThat(future.set(3)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-
-    try {
-      future.get();
-      fail();
-    } catch (CancellationException expected) {
-    }
-  }
-
-  public void testResolved_afterInterrupted() throws Exception {
-    future.cancel(true /* mayInterruptIfRunning */);
-
-    assertThat(future.set(3)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-
-    try {
-      future.get();
-      fail();
-    } catch (CancellationException expected) {
-    }
-  }
-
-  public void testResolved_afterDelegated() throws Exception {
-    future.setFuture(delegate);
-
-    assertThat(future.set(3)).isFalse();
-
-    assertThat(future.isDone()).isFalse();
-    assertThat(future.isCancelled()).isFalse();
-
-    verifyGetOnPendingFuture(future);
-  }
-
-  public void testExceptional() throws Exception {
+  public void testFailed() throws Exception {
     Exception cause = new Exception();
     assertThat(future.setException(cause)).isTrue();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isFalse();
-
-    try {
-      future.get();
-      fail();
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isSameAs(cause);
-    }
-
-    try {
-      future.get(0, TimeUnit.SECONDS);
-      fail();
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isSameAs(cause);
-    }
+    assertFailed(future, cause);
   }
 
-  public void testExceptional_afterResolved() throws Exception {
-    future.set(3);
-
-    assertThat(future.setException(new Exception())).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isFalse();
-
-    assertThat(future.get()).is(3);
-  }
-
-  public void testExceptional_afterException() throws Exception {
-    Exception cause = new Exception();
-    future.setException(cause);
-
-    assertThat(future.setException(new Exception())).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isFalse();
-
-    try {
-      future.get();
-      fail();
-    } catch (ExecutionException e) {
-      assertThat(e.getCause()).isSameAs(cause);
-    }
-  }
-
-  public void testExceptional_afterCancelled() throws Exception {
-    future.cancel(false /* mayInterruptIfRunning */);
-
-    assertThat(future.setException(new Exception())).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-
-    try {
-      future.get();
-    } catch (CancellationException expected) {
-    }
-  }
-
-  public void testExceptional_afterInterrupted() throws Exception {
-    future.cancel(true /* mayInterruptIfRunning */);
-
-    assertThat(future.setException(new Exception())).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-
-    try {
-      future.get();
-    } catch (CancellationException expected) {
-    }
-  }
-
-  public void testExceptional_afterDelegated() throws Exception {
-    future.setFuture(delegate);
-
-    assertThat(future.setException(new Exception())).isFalse();
-
-    assertThat(future.isDone()).isFalse();
-    assertThat(future.isCancelled()).isFalse();
-
-    verifyGetOnPendingFuture(future);
-  }
-
-  public void testCancelled() throws Exception {
+  public void testCanceled() throws Exception {
     assertThat(future.cancel(false /* mayInterruptIfRunning */)).isTrue();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-
-    try {
-      future.get();
-      fail();
-    } catch (CancellationException expected) {
-    }
-
-    try {
-      future.get(0, TimeUnit.SECONDS);
-      fail();
-    } catch (CancellationException expected) {
-    }
-  }
-
-  public void testCancelled_afterResolved() throws Exception {
-    future.set(1);
-
-    assertThat(future.cancel(false /* mayInterruptIfRunning */)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isFalse();
-  }
-
-  public void testCancelled_afterException() throws Exception {
-    future.setException(new Exception());
-
-    assertThat(future.cancel(false /* mayInterruptIfRunning */)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isFalse();
-  }
-
-  public void testCancelled_afterCancelled() throws Exception {
-    future.cancel(false /* mayInterruptIfRunning */);
-
-    assertThat(future.cancel(false /* mayInterruptIfRunning */)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-  }
-
-  public void testCancelled_afterInterrupted() throws Exception {
-    future.cancel(true /* mayInterruptIfRunning */);
-
-    assertThat(future.cancel(false /* mayInterruptIfRunning */)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-  }
-
-  public void testCancelled_afterDelegated() throws Exception {
-    future.setFuture(delegate);
-
-    assertThat(future.cancel(false /* mayInterruptIfRunning */)).isTrue();
-
-    assertThat(delegate.isDone()).isTrue();
-    assertThat(delegate.isCancelled()).isTrue();
-    assertThat(delegate.wasInterrupted()).isFalse();
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-    assertThat(future.wasInterrupted()).isFalse();
+    assertCancelled(future, false);
   }
 
   public void testInterrupted() throws Exception {
-    future.cancel(true /* mayInterruptIfRunning */);
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-
-    try {
-      future.get();
-      fail();
-    } catch (CancellationException expected) {
-    }
-
-    try {
-      future.get(0, TimeUnit.SECONDS);
-      fail();
-    } catch (CancellationException expected) {
-    }
-  }
-
-  public void testInterrupted_afterResolved() throws Exception {
-    future.set(1);
-
-    assertThat(future.cancel(true /* mayInterruptIfRunning */)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isFalse();
-  }
-
-  public void testInterrupted_afterException() throws Exception {
-    future.setException(new Exception());
-
-    assertThat(future.cancel(true /* mayInterruptIfRunning */)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isFalse();
-  }
-
-  public void testInterrupted_afterCancelled() throws Exception {
-    future.cancel(false /* mayInterruptIfRunning */);
-
-    assertThat(future.cancel(true /* mayInterruptIfRunning */)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-  }
-
-  public void testInterrupted_afterInterrupted() throws Exception {
-    future.cancel(true /* mayInterruptIfRunning */);
-
-    assertThat(future.cancel(true /* mayInterruptIfRunning */)).isFalse();
-
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-  }
-
-  public void testInterrupted_afterDelegated() throws Exception {
-    future.setFuture(delegate);
-
     assertThat(future.cancel(true /* mayInterruptIfRunning */)).isTrue();
-
-    assertThat(delegate.isDone()).isTrue();
-    assertThat(delegate.isCancelled()).isTrue();
-    assertThat(delegate.wasInterrupted()).isTrue();
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
-    assertThat(future.wasInterrupted()).isTrue();
+    assertCancelled(future, true);
   }
 
-  public void testDelegated_delegateIsStillPending() throws Exception {
+  public void testSetFuturePending() throws Exception {
     assertThat(future.setFuture(delegate)).isTrue();
-
-    assertThat(delegate.isDone()).isFalse();
-    assertThat(delegate.isCancelled()).isFalse();
-    assertThat(future.isDone()).isFalse();
-    assertThat(future.isCancelled()).isFalse();
-
-    verifyGetOnPendingFuture(future);
-    verifyTimedGetOnPendingFuture(future);
+    assertSetAsynchronously(future);
   }
 
-  public void testDelegated_delegateWasResolved() throws Exception {
+  public void testSetFutureThenCancel() throws Exception {
+    assertThat(future.setFuture(delegate)).isTrue();
+    assertThat(future.cancel(false /* mayInterruptIfRunning */)).isTrue();
+    assertCancelled(future, false);
+    assertCancelled(delegate, false);
+  }
+
+  public void testSetFutureThenInterrupt() throws Exception {
+    assertThat(future.setFuture(delegate)).isTrue();
+    assertThat(future.cancel(true /* mayInterruptIfRunning */)).isTrue();
+    assertCancelled(future, true);
+    assertCancelled(delegate, true);
+  }
+
+  public void testSetFutureDelegateAlreadySuccessful() throws Exception {
     delegate.set(5);
-
     assertThat(future.setFuture(delegate)).isTrue();
-
-    assertThat(delegate.isDone()).isTrue();
-    assertThat(delegate.get()).isEqualTo(5);
-    assertThat(delegate.get(0, TimeUnit.SECONDS)).isEqualTo(5);
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.get()).isEqualTo(5);
-    assertThat(future.get(0, TimeUnit.SECONDS)).isEqualTo(5);
+    assertSuccessful(future, 5);
   }
 
-  public void testDelegated_delegateIsResolved() throws Exception {
+  public void testSetFutureDelegateLaterSuccessful() throws Exception {
     assertThat(future.setFuture(delegate)).isTrue();
-
     delegate.set(6);
-
-    assertThat(delegate.isDone()).isTrue();
-    assertThat(delegate.get()).isEqualTo(6);
-    assertThat(delegate.get(0, TimeUnit.SECONDS)).isEqualTo(6);
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.get()).isEqualTo(6);
-    assertThat(future.get(0, TimeUnit.SECONDS)).isEqualTo(6);
+    assertSuccessful(future, 6);
   }
 
-  public void testDelegated_delegateWasCancelled() throws Exception {
+  public void testSetFutureDelegateAlreadyCancelled() throws Exception {
     delegate.cancel(false /** mayInterruptIfRunning */);
-
     assertThat(future.setFuture(delegate)).isTrue();
-
-    assertThat(delegate.isDone()).isTrue();
-    assertThat(delegate.isCancelled()).isTrue();
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
+    assertCancelled(future, false);
   }
 
-  public void testDelegated_delegateIsCancelled() throws Exception {
+  public void testSetFutureDelegateLaterCancelled() throws Exception {
     assertThat(future.setFuture(delegate)).isTrue();
-
     delegate.cancel(false /** mayInterruptIfRunning */);
-
-    assertThat(delegate.isDone()).isTrue();
-    assertThat(delegate.isCancelled()).isTrue();
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
+    assertCancelled(future, false);
   }
 
-  public void testDelegated_delegateWasInterrupted() throws Exception {
+  public void testSetFutureDelegateAlreadyInterrupted() throws Exception {
     delegate.cancel(true /** mayInterruptIfRunning */);
-
     assertThat(future.setFuture(delegate)).isTrue();
-
-    assertThat(delegate.isDone()).isTrue();
-    assertThat(delegate.isCancelled()).isTrue();
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
+    /*
+     * Interruption of the delegate propagates to us only if the delegate was a TrustedFuture.
+     * TODO(cpovirk): Consider whether to stop copying this information from TrustedFuture so that
+     * we're consistent.
+     */
+    assertCancelled(future, delegate instanceof TrustedFuture);
   }
 
-  public void testDelegated_delegateIsInterrupted() throws Exception {
+  public void testSetFutureDelegateLaterInterrupted() throws Exception {
     assertThat(future.setFuture(delegate)).isTrue();
-
     delegate.cancel(true /** mayInterruptIfRunning */);
-
-    assertThat(delegate.isDone()).isTrue();
-    assertThat(delegate.isCancelled()).isTrue();
-    assertThat(future.isDone()).isTrue();
-    assertThat(future.isCancelled()).isTrue();
+    // See previous method doc.
+    assertCancelled(future, delegate instanceof TrustedFuture);
   }
 
-  public void testDelegated_afterResolved() throws Exception {
-    future.set(7);
-    delegate.set(5);
+  public void testListenLaterSuccessful() {
+    CountingRunnable listener = new CountingRunnable();
 
-    assertThat(future.setFuture(delegate)).isFalse();
+    future.addListener(listener, directExecutor());
+    listener.assertNotRun();
 
-    assertThat(future.get()).isEqualTo(7);
-  }
-
-  public void testDelegated_afterDelegated() throws Exception {
-    TestedFuture<Integer> delegated2 = TestedFuture.create();
-
-    assertThat(future.setFuture(delegate)).isTrue();
-    assertThat(future.setFuture(delegated2)).isFalse();
-
-    delegate.set(1);
-    delegated2.set(2);
-
-    assertThat(future.get()).isEqualTo(1);
-  }
-
-  public void testDelegated_afterCancelled() throws Exception {
-    future.cancel(false /** mayInterruptIfRunning */);
-
-    assertThat(future.setFuture(delegate)).isFalse();
-
-    assertThat(future.isCancelled()).isTrue();
-    assertThat(delegate.isCancelled()).isTrue();
-    assertThat(delegate.wasInterrupted()).isFalse();
-  }
-
-  public void testDelegated_afterInterrupted() throws Exception {
-    future.cancel(true /** mayInterruptIfRunning */);
-
-    assertThat(future.setFuture(delegate)).isFalse();
-
-    assertThat(future.isCancelled()).isTrue();
-    assertThat(delegate.isCancelled()).isTrue();
-    assertThat(delegate.wasInterrupted()).isTrue();
-  }
-
-  public void testListenToPending() {
-    RunnableVerifier before = new RunnableVerifier();
-    future.addListener(before.expectedToNotRun(), directExecutor());
-    before.verify();
-  }
-
-  public void testListenToResolved() {
-    RunnableVerifier before = new RunnableVerifier();
-    RunnableVerifier after = new RunnableVerifier();
-
-    future.addListener(before.expectedToRun(), directExecutor());
     future.set(1);
-    future.addListener(after.expectedToRun(), directExecutor());
-
-    before.verify();
-    after.verify();
+    listener.assertRun();
   }
 
-  public void testListenToResolved_misbehavingListener() {
+  public void testListenLaterFailed() {
+    CountingRunnable listener = new CountingRunnable();
+
+    future.addListener(listener, directExecutor());
+    listener.assertNotRun();
+
+    future.setException(new Exception());
+    listener.assertRun();
+  }
+
+  public void testListenLaterCancelled() {
+    CountingRunnable listener = new CountingRunnable();
+
+    future.addListener(listener, directExecutor());
+    listener.assertNotRun();
+
+    future.cancel(false);
+    listener.assertRun();
+  }
+
+  public void testListenLaterInterrupted() {
+    CountingRunnable listener = new CountingRunnable();
+
+    future.addListener(listener, directExecutor());
+    listener.assertNotRun();
+
+    future.cancel(true);
+    listener.assertRun();
+  }
+
+  public void testListenLaterSetAsynchronously() {
+    CountingRunnable listener = new CountingRunnable();
+
+    future.addListener(listener, directExecutor());
+    listener.assertNotRun();
+
+    future.setFuture(delegate);
+    listener.assertNotRun();
+  }
+
+  public void testListenLaterSetAsynchronouslyLaterDelegateSuccessful() {
+    CountingRunnable before = new CountingRunnable();
+    CountingRunnable inBetween = new CountingRunnable();
+    CountingRunnable after = new CountingRunnable();
+
+    future.addListener(before, directExecutor());
+    future.setFuture(delegate);
+    future.addListener(inBetween, directExecutor());
+    delegate.set(1);
+    future.addListener(after, directExecutor());
+
+    before.assertRun();
+    inBetween.assertRun();
+    after.assertRun();
+  }
+
+  public void testListenLaterSetAsynchronouslyLaterDelegateFailed() {
+    CountingRunnable before = new CountingRunnable();
+    CountingRunnable inBetween = new CountingRunnable();
+    CountingRunnable after = new CountingRunnable();
+
+    future.addListener(before, directExecutor());
+    future.setFuture(delegate);
+    future.addListener(inBetween, directExecutor());
+    delegate.setException(new Exception());
+    future.addListener(after, directExecutor());
+
+    before.assertRun();
+    inBetween.assertRun();
+    after.assertRun();
+  }
+
+  public void testListenLaterSetAsynchronouslyLaterDelegateCancelled() {
+    CountingRunnable before = new CountingRunnable();
+    CountingRunnable inBetween = new CountingRunnable();
+    CountingRunnable after = new CountingRunnable();
+
+    future.addListener(before, directExecutor());
+    future.setFuture(delegate);
+    future.addListener(inBetween, directExecutor());
+    delegate.cancel(false);
+    future.addListener(after, directExecutor());
+
+    before.assertRun();
+    inBetween.assertRun();
+    after.assertRun();
+  }
+
+  public void testListenLaterSetAsynchronouslyLaterDelegateInterrupted() {
+    CountingRunnable before = new CountingRunnable();
+    CountingRunnable inBetween = new CountingRunnable();
+    CountingRunnable after = new CountingRunnable();
+
+    future.addListener(before, directExecutor());
+    future.setFuture(delegate);
+    future.addListener(inBetween, directExecutor());
+    delegate.cancel(true);
+    future.addListener(after, directExecutor());
+
+    before.assertRun();
+    inBetween.assertRun();
+    after.assertRun();
+  }
+
+  public void testListenLaterSetAsynchronouslyLaterSelfCancelled() {
+    CountingRunnable before = new CountingRunnable();
+    CountingRunnable inBetween = new CountingRunnable();
+    CountingRunnable after = new CountingRunnable();
+
+    future.addListener(before, directExecutor());
+    future.setFuture(delegate);
+    future.addListener(inBetween, directExecutor());
+    future.cancel(false);
+    future.addListener(after, directExecutor());
+
+    before.assertRun();
+    inBetween.assertRun();
+    after.assertRun();
+  }
+
+  public void testListenLaterSetAsynchronouslyLaterSelfInterrupted() {
+    CountingRunnable before = new CountingRunnable();
+    CountingRunnable inBetween = new CountingRunnable();
+    CountingRunnable after = new CountingRunnable();
+
+    future.addListener(before, directExecutor());
+    future.setFuture(delegate);
+    future.addListener(inBetween, directExecutor());
+    future.cancel(true);
+    future.addListener(after, directExecutor());
+
+    before.assertRun();
+    inBetween.assertRun();
+    after.assertRun();
+  }
+
+  public void testMisbehavingListenerAlreadyDone() {
+    class BadRunnableException extends RuntimeException {
+    }
+
+    Runnable bad = new Runnable() {
+      @Override
+      public void run() {
+        throw new BadRunnableException();
+      }
+    };
+
+    future.set(1);
+    future.addListener(bad, directExecutor()); // BadRunnableException must not propagate.
+  }
+
+  public void testMisbehavingListenerLaterDone() {
     class BadRunnableException extends RuntimeException {
     }
 
@@ -512,131 +309,6 @@ abstract class AbstractAbstractFutureTest extends TestCase {
 
     future.addListener(bad, directExecutor());
     future.set(1); // BadRunnableException must not propagate.
-  }
-
-  public void testListenToExceptional() {
-    RunnableVerifier before = new RunnableVerifier();
-    RunnableVerifier after = new RunnableVerifier();
-
-    future.addListener(before.expectedToRun(), directExecutor());
-    future.setException(new Exception());
-    future.addListener(after.expectedToRun(), directExecutor());
-
-    before.verify();
-    after.verify();
-  }
-
-  public void testListenToCancelled() {
-    RunnableVerifier before = new RunnableVerifier();
-    RunnableVerifier after = new RunnableVerifier();
-
-    future.addListener(before.expectedToRun(), directExecutor());
-    future.cancel(false /* mayInterruptIfRunning */);
-    future.addListener(after.expectedToRun(), directExecutor());
-
-    before.verify();
-    after.verify();
-  }
-
-  public void testListenToInterrupted() {
-    RunnableVerifier before = new RunnableVerifier();
-    RunnableVerifier after = new RunnableVerifier();
-
-    future.addListener(before.expectedToRun(), directExecutor());
-    future.cancel(true /* mayInterruptIfRunning */);
-    future.addListener(after.expectedToRun(), directExecutor());
-
-    before.verify();
-    after.verify();
-  }
-
-  public void testListenToDelegatePending() {
-    RunnableVerifier before = new RunnableVerifier();
-    RunnableVerifier after = new RunnableVerifier();
-
-    future.addListener(before.expectedToNotRun(), directExecutor());
-    future.setFuture(delegate);
-    future.addListener(after.expectedToNotRun(), directExecutor());
-
-    before.verify();
-    after.verify();
-  }
-
-  public void testListenToDelegateResolved() {
-    RunnableVerifier before = new RunnableVerifier();
-    RunnableVerifier inBetween = new RunnableVerifier();
-    RunnableVerifier after = new RunnableVerifier();
-
-    future.addListener(before.expectedToRun(), directExecutor());
-    future.setFuture(delegate);
-    future.addListener(inBetween.expectedToRun(), directExecutor());
-    delegate.set(1);
-    future.addListener(after.expectedToRun(), directExecutor());
-
-    before.verify();
-    inBetween.verify();
-    after.verify();
-  }
-
-  public void testListenToDelegateExceptional() {
-    RunnableVerifier before = new RunnableVerifier();
-    RunnableVerifier after = new RunnableVerifier();
-    RunnableVerifier inBetween = new RunnableVerifier();
-
-    future.addListener(before.expectedToRun(), directExecutor());
-    future.setFuture(delegate);
-    future.addListener(inBetween.expectedToRun(), directExecutor());
-    delegate.setException(new Exception());
-    future.addListener(after.expectedToRun(), directExecutor());
-
-    before.verify();
-    inBetween.verify();
-    after.verify();
-  }
-
-  public void testListenToDelegateCancelled() {
-    RunnableVerifier before = new RunnableVerifier();
-    RunnableVerifier after = new RunnableVerifier();
-    RunnableVerifier inBetween = new RunnableVerifier();
-
-    future.addListener(before.expectedToRun(), directExecutor());
-    future.setFuture(delegate);
-    future.addListener(inBetween.expectedToRun(), directExecutor());
-    delegate.cancel(false /* mayInterruptIfRunning */);
-    future.addListener(after.expectedToRun(), directExecutor());
-
-    before.verify();
-    after.verify();
-  }
-
-  public void testListenToDelegateCancelled_byDelegator() {
-    RunnableVerifier before = new RunnableVerifier();
-    RunnableVerifier after = new RunnableVerifier();
-    RunnableVerifier inBetween = new RunnableVerifier();
-
-    future.addListener(before.expectedToRun(), directExecutor());
-    future.setFuture(delegate);
-    future.addListener(inBetween.expectedToRun(), directExecutor());
-    future.cancel(false /* mayInterruptIfRunning */);
-    future.addListener(after.expectedToRun(), directExecutor());
-
-    before.verify();
-    after.verify();
-  }
-
-  public void testListenToDelegateInterrupted_byDelegator() {
-    RunnableVerifier before = new RunnableVerifier();
-    RunnableVerifier after = new RunnableVerifier();
-    RunnableVerifier inBetween = new RunnableVerifier();
-
-    future.addListener(before.expectedToRun(), directExecutor());
-    future.setFuture(delegate);
-    future.addListener(inBetween.expectedToRun(), directExecutor());
-    future.cancel(false /* mayInterruptIfRunning */);
-    future.addListener(after.expectedToRun(), directExecutor());
-
-    before.verify();
-    after.verify();
   }
 
   public void testSetFutureNull() throws Exception {
@@ -660,55 +332,107 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     }
   }
 
-  private static final class RunnableVerifier implements Runnable {
-
-    Expectation expectation = Expectation.UNDEFINED;
-    boolean actuallyRan;
-
-    RunnableVerifier expectedToRun() {
-      expectation = Expectation.EXPECTED_TO_RUN;
-      return this;
-    }
-
-    RunnableVerifier expectedToNotRun() {
-      expectation = Expectation.EXPECTED_TO_NO_RUN;
-      return this;
-    }
+  private static final class CountingRunnable implements Runnable {
+    int count;
 
     @Override
     public void run() {
-      this.actuallyRan = true;
+      count++;
     }
 
-    void verify() {
-      expectation.verify(actuallyRan);
+    void assertNotRun() {
+      assertEquals(0, count);
     }
 
-    enum Expectation {
-      UNDEFINED {
-        @Override
-        void verify(boolean didRun) {
-          fail("Did you forget to define the expectation?");
-        }
-      },
-      EXPECTED_TO_RUN {
-        @Override
-        void verify(boolean actuallyRan) {
-          if (!actuallyRan) {
-            fail("Runnable was expected to run but it did not.");
-          }
-        }
-      },
-      EXPECTED_TO_NO_RUN {
-        @Override
-        void verify(boolean actuallyRan) {
-          if (actuallyRan) {
-            fail("Runnable was NOT expected to run but it did.");
-          }
-        }
-      };
-
-      abstract void verify(boolean didRun);
+    void assertRun() {
+      assertEquals(1, count);
     }
+  }
+
+  private static void assertSetAsynchronously(AbstractFuture<Integer> future) {
+    assertCannotSet(future);
+    assertPending(future);
+  }
+
+  private static void assertPending(AbstractFuture<Integer> future) {
+    assertThat(future.isDone()).isFalse();
+    assertThat(future.isCancelled()).isFalse();
+
+    CountingRunnable listener = new CountingRunnable();
+    future.addListener(listener, directExecutor());
+    listener.assertNotRun();
+
+    verifyGetOnPendingFuture(future);
+    verifyTimedGetOnPendingFuture(future);
+  }
+
+  private static void assertSuccessful(AbstractFuture<Integer> future, int expectedResult)
+      throws InterruptedException, TimeoutException, ExecutionException {
+    assertDone(future);
+    assertThat(future.isCancelled()).isFalse();
+
+    assertThat(future.get()).is(expectedResult);
+    assertThat(future.get(0, SECONDS)).is(expectedResult);
+  }
+
+  private static void assertFailed(AbstractFuture<Integer> future, Throwable expectedException)
+      throws InterruptedException, TimeoutException {
+    assertDone(future);
+    assertThat(future.isCancelled()).isFalse();
+
+    try {
+      future.get();
+      fail();
+    } catch (ExecutionException e) {
+      assertThat(e.getCause()).isSameAs(expectedException);
+    }
+
+    try {
+      future.get(0, SECONDS);
+      fail();
+    } catch (ExecutionException e) {
+      assertThat(e.getCause()).isSameAs(expectedException);
+    }
+  }
+
+  private static void assertCancelled(AbstractFuture<Integer> future, boolean expectWasInterrupted)
+      throws InterruptedException, TimeoutException, ExecutionException {
+    assertDone(future);
+    assertThat(future.isCancelled()).isTrue();
+    assertThat(future.wasInterrupted()).isEqualTo(expectWasInterrupted);
+
+    try {
+      future.get();
+      fail();
+    } catch (CancellationException expected) {
+    }
+
+    try {
+      future.get(0, SECONDS);
+      fail();
+    } catch (CancellationException expected) {
+    }
+  }
+
+  private static void assertDone(AbstractFuture<Integer> future) {
+    CountingRunnable listener = new CountingRunnable();
+    future.addListener(listener, directExecutor());
+    listener.assertRun();
+
+    assertThat(future.isDone()).isTrue();
+    assertCannotSet(future);
+    assertCannotCancel(future);
+  }
+
+  private static void assertCannotSet(AbstractFuture<Integer> future) {
+    assertThat(future.set(99)).isFalse();
+    assertThat(future.setException(new IndexOutOfBoundsException())).isFalse();
+    assertThat(future.setFuture(new AbstractFuture<Integer>() {})).isFalse();
+    assertThat(future.setFuture(immediateFuture(99))).isFalse();
+  }
+
+  private static void assertCannotCancel(AbstractFuture<Integer> future) {
+    assertThat(future.cancel(true)).isFalse();
+    assertThat(future.cancel(false)).isFalse();
   }
 }
