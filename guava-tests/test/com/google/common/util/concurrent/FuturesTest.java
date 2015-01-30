@@ -82,7 +82,7 @@ import javax.annotation.Nullable;
 public class FuturesTest extends EmptySetUpAndTearDown {
   @GwtIncompatible("TestLogHandler")
   private static final Logger combinedFutureLogger = Logger.getLogger(
-      "com.google.common.util.concurrent.Futures$CollectionFuture");
+      "com.google.common.util.concurrent.CollectionFuture");
   @GwtIncompatible("TestLogHandler")
   private final TestLogHandler combinedFutureLogHandler = new TestLogHandler();
 
@@ -899,7 +899,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
    * {@link #expectCall} is called.
    */
   // TODO(cpovirk): top-level class?
-  @GwtIncompatible("used only in GwtIncompatible tests")
   static class SingleCallListener implements Runnable {
     private boolean expectCall = false;
     private final CountDownLatch calledCountDown =
@@ -926,7 +925,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     }
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList() throws Exception {
     // Create input and output
     SettableFuture<String> future1 = SettableFuture.create();
@@ -967,7 +965,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertTrue(listener.wasCalled());
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList_emptyArray() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
@@ -979,7 +976,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertTrue(listener.wasCalled());
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList_failure() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
@@ -1049,7 +1045,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     }
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList_cancelled() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
@@ -1073,7 +1068,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     }
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList_resultCancelled() throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
@@ -1089,7 +1083,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertFalse(future1.wasInterrupted());
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList_resultCancelledInterrupted_withSecondaryListFuture()
       throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
@@ -1109,7 +1102,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertTrue(otherCompound.isCancelled());
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList_resultCancelled_withSecondaryListFuture()
       throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
@@ -1126,7 +1118,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertFalse(future2.wasInterrupted());
   }
 
-  @GwtIncompatible("allAsList")
   public void testAllAsList_resultInterrupted() throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
@@ -1149,7 +1140,6 @@ public class FuturesTest extends EmptySetUpAndTearDown {
    * on the last loop-check as done() on ListFuture nulled out the
    * variable being looped over (the list of futures).
    */
-  @GwtIncompatible("allAsList")
   public void testAllAsList_doneFutures() throws Exception {
     // Create input and output
     SettableFuture<String> future1 = SettableFuture.create();
@@ -1180,7 +1170,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   /**
    * A single non-error failure is not logged because it is reported via the output future.
    */
-  @GwtIncompatible("allAsList")
+  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_exception() throws Exception {
     try {
@@ -1196,7 +1186,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   /**
    * Ensure that errors are always logged.
    */
-  @GwtIncompatible("allAsList")
+  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_error() throws Exception {
     try {
@@ -1213,7 +1203,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   /**
    * All as list will log extra exceptions that occur after failure.
    */
-  @GwtIncompatible("allAsList")
+  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_multipleExceptions() throws Exception {
     try {
@@ -1231,7 +1221,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   /**
    * The same exception happening on multiple futures should not be logged.
    */
-  @GwtIncompatible("allAsList")
+  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_same_exception() throws Exception {
     try {
@@ -1250,7 +1240,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
    * Different exceptions happening on multiple futures with the same cause
    * should not be logged.
    */
-  @GwtIncompatible("allAsList")
+  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_same_cause() throws Exception {
     try {
@@ -1920,7 +1910,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /** Non-Error exceptions are never logged. */
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testSuccessfulAsList_logging_exception() throws Exception {
     assertEquals(Lists.newArrayList((Object) null),
@@ -1942,7 +1932,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   /**
    * Ensure that errors are always logged.
    */
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testSuccessfulAsList_logging_error() throws Exception {
     assertEquals(Lists.newArrayList((Object) null),

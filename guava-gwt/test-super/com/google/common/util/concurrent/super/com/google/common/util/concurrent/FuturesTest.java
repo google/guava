@@ -26,6 +26,9 @@ import com.google.common.base.Functions;
 
 import junit.framework.AssertionFailedError;
 
+import java.util.List;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
@@ -325,6 +328,222 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     ListenableFuture<Foo> dereferenced = Futures.dereference(outer);
     inner.cancel(true);
     assertTrue(dereferenced.isCancelled());
+  }
+
+  /**
+   * Runnable which can be called a single time, and only after
+   * {@link #expectCall} is called.
+   */
+  // TODO(cpovirk): top-level class?
+  static class SingleCallListener implements Runnable {
+    private boolean expectCall = false;
+    private final CountDownLatch calledCountDown =
+        new CountDownLatch(1);
+
+    @Override public void run() {
+      assertTrue("Listener called before it was expected", expectCall);
+      assertFalse("Listener called more than once", wasCalled());
+      calledCountDown.countDown();
+    }
+
+    public void expectCall() {
+      assertFalse("expectCall is already true", expectCall);
+      expectCall = true;
+    }
+
+    public boolean wasCalled() {
+      return calledCountDown.getCount() == 0;
+    }
+
+    public void waitForCall() throws InterruptedException {
+      assertTrue("expectCall is false", expectCall);
+      calledCountDown.await();
+    }
+  }
+
+  public void testAllAsList() throws Exception {
+    // Create input and output
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    SettableFuture<String> future3 = SettableFuture.create();
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2, future3);
+
+    // Attach a listener
+    SingleCallListener listener = new SingleCallListener();
+    compound.addListener(listener, directExecutor());
+
+    // Satisfy each input and check the output
+    assertFalse(compound.isDone());
+    future1.set(DATA1);
+    assertFalse(compound.isDone());
+    future2.set(DATA2);
+    assertFalse(compound.isDone());
+    listener.expectCall();
+    future3.set(DATA3);
+    assertTrue(compound.isDone());
+    assertTrue(listener.wasCalled());
+
+    List<String> results = compound.get();
+    assertThat(results).containsExactly(DATA1, DATA2, DATA3).inOrder();
+  }
+
+  public void testAllAsList_emptyArray() throws Exception {
+    SingleCallListener listener = new SingleCallListener();
+    listener.expectCall();
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound = Futures.allAsList();
+    compound.addListener(listener, directExecutor());
+    assertTrue(compound.isDone());
+    assertTrue(compound.get().isEmpty());
+    assertTrue(listener.wasCalled());
+  }
+
+  public void testAllAsList_failure() throws Exception {
+    SingleCallListener listener = new SingleCallListener();
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2);
+    compound.addListener(listener, directExecutor());
+
+    listener.expectCall();
+    Throwable exception = new Throwable("failed1");
+    future1.setException(exception);
+    assertTrue(compound.isDone());
+    assertTrue(listener.wasCalled());
+    future2.set("result2");
+
+    try {
+      compound.get();
+      fail("Expected exception not thrown");
+    } catch (ExecutionException e) {
+      assertSame(exception, e.getCause());
+    }
+  }
+
+  public void testAllAsList_cancelled() throws Exception {
+    SingleCallListener listener = new SingleCallListener();
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2);
+    compound.addListener(listener, directExecutor());
+
+    listener.expectCall();
+    future1.cancel(true);
+    assertTrue(compound.isDone());
+    assertTrue(listener.wasCalled());
+    future2.setException(new Throwable("failed2"));
+
+    try {
+      compound.get();
+      fail("Expected exception not thrown");
+    } catch (CancellationException e) {
+      // Expected
+    }
+  }
+
+  public void testAllAsList_resultCancelled() throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2);
+
+    future2.set(DATA2);
+    assertFalse(compound.isDone());
+    assertTrue(compound.cancel(false));
+    assertTrue(compound.isCancelled());
+    assertTrue(future1.isCancelled());
+    assertFalse(future1.wasInterrupted());
+  }
+
+  public void testAllAsList_resultCancelledInterrupted_withSecondaryListFuture()
+      throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2);
+    // There was a bug where the event listener for the combined future would
+    // result in the sub-futures being cancelled without being interrupted.
+    ListenableFuture<List<String>> otherCompound =
+        Futures.allAsList(future1, future2);
+
+    assertTrue(compound.cancel(true));
+    assertTrue(future1.isCancelled());
+    assertTrue(future1.wasInterrupted());
+    assertTrue(future2.isCancelled());
+    assertTrue(future2.wasInterrupted());
+    assertTrue(otherCompound.isCancelled());
+  }
+
+  public void testAllAsList_resultCancelled_withSecondaryListFuture()
+      throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2);
+    // This next call is "unused," but it is an important part of the test. Don't remove it!
+    Futures.allAsList(future1, future2);
+
+    assertTrue(compound.cancel(false));
+    assertTrue(future1.isCancelled());
+    assertFalse(future1.wasInterrupted());
+    assertTrue(future2.isCancelled());
+    assertFalse(future2.wasInterrupted());
+  }
+
+  public void testAllAsList_resultInterrupted() throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2);
+
+    future2.set(DATA2);
+    assertFalse(compound.isDone());
+    assertTrue(compound.cancel(true));
+    assertTrue(compound.isCancelled());
+    assertTrue(future1.isCancelled());
+    assertTrue(future1.wasInterrupted());
+  }
+
+  /**
+   * Test the case where the futures are fulfilled prior to
+   * constructing the ListFuture.  There was a bug where the
+   * loop that connects a Listener to each of the futures would die
+   * on the last loop-check as done() on ListFuture nulled out the
+   * variable being looped over (the list of futures).
+   */
+  public void testAllAsList_doneFutures() throws Exception {
+    // Create input and output
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    SettableFuture<String> future3 = SettableFuture.create();
+
+    // Satisfy each input prior to creating compound and check the output
+    future1.set(DATA1);
+    future2.set(DATA2);
+    future3.set(DATA3);
+
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2, future3);
+
+    // Attach a listener
+    SingleCallListener listener = new SingleCallListener();
+    listener.expectCall();
+    compound.addListener(listener, directExecutor());
+
+    assertTrue(compound.isDone());
+    assertTrue(listener.wasCalled());
+
+    List<String> results = compound.get();
+    assertThat(results).containsExactly(DATA1, DATA2, DATA3).inOrder();
   }
 
   private static String createCombinedResult(Integer i, Boolean b) {

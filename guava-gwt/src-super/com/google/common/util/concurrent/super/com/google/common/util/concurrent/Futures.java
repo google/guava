@@ -23,10 +23,14 @@ import static com.google.common.util.concurrent.Uninterruptibles.getUninterrupti
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -164,6 +168,20 @@ public final class Futures {
     }
   }
 
+  private static class ImmediateFailedFuture<V> extends ImmediateFuture<V> {
+
+    private final Throwable thrown;
+
+    ImmediateFailedFuture(Throwable thrown) {
+      this.thrown = thrown;
+    }
+
+    @Override
+    public V get() throws ExecutionException {
+      throw new ExecutionException(thrown);
+    }
+  }
+
   /**
    * Creates a {@code ListenableFuture} which has its value set immediately upon
    * construction. The getters just return the value. This {@code Future} can't
@@ -173,6 +191,22 @@ public final class Futures {
   @CheckReturnValue
   public static <V> ListenableFuture<V> immediateFuture(@Nullable V value) {
     return new ImmediateSuccessfulFuture<V>(value);
+  }
+
+  /**
+   * Returns a {@code ListenableFuture} which has an exception set immediately
+   * upon construction.
+   *
+   * <p>The returned {@code Future} can't be cancelled, and its {@code isDone()}
+   * method always returns {@code true}. Calling {@code get()} will immediately
+   * throw the provided {@code Throwable} wrapped in an {@code
+   * ExecutionException}.
+   */
+  @CheckReturnValue
+  public static <V> ListenableFuture<V> immediateFailedFuture(
+      Throwable throwable) {
+    checkNotNull(throwable);
+    return new ImmediateFailedFuture<V>(throwable);
   }
 
   /**
@@ -673,6 +707,50 @@ public final class Futures {
         }
       };
 
+  /**
+   * Creates a new {@code ListenableFuture} whose value is a list containing the
+   * values of all its input futures, if all succeed. If any input fails, the
+   * returned future fails immediately.
+   *
+   * <p>The list of results is in the same order as the input list.
+   *
+   * <p>Canceling this future will attempt to cancel all the component futures,
+   * and if any of the provided futures fails or is canceled, this one is,
+   * too.
+   *
+   * @param futures futures to combine
+   * @return a future that provides a list of the results of the component
+   *         futures
+   * @since 10.0
+   */
+  @Beta
+  public static <V> ListenableFuture<List<V>> allAsList(
+      ListenableFuture<? extends V>... futures) {
+    return listFuture(ImmutableList.copyOf(futures), true, directExecutor());
+  }
+
+  /**
+   * Creates a new {@code ListenableFuture} whose value is a list containing the
+   * values of all its input futures, if all succeed. If any input fails, the
+   * returned future fails immediately.
+   *
+   * <p>The list of results is in the same order as the input list.
+   *
+   * <p>Canceling this future will attempt to cancel all the component futures,
+   * and if any of the provided futures fails or is canceled, this one is,
+   * too.
+   *
+   * @param futures futures to combine
+   * @return a future that provides a list of the results of the component
+   *         futures
+   * @since 10.0
+   */
+  @Beta
+  public static <V> ListenableFuture<List<V>> allAsList(
+      Iterable<? extends ListenableFuture<? extends V>> futures) {
+    return listFuture(ImmutableList.copyOf(futures), true, directExecutor());
+  }
+
   private static final class CombinedFuture<V> extends TrustedListenableFutureTask<V> {
     ImmutableList<ListenableFuture<?>> futures;
 
@@ -709,6 +787,50 @@ public final class Futures {
     @Override void done() {
       futures = null;
     }
+  }
+
+  /**
+   * Creates a new {@code ListenableFuture} whose value is a list containing the
+   * values of all its successful input futures. The list of results is in the
+   * same order as the input list, and if any of the provided futures fails or
+   * is canceled, its corresponding position will contain {@code null} (which is
+   * indistinguishable from the future having a successful value of
+   * {@code null}).
+   *
+   * <p>Canceling this future will attempt to cancel all the component futures.
+   *
+   * @param futures futures to combine
+   * @return a future that provides a list of the results of the component
+   *         futures
+   * @since 10.0
+   */
+  @Beta
+  @CheckReturnValue
+  public static <V> ListenableFuture<List<V>> successfulAsList(
+      ListenableFuture<? extends V>... futures) {
+    return listFuture(ImmutableList.copyOf(futures), false, directExecutor());
+  }
+
+  /**
+   * Creates a new {@code ListenableFuture} whose value is a list containing the
+   * values of all its successful input futures. The list of results is in the
+   * same order as the input list, and if any of the provided futures fails or
+   * is canceled, its corresponding position will contain {@code null} (which is
+   * indistinguishable from the future having a successful value of
+   * {@code null}).
+   *
+   * <p>Canceling this future will attempt to cancel all the component futures.
+   *
+   * @param futures futures to combine
+   * @return a future that provides a list of the results of the component
+   *         futures
+   * @since 10.0
+   */
+  @Beta
+  @CheckReturnValue
+  public static <V> ListenableFuture<List<V>> successfulAsList(
+      Iterable<? extends ListenableFuture<? extends V>> futures) {
+    return listFuture(ImmutableList.copyOf(futures), false, directExecutor());
   }
 
   /**
@@ -845,4 +967,22 @@ public final class Futures {
    *
    * If you think you would use this method, let us know.
    */
+
+  /** Used for {@link #allAsList} and {@link #successfulAsList}. */
+  private static <V> ListenableFuture<List<V>> listFuture(
+      ImmutableList<ListenableFuture<? extends V>> futures,
+      boolean allMustSucceed, Executor listenerExecutor) {
+    return new CollectionFuture<V, List<V>>(
+        futures, allMustSucceed, listenerExecutor,
+        new CollectionFuture.FutureCollector<V, List<V>>() {
+          @Override
+          public List<V> combine(List<Optional<V>> values) {
+            List<V> result = Lists.newArrayList();
+            for (Optional<V> element : values) {
+              result.add(element != null ? element.orNull() : null);
+            }
+            return Collections.unmodifiableList(result);
+          }
+        });
+  }
 }
