@@ -115,9 +115,9 @@ public class ServiceManagerTest extends TestCase {
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
     assertEquals(2, startupTimes.size());
-    // TODO(user): Use assertThat(startupTimes.get(a)).isAtLeast(150);
+    // TODO(kak): Use assertThat(startupTimes.get(a)).isAtLeast(150);
     assertTrue(startupTimes.get(a) >= 150);
-    // TODO(user): Use assertThat(startupTimes.get(b)).isAtLeast(353);
+    // TODO(kak): Use assertThat(startupTimes.get(b)).isAtLeast(353);
     assertTrue(startupTimes.get(b) >= 353);
   }
 
@@ -143,7 +143,7 @@ public class ServiceManagerTest extends TestCase {
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
     assertEquals(2, startupTimes.size());
-    // TODO(user): Use assertThat(startupTimes.get(a)).isAtLeast(150);
+    // TODO(kak): Use assertThat(startupTimes.get(a)).isAtLeast(150);
     assertTrue(startupTimes.get(a) >= 150);
     // Service b startup takes at least 353 millis, but starting the timer is delayed by at least
     // 150 milliseconds. so in a perfect world the timing would be 353-150=203ms, but since either

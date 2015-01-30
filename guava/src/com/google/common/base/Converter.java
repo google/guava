@@ -207,7 +207,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *
    * <p>The returned converter is serializable if {@code this} converter is.
    */
-  // TODO(user): Make this method final
+  // TODO(kak): Make this method final
   public Converter<B, A> reverse() {
     Converter<B, A> result = reverse;
     return (result == null) ? reverse = new ReverseConverter<A, B>(this) : result;

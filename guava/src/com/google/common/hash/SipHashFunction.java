@@ -68,7 +68,7 @@ final class SipHashFunction extends AbstractStreamingHashFunction implements Ser
     return new SipHasher(c, d, k0, k1);
   }
 
-  // TODO(user): Implement and benchmark the hashFoo() shortcuts.
+  // TODO(kak): Implement and benchmark the hashFoo() shortcuts.
 
   @Override public String toString() {
     return "Hashing.sipHash" + c + "" + d + "(" + k0 + ", " + k1 + ")";

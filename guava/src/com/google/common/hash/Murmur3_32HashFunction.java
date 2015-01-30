@@ -101,7 +101,7 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
     return fmix(h1, Longs.BYTES);
   }
 
-  // TODO(user): Maybe implement #hashBytes instead?
+  // TODO(kak): Maybe implement #hashBytes instead?
   @Override public HashCode hashUnencodedChars(CharSequence input) {
     int h1 = seed;
 

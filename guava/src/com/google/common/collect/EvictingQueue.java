@@ -122,7 +122,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
     return delegate().remove(checkNotNull(object));
   }
 
-  // TODO(user): Do we want to checkNotNull each element in containsAll, removeAll, and retainAll?
+  // TODO(kak): Do we want to checkNotNull each element in containsAll, removeAll, and retainAll?
 
   private static final long serialVersionUID = 0L;
 }
