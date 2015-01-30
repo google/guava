@@ -54,6 +54,11 @@ public class SerializingExecutorTest extends TestCase {
       tasks.remove().run();
     }
 
+    void runAll() {
+      while (hasNext()) {
+        runNext();
+      }
+    }
   }
   private FakeExecutor fakePool;
   private SerializingExecutor e;
@@ -78,26 +83,78 @@ public class SerializingExecutorTest extends TestCase {
       @Override
       public void run() {
         totalCalls.incrementAndGet();
+        // Make sure that no other tasks are scheduled to run while this is running.
+        assertFalse(fakePool.hasNext());
       }
     };
 
     assertFalse(fakePool.hasNext());
     e.execute(intCounter);
+    // A task should have been scheduled
     assertTrue(fakePool.hasNext());
     e.execute(intCounter);
+    // Our executor hasn't run any tasks yet.
     assertEquals(0, totalCalls.get());
-    fakePool.runNext(); // run just 1 sub task...
+    fakePool.runAll();
     assertEquals(2, totalCalls.get());
+    // Queue is empty so no runner should be scheduled.
     assertFalse(fakePool.hasNext());
 
     // Check that execute can be safely repeated
     e.execute(intCounter);
     e.execute(intCounter);
     e.execute(intCounter);
+    // No change yet.
     assertEquals(2, totalCalls.get());
-    fakePool.runNext();
+    fakePool.runAll();
     assertEquals(5, totalCalls.get());
     assertFalse(fakePool.hasNext());
+  }
+
+  public void testSuspend() {
+    final AtomicInteger totalCalls = new AtomicInteger();
+    Runnable suspender = new Runnable() {
+      @Override
+      public void run() {
+        totalCalls.incrementAndGet();
+        // Suspend the queue so no other calls run.
+        e.suspend();
+      }
+    };
+
+    assertFalse(fakePool.hasNext());
+    e.execute(suspender);
+    // A task should have been scheduled
+    assertTrue(fakePool.hasNext());
+    e.execute(suspender);
+    fakePool.runAll();
+    // Only the first call that was already scheduled before suspension should have run.
+    assertEquals(1, totalCalls.get());
+    // Queue is suspended so no runner should be scheduled.
+    assertFalse(fakePool.hasNext());
+
+    e.execute(suspender);
+    // Queue is suspended so no runner should be scheduled.
+    assertFalse(fakePool.hasNext());
+    e.resume();
+    // A task should have been scheduled
+    assertTrue(fakePool.hasNext());
+    fakePool.runAll();
+    // Another call should have been run, but that suspended the queue again.
+    assertEquals(2, totalCalls.get());
+    assertFalse(fakePool.hasNext());
+
+    // Suspend the queue from here as well, making the count two.
+    e.suspend();
+    e.resume();
+    // Queue is still suspended, with count one, so no runner should be scheduled.
+    assertFalse(fakePool.hasNext());
+    e.resume();
+    // A task should have been scheduled
+    assertTrue(fakePool.hasNext());
+    fakePool.runAll();
+    // Another call should have been run, but that suspended the queue again.
+    assertEquals(3, totalCalls.get());
   }
 
   public void testOrdering() {
@@ -119,12 +176,36 @@ public class SerializingExecutorTest extends TestCase {
     e.execute(new FakeOp(0));
     e.execute(new FakeOp(1));
     e.execute(new FakeOp(2));
-    fakePool.runNext();
+    fakePool.runAll();
 
     assertEquals(ImmutableList.of(0, 1, 2), callOrder);
   }
 
-  public void testExceptions() {
+  public void testPrependContinuation() {
+    final List<Integer> callOrder = Lists.newArrayList();
+
+    class FakeOp implements Runnable {
+      final int op;
+
+      FakeOp(int op) {
+        this.op = op;
+      }
+
+      @Override
+      public void run() {
+        callOrder.add(op);
+      }
+    }
+
+    e.execute(new FakeOp(1));
+    e.execute(new FakeOp(2));
+    e.executeFirst(new FakeOp(0));
+    fakePool.runAll();
+
+    assertEquals(ImmutableList.of(0, 1, 2), callOrder);
+  }
+
+  public void testRuntimeException_doesNotStopExecution() {
 
     final AtomicInteger numCalls = new AtomicInteger();
 
@@ -138,9 +219,30 @@ public class SerializingExecutorTest extends TestCase {
 
     e.execute(runMe);
     e.execute(runMe);
-    fakePool.runNext();
+    fakePool.runAll();
 
     assertEquals(2, numCalls.get());
+  }
+
+  public void testInterrupt_doesNotStopExecution() {
+
+    final AtomicInteger numCalls = new AtomicInteger();
+
+    Runnable runMe = new Runnable() {
+      @Override
+      public void run() {
+        numCalls.incrementAndGet();
+      }
+    };
+
+    Thread.currentThread().interrupt();
+
+    e.execute(runMe);
+    e.execute(runMe);
+    fakePool.runAll();
+
+    assertEquals(2, numCalls.get());
+    assertTrue(Thread.interrupted());
   }
 
   public void testDelegateRejection() {
