@@ -408,7 +408,8 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
    * >the rules for type arguments</a> introduced with Java generics.
    *
-   * @deprecated Use the method under its new name, {@link #isSupertypeOf(TypeToken)}.
+   * @deprecated Use the method under its new name, {@link #isSupertypeOf(TypeToken)}. This method
+   *     will be removed in Guava release 20.0.
    */
   @Deprecated
   public final boolean isAssignableFrom(TypeToken<?> type) {
@@ -420,7 +421,8 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
    * >the rules for type arguments</a> introduced with Java generics.
    *
-   * @deprecated Use the method under its new name, {@link #isSupertypeOf(Type)}.
+   * @deprecated Use the method under its new name, {@link #isSupertypeOf(Type)}. This method will
+   *     be removed in Guava release 20.0.
    */
   @Deprecated
   public final boolean isAssignableFrom(Type type) {
