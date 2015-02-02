@@ -52,9 +52,8 @@ import javax.annotation.Nullable;
  * A {@link Type} with generics.
  *
  * <p>Operations that are otherwise only available in {@link Class} are implemented to support
- * {@code Type}, for example {@link #isAssignableFrom}, {@link #isArray} and {@link
- * #getComponentType}. It also provides additional utilities such as {@link #getTypes} and {@link
- * #resolveType} etc.
+ * {@code Type}, for example {@link #isSubtypeOf}, {@link #isArray} and {@link #getComponentType}.
+ * It also provides additional utilities such as {@link #getTypes}, {@link #resolveType}, etc.
  *
  * <p>There are three ways to get a {@code TypeToken} instance: <ul>
  * <li>Wrap a {@code Type} obtained via reflection. For example: {@code
@@ -363,7 +362,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * input {@code Iterable.class}.
    */
   public final TypeToken<? super T> getSupertype(Class<? super T> superclass) {
-    checkArgument(this.extendsFromClass(superclass),
+    checkArgument(this.someRawTypeIsSubclassOf(superclass),
         "%s is not a super class of %s", superclass, this);
     if (runtimeType instanceof TypeVariable) {
       return getSupertypeFromUpperBounds(superclass, ((TypeVariable<?>) runtimeType).getBounds());
@@ -404,14 +403,103 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return subtype;
   }
 
-  /** Returns true if this type is assignable from the given {@code type}. */
+  /**
+   * Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
+   * according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
+   * >the rules for type arguments</a> introduced with Java generics.
+   *
+   * @deprecated Use the method under its new name, {@link #isSupertypeOf(TypeToken)}.
+   */
+  @Deprecated
   public final boolean isAssignableFrom(TypeToken<?> type) {
-    return type.extendsFrom(runtimeType);
+    return isSupertypeOf(type);
   }
 
-  /** Check if this type is assignable from the given {@code type}. */
+  /**
+   * Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
+   * according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
+   * >the rules for type arguments</a> introduced with Java generics.
+   *
+   * @deprecated Use the method under its new name, {@link #isSupertypeOf(Type)}.
+   */
+  @Deprecated
   public final boolean isAssignableFrom(Type type) {
-    return isAssignableFrom(of(type));
+    return isSupertypeOf(type);
+  }
+
+  /**
+   * Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
+   * according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
+   * >the rules for type arguments</a> introduced with Java generics.
+   *
+   * @since 19.0
+   */
+  public final boolean isSupertypeOf(TypeToken<?> type) {
+    return type.isSubtypeOf(getType());
+  }
+
+  /**
+   * Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
+   * according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
+   * >the rules for type arguments</a> introduced with Java generics.
+   *
+   * @since 19.0
+   */
+  public final boolean isSupertypeOf(Type type) {
+    return of(type).isSubtypeOf(getType());
+  }
+
+  /**
+   * Returns true if this type is a subtype of the given {@code type}. "Subtype" is defined
+   * according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
+   * >the rules for type arguments</a> introduced with Java generics.
+   *
+   * @since 19.0
+   */
+  public final boolean isSubtypeOf(TypeToken<?> type) {
+    return isSubtypeOf(type.getType());
+  }
+
+  /**
+   * Returns true if this type is a subtype of the given {@code type}. "Subtype" is defined
+   * according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
+   * >the rules for type arguments</a> introduced with Java generics.
+   *
+   * @since 19.0
+   */
+  public final boolean isSubtypeOf(Type supertype) {
+    checkNotNull(supertype);
+    if (supertype instanceof WildcardType) {
+      // if 'supertype' is <? super Foo>, 'this' can be:
+      // Foo, SubFoo, <? extends Foo>.
+      // if 'supertype' is <? extends Foo>, nothing is a subtype.
+      return any(((WildcardType) supertype).getLowerBounds()).isSupertypeOf(runtimeType);
+    }
+    // if 'this' is wildcard, it's a suptype of to 'supertype' if any of its "extends"
+    // bounds is a subtype of 'supertype'.
+    if (runtimeType instanceof WildcardType) {
+      // <? super Base> is of no use in checking 'from' being a subtype of 'to'.
+      return any(((WildcardType) runtimeType).getUpperBounds()).isSubtypeOf(supertype);
+    }
+    // if 'this' is type variable, it's a subtype if any of its "extends"
+    // bounds is a subtype of 'supertype'.
+    if (runtimeType instanceof TypeVariable) {
+      return runtimeType.equals(supertype)
+          || any(((TypeVariable<?>) runtimeType).getBounds()).isSubtypeOf(supertype);
+    }
+    if (runtimeType instanceof GenericArrayType) {
+      return of(supertype).isSuperTypeOfArray((GenericArrayType) runtimeType);
+    }
+    // Proceed to regular Type subtype check
+    if (supertype instanceof Class) {
+      return this.someRawTypeIsSubclassOf((Class<?>) supertype);
+    } else if (supertype instanceof ParameterizedType) {
+      return this.isSubtypeOfParameterizedType((ParameterizedType) supertype);
+    } else if (supertype instanceof GenericArrayType) {
+      return this.isSubTypeOfArrayType((GenericArrayType) supertype);
+    } else { // to instanceof TypeVariable
+      return false;
+    }
   }
 
   /**
@@ -483,7 +571,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * @since 14.0
    */
   public final Invokable<T, Object> method(Method method) {
-    checkArgument(this.extendsFromClass(method.getDeclaringClass()),
+    checkArgument(this.someRawTypeIsSubclassOf(method.getDeclaringClass()),
         "%s not declared by %s", method, this);
     return new Invokable.MethodInvokable<T>(method) {
       @Override Type getGenericReturnType() {
@@ -734,41 +822,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return this;
   }
 
-  private boolean extendsFrom(Type supertype) {
-    if (supertype instanceof WildcardType) {
-      // if 'supertype' is <? super Foo>, 'this' can be:
-      // Foo, SubFoo, <? extends Foo>.
-      // if 'supertype' is <? extends Foo>, nothing assignable.
-      return any(((WildcardType) supertype).getLowerBounds()).isSupertypeOf(runtimeType);
-    }
-    // if 'this' is wildcard, it's assignable to 'supertype' if any of its "extends"
-    // bounds is assignable to 'supertype'.
-    if (runtimeType instanceof WildcardType) {
-      // <? super Base> is of no use in checking 'from' being a subtype of 'to'.
-      return any(((WildcardType) runtimeType).getUpperBounds()).extendsFrom(supertype);
-    }
-    // if 'this' is type variable, it's assignable if any of its "extends"
-    // bounds is assignable to 'supertype'.
-    if (runtimeType instanceof TypeVariable) {
-      return runtimeType.equals(supertype)
-          || any(((TypeVariable<?>) runtimeType).getBounds()).extendsFrom(supertype);
-    }
-    if (runtimeType instanceof GenericArrayType) {
-      return of(supertype).isSuperTypeOfArray((GenericArrayType) runtimeType);
-    }
-    // Proceed to regular Type assignability check
-    if (supertype instanceof Class) {
-      return this.extendsFromClass((Class<?>) supertype);
-    } else if (supertype instanceof ParameterizedType) {
-      return this.extendsFromParameterizedType((ParameterizedType) supertype);
-    } else if (supertype instanceof GenericArrayType) {
-      return this.extendsFromArrayType((GenericArrayType) supertype);
-    } else { // to instanceof TypeVariable
-      return false;
-    }
-  }
-
-  private boolean extendsFromClass(Class<?> superclass) {
+  private boolean someRawTypeIsSubclassOf(Class<?> superclass) {
     for (Class<?> rawType : getRawTypes()) {
       if (superclass.isAssignableFrom(rawType)) {
         return true;
@@ -777,9 +831,9 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return false;
   }
 
-  private boolean extendsFromParameterizedType(ParameterizedType supertype) {
+  private boolean isSubtypeOfParameterizedType(ParameterizedType supertype) {
     Class<?> matchedClass = of(supertype).getRawType();
-    if (!this.extendsFromClass(matchedClass)) {
+    if (!this.someRawTypeIsSubclassOf(matchedClass)) {
       return false;
     }
     Type[] typeParams = matchedClass.getTypeParameters();
@@ -799,17 +853,17 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return true;
   }
 
-  private boolean extendsFromArrayType(GenericArrayType supertype) {
+  private boolean isSubTypeOfArrayType(GenericArrayType supertype) {
     if (runtimeType instanceof Class) {
       Class<?> fromClass = (Class<?>) runtimeType;
       if (!fromClass.isArray()) {
         return false;
       }
-      return of(fromClass.getComponentType()).extendsFrom(supertype.getGenericComponentType());
+      return of(fromClass.getComponentType()).isSubtypeOf(supertype.getGenericComponentType());
     } else if (runtimeType instanceof GenericArrayType) {
       GenericArrayType fromArrayType = (GenericArrayType) runtimeType;
       return of(fromArrayType.getGenericComponentType())
-          .extendsFrom(supertype.getGenericComponentType());
+          .isSubtypeOf(supertype.getGenericComponentType());
     } else {
       return false;
     }
@@ -821,10 +875,10 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       if (!thisClass.isArray()) {
         return thisClass.isAssignableFrom(Object[].class);
       }
-      return of(subtype.getGenericComponentType()).extendsFrom(thisClass.getComponentType());
+      return of(subtype.getGenericComponentType()).isSubtypeOf(thisClass.getComponentType());
     } else if (runtimeType instanceof GenericArrayType) {
       return of(subtype.getGenericComponentType())
-          .extendsFrom(((GenericArrayType) runtimeType).getGenericComponentType());
+          .isSubtypeOf(((GenericArrayType) runtimeType).getGenericComponentType());
     } else {
       return false;
     }
@@ -848,7 +902,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       // if "formalType" is <? super Foo>, "this" can be:
       // Foo, SuperFoo, <? super Foo> or <? super SuperFoo>.
       return every(((WildcardType) formalType).getUpperBounds()).isSupertypeOf(runtimeType)
-          && every(((WildcardType) formalType).getLowerBounds()).extendsFrom(runtimeType);
+          && every(((WildcardType) formalType).getLowerBounds()).isSubtypeOf(runtimeType);
     }
     return false;
   }
@@ -872,9 +926,9 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       this.target = target;
     }
 
-    boolean extendsFrom(Type supertype) {
+    boolean isSubtypeOf(Type supertype) {
       for (Type bound : bounds) {
-        if (of(bound).extendsFrom(supertype) == target) {
+        if (of(bound).isSubtypeOf(supertype) == target) {
           return target;
         }
       }
@@ -884,7 +938,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     boolean isSupertypeOf(Type subtype) {
       TypeToken<?> type = of(subtype);
       for (Type bound : bounds) {
-        if (type.extendsFrom(bound) == target) {
+        if (type.isSubtypeOf(bound) == target) {
           return target;
         }
       }
@@ -951,8 +1005,8 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     for (Type upperBound : upperBounds) {
       @SuppressWarnings("unchecked") // T's upperbound is <? super T>.
       TypeToken<? super T> bound = (TypeToken<? super T>) of(upperBound);
-      if (bound.extendsFrom(supertype)) {
-        @SuppressWarnings({"rawtypes", "unchecked"}) // guarded by the isAssignableFrom check.
+      if (bound.isSubtypeOf(supertype)) {
+        @SuppressWarnings({"rawtypes", "unchecked"}) // guarded by the isSubtypeOf check.
         TypeToken<? super T> result = bound.getSupertype((Class) supertype);
         return result;
       }
