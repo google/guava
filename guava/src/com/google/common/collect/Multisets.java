@@ -711,7 +711,7 @@ public final class Multisets {
    * <p>Equivalently, this method modifies {@code multisetToModify} so that
    * {@code multisetToModify.count(e)} is set to
    * {@code Math.max(0, multisetToModify.count(e) -
-   * occurrencesToRemove.count(e))}.
+   * Iterables.frequency(occurrencesToRemove, e))}.
    *
    * <p>This is <i>not</i> the same as {@code multisetToModify.}
    * {@link Multiset#removeAll removeAll}{@code (occurrencesToRemove)}, which
@@ -731,37 +731,51 @@ public final class Multisets {
   public static boolean removeOccurrences(
       Multiset<?> multisetToModify, Iterable<?> occurrencesToRemove) {
     if (occurrencesToRemove instanceof Multiset) {
-      return removeOccurrencesImpl(
+      return removeOccurrences(
           multisetToModify, (Multiset<?>) occurrencesToRemove);
     } else {
-      return removeOccurrencesImpl(multisetToModify, occurrencesToRemove);
+      checkNotNull(multisetToModify);
+      checkNotNull(occurrencesToRemove);
+      boolean changed = false;
+      for (Object o : occurrencesToRemove) {
+        changed |= multisetToModify.remove(o);
+      }
+      return changed;
     }
-  }
-
-  private static boolean removeOccurrencesImpl(
-      Multiset<?> multisetToModify, Iterable<?> occurrencesToRemove) {
-    checkNotNull(multisetToModify);
-    checkNotNull(occurrencesToRemove);
-    boolean changed = false;
-    for (Object o : occurrencesToRemove) {
-      changed |= multisetToModify.remove(o);
-    }
-    return changed;
   }
 
   /**
-   * Delegate that cares about the element types in multisetToModify.
+   * For each occurrence of an element {@code e} in {@code occurrencesToRemove},
+   * removes one occurrence of {@code e} in {@code multisetToModify}.
+   *
+   * <p>Equivalently, this method modifies {@code multisetToModify} so that
+   * {@code multisetToModify.count(e)} is set to
+   * {@code Math.max(0, multisetToModify.count(e) -
+   * occurrencesToRemove.count(e))}.
+   *
+   * <p>This is <i>not</i> the same as {@code multisetToModify.}
+   * {@link Multiset#removeAll removeAll}{@code (occurrencesToRemove)}, which
+   * removes all occurrences of elements that appear in
+   * {@code occurrencesToRemove}. However, this operation <i>is</i> equivalent
+   * to, albeit sometimes more efficient than, the following: <pre>   {@code
+   *
+   *   for (E e : occurrencesToRemove) {
+   *     multisetToModify.remove(e);
+   *   }}</pre>
+   *
+   * @return {@code true} if {@code multisetToModify} was changed as a result of
+   *         this operation
+   * @since 10.0 (missing in 18.0 when only the overload taking an {@code Iterable} was present)
    */
-  private static <E> boolean removeOccurrencesImpl(
-      Multiset<E> multisetToModify, Multiset<?> occurrencesToRemove) {
-    // TODO(user): generalize to removing an Iterable, perhaps
+  public static boolean removeOccurrences(
+      Multiset<?> multisetToModify, Multiset<?> occurrencesToRemove) {
     checkNotNull(multisetToModify);
     checkNotNull(occurrencesToRemove);
 
     boolean changed = false;
-    Iterator<Entry<E>> entryIterator = multisetToModify.entrySet().iterator();
+    Iterator<? extends Entry<?>> entryIterator = multisetToModify.entrySet().iterator();
     while (entryIterator.hasNext()) {
-      Entry<E> entry = entryIterator.next();
+      Entry<?> entry = entryIterator.next();
       int removeCount = occurrencesToRemove.count(entry.getElement());
       if (removeCount >= entry.getCount()) {
         entryIterator.remove();
