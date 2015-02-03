@@ -275,7 +275,8 @@ public final class MoreExecutors {
    * @since 10.0 (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
    *        >mostly source-compatible</a> since 3.0)
    * @deprecated Use {@link #directExecutor()} if you only require an {@link Executor} and
-   *     {@link #newDirectExecutorService()} if you need a {@link ListeningExecutorService}.
+   *     {@link #newDirectExecutorService()} if you need a {@link ListeningExecutorService}. This
+   *     method will be removed in August 2016.
    */
   @Deprecated
   @GwtIncompatible("TODO")
