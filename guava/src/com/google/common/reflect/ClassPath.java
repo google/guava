@@ -21,9 +21,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
@@ -56,6 +58,67 @@ import javax.annotation.Nullable;
  */
 @Beta
 public final class ClassPath {
+  /**
+   * An item on the classpath.
+   *
+   * <p>This is a class-file or some other resource, possibly from a jar.
+   */
+  static final class Entry {
+    private final File file;
+    private final String resourceName;
+    private final ClassLoader classLoader;
+    private final Optional<String> className;
+    private final URL url;
+
+    Entry(File file, String resourceName, ClassLoader classLoader, URL url) {
+      this.file = file;
+      this.resourceName = resourceName;
+      this.classLoader = classLoader;
+      this.url = url;
+      this.className = resourceName.endsWith(CLASS_FILE_NAME_EXTENSION)
+          ? Optional.of(ClassPath.getClassName(resourceName))
+          : Optional.<String>absent();
+    }
+
+    /**
+     * Returns the file containing this entry.  It could be a jar file, in which case the resource
+     * is an entry in the jar, or it could be a file, in which case the resource is the file.
+     */
+    public final File file() {
+      return file;
+    }
+
+    /** A {@link URL} that refers to this resource. */
+    public final URL url() {
+      return url;
+    }
+
+    /**
+     * Returns the name of the class represented by this entry.  Returns {@link Optional#absent()}
+     * if it is not a class.
+     */
+    public final Optional<String> getClassName() {
+      return className;
+    }
+
+    ResourceInfo toResourceInfo() {
+      if (className.isPresent()) {
+        return new ClassInfo(resourceName, className.get(), classLoader);
+      } else {
+        return new ResourceInfo(resourceName, classLoader);
+      }
+    }
+
+    /**
+     * Returns the java resource name of the entry.
+     *
+     * @see java.lang.Object#toString()
+     */
+    @Override public final String toString() {
+      return resourceName;
+    }
+  }
+
   private static final Logger logger = Logger.getLogger(ClassPath.class.getName());
 
   private static final Predicate<ClassInfo> IS_TOP_LEVEL = new Predicate<ClassInfo>() {
@@ -86,11 +149,31 @@ public final class ClassPath {
    *         failed.
    */
   public static ClassPath from(ClassLoader classloader) throws IOException {
+    final ImmutableSortedSet.Builder<ResourceInfo> resources =
+        new ImmutableSortedSet.Builder<ResourceInfo>(Ordering.usingToString());
+    for (Entry entry : getAllEntries(classloader)) {
+      resources.add(entry.toResourceInfo());
+    }
+    return new ClassPath(resources.build());
+  }
+
+  /**
+   * Returns an {@link Entry} for each resource on the classpath.  This method will return all items
+   * on the classpath, even those items that are not findable via {@link Class#getResource(String)}
+   * due to conflicting items that are earlier on the classpath.  Most users should use
+   * {@link #from(ClassLoader)}.
+   *
+   * <p>Currently only {@link URLClassLoader} and only {@code file://} urls are supported.
+   *
+   * @throws IOException if the attempt to read class path resources (jar files or directories)
+   *         failed.
+   */
+  static ImmutableList<Entry> getAllEntries(ClassLoader classloader) throws IOException {
     Scanner scanner = new Scanner();
     for (Map.Entry<File, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
       scanner.scan(entry.getKey(), entry.getValue());
     }
-    return new ClassPath(scanner.getResources());
+    return scanner.getEntries();
   }
 
   /**
@@ -154,14 +237,6 @@ public final class ClassPath {
     private final String resourceName;
     final ClassLoader loader;
 
-    static ResourceInfo of(String resourceName, ClassLoader loader) {
-      if (resourceName.endsWith(CLASS_FILE_NAME_EXTENSION)) {
-        return new ClassInfo(resourceName, loader);
-      } else {
-        return new ResourceInfo(resourceName, loader);
-      }
-    }
-  
     ResourceInfo(String resourceName, ClassLoader loader) {
       this.resourceName = checkNotNull(resourceName);
       this.loader = checkNotNull(loader);
@@ -206,24 +281,24 @@ public final class ClassPath {
   public static final class ClassInfo extends ResourceInfo {
     private final String className;
 
-    ClassInfo(String resourceName, ClassLoader loader) {
+    ClassInfo(String resourceName, String className, ClassLoader loader) {
       super(resourceName, loader);
-      this.className = getClassName(resourceName);
+      this.className = className;
     }
 
-    /** 
+    /**
      * Returns the package name of the class, without attempting to load the class.
-     * 
-     * <p>Behaves identically to {@link Package#getName()} but does not require the class (or 
+     *
+     * <p>Behaves identically to {@link Package#getName()} but does not require the class (or
      * package) to be loaded.
      */
     public String getPackageName() {
       return Reflection.getPackageName(className);
     }
 
-    /** 
+    /**
      * Returns the simple name of the underlying class as given in the source code.
-     * 
+     *
      * <p>Behaves identically to {@link Class#getSimpleName()} but does not require the class to be
      * loaded.
      */
@@ -231,7 +306,7 @@ public final class ClassPath {
       int lastDollarSign = className.lastIndexOf('$');
       if (lastDollarSign != -1) {
         String innerClassName = className.substring(lastDollarSign + 1);
-        // local and anonymous classes are prefixed with number (1,2,3...), anonymous classes are 
+        // local and anonymous classes are prefixed with number (1,2,3...), anonymous classes are
         // entirely numeric whereas local classes have the user supplied name as a suffix
         return CharMatcher.DIGIT.trimLeadingFrom(innerClassName);
       }
@@ -244,9 +319,9 @@ public final class ClassPath {
       return className.substring(packageName.length() + 1);
     }
 
-    /** 
-     * Returns the fully qualified name of the class. 
-     * 
+    /**
+     * Returns the fully qualified name of the class.
+     *
      * <p>Behaves identically to {@link Class#getName()} but does not require the class to be
      * loaded.
      */
@@ -297,13 +372,11 @@ public final class ClassPath {
   }
 
   @VisibleForTesting static final class Scanner {
-
-    private final ImmutableSortedSet.Builder<ResourceInfo> resources =
-        new ImmutableSortedSet.Builder<ResourceInfo>(Ordering.usingToString());
+    private final ImmutableList.Builder<Entry> entriesBuilder = ImmutableList.builder();
     private final Set<File> scannedUris = Sets.newHashSet();
 
-    ImmutableSortedSet<ResourceInfo> getResources() {
-      return resources.build();
+    ImmutableList<Entry> getEntries() {
+      return entriesBuilder.build();
     }
 
     void scan(File file, ClassLoader classloader) throws IOException {
@@ -311,7 +384,7 @@ public final class ClassPath {
         scanFrom(file, classloader);
       }
     }
-  
+
     @VisibleForTesting void scanFrom(File file, ClassLoader classloader)
         throws IOException {
       if (!file.exists()) {
@@ -323,11 +396,11 @@ public final class ClassPath {
         scanJar(file, classloader);
       }
     }
-  
+
     private void scanDirectory(File directory, ClassLoader classloader) throws IOException {
       scanDirectory(directory, classloader, "", ImmutableSet.<File>of());
     }
-  
+
     private void scanDirectory(
         File directory, ClassLoader classloader, String packagePrefix,
         ImmutableSet<File> ancestors) throws IOException {
@@ -353,14 +426,14 @@ public final class ClassPath {
         } else {
           String resourceName = packagePrefix + name;
           if (!resourceName.equals(JarFile.MANIFEST_NAME)) {
-            resources.add(ResourceInfo.of(resourceName, classloader));
+            entriesBuilder.add(new Entry(f, resourceName, classloader, f.toURI().toURL()));
           }
         }
       }
     }
-  
-    private void scanJar(File file, ClassLoader classloader) throws IOException {
-      JarFile jarFile;
+
+    private void scanJar(final File file, ClassLoader classloader) throws IOException {
+      final JarFile jarFile;
       try {
         jarFile = new JarFile(file);
       } catch (IOException e) {
@@ -374,10 +447,12 @@ public final class ClassPath {
         Enumeration<JarEntry> entries = jarFile.entries();
         while (entries.hasMoreElements()) {
           JarEntry entry = entries.nextElement();
-          if (entry.isDirectory() || entry.getName().equals(JarFile.MANIFEST_NAME)) {
+          String name = entry.getName();
+          if (entry.isDirectory() || name.equals(JarFile.MANIFEST_NAME)) {
             continue;
           }
-          resources.add(ResourceInfo.of(entry.getName(), classloader));
+          entriesBuilder.add(new Entry(
+              file, name, classloader, new URL("jar", null, file.toURI().toURL() + "!/" + name)));
         }
       } finally {
         try {
@@ -385,7 +460,7 @@ public final class ClassPath {
         } catch (IOException ignored) {}
       }
     }
-  
+
     /**
      * Returns the class path URIs specified by the {@code Class-Path} manifest attribute, according
      * to
@@ -418,7 +493,7 @@ public final class ClassPath {
       }
       return builder.build();
     }
-  
+
     /**
      * Returns the absolute uri of the Class-Path entry value as specified in
      * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes">
