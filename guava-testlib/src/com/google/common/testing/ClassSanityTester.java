@@ -687,7 +687,7 @@ public final class ClassSanityTester {
       if (!invokable.isPrivate()
           && !invokable.isSynthetic()
           && invokable.isStatic()
-          && type.isAssignableFrom(invokable.getReturnType())) {
+          && type.isSupertypeOf(invokable.getReturnType())) {
         @SuppressWarnings("unchecked") // guarded by isAssignableFrom()
         Invokable<?, ? extends T> factory = (Invokable<?, ? extends T>) invokable;
         factories.add(factory);

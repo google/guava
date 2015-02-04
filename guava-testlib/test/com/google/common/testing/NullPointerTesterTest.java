@@ -1023,7 +1023,7 @@ public class NullPointerTesterTest extends TestCase {
       runTester();
       TypeToken<?> defaultType = (TypeToken<?>) getDefaultParameterValue(0);
       assertTrue(new TypeToken<List<? super Number>>() {}
-          .isAssignableFrom(defaultType));
+          .isSupertypeOf(defaultType));
     }
   }
 
