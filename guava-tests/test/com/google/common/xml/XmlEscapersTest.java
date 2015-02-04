@@ -55,7 +55,7 @@ public class XmlEscapersTest extends TestCase {
   }
 
   // Helper to assert common properties of xml escapers.
-  private void assertBasicXmlEscaper(CharEscaper xmlEscaper,
+  static void assertBasicXmlEscaper(CharEscaper xmlEscaper,
       boolean shouldEscapeQuotes, boolean shouldEscapeWhitespaceChars) {
     // Simple examples (smoke tests)
     assertEquals("xxx", xmlEscaper.escape("xxx"));
