@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
@@ -62,13 +63,26 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertSame(DATA2, future2.get(0L, TimeUnit.MILLISECONDS));
   }
 
-  private static class MyException extends Exception {}
+  private static class MyException extends Exception {
+
+  }
 
   // Class hierarchy for generics sanity checks
-  private static class Foo {}
-  private static class FooChild extends Foo {}
-  private static class Bar {}
-  private static class BarChild extends Bar {}
+  private static class Foo {
+
+  }
+
+  private static class FooChild extends Foo {
+
+  }
+
+  private static class Bar {
+
+  }
+
+  private static class BarChild extends Bar {
+
+  }
 
   public void testTransform_genericsNull() throws Exception {
     ListenableFuture<?> nullFuture = Futures.immediateFuture(null);
@@ -81,7 +95,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     ListenableFuture<FooChild> future = Futures.immediateFuture(null);
     final BarChild barChild = new BarChild();
     Function<Foo, BarChild> function = new Function<Foo, BarChild>() {
-      @Override public BarChild apply(Foo unused) {
+      @Override
+      public BarChild apply(Foo unused) {
         return barChild;
       }
     };
@@ -92,7 +107,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   public void testTransform_cancelPropagatesToInput() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
-      @Override public ListenableFuture<Bar> apply(Foo unused) {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
         throw new AssertionFailedError("Unexpeted call to apply.");
       }
     };
@@ -104,7 +120,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   public void testTransform_interruptPropagatesToInput() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
-      @Override public ListenableFuture<Bar> apply(Foo unused) {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
         throw new AssertionFailedError("Unexpeted call to apply.");
       }
     };
@@ -117,7 +134,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
     final SettableFuture<Bar> secondary = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
-      @Override public ListenableFuture<Bar> apply(Foo unused) {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
         return secondary;
       }
     };
@@ -131,7 +149,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
     final SettableFuture<Bar> secondary = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
-      @Override public ListenableFuture<Bar> apply(Foo unused) {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
         return secondary;
       }
     };
@@ -141,18 +160,19 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * Tests that the function is invoked only once, even if it throws an
-   * exception.
+   * Tests that the function is invoked only once, even if it throws an exception.
    */
   public void testTransformValueRemainsMemoized() throws Exception {
     class Holder {
+
       int value = 2;
     }
     final Holder holder = new Holder();
 
     // This function adds the holder's value to the input value.
     Function<Integer, Integer> adder = new Function<Integer, Integer>() {
-      @Override public Integer apply(Integer from) {
+      @Override
+      public Integer apply(Integer from) {
         return from + holder.value;
       }
     };
@@ -188,11 +208,17 @@ public class FuturesTest extends EmptySetUpAndTearDown {
         1000, TimeUnit.SECONDS).intValue());
   }
 
-  static class MyError extends Error {}
-  static class MyRuntimeException extends RuntimeException {}
+  static class MyError extends Error {
+
+  }
+
+  static class MyRuntimeException extends RuntimeException {
+
+  }
 
   // TODO(cpovirk): top-level class?
   static class ExecutorSpy implements Executor {
+
     Executor delegate;
     boolean wasExecuted;
 
@@ -200,7 +226,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
       this.delegate = delegate;
     }
 
-    @Override public void execute(Runnable command) {
+    @Override
+    public void execute(Runnable command) {
       delegate.execute(command);
       wasExecuted = true;
     }
@@ -218,6 +245,176 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
     assertSame(value, future.get());
     assertTrue(spy.wasExecuted);
+  }
+
+  private static class FutureFallbackSpy<V> implements FutureFallback<V> {
+
+    private int count;
+    private final FutureFallback<V> delegate;
+
+    public FutureFallbackSpy(FutureFallback<V> delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    public final ListenableFuture<V> create(Throwable t) throws Exception {
+      count++;
+      return delegate.create(t);
+    }
+
+    void verifyCallCount(int expected) {
+      assertThat(count).is(expected);
+    }
+  }
+
+  private static <V> FutureFallbackSpy<V> spy(FutureFallback<V> delegate) {
+    return new FutureFallbackSpy<V>(delegate);
+  }
+
+  private static <V> FutureFallback<V> unexpectedFallback() {
+    return new FutureFallback<V>() {
+      @Override
+      public ListenableFuture<V> create(Throwable t) throws Exception {
+        throw new AssertionError("Unexpected fallback", t);
+      }
+    };
+  }
+
+  public void testWithFallback_inputDoesNotRaiseException() throws Exception {
+    FutureFallback<Integer> fallback = unexpectedFallback();
+    ListenableFuture<Integer> originalFuture = Futures.immediateFuture(7);
+    ListenableFuture<Integer> faultToleranteFuture = Futures.withFallback(originalFuture, fallback);
+    assertEquals(7, faultToleranteFuture.get().intValue());
+  }
+
+  public void testWithFallback_inputRaisesException() throws Exception {
+    final RuntimeException raisedException = new RuntimeException();
+    FutureFallbackSpy<Integer> fallback = spy(new FutureFallback<Integer>() {
+      @Override
+      public ListenableFuture<Integer> create(Throwable t) throws Exception {
+        assertThat(t).isSameAs(raisedException);
+        return Futures.immediateFuture(20);
+      }
+    });
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+    ListenableFuture<Integer> faultTolerantFuture = Futures.withFallback(failingFuture, fallback);
+    assertEquals(20, faultTolerantFuture.get().intValue());
+    fallback.verifyCallCount(1);
+  }
+
+  public void testWithFallback_fallbackGeneratesRuntimeException() throws Exception {
+    RuntimeException expectedException = new RuntimeException();
+    runExpectedExceptionFallbackTest(expectedException, false);
+  }
+
+  public void testWithFallback_fallbackGeneratesCheckedException() throws Exception {
+    Exception expectedException = new Exception() {
+    };
+    runExpectedExceptionFallbackTest(expectedException, false);
+  }
+
+  public void testWithFallback_fallbackGeneratesError() throws Exception {
+    final Error error = new Error("deliberate");
+    FutureFallback<Integer> fallback = new FutureFallback<Integer>() {
+      @Override
+      public ListenableFuture<Integer> create(Throwable t) throws Exception {
+        throw error;
+      }
+    };
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
+    try {
+      Futures.withFallback(failingFuture, fallback).get();
+      fail("An Exception should have been thrown!");
+    } catch (ExecutionException expected) {
+      assertSame(error, expected.getCause());
+    }
+  }
+
+  public void testWithFallback_fallbackReturnsRuntimeException() throws Exception {
+    RuntimeException expectedException = new RuntimeException();
+    runExpectedExceptionFallbackTest(expectedException, true);
+  }
+
+  public void testWithFallback_fallbackReturnsCheckedException() throws Exception {
+    Exception expectedException = new Exception() {
+    };
+    runExpectedExceptionFallbackTest(expectedException, true);
+  }
+
+  private void runExpectedExceptionFallbackTest(
+      final Exception expectedException, final boolean wrapInFuture) throws Exception {
+    FutureFallbackSpy<Integer> fallback = spy(new FutureFallback<Integer>() {
+      @Override
+      public ListenableFuture<Integer> create(Throwable t) throws Exception {
+        if (!wrapInFuture) {
+          throw expectedException;
+        } else {
+          return Futures.immediateFailedFuture(expectedException);
+        }
+      }
+    });
+
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
+
+    ListenableFuture<Integer> faultToleranteFuture = Futures.withFallback(failingFuture, fallback);
+    try {
+      faultToleranteFuture.get();
+      fail("An Exception should have been thrown!");
+    } catch (ExecutionException ee) {
+      assertSame(expectedException, ee.getCause());
+    }
+    fallback.verifyCallCount(1);
+  }
+
+  public void testWithFallback_fallbackNotReady() throws Exception {
+    ListenableFuture<Integer> primary = immediateFailedFuture(new Exception());
+    final SettableFuture<Integer> secondary = SettableFuture.create();
+    FutureFallback<Integer> fallback = new FutureFallback<Integer>() {
+      @Override
+      public ListenableFuture<Integer> create(Throwable t) {
+        return secondary;
+      }
+    };
+    ListenableFuture<Integer> derived = Futures.withFallback(primary, fallback);
+    secondary.set(1);
+    assertEquals(1, (int) derived.get());
+  }
+
+  public void testWithFallback_resultInterruptedBeforeFallback() throws Exception {
+    SettableFuture<Integer> primary = SettableFuture.create();
+    FutureFallback<Integer> fallback = unexpectedFallback();
+    ListenableFuture<Integer> derived = Futures.withFallback(primary, fallback);
+    derived.cancel(true);
+    assertTrue(primary.isCancelled());
+    assertTrue(primary.wasInterrupted());
+  }
+
+  public void testWithFallback_resultCancelledBeforeFallback() throws Exception {
+    SettableFuture<Integer> primary = SettableFuture.create();
+    FutureFallback<Integer> fallback = unexpectedFallback();
+    ListenableFuture<Integer> derived = Futures.withFallback(primary, fallback);
+    derived.cancel(false);
+    assertTrue(primary.isCancelled());
+    assertFalse(primary.wasInterrupted());
+  }
+
+  public void testWithFallback_nullInsteadOfFuture() throws Exception {
+    ListenableFuture<Integer> inputFuture = immediateFailedFuture(new Exception());
+    ListenableFuture<?> chainedFuture =
+        Futures.withFallback(inputFuture, new FutureFallback<Integer>() {
+          @Override
+          public ListenableFuture<Integer> create(Throwable t) {
+            return null;
+          }
+        });
+    try {
+      chainedFuture.get();
+      fail();
+    } catch (ExecutionException expected) {
+      NullPointerException cause = (NullPointerException) expected.getCause();
+      assertThat(cause).hasMessage("FutureFallback.create returned null instead of a Future. "
+          + "Did you mean to return immediateFuture(null)?");
+    }
   }
 
   public void testTransform_genericsWildcard_AsyncFunction() throws Exception {
@@ -242,8 +439,10 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     final BarChild barChild = new BarChild();
     AsyncFunction<Foo, BarChild> function =
         new AsyncFunction<Foo, BarChild>() {
-          @Override public AbstractFuture<BarChild> apply(Foo unused) {
-            AbstractFuture<BarChild> future = new AbstractFuture<BarChild>() {};
+          @Override
+          public AbstractFuture<BarChild> apply(Foo unused) {
+            AbstractFuture<BarChild> future = new AbstractFuture<BarChild>() {
+            };
             future.set(barChild);
             return future;
           }
@@ -255,7 +454,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   public void testTransform_asyncFunction_error() throws InterruptedException {
     final Error error = new Error("deliberate");
     AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
-      @Override public ListenableFuture<Integer> apply(String input) {
+      @Override
+      public ListenableFuture<Integer> apply(String input) {
         throw error;
       }
     };
@@ -331,16 +531,17 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * Runnable which can be called a single time, and only after
-   * {@link #expectCall} is called.
+   * Runnable which can be called a single time, and only after {@link #expectCall} is called.
    */
   // TODO(cpovirk): top-level class?
   static class SingleCallListener implements Runnable {
+
     private boolean expectCall = false;
     private final CountDownLatch calledCountDown =
         new CountDownLatch(1);
 
-    @Override public void run() {
+    @Override
+    public void run() {
       assertTrue("Listener called before it was expected", expectCall);
       assertFalse("Listener called more than once", wasCalled());
       calledCountDown.countDown();
@@ -367,7 +568,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future2 = SettableFuture.create();
     SettableFuture<String> future3 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2, future3);
 
     // Attach a listener
@@ -393,7 +594,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound = Futures.allAsList();
+        ListenableFuture<List<String>> compound = Futures.allAsList();
     compound.addListener(listener, directExecutor());
     assertTrue(compound.isDone());
     assertTrue(compound.get().isEmpty());
@@ -405,7 +606,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -429,7 +630,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -451,7 +652,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
 
     future2.set(DATA2);
@@ -501,7 +702,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
 
     future2.set(DATA2);
@@ -513,11 +714,10 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * Test the case where the futures are fulfilled prior to
-   * constructing the ListFuture.  There was a bug where the
-   * loop that connects a Listener to each of the futures would die
-   * on the last loop-check as done() on ListFuture nulled out the
-   * variable being looped over (the list of futures).
+   * Test the case where the futures are fulfilled prior to constructing the ListFuture.  There was
+   * a bug where the loop that connects a Listener to each of the futures would die on the last
+   * loop-check as done() on ListFuture nulled out the variable being looped over (the list of
+   * futures).
    */
   public void testAllAsList_doneFutures() throws Exception {
     // Create input and output
@@ -531,7 +731,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     future3.set(DATA3);
 
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2, future3);
 
     // Attach a listener
@@ -555,7 +755,9 @@ public class FuturesTest extends EmptySetUpAndTearDown {
    * ListenableFuture instances
    */
 
-  private static final class OtherThrowable extends Throwable {}
+  private static final class OtherThrowable extends Throwable {
+
+  }
 
   // Boring untimed-get tests:
 
@@ -573,12 +775,18 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     return failure;
   }
 
-  /** A future that throws a runtime exception from get. */
+  /**
+   * A future that throws a runtime exception from get.
+   */
   static class BuggyFuture extends AbstractFuture<String> {
-    @Override public String get() {
+
+    @Override
+    public String get() {
       throw new RuntimeException();
     }
-    @Override public boolean set(String v) {
+
+    @Override
+    public boolean set(String v) {
       return super.set(v);
     }
   }

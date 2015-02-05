@@ -430,7 +430,6 @@ public final class Futures {
    *     {@code input} fails
    * @since 14.0
    */
-  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback) {
@@ -495,7 +494,6 @@ public final class Futures {
    *     fails
    * @since 14.0
    */
-  @GwtIncompatible("TODO")
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback, Executor executor) {
@@ -507,7 +505,6 @@ public final class Futures {
    * A future that falls back on a second, generated future, in case its
    * original future fails.
    */
-  @GwtIncompatible("TODO")
   private static class FallbackFuture<V> extends AbstractFuture.TrustedFuture<V> {
     ListenableFuture<? extends V> running;
 

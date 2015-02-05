@@ -210,6 +210,205 @@ public final class Futures {
   }
 
   /**
+   * Returns a {@code Future} whose result is taken from the given primary
+   * {@code input} or, if the primary input fails, from the {@code Future}
+   * provided by the {@code fallback}. {@link FutureFallback#create} is not
+   * invoked until the primary input has failed, so if the primary input
+   * succeeds, it is never invoked. If, during the invocation of {@code
+   * fallback}, an exception is thrown, this exception is used as the result of
+   * the output {@code Future}.
+   *
+   * <p>Below is an example of a fallback that returns a default value if an
+   * exception occurs:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   *
+   *   // Falling back to a zero counter in case an exception happens when
+   *   // processing the RPC to fetch counters.
+   *   ListenableFuture<Integer> faultTolerantFuture = Futures.withFallback(
+   *       fetchCounterFuture, new FutureFallback<Integer>() {
+   *         public ListenableFuture<Integer> create(Throwable t) {
+   *           // Returning "0" as the default for the counter when the
+   *           // exception happens.
+   *           return immediateFuture(0);
+   *         }
+   *       });}</pre>
+   *
+   * <p>The fallback can also choose to propagate the original exception when
+   * desired:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   *
+   *   // Falling back to a zero counter only in case the exception was a
+   *   // TimeoutException.
+   *   ListenableFuture<Integer> faultTolerantFuture = Futures.withFallback(
+   *       fetchCounterFuture, new FutureFallback<Integer>() {
+   *         public ListenableFuture<Integer> create(Throwable t) {
+   *           if (t instanceof TimeoutException) {
+   *             return immediateFuture(0);
+   *           }
+   *           return immediateFailedFuture(t);
+   *         }
+   *       });}</pre>
+   *
+   * <p>Note: If the derived {@code Future} is slow or heavyweight to create
+   * (whether the {@code Future} itself is slow or heavyweight to complete is
+   * irrelevant), consider {@linkplain #withFallback(ListenableFuture,
+   * FutureFallback, Executor) supplying an executor}. If you do not supply an
+   * executor, {@code withFallback} will use a
+   * {@linkplain MoreExecutors#directExecutor direct executor}, which carries
+   * some caveats for heavier operations. For example, the call to {@code
+   * fallback.create} may run on an unpredictable or undesirable thread:
+   *
+   * <ul>
+   * <li>If the input {@code Future} is done at the time {@code withFallback}
+   * is called, {@code withFallback} will call {@code fallback.create} inline.
+   * <li>If the input {@code Future} is not yet done, {@code withFallback} will
+   * schedule {@code fallback.create} to be run by the thread that completes
+   * the input {@code Future}, which may be an internal system thread such as
+   * an RPC network thread.
+   * </ul>
+   *
+   * <p>Also note that, regardless of which thread executes the {@code
+   * fallback.create}, all other registered but unexecuted listeners are
+   * prevented from running during its execution, even if those listeners are
+   * to run in other executors.
+   *
+   * @param input the primary input {@code Future}
+   * @param fallback the {@link FutureFallback} implementation to be called if
+   *     {@code input} fails
+   * @since 14.0
+   */
+  public static <V> ListenableFuture<V> withFallback(
+      ListenableFuture<? extends V> input,
+      FutureFallback<? extends V> fallback) {
+    return withFallback(input, fallback, directExecutor());
+  }
+
+  /**
+   * Returns a {@code Future} whose result is taken from the given primary
+   * {@code input} or, if the primary input fails, from the {@code Future}
+   * provided by the {@code fallback}. {@link FutureFallback#create} is not
+   * invoked until the primary input has failed, so if the primary input
+   * succeeds, it is never invoked. If, during the invocation of {@code
+   * fallback}, an exception is thrown, this exception is used as the result of
+   * the output {@code Future}.
+   *
+   * <p>Below is an example of a fallback that returns a default value if an
+   * exception occurs:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   *
+   *   // Falling back to a zero counter in case an exception happens when
+   *   // processing the RPC to fetch counters.
+   *   ListenableFuture<Integer> faultTolerantFuture = Futures.withFallback(
+   *       fetchCounterFuture, new FutureFallback<Integer>() {
+   *         public ListenableFuture<Integer> create(Throwable t) {
+   *           // Returning "0" as the default for the counter when the
+   *           // exception happens.
+   *           return immediateFuture(0);
+   *         }
+   *       }, directExecutor());}</pre>
+   *
+   * <p>The fallback can also choose to propagate the original exception when
+   * desired:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   *
+   *   // Falling back to a zero counter only in case the exception was a
+   *   // TimeoutException.
+   *   ListenableFuture<Integer> faultTolerantFuture = Futures.withFallback(
+   *       fetchCounterFuture, new FutureFallback<Integer>() {
+   *         public ListenableFuture<Integer> create(Throwable t) {
+   *           if (t instanceof TimeoutException) {
+   *             return immediateFuture(0);
+   *           }
+   *           return immediateFailedFuture(t);
+   *         }
+   *       }, directExecutor());}</pre>
+   *
+   * <p>When the execution of {@code fallback.create} is fast and lightweight
+   * (though the {@code Future} it returns need not meet these criteria),
+   * consider {@linkplain #withFallback(ListenableFuture, FutureFallback)
+   * omitting the executor} or explicitly specifying {@code
+   * directExecutor}. However, be aware of the caveats documented in the
+   * link above.
+   *
+   * @param input the primary input {@code Future}
+   * @param fallback the {@link FutureFallback} implementation to be called if
+   *     {@code input} fails
+   * @param executor the executor that runs {@code fallback} if {@code input}
+   *     fails
+   * @since 14.0
+   */
+  public static <V> ListenableFuture<V> withFallback(
+      ListenableFuture<? extends V> input,
+      FutureFallback<? extends V> fallback, Executor executor) {
+    checkNotNull(fallback);
+    return new FallbackFuture<V>(input, fallback, executor);
+  }
+
+  /**
+   * A future that falls back on a second, generated future, in case its
+   * original future fails.
+   */
+  private static class FallbackFuture<V> extends AbstractFuture.TrustedFuture<V> {
+    ListenableFuture<? extends V> running;
+
+    FallbackFuture(ListenableFuture<? extends V> input,
+        final FutureFallback<? extends V> fallback,
+        final Executor executor) {
+      running = input;
+      input.addListener(new Runnable() {
+        @Override public void run() {
+          ListenableFuture<? extends V> localRunning = running;
+          running = null;
+          if (localRunning == null | isCancelled()) {
+            return;
+          }
+          Throwable throwable;
+          try {
+            set(getUninterruptibly(localRunning));
+            return;
+          } catch (ExecutionException e) {
+            throwable = e.getCause();
+          } catch (Throwable e) {  // this includes cancellation exception
+            throwable = e;
+          }
+          try {
+            ListenableFuture<? extends V> replacement = fallback.create(throwable);
+            checkNotNull(replacement, "FutureFallback.create returned null instead of a Future. "
+                + "Did you mean to return immediateFuture(null)?");
+            setFuture(replacement);
+          } catch (Throwable e) {
+            setException(e);
+          }
+        }
+      }, executor);
+    }
+
+    @Override
+    public boolean cancel(boolean mayInterruptIfRunning) {
+      ListenableFuture<?> current = this.running;
+      if (super.cancel(mayInterruptIfRunning)) {
+        // May be null if the original future completed, but we were cancelled while the fallback
+        // is still pending.  This is fine because if the original future completed, then there is
+        // nothing to cancel and if the fallback is pending, cancellation would be handled by
+        // super.cancel().
+        if (current != null) {
+          current.cancel(mayInterruptIfRunning);
+        }
+        return true;
+      }
+      return false;
+    }
+  }
+
+  /**
    * Future that delegates to another but will finish early (via a {@link
    * TimeoutException} wrapped in an {@link ExecutionException}) if the
    * specified duration expires.

@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -32,6 +33,7 @@ import java.util.concurrent.Future;
  * @since 14.0
  */
 @Beta
+@GwtCompatible
 public interface FutureFallback<V> {
   /**
    * Returns a {@code Future} to be used in place of the {@code Future} that

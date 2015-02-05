@@ -30,7 +30,6 @@ import static com.google.common.util.concurrent.Uninterruptibles.getUninterrupti
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.easymock.EasyMock.expect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -48,9 +47,6 @@ import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture;
 
 import junit.framework.AssertionFailedError;
-
-import org.easymock.EasyMock;
-import org.easymock.IMocksControl;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -80,6 +76,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 public class FuturesTest extends EmptySetUpAndTearDown {
+
   @GwtIncompatible("TestLogHandler")
   private static final Logger combinedFutureLogger = Logger.getLogger(
       "com.google.common.util.concurrent.CollectionFuture");
@@ -90,15 +87,11 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   private static final String DATA2 = "more data";
   private static final String DATA3 = "most data";
 
-  @GwtIncompatible("mocks")
-  private IMocksControl mocksControl;
-
   @GwtIncompatible("TestLogHandler, mocks")
   @Override
   protected void setUp() throws Exception {
     super.setUp();
     combinedFutureLogger.addHandler(combinedFutureLogHandler);
-    mocksControl = EasyMock.createControl();
   }
 
   @GwtIncompatible("TestLogHandler, interruption")
@@ -197,6 +190,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static final class CallerClass1 {
+
     static ListenableFuture<String> immediateCancelledFuture() {
       return Futures.immediateCancelledFuture();
     }
@@ -204,12 +198,15 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static final class CallerClass2 {
+
     static <V> V get(ListenableFuture<V> future) throws ExecutionException, InterruptedException {
       return future.get();
     }
   }
 
-  private static class MyException extends Exception {}
+  private static class MyException extends Exception {
+
+  }
 
   @GwtIncompatible("immediateCheckedFuture")
   public void testImmediateCheckedFuture() throws Exception {
@@ -259,10 +256,21 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   // Class hierarchy for generics sanity checks
-  private static class Foo {}
-  private static class FooChild extends Foo {}
-  private static class Bar {}
-  private static class BarChild extends Bar {}
+  private static class Foo {
+
+  }
+
+  private static class FooChild extends Foo {
+
+  }
+
+  private static class Bar {
+
+  }
+
+  private static class BarChild extends Bar {
+
+  }
 
   public void testTransform_genericsNull() throws Exception {
     ListenableFuture<?> nullFuture = Futures.immediateFuture(null);
@@ -275,7 +283,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     ListenableFuture<FooChild> future = Futures.immediateFuture(null);
     final BarChild barChild = new BarChild();
     Function<Foo, BarChild> function = new Function<Foo, BarChild>() {
-      @Override public BarChild apply(Foo unused) {
+      @Override
+      public BarChild apply(Foo unused) {
         return barChild;
       }
     };
@@ -286,7 +295,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   public void testTransform_cancelPropagatesToInput() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
-      @Override public ListenableFuture<Bar> apply(Foo unused) {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
         throw new AssertionFailedError("Unexpeted call to apply.");
       }
     };
@@ -298,7 +308,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   public void testTransform_interruptPropagatesToInput() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
-      @Override public ListenableFuture<Bar> apply(Foo unused) {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
         throw new AssertionFailedError("Unexpeted call to apply.");
       }
     };
@@ -311,7 +322,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
     final SettableFuture<Bar> secondary = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
-      @Override public ListenableFuture<Bar> apply(Foo unused) {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
         return secondary;
       }
     };
@@ -325,7 +337,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
     final SettableFuture<Bar> secondary = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
-      @Override public ListenableFuture<Bar> apply(Foo unused) {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
         return secondary;
       }
     };
@@ -352,18 +365,19 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * Tests that the function is invoked only once, even if it throws an
-   * exception.
+   * Tests that the function is invoked only once, even if it throws an exception.
    */
   public void testTransformValueRemainsMemoized() throws Exception {
     class Holder {
+
       int value = 2;
     }
     final Holder holder = new Holder();
 
     // This function adds the holder's value to the input value.
     Function<Integer, Integer> adder = new Function<Integer, Integer>() {
-      @Override public Integer apply(Integer from) {
+      @Override
+      public Integer apply(Integer from) {
         return from + holder.value;
       }
     };
@@ -399,13 +413,17 @@ public class FuturesTest extends EmptySetUpAndTearDown {
         1000, TimeUnit.SECONDS).intValue());
   }
 
-  static class MyError extends Error {}
-  static class MyRuntimeException extends RuntimeException {}
+  static class MyError extends Error {
+
+  }
+
+  static class MyRuntimeException extends RuntimeException {
+
+  }
 
   /**
-   * Test that the function is invoked only once, even if it throws an
-   * exception. Also, test that that function's result is wrapped in an
-   * ExecutionException.
+   * Test that the function is invoked only once, even if it throws an exception. Also, test that
+   * that function's result is wrapped in an ExecutionException.
    */
   @GwtIncompatible("reflection")
   public void testTransformExceptionRemainsMemoized() throws Throwable {
@@ -458,7 +476,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     return new Function<Integer, Integer>() {
       int calls = 0;
 
-      @Override public Integer apply(Integer from) {
+      @Override
+      public Integer apply(Integer from) {
         if (++calls > 1) {
           fail();
         }
@@ -472,7 +491,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     return new Function<Integer, Integer>() {
       int calls = 0;
 
-      @Override public Integer apply(Integer from) {
+      @Override
+      public Integer apply(Integer from) {
         if (++calls > 1) {
           fail();
         }
@@ -483,6 +503,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
   // TODO(cpovirk): top-level class?
   static class ExecutorSpy implements Executor {
+
     Executor delegate;
     boolean wasExecuted;
 
@@ -490,7 +511,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
       this.delegate = delegate;
     }
 
-    @Override public void execute(Runnable command) {
+    @Override
+    public void execute(Runnable command) {
       delegate.execute(command);
       wasExecuted = true;
     }
@@ -527,7 +549,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   public void testLazyTransform_exception() throws Exception {
     final RuntimeException exception = new RuntimeException("deliberate");
     Function<Integer, String> function = new Function<Integer, String>() {
-      @Override public String apply(Integer input) {
+      @Override
+      public String apply(Integer input) {
         throw exception;
       }
     };
@@ -548,6 +571,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static class FunctionSpy<I, O> implements Function<I, O> {
+
     private int applyCount;
     private final Function<I, O> delegate;
 
@@ -566,50 +590,77 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     }
   }
 
-  @GwtIncompatible("withFallback")
-  @SuppressWarnings("unchecked")
-  public void testWithFallback_inputDoesNotRaiseException() throws Exception {
-    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
-    ListenableFuture<Integer> originalFuture = Futures.immediateFuture(7);
+  private static class FutureFallbackSpy<V> implements FutureFallback<V> {
 
-    mocksControl.replay();
+    private int count;
+    private final FutureFallback<V> delegate;
+
+    public FutureFallbackSpy(FutureFallback<V> delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    public final ListenableFuture<V> create(Throwable t) throws Exception {
+      count++;
+      return delegate.create(t);
+    }
+
+    void verifyCallCount(int expected) {
+      assertThat(count).is(expected);
+    }
+  }
+
+  private static <V> FutureFallbackSpy<V> spy(FutureFallback<V> delegate) {
+    return new FutureFallbackSpy<V>(delegate);
+  }
+
+  private static <V> FutureFallback<V> unexpectedFallback() {
+    return new FutureFallback<V>() {
+      @Override
+      public ListenableFuture<V> create(Throwable t) throws Exception {
+        throw new AssertionError("Unexpected fallback", t);
+      }
+    };
+  }
+
+  public void testWithFallback_inputDoesNotRaiseException() throws Exception {
+    FutureFallback<Integer> fallback = unexpectedFallback();
+    ListenableFuture<Integer> originalFuture = Futures.immediateFuture(7);
     ListenableFuture<Integer> faultToleranteFuture = Futures.withFallback(originalFuture, fallback);
     assertEquals(7, faultToleranteFuture.get().intValue());
-    mocksControl.verify();
   }
 
-  @GwtIncompatible("withFallback")
-  @SuppressWarnings("unchecked")
   public void testWithFallback_inputRaisesException() throws Exception {
-    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
-    RuntimeException raisedException = new RuntimeException();
-    expect(fallback.create(raisedException)).andReturn(Futures.immediateFuture(20));
+    final RuntimeException raisedException = new RuntimeException();
+    FutureFallbackSpy<Integer> fallback = spy(new FutureFallback<Integer>() {
+      @Override
+      public ListenableFuture<Integer> create(Throwable t) throws Exception {
+        assertThat(t).isSameAs(raisedException);
+        return Futures.immediateFuture(20);
+      }
+    });
     ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
-
-    mocksControl.replay();
-    ListenableFuture<Integer> faultToleranteFuture = Futures.withFallback(failingFuture, fallback);
-    assertEquals(20, faultToleranteFuture.get().intValue());
-    mocksControl.verify();
+    ListenableFuture<Integer> faultTolerantFuture = Futures.withFallback(failingFuture, fallback);
+    assertEquals(20, faultTolerantFuture.get().intValue());
+    fallback.verifyCallCount(1);
   }
 
-  @GwtIncompatible("withFallback")
   public void testWithFallback_fallbackGeneratesRuntimeException() throws Exception {
     RuntimeException expectedException = new RuntimeException();
     runExpectedExceptionFallbackTest(expectedException, false);
   }
 
-  @GwtIncompatible("withFallback")
   public void testWithFallback_fallbackGeneratesCheckedException() throws Exception {
-    Exception expectedException = new Exception() {};
+    Exception expectedException = new Exception() {
+    };
     runExpectedExceptionFallbackTest(expectedException, false);
   }
 
-  @GwtIncompatible("withFallback")
-  @SuppressWarnings("unchecked")
   public void testWithFallback_fallbackGeneratesError() throws Exception {
     final Error error = new Error("deliberate");
     FutureFallback<Integer> fallback = new FutureFallback<Integer>() {
-      @Override public ListenableFuture<Integer> create(Throwable t) throws Exception {
+      @Override
+      public ListenableFuture<Integer> create(Throwable t) throws Exception {
         throw error;
       }
     };
@@ -622,36 +673,32 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     }
   }
 
-  @GwtIncompatible("withFallback")
   public void testWithFallback_fallbackReturnsRuntimeException() throws Exception {
     RuntimeException expectedException = new RuntimeException();
     runExpectedExceptionFallbackTest(expectedException, true);
   }
 
-  @GwtIncompatible("withFallback")
   public void testWithFallback_fallbackReturnsCheckedException() throws Exception {
-    Exception expectedException = new Exception() {};
+    Exception expectedException = new Exception() {
+    };
     runExpectedExceptionFallbackTest(expectedException, true);
   }
 
-  @GwtIncompatible("withFallback")
-  @SuppressWarnings("unchecked")
   private void runExpectedExceptionFallbackTest(
-      Throwable expectedException, boolean wrapInFuture) throws Exception {
-    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
-    RuntimeException raisedException = new RuntimeException();
-    if (!wrapInFuture) {
-      // Exception is thrown in the body of the "fallback" method.
-      expect(fallback.create(raisedException)).andThrow(expectedException);
-    } else {
-      // Exception is wrapped in a future and returned.
-      expect(fallback.create(raisedException)).andReturn(
-          Futures.<Integer>immediateFailedFuture(expectedException));
-    }
+      final Exception expectedException, final boolean wrapInFuture) throws Exception {
+    FutureFallbackSpy<Integer> fallback = spy(new FutureFallback<Integer>() {
+      @Override
+      public ListenableFuture<Integer> create(Throwable t) throws Exception {
+        if (!wrapInFuture) {
+          throw expectedException;
+        } else {
+          return Futures.immediateFailedFuture(expectedException);
+        }
+      }
+    });
 
-    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
 
-    mocksControl.replay();
     ListenableFuture<Integer> faultToleranteFuture = Futures.withFallback(failingFuture, fallback);
     try {
       faultToleranteFuture.get();
@@ -659,10 +706,9 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     } catch (ExecutionException ee) {
       assertSame(expectedException, ee.getCause());
     }
-    mocksControl.verify();
+    fallback.verifyCallCount(1);
   }
 
-  @GwtIncompatible("withFallback")
   public void testWithFallback_fallbackNotReady() throws Exception {
     ListenableFuture<Integer> primary = immediateFailedFuture(new Exception());
     final SettableFuture<Integer> secondary = SettableFuture.create();
@@ -677,57 +723,52 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertEquals(1, (int) derived.get());
   }
 
-  @GwtIncompatible("withFallback")
-  @SuppressWarnings("unchecked")
   public void testWithFallback_resultInterruptedBeforeFallback() throws Exception {
     SettableFuture<Integer> primary = SettableFuture.create();
-    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
-
-    mocksControl.replay();
+    FutureFallback<Integer> fallback = unexpectedFallback();
     ListenableFuture<Integer> derived = Futures.withFallback(primary, fallback);
     derived.cancel(true);
     assertTrue(primary.isCancelled());
     assertTrue(primary.wasInterrupted());
-    mocksControl.verify();
   }
 
-  @GwtIncompatible("withFallback")
-  @SuppressWarnings("unchecked")
   public void testWithFallback_resultCancelledBeforeFallback() throws Exception {
     SettableFuture<Integer> primary = SettableFuture.create();
-    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
-
-    mocksControl.replay();
+    FutureFallback<Integer> fallback = unexpectedFallback();
     ListenableFuture<Integer> derived = Futures.withFallback(primary, fallback);
     derived.cancel(false);
     assertTrue(primary.isCancelled());
     assertFalse(primary.wasInterrupted());
-    mocksControl.verify();
   }
 
-  @GwtIncompatible("withFallback")
+  @GwtIncompatible("mocks")
   @SuppressWarnings("unchecked")
   public void testWithFallback_resultCancelledAfterFallback() throws Exception {
-    SettableFuture<Integer> secondary = SettableFuture.create();
-    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
-    RuntimeException raisedException = new RuntimeException();
-    expect(fallback.create(raisedException)).andReturn(secondary);
+    final SettableFuture<Integer> secondary = SettableFuture.create();
+    final RuntimeException raisedException = new RuntimeException();
+    FutureFallbackSpy<Integer> fallback = spy(new FutureFallback<Integer>() {
+      @Override
+      public ListenableFuture<Integer> create(Throwable t) throws Exception {
+        assertThat(t).isSameAs(raisedException);
+        return secondary;
+      }
+    });
+
     ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
 
-    mocksControl.replay();
     ListenableFuture<Integer> derived = Futures.withFallback(failingFuture, fallback);
     derived.cancel(false);
     assertTrue(secondary.isCancelled());
     assertFalse(secondary.wasInterrupted());
-    mocksControl.verify();
+    fallback.verifyCallCount(1);
   }
 
-  @GwtIncompatible("withFallback")
   public void testWithFallback_nullInsteadOfFuture() throws Exception {
-    ListenableFuture<?> inputFuture = immediateFailedFuture(new Exception());
+    ListenableFuture<Integer> inputFuture = immediateFailedFuture(new Exception());
     ListenableFuture<?> chainedFuture =
         Futures.withFallback(inputFuture, new FutureFallback<Integer>() {
-          @Override public ListenableFuture<Integer> create(Throwable t) {
+          @Override
+          public ListenableFuture<Integer> create(Throwable t) {
             return null;
           }
         });
@@ -763,8 +804,10 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     final BarChild barChild = new BarChild();
     AsyncFunction<Foo, BarChild> function =
         new AsyncFunction<Foo, BarChild>() {
-          @Override public AbstractFuture<BarChild> apply(Foo unused) {
-            AbstractFuture<BarChild> future = new AbstractFuture<BarChild>() {};
+          @Override
+          public AbstractFuture<BarChild> apply(Foo unused) {
+            AbstractFuture<BarChild> future = new AbstractFuture<BarChild>() {
+            };
             future.set(barChild);
             return future;
           }
@@ -782,13 +825,15 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     try {
       future.get(1, TimeUnit.MILLISECONDS);
       fail();
-    } catch (TimeoutException expected) {}
+    } catch (TimeoutException expected) {
+    }
   }
 
   public void testTransform_asyncFunction_error() throws InterruptedException {
     final Error error = new Error("deliberate");
     AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
-      @Override public ListenableFuture<Integer> apply(String input) {
+      @Override
+      public ListenableFuture<Integer> apply(String input) {
         throw error;
       }
     };
@@ -825,7 +870,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     final CountDownLatch functionDone = new CountDownLatch(1);
     final SettableFuture<Integer> resultFuture = SettableFuture.create();
     AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
-      @Override public ListenableFuture<Integer> apply(String input) throws Exception {
+      @Override
+      public ListenableFuture<Integer> apply(String input) throws Exception {
         inFunction.countDown();
         functionDone.await();
         return resultFuture;
@@ -841,11 +887,13 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     try {
       future.get();
       fail();
-    } catch (CancellationException expected) {}
+    } catch (CancellationException expected) {
+    }
     try {
       resultFuture.get();
       fail();
-    } catch (CancellationException expected) {}
+    } catch (CancellationException expected) {
+    }
   }
 
   public void testDereference_genericsWildcard() throws Exception {
@@ -895,16 +943,17 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * Runnable which can be called a single time, and only after
-   * {@link #expectCall} is called.
+   * Runnable which can be called a single time, and only after {@link #expectCall} is called.
    */
   // TODO(cpovirk): top-level class?
   static class SingleCallListener implements Runnable {
+
     private boolean expectCall = false;
     private final CountDownLatch calledCountDown =
         new CountDownLatch(1);
 
-    @Override public void run() {
+    @Override
+    public void run() {
       assertTrue("Listener called before it was expected", expectCall);
       assertFalse("Listener called more than once", wasCalled());
       calledCountDown.countDown();
@@ -931,7 +980,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future2 = SettableFuture.create();
     SettableFuture<String> future3 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2, future3);
 
     // Attach a listener
@@ -969,7 +1018,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound = Futures.allAsList();
+        ListenableFuture<List<String>> compound = Futures.allAsList();
     compound.addListener(listener, directExecutor());
     assertTrue(compound.isDone());
     assertTrue(compound.get().isEmpty());
@@ -981,7 +1030,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -1050,7 +1099,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -1072,7 +1121,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
 
     future2.set(DATA2);
@@ -1122,7 +1171,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
 
     future2.set(DATA2);
@@ -1134,11 +1183,10 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * Test the case where the futures are fulfilled prior to
-   * constructing the ListFuture.  There was a bug where the
-   * loop that connects a Listener to each of the futures would die
-   * on the last loop-check as done() on ListFuture nulled out the
-   * variable being looped over (the list of futures).
+   * Test the case where the futures are fulfilled prior to constructing the ListFuture.  There was
+   * a bug where the loop that connects a Listener to each of the futures would die on the last
+   * loop-check as done() on ListFuture nulled out the variable being looped over (the list of
+   * futures).
    */
   public void testAllAsList_doneFutures() throws Exception {
     // Create input and output
@@ -1152,7 +1200,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     future3.set(DATA3);
 
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2, future3);
 
     // Attach a listener
@@ -1237,8 +1285,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * Different exceptions happening on multiple futures with the same cause
-   * should not be logged.
+   * Different exceptions happening on multiple futures with the same cause should not be logged.
    */
   @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
@@ -1270,14 +1317,15 @@ public class FuturesTest extends EmptySetUpAndTearDown {
    * TODO(cpovirk): maybe pass around TestFuture instances instead of
    * ListenableFuture instances
    */
+
   /**
-   * A future in {@link TestFutureBatch} that also has a name for debugging
-   * purposes and a {@code finisher}, a task that will complete the future in
-   * some fashion when it is called, allowing for testing both before and after
-   * the completion of the future.
+   * A future in {@link TestFutureBatch} that also has a name for debugging purposes and a {@code
+   * finisher}, a task that will complete the future in some fashion when it is called, allowing for
+   * testing both before and after the completion of the future.
    */
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static final class TestFuture {
+
     final ListenableFuture<String> future;
     final String name;
     final Runnable finisher;
@@ -1291,21 +1339,21 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * A collection of several futures, covering cancellation, success, and
-   * failure (both {@link ExecutionException} and {@link RuntimeException}),
-   * both immediate and delayed. We use each possible pair of these futures in
-   * {@link FuturesTest#runExtensiveMergerTest}.
+   * A collection of several futures, covering cancellation, success, and failure (both {@link
+   * ExecutionException} and {@link RuntimeException}), both immediate and delayed. We use each
+   * possible pair of these futures in {@link FuturesTest#runExtensiveMergerTest}.
    *
-   * <p>Each test requires a new {@link TestFutureBatch} because we need new
-   * delayed futures each time, as the old delayed futures were completed as
-   * part of the old test.
+   * <p>Each test requires a new {@link TestFutureBatch} because we need new delayed futures each
+   * time, as the old delayed futures were completed as part of the old test.
    */
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static final class TestFutureBatch {
+
     final ListenableFuture<String> doneSuccess = immediateFuture("a");
     final ListenableFuture<String> doneFailed =
         immediateFailedFuture(new Exception());
     final SettableFuture<String> doneCancelled = SettableFuture.create();
+
     {
       doneCancelled.cancel(true);
     }
@@ -1329,7 +1377,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
           public String get(long timeout, TimeUnit unit) {
             throw new RuntimeException();
           }
-    };
+        };
 
     final SettableFuture<String> delayedSuccess = SettableFuture.create();
     final SettableFuture<String> delayedFailed = SettableFuture.create();
@@ -1356,7 +1404,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
             delegateForDelayedRuntimeException.get(timeout, unit);
             throw new RuntimeException();
           }
-    };
+        };
 
     final Runnable doNothing = new Runnable() {
       @Override
@@ -1389,8 +1437,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     };
 
     /**
-     * All the futures, together with human-readable names for use by
-     * {@link #smartToString}.
+     * All the futures, together with human-readable names for use by {@link #smartToString}.
      */
     final ImmutableList<TestFuture> allFutures =
         ImmutableList.of(new TestFuture(doneSuccess, "doneSuccess", doNothing),
@@ -1423,9 +1470,8 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     }
 
     /**
-     * Like {@code inputs.toString()}, but with the nonsense {@code toString}
-     * representations replaced with the name of each future from
-     * {@link #allFutures}.
+     * Like {@code inputs.toString()}, but with the nonsense {@code toString} representations
+     * replaced with the name of each future from {@link #allFutures}.
      */
     String smartToString(ImmutableSet<ListenableFuture<String>> inputs) {
       Iterable<String> inputNames = Iterables.transform(inputs, nameGetter);
@@ -1482,12 +1528,12 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * {@link Futures#allAsList(Iterable)} or
-   * {@link Futures#successfulAsList(Iterable)}, hidden behind a common
-   * interface for testing.
+   * {@link Futures#allAsList(Iterable)} or {@link Futures#successfulAsList(Iterable)}, hidden
+   * behind a common interface for testing.
    */
   @GwtIncompatible("used only in GwtIncompatible tests")
   private interface Merger {
+
     ListenableFuture<List<String>> merged(
         ListenableFuture<String> a, ListenableFuture<String> b);
 
@@ -1508,11 +1554,11 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * Very rough equivalent of a timed get, produced by calling the no-arg get
-   * method in another thread and waiting a short time for it.
+   * Very rough equivalent of a timed get, produced by calling the no-arg get method in another
+   * thread and waiting a short time for it.
    *
-   * <p>We need this to test the behavior of no-arg get methods without hanging
-   * the main test thread forever in the case of failure.
+   * <p>We need this to test the behavior of no-arg get methods without hanging the main test thread
+   * forever in the case of failure.
    */
   @GwtIncompatible("threads")
   static <V> V pseudoTimedGetUninterruptibly(
@@ -1539,10 +1585,10 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * For each possible pair of futures from {@link TestFutureBatch}, for each
-   * possible completion order of those futures, test that various get calls
-   * (timed before future completion, untimed before future completion, and
-   * untimed after future completion) return or throw the proper values.
+   * For each possible pair of futures from {@link TestFutureBatch}, for each possible completion
+   * order of those futures, test that various get calls (timed before future completion, untimed
+   * before future completion, and untimed after future completion) return or throw the proper
+   * values.
    */
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static void runExtensiveMergerTest(Merger merger)
@@ -1551,7 +1597,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
     for (int i = 0; i < inputCount; i++) {
       for (int j = 0; j < inputCount; j++) {
-        for (boolean iBeforeJ : new boolean[] { true, false }) {
+        for (boolean iBeforeJ : new boolean[]{true, false}) {
           TestFutureBatch inputs = new TestFutureBatch();
           ListenableFuture<String> iFuture = inputs.allFutures.get(i).future;
           ListenableFuture<String> jFuture = inputs.allFutures.get(j).future;
@@ -1611,24 +1657,21 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   /**
-   * Call the non-timed {@link Future#get()} in a way that allows us to abort if
-   * it's expected to hang forever. More precisely, if it's expected to return,
-   * we simply call it[*], but if it's expected to hang (because one of the
-   * input futures that we know makes it up isn't done yet), then we call it in
-   * a separate thread (using pseudoTimedGet). The result is that we wait as
-   * long as necessary when the method is expected to return (at the cost of
-   * hanging forever if there is a bug in the class under test) but that we time
-   * out fairly promptly when the method is expected to hang (possibly too
-   * quickly, but too-quick failures should be very unlikely, given that we used
-   * to bail after 20ms during the expected-successful tests, and there we saw a
-   * failure rate of ~1/5000, meaning that the other thread's get() call nearly
-   * always completes within 20ms if it's going to complete at all).
+   * Call the non-timed {@link Future#get()} in a way that allows us to abort if it's expected to
+   * hang forever. More precisely, if it's expected to return, we simply call it[*], but if it's
+   * expected to hang (because one of the input futures that we know makes it up isn't done yet),
+   * then we call it in a separate thread (using pseudoTimedGet). The result is that we wait as long
+   * as necessary when the method is expected to return (at the cost of hanging forever if there is
+   * a bug in the class under test) but that we time out fairly promptly when the method is expected
+   * to hang (possibly too quickly, but too-quick failures should be very unlikely, given that we
+   * used to bail after 20ms during the expected-successful tests, and there we saw a failure rate
+   * of ~1/5000, meaning that the other thread's get() call nearly always completes within 20ms if
+   * it's going to complete at all).
    *
-   * [*] To avoid hangs, I've disabled the in-thread calls. This makes the test
-   * take (very roughly) 2.5s longer. (2.5s is also the maximum length of time
-   * we will wait for a timed get that is expected to succeed; the fact that the
-   * numbers match is only a coincidence.) See the comment below for how to
-   * restore the fast but hang-y version.
+   * [*] To avoid hangs, I've disabled the in-thread calls. This makes the test take (very roughly)
+   * 2.5s longer. (2.5s is also the maximum length of time we will wait for a timed get that is
+   * expected to succeed; the fact that the numbers match is only a coincidence.) See the comment
+   * below for how to restore the fast but hang-y version.
    */
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static List<String> conditionalPseudoTimedGetUninterruptibly(
@@ -1666,7 +1709,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future2 = SettableFuture.create();
     SettableFuture<String> future3 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2, future3);
 
     // Attach a listener
@@ -1705,7 +1748,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound = Futures.successfulAsList();
+        ListenableFuture<List<String>> compound = Futures.successfulAsList();
     compound.addListener(listener, directExecutor());
     assertTrue(compound.isDone());
     assertTrue(compound.get().isEmpty());
@@ -1718,7 +1761,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -1740,7 +1783,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -1762,7 +1805,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2);
     compound.addListener(listener, directExecutor());
 
@@ -1783,7 +1826,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2);
 
     future2.set(DATA2);
@@ -1803,15 +1846,20 @@ public class FuturesTest extends EmptySetUpAndTearDown {
      * turn that back into a failure.
      */
     Handler throwingHandler = new Handler() {
-      @Override public void publish(@Nullable LogRecord record) {
+      @Override
+      public void publish(@Nullable LogRecord record) {
         AssertionFailedError error = new AssertionFailedError();
         error.initCause(record.getThrown());
         throw error;
       }
 
-      @Override public void flush() {}
+      @Override
+      public void flush() {
+      }
 
-      @Override public void close() {}
+      @Override
+      public void close() {
+      }
     };
 
     ExecutionList.log.addHandler(throwingHandler);
@@ -1837,11 +1885,12 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     final SettableFuture<String> future1 = SettableFuture.create();
     final SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2);
 
     future1.addListener(new Runnable() {
-      @Override public void run() {
+      @Override
+      public void run() {
         assertTrue(future1.isCancelled());
         /*
          * This test relies on behavior that's unspecified but currently
@@ -1872,7 +1921,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2);
 
     future2.set(DATA2);
@@ -1890,7 +1939,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     SettableFuture<String> future2 = SettableFuture.create();
     SettableFuture<String> future3 = SettableFuture.create();
     @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<String>> compound =
+        ListenableFuture<List<String>> compound =
         Futures.successfulAsList(future1, future2, future3);
     compound.addListener(listener, directExecutor());
 
@@ -1909,7 +1958,9 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     assertThat(results).containsExactly(null, null, DATA3).inOrder();
   }
 
-  /** Non-Error exceptions are never logged. */
+  /**
+   * Non-Error exceptions are never logged.
+   */
   @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testSuccessfulAsList_logging_exception() throws Exception {
@@ -1996,6 +2047,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static class TestException extends Exception {
+
     TestException(@Nullable Throwable cause) {
       super(cause);
     }
@@ -2004,17 +2056,18 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static final Function<Exception, TestException> mapper =
       new Function<Exception, TestException>() {
-    @Override public TestException apply(Exception from) {
-      if (from instanceof ExecutionException) {
-        return new TestException(from.getCause());
-      } else {
-        assertTrue("got " + from.getClass(),
-            from instanceof InterruptedException
-                || from instanceof CancellationException);
-        return new TestException(from);
-      }
-    }
-  };
+        @Override
+        public TestException apply(Exception from) {
+          if (from instanceof ExecutionException) {
+            return new TestException(from.getCause());
+          } else {
+            assertTrue("got " + from.getClass(),
+                from instanceof InterruptedException
+                    || from instanceof CancellationException);
+            return new TestException(from);
+          }
+        }
+      };
 
   @GwtIncompatible("makeChecked")
   public void testMakeChecked_mapsExecutionExceptions() throws Exception {
@@ -2113,12 +2166,14 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     try {
       checked.get();
       fail();
-    } catch (CancellationException expected) {}
+    } catch (CancellationException expected) {
+    }
 
     try {
       checked.get(5, TimeUnit.SECONDS);
       fail();
-    } catch (CancellationException expected) {}
+    } catch (CancellationException expected) {
+    }
 
     try {
       checked.checkedGet();
@@ -2141,22 +2196,25 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
     CheckedFuture<String, TestException> checked = Futures.makeChecked(
         future, new Function<Exception, TestException>() {
-          @Override public TestException apply(Exception from) {
+          @Override
+          public TestException apply(Exception from) {
             throw new NullPointerException();
           }
-    });
+        });
 
     future.setException(new Exception("failed"));
 
     try {
       checked.checkedGet();
       fail();
-    } catch (NullPointerException expected) {}
+    } catch (NullPointerException expected) {
+    }
 
     try {
       checked.checkedGet(5, TimeUnit.SECONDS);
       fail();
-    } catch (NullPointerException expected) {}
+    } catch (NullPointerException expected) {
+    }
   }
 
   @GwtIncompatible("makeChecked")
@@ -2166,10 +2224,11 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
     CheckedFuture<String, TestException> checked = Futures.makeChecked(
         future, new Function<Exception, TestException>() {
-          @Override public TestException apply(Exception from) {
+          @Override
+          public TestException apply(Exception from) {
             throw new NullPointerException();
           }
-    });
+        });
 
     ListenableFutureTester tester = new ListenableFutureTester(checked);
     tester.setUp();
@@ -2185,10 +2244,11 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
     CheckedFuture<String, TestException> checked = Futures.makeChecked(
         future, new Function<Exception, TestException>() {
-          @Override public TestException apply(Exception from) {
+          @Override
+          public TestException apply(Exception from) {
             throw new NullPointerException();
           }
-    });
+        });
 
     ListenableFutureTester tester = new ListenableFutureTester(checked);
     tester.setUp();
@@ -2204,10 +2264,11 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
     CheckedFuture<String, TestException> checked = Futures.makeChecked(
         future, new Function<Exception, TestException>() {
-          @Override public TestException apply(Exception from) {
+          @Override
+          public TestException apply(Exception from) {
             throw new NullPointerException();
           }
-    });
+        });
 
     ListenableFutureTester tester = new ListenableFutureTester(checked);
     tester.setUp();
@@ -2217,9 +2278,13 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   }
 
   @GwtIncompatible("used only in GwtIncompatible tests")
-  private interface MapperFunction extends Function<Throwable, Exception> {}
+  private interface MapperFunction extends Function<Throwable, Exception> {
 
-  private static final class OtherThrowable extends Throwable {}
+  }
+
+  private static final class OtherThrowable extends Throwable {
+
+  }
 
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static final Exception CHECKED_EXCEPTION = new Exception("mymessage");
@@ -2248,11 +2313,13 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static final Future<String> RUNTIME_EXCEPTION_FUTURE =
       new SimpleForwardingFuture<String>(FAILED_FUTURE_CHECKED_EXCEPTION) {
-        @Override public String get() {
+        @Override
+        public String get() {
           throw RUNTIME_EXCEPTION;
         }
 
-        @Override public String get(long timeout, TimeUnit unit) {
+        @Override
+        public String get(long timeout, TimeUnit unit) {
           throw RUNTIME_EXCEPTION;
         }
       };
@@ -2766,6 +2833,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
   @GwtIncompatible("used only in GwtIncompatible tests")
   public static final class TwoArgConstructorException extends Exception {
+
     public TwoArgConstructorException(String message, Throwable cause) {
       super(message, cause);
     }
@@ -2774,6 +2842,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   @GwtIncompatible("used only in GwtIncompatible tests")
   public static final class TwoArgConstructorRuntimeException
       extends RuntimeException {
+
     public TwoArgConstructorRuntimeException(String message, Throwable cause) {
       super(message, cause);
     }
@@ -2781,6 +2850,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
   @GwtIncompatible("used only in GwtIncompatible tests")
   public static final class ExceptionWithPrivateConstructor extends Exception {
+
     private ExceptionWithPrivateConstructor(String message, Throwable cause) {
       super(message, cause);
     }
@@ -2790,6 +2860,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   @SuppressWarnings("unused") // we're testing that they're not used
   public static final class ExceptionWithSomePrivateConstructors
       extends Exception {
+
     private ExceptionWithSomePrivateConstructors(String a) {
     }
 
@@ -2811,6 +2882,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
   @GwtIncompatible("used only in GwtIncompatible tests")
   public static final class ExceptionWithManyConstructors extends Exception {
+
     boolean usedExpectedConstructor;
 
     public ExceptionWithManyConstructors() {
@@ -2849,6 +2921,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   @GwtIncompatible("used only in GwtIncompatible tests")
   public static final class ExceptionWithoutThrowableConstructor
       extends Exception {
+
     public ExceptionWithoutThrowableConstructor(String s) {
       super(s);
     }
@@ -2857,6 +2930,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
   @GwtIncompatible("used only in GwtIncompatible tests")
   public static final class ExceptionWithWrongTypesConstructor
       extends Exception {
+
     public ExceptionWithWrongTypesConstructor(Integer i, String s) {
       super(s);
     }
@@ -2864,6 +2938,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static final class ExceptionWithGoodAndBadConstructor extends Exception {
+
     public ExceptionWithGoodAndBadConstructor(String message, Throwable cause) {
       throw new RuntimeException("bad constructor");
     }
@@ -2875,6 +2950,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
 
   @GwtIncompatible("used only in GwtIncompatible tests")
   private static final class ExceptionWithBadConstructor extends Exception {
+
     public ExceptionWithBadConstructor(String message, Throwable cause) {
       throw new RuntimeException("bad constructor");
     }
@@ -2894,12 +2970,18 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     return failure;
   }
 
-  /** A future that throws a runtime exception from get. */
+  /**
+   * A future that throws a runtime exception from get.
+   */
   static class BuggyFuture extends AbstractFuture<String> {
-    @Override public String get() {
+
+    @Override
+    public String get() {
       throw new RuntimeException();
     }
-    @Override public boolean set(String v) {
+
+    @Override
+    public boolean set(String v) {
       return super.set(v);
     }
   }
