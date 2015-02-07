@@ -22,11 +22,9 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.common.io.ByteStreams;
 import com.google.common.io.Closer;
 import com.google.common.io.Resources;
 import com.google.common.reflect.ClassPath.ClassInfo;
-import com.google.common.reflect.ClassPath.Entry;
 import com.google.common.reflect.ClassPath.ResourceInfo;
 import com.google.common.reflect.subpackage.ClassInSubPackage;
 import com.google.common.testing.EqualsTester;
@@ -45,7 +43,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.Attributes;
@@ -157,19 +154,6 @@ public class ClassPathTest extends TestCase {
         findClass(ClassPath.from(sub2).getTopLevelClasses(), ClassPathTest.class));
   }
 
-  public void testGetAllEntries() throws Exception {
-    Set<String> resourceNames = new HashSet<String>();
-    for (Entry entry : ClassPath.getAllEntries(getClass().getClassLoader())) {
-      boolean first = resourceNames.add(entry.toString());
-      byte[] data = Resources.toByteArray(entry.url());
-      if (first) {
-        ResourceInfo resource = entry.toResourceInfo();
-        byte[] resourceData = ByteStreams.toByteArray(resource.url().openStream());
-        assertThat(data).isEqualTo(resourceData);
-      }
-    }
-  }
-
   public void testEquals() {
     new EqualsTester()
         .addEqualityGroup(classInfo(ClassPathTest.class), classInfo(ClassPathTest.class))
@@ -250,7 +234,7 @@ public class ClassPathTest extends TestCase {
       writeSelfReferencingJarFile(jarFile, "test.txt");
       ClassPath.Scanner scanner = new ClassPath.Scanner();
       scanner.scan(jarFile, ClassPathTest.class.getClassLoader());
-      assertEquals(1, scanner.getEntries().size());
+      assertEquals(1, scanner.getResources().size());
     } finally {
       jarFile.delete();
     }
@@ -260,7 +244,7 @@ public class ClassPathTest extends TestCase {
     ClassLoader classLoader = ClassPathTest.class.getClassLoader();
     ClassPath.Scanner scanner = new ClassPath.Scanner();
     scanner.scanFrom(new File("no/such/file/anywhere"), classLoader);
-    assertThat(scanner.getEntries()).isEmpty();
+    assertThat(scanner.getResources()).isEmpty();
   }
 
   public void testScanFromFile_notJarFile() throws IOException {
@@ -272,7 +256,7 @@ public class ClassPathTest extends TestCase {
     } finally {
       notJar.delete();
     }
-    assertThat(scanner.getEntries()).isEmpty();
+    assertThat(scanner.getResources()).isEmpty();
   }
 
   public void testGetClassPathEntry() throws MalformedURLException, URISyntaxException {
@@ -396,27 +380,27 @@ public class ClassPathTest extends TestCase {
 
   public void testGetSimpleName() {
     assertEquals("Foo",
-        classInfo("Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("Foo.class", getClass().getClassLoader()).getSimpleName());
     assertEquals("Foo",
-        classInfo("a/b/Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getSimpleName());
     assertEquals("Foo",
-        classInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
     assertEquals("",
-        classInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
     assertEquals("Foo",
-        classInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
     assertEquals("",
-        classInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
     assertEquals("Local",
-        classInfo("a/b/Bar$1Local.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$1Local.class", getClass().getClassLoader()).getSimpleName());
 
   }
 
   public void testGetPackageName() {
     assertEquals("",
-        classInfo("Foo.class", getClass().getClassLoader()).getPackageName());
+        new ClassInfo("Foo.class", getClass().getClassLoader()).getPackageName());
     assertEquals("a.b",
-        classInfo("a/b/Foo.class", getClass().getClassLoader()).getPackageName());
+        new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getPackageName());
   }
 
   private static class Nested {}
@@ -438,7 +422,7 @@ public class ClassPathTest extends TestCase {
   }
 
   private static ResourceInfo resourceInfo(Class<?> cls) {
-    return classInfo(cls, cls.getClassLoader());
+    return ResourceInfo.of(cls.getName().replace('.', '/') + ".class", cls.getClassLoader());
   }
 
   private static ClassInfo classInfo(Class<?> cls) {
@@ -446,12 +430,7 @@ public class ClassPathTest extends TestCase {
   }
 
   private static ClassInfo classInfo(Class<?> cls, ClassLoader classLoader) {
-    String name = cls.getName();
-    return classInfo(name, classLoader);
-  }
-
-  private static ClassInfo classInfo(String resourceName, ClassLoader classLoader) {
-    return new ClassInfo(resourceName, ClassPath.getClassName(resourceName), classLoader);
+    return new ClassInfo(cls.getName().replace('.', '/') + ".class", classLoader);
   }
 
   private static Manifest manifestClasspath(String classpath) throws IOException {
