@@ -391,10 +391,10 @@ public class AbstractFutureTest extends TestCase {
           // We were cancelled, it is possible that setFuture could have succeeded to.
           assertThat(numSuccessfulSetCalls.get()).isIn(Range.closed(1, 2));
         } else {
-          assertThat(numSuccessfulSetCalls.get()).is(1);
+          assertThat(numSuccessfulSetCalls.get()).isEqualTo(1);
         }
       } else {
-        assertThat(numSuccessfulSetCalls.get()).is(1);
+        assertThat(numSuccessfulSetCalls.get()).isEqualTo(1);
       }
       // reset for next iteration
       numSuccessfulSetCalls.set(0);

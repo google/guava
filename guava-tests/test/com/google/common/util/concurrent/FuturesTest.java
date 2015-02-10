@@ -606,7 +606,7 @@ public class FuturesTest extends EmptySetUpAndTearDown {
     }
 
     void verifyCallCount(int expected) {
-      assertThat(count).is(expected);
+      assertThat(count).isEqualTo(expected);
     }
   }
 
