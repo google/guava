@@ -48,6 +48,14 @@ import javax.annotation.Nullable;
  * you easily make a "defensive copy" of a multimap provided to your class by
  * a caller.
  *
+ * <a name="iteration"></a>
+ * <p><b>Key-grouped iteration.</b> All view collections follow the same
+ * iteration order. In all current implementations, the iteration order always
+ * keeps multiple entries with the same key together. Any creation method that
+ * would customarily respect insertion order (such as {@link #copyOf(Multimap)})
+ * instead preserves key-grouped order by inserting entries for an existing key
+ * immediately after the last entry having that key.
+ *
  * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
  * it has no public or protected constructors. Thus, instances of this class
  * are guaranteed to be immutable.
@@ -86,7 +94,9 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Returns an immutable multimap containing the given entries, in order.
+   * Returns an immutable multimap containing the given entries, in the
+   * "key-grouped" insertion order described in the
+   * <a href="#iteration">class documentation</a>.
    */
   public static <K, V> ImmutableMultimap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3) {
@@ -94,7 +104,9 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Returns an immutable multimap containing the given entries, in order.
+   * Returns an immutable multimap containing the given entries, in the
+   * "key-grouped" insertion order described in the
+   * <a href="#iteration">class documentation</a>.
    */
   public static <K, V> ImmutableMultimap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
@@ -102,7 +114,9 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Returns an immutable multimap containing the given entries, in order.
+   * Returns an immutable multimap containing the given entries, in the
+   * "key-grouped" insertion order described in the
+   * <a href="#iteration">class documentation</a>.
    */
   public static <K, V> ImmutableMultimap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
@@ -288,8 +302,8 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
   /**
    * Returns an immutable multimap containing the same mappings as {@code
-   * multimap}. The generated multimap's key and value orderings correspond to
-   * the iteration ordering of the {@code multimap.asMap()} view.
+   * multimap}, in the "key-grouped" iteration order described in the class
+   * documentation.
    *
    * <p>Despite the method name, this method attempts to avoid actually copying
    * the data when it is safe to do so. The exact circumstances under which a
@@ -487,9 +501,8 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   // views
 
   /**
-   * Returns an immutable set of the distinct keys in this multimap. These keys
-   * are ordered according to when they first appeared during the construction
-   * of this multimap.
+   * Returns an immutable set of the distinct keys in this multimap, in the same
+   * order as they appear in this multimap.
    */
   @Override
   public ImmutableSet<K> keySet() {
@@ -498,7 +511,8 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
   /**
    * Returns an immutable map that associates each key with its corresponding
-   * values in the multimap.
+   * values in the multimap. Keys and values appear in the same order as in this
+   * multimap.
    */
   @Override
   @SuppressWarnings("unchecked") // a widening cast
@@ -512,9 +526,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Returns an immutable collection of all key-value pairs in the multimap. Its
-   * iterator traverses the values for the first key, the values for the second
-   * key, and so on.
+   * Returns an immutable collection of all key-value pairs in the multimap.
    */
   @Override
   public ImmutableCollection<Entry<K, V>> entries() {
@@ -592,10 +604,9 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Returns a collection, which may contain duplicates, of all keys. The number
-   * of times a key appears in the returned multiset equals the number of
-   * mappings the key has in the multimap. Duplicate keys appear consecutively
-   * in the multiset's iteration order.
+   * Returns an immutable multiset containing all the keys in this multimap, in
+   * the same order and with the same frequencies as they appear in this
+   * multimap; to get only a single occurrence of each key, use {@link #keySet}.
    */
   @Override
   public ImmutableMultiset<K> keys() {
