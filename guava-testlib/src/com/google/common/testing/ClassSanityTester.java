@@ -124,7 +124,7 @@ public final class ClassSanityTester {
   /**
    * Sets the default value for {@code type}. The default value isn't used in testing {@link
    * Object#equals} because more than one sample instances are needed for testing inequality.
-   * To set sample instances for equality testing, use {@link #setSampleInstances} instead.
+   * To set distinct values for equality testing, use {@link #setDistinctValues} instead.
    */
   public <T> ClassSanityTester setDefault(Class<T> type, T value) {
     nullPointerTester.setDefault(type, value);
@@ -143,11 +143,13 @@ public final class ClassSanityTester {
    * non-null sample is sufficient. Setting an empty list will clear sample instances for {@code
    * type}.
    *
-   * @deprecated Use {@link #setDistinctValues} instead. This method will be removed in Guava
-   *     release 20.0.
+   * @deprecated To supply multiple values, use {@link #setDistinctValues}. It accepts only two
+   *     values, which is enough for any {@code equals} testing. To supply a single value, use
+   *     {@link #setDefault}. This method will be removed in Guava release 20.0.
    */
   @Deprecated
-  public <T> ClassSanityTester setSampleInstances(Class<T> type, Iterable<? extends T> instances) {
+  public <T> ClassSanityTester setSampleInstances(
+      Class<T> type, Iterable<? extends T> instances) {
     ImmutableList<? extends T> samples = ImmutableList.copyOf(instances);
     Set<Object> uniqueValues = new HashSet<Object>();
     for (T instance : instances) {
@@ -299,7 +301,7 @@ public final class ClassSanityTester {
       throw Throwables.propagate(e);
     }
   }
- 
+
   void doTestEquals(Class<?> cls)
       throws ParameterNotInstantiableException, ParameterHasNoDistinctValueException,
              IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {
@@ -820,4 +822,3 @@ public final class ClassSanityTester {
     }
   }
 }
-
