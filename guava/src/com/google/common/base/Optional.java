@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -69,6 +70,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 10.0
  */
+@CheckReturnValue
 @GwtCompatible(serializable = true)
 public abstract class Optional<T> implements Serializable {
   /**
