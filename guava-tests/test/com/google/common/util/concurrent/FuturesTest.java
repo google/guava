@@ -47,6 +47,7 @@ import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture;
 
 import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -75,8 +76,7 @@ import javax.annotation.Nullable;
  * @author Nishant Thakkar
  */
 @GwtCompatible(emulated = true)
-public class FuturesTest extends EmptySetUpAndTearDown {
-
+public class FuturesTest extends TestCase {
   @GwtIncompatible("TestLogHandler")
   private static final Logger combinedFutureLogger = Logger.getLogger(
       "com.google.common.util.concurrent.CollectionFuture");

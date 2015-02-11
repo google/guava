@@ -26,6 +26,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Functions;
 
 import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -41,7 +42,7 @@ import java.util.concurrent.TimeUnit;
  * @author Nishant Thakkar
  */
 @GwtCompatible(emulated = true)
-public class FuturesTest extends EmptySetUpAndTearDown {
+public class FuturesTest extends TestCase {
 
   private static final String DATA1 = "data";
   private static final String DATA2 = "more data";
