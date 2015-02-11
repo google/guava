@@ -3520,9 +3520,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     public ListenableFuture<V> loadFuture(K key, CacheLoader<? super K, V> loader) {
-      stopwatch.start();
-      V previousValue = oldValue.get();
       try {
+        stopwatch.start();
+        V previousValue = oldValue.get();
         if (previousValue == null) {
           V newValue = loader.load(key);
           return set(newValue) ? futureValue : Futures.immediateFuture(newValue);
@@ -3541,10 +3541,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
           }
         });
       } catch (Throwable t) {
+        ListenableFuture<V> result = setException(t) ? futureValue : fullyFailedFuture(t);
         if (t instanceof InterruptedException) {
           Thread.currentThread().interrupt();
         }
-        return setException(t) ? futureValue : fullyFailedFuture(t);
+        return result;
       }
     }
 
