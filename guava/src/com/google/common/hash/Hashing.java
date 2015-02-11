@@ -213,6 +213,21 @@ public final class Hashing {
   }
 
   /**
+   * Returns a hash function implementing the SHA-384 algorithm (384 hash bits) by delegating to
+   * the SHA-384 {@link MessageDigest}.
+   *
+   * @since 19.0
+   */
+  public static HashFunction sha384() {
+    return Sha384Holder.SHA_384;
+  }
+
+  private static class Sha384Holder {
+    static final HashFunction SHA_384 =
+        new MessageDigestHashFunction("SHA-384", "Hashing.sha384()");
+  }
+
+  /**
    * Returns a hash function implementing the SHA-512 algorithm (512 hash bits) by delegating to the
    * SHA-512 {@link MessageDigest}.
    */

@@ -70,6 +70,14 @@ public class HashingTest extends TestCase {
     assertEquals("Hashing.sha256()", Hashing.sha256().toString());
   }
 
+  public void testSha384() {
+    HashTestUtils.checkAvalanche(Hashing.sha384(), 100, 0.4);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.sha384());
+    HashTestUtils.checkNoFunnels(Hashing.sha384());
+    HashTestUtils.assertInvariants(Hashing.sha384());
+    assertEquals("Hashing.sha384()", Hashing.sha384().toString());
+  }
+
   public void testSha512() {
     HashTestUtils.checkAvalanche(Hashing.sha512(), 100, 0.4);
     HashTestUtils.checkNo2BitCharacteristics(Hashing.sha512());
@@ -400,6 +408,15 @@ public class HashingTest extends TestCase {
                "d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592")
           .put(Hashing.sha256(), TQBFJOTLDP,
                "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c")
+          .put(Hashing.sha384(), EMPTY_STRING,
+               "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da2"
+               + "74edebfe76f65fbd51ad2f14898b95b")
+          .put(Hashing.sha384(), TQBFJOTLD,
+               "ca737f1014a48f4c0b6dd43cb177b0afd9e5169367544c494011e3317dbf9a509"
+               + "cb1e5dc1e85a941bbee3d7f2afbc9b1")
+          .put(Hashing.sha384(), TQBFJOTLDP,
+               "ed892481d8272ca6df370bf706e4d7bc1b5739fa2177aae6c50e946678718fc67"
+               + "a7af2819a021c2fc34e91bdb63409d7")
           .put(Hashing.sha512(), EMPTY_STRING,
                "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce"
                + "47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e")

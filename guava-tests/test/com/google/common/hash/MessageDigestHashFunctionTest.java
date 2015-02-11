@@ -47,6 +47,7 @@ public class MessageDigestHashFunctionTest extends TestCase {
           .put("sHa-1", Hashing.sha1()) // Not the official name, but still works
           .put("SHA-1", Hashing.sha1())
           .put("SHA-256", Hashing.sha256())
+          .put("SHA-384", Hashing.sha384())
           .put("SHA-512", Hashing.sha512())
           .build();
 

@@ -33,6 +33,7 @@ enum HashFunctionEnum {
   MURMUR3_32(Hashing.murmur3_32()),
   SHA1(Hashing.sha1()),
   SHA256(Hashing.sha256()),
+  SHA384(Hashing.sha384()),
   SHA512(Hashing.sha512()),
   SIP_HASH24(Hashing.sipHash24()),
 
