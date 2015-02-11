@@ -34,6 +34,7 @@ import com.google.common.util.concurrent.Service.State; // javadoc needs this
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -96,6 +97,9 @@ public abstract class AbstractService implements Service {
 
   private final Monitor monitor = new Monitor();
 
+  private final Transition startup = new Transition();
+  private final Transition shutdown = new Transition();
+
   private final Guard isStartable = new Guard(monitor) {
     @Override public boolean isSatisfied() {
       return state() == NEW;
@@ -140,7 +144,52 @@ public abstract class AbstractService implements Service {
   private volatile StateSnapshot snapshot = new StateSnapshot(NEW);
 
   /** Constructor for use by subclasses. */
-  protected AbstractService() {}
+  protected AbstractService() {
+
+    // Add a listener to update the futures. This needs to be added first so that it is executed
+    // before the other listeners. This way the other listeners can access the completed futures.
+    addListener(
+        new Listener() {
+          @Override public void running() {
+            startup.set(RUNNING);
+          }
+
+          @Override public void stopping(State from) {
+            if (from == STARTING) {
+              startup.set(STOPPING);
+            }
+          }
+
+          @Override public void terminated(State from) {
+            if (from == NEW) {
+              startup.set(TERMINATED);
+            }
+            shutdown.set(TERMINATED);
+          }
+
+          @Override public void failed(State from, Throwable failure) {
+            switch (from) {
+              case STARTING:
+                startup.setException(failure);
+                shutdown.setException(new Exception("Service failed to start.", failure));
+                break;
+              case RUNNING:
+                shutdown.setException(new Exception("Service failed while running", failure));
+                break;
+              case STOPPING:
+                shutdown.setException(failure);
+                break;
+              case TERMINATED:  // fall-through
+              case FAILED:  // fall-through
+              case NEW:  // fall-through
+              default:
+                throw new AssertionError("Unexpected from state: " + from);
+            }
+          }
+        },
+        MoreExecutors.sameThreadExecutor());
+
+  }
 
   /**
    * This method is called by {@link #startAsync} to initiate service startup. The invocation of
@@ -185,6 +234,24 @@ public abstract class AbstractService implements Service {
     return this;
   }
 
+  @Deprecated
+  @Override
+  public final ListenableFuture<State> start() {
+    if (monitor.enterIf(isStartable)) {
+      try {
+        snapshot = new StateSnapshot(STARTING);
+        starting();
+        doStart();
+      } catch (Throwable startupFailure) {
+        notifyFailed(startupFailure);
+      } finally {
+        monitor.leave();
+        executeListeners();
+      }
+    }
+    return startup;
+  }
+
   @Override public final Service stopAsync() {
     if (monitor.enterIf(isStoppable)) {
       try {
@@ -221,6 +288,24 @@ public abstract class AbstractService implements Service {
       }
     }
     return this;
+  }
+
+  @Deprecated
+  @Override
+  public final ListenableFuture<State> stop() {
+    return shutdown;
+  }
+
+  @Deprecated
+  @Override
+  public State startAndWait() {
+    return Futures.getUnchecked(start());
+  }
+
+  @Deprecated
+  @Override
+  public State stopAndWait() {
+    return Futures.getUnchecked(stop());
   }
 
   @Override public final void awaitRunning() {
@@ -420,6 +505,19 @@ public abstract class AbstractService implements Service {
 
   @Override public String toString() {
     return getClass().getSimpleName() + " [" + state() + "]";
+  }
+
+  // A change from one service state to another, plus the result of the change.
+  private class Transition extends AbstractFuture<State> {
+    @Override
+    public State get(long timeout, TimeUnit unit)
+        throws InterruptedException, TimeoutException, ExecutionException {
+      try {
+        return super.get(timeout, unit);
+      } catch (TimeoutException e) {
+        throw new TimeoutException(AbstractService.this.toString());
+      }
+    }
   }
 
   /**

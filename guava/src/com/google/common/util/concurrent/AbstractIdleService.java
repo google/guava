@@ -106,12 +106,38 @@ public abstract class AbstractIdleService implements Service {
     return serviceName() + " [" + state() + "]";
   }
 
+  // We override instead of using ForwardingService so that these can be final.
+
+  @Deprecated
+  @Override
+   public final ListenableFuture<State> start() {
+    return delegate.start();
+  }
+
+  @Deprecated
+  @Override
+   public final State startAndWait() {
+    return delegate.startAndWait();
+  }
+
   @Override public final boolean isRunning() {
     return delegate.isRunning();
   }
 
   @Override public final State state() {
     return delegate.state();
+  }
+
+  @Deprecated
+  @Override
+  public final ListenableFuture<State> stop() {
+    return delegate.stop();
+  }
+
+  @Deprecated
+  @Override
+  public final State stopAndWait() {
+    return delegate.stopAndWait();
   }
 
   /**

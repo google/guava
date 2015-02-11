@@ -55,6 +55,40 @@ import java.util.concurrent.TimeoutException;
 public interface Service {
   /**
    * If the service state is {@link State#NEW}, this initiates service startup and returns
+   * immediately. If the service has already been started, this method returns immediately without
+   * taking action. A stopped service may not be restarted.
+   *
+   * @deprecated Use {@link #startAsync()} instead of this method to start the {@link Service} or
+   * use a {@link Listener} to asynchronously wait for service startup.
+   *
+   * @return a future for the startup result, regardless of whether this call initiated startup.
+   *         Calling {@link ListenableFuture#get} will block until the service has finished
+   *         starting, and returns one of {@link State#RUNNING}, {@link State#STOPPING} or
+   *         {@link State#TERMINATED}. If the service fails to start, {@link ListenableFuture#get}
+   *         will throw an {@link ExecutionException}, and the service's state will be
+   *         {@link State#FAILED}. If it has already finished starting, {@link ListenableFuture#get}
+   *         returns immediately. Cancelling this future has no effect on the service.
+   */
+
+  @Deprecated
+  ListenableFuture<State> start();
+
+  /**
+   * Initiates service startup (if necessary), returning once the service has finished starting.
+   * Unlike calling {@code start().get()}, this method throws no checked exceptions, and it cannot
+   * be {@linkplain Thread#interrupt interrupted}.
+   *
+   * @deprecated Use {@link #startAsync()} and {@link #awaitRunning} instead of this method.
+   *
+   * @throws UncheckedExecutionException if startup failed
+   * @return the state of the service when startup finished.
+   */
+
+  @Deprecated
+  State startAndWait();
+
+  /**
+   * If the service state is {@link State#NEW}, this initiates service startup and returns
    * immediately. A stopped service may not be restarted.
    * 
    * @return this
@@ -73,6 +107,42 @@ public interface Service {
    * Returns the lifecycle state of the service.
    */
   State state();
+
+  /**
+   * If the service is {@linkplain State#STARTING starting} or {@linkplain State#RUNNING running},
+   * this initiates service shutdown and returns immediately. If the service is
+   * {@linkplain State#NEW new}, it is {@linkplain State#TERMINATED terminated} without having been
+   * started nor stopped. If the service has already been stopped, this method returns immediately
+   * without taking action.
+   *
+   * @deprecated Use {@link #stopAsync} instead of this method to initiate service shutdown or use a
+   * service {@link Listener} to asynchronously wait for service shutdown.
+   *
+   * @return a future for the shutdown result, regardless of whether this call initiated shutdown.
+   *         Calling {@link ListenableFuture#get} will block until the service has finished shutting
+   *         down, and either returns {@link State#TERMINATED} or throws an
+   *         {@link ExecutionException}. If it has already finished stopping,
+   *         {@link ListenableFuture#get} returns immediately. Cancelling this future has no effect
+   *         on the service.
+   */
+
+  @Deprecated
+  ListenableFuture<State> stop();
+
+  /**
+   * Initiates service shutdown (if necessary), returning once the service has finished stopping. If
+   * this is {@link State#STARTING}, startup will be cancelled. If this is {@link State#NEW}, it is
+   * {@link State#TERMINATED terminated} without having been started nor stopped. Unlike calling
+   * {@code stop().get()}, this method throws no checked exceptions.
+   *
+   * @deprecated Use {@link #stopAsync} and {@link #awaitTerminated} instead of this method.
+   *
+   * @throws UncheckedExecutionException if the service has failed or fails during shutdown
+   * @return the state of the service when shutdown finished.
+   */
+
+  @Deprecated
+  State stopAndWait();
 
   /**
    * If the service is {@linkplain State#STARTING starting} or {@linkplain State#RUNNING running},
