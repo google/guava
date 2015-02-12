@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -48,8 +46,8 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 public class BiMapTestSuiteBuilder<K, V>
-    extends PerCollectionSizeTestSuiteBuilder<BiMapTestSuiteBuilder<K, V>,
-            TestBiMapGenerator<K, V>, BiMap<K, V>, Map.Entry<K, V>> {
+    extends
+    PerCollectionSizeTestSuiteBuilder<BiMapTestSuiteBuilder<K, V>, TestBiMapGenerator<K, V>, BiMap<K, V>, Map.Entry<K, V>> {
   public static <K, V> BiMapTestSuiteBuilder<K, V> using(TestBiMapGenerator<K, V> generator) {
     return new BiMapTestSuiteBuilder<K, V>().usingGenerator(generator);
   }
@@ -75,21 +73,17 @@ public class BiMapTestSuiteBuilder<K, V>
   }
 
   @Override
-  protected
-      List<TestSuite>
-      createDerivedSuites(
-          FeatureSpecificTestSuiteBuilder<?,
-              ? extends OneSizeTestContainerGenerator<BiMap<K, V>, Entry<K, V>>> parentBuilder) {
+  protected List<TestSuite> createDerivedSuites(
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<BiMap<K, V>, Entry<K, V>>> parentBuilder) {
     List<TestSuite> derived = super.createDerivedSuites(parentBuilder);
     // TODO(cpovirk): consider using this approach (derived suites instead of extension) in
     // ListTestSuiteBuilder, etc.?
     derived.add(MapTestSuiteBuilder
         .using(new MapGenerator<K, V>(parentBuilder.getSubjectGenerator()))
-        .withFeatures(parentBuilder.getFeatures())
-        .named(parentBuilder.getName() + " [Map]")
+        .withFeatures(parentBuilder.getFeatures()).named(parentBuilder.getName() + " [Map]")
         .suppressing(parentBuilder.getSuppressedTests())
         .suppressing(SetCreationTester.class.getMethods())
-           // BiMap.entrySet() duplicate-handling behavior is too confusing for SetCreationTester
+        // BiMap.entrySet() duplicate-handling behavior is too confusing for SetCreationTester
         .createTestSuite());
     /*
      * TODO(cpovirk): the Map tests duplicate most of this effort by using a
@@ -101,15 +95,14 @@ public class BiMapTestSuiteBuilder<K, V>
         .named(parentBuilder.getName() + " values [Set]")
         .suppressing(parentBuilder.getSuppressedTests())
         .suppressing(SetCreationTester.class.getMethods())
-          // BiMap.values() duplicate-handling behavior is too confusing for SetCreationTester
+        // BiMap.values() duplicate-handling behavior is too confusing for SetCreationTester
         .createTestSuite());
     if (!parentBuilder.getFeatures().contains(NoRecurse.INVERSE)) {
       derived.add(BiMapTestSuiteBuilder
           .using(new InverseBiMapGenerator<K, V>(parentBuilder.getSubjectGenerator()))
           .withFeatures(computeInverseFeatures(parentBuilder.getFeatures()))
           .named(parentBuilder.getName() + " inverse")
-          .suppressing(parentBuilder.getSuppressedTests())
-          .createTestSuite());
+          .suppressing(parentBuilder.getSuppressedTests()).createTestSuite());
     }
 
     return derived;
@@ -137,10 +130,8 @@ public class BiMapTestSuiteBuilder<K, V>
 
   // TODO(user): can we eliminate the duplication from MapTestSuiteBuilder here?
 
-  private static Set<Feature<?>> computeValuesSetFeatures(
-      Set<Feature<?>> mapFeatures) {
-    Set<Feature<?>> valuesCollectionFeatures =
-        computeCommonDerivedCollectionFeatures(mapFeatures);
+  private static Set<Feature<?>> computeValuesSetFeatures(Set<Feature<?>> mapFeatures) {
+    Set<Feature<?>> valuesCollectionFeatures = computeCommonDerivedCollectionFeatures(mapFeatures);
     valuesCollectionFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
 
     if (mapFeatures.contains(MapFeature.ALLOWS_NULL_VALUES)) {
@@ -152,8 +143,7 @@ public class BiMapTestSuiteBuilder<K, V>
     return valuesCollectionFeatures;
   }
 
-  private static Set<Feature<?>> computeCommonDerivedCollectionFeatures(
-      Set<Feature<?>> mapFeatures) {
+  private static Set<Feature<?>> computeCommonDerivedCollectionFeatures(Set<Feature<?>> mapFeatures) {
     return MapTestSuiteBuilder.computeCommonDerivedCollectionFeatures(mapFeatures);
   }
 }

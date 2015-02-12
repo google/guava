@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -28,39 +26,39 @@ import java.util.SortedMap;
 import javax.annotation.Nullable;
 
 /**
- * A sorted map which forwards all its method calls to another sorted map.
- * Subclasses should override one or more methods to modify the behavior of
- * the backing sorted map as desired per the <a
- * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+ * A sorted map which forwards all its method calls to another sorted map. Subclasses should
+ * override one or more methods to modify the behavior of the backing sorted map as desired per the
+ * <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * <p><i>Warning:</i> The methods of {@code ForwardingSortedMap} forward
- * <i>indiscriminately</i> to the methods of the delegate. For example,
- * overriding {@link #put} alone <i>will not</i> change the behavior of {@link
- * #putAll}, which can lead to unexpected behavior. In this case, you should
- * override {@code putAll} as well, either providing your own implementation, or
- * delegating to the provided {@code standardPutAll} method.
+ * <p>
+ * <i>Warning:</i> The methods of {@code ForwardingSortedMap} forward <i>indiscriminately</i> to the
+ * methods of the delegate. For example, overriding {@link #put} alone <i>will not</i> change the
+ * behavior of {@link #putAll}, which can lead to unexpected behavior. In this case, you should
+ * override {@code putAll} as well, either providing your own implementation, or delegating to the
+ * provided {@code standardPutAll} method.
  *
- * <p>Each of the {@code standard} methods, where appropriate, use the
- * comparator of the map to test equality for both keys and values, unlike
- * {@code ForwardingMap}.
+ * <p>
+ * Each of the {@code standard} methods, where appropriate, use the comparator of the map to test
+ * equality for both keys and values, unlike {@code ForwardingMap}.
  *
- * <p>The {@code standard} methods and the collection views they return are not
- * guaranteed to be thread-safe, even when all of the methods that they depend
- * on are thread-safe.
+ * <p>
+ * The {@code standard} methods and the collection views they return are not guaranteed to be
+ * thread-safe, even when all of the methods that they depend on are thread-safe.
  *
  * @author Mike Bostock
  * @author Louis Wasserman
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
-public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
-    implements SortedMap<K, V> {
+public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V> implements
+    SortedMap<K, V> {
   // TODO(user): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
   protected ForwardingSortedMap() {}
 
-  @Override protected abstract SortedMap<K, V> delegate();
+  @Override
+  protected abstract SortedMap<K, V> delegate();
 
   @Override
   public Comparator<? super K> comparator() {
@@ -119,14 +117,15 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
   }
 
   /**
-   * A sensible definition of {@link #containsKey} in terms of the {@code
-   * firstKey()} method of {@link #tailMap}. If you override {@link #tailMap},
-   * you may wish to override {@link #containsKey} to forward to this
-   * implementation.
+   * A sensible definition of {@link #containsKey} in terms of the {@code firstKey()} method of
+   * {@link #tailMap}. If you override {@link #tailMap}, you may wish to override
+   * {@link #containsKey} to forward to this implementation.
    *
    * @since 7.0
    */
-  @Override @Beta protected boolean standardContainsKey(@Nullable Object key) {
+  @Override
+  @Beta
+  protected boolean standardContainsKey(@Nullable Object key) {
     try {
       // any CCE will be caught
       @SuppressWarnings("unchecked")
@@ -143,14 +142,14 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
   }
 
   /**
-   * A sensible default implementation of {@link #subMap(Object, Object)} in
-   * terms of {@link #headMap(Object)} and {@link #tailMap(Object)}. In some
-   * situations, you may wish to override {@link #subMap(Object, Object)} to
-   * forward to this implementation.
+   * A sensible default implementation of {@link #subMap(Object, Object)} in terms of
+   * {@link #headMap(Object)} and {@link #tailMap(Object)}. In some situations, you may wish to
+   * override {@link #subMap(Object, Object)} to forward to this implementation.
    *
    * @since 7.0
    */
-  @Beta protected SortedMap<K, V> standardSubMap(K fromKey, K toKey) {
+  @Beta
+  protected SortedMap<K, V> standardSubMap(K fromKey, K toKey) {
     checkArgument(unsafeCompare(fromKey, toKey) <= 0, "fromKey must be <= toKey");
     return tailMap(fromKey).headMap(toKey);
   }

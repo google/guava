@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.eventbus;
@@ -58,11 +56,12 @@ final class SubscriberRegistry {
   /**
    * All registered subscribers, indexed by event type.
    *
-   * <p>The {@link CopyOnWriteArraySet} values make it easy and relatively lightweight to get an
+   * <p>
+   * The {@link CopyOnWriteArraySet} values make it easy and relatively lightweight to get an
    * immutable snapshot of all current subscribers to an event without any locking.
    */
-  private final ConcurrentMap<Class<?>, CopyOnWriteArraySet<Subscriber>> subscribers =
-      Maps.newConcurrentMap();
+  private final ConcurrentMap<Class<?>, CopyOnWriteArraySet<Subscriber>> subscribers = Maps
+      .newConcurrentMap();
 
   /**
    * The event bus this registry belongs to.
@@ -87,8 +86,8 @@ final class SubscriberRegistry {
 
       if (eventSubscribers == null) {
         CopyOnWriteArraySet<Subscriber> newSet = new CopyOnWriteArraySet<Subscriber>();
-        eventSubscribers = MoreObjects.firstNonNull(
-            subscribers.putIfAbsent(eventType, newSet), newSet);
+        eventSubscribers =
+            MoreObjects.firstNonNull(subscribers.putIfAbsent(eventType, newSet), newSet);
       }
 
       eventSubscribers.addAll(eventMethodsInListener);
@@ -111,8 +110,8 @@ final class SubscriberRegistry {
         // removed... however, barring something very strange we can assume that if at least one
         // subscriber was removed, all subscribers on listener for that event type were... after
         // all, the definition of subscribers on a particular class is totally static
-        throw new IllegalArgumentException(
-            "missing event subscriber for an annotated method. Is " + listener + " registered?");
+        throw new IllegalArgumentException("missing event subscriber for an annotated method. Is "
+            + listener + " registered?");
       }
 
       // don't try to remove the set if it's empty; that can't be done safely without a lock
@@ -153,8 +152,7 @@ final class SubscriberRegistry {
    * created and objects of the same class are registered on all of them.
    */
   private static final LoadingCache<Class<?>, ImmutableList<Method>> subscriberMethodsCache =
-      CacheBuilder.newBuilder()
-          .weakKeys()
+      CacheBuilder.newBuilder().weakKeys()
           .build(new CacheLoader<Class<?>, ImmutableList<Method>>() {
             @Override
             public ImmutableList<Method> load(Class<?> concreteClass) throws Exception {
@@ -190,8 +188,8 @@ final class SubscriberRegistry {
           Class<?>[] parameterTypes = method.getParameterTypes();
           checkArgument(parameterTypes.length == 1,
               "Method %s has @Subscribe annotation but has %s parameters."
-                  + "Subscriber methods must have exactly 1 parameter.",
-              method, parameterTypes.length);
+                  + "Subscriber methods must have exactly 1 parameter.", method,
+              parameterTypes.length);
 
           MethodIdentifier ident = new MethodIdentifier(method);
           if (!identifiers.containsKey(ident)) {
@@ -207,14 +205,14 @@ final class SubscriberRegistry {
    * Global cache of classes to their flattened hierarchy of supertypes.
    */
   private static final LoadingCache<Class<?>, ImmutableSet<Class<?>>> flattenHierarchyCache =
-      CacheBuilder.newBuilder()
-          .weakKeys()
+      CacheBuilder.newBuilder().weakKeys()
           .build(new CacheLoader<Class<?>, ImmutableSet<Class<?>>>() {
-            @SuppressWarnings("RedundantTypeArguments") // <Class<?>> is actually needed to compile
+            @SuppressWarnings("RedundantTypeArguments")
+            // <Class<?>> is actually needed to compile
             @Override
             public ImmutableSet<Class<?>> load(Class<?> concreteClass) {
-              return ImmutableSet.<Class<?>>copyOf(
-                  TypeToken.of(concreteClass).getTypes().rawTypes());
+              return ImmutableSet.<Class<?>>copyOf(TypeToken.of(concreteClass).getTypes()
+                  .rawTypes());
             }
           });
 

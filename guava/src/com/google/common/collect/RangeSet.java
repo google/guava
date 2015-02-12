@@ -1,15 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -25,20 +25,27 @@ import javax.annotation.Nullable;
  * A set comprising zero or more {@linkplain Range#isEmpty nonempty},
  * {@linkplain Range#isConnected(Range) disconnected} ranges of type {@code C}.
  *
- * <p>Implementations that choose to support the {@link #add(Range)} operation are required to
- * ignore empty ranges and coalesce connected ranges.  For example:  <pre>   {@code
- *
+ * <p>
+ * Implementations that choose to support the {@link #add(Range)} operation are required to ignore
+ * empty ranges and coalesce connected ranges. For example:
+ * 
+ * <pre>
+ * {@code
+ * 
  *   RangeSet<Integer> rangeSet = TreeRangeSet.create();
  *   rangeSet.add(Range.closed(1, 10)); // {[1, 10]}
  *   rangeSet.add(Range.closedOpen(11, 15)); // disconnected range; {[1, 10], [11, 15)}
  *   rangeSet.add(Range.closedOpen(15, 20)); // connected range; {[1, 10], [11, 20)}
  *   rangeSet.add(Range.openClosed(0, 0)); // empty range; {[1, 10], [11, 20)}
- *   rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 20)}}</pre>
+ *   rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 20)}}
+ * </pre>
  *
- * <p>Note that the behavior of {@link Range#isEmpty()} and {@link Range#isConnected(Range)} may
- * not be as expected on discrete ranges.  See the Javadoc of those methods for details.
+ * <p>
+ * Note that the behavior of {@link Range#isEmpty()} and {@link Range#isConnected(Range)} may not be
+ * as expected on discrete ranges. See the Javadoc of those methods for details.
  *
- * <p>For a {@link Set} whose contents are specified by a {@link Range}, see {@link ContiguousSet}.
+ * <p>
+ * For a {@link Set} whose contents are specified by a {@link Range}, see {@link ContiguousSet}.
  *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
@@ -46,7 +53,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 public interface RangeSet<C extends Comparable> {
-  
+
   // Query methods
 
   /**
@@ -72,7 +79,8 @@ public interface RangeSet<C extends Comparable> {
    * {@code this.contains(value)} whenever {@code other.contains(value)}. Returns {@code true} if
    * {@code other} is empty.
    *
-   * <p>This is equivalent to checking if this range set {@link #encloses} each of the ranges in
+   * <p>
+   * This is equivalent to checking if this range set {@link #encloses} each of the ranges in
    * {@code other}.
    */
   boolean enclosesAll(RangeSet<C> other);
@@ -83,18 +91,18 @@ public interface RangeSet<C extends Comparable> {
   boolean isEmpty();
 
   /**
-   * Returns the minimal range which {@linkplain Range#encloses(Range) encloses} all ranges
-   * in this range set.
+   * Returns the minimal range which {@linkplain Range#encloses(Range) encloses} all ranges in this
+   * range set.
    *
    * @throws NoSuchElementException if this range set is {@linkplain #isEmpty() empty}
    */
   Range<C> span();
 
   // Views
-  
+
   /**
    * Returns a view of the {@linkplain Range#isConnected disconnected} ranges that make up this
-   * range set.  The returned set may be empty. The iterators returned by its
+   * range set. The returned set may be empty. The iterators returned by its
    * {@link Iterable#iterator} method return the ranges in increasing order of lower bound
    * (equivalently, of upper bound).
    */
@@ -103,21 +111,23 @@ public interface RangeSet<C extends Comparable> {
   /**
    * Returns a view of the complement of this {@code RangeSet}.
    *
-   * <p>The returned view supports the {@link #add} operation if this {@code RangeSet} supports
+   * <p>
+   * The returned view supports the {@link #add} operation if this {@code RangeSet} supports
    * {@link #remove}, and vice versa.
    */
   RangeSet<C> complement();
-  
+
   /**
    * Returns a view of the intersection of this {@code RangeSet} with the specified range.
    *
-   * <p>The returned view supports all optional operations supported by this {@code RangeSet}, with
-   * the caveat that an {@link IllegalArgumentException} is thrown on an attempt to
+   * <p>
+   * The returned view supports all optional operations supported by this {@code RangeSet}, with the
+   * caveat that an {@link IllegalArgumentException} is thrown on an attempt to
    * {@linkplain #add(Range) add} any range not {@linkplain Range#encloses(Range) enclosed} by
    * {@code view}.
    */
   RangeSet<C> subRangeSet(Range<C> view);
-  
+
   // Modification
 
   /**
@@ -125,9 +135,10 @@ public interface RangeSet<C extends Comparable> {
    * range sets a and b, the result of {@code a.add(range)} is that {@code a} will be the minimal
    * range set for which both {@code a.enclosesAll(b)} and {@code a.encloses(range)}.
    *
-   * <p>Note that {@code range} will be {@linkplain Range#span(Range) coalesced} with any ranges in
-   * the range set that are {@linkplain Range#isConnected(Range) connected} with it.  Moreover,
-   * if {@code range} is empty, this is a no-op.
+   * <p>
+   * Note that {@code range} will be {@linkplain Range#span(Range) coalesced} with any ranges in the
+   * range set that are {@linkplain Range#isConnected(Range) connected} with it. Moreover, if
+   * {@code range} is empty, this is a no-op.
    *
    * @throws UnsupportedOperationException if this range set does not support the {@code add}
    *         operation
@@ -138,18 +149,20 @@ public interface RangeSet<C extends Comparable> {
    * Removes the specified range from this {@code RangeSet} (optional operation). After this
    * operation, if {@code range.contains(c)}, {@code this.contains(c)} will return {@code false}.
    *
-   * <p>If {@code range} is empty, this is a no-op.
+   * <p>
+   * If {@code range} is empty, this is a no-op.
    *
    * @throws UnsupportedOperationException if this range set does not support the {@code remove}
    *         operation
    */
   void remove(Range<C> range);
-  
+
   /**
-   * Removes all ranges from this {@code RangeSet} (optional operation).  After this operation,
+   * Removes all ranges from this {@code RangeSet} (optional operation). After this operation,
    * {@code this.contains(c)} will return false for all {@code c}.
    * 
-   * <p>This is equivalent to {@code remove(Range.all())}.
+   * <p>
+   * This is equivalent to {@code remove(Range.all())}.
    * 
    * @throws UnsupportedOperationException if this range set does not support the {@code clear}
    *         operation
@@ -161,7 +174,8 @@ public interface RangeSet<C extends Comparable> {
    * After this operation, this range set is the minimal range set that
    * {@linkplain #enclosesAll(RangeSet) encloses} both the original range set and {@code other}.
    *
-   * <p>This is equivalent to calling {@link #add} on each of the ranges in {@code other} in turn.
+   * <p>
+   * This is equivalent to calling {@link #add} on each of the ranges in {@code other} in turn.
    *
    * @throws UnsupportedOperationException if this range set does not support the {@code addAll}
    *         operation
@@ -173,14 +187,14 @@ public interface RangeSet<C extends Comparable> {
    * operation). After this operation, if {@code other.contains(c)}, {@code this.contains(c)} will
    * return {@code false}.
    *
-   * <p>This is equivalent to calling {@link #remove} on each of the ranges in {@code other} in
-   * turn.
+   * <p>
+   * This is equivalent to calling {@link #remove} on each of the ranges in {@code other} in turn.
    *
    * @throws UnsupportedOperationException if this range set does not support the {@code removeAll}
    *         operation
    */
   void removeAll(RangeSet<C> other);
-  
+
   // Object methods
 
   /**
@@ -189,7 +203,7 @@ public interface RangeSet<C extends Comparable> {
    */
   @Override
   boolean equals(@Nullable Object obj);
-  
+
   /**
    * Returns {@code asRanges().hashCode()}.
    */
@@ -198,8 +212,8 @@ public interface RangeSet<C extends Comparable> {
 
   /**
    * Returns a readable string representation of this range set. For example, if this
-   * {@code RangeSet} consisted of {@code Range.closed(1, 3)} and {@code Range.greaterThan(4)},
-   * this might return {@code " [1‥3](4‥+∞)}"}.
+   * {@code RangeSet} consisted of {@code Range.closed(1, 3)} and {@code Range.greaterThan(4)}, this
+   * might return {@code " [1‥3](4‥+∞)}"}.
    */
   @Override
   String toString();

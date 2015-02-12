@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -60,17 +60,20 @@ final class SipHashFunction extends AbstractStreamingHashFunction implements Ser
     this.k1 = k1;
   }
 
-  @Override public int bits() {
+  @Override
+  public int bits() {
     return 64;
   }
 
-  @Override public Hasher newHasher() {
+  @Override
+  public Hasher newHasher() {
     return new SipHasher(c, d, k0, k1);
   }
 
   // TODO(user): Implement and benchmark the hashFoo() shortcuts.
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "Hashing.sipHash" + c + "" + d + "(" + k0 + ", " + k1 + ")";
   }
 
@@ -78,10 +81,7 @@ final class SipHashFunction extends AbstractStreamingHashFunction implements Ser
   public boolean equals(@Nullable Object object) {
     if (object instanceof SipHashFunction) {
       SipHashFunction other = (SipHashFunction) object;
-      return (c == other.c)
-          && (d == other.d)
-          && (k0 == other.k0)
-          && (k1 == other.k1);
+      return (c == other.c) && (d == other.d) && (k0 == other.k0) && (k1 == other.k1);
     }
     return false;
   }
@@ -125,19 +125,22 @@ final class SipHashFunction extends AbstractStreamingHashFunction implements Ser
       this.v3 ^= k1;
     }
 
-    @Override protected void process(ByteBuffer buffer) {
+    @Override
+    protected void process(ByteBuffer buffer) {
       b += CHUNK_SIZE;
       processM(buffer.getLong());
     }
 
-    @Override protected void processRemaining(ByteBuffer buffer) {
+    @Override
+    protected void processRemaining(ByteBuffer buffer) {
       b += buffer.remaining();
       for (int i = 0; buffer.hasRemaining(); i += 8) {
         finalM ^= (buffer.get() & 0xFFL) << i;
       }
     }
 
-    @Override public HashCode makeHash() {
+    @Override
+    public HashCode makeHash() {
       // End with a byte encoding the positive integer b mod 256.
       finalM ^= b << 56;
       processM(finalM);

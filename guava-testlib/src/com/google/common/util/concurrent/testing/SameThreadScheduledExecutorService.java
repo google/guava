@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent.testing;
@@ -36,17 +34,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * A ScheduledExecutorService that executes all scheduled actions immediately
- * in the calling thread.
+ * A ScheduledExecutorService that executes all scheduled actions immediately in the calling thread.
  *
- * See {@link TestingExecutors#sameThreadScheduledExecutor()} for a full list of
- * constraints.
+ * See {@link TestingExecutors#sameThreadScheduledExecutor()} for a full list of constraints.
  *
  * @author John Sirois
  * @author Zach van Schouwen
  */
-class SameThreadScheduledExecutorService extends AbstractExecutorService
-    implements ListeningScheduledExecutorService {
+class SameThreadScheduledExecutorService extends AbstractExecutorService implements
+    ListeningScheduledExecutorService {
 
   private final ListeningExecutorService delegate = newDirectExecutorService();
 
@@ -71,8 +67,7 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
   }
 
   @Override
-  public boolean awaitTermination(long timeout, TimeUnit unit)
-      throws InterruptedException {
+  public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
     Preconditions.checkNotNull(unit, "unit must not be null!");
     return delegate.awaitTermination(timeout, unit);
   }
@@ -97,31 +92,29 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
   }
 
   @Override
-  public <T> List<Future<T>> invokeAll(
-      Collection<? extends Callable<T>> tasks) throws InterruptedException {
+  public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+      throws InterruptedException {
     Preconditions.checkNotNull(tasks, "tasks must not be null!");
     return delegate.invokeAll(tasks);
   }
 
   @Override
-  public <T> List<Future<T>> invokeAll(
-      Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
-      throws InterruptedException {
+  public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout,
+      TimeUnit unit) throws InterruptedException {
     Preconditions.checkNotNull(tasks, "tasks must not be null!");
     Preconditions.checkNotNull(unit, "unit must not be null!");
     return delegate.invokeAll(tasks, timeout, unit);
   }
 
   @Override
-  public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
-      throws InterruptedException, ExecutionException {
+  public <T> T invokeAny(Collection<? extends Callable<T>> tasks) throws InterruptedException,
+      ExecutionException {
     Preconditions.checkNotNull(tasks, "tasks must not be null!");
     return delegate.invokeAny(tasks);
   }
 
   @Override
-  public <T> T invokeAny(Collection<? extends Callable<T>> tasks,
-      long timeout, TimeUnit unit)
+  public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     Preconditions.checkNotNull(tasks, "tasks must not be null!");
     Preconditions.checkNotNull(unit, "unit must not be null!");
@@ -135,16 +128,13 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
   }
 
   @Override
-  public ListenableScheduledFuture<?> schedule(Runnable command, long delay,
-      TimeUnit unit) {
+  public ListenableScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
     Preconditions.checkNotNull(command, "command must not be null");
     Preconditions.checkNotNull(unit, "unit must not be null!");
-    return schedule(java.util.concurrent.Executors.callable(command),
-        delay, unit);
+    return schedule(java.util.concurrent.Executors.callable(command), delay, unit);
   }
 
-  private static class ImmediateScheduledFuture<V>
-      extends SimpleForwardingListenableFuture<V>
+  private static class ImmediateScheduledFuture<V> extends SimpleForwardingListenableFuture<V>
       implements ListenableScheduledFuture<V> {
     private ExecutionException exception;
 
@@ -153,8 +143,8 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
     }
 
     @Override
-    public V get(long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException {
+    public V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
+        TimeoutException {
       Preconditions.checkNotNull(unit, "unit must not be null!");
       return get();
     }
@@ -173,8 +163,8 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
   }
 
   @Override
-  public <V> ListenableScheduledFuture<V> schedule(final Callable<V> callable,
-      long delay, TimeUnit unit) {
+  public <V> ListenableScheduledFuture<V> schedule(final Callable<V> callable, long delay,
+      TimeUnit unit) {
     Preconditions.checkNotNull(callable, "callable must not be null!");
     Preconditions.checkNotNull(unit, "unit must not be null!");
     ListenableFuture<V> delegateFuture = submit(callable);
@@ -182,16 +172,14 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
   }
 
   @Override
-  public ListenableScheduledFuture<?> scheduleAtFixedRate(Runnable command,
-      long initialDelay, long period, TimeUnit unit) {
-    throw new UnsupportedOperationException(
-        "scheduleAtFixedRate is not supported.");
+  public ListenableScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay,
+      long period, TimeUnit unit) {
+    throw new UnsupportedOperationException("scheduleAtFixedRate is not supported.");
   }
 
   @Override
-  public ListenableScheduledFuture<?> scheduleWithFixedDelay(Runnable command,
-      long initialDelay, long delay, TimeUnit unit) {
-    throw new UnsupportedOperationException(
-        "scheduleWithFixedDelay is not supported.");
+  public ListenableScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay,
+      long delay, TimeUnit unit) {
+    throw new UnsupportedOperationException("scheduleWithFixedDelay is not supported.");
   }
 }

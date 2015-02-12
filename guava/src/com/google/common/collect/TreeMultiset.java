@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -43,11 +41,13 @@ import javax.annotation.Nullable;
  * {@link Comparable#compareTo} or {@link Comparator#compare} instead of {@link Object#equals} to
  * determine equivalence of instances.
  *
- * <p><b>Warning:</b> The comparison must be <i>consistent with equals</i> as explained by the
+ * <p>
+ * <b>Warning:</b> The comparison must be <i>consistent with equals</i> as explained by the
  * {@link Comparable} class specification. Otherwise, the resulting multiset will violate the
  * {@link java.util.Collection} contract, which is specified in terms of {@link Object#equals}.
  *
- * <p>See the Guava User Guide article on <a href=
+ * <p>
+ * See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
  * {@code Multiset}</a>.
  *
@@ -63,11 +63,12 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
    * inserted into the multiset must implement the {@code Comparable} interface. Furthermore, all
    * such elements must be <i>mutually comparable</i>: {@code e1.compareTo(e2)} must not throw a
    * {@code ClassCastException} for any elements {@code e1} and {@code e2} in the multiset. If the
-   * user attempts to add an element to the multiset that violates this constraint (for example,
-   * the user attempts to add a string element to a set whose elements are integers), the
+   * user attempts to add an element to the multiset that violates this constraint (for example, the
+   * user attempts to add a string element to a set whose elements are integers), the
    * {@code add(Object)} call will throw a {@code ClassCastException}.
    *
-   * <p>The type specification is {@code <E extends Comparable>}, instead of the more specific
+   * <p>
+   * The type specification is {@code <E extends Comparable>}, instead of the more specific
    * {@code <E extends Comparable<? super E>>}, to support classes defined without generics.
    */
   public static <E extends Comparable> TreeMultiset<E> create() {
@@ -82,14 +83,12 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
    * the multiset. If the user attempts to add an element to the multiset that violates this
    * constraint, the {@code add(Object)} call will throw a {@code ClassCastException}.
    *
-   * @param comparator
-   *          the comparator that will be used to sort this multiset. A null value indicates that
-   *          the elements' <i>natural ordering</i> should be used.
+   * @param comparator the comparator that will be used to sort this multiset. A null value
+   *        indicates that the elements' <i>natural ordering</i> should be used.
    */
   @SuppressWarnings("unchecked")
   public static <E> TreeMultiset<E> create(@Nullable Comparator<? super E> comparator) {
-    return (comparator == null)
-        ? new TreeMultiset<E>((Comparator) Ordering.natural())
+    return (comparator == null) ? new TreeMultiset<E>((Comparator) Ordering.natural())
         : new TreeMultiset<E>(comparator);
   }
 
@@ -97,9 +96,11 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
    * Creates an empty multiset containing the given initial elements, sorted according to the
    * elements' natural order.
    *
-   * <p>This implementation is highly efficient when {@code elements} is itself a {@link Multiset}.
+   * <p>
+   * This implementation is highly efficient when {@code elements} is itself a {@link Multiset}.
    *
-   * <p>The type specification is {@code <E extends Comparable>}, instead of the more specific
+   * <p>
+   * The type specification is {@code <E extends Comparable>}, instead of the more specific
    * {@code <E extends Comparable<? super E>>}, to support classes defined without generics.
    */
   public static <E extends Comparable> TreeMultiset<E> create(Iterable<? extends E> elements) {
@@ -353,7 +354,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   /**
    * Returns the first node in the tree that is in range.
    */
-  @Nullable private AvlNode<E> firstNode() {
+  @Nullable
+  private AvlNode<E> firstNode() {
     AvlNode<E> root = rootReference.get();
     if (root == null) {
       return null;
@@ -375,7 +377,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     return (node == header || !range.contains(node.getElement())) ? null : node;
   }
 
-  @Nullable private AvlNode<E> lastNode() {
+  @Nullable
+  private AvlNode<E> lastNode() {
     AvlNode<E> root = rootReference.get();
     if (root == null) {
       return null;
@@ -483,18 +486,14 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
   @Override
   public SortedMultiset<E> headMultiset(@Nullable E upperBound, BoundType boundType) {
-    return new TreeMultiset<E>(rootReference, range.intersect(GeneralRange.upTo(
-        comparator(),
-        upperBound,
-        boundType)), header);
+    return new TreeMultiset<E>(rootReference, range.intersect(GeneralRange.upTo(comparator(),
+        upperBound, boundType)), header);
   }
 
   @Override
   public SortedMultiset<E> tailMultiset(@Nullable E lowerBound, BoundType boundType) {
-    return new TreeMultiset<E>(rootReference, range.intersect(GeneralRange.downTo(
-        comparator(),
-        lowerBound,
-        boundType)), header);
+    return new TreeMultiset<E>(rootReference, range.intersect(GeneralRange.downTo(comparator(),
+        lowerBound, boundType)), header);
   }
 
   static int distinctElements(@Nullable AvlNode<?> node) {
@@ -502,9 +501,11 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   private static final class Reference<T> {
-    @Nullable private T value;
+    @Nullable
+    private T value;
 
-    @Nullable public T get() {
+    @Nullable
+    public T get() {
       return value;
     }
 
@@ -517,7 +518,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   private static final class AvlNode<E> extends Multisets.AbstractEntry<E> {
-    @Nullable private final E elem;
+    @Nullable
+    private final E elem;
 
     // elemCount is 0 iff this node has been deleted.
     private int elemCount;
@@ -572,8 +574,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
     AvlNode<E> add(Comparator<? super E> comparator, @Nullable E e, int count, int[] result) {
       /*
-       * It speeds things up considerably to unconditionally add count to totalCount here,
-       * but that destroys failure atomicity in the case of count overflow. =(
+       * It speeds things up considerably to unconditionally add count to totalCount here, but that
+       * destroys failure atomicity in the case of count overflow. =(
        */
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
@@ -606,7 +608,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         return (right.height == initHeight) ? this : rebalance();
       }
 
-      // adding count to me!  No rebalance possible.
+      // adding count to me! No rebalance possible.
       result[0] = elemCount;
       long resultCount = (long) elemCount + count;
       checkArgument(resultCount <= Integer.MAX_VALUE);
@@ -714,12 +716,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       return this;
     }
 
-    AvlNode<E> setCount(
-        Comparator<? super E> comparator,
-        @Nullable E e,
-        int expectedCount,
-        int newCount,
-        int[] result) {
+    AvlNode<E> setCount(Comparator<? super E> comparator, @Nullable E e, int expectedCount,
+        int newCount, int[] result) {
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
         AvlNode<E> initLeft = left;
@@ -828,8 +826,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     }
 
     private void recomputeMultiset() {
-      this.distinctElements = 1 + TreeMultiset.distinctElements(left)
-          + TreeMultiset.distinctElements(right);
+      this.distinctElements =
+          1 + TreeMultiset.distinctElements(left) + TreeMultiset.distinctElements(right);
       this.totalCount = elemCount + totalCount(left) + totalCount(right);
     }
 
@@ -896,7 +894,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       return (node == null) ? 0 : node.height;
     }
 
-    @Nullable private AvlNode<E> ceiling(Comparator<? super E> comparator, E e) {
+    @Nullable
+    private AvlNode<E> ceiling(Comparator<? super E> comparator, E e) {
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
         return (left == null) ? this : MoreObjects.firstNonNull(left.ceiling(comparator, e), this);
@@ -907,7 +906,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       }
     }
 
-    @Nullable private AvlNode<E> floor(Comparator<? super E> comparator, E e) {
+    @Nullable
+    private AvlNode<E> floor(Comparator<? super E> comparator, E e) {
       int cmp = comparator.compare(e, elem);
       if (cmp > 0) {
         return (right == null) ? this : MoreObjects.firstNonNull(right.floor(comparator, e), this);
@@ -945,9 +945,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   /*
-   * TODO(jlevy): Decide whether entrySet() should return entries with an equals() method that
-   * calls the comparator to compare the two keys. If that change is made,
-   * AbstractMultiset.equals() can simply check whether two multisets have equal entry sets.
+   * TODO(jlevy): Decide whether entrySet() should return entries with an equals() method that calls
+   * the comparator to compare the two keys. If that change is made, AbstractMultiset.equals() can
+   * simply check whether two multisets have equal entry sets.
    */
 
   /**
@@ -968,11 +968,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     // reading data stored by writeObject
     Comparator<? super E> comparator = (Comparator<? super E>) stream.readObject();
     Serialization.getFieldSetter(AbstractSortedMultiset.class, "comparator").set(this, comparator);
-    Serialization.getFieldSetter(TreeMultiset.class, "range").set(
-        this,
+    Serialization.getFieldSetter(TreeMultiset.class, "range").set(this,
         GeneralRange.all(comparator));
-    Serialization.getFieldSetter(TreeMultiset.class, "rootReference").set(
-        this,
+    Serialization.getFieldSetter(TreeMultiset.class, "rootReference").set(this,
         new Reference<AvlNode<E>>());
     AvlNode<E> header = new AvlNode<E>(null, 1);
     Serialization.getFieldSetter(TreeMultiset.class, "header").set(this, header);
@@ -980,5 +978,6 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     Serialization.populateMultiset(this, stream);
   }
 
-  @GwtIncompatible("not needed in emulated source") private static final long serialVersionUID = 1;
+  @GwtIncompatible("not needed in emulated source")
+  private static final long serialVersionUID = 1;
 }

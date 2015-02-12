@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing;
@@ -33,24 +31,21 @@ import java.util.Set;
 import java.util.SortedSet;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a NavigableSet implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a NavigableSet
+ * implementation.
  */
-public final class NavigableSetTestSuiteBuilder<E>
-    extends SortedSetTestSuiteBuilder<E> {
-  public static <E> NavigableSetTestSuiteBuilder<E> using(
-      TestSortedSetGenerator<E> generator) {
-    NavigableSetTestSuiteBuilder<E> builder =
-        new NavigableSetTestSuiteBuilder<E>();
+public final class NavigableSetTestSuiteBuilder<E> extends SortedSetTestSuiteBuilder<E> {
+  public static <E> NavigableSetTestSuiteBuilder<E> using(TestSortedSetGenerator<E> generator) {
+    NavigableSetTestSuiteBuilder<E> builder = new NavigableSetTestSuiteBuilder<E>();
     builder.usingGenerator(generator);
     return builder;
   }
 
   @Override
-  protected List<TestSuite> createDerivedSuites(FeatureSpecificTestSuiteBuilder<
-      ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
-    List<TestSuite> derivedSuites = new ArrayList<TestSuite>(
-        super.createDerivedSuites(parentBuilder));
+  protected List<TestSuite> createDerivedSuites(
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
+    List<TestSuite> derivedSuites =
+        new ArrayList<TestSuite>(super.createDerivedSuites(parentBuilder));
 
     if (!parentBuilder.getFeatures().contains(CollectionFeature.SUBSET_VIEW)) {
       // Other combinations are inherited from SortedSetTestSuiteBuilder.
@@ -66,15 +61,15 @@ public final class NavigableSetTestSuiteBuilder<E>
     return derivedSuites;
   }
 
-  public static final class NavigableSetSubsetTestSetGenerator<E>
-      extends SortedSetSubsetTestSetGenerator<E> {
-    public NavigableSetSubsetTestSetGenerator(
-        TestSortedSetGenerator<E> delegate, Bound to, Bound from) {
+  public static final class NavigableSetSubsetTestSetGenerator<E> extends
+      SortedSetSubsetTestSetGenerator<E> {
+    public NavigableSetSubsetTestSetGenerator(TestSortedSetGenerator<E> delegate, Bound to,
+        Bound from) {
       super(delegate, to, from);
     }
 
-    @Override NavigableSet<E> createSubSet(SortedSet<E> sortedSet, E firstExclusive,
-        E lastExclusive) {
+    @Override
+    NavigableSet<E> createSubSet(SortedSet<E> sortedSet, E firstExclusive, E lastExclusive) {
       NavigableSet<E> set = (NavigableSet<E>) sortedSet;
       if (from == Bound.NO_BOUND && to == Bound.INCLUSIVE) {
         return set.headSet(lastInclusive, true);
@@ -93,17 +88,17 @@ public final class NavigableSetTestSuiteBuilder<E>
   }
 
   @Override
-  public NavigableSetTestSuiteBuilder<E> newBuilderUsing(
-      TestSortedSetGenerator<E> delegate, Bound to, Bound from) {
+  public NavigableSetTestSuiteBuilder<E> newBuilderUsing(TestSortedSetGenerator<E> delegate,
+      Bound to, Bound from) {
     return using(new NavigableSetSubsetTestSetGenerator<E>(delegate, to, from));
   }
 
   /**
    * Create a suite whose maps are descending views of other maps.
    */
-  private TestSuite createDescendingSuite(final FeatureSpecificTestSuiteBuilder<?,
-          ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
-    final TestSetGenerator<E> delegate = 
+  private TestSuite createDescendingSuite(
+      final FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
+    final TestSetGenerator<E> delegate =
         (TestSetGenerator<E>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
     List<Feature<?>> features = new ArrayList<Feature<?>>();
@@ -112,41 +107,38 @@ public final class NavigableSetTestSuiteBuilder<E>
 
     return NavigableSetTestSuiteBuilder.using(new TestSetGenerator<E>() {
 
-          @Override
-          public SampleElements<E> samples() {
-            return delegate.samples();
-          }
+      @Override
+      public SampleElements<E> samples() {
+        return delegate.samples();
+      }
 
-          @Override
-          public E[] createArray(int length) {
-            return delegate.createArray(length);
-          }
+      @Override
+      public E[] createArray(int length) {
+        return delegate.createArray(length);
+      }
 
-          @Override
-          public Iterable<E> order(List<E> insertionOrder) {
-            List<E> list = new ArrayList<E>();
-            for (E e : delegate.order(insertionOrder)) {
-              list.add(e);
-            }
-            Collections.reverse(list);
-            return list;
-          }
+      @Override
+      public Iterable<E> order(List<E> insertionOrder) {
+        List<E> list = new ArrayList<E>();
+        for (E e : delegate.order(insertionOrder)) {
+          list.add(e);
+        }
+        Collections.reverse(list);
+        return list;
+      }
 
-          @Override
-          public Set<E> create(Object... elements) {
-            NavigableSet<E> navigableSet = (NavigableSet<E>) delegate.create(elements);
-            return navigableSet.descendingSet();
-          }
-        })
-        .named(parentBuilder.getName() + " descending")
-        .withFeatures(features)
-        .suppressing(parentBuilder.getSuppressedTests())
-        .createTestSuite();
+      @Override
+      public Set<E> create(Object... elements) {
+        NavigableSet<E> navigableSet = (NavigableSet<E>) delegate.create(elements);
+        return navigableSet.descendingSet();
+      }
+    }).named(parentBuilder.getName() + " descending").withFeatures(features)
+        .suppressing(parentBuilder.getSuppressedTests()).createTestSuite();
   }
 
-  @Override protected List<Class<? extends AbstractTester>> getTesters() {
-    List<Class<? extends AbstractTester>> testers =
-        Helpers.copyToList(super.getTesters());
+  @Override
+  protected List<Class<? extends AbstractTester>> getTesters() {
+    List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
     testers.add(NavigableSetNavigationTester.class);
     return testers;
   }

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2013 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -33,15 +31,15 @@ import javax.annotation.Nullable;
 @GwtIncompatible("unnecessary")
 abstract class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   /**
-   * Creates an {@code ImmutableMapEntry} array to hold parameterized entries. The
-   * result must never be upcast back to ImmutableMapEntry[] (or Object[], etc.), or
-   * allowed to escape the class.
+   * Creates an {@code ImmutableMapEntry} array to hold parameterized entries. The result must never
+   * be upcast back to ImmutableMapEntry[] (or Object[], etc.), or allowed to escape the class.
    */
-  @SuppressWarnings("unchecked") // Safe as long as the javadocs are followed
+  @SuppressWarnings("unchecked")
+  // Safe as long as the javadocs are followed
   static <K, V> ImmutableMapEntry<K, V>[] createEntryArray(int size) {
     return new ImmutableMapEntry[size];
   }
-  
+
   ImmutableMapEntry(K key, V value) {
     super(key, value);
     checkEntryNotNull(key, value);

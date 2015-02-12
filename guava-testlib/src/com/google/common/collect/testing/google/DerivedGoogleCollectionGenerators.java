@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -87,8 +85,8 @@ public final class DerivedGoogleCollectionGenerators {
     }
   }
 
-  public static class InverseBiMapGenerator<K, V>
-      implements TestBiMapGenerator<V, K>, DerivedGenerator {
+  public static class InverseBiMapGenerator<K, V> implements TestBiMapGenerator<V, K>,
+      DerivedGenerator {
 
     private final OneSizeTestContainerGenerator<BiMap<K, V>, Entry<K, V>> generator;
 
@@ -146,23 +144,17 @@ public final class DerivedGoogleCollectionGenerators {
     }
   }
 
-  public static class BiMapValueSetGenerator<K, V>
-      implements TestSetGenerator<V>, DerivedGenerator {
-    private final OneSizeTestContainerGenerator<BiMap<K, V>, Map.Entry<K, V>>
-        mapGenerator;
+  public static class BiMapValueSetGenerator<K, V> implements TestSetGenerator<V>, DerivedGenerator {
+    private final OneSizeTestContainerGenerator<BiMap<K, V>, Map.Entry<K, V>> mapGenerator;
     private final SampleElements<V> samples;
 
     public BiMapValueSetGenerator(
         OneSizeTestContainerGenerator<BiMap<K, V>, Entry<K, V>> mapGenerator) {
       this.mapGenerator = mapGenerator;
-      final SampleElements<Map.Entry<K, V>> mapSamples =
-          this.mapGenerator.samples();
-      this.samples = new SampleElements<V>(
-          mapSamples.e0().getValue(),
-          mapSamples.e1().getValue(),
-          mapSamples.e2().getValue(),
-          mapSamples.e3().getValue(),
-          mapSamples.e4().getValue());
+      final SampleElements<Map.Entry<K, V>> mapSamples = this.mapGenerator.samples();
+      this.samples =
+          new SampleElements<V>(mapSamples.e0().getValue(), mapSamples.e1().getValue(), mapSamples
+              .e2().getValue(), mapSamples.e3().getValue(), mapSamples.e4().getValue());
     }
 
     @Override
@@ -176,12 +168,10 @@ public final class DerivedGoogleCollectionGenerators {
       V[] valuesArray = (V[]) elements;
 
       // Start with a suitably shaped collection of entries
-      Collection<Map.Entry<K, V>> originalEntries =
-          mapGenerator.getSampleElements(elements.length);
+      Collection<Map.Entry<K, V>> originalEntries = mapGenerator.getSampleElements(elements.length);
 
       // Create a copy of that, with the desired value for each value
-      Collection<Map.Entry<K, V>> entries =
-          new ArrayList<Entry<K, V>>(elements.length);
+      Collection<Map.Entry<K, V>> entries = new ArrayList<Entry<K, V>>(elements.length);
       int i = 0;
       for (Map.Entry<K, V> entry : originalEntries) {
         entries.add(Helpers.mapEntry(entry.getKey(), valuesArray[i++]));
@@ -192,8 +182,8 @@ public final class DerivedGoogleCollectionGenerators {
 
     @Override
     public V[] createArray(int length) {
-      final V[] vs = ((TestBiMapGenerator<K, V>) mapGenerator.getInnerGenerator())
-          .createValueArray(length);
+      final V[] vs =
+          ((TestBiMapGenerator<K, V>) mapGenerator.getInnerGenerator()).createValueArray(length);
       return vs;
     }
 

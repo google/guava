@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.testing;
@@ -58,18 +56,23 @@ import javax.annotation.Nullable;
 
 /**
  * Tester that runs automated sanity tests for any given class. A typical use case is to test static
- * factory classes like: <pre>
+ * factory classes like:
+ * 
+ * <pre>
  * interface Book {...}
  * public class Books {
  *   public static Book hardcover(String title) {...}
  *   public static Book paperback(String title) {...}
  * }
  * </pre>
- * <p>And all the created {@code Book} instances can be tested with: <pre>
- * new ClassSanityTester()
- *     .forAllPublicStaticMethods(Books.class)
- *     .thatReturn(Book.class)
- *     .testEquals(); // or testNulls(), testSerializable() etc.
+ * <p>
+ * And all the created {@code Book} instances can be tested with:
+ * 
+ * <pre>
+ * new ClassSanityTester().forAllPublicStaticMethods(Books.class).thatReturn(Book.class).testEquals(); // or
+ *                                                                                                     // testNulls(),
+ *                                                                                                     // testSerializable()
+ *                                                                                                     // etc.
  * </pre>
  *
  * @author Ben Yu
@@ -78,29 +81,30 @@ import javax.annotation.Nullable;
 @Beta
 public final class ClassSanityTester {
 
-  private static final Ordering<Invokable<?, ?>> BY_METHOD_NAME =
-      new Ordering<Invokable<?, ?>>() {
-        @Override public int compare(Invokable<?, ?> left, Invokable<?, ?> right) {
-          return left.getName().compareTo(right.getName());
-        }
-      };
+  private static final Ordering<Invokable<?, ?>> BY_METHOD_NAME = new Ordering<Invokable<?, ?>>() {
+    @Override
+    public int compare(Invokable<?, ?> left, Invokable<?, ?> right) {
+      return left.getName().compareTo(right.getName());
+    }
+  };
 
-  private static final Ordering<Invokable<?, ?>> BY_PARAMETERS =
-      new Ordering<Invokable<?, ?>>() {
-        @Override public int compare(Invokable<?, ?> left, Invokable<?, ?> right) {
-          return Ordering.usingToString().compare(left.getParameters(), right.getParameters());
-        }
-      };
+  private static final Ordering<Invokable<?, ?>> BY_PARAMETERS = new Ordering<Invokable<?, ?>>() {
+    @Override
+    public int compare(Invokable<?, ?> left, Invokable<?, ?> right) {
+      return Ordering.usingToString().compare(left.getParameters(), right.getParameters());
+    }
+  };
 
   private static final Ordering<Invokable<?, ?>> BY_NUMBER_OF_PARAMETERS =
       new Ordering<Invokable<?, ?>>() {
-        @Override public int compare(Invokable<?, ?> left, Invokable<?, ?> right) {
+        @Override
+        public int compare(Invokable<?, ?> left, Invokable<?, ?> right) {
           return Ints.compare(left.getParameters().size(), right.getParameters().size());
         }
       };
 
-  private final MutableClassToInstanceMap<Object> defaultValues =
-      MutableClassToInstanceMap.create();
+  private final MutableClassToInstanceMap<Object> defaultValues = MutableClassToInstanceMap
+      .create();
   private final ListMultimap<Class<?>, Object> distinctValues = ArrayListMultimap.create();
   private final NullPointerTester nullPointerTester = new NullPointerTester();
 
@@ -122,8 +126,8 @@ public final class ClassSanityTester {
   }
 
   /**
-   * Sets the default value for {@code type}. The default value isn't used in testing {@link
-   * Object#equals} because more than one sample instances are needed for testing inequality.
+   * Sets the default value for {@code type}. The default value isn't used in testing
+   * {@link Object#equals} because more than one sample instances are needed for testing inequality.
    * To set sample instances for equality testing, use {@link #setSampleInstances} instead.
    */
   public <T> ClassSanityTester setDefault(Class<T> type, T value) {
@@ -133,18 +137,19 @@ public final class ClassSanityTester {
   }
 
   /**
-   * Sets sample instances for {@code type}, so that when a class {@code Foo} is tested for {@link
-   * Object#equals} and {@link Object#hashCode}, and its construction requires a parameter of {@code
-   * type}, the sample instances can be passed to create {@code Foo} instances that are unequal.
+   * Sets sample instances for {@code type}, so that when a class {@code Foo} is tested for
+   * {@link Object#equals} and {@link Object#hashCode}, and its construction requires a parameter of
+   * {@code type}, the sample instances can be passed to create {@code Foo} instances that are
+   * unequal.
    *
-   * <p>Used for types where {@link ClassSanityTester} doesn't already know how to instantiate
-   * distinct values. It's usually necessary to add two unequal instances for each type, with the
-   * exception that if the sample instance is to be passed to a {@link Nullable} parameter, one
-   * non-null sample is sufficient. Setting an empty list will clear sample instances for {@code
-   * type}.
-
+   * <p>
+   * Used for types where {@link ClassSanityTester} doesn't already know how to instantiate distinct
+   * values. It's usually necessary to add two unequal instances for each type, with the exception
+   * that if the sample instance is to be passed to a {@link Nullable} parameter, one non-null
+   * sample is sufficient. Setting an empty list will clear sample instances for {@code type}.
+   * 
    *
-
+   * 
    * @deprecated Use {@link #setDistinctValues} instead.
    */
   @Deprecated
@@ -162,15 +167,17 @@ public final class ClassSanityTester {
   }
 
   /**
-   * Sets distinct values for {@code type}, so that when a class {@code Foo} is tested for {@link
-   * Object#equals} and {@link Object#hashCode}, and its construction requires a parameter of {@code
-   * type}, the distinct values of {@code type} can be passed as parameters to create {@code Foo}
-   * instances that are unequal.
+   * Sets distinct values for {@code type}, so that when a class {@code Foo} is tested for
+   * {@link Object#equals} and {@link Object#hashCode}, and its construction requires a parameter of
+   * {@code type}, the distinct values of {@code type} can be passed as parameters to create
+   * {@code Foo} instances that are unequal.
    *
-   * <p>Calling {@code setDistinctValues(type, v1, v2)} also sets the default value for {@code type}
+   * <p>
+   * Calling {@code setDistinctValues(type, v1, v2)} also sets the default value for {@code type}
    * that's used for {@link #testNulls}.
    *
-   * <p>Only necessary for types where {@link ClassSanityTester} doesn't already know how to create
+   * <p>
+   * Only necessary for types where {@link ClassSanityTester} doesn't already know how to create
    * distinct values.
    *
    * @return this tester instance
@@ -191,23 +198,22 @@ public final class ClassSanityTester {
    * aren't annotated with {@link Nullable}. In details:
    * <ul>
    * <li>All non-private static methods are checked such that passing null for any parameter that's
-   *     not annotated with {@link javax.annotation.Nullable} should throw {@link
-   *     NullPointerException}.
+   * not annotated with {@link javax.annotation.Nullable} should throw {@link NullPointerException}.
    * <li>If there is any non-private constructor or non-private static factory method declared by
-   *     {@code cls}, all non-private instance methods will be checked too using the instance
-   *     created by invoking the constructor or static factory method.
+   * {@code cls}, all non-private instance methods will be checked too using the instance created by
+   * invoking the constructor or static factory method.
    * <li>If there is any non-private constructor or non-private static factory method declared by
-   *     {@code cls}:
-   *     <ul>
-   *     <li>Test will fail if default value for a parameter cannot be determined.
-   *     <li>Test will fail if the factory method returns null so testing instance methods is
-   *         impossible.
-   *     <li>Test will fail if the constructor or factory method throws exception.
-   *     </ul>
+   * {@code cls}:
+   * <ul>
+   * <li>Test will fail if default value for a parameter cannot be determined.
+   * <li>Test will fail if the factory method returns null so testing instance methods is
+   * impossible.
+   * <li>Test will fail if the constructor or factory method throws exception.
+   * </ul>
    * <li>If there is no non-private constructor or non-private static factory method declared by
-   *     {@code cls}, instance methods are skipped for nulls test.
+   * {@code cls}, instance methods are skipped for nulls test.
    * <li>Nulls test is not performed on method return values unless the method is a non-private
-   *     static factory method whose return type is {@code cls} or {@code cls}'s subtype.
+   * static factory method whose return type is {@code cls} or {@code cls}'s subtype.
    * </ul>
    */
   public void testNulls(Class<?> cls) {
@@ -218,9 +224,8 @@ public final class ClassSanityTester {
     }
   }
 
-  void doTestNulls(Class<?> cls, Visibility visibility)
-      throws ParameterNotInstantiableException, IllegalAccessException,
-             InvocationTargetException, FactoryMethodReturnsNullException {
+  void doTestNulls(Class<?> cls, Visibility visibility) throws ParameterNotInstantiableException,
+      IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {
     if (!Modifier.isAbstract(cls.getModifiers())) {
       nullPointerTester.testConstructors(cls, visibility);
     }
@@ -248,49 +253,47 @@ public final class ClassSanityTester {
    * Tests the {@link Object#equals} and {@link Object#hashCode} of {@code cls}. In details:
    * <ul>
    * <li>The non-private constructor or non-private static factory method with the most parameters
-   *     is used to construct the sample instances. In case of tie, the candidate constructors or
-   *     factories are tried one after another until one can be used to construct sample instances.
+   * is used to construct the sample instances. In case of tie, the candidate constructors or
+   * factories are tried one after another until one can be used to construct sample instances.
    * <li>For the constructor or static factory method used to construct instances, it's checked that
-   *     when equal parameters are passed, the result instance should also be equal; and vice versa.
-   * <li>If a non-private constructor or non-private static factory method exists: <ul>
-   *     <li>Test will fail if default value for a parameter cannot be determined.
-   *     <li>Test will fail if the factory method returns null so testing instance methods is
-   *         impossible.
-   *     <li>Test will fail if the constructor or factory method throws exception.
-   *     </ul>
+   * when equal parameters are passed, the result instance should also be equal; and vice versa.
+   * <li>If a non-private constructor or non-private static factory method exists:
+   * <ul>
+   * <li>Test will fail if default value for a parameter cannot be determined.
+   * <li>Test will fail if the factory method returns null so testing instance methods is
+   * impossible.
+   * <li>Test will fail if the constructor or factory method throws exception.
+   * </ul>
    * <li>If there is no non-private constructor or non-private static factory method declared by
-   *     {@code cls}, no test is performed.
+   * {@code cls}, no test is performed.
    * <li>Equality test is not performed on method return values unless the method is a non-private
-   *     static factory method whose return type is {@code cls} or {@code cls}'s subtype.
+   * static factory method whose return type is {@code cls} or {@code cls}'s subtype.
    * <li>Inequality check is not performed against state mutation methods such as {@link List#add},
-   *     or functional update methods such as {@link com.google.common.base.Joiner#skipNulls}.
+   * or functional update methods such as {@link com.google.common.base.Joiner#skipNulls}.
    * </ul>
    *
-   * <p>Note that constructors taking a builder object cannot be tested effectively because
-   * semantics of builder can be arbitrarily complex. Still, a factory class can be created in the
-   * test to facilitate equality testing. For example: <pre>
+   * <p>
+   * Note that constructors taking a builder object cannot be tested effectively because semantics
+   * of builder can be arbitrarily complex. Still, a factory class can be created in the test to
+   * facilitate equality testing. For example:
+   * 
+   * <pre>
    * public class FooTest {
-   *
+   * 
    *   private static class FooFactoryForTest {
    *     public static Foo create(String a, String b, int c, boolean d) {
-   *       return Foo.builder()
-   *           .setA(a)
-   *           .setB(b)
-   *           .setC(c)
-   *           .setD(d)
-   *           .build();
+   *       return Foo.builder().setA(a).setB(b).setC(c).setD(d).build();
    *     }
    *   }
-   *
+   * 
    *   public void testEquals() {
-   *     new ClassSanityTester()
-   *       .forAllPublicStaticMethods(FooFactoryForTest.class)
-   *       .thatReturn(Foo.class)
-   *       .testEquals();
+   *     new ClassSanityTester().forAllPublicStaticMethods(FooFactoryForTest.class)
+   *         .thatReturn(Foo.class).testEquals();
    *   }
    * }
    * </pre>
-   * <p>It will test that Foo objects created by the {@code create(a, b, c, d)} factory method with
+   * <p>
+   * It will test that Foo objects created by the {@code create(a, b, c, d)} factory method with
    * equal parameters are equal and vice versa, thus indirectly tests the builder equality.
    */
   public void testEquals(Class<?> cls) {
@@ -300,10 +303,10 @@ public final class ClassSanityTester {
       throw Throwables.propagate(e);
     }
   }
- 
-  void doTestEquals(Class<?> cls)
-      throws ParameterNotInstantiableException, ParameterHasNoDistinctValueException,
-             IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {
+
+  void doTestEquals(Class<?> cls) throws ParameterNotInstantiableException,
+      ParameterHasNoDistinctValueException, IllegalAccessException, InvocationTargetException,
+      FactoryMethodReturnsNullException {
     if (cls.isEnum()) {
       return;
     }
@@ -346,9 +349,9 @@ public final class ClassSanityTester {
    * @return The instantiated instance, or {@code null} if the class has no non-private constructor
    *         or factory method to be constructed.
    */
-  @Nullable <T> T instantiate(Class<T> cls)
-      throws ParameterNotInstantiableException, IllegalAccessException,
-             InvocationTargetException, FactoryMethodReturnsNullException {
+  @Nullable
+  <T> T instantiate(Class<T> cls) throws ParameterNotInstantiableException, IllegalAccessException,
+      InvocationTargetException, FactoryMethodReturnsNullException {
     if (cls.isEnum()) {
       T[] constants = cls.getEnumConstants();
       if (constants.length > 0) {
@@ -385,8 +388,8 @@ public final class ClassSanityTester {
   }
 
   /**
-   * Returns an object responsible for performing sanity tests against the return values
-   * of all public static methods declared by {@code cls}, excluding superclasses.
+   * Returns an object responsible for performing sanity tests against the return values of all
+   * public static methods declared by {@code cls}, excluding superclasses.
    */
   public FactoryMethodReturnValueTester forAllPublicStaticMethods(Class<?> cls) {
     ImmutableList.Builder<Invokable<?, ?>> builder = ImmutableList.builder();
@@ -408,10 +411,8 @@ public final class ClassSanityTester {
     private final String factoryMethodsDescription;
     private Class<?> returnTypeToTest = Object.class;
 
-    private FactoryMethodReturnValueTester(
-        Class<?> declaringClass,
-        ImmutableList<Invokable<?, ?>> factories,
-        String factoryMethodsDescription) {
+    private FactoryMethodReturnValueTester(Class<?> declaringClass,
+        ImmutableList<Invokable<?, ?>> factories, String factoryMethodsDescription) {
       this.declaringClass = declaringClass;
       this.factories = factories;
       this.factoryMethodsDescription = factoryMethodsDescription;
@@ -432,7 +433,8 @@ public final class ClassSanityTester {
     /**
      * Tests null checks against the instance methods of the return values, if any.
      *
-     * <p>Test fails if default value cannot be determined for a constructor or factory method
+     * <p>
+     * Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
      * @return this tester
@@ -445,8 +447,8 @@ public final class ClassSanityTester {
           try {
             nullPointerTester.testAllPublicInstanceMethods(instance);
           } catch (AssertionError e) {
-            AssertionError error = new AssertionFailedError(
-                "Null check failed on return value of " + factory);
+            AssertionError error =
+                new AssertionFailedError("Null check failed on return value of " + factory);
             error.initCause(e);
             throw error;
           }
@@ -460,7 +462,8 @@ public final class ClassSanityTester {
      * static methods, by asserting that when equal parameters are passed to the same static method,
      * the return value should also be equal; and vice versa.
      *
-     * <p>Test fails if default value cannot be determined for a constructor or factory method
+     * <p>
+     * Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
      * @return this tester
@@ -479,7 +482,8 @@ public final class ClassSanityTester {
     /**
      * Runs serialization test on the return values of the static methods.
      *
-     * <p>Test fails if default value cannot be determined for a constructor or factory method
+     * <p>
+     * Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
      * @return this tester
@@ -491,8 +495,8 @@ public final class ClassSanityTester {
           try {
             SerializableTester.reserialize(instance);
           } catch (RuntimeException e) {
-            AssertionError error = new AssertionFailedError(
-                "Serialization failed on return value of " + factory);
+            AssertionError error =
+                new AssertionFailedError("Serialization failed on return value of " + factory);
             error.initCause(e.getCause());
             throw error;
           }
@@ -504,7 +508,8 @@ public final class ClassSanityTester {
     /**
      * Runs equals and serialization test on the return values.
      *
-     * <p>Test fails if default value cannot be determined for a constructor or factory method
+     * <p>
+     * Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
      * @return this tester
@@ -521,13 +526,14 @@ public final class ClassSanityTester {
           try {
             SerializableTester.reserializeAndAssert(instance);
           } catch (RuntimeException e) {
-            AssertionError error = new AssertionFailedError(
-                "Serialization failed on return value of " + factory);
+            AssertionError error =
+                new AssertionFailedError("Serialization failed on return value of " + factory);
             error.initCause(e.getCause());
             throw error;
           } catch (AssertionFailedError e) {
-            AssertionError error = new AssertionFailedError(
-                "Return value of " + factory + " reserialized to an unequal value");
+            AssertionError error =
+                new AssertionFailedError("Return value of " + factory
+                    + " reserialized to an unequal value");
             error.initCause(e);
             throw error;
           }
@@ -544,10 +550,9 @@ public final class ClassSanityTester {
         }
       }
       ImmutableList<Invokable<?, ?>> factoriesToTest = builder.build();
-      Assert.assertFalse("No " + factoryMethodsDescription + " that return "
-              + returnTypeToTest.getName() + " or subtype are found in "
-              + declaringClass + ".",
-          factoriesToTest.isEmpty());
+      Assert.assertFalse(
+          "No " + factoryMethodsDescription + " that return " + returnTypeToTest.getName()
+              + " or subtype are found in " + declaringClass + ".", factoriesToTest.isEmpty());
       return factoriesToTest;
     }
   }
@@ -556,22 +561,22 @@ public final class ClassSanityTester {
    * Instantiates using {@code factory}. If {@code factory} is annotated with {@link Nullable} and
    * returns null, null will be returned.
    *
-   * @throws ParameterNotInstantiableException if the static methods cannot be invoked because
-   *         the default value of a parameter cannot be determined.
+   * @throws ParameterNotInstantiableException if the static methods cannot be invoked because the
+   *         default value of a parameter cannot be determined.
    * @throws IllegalAccessException if the class isn't public or is nested inside a non-public
    *         class, preventing its methods from being accessible.
    * @throws InvocationTargetException if a static method threw exception.
    */
-  @Nullable private <T> T instantiate(Invokable<?, ? extends T> factory)
-      throws ParameterNotInstantiableException, InvocationTargetException,
-      IllegalAccessException {
+  @Nullable
+  private <T> T instantiate(Invokable<?, ? extends T> factory)
+      throws ParameterNotInstantiableException, InvocationTargetException, IllegalAccessException {
     return invoke(factory, getDummyArguments(factory));
   }
 
   private void testEqualsUsing(final Invokable<?, ?> factory)
 
-      throws ParameterNotInstantiableException, ParameterHasNoDistinctValueException,
-             IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {
+  throws ParameterNotInstantiableException, ParameterHasNoDistinctValueException,
+      IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {
     List<Parameter> params = factory.getParameters();
     List<FreshValueGenerator> argGenerators = Lists.newArrayListWithCapacity(params.size());
     List<Object> args = Lists.newArrayListWithCapacity(params.size());
@@ -586,7 +591,8 @@ public final class ClassSanityTester {
     final List<List<List<Object>>> argGroups = Lists.newArrayList();
     argGroups.add(ImmutableList.of(args, equalArgs));
     EqualsTester tester = new EqualsTester(new ItemReporter() {
-      @Override String reportItem(Item<?> item) {
+      @Override
+      String reportItem(Item<?> item) {
         List<Object> factoryArgs = argGroups.get(item.groupNumber).get(item.itemNumber);
         return factory.getName() + "(" + Joiner.on(", ").useForNull("null").join(factoryArgs) + ")";
       }
@@ -613,10 +619,9 @@ public final class ClassSanityTester {
    * Returns dummy factory arguments that are equal to {@code args} but may be different instances,
    * to be used to construct a second instance of the same equality group.
    */
-  private List<Object> generateEqualFactoryArguments(
-      Invokable<?, ?> factory, List<Parameter> params, List<Object> args)
-      throws ParameterNotInstantiableException, FactoryMethodReturnsNullException,
-      InvocationTargetException, IllegalAccessException {
+  private List<Object> generateEqualFactoryArguments(Invokable<?, ?> factory,
+      List<Parameter> params, List<Object> args) throws ParameterNotInstantiableException,
+      FactoryMethodReturnsNullException, InvocationTargetException, IllegalAccessException {
     List<Object> equalArgs = Lists.newArrayList(args);
     for (int i = 0; i < args.size(); i++) {
       Parameter param = params.get(i);
@@ -627,8 +632,8 @@ public final class ClassSanityTester {
       if (arg != shouldBeEqualArg
           && Objects.equal(arg, shouldBeEqualArg)
           && hashCodeInsensitiveToArgReference(factory, args, i, shouldBeEqualArg)
-          && hashCodeInsensitiveToArgReference(
-              factory, args, i, generateDummyArg(param, newFreshValueGenerator()))) {
+          && hashCodeInsensitiveToArgReference(factory, args, i,
+              generateDummyArg(param, newFreshValueGenerator()))) {
         // If the implementation uses identityHashCode(), referential equality is
         // probably intended. So no point in using an equal-but-different factory argument.
         // We check twice to avoid confusion caused by accidental hash collision.
@@ -638,13 +643,13 @@ public final class ClassSanityTester {
     return equalArgs;
   }
 
-  private static boolean hashCodeInsensitiveToArgReference(
-      Invokable<?, ?> factory, List<Object> args, int i, Object alternateArg)
-      throws FactoryMethodReturnsNullException, InvocationTargetException, IllegalAccessException {
+  private static boolean hashCodeInsensitiveToArgReference(Invokable<?, ?> factory,
+      List<Object> args, int i, Object alternateArg) throws FactoryMethodReturnsNullException,
+      InvocationTargetException, IllegalAccessException {
     List<Object> tentativeArgs = Lists.newArrayList(args);
     tentativeArgs.set(i, alternateArg);
-    return createInstance(factory, tentativeArgs).hashCode()
-        == createInstance(factory, args).hashCode();
+    return createInstance(factory, tentativeArgs).hashCode() == createInstance(factory, args)
+        .hashCode();
   }
 
   // distinctValues is a type-safe class-values mapping, but we don't have a type-safe data
@@ -652,7 +657,8 @@ public final class ClassSanityTester {
   @SuppressWarnings({"unchecked", "rawtypes"})
   private FreshValueGenerator newFreshValueGenerator() {
     FreshValueGenerator generator = new FreshValueGenerator() {
-      @Override Object interfaceMethodCalled(Class<?> interfaceType, Method method) {
+      @Override
+      Object interfaceMethodCalled(Class<?> interfaceType, Method method) {
         return getDummyValue(TypeToken.of(interfaceType).method(method).getReturnType());
       }
     };
@@ -685,11 +691,10 @@ public final class ClassSanityTester {
     List<Invokable<?, ? extends T>> factories = Lists.newArrayList();
     for (Method method : type.getRawType().getDeclaredMethods()) {
       Invokable<?, ?> invokable = type.method(method);
-      if (!invokable.isPrivate()
-          && !invokable.isSynthetic()
-          && invokable.isStatic()
+      if (!invokable.isPrivate() && !invokable.isSynthetic() && invokable.isStatic()
           && type.isAssignableFrom(invokable.getReturnType())) {
-        @SuppressWarnings("unchecked") // guarded by isAssignableFrom()
+        @SuppressWarnings("unchecked")
+        // guarded by isAssignableFrom()
         Invokable<?, ? extends T> factory = (Invokable<?, ? extends T>) invokable;
         factories.add(factory);
       }
@@ -731,12 +736,14 @@ public final class ClassSanityTester {
 
   private <T> T getDummyValue(TypeToken<T> type) {
     Class<? super T> rawType = type.getRawType();
-    @SuppressWarnings("unchecked") // Assume all default values are generics safe.
+    @SuppressWarnings("unchecked")
+    // Assume all default values are generics safe.
     T defaultValue = (T) defaultValues.getInstance(rawType);
     if (defaultValue != null) {
       return defaultValue;
     }
-    @SuppressWarnings("unchecked") // ArbitraryInstances always returns generics-safe dummies.
+    @SuppressWarnings("unchecked")
+    // ArbitraryInstances always returns generics-safe dummies.
     T value = (T) ArbitraryInstances.get(rawType);
     if (value != null) {
       return value;
@@ -756,7 +763,8 @@ public final class ClassSanityTester {
     return instance;
   }
 
-  @Nullable private static <T> T invoke(Invokable<?, ? extends T> factory, List<?> args)
+  @Nullable
+  private static <T> T invoke(Invokable<?, ? extends T> factory, List<?> args)
       throws InvocationTargetException, IllegalAccessException {
     T returnValue = factory.invoke(null, args.toArray());
     if (returnValue == null) {
@@ -770,10 +778,11 @@ public final class ClassSanityTester {
    * Thrown if the test tries to invoke a constructor or static factory method but failed because
    * the dummy value of a constructor or method parameter is unknown.
    */
-  @VisibleForTesting static class ParameterNotInstantiableException extends Exception {
+  @VisibleForTesting
+  static class ParameterNotInstantiableException extends Exception {
     public ParameterNotInstantiableException(Parameter parameter) {
-      super("Cannot determine value for parameter " + parameter
-          + " of " + parameter.getDeclaringInvokable());
+      super("Cannot determine value for parameter " + parameter + " of "
+          + parameter.getDeclaringInvokable());
     }
   }
 
@@ -782,10 +791,11 @@ public final class ClassSanityTester {
    * parameter in order to test {@link Object#equals} and {@link Object#hashCode} of the declaring
    * class.
    */
-  @VisibleForTesting static class ParameterHasNoDistinctValueException extends Exception {
+  @VisibleForTesting
+  static class ParameterHasNoDistinctValueException extends Exception {
     ParameterHasNoDistinctValueException(Parameter parameter) {
-        super("Cannot generate distinct value for parameter " + parameter
-            + " of " + parameter.getDeclaringInvokable());
+      super("Cannot generate distinct value for parameter " + parameter + " of "
+          + parameter.getDeclaringInvokable());
     }
   }
 
@@ -793,14 +803,14 @@ public final class ClassSanityTester {
    * Thrown if the test tries to invoke a static factory method to test instance methods but the
    * factory returned null.
    */
-  @VisibleForTesting static class FactoryMethodReturnsNullException extends Exception {
+  @VisibleForTesting
+  static class FactoryMethodReturnsNullException extends Exception {
     public FactoryMethodReturnsNullException(Invokable<?, ?> factory) {
       super(factory + " returns null and cannot be used to test instance methods.");
     }
   }
 
-  private static final class SerializableDummyProxy extends DummyProxy
-      implements Serializable {
+  private static final class SerializableDummyProxy extends DummyProxy implements Serializable {
 
     private transient final ClassSanityTester tester;
 
@@ -808,17 +818,19 @@ public final class ClassSanityTester {
       this.tester = tester;
     }
 
-    @Override <R> R dummyReturnValue(TypeToken<R> returnType) {
+    @Override
+    <R> R dummyReturnValue(TypeToken<R> returnType) {
       return tester.getDummyValue(returnType);
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    public boolean equals(Object obj) {
       return obj instanceof SerializableDummyProxy;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return 0;
     }
   }
 }
-

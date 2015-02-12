@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -40,38 +38,33 @@ import java.util.List;
 
 /**
  * Common superclass for {@link MultisetSetCountUnconditionallyTester} and
- * {@link MultisetSetCountConditionallyTester}. It is used by those testers to
- * test calls to the unconditional {@code setCount()} method and calls to the
- * conditional {@code setCount()} method when the expected present count is
- * correct.
+ * {@link MultisetSetCountConditionallyTester}. It is used by those testers to test calls to the
+ * unconditional {@code setCount()} method and calls to the conditional {@code setCount()} method
+ * when the expected present count is correct.
  *
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
-public abstract class AbstractMultisetSetCountTester<E>
-    extends AbstractMultisetTester<E> {
+public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultisetTester<E> {
   /*
-   * TODO: consider adding MultisetFeatures.SUPPORTS_SET_COUNT. Currently we
-   * assume that using setCount() to increase the count is permitted iff add()
-   * is permitted and similarly for decrease/remove(). We assume that a
-   * setCount() no-op is permitted if either add() or remove() is permitted,
-   * though we also allow it to "succeed" if neither is permitted.
+   * TODO: consider adding MultisetFeatures.SUPPORTS_SET_COUNT. Currently we assume that using
+   * setCount() to increase the count is permitted iff add() is permitted and similarly for
+   * decrease/remove(). We assume that a setCount() no-op is permitted if either add() or remove()
+   * is permitted, though we also allow it to "succeed" if neither is permitted.
    */
 
   private void assertSetCount(E element, int count) {
     setCountCheckReturnValue(element, count);
 
-    assertEquals(
-        "multiset.count() should return the value passed to setCount()",
-        count, getMultiset().count(element));
+    assertEquals("multiset.count() should return the value passed to setCount()", count,
+        getMultiset().count(element));
 
     int size = 0;
     for (Multiset.Entry<E> entry : getMultiset().entrySet()) {
       size += entry.getCount();
     }
-    assertEquals(
-        "multiset.size() should be the sum of the counts of all entries",
-        size, getMultiset().size());
+    assertEquals("multiset.size() should be the sum of the counts of all entries", size,
+        getMultiset().size());
   }
 
   /**
@@ -80,13 +73,11 @@ public abstract class AbstractMultisetSetCountTester<E>
   abstract void setCountCheckReturnValue(E element, int count);
 
   /**
-   * Call the {@code setCount()} method under test, but do not check its return
-   * value. Callers should use this method over
-   * {@link #setCountCheckReturnValue(Object, int)} when they expect
-   * {@code setCount()} to throw an exception, as checking the return value
-   * could produce an incorrect error message like
-   * "setCount() should return the original count" instead of the message passed
-   * to a later invocation of {@code fail()}, like "setCount should throw
+   * Call the {@code setCount()} method under test, but do not check its return value. Callers
+   * should use this method over {@link #setCountCheckReturnValue(Object, int)} when they expect
+   * {@code setCount()} to throw an exception, as checking the return value could produce an
+   * incorrect error message like "setCount() should return the original count" instead of the
+   * message passed to a later invocation of {@code fail()}, like "setCount should throw
    * UnsupportedOperationException."
    */
   abstract void setCountNoCheckReturnValue(E element, int count);
@@ -94,8 +85,7 @@ public abstract class AbstractMultisetSetCountTester<E>
   private void assertSetCountIncreasingFailure(E element, int count) {
     try {
       setCountNoCheckReturnValue(element, count);
-      fail("a call to multiset.setCount() to increase an element's count "
-          + "should throw");
+      fail("a call to multiset.setCount() to increase an element's count " + "should throw");
     } catch (UnsupportedOperationException expected) {
     }
   }
@@ -103,8 +93,7 @@ public abstract class AbstractMultisetSetCountTester<E>
   private void assertSetCountDecreasingFailure(E element, int count) {
     try {
       setCountNoCheckReturnValue(element, count);
-      fail("a call to multiset.setCount() to decrease an element's count "
-          + "should throw");
+      fail("a call to multiset.setCount() to decrease an element's count " + "should throw");
     } catch (UnsupportedOperationException expected) {
     }
   }
@@ -191,8 +180,7 @@ public abstract class AbstractMultisetSetCountTester<E>
     assertSetCount(e3(), 1);
   }
 
-  @CollectionFeature.Require({SUPPORTS_ADD,
-      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionFeature.Require({SUPPORTS_ADD, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   public void testSetCountZeroToOneConcurrentWithIteration() {
     try {
       Iterator<E> iterator = collection.iterator();
@@ -204,8 +192,7 @@ public abstract class AbstractMultisetSetCountTester<E>
     }
   }
 
-  @CollectionFeature.Require({SUPPORTS_ADD,
-      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionFeature.Require({SUPPORTS_ADD, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   public void testSetCountZeroToOneConcurrentWithEntrySetIteration() {
     try {
       Iterator<Entry<E>> iterator = getMultiset().entrySet().iterator();
@@ -252,8 +239,7 @@ public abstract class AbstractMultisetSetCountTester<E>
     assertSetCount(e0(), 0);
   }
 
-  @CollectionFeature.Require({SUPPORTS_REMOVE,
-      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionFeature.Require({SUPPORTS_REMOVE, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(absent = ZERO)
   public void testSetCountOneToZeroConcurrentWithIteration() {
     try {
@@ -266,8 +252,7 @@ public abstract class AbstractMultisetSetCountTester<E>
     }
   }
 
-  @CollectionFeature.Require({SUPPORTS_REMOVE,
-      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionFeature.Require({SUPPORTS_REMOVE, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(absent = ZERO)
   public void testSetCountOneToZeroConcurrentWithEntrySetIteration() {
     try {
@@ -371,8 +356,7 @@ public abstract class AbstractMultisetSetCountTester<E>
   public void testSetCount_negative_removeSupported() {
     try {
       setCountNoCheckReturnValue(e3(), -1);
-      fail("calling setCount() with a negative count should throw "
-          + "IllegalArgumentException");
+      fail("calling setCount() with a negative count should throw " + "IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
   }
@@ -391,14 +375,12 @@ public abstract class AbstractMultisetSetCountTester<E>
   // TODO: test adding element of wrong type
 
   /**
-   * Returns {@link Method} instances for the {@code setCount()} tests that
-   * assume multisets support duplicates so that the test of {@code
-   * Multisets.forSet()} can suppress them.
+   * Returns {@link Method} instances for the {@code setCount()} tests that assume multisets support
+   * duplicates so that the test of {@code Multisets.forSet()} can suppress them.
    */
   @GwtIncompatible("reflection")
   public static List<Method> getSetCountDuplicateInitializingMethods() {
-    return Arrays.asList(
-        getMethod("testSetCount_threeToThree_removeSupported"),
+    return Arrays.asList(getMethod("testSetCount_threeToThree_removeSupported"),
         getMethod("testSetCount_threeToZero_supported"),
         getMethod("testSetCount_threeToOne_supported"));
   }

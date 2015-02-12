@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.cache;
@@ -30,7 +28,8 @@ import javax.annotation.Nullable;
  * A notification of the removal of a single entry. The key and/or value may be null if they were
  * already garbage collected.
  *
- * <p>Like other {@code Map.Entry} instances associated with {@code CacheBuilder}, this class holds
+ * <p>
+ * Like other {@code Map.Entry} instances associated with {@code CacheBuilder}, this class holds
  * strong references to the key and value, regardless of the type of references the cache may be
  * using.
  *
@@ -40,8 +39,10 @@ import javax.annotation.Nullable;
 @Beta
 @GwtCompatible
 public final class RemovalNotification<K, V> implements Entry<K, V> {
-  @Nullable private final K key;
-  @Nullable private final V value;
+  @Nullable
+  private final K key;
+  @Nullable
+  private final V value;
   private final RemovalCause cause;
 
   RemovalNotification(@Nullable K key, @Nullable V value, RemovalCause cause) {
@@ -65,19 +66,25 @@ public final class RemovalNotification<K, V> implements Entry<K, V> {
     return cause.wasEvicted();
   }
 
-  @Nullable @Override public K getKey() {
+  @Nullable
+  @Override
+  public K getKey() {
     return key;
   }
 
-  @Nullable @Override public V getValue() {
+  @Nullable
+  @Override
+  public V getValue() {
     return value;
   }
 
-  @Override public final V setValue(V value) {
+  @Override
+  public final V setValue(V value) {
     throw new UnsupportedOperationException();
   }
 
-  @Override public boolean equals(@Nullable Object object) {
+  @Override
+  public boolean equals(@Nullable Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> that = (Entry<?, ?>) object;
       return Objects.equal(this.getKey(), that.getKey())
@@ -86,7 +93,8 @@ public final class RemovalNotification<K, V> implements Entry<K, V> {
     return false;
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     K k = getKey();
     V v = getValue();
     return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());
@@ -95,8 +103,10 @@ public final class RemovalNotification<K, V> implements Entry<K, V> {
   /**
    * Returns a string representation of the form <code>{key}={value}</code>.
    */
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return getKey() + "=" + getValue();
   }
+
   private static final long serialVersionUID = 0;
 }

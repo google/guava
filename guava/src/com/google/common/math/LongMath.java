@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -38,12 +36,14 @@ import java.math.RoundingMode;
  * A class for arithmetic on values of type {@code long}. Where possible, methods are defined and
  * named analogously to their {@code BigInteger} counterparts.
  *
- * <p>The implementations of many methods in this class are based on material from Henry S. Warren,
+ * <p>
+ * The implementations of many methods in this class are based on material from Henry S. Warren,
  * Jr.'s <i>Hacker's Delight</i>, (Addison Wesley, 2002).
  *
- * <p>Similar functionality for {@code int} and for {@link BigInteger} can be found in
- * {@link IntMath} and {@link BigIntegerMath} respectively.  For other common operations on
- * {@code long} values, see {@link com.google.common.primitives.Longs}.
+ * <p>
+ * Similar functionality for {@code int} and for {@link BigInteger} can be found in {@link IntMath}
+ * and {@link BigIntegerMath} respectively. For other common operations on {@code long} values, see
+ * {@link com.google.common.primitives.Longs}.
  *
  * @author Louis Wasserman
  * @since 11.0
@@ -55,7 +55,8 @@ public final class LongMath {
   /**
    * Returns {@code true} if {@code x} represents a power of two.
    *
-   * <p>This differs from {@code Long.bitCount(x) == 1}, because
+   * <p>
+   * This differs from {@code Long.bitCount(x) == 1}, because
    * {@code Long.bitCount(Long.MIN_VALUE) == 1}, but {@link Long#MIN_VALUE} is not a power of two.
    */
   public static boolean isPowerOfTwo(long x) {
@@ -63,9 +64,9 @@ public final class LongMath {
   }
 
   /**
-   * Returns 1 if {@code x < y} as unsigned longs, and 0 otherwise.  Assumes that x - y fits into a
-   * signed long.  The implementation is branch-free, and benchmarks suggest it is measurably
-   * faster than the straightforward ternary expression.
+   * Returns 1 if {@code x < y} as unsigned longs, and 0 otherwise. Assumes that x - y fits into a
+   * signed long. The implementation is branch-free, and benchmarks suggest it is measurably faster
+   * than the straightforward ternary expression.
    */
   @VisibleForTesting
   static int lessThanBranchFree(long x, long y) {
@@ -112,7 +113,8 @@ public final class LongMath {
   }
 
   /** The biggest half power of two that fits into an unsigned long */
-  @VisibleForTesting static final long MAX_POWER_OF_SQRT2_UNSIGNED = 0xB504F333F9DE6484L;
+  @VisibleForTesting
+  static final long MAX_POWER_OF_SQRT2_UNSIGNED = 0xB504F333F9DE6484L;
 
   /**
    * Returns the base-10 logarithm of {@code x}, rounded according to the specified rounding mode.
@@ -152,10 +154,10 @@ public final class LongMath {
   static int log10Floor(long x) {
     /*
      * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.
-     *
-     * The key idea is that based on the number of leading zeros (equivalently, floor(log2(x))),
-     * we can narrow the possible floor(log10(x)) values to two.  For example, if floor(log2(x))
-     * is 6, then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
+     * 
+     * The key idea is that based on the number of leading zeros (equivalently, floor(log2(x))), we
+     * can narrow the possible floor(log10(x)) values to two. For example, if floor(log2(x)) is 6,
+     * then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
      */
     int y = maxLog10ForLeadingZeros[Long.numberOfLeadingZeros(x)];
     /*
@@ -166,59 +168,25 @@ public final class LongMath {
   }
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
-  @VisibleForTesting static final byte[] maxLog10ForLeadingZeros = {
-      19, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 13, 13, 13, 12, 12,
-      12, 12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4,
-      3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0 };
+  @VisibleForTesting
+  static final byte[] maxLog10ForLeadingZeros = {19, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15,
+      15, 15, 15, 14, 14, 14, 13, 13, 13, 12, 12, 12, 12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8,
+      8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0};
 
   @GwtIncompatible("TODO")
   @VisibleForTesting
-  static final long[] powersOf10 = {
-    1L,
-    10L,
-    100L,
-    1000L,
-    10000L,
-    100000L,
-    1000000L,
-    10000000L,
-    100000000L,
-    1000000000L,
-    10000000000L,
-    100000000000L,
-    1000000000000L,
-    10000000000000L,
-    100000000000000L,
-    1000000000000000L,
-    10000000000000000L,
-    100000000000000000L,
-    1000000000000000000L
-  };
+  static final long[] powersOf10 = {1L, 10L, 100L, 1000L, 10000L, 100000L, 1000000L, 10000000L,
+      100000000L, 1000000000L, 10000000000L, 100000000000L, 1000000000000L, 10000000000000L,
+      100000000000000L, 1000000000000000L, 10000000000000000L, 100000000000000000L,
+      1000000000000000000L};
 
   // halfPowersOf10[i] = largest long less than 10^(i + 0.5)
   @GwtIncompatible("TODO")
   @VisibleForTesting
-  static final long[] halfPowersOf10 = {
-    3L,
-    31L,
-    316L,
-    3162L,
-    31622L,
-    316227L,
-    3162277L,
-    31622776L,
-    316227766L,
-    3162277660L,
-    31622776601L,
-    316227766016L,
-    3162277660168L,
-    31622776601683L,
-    316227766016837L,
-    3162277660168379L,
-    31622776601683793L,
-    316227766016837933L,
-    3162277660168379331L
-  };
+  static final long[] halfPowersOf10 = {3L, 31L, 316L, 3162L, 31622L, 316227L, 3162277L, 31622776L,
+      316227766L, 3162277660L, 31622776601L, 316227766016L, 3162277660168L, 31622776601683L,
+      316227766016837L, 3162277660168379L, 31622776601683793L, 316227766016837933L,
+      3162277660168379331L};
 
   /**
    * Returns {@code b} to the {@code k}th power. Even if the result overflows, it will be equal to
@@ -279,18 +247,14 @@ public final class LongMath {
     }
     /*
      * Let k be the true value of floor(sqrt(x)), so that
-     *
-     *            k * k <= x          <  (k + 1) * (k + 1)
-     * (double) (k * k) <= (double) x <= (double) ((k + 1) * (k + 1))
-     *          since casting to double is nondecreasing.
-     *          Note that the right-hand inequality is no longer strict.
-     * Math.sqrt(k * k) <= Math.sqrt(x) <= Math.sqrt((k + 1) * (k + 1))
-     *          since Math.sqrt is monotonic.
-     * (long) Math.sqrt(k * k) <= (long) Math.sqrt(x) <= (long) Math.sqrt((k + 1) * (k + 1))
-     *          since casting to long is monotonic
-     * k <= (long) Math.sqrt(x) <= k + 1
-     *          since (long) Math.sqrt(k * k) == k, as checked exhaustively in
-     *          {@link LongMathTest#testSqrtOfPerfectSquareAsDoubleIsPerfect}
+     * 
+     * k * k <= x < (k + 1) * (k + 1) (double) (k * k) <= (double) x <= (double) ((k + 1) * (k + 1))
+     * since casting to double is nondecreasing. Note that the right-hand inequality is no longer
+     * strict. Math.sqrt(k * k) <= Math.sqrt(x) <= Math.sqrt((k + 1) * (k + 1)) since Math.sqrt is
+     * monotonic. (long) Math.sqrt(k * k) <= (long) Math.sqrt(x) <= (long) Math.sqrt((k + 1) * (k +
+     * 1)) since casting to long is monotonic k <= (long) Math.sqrt(x) <= k + 1 since (long)
+     * Math.sqrt(k * k) == k, as checked exhaustively in {@link
+     * LongMathTest#testSqrtOfPerfectSquareAsDoubleIsPerfect}
      */
     long guess = (long) Math.sqrt(x);
     // Note: guess is always <= FLOOR_SQRT_MAX_LONG.
@@ -319,15 +283,14 @@ public final class LongMath {
         long sqrtFloor = guess - ((x < guessSquared) ? 1 : 0);
         long halfSquare = sqrtFloor * sqrtFloor + sqrtFloor;
         /*
-         * We wish to test whether or not x <= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both
-         * x and halfSquare are integers, this is equivalent to testing whether or not x <=
+         * We wish to test whether or not x <= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both x
+         * and halfSquare are integers, this is equivalent to testing whether or not x <=
          * halfSquare. (We have to deal with overflow, though.)
-         *
-         * If we treat halfSquare as an unsigned long, we know that
-         *            sqrtFloor^2 <= x < (sqrtFloor + 1)^2
-         * halfSquare - sqrtFloor <= x < halfSquare + sqrtFloor + 1
-         * so |x - halfSquare| <= sqrtFloor.  Therefore, it's safe to treat x - halfSquare as a
-         * signed long, so lessThanBranchFree is safe for use.
+         * 
+         * If we treat halfSquare as an unsigned long, we know that sqrtFloor^2 <= x < (sqrtFloor +
+         * 1)^2 halfSquare - sqrtFloor <= x < halfSquare + sqrtFloor + 1 so |x - halfSquare| <=
+         * sqrtFloor. Therefore, it's safe to treat x - halfSquare as a signed long, so
+         * lessThanBranchFree is safe for use.
          */
         return sqrtFloor + lessThanBranchFree(halfSquare, x);
       default:
@@ -357,7 +320,7 @@ public final class LongMath {
      * Normal Java division rounds towards 0, consistently with RoundingMode.DOWN. We just have to
      * deal with the cases where rounding towards 0 is wrong, which typically depends on the sign of
      * p / q.
-     *
+     * 
      * signum is 1 if p and q are both nonnegative or both negative, and -1 otherwise.
      */
     int signum = 1 | (int) ((p ^ q) >> (Long.SIZE - 1));
@@ -398,18 +361,21 @@ public final class LongMath {
   }
 
   /**
-   * Returns {@code x mod m}, a non-negative value less than {@code m}.
-   * This differs from {@code x % m}, which might be negative.
+   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from
+   * {@code x % m}, which might be negative.
    *
-   * <p>For example:
+   * <p>
+   * For example:
    *
-   * <pre> {@code
-   *
+   * <pre>
+   * {@code
+   * 
    * mod(7, 4) == 3
    * mod(-7, 4) == 1
    * mod(-1, 4) == 3
    * mod(-8, 4) == 0
-   * mod(8, 4) == 0}</pre>
+   * mod(8, 4) == 0}
+   * </pre>
    *
    * @throws ArithmeticException if {@code m <= 0}
    * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
@@ -422,18 +388,21 @@ public final class LongMath {
   }
 
   /**
-   * Returns {@code x mod m}, a non-negative value less than {@code m}.
-   * This differs from {@code x % m}, which might be negative.
+   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from
+   * {@code x % m}, which might be negative.
    *
-   * <p>For example:
+   * <p>
+   * For example:
    *
-   * <pre> {@code
-   *
+   * <pre>
+   * {@code
+   * 
    * mod(7, 4) == 3
    * mod(-7, 4) == 1
    * mod(-1, 4) == 3
    * mod(-8, 4) == 0
-   * mod(8, 4) == 0}</pre>
+   * mod(8, 4) == 0}
+   * </pre>
    *
    * @throws ArithmeticException if {@code m <= 0}
    * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
@@ -457,8 +426,8 @@ public final class LongMath {
   public static long gcd(long a, long b) {
     /*
      * The reason we require both arguments to be >= 0 is because otherwise, what do you return on
-     * gcd(0, Long.MIN_VALUE)? BigInteger.gcd would return positive 2^63, but positive 2^63 isn't
-     * an int.
+     * gcd(0, Long.MIN_VALUE)? BigInteger.gcd would return positive 2^63, but positive 2^63 isn't an
+     * int.
      */
     checkNonNegative("a", a);
     checkNonNegative("b", b);
@@ -470,8 +439,8 @@ public final class LongMath {
       return a; // similar logic
     }
     /*
-     * Uses the binary GCD algorithm; see http://en.wikipedia.org/wiki/Binary_GCD_algorithm.
-     * This is >60% faster than the Euclidean algorithm in benchmarks.
+     * Uses the binary GCD algorithm; see http://en.wikipedia.org/wiki/Binary_GCD_algorithm. This is
+     * >60% faster than the Euclidean algorithm in benchmarks.
      */
     int aTwos = Long.numberOfTrailingZeros(a);
     a >>= aTwos; // divide out all 2s
@@ -479,7 +448,7 @@ public final class LongMath {
     b >>= bTwos; // divide out all 2s
     while (a != b) { // both a, b are odd
       // The key to the binary GCD algorithm is as follows:
-      // Both a and b are odd.  Assume a > b; then gcd(a - b, b) = gcd(a, b).
+      // Both a and b are odd. Assume a > b; then gcd(a - b, b) = gcd(a, b).
       // But in gcd(a - b, b), a - b is even and b is odd, so we can divide out powers of two.
 
       // We bend over backwards to avoid branching, adapting a technique from
@@ -531,16 +500,17 @@ public final class LongMath {
   @GwtIncompatible("TODO")
   public static long checkedMultiply(long a, long b) {
     // Hacker's Delight, Section 2-12
-    int leadingZeros = Long.numberOfLeadingZeros(a) + Long.numberOfLeadingZeros(~a)
-        + Long.numberOfLeadingZeros(b) + Long.numberOfLeadingZeros(~b);
+    int leadingZeros =
+        Long.numberOfLeadingZeros(a) + Long.numberOfLeadingZeros(~a) + Long.numberOfLeadingZeros(b)
+            + Long.numberOfLeadingZeros(~b);
     /*
      * If leadingZeros > Long.SIZE + 1 it's definitely fine, if it's < Long.SIZE it's definitely
      * bad. We do the leadingZeros check to avoid the division below if at all possible.
-     *
+     * 
      * Otherwise, if b == Long.MIN_VALUE, then the only allowed values of a are 0 and 1. We take
      * care of all a < 0 with their own check, because in particular, the case a == -1 will
      * incorrectly pass the division check below.
-     *
+     * 
      * In all other cases, we check that either a is 0 or the result is consistent with division.
      */
     if (leadingZeros > Long.SIZE + 1) {
@@ -600,12 +570,12 @@ public final class LongMath {
     }
   }
 
-  @VisibleForTesting static final long FLOOR_SQRT_MAX_LONG = 3037000499L;
+  @VisibleForTesting
+  static final long FLOOR_SQRT_MAX_LONG = 3037000499L;
 
   /**
-   * Returns {@code n!}, that is, the product of the first {@code n} positive
-   * integers, {@code 1} if {@code n == 0}, or {@link Long#MAX_VALUE} if the
-   * result does not fit in a {@code long}.
+   * Returns {@code n!}, that is, the product of the first {@code n} positive integers, {@code 1} if
+   * {@code n == 0}, or {@link Long#MAX_VALUE} if the result does not fit in a {@code long}.
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
@@ -615,18 +585,9 @@ public final class LongMath {
     return (n < factorials.length) ? factorials[n] : Long.MAX_VALUE;
   }
 
-  static final long[] factorials = {
-      1L,
-      1L,
-      1L * 2,
-      1L * 2 * 3,
-      1L * 2 * 3 * 4,
-      1L * 2 * 3 * 4 * 5,
-      1L * 2 * 3 * 4 * 5 * 6,
-      1L * 2 * 3 * 4 * 5 * 6 * 7,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10,
+  static final long[] factorials = {1L, 1L, 1L * 2, 1L * 2 * 3, 1L * 2 * 3 * 4, 1L * 2 * 3 * 4 * 5,
+      1L * 2 * 3 * 4 * 5 * 6, 1L * 2 * 3 * 4 * 5 * 6 * 7, 1L * 2 * 3 * 4 * 5 * 6 * 7 * 8,
+      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9, 1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10,
       1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11,
       1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12,
       1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13,
@@ -636,8 +597,7 @@ public final class LongMath {
       1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17,
       1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18,
       1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18 * 19,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18 * 19 * 20
-  };
+      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18 * 19 * 20};
 
   /**
    * Returns {@code n} choose {@code k}, also known as the binomial coefficient of {@code n} and
@@ -721,22 +681,21 @@ public final class LongMath {
   }
 
   /*
-   * binomial(biggestBinomials[k], k) fits in a long, but not
-   * binomial(biggestBinomials[k] + 1, k).
+   * binomial(biggestBinomials[k], k) fits in a long, but not binomial(biggestBinomials[k] + 1, k).
    */
-  static final int[] biggestBinomials =
-      {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 3810779, 121977, 16175, 4337, 1733,
-          887, 534, 361, 265, 206, 169, 143, 125, 111, 101, 94, 88, 83, 79, 76, 74, 72, 70, 69, 68,
-          67, 67, 66, 66, 66, 66};
+  static final int[] biggestBinomials = {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE,
+      3810779, 121977, 16175, 4337, 1733, 887, 534, 361, 265, 206, 169, 143, 125, 111, 101, 94, 88,
+      83, 79, 76, 74, 72, 70, 69, 68, 67, 67, 66, 66, 66, 66};
 
   /*
-   * binomial(biggestSimpleBinomials[k], k) doesn't need to use the slower GCD-based impl,
-   * but binomial(biggestSimpleBinomials[k] + 1, k) does.
+   * binomial(biggestSimpleBinomials[k], k) doesn't need to use the slower GCD-based impl, but
+   * binomial(biggestSimpleBinomials[k] + 1, k) does.
    */
-  @VisibleForTesting static final int[] biggestSimpleBinomials =
-      {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 2642246, 86251, 11724, 3218, 1313,
-          684, 419, 287, 214, 169, 139, 119, 105, 95, 87, 81, 76, 73, 70, 68, 66, 64, 63, 62, 62,
-          61, 61, 61};
+  @VisibleForTesting
+  static final int[] biggestSimpleBinomials = {Integer.MAX_VALUE, Integer.MAX_VALUE,
+      Integer.MAX_VALUE, 2642246, 86251, 11724, 3218, 1313, 684, 419, 287, 214, 169, 139, 119, 105,
+      95, 87, 81, 76, 73, 70, 68, 66, 64, 63, 62, 62, 61, 61, 61};
+
   // These values were generated by using checkedMultiply to see when the simple multiply/divide
   // algorithm would lead to an overflow.
 
@@ -745,8 +704,8 @@ public final class LongMath {
   }
 
   /**
-   * Returns the arithmetic mean of {@code x} and {@code y}, rounded toward
-   * negative infinity. This method is resilient to overflow.
+   * Returns the arithmetic mean of {@code x} and {@code y}, rounded toward negative infinity. This
+   * method is resilient to overflow.
    *
    * @since 14.0
    */

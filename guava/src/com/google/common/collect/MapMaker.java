@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -45,56 +45,68 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Nullable;
 
 /**
- * <p>A builder of {@link ConcurrentMap} instances having any combination of the following features:
+ * <p>
+ * A builder of {@link ConcurrentMap} instances having any combination of the following features:
  *
  * <ul>
- * <li>keys or values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
- *     SoftReference soft} references
+ * <li>keys or values automatically wrapped in {@linkplain WeakReference weak} or
+ * {@linkplain SoftReference soft} references
  * <li>notification of evicted (or otherwise removed) entries
  * </ul>
  *
- * <p>Usage example: <pre>   {@code
+ * <p>
+ * Usage example:
+ * 
+ * <pre>
+ * {
+ *   &#064;code
+ *   ConcurrentMap&lt;Request, Stopwatch&gt; timers =
+ *       new MapMaker().concurrencyLevel(4).weakKeys().makeMap();
+ * }
+ * </pre>
  *
- *   ConcurrentMap<Request, Stopwatch> timers = new MapMaker()
- *       .concurrencyLevel(4)
- *       .weakKeys()
- *       .makeMap();}</pre>
+ * <p>
+ * These features are all optional; {@code new MapMaker().makeMap()} returns a valid concurrent map
+ * that behaves similarly to a {@link ConcurrentHashMap}.
  *
- * <p>These features are all optional; {@code new MapMaker().makeMap()} returns a valid concurrent
- * map that behaves similarly to a {@link ConcurrentHashMap}.
- *
- * <p>The returned map is implemented as a hash table with similar performance characteristics to
+ * <p>
+ * The returned map is implemented as a hash table with similar performance characteristics to
  * {@link ConcurrentHashMap}. It supports all optional operations of the {@code ConcurrentMap}
  * interface. It does not permit null keys or values.
  *
- * <p><b>Note:</b> by default, the returned map uses equality comparisons (the {@link Object#equals
+ * <p>
+ * <b>Note:</b> by default, the returned map uses equality comparisons (the {@link Object#equals
  * equals} method) to determine equality for keys or values. However, if {@link #weakKeys} was
- * specified, the map uses identity ({@code ==}) comparisons instead for keys. Likewise, if {@link
- * #weakValues} or {@link #softValues} was specified, the map uses identity comparisons for values.
+ * specified, the map uses identity ({@code ==}) comparisons instead for keys. Likewise, if
+ * {@link #weakValues} or {@link #softValues} was specified, the map uses identity comparisons for
+ * values.
  *
- * <p>The view collections of the returned map have <i>weakly consistent iterators</i>. This means
- * that they are safe for concurrent use, but if other threads modify the map after the iterator is
+ * <p>
+ * The view collections of the returned map have <i>weakly consistent iterators</i>. This means that
+ * they are safe for concurrent use, but if other threads modify the map after the iterator is
  * created, it is undefined which of these changes, if any, are reflected in that iterator. These
  * iterators never throw {@link ConcurrentModificationException}.
  *
- * <p>If {@link #weakKeys}, {@link #weakValues}, or {@link #softValues} are requested, it is
- * possible for a key or value present in the map to be reclaimed by the garbage collector. Entries
- * with reclaimed keys or values may be removed from the map on each map modification or on
- * occasional map accesses; such entries may be counted by {@link Map#size}, but will never be
- * visible to read or write operations. A partially-reclaimed entry is never exposed to the user.
- * Any {@link java.util.Map.Entry} instance retrieved from the map's
- * {@linkplain Map#entrySet entry set} is a snapshot of that entry's state at the time of
- * retrieval; such entries do, however, support {@link java.util.Map.Entry#setValue}, which simply
- * calls {@link Map#put} on the entry's key.
+ * <p>
+ * If {@link #weakKeys}, {@link #weakValues}, or {@link #softValues} are requested, it is possible
+ * for a key or value present in the map to be reclaimed by the garbage collector. Entries with
+ * reclaimed keys or values may be removed from the map on each map modification or on occasional
+ * map accesses; such entries may be counted by {@link Map#size}, but will never be visible to read
+ * or write operations. A partially-reclaimed entry is never exposed to the user. Any
+ * {@link java.util.Map.Entry} instance retrieved from the map's {@linkplain Map#entrySet entry set}
+ * is a snapshot of that entry's state at the time of retrieval; such entries do, however, support
+ * {@link java.util.Map.Entry#setValue}, which simply calls {@link Map#put} on the entry's key.
  *
- * <p>The maps produced by {@code MapMaker} are serializable, and the deserialized maps retain all
- * the configuration properties of the original map. During deserialization, if the original map had
+ * <p>
+ * The maps produced by {@code MapMaker} are serializable, and the deserialized maps retain all the
+ * configuration properties of the original map. During deserialization, if the original map had
  * used soft or weak references, the entries are reconstructed as they were, but it's not unlikely
  * they'll be quickly garbage-collected before they are ever accessed.
  *
- * <p>{@code new MapMaker().weakKeys().makeMap()} is a recommended replacement for {@link
- * java.util.WeakHashMap}, but note that it compares keys using object identity whereas {@code
- * WeakHashMap} uses {@link Object#equals}.
+ * <p>
+ * {@code new MapMaker().weakKeys().makeMap()} is a recommended replacement for
+ * {@link java.util.WeakHashMap}, but note that it compares keys using object identity whereas
+ * {@code WeakHashMap} uses {@link Object#equals}.
  *
  * @author Bob Lee
  * @author Charles Fry
@@ -137,9 +149,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   /**
    * Sets a custom {@code Equivalence} strategy for comparing keys.
    *
-   * <p>By default, the map uses {@link Equivalence#identity} to determine key equality when {@link
-   * #weakKeys} is specified, and {@link Equivalence#equals()} otherwise. The only place this is
-   * used is in {@link Interners.WeakInterner}.
+   * <p>
+   * By default, the map uses {@link Equivalence#identity} to determine key equality when
+   * {@link #weakKeys} is specified, and {@link Equivalence#equals()} otherwise. The only place this
+   * is used is in {@link Interners.WeakInterner}.
    */
   @GwtIncompatible("To be supported")
   @Override
@@ -183,22 +196,24 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * evicts entries that are less likely to be used again. For example, the map may evict an entry
    * because it hasn't been used recently or very often.
    *
-   * <p>When {@code size} is zero, elements can be successfully added to the map, but are evicted
-   * immediately. This has the same effect as invoking {@link #expireAfterWrite
-   * expireAfterWrite}{@code (0, unit)} or {@link #expireAfterAccess expireAfterAccess}{@code (0,
+   * <p>
+   * When {@code size} is zero, elements can be successfully added to the map, but are evicted
+   * immediately. This has the same effect as invoking {@link #expireAfterWrite expireAfterWrite}
+   * {@code (0, unit)} or {@link #expireAfterAccess expireAfterAccess}{@code (0,
    * unit)}. It can be useful in testing, or to disable caching temporarily without a code change.
    *
-   * <p>Caching functionality in {@code MapMaker} has been moved to
+   * <p>
+   * Caching functionality in {@code MapMaker} has been moved to
    * {@link com.google.common.cache.CacheBuilder}.
    *
    * @param size the maximum size of the map
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #maximumSize} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#maximumSize}. Note that {@code
-   *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
-   *     {@code MapMaker}.
+   *             {@link com.google.common.cache.CacheBuilder}, with {@link #maximumSize} being
+   *             replaced by {@link com.google.common.cache.CacheBuilder#maximumSize}. Note that
+   *             {@code CacheBuilder} is simply an enhanced API for an implementation which was
+   *             branched from {@code MapMaker}.
    */
   @Deprecated
   @Override
@@ -227,7 +242,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * at a time, but since read operations can proceed concurrently, this still yields higher
    * concurrency than full synchronization. Defaults to 4.
    *
-   * <p><b>Note:</b> Prior to Guava release 9.0, the default was 16. It is possible the default will
+   * <p>
+   * <b>Note:</b> Prior to Guava release 9.0, the default was 16. It is possible the default will
    * change again in the future. If you care about this value, you should always choose it
    * explicitly.
    *
@@ -248,10 +264,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * Specifies that each key (not value) stored in the map should be wrapped in a {@link
-   * WeakReference} (by default, strong references are used).
+   * Specifies that each key (not value) stored in the map should be wrapped in a
+   * {@link WeakReference} (by default, strong references are used).
    *
-   * <p><b>Warning:</b> when this method is used, the resulting map will use identity ({@code ==})
+   * <p>
+   * <b>Warning:</b> when this method is used, the resulting map will use identity ({@code ==})
    * comparison to determine equality of keys, which is a technical violation of the {@link Map}
    * specification, and may not be what you expect.
    *
@@ -283,15 +300,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * Specifies that each value (not key) stored in the map should be wrapped in a
    * {@link WeakReference} (by default, strong references are used).
    *
-   * <p>Weak values will be garbage collected once they are weakly reachable. This makes them a poor
+   * <p>
+   * Weak values will be garbage collected once they are weakly reachable. This makes them a poor
    * candidate for caching; consider {@link #softValues} instead.
    *
-   * <p><b>Warning:</b> when this method is used, the resulting map will use identity ({@code ==})
-   * comparison to determine equality of values. This technically violates the specifications of
-   * the methods {@link Map#containsValue containsValue},
-   * {@link ConcurrentMap#remove(Object, Object) remove(Object, Object)} and
-   * {@link ConcurrentMap#replace(Object, Object, Object) replace(K, V, V)}, and may not be what you
-   * expect.
+   * <p>
+   * <b>Warning:</b> when this method is used, the resulting map will use identity ({@code ==})
+   * comparison to determine equality of values. This technically violates the specifications of the
+   * methods {@link Map#containsValue containsValue}, {@link ConcurrentMap#remove(Object, Object)
+   * remove(Object, Object)} and {@link ConcurrentMap#replace(Object, Object, Object) replace(K, V,
+   * V)}, and may not be what you expect.
    *
    * @throws IllegalStateException if the value strength was already set
    * @see WeakReference
@@ -308,24 +326,26 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * be garbage-collected in a <i>globally</i> least-recently-used manner, in response to memory
    * demand.
    *
-   * <p><b>Warning:</b> in most circumstances it is better to set a per-cache {@linkplain
-   * #maximumSize maximum size} instead of using soft references. You should only use this method if
-   * you are well familiar with the practical consequences of soft references.
+   * <p>
+   * <b>Warning:</b> in most circumstances it is better to set a per-cache {@linkplain #maximumSize
+   * maximum size} instead of using soft references. You should only use this method if you are well
+   * familiar with the practical consequences of soft references.
    *
-   * <p><b>Warning:</b> when this method is used, the resulting map will use identity ({@code ==})
-   * comparison to determine equality of values. This technically violates the specifications of
-   * the methods {@link Map#containsValue containsValue},
-   * {@link ConcurrentMap#remove(Object, Object) remove(Object, Object)} and
-   * {@link ConcurrentMap#replace(Object, Object, Object) replace(K, V, V)}, and may not be what you
-   * expect.
+   * <p>
+   * <b>Warning:</b> when this method is used, the resulting map will use identity ({@code ==})
+   * comparison to determine equality of values. This technically violates the specifications of the
+   * methods {@link Map#containsValue containsValue}, {@link ConcurrentMap#remove(Object, Object)
+   * remove(Object, Object)} and {@link ConcurrentMap#replace(Object, Object, Object) replace(K, V,
+   * V)}, and may not be what you expect.
    *
    * @throws IllegalStateException if the value strength was already set
    * @see SoftReference
-   * @deprecated Caching functionality in {@code MapMaker} has been moved to {@link
-   *     com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
-   *     com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
-   *     an enhanced API for an implementation which was branched from {@code MapMaker}. <b>This
-   *     method is scheduled for removal in March 2015.</b>
+   * @deprecated Caching functionality in {@code MapMaker} has been moved to
+   *             {@link com.google.common.cache.CacheBuilder}, with {@link #softValues} being
+   *             replaced by {@link com.google.common.cache.CacheBuilder#softValues}. Note that
+   *             {@code CacheBuilder} is simply an enhanced API for an implementation which was
+   *             branched from {@code MapMaker}. <b>This method is scheduled for removal in March
+   *             2015.</b>
    */
   @Deprecated
   @GwtIncompatible("java.lang.ref.SoftReference")
@@ -352,26 +372,28 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * Specifies that each entry should be automatically removed from the map once a fixed duration
    * has elapsed after the entry's creation, or the most recent replacement of its value.
    *
-   * <p>When {@code duration} is zero, elements can be successfully added to the map, but are
-   * evicted immediately. This has a very similar effect to invoking {@link #maximumSize
-   * maximumSize}{@code (0)}. It can be useful in testing, or to disable caching temporarily without
-   * a code change.
+   * <p>
+   * When {@code duration} is zero, elements can be successfully added to the map, but are evicted
+   * immediately. This has a very similar effect to invoking {@link #maximumSize maximumSize}
+   * {@code (0)}. It can be useful in testing, or to disable caching temporarily without a code
+   * change.
    *
-   * <p>Expired entries may be counted by {@link Map#size}, but will never be visible to read or
-   * write operations. Expired entries are currently cleaned up during write operations, or during
+   * <p>
+   * Expired entries may be counted by {@link Map#size}, but will never be visible to read or write
+   * operations. Expired entries are currently cleaned up during write operations, or during
    * occasional read operations in the absense of writes; though this behavior may change in the
    * future.
    *
    * @param duration the length of time after an entry is created that it should be automatically
-   *     removed
+   *        removed
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was already set
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterWrite} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterWrite}. Note that {@code
-   *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
-   *     {@code MapMaker}.
+   *             {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterWrite} being
+   *             replaced by {@link com.google.common.cache.CacheBuilder#expireAfterWrite}. Note
+   *             that {@code CacheBuilder} is simply an enhanced API for an implementation which was
+   *             branched from {@code MapMaker}.
    */
   @Deprecated
   @Override
@@ -402,26 +424,28 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * Specifies that each entry should be automatically removed from the map once a fixed duration
    * has elapsed after the entry's last read or write access.
    *
-   * <p>When {@code duration} is zero, elements can be successfully added to the map, but are
-   * evicted immediately. This has a very similar effect to invoking {@link #maximumSize
-   * maximumSize}{@code (0)}. It can be useful in testing, or to disable caching temporarily without
-   * a code change.
+   * <p>
+   * When {@code duration} is zero, elements can be successfully added to the map, but are evicted
+   * immediately. This has a very similar effect to invoking {@link #maximumSize maximumSize}
+   * {@code (0)}. It can be useful in testing, or to disable caching temporarily without a code
+   * change.
    *
-   * <p>Expired entries may be counted by {@link Map#size}, but will never be visible to read or
-   * write operations. Expired entries are currently cleaned up during write operations, or during
+   * <p>
+   * Expired entries may be counted by {@link Map#size}, but will never be visible to read or write
+   * operations. Expired entries are currently cleaned up during write operations, or during
    * occasional read operations in the absense of writes; though this behavior may change in the
    * future.
    *
    * @param duration the length of time after an entry is last accessed that it should be
-   *     automatically removed
+   *        automatically removed
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterAccess} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterAccess}. Note that
-   *     {@code CacheBuilder} is simply an enhanced API for an implementation which was branched
-   *     from {@code MapMaker}.
+   *             {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterAccess} being
+   *             replaced by {@link com.google.common.cache.CacheBuilder#expireAfterAccess}. Note
+   *             that {@code CacheBuilder} is simply an enhanced API for an implementation which was
+   *             branched from {@code MapMaker}.
    */
   @Deprecated
   @GwtIncompatible("To be supported")
@@ -438,8 +462,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   long getExpireAfterAccessNanos() {
-    return (expireAfterAccessNanos == UNSET_INT)
-        ? DEFAULT_EXPIRATION_NANOS : expireAfterAccessNanos;
+    return (expireAfterAccessNanos == UNSET_INT) ? DEFAULT_EXPIRATION_NANOS
+        : expireAfterAccessNanos;
   }
 
   Ticker getTicker() {
@@ -450,30 +474,33 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * Specifies a listener instance, which all maps built using this {@code MapMaker} will notify
    * each time an entry is removed from the map by any means.
    *
-   * <p>Each map built by this map maker after this method is called invokes the supplied listener
+   * <p>
+   * Each map built by this map maker after this method is called invokes the supplied listener
    * after removing an element for any reason (see removal causes in {@link RemovalCause}). It will
    * invoke the listener during invocations of any of that map's public methods (even read-only
    * methods).
    *
-   * <p><b>Important note:</b> Instead of returning <i>this</i> as a {@code MapMaker} instance,
-   * this method returns {@code GenericMapMaker<K, V>}. From this point on, either the original
-   * reference or the returned reference may be used to complete configuration and build the map,
-   * but only the "generic" one is type-safe. That is, it will properly prevent you from building
-   * maps whose key or value types are incompatible with the types accepted by the listener already
-   * provided; the {@code MapMaker} type cannot do this. For best results, simply use the standard
-   * method-chaining idiom, as illustrated in the documentation at top, configuring a {@code
-   * MapMaker} and building your {@link Map} all in a single statement.
+   * <p>
+   * <b>Important note:</b> Instead of returning <i>this</i> as a {@code MapMaker} instance, this
+   * method returns {@code GenericMapMaker<K, V>}. From this point on, either the original reference
+   * or the returned reference may be used to complete configuration and build the map, but only the
+   * "generic" one is type-safe. That is, it will properly prevent you from building maps whose key
+   * or value types are incompatible with the types accepted by the listener already provided; the
+   * {@code MapMaker} type cannot do this. For best results, simply use the standard method-chaining
+   * idiom, as illustrated in the documentation at top, configuring a {@code MapMaker} and building
+   * your {@link Map} all in a single statement.
    *
-   * <p><b>Warning:</b> if you ignore the above advice, and use this {@code MapMaker} to build a map
-   * or cache whose key or value type is incompatible with the listener, you will likely experience
-   * a {@link ClassCastException} at some <i>undefined</i> point in the future.
+   * <p>
+   * <b>Warning:</b> if you ignore the above advice, and use this {@code MapMaker} to build a map or
+   * cache whose key or value type is incompatible with the listener, you will likely experience a
+   * {@link ClassCastException} at some <i>undefined</i> point in the future.
    *
    * @throws IllegalStateException if a removal listener was already set
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #removalListener} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#removalListener}. Note that {@code
-   *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
-   *     {@code MapMaker}.
+   *             {@link com.google.common.cache.CacheBuilder}, with {@link #removalListener} being
+   *             replaced by {@link com.google.common.cache.CacheBuilder#removalListener}. Note that
+   *             {@code CacheBuilder} is simply an enhanced API for an implementation which was
+   *             branched from {@code MapMaker}.
    */
   @Deprecated
   @GwtIncompatible("To be supported")
@@ -492,10 +519,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * Builds a thread-safe map. This method does not alter the state of this {@code MapMaker}
    * instance, so it can be invoked again to create multiple independent maps.
    *
-   * <p>The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to
-   * be performed atomically on the returned map. Additionally, {@code size} and {@code
-   * containsValue} are implemented as bulk read operations, and thus may fail to observe concurrent
-   * writes.
+   * <p>
+   * The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to be
+   * performed atomically on the returned map. Additionally, {@code size} and {@code containsValue}
+   * are implemented as bulk read operations, and thus may fail to observe concurrent writes.
    *
    * @return a serializable concurrent map having the requested features
    */
@@ -504,14 +531,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     if (!useCustomMap) {
       return new ConcurrentHashMap<K, V>(getInitialCapacity(), 0.75f, getConcurrencyLevel());
     }
-    return (nullRemovalCause == null)
-        ? new MapMakerInternalMap<K, V>(this)
+    return (nullRemovalCause == null) ? new MapMakerInternalMap<K, V>(this)
         : new NullConcurrentMap<K, V>(this);
   }
 
   /**
-   * Returns a MapMakerInternalMap for the benefit of internal callers that use features of
-   * that class not exposed through ConcurrentMap.
+   * Returns a MapMakerInternalMap for the benefit of internal callers that use features of that
+   * class not exposed through ConcurrentMap.
    */
   @Override
   @GwtIncompatible("MapMakerInternalMap")
@@ -526,63 +552,68 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * that thread to finish and returns its computed value. Note that the function may be executed
    * concurrently by multiple threads, but only for distinct keys.
    *
-   * <p>New code should use {@link com.google.common.cache.CacheBuilder}, which supports
+   * <p>
+   * New code should use {@link com.google.common.cache.CacheBuilder}, which supports
    * {@linkplain com.google.common.cache.CacheStats statistics} collection, introduces the
    * {@link com.google.common.cache.CacheLoader} interface for loading entries into the cache
    * (allowing checked exceptions to be thrown in the process), and more cleanly separates
    * computation from the cache's {@code Map} view.
    *
-   * <p>If an entry's value has not finished computing yet, query methods besides {@code get} return
+   * <p>
+   * If an entry's value has not finished computing yet, query methods besides {@code get} return
    * immediately as if an entry doesn't exist. In other words, an entry isn't externally visible
    * until the value's computation completes.
    *
-   * <p>{@link Map#get} on the returned map will never return {@code null}. It may throw:
+   * <p>
+   * {@link Map#get} on the returned map will never return {@code null}. It may throw:
    *
    * <ul>
    * <li>{@link NullPointerException} if the key is null or the computing function returns a null
-   *     result
+   * result
    * <li>{@link ComputationException} if an exception was thrown by the computing function. If that
    * exception is already of type {@link ComputationException} it is propagated directly; otherwise
    * it is wrapped.
    * </ul>
    *
-   * <p><b>Note:</b> Callers of {@code get} <i>must</i> ensure that the key argument is of type
+   * <p>
+   * <b>Note:</b> Callers of {@code get} <i>must</i> ensure that the key argument is of type
    * {@code K}. The {@code get} method accepts {@code Object}, so the key type is not checked at
    * compile time. Passing an object of a type other than {@code K} can result in that object being
    * unsafely passed to the computing function as type {@code K}, and unsafely stored in the map.
    *
-   * <p>If {@link Map#put} is called before a computation completes, other threads waiting on the
+   * <p>
+   * If {@link Map#put} is called before a computation completes, other threads waiting on the
    * computation will wake up and return the stored value.
    *
-   * <p>This method does not alter the state of this {@code MapMaker} instance, so it can be invoked
+   * <p>
+   * This method does not alter the state of this {@code MapMaker} instance, so it can be invoked
    * again to create multiple independent maps.
    *
-   * <p>Insertion, removal, update, and access operations on the returned map safely execute
+   * <p>
+   * Insertion, removal, update, and access operations on the returned map safely execute
    * concurrently by multiple threads. Iterators on the returned map are weakly consistent,
    * returning elements reflecting the state of the map at some point at or since the creation of
    * the iterator. They do not throw {@link ConcurrentModificationException}, and may proceed
    * concurrently with other operations.
    *
-   * <p>The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to
-   * be performed atomically on the returned map. Additionally, {@code size} and {@code
-   * containsValue} are implemented as bulk read operations, and thus may fail to observe concurrent
-   * writes.
+   * <p>
+   * The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to be
+   * performed atomically on the returned map. Additionally, {@code size} and {@code containsValue}
+   * are implemented as bulk read operations, and thus may fail to observe concurrent writes.
    *
    * @param computingFunction the function used to compute new values
    * @return a serializable concurrent map having the requested features
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced
-   *     by {@link com.google.common.cache.CacheBuilder#build}. See the
-   *     <a href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker
-   *     Migration Guide</a> for more details.
+   *             {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being
+   *             replaced by {@link com.google.common.cache.CacheBuilder#build}. See the <a
+   *             href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker
+   *             Migration Guide</a> for more details.
    */
   @Deprecated
   @Override
-  <K, V> ConcurrentMap<K, V> makeComputingMap(
-      Function<? super K, ? extends V> computingFunction) {
-    return (nullRemovalCause == null)
-        ? new MapMaker.ComputingMapAdapter<K, V>(this, computingFunction)
-        : new NullComputingConcurrentMap<K, V>(this, computingFunction);
+  <K, V> ConcurrentMap<K, V> makeComputingMap(Function<? super K, ? extends V> computingFunction) {
+    return (nullRemovalCause == null) ? new MapMaker.ComputingMapAdapter<K, V>(this,
+        computingFunction) : new NullComputingConcurrentMap<K, V>(this, computingFunction);
   }
 
   /**
@@ -628,14 +659,15 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * due to eviction resulting from timed expiration, exceeding a maximum size, or garbage
    * collection.
    *
-   * <p>An instance may be called concurrently by multiple threads to process different entries.
+   * <p>
+   * An instance may be called concurrently by multiple threads to process different entries.
    * Implementations of this interface should avoid performing blocking calls or synchronizing on
    * shared resources.
    *
-   * @param <K> the most general type of keys this listener can listen for; for
-   *     example {@code Object} if any key is acceptable
-   * @param <V> the most general type of values this listener can listen for; for
-   *     example {@code Object} if any key is acceptable
+   * @param <K> the most general type of keys this listener can listen for; for example
+   *        {@code Object} if any key is acceptable
+   * @param <V> the most general type of values this listener can listen for; for example
+   *        {@code Object} if any key is acceptable
    */
   interface RemovalListener<K, V> {
     /**
@@ -648,7 +680,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * A notification of the removal of a single entry. The key or value may be null if it was already
    * garbage collected.
    *
-   * <p>Like other {@code Map.Entry} instances associated with MapMaker, this class holds strong
+   * <p>
+   * Like other {@code Map.Entry} instances associated with MapMaker, this class holds strong
    * references to the key and value, regardless of the type of references the map may be using.
    */
   static final class RemovalNotification<K, V> extends ImmutableEntry<K, V> {
@@ -717,8 +750,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     },
 
     /**
-     * The entry's expiration timestamp has passed. This can occur when using {@link
-     * #expireAfterWrite} or {@link #expireAfterAccess}.
+     * The entry's expiration timestamp has passed. This can occur when using
+     * {@link #expireAfterWrite} or {@link #expireAfterAccess}.
      */
     EXPIRED {
       @Override
@@ -728,8 +761,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     },
 
     /**
-     * The entry was evicted due to size constraints. This can occur when using {@link
-     * #maximumSize}.
+     * The entry was evicted due to size constraints. This can occur when using {@link #maximumSize}
+     * .
      */
     SIZE {
       @Override
@@ -746,8 +779,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /** A map that is always empty and evicts on insertion. */
-  static class NullConcurrentMap<K, V> extends AbstractMap<K, V>
-      implements ConcurrentMap<K, V>, Serializable {
+  static class NullConcurrentMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V>,
+      Serializable {
     private static final long serialVersionUID = 0;
 
     private final RemovalListener<K, V> removalListener;
@@ -830,13 +863,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
     final Function<? super K, ? extends V> computingFunction;
 
-    NullComputingConcurrentMap(
-        MapMaker mapMaker, Function<? super K, ? extends V> computingFunction) {
+    NullComputingConcurrentMap(MapMaker mapMaker, Function<? super K, ? extends V> computingFunction) {
       super(mapMaker);
       this.computingFunction = checkNotNull(computingFunction);
     }
 
-    @SuppressWarnings("unchecked") // unsafe, which is why Cache is preferred
+    @SuppressWarnings("unchecked")
+    // unsafe, which is why Cache is preferred
     @Override
     public V get(Object k) {
       K key = (K) k;
@@ -866,16 +899,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * This might make more sense in ComputingConcurrentHashMap, but it causes a javac crash in some
    * cases there: http://code.google.com/p/guava-libraries/issues/detail?id=950
    */
-  static final class ComputingMapAdapter<K, V>
-      extends ComputingConcurrentHashMap<K, V> implements Serializable {
+  static final class ComputingMapAdapter<K, V> extends ComputingConcurrentHashMap<K, V> implements
+      Serializable {
     private static final long serialVersionUID = 0;
 
-    ComputingMapAdapter(MapMaker mapMaker,
-        Function<? super K, ? extends V> computingFunction) {
+    ComputingMapAdapter(MapMaker mapMaker, Function<? super K, ? extends V> computingFunction) {
       super(mapMaker, computingFunction);
     }
 
-    @SuppressWarnings("unchecked") // unsafe, which is one advantage of Cache over Map
+    @SuppressWarnings("unchecked")
+    // unsafe, which is one advantage of Cache over Map
     @Override
     public V get(Object key) {
       V value;

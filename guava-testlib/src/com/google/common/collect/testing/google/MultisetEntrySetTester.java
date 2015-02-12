@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -45,101 +43,76 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_clear() {
     getMultiset().entrySet().clear();
-    assertTrue("multiset not empty after entrySet().clear()",
-        getMultiset().isEmpty());
+    assertTrue("multiset not empty after entrySet().clear()", getMultiset().isEmpty());
   }
 
   @CollectionSize.Require(ONE)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   public void testEntrySet_iteratorRemovePropagates() {
     Iterator<Multiset.Entry<E>> iterator = getMultiset().entrySet().iterator();
-    assertTrue(
-        "non-empty multiset.entrySet() iterator.hasNext() returned false",
+    assertTrue("non-empty multiset.entrySet() iterator.hasNext() returned false",
         iterator.hasNext());
     assertEquals("multiset.entrySet() iterator.next() returned incorrect entry",
         Multisets.immutableEntry(e0(), 1), iterator.next());
-    assertFalse(
-        "size 1 multiset.entrySet() iterator.hasNext() returned true "
-            + "after next()",
+    assertFalse("size 1 multiset.entrySet() iterator.hasNext() returned true " + "after next()",
         iterator.hasNext());
     iterator.remove();
-    assertTrue(
-        "multiset isn't empty after multiset.entrySet() iterator.remove()",
-        getMultiset().isEmpty());
+    assertTrue("multiset isn't empty after multiset.entrySet() iterator.remove()", getMultiset()
+        .isEmpty());
   }
 
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_removePresent() {
-    assertTrue(
-        "multiset.entrySet.remove(presentEntry) returned false",
-        getMultiset().entrySet().remove(
-            Multisets.immutableEntry(e0(), 1)));
-    assertFalse(
-        "multiset contains element after removing its entry",
-        getMultiset().contains(e0()));
+    assertTrue("multiset.entrySet.remove(presentEntry) returned false", getMultiset().entrySet()
+        .remove(Multisets.immutableEntry(e0(), 1)));
+    assertFalse("multiset contains element after removing its entry", getMultiset().contains(e0()));
   }
 
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_removeAbsent() {
-    assertFalse(
-        "multiset.entrySet.remove(missingEntry) returned true",
-        getMultiset().entrySet().remove(
-            Multisets.immutableEntry(e0(), 2)));
-    assertTrue(
-        "multiset didn't contain element after removing a missing entry",
-        getMultiset().contains(e0()));
+    assertFalse("multiset.entrySet.remove(missingEntry) returned true", getMultiset().entrySet()
+        .remove(Multisets.immutableEntry(e0(), 2)));
+    assertTrue("multiset didn't contain element after removing a missing entry", getMultiset()
+        .contains(e0()));
   }
 
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_removeAllPresent() {
-    assertTrue(
-        "multiset.entrySet.removeAll(presentEntry) returned false",
-        getMultiset().entrySet().removeAll(
-            Collections.singleton(Multisets.immutableEntry(e0(), 1))));
-    assertFalse(
-        "multiset contains element after removing its entry",
-        getMultiset().contains(e0()));
+    assertTrue("multiset.entrySet.removeAll(presentEntry) returned false", getMultiset().entrySet()
+        .removeAll(Collections.singleton(Multisets.immutableEntry(e0(), 1))));
+    assertFalse("multiset contains element after removing its entry", getMultiset().contains(e0()));
   }
 
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_removeAllAbsent() {
-    assertFalse(
-        "multiset.entrySet.remove(missingEntry) returned true",
-        getMultiset().entrySet().removeAll(
-            Collections.singleton(Multisets.immutableEntry(e0(), 2))));
-    assertTrue(
-        "multiset didn't contain element after removing a missing entry",
-        getMultiset().contains(e0()));
+    assertFalse("multiset.entrySet.remove(missingEntry) returned true", getMultiset().entrySet()
+        .removeAll(Collections.singleton(Multisets.immutableEntry(e0(), 2))));
+    assertTrue("multiset didn't contain element after removing a missing entry", getMultiset()
+        .contains(e0()));
   }
 
   @CollectionSize.Require(ONE)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_retainAllPresent() {
-    assertFalse(
-        "multiset.entrySet.retainAll(presentEntry) returned false",
-        getMultiset().entrySet().retainAll(
-            Collections.singleton(Multisets.immutableEntry(e0(), 1))));
-    assertTrue(
-        "multiset doesn't contains element after retaining its entry",
-        getMultiset().contains(e0()));
+    assertFalse("multiset.entrySet.retainAll(presentEntry) returned false", getMultiset()
+        .entrySet().retainAll(Collections.singleton(Multisets.immutableEntry(e0(), 1))));
+    assertTrue("multiset doesn't contains element after retaining its entry", getMultiset()
+        .contains(e0()));
   }
 
   @CollectionSize.Require(ONE)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_retainAllAbsent() {
-    assertTrue(
-        "multiset.entrySet.retainAll(missingEntry) returned true",
-        getMultiset().entrySet().retainAll(
-            Collections.singleton(Multisets.immutableEntry(e0(), 2))));
-    assertFalse(
-        "multiset contains element after retaining a different entry",
-        getMultiset().contains(e0()));
+    assertTrue("multiset.entrySet.retainAll(missingEntry) returned true", getMultiset().entrySet()
+        .retainAll(Collections.singleton(Multisets.immutableEntry(e0(), 2))));
+    assertFalse("multiset contains element after retaining a different entry", getMultiset()
+        .contains(e0()));
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -153,7 +126,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     assertTrue(getMultiset().elementSet().remove(e0()));
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -172,7 +145,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     itr.remove();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -184,7 +157,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     getMultiset().clear();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -196,7 +169,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     getMultiset().entrySet().clear();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -208,7 +181,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     entryItr.remove();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -220,7 +193,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     getMultiset().elementSet().clear();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -234,7 +207,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     elementItr.remove();
     assertEquals(0, entry.getCount());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require({SUPPORTS_REMOVE, SUPPORTS_ADD})
   @MultisetFeature.Require(ENTRIES_ARE_VIEWS)
@@ -250,7 +223,7 @@ public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
     getMultiset().add(e0(), 2);
     assertEquals(2, entry.getCount());
   }
-  
+
   public void testToString() {
     assertEquals(getMultiset().entrySet().toString(), getMultiset().toString());
   }

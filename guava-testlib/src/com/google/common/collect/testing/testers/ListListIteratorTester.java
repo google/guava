@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -39,9 +37,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * A generic JUnit test which tests {@code listIterator} operations on a list.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code listIterator} operations on a list. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
  * @author Chris Povirk
  * @author Kevin Bourrillion
@@ -57,8 +54,8 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
   }
 
   /*
-   * For now, we don't cope with testing this when the list supports only some
-   * modification operations.
+   * For now, we don't cope with testing this when the list supports only some modification
+   * operations.
    */
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @ListFeature.Require({SUPPORTS_SET, SUPPORTS_ADD_WITH_INDEX})
@@ -67,20 +64,21 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
   }
 
   private void runListIteratorTest(Set<IteratorFeature> features) {
-    new ListIteratorTester<E>(
-        listListIteratorTesterNumIterations(), singleton(e4()), features,
+    new ListIteratorTester<E>(listListIteratorTesterNumIterations(), singleton(e4()), features,
         Helpers.copyToList(getOrderedElements()), 0) {
       {
         // TODO: don't set this universally
         stopTestingWhenAddThrowsException();
       }
 
-      @Override protected ListIterator<E> newTargetIterator() {
+      @Override
+      protected ListIterator<E> newTargetIterator() {
         resetCollection();
         return getList().listIterator();
       }
 
-      @Override protected void verify(List<E> elements) {
+      @Override
+      protected void verify(List<E> elements) {
         expectContents(elements);
       }
     }.test();
@@ -108,27 +106,22 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testListIterator_fullyModifiable()} so that tests of
-   * {@link CopyOnWriteArraySet} can suppress it with
+   * Returns the {@link Method} instance for {@link #testListIterator_fullyModifiable()} so that
+   * tests of {@link CopyOnWriteArraySet} can suppress it with
    * {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug
-   * 6570575</a> is fixed.
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug 6570575</a> is fixed.
    */
   @GwtIncompatible("reflection")
   public static Method getListIteratorFullyModifiableMethod() {
-    return Helpers.getMethod(
-        ListListIteratorTester.class, "testListIterator_fullyModifiable");
+    return Helpers.getMethod(ListListIteratorTester.class, "testListIterator_fullyModifiable");
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testListIterator_unmodifiable()} so that it can be suppressed in
-   * GWT tests.
+   * Returns the {@link Method} instance for {@link #testListIterator_unmodifiable()} so that it can
+   * be suppressed in GWT tests.
    */
   @GwtIncompatible("reflection")
   public static Method getListIteratorUnmodifiableMethod() {
-    return Helpers.getMethod(
-        ListListIteratorTester.class, "testListIterator_unmodifiable");
+    return Helpers.getMethod(ListListIteratorTester.class, "testListIterator_unmodifiable");
   }
 }

@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -32,8 +32,8 @@ import javax.annotation.Nullable;
  * Static methods to obtain {@link HashFunction} instances, and other static hashing-related
  * utilities.
  *
- * <p>A comparison of the various hash functions can be found
- * <a href="http://goo.gl/jS7HH">here</a>.
+ * <p>
+ * A comparison of the various hash functions can be found <a href="http://goo.gl/jS7HH">here</a>.
  *
  * @author Kevin Bourrillion
  * @author Dimitris Andreou
@@ -46,16 +46,18 @@ public final class Hashing {
    * Returns a general-purpose, <b>temporary-use</b>, non-cryptographic hash function. The algorithm
    * the returned function implements is unspecified and subject to change without notice.
    *
-   * <p><b>Warning:</b> a new random seed for these functions is chosen each time the {@code
-   * Hashing} class is loaded. <b>Do not use this method</b> if hash codes may escape the current
-   * process in any way, for example being sent over RPC, or saved to disk.
+   * <p>
+   * <b>Warning:</b> a new random seed for these functions is chosen each time the {@code Hashing}
+   * class is loaded. <b>Do not use this method</b> if hash codes may escape the current process in
+   * any way, for example being sent over RPC, or saved to disk.
    *
-   * <p>Repeated calls to this method on the same loaded {@code Hashing} class, using the same value
+   * <p>
+   * Repeated calls to this method on the same loaded {@code Hashing} class, using the same value
    * for {@code minimumBits}, will return identically-behaving {@link HashFunction} instances.
    *
    * @param minimumBits a positive integer (can be arbitrarily large)
-   * @return a hash function, described above, that produces hash codes of length {@code
-   *     minimumBits} or greater
+   * @return a hash function, described above, that produces hash codes of length
+   *         {@code minimumBits} or greater
    */
   public static HashFunction goodFastHash(int minimumBits) {
     int bits = checkPositiveAndMakeMultipleOf32(minimumBits);
@@ -86,24 +88,24 @@ public final class Hashing {
   private static final int GOOD_FAST_HASH_SEED = (int) System.currentTimeMillis();
 
   /**
-   * Returns a hash function implementing the
-   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
-   * 32-bit murmur3 algorithm, x86 variant</a> (little-endian variant),
-   * using the given seed value.
+   * Returns a hash function implementing the <a
+   * href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp"> 32-bit murmur3 algorithm, x86
+   * variant</a> (little-endian variant), using the given seed value.
    *
-   * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+   * <p>
+   * The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
    */
   public static HashFunction murmur3_32(int seed) {
     return new Murmur3_32HashFunction(seed);
   }
 
   /**
-   * Returns a hash function implementing the
-   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
-   * 32-bit murmur3 algorithm, x86 variant</a> (little-endian variant),
-   * using a seed value of zero.
+   * Returns a hash function implementing the <a
+   * href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp"> 32-bit murmur3 algorithm, x86
+   * variant</a> (little-endian variant), using a seed value of zero.
    *
-   * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
+   * <p>
+   * The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
    */
   public static HashFunction murmur3_32() {
     return Murmur3_32Holder.MURMUR3_32;
@@ -117,24 +119,24 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the
-   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
-   * 128-bit murmur3 algorithm, x64 variant</a> (little-endian variant),
-   * using the given seed value.
+   * Returns a hash function implementing the <a
+   * href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp"> 128-bit murmur3 algorithm, x64
+   * variant</a> (little-endian variant), using the given seed value.
    *
-   * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
+   * <p>
+   * The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
   public static HashFunction murmur3_128(int seed) {
     return new Murmur3_128HashFunction(seed);
   }
 
   /**
-   * Returns a hash function implementing the
-   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
-   * 128-bit murmur3 algorithm, x64 variant</a> (little-endian variant),
-   * using a seed value of zero.
+   * Returns a hash function implementing the <a
+   * href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp"> 128-bit murmur3 algorithm, x64
+   * variant</a> (little-endian variant), using a seed value of zero.
    *
-   * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
+   * <p>
+   * The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
   public static HashFunction murmur3_128() {
     return Murmur3_128Holder.MURMUR3_128;
@@ -148,9 +150,8 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the
-   * <a href="https://131002.net/siphash/">64-bit SipHash-2-4 algorithm</a>
-   * using a seed value of {@code k = 00 01 02 ...}.
+   * Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
+   * SipHash-2-4 algorithm</a> using a seed value of {@code k = 00 01 02 ...}.
    *
    * @since 15.0
    */
@@ -159,14 +160,13 @@ public final class Hashing {
   }
 
   private static class SipHash24Holder {
-    static final HashFunction SIP_HASH_24 =
-        new SipHashFunction(2, 4, 0x0706050403020100L, 0x0f0e0d0c0b0a0908L);
+    static final HashFunction SIP_HASH_24 = new SipHashFunction(2, 4, 0x0706050403020100L,
+        0x0f0e0d0c0b0a0908L);
   }
 
   /**
-   * Returns a hash function implementing the
-   * <a href="https://131002.net/siphash/">64-bit SipHash-2-4 algorithm</a>
-   * using the given seed.
+   * Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
+   * SipHash-2-4 algorithm</a> using the given seed.
    *
    * @since 15.0
    */
@@ -195,13 +195,12 @@ public final class Hashing {
   }
 
   private static class Sha1Holder {
-    static final HashFunction SHA_1 =
-        new MessageDigestHashFunction("SHA-1", "Hashing.sha1()");
+    static final HashFunction SHA_1 = new MessageDigestHashFunction("SHA-1", "Hashing.sha1()");
   }
 
   /**
-   * Returns a hash function implementing the SHA-256 algorithm (256 hash bits) by delegating to
-   * the SHA-256 {@link MessageDigest}.
+   * Returns a hash function implementing the SHA-256 algorithm (256 hash bits) by delegating to the
+   * SHA-256 {@link MessageDigest}.
    */
   public static HashFunction sha256() {
     return Sha256Holder.SHA_256;
@@ -243,8 +242,9 @@ public final class Hashing {
    * Returns a hash function implementing the CRC-32 checksum algorithm (32 hash bits) by delegating
    * to the {@link CRC32} {@link Checksum}.
    *
-   * <p>To get the {@code long} value equivalent to {@link Checksum#getValue()} for a
-   * {@code HashCode} produced by this function, use {@link HashCode#padToLong()}.
+   * <p>
+   * To get the {@code long} value equivalent to {@link Checksum#getValue()} for a {@code HashCode}
+   * produced by this function, use {@link HashCode#padToLong()}.
    *
    * @since 14.0
    */
@@ -253,16 +253,16 @@ public final class Hashing {
   }
 
   private static class Crc32Holder {
-    static final HashFunction CRC_32 =
-        checksumHashFunction(ChecksumType.CRC_32, "Hashing.crc32()");
+    static final HashFunction CRC_32 = checksumHashFunction(ChecksumType.CRC_32, "Hashing.crc32()");
   }
 
   /**
    * Returns a hash function implementing the Adler-32 checksum algorithm (32 hash bits) by
    * delegating to the {@link Adler32} {@link Checksum}.
    *
-   * <p>To get the {@code long} value equivalent to {@link Checksum#getValue()} for a
-   * {@code HashCode} produced by this function, use {@link HashCode#padToLong()}.
+   * <p>
+   * To get the {@code long} value equivalent to {@link Checksum#getValue()} for a {@code HashCode}
+   * produced by this function, use {@link HashCode#padToLong()}.
    *
    * @since 14.0
    */
@@ -271,8 +271,8 @@ public final class Hashing {
   }
 
   private static class Adler32Holder {
-    static final HashFunction ADLER_32 =
-        checksumHashFunction(ChecksumType.ADLER_32, "Hashing.adler32()");
+    static final HashFunction ADLER_32 = checksumHashFunction(ChecksumType.ADLER_32,
+        "Hashing.adler32()");
   }
 
   private static HashFunction checksumHashFunction(ChecksumType type, String toString) {
@@ -305,33 +305,35 @@ public final class Hashing {
 
   /**
    * Assigns to {@code hashCode} a "bucket" in the range {@code [0, buckets)}, in a uniform manner
-   * that minimizes the need for remapping as {@code buckets} grows. That is, {@code
-   * consistentHash(h, n)} equals:
+   * that minimizes the need for remapping as {@code buckets} grows. That is,
+   * {@code consistentHash(h, n)} equals:
    *
    * <ul>
    * <li>{@code n - 1}, with approximate probability {@code 1/n}
    * <li>{@code consistentHash(h, n - 1)}, otherwise (probability {@code 1 - 1/n})
    * </ul>
    *
-   * <p>This method is suitable for the common use case of dividing work among buckets that meet the
+   * <p>
+   * This method is suitable for the common use case of dividing work among buckets that meet the
    * following conditions:
    *
    * <ul>
    * <li>You want to assign the same fraction of inputs to each bucket.
    * <li>When you reduce the number of buckets, you can accept that the most recently added buckets
    * will be removed first. More concretely, if you are dividing traffic among tasks, you can
-   * decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and {@code
-   * consistentHash} will handle it. If, however, you are dividing traffic among servers {@code
-   * alpha}, {@code bravo}, and {@code charlie} and you occasionally need to take each of the
+   * decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and
+   * {@code consistentHash} will handle it. If, however, you are dividing traffic among servers
+   * {@code alpha}, {@code bravo}, and {@code charlie} and you occasionally need to take each of the
    * servers offline, {@code consistentHash} will be a poor fit: It provides no way for you to
-   * specify which of the three buckets is disappearing. Thus, if your buckets change from {@code
-   * [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will assign all the old {@code alpha}
-   * traffic to {@code bravo} and all the old {@code bravo} traffic to {@code charlie}, rather than
-   * letting {@code bravo} keep its traffic.
+   * specify which of the three buckets is disappearing. Thus, if your buckets change from
+   * {@code [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will assign all the old
+   * {@code alpha} traffic to {@code bravo} and all the old {@code bravo} traffic to {@code charlie}
+   * , rather than letting {@code bravo} keep its traffic.
    * </ul>
    *
    *
-   * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
+   * <p>
+   * See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.
    */
   public static int consistentHash(HashCode hashCode, int buckets) {
@@ -348,25 +350,27 @@ public final class Hashing {
    * <li>{@code consistentHash(h, n - 1)}, otherwise (probability {@code 1 - 1/n})
    * </ul>
    *
-   * <p>This method is suitable for the common use case of dividing work among buckets that meet the
+   * <p>
+   * This method is suitable for the common use case of dividing work among buckets that meet the
    * following conditions:
    *
    * <ul>
    * <li>You want to assign the same fraction of inputs to each bucket.
    * <li>When you reduce the number of buckets, you can accept that the most recently added buckets
    * will be removed first. More concretely, if you are dividing traffic among tasks, you can
-   * decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and {@code
-   * consistentHash} will handle it. If, however, you are dividing traffic among servers {@code
-   * alpha}, {@code bravo}, and {@code charlie} and you occasionally need to take each of the
+   * decrease the number of tasks from 15 and 10, killing off the final 5 tasks, and
+   * {@code consistentHash} will handle it. If, however, you are dividing traffic among servers
+   * {@code alpha}, {@code bravo}, and {@code charlie} and you occasionally need to take each of the
    * servers offline, {@code consistentHash} will be a poor fit: It provides no way for you to
-   * specify which of the three buckets is disappearing. Thus, if your buckets change from {@code
-   * [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will assign all the old {@code alpha}
-   * traffic to {@code bravo} and all the old {@code bravo} traffic to {@code charlie}, rather than
-   * letting {@code bravo} keep its traffic.
+   * specify which of the three buckets is disappearing. Thus, if your buckets change from
+   * {@code [alpha, bravo, charlie]} to {@code [bravo, charlie]}, it will assign all the old
+   * {@code alpha} traffic to {@code bravo} and all the old {@code bravo} traffic to {@code charlie}
+   * , rather than letting {@code bravo} keep its traffic.
    * </ul>
    *
    *
-   * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
+   * <p>
+   * See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.
    */
   public static int consistentHash(long input, int buckets) {
@@ -387,14 +391,13 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash code, having the same bit length as each of the input hash codes,
-   * that combines the information of these hash codes in an ordered fashion. That
-   * is, whenever two equal hash codes are produced by two calls to this method, it
-   * is <i>as likely as possible</i> that each was computed from the <i>same</i>
-   * input hash codes in the <i>same</i> order.
+   * Returns a hash code, having the same bit length as each of the input hash codes, that combines
+   * the information of these hash codes in an ordered fashion. That is, whenever two equal hash
+   * codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
+   * was computed from the <i>same</i> input hash codes in the <i>same</i> order.
    *
-   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes
-   *     do not all have the same bit length
+   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes do not all
+   *         have the same bit length
    */
   public static HashCode combineOrdered(Iterable<HashCode> hashCodes) {
     Iterator<HashCode> iterator = hashCodes.iterator();
@@ -413,14 +416,13 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash code, having the same bit length as each of the input hash codes,
-   * that combines the information of these hash codes in an unordered fashion. That
-   * is, whenever two equal hash codes are produced by two calls to this method, it
-   * is <i>as likely as possible</i> that each was computed from the <i>same</i>
-   * input hash codes in <i>some</i> order.
+   * Returns a hash code, having the same bit length as each of the input hash codes, that combines
+   * the information of these hash codes in an unordered fashion. That is, whenever two equal hash
+   * codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
+   * was computed from the <i>same</i> input hash codes in <i>some</i> order.
    *
-   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes
-   *     do not all have the same bit length
+   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes do not all
+   *         have the same bit length
    */
   public static HashCode combineUnordered(Iterable<HashCode> hashCodes) {
     Iterator<HashCode> iterator = hashCodes.iterator();
@@ -503,8 +505,8 @@ public final class Hashing {
   }
 
   /**
-   * Linear CongruentialGenerator to use for consistent hashing.
-   * See http://en.wikipedia.org/wiki/Linear_congruential_generator
+   * Linear CongruentialGenerator to use for consistent hashing. See
+   * http://en.wikipedia.org/wiki/Linear_congruential_generator
    */
   private static final class LinearCongruentialGenerator {
     private long state;

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -61,7 +59,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
   }
 
   @CollectionSize.Require(absent = ZERO)
-  @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_NULL_KEYS })
+  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_KEYS})
   public void testRemoveNullKeyPresent() {
     initMultimapWithNullKey();
 
@@ -72,7 +70,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
   }
 
   @CollectionSize.Require(absent = ZERO)
-  @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_NULL_VALUES })
+  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_VALUES})
   public void testRemoveNullValuePresent() {
     initMultimapWithNullValue();
 
@@ -82,13 +80,13 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
     assertGet(getKeyForNullValue(), ImmutableList.<V>of());
   }
 
-  @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_NULL_KEY_QUERIES})
+  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_KEY_QUERIES})
   public void testRemoveNullKeyAbsent() {
     assertFalse(multimap().remove(null, v0()));
     expectUnchanged();
   }
 
-  @MapFeature.Require({ SUPPORTS_REMOVE, ALLOWS_NULL_VALUE_QUERIES})
+  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_VALUE_QUERIES})
   public void testRemoveNullValueAbsent() {
     assertFalse(multimap().remove(k0(), null));
     expectUnchanged();

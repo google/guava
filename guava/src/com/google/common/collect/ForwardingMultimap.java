@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -26,22 +24,21 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * A multimap which forwards all its method calls to another multimap.
- * Subclasses should override one or more methods to modify the behavior of
- * the backing multimap as desired per the <a
+ * A multimap which forwards all its method calls to another multimap. Subclasses should override
+ * one or more methods to modify the behavior of the backing multimap as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * @author Robert Konigsberg
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
-public abstract class ForwardingMultimap<K, V> extends ForwardingObject
-    implements Multimap<K, V> {
+public abstract class ForwardingMultimap<K, V> extends ForwardingObject implements Multimap<K, V> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingMultimap() {}
 
-  @Override protected abstract Multimap<K, V> delegate();
+  @Override
+  protected abstract Multimap<K, V> delegate();
 
   @Override
   public Map<K, Collection<V>> asMap() {
@@ -133,11 +130,13 @@ public abstract class ForwardingMultimap<K, V> extends ForwardingObject
     return delegate().values();
   }
 
-  @Override public boolean equals(@Nullable Object object) {
+  @Override
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return delegate().hashCode();
   }
 }

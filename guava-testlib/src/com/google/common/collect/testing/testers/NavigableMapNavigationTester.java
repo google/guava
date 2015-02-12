@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -33,8 +31,8 @@ import java.util.Map.Entry;
 import java.util.NavigableMap;
 
 /**
- * A generic JUnit test which tests operations on a NavigableMap. Can't be
- * invoked directly; please see {@code NavigableMapTestSuiteBuilder}.
+ * A generic JUnit test which tests operations on a NavigableMap. Can't be invoked directly; please
+ * see {@code NavigableMapTestSuiteBuilder}.
  *
  * @author Jesse Wilson
  * @author Louis Wasserman
@@ -47,11 +45,13 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   private Entry<K, V> b;
   private Entry<K, V> c;
 
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     navigableMap = (NavigableMap<K, V>) getMap();
-    entries = Helpers.copyToList(getSubjectGenerator().getSampleElements(
-        getSubjectGenerator().getCollectionSize().getNumElements()));
+    entries =
+        Helpers.copyToList(getSubjectGenerator().getSampleElements(
+            getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
 
     // some tests assume SEVERAL == 3
@@ -65,10 +65,10 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   }
 
   /**
-   * Resets the contents of navigableMap to have entries a, c, for the
-   * navigation tests.
+   * Resets the contents of navigableMap to have entries a, c, for the navigation tests.
    */
-  @SuppressWarnings("unchecked") // Needed to stop Eclipse whining
+  @SuppressWarnings("unchecked")
+  // Needed to stop Eclipse whining
   private void resetWithHole() {
     Entry<K, V>[] entries = new Entry[] {a, c};
     super.resetMap(entries);
@@ -154,8 +154,7 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @CollectionSize.Require(SEVERAL)
   public void testPollFirst() {
     assertEquals(a, navigableMap.pollFirstEntry());
-    assertEquals(entries.subList(1, entries.size()),
-        Helpers.copyToList(navigableMap.entrySet()));
+    assertEquals(entries.subList(1, entries.size()), Helpers.copyToList(navigableMap.entrySet()));
   }
 
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
@@ -243,22 +242,22 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
     Collections.reverse(descending);
     assertEquals(entries, descending);
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testHeadMapExclusive() {
     assertFalse(navigableMap.headMap(a.getKey(), false).containsKey(a.getKey()));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testHeadMapInclusive() {
     assertTrue(navigableMap.headMap(a.getKey(), true).containsKey(a.getKey()));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testTailMapExclusive() {
     assertFalse(navigableMap.tailMap(a.getKey(), false).containsKey(a.getKey()));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testTailMapInclusive() {
     assertTrue(navigableMap.tailMap(a.getKey(), true).containsKey(a.getKey()));

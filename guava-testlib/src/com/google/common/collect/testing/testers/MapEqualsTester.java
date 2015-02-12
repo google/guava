@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -38,8 +36,7 @@ import java.util.Map;
 @GwtCompatible
 public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   public void testEquals_otherMapWithSameEntries() {
-    assertTrue(
-        "A Map should equal any other Map containing the same entries.",
+    assertTrue("A Map should equal any other Map containing the same entries.",
         getMap().equals(newHashMap(getSampleEntries())));
   }
 
@@ -47,10 +44,8 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   public void testEquals_otherMapWithDifferentEntries() {
     Map<K, V> other = newHashMap(getSampleEntries(getNumEntries() - 1));
     other.put(k3(), v3());
-    assertFalse(
-        "A Map should not equal another Map containing different entries.",
-        getMap().equals(other)
-    );
+    assertFalse("A Map should not equal another Map containing different entries.", getMap()
+        .equals(other));
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)
@@ -61,8 +56,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
 
     resetContainer(getSubjectGenerator().create(entries.toArray()));
     assertTrue("A Map should equal any other Map containing the same entries,"
-        + " even if some keys are null.",
-        getMap().equals(newHashMap(entries)));
+        + " even if some keys are null.", getMap().equals(newHashMap(entries)));
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)
@@ -71,9 +65,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
     entries.add(entry(null, v3()));
     Map<K, V> other = newHashMap(entries);
 
-    assertFalse(
-        "Two Maps should not be equal if exactly one of them contains a null "
-        + "key.",
+    assertFalse("Two Maps should not be equal if exactly one of them contains a null " + "key.",
         getMap().equals(other));
   }
 
@@ -85,8 +77,7 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
 
     resetContainer(getSubjectGenerator().create(entries.toArray()));
     assertTrue("A Map should equal any other Map containing the same entries,"
-        + " even if some values are null.",
-        getMap().equals(newHashMap(entries)));
+        + " even if some values are null.", getMap().equals(newHashMap(entries)));
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)
@@ -95,23 +86,19 @@ public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
     entries.add(entry(k3(), null));
     Map<K, V> other = newHashMap(entries);
 
-    assertFalse(
-        "Two Maps should not be equal if exactly one of them contains a null "
-        + "value.",
+    assertFalse("Two Maps should not be equal if exactly one of them contains a null " + "value.",
         getMap().equals(other));
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   public void testEquals_smallerMap() {
-    Collection<Map.Entry<K, V>> fewerEntries
-        = getSampleEntries(getNumEntries() - 1);
+    Collection<Map.Entry<K, V>> fewerEntries = getSampleEntries(getNumEntries() - 1);
     assertFalse("Maps of different sizes should not be equal.",
         getMap().equals(newHashMap(fewerEntries)));
   }
 
   public void testEquals_largerMap() {
-    Collection<Map.Entry<K, V>> moreEntries
-        = getSampleEntries(getNumEntries() + 1);
+    Collection<Map.Entry<K, V>> moreEntries = getSampleEntries(getNumEntries() + 1);
     assertFalse("Maps of different sizes should not be equal.",
         getMap().equals(newHashMap(moreEntries)));
   }

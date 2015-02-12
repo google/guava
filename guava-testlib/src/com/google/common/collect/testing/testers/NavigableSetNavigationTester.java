@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -34,8 +32,8 @@ import java.util.NavigableSet;
 import java.util.TreeSet;
 
 /**
- * A generic JUnit test which tests operations on a NavigableSet. Can't be
- * invoked directly; please see {@code NavigableSetTestSuiteBuilder}.
+ * A generic JUnit test which tests operations on a NavigableSet. Can't be invoked directly; please
+ * see {@code NavigableSetTestSuiteBuilder}.
  *
  * @author Jesse Wilson
  * @author Louis Wasserman
@@ -48,11 +46,13 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
   private E b;
   private E c;
 
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     navigableSet = (NavigableSet<E>) getSet();
-    values = Helpers.copyToList(getSubjectGenerator().getSampleElements(
-        getSubjectGenerator().getCollectionSize().getNumElements()));
+    values =
+        Helpers.copyToList(getSubjectGenerator().getSampleElements(
+            getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(values, navigableSet.comparator());
 
     // some tests assume SEVERAL == 3
@@ -66,8 +66,7 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
   }
 
   /**
-   * Resets the contents of navigableSet to have elements a, c, for the
-   * navigation tests.
+   * Resets the contents of navigableSet to have elements a, c, for the navigation tests.
    */
   protected void resetWithHole() {
     super.resetContainer(getSubjectGenerator().create(a, c));
@@ -120,8 +119,7 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
   @CollectionSize.Require(SEVERAL)
   public void testPollFirst() {
     assertEquals(a, navigableSet.pollFirst());
-    assertEquals(
-        values.subList(1, values.size()), Helpers.copyToList(navigableSet));
+    assertEquals(values.subList(1, values.size()), Helpers.copyToList(navigableSet));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
@@ -202,8 +200,7 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
   @CollectionSize.Require(SEVERAL)
   public void testPollLast() {
     assertEquals(c, navigableSet.pollLast());
-    assertEquals(
-        values.subList(0, values.size() - 1), Helpers.copyToList(navigableSet));
+    assertEquals(values.subList(0, values.size() - 1), Helpers.copyToList(navigableSet));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
@@ -237,8 +234,8 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
 
   /**
    * Returns the {@link Method} instances for the test methods in this class that create a set with
-   * a "hole" in it so that set tests of {@code ContiguousSet} can suppress them with {@code
-   * FeatureSpecificTestSuiteBuilder.suppressing()}.
+   * a "hole" in it so that set tests of {@code ContiguousSet} can suppress them with
+   * {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
    */
   /*
    * TODO(cpovirk): or we could make HOLES_FORBIDDEN a feature. Or we could declare that
@@ -247,11 +244,9 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
    * testLower, which could make this all unnecessary
    */
   public static Method[] getHoleMethods() {
-    return new Method[] {
-        Helpers.getMethod(NavigableSetNavigationTester.class, "testLowerHole"),
+    return new Method[] {Helpers.getMethod(NavigableSetNavigationTester.class, "testLowerHole"),
         Helpers.getMethod(NavigableSetNavigationTester.class, "testFloorHole"),
         Helpers.getMethod(NavigableSetNavigationTester.class, "testCeilingHole"),
-        Helpers.getMethod(NavigableSetNavigationTester.class, "testHigherHole"),
-    };
+        Helpers.getMethod(NavigableSetNavigationTester.class, "testHigherHole"),};
   }
 }

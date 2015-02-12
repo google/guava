@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -36,32 +34,34 @@ import javax.annotation.Nullable;
  * A reference queue with an associated background thread that dequeues references and invokes
  * {@link FinalizableReference#finalizeReferent()} on them.
  *
- * <p>Keep a strong reference to this object until all of the associated referents have been
- * finalized. If this object is garbage collected earlier, the backing thread will not invoke {@code
- * finalizeReferent()} on the remaining references.
+ * <p>
+ * Keep a strong reference to this object until all of the associated referents have been finalized.
+ * If this object is garbage collected earlier, the backing thread will not invoke
+ * {@code finalizeReferent()} on the remaining references.
  *
- * <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a
- * a {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the
+ * <p>
+ * As an example of how this is used, imagine you have a class {@code MyServer} that creates a a
+ * {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the
  * {@code ServerSocket} is closed even if the {@code MyServer} object is garbage-collected without
- * calling its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but
- * that has a number of well-known problems. Here is how you might use this class instead:
+ * calling its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but that
+ * has a number of well-known problems. Here is how you might use this class instead:
  *
  * <pre>
  * public class MyServer implements Closeable {
  *   private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
  *   // You might also share this between several objects.
- *
+ * 
  *   private static final Set&lt;Reference&lt;?>> references = Sets.newConcurrentHashSet();
  *   // This ensures that the FinalizablePhantomReference itself is not garbage-collected.
- *
+ * 
  *   private final ServerSocket serverSocket;
- *
+ * 
  *   private MyServer(...) {
  *     ...
  *     this.serverSocket = new ServerSocket(...);
  *     ...
  *   }
- *
+ * 
  *   public static MyServer create(...) {
  *     MyServer myServer = new MyServer(...);
  *     final ServerSocket serverSocket = myServer.serverSocket;
@@ -81,7 +81,7 @@ import javax.annotation.Nullable;
  *     references.add(reference);
  *     return myServer;
  *   }
- *
+ * 
  *   &#64;Override public void close() {
  *     serverSocket.close();
  *   }
@@ -97,33 +97,33 @@ public class FinalizableReferenceQueue implements Closeable {
    * map built by MapMaker) no longer has a strong reference to this object, the garbage collector
    * will reclaim it and enqueue the phantom reference. The enqueued reference will trigger the
    * Finalizer to stop.
-   *
+   * 
    * If this library is loaded in the system class loader, FinalizableReferenceQueue can load
    * Finalizer directly with no problems.
-   *
+   * 
    * If this library is loaded in an application class loader, it's important that Finalizer not
    * have a strong reference back to the class loader. Otherwise, you could have a graph like this:
-   *
+   * 
    * Finalizer Thread runs instance of -> Finalizer.class loaded by -> Application class loader
    * which loaded -> ReferenceMap.class which has a static -> FinalizableReferenceQueue instance
-   *
+   * 
    * Even if no other references to classes from the application class loader remain, the Finalizer
    * thread keeps an indirect strong reference to the queue in ReferenceMap, which keeps the
    * Finalizer running, and as a result, the application class loader can never be reclaimed.
-   *
+   * 
    * This means that dynamically loaded web applications and OSGi bundles can't be unloaded.
-   *
+   * 
    * If the library is loaded in an application class loader, we try to break the cycle by loading
    * Finalizer in its own independent class loader:
-   *
-   * System class loader -> Application class loader -> ReferenceMap -> FinalizableReferenceQueue
-   * -> etc. -> Decoupled class loader -> Finalizer
-   *
+   * 
+   * System class loader -> Application class loader -> ReferenceMap -> FinalizableReferenceQueue ->
+   * etc. -> Decoupled class loader -> Finalizer
+   * 
    * Now, Finalizer no longer keeps an indirect strong reference to the static
    * FinalizableReferenceQueue field in ReferenceMap. The application class loader can be reclaimed
    * at which point the Finalizer thread will stop and its decoupled class loader can also be
    * reclaimed.
-   *
+   * 
    * If any of this fails along the way, we fall back to loading Finalizer directly in the
    * application class loader.
    */
@@ -135,8 +135,8 @@ public class FinalizableReferenceQueue implements Closeable {
   /** Reference to Finalizer.startFinalizer(). */
   private static final Method startFinalizer;
   static {
-    Class<?> finalizer = loadFinalizer(
-        new SystemLoader(), new DecoupledLoader(), new DirectLoader());
+    Class<?> finalizer =
+        loadFinalizer(new SystemLoader(), new DecoupledLoader(), new DirectLoader());
     startFinalizer = getStartFinalizer(finalizer);
   }
 
@@ -180,9 +180,9 @@ public class FinalizableReferenceQueue implements Closeable {
   }
 
   /**
-   * Repeatedly dequeues references from the queue and invokes {@link
-   * FinalizableReference#finalizeReferent()} on them until the queue is empty. This method is a
-   * no-op if the background thread was created successfully.
+   * Repeatedly dequeues references from the queue and invokes
+   * {@link FinalizableReference#finalizeReferent()} on them until the queue is empty. This method
+   * is a no-op if the background thread was created successfully.
    */
   void cleanUp() {
     if (threadStarted) {
@@ -275,10 +275,11 @@ public class FinalizableReferenceQueue implements Closeable {
    * it would prevent our class loader from getting garbage collected.
    */
   static class DecoupledLoader implements FinalizerLoader {
-    private static final String LOADING_ERROR = "Could not load Finalizer in its own class loader."
-        + "Loading Finalizer in the current class loader instead. As a result, you will not be able"
-        + "to garbage collect this class loader. To support reclaiming this class loader, either"
-        + "resolve the underlying issue, or move Google Collections to your system class path.";
+    private static final String LOADING_ERROR =
+        "Could not load Finalizer in its own class loader."
+            + "Loading Finalizer in the current class loader instead. As a result, you will not be able"
+            + "to garbage collect this class loader. To support reclaiming this class loader, either"
+            + "resolve the underlying issue, or move Google Collections to your system class path.";
 
     @Override
     public Class<?> loadFinalizer() {
@@ -287,9 +288,9 @@ public class FinalizableReferenceQueue implements Closeable {
          * We use URLClassLoader because it's the only concrete class loader implementation in the
          * JDK. If we used our own ClassLoader subclass, Finalizer would indirectly reference this
          * class loader:
-         *
+         * 
          * Finalizer.class -> CustomClassLoader -> CustomClassLoader.class -> This class loader
-         *
+         * 
          * System class loader will (and must) be the parent.
          */
         ClassLoader finalizerLoader = newLoader(getBaseUrl());
@@ -349,10 +350,7 @@ public class FinalizableReferenceQueue implements Closeable {
    */
   static Method getStartFinalizer(Class<?> finalizer) {
     try {
-      return finalizer.getMethod(
-          "startFinalizer",
-          Class.class,
-          ReferenceQueue.class,
+      return finalizer.getMethod("startFinalizer", Class.class, ReferenceQueue.class,
           PhantomReference.class);
     } catch (NoSuchMethodException e) {
       throw new AssertionError(e);

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS-IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS-IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -29,20 +27,20 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A class exactly like {@link MapMaker}, except restricted in the types of maps it can build.
- * For the most part, you should probably just ignore the existence of this class.
+ * A class exactly like {@link MapMaker}, except restricted in the types of maps it can build. For
+ * the most part, you should probably just ignore the existence of this class.
  *
  * @param <K0> the base type for all key types of maps built by this map maker
  * @param <V0> the base type for all value types of maps built by this map maker
  * @author Kevin Bourrillion
  * @since 7.0
  * @deprecated This class existed only to support the generic paramterization necessary for the
- *     caching functionality in {@code MapMaker}. That functionality has been moved to {@link
- *     com.google.common.cache.CacheBuilder}, which is a properly generified class and thus needs no
- *     "Generic" equivalent; simple use {@code CacheBuilder} naturally. For general migration
- *     instructions, see the <a
- *     href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker Migration
- *     Guide</a>.
+ *             caching functionality in {@code MapMaker}. That functionality has been moved to
+ *             {@link com.google.common.cache.CacheBuilder}, which is a properly generified class
+ *             and thus needs no "Generic" equivalent; simple use {@code CacheBuilder} naturally.
+ *             For general migration instructions, see the <a
+ *             href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker
+ *             Migration Guide</a>.
  */
 @Beta
 @Deprecated
@@ -99,11 +97,12 @@ abstract class GenericMapMaker<K0, V0> {
   /**
    * See {@link MapMaker#softValues}.
    *
-   * @deprecated Caching functionality in {@code MapMaker} has been moved to {@link
-   *     com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
-   *     com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
-   *     an enhanced API for an implementation which was branched from {@code MapMaker}. <b>This
-   *     method is scheduled for removal in March 2015.</b>
+   * @deprecated Caching functionality in {@code MapMaker} has been moved to
+   *             {@link com.google.common.cache.CacheBuilder}, with {@link #softValues} being
+   *             replaced by {@link com.google.common.cache.CacheBuilder#softValues}. Note that
+   *             {@code CacheBuilder} is simply an enhanced API for an implementation which was
+   *             branched from {@code MapMaker}. <b>This method is scheduled for removal in March
+   *             2015.</b>
    */
   @Deprecated
   @GwtIncompatible("java.lang.ref.SoftReference")
@@ -125,7 +124,8 @@ abstract class GenericMapMaker<K0, V0> {
    * GenericMapMaker you've already called that, and shouldn't be calling it again.
    */
 
-  @SuppressWarnings("unchecked") // safe covariant cast
+  @SuppressWarnings("unchecked")
+  // safe covariant cast
   @GwtIncompatible("To be supported")
   <K extends K0, V extends V0> RemovalListener<K, V> getRemovalListener() {
     return (RemovalListener<K, V>) MoreObjects.firstNonNull(removalListener, NullListener.INSTANCE);

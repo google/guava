@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -38,18 +36,19 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 /**
- * A readable source of bytes, such as a file. Unlike an {@link InputStream}, a
- * {@code ByteSource} is not an open, stateful stream for input that can be read and closed.
- * Instead, it is an immutable <i>supplier</i> of {@code InputStream} instances.
+ * A readable source of bytes, such as a file. Unlike an {@link InputStream}, a {@code ByteSource}
+ * is not an open, stateful stream for input that can be read and closed. Instead, it is an
+ * immutable <i>supplier</i> of {@code InputStream} instances.
  *
- * <p>{@code ByteSource} provides two kinds of methods:
+ * <p>
+ * {@code ByteSource} provides two kinds of methods:
  * <ul>
- *   <li><b>Methods that return a stream:</b> These methods should return a <i>new</i>, independent
- *   instance each time they are called. The caller is responsible for ensuring that the returned
- *   stream is closed.
- *   <li><b>Convenience methods:</b> These are implementations of common operations that are
- *   typically implemented by opening a stream using one of the methods in the first category, doing
- *   something and finally closing the stream that was opened.
+ * <li><b>Methods that return a stream:</b> These methods should return a <i>new</i>, independent
+ * instance each time they are called. The caller is responsible for ensuring that the returned
+ * stream is closed.
+ * <li><b>Convenience methods:</b> These are implementations of common operations that are typically
+ * implemented by opening a stream using one of the methods in the first category, doing something
+ * and finally closing the stream that was opened.
  * </ul>
  *
  * @since 14.0
@@ -76,7 +75,8 @@ public abstract class ByteSource {
    * Opens a new {@link InputStream} for reading from this source. This method should return a new,
    * independent stream each time it is called.
    *
-   * <p>The caller is responsible for ensuring that the returned stream is closed.
+   * <p>
+   * The caller is responsible for ensuring that the returned stream is closed.
    *
    * @throws IOException if an I/O error occurs in the process of opening the stream
    */
@@ -85,19 +85,19 @@ public abstract class ByteSource {
   /**
    * Opens a new buffered {@link InputStream} for reading from this source. The returned stream is
    * not required to be a {@link BufferedInputStream} in order to allow implementations to simply
-   * delegate to {@link #openStream()} when the stream returned by that method does not benefit
-   * from additional buffering (for example, a {@code ByteArrayInputStream}). This method should
-   * return a new, independent stream each time it is called.
+   * delegate to {@link #openStream()} when the stream returned by that method does not benefit from
+   * additional buffering (for example, a {@code ByteArrayInputStream}). This method should return a
+   * new, independent stream each time it is called.
    *
-   * <p>The caller is responsible for ensuring that the returned stream is closed.
+   * <p>
+   * The caller is responsible for ensuring that the returned stream is closed.
    *
    * @throws IOException if an I/O error occurs in the process of opening the stream
    * @since 15.0 (in 14.0 with return type {@link BufferedInputStream})
    */
   public InputStream openBufferedStream() throws IOException {
     InputStream in = openStream();
-    return (in instanceof BufferedInputStream)
-        ? (BufferedInputStream) in
+    return (in instanceof BufferedInputStream) ? (BufferedInputStream) in
         : new BufferedInputStream(in);
   }
 
@@ -135,13 +135,15 @@ public abstract class ByteSource {
    * operation that will open a stream, read (or {@link InputStream#skip(long) skip}, if possible)
    * to the end of the stream and return the total number of bytes that were read.
    *
-   * <p>For some sources, such as a file, this method may use a more efficient implementation. Note
+   * <p>
+   * For some sources, such as a file, this method may use a more efficient implementation. Note
    * that in such cases, it is <i>possible</i> that this method will return a different number of
    * bytes than would be returned by reading all of the bytes (for example, some special files may
    * return a size of 0 despite actually having content when read).
    *
-   * <p>In either case, if this is a mutable source such as a file, the size it returns may not be
-   * the same number of bytes a subsequent read would return.
+   * <p>
+   * In either case, if this is a mutable source such as a file, the size it returns may not be the
+   * same number of bytes a subsequent read would return.
    *
    * @throws IOException if an I/O error occurs in the process of reading the size of this source
    */
@@ -208,7 +210,7 @@ public abstract class ByteSource {
    * {@code output}.
    *
    * @throws IOException if an I/O error occurs in the process of reading from this source or
-   *     writing to {@code output}
+   *         writing to {@code output}
    */
   public long copyTo(OutputStream output) throws IOException {
     checkNotNull(output);
@@ -228,7 +230,7 @@ public abstract class ByteSource {
    * Copies the contents of this byte source to the given {@code ByteSink}.
    *
    * @throws IOException if an I/O error occurs in the process of reading from this source or
-   *     writing to {@code sink}
+   *         writing to {@code sink}
    */
   public long copyTo(ByteSink sink) throws IOException {
     checkNotNull(sink);
@@ -268,7 +270,7 @@ public abstract class ByteSource {
    * Returns the result produced by the processor.
    *
    * @throws IOException if an I/O error occurs in the process of reading from this source or if
-   *     {@code processor} throws an {@code IOException}
+   *         {@code processor} throws an {@code IOException}
    * @since 16.0
    */
   @Beta
@@ -302,7 +304,7 @@ public abstract class ByteSource {
    * source.
    *
    * @throws IOException if an I/O error occurs in the process of reading from this source or
-   *     {@code other}
+   *         {@code other}
    */
   public boolean contentEquals(ByteSource other) throws IOException {
     checkNotNull(other);
@@ -334,8 +336,9 @@ public abstract class ByteSource {
    * Concatenates multiple {@link ByteSource} instances into a single source. Streams returned from
    * the source will contain the concatenated data from the streams of the underlying sources.
    *
-   * <p>Only one underlying stream will be open at a time. Closing the concatenated stream will
-   * close the open underlying stream.
+   * <p>
+   * Only one underlying stream will be open at a time. Closing the concatenated stream will close
+   * the open underlying stream.
    *
    * @param sources the sources to concatenate
    * @return a {@code ByteSource} containing the concatenated data
@@ -349,14 +352,16 @@ public abstract class ByteSource {
    * Concatenates multiple {@link ByteSource} instances into a single source. Streams returned from
    * the source will contain the concatenated data from the streams of the underlying sources.
    *
-   * <p>Only one underlying stream will be open at a time. Closing the concatenated stream will
-   * close the open underlying stream.
+   * <p>
+   * Only one underlying stream will be open at a time. Closing the concatenated stream will close
+   * the open underlying stream.
    *
-   * <p>Note: The input {@code Iterator} will be copied to an {@code ImmutableList} when this
-   * method is called. This will fail if the iterator is infinite and may cause problems if the
-   * iterator eagerly fetches data for each source when iterated (rather than producing sources
-   * that only load data through their streams). Prefer using the {@link #concat(Iterable)}
-   * overload if possible.
+   * <p>
+   * Note: The input {@code Iterator} will be copied to an {@code ImmutableList} when this method is
+   * called. This will fail if the iterator is infinite and may cause problems if the iterator
+   * eagerly fetches data for each source when iterated (rather than producing sources that only
+   * load data through their streams). Prefer using the {@link #concat(Iterable)} overload if
+   * possible.
    *
    * @param sources the sources to concatenate
    * @return a {@code ByteSource} containing the concatenated data
@@ -371,8 +376,9 @@ public abstract class ByteSource {
    * Concatenates multiple {@link ByteSource} instances into a single source. Streams returned from
    * the source will contain the concatenated data from the streams of the underlying sources.
    *
-   * <p>Only one underlying stream will be open at a time. Closing the concatenated stream will
-   * close the open underlying stream.
+   * <p>
+   * Only one underlying stream will be open at a time. Closing the concatenated stream will close
+   * the open underlying stream.
    *
    * @param sources the sources to concatenate
    * @return a {@code ByteSource} containing the concatenated data
@@ -403,8 +409,7 @@ public abstract class ByteSource {
   }
 
   /**
-   * A char source that reads bytes from this source and decodes them as characters using a
-   * charset.
+   * A char source that reads bytes from this source and decodes them as characters using a charset.
    */
   private final class AsCharSource extends CharSource {
 
@@ -540,8 +545,7 @@ public abstract class ByteSource {
 
     @Override
     public String toString() {
-      return "ByteSource.wrap("
-          + truncate(BaseEncoding.base16().encode(bytes), 30, "...") + ")";
+      return "ByteSource.wrap(" + truncate(BaseEncoding.base16().encode(bytes), 30, "...") + ")";
     }
 
     /**
@@ -550,30 +554,34 @@ public abstract class ByteSource {
      * {@code maxLength} chars in length and will end with the given {@code truncationIndicator}.
      * Otherwise, the sequence will be returned as a string with no changes to the content.
      *
-     * <p>Examples:
+     * <p>
+     * Examples:
      *
-     * <pre>   {@code
+     * <pre>
+     * {@code
      *   truncate("foobar", 7, "..."); // returns "foobar"
-     *   truncate("foobar", 5, "..."); // returns "fo..." }</pre>
+     *   truncate("foobar", 5, "..."); // returns "fo..." }
+     * </pre>
      *
-     * <p><b>Note:</b> This method <i>may</i> work with certain non-ASCII text but is not safe for
-     * use with arbitrary Unicode text. It is mostly intended for use with text that is known to be
-     * safe for use with it (such as all-ASCII text) and for simple debugging text. When using this
+     * <p>
+     * <b>Note:</b> This method <i>may</i> work with certain non-ASCII text but is not safe for use
+     * with arbitrary Unicode text. It is mostly intended for use with text that is known to be safe
+     * for use with it (such as all-ASCII text) and for simple debugging text. When using this
      * method, consider the following:
      *
      * <ul>
-     *   <li>it may split surrogate pairs</li>
-     *   <li>it may split characters and combining characters</li>
-     *   <li>it does not consider word boundaries</li>
-     *   <li>if truncating for display to users, there are other considerations that must be taken
-     *   into account</li>
-     *   <li>the appropriate truncation indicator may be locale-dependent</li>
-     *   <li>it is safe to use non-ASCII characters in the truncation indicator</li>
+     * <li>it may split surrogate pairs</li>
+     * <li>it may split characters and combining characters</li>
+     * <li>it does not consider word boundaries</li>
+     * <li>if truncating for display to users, there are other considerations that must be taken
+     * into account</li>
+     * <li>the appropriate truncation indicator may be locale-dependent</li>
+     * <li>it is safe to use non-ASCII characters in the truncation indicator</li>
      * </ul>
      *
      *
      * @throws IllegalArgumentException if {@code maxLength} is less than the length of
-     *     {@code truncationIndicator}
+     *         {@code truncationIndicator}
      */
     /*
      * <p>TODO(user, cpovirk): Use Ascii.truncate once it is available in our internal copy of
@@ -588,8 +596,8 @@ public abstract class ByteSource {
       // in this worst case, this allows a maxLength equal to the length of the truncationIndicator,
       // meaning that a string will be truncated to just the truncation indicator itself
       checkArgument(truncationLength >= 0,
-          "maxLength (%s) must be >= length of the truncation indicator (%s)",
-          maxLength, truncationIndicator.length());
+          "maxLength (%s) must be >= length of the truncation indicator (%s)", maxLength,
+          truncationIndicator.length());
 
       if (seq.length() <= maxLength) {
         String string = seq.toString();
@@ -600,10 +608,8 @@ public abstract class ByteSource {
         seq = string;
       }
 
-      return new StringBuilder(maxLength)
-          .append(seq, 0, truncationLength)
-          .append(truncationIndicator)
-          .toString();
+      return new StringBuilder(maxLength).append(seq, 0, truncationLength)
+          .append(truncationIndicator).toString();
     }
   }
 

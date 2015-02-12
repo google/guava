@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.hash;
@@ -23,9 +21,9 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 /**
- * Skeleton implementation of {@link HashFunction}, appropriate for non-streaming algorithms.
- * All the hash computation done using {@linkplain #newHasher()} are delegated to the {@linkplain
- * #hashBytes(byte[], int, int)} method.
+ * Skeleton implementation of {@link HashFunction}, appropriate for non-streaming algorithms. All
+ * the hash computation done using {@linkplain #newHasher()} are delegated to the
+ * {@linkplain #hashBytes(byte[], int, int)} method.
  *
  * @author Dimitris Andreou
  */
@@ -41,11 +39,13 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
     return new BufferingHasher(expectedInputSize);
   }
 
-  @Override public <T> HashCode hashObject(T instance, Funnel<? super T> funnel) {
+  @Override
+  public <T> HashCode hashObject(T instance, Funnel<? super T> funnel) {
     return newHasher().putObject(instance, funnel).hash();
   }
 
-  @Override public HashCode hashUnencodedChars(CharSequence input) {
+  @Override
+  public HashCode hashUnencodedChars(CharSequence input) {
     int len = input.length();
     Hasher hasher = newHasher(len * 2);
     for (int i = 0; i < len; i++) {
@@ -54,19 +54,23 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
     return hasher.hash();
   }
 
-  @Override public HashCode hashString(CharSequence input, Charset charset) {
+  @Override
+  public HashCode hashString(CharSequence input, Charset charset) {
     return hashBytes(input.toString().getBytes(charset));
   }
 
-  @Override public HashCode hashInt(int input) {
+  @Override
+  public HashCode hashInt(int input) {
     return newHasher(4).putInt(input).hash();
   }
 
-  @Override public HashCode hashLong(long input) {
+  @Override
+  public HashCode hashLong(long input) {
     return newHasher(8).putLong(input).hash();
   }
 
-  @Override public HashCode hashBytes(byte[] input) {
+  @Override
+  public HashCode hashBytes(byte[] input) {
     return hashBytes(input, 0, input.length);
   }
 
@@ -106,7 +110,7 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
     @Override
     public Hasher putShort(short s) {
       stream.write(s & BOTTOM_BYTE);
-      stream.write((s >>> 8)  & BOTTOM_BYTE);
+      stream.write((s >>> 8) & BOTTOM_BYTE);
       return this;
     }
 
@@ -151,9 +155,11 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
     ExposedByteArrayOutputStream(int expectedInputSize) {
       super(expectedInputSize);
     }
+
     byte[] byteArray() {
       return buf;
     }
+
     int length() {
       return count;
     }

@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -29,8 +29,7 @@ import java.util.Arrays;
  * @author Kevin Bourrillion
  * @author Dimitris Andreou
  */
-final class MessageDigestHashFunction extends AbstractStreamingHashFunction
-    implements Serializable {
+final class MessageDigestHashFunction extends AbstractStreamingHashFunction implements Serializable {
   private final MessageDigest prototype;
   private final int bytes;
   private final boolean supportsClone;
@@ -47,8 +46,8 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     this.toString = checkNotNull(toString);
     this.prototype = getMessageDigest(algorithmName);
     int maxLength = prototype.getDigestLength();
-    checkArgument(bytes >= 4 && bytes <= maxLength,
-        "bytes (%s) must be >= 4 and < %s", bytes, maxLength);
+    checkArgument(bytes >= 4 && bytes <= maxLength, "bytes (%s) must be >= 4 and < %s", bytes,
+        maxLength);
     this.bytes = bytes;
     this.supportsClone = supportsClone();
   }
@@ -62,11 +61,13 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     }
   }
 
-  @Override public int bits() {
+  @Override
+  public int bits() {
     return bytes * Byte.SIZE;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return toString;
   }
 
@@ -78,7 +79,8 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     }
   }
 
-  @Override public Hasher newHasher() {
+  @Override
+  public Hasher newHasher() {
     if (supportsClone) {
       try {
         return new MessageDigestHasher((MessageDigest) prototype.clone(), bytes);
@@ -151,8 +153,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     public HashCode hash() {
       checkNotDone();
       done = true;
-      return (bytes == digest.getDigestLength())
-          ? HashCode.fromBytesNoCopy(digest.digest())
+      return (bytes == digest.getDigestLength()) ? HashCode.fromBytesNoCopy(digest.digest())
           : HashCode.fromBytesNoCopy(Arrays.copyOf(digest.digest(), bytes));
     }
   }

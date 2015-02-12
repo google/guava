@@ -1,17 +1,15 @@
 /*
-* Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * Copyright (C) 2008 The Guava Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -40,16 +38,17 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private final transient ImmutableMapEntry<K, V>[] table;
   // 'and' with an int to get a table index
   private final transient int mask;
-  
+
   RegularImmutableMap(TerminalEntry<?, ?>... theEntries) {
     this(theEntries.length, theEntries);
   }
-  
+
   /**
    * Constructor for RegularImmutableMap that takes as input an array of {@code TerminalEntry}
-   * entries.  Assumes that these entries have already been checked for null.
+   * entries. Assumes that these entries have already been checked for null.
    * 
-   * <p>This allows reuse of the entry objects from the array in the actual implementation.
+   * <p>
+   * This allows reuse of the entry objects from the array in the actual implementation.
    */
   RegularImmutableMap(int size, TerminalEntry<?, ?>[] theEntries) {
     entries = createEntryArray(size);
@@ -61,17 +60,17 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       TerminalEntry<K, V> entry = (TerminalEntry<K, V>) theEntries[entryIndex];
       K key = entry.getKey();
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
-      @Nullable ImmutableMapEntry<K, V> existing = table[tableIndex];
+      @Nullable
+      ImmutableMapEntry<K, V> existing = table[tableIndex];
       // prepend, not append, so the entries can be immutable
-      ImmutableMapEntry<K, V> newEntry = (existing == null)
-          ? entry
-          : new NonTerminalMapEntry<K, V>(entry, existing);
+      ImmutableMapEntry<K, V> newEntry =
+          (existing == null) ? entry : new NonTerminalMapEntry<K, V>(entry, existing);
       table[tableIndex] = newEntry;
       entries[entryIndex] = newEntry;
       checkNoConflictInKeyBucket(key, newEntry, existing);
     }
   }
-  
+
   /**
    * Constructor for RegularImmutableMap that makes no assumptions about the input entries.
    */
@@ -82,30 +81,32 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     table = createEntryArray(tableSize);
     mask = tableSize - 1;
     for (int entryIndex = 0; entryIndex < size; entryIndex++) {
-      @SuppressWarnings("unchecked") // all our callers carefully put in only Entry<K, V>s
+      @SuppressWarnings("unchecked")
+      // all our callers carefully put in only Entry<K, V>s
       Entry<K, V> entry = (Entry<K, V>) theEntries[entryIndex];
       K key = entry.getKey();
       V value = entry.getValue();
       checkEntryNotNull(key, value);
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
-      @Nullable ImmutableMapEntry<K, V> existing = table[tableIndex];
+      @Nullable
+      ImmutableMapEntry<K, V> existing = table[tableIndex];
       // prepend, not append, so the entries can be immutable
-      ImmutableMapEntry<K, V> newEntry = (existing == null)
-          ? new TerminalEntry<K, V>(key, value)
-          : new NonTerminalMapEntry<K, V>(key, value, existing);
+      ImmutableMapEntry<K, V> newEntry =
+          (existing == null) ? new TerminalEntry<K, V>(key, value) : new NonTerminalMapEntry<K, V>(
+              key, value, existing);
       table[tableIndex] = newEntry;
       entries[entryIndex] = newEntry;
       checkNoConflictInKeyBucket(key, newEntry, existing);
     }
   }
 
-  static void checkNoConflictInKeyBucket(
-      Object key, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> keyBucketHead) {
+  static void checkNoConflictInKeyBucket(Object key, Entry<?, ?> entry,
+      @Nullable ImmutableMapEntry<?, ?> keyBucketHead) {
     for (; keyBucketHead != null; keyBucketHead = keyBucketHead.getNextInKeyBucket()) {
       checkNoConflict(!key.equals(keyBucketHead.getKey()), "key", entry, keyBucketHead);
     }
   }
-  
+
   private static final class NonTerminalMapEntry<K, V> extends ImmutableMapEntry<K, V> {
     private final ImmutableMapEntry<K, V> nextInKeyBucket;
 
@@ -129,36 +130,35 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     ImmutableMapEntry<K, V> getNextInValueBucket() {
       return null;
     }
-    
+
   }
 
   /**
-   * Closed addressing tends to perform well even with high load factors.
-   * Being conservative here ensures that the table is still likely to be
-   * relatively sparse (hence it misses fast) while saving space.
+   * Closed addressing tends to perform well even with high load factors. Being conservative here
+   * ensures that the table is still likely to be relatively sparse (hence it misses fast) while
+   * saving space.
    */
   private static final double MAX_LOAD_FACTOR = 1.2;
 
-  @Override public V get(@Nullable Object key) {
+  @Override
+  public V get(@Nullable Object key) {
     return get(key, table, mask);
   }
-  
-  @Nullable 
+
+  @Nullable
   static <V> V get(@Nullable Object key, ImmutableMapEntry<?, V>[] keyTable, int mask) {
     if (key == null) {
       return null;
     }
     int index = Hashing.smear(key.hashCode()) & mask;
-    for (ImmutableMapEntry<?, V> entry = keyTable[index];
-        entry != null;
-        entry = entry.getNextInKeyBucket()) {
+    for (ImmutableMapEntry<?, V> entry = keyTable[index]; entry != null; entry =
+        entry.getNextInKeyBucket()) {
       Object candidateKey = entry.getKey();
 
       /*
-       * Assume that equals uses the == optimization when appropriate, and that
-       * it would check hash codes as an optimization when appropriate. If we
-       * did these things, it would just make things worse for the most
-       * performance-conscious users.
+       * Assume that equals uses the == optimization when appropriate, and that it would check hash
+       * codes as an optimization when appropriate. If we did these things, it would just make
+       * things worse for the most performance-conscious users.
        */
       if (key.equals(candidateKey)) {
         return entry.getValue();
@@ -171,8 +171,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   public int size() {
     return entries.length;
   }
-  
-  @Override boolean isPartialView() {
+
+  @Override
+  boolean isPartialView() {
     return false;
   }
 

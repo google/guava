@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -37,20 +35,19 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A generic JUnit test which tests addAll operations on a collection. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests addAll operations on a collection. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Chris Povirk
  * @author Kevin Bourrillion
  */
-@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
+@SuppressWarnings("unchecked")
+// too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
 public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_supportedNothing() {
-    assertFalse("addAll(nothing) should return false",
-        collection.addAll(emptyCollection()));
+    assertFalse("addAll(nothing) should return false", collection.addAll(emptyCollection()));
     expectUnchanged();
   }
 
@@ -102,8 +99,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
     expectUnchanged();
   }
 
-  @CollectionFeature.Require({SUPPORTS_ADD,
-      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionFeature.Require({SUPPORTS_ADD, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllConcurrentWithIteration() {
     try {
@@ -127,21 +123,19 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(value = {SUPPORTS_ADD,
-      ALLOWS_NULL_VALUES}, absent = RESTRICTS_ELEMENTS)
+  @CollectionFeature.Require(value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES},
+      absent = RESTRICTS_ELEMENTS)
   public void testAddAll_nullSupported() {
     List<E> containsNull = singletonList(null);
-    assertTrue("addAll(containsNull) should return true", collection
-        .addAll(containsNull));
+    assertTrue("addAll(containsNull) should return true", collection.addAll(containsNull));
     /*
-     * We need (E) to force interpretation of null as the single element of a
-     * varargs array, not the array itself
+     * We need (E) to force interpretation of null as the single element of a varargs array, not the
+     * array itself
      */
     expectAdded((E) null);
   }
 
-  @CollectionFeature.Require(value = SUPPORTS_ADD,
-      absent = ALLOWS_NULL_VALUES)
+  @CollectionFeature.Require(value = SUPPORTS_ADD, absent = ALLOWS_NULL_VALUES)
   public void testAddAll_nullUnsupported() {
     List<E> containsNull = singletonList(null);
     try {
@@ -150,8 +144,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
     } catch (NullPointerException expected) {
     }
     expectUnchanged();
-    expectNullMissingWhenNullUnsupported(
-        "Should not contain null after unsupported addAll(containsNull)");
+    expectNullMissingWhenNullUnsupported("Should not contain null after unsupported addAll(containsNull)");
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
@@ -164,11 +157,9 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for {@link
-   * #testAddAll_nullUnsupported()} so that tests can suppress it with {@code
-   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun
-   * bug 5045147</a> is fixed.
+   * Returns the {@link Method} instance for {@link #testAddAll_nullUnsupported()} so that tests can
+   * suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug 5045147</a> is fixed.
    */
   @GwtIncompatible("reflection")
   public static Method getAddAllNullUnsupportedMethod() {
@@ -176,11 +167,10 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for {@link
-   * #testAddAll_unsupportedNonePresent()} so that tests can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we figure out
-   * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
-   * support for {@code entrySet().add()}</a>.
+   * Returns the {@link Method} instance for {@link #testAddAll_unsupportedNonePresent()} so that
+   * tests can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we
+   * figure out what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap} support for
+   * {@code entrySet().add()}</a>.
    */
   @GwtIncompatible("reflection")
   public static Method getAddAllUnsupportedNonePresentMethod() {
@@ -188,11 +178,10 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for {@link
-   * #testAddAll_unsupportedSomePresent()} so that tests can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we figure out
-   * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
-   * support for {@code entrySet().add()}</a>.
+   * Returns the {@link Method} instance for {@link #testAddAll_unsupportedSomePresent()} so that
+   * tests can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} while we
+   * figure out what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap} support for
+   * {@code entrySet().add()}</a>.
    */
   @GwtIncompatible("reflection")
   public static Method getAddAllUnsupportedSomePresentMethod() {

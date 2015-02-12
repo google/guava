@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing;
@@ -76,8 +74,7 @@ public class Helpers {
     return Collections.singletonMap(key, value).entrySet().iterator().next();
   }
 
-  public static void assertEqualIgnoringOrder(
-      Iterable<?> expected, Iterable<?> actual) {
+  public static void assertEqualIgnoringOrder(Iterable<?> expected, Iterable<?> actual) {
     List<?> exp = copyToList(expected);
     List<?> act = copyToList(actual);
     String actString = act.toString();
@@ -88,20 +85,18 @@ public class Helpers {
     // Yeah it's n^2.
     for (Object object : exp) {
       if (!act.remove(object)) {
-        Assert.fail("did not contain expected element " + object + ", "
-            + "expected = " + exp + ", actual = " + actString);
+        Assert.fail("did not contain expected element " + object + ", " + "expected = " + exp
+            + ", actual = " + actString);
       }
     }
     assertTrue("unexpected elements: " + act, act.isEmpty());
   }
 
-  public static void assertContentsAnyOrder(
-      Iterable<?> actual, Object... expected) {
+  public static void assertContentsAnyOrder(Iterable<?> actual, Object... expected) {
     assertEqualIgnoringOrder(Arrays.asList(expected), actual);
   }
 
-  public static <E> boolean addAll(
-      Collection<E> addTo, Iterable<? extends E> elementsToAdd) {
+  public static <E> boolean addAll(Collection<E> addTo, Iterable<? extends E> elementsToAdd) {
     boolean modified = false;
     for (E e : elementsToAdd) {
       modified |= addTo.add(e);
@@ -119,10 +114,12 @@ public class Helpers {
           public boolean hasNext() {
             return listIter.hasPrevious();
           }
+
           @Override
           public T next() {
             return listIter.previous();
           }
+
           @Override
           public void remove() {
             listIter.remove();
@@ -135,10 +132,12 @@ public class Helpers {
   static <T> Iterator<T> cycle(final Iterable<T> iterable) {
     return new Iterator<T>() {
       Iterator<T> iterator = Collections.<T>emptySet().iterator();
+
       @Override
       public boolean hasNext() {
         return true;
       }
+
       @Override
       public T next() {
         if (!iterator.hasNext()) {
@@ -146,6 +145,7 @@ public class Helpers {
         }
         return iterator.next();
       }
+
       @Override
       public void remove() {
         throw new UnsupportedOperationException();
@@ -161,8 +161,7 @@ public class Helpers {
   }
 
   static void fail(Throwable cause, Object message) {
-    AssertionFailedError assertionFailedError =
-        new AssertionFailedError(String.valueOf(message));
+    AssertionFailedError assertionFailedError = new AssertionFailedError(String.valueOf(message));
     assertionFailedError.initCause(cause);
     throw assertionFailedError;
   }
@@ -171,22 +170,22 @@ public class Helpers {
       final Comparator<? super K> keyComparator) {
     return new Comparator<Entry<K, V>>() {
       @Override
-      @SuppressWarnings("unchecked") // no less safe than putting it in the map!
+      @SuppressWarnings("unchecked")
+      // no less safe than putting it in the map!
       public int compare(Entry<K, V> a, Entry<K, V> b) {
-        return (keyComparator == null)
-            ? ((Comparable) a.getKey()).compareTo(b.getKey())
+        return (keyComparator == null) ? ((Comparable) a.getKey()).compareTo(b.getKey())
             : keyComparator.compare(a.getKey(), b.getKey());
       }
     };
   }
 
-  public static <T> void testComparator(
-      Comparator<? super T> comparator, T... valuesInExpectedOrder) {
+  public static <T> void testComparator(Comparator<? super T> comparator,
+      T... valuesInExpectedOrder) {
     testComparator(comparator, Arrays.asList(valuesInExpectedOrder));
   }
 
-  public static <T> void testComparator(
-      Comparator<? super T> comparator, List<T> valuesInExpectedOrder) {
+  public static <T> void testComparator(Comparator<? super T> comparator,
+      List<T> valuesInExpectedOrder) {
     // This does an O(n^2) test of all pairs of values in both orders
     for (int i = 0; i < valuesInExpectedOrder.size(); i++) {
       T t = valuesInExpectedOrder.get(i);
@@ -197,8 +196,7 @@ public class Helpers {
             comparator.compare(lesser, t) < 0);
       }
 
-      assertEquals(comparator + ".compare(" + t + ", " + t + ")",
-          0, comparator.compare(t, t));
+      assertEquals(comparator + ".compare(" + t + ", " + t + ")", 0, comparator.compare(t, t));
 
       for (int j = i + 1; j < valuesInExpectedOrder.size(); j++) {
         T greater = valuesInExpectedOrder.get(j);
@@ -232,66 +230,72 @@ public class Helpers {
   }
 
   /**
-   * Returns a collection that simulates concurrent modification by
-   * having its size method return incorrect values.  This is useful
-   * for testing methods that must treat the return value from size()
-   * as a hint only.
+   * Returns a collection that simulates concurrent modification by having its size method return
+   * incorrect values. This is useful for testing methods that must treat the return value from
+   * size() as a hint only.
    *
-   * @param delta the difference between the true size of the
-   * collection and the values returned by the size method
+   * @param delta the difference between the true size of the collection and the values returned by
+   *        the size method
    */
   public static <T> Collection<T> misleadingSizeCollection(final int delta) {
     // It would be nice to be able to return a real concurrent
     // collection like ConcurrentLinkedQueue, so that e.g. concurrent
     // iteration would work, but that would not be GWT-compatible.
     return new ArrayList<T>() {
-      @Override public int size() { return Math.max(0, super.size() + delta); }
+      @Override
+      public int size() {
+        return Math.max(0, super.size() + delta);
+      }
     };
   }
 
   /**
-   * Returns a "nefarious" map entry with the specified key and value,
-   * meaning an entry that is suitable for testing that map entries cannot be
-   * modified via a nefarious implementation of equals. This is used for testing
-   * unmodifiable collections of map entries; for example, it should not be
-   * possible to access the raw (modifiable) map entry via a nefarious equals
-   * method.
+   * Returns a "nefarious" map entry with the specified key and value, meaning an entry that is
+   * suitable for testing that map entries cannot be modified via a nefarious implementation of
+   * equals. This is used for testing unmodifiable collections of map entries; for example, it
+   * should not be possible to access the raw (modifiable) map entry via a nefarious equals method.
    */
-  public static <K, V> Map.Entry<K, V> nefariousMapEntry(final K key,
-      final V value) {
+  public static <K, V> Map.Entry<K, V> nefariousMapEntry(final K key, final V value) {
     return new Map.Entry<K, V>() {
-      @Override public K getKey() {
+      @Override
+      public K getKey() {
         return key;
       }
-      @Override public V getValue() {
+
+      @Override
+      public V getValue() {
         return value;
       }
-      @Override public V setValue(V value) {
+
+      @Override
+      public V setValue(V value) {
         throw new UnsupportedOperationException();
       }
+
       @SuppressWarnings("unchecked")
-      @Override public boolean equals(Object o) {
+      @Override
+      public boolean equals(Object o) {
         if (o instanceof Map.Entry) {
           Map.Entry<K, V> e = (Map.Entry<K, V>) o;
           e.setValue(value); // muhahaha!
 
-          return equal(this.getKey(), e.getKey())
-              && equal(this.getValue(), e.getValue());
+          return equal(this.getKey(), e.getKey()) && equal(this.getValue(), e.getValue());
         }
         return false;
       }
 
-      @Override public int hashCode() {
+      @Override
+      public int hashCode() {
         K k = getKey();
         V v = getValue();
-        return ((k == null) ?
-            0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());
+        return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());
       }
 
       /**
        * Returns a string representation of the form <code>{key}={value}</code>.
        */
-      @Override public String toString() {
+      @Override
+      public String toString() {
         return getKey() + "=" + getValue();
       }
     };
@@ -309,8 +313,10 @@ public class Helpers {
   }
 
   private static final Comparator<Comparable> NATURAL_ORDER = new Comparator<Comparable>() {
-    @SuppressWarnings("unchecked") // assume any Comparable is Comparable<Self>
-    @Override public int compare(Comparable left, Comparable right) {
+    @SuppressWarnings("unchecked")
+    // assume any Comparable is Comparable<Self>
+    @Override
+    public int compare(Comparable left, Comparable right) {
       return left.compareTo(right);
     }
   };
@@ -325,7 +331,8 @@ public class Helpers {
    * Private replacement for {@link com.google.gwt.user.client.rpc.GwtTransient} to work around
    * build-system quirks.
    */
-  private @interface GwtTransient {}
+  private @interface GwtTransient {
+  }
 
   /**
    * Compares strings in natural order except that null comes immediately before a given value. This
@@ -338,7 +345,8 @@ public class Helpers {
      * We don't serialize this class in GWT, so we don't care about whether GWT will serialize this
      * field.
      */
-    @GwtTransient private final String justAfterNull;
+    @GwtTransient
+    private final String justAfterNull;
 
     protected NullsBefore(String justAfterNull) {
       if (justAfterNull == null) {

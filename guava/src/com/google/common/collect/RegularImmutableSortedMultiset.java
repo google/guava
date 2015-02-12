@@ -1,15 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -27,7 +27,8 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
-@SuppressWarnings("serial") // uses writeReplace, not default serialization
+@SuppressWarnings("serial")
+// uses writeReplace, not default serialization
 final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private final transient RegularImmutableSortedSet<E> elementSet;
   private final transient int[] counts;
@@ -35,12 +36,8 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
   private final transient int offset;
   private final transient int length;
 
-  RegularImmutableSortedMultiset(
-      RegularImmutableSortedSet<E> elementSet,
-      int[] counts,
-      long[] cumulativeCounts,
-      int offset,
-      int length) {
+  RegularImmutableSortedMultiset(RegularImmutableSortedSet<E> elementSet, int[] counts,
+      long[] cumulativeCounts, int offset, int length) {
     this.elementSet = elementSet;
     this.counts = counts;
     this.cumulativeCounts = cumulativeCounts;
@@ -50,9 +47,7 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
 
   @Override
   Entry<E> getEntry(int index) {
-    return Multisets.immutableEntry(
-        elementSet.asList().get(index),
-        counts[offset + index]);
+    return Multisets.immutableEntry(elementSet.asList().get(index), counts[offset + index]);
   }
 
   @Override
@@ -102,8 +97,8 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
     } else {
       RegularImmutableSortedSet<E> subElementSet =
           (RegularImmutableSortedSet<E>) elementSet.getSubSet(from, to);
-      return new RegularImmutableSortedMultiset<E>(
-          subElementSet, counts, cumulativeCounts, offset + from, to - from);
+      return new RegularImmutableSortedMultiset<E>(subElementSet, counts, cumulativeCounts, offset
+          + from, to - from);
     }
   }
 
