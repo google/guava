@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -35,8 +33,8 @@ import java.util.NoSuchElementException;
 import java.util.SortedMap;
 
 /**
- * A generic JUnit test which tests operations on a SortedMap. Can't be
- * invoked directly; please see {@code SortedMapTestSuiteBuilder}.
+ * A generic JUnit test which tests operations on a SortedMap. Can't be invoked directly; please see
+ * {@code SortedMapTestSuiteBuilder}.
  *
  * @author Jesse Wilson
  * @author Louis Wasserman
@@ -48,11 +46,13 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
   private Entry<K, V> a;
   private Entry<K, V> c;
 
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     navigableMap = (SortedMap<K, V>) getMap();
-    List<Entry<K, V>> entries = Helpers.copyToList(getSubjectGenerator().getSampleElements(
-        getSubjectGenerator().getCollectionSize().getNumElements()));
+    List<Entry<K, V>> entries =
+        Helpers.copyToList(getSubjectGenerator().getSampleElements(
+            getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
 
     // some tests assume SEVERAL == 3
@@ -101,60 +101,61 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
   public void testLast() {
     assertEquals(c.getKey(), navigableMap.lastKey());
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testHeadMapExclusive() {
     assertFalse(navigableMap.headMap(a.getKey()).containsKey(a.getKey()));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testTailMapInclusive() {
     assertTrue(navigableMap.tailMap(a.getKey()).containsKey(a.getKey()));
   }
-  
+
   public void testHeadMap() {
-    List<Entry<K, V>> entries = Helpers.copyToList(getSubjectGenerator().getSampleElements(
-        getSubjectGenerator().getCollectionSize().getNumElements()));
+    List<Entry<K, V>> entries =
+        Helpers.copyToList(getSubjectGenerator().getSampleElements(
+            getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
       assertThat(navigableMap.headMap(entries.get(i).getKey()).entrySet())
-          .containsExactlyElementsIn(entries.subList(0, i))
-          .inOrder();
+          .containsExactlyElementsIn(entries.subList(0, i)).inOrder();
     }
   }
-  
+
   public void testTailMap() {
-    List<Entry<K, V>> entries = Helpers.copyToList(getSubjectGenerator().getSampleElements(
-        getSubjectGenerator().getCollectionSize().getNumElements()));
+    List<Entry<K, V>> entries =
+        Helpers.copyToList(getSubjectGenerator().getSampleElements(
+            getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
       assertThat(navigableMap.tailMap(entries.get(i).getKey()).entrySet())
-          .containsExactlyElementsIn(entries.subList(i, entries.size()))
-          .inOrder();
+          .containsExactlyElementsIn(entries.subList(i, entries.size())).inOrder();
     }
   }
-  
+
   public void testSubMap() {
-    List<Entry<K, V>> entries = Helpers.copyToList(getSubjectGenerator().getSampleElements(
-        getSubjectGenerator().getCollectionSize().getNumElements()));
+    List<Entry<K, V>> entries =
+        Helpers.copyToList(getSubjectGenerator().getSampleElements(
+            getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
       for (int j = i + 1; j < entries.size(); j++) {
         assertThat(navigableMap.subMap(entries.get(i).getKey(), entries.get(j).getKey()).entrySet())
-            .containsExactlyElementsIn(entries.subList(i, j))
-            .inOrder();
+            .containsExactlyElementsIn(entries.subList(i, j)).inOrder();
       }
     }
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   public void testSubMapIllegal() {
     try {
       navigableMap.subMap(c.getKey(), a.getKey());
       fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testOrderedByComparator() {
     @SuppressWarnings("unchecked")

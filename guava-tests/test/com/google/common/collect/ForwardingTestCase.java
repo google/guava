@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -59,31 +57,28 @@ public abstract class ForwardingTestCase extends TestCase {
   @SuppressWarnings("unchecked")
   protected <T> T createProxyInstance(Class<T> c) {
     /*
-     * This invocation handler only registers that a method was called,
-     * and then returns a bogus, but acceptable, value.
+     * This invocation handler only registers that a method was called, and then returns a bogus,
+     * but acceptable, value.
      */
     InvocationHandler handler = new InvocationHandler() {
       @Override
-      public Object invoke(Object proxy, Method method, Object[] args)
-          throws Throwable {
+      public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         called(asString(method));
 
         return getDefaultValue(method.getReturnType());
       }
     };
 
-    return (T) Proxy.newProxyInstance(c.getClassLoader(),
-        new Class[] { c }, handler);
+    return (T) Proxy.newProxyInstance(c.getClassLoader(), new Class[] {c}, handler);
   }
 
   private static final Joiner COMMA_JOINER = Joiner.on(",");
 
   /*
    * Returns string representation of a method.
-   *
-   * If the method takes no parameters, it returns the name (e.g.
-   * "isEmpty". If the method takes parameters, it returns the simple names
-   * of the parameters (e.g. "put(Object,Object)".)
+   * 
+   * If the method takes no parameters, it returns the name (e.g. "isEmpty". If the method takes
+   * parameters, it returns the simple names of the parameters (e.g. "put(Object,Object)".)
    */
   private String asString(Method method) {
     String methodName = method.getName();
@@ -93,17 +88,16 @@ public abstract class ForwardingTestCase extends TestCase {
       return methodName;
     }
 
-    Iterable<String> parameterNames = Iterables.transform(
-        Arrays.asList(parameterTypes),
-        new Function<Class<?>, String>() {
+    Iterable<String> parameterNames =
+        Iterables.transform(Arrays.asList(parameterTypes), new Function<Class<?>, String>() {
           @Override
           public String apply(Class<?> from) {
             return from.getSimpleName();
           }
-    });
+        });
     return methodName + "(" + COMMA_JOINER.join(parameterNames) + ")";
   }
-  
+
   private static Object getDefaultValue(Class<?> returnType) {
     if (returnType == boolean.class || returnType == Boolean.class) {
       return Boolean.FALSE;
@@ -118,30 +112,26 @@ public abstract class ForwardingTestCase extends TestCase {
     } else if ("java.util.function.Predicate".equals(returnType.getCanonicalName())
         || ("java.util.function.Consumer".equals(returnType.getCanonicalName()))) {
       // Generally, methods that accept java.util.function.* instances
-      // don't like to get null values.  We generate them dynamically
+      // don't like to get null values. We generate them dynamically
       // using Proxy so that we can have Java 7 compliant code.
       InvocationHandler handler = new InvocationHandler() {
-          @Override public Object invoke(Object proxy, Method method,
-              Object[] args) {
-            // Crude, but acceptable until we can use Java 8.  Other
-            // methods have default implementations, and it is hard to
-            // distinguish.
-            if ("test".equals(method.getName())
-                || "accept".equals(method.getName())) {
-              return getDefaultValue(method.getReturnType());
-            }
-            throw new IllegalStateException(
-                "Unexpected " + method + " invoked on " + proxy);
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) {
+          // Crude, but acceptable until we can use Java 8. Other
+          // methods have default implementations, and it is hard to
+          // distinguish.
+          if ("test".equals(method.getName()) || "accept".equals(method.getName())) {
+            return getDefaultValue(method.getReturnType());
           }
-        };
-      return Proxy.newProxyInstance(returnType.getClassLoader(),
-          new Class[] { returnType },
-          handler);
+          throw new IllegalStateException("Unexpected " + method + " invoked on " + proxy);
+        }
+      };
+      return Proxy.newProxyInstance(returnType.getClassLoader(), new Class[] {returnType}, handler);
     } else {
       return null;
     }
   }
-  
+
   protected static <T> void callAllPublicMethods(Class<T> theClass, T object)
       throws InvocationTargetException {
     for (Method method : theClass.getMethods()) {
@@ -161,8 +151,8 @@ public abstract class ForwardingTestCase extends TestCase {
           }
         }
       } catch (Throwable cause) {
-        throw new InvocationTargetException(cause,
-            method + " with args: " + Arrays.toString(parameters));
+        throw new InvocationTargetException(cause, method + " with args: "
+            + Arrays.toString(parameters));
       }
     }
   }

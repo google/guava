@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.reflect;
@@ -67,16 +65,12 @@ public class ClassPathTest extends TestCase {
       byToString.put(resource.toString(), resource);
     }
     String testResourceName = "com/google/common/reflect/test.txt";
-    assertThat(byName.keySet()).containsAllOf(
-        "com/google/common/reflect/ClassPath.class",
+    assertThat(byName.keySet()).containsAllOf("com/google/common/reflect/ClassPath.class",
         "com/google/common/reflect/ClassPathTest.class",
-        "com/google/common/reflect/ClassPathTest$Nested.class",
-        testResourceName);
-    assertThat(byToString.keySet()).containsAllOf(
-        "com.google.common.reflect.ClassPath",
+        "com/google/common/reflect/ClassPathTest$Nested.class", testResourceName);
+    assertThat(byToString.keySet()).containsAllOf("com.google.common.reflect.ClassPath",
         "com.google.common.reflect.ClassPathTest",
-        "com.google.common.reflect.ClassPathTest$Nested",
-        testResourceName);
+        "com.google.common.reflect.ClassPathTest$Nested", testResourceName);
     assertEquals(getClass().getClassLoader().getResource(testResourceName),
         byName.get("com/google/common/reflect/test.txt").url());
   }
@@ -98,7 +92,8 @@ public class ClassPathTest extends TestCase {
       packageNames.add(classInfo.getPackageName());
       simpleNames.add(classInfo.getSimpleName());
     }
-    class LocalClass {}
+    class LocalClass {
+    }
     Class<?> anonymousClass = new Object() {}.getClass();
     assertThat(names).containsAllOf(anonymousClass.getName(), LocalClass.class.getName(),
         ClassPath.class.getName(), ClassPathTest.class.getName());
@@ -117,8 +112,8 @@ public class ClassPathTest extends TestCase {
     Set<String> packageNames = Sets.newHashSet();
     Set<String> simpleNames = Sets.newHashSet();
     ClassPath classpath = ClassPath.from(getClass().getClassLoader());
-    for (ClassInfo classInfo
-        : classpath.getTopLevelClasses(ClassPathTest.class.getPackage().getName())) {
+    for (ClassInfo classInfo : classpath.getTopLevelClasses(ClassPathTest.class.getPackage()
+        .getName())) {
       names.add(classInfo.getName());
       strings.add(classInfo.toString());
       classes.add(classInfo.load());
@@ -136,8 +131,8 @@ public class ClassPathTest extends TestCase {
   public void testGetTopLevelClassesRecursive() throws Exception {
     Set<Class<?>> classes = Sets.newHashSet();
     ClassPath classpath = ClassPath.from(ClassPathTest.class.getClassLoader());
-    for (ClassInfo classInfo
-        : classpath.getTopLevelClassesRecursive(ClassPathTest.class.getPackage().getName())) {
+    for (ClassInfo classInfo : classpath.getTopLevelClassesRecursive(ClassPathTest.class
+        .getPackage().getName())) {
       if (classInfo.getName().contains("ClassPathTest")) {
         System.err.println("");
       }
@@ -158,12 +153,9 @@ public class ClassPathTest extends TestCase {
     new EqualsTester()
         .addEqualityGroup(classInfo(ClassPathTest.class), classInfo(ClassPathTest.class))
         .addEqualityGroup(classInfo(Test.class), classInfo(Test.class, getClass().getClassLoader()))
-        .addEqualityGroup(
-            new ResourceInfo("a/b/c.txt", getClass().getClassLoader()),
+        .addEqualityGroup(new ResourceInfo("a/b/c.txt", getClass().getClassLoader()),
             new ResourceInfo("a/b/c.txt", getClass().getClassLoader()))
-        .addEqualityGroup(
-            new ResourceInfo("x.txt", getClass().getClassLoader()))
-        .testEquals();
+        .addEqualityGroup(new ResourceInfo("x.txt", getClass().getClassLoader())).testEquals();
   }
 
   public void testClassPathEntries_emptyURLClassLoader_noParent() {
@@ -175,8 +167,7 @@ public class ClassPathTest extends TestCase {
     URL url1 = new URL("file:/a");
     URL url2 = new URL("file:/b");
     URLClassLoader classloader = new URLClassLoader(new URL[] {url1, url2}, null);
-    assertEquals(
-        ImmutableMap.of(new File("/a"), classloader, new File("/b"), classloader),
+    assertEquals(ImmutableMap.of(new File("/a"), classloader, new File("/b"), classloader),
         ClassPath.getClassPathEntries(classloader));
   }
 
@@ -186,7 +177,7 @@ public class ClassPathTest extends TestCase {
     URLClassLoader parent = new URLClassLoader(new URL[] {url1}, null);
     URLClassLoader child = new URLClassLoader(new URL[] {url2}, parent) {};
     ImmutableMap<File, ClassLoader> classPathEntries = ClassPath.getClassPathEntries(child);
-    assertEquals(ImmutableMap.of(new File("/a"), parent, new File("/b"), child),  classPathEntries);
+    assertEquals(ImmutableMap.of(new File("/a"), parent, new File("/b"), child), classPathEntries);
     assertThat(classPathEntries.keySet()).containsExactly(new File("/a"), new File("/b")).inOrder();
   }
 
@@ -204,8 +195,7 @@ public class ClassPathTest extends TestCase {
   public void testClassPathEntries_notURLClassLoader_withParent() throws Exception {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
-    assertEquals(
-        ImmutableMap.of(new File("/a"), parent),
+    assertEquals(ImmutableMap.of(new File("/a"), parent),
         ClassPath.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
@@ -214,8 +204,7 @@ public class ClassPathTest extends TestCase {
     URL url2 = new URL("file:/b");
     URLClassLoader grandParent = new URLClassLoader(new URL[] {url1}, null);
     URLClassLoader parent = new URLClassLoader(new URL[] {url2}, grandParent);
-    assertEquals(
-        ImmutableMap.of(new File("/a"), grandParent, new File("/b"), parent),
+    assertEquals(ImmutableMap.of(new File("/a"), grandParent, new File("/b"), parent),
         ClassPath.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
@@ -223,8 +212,7 @@ public class ClassPathTest extends TestCase {
     URL url = new URL("file:/a");
     URLClassLoader grandParent = new URLClassLoader(new URL[] {url}, null);
     ClassLoader parent = new ClassLoader(grandParent) {};
-    assertEquals(
-        ImmutableMap.of(new File("/a"), grandParent),
+    assertEquals(ImmutableMap.of(new File("/a"), grandParent),
         ClassPath.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
@@ -260,19 +248,18 @@ public class ClassPathTest extends TestCase {
   }
 
   public void testGetClassPathEntry() throws MalformedURLException, URISyntaxException {
-    assertEquals(new File("/usr/test/dep.jar").toURI(),
-        ClassPath.Scanner.getClassPathEntry(
-            new File("/home/build/outer.jar"), "file:/usr/test/dep.jar").toURI());
+    assertEquals(
+        new File("/usr/test/dep.jar").toURI(),
+        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"),
+            "file:/usr/test/dep.jar").toURI());
     assertEquals(new File("/home/build/a.jar").toURI(),
         ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "a.jar").toURI());
     assertEquals(new File("/home/build/x/y/z").toURI(),
         ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x/y/z").toURI());
     assertEquals(new File("/home/build/x/y/z.jar").toURI(),
-        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x/y/z.jar")
-            .toURI());
+        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x/y/z.jar").toURI());
     assertEquals("/home/build/x y.jar",
-        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x y.jar")
-            .getFile());
+        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x y.jar").getFile());
   }
 
   public void testGetClassPathFromManifest_nullManifest() {
@@ -281,8 +268,7 @@ public class ClassPathTest extends TestCase {
 
   public void testGetClassPathFromManifest_noClassPath() throws IOException {
     File jarFile = new File("base.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest("")))
-        .isEmpty();
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest(""))).isEmpty();
   }
 
   public void testGetClassPathFromManifest_emptyClassPath() throws IOException {
@@ -294,78 +280,74 @@ public class ClassPathTest extends TestCase {
   public void testGetClassPathFromManifest_badClassPath() throws IOException {
     File jarFile = new File("base.jar");
     Manifest manifest = manifestClasspath("nosuchscheme:an_invalid^path");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .isEmpty();
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest)).isEmpty();
   }
 
   public void testGetClassPathFromManifest_pathWithStrangeCharacter() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:the^file.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .containsExactly(fullpath("base/the^file.jar"));
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest)).containsExactly(
+        fullpath("base/the^file.jar"));
   }
 
   public void testGetClassPathFromManifest_relativeDirectory() throws IOException {
     File jarFile = new File("base/some.jar");
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative/dir");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .containsExactly(fullpath("base/with/relative/dir"));
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest)).containsExactly(
+        fullpath("base/with/relative/dir"));
   }
 
   public void testGetClassPathFromManifest_relativeJar() throws IOException {
     File jarFile = new File("base/some.jar");
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .containsExactly(fullpath("base/with/relative.jar"));
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest)).containsExactly(
+        fullpath("base/with/relative.jar"));
   }
 
   public void testGetClassPathFromManifest_jarInCurrentDirectory() throws IOException {
     File jarFile = new File("base/some.jar");
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("current.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .containsExactly(fullpath("base/current.jar"));
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest)).containsExactly(
+        fullpath("base/current.jar"));
   }
 
   public void testGetClassPathFromManifest_absoluteDirectory() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute/dir");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .containsExactly(fullpath("/with/absolute/dir"));
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest)).containsExactly(
+        fullpath("/with/absolute/dir"));
   }
 
   public void testGetClassPathFromManifest_absoluteJar() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .containsExactly(fullpath("/with/absolute.jar"));
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest)).containsExactly(
+        fullpath("/with/absolute.jar"));
   }
 
   public void testGetClassPathFromManifest_multiplePaths() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar relative.jar  relative/dir");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .containsExactly(
-            fullpath("/with/absolute.jar"),
-            fullpath("base/relative.jar"),
-            fullpath("base/relative/dir"))
-        .inOrder();
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest)).containsExactly(
+        fullpath("/with/absolute.jar"), fullpath("base/relative.jar"),
+        fullpath("base/relative/dir")).inOrder();
   }
 
   public void testGetClassPathFromManifest_leadingBlanks() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath(" relative.jar");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .containsExactly(fullpath("base/relative.jar"));
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest)).containsExactly(
+        fullpath("base/relative.jar"));
   }
 
   public void testGetClassPathFromManifest_trailingBlanks() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("relative.jar ");
-    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .containsExactly(fullpath("base/relative.jar"));
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest)).containsExactly(
+        fullpath("base/relative.jar"));
   }
 
   public void testGetClassName() {
@@ -379,40 +361,35 @@ public class ClassPathTest extends TestCase {
   }
 
   public void testGetSimpleName() {
-    assertEquals("Foo",
-        new ClassInfo("Foo.class", getClass().getClassLoader()).getSimpleName());
-    assertEquals("Foo",
-        new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getSimpleName());
+    assertEquals("Foo", new ClassInfo("Foo.class", getClass().getClassLoader()).getSimpleName());
+    assertEquals("Foo", new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getSimpleName());
     assertEquals("Foo",
         new ClassInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
-    assertEquals("",
-        new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
+    assertEquals("", new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
     assertEquals("Foo",
         new ClassInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
-    assertEquals("",
-        new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
+    assertEquals("", new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
     assertEquals("Local",
         new ClassInfo("a/b/Bar$1Local.class", getClass().getClassLoader()).getSimpleName());
 
   }
 
   public void testGetPackageName() {
-    assertEquals("",
-        new ClassInfo("Foo.class", getClass().getClassLoader()).getPackageName());
+    assertEquals("", new ClassInfo("Foo.class", getClass().getClassLoader()).getPackageName());
     assertEquals("a.b",
         new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getPackageName());
   }
 
-  private static class Nested {}
+  private static class Nested {
+  }
 
   public void testNulls() throws IOException {
     new NullPointerTester().testAllPublicStaticMethods(ClassPath.class);
-    new NullPointerTester()
-        .testAllPublicInstanceMethods(ClassPath.from(getClass().getClassLoader()));
+    new NullPointerTester().testAllPublicInstanceMethods(ClassPath
+        .from(getClass().getClassLoader()));
   }
 
-  private static ClassPath.ClassInfo findClass(
-      Iterable<ClassPath.ClassInfo> classes, Class<?> cls) {
+  private static ClassPath.ClassInfo findClass(Iterable<ClassPath.ClassInfo> classes, Class<?> cls) {
     for (ClassPath.ClassInfo classInfo : classes) {
       if (classInfo.getName().equals(cls.getName())) {
         return classInfo;

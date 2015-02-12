@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -33,56 +31,61 @@ import javax.annotation.Nullable;
  *
  * <h3>Invertibility</h3>
  *
- * <p>The reverse operation <b>may</b> be a strict <i>inverse</i> (meaning that {@code
- * converter.reverse().convert(converter.convert(a)).equals(a)} is always true). However, it is
- * very common (perhaps <i>more</i> common) for round-trip conversion to be <i>lossy</i>. Consider
- * an example round-trip using {@link com.google.common.primitives.Doubles#stringConverter}:
+ * <p>
+ * The reverse operation <b>may</b> be a strict <i>inverse</i> (meaning that
+ * {@code converter.reverse().convert(converter.convert(a)).equals(a)} is always true). However, it
+ * is very common (perhaps <i>more</i> common) for round-trip conversion to be <i>lossy</i>.
+ * Consider an example round-trip using {@link com.google.common.primitives.Doubles#stringConverter}:
  *
  * <ol>
  * <li>{@code stringConverter().convert("1.00")} returns the {@code Double} value {@code 1.0}
  * <li>{@code stringConverter().reverse().convert(1.0)} returns the string {@code "1.0"} --
- *     <i>not</i> the same string ({@code "1.00"}) we started with
+ * <i>not</i> the same string ({@code "1.00"}) we started with
  * </ol>
  *
- * <p>Note that it should still be the case that the round-tripped and original objects are
+ * <p>
+ * Note that it should still be the case that the round-tripped and original objects are
  * <i>similar</i>.
  *
  * <h3>Nullability</h3>
  *
- * <p>A converter always converts {@code null} to {@code null} and non-null references to non-null
+ * <p>
+ * A converter always converts {@code null} to {@code null} and non-null references to non-null
  * references. It would not make sense to consider {@code null} and a non-null reference to be
  * "different representations of the same information", since one is distinguishable from
  * <i>missing</i> information and the other is not. The {@link #convert} method handles this null
  * behavior for all converters; implementations of {@link #doForward} and {@link #doBackward} are
  * guaranteed to never be passed {@code null}, and must never return {@code null}.
  *
-
+ * 
  * <h3>Common ways to use</h3>
  *
- * <p>Getting a converter:
+ * <p>
+ * Getting a converter:
  *
  * <ul>
- * <li>Use a provided converter implementation, such as {@link Enums#stringConverter}, {@link
- *     com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the {@linkplain
- *     #reverse reverse} views of these.
- * <li>Convert between specific preset values using {@link
- *     com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to create
- *     a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
- *     {@code Converter} type using a mocking framework.
+ * <li>Use a provided converter implementation, such as {@link Enums#stringConverter},
+ * {@link com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the
+ * {@linkplain #reverse reverse} views of these.
+ * <li>Convert between specific preset values using
+ * {@link com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to
+ * create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
+ * {@code Converter} type using a mocking framework.
  * <li>Otherwise, extend this class and implement its {@link #doForward} and {@link #doBackward}
- *     methods.
+ * methods.
  * </ul>
  *
- * <p>Using a converter:
+ * <p>
+ * Using a converter:
  *
  * <ul>
  * <li>Convert one instance in the "forward" direction using {@code converter.convert(a)}.
  * <li>Convert multiple instances "forward" using {@code converter.convertAll(as)}.
- * <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or {@code
- *     converter.reverse().convertAll(bs)}.
+ * <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or
+ * {@code converter.reverse().convertAll(bs)}.
  * <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link Function} is accepted
  * <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to be
- *     overridden.
+ * overridden.
  * </ul>
  *
  * @author Mike Ward
@@ -128,10 +131,10 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * @param b the instance to convert; will never be null
    * @return the converted instance; <b>must not</b> be null
    * @throws UnsupportedOperationException if backward conversion is not implemented; this should be
-   *     very rare. Note that if backward conversion is not only unimplemented but
-   *     unimplement<i>able</i> (for example, consider a {@code Converter<Chicken, ChickenNugget>}),
-   *     then this is not logically a {@code Converter} at all, and should just implement {@link
-   *     Function}.
+   *         very rare. Note that if backward conversion is not only unimplemented but
+   *         unimplement<i>able</i> (for example, consider a
+   *         {@code Converter<Chicken, ChickenNugget>}), then this is not logically a
+   *         {@code Converter} at all, and should just implement {@link Function}.
    */
   protected abstract A doBackward(B b);
 
@@ -171,14 +174,16 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * Returns an iterable that applies {@code convert} to each element of {@code fromIterable}. The
    * conversion is done lazily.
    *
-   * <p>The returned iterable's iterator supports {@code remove()} if the input iterator does. After
-   * a successful {@code remove()} call, {@code fromIterable} no longer contains the corresponding
+   * <p>
+   * The returned iterable's iterator supports {@code remove()} if the input iterator does. After a
+   * successful {@code remove()} call, {@code fromIterable} no longer contains the corresponding
    * element.
    */
   public Iterable<B> convertAll(final Iterable<? extends A> fromIterable) {
     checkNotNull(fromIterable, "fromIterable");
     return new Iterable<B>() {
-      @Override public Iterator<B> iterator() {
+      @Override
+      public Iterator<B> iterator() {
         return new Iterator<B>() {
           private final Iterator<? extends A> fromIterator = fromIterable.iterator();
 
@@ -205,7 +210,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * Returns the reversed view of this converter, which converts {@code this.convert(a)} back to a
    * value roughly equivalent to {@code a}.
    *
-   * <p>The returned converter is serializable if {@code this} converter is.
+   * <p>
+   * The returned converter is serializable if {@code this} converter is.
    */
   // TODO(kak): Make this method final
   public Converter<B, A> reverse() {
@@ -213,8 +219,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return (result == null) ? reverse = new ReverseConverter<A, B>(this) : result;
   }
 
-  private static final class ReverseConverter<A, B>
-      extends Converter<B, A> implements Serializable {
+  private static final class ReverseConverter<A, B> extends Converter<B, A> implements Serializable {
     final Converter<A, B> original;
 
     ReverseConverter(Converter<A, B> original) {
@@ -281,7 +286,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * Returns a converter whose {@code convert} method applies {@code secondConverter} to the result
    * of this converter. Its {@code reverse} method applies the converters in reverse order.
    *
-   * <p>The returned converter is serializable if {@code this} converter and {@code secondConverter}
+   * <p>
+   * The returned converter is serializable if {@code this} converter and {@code secondConverter}
    * are.
    */
   public final <C> Converter<A, C> andThen(Converter<B, C> secondConverter) {
@@ -295,8 +301,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return new ConverterComposition<A, B, C>(this, checkNotNull(secondConverter));
   }
 
-  private static final class ConverterComposition<A, B, C>
-      extends Converter<A, C> implements Serializable {
+  private static final class ConverterComposition<A, B, C> extends Converter<A, C> implements
+      Serializable {
     final Converter<A, B> first;
     final Converter<B, C> second;
 
@@ -338,8 +344,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     public boolean equals(@Nullable Object object) {
       if (object instanceof ConverterComposition) {
         ConverterComposition<?, ?, ?> that = (ConverterComposition<?, ?, ?>) object;
-        return this.first.equals(that.first)
-            && this.second.equals(that.second);
+        return this.first.equals(that.first) && this.second.equals(that.second);
       }
       return false;
     }
@@ -370,7 +375,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
   /**
    * Indicates whether another object is equal to this converter.
    *
-   * <p>Most implementations will have no reason to override the behavior of {@link Object#equals}.
+   * <p>
+   * Most implementations will have no reason to override the behavior of {@link Object#equals}.
    * However, an implementation may also choose to return {@code true} whenever {@code object} is a
    * {@link Converter} that it considers <i>interchangeable</i> with this one. "Interchangeable"
    * <i>typically</i> means that {@code Objects.equal(this.convert(a), that.convert(a))} is true for
@@ -391,27 +397,27 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * here. Instead, simply subclass {@code Converter} and implement its {@link #doForward} and
    * {@link #doBackward} methods directly.
    *
-   * <p>These functions will never be passed {@code null} and must not under any circumstances
-   * return {@code null}. If a value cannot be converted, the function should throw an unchecked
-   * exception (typically, but not necessarily, {@link IllegalArgumentException}).
+   * <p>
+   * These functions will never be passed {@code null} and must not under any circumstances return
+   * {@code null}. If a value cannot be converted, the function should throw an unchecked exception
+   * (typically, but not necessarily, {@link IllegalArgumentException}).
    *
-   * <p>The returned converter is serializable if both provided functions are.
+   * <p>
+   * The returned converter is serializable if both provided functions are.
    *
    * @since 17.0
    */
-  public static <A, B> Converter<A, B> from(
-      Function<? super A, ? extends B> forwardFunction,
+  public static <A, B> Converter<A, B> from(Function<? super A, ? extends B> forwardFunction,
       Function<? super B, ? extends A> backwardFunction) {
     return new FunctionBasedConverter<A, B>(forwardFunction, backwardFunction);
   }
 
-  private static final class FunctionBasedConverter<A, B>
-      extends Converter<A, B> implements Serializable {
+  private static final class FunctionBasedConverter<A, B> extends Converter<A, B> implements
+      Serializable {
     private final Function<? super A, ? extends B> forwardFunction;
     private final Function<? super B, ? extends A> backwardFunction;
 
-    private FunctionBasedConverter(
-        Function<? super A, ? extends B> forwardFunction,
+    private FunctionBasedConverter(Function<? super A, ? extends B> forwardFunction,
         Function<? super B, ? extends A> backwardFunction) {
       this.forwardFunction = checkNotNull(forwardFunction);
       this.backwardFunction = checkNotNull(backwardFunction);
@@ -451,7 +457,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
   /**
    * Returns a serializable converter that always converts or reverses an object to itself.
    */
-  @SuppressWarnings("unchecked") // implementation is "fully variant"
+  @SuppressWarnings("unchecked")
+  // implementation is "fully variant"
   public static <T> Converter<T, T> identity() {
     return (IdentityConverter<T>) IdentityConverter.INSTANCE;
   }

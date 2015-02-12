@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -30,10 +28,9 @@ import java.io.IOException;
 /**
  * Unit tests for {@link Flushables}.
  *
- * <p>Checks proper flushing behavior, and ensures that
- * IOExceptions on Flushable.flush() are not
- * propagated out from the {@link Flushables#flush} method if {@code
- * swallowException} is true.
+ * <p>
+ * Checks proper flushing behavior, and ensures that IOExceptions on Flushable.flush() are not
+ * propagated out from the {@link Flushables#flush} method if {@code swallowException} is true.
  *
  * @author Michael Lancaster
  */
@@ -64,21 +61,21 @@ public class FlushablesTest extends TestCase {
     doFlush(mockFlushable, false, true);
   }
 
-  public void testFlushQuietly_flushableWithEatenException()
-      throws IOException {
+  public void testFlushQuietly_flushableWithEatenException() throws IOException {
     // make sure that no exception is thrown by flushQuietly when the mock does
     // throw an exception on flush.
     setupFlushable(true);
     Flushables.flushQuietly(mockFlushable);
   }
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     mockFlushable = createStrictMock(Flushable.class);
   }
 
   private void expectThrown() {
-    expectLastCall().andThrow(new IOException("This should only appear in the "
-        + "logs. It should not be rethrown."));
+    expectLastCall().andThrow(
+        new IOException("This should only appear in the " + "logs. It should not be rethrown."));
   }
 
   // Set up a flushable to expect to be flushed, and optionally to
@@ -95,8 +92,7 @@ public class FlushablesTest extends TestCase {
   // Flush the flushable using the Flushables, passing in the swallowException
   // parameter. expectThrown determines whether we expect an exception to
   // be thrown by Flushables.flush;
-  private void doFlush(Flushable flushable, boolean swallowException,
-      boolean expectThrown) {
+  private void doFlush(Flushable flushable, boolean swallowException, boolean expectThrown) {
     try {
       Flushables.flush(flushable, swallowException);
       if (expectThrown) {

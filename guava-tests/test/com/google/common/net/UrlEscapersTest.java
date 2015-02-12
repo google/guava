@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.net;
@@ -62,10 +60,10 @@ public class UrlEscapersTest extends TestCase {
     assertUnescaped(e, '.');
     assertUnescaped(e, '*');
 
-    assertEscaping(e, "%00", '\u0000');       // nul
-    assertEscaping(e, "%7F", '\u007f');       // del
-    assertEscaping(e, "%C2%80", '\u0080');    // xx-00010,x-000000
-    assertEscaping(e, "%DF%BF", '\u07ff');    // xx-11111,x-111111
+    assertEscaping(e, "%00", '\u0000'); // nul
+    assertEscaping(e, "%7F", '\u007f'); // del
+    assertEscaping(e, "%C2%80", '\u0080'); // xx-00010,x-000000
+    assertEscaping(e, "%DF%BF", '\u07ff'); // xx-11111,x-111111
     assertEscaping(e, "%E0%A0%80", '\u0800'); // xxx-0000,x-100000,x-00,0000
     assertEscaping(e, "%EF%BF%BF", '\uffff'); // xxx-1111,x-111111,x-11,1111
     assertUnicodeEscaping(e, "%F0%90%80%80", '\uD800', '\uDC00');

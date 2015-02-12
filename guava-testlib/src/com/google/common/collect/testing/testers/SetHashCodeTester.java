@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -39,8 +37,7 @@ public class SetHashCodeTester<E> extends AbstractSetTester<E> {
     for (E element : getSampleElements()) {
       expectedHashCode += ((element == null) ? 0 : element.hashCode());
     }
-    assertEquals(
-        "A Set's hashCode() should be the sum of those of its elements.",
+    assertEquals("A Set's hashCode() should be the sum of those of its elements.",
         expectedHashCode, getSet().hashCode());
   }
 
@@ -55,22 +52,19 @@ public class SetHashCodeTester<E> extends AbstractSetTester<E> {
 
     elements.add(null);
     collection = getSubjectGenerator().create(elements.toArray());
-    assertEquals(
-        "A Set's hashCode() should be the sum of those of its elements (with "
-            + "a null element counting as having a hash of zero).",
-        expectedHashCode, getSet().hashCode());
+    assertEquals("A Set's hashCode() should be the sum of those of its elements (with "
+        + "a null element counting as having a hash of zero).", expectedHashCode, getSet()
+        .hashCode());
   }
 
   /**
-   * Returns the {@link Method} instances for the test methods in this class
-   * which call {@code hashCode()} on the set values so that set tests on
-   * unhashable objects can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
+   * Returns the {@link Method} instances for the test methods in this class which call
+   * {@code hashCode()} on the set values so that set tests on unhashable objects can suppress it
+   * with {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
    */
   @GwtIncompatible("reflection")
   public static Method[] getHashCodeMethods() {
-    return new Method[]{
-        Helpers.getMethod(SetHashCodeTester.class, "testHashCode"),
-        Helpers.getMethod(SetHashCodeTester.class, "testHashCode_containingNull") };
+    return new Method[] {Helpers.getMethod(SetHashCodeTester.class, "testHashCode"),
+        Helpers.getMethod(SetHashCodeTester.class, "testHashCode_containingNull")};
   }
 }

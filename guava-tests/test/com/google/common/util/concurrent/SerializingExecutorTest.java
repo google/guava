@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -41,7 +39,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SerializingExecutorTest extends TestCase {
   private static class FakeExecutor implements Executor {
     Queue<Runnable> tasks = Queues.newArrayDeque();
-    @Override public void execute(Runnable command) {
+
+    @Override
+    public void execute(Runnable command) {
       tasks.add(command);
     }
 
@@ -60,6 +60,7 @@ public class SerializingExecutorTest extends TestCase {
       }
     }
   }
+
   private FakeExecutor fakePool;
   private SerializingExecutor e;
 
@@ -248,15 +249,15 @@ public class SerializingExecutorTest extends TestCase {
   public void testDelegateRejection() {
     final AtomicInteger numCalls = new AtomicInteger();
     final AtomicBoolean reject = new AtomicBoolean(true);
-    final SerializingExecutor executor = new SerializingExecutor(
-        new Executor() {
-          @Override public void execute(Runnable r) {
-            if (reject.get()) {
-              throw new RejectedExecutionException();
-            }
-            r.run();
-          }
-        });
+    final SerializingExecutor executor = new SerializingExecutor(new Executor() {
+      @Override
+      public void execute(Runnable r) {
+        if (reject.get()) {
+          throw new RejectedExecutionException();
+        }
+        r.run();
+      }
+    });
     Runnable task = new Runnable() {
       @Override
       public void run() {
@@ -266,7 +267,8 @@ public class SerializingExecutorTest extends TestCase {
     try {
       executor.execute(task);
       fail();
-    } catch (RejectedExecutionException expected) {}
+    } catch (RejectedExecutionException expected) {
+    }
     assertEquals(0, numCalls.get());
     reject.set(false);
     executor.execute(task);
@@ -274,7 +276,8 @@ public class SerializingExecutorTest extends TestCase {
   }
 
   public void testTaskThrowsError() throws Exception {
-    class MyError extends Error {}
+    class MyError extends Error {
+    }
     final CyclicBarrier barrier = new CyclicBarrier(2);
     // we need to make sure the error gets thrown on a different thread.
     ExecutorService service = Executors.newSingleThreadExecutor();
@@ -297,7 +300,7 @@ public class SerializingExecutorTest extends TestCase {
         }
       };
       executor.execute(errorTask);
-      service.execute(barrierTask);  // submit directly to the service
+      service.execute(barrierTask); // submit directly to the service
       // the barrier task runs after the error task so we know that the error has been observed by
       // SerializingExecutor by the time the barrier is satified
       barrier.await(10, TimeUnit.SECONDS);

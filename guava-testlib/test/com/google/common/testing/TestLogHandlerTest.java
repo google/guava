@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.testing;
@@ -32,7 +30,8 @@ public class TestLogHandlerTest extends TestCase {
   private TestLogHandler handler;
   private TearDownStack stack = new TearDownStack();
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     super.setUp();
 
     handler = new TestLogHandler();
@@ -71,7 +70,8 @@ public class TestLogHandlerTest extends TestCase {
     }
   }
 
-  @Override public final void runBare() throws Throwable {
+  @Override
+  public final void runBare() throws Throwable {
     try {
       setUp();
       runTest();
@@ -80,18 +80,18 @@ public class TestLogHandlerTest extends TestCase {
     }
   }
 
-  @Override protected void tearDown() {
+  @Override
+  protected void tearDown() {
     stack.runTearDown();
   }
 
   static final Exception EXCEPTION = new Exception();
 
   static class ExampleClassUnderTest {
-    static final Logger logger
-        = Logger.getLogger(ExampleClassUnderTest.class.getName());
+    static final Logger logger = Logger.getLogger(ExampleClassUnderTest.class.getName());
 
     static void foo() {
-      logger.log(Level.INFO,  "message", EXCEPTION);
+      logger.log(Level.INFO, "message", EXCEPTION);
     }
   }
 }

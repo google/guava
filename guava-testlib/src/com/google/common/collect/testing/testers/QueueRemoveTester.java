@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -29,13 +27,13 @@ import com.google.common.collect.testing.features.CollectionSize;
 import java.util.NoSuchElementException;
 
 /**
- * A generic JUnit test which tests {@code remove()} operations on a queue.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code remove()} operations on a queue. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Jared Levy
  */
-@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
+@SuppressWarnings("unchecked")
+// too many "unchecked generic array creations"
 @GwtCompatible
 public class QueueRemoveTester<E> extends AbstractQueueTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -44,23 +42,22 @@ public class QueueRemoveTester<E> extends AbstractQueueTester<E> {
     try {
       getQueue().remove();
       fail("emptyQueue.remove() should throw");
-    } catch (NoSuchElementException expected) {}
+    } catch (NoSuchElementException expected) {
+    }
     expectUnchanged();
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ONE)
   public void testRemove_size1() {
-    assertEquals("size1Queue.remove() should return first element",
-        e0(), getQueue().remove());
+    assertEquals("size1Queue.remove() should return first element", e0(), getQueue().remove());
     expectMissing(e0());
   }
 
   @CollectionFeature.Require({KNOWN_ORDER, SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testRemove_sizeMany() {
-    assertEquals("sizeManyQueue.remove() should return first element",
-        e0(), getQueue().remove());
+    assertEquals("sizeManyQueue.remove() should return first element", e0(), getQueue().remove());
     expectMissing(e0());
   }
 }

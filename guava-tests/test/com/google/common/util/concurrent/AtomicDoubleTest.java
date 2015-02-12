@@ -1,14 +1,13 @@
 /*
- * Written by Doug Lea and Martin Buchholz with assistance from
- * members of JCP JSR-166 Expert Group and released to the public
- * domain, as explained at
+ * Written by Doug Lea and Martin Buchholz with assistance from members of JCP JSR-166 Expert Group
+ * and released to the public domain, as explained at
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
 /*
  * Source:
- * http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/test/tck-jsr166e/AtomicDoubleTest.java?revision=1.8
- * (Modified to adapt to guava coding conventions)
+ * http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/test/tck-jsr166e/AtomicDoubleTest.
+ * java?revision=1.8 (Modified to adapt to guava coding conventions)
  */
 
 package com.google.common.util.concurrent;
@@ -20,26 +19,10 @@ import junit.framework.*;
  */
 public class AtomicDoubleTest extends JSR166TestCase {
 
-  private static final double[] VALUES = {
-    Double.NEGATIVE_INFINITY,
-    -Double.MAX_VALUE,
-    (double) Long.MIN_VALUE,
-    (double) Integer.MIN_VALUE,
-    -Math.PI,
-    -1.0,
-    -Double.MIN_VALUE,
-    -0.0,
-    +0.0,
-    Double.MIN_VALUE,
-    1.0,
-    Math.PI,
-    (double) Integer.MAX_VALUE,
-    (double) Long.MAX_VALUE,
-    Double.MAX_VALUE,
-    Double.POSITIVE_INFINITY,
-    Double.NaN,
-    Float.MAX_VALUE,
-  };
+  private static final double[] VALUES = {Double.NEGATIVE_INFINITY, -Double.MAX_VALUE,
+      (double) Long.MIN_VALUE, (double) Integer.MIN_VALUE, -Math.PI, -1.0, -Double.MIN_VALUE, -0.0,
+      +0.0, Double.MIN_VALUE, 1.0, Math.PI, (double) Integer.MAX_VALUE, (double) Long.MAX_VALUE,
+      Double.MAX_VALUE, Double.POSITIVE_INFINITY, Double.NaN, Float.MAX_VALUE,};
 
   /** The notion of equality used by AtomicDouble */
   static boolean bitEquals(double x, double y) {
@@ -47,8 +30,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
   }
 
   static void assertBitEquals(double x, double y) {
-    assertEquals(Double.doubleToRawLongBits(x),
-                 Double.doubleToRawLongBits(y));
+    assertEquals(Double.doubleToRawLongBits(x), Double.doubleToRawLongBits(y));
   }
 
   /**
@@ -111,18 +93,18 @@ public class AtomicDoubleTest extends JSR166TestCase {
   }
 
   /**
-   * compareAndSet in one thread enables another waiting for value
-   * to succeed
+   * compareAndSet in one thread enables another waiting for value to succeed
    */
 
-      public void testCompareAndSetInMultipleThreads() throws Exception {
+  public void testCompareAndSetInMultipleThreads() throws Exception {
     final AtomicDouble at = new AtomicDouble(1.0);
     Thread t = newStartedThread(new CheckedRunnable() {
-        public void realRun() {
-          while (!at.compareAndSet(2.0, 3.0)) {
-            Thread.yield();
-          }
-        }});
+      public void realRun() {
+        while (!at.compareAndSet(2.0, 3.0)) {
+          Thread.yield();
+        }
+      }
+    });
 
     assertTrue(at.compareAndSet(1.0, 2.0));
     awaitTermination(t);
@@ -130,8 +112,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
   }
 
   /**
-   * repeated weakCompareAndSet succeeds in changing value when equal
-   * to expected
+   * repeated weakCompareAndSet succeeds in changing value when equal to expected
    */
   public void testWeakCompareAndSet() {
     double prev = Math.E;

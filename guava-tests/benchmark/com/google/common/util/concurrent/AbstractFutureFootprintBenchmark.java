@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -34,16 +32,23 @@ import java.util.concurrent.Executor;
  */
 public class AbstractFutureFootprintBenchmark {
 
-  enum State { NOT_DONE, FINISHED, CANCELLED, FAILED}
+  enum State {
+    NOT_DONE, FINISHED, CANCELLED, FAILED
+  }
 
-  @Param State state;
-  @Param Impl impl;
-  @Param({"0", "1", "5", "10"}) int numListeners;
-  @Param({"0", "1", "5", "10"}) int numThreads;
+  @Param
+  State state;
+  @Param
+  Impl impl;
+  @Param({"0", "1", "5", "10"})
+  int numListeners;
+  @Param({"0", "1", "5", "10"})
+  int numThreads;
 
   private final Set<Thread> blockedThreads = new HashSet<>();
 
-  @BeforeExperiment void setUp() throws Exception {
+  @BeforeExperiment
+  void setUp() throws Exception {
     if (state != State.NOT_DONE && (numListeners != 0 || numThreads != 0)) {
       throw new SkipThisScenarioException();
     }
@@ -60,10 +65,12 @@ public class AbstractFutureFootprintBenchmark {
     final Facade<Object> f = impl.newFacade();
     for (int i = 0; i < numThreads; i++) {
       Thread thread = new Thread() {
-        @Override public void run() {
+        @Override
+        public void run() {
           try {
             f.get();
-          } catch (Throwable expected) {}
+          } catch (Throwable expected) {
+          }
         }
       };
       thread.start();

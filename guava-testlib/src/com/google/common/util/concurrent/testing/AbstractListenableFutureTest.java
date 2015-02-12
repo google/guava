@@ -1,16 +1,14 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License.  You may obtain a copy
- * of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
- * License for the specific language governing permissions and limitations under
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
 
@@ -31,8 +29,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Abstract test case parent for anything implementing {@link ListenableFuture}.
- * Tests the two get methods and the addListener method.
+ * Abstract test case parent for anything implementing {@link ListenableFuture}. Tests the two get
+ * methods and the addListener method.
  *
  * @author Sven Mawson
  * @since 10.0
@@ -59,15 +57,13 @@ public abstract class AbstractListenableFutureTest extends TestCase {
   }
 
   /**
-   * Constructs a listenable future with a value available after the latch
-   * has counted down.
+   * Constructs a listenable future with a value available after the latch has counted down.
    */
-  protected abstract <V> ListenableFuture<V> createListenableFuture(
-      V value, Exception except, CountDownLatch waitOn);
+  protected abstract <V> ListenableFuture<V> createListenableFuture(V value, Exception except,
+      CountDownLatch waitOn);
 
   /**
-   * Tests that the {@link Future#get()} method blocks until a value is
-   * available.
+   * Tests that the {@link Future#get()} method blocks until a value is available.
    */
   public void testGetBlocksUntilValueAvailable() throws Throwable {
 
@@ -88,7 +84,8 @@ public abstract class AbstractListenableFutureTest extends TestCase {
           t.printStackTrace();
           badness[0] = t;
         }
-      }}).start();
+      }
+    }).start();
 
     // Release the future value.
     latch.countDown();
@@ -104,11 +101,9 @@ public abstract class AbstractListenableFutureTest extends TestCase {
   }
 
   /**
-   * Tests that the {@link Future#get(long, TimeUnit)} method times out
-   * correctly.
+   * Tests that the {@link Future#get(long, TimeUnit)} method times out correctly.
    */
-  public void testTimeoutOnGetWorksCorrectly() throws InterruptedException,
-      ExecutionException {
+  public void testTimeoutOnGetWorksCorrectly() throws InterruptedException, ExecutionException {
 
     // The task thread waits for the latch, so we expect a timeout here.
     try {
@@ -201,13 +196,12 @@ public abstract class AbstractListenableFutureTest extends TestCase {
   }
 
   /**
-   * Tests that all listeners complete, even if they were added before or after
-   * the future was finishing.  Also acts as a concurrency test to make sure the
-   * locking is done correctly when a future is finishing so that no listeners
-   * can be lost.
+   * Tests that all listeners complete, even if they were added before or after the future was
+   * finishing. Also acts as a concurrency test to make sure the locking is done correctly when a
+   * future is finishing so that no listeners can be lost.
    */
-  public void testAllListenersCompleteSuccessfully()
-      throws InterruptedException, ExecutionException {
+  public void testAllListenersCompleteSuccessfully() throws InterruptedException,
+      ExecutionException {
 
     ExecutorService exec = Executors.newCachedThreadPool();
 

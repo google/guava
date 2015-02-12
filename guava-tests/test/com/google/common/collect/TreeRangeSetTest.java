@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -95,8 +95,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     CUTS_TO_TEST = ImmutableList.copyOf(cutsToTest);
   }
 
-  private void testRangesByLowerBounds(
-      TreeRangeSet<Integer> rangeSet, Iterable<Range<Integer>> expectedRanges) {
+  private void testRangesByLowerBounds(TreeRangeSet<Integer> rangeSet,
+      Iterable<Range<Integer>> expectedRanges) {
     NavigableMap<Cut<Integer>, Range<Integer>> expectedRangesByLowerBound = Maps.newTreeMap();
     for (Range<Integer> range : expectedRanges) {
       expectedRangesByLowerBound.put(range.lowerBound, range);
@@ -106,20 +106,18 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     testNavigationAgainstExpected(expectedRangesByLowerBound, rangesByLowerBound, CUTS_TO_TEST);
   }
 
-  <K, V> void testNavigationAgainstExpected(
-      NavigableMap<K, V> expected, NavigableMap<K, V> navigableMap, Iterable<K> keysToTest) {
+  <K, V> void testNavigationAgainstExpected(NavigableMap<K, V> expected,
+      NavigableMap<K, V> navigableMap, Iterable<K> keysToTest) {
     for (K key : keysToTest) {
       assertEquals(expected.lowerEntry(key), navigableMap.lowerEntry(key));
       assertEquals(expected.floorEntry(key), navigableMap.floorEntry(key));
       assertEquals(expected.ceilingEntry(key), navigableMap.ceilingEntry(key));
       assertEquals(expected.higherEntry(key), navigableMap.higherEntry(key));
       for (boolean inclusive : new boolean[] {false, true}) {
-        assertThat(navigableMap.headMap(key, inclusive).entrySet())
-            .containsExactlyElementsIn(expected.headMap(key, inclusive).entrySet())
-            .inOrder();
-        assertThat(navigableMap.tailMap(key, inclusive).entrySet())
-            .containsExactlyElementsIn(expected.tailMap(key, inclusive).entrySet())
-            .inOrder();
+        assertThat(navigableMap.headMap(key, inclusive).entrySet()).containsExactlyElementsIn(
+            expected.headMap(key, inclusive).entrySet()).inOrder();
+        assertThat(navigableMap.tailMap(key, inclusive).entrySet()).containsExactlyElementsIn(
+            expected.tailMap(key, inclusive).entrySet()).inOrder();
         assertThat(navigableMap.headMap(key, inclusive).descendingMap().entrySet())
             .containsExactlyElementsIn(expected.headMap(key, inclusive).descendingMap().entrySet())
             .inOrder();
@@ -155,8 +153,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       complement.remove(range);
 
       assertEquals(complement, rangeSet.complement());
-      assertThat(rangeSet.complement().asRanges())
-          .containsExactlyElementsIn(complement.asRanges())
+      assertThat(rangeSet.complement().asRanges()).containsExactlyElementsIn(complement.asRanges())
           .inOrder();
     }
   }
@@ -198,8 +195,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
-  private RangeSet<Integer> expectedSubRangeSet(
-      RangeSet<Integer> rangeSet, Range<Integer> subRange) {
+  private RangeSet<Integer> expectedSubRangeSet(RangeSet<Integer> rangeSet, Range<Integer> subRange) {
     RangeSet<Integer> expected = TreeRangeSet.create();
     for (Range<Integer> range : rangeSet.asRanges()) {
       if (range.isConnected(subRange)) {
@@ -223,8 +219,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
         rangeSet.add(range1);
         rangeSet.add(range2);
         for (Range<Integer> subRange : QUERY_RANGES) {
-          testViewAgainstExpected(
-              expectedSubRangeSet(rangeSet, subRange), rangeSet.subRangeSet(subRange));
+          testViewAgainstExpected(expectedSubRangeSet(rangeSet, subRange),
+              rangeSet.subRangeSet(subRange));
         }
       }
     }
@@ -248,8 +244,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
         rangeSet.add(range1);
         rangeSet.add(range2);
         for (Range<Integer> subRange : QUERY_RANGES) {
-          testViewAgainstExpected(
-              expectedSubRangeSet(expectedComplement(rangeSet), subRange),
+          testViewAgainstExpected(expectedSubRangeSet(expectedComplement(rangeSet), subRange),
               rangeSet.complement().subRangeSet(subRange));
         }
       }
@@ -263,8 +258,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
         rangeSet.add(range1);
         rangeSet.add(range2);
         for (Range<Integer> subRange : QUERY_RANGES) {
-          testViewAgainstExpected(
-              expectedComplement(expectedSubRangeSet(rangeSet, subRange)),
+          testViewAgainstExpected(expectedComplement(expectedSubRangeSet(rangeSet, subRange)),
               rangeSet.subRangeSet(subRange).complement());
         }
       }
@@ -283,8 +277,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
           expectedRangesByUpperBound.put(range.upperBound, range);
         }
         testNavigationAgainstExpected(expectedRangesByUpperBound,
-            new TreeRangeSet.RangesByUpperBound<Integer>(rangeSet.rangesByLowerBound),
-            CUTS_TO_TEST);
+            new TreeRangeSet.RangesByUpperBound<Integer>(rangeSet.rangesByLowerBound), CUTS_TO_TEST);
       }
     }
   }
@@ -295,9 +288,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.open(2, 6));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closedOpen(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.atLeast(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.atLeast(6)).inOrder();
   }
 
   public void testMergesConnectedDisjoint() {
@@ -306,9 +298,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.open(4, 6));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closedOpen(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.atLeast(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.atLeast(6)).inOrder();
   }
 
   public void testIgnoresSmallerSharingNoBound() {
@@ -317,9 +308,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.open(2, 4));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closed(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.greaterThan(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.greaterThan(6)).inOrder();
   }
 
   public void testIgnoresSmallerSharingLowerBound() {
@@ -328,9 +318,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 4));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closed(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.greaterThan(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.greaterThan(6)).inOrder();
   }
 
   public void testIgnoresSmallerSharingUpperBound() {
@@ -339,9 +328,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closed(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.greaterThan(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.greaterThan(6)).inOrder();
   }
 
   public void testIgnoresEqual() {
@@ -350,9 +338,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closed(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.greaterThan(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.greaterThan(6)).inOrder();
   }
 
   public void testExtendSameLowerBound() {
@@ -361,9 +348,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closed(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.greaterThan(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.greaterThan(6)).inOrder();
   }
 
   public void testExtendSameUpperBound() {
@@ -372,9 +358,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closed(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.greaterThan(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.greaterThan(6)).inOrder();
   }
 
   public void testExtendBothDirections() {
@@ -383,9 +368,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closed(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.greaterThan(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.greaterThan(6)).inOrder();
   }
 
   public void testAddEmpty() {
@@ -403,9 +387,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closedOpen(3, 4));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closedOpen(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.atLeast(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.atLeast(6)).inOrder();
   }
 
   public void testFillHoleWithOverlap() {
@@ -415,9 +398,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closedOpen(2, 5));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closedOpen(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.atLeast(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.atLeast(6)).inOrder();
   }
 
   public void testAddManyPairs() {
@@ -474,9 +456,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.remove(Range.closedOpen(3, 3));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.closed(1, 6));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(1), Range.greaterThan(6))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(1),
+        Range.greaterThan(6)).inOrder();
   }
 
   public void testRemovePartSharingLowerBound() {
@@ -485,9 +466,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.remove(Range.closedOpen(3, 5));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.singleton(5));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(5), Range.greaterThan(5))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(5),
+        Range.greaterThan(5)).inOrder();
   }
 
   public void testRemovePartSharingUpperBound() {
@@ -496,9 +476,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.remove(Range.openClosed(3, 5));
     testInvariants(rangeSet);
     assertThat(rangeSet.asRanges()).contains(Range.singleton(3));
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.lessThan(3), Range.greaterThan(3))
-        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.lessThan(3),
+        Range.greaterThan(3)).inOrder();
   }
 
   public void testRemoveMiddle() {
@@ -506,10 +485,10 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.atMost(6));
     rangeSet.remove(Range.closedOpen(3, 4));
     testInvariants(rangeSet);
-    assertThat(rangeSet.asRanges())
-        .containsExactly(Range.lessThan(3), Range.closed(4, 6)).inOrder();
-    assertThat(rangeSet.complement().asRanges())
-        .containsExactly(Range.closedOpen(3, 4), Range.greaterThan(6)).inOrder();
+    assertThat(rangeSet.asRanges()).containsExactly(Range.lessThan(3), Range.closed(4, 6))
+        .inOrder();
+    assertThat(rangeSet.complement().asRanges()).containsExactly(Range.closedOpen(3, 4),
+        Range.greaterThan(6)).inOrder();
   }
 
   public void testRemoveNoOverlap() {

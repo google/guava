@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2006 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -39,17 +37,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
-* Collection future.
-*/
+ * Collection future.
+ */
 @GwtCompatible(emulated = true)
 final class CollectionFuture<V, C> extends AbstractFuture.TrustedFuture<C> {
-  private static final Logger logger =
-      Logger.getLogger(CollectionFuture.class.getName());
+  private static final Logger logger = Logger.getLogger(CollectionFuture.class.getName());
 
   @SuppressWarnings({"rawtypes", "unchecked"})
-  private static final AtomicReferenceFieldUpdater<CollectionFuture<?, ?>, Set<Throwable>>
-      SEEN_EXCEPTIONS_UDPATER = newUpdater(
-          (Class) CollectionFuture.class, (Class) Set.class, "seenExceptions");
+  private static final AtomicReferenceFieldUpdater<CollectionFuture<?, ?>, Set<Throwable>> SEEN_EXCEPTIONS_UDPATER =
+      newUpdater((Class) CollectionFuture.class, (Class) Set.class, "seenExceptions");
 
   private ImmutableCollection<? extends ListenableFuture<? extends V>> futures;
   private final boolean allMustSucceed;
@@ -58,10 +54,8 @@ final class CollectionFuture<V, C> extends AbstractFuture.TrustedFuture<C> {
   private List<Optional<V>> values;
   private volatile Set<Throwable> seenExceptions;
 
-  CollectionFuture(
-      ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
-      boolean allMustSucceed, Executor listenerExecutor,
-      FutureCollector<V, C> combiner) {
+  CollectionFuture(ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
+      boolean allMustSucceed, Executor listenerExecutor, FutureCollector<V, C> combiner) {
     Preconditions.checkNotNull(futures);
     Preconditions.checkNotNull(listenerExecutor);
     Preconditions.checkNotNull(combiner);
@@ -74,7 +68,8 @@ final class CollectionFuture<V, C> extends AbstractFuture.TrustedFuture<C> {
     init(listenerExecutor);
   }
 
-  @Override void done() {
+  @Override
+  void done() {
     // Let go of the memory held by other futures
     this.futures = null;
 
@@ -137,10 +132,10 @@ final class CollectionFuture<V, C> extends AbstractFuture.TrustedFuture<C> {
   }
 
   /**
-   * Fails this future with the given Throwable if {@link #allMustSucceed} is
-   * true. Also, logs the throwable if it is an {@link Error} or if
-   * {@link #allMustSucceed} is {@code true}, the throwable did not cause
-   * this future to fail, and it is the first time we've seen that particular Throwable.
+   * Fails this future with the given Throwable if {@link #allMustSucceed} is true. Also, logs the
+   * throwable if it is an {@link Error} or if {@link #allMustSucceed} is {@code true}, the
+   * throwable did not cause this future to fail, and it is the first time we've seen that
+   * particular Throwable.
    */
   private void setExceptionAndMaybeLog(Throwable throwable) {
     boolean visibleFromOutputFuture = false;
@@ -190,8 +185,7 @@ final class CollectionFuture<V, C> extends AbstractFuture.TrustedFuture<C> {
     }
 
     try {
-      checkState(future.isDone(),
-          "Tried to set value from future which is not done");
+      checkState(future.isDone(), "Tried to set value from future which is not done");
       if (future.isCancelled()) {
         if (allMustSucceed) {
           // this.cancel propagates the cancellation to children; we use super.cancel

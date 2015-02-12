@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2013 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -36,7 +36,8 @@ public final class HashingInputStream extends FilterInputStream {
    * Creates an input stream that hashes using the given {@link HashFunction} and delegates all data
    * read from it to the underlying {@link InputStream}.
    *
-   * <p>The {@link InputStream} should not be read from before or after the hand-off.
+   * <p>
+   * The {@link InputStream} should not be read from before or after the hand-off.
    */
   public HashingInputStream(HashFunction hashFunction, InputStream in) {
     super(checkNotNull(in));
@@ -44,8 +45,8 @@ public final class HashingInputStream extends FilterInputStream {
   }
 
   /**
-   * Reads the next byte of data from the underlying input stream and updates the hasher with
-   * the byte read.
+   * Reads the next byte of data from the underlying input stream and updates the hasher with the
+   * byte read.
    */
   @Override
   public int read() throws IOException {
@@ -71,6 +72,7 @@ public final class HashingInputStream extends FilterInputStream {
 
   /**
    * mark() is not supported for HashingInputStream
+   * 
    * @return {@code false} always
    */
   @Override
@@ -86,6 +88,7 @@ public final class HashingInputStream extends FilterInputStream {
 
   /**
    * reset() is not supported for HashingInputStream.
+   * 
    * @throws IOException this operation is not supported
    */
   @Override
@@ -94,8 +97,8 @@ public final class HashingInputStream extends FilterInputStream {
   }
 
   /**
-   * Returns the {@link HashCode} based on the data read from this stream. The result is
-   * unspecified if this method is called more than once on the same instance.
+   * Returns the {@link HashCode} based on the data read from this stream. The result is unspecified
+   * if this method is called more than once on the same instance.
    */
   public HashCode hash() {
     return hasher.hash();

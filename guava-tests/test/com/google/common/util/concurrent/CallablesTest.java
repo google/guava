@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -49,7 +47,8 @@ public class CallablesTest extends TestCase {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
     Callable<Void> callable = new Callable<Void>() {
-      @Override public Void call() throws Exception {
+      @Override
+      public Void call() throws Exception {
         assertEquals(Thread.currentThread().getName(), newName.get());
         return null;
       }
@@ -62,9 +61,11 @@ public class CallablesTest extends TestCase {
   public void testRenaming_exceptionalReturn() throws Exception {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
-    class MyException extends Exception {}
+    class MyException extends Exception {
+    }
     Callable<Void> callable = new Callable<Void>() {
-      @Override public Void call() throws Exception {
+      @Override
+      public Void call() throws Exception {
         assertEquals(Thread.currentThread().getName(), newName.get());
         throw new MyException();
       }
@@ -72,18 +73,21 @@ public class CallablesTest extends TestCase {
     try {
       Callables.threadRenaming(callable, newName).call();
       fail();
-    } catch (MyException expected) {}
+    } catch (MyException expected) {
+    }
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
   @GwtIncompatible("threads")
-
   public void testRenaming_noPermissions() throws Exception {
     System.setSecurityManager(new SecurityManager() {
-      @Override public void checkAccess(Thread t) {
+      @Override
+      public void checkAccess(Thread t) {
         throw new SecurityException();
       }
-      @Override public void checkPermission(Permission perm) {
+
+      @Override
+      public void checkPermission(Permission perm) {
         // Do nothing so we can clear the security manager at the end
       }
     });
@@ -91,7 +95,8 @@ public class CallablesTest extends TestCase {
       final String oldName = Thread.currentThread().getName();
       Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
       Callable<Void> callable = new Callable<Void>() {
-        @Override public Void call() throws Exception {
+        @Override
+        public Void call() throws Exception {
           assertEquals(Thread.currentThread().getName(), oldName);
           return null;
         }

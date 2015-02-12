@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -37,8 +35,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * A series of tests that support asserting that collections cannot be
- * modified, either through direct or indirect means.
+ * A series of tests that support asserting that collections cannot be modified, either through
+ * direct or indirect means.
  *
  * @author Robert Konigsberg
  */
@@ -56,7 +54,8 @@ public class UnmodifiableCollectionTests {
   /**
    * Verifies that an Iterator is unmodifiable.
    *
-   * <p>This test only works with iterators that iterate over a finite set.
+   * <p>
+   * This test only works with iterators that iterate over a finite set.
    */
   public static void assertIteratorIsUnmodifiable(Iterator<?> iterator) {
     while (iterator.hasNext()) {
@@ -72,47 +71,43 @@ public class UnmodifiableCollectionTests {
   /**
    * Asserts that two iterators contain elements in tandem.
    *
-   * <p>This test only works with iterators that iterate over a finite set.
+   * <p>
+   * This test only works with iterators that iterate over a finite set.
    */
-  public static void assertIteratorsInOrder(
-      Iterator<?> expectedIterator, Iterator<?> actualIterator) {
+  public static void assertIteratorsInOrder(Iterator<?> expectedIterator, Iterator<?> actualIterator) {
     int i = 0;
     while (expectedIterator.hasNext()) {
       Object expected = expectedIterator.next();
 
-      assertTrue(
-          "index " + i + " expected <" + expected + "., actual is exhausted",
-        actualIterator.hasNext());
+      assertTrue("index " + i + " expected <" + expected + "., actual is exhausted",
+          actualIterator.hasNext());
 
       Object actual = actualIterator.next();
       assertEquals("index " + i, expected, actual);
       i++;
     }
     if (actualIterator.hasNext()) {
-      fail("index " + i
-          + ", expected is exhausted, actual <" + actualIterator.next() + ">");
+      fail("index " + i + ", expected is exhausted, actual <" + actualIterator.next() + ">");
     }
   }
 
   /**
    * Verifies that a collection is immutable.
    *
-   * <p>A collection is considered immutable if:
+   * <p>
+   * A collection is considered immutable if:
    * <ol>
-   * <li>All its mutation methods result in UnsupportedOperationException, and
-   * do not change the underlying contents.
-   * <li>All methods that return objects that can indirectly mutate the
-   * collection throw UnsupportedOperationException when those mutators
-   * are called.
+   * <li>All its mutation methods result in UnsupportedOperationException, and do not change the
+   * underlying contents.
+   * <li>All methods that return objects that can indirectly mutate the collection throw
+   * UnsupportedOperationException when those mutators are called.
    * </ol>
    *
    * @param collection the presumed-immutable collection
-   * @param sampleElement an element of the same type as that contained by
-   * {@code collection}. {@code collection} may or may not have {@code
-   * sampleElement} as a member.
+   * @param sampleElement an element of the same type as that contained by {@code collection}.
+   *        {@code collection} may or may not have {@code sampleElement} as a member.
    */
-  public static <E> void assertCollectionIsUnmodifiable(
-      Collection<E> collection, E sampleElement) {
+  public static <E> void assertCollectionIsUnmodifiable(Collection<E> collection, E sampleElement) {
     Collection<E> siblingCollection = new ArrayList<E>();
     siblingCollection.add(sampleElement);
     Collection<E> copy = new ArrayList<E>();
@@ -167,44 +162,40 @@ public class UnmodifiableCollectionTests {
   /**
    * Verifies that a set is immutable.
    *
-   * <p>A set is considered immutable if:
+   * <p>
+   * A set is considered immutable if:
    * <ol>
-   * <li>All its mutation methods result in UnsupportedOperationException, and
-   * do not change the underlying contents.
-   * <li>All methods that return objects that can indirectly mutate the
-   * set throw UnsupportedOperationException when those mutators
-   * are called.
+   * <li>All its mutation methods result in UnsupportedOperationException, and do not change the
+   * underlying contents.
+   * <li>All methods that return objects that can indirectly mutate the set throw
+   * UnsupportedOperationException when those mutators are called.
    * </ol>
    *
    * @param set the presumed-immutable set
-   * @param sampleElement an element of the same type as that contained by
-   * {@code set}. {@code set} may or may not have {@code sampleElement} as a
-   * member.
+   * @param sampleElement an element of the same type as that contained by {@code set}. {@code set}
+   *        may or may not have {@code sampleElement} as a member.
    */
-  public static <E> void assertSetIsUnmodifiable(
-      Set<E> set, E sampleElement) {
+  public static <E> void assertSetIsUnmodifiable(Set<E> set, E sampleElement) {
     assertCollectionIsUnmodifiable(set, sampleElement);
   }
 
   /**
    * Verifies that a multiset is immutable.
    *
-   * <p>A multiset is considered immutable if:
+   * <p>
+   * A multiset is considered immutable if:
    * <ol>
-   * <li>All its mutation methods result in UnsupportedOperationException, and
-   * do not change the underlying contents.
-   * <li>All methods that return objects that can indirectly mutate the
-   * multiset throw UnsupportedOperationException when those mutators
-   * are called.
+   * <li>All its mutation methods result in UnsupportedOperationException, and do not change the
+   * underlying contents.
+   * <li>All methods that return objects that can indirectly mutate the multiset throw
+   * UnsupportedOperationException when those mutators are called.
    * </ol>
    *
    * @param multiset the presumed-immutable multiset
-   * @param sampleElement an element of the same type as that contained by
-   * {@code multiset}. {@code multiset} may or may not have {@code
-   * sampleElement} as a member.
+   * @param sampleElement an element of the same type as that contained by {@code multiset}.
+   *        {@code multiset} may or may not have {@code sampleElement} as a member.
    */
-  public static <E> void assertMultisetIsUnmodifiable(Multiset<E> multiset,
-      final E sampleElement) {
+  public static <E> void assertMultisetIsUnmodifiable(Multiset<E> multiset, final E sampleElement) {
     Multiset<E> copy = LinkedHashMultiset.create(multiset);
     assertCollectionsAreEquivalent(multiset, copy);
 
@@ -232,42 +223,40 @@ public class UnmodifiableCollectionTests {
     assertSetIsUnmodifiable(multiset.elementSet(), sampleElement);
     assertCollectionsAreEquivalent(multiset, copy);
 
-    assertSetIsUnmodifiable(
-      multiset.entrySet(), new Multiset.Entry<E>() {
-        @Override
-        public int getCount() {
-          return 1;
-        }
+    assertSetIsUnmodifiable(multiset.entrySet(), new Multiset.Entry<E>() {
+      @Override
+      public int getCount() {
+        return 1;
+      }
 
-        @Override
-        public E getElement() {
-          return sampleElement;
-        }
-      });
+      @Override
+      public E getElement() {
+        return sampleElement;
+      }
+    });
     assertCollectionsAreEquivalent(multiset, copy);
   }
 
   /**
    * Verifies that a multimap is immutable.
    *
-   * <p>A multimap is considered immutable if:
+   * <p>
+   * A multimap is considered immutable if:
    * <ol>
-   * <li>All its mutation methods result in UnsupportedOperationException, and
-   * do not change the underlying contents.
-   * <li>All methods that return objects that can indirectly mutate the
-   * multimap throw UnsupportedOperationException when those mutators
+   * <li>All its mutation methods result in UnsupportedOperationException, and do not change the
+   * underlying contents.
+   * <li>All methods that return objects that can indirectly mutate the multimap throw
+   * UnsupportedOperationException when those mutators
    * </ol>
    *
    * @param multimap the presumed-immutable multimap
-   * @param sampleKey a key of the same type as that contained by
-   * {@code multimap}. {@code multimap} may or may not have {@code sampleKey} as
-   * a key.
-   * @param sampleValue a key of the same type as that contained by
-   * {@code multimap}. {@code multimap} may or may not have {@code sampleValue}
-   * as a key.
+   * @param sampleKey a key of the same type as that contained by {@code multimap}. {@code multimap}
+   *        may or may not have {@code sampleKey} as a key.
+   * @param sampleValue a key of the same type as that contained by {@code multimap}.
+   *        {@code multimap} may or may not have {@code sampleValue} as a key.
    */
-  public static <K, V> void assertMultimapIsUnmodifiable(
-      Multimap<K, V> multimap, final K sampleKey, final V sampleValue) {
+  public static <K, V> void assertMultimapIsUnmodifiable(Multimap<K, V> multimap,
+      final K sampleKey, final V sampleValue) {
     List<Entry<K, V>> originalEntries =
         Collections.unmodifiableList(Lists.newArrayList(multimap.entries()));
 
@@ -285,24 +274,20 @@ public class UnmodifiableCollectionTests {
     assertMultimapRemainsUnmodified(multimap, originalEntries);
 
     // Test asMap().entrySet()
-    assertSetIsUnmodifiable(
-      multimap.asMap().entrySet(),
-      Maps.immutableEntry(sampleKey, sampleValueAsCollection));
+    assertSetIsUnmodifiable(multimap.asMap().entrySet(),
+        Maps.immutableEntry(sampleKey, sampleValueAsCollection));
 
     // Test #values()
 
     assertMultimapRemainsUnmodified(multimap, originalEntries);
     if (!multimap.isEmpty()) {
-      Collection<V> values =
-          multimap.asMap().entrySet().iterator().next().getValue();
+      Collection<V> values = multimap.asMap().entrySet().iterator().next().getValue();
 
       assertCollectionIsUnmodifiable(values, sampleValue);
     }
 
     // Test #entries()
-    assertCollectionIsUnmodifiable(
-      multimap.entries(),
-      Maps.immutableEntry(sampleKey, sampleValue));
+    assertCollectionIsUnmodifiable(multimap.entries(), Maps.immutableEntry(sampleKey, sampleValue));
     assertMultimapRemainsUnmodified(multimap, originalEntries);
 
     // Iterate over every element in the entry set
@@ -395,15 +380,13 @@ public class UnmodifiableCollectionTests {
 
       try {
         multimap.asMap().values().iterator().next().remove(sampleValue);
-        fail("asMap().values().iterator().next().remove() succeeded on " +
-                "unmodifiable multimap");
+        fail("asMap().values().iterator().next().remove() succeeded on " + "unmodifiable multimap");
       } catch (UnsupportedOperationException expected) {
       }
 
       try {
         ((Collection<?>) multimap.asMap().values().toArray()[0]).clear();
-        fail("asMap().values().toArray()[0].clear() succeeded on " +
-                "unmodifiable multimap");
+        fail("asMap().values().toArray()[0].clear() succeeded on " + "unmodifiable multimap");
       } catch (UnsupportedOperationException expected) {
       }
     }
@@ -412,14 +395,13 @@ public class UnmodifiableCollectionTests {
     assertMultimapRemainsUnmodified(multimap, originalEntries);
   }
 
-  private static <E> void assertCollectionsAreEquivalent(
-      Collection<E> expected, Collection<E> actual) {
+  private static <E> void assertCollectionsAreEquivalent(Collection<E> expected,
+      Collection<E> actual) {
     assertIteratorsInOrder(expected.iterator(), actual.iterator());
   }
 
-  private static <K, V> void assertMultimapRemainsUnmodified(
-      Multimap<K, V> expected, List<Entry<K, V>> actual) {
-    assertIteratorsInOrder(
-      expected.entries().iterator(), actual.iterator());
+  private static <K, V> void assertMultimapRemainsUnmodified(Multimap<K, V> expected,
+      List<Entry<K, V>> actual) {
+    assertIteratorsInOrder(expected.entries().iterator(), actual.iterator());
   }
 }

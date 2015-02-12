@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.hash;
@@ -42,12 +40,12 @@ import java.util.Random;
 public class AbstractStreamingHasherTest extends TestCase {
   public void testBytes() {
     Sink sink = new Sink(4); // byte order insignificant here
-    byte[] expected = { 1, 2, 3, 4, 5, 6, 7, 8 };
+    byte[] expected = {1, 2, 3, 4, 5, 6, 7, 8};
     sink.putByte((byte) 1);
-    sink.putBytes(new byte[] { 2, 3, 4, 5, 6 });
+    sink.putBytes(new byte[] {2, 3, 4, 5, 6});
     sink.putByte((byte) 7);
     sink.putBytes(new byte[] {});
-    sink.putBytes(new byte[] { 8 });
+    sink.putBytes(new byte[] {8});
     sink.hash();
     sink.assertInvariants(8);
     sink.assertBytes(expected);
@@ -58,7 +56,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     sink.putShort((short) 0x0201);
     sink.hash();
     sink.assertInvariants(2);
-    sink.assertBytes(new byte[] { 1, 2, 0, 0 }); // padded with zeros
+    sink.assertBytes(new byte[] {1, 2, 0, 0}); // padded with zeros
   }
 
   public void testInt() {
@@ -66,7 +64,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     sink.putInt(0x04030201);
     sink.hash();
     sink.assertInvariants(4);
-    sink.assertBytes(new byte[] { 1, 2, 3, 4 });
+    sink.assertBytes(new byte[] {1, 2, 3, 4});
   }
 
   public void testLong() {
@@ -74,7 +72,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     sink.putLong(0x0807060504030201L);
     sink.hash();
     sink.assertInvariants(8);
-    sink.assertBytes(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+    sink.assertBytes(new byte[] {1, 2, 3, 4, 5, 6, 7, 8});
   }
 
   public void testChar() {
@@ -82,7 +80,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     sink.putChar((char) 0x0201);
     sink.hash();
     sink.assertInvariants(2);
-    sink.assertBytes(new byte[] { 1, 2, 0, 0  }); // padded with zeros
+    sink.assertBytes(new byte[] {1, 2, 0, 0}); // padded with zeros
   }
 
   public void testString() {
@@ -91,12 +89,10 @@ public class AbstractStreamingHasherTest extends TestCase {
       byte[] bytes = new byte[64];
       random.nextBytes(bytes);
       String s = new String(bytes, UTF_16LE); // so all random strings are valid
-      assertEquals(
-          new Sink(4).putUnencodedChars(s).hash(),
+      assertEquals(new Sink(4).putUnencodedChars(s).hash(),
           new Sink(4).putBytes(s.getBytes(UTF_16LE)).hash());
-      assertEquals(
-          new Sink(4).putUnencodedChars(s).hash(),
-          new Sink(4).putString(s, UTF_16LE).hash());
+      assertEquals(new Sink(4).putUnencodedChars(s).hash(), new Sink(4).putString(s, UTF_16LE)
+          .hash());
     }
   }
 
@@ -105,7 +101,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     sink.putFloat(Float.intBitsToFloat(0x04030201));
     sink.hash();
     sink.assertInvariants(4);
-    sink.assertBytes(new byte[] { 1, 2, 3, 4 });
+    sink.assertBytes(new byte[] {1, 2, 3, 4});
   }
 
   public void testDouble() {
@@ -113,7 +109,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     sink.putDouble(Double.longBitsToDouble(0x0807060504030201L));
     sink.hash();
     sink.assertInvariants(8);
-    sink.assertBytes(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+    sink.assertBytes(new byte[] {1, 2, 3, 4, 5, 6, 7, 8});
   }
 
   public void testCorrectExceptions() {
@@ -121,21 +117,24 @@ public class AbstractStreamingHasherTest extends TestCase {
     try {
       sink.putBytes(new byte[8], -1, 4);
       fail();
-    } catch (IndexOutOfBoundsException ok) {}
+    } catch (IndexOutOfBoundsException ok) {
+    }
     try {
       sink.putBytes(new byte[8], 0, 16);
       fail();
-    } catch (IndexOutOfBoundsException ok) {}
+    } catch (IndexOutOfBoundsException ok) {
+    }
     try {
       sink.putBytes(new byte[8], 0, -1);
       fail();
-    } catch (IndexOutOfBoundsException ok) {}
+    } catch (IndexOutOfBoundsException ok) {
+    }
   }
 
   /**
-   * This test creates a long random sequence of inputs, then a lot of differently configured
-   * sinks process it; all should produce the same answer, the only difference should be the
-   * number of process()/processRemaining() invocations, due to alignment.
+   * This test creates a long random sequence of inputs, then a lot of differently configured sinks
+   * process it; all should produce the same answer, the only difference should be the number of
+   * process()/processRemaining() invocations, due to alignment.
    */
   public void testExhaustive() throws Exception {
     Random random = new Random(0); // will iteratively make more debuggable, each time it breaks
@@ -198,11 +197,13 @@ public class AbstractStreamingHasherTest extends TestCase {
       this.bufferSize = chunkSize;
     }
 
-    @Override HashCode makeHash() {
+    @Override
+    HashCode makeHash() {
       return HashCode.fromBytes(out.toByteArray());
     }
 
-    @Override protected void process(ByteBuffer bb) {
+    @Override
+    protected void process(ByteBuffer bb) {
       processCalled++;
       assertEquals(ByteOrder.LITTLE_ENDIAN, bb.order());
       assertTrue(bb.remaining() >= chunkSize);
@@ -211,7 +212,8 @@ public class AbstractStreamingHasherTest extends TestCase {
       }
     }
 
-    @Override protected void processRemaining(ByteBuffer bb) {
+    @Override
+    protected void processRemaining(ByteBuffer bb) {
       assertFalse(remainingCalled);
       remainingCalled = true;
       assertEquals(ByteOrder.LITTLE_ENDIAN, bb.order());

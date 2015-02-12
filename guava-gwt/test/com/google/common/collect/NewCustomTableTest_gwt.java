@@ -1,164 +1,189 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.google.common.collect;
+
 public class NewCustomTableTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
-@Override public String getModuleName() {
-  return "com.google.common.collect.testModule";
-}
-public void testClear() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testClear();
-}
+  @Override
+  public String getModuleName() {
+    return "com.google.common.collect.testModule";
+  }
 
-public void testColumn() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testColumn();
-}
+  public void testClear() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testClear();
+  }
 
-public void testColumnNull() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testColumnNull();
-}
+  public void testColumn() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testColumn();
+  }
 
-public void testColumnSetPartialOverlap() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testColumnSetPartialOverlap();
-}
+  public void testColumnNull() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testColumnNull();
+  }
 
-public void testContains() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testContains();
-}
+  public void testColumnSetPartialOverlap() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testColumnSetPartialOverlap();
+  }
 
-public void testContainsColumn() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testContainsColumn();
-}
+  public void testContains() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testContains();
+  }
 
-public void testContainsRow() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testContainsRow();
-}
+  public void testContainsColumn() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testContainsColumn();
+  }
 
-public void testContainsValue() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testContainsValue();
-}
+  public void testContainsRow() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testContainsRow();
+  }
 
-public void testEquals() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testEquals();
-}
+  public void testContainsValue() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testContainsValue();
+  }
 
-public void testGet() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testGet();
-}
+  public void testEquals() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testEquals();
+  }
 
-public void testHashCode() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testHashCode();
-}
+  public void testGet() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testGet();
+  }
 
-public void testIsEmpty() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testIsEmpty();
-}
+  public void testHashCode() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testHashCode();
+  }
 
-public void testPut() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testPut();
-}
+  public void testIsEmpty() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testIsEmpty();
+  }
 
-public void testPutAllTable() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testPutAllTable();
-}
+  public void testPut() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testPut();
+  }
 
-public void testPutNull() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testPutNull();
-}
+  public void testPutAllTable() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testPutAllTable();
+  }
 
-public void testPutNullReplace() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testPutNullReplace();
-}
+  public void testPutNull() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testPutNull();
+  }
 
-public void testRemove() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testRemove();
-}
+  public void testPutNullReplace() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testPutNullReplace();
+  }
 
-public void testRow() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testRow();
-}
+  public void testRemove() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testRemove();
+  }
 
-public void testRowClearAndPut() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testRowClearAndPut();
-}
+  public void testRow() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testRow();
+  }
 
-public void testRowKeySetOrdering() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testRowKeySetOrdering();
-}
+  public void testRowClearAndPut() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testRowClearAndPut();
+  }
 
-public void testRowNull() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testRowNull();
-}
+  public void testRowKeySetOrdering() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testRowKeySetOrdering();
+  }
 
-public void testRowOrdering() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testRowOrdering();
-}
+  public void testRowNull() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testRowNull();
+  }
 
-public void testSize() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testSize();
-}
+  public void testRowOrdering() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testRowOrdering();
+  }
 
-public void testToStringSize1() throws Exception {
-  com.google.common.collect.NewCustomTableTest testCase = new com.google.common.collect.NewCustomTableTest();
-  testCase.setUp();
-  testCase.testToStringSize1();
-}
+  public void testSize() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testSize();
+  }
+
+  public void testToStringSize1() throws Exception {
+    com.google.common.collect.NewCustomTableTest testCase =
+        new com.google.common.collect.NewCustomTableTest();
+    testCase.setUp();
+    testCase.testToStringSize1();
+  }
 }

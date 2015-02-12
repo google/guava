@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.eventbus;
@@ -154,32 +152,24 @@ public class SubscriberRegistryTest extends TestCase {
   public static class StringSubscriber {
 
     @Subscribe
-    public void handle(String s) {
-    }
+    public void handle(String s) {}
   }
 
   public static class IntegerSubscriber {
 
     @Subscribe
-    public void handle(Integer i) {
-    }
+    public void handle(Integer i) {}
   }
 
   public static class ObjectSubscriber {
 
     @Subscribe
-    public void handle(Object o) {
-    }
+    public void handle(Object o) {}
   }
 
   public void testFlattenHierarchy() {
-    assertEquals(
-        ImmutableSet.of(
-            Object.class,
-            HierarchyFixtureInterface.class,
-            HierarchyFixtureSubinterface.class,
-            HierarchyFixtureParent.class,
-            HierarchyFixture.class),
+    assertEquals(ImmutableSet.of(Object.class, HierarchyFixtureInterface.class,
+        HierarchyFixtureSubinterface.class, HierarchyFixtureParent.class, HierarchyFixture.class),
         SubscriberRegistry.flattenHierarchy(HierarchyFixture.class));
   }
 
@@ -187,13 +177,11 @@ public class SubscriberRegistryTest extends TestCase {
     // Exists only for hierarchy mapping; no members.
   }
 
-  private interface HierarchyFixtureSubinterface
-      extends HierarchyFixtureInterface {
+  private interface HierarchyFixtureSubinterface extends HierarchyFixtureInterface {
     // Exists only for hierarchy mapping; no members.
   }
 
-  private static class HierarchyFixtureParent
-      implements HierarchyFixtureSubinterface {
+  private static class HierarchyFixtureParent implements HierarchyFixtureSubinterface {
     // Exists only for hierarchy mapping; no members.
   }
 

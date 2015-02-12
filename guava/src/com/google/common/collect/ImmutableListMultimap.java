@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -31,32 +29,31 @@ import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 /**
- * An immutable {@link ListMultimap} with reliable user-specified key and value
- * iteration order. Does not permit null keys or values.
+ * An immutable {@link ListMultimap} with reliable user-specified key and value iteration order.
+ * Does not permit null keys or values.
  *
- * <p>Unlike {@link Multimaps#unmodifiableListMultimap(ListMultimap)}, which is
- * a <i>view</i> of a separate multimap which can still change, an instance of
- * {@code ImmutableListMultimap} contains its own data and will <i>never</i>
- * change. {@code ImmutableListMultimap} is convenient for
- * {@code public static final} multimaps ("constant multimaps") and also lets
- * you easily make a "defensive copy" of a multimap provided to your class by
- * a caller.
+ * <p>
+ * Unlike {@link Multimaps#unmodifiableListMultimap(ListMultimap)}, which is a <i>view</i> of a
+ * separate multimap which can still change, an instance of {@code ImmutableListMultimap} contains
+ * its own data and will <i>never</i> change. {@code ImmutableListMultimap} is convenient for
+ * {@code public static final} multimaps ("constant multimaps") and also lets you easily make a
+ * "defensive copy" of a multimap provided to your class by a caller.
  *
- * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
- * it has no public or protected constructors. Thus, instances of this class
- * are guaranteed to be immutable.
+ * <p>
+ * <b>Note:</b> Although this class is not final, it cannot be subclassed as it has no public or
+ * protected constructors. Thus, instances of this class are guaranteed to be immutable.
  *
- * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
- * immutable collections</a>.
+ * <p>
+ * See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained"> immutable
+ * collections</a>.
  *
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
-public class ImmutableListMultimap<K, V>
-    extends ImmutableMultimap<K, V>
-    implements ListMultimap<K, V> {
+public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V> implements
+    ListMultimap<K, V> {
 
   /** Returns the empty multimap. */
   // Casting is safe because the multimap will never hold any elements.
@@ -69,8 +66,7 @@ public class ImmutableListMultimap<K, V>
    * Returns an immutable multimap containing a single entry.
    */
   public static <K, V> ImmutableListMultimap<K, V> of(K k1, V v1) {
-    ImmutableListMultimap.Builder<K, V> builder
-        = ImmutableListMultimap.builder();
+    ImmutableListMultimap.Builder<K, V> builder = ImmutableListMultimap.builder();
     builder.put(k1, v1);
     return builder.build();
   }
@@ -79,8 +75,7 @@ public class ImmutableListMultimap<K, V>
    * Returns an immutable multimap containing the given entries, in order.
    */
   public static <K, V> ImmutableListMultimap<K, V> of(K k1, V v1, K k2, V v2) {
-    ImmutableListMultimap.Builder<K, V> builder
-        = ImmutableListMultimap.builder();
+    ImmutableListMultimap.Builder<K, V> builder = ImmutableListMultimap.builder();
     builder.put(k1, v1);
     builder.put(k2, v2);
     return builder.build();
@@ -89,10 +84,8 @@ public class ImmutableListMultimap<K, V>
   /**
    * Returns an immutable multimap containing the given entries, in order.
    */
-  public static <K, V> ImmutableListMultimap<K, V> of(
-      K k1, V v1, K k2, V v2, K k3, V v3) {
-    ImmutableListMultimap.Builder<K, V> builder
-        = ImmutableListMultimap.builder();
+  public static <K, V> ImmutableListMultimap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
+    ImmutableListMultimap.Builder<K, V> builder = ImmutableListMultimap.builder();
     builder.put(k1, v1);
     builder.put(k2, v2);
     builder.put(k3, v3);
@@ -102,10 +95,8 @@ public class ImmutableListMultimap<K, V>
   /**
    * Returns an immutable multimap containing the given entries, in order.
    */
-  public static <K, V> ImmutableListMultimap<K, V> of(
-      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
-    ImmutableListMultimap.Builder<K, V> builder
-        = ImmutableListMultimap.builder();
+  public static <K, V> ImmutableListMultimap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+    ImmutableListMultimap.Builder<K, V> builder = ImmutableListMultimap.builder();
     builder.put(k1, v1);
     builder.put(k2, v2);
     builder.put(k3, v3);
@@ -116,10 +107,9 @@ public class ImmutableListMultimap<K, V>
   /**
    * Returns an immutable multimap containing the given entries, in order.
    */
-  public static <K, V> ImmutableListMultimap<K, V> of(
-      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
-    ImmutableListMultimap.Builder<K, V> builder
-        = ImmutableListMultimap.builder();
+  public static <K, V> ImmutableListMultimap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4,
+      V v4, K k5, V v5) {
+    ImmutableListMultimap.Builder<K, V> builder = ImmutableListMultimap.builder();
     builder.put(k1, v1);
     builder.put(k2, v2);
     builder.put(k3, v3);
@@ -131,8 +121,8 @@ public class ImmutableListMultimap<K, V>
   // looking for of() with > 5 entries? Use the builder instead.
 
   /**
-   * Returns a new builder. The generated builder is equivalent to the builder
-   * created by the {@link Builder} constructor.
+   * Returns a new builder. The generated builder is equivalent to the builder created by the
+   * {@link Builder} constructor.
    */
   public static <K, V> Builder<K, V> builder() {
     return new Builder<K, V>();
@@ -141,30 +131,32 @@ public class ImmutableListMultimap<K, V>
   /**
    * A builder for creating immutable {@code ListMultimap} instances, especially
    * {@code public static final} multimaps ("constant multimaps"). Example:
-   * <pre>   {@code
+   * 
+   * <pre>
+   * {
+   *   &#064;code
+   *   static final Multimap&lt;String, Integer&gt; STRING_TO_INTEGER_MULTIMAP =
+   *       new ImmutableListMultimap.Builder&lt;String, Integer&gt;().put(&quot;one&quot;, 1).putAll(&quot;several&quot;, 1, 2, 3)
+   *           .putAll(&quot;many&quot;, 1, 2, 3, 4, 5).build();
+   * }
+   * </pre>
    *
-   *   static final Multimap<String, Integer> STRING_TO_INTEGER_MULTIMAP =
-   *       new ImmutableListMultimap.Builder<String, Integer>()
-   *           .put("one", 1)
-   *           .putAll("several", 1, 2, 3)
-   *           .putAll("many", 1, 2, 3, 4, 5)
-   *           .build();}</pre>
-   *
-   * <p>Builder instances can be reused; it is safe to call {@link #build} multiple
-   * times to build multiple multimaps in series. Each multimap contains the
-   * key-value mappings in the previously created multimaps.
+   * <p>
+   * Builder instances can be reused; it is safe to call {@link #build} multiple times to build
+   * multiple multimaps in series. Each multimap contains the key-value mappings in the previously
+   * created multimaps.
    *
    * @since 2.0 (imported from Google Collections Library)
    */
-  public static final class Builder<K, V>
-      extends ImmutableMultimap.Builder<K, V> {
+  public static final class Builder<K, V> extends ImmutableMultimap.Builder<K, V> {
     /**
-     * Creates a new builder. The returned builder is equivalent to the builder
-     * generated by {@link ImmutableListMultimap#builder}.
+     * Creates a new builder. The returned builder is equivalent to the builder generated by
+     * {@link ImmutableListMultimap#builder}.
      */
     public Builder() {}
 
-    @Override public Builder<K, V> put(K key, V value) {
+    @Override
+    public Builder<K, V> put(K key, V value) {
       super.put(key, value);
       return this;
     }
@@ -174,8 +166,8 @@ public class ImmutableListMultimap<K, V>
      *
      * @since 11.0
      */
-    @Override public Builder<K, V> put(
-        Entry<? extends K, ? extends V> entry) {
+    @Override
+    public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       super.put(entry);
       return this;
     }
@@ -186,24 +178,26 @@ public class ImmutableListMultimap<K, V>
      * @since 19.0
      */
     @Beta
-    @Override public Builder<K, V> putAll(
-        Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    @Override
+    public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       super.putAll(entries);
       return this;
     }
 
-    @Override public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
+    @Override
+    public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
       super.putAll(key, values);
       return this;
     }
 
-    @Override public Builder<K, V> putAll(K key, V... values) {
+    @Override
+    public Builder<K, V> putAll(K key, V... values) {
       super.putAll(key, values);
       return this;
     }
 
-    @Override public Builder<K, V> putAll(
-        Multimap<? extends K, ? extends V> multimap) {
+    @Override
+    public Builder<K, V> putAll(Multimap<? extends K, ? extends V> multimap) {
       super.putAll(multimap);
       return this;
     }
@@ -233,22 +227,23 @@ public class ImmutableListMultimap<K, V>
     /**
      * Returns a newly-created immutable list multimap.
      */
-    @Override public ImmutableListMultimap<K, V> build() {
+    @Override
+    public ImmutableListMultimap<K, V> build() {
       return (ImmutableListMultimap<K, V>) super.build();
     }
   }
 
   /**
-   * Returns an immutable multimap containing the same mappings as {@code
-   * multimap}. The generated multimap's key and value orderings correspond to
-   * the iteration ordering of the {@code multimap.asMap()} view.
+   * Returns an immutable multimap containing the same mappings as {@code multimap}. The generated
+   * multimap's key and value orderings correspond to the iteration ordering of the
+   * {@code multimap.asMap()} view.
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
+   * <p>
+   * Despite the method name, this method attempts to avoid actually copying the data when it is
+   * safe to do so. The exact circumstances under which a copy will or will not be performed are
+   * undocumented and subject to change.
    *
-   * @throws NullPointerException if any key or value in {@code multimap} is
-   *         null
+   * @throws NullPointerException if any key or value in {@code multimap} is null
    */
   public static <K, V> ImmutableListMultimap<K, V> copyOf(
       Multimap<? extends K, ? extends V> multimap) {
@@ -258,9 +253,9 @@ public class ImmutableListMultimap<K, V>
 
     // TODO(user): copy ImmutableSetMultimap by using asList() on the sets
     if (multimap instanceof ImmutableListMultimap) {
-      @SuppressWarnings("unchecked") // safe since multimap is not writable
-      ImmutableListMultimap<K, V> kvMultimap
-          = (ImmutableListMultimap<K, V>) multimap;
+      @SuppressWarnings("unchecked")
+      // safe since multimap is not writable
+      ImmutableListMultimap<K, V> kvMultimap = (ImmutableListMultimap<K, V>) multimap;
       if (!kvMultimap.isPartialView()) {
         return kvMultimap;
       }
@@ -270,8 +265,7 @@ public class ImmutableListMultimap<K, V>
         new ImmutableMap.Builder<K, ImmutableList<V>>(multimap.asMap().size());
     int size = 0;
 
-    for (Entry<? extends K, ? extends Collection<? extends V>> entry
-        : multimap.asMap().entrySet()) {
+    for (Entry<? extends K, ? extends Collection<? extends V>> entry : multimap.asMap().entrySet()) {
       ImmutableList<V> list = ImmutableList.copyOf(entry.getValue());
       if (!list.isEmpty()) {
         builder.put(entry.getKey(), list);
@@ -283,10 +277,9 @@ public class ImmutableListMultimap<K, V>
   }
 
   /**
-   * Returns an immutable multimap containing the specified entries.  The
-   * returned multimap iterates over keys in the order they were first
-   * encountered in the input, and the values for each key are iterated in the
-   * order they were encountered.
+   * Returns an immutable multimap containing the specified entries. The returned multimap iterates
+   * over keys in the order they were first encountered in the input, and the values for each key
+   * are iterated in the order they were encountered.
    *
    * @throws NullPointerException if any key, value, or entry is null
    * @since 19.0
@@ -304,12 +297,12 @@ public class ImmutableListMultimap<K, V>
   // views
 
   /**
-   * Returns an immutable list of the values for the given key.  If no mappings
-   * in the multimap have the provided key, an empty immutable list is
-   * returned. The values are in the same order as the parameters used to build
-   * this multimap.
+   * Returns an immutable list of the values for the given key. If no mappings in the multimap have
+   * the provided key, an empty immutable list is returned. The values are in the same order as the
+   * parameters used to build this multimap.
    */
-  @Override public ImmutableList<V> get(@Nullable K key) {
+  @Override
+  public ImmutableList<V> get(@Nullable K key) {
     // This cast is safe as its type is known in constructor.
     ImmutableList<V> list = (ImmutableList<V>) map.get(key);
     return (list == null) ? ImmutableList.<V>of() : list;
@@ -320,10 +313,10 @@ public class ImmutableListMultimap<K, V>
   /**
    * {@inheritDoc}
    *
-   * <p>Because an inverse of a list multimap can contain multiple pairs with
-   * the same key and value, this method returns an {@code
-   * ImmutableListMultimap} rather than the {@code ImmutableMultimap} specified
-   * in the {@code ImmutableMultimap} class.
+   * <p>
+   * Because an inverse of a list multimap can contain multiple pairs with the same key and value,
+   * this method returns an {@code ImmutableListMultimap} rather than the {@code ImmutableMultimap}
+   * specified in the {@code ImmutableMultimap} class.
    *
    * @since 11.0
    */
@@ -349,7 +342,9 @@ public class ImmutableListMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
-  @Deprecated @Override public ImmutableList<V> removeAll(Object key) {
+  @Deprecated
+  @Override
+  public ImmutableList<V> removeAll(Object key) {
     throw new UnsupportedOperationException();
   }
 
@@ -359,14 +354,15 @@ public class ImmutableListMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
-  @Deprecated @Override public ImmutableList<V> replaceValues(
-      K key, Iterable<? extends V> values) {
+  @Deprecated
+  @Override
+  public ImmutableList<V> replaceValues(K key, Iterable<? extends V> values) {
     throw new UnsupportedOperationException();
   }
 
   /**
-   * @serialData number of distinct keys, and then for each distinct key: the
-   *     key, the number of values for that key, and the key's values
+   * @serialData number of distinct keys, and then for each distinct key: the key, the number of
+   *             values for that key, and the key's values
    */
   @GwtIncompatible("java.io.ObjectOutputStream")
   private void writeObject(ObjectOutputStream stream) throws IOException {
@@ -375,15 +371,13 @@ public class ImmutableListMultimap<K, V>
   }
 
   @GwtIncompatible("java.io.ObjectInputStream")
-  private void readObject(ObjectInputStream stream)
-      throws IOException, ClassNotFoundException {
+  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int keyCount = stream.readInt();
     if (keyCount < 0) {
       throw new InvalidObjectException("Invalid key count " + keyCount);
     }
-    ImmutableMap.Builder<Object, ImmutableList<Object>> builder
-        = ImmutableMap.builder();
+    ImmutableMap.Builder<Object, ImmutableList<Object>> builder = ImmutableMap.builder();
     int tmpSize = 0;
 
     for (int i = 0; i < keyCount; i++) {
@@ -405,8 +399,7 @@ public class ImmutableListMultimap<K, V>
     try {
       tmpMap = builder.build();
     } catch (IllegalArgumentException e) {
-      throw (InvalidObjectException)
-          new InvalidObjectException(e.getMessage()).initCause(e);
+      throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);
     }
 
     FieldSettersHolder.MAP_FIELD_SETTER.set(this, tmpMap);

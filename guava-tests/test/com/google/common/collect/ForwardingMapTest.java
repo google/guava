@@ -1,20 +1,19 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
+
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -53,62 +52,73 @@ public class ForwardingMapTest extends ForwardingTestCase {
       this.backingMap = backingMap;
     }
 
-    @Override protected Map<K, V> delegate() {
+    @Override
+    protected Map<K, V> delegate() {
       return backingMap;
     }
 
-    @Override public boolean containsKey(Object key) {
+    @Override
+    public boolean containsKey(Object key) {
       return standardContainsKey(key);
     }
 
-    @Override public boolean containsValue(Object value) {
+    @Override
+    public boolean containsValue(Object value) {
       return standardContainsValue(value);
     }
 
-    @Override public void putAll(Map<? extends K, ? extends V> map) {
+    @Override
+    public void putAll(Map<? extends K, ? extends V> map) {
       standardPutAll(map);
     }
 
-    @Override public V remove(Object object) {
+    @Override
+    public V remove(Object object) {
       return standardRemove(object);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override
+    public boolean equals(Object object) {
       return standardEquals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return standardHashCode();
     }
 
-    @Override public Set<K> keySet() {
+    @Override
+    public Set<K> keySet() {
       return new StandardKeySet();
     }
 
-    @Override public Collection<V> values() {
+    @Override
+    public Collection<V> values() {
       return new StandardValues();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return standardToString();
     }
 
-    @Override public Set<Entry<K, V>> entrySet() {
+    @Override
+    public Set<Entry<K, V>> entrySet() {
       return new StandardEntrySet() {
         @Override
         public Iterator<Entry<K, V>> iterator() {
-          return delegate()
-              .entrySet()
-              .iterator();
+          return delegate().entrySet().iterator();
         }
       };
     }
 
-    @Override public void clear() {
+    @Override
+    public void clear() {
       standardClear();
     }
 
-    @Override public boolean isEmpty() {
+    @Override
+    public boolean isEmpty() {
       return standardIsEmpty();
     }
   }
@@ -119,55 +129,56 @@ public class ForwardingMapTest extends ForwardingTestCase {
     TestSuite suite = new TestSuite();
 
     suite.addTestSuite(ForwardingMapTest.class);
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
+    suite.addTest(MapTestSuiteBuilder
+        .using(new TestStringMapGenerator() {
 
-      @Override protected Map<String, String> create(
-          Entry<String, String>[] entries) {
-        Map<String, String> map = Maps.newLinkedHashMap();
-        for (Entry<String, String> entry : entries) {
-          map.put(entry.getKey(), entry.getValue());
-        }
-        return new StandardImplForwardingMap<String, String>(map);
-      }
+          @Override
+          protected Map<String, String> create(Entry<String, String>[] entries) {
+            Map<String, String> map = Maps.newLinkedHashMap();
+            for (Entry<String, String> entry : entries) {
+              map.put(entry.getKey(), entry.getValue());
+            }
+            return new StandardImplForwardingMap<String, String>(map);
+          }
 
-    }).named("ForwardingMap[LinkedHashMap] with standard implementations")
+        })
+        .named("ForwardingMap[LinkedHashMap] with standard implementations")
         .withFeatures(CollectionSize.ANY, MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.ALLOWS_NULL_KEYS, MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            MapFeature.GENERAL_PURPOSE,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE, CollectionFeature.KNOWN_ORDER)
-        .createTestSuite());
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
+            MapFeature.GENERAL_PURPOSE, CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+            CollectionFeature.KNOWN_ORDER).createTestSuite());
+    suite.addTest(MapTestSuiteBuilder
+        .using(new TestStringMapGenerator() {
 
-      @Override protected Map<String, String> create(
-          Entry<String, String>[] entries) {
-        ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
-        for (Entry<String, String> entry : entries) {
-          builder.put(entry.getKey(), entry.getValue());
-        }
-        return new StandardImplForwardingMap<String, String>(builder.build());
-      }
+          @Override
+          protected Map<String, String> create(Entry<String, String>[] entries) {
+            ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
+            for (Entry<String, String> entry : entries) {
+              builder.put(entry.getKey(), entry.getValue());
+            }
+            return new StandardImplForwardingMap<String, String>(builder.build());
+          }
 
-    }).named("ForwardingMap[ImmutableMap] with standard implementations")
-        .withFeatures(
-            CollectionSize.ANY, MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            CollectionFeature.KNOWN_ORDER)
-        .createTestSuite());
+        })
+        .named("ForwardingMap[ImmutableMap] with standard implementations")
+        .withFeatures(CollectionSize.ANY, MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES, CollectionFeature.KNOWN_ORDER).createTestSuite());
 
     return suite;
   }
 
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
+     * Class parameters must be raw, so we can't create a proxy with generic type arguments. The
+     * created proxy only records calls and returns null, so the type is irrelevant at runtime.
      */
     @SuppressWarnings("unchecked")
     final Map<String, Boolean> map = createProxyInstance(Map.class);
     forward = new ForwardingMap<String, Boolean>() {
-      @Override protected Map<String, Boolean> delegate() {
+      @Override
+      protected Map<String, Boolean> delegate() {
         return map;
       }
     };
@@ -258,8 +269,7 @@ public class ForwardingMapTest extends ForwardingTestCase {
     expect(map.isEmpty()).andReturn(true).anyTimes();
     expect(map.remove(anyObject())).andReturn(null).anyTimes();
     expect(map.size()).andReturn(0).anyTimes();
-    expect(entrySet.iterator())
-        .andReturn(Iterators.<Entry<String, Boolean>>emptyIterator())
+    expect(entrySet.iterator()).andReturn(Iterators.<Entry<String, Boolean>>emptyIterator())
         .anyTimes();
     map.clear();
     expectLastCall().anyTimes();
@@ -267,11 +277,13 @@ public class ForwardingMapTest extends ForwardingTestCase {
     replay(map, entrySet);
 
     Map<String, Boolean> forward = new ForwardingMap<String, Boolean>() {
-      @Override protected Map<String, Boolean> delegate() {
+      @Override
+      protected Map<String, Boolean> delegate() {
         return map;
       }
 
-      @Override public Set<Entry<String, Boolean>> entrySet() {
+      @Override
+      public Set<Entry<String, Boolean>> entrySet() {
         return new StandardEntrySet() {
           @Override
           public Iterator<Entry<String, Boolean>> iterator() {
@@ -288,8 +300,8 @@ public class ForwardingMapTest extends ForwardingTestCase {
   public void testStandardKeySet() throws InvocationTargetException {
     @SuppressWarnings("unchecked")
     Set<Entry<String, Boolean>> entrySet = createMock(Set.class);
-    expect(entrySet.iterator()).andReturn(
-        Iterators.<Entry<String, Boolean>>emptyIterator()).anyTimes();
+    expect(entrySet.iterator()).andReturn(Iterators.<Entry<String, Boolean>>emptyIterator())
+        .anyTimes();
 
     @SuppressWarnings("unchecked")
     final Map<String, Boolean> map = createMock(Map.class);
@@ -304,11 +316,13 @@ public class ForwardingMapTest extends ForwardingTestCase {
     replay(entrySet, map);
 
     Map<String, Boolean> forward = new ForwardingMap<String, Boolean>() {
-      @Override protected Map<String, Boolean> delegate() {
+      @Override
+      protected Map<String, Boolean> delegate() {
         return map;
       }
 
-      @Override public Set<String> keySet() {
+      @Override
+      public Set<String> keySet() {
         return new StandardKeySet();
       }
     };
@@ -320,8 +334,8 @@ public class ForwardingMapTest extends ForwardingTestCase {
   public void testStandardValues() throws InvocationTargetException {
     @SuppressWarnings("unchecked")
     Set<Entry<String, Boolean>> entrySet = createMock(Set.class);
-    expect(entrySet.iterator()).andReturn(
-        Iterators.<Entry<String, Boolean>>emptyIterator()).anyTimes();
+    expect(entrySet.iterator()).andReturn(Iterators.<Entry<String, Boolean>>emptyIterator())
+        .anyTimes();
 
     @SuppressWarnings("unchecked")
     final Map<String, Boolean> map = createMock(Map.class);
@@ -335,11 +349,13 @@ public class ForwardingMapTest extends ForwardingTestCase {
     replay(entrySet, map);
 
     Map<String, Boolean> forward = new ForwardingMap<String, Boolean>() {
-      @Override protected Map<String, Boolean> delegate() {
+      @Override
+      protected Map<String, Boolean> delegate() {
         return map;
       }
 
-      @Override public Collection<Boolean> values() {
+      @Override
+      public Collection<Boolean> values() {
         return new StandardValues();
       }
     };
@@ -354,8 +370,7 @@ public class ForwardingMapTest extends ForwardingTestCase {
     hashmap.put(null, "baz");
 
     StandardImplForwardingMap<String, String> forwardingMap =
-        new StandardImplForwardingMap<String, String>(
-            Maps.<String, String>newHashMap());
+        new StandardImplForwardingMap<String, String>(Maps.<String, String>newHashMap());
     forwardingMap.put("foo", "bar");
     forwardingMap.put(null, "baz");
 
@@ -368,8 +383,7 @@ public class ForwardingMapTest extends ForwardingTestCase {
     hashmap.put("baz", null);
 
     StandardImplForwardingMap<String, String> forwardingMap =
-        new StandardImplForwardingMap<String, String>(
-            Maps.<String, String>newHashMap());
+        new StandardImplForwardingMap<String, String>(Maps.<String, String>newHashMap());
     forwardingMap.put("foo", "bar");
     forwardingMap.put("baz", null);
 

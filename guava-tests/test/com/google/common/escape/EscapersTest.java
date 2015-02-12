@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.escape;
@@ -53,17 +51,14 @@ public class EscapersTest extends TestCase {
     Escapers.Builder builder = Escapers.builder();
     builder.setSafeRange('a', 'z');
     builder.setUnsafeReplacement("X");
-    assertEquals("XheXXuickXXrownXXoxX",
-        builder.build().escape("The Quick Brown Fox!"));
+    assertEquals("XheXXuickXXrownXXoxX", builder.build().escape("The Quick Brown Fox!"));
     // Explicit replacements take priority over unsafe characters.
     builder.addEscape(' ', "_");
     builder.addEscape('!', "_");
-    assertEquals("Xhe_Xuick_Xrown_Xox_",
-        builder.build().escape("The Quick Brown Fox!"));
+    assertEquals("Xhe_Xuick_Xrown_Xox_", builder.build().escape("The Quick Brown Fox!"));
     // Explicit replacements take priority over safe characters.
     builder.setSafeRange(' ', '~');
-    assertEquals("The_Quick_Brown_Fox_",
-        builder.build().escape("The Quick Brown Fox!"));
+    assertEquals("The_Quick_Brown_Fox_", builder.build().escape("The Quick Brown Fox!"));
   }
 
   public void testBuilderCreatesIndependentEscapers() {
@@ -86,12 +81,10 @@ public class EscapersTest extends TestCase {
   }
 
   public void testAsUnicodeEscaper() throws IOException {
-    CharEscaper charEscaper = createSimpleCharEscaper(
-        ImmutableMap.<Character, char[]>builder()
-            .put('x', "<hello>".toCharArray())
-            .put('\uD800', "<hi>".toCharArray())
-            .put('\uDC00', "<lo>".toCharArray())
-            .build());
+    CharEscaper charEscaper =
+        createSimpleCharEscaper(ImmutableMap.<Character, char[]>builder()
+            .put('x', "<hello>".toCharArray()).put('\uD800', "<hi>".toCharArray())
+            .put('\uDC00', "<lo>".toCharArray()).build());
     UnicodeEscaper unicodeEscaper = Escapers.asUnicodeEscaper(charEscaper);
     EscaperAsserts.assertBasic(unicodeEscaper);
     assertEquals("<hello><hi><lo>", charEscaper.escape("x\uD800\uDC00"));
@@ -115,10 +108,10 @@ public class EscapersTest extends TestCase {
   }
 
   // A trival non-optimized escaper for testing.
-  static CharEscaper createSimpleCharEscaper(
-      final ImmutableMap<Character, char[]> replacementMap) {
+  static CharEscaper createSimpleCharEscaper(final ImmutableMap<Character, char[]> replacementMap) {
     return new CharEscaper() {
-      @Override protected char[] escape(char c) {
+      @Override
+      protected char[] escape(char c) {
         return replacementMap.get(c);
       }
     };
@@ -128,7 +121,8 @@ public class EscapersTest extends TestCase {
   static UnicodeEscaper createSimpleUnicodeEscaper(
       final ImmutableMap<Integer, char[]> replacementMap) {
     return new UnicodeEscaper() {
-      @Override protected char[] escape(int cp) {
+      @Override
+      protected char[] escape(int cp) {
         return replacementMap.get(cp);
       }
     };

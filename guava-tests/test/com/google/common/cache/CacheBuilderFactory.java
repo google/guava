@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -91,35 +91,33 @@ class CacheBuilderFactory {
 
   Iterable<CacheBuilder<Object, Object>> buildAllPermutations() {
     @SuppressWarnings("unchecked")
-    Iterable<List<Object>> combinations = buildCartesianProduct(concurrencyLevels,
-        initialCapacities, maximumSizes, expireAfterWrites, expireAfterAccesses, refreshes,
-        keyStrengths, valueStrengths);
+    Iterable<List<Object>> combinations =
+        buildCartesianProduct(concurrencyLevels, initialCapacities, maximumSizes,
+            expireAfterWrites, expireAfterAccesses, refreshes, keyStrengths, valueStrengths);
     return Iterables.transform(combinations,
         new Function<List<Object>, CacheBuilder<Object, Object>>() {
-          @Override public CacheBuilder<Object, Object> apply(List<Object> combination) {
-            return createCacheBuilder(
-                (Integer) combination.get(0),
-                (Integer) combination.get(1),
-                (Integer) combination.get(2),
-                (DurationSpec) combination.get(3),
-                (DurationSpec) combination.get(4),
-                (DurationSpec) combination.get(5),
-                (Strength) combination.get(6),
-                (Strength) combination.get(7));
+          @Override
+          public CacheBuilder<Object, Object> apply(List<Object> combination) {
+            return createCacheBuilder((Integer) combination.get(0), (Integer) combination.get(1),
+                (Integer) combination.get(2), (DurationSpec) combination.get(3),
+                (DurationSpec) combination.get(4), (DurationSpec) combination.get(5),
+                (Strength) combination.get(6), (Strength) combination.get(7));
           }
         });
   }
 
   private static final Function<Object, Optional<?>> NULLABLE_TO_OPTIONAL =
       new Function<Object, Optional<?>>() {
-        @Override public Optional<?> apply(@Nullable Object obj) {
+        @Override
+        public Optional<?> apply(@Nullable Object obj) {
           return Optional.fromNullable(obj);
         }
       };
 
   private static final Function<Optional<?>, Object> OPTIONAL_TO_NULLABLE =
       new Function<Optional<?>, Object>() {
-        @Override public Object apply(Optional<?> optional) {
+        @Override
+        public Object apply(Optional<?> optional) {
           return optional.orNull();
         }
       };
@@ -128,8 +126,8 @@ class CacheBuilderFactory {
    * Sets.cartesianProduct doesn't allow sets that contain null, but we want null to mean
    * "don't call the associated CacheBuilder method" - that is, get the default CacheBuilder
    * behavior. This method wraps the elements in the input sets (which may contain null) as
-   * Optionals, calls Sets.cartesianProduct with those, then transforms the result to unwrap
-   * the Optionals. 
+   * Optionals, calls Sets.cartesianProduct with those, then transforms the result to unwrap the
+   * Optionals.
    */
   private Iterable<List<Object>> buildCartesianProduct(Set<?>... sets) {
     List<Set<Optional<?>>> optionalSets = Lists.newArrayListWithExpectedSize(sets.length);
@@ -139,18 +137,18 @@ class CacheBuilderFactory {
       optionalSets.add(optionalSet);
     }
     Set<List<Optional<?>>> cartesianProduct = Sets.cartesianProduct(optionalSets);
-    return Iterables.transform(cartesianProduct,
-        new Function<List<Optional<?>>, List<Object>>() {
-          @Override public List<Object> apply(List<Optional<?>> objs) {
-            return Lists.transform(objs, OPTIONAL_TO_NULLABLE);
-          }
-        });
+    return Iterables.transform(cartesianProduct, new Function<List<Optional<?>>, List<Object>>() {
+      @Override
+      public List<Object> apply(List<Optional<?>> objs) {
+        return Lists.transform(objs, OPTIONAL_TO_NULLABLE);
+      }
+    });
   }
 
-  private CacheBuilder<Object, Object> createCacheBuilder(
-      Integer concurrencyLevel, Integer initialCapacity, Integer maximumSize,
-      DurationSpec expireAfterWrite, DurationSpec expireAfterAccess, DurationSpec refresh,
-      Strength keyStrength, Strength valueStrength) {
+  private CacheBuilder<Object, Object> createCacheBuilder(Integer concurrencyLevel,
+      Integer initialCapacity, Integer maximumSize, DurationSpec expireAfterWrite,
+      DurationSpec expireAfterAccess, DurationSpec refresh, Strength keyStrength,
+      Strength valueStrength) {
 
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     if (concurrencyLevel != null) {
@@ -209,9 +207,7 @@ class CacheBuilderFactory {
 
     @Override
     public String toString() {
-      return MoreObjects.toStringHelper(this)
-          .add("duration", duration)
-          .add("unit", unit)
+      return MoreObjects.toStringHelper(this).add("duration", duration).add("unit", unit)
           .toString();
     }
   }

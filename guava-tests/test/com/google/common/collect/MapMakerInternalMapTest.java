@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -52,7 +50,8 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 /**
  * @author Charles Fry
  */
-@SuppressWarnings("deprecation") // many tests of deprecated methods
+@SuppressWarnings("deprecation")
+// many tests of deprecated methods
 public class MapMakerInternalMapTest extends TestCase {
 
   static final int SMALL_MAX_SIZE = DRAIN_THRESHOLD * 5;
@@ -175,10 +174,11 @@ public class MapMakerInternalMapTest extends TestCase {
     checkInitialCapacity(4, 8, 2);
   }
 
-  private static void checkInitialCapacity(
-      int concurrencyLevel, int initialCapacity, int segmentSize) {
-    MapMakerInternalMap<Object, Object> map = makeMap(
-        createMapMaker().concurrencyLevel(concurrencyLevel).initialCapacity(initialCapacity));
+  private static void checkInitialCapacity(int concurrencyLevel, int initialCapacity,
+      int segmentSize) {
+    MapMakerInternalMap<Object, Object> map =
+        makeMap(createMapMaker().concurrencyLevel(concurrencyLevel)
+            .initialCapacity(initialCapacity));
     for (int i = 0; i < map.segments.length; i++) {
       assertEquals(segmentSize, map.segments[i].table.length());
     }
@@ -210,10 +210,9 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   private static void checkMaximumSize(int concurrencyLevel, int initialCapacity, int maxSize) {
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
-        .concurrencyLevel(concurrencyLevel)
-        .initialCapacity(initialCapacity)
-        .maximumSize(maxSize));
+    MapMakerInternalMap<Object, Object> map =
+        makeMap(createMapMaker().concurrencyLevel(concurrencyLevel)
+            .initialCapacity(initialCapacity).maximumSize(maxSize));
     int totalCapacity = 0;
     for (int i = 0; i < map.segments.length; i++) {
       totalCapacity += map.segments[i].maxSegmentSize;
@@ -239,8 +238,8 @@ public class MapMakerInternalMapTest extends TestCase {
     assertSame(EntryFactory.STRONG, map.entryFactory);
   }
 
-  private static void checkStrength(
-      MapMakerInternalMap<Object, Object> map, Strength keyStrength, Strength valueStrength) {
+  private static void checkStrength(MapMakerInternalMap<Object, Object> map, Strength keyStrength,
+      Strength valueStrength) {
     assertSame(keyStrength, map.keyStrength);
     assertSame(valueStrength, map.valueStrength);
     assertSame(keyStrength.defaultEquivalence(), map.keyEquivalence);
@@ -276,10 +275,8 @@ public class MapMakerInternalMapTest extends TestCase {
   // Removal listener tests
 
   public void testRemovalListener_explicit() {
-    QueuingRemovalListener<Object, Object> listener =
-        new QueuingRemovalListener<Object, Object>();
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
-        .removalListener(listener));
+    QueuingRemovalListener<Object, Object> listener = new QueuingRemovalListener<Object, Object>();
+    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker().removalListener(listener));
     assertTrue(listener.isEmpty());
 
     Object one = new Object();
@@ -319,10 +316,8 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testRemovalListener_replaced() {
-    QueuingRemovalListener<Object, Object> listener =
-        new QueuingRemovalListener<Object, Object>();
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
-        .removalListener(listener));
+    QueuingRemovalListener<Object, Object> listener = new QueuingRemovalListener<Object, Object>();
+    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker().removalListener(listener));
     assertTrue(listener.isEmpty());
 
     Object one = new Object();
@@ -348,12 +343,9 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testRemovalListener_collected() {
-    QueuingRemovalListener<Object, Object> listener =
-        new QueuingRemovalListener<Object, Object>();
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
-        .concurrencyLevel(1)
-        .softValues()
-        .removalListener(listener));
+    QueuingRemovalListener<Object, Object> listener = new QueuingRemovalListener<Object, Object>();
+    MapMakerInternalMap<Object, Object> map =
+        makeMap(createMapMaker().concurrencyLevel(1).softValues().removalListener(listener));
     Segment<Object, Object> segment = map.segments[0];
     assertTrue(listener.isEmpty());
 
@@ -374,12 +366,9 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testRemovalListener_size() {
-    QueuingRemovalListener<Object, Object> listener =
-        new QueuingRemovalListener<Object, Object>();
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
-        .concurrencyLevel(1)
-        .maximumSize(2)
-        .removalListener(listener));
+    QueuingRemovalListener<Object, Object> listener = new QueuingRemovalListener<Object, Object>();
+    MapMakerInternalMap<Object, Object> map =
+        makeMap(createMapMaker().concurrencyLevel(1).maximumSize(2).removalListener(listener));
     assertTrue(listener.isEmpty());
 
     Object one = new Object();
@@ -396,8 +385,8 @@ public class MapMakerInternalMapTest extends TestCase {
     assertTrue(listener.isEmpty());
   }
 
-  static <K, V> void assertNotified(
-      QueuingRemovalListener<K, V> listener, K key, V value, RemovalCause cause) {
+  static <K, V> void assertNotified(QueuingRemovalListener<K, V> listener, K key, V value,
+      RemovalCause cause) {
     RemovalNotification<K, V> notification = listener.remove();
     assertSame(key, notification.getKey());
     assertSame(value, notification.getValue());
@@ -477,8 +466,8 @@ public class MapMakerInternalMapTest extends TestCase {
     }
   }
 
-  private static <K, V> void assertConnected(
-      MapMakerInternalMap<K, V> map, ReferenceEntry<K, V> one, ReferenceEntry<K, V> two) {
+  private static <K, V> void assertConnected(MapMakerInternalMap<K, V> map,
+      ReferenceEntry<K, V> one, ReferenceEntry<K, V> two) {
     if (map.evictsBySize()) {
       assertSame(two, one.getNextEvictable());
     }
@@ -870,12 +859,9 @@ public class MapMakerInternalMapTest extends TestCase {
   public void testReclaimKey() {
     CountingRemovalListener<Object, Object> listener =
         new CountingRemovalListener<Object, Object>();
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
-        .concurrencyLevel(1)
-        .initialCapacity(1)
-        .maximumSize(SMALL_MAX_SIZE)
-        .expireAfterWrite(99999, SECONDS)
-        .removalListener(listener));
+    MapMakerInternalMap<Object, Object> map =
+        makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1).maximumSize(SMALL_MAX_SIZE)
+            .expireAfterWrite(99999, SECONDS).removalListener(listener));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
     assertEquals(1, table.length());
@@ -1024,11 +1010,9 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testClear() {
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
-        .concurrencyLevel(1)
-        .initialCapacity(1)
-        .maximumSize(SMALL_MAX_SIZE)
-        .expireAfterWrite(99999, SECONDS));
+    MapMakerInternalMap<Object, Object> map =
+        makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1).maximumSize(SMALL_MAX_SIZE)
+            .expireAfterWrite(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
     assertEquals(1, table.length());
@@ -1055,12 +1039,10 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testRemoveEntry() {
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
-        .concurrencyLevel(1)
-        .initialCapacity(1)
-        .maximumSize(SMALL_MAX_SIZE)
-        .expireAfterWrite(99999, SECONDS)
-        .removalListener(new CountingRemovalListener<Object, Object>()));
+    MapMakerInternalMap<Object, Object> map =
+        makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1).maximumSize(SMALL_MAX_SIZE)
+            .expireAfterWrite(99999, SECONDS)
+            .removalListener(new CountingRemovalListener<Object, Object>()));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
     assertEquals(1, table.length());
@@ -1089,12 +1071,9 @@ public class MapMakerInternalMapTest extends TestCase {
   public void testReclaimValue() {
     CountingRemovalListener<Object, Object> listener =
         new CountingRemovalListener<Object, Object>();
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
-        .concurrencyLevel(1)
-        .initialCapacity(1)
-        .maximumSize(SMALL_MAX_SIZE)
-        .expireAfterWrite(99999, SECONDS)
-        .removalListener(listener));
+    MapMakerInternalMap<Object, Object> map =
+        makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1).maximumSize(SMALL_MAX_SIZE)
+            .expireAfterWrite(99999, SECONDS).removalListener(listener));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
     assertEquals(1, table.length());
@@ -1136,12 +1115,10 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testClearValue() {
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
-        .concurrencyLevel(1)
-        .initialCapacity(1)
-        .maximumSize(SMALL_MAX_SIZE)
-        .expireAfterWrite(99999, SECONDS)
-        .removalListener(new CountingRemovalListener<Object, Object>()));
+    MapMakerInternalMap<Object, Object> map =
+        makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1).maximumSize(SMALL_MAX_SIZE)
+            .expireAfterWrite(99999, SECONDS)
+            .removalListener(new CountingRemovalListener<Object, Object>()));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
     assertEquals(1, table.length());
@@ -1177,8 +1154,8 @@ public class MapMakerInternalMapTest extends TestCase {
     assertTrue(segment.clearValue(key, hash, valueRef));
   }
 
-  private static <K, V> void assertNotificationEnqueued(
-      MapMakerInternalMap<K, V> map, K key, V value) {
+  private static <K, V> void assertNotificationEnqueued(MapMakerInternalMap<K, V> map, K key,
+      V value) {
     RemovalNotification<K, V> notification = map.removalNotificationQueue.poll();
     assertSame(key, notification.getKey());
     assertSame(value, notification.getValue());
@@ -1385,9 +1362,8 @@ public class MapMakerInternalMapTest extends TestCase {
     segment.drainRecencyQueue();
   }
 
-  static <K, V> void checkEvictionQueues(MapMakerInternalMap<K, V> map,
-      Segment<K, V> segment, List<ReferenceEntry<K, V>> readOrder,
-      List<ReferenceEntry<K, V>> writeOrder) {
+  static <K, V> void checkEvictionQueues(MapMakerInternalMap<K, V> map, Segment<K, V> segment,
+      List<ReferenceEntry<K, V>> readOrder, List<ReferenceEntry<K, V>> writeOrder) {
     if (map.evictsBySize()) {
       assertSameEntries(readOrder, ImmutableList.copyOf(segment.evictionQueue));
     }
@@ -1475,8 +1451,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
   public void testDrainKeyReferenceQueueOnWrite() {
     for (MapMaker maker : allKeyValueStrengthMakers()) {
-      MapMakerInternalMap<Object, Object> map =
-          makeMap(maker.concurrencyLevel(1));
+      MapMakerInternalMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
       if (map.usesKeyReferences()) {
         Segment<Object, Object> segment = map.segments[0];
 
@@ -1505,8 +1480,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
   public void testDrainValueReferenceQueueOnWrite() {
     for (MapMaker maker : allKeyValueStrengthMakers()) {
-      MapMakerInternalMap<Object, Object> map =
-          makeMap(maker.concurrencyLevel(1));
+      MapMakerInternalMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
       if (map.usesValueReferences()) {
         Segment<Object, Object> segment = map.segments[0];
 
@@ -1536,8 +1510,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
   public void testDrainKeyReferenceQueueOnRead() {
     for (MapMaker maker : allKeyValueStrengthMakers()) {
-      MapMakerInternalMap<Object, Object> map =
-          makeMap(maker.concurrencyLevel(1));
+      MapMakerInternalMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
       if (map.usesKeyReferences()) {
         Segment<Object, Object> segment = map.segments[0];
 
@@ -1567,8 +1540,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
   public void testDrainValueReferenceQueueOnRead() {
     for (MapMaker maker : allKeyValueStrengthMakers()) {
-      MapMakerInternalMap<Object, Object> map =
-          makeMap(maker.concurrencyLevel(1));
+      MapMakerInternalMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
       if (map.usesValueReferences()) {
         Segment<Object, Object> segment = map.segments[0];
 
@@ -1627,26 +1599,22 @@ public class MapMakerInternalMapTest extends TestCase {
    * Returns an iterable containing all combinations of maximumSize and expireAfterAccess/Write.
    */
   static Iterable<MapMaker> allEvictingMakers() {
-    return ImmutableList.of(createMapMaker().maximumSize(SMALL_MAX_SIZE),
+    return ImmutableList.of(
+        createMapMaker().maximumSize(SMALL_MAX_SIZE),
         createMapMaker().expireAfterAccess(99999, SECONDS),
         createMapMaker().expireAfterWrite(99999, SECONDS),
-        createMapMaker()
-            .maximumSize(SMALL_MAX_SIZE)
-            .expireAfterAccess(SMALL_MAX_SIZE, TimeUnit.SECONDS),
-        createMapMaker()
-            .maximumSize(SMALL_MAX_SIZE)
-            .expireAfterWrite(SMALL_MAX_SIZE, TimeUnit.SECONDS));
+        createMapMaker().maximumSize(SMALL_MAX_SIZE).expireAfterAccess(SMALL_MAX_SIZE,
+            TimeUnit.SECONDS),
+        createMapMaker().maximumSize(SMALL_MAX_SIZE).expireAfterWrite(SMALL_MAX_SIZE,
+            TimeUnit.SECONDS));
   }
 
   /**
    * Returns an iterable containing all combinations weakKeys and weak/softValues.
    */
   private static Iterable<MapMaker> allKeyValueStrengthMakers() {
-    return ImmutableList.of(createMapMaker(),
-        createMapMaker().weakValues(),
-        createMapMaker().softValues(),
-        createMapMaker().weakKeys(),
-        createMapMaker().weakKeys().weakValues(),
+    return ImmutableList.of(createMapMaker(), createMapMaker().weakValues(), createMapMaker()
+        .softValues(), createMapMaker().weakKeys(), createMapMaker().weakKeys().weakValues(),
         createMapMaker().weakKeys().softValues());
   }
 
@@ -1677,8 +1645,8 @@ public class MapMakerInternalMapTest extends TestCase {
     }
   }
 
-  static class QueuingRemovalListener<K, V>
-      extends ConcurrentLinkedQueue<RemovalNotification<K, V>> implements RemovalListener<K, V> {
+  static class QueuingRemovalListener<K, V> extends
+      ConcurrentLinkedQueue<RemovalNotification<K, V>> implements RemovalListener<K, V> {
     @Override
     public void onRemoval(RemovalNotification<K, V> notification) {
       add(notification);
@@ -1687,8 +1655,8 @@ public class MapMakerInternalMapTest extends TestCase {
 
   // entries and values
 
-  private static <K, V> DummyEntry<K, V> createDummyEntry(
-      K key, int hash, V value, ReferenceEntry<K, V> next) {
+  private static <K, V> DummyEntry<K, V> createDummyEntry(K key, int hash, V value,
+      ReferenceEntry<K, V> next) {
     DummyEntry<K, V> entry = DummyEntry.create(key, hash, next);
     DummyValueReference<K, V> valueRef = DummyValueReference.create(value, entry);
     entry.setValueReference(valueRef);
@@ -1826,8 +1794,7 @@ public class MapMakerInternalMapTest extends TestCase {
     }
 
     @Override
-    public ValueReference<K, V> copyFor(
-        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
       return new DummyValueReference<K, V>(value, entry);
     }
 

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -36,7 +34,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Generated tests for {@link Monitor}.
  *
- * <p>This test class generates all of its own test cases in the {@link #suite()} method. Every
+ * <p>
+ * This test class generates all of its own test cases in the {@link #suite()} method. Every
  * {@code enterXxx}, {@code tryEnterXxx}, and {@code waitForXxx} method of the {@code Monitor} class
  * is analyzed reflectively to determine appropriate test cases based on its signature. Additional
  * ad hoc test cases can be found in {@link SupplementalMonitorTest}.
@@ -85,16 +84,9 @@ public class GeneratedMonitorTest extends TestCase {
    */
   private enum Scenario {
 
-    SATISFIED_AND_UNOCCUPIED_BEFORE_ENTERING,
-    UNSATISFIED_AND_UNOCCUPIED_BEFORE_ENTERING,
-    SATISFIED_AND_OCCUPIED_BEFORE_ENTERING,
-    SATISFIED_UNOCCUPIED_AND_INTERRUPTED_BEFORE_ENTERING,
+    SATISFIED_AND_UNOCCUPIED_BEFORE_ENTERING, UNSATISFIED_AND_UNOCCUPIED_BEFORE_ENTERING, SATISFIED_AND_OCCUPIED_BEFORE_ENTERING, SATISFIED_UNOCCUPIED_AND_INTERRUPTED_BEFORE_ENTERING,
 
-    SATISFIED_BEFORE_WAITING,
-    SATISFIED_WHILE_WAITING,
-    SATISFIED_AND_INTERRUPTED_BEFORE_WAITING,
-    UNSATISFIED_BEFORE_AND_WHILE_WAITING,
-    UNSATISFIED_AND_INTERRUPTED_BEFORE_WAITING;
+    SATISFIED_BEFORE_WAITING, SATISFIED_WHILE_WAITING, SATISFIED_AND_INTERRUPTED_BEFORE_WAITING, UNSATISFIED_BEFORE_AND_WHILE_WAITING, UNSATISFIED_AND_INTERRUPTED_BEFORE_WAITING;
 
     @Override
     public String toString() {
@@ -108,12 +100,10 @@ public class GeneratedMonitorTest extends TestCase {
    */
   private enum Timeout {
 
-    MIN(Long.MIN_VALUE, "-oo"),
-    MINUS_SMALL(-SMALL_TIMEOUT_MILLIS, "-" + SMALL_TIMEOUT_MILLIS + "ms"),
-    ZERO(0L, "0ms"),
-    SMALL(SMALL_TIMEOUT_MILLIS, SMALL_TIMEOUT_MILLIS + "ms"),
-    LARGE(UNEXPECTED_HANG_DELAY_MILLIS * 2, (2 * UNEXPECTED_HANG_DELAY_MILLIS) + "ms"),
-    MAX(Long.MAX_VALUE, "+oo");
+    MIN(Long.MIN_VALUE, "-oo"), MINUS_SMALL(-SMALL_TIMEOUT_MILLIS, "-" + SMALL_TIMEOUT_MILLIS
+        + "ms"), ZERO(0L, "0ms"), SMALL(SMALL_TIMEOUT_MILLIS, SMALL_TIMEOUT_MILLIS + "ms"), LARGE(
+        UNEXPECTED_HANG_DELAY_MILLIS * 2, (2 * UNEXPECTED_HANG_DELAY_MILLIS) + "ms"), MAX(
+        Long.MAX_VALUE, "+oo");
 
     final long millis;
     final String label;
@@ -135,12 +125,9 @@ public class GeneratedMonitorTest extends TestCase {
    */
   private enum TimeoutsToUse {
 
-    ANY(Timeout.values()),
-    PAST(Timeout.MIN, Timeout.MINUS_SMALL, Timeout.ZERO),
-    FUTURE(Timeout.SMALL, Timeout.MAX),
-    SMALL(Timeout.SMALL),
-    FINITE(Timeout.MIN, Timeout.MINUS_SMALL, Timeout.ZERO, Timeout.SMALL),
-    INFINITE(Timeout.LARGE, Timeout.MAX);
+    ANY(Timeout.values()), PAST(Timeout.MIN, Timeout.MINUS_SMALL, Timeout.ZERO), FUTURE(
+        Timeout.SMALL, Timeout.MAX), SMALL(Timeout.SMALL), FINITE(Timeout.MIN, Timeout.MINUS_SMALL,
+        Timeout.ZERO, Timeout.SMALL), INFINITE(Timeout.LARGE, Timeout.MAX);
 
     final ImmutableList<Timeout> timeouts;
 
@@ -224,8 +211,7 @@ public class GeneratedMonitorTest extends TestCase {
    */
   private static boolean isTimed(Method method) {
     Class<?>[] parameterTypes = method.getParameterTypes();
-    return parameterTypes.length >= 2
-        && parameterTypes[parameterTypes.length - 2] == long.class
+    return parameterTypes.length >= 2 && parameterTypes[parameterTypes.length - 2] == long.class
         && parameterTypes[parameterTypes.length - 1] == TimeUnit.class;
   }
 
@@ -248,7 +234,8 @@ public class GeneratedMonitorTest extends TestCase {
    */
   private static void sortMethods(Method[] methods) {
     Arrays.sort(methods, new Comparator<Method>() {
-      @Override public int compare(Method m1, Method m2) {
+      @Override
+      public int compare(Method m1, Method m2) {
         int nameComparison = m1.getName().compareTo(m2.getName());
         if (nameComparison != 0) {
           return nameComparison;
@@ -325,83 +312,50 @@ public class GeneratedMonitorTest extends TestCase {
    */
   private static void addTests(TestSuite suite, Method method) {
     if (isGuarded(method)) {
-      for (boolean fair1 : new boolean[] { true, false }) {
-        for (boolean fair2 : new boolean[] { true, false }) {
+      for (boolean fair1 : new boolean[] {true, false}) {
+        for (boolean fair2 : new boolean[] {true, false}) {
           suite.addTest(generateGuardWithWrongMonitorTestCase(method, fair1, fair2));
         }
       }
     }
     if (isAnyEnter(method)) {
-      addTests(suite, method,
-          Scenario.SATISFIED_AND_UNOCCUPIED_BEFORE_ENTERING,
-          TimeoutsToUse.ANY,
+      addTests(suite, method, Scenario.SATISFIED_AND_UNOCCUPIED_BEFORE_ENTERING, TimeoutsToUse.ANY,
           Outcome.SUCCESS);
-      addTests(suite, method,
-          Scenario.UNSATISFIED_AND_UNOCCUPIED_BEFORE_ENTERING,
-          TimeoutsToUse.FINITE,
-          isGuarded(method)
-              ? (isBoolean(method) ? Outcome.FAILURE : Outcome.HANG)
-              : Outcome.SUCCESS);
-      addTests(suite, method,
-          Scenario.UNSATISFIED_AND_UNOCCUPIED_BEFORE_ENTERING,
+      addTests(suite, method, Scenario.UNSATISFIED_AND_UNOCCUPIED_BEFORE_ENTERING,
+          TimeoutsToUse.FINITE, isGuarded(method) ? (isBoolean(method) ? Outcome.FAILURE
+              : Outcome.HANG) : Outcome.SUCCESS);
+      addTests(suite, method, Scenario.UNSATISFIED_AND_UNOCCUPIED_BEFORE_ENTERING,
           TimeoutsToUse.INFINITE,
-          isGuarded(method)
-              ? (isTryEnter(method) || isEnterIf(method) ? Outcome.FAILURE : Outcome.HANG)
-              : Outcome.SUCCESS);
-      addTests(suite, method,
-          Scenario.SATISFIED_AND_OCCUPIED_BEFORE_ENTERING,
-          TimeoutsToUse.FINITE,
-          isBoolean(method) ? Outcome.FAILURE : Outcome.HANG);
-      addTests(suite, method,
-          Scenario.SATISFIED_AND_OCCUPIED_BEFORE_ENTERING,
-          TimeoutsToUse.INFINITE,
-          isGuarded(method)
-              ? Outcome.HANG
+          isGuarded(method) ? (isTryEnter(method) || isEnterIf(method) ? Outcome.FAILURE
+              : Outcome.HANG) : Outcome.SUCCESS);
+      addTests(suite, method, Scenario.SATISFIED_AND_OCCUPIED_BEFORE_ENTERING,
+          TimeoutsToUse.FINITE, isBoolean(method) ? Outcome.FAILURE : Outcome.HANG);
+      addTests(suite, method, Scenario.SATISFIED_AND_OCCUPIED_BEFORE_ENTERING,
+          TimeoutsToUse.INFINITE, isGuarded(method) ? Outcome.HANG
               : (isTryEnter(method) ? Outcome.FAILURE : Outcome.HANG));
-      addTests(suite, method,
-          Scenario.SATISFIED_UNOCCUPIED_AND_INTERRUPTED_BEFORE_ENTERING,
-          TimeoutsToUse.ANY,
-          isInterruptible(method) ? Outcome.INTERRUPT : Outcome.SUCCESS);
+      addTests(suite, method, Scenario.SATISFIED_UNOCCUPIED_AND_INTERRUPTED_BEFORE_ENTERING,
+          TimeoutsToUse.ANY, isInterruptible(method) ? Outcome.INTERRUPT : Outcome.SUCCESS);
     } else { // any waitForXxx method
       suite.addTest(generateWaitForWhenNotOccupyingTestCase(method, true));
       suite.addTest(generateWaitForWhenNotOccupyingTestCase(method, false));
-      addTests(suite, method,
-          Scenario.SATISFIED_BEFORE_WAITING,
-          TimeoutsToUse.ANY,
+      addTests(suite, method, Scenario.SATISFIED_BEFORE_WAITING, TimeoutsToUse.ANY, Outcome.SUCCESS);
+      addTests(suite, method, Scenario.SATISFIED_WHILE_WAITING, TimeoutsToUse.INFINITE,
           Outcome.SUCCESS);
-      addTests(suite, method,
-          Scenario.SATISFIED_WHILE_WAITING,
-          TimeoutsToUse.INFINITE,
+      addTests(suite, method, Scenario.SATISFIED_WHILE_WAITING, TimeoutsToUse.PAST, Outcome.FAILURE);
+      addTests(suite, method, Scenario.SATISFIED_AND_INTERRUPTED_BEFORE_WAITING, TimeoutsToUse.ANY,
           Outcome.SUCCESS);
-      addTests(suite, method,
-          Scenario.SATISFIED_WHILE_WAITING,
-          TimeoutsToUse.PAST,
+      addTests(suite, method, Scenario.UNSATISFIED_BEFORE_AND_WHILE_WAITING, TimeoutsToUse.FINITE,
           Outcome.FAILURE);
-      addTests(suite, method,
-          Scenario.SATISFIED_AND_INTERRUPTED_BEFORE_WAITING,
-          TimeoutsToUse.ANY,
-          Outcome.SUCCESS);
-      addTests(suite, method,
-          Scenario.UNSATISFIED_BEFORE_AND_WHILE_WAITING,
-          TimeoutsToUse.FINITE,
-          Outcome.FAILURE);
-      addTests(suite, method,
-          Scenario.UNSATISFIED_BEFORE_AND_WHILE_WAITING,
-          TimeoutsToUse.INFINITE,
-          Outcome.HANG);
-      addTests(suite, method,
-          Scenario.UNSATISFIED_AND_INTERRUPTED_BEFORE_WAITING,
+      addTests(suite, method, Scenario.UNSATISFIED_BEFORE_AND_WHILE_WAITING,
+          TimeoutsToUse.INFINITE, Outcome.HANG);
+      addTests(suite, method, Scenario.UNSATISFIED_AND_INTERRUPTED_BEFORE_WAITING,
           TimeoutsToUse.PAST,
           // prefer responding to interrupt over timing out
           isInterruptible(method) ? Outcome.INTERRUPT : Outcome.FAILURE);
-      addTests(suite, method,
-          Scenario.UNSATISFIED_AND_INTERRUPTED_BEFORE_WAITING,
-          TimeoutsToUse.SMALL,
-          isInterruptible(method) ? Outcome.INTERRUPT : Outcome.FAILURE);
-      addTests(suite, method,
-          Scenario.UNSATISFIED_AND_INTERRUPTED_BEFORE_WAITING,
-          TimeoutsToUse.INFINITE,
-          isInterruptible(method) ? Outcome.INTERRUPT : Outcome.HANG);
+      addTests(suite, method, Scenario.UNSATISFIED_AND_INTERRUPTED_BEFORE_WAITING,
+          TimeoutsToUse.SMALL, isInterruptible(method) ? Outcome.INTERRUPT : Outcome.FAILURE);
+      addTests(suite, method, Scenario.UNSATISFIED_AND_INTERRUPTED_BEFORE_WAITING,
+          TimeoutsToUse.INFINITE, isInterruptible(method) ? Outcome.INTERRUPT : Outcome.HANG);
     }
   }
 
@@ -414,7 +368,7 @@ public class GeneratedMonitorTest extends TestCase {
    */
   private static void addTests(TestSuite suite, Method method, Scenario scenario,
       TimeoutsToUse timeoutsToUse, Outcome expectedOutcome) {
-    for (boolean fair : new boolean[] { true, false }) {
+    for (boolean fair : new boolean[] {true, false}) {
       if (isTimed(method)) {
         for (Timeout timeout : timeoutsToUse.timeouts) {
           suite.addTest(new GeneratedMonitorTest(method, scenario, fair, timeout, expectedOutcome));
@@ -460,8 +414,8 @@ public class GeneratedMonitorTest extends TestCase {
   private final CountDownLatch doingCallLatch;
   private final CountDownLatch callCompletedLatch;
 
-  private GeneratedMonitorTest(
-      Method method, Scenario scenario, boolean fair, Timeout timeout, Outcome expectedOutcome) {
+  private GeneratedMonitorTest(Method method, Scenario scenario, boolean fair, Timeout timeout,
+      Outcome expectedOutcome) {
     super(nameFor(method, scenario, fair, timeout, expectedOutcome));
     this.method = method;
     this.scenario = scenario;
@@ -474,32 +428,33 @@ public class GeneratedMonitorTest extends TestCase {
     this.callCompletedLatch = new CountDownLatch(1);
   }
 
-  private static String nameFor(
-      Method method, Scenario scenario, boolean fair, Timeout timeout, Outcome expectedOutcome) {
-    return String.format(Locale.ROOT,
-        "%s%s(%s)/%s->%s",
-        method.getName(),
-        fair ? "(fair)" : "(nonfair)",
-        (timeout == null) ? "untimed" : timeout,
-        scenario,
-        expectedOutcome);
+  private static String nameFor(Method method, Scenario scenario, boolean fair, Timeout timeout,
+      Outcome expectedOutcome) {
+    return String.format(Locale.ROOT, "%s%s(%s)/%s->%s", method.getName(), fair ? "(fair)"
+        : "(nonfair)", (timeout == null) ? "untimed" : timeout, scenario, expectedOutcome);
   }
 
   @Override
   protected void runTest() throws Throwable {
     final Runnable runChosenTest = new Runnable() {
-      @Override public void run() { runChosenTest(); }
+      @Override
+      public void run() {
+        runChosenTest();
+      }
     };
     final FutureTask<Void> task = new FutureTask<Void>(runChosenTest, null);
     startThread(new Runnable() {
-        @Override public void run() { task.run(); }
-      });
+      @Override
+      public void run() {
+        task.run();
+      }
+    });
     awaitUninterruptibly(doingCallLatch);
-    long hangDelayMillis = (expectedOutcome == Outcome.HANG)
-        ? EXPECTED_HANG_DELAY_MILLIS
-        : UNEXPECTED_HANG_DELAY_MILLIS;
-    boolean hung = !awaitUninterruptibly(
-        callCompletedLatch, hangDelayMillis, TimeUnit.MILLISECONDS);
+    long hangDelayMillis =
+        (expectedOutcome == Outcome.HANG) ? EXPECTED_HANG_DELAY_MILLIS
+            : UNEXPECTED_HANG_DELAY_MILLIS;
+    boolean hung =
+        !awaitUninterruptibly(callCompletedLatch, hangDelayMillis, TimeUnit.MILLISECONDS);
     if (hung) {
       assertEquals(expectedOutcome, Outcome.HANG);
     } else {
@@ -682,7 +637,8 @@ public class GeneratedMonitorTest extends TestCase {
   private void enterSatisfyGuardAndLeaveInAnotherThread() {
     final CountDownLatch startedLatch = new CountDownLatch(1);
     startThread(new Runnable() {
-      @Override public void run() {
+      @Override
+      public void run() {
         startedLatch.countDown();
         enterSatisfyGuardAndLeaveInCurrentThread();
       }
@@ -693,7 +649,8 @@ public class GeneratedMonitorTest extends TestCase {
   private void enterAndRemainOccupyingInAnotherThread() {
     final CountDownLatch enteredLatch = new CountDownLatch(1);
     startThread(new Runnable() {
-      @Override public void run() {
+      @Override
+      public void run() {
         monitor.enter();
         try {
           enteredLatch.countDown();
@@ -719,11 +676,11 @@ public class GeneratedMonitorTest extends TestCase {
    * with a guard that doesn't match the monitor produces an IllegalMonitorStateException.
    */
   private static TestCase generateGuardWithWrongMonitorTestCase(final Method method,
-                                                                final boolean fair1,
-                                                                final boolean fair2) {
+      final boolean fair1, final boolean fair2) {
     final boolean timed = isTimed(method); // Not going to bother with all timeouts, just 0ms.
     return new TestCase(method.getName() + (timed ? "(0ms)" : "()") + "/WrongMonitor->IMSE") {
-      @Override protected void runTest() throws Throwable {
+      @Override
+      protected void runTest() throws Throwable {
         Monitor monitor1 = new Monitor(fair1);
         Monitor monitor2 = new Monitor(fair2);
         FlagGuard guard = new FlagGuard(monitor2);
@@ -754,14 +711,14 @@ public class GeneratedMonitorTest extends TestCase {
    * monitor produces an IllegalMonitorStateException.
    */
   private static TestCase generateWaitForWhenNotOccupyingTestCase(final Method method,
-                                                                  final boolean fair) {
+      final boolean fair) {
     final boolean timed = isTimed(method); // Not going to bother with all timeouts, just 0ms.
-    String testName = method.getName()
-        + (fair ? "(fair)" : "(nonfair)")
-        + (timed ? "(0ms)" : "()")
-        + "/NotOccupying->IMSE";
+    String testName =
+        method.getName() + (fair ? "(fair)" : "(nonfair)") + (timed ? "(0ms)" : "()")
+            + "/NotOccupying->IMSE";
     return new TestCase(testName) {
-      @Override protected void runTest() throws Throwable {
+      @Override
+      protected void runTest() throws Throwable {
         Monitor monitor = new Monitor(fair);
         FlagGuard guard = new FlagGuard(monitor);
         Object[] arguments =

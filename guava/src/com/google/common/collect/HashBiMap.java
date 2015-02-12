@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -41,7 +41,8 @@ import javax.annotation.Nullable;
  * A {@link BiMap} backed by two hash tables. This implementation allows null keys and values. A
  * {@code HashBiMap} and its inverse are both serializable.
  *
- * <p>See the Guava User Guide article on <a href=
+ * <p>
+ * See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#BiMap"> {@code BiMap}
  * </a>.
  *
@@ -50,8 +51,8 @@ import javax.annotation.Nullable;
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
-public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V> 
-    implements BiMap<K, V>, Serializable {
+public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V> implements BiMap<K, V>,
+    Serializable {
 
   /**
    * Returns a new, empty {@code HashBiMap} with the default initial capacity (16).
@@ -98,7 +99,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   private static final double LOAD_FACTOR = 1.0;
-  
+
   private transient BiEntry<K, V>[] hashTableKToV;
   private transient BiEntry<K, V>[] hashTableVToK;
   private transient int size;
@@ -120,14 +121,14 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   /**
-   * Finds and removes {@code entry} from the bucket linked lists in both the
-   * key-to-value direction and the value-to-key direction.
+   * Finds and removes {@code entry} from the bucket linked lists in both the key-to-value direction
+   * and the value-to-key direction.
    */
   private void delete(BiEntry<K, V> entry) {
     int keyBucket = entry.keyHash & mask;
     BiEntry<K, V> prevBucketEntry = null;
-    for (BiEntry<K, V> bucketEntry = hashTableKToV[keyBucket]; true;
-        bucketEntry = bucketEntry.nextInKToVBucket) {
+    for (BiEntry<K, V> bucketEntry = hashTableKToV[keyBucket]; true; bucketEntry =
+        bucketEntry.nextInKToVBucket) {
       if (bucketEntry == entry) {
         if (prevBucketEntry == null) {
           hashTableKToV[keyBucket] = entry.nextInKToVBucket;
@@ -141,8 +142,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
     int valueBucket = entry.valueHash & mask;
     prevBucketEntry = null;
-    for (BiEntry<K, V> bucketEntry = hashTableVToK[valueBucket];;
-        bucketEntry = bucketEntry.nextInVToKBucket) {
+    for (BiEntry<K, V> bucketEntry = hashTableVToK[valueBucket];; bucketEntry =
+        bucketEntry.nextInVToKBucket) {
       if (bucketEntry == entry) {
         if (prevBucketEntry == null) {
           hashTableVToK[valueBucket] = entry.nextInVToKBucket;
@@ -176,8 +177,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   private BiEntry<K, V> seekByKey(@Nullable Object key, int keyHash) {
-    for (BiEntry<K, V> entry = hashTableKToV[keyHash & mask]; entry != null;
-        entry = entry.nextInKToVBucket) {
+    for (BiEntry<K, V> entry = hashTableKToV[keyHash & mask]; entry != null; entry =
+        entry.nextInKToVBucket) {
       if (keyHash == entry.keyHash && Objects.equal(key, entry.key)) {
         return entry;
       }
@@ -186,8 +187,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   private BiEntry<K, V> seekByValue(@Nullable Object value, int valueHash) {
-    for (BiEntry<K, V> entry = hashTableVToK[valueHash & mask]; entry != null;
-        entry = entry.nextInVToKBucket) {
+    for (BiEntry<K, V> entry = hashTableVToK[valueHash & mask]; entry != null; entry =
+        entry.nextInVToKBucket) {
       if (valueHash == entry.valueHash && Objects.equal(value, entry.value)) {
         return entry;
       }
@@ -435,22 +436,24 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
           this.delegate = entry;
         }
 
-        @Override public K getKey() {
+        @Override
+        public K getKey() {
           return delegate.key;
         }
 
-        @Override public V getValue() {
+        @Override
+        public V getValue() {
           return delegate.value;
         }
 
-        @Override public V setValue(V value) {
+        @Override
+        public V setValue(V value) {
           V oldValue = delegate.value;
           int valueHash = hash(value);
           if (valueHash == delegate.valueHash && Objects.equal(value, oldValue)) {
             return value;
           }
-          checkArgument(
-              seekByValue(value, valueHash) == null, "value already present: %s", value);
+          checkArgument(seekByValue(value, valueHash) == null, "value already present: %s", value);
           delete(delegate);
           BiEntry<K, V> newEntry =
               new BiEntry<K, V>(delegate.key, delegate.keyHash, value, valueHash);
@@ -549,7 +552,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       @Override
       public Iterator<V> iterator() {
         return new Itr<V>() {
-          @Override V output(BiEntry<K, V> entry) {
+          @Override
+          V output(BiEntry<K, V> entry) {
             return entry.value;
           }
         };

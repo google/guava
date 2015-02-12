@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -42,7 +40,8 @@ import java.util.List;
 public class ThrowablesTest extends TestCase {
   public void testPropagateIfPossible_NoneDeclared_NoneThrown() {
     Sample sample = new Sample() {
-      @Override public void noneDeclared() {
+      @Override
+      public void noneDeclared() {
         try {
           methodThatDoesntThrowAnything();
         } catch (Throwable t) {
@@ -58,7 +57,8 @@ public class ThrowablesTest extends TestCase {
 
   public void testPropagateIfPossible_NoneDeclared_UncheckedThrown() {
     Sample sample = new Sample() {
-      @Override public void noneDeclared() {
+      @Override
+      public void noneDeclared() {
         try {
           methodThatThrowsUnchecked();
         } catch (Throwable t) {
@@ -78,7 +78,8 @@ public class ThrowablesTest extends TestCase {
 
   public void testPropagateIfPossible_NoneDeclared_UndeclaredThrown() {
     Sample sample = new Sample() {
-      @Override public void noneDeclared() {
+      @Override
+      public void noneDeclared() {
         try {
           methodThatThrowsUndeclaredChecked();
         } catch (Throwable t) {
@@ -96,10 +97,10 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  public void testPropagateIfPossible_OneDeclared_NoneThrown()
-      throws SomeCheckedException {
+  public void testPropagateIfPossible_OneDeclared_NoneThrown() throws SomeCheckedException {
     Sample sample = new Sample() {
-      @Override public void oneDeclared() throws SomeCheckedException {
+      @Override
+      public void oneDeclared() throws SomeCheckedException {
         try {
           methodThatDoesntThrowAnything();
         } catch (Throwable t) {
@@ -115,10 +116,10 @@ public class ThrowablesTest extends TestCase {
     sample.oneDeclared();
   }
 
-  public void testPropagateIfPossible_OneDeclared_UncheckedThrown()
-      throws SomeCheckedException {
+  public void testPropagateIfPossible_OneDeclared_UncheckedThrown() throws SomeCheckedException {
     Sample sample = new Sample() {
-      @Override public void oneDeclared() throws SomeCheckedException {
+      @Override
+      public void oneDeclared() throws SomeCheckedException {
         try {
           methodThatThrowsUnchecked();
         } catch (Throwable t) {
@@ -138,7 +139,8 @@ public class ThrowablesTest extends TestCase {
 
   public void testPropagateIfPossible_OneDeclared_CheckedThrown() {
     Sample sample = new Sample() {
-      @Override public void oneDeclared() throws SomeCheckedException {
+      @Override
+      public void oneDeclared() throws SomeCheckedException {
         try {
           methodThatThrowsChecked();
         } catch (Throwable t) {
@@ -156,10 +158,10 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  public void testPropagateIfPossible_OneDeclared_UndeclaredThrown()
-      throws SomeCheckedException {
+  public void testPropagateIfPossible_OneDeclared_UndeclaredThrown() throws SomeCheckedException {
     Sample sample = new Sample() {
-      @Override public void oneDeclared() throws SomeCheckedException {
+      @Override
+      public void oneDeclared() throws SomeCheckedException {
         try {
           methodThatThrowsUndeclaredChecked();
         } catch (Throwable t) {
@@ -177,11 +179,11 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  public void testPropagateIfPossible_TwoDeclared_NoneThrown()
-      throws SomeCheckedException, SomeOtherCheckedException {
+  public void testPropagateIfPossible_TwoDeclared_NoneThrown() throws SomeCheckedException,
+      SomeOtherCheckedException {
     Sample sample = new Sample() {
-      @Override public void twoDeclared() throws SomeCheckedException,
-          SomeOtherCheckedException {
+      @Override
+      public void twoDeclared() throws SomeCheckedException, SomeOtherCheckedException {
         try {
           methodThatDoesntThrowAnything();
         } catch (Throwable t) {
@@ -196,11 +198,11 @@ public class ThrowablesTest extends TestCase {
     sample.twoDeclared();
   }
 
-  public void testPropagateIfPossible_TwoDeclared_UncheckedThrown()
-      throws SomeCheckedException, SomeOtherCheckedException {
+  public void testPropagateIfPossible_TwoDeclared_UncheckedThrown() throws SomeCheckedException,
+      SomeOtherCheckedException {
     Sample sample = new Sample() {
-      @Override public void twoDeclared() throws SomeCheckedException,
-          SomeOtherCheckedException {
+      @Override
+      public void twoDeclared() throws SomeCheckedException, SomeOtherCheckedException {
         try {
           methodThatThrowsUnchecked();
         } catch (Throwable t) {
@@ -219,11 +221,10 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  public void testPropagateIfPossible_TwoDeclared_CheckedThrown()
-      throws SomeOtherCheckedException {
+  public void testPropagateIfPossible_TwoDeclared_CheckedThrown() throws SomeOtherCheckedException {
     Sample sample = new Sample() {
-      @Override public void twoDeclared() throws SomeCheckedException,
-          SomeOtherCheckedException {
+      @Override
+      public void twoDeclared() throws SomeCheckedException, SomeOtherCheckedException {
         try {
           methodThatThrowsChecked();
         } catch (Throwable t) {
@@ -242,11 +243,10 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  public void testPropagateIfPossible_TwoDeclared_OtherCheckedThrown()
-      throws SomeCheckedException {
+  public void testPropagateIfPossible_TwoDeclared_OtherCheckedThrown() throws SomeCheckedException {
     Sample sample = new Sample() {
-      @Override public void twoDeclared() throws SomeCheckedException,
-          SomeOtherCheckedException {
+      @Override
+      public void twoDeclared() throws SomeCheckedException, SomeOtherCheckedException {
         try {
           methodThatThrowsOtherChecked();
         } catch (Throwable t) {
@@ -268,13 +268,13 @@ public class ThrowablesTest extends TestCase {
   public void testPropageIfPossible_null() throws SomeCheckedException {
     Throwables.propagateIfPossible(null);
     Throwables.propagateIfPossible(null, SomeCheckedException.class);
-    Throwables.propagateIfPossible(null, SomeCheckedException.class,
-        SomeUncheckedException.class);
+    Throwables.propagateIfPossible(null, SomeCheckedException.class, SomeUncheckedException.class);
   }
 
   public void testPropagate_NoneDeclared_NoneThrown() {
     Sample sample = new Sample() {
-      @Override public void noneDeclared() {
+      @Override
+      public void noneDeclared() {
         try {
           methodThatDoesntThrowAnything();
         } catch (Throwable t) {
@@ -289,7 +289,8 @@ public class ThrowablesTest extends TestCase {
 
   public void testPropagate_NoneDeclared_UncheckedThrown() {
     Sample sample = new Sample() {
-      @Override public void noneDeclared() {
+      @Override
+      public void noneDeclared() {
         try {
           methodThatThrowsUnchecked();
         } catch (Throwable t) {
@@ -308,7 +309,8 @@ public class ThrowablesTest extends TestCase {
 
   public void testPropagate_NoneDeclared_ErrorThrown() {
     Sample sample = new Sample() {
-      @Override public void noneDeclared() {
+      @Override
+      public void noneDeclared() {
         try {
           methodThatThrowsError();
         } catch (Throwable t) {
@@ -327,7 +329,8 @@ public class ThrowablesTest extends TestCase {
 
   public void testPropagate_NoneDeclared_CheckedThrown() {
     Sample sample = new Sample() {
-      @Override public void noneDeclared() {
+      @Override
+      public void noneDeclared() {
         try {
           methodThatThrowsChecked();
         } catch (Throwable t) {
@@ -345,10 +348,10 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  public void testPropagateIfInstanceOf_NoneThrown()
-      throws SomeCheckedException {
+  public void testPropagateIfInstanceOf_NoneThrown() throws SomeCheckedException {
     Sample sample = new Sample() {
-      @Override public void oneDeclared() throws SomeCheckedException {
+      @Override
+      public void oneDeclared() throws SomeCheckedException {
         try {
           methodThatDoesntThrowAnything();
         } catch (Throwable t) {
@@ -364,7 +367,8 @@ public class ThrowablesTest extends TestCase {
 
   public void testPropagateIfInstanceOf_DeclaredThrown() {
     Sample sample = new Sample() {
-      @Override public void oneDeclared() throws SomeCheckedException {
+      @Override
+      public void oneDeclared() throws SomeCheckedException {
         try {
           methodThatThrowsChecked();
         } catch (Throwable t) {
@@ -382,10 +386,10 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  public void testPropagateIfInstanceOf_UncheckedThrown()
-      throws SomeCheckedException {
+  public void testPropagateIfInstanceOf_UncheckedThrown() throws SomeCheckedException {
     Sample sample = new Sample() {
-      @Override public void oneDeclared() throws SomeCheckedException {
+      @Override
+      public void oneDeclared() throws SomeCheckedException {
         try {
           methodThatThrowsUnchecked();
         } catch (Throwable t) {
@@ -403,10 +407,10 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  public void testPropagateIfInstanceOf_UndeclaredThrown()
-      throws SomeCheckedException {
+  public void testPropagateIfInstanceOf_UndeclaredThrown() throws SomeCheckedException {
     Sample sample = new Sample() {
-      @Override public void oneDeclared() throws SomeCheckedException {
+      @Override
+      public void oneDeclared() throws SomeCheckedException {
         try {
           methodThatThrowsOtherChecked();
         } catch (Throwable t) {
@@ -442,16 +446,20 @@ public class ThrowablesTest extends TestCase {
 
   public void testGetRootCause_DoubleWrapped() {
     SomeCheckedException cause = new SomeCheckedException();
-    SomeChainingException exception =
-        new SomeChainingException(new SomeChainingException(cause));
+    SomeChainingException exception = new SomeChainingException(new SomeChainingException(cause));
     assertSame(cause, Throwables.getRootCause(exception));
   }
 
-  private static class SomeError extends Error {}
-  private static class SomeCheckedException extends Exception {}
-  private static class SomeOtherCheckedException extends Exception {}
-  private static class SomeUncheckedException extends RuntimeException {}
-  private static class SomeUndeclaredCheckedException extends Exception {}
+  private static class SomeError extends Error {
+  }
+  private static class SomeCheckedException extends Exception {
+  }
+  private static class SomeOtherCheckedException extends Exception {
+  }
+  private static class SomeUncheckedException extends RuntimeException {
+  }
+  private static class SomeUndeclaredCheckedException extends Exception {
+  }
   private static class SomeChainingException extends RuntimeException {
     public SomeChainingException(Throwable cause) {
       super(cause);
@@ -460,25 +468,31 @@ public class ThrowablesTest extends TestCase {
 
   static class Sample {
     void noneDeclared() {}
+
     void oneDeclared() throws SomeCheckedException {}
+
     void twoDeclared() throws SomeCheckedException, SomeOtherCheckedException {}
   }
 
   static void methodThatDoesntThrowAnything() {}
+
   static void methodThatThrowsError() {
     throw new SomeError();
   }
+
   static void methodThatThrowsUnchecked() {
     throw new SomeUncheckedException();
   }
+
   static void methodThatThrowsChecked() throws SomeCheckedException {
     throw new SomeCheckedException();
   }
+
   static void methodThatThrowsOtherChecked() throws SomeOtherCheckedException {
     throw new SomeOtherCheckedException();
   }
-  static void methodThatThrowsUndeclaredChecked()
-      throws SomeUndeclaredCheckedException {
+
+  static void methodThatThrowsUndeclaredChecked() throws SomeUndeclaredCheckedException {
     throw new SomeUndeclaredCheckedException();
   }
 

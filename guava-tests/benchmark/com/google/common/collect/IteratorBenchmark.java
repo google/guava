@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -29,14 +27,16 @@ import java.util.LinkedList;
  * @author David Richter
  */
 public class IteratorBenchmark {
-  @Param({"0", "1", "16", "256", "4096", "65536"}) int size;
+  @Param({"0", "1", "16", "256", "4096", "65536"})
+  int size;
 
   // use concrete classes to remove any possible polymorphic overhead?
   Object[] array;
   ArrayList<Object> arrayList;
   LinkedList<Object> linkedList;
 
-  @BeforeExperiment void setUp() {
+  @BeforeExperiment
+  void setUp() {
     array = new Object[size];
     arrayList = Lists.newArrayListWithCapacity(size);
     linkedList = Lists.newLinkedList();
@@ -49,7 +49,8 @@ public class IteratorBenchmark {
     }
   }
 
-  @Benchmark int arrayIndexed(int reps) {
+  @Benchmark
+  int arrayIndexed(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (int index = 0; index < size; index++) {
@@ -59,7 +60,8 @@ public class IteratorBenchmark {
     return sum;
   }
 
-  @Benchmark int arrayIndexedLength(int reps) {
+  @Benchmark
+  int arrayIndexedLength(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (int index = 0; index < array.length; index++) {
@@ -69,7 +71,8 @@ public class IteratorBenchmark {
     return sum;
   }
 
-  @Benchmark int arrayFor(int reps) {
+  @Benchmark
+  int arrayFor(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (Object value : array) {
@@ -79,7 +82,8 @@ public class IteratorBenchmark {
     return sum;
   }
 
-  @Benchmark int arrayListIndexed(int reps) {
+  @Benchmark
+  int arrayListIndexed(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (int index = 0; index < size; index++) {
@@ -89,7 +93,8 @@ public class IteratorBenchmark {
     return sum;
   }
 
-  @Benchmark int arrayListIndexedLength(int reps) {
+  @Benchmark
+  int arrayListIndexedLength(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (int index = 0; index < arrayList.size(); index++) {
@@ -99,7 +104,8 @@ public class IteratorBenchmark {
     return sum;
   }
 
-  @Benchmark int arrayListFor(int reps) {
+  @Benchmark
+  int arrayListFor(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (Object value : arrayList) {
@@ -109,7 +115,8 @@ public class IteratorBenchmark {
     return sum;
   }
 
-  @Benchmark int arrayListToArrayFor(int reps) {
+  @Benchmark
+  int arrayListToArrayFor(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (Object value : arrayList.toArray()) {
@@ -119,7 +126,8 @@ public class IteratorBenchmark {
     return sum;
   }
 
-  @Benchmark int linkedListFor(int reps) {
+  @Benchmark
+  int linkedListFor(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (Object value : linkedList) {
@@ -129,7 +137,8 @@ public class IteratorBenchmark {
     return sum;
   }
 
-  @Benchmark int linkedListToArrayFor(int reps) {
+  @Benchmark
+  int linkedListToArrayFor(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
       for (Object value : linkedList.toArray()) {

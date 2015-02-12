@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -66,9 +64,10 @@ public class TrustedListenableFutureTaskTest extends TestCase {
 
   public void testFailed() throws Exception {
     final Exception e = new Exception();
-    TrustedListenableFutureTask<Integer> task = TrustedListenableFutureTask.create(
-        new Callable<Integer>() {
-          @Override public Integer call() throws Exception {
+    TrustedListenableFutureTask<Integer> task =
+        TrustedListenableFutureTask.create(new Callable<Integer>() {
+          @Override
+          public Integer call() throws Exception {
             throw e;
           }
         });
@@ -84,17 +83,17 @@ public class TrustedListenableFutureTaskTest extends TestCase {
   }
 
   @GwtIncompatible("blocking wait")
-
   public void testCancel_interrupted() throws Exception {
     final AtomicBoolean interruptedExceptionThrown = new AtomicBoolean();
     final CountDownLatch enterLatch = new CountDownLatch(1);
     final CountDownLatch exitLatch = new CountDownLatch(1);
-    final TrustedListenableFutureTask<Integer> task = TrustedListenableFutureTask.create(
-        new Callable<Integer>() {
-          @Override public Integer call() throws Exception {
+    final TrustedListenableFutureTask<Integer> task =
+        TrustedListenableFutureTask.create(new Callable<Integer>() {
+          @Override
+          public Integer call() throws Exception {
             enterLatch.countDown();
             try {
-              new CountDownLatch(1).await();  // wait forever
+              new CountDownLatch(1).await(); // wait forever
               throw new AssertionError();
             } catch (InterruptedException e) {
               interruptedExceptionThrown.set(true);
@@ -105,7 +104,8 @@ public class TrustedListenableFutureTaskTest extends TestCase {
         });
     assertFalse(task.isDone());
     Thread thread = new Thread(new Runnable() {
-      @Override public void run() {
+      @Override
+      public void run() {
         try {
           task.run();
         } finally {
@@ -130,21 +130,22 @@ public class TrustedListenableFutureTaskTest extends TestCase {
   }
 
   @GwtIncompatible("blocking wait")
-
   public void testRunIdempotency() throws Exception {
     final int numThreads = 10;
     final ExecutorService executor = Executors.newFixedThreadPool(numThreads);
     for (int i = 0; i < 1000; i++) {
       final AtomicInteger counter = new AtomicInteger();
-      final TrustedListenableFutureTask<Integer> task = TrustedListenableFutureTask.create(
-          new Callable<Integer>() {
-            @Override public Integer call() {
+      final TrustedListenableFutureTask<Integer> task =
+          TrustedListenableFutureTask.create(new Callable<Integer>() {
+            @Override
+            public Integer call() {
               return counter.incrementAndGet();
             }
           });
       final CyclicBarrier barrier = new CyclicBarrier(numThreads + 1);
       Runnable wrapper = new Runnable() {
-        @Override public void run() {
+        @Override
+        public void run() {
           awaitUnchecked(barrier);
           task.run();
           awaitUnchecked(barrier);
@@ -153,8 +154,8 @@ public class TrustedListenableFutureTaskTest extends TestCase {
       for (int j = 0; j < 10; j++) {
         executor.execute(wrapper);
       }
-      barrier.await();  // release the threads!
-      barrier.await();  // wait for them all to complete
+      barrier.await(); // release the threads!
+      barrier.await(); // wait for them all to complete
       assertEquals(1, task.get().intValue());
       assertEquals(1, counter.get());
     }

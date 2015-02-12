@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -31,20 +29,23 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * A benchmark that times how long it takes to add a given number of 
+ * A benchmark that times how long it takes to add a given number of
  */
 @VmOptions({"-Xms8g", "-Xmx8g"})
 public class SingleThreadAbstractFutureBenchmark {
-  @Param Impl impl;
+  @Param
+  Impl impl;
 
   private final Exception exception = new Exception();
   private Facade<?> notDoneFuture;
 
-  @BeforeExperiment void setUp() throws Exception {
+  @BeforeExperiment
+  void setUp() throws Exception {
     notDoneFuture = impl.newFacade();
   }
 
-  @Benchmark public long timeComplete_Normal(int reps) throws Exception {
+  @Benchmark
+  public long timeComplete_Normal(int reps) throws Exception {
     long r = 0;
     List<Facade<Integer>> list = new ArrayList<Facade<Integer>>(reps);
     for (int i = 0; i < reps; i++) {
@@ -58,7 +59,8 @@ public class SingleThreadAbstractFutureBenchmark {
     return r;
   }
 
-  @Benchmark public long timeComplete_Failure(int reps) throws Exception {
+  @Benchmark
+  public long timeComplete_Failure(int reps) throws Exception {
     long r = 0;
     List<Facade<Integer>> list = new ArrayList<Facade<Integer>>(reps);
     for (int i = 0; i < reps; i++) {
@@ -78,7 +80,8 @@ public class SingleThreadAbstractFutureBenchmark {
     return r;
   }
 
-  @Benchmark public long timeComplete_Cancel(int reps) throws Exception {
+  @Benchmark
+  public long timeComplete_Cancel(int reps) throws Exception {
     long r = 0;
     List<Facade<Integer>> list = new ArrayList<Facade<Integer>>(reps);
     for (int i = 0; i < reps; i++) {
@@ -98,7 +101,8 @@ public class SingleThreadAbstractFutureBenchmark {
     return r;
   }
 
-  @Benchmark public long timeGetWith0Timeout(long reps) throws Exception {
+  @Benchmark
+  public long timeGetWith0Timeout(long reps) throws Exception {
     Facade<?> f = notDoneFuture;
     long r = 0;
     for (int i = 0; i < reps; i++) {
@@ -111,7 +115,9 @@ public class SingleThreadAbstractFutureBenchmark {
     }
     return r;
   }
-  @Benchmark public long timeGetWithSmallTimeout(long reps) throws Exception {
+
+  @Benchmark
+  public long timeGetWithSmallTimeout(long reps) throws Exception {
     Facade<?> f = notDoneFuture;
     long r = 0;
     for (int i = 0; i < reps; i++) {

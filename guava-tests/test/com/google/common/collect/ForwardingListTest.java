@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -46,134 +44,155 @@ public class ForwardingListTest extends ForwardingTestCase {
       this.backingList = backingList;
     }
 
-    @Override protected List<T> delegate() {
+    @Override
+    protected List<T> delegate() {
       return backingList;
     }
 
-    @Override public boolean add(T element) {
+    @Override
+    public boolean add(T element) {
       return standardAdd(element);
     }
 
-    @Override public boolean addAll(Collection<? extends T> collection) {
+    @Override
+    public boolean addAll(Collection<? extends T> collection) {
       return standardAddAll(collection);
     }
 
-    @Override public void clear() {
+    @Override
+    public void clear() {
       standardClear();
     }
 
-    @Override public boolean contains(Object object) {
+    @Override
+    public boolean contains(Object object) {
       return standardContains(object);
     }
 
-    @Override public boolean containsAll(Collection<?> collection) {
+    @Override
+    public boolean containsAll(Collection<?> collection) {
       return standardContainsAll(collection);
     }
 
-    @Override public boolean remove(Object object) {
+    @Override
+    public boolean remove(Object object) {
       return standardRemove(object);
     }
 
-    @Override public boolean removeAll(Collection<?> collection) {
+    @Override
+    public boolean removeAll(Collection<?> collection) {
       return standardRemoveAll(collection);
     }
 
-    @Override public boolean retainAll(Collection<?> collection) {
+    @Override
+    public boolean retainAll(Collection<?> collection) {
       return standardRetainAll(collection);
     }
 
-    @Override public Object[] toArray() {
+    @Override
+    public Object[] toArray() {
       return standardToArray();
     }
 
-    @Override public <T> T[] toArray(T[] array) {
+    @Override
+    public <T> T[] toArray(T[] array) {
       return standardToArray(array);
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return standardToString();
     }
 
-    @Override public boolean addAll(
-        int index, Collection<? extends T> elements) {
+    @Override
+    public boolean addAll(int index, Collection<? extends T> elements) {
       return standardAddAll(index, elements);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override
+    public boolean equals(Object object) {
       return standardEquals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return standardHashCode();
     }
 
-    @Override public int indexOf(Object element) {
+    @Override
+    public int indexOf(Object element) {
       return standardIndexOf(element);
     }
 
-    @Override public int lastIndexOf(Object element) {
+    @Override
+    public int lastIndexOf(Object element) {
       return standardLastIndexOf(element);
     }
 
-    @Override public Iterator<T> iterator() {
+    @Override
+    public Iterator<T> iterator() {
       return listIterator();
     }
 
-    @Override public ListIterator<T> listIterator() {
+    @Override
+    public ListIterator<T> listIterator() {
       return listIterator(0);
     }
 
-    @Override public ListIterator<T> listIterator(int index) {
+    @Override
+    public ListIterator<T> listIterator(int index) {
       return standardListIterator(index);
     }
 
-    @Override public List<T> subList(int fromIndex, int toIndex) {
+    @Override
+    public List<T> subList(int fromIndex, int toIndex) {
       return standardSubList(fromIndex, toIndex);
     }
   }
-  
-  private static final List<String> EMPTY_LIST =
-      Collections.<String>emptyList();
+
+  private static final List<String> EMPTY_LIST = Collections.<String>emptyList();
 
   private List<String> forward;
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    
-    suite.addTestSuite(ForwardingListTest.class);
-    suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
 
-      @Override protected List<String> create(String[] elements) {
-        return new StandardImplForwardingList<String>(
-            Lists.newArrayList(elements));
-      }
-    }).named("ForwardingList[ArrayList] with standard implementations")
+    suite.addTestSuite(ForwardingListTest.class);
+    suite.addTest(ListTestSuiteBuilder
+        .using(new TestStringListGenerator() {
+
+          @Override
+          protected List<String> create(String[] elements) {
+            return new StandardImplForwardingList<String>(Lists.newArrayList(elements));
+          }
+        })
+        .named("ForwardingList[ArrayList] with standard implementations")
         .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
             ListFeature.GENERAL_PURPOSE).createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
 
-      @Override protected List<String> create(String[] elements) {
-        return new StandardImplForwardingList<String>(
-            ImmutableList.copyOf(elements));
+      @Override
+      protected List<String> create(String[] elements) {
+        return new StandardImplForwardingList<String>(ImmutableList.copyOf(elements));
       }
     }).named("ForwardingList[ImmutableList] with standard implementations")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
-    
+        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES).createTestSuite());
+
     return suite;
   }
-  
-  @Override public void setUp() throws Exception {
+
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
+     * Class parameters must be raw, so we can't create a proxy with generic type arguments. The
+     * created proxy only records calls and returns null, so the type is irrelevant at runtime.
      */
     @SuppressWarnings("unchecked")
     final List<String> list = createProxyInstance(List.class);
     forward = new ForwardingList<String>() {
-      @Override protected List<String> delegate() {
+      @Override
+      protected List<String> delegate() {
         return list;
       }
     };

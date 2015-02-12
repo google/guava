@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -49,7 +47,8 @@ public class UnsignedLongsBenchmark {
     }
   }
 
-  @Benchmark long divide(int reps) {
+  @Benchmark
+  long divide(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -58,7 +57,8 @@ public class UnsignedLongsBenchmark {
     return tmp;
   }
 
-  @Benchmark long remainder(int reps) {
+  @Benchmark
+  long remainder(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -67,7 +67,8 @@ public class UnsignedLongsBenchmark {
     return tmp;
   }
 
-  @Benchmark long parseUnsignedLong(int reps) {
+  @Benchmark
+  long parseUnsignedLong(int reps) {
     long tmp = 0;
     // Given that we make three calls per pass, we scale reps down in order
     // to do a comparable amount of work to other measurements.
@@ -81,7 +82,8 @@ public class UnsignedLongsBenchmark {
     return tmp;
   }
 
-  @Benchmark long parseDecode10(int reps) {
+  @Benchmark
+  long parseDecode10(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -90,7 +92,8 @@ public class UnsignedLongsBenchmark {
     return tmp;
   }
 
-  @Benchmark long parseDecode16(int reps) {
+  @Benchmark
+  long parseDecode16(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -99,7 +102,8 @@ public class UnsignedLongsBenchmark {
     return tmp;
   }
 
-  @Benchmark int toString(int reps) {
+  @Benchmark
+  int toString(int reps) {
     int tmp = 0;
     // Given that we make three calls per pass, we scale reps down in order
     // to do a comparable amount of work to other measurements.

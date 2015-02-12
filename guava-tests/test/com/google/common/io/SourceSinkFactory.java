@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -24,7 +22,8 @@ import java.io.IOException;
  * factory specifies what content should be expected to be read from a source or contained in a sink
  * given the content data that was used to create the source or that was written to the sink.
  *
- * <p>A single {@code SourceSinkFactory} implementation generally corresponds to one specific way of
+ * <p>
+ * A single {@code SourceSinkFactory} implementation generally corresponds to one specific way of
  * creating a source or sink, such as {@link Files#asByteSource(File)}. Implementations of
  * {@code SourceSinkFactory} for common.io are found in {@link SourceSinkFactories}.
  *

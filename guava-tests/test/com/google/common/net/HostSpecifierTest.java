@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.net;
@@ -26,27 +24,25 @@ import java.text.ParseException;
 import java.util.List;
 
 /**
- * {@link TestCase} for {@link HostSpecifier}.  This is a relatively
- * cursory test, as HostSpecifier is a thin wrapper around
- * {@link InetAddresses} and {@link InternetDomainName}; the unit tests for
- * those classes explore numerous corner cases.  The intent here is to
- * confirm that everything is wired up properly.
+ * {@link TestCase} for {@link HostSpecifier}. This is a relatively cursory test, as HostSpecifier
+ * is a thin wrapper around {@link InetAddresses} and {@link InternetDomainName}; the unit tests for
+ * those classes explore numerous corner cases. The intent here is to confirm that everything is
+ * wired up properly.
  *
  * @author Craig Berry
  */
 public final class HostSpecifierTest extends TestCase {
 
-  private static final List<String> GOOD_IPS = ImmutableList.of(
-      "1.2.3.4", "2001:db8::1", "[2001:db8::1]");
+  private static final List<String> GOOD_IPS = ImmutableList.of("1.2.3.4", "2001:db8::1",
+      "[2001:db8::1]");
 
-  private static final List<String> BAD_IPS = ImmutableList.of(
-      "1.2.3", "2001:db8::1::::::0", "[2001:db8::1", "[::]:80");
+  private static final List<String> BAD_IPS = ImmutableList.of("1.2.3", "2001:db8::1::::::0",
+      "[2001:db8::1", "[::]:80");
 
-  private static final List<String> GOOD_DOMAINS = ImmutableList.of(
-      "com", "google.com", "foo.co.uk");
+  private static final List<String> GOOD_DOMAINS = ImmutableList.of("com", "google.com",
+      "foo.co.uk");
 
-  private static final List<String> BAD_DOMAINS = ImmutableList.of(
-      "foo.blah", "", "[google.com]");
+  private static final List<String> BAD_DOMAINS = ImmutableList.of("foo.blah", "", "[google.com]");
 
   public void testGoodIpAddresses() throws ParseException {
     for (String spec : GOOD_IPS) {
@@ -73,14 +69,11 @@ public final class HostSpecifierTest extends TestCase {
   }
 
   public void testEquality() {
-    new EqualsTester()
-        .addEqualityGroup(spec("1.2.3.4"), spec("1.2.3.4"))
-        .addEqualityGroup(
-            spec("2001:db8::1"), spec("2001:db8::1"), spec("[2001:db8::1]"))
+    new EqualsTester().addEqualityGroup(spec("1.2.3.4"), spec("1.2.3.4"))
+        .addEqualityGroup(spec("2001:db8::1"), spec("2001:db8::1"), spec("[2001:db8::1]"))
         .addEqualityGroup(spec("2001:db8::2"))
         .addEqualityGroup(spec("google.com"), spec("google.com"))
-        .addEqualityGroup(spec("www.google.com"))
-        .testEquals();
+        .addEqualityGroup(spec("www.google.com")).testEquals();
   }
 
   private static HostSpecifier spec(String specifier) {
@@ -95,7 +88,7 @@ public final class HostSpecifierTest extends TestCase {
   }
 
   private void assertGood(String spec) throws ParseException {
-    HostSpecifier.fromValid(spec);  // Throws exception if not working correctly
+    HostSpecifier.fromValid(spec); // Throws exception if not working correctly
     HostSpecifier.from(spec);
     assertTrue(HostSpecifier.isValid(spec));
   }

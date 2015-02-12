@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.eventbus;
@@ -91,11 +89,10 @@ public class SubscriberTest extends TestCase {
     Method charAt = String.class.getMethod("charAt", int.class);
     Method concat = String.class.getMethod("concat", String.class);
     new EqualsTester()
-        .addEqualityGroup(
-            Subscriber.create(bus, "foo", charAt), Subscriber.create(bus, "foo", charAt))
+        .addEqualityGroup(Subscriber.create(bus, "foo", charAt),
+            Subscriber.create(bus, "foo", charAt))
         .addEqualityGroup(Subscriber.create(bus, "bar", charAt))
-        .addEqualityGroup(Subscriber.create(bus, "foo", concat))
-        .testEquals();
+        .addEqualityGroup(Subscriber.create(bus, "foo", concat)).testEquals();
   }
 
   private Method getTestSubscriberMethod(String name) {
@@ -107,7 +104,7 @@ public class SubscriberTest extends TestCase {
   }
 
   /**
-   * Records the provided object in {@link #methodArgument} and sets {@link #methodCalled}.  This
+   * Records the provided object in {@link #methodArgument} and sets {@link #methodCalled}. This
    * method is called reflectively by Subscriber during tests, and must remain public.
    *
    * @param arg argument to record.
@@ -137,9 +134,9 @@ public class SubscriberTest extends TestCase {
     throw new JudgmentError();
   }
 
-  @Subscribe @AllowConcurrentEvents
-  public void threadSafeMethod(Object arg) {
-  }
+  @Subscribe
+  @AllowConcurrentEvents
+  public void threadSafeMethod(Object arg) {}
 
   /**
    * Local Error subclass to check variety of error thrown.

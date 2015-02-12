@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -55,26 +53,21 @@ public class HashBiMapTest extends TestCase {
   @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(BiMapTestSuiteBuilder.using(new HashBiMapGenerator())
-      .named("HashBiMap")
-      .withFeatures(CollectionSize.ANY,
-          CollectionFeature.SERIALIZABLE,
-          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-          MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.ALLOWS_NULL_VALUES,
-          MapFeature.ALLOWS_ANY_NULL_QUERIES,
-          MapFeature.GENERAL_PURPOSE)
-      .createTestSuite());
+    suite.addTest(BiMapTestSuiteBuilder
+        .using(new HashBiMapGenerator())
+        .named("HashBiMap")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.SERIALIZABLE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE, MapFeature.ALLOWS_NULL_KEYS,
+            MapFeature.ALLOWS_NULL_VALUES, MapFeature.ALLOWS_ANY_NULL_QUERIES,
+            MapFeature.GENERAL_PURPOSE).createTestSuite());
     suite.addTestSuite(HashBiMapTest.class);
     return suite;
   }
 
   public void testMapConstructor() {
     /* Test with non-empty Map. */
-    Map<String, String> map = ImmutableMap.of(
-        "canada", "dollar",
-        "chile", "peso",
-        "switzerland", "franc");
+    Map<String, String> map =
+        ImmutableMap.of("canada", "dollar", "chile", "peso", "switzerland", "franc");
     HashBiMap<String, String> bimap = HashBiMap.create(map);
     assertEquals("dollar", bimap.get("canada"));
     assertEquals("canada", bimap.inverse().get("dollar"));

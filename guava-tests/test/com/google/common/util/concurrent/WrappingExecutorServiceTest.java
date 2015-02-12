@@ -1,16 +1,14 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
 
@@ -43,6 +41,7 @@ import java.util.concurrent.TimeoutException;
  */
 public class WrappingExecutorServiceTest extends TestCase {
   private static final String RESULT_VALUE = "ran";
+
   // Uninteresting delegations
   public void testDelegations() throws InterruptedException {
     MockExecutor mock = new MockExecutor();
@@ -132,8 +131,8 @@ public class WrappingExecutorServiceTest extends TestCase {
     }
   }
 
-  private static void checkResults(List<Future<String>> futures)
-      throws InterruptedException, ExecutionException {
+  private static void checkResults(List<Future<String>> futures) throws InterruptedException,
+      ExecutionException {
     for (int i = 0; i < futures.size(); i++) {
       assertEquals(RESULT_VALUE + i, futures.get(i).get());
     }
@@ -159,7 +158,7 @@ public class WrappingExecutorServiceTest extends TestCase {
       return delegate.call();
     }
   }
-  
+
   private static final class WrappedRunnable implements Runnable {
     private final Runnable delegate;
 
@@ -167,7 +166,7 @@ public class WrappingExecutorServiceTest extends TestCase {
       this.delegate = delegate;
     }
 
-    @Override 
+    @Override
     public void run() {
       delegate.run();
     }
@@ -182,8 +181,9 @@ public class WrappingExecutorServiceTest extends TestCase {
     protected <T> Callable<T> wrapTask(Callable<T> callable) {
       return new WrappedCallable<T>(callable);
     }
-    
-    @Override protected Runnable wrapTask(Runnable command) {
+
+    @Override
+    protected Runnable wrapTask(Runnable command) {
       return new WrappedRunnable(command);
     }
   }
@@ -218,9 +218,8 @@ public class WrappingExecutorServiceTest extends TestCase {
     }
 
     @Override
-    public <T> List<Future<T>> invokeAll(
-        Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
-        throws InterruptedException {
+    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout,
+        TimeUnit unit) throws InterruptedException {
       assertTaskWrapped(tasks);
       lastMethodCalled = "invokeAllTimeout";
       lastTimeoutInMillis = unit.toMillis(timeout);
@@ -229,8 +228,8 @@ public class WrappingExecutorServiceTest extends TestCase {
 
     // Define the invokeAny methods to invoke the first task
     @Override
-    public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
-        throws ExecutionException, InterruptedException {
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks) throws ExecutionException,
+        InterruptedException {
       assertTaskWrapped(tasks);
       lastMethodCalled = "invokeAny";
       return inline.submit(Iterables.get(tasks, 0)).get();
@@ -296,8 +295,7 @@ public class WrappingExecutorServiceTest extends TestCase {
       inline.execute(command);
     }
 
-    private static <T> void assertTaskWrapped(
-        Collection<? extends Callable<T>> tasks) {
+    private static <T> void assertTaskWrapped(Collection<? extends Callable<T>> tasks) {
       Predicate<Object> p = Predicates.instanceOf(WrappedCallable.class);
       assertTrue(Iterables.all(tasks, p));
     }

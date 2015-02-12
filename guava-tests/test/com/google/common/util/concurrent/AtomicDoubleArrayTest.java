@@ -1,14 +1,13 @@
 /*
- * Written by Doug Lea and Martin Buchholz with assistance from
- * members of JCP JSR-166 Expert Group and released to the public
- * domain, as explained at
+ * Written by Doug Lea and Martin Buchholz with assistance from members of JCP JSR-166 Expert Group
+ * and released to the public domain, as explained at
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
 /*
  * Source:
- * http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/test/tck-jsr166e/AtomicDoubleArrayTest.java?revision=1.13
- * (Modified to adapt to guava coding conventions)
+ * http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/test/tck-jsr166e/AtomicDoubleArrayTest
+ * .java?revision=1.13 (Modified to adapt to guava coding conventions)
  */
 
 package com.google.common.util.concurrent;
@@ -22,26 +21,10 @@ import java.util.Arrays;
  */
 public class AtomicDoubleArrayTest extends JSR166TestCase {
 
-  private static final double[] VALUES = {
-    Double.NEGATIVE_INFINITY,
-    -Double.MAX_VALUE,
-    (double) Long.MIN_VALUE,
-    (double) Integer.MIN_VALUE,
-    -Math.PI,
-    -1.0,
-    -Double.MIN_VALUE,
-    -0.0,
-    +0.0,
-    Double.MIN_VALUE,
-    1.0,
-    Math.PI,
-    (double) Integer.MAX_VALUE,
-    (double) Long.MAX_VALUE,
-    Double.MAX_VALUE,
-    Double.POSITIVE_INFINITY,
-    Double.NaN,
-    Float.MAX_VALUE,
-  };
+  private static final double[] VALUES = {Double.NEGATIVE_INFINITY, -Double.MAX_VALUE,
+      (double) Long.MIN_VALUE, (double) Integer.MIN_VALUE, -Math.PI, -1.0, -Double.MIN_VALUE, -0.0,
+      +0.0, Double.MIN_VALUE, 1.0, Math.PI, (double) Integer.MAX_VALUE, (double) Long.MAX_VALUE,
+      Double.MAX_VALUE, Double.POSITIVE_INFINITY, Double.NaN, Float.MAX_VALUE,};
 
   /** The notion of equality used by AtomicDoubleArray */
   static boolean bitEquals(double x, double y) {
@@ -49,8 +32,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
   }
 
   static void assertBitEquals(double x, double y) {
-    assertEquals(Double.doubleToRawLongBits(x),
-                 Double.doubleToRawLongBits(y));
+    assertEquals(Double.doubleToRawLongBits(x), Double.doubleToRawLongBits(y));
   }
 
   /**
@@ -71,7 +53,8 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
       double[] a = null;
       AtomicDoubleArray aa = new AtomicDoubleArray(a);
       shouldThrow();
-    } catch (NullPointerException success) {}
+    } catch (NullPointerException success) {
+    }
   }
 
   /**
@@ -94,7 +77,8 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     try {
       aa.get(0);
       shouldThrow();
-    } catch (IndexOutOfBoundsException success) {}
+    } catch (IndexOutOfBoundsException success) {
+    }
   }
 
   /**
@@ -106,7 +90,8 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     try {
       aa.get(0);
       shouldThrow();
-    } catch (IndexOutOfBoundsException success) {}
+    } catch (IndexOutOfBoundsException success) {
+    }
   }
 
   /**
@@ -114,35 +99,42 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
    */
   public void testIndexing() {
     AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
-    for (int index : new int[] { -1, SIZE }) {
+    for (int index : new int[] {-1, SIZE}) {
       try {
         aa.get(index);
         shouldThrow();
-      } catch (IndexOutOfBoundsException success) {}
+      } catch (IndexOutOfBoundsException success) {
+      }
       try {
         aa.set(index, 1.0);
         shouldThrow();
-      } catch (IndexOutOfBoundsException success) {}
+      } catch (IndexOutOfBoundsException success) {
+      }
       try {
         aa.lazySet(index, 1.0);
         shouldThrow();
-      } catch (IndexOutOfBoundsException success) {}
+      } catch (IndexOutOfBoundsException success) {
+      }
       try {
         aa.compareAndSet(index, 1.0, 2.0);
         shouldThrow();
-      } catch (IndexOutOfBoundsException success) {}
+      } catch (IndexOutOfBoundsException success) {
+      }
       try {
         aa.weakCompareAndSet(index, 1.0, 2.0);
         shouldThrow();
-      } catch (IndexOutOfBoundsException success) {}
+      } catch (IndexOutOfBoundsException success) {
+      }
       try {
         aa.getAndAdd(index, 1.0);
         shouldThrow();
-      } catch (IndexOutOfBoundsException success) {}
+      } catch (IndexOutOfBoundsException success) {
+      }
       try {
         aa.addAndGet(index, 1.0);
         shouldThrow();
-      } catch (IndexOutOfBoundsException success) {}
+      } catch (IndexOutOfBoundsException success) {
+      }
     }
   }
 
@@ -179,7 +171,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
    */
   public void testCompareAndSet() {
     AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
-    for (int i : new int[] { 0, SIZE - 1}) {
+    for (int i : new int[] {0, SIZE - 1}) {
       double prev = 0.0;
       double unused = Math.E + Math.PI;
       for (double x : VALUES) {
@@ -194,19 +186,19 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
   }
 
   /**
-   * compareAndSet in one thread enables another waiting for value
-   * to succeed
+   * compareAndSet in one thread enables another waiting for value to succeed
    */
 
-      public void testCompareAndSetInMultipleThreads() throws InterruptedException {
+  public void testCompareAndSetInMultipleThreads() throws InterruptedException {
     final AtomicDoubleArray a = new AtomicDoubleArray(1);
     a.set(0, 1.0);
     Thread t = newStartedThread(new CheckedRunnable() {
-        public void realRun() {
-          while (!a.compareAndSet(0, 2.0, 3.0)) {
-            Thread.yield();
-          }
-        }});
+      public void realRun() {
+        while (!a.compareAndSet(0, 2.0, 3.0)) {
+          Thread.yield();
+        }
+      }
+    });
 
     assertTrue(a.compareAndSet(0, 1.0, 2.0));
     awaitTermination(t);
@@ -214,12 +206,11 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
   }
 
   /**
-   * repeated weakCompareAndSet succeeds in changing value when equal
-   * to expected
+   * repeated weakCompareAndSet succeeds in changing value when equal to expected
    */
   public void testWeakCompareAndSet() {
     AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
-    for (int i : new int[] { 0, SIZE - 1}) {
+    for (int i : new int[] {0, SIZE - 1}) {
       double prev = 0.0;
       double unused = Math.E + Math.PI;
       for (double x : VALUES) {
@@ -240,7 +231,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
    */
   public void testGetAndSet() {
     AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
-    for (int i : new int[] { 0, SIZE - 1}) {
+    for (int i : new int[] {0, SIZE - 1}) {
       double prev = 0.0;
       for (double x : VALUES) {
         assertBitEquals(prev, aa.getAndSet(i, x));
@@ -254,7 +245,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
    */
   public void testGetAndAdd() {
     AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
-    for (int i : new int[] { 0, SIZE - 1}) {
+    for (int i : new int[] {0, SIZE - 1}) {
       for (double x : VALUES) {
         for (double y : VALUES) {
           aa.set(i, x);
@@ -271,7 +262,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
    */
   public void testAddAndGet() {
     AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
-    for (int i : new int[] { 0, SIZE - 1}) {
+    for (int i : new int[] {0, SIZE - 1}) {
       for (double x : VALUES) {
         for (double y : VALUES) {
           aa.set(i, x);
@@ -288,7 +279,11 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
   class Counter extends CheckedRunnable {
     final AtomicDoubleArray aa;
     volatile long counts;
-    Counter(AtomicDoubleArray a) { aa = a; }
+
+    Counter(AtomicDoubleArray a) {
+      aa = a;
+    }
+
     public void realRun() {
       for (;;) {
         boolean done = true;
@@ -310,11 +305,11 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
   }
 
   /**
-   * Multiple threads using same array of counters successfully
-   * update a number of times equal to total count
+   * Multiple threads using same array of counters successfully update a number of times equal to
+   * total count
    */
 
-      public void testCountingInMultipleThreads() throws InterruptedException {
+  public void testCountingInMultipleThreads() throws InterruptedException {
     final AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
     for (int i = 0; i < SIZE; i++) {
       aa.set(i, (double) COUNTDOWN);
@@ -368,7 +363,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
    */
   public void testDistinctZeros() {
     AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
-    for (int i : new int[] { 0, SIZE - 1}) {
+    for (int i : new int[] {0, SIZE - 1}) {
       assertFalse(aa.compareAndSet(i, -0.0, 7.0));
       assertFalse(aa.weakCompareAndSet(i, -0.0, 7.0));
       assertBitEquals(+0.0, aa.get(i));

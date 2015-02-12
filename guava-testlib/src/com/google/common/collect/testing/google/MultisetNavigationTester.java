@@ -6,10 +6,10 @@
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -97,7 +97,8 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     try {
       sortedMultiset.elementSet().first();
       fail();
-    } catch (NoSuchElementException e) {}
+    } catch (NoSuchElementException e) {
+    }
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -120,7 +121,8 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     try {
       assertNull(sortedMultiset.elementSet().last());
       fail();
-    } catch (NoSuchElementException e) {}
+    } catch (NoSuchElementException e) {
+    }
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -180,7 +182,8 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     try {
       sortedMultiset.pollFirstEntry();
       fail();
-    } catch (UnsupportedOperationException e) {}
+    } catch (UnsupportedOperationException e) {
+    }
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -235,7 +238,8 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     try {
       sortedMultiset.pollLastEntry();
       fail();
-    } catch (UnsupportedOperationException e) {}
+    } catch (UnsupportedOperationException e) {
+    }
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -252,17 +256,20 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     try {
       multiset.add(entry.getElement(), entry.getCount());
       fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     try {
       multiset.add(entry.getElement());
       fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     try {
       multiset.addAll(Collections.singletonList(entry.getElement()));
       fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   void expectRemoveZero(SortedMultiset<E> multiset, Entry<E> entry) {
@@ -274,11 +281,13 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   void expectSetCountFailure(SortedMultiset<E> multiset, Entry<E> entry) {
     try {
       multiset.setCount(entry.getElement(), multiset.count(entry.getElement()));
-    } catch (IllegalArgumentException acceptable) {}
+    } catch (IllegalArgumentException acceptable) {
+    }
     try {
       multiset.setCount(entry.getElement(), multiset.count(entry.getElement()) + 1);
       fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   @CollectionSize.Require(ONE)
@@ -423,16 +432,16 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
   public void testConflictingBounds() {
     testEmptyRangeSubMultiset(sortedMultiset.subMultiset(a.getElement(), CLOSED, a.getElement(),
         OPEN));
-    testEmptyRangeSubMultiset(sortedMultiset.subMultiset(a.getElement(), OPEN, a.getElement(),
-        OPEN));
+    testEmptyRangeSubMultiset(sortedMultiset
+        .subMultiset(a.getElement(), OPEN, a.getElement(), OPEN));
     testEmptyRangeSubMultiset(sortedMultiset.subMultiset(a.getElement(), OPEN, a.getElement(),
         CLOSED));
     testEmptyRangeSubMultiset(sortedMultiset.subMultiset(b.getElement(), CLOSED, a.getElement(),
         CLOSED));
     testEmptyRangeSubMultiset(sortedMultiset.subMultiset(b.getElement(), CLOSED, a.getElement(),
         OPEN));
-    testEmptyRangeSubMultiset(sortedMultiset.subMultiset(b.getElement(), OPEN, a.getElement(),
-        OPEN));
+    testEmptyRangeSubMultiset(sortedMultiset
+        .subMultiset(b.getElement(), OPEN, a.getElement(), OPEN));
   }
 
   public void testEmptyRangeSubMultiset(SortedMultiset<E> multiset) {

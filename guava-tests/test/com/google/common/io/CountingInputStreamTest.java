@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -28,7 +26,8 @@ import java.io.InputStream;
 public class CountingInputStreamTest extends IoTestCase {
   private CountingInputStream counter;
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     super.setUp();
     counter = new CountingInputStream(new ByteArrayInputStream(new byte[20]));
   }
@@ -84,7 +83,7 @@ public class CountingInputStreamTest extends IoTestCase {
     assertEquals(10, counter.skip(100));
     assertEquals(20, counter.getCount());
   }
-  
+
   public void testMarkNotSet() {
     try {
       counter.reset();
@@ -93,7 +92,7 @@ public class CountingInputStreamTest extends IoTestCase {
       assertEquals("Mark not set", expected.getMessage());
     }
   }
-  
+
   public void testMarkNotSupported() {
     counter = new CountingInputStream(new UnmarkableInputStream());
 
@@ -104,16 +103,16 @@ public class CountingInputStreamTest extends IoTestCase {
       assertEquals("Mark not supported", expected.getMessage());
     }
   }
-  
+
   private static class UnmarkableInputStream extends InputStream {
     @Override
     public int read() throws IOException {
       return 0;
     }
-    
+
     @Override
     public boolean markSupported() {
       return false;
-    }    
+    }
   }
 }

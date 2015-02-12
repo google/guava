@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -36,11 +34,11 @@ public class LittleEndianDataOutputStreamTest extends TestCase {
 
   private ByteArrayOutputStream baos = new ByteArrayOutputStream();
   private LittleEndianDataOutputStream out = new LittleEndianDataOutputStream(baos);
-  
+
   public void testWriteLittleEndian() throws IOException {
 
     /* Write out various test values in LITTLE ENDIAN FORMAT */
-    out.write(new byte[] { -100, 100 });
+    out.write(new byte[] {-100, 100});
     out.writeBoolean(true);
     out.writeBoolean(false);
     out.writeByte(100);
@@ -79,10 +77,11 @@ public class LittleEndianDataOutputStreamTest extends TestCase {
     assertEquals(0xBEBAFECA, Float.floatToIntBits(in.readFloat()));
     assertEquals(0xBEBAFECAEFBEADDEL, Double.doubleToLongBits(in.readDouble()));
   }
-  
-  @SuppressWarnings("deprecation") // testing a deprecated method
+
+  @SuppressWarnings("deprecation")
+  // testing a deprecated method
   public void testWriteBytes() throws IOException {
-    
+
     /* Write out various test values in LITTLE ENDIAN FORMAT */
     out.writeBytes("r\u00C9sum\u00C9");
 
@@ -96,10 +95,11 @@ public class LittleEndianDataOutputStreamTest extends TestCase {
     in.readFully(b);
     assertEquals("r\u00C9sum\u00C9".getBytes(Charsets.ISO_8859_1), b);
   }
-  
-  @SuppressWarnings("deprecation") // testing a deprecated method
+
+  @SuppressWarnings("deprecation")
+  // testing a deprecated method
   public void testWriteBytes_discardHighOrderBytes() throws IOException {
-    
+
     /* Write out various test values in LITTLE ENDIAN FORMAT */
     out.writeBytes("\uAAAA\uAABB\uAACC");
 

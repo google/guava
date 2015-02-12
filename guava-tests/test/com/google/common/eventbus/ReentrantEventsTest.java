@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.eventbus;
@@ -23,8 +21,7 @@ import junit.framework.TestCase;
 import java.util.List;
 
 /**
- * Validate that {@link EventBus} behaves carefully when listeners publish
- * their own events.
+ * Validate that {@link EventBus} behaves carefully when listeners publish their own events.
  *
  * @author Jesse Wilson
  */
@@ -81,14 +78,17 @@ public class ReentrantEventsTest extends TestCase {
   }
 
   public class EventProcessor {
-    @Subscribe public void listenForStrings(String event) {
+    @Subscribe
+    public void listenForStrings(String event) {
       bus.post(SECOND);
     }
   }
 
   public class EventRecorder {
     List<Object> eventsReceived = Lists.newArrayList();
-    @Subscribe public void listenForEverything(Object event) {
+
+    @Subscribe
+    public void listenForEverything(Object event) {
       eventsReceived.add(event);
     }
   }

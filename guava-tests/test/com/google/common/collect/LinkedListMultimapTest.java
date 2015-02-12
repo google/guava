@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -62,27 +60,22 @@ public class LinkedListMultimapTest extends TestCase {
   @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(ListMultimapTestSuiteBuilder.using(new TestStringListMultimapGenerator() {
-        @Override
-        protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
-          ListMultimap<String, String> multimap = LinkedListMultimap.create();
-          for (Entry<String, String> entry : entries) {
-            multimap.put(entry.getKey(), entry.getValue());
+    suite.addTest(ListMultimapTestSuiteBuilder
+        .using(new TestStringListMultimapGenerator() {
+          @Override
+          protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
+            ListMultimap<String, String> multimap = LinkedListMultimap.create();
+            for (Entry<String, String> entry : entries) {
+              multimap.put(entry.getKey(), entry.getValue());
+            }
+            return multimap;
           }
-          return multimap;
-        }
-      })
-      .named("LinkedListMultimap")
-      .withFeatures(
-          MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.ALLOWS_NULL_VALUES,
-          MapFeature.ALLOWS_ANY_NULL_QUERIES,
-          MapFeature.GENERAL_PURPOSE,
-          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-          CollectionFeature.SERIALIZABLE,
-          CollectionFeature.KNOWN_ORDER,
-          CollectionSize.ANY)
-      .createTestSuite());
+        })
+        .named("LinkedListMultimap")
+        .withFeatures(MapFeature.ALLOWS_NULL_KEYS, MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE, CollectionFeature.SERIALIZABLE,
+            CollectionFeature.KNOWN_ORDER, CollectionSize.ANY).createTestSuite());
     suite.addTestSuite(LinkedListMultimapTest.class);
     return suite;
   }
@@ -103,8 +96,8 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   /**
-   * Confirm that removeAll() returns a List that implements RandomAccess, even
-   * though get() doesn't.
+   * Confirm that removeAll() returns a List that implements RandomAccess, even though get()
+   * doesn't.
    */
   public void testRemoveAllRandomAccess() {
     Multimap<String, Integer> multimap = create();
@@ -115,17 +108,15 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   /**
-   * Confirm that replaceValues() returns a List that implements RandomAccess,
-   * even though get() doesn't.
+   * Confirm that replaceValues() returns a List that implements RandomAccess, even though get()
+   * doesn't.
    */
   public void testReplaceValuesRandomAccess() {
     Multimap<String, Integer> multimap = create();
     multimap.put("foo", 1);
     multimap.put("foo", 3);
-    assertTrue(multimap.replaceValues("foo", Arrays.asList(2, 4))
-        instanceof RandomAccess);
-    assertTrue(multimap.replaceValues("bar", Arrays.asList(2, 4))
-        instanceof RandomAccess);
+    assertTrue(multimap.replaceValues("foo", Arrays.asList(2, 4)) instanceof RandomAccess);
+    assertTrue(multimap.replaceValues("bar", Arrays.asList(2, 4)) instanceof RandomAccess);
   }
 
   public void testCreateFromMultimap() {
@@ -133,15 +124,13 @@ public class LinkedListMultimapTest extends TestCase {
     multimap.put("foo", 1);
     multimap.put("bar", 3);
     multimap.put("foo", 2);
-    LinkedListMultimap<String, Integer> copy =
-        LinkedListMultimap.create(multimap);
+    LinkedListMultimap<String, Integer> copy = LinkedListMultimap.create(multimap);
     assertEquals(multimap, copy);
     assertThat(copy.entries()).containsExactlyElementsIn(multimap.entries()).inOrder();
   }
 
   public void testCreateFromSize() {
-    LinkedListMultimap<String, Integer> multimap
-        = LinkedListMultimap.create(20);
+    LinkedListMultimap<String, Integer> multimap = LinkedListMultimap.create(20);
     multimap.put("foo", 1);
     multimap.put("bar", 2);
     multimap.put("foo", 3);
@@ -152,7 +141,8 @@ public class LinkedListMultimapTest extends TestCase {
     try {
       LinkedListMultimap.create(-20);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testLinkedGetAdd() {
@@ -164,8 +154,7 @@ public class LinkedListMultimapTest extends TestCase {
     map.put("bar", 4);
     map.put("foo", 5);
     assertEquals("{bar=[1, 4], foo=[2, 3, 5]}", map.toString());
-    assertEquals("[bar=1, foo=2, foo=3, bar=4, foo=5]",
-        map.entries().toString());
+    assertEquals("[bar=1, foo=2, foo=3, bar=4, foo=5]", map.entries().toString());
   }
 
   public void testLinkedGetInsert() {
@@ -177,8 +166,7 @@ public class LinkedListMultimapTest extends TestCase {
     map.put("bar", 4);
     map.put("foo", 5);
     assertEquals("{bar=[1, 4], foo=[3, 2, 5]}", map.toString());
-    assertEquals("[bar=1, foo=3, foo=2, bar=4, foo=5]",
-        map.entries().toString());
+    assertEquals("[bar=1, foo=3, foo=2, bar=4, foo=5]", map.entries().toString());
   }
 
   public void testLinkedPutInOrder() {
@@ -255,8 +243,7 @@ public class LinkedListMultimapTest extends TestCase {
     map.put("foo", 2);
     map.put("bar", 3);
     map.put("bar", 4);
-    assertEquals("[bar=1, foo=2, bar=3, bar=4]",
-        map.entries().toString());
+    assertEquals("[bar=1, foo=2, bar=3, bar=4]", map.entries().toString());
     assertThat(map.keys()).containsExactly("bar", "foo", "bar", "bar").inOrder();
     map.keys().remove("bar"); // bar is no longer the first key!
     assertEquals("{foo=[2], bar=[3, 4]}", map.toString());
@@ -299,15 +286,15 @@ public class LinkedListMultimapTest extends TestCase {
     map.put("bar", 1);
     map.put("foo", 2);
     map.put("bar", 3);
-    Iterator<Map.Entry<String, Collection<Integer>>> entries
-        = map.asMap().entrySet().iterator();
+    Iterator<Map.Entry<String, Collection<Integer>>> entries = map.asMap().entrySet().iterator();
     Map.Entry<String, Collection<Integer>> entry = entries.next();
     assertEquals("bar", entry.getKey());
     assertThat(entry.getValue()).containsExactly(1, 3).inOrder();
     try {
       entry.setValue(Arrays.<Integer>asList());
       fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
     entries.remove(); // clear
     entry = entries.next();
     assertEquals("foo", entry.getKey());
@@ -343,23 +330,21 @@ public class LinkedListMultimapTest extends TestCase {
   @SuppressWarnings("unchecked")
   @GwtIncompatible("unreasonably slow")
   public void testEntriesIteration() {
-    List<Entry<String, Integer>> addItems = ImmutableList.of(
-        Maps.immutableEntry("foo", 99),
-        Maps.immutableEntry("foo", 88),
-        Maps.immutableEntry("bar", 77));
+    List<Entry<String, Integer>> addItems =
+        ImmutableList.of(Maps.immutableEntry("foo", 99), Maps.immutableEntry("foo", 88),
+            Maps.immutableEntry("bar", 77));
 
     for (final int startIndex : new int[] {0, 3, 5}) {
-      List<Entry<String, Integer>> list = Lists.newArrayList(
-          Maps.immutableEntry("foo", 2),
-          Maps.immutableEntry("foo", 3),
-          Maps.immutableEntry("bar", 4),
-          Maps.immutableEntry("bar", 5),
-          Maps.immutableEntry("foo", 6));
+      List<Entry<String, Integer>> list =
+          Lists.newArrayList(Maps.immutableEntry("foo", 2), Maps.immutableEntry("foo", 3),
+              Maps.immutableEntry("bar", 4), Maps.immutableEntry("bar", 5),
+              Maps.immutableEntry("foo", 6));
       new ListIteratorTester<Entry<String, Integer>>(3, addItems,
           ImmutableList.of(SUPPORTS_REMOVE), list, startIndex) {
         private LinkedListMultimap<String, Integer> multimap;
 
-        @Override protected ListIterator<Entry<String, Integer>> newTargetIterator() {
+        @Override
+        protected ListIterator<Entry<String, Integer>> newTargetIterator() {
           multimap = create();
           multimap.putAll("foo", asList(2, 3));
           multimap.putAll("bar", asList(4, 5));
@@ -367,7 +352,8 @@ public class LinkedListMultimapTest extends TestCase {
           return multimap.entries().listIterator(startIndex);
         }
 
-        @Override protected void verify(List<Entry<String, Integer>> elements) {
+        @Override
+        protected void verify(List<Entry<String, Integer>> elements) {
           assertEquals(elements, multimap.entries());
         }
       }.test();
@@ -376,11 +362,12 @@ public class LinkedListMultimapTest extends TestCase {
 
   @GwtIncompatible("unreasonably slow")
   public void testKeysIteration() {
-    new IteratorTester<String>(6, MODIFIABLE, newArrayList("foo", "foo", "bar",
-        "bar", "foo"), IteratorTester.KnownOrder.KNOWN_ORDER) {
+    new IteratorTester<String>(6, MODIFIABLE, newArrayList("foo", "foo", "bar", "bar", "foo"),
+        IteratorTester.KnownOrder.KNOWN_ORDER) {
       private Multimap<String, Integer> multimap;
 
-      @Override protected Iterator<String> newTargetIterator() {
+      @Override
+      protected Iterator<String> newTargetIterator() {
         multimap = create();
         multimap.putAll("foo", asList(2, 3));
         multimap.putAll("bar", asList(4, 5));
@@ -388,7 +375,8 @@ public class LinkedListMultimapTest extends TestCase {
         return multimap.keys().iterator();
       }
 
-      @Override protected void verify(List<String> elements) {
+      @Override
+      protected void verify(List<String> elements) {
         assertEquals(elements, Lists.newArrayList(multimap.keys()));
       }
     }.test();
@@ -399,12 +387,12 @@ public class LinkedListMultimapTest extends TestCase {
     List<Integer> addItems = ImmutableList.of(99, 88, 77);
 
     for (final int startIndex : new int[] {0, 3, 5}) {
-      new ListIteratorTester<Integer>(3, addItems,
-          ImmutableList.of(SUPPORTS_REMOVE, SUPPORTS_SET),
+      new ListIteratorTester<Integer>(3, addItems, ImmutableList.of(SUPPORTS_REMOVE, SUPPORTS_SET),
           Lists.newArrayList(2, 3, 4, 5, 6), startIndex) {
         private LinkedListMultimap<String, Integer> multimap;
 
-        @Override protected ListIterator<Integer> newTargetIterator() {
+        @Override
+        protected ListIterator<Integer> newTargetIterator() {
           multimap = create();
           multimap.put("bar", 2);
           multimap.putAll("foo", Arrays.asList(3, 4));
@@ -413,7 +401,8 @@ public class LinkedListMultimapTest extends TestCase {
           return multimap.values().listIterator(startIndex);
         }
 
-        @Override protected void verify(List<Integer> elements) {
+        @Override
+        protected void verify(List<Integer> elements) {
           assertEquals(elements, multimap.values());
         }
       }.test();
@@ -422,12 +411,12 @@ public class LinkedListMultimapTest extends TestCase {
 
   @GwtIncompatible("unreasonably slow")
   public void testKeySetIteration() {
-    new IteratorTester<String>(6, MODIFIABLE, newLinkedHashSet(asList(
-        "foo", "bar", "baz", "dog", "cat")),
-        IteratorTester.KnownOrder.KNOWN_ORDER) {
+    new IteratorTester<String>(6, MODIFIABLE, newLinkedHashSet(asList("foo", "bar", "baz", "dog",
+        "cat")), IteratorTester.KnownOrder.KNOWN_ORDER) {
       private Multimap<String, Integer> multimap;
 
-      @Override protected Iterator<String> newTargetIterator() {
+      @Override
+      protected Iterator<String> newTargetIterator() {
         multimap = create();
         multimap.putAll("foo", asList(2, 3));
         multimap.putAll("bar", asList(4, 5));
@@ -439,7 +428,8 @@ public class LinkedListMultimapTest extends TestCase {
         return multimap.keySet().iterator();
       }
 
-      @Override protected void verify(List<String> elements) {
+      @Override
+      protected void verify(List<String> elements) {
         assertEquals(newHashSet(elements), multimap.keySet());
       }
     }.test();
@@ -448,25 +438,20 @@ public class LinkedListMultimapTest extends TestCase {
   @SuppressWarnings("unchecked")
   @GwtIncompatible("unreasonably slow")
   public void testAsSetIteration() {
-    Set<Entry<String, Collection<Integer>>> set = Sets.newLinkedHashSet(asList(
-        Maps.immutableEntry("foo",
-            (Collection<Integer>) asList(2, 3, 6)),
-        Maps.immutableEntry("bar",
-            (Collection<Integer>) asList(4, 5, 10, 11)),
-        Maps.immutableEntry("baz",
-            (Collection<Integer>) asList(7, 8)),
-        Maps.immutableEntry("dog",
-            (Collection<Integer>) asList(9)),
-        Maps.immutableEntry("cat",
-            (Collection<Integer>) asList(12, 13, 14))
-    ));
+    Set<Entry<String, Collection<Integer>>> set =
+        Sets.newLinkedHashSet(asList(
+            Maps.immutableEntry("foo", (Collection<Integer>) asList(2, 3, 6)),
+            Maps.immutableEntry("bar", (Collection<Integer>) asList(4, 5, 10, 11)),
+            Maps.immutableEntry("baz", (Collection<Integer>) asList(7, 8)),
+            Maps.immutableEntry("dog", (Collection<Integer>) asList(9)),
+            Maps.immutableEntry("cat", (Collection<Integer>) asList(12, 13, 14))));
 
     new IteratorTester<Entry<String, Collection<Integer>>>(6, MODIFIABLE, set,
         IteratorTester.KnownOrder.KNOWN_ORDER) {
       private Multimap<String, Integer> multimap;
 
-      @Override protected Iterator<Entry<String, Collection<Integer>>>
-          newTargetIterator() {
+      @Override
+      protected Iterator<Entry<String, Collection<Integer>>> newTargetIterator() {
         multimap = create();
         multimap.putAll("foo", asList(2, 3));
         multimap.putAll("bar", asList(4, 5));
@@ -478,19 +463,15 @@ public class LinkedListMultimapTest extends TestCase {
         return multimap.asMap().entrySet().iterator();
       }
 
-      @Override protected void verify(
-          List<Entry<String, Collection<Integer>>> elements) {
+      @Override
+      protected void verify(List<Entry<String, Collection<Integer>>> elements) {
         assertEquals(newHashSet(elements), multimap.asMap().entrySet());
       }
     }.test();
   }
 
   public void testEquals() {
-    new EqualsTester()
-        .addEqualityGroup(
-            LinkedListMultimap.create(),
-            LinkedListMultimap.create(),
-            LinkedListMultimap.create(1))
-        .testEquals();
+    new EqualsTester().addEqualityGroup(LinkedListMultimap.create(), LinkedListMultimap.create(),
+        LinkedListMultimap.create(1)).testEquals();
   }
 }

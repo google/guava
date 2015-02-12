@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -41,14 +41,16 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Louis Wasserman
  */
-@SuppressWarnings("serial") // No serialization is used in this test
+@SuppressWarnings("serial")
+// No serialization is used in this test
 @GwtCompatible(emulated = true)
 public class SimpleAbstractMultisetTest extends TestCase {
   @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SimpleAbstractMultisetTest.class);
-    suite.addTest(MultisetTestSuiteBuilder.using(new TestStringMultisetGenerator() {
+    suite.addTest(MultisetTestSuiteBuilder
+        .using(new TestStringMultisetGenerator() {
           @Override
           protected Multiset<String> create(String[] elements) {
             Multiset<String> ms = new NoRemoveMultiset<String>();
@@ -58,8 +60,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
         })
         .named("NoRemoveMultiset")
         .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.SUPPORTS_ADD)
-        .createTestSuite());
+            CollectionFeature.SUPPORTS_ADD).createTestSuite());
     return suite;
   }
 
@@ -84,15 +85,16 @@ public class SimpleAbstractMultisetTest extends TestCase {
     try {
       multiset.remove("a");
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
     assertTrue(multiset.contains("a"));
   }
 
-  private static class NoRemoveMultiset<E> extends AbstractMultiset<E>
-      implements Serializable {
+  private static class NoRemoveMultiset<E> extends AbstractMultiset<E> implements Serializable {
     final Map<E, Integer> backingMap = Maps.newHashMap();
 
-    @Override public int add(@Nullable E element, int occurrences) {
+    @Override
+    public int add(@Nullable E element, int occurrences) {
       checkArgument(occurrences >= 0);
       Integer frequency = backingMap.get(element);
       if (frequency == null) {

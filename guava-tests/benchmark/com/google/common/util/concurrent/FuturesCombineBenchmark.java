@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -36,13 +34,15 @@ public class FuturesCombineBenchmark {
 
   enum Impl {
     OLD {
-      @Override <V> ListenableFuture<V> combine(final Callable<V> combiner, Executor executor,
+      @Override
+      <V> ListenableFuture<V> combine(final Callable<V> combiner, Executor executor,
           Iterable<? extends ListenableFuture<?>> futures) {
         ListenableFuture<?> trigger = Futures.successfulAsList(futures);
         checkNotNull(combiner);
         checkNotNull(trigger);
         return Futures.transform(trigger, new AsyncFunction<Object, V>() {
-          @Override public ListenableFuture<V> apply(Object arg) throws Exception {
+          @Override
+          public ListenableFuture<V> apply(Object arg) throws Exception {
             try {
               return Futures.immediateFuture(combiner.call());
             } catch (CancellationException e) {
@@ -62,21 +62,24 @@ public class FuturesCombineBenchmark {
       }
     };
 
-    abstract <V> ListenableFuture<V> combine(
-        Callable<V> combiner, Executor executor,
+    abstract <V> ListenableFuture<V> combine(Callable<V> combiner, Executor executor,
         Iterable<? extends ListenableFuture<?>> futures);
   }
 
   private static final Executor INLINE_EXECUTOR = new Executor() {
-    @Override public void execute(Runnable command) {
+    @Override
+    public void execute(Runnable command) {
       command.run();
     }
   };
 
-  @Param Impl impl;
-  @Param({"1", "5", "10"}) int numInputs;
+  @Param
+  Impl impl;
+  @Param({"1", "5", "10"})
+  int numInputs;
 
-  @Benchmark int timeDoneSuccesfulFutures(int reps) throws Exception {
+  @Benchmark
+  int timeDoneSuccesfulFutures(int reps) throws Exception {
     ImmutableList.Builder<ListenableFuture<?>> futuresBuilder = ImmutableList.builder();
     for (int i = 0; i < numInputs; i++) {
       futuresBuilder.add(Futures.immediateFuture(i));
@@ -90,8 +93,9 @@ public class FuturesCombineBenchmark {
     }
     return sum;
   }
-  
-  @Benchmark int timeDoneFailedFutures(int reps) throws Exception {
+
+  @Benchmark
+  int timeDoneFailedFutures(int reps) throws Exception {
     ImmutableList.Builder<ListenableFuture<?>> futuresBuilder = ImmutableList.builder();
     for (int i = 0; i < numInputs; i++) {
       futuresBuilder.add(Futures.immediateFailedFuture(new Exception("boom")));
@@ -105,8 +109,9 @@ public class FuturesCombineBenchmark {
     }
     return sum;
   }
-  
-  @Benchmark int timeSuccesfulFutures(int reps) throws Exception {
+
+  @Benchmark
+  int timeSuccesfulFutures(int reps) throws Exception {
     Impl impl = this.impl;
     Callable<Integer> callable = Callables.returning(12);
     int sum = 0;
@@ -121,7 +126,8 @@ public class FuturesCombineBenchmark {
     return sum;
   }
 
-  @Benchmark int timeFailedFutures(int reps) throws Exception {
+  @Benchmark
+  int timeFailedFutures(int reps) throws Exception {
     Impl impl = this.impl;
     Callable<Integer> callable = Callables.returning(12);
     int sum = 0;

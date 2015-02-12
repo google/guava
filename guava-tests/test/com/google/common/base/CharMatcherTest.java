@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -56,9 +54,9 @@ public class CharMatcherTest extends TestCase {
   }
 
   private static final CharMatcher WHATEVER = new CharMatcher() {
-    @Override public boolean matches(char c) {
-      throw new AssertionFailedError(
-          "You weren't supposed to actually invoke me!");
+    @Override
+    public boolean matches(char c) {
+      throw new AssertionFailedError("You weren't supposed to actually invoke me!");
     }
   };
 
@@ -298,10 +296,8 @@ public class CharMatcherTest extends TestCase {
     assertTrue(matcher.matchesAllOf(s));
     assertFalse(matcher.matchesNoneOf(s));
     assertEquals("", matcher.removeFrom(s));
-    assertEquals(Strings.repeat("z", s.length()),
-        matcher.replaceFrom(s, 'z'));
-    assertEquals(Strings.repeat("ZZ", s.length()),
-        matcher.replaceFrom(s, "ZZ"));
+    assertEquals(Strings.repeat("z", s.length()), matcher.replaceFrom(s, 'z'));
+    assertEquals(Strings.repeat("ZZ", s.length()), matcher.replaceFrom(s, "ZZ"));
     assertEquals("", matcher.trimFrom(s));
     assertEquals(s.length(), matcher.countIn(s));
   }
@@ -423,9 +419,8 @@ public class CharMatcherTest extends TestCase {
   }
 
   /**
-   * Checks that expected is equals to out, and further, if in is
-   * equals to expected, then out is successfully optimized to be
-   * identical to in, i.e. that "in" is simply returned.
+   * Checks that expected is equals to out, and further, if in is equals to expected, then out is
+   * successfully optimized to be identical to in, i.e. that "in" is simply returned.
    */
   private void assertEqualsSame(String expected, String in, String out) {
     if (expected.equals(in)) {
@@ -466,7 +461,7 @@ public class CharMatcherTest extends TestCase {
   private void doTestCollapse(String in, String out) {
     // Try a few different matchers which all match '-' and not 'x'
     // Try replacement chars that both do and do not change the value.
-    for (char replacement : new char[] { '_', '-' }) {
+    for (char replacement : new char[] {'_', '-'}) {
       String expected = out.replace('_', replacement);
       assertEqualsSame(expected, in, is('-').collapseFrom(in, replacement));
       assertEqualsSame(expected, in, is('-').collapseFrom(in, replacement));
@@ -626,7 +621,7 @@ public class CharMatcherTest extends TestCase {
 
   private void doTestTrimAndCollapse(String in, String out) {
     // Try a few different matchers which all match '-' and not 'x'
-    for (char replacement : new char[] { '_', '-' }) {
+    for (char replacement : new char[] {'_', '-'}) {
       String expected = out.replace('_', replacement);
       assertEqualsSame(expected, in, is('-').trimAndCollapseFrom(in, replacement));
       assertEqualsSame(expected, in, is('-').or(is('#')).trimAndCollapseFrom(in, replacement));
@@ -751,10 +746,8 @@ public class CharMatcherTest extends TestCase {
     assertToStringWorks("CharMatcher.is('\\u0031')", CharMatcher.anyOf("1"));
     assertToStringWorks("CharMatcher.isNot('\\u0031')", CharMatcher.isNot('1'));
     assertToStringWorks("CharMatcher.anyOf(\"\\u0031\\u0032\")", CharMatcher.anyOf("12"));
-    assertToStringWorks("CharMatcher.anyOf(\"\\u0031\\u0032\\u0033\")",
-        CharMatcher.anyOf("321"));
-    assertToStringWorks("CharMatcher.inRange('\\u0031', '\\u0033')",
-        CharMatcher.inRange('1', '3'));
+    assertToStringWorks("CharMatcher.anyOf(\"\\u0031\\u0032\\u0033\")", CharMatcher.anyOf("321"));
+    assertToStringWorks("CharMatcher.inRange('\\u0031', '\\u0033')", CharMatcher.inRange('1', '3'));
   }
 
   private static void assertToStringWorks(String expected, CharMatcher matcher) {

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -51,14 +49,11 @@ public class JdkFutureAdaptersTest extends TestCase {
     assertSame(listenableFuture, listenInPoolThread(listenableFuture));
   }
 
-  public void testListenInPoolThreadIgnoresExecutorWhenDelegateIsDone()
-      throws Exception {
-    NonListenableSettableFuture<String> abstractFuture =
-        NonListenableSettableFuture.create();
+  public void testListenInPoolThreadIgnoresExecutorWhenDelegateIsDone() throws Exception {
+    NonListenableSettableFuture<String> abstractFuture = NonListenableSettableFuture.create();
     abstractFuture.set(DATA1);
     ExecutorSpy spy = new ExecutorSpy(directExecutor());
-    ListenableFuture<String> listenableFuture =
-        listenInPoolThread(abstractFuture, spy);
+    ListenableFuture<String> listenableFuture = listenInPoolThread(abstractFuture, spy);
 
     SingleCallListener singleCallListener = new SingleCallListener();
     singleCallListener.expectCall();
@@ -80,13 +75,11 @@ public class JdkFutureAdaptersTest extends TestCase {
   }
 
   public void testListenInPoolThreadUsesGivenExecutor() throws Exception {
-    ExecutorService executorService = newCachedThreadPool(
-        new ThreadFactoryBuilder().setDaemon(true).build());
-    NonListenableSettableFuture<String> abstractFuture =
-        NonListenableSettableFuture.create();
+    ExecutorService executorService =
+        newCachedThreadPool(new ThreadFactoryBuilder().setDaemon(true).build());
+    NonListenableSettableFuture<String> abstractFuture = NonListenableSettableFuture.create();
     ExecutorSpy spy = new ExecutorSpy(executorService);
-    ListenableFuture<String> listenableFuture =
-        listenInPoolThread(abstractFuture, spy);
+    ListenableFuture<String> listenableFuture = listenInPoolThread(abstractFuture, spy);
 
     SingleCallListener singleCallListener = new SingleCallListener();
     singleCallListener.expectCall();
@@ -105,22 +98,18 @@ public class JdkFutureAdaptersTest extends TestCase {
     assertTrue(listenableFuture.isDone());
   }
 
-  public void testListenInPoolThreadCustomExecutorInterrupted()
-      throws Exception {
+  public void testListenInPoolThreadCustomExecutorInterrupted() throws Exception {
     final CountDownLatch submitSuccessful = new CountDownLatch(1);
-    ExecutorService executorService = new ThreadPoolExecutor(
-        0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS,
-        new SynchronousQueue<Runnable>(),
-        new ThreadFactoryBuilder().setDaemon(true).build()) {
-      @Override
-      protected void beforeExecute(Thread t, Runnable r) {
-        submitSuccessful.countDown();
-      }
-    };
-    NonListenableSettableFuture<String> abstractFuture =
-        NonListenableSettableFuture.create();
-    ListenableFuture<String> listenableFuture =
-        listenInPoolThread(abstractFuture, executorService);
+    ExecutorService executorService =
+        new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS,
+            new SynchronousQueue<Runnable>(), new ThreadFactoryBuilder().setDaemon(true).build()) {
+          @Override
+          protected void beforeExecute(Thread t, Runnable r) {
+            submitSuccessful.countDown();
+          }
+        };
+    NonListenableSettableFuture<String> abstractFuture = NonListenableSettableFuture.create();
+    ListenableFuture<String> listenableFuture = listenInPoolThread(abstractFuture, executorService);
 
     SingleCallListener singleCallListener = new SingleCallListener();
     singleCallListener.expectCall();
@@ -130,9 +119,8 @@ public class JdkFutureAdaptersTest extends TestCase {
 
     listenableFuture.addListener(singleCallListener, directExecutor());
     /*
-     * Don't shut down until the listenInPoolThread task has been accepted to
-     * run. We want to see what happens when it's interrupted, not when it's
-     * rejected.
+     * Don't shut down until the listenInPoolThread task has been accepted to run. We want to see
+     * what happens when it's interrupted, not when it's rejected.
      */
     submitSuccessful.await();
     executorService.shutdownNow();
@@ -145,18 +133,17 @@ public class JdkFutureAdaptersTest extends TestCase {
   }
 
   /**
-   * A Future that doesn't implement ListenableFuture, useful for testing
-   * listenInPoolThread.
+   * A Future that doesn't implement ListenableFuture, useful for testing listenInPoolThread.
    */
-  private static final class NonListenableSettableFuture<V>
-      extends ForwardingFuture<V> {
+  private static final class NonListenableSettableFuture<V> extends ForwardingFuture<V> {
     static <V> NonListenableSettableFuture<V> create() {
       return new NonListenableSettableFuture<V>();
     }
 
     final SettableFuture<V> delegate = SettableFuture.create();
 
-    @Override protected Future<V> delegate() {
+    @Override
+    protected Future<V> delegate() {
       return delegate;
     }
 
@@ -165,8 +152,7 @@ public class JdkFutureAdaptersTest extends TestCase {
     }
   }
 
-  private static final class RuntimeExceptionThrowingFuture<V>
-      implements Future<V> {
+  private static final class RuntimeExceptionThrowingFuture<V> implements Future<V> {
     final CountDownLatch allowGetToComplete = new CountDownLatch(1);
 
     @Override
@@ -177,8 +163,8 @@ public class JdkFutureAdaptersTest extends TestCase {
     @Override
     public V get() throws InterruptedException {
       /*
-       * Wait a little to give us time to call addListener before the future's
-       * value is set in addition to the call we'll make after then.
+       * Wait a little to give us time to call addListener before the future's value is set in
+       * addition to the call we'll make after then.
        */
       allowGetToComplete.await(1, SECONDS);
       throw new RuntimeException("expected, should be caught");
@@ -197,10 +183,9 @@ public class JdkFutureAdaptersTest extends TestCase {
     @Override
     public boolean isDone() {
       /*
-       * If isDone is true during the call to listenInPoolThread,
-       * listenInPoolThread doesn't start a thread. Make sure it's false the
-       * first time through (and forever after, since no one else cares about
-       * it).
+       * If isDone is true during the call to listenInPoolThread, listenInPoolThread doesn't start a
+       * thread. Make sure it's false the first time through (and forever after, since no one else
+       * cares about it).
        */
       return false;
     }
@@ -217,22 +202,17 @@ public class JdkFutureAdaptersTest extends TestCase {
     }
   }
 
-  public void testListenInPoolThreadRunsListenerAfterRuntimeException()
-      throws Exception {
-    RuntimeExceptionThrowingFuture<String> input =
-        new RuntimeExceptionThrowingFuture<String>();
+  public void testListenInPoolThreadRunsListenerAfterRuntimeException() throws Exception {
+    RuntimeExceptionThrowingFuture<String> input = new RuntimeExceptionThrowingFuture<String>();
     /*
-     * The compiler recognizes that "input instanceof ListenableFuture" is
-     * impossible. We want the test, though, in case that changes in the future,
-     * so we use isInstance instead.
+     * The compiler recognizes that "input instanceof ListenableFuture" is impossible. We want the
+     * test, though, in case that changes in the future, so we use isInstance instead.
      */
     assertFalse("Can't test the main listenInPoolThread path "
-        + "if the input is already a ListenableFuture",
-        ListenableFuture.class.isInstance(input));
+        + "if the input is already a ListenableFuture", ListenableFuture.class.isInstance(input));
     ListenableFuture<String> listenable = listenInPoolThread(input);
     /*
-     * This will occur before the waiting get() in the
-     * listenInPoolThread-spawned thread completes:
+     * This will occur before the waiting get() in the listenInPoolThread-spawned thread completes:
      */
     RecordingRunnable earlyListener = new RecordingRunnable();
     listenable.addListener(earlyListener, directExecutor());
@@ -248,9 +228,7 @@ public class JdkFutureAdaptersTest extends TestCase {
   }
 
   public void testAdapters_nullChecks() throws Exception {
-    new ClassSanityTester()
-        .forAllPublicStaticMethods(JdkFutureAdapters.class)
-        .thatReturn(Future.class)
-        .testNulls();
+    new ClassSanityTester().forAllPublicStaticMethods(JdkFutureAdapters.class)
+        .thatReturn(Future.class).testNulls();
   }
 }

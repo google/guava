@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -46,18 +44,12 @@ public class FilteredCollectionsTest extends TestCase {
     }
   };
 
-  private static final Predicate<Integer> PRIME_DIGIT =
-      Predicates.in(ImmutableSet.of(2, 3, 5, 7));
+  private static final Predicate<Integer> PRIME_DIGIT = Predicates.in(ImmutableSet.of(2, 3, 5, 7));
 
-  private static final ImmutableList<? extends List<Integer>> SAMPLE_INPUTS =
-      ImmutableList.of(ImmutableList.<Integer>of(),
-          ImmutableList.of(1),
-          ImmutableList.of(2),
-          ImmutableList.of(2, 3),
-          ImmutableList.of(1, 2),
-          ImmutableList.of(3, 5),
-          ImmutableList.of(2, 4),
-          ImmutableList.of(1, 2, 3, 5, 6, 8, 9));
+  private static final ImmutableList<? extends List<Integer>> SAMPLE_INPUTS = ImmutableList.of(
+      ImmutableList.<Integer>of(), ImmutableList.of(1), ImmutableList.of(2),
+      ImmutableList.of(2, 3), ImmutableList.of(1, 2), ImmutableList.of(3, 5),
+      ImmutableList.of(2, 4), ImmutableList.of(1, 2, 3, 5, 6, 8, 9));
 
   /*
    * We have a whole series of abstract test classes that "stack", so e.g. the tests for filtered
@@ -65,8 +57,8 @@ public class FilteredCollectionsTest extends TestCase {
    * actual implementation tests are further down.
    */
 
-  public static abstract class AbstractFilteredIterableTest<C extends Iterable<Integer>>
-      extends TestCase {
+  public static abstract class AbstractFilteredIterableTest<C extends Iterable<Integer>> extends
+      TestCase {
     abstract C createUnfiltered(Iterable<Integer> contents);
 
     abstract C filter(C elements, Predicate<? super Integer> predicate);
@@ -93,7 +85,7 @@ public class FilteredCollectionsTest extends TestCase {
 
     public void testReadsThroughAdd() {
       for (List<Integer> contents : SAMPLE_INPUTS) {
-        C unfiltered  = createUnfiltered(contents);
+        C unfiltered = createUnfiltered(contents);
         C filterThenAdd = filter(unfiltered, EVEN);
         unfiltered.add(4);
 
@@ -170,12 +162,14 @@ public class FilteredCollectionsTest extends TestCase {
         try {
           filtered2.add(4);
           fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {}
+        } catch (IllegalArgumentException expected) {
+        }
 
         try {
           filtered2.add(3);
           fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {}
+        } catch (IllegalArgumentException expected) {
+        }
 
         filtered2.add(2);
       }
@@ -187,8 +181,8 @@ public class FilteredCollectionsTest extends TestCase {
         C filtered1 = filter(unfiltered, EVEN);
         C filtered2 = filter(filtered1, PRIME_DIGIT);
 
-        C inverseFiltered = filter(createUnfiltered(contents),
-            Predicates.not(Predicates.and(EVEN, PRIME_DIGIT)));
+        C inverseFiltered =
+            filter(createUnfiltered(contents), Predicates.not(Predicates.and(EVEN, PRIME_DIGIT)));
 
         filtered2.clear();
         assertThat(unfiltered).containsExactlyElementsIn(inverseFiltered);
@@ -196,8 +190,8 @@ public class FilteredCollectionsTest extends TestCase {
     }
   }
 
-  public static abstract class AbstractFilteredSetTest<C extends Set<Integer>>
-      extends AbstractFilteredCollectionTest<C> {
+  public static abstract class AbstractFilteredSetTest<C extends Set<Integer>> extends
+      AbstractFilteredCollectionTest<C> {
     public void testEqualsAndHashCode() {
       for (List<Integer> contents : SAMPLE_INPUTS) {
         Set<Integer> expected = Sets.newHashSet();
@@ -212,8 +206,8 @@ public class FilteredCollectionsTest extends TestCase {
     }
   }
 
-  public static abstract class AbstractFilteredSortedSetTest<C extends SortedSet<Integer>>
-      extends AbstractFilteredSetTest<C> {
+  public static abstract class AbstractFilteredSortedSetTest<C extends SortedSet<Integer>> extends
+      AbstractFilteredSetTest<C> {
     public void testFirst() {
       for (List<Integer> contents : SAMPLE_INPUTS) {
         C filtered = filter(createUnfiltered(contents), EVEN);
@@ -246,9 +240,8 @@ public class FilteredCollectionsTest extends TestCase {
     public void testHeadSet() {
       for (List<Integer> contents : SAMPLE_INPUTS) {
         for (int i = 0; i < 10; i++) {
-            assertEquals(
-                filter((C) createUnfiltered(contents).headSet(i), EVEN),
-                filter(createUnfiltered(contents), EVEN).headSet(i));
+          assertEquals(filter((C) createUnfiltered(contents).headSet(i), EVEN),
+              filter(createUnfiltered(contents), EVEN).headSet(i));
         }
       }
     }
@@ -257,8 +250,7 @@ public class FilteredCollectionsTest extends TestCase {
     public void testTailSet() {
       for (List<Integer> contents : SAMPLE_INPUTS) {
         for (int i = 0; i < 10; i++) {
-          assertEquals(
-              filter((C) createUnfiltered(contents).tailSet(i), EVEN),
+          assertEquals(filter((C) createUnfiltered(contents).tailSet(i), EVEN),
               filter(createUnfiltered(contents), EVEN).tailSet(i));
         }
       }
@@ -269,24 +261,22 @@ public class FilteredCollectionsTest extends TestCase {
       for (List<Integer> contents : SAMPLE_INPUTS) {
         for (int i = 0; i < 10; i++) {
           for (int j = i; j < 10; j++) {
-          assertEquals(
-              filter((C) createUnfiltered(contents).subSet(i, j), EVEN),
-              filter(createUnfiltered(contents), EVEN).subSet(i, j));
+            assertEquals(filter((C) createUnfiltered(contents).subSet(i, j), EVEN),
+                filter(createUnfiltered(contents), EVEN).subSet(i, j));
           }
         }
       }
     }
   }
 
-  public static abstract class AbstractFilteredNavigableSetTest
-      extends AbstractFilteredSortedSetTest<NavigableSet<Integer>> {
+  public static abstract class AbstractFilteredNavigableSetTest extends
+      AbstractFilteredSortedSetTest<NavigableSet<Integer>> {
 
     public void testNavigableHeadSet() {
       for (List<Integer> contents : SAMPLE_INPUTS) {
         for (int i = 0; i < 10; i++) {
           for (boolean inclusive : ImmutableList.of(true, false)) {
-            assertEquals(
-                filter(createUnfiltered(contents).headSet(i, inclusive), EVEN),
+            assertEquals(filter(createUnfiltered(contents).headSet(i, inclusive), EVEN),
                 filter(createUnfiltered(contents), EVEN).headSet(i, inclusive));
           }
         }
@@ -297,8 +287,7 @@ public class FilteredCollectionsTest extends TestCase {
       for (List<Integer> contents : SAMPLE_INPUTS) {
         for (int i = 0; i < 10; i++) {
           for (boolean inclusive : ImmutableList.of(true, false)) {
-            assertEquals(
-                filter(createUnfiltered(contents).tailSet(i, inclusive), EVEN),
+            assertEquals(filter(createUnfiltered(contents).tailSet(i, inclusive), EVEN),
                 filter(createUnfiltered(contents), EVEN).tailSet(i, inclusive));
           }
         }
@@ -311,10 +300,12 @@ public class FilteredCollectionsTest extends TestCase {
           for (int j = i + 1; j < 10; j++) {
             for (boolean fromInclusive : ImmutableList.of(true, false)) {
               for (boolean toInclusive : ImmutableList.of(true, false)) {
-                NavigableSet<Integer> filterSubset = filter(
-                    createUnfiltered(contents).subSet(i, fromInclusive, j, toInclusive), EVEN);
-                NavigableSet<Integer> subsetFilter = filter(createUnfiltered(contents), EVEN)
-                    .subSet(i, fromInclusive, j, toInclusive);
+                NavigableSet<Integer> filterSubset =
+                    filter(createUnfiltered(contents).subSet(i, fromInclusive, j, toInclusive),
+                        EVEN);
+                NavigableSet<Integer> subsetFilter =
+                    filter(createUnfiltered(contents), EVEN).subSet(i, fromInclusive, j,
+                        toInclusive);
                 assertEquals(filterSubset, subsetFilter);
               }
             }
@@ -328,8 +319,7 @@ public class FilteredCollectionsTest extends TestCase {
         NavigableSet<Integer> filtered = filter(createUnfiltered(contents), EVEN);
         NavigableSet<Integer> unfiltered = createUnfiltered(filtered);
 
-        assertThat(filtered.descendingSet())
-            .containsExactlyElementsIn(unfiltered.descendingSet())
+        assertThat(filtered.descendingSet()).containsExactlyElementsIn(unfiltered.descendingSet())
             .inOrder();
       }
     }
@@ -370,8 +360,8 @@ public class FilteredCollectionsTest extends TestCase {
 
   // implementation tests
 
-  public static final class IterablesFilterArrayListTest
-      extends AbstractFilteredIterableTest<Iterable<Integer>> {
+  public static final class IterablesFilterArrayListTest extends
+      AbstractFilteredIterableTest<Iterable<Integer>> {
     @Override
     Iterable<Integer> createUnfiltered(Iterable<Integer> contents) {
       return Lists.newArrayList(contents);
@@ -383,8 +373,8 @@ public class FilteredCollectionsTest extends TestCase {
     }
   }
 
-  public static final class Collections2FilterArrayListTest
-      extends AbstractFilteredCollectionTest<Collection<Integer>> {
+  public static final class Collections2FilterArrayListTest extends
+      AbstractFilteredCollectionTest<Collection<Integer>> {
     @Override
     Collection<Integer> createUnfiltered(Iterable<Integer> contents) {
       return Lists.newArrayList(contents);
@@ -396,8 +386,7 @@ public class FilteredCollectionsTest extends TestCase {
     }
   }
 
-  public static final class SetsFilterHashSetTest
-      extends AbstractFilteredSetTest<Set<Integer>> {
+  public static final class SetsFilterHashSetTest extends AbstractFilteredSetTest<Set<Integer>> {
     @Override
     Set<Integer> createUnfiltered(Iterable<Integer> contents) {
       return Sets.newHashSet(contents);
@@ -409,8 +398,8 @@ public class FilteredCollectionsTest extends TestCase {
     }
   }
 
-  public static final class SetsFilterSortedSetTest
-      extends AbstractFilteredSortedSetTest<SortedSet<Integer>> {
+  public static final class SetsFilterSortedSetTest extends
+      AbstractFilteredSortedSetTest<SortedSet<Integer>> {
     @Override
     SortedSet<Integer> createUnfiltered(Iterable<Integer> contents) {
       final TreeSet<Integer> result = Sets.newTreeSet(contents);
@@ -436,13 +425,12 @@ public class FilteredCollectionsTest extends TestCase {
     }
 
     @Override
-    NavigableSet<Integer> filter(
-        NavigableSet<Integer> elements, Predicate<? super Integer> predicate) {
+    NavigableSet<Integer> filter(NavigableSet<Integer> elements,
+        Predicate<? super Integer> predicate) {
       return Sets.filter(elements, predicate);
     }
   }
 
   /** No-op test so that the class has at least one method, making Maven's test runner happy. */
-  public void testNoop() {
-  }
+  public void testNoop() {}
 }

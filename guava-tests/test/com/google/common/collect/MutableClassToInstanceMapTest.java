@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -45,8 +43,7 @@ public class MutableClassToInstanceMapTest extends TestCase {
     // *some* remappings will be allowed and others not.
     Method remapTest = null;
     try {
-      remapTest = MapPutTester.class.getMethod(
-          "testPut_replaceNullValueWithNonNullSupported");
+      remapTest = MapPutTester.class.getMethod("testPut_replaceNullValueWithNonNullSupported");
     } catch (NoSuchMethodException e) {
       throw new AssertionError();
     }
@@ -58,8 +55,7 @@ public class MutableClassToInstanceMapTest extends TestCase {
           @Override
           @SuppressWarnings("unchecked")
           public Map<Class, Number> create(Object... elements) {
-            MutableClassToInstanceMap<Number> map
-                = MutableClassToInstanceMap.create();
+            MutableClassToInstanceMap<Number> map = MutableClassToInstanceMap.create();
             for (Object object : elements) {
               Entry<Class, Number> entry = (Entry<Class, Number>) object;
               map.putInstance(entry.getKey(), entry.getValue());
@@ -68,33 +64,27 @@ public class MutableClassToInstanceMapTest extends TestCase {
           }
         })
         .named("MutableClassToInstanceMap")
-        .withFeatures(
-            MapFeature.GENERAL_PURPOSE,
-            MapFeature.RESTRICTS_KEYS,
-            MapFeature.ALLOWS_NULL_VALUES,
-            CollectionSize.ANY,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES)
-        .suppressing(remapTest)
-        .createTestSuite());
+        .withFeatures(MapFeature.GENERAL_PURPOSE, MapFeature.RESTRICTS_KEYS,
+            MapFeature.ALLOWS_NULL_VALUES, CollectionSize.ANY,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE, MapFeature.ALLOWS_ANY_NULL_QUERIES)
+        .suppressing(remapTest).createTestSuite());
 
     return suite;
   }
 
   private ClassToInstanceMap<Number> map;
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     map = MutableClassToInstanceMap.create();
   }
 
   public void testConstraint() {
 
     /**
-     * We'll give ourselves a pass on testing all the possible ways of
-     * breaking the constraint, because we know that newClassMap() is
-     * implemented using ConstrainedMap which is itself well-tested.
-     * A purist would object to this, but what can I say, we're dirty
-     * cheaters.
+     * We'll give ourselves a pass on testing all the possible ways of breaking the constraint,
+     * because we know that newClassMap() is implemented using ConstrainedMap which is itself
+     * well-tested. A purist would object to this, but what can I say, we're dirty cheaters.
      */
 
     map.put(Integer.class, new Integer(5));

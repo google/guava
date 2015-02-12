@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -26,8 +24,8 @@ import java.util.Set;
 import javax.annotation.CheckReturnValue;
 
 /**
- * Contains static utility methods pertaining to primitive types and their
- * corresponding wrapper types.
+ * Contains static utility methods pertaining to primitive types and their corresponding wrapper
+ * types.
  *
  * @author Kevin Bourrillion
  * @since 1.0
@@ -43,7 +41,7 @@ public final class Primitives {
   private static final Map<Class<?>, Class<?>> WRAPPER_TO_PRIMITIVE_TYPE;
 
   // Sad that we can't use a BiMap. :(
-  
+
   static {
     Map<Class<?>, Class<?>> primToWrap = new HashMap<Class<?>, Class<?>>(16);
     Map<Class<?>, Class<?>> wrapToPrim = new HashMap<Class<?>, Class<?>>(16);
@@ -62,16 +60,16 @@ public final class Primitives {
     WRAPPER_TO_PRIMITIVE_TYPE = Collections.unmodifiableMap(wrapToPrim);
   }
 
-  private static void add(Map<Class<?>, Class<?>> forward,
-      Map<Class<?>, Class<?>> backward, Class<?> key, Class<?> value) {
+  private static void add(Map<Class<?>, Class<?>> forward, Map<Class<?>, Class<?>> backward,
+      Class<?> key, Class<?> value) {
     forward.put(key, value);
     backward.put(value, key);
   }
 
   /**
-   * Returns an immutable set of all nine primitive types (including {@code
-   * void}). Note that a simpler way to test whether a {@code Class} instance
-   * is a member of this set is to call {@link Class#isPrimitive}.
+   * Returns an immutable set of all nine primitive types (including {@code void}). Note that a
+   * simpler way to test whether a {@code Class} instance is a member of this set is to call
+   * {@link Class#isPrimitive}.
    *
    * @since 3.0
    */
@@ -80,8 +78,7 @@ public final class Primitives {
   }
 
   /**
-   * Returns an immutable set of all nine primitive-wrapper types (including
-   * {@link Void}).
+   * Returns an immutable set of all nine primitive-wrapper types (including {@link Void}).
    *
    * @since 3.0
    */
@@ -90,8 +87,8 @@ public final class Primitives {
   }
 
   /**
-   * Returns {@code true} if {@code type} is one of the nine
-   * primitive-wrapper types, such as {@link Integer}.
+   * Returns {@code true} if {@code type} is one of the nine primitive-wrapper types, such as
+   * {@link Integer}.
    *
    * @see Class#isPrimitive
    */
@@ -100,8 +97,9 @@ public final class Primitives {
   }
 
   /**
-   * Returns the corresponding wrapper type of {@code type} if it is a primitive
-   * type; otherwise returns {@code type} itself. Idempotent.
+   * Returns the corresponding wrapper type of {@code type} if it is a primitive type; otherwise
+   * returns {@code type} itself. Idempotent.
+   * 
    * <pre>
    *     wrap(int.class) == Integer.class
    *     wrap(Integer.class) == Integer.class
@@ -118,8 +116,9 @@ public final class Primitives {
   }
 
   /**
-   * Returns the corresponding primitive type of {@code type} if it is a
-   * wrapper type; otherwise returns {@code type} itself. Idempotent.
+   * Returns the corresponding primitive type of {@code type} if it is a wrapper type; otherwise
+   * returns {@code type} itself. Idempotent.
+   * 
    * <pre>
    *     unwrap(Integer.class) == int.class
    *     unwrap(int.class) == int.class

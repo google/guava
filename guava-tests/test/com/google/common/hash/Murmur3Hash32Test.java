@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.hash;
@@ -48,7 +46,7 @@ public class Murmur3Hash32Test extends TestCase {
     assertHash(1510782915, murmur3_32().hashUnencodedChars("hell"));
     assertHash(-675079799, murmur3_32().hashUnencodedChars("hello"));
     assertHash(1935035788, murmur3_32().hashUnencodedChars("http://www.google.com/"));
-    assertHash(-528633700, 
+    assertHash(-528633700,
         murmur3_32().hashUnencodedChars("The quick brown fox jumps over the lazy dog"));
   }
 
@@ -58,7 +56,8 @@ public class Murmur3Hash32Test extends TestCase {
 
   public void testParanoid() {
     HashFn hf = new HashFn() {
-      @Override public byte[] hash(byte[] input, int seed) {
+      @Override
+      public byte[] hash(byte[] input, int seed) {
         Hasher hasher = murmur3_32(seed).newHasher();
         Funnels.byteArrayFunnel().funnel(input, hasher);
         return hasher.hash().asBytes();

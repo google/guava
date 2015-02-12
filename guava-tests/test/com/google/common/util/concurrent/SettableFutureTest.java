@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -46,7 +44,8 @@ public class SettableFutureTest extends TestCase {
     try {
       future.get(5, TimeUnit.MILLISECONDS);
       fail();
-    } catch (TimeoutException expected) {}
+    } catch (TimeoutException expected) {
+    }
   }
 
   public void testSetValue() throws Exception {
@@ -128,15 +127,18 @@ public class SettableFutureTest extends TestCase {
     try {
       future.get(0, TimeUnit.MILLISECONDS);
       fail("Expected TimeoutException");
-    } catch (TimeoutException expected) { /* expected */ }
+    } catch (TimeoutException expected) { /* expected */
+    }
     nested.set("foo");
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
     assertEquals("foo", future.get());
   }
 
-  private static class Foo {}
-  private static class FooChild extends Foo {}
+  private static class Foo {
+  }
+  private static class FooChild extends Foo {
+  }
 
   public void testSetFuture_genericsHierarchy() throws Exception {
     SettableFuture<Foo> future = SettableFuture.create();
@@ -152,7 +154,8 @@ public class SettableFutureTest extends TestCase {
     try {
       future.get(0, TimeUnit.MILLISECONDS);
       fail("Expected TimeoutException");
-    } catch (TimeoutException expected) { /* expected */ }
+    } catch (TimeoutException expected) { /* expected */
+    }
     FooChild value = new FooChild();
     nested.set(value);
     assertTrue(future.isDone());
@@ -169,7 +172,8 @@ public class SettableFutureTest extends TestCase {
     try {
       async.get();
       fail("Expected CancellationException");
-    } catch (CancellationException expected) { /* expected */ }
+    } catch (CancellationException expected) { /* expected */
+    }
   }
 
   public void testCancel_resultCancelsInner_interrupted() throws Exception {
@@ -182,7 +186,8 @@ public class SettableFutureTest extends TestCase {
     try {
       inner.get();
       fail("Expected CancellationException");
-    } catch (CancellationException expected) { /* expected */ }
+    } catch (CancellationException expected) { /* expected */
+    }
   }
 
   public void testCancel_resultCancelsInner() throws Exception {
@@ -195,7 +200,8 @@ public class SettableFutureTest extends TestCase {
     try {
       inner.get();
       fail("Expected CancellationException");
-    } catch (CancellationException expected) { /* expected */ }
+    } catch (CancellationException expected) { /* expected */
+    }
   }
 
   public void testCancel_beforeSet() throws Exception {

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.cache;
@@ -31,13 +29,17 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Charles Fry
  */
 public class LoadingCacheSingleThreadBenchmark {
-  @Param({"1000", "2000"}) int maximumSize;
-  @Param("5000") int distinctKeys;
-  @Param("4") int segments;
+  @Param({"1000", "2000"})
+  int maximumSize;
+  @Param("5000")
+  int distinctKeys;
+  @Param("4")
+  int segments;
 
   // 1 means uniform likelihood of keys; higher means some keys are more popular
   // tweak this to control hit rate
-  @Param("2.5") double concentration;
+  @Param("2.5")
+  double concentration;
 
   Random random = new Random();
 
@@ -48,17 +50,17 @@ public class LoadingCacheSingleThreadBenchmark {
   static AtomicLong requests = new AtomicLong(0);
   static AtomicLong misses = new AtomicLong(0);
 
-  @BeforeExperiment void setUp() {
+  @BeforeExperiment
+  void setUp() {
     // random integers will be generated in this range, then raised to the
     // power of (1/concentration) and floor()ed
     max = Ints.checkedCast((long) Math.pow(distinctKeys, concentration));
 
-    cache = CacheBuilder.newBuilder()
-        .concurrencyLevel(segments)
-        .maximumSize(maximumSize)
-        .build(
-            new CacheLoader<Integer, Integer>() {
-              @Override public Integer load(Integer from) {
+    cache =
+        CacheBuilder.newBuilder().concurrencyLevel(segments).maximumSize(maximumSize)
+            .build(new CacheLoader<Integer, Integer>() {
+              @Override
+              public Integer load(Integer from) {
                 return (int) misses.incrementAndGet();
               }
             });
@@ -67,13 +69,15 @@ public class LoadingCacheSingleThreadBenchmark {
     // Each miss both increments the counter and causes the map to grow by one,
     // so until evictions begin, the size of the map is the greatest return
     // value seen so far
-    while (cache.getUnchecked(nextRandomKey()) < maximumSize) {}
+    while (cache.getUnchecked(nextRandomKey()) < maximumSize) {
+    }
 
     requests.set(0);
     misses.set(0);
   }
 
-  @Benchmark int time(int reps) {
+  @Benchmark
+  int time(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
       dummy += cache.getUnchecked(nextRandomKey());
@@ -86,15 +90,15 @@ public class LoadingCacheSingleThreadBenchmark {
     int a = random.nextInt(max);
 
     /*
-     * For example, if concentration=2.0, the following takes the square root of
-     * the uniformly-distributed random integer, then truncates any fractional
-     * part, so higher integers would appear (in this case linearly) more often
-     * than lower ones.
+     * For example, if concentration=2.0, the following takes the square root of the
+     * uniformly-distributed random integer, then truncates any fractional part, so higher integers
+     * would appear (in this case linearly) more often than lower ones.
      */
     return (int) Math.pow(a, 1.0 / concentration);
   }
 
-  @AfterExperiment void tearDown() {
+  @AfterExperiment
+  void tearDown() {
     double req = requests.get();
     double hit = req - misses.get();
 

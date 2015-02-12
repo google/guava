@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -33,8 +31,7 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class MultimapContainsEntryTester<K, V>
-    extends AbstractMultimapTester<K, V, Multimap<K, V>> {
+public class MultimapContainsEntryTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(absent = ZERO)
   public void testContainsEntryYes() {
     assertTrue(multimap().containsEntry(k0(), v0()));
@@ -47,20 +44,19 @@ public class MultimapContainsEntryTester<K, V>
   public void testContainsEntryAgreesWithGet() {
     for (K k : sampleKeys()) {
       for (V v : sampleValues()) {
-        assertEquals(multimap().get(k).contains(v),
-            multimap().containsEntry(k, v));
+        assertEquals(multimap().get(k).contains(v), multimap().containsEntry(k, v));
       }
     }
   }
 
   @CollectionSize.Require(absent = ZERO)
-  @MapFeature.Require({ ALLOWS_NULL_KEYS, ALLOWS_NULL_VALUES })
+  @MapFeature.Require({ALLOWS_NULL_KEYS, ALLOWS_NULL_VALUES})
   public void testContainsEntryNullYes() {
     initMultimapWithNullKeyAndValue();
     assertTrue(multimap().containsEntry(null, null));
   }
 
-  @MapFeature.Require({ ALLOWS_NULL_KEY_QUERIES, ALLOWS_NULL_VALUE_QUERIES })
+  @MapFeature.Require({ALLOWS_NULL_KEY_QUERIES, ALLOWS_NULL_VALUE_QUERIES})
   public void testContainsEntryNullNo() {
     assertFalse(multimap().containsEntry(null, null));
   }
@@ -76,8 +72,8 @@ public class MultimapContainsEntryTester<K, V>
   }
 
   /**
-   * Copy of the {@link #testContainsEntryNullDisallowed} test. Needed because
-   * "optional" feature requirements are not supported.
+   * Copy of the {@link #testContainsEntryNullDisallowed} test. Needed because "optional" feature
+   * requirements are not supported.
    */
   @MapFeature.Require(absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryNullDisallowedBecauseValueQueriesDisallowed() {

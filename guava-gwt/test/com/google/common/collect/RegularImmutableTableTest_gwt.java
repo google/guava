@@ -1,130 +1,153 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.google.common.collect;
+
 public class RegularImmutableTableTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
-@Override public String getModuleName() {
-  return "com.google.common.collect.testModule";
-}
-public void testCellSet() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testCellSet();
-}
+  @Override
+  public String getModuleName() {
+    return "com.google.common.collect.testModule";
+  }
 
-public void testClear() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testClear();
-}
+  public void testCellSet() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testCellSet();
+  }
 
-public void testColumn() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testColumn();
-}
+  public void testClear() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testClear();
+  }
 
-public void testColumnKeySet() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testColumnKeySet();
-}
+  public void testColumn() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testColumn();
+  }
 
-public void testColumnMap() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testColumnMap();
-}
+  public void testColumnKeySet() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testColumnKeySet();
+  }
 
-public void testConsistentHashCode() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testConsistentHashCode();
-}
+  public void testColumnMap() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testColumnMap();
+  }
 
-public void testConsistentToString() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testConsistentToString();
-}
+  public void testConsistentHashCode() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testConsistentHashCode();
+  }
 
-public void testContains() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testContains();
-}
+  public void testConsistentToString() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testConsistentToString();
+  }
 
-public void testContainsColumn() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testContainsColumn();
-}
+  public void testContains() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testContains();
+  }
 
-public void testContainsRow() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testContainsRow();
-}
+  public void testContainsColumn() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testContainsColumn();
+  }
 
-public void testContainsValue() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testContainsValue();
-}
+  public void testContainsRow() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testContainsRow();
+  }
 
-public void testForCells() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testForCells();
-}
+  public void testContainsValue() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testContainsValue();
+  }
 
-public void testGet() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testGet();
-}
+  public void testForCells() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testForCells();
+  }
 
-public void testIsEmpty() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testIsEmpty();
-}
+  public void testGet() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testGet();
+  }
 
-public void testPut() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testPut();
-}
+  public void testIsEmpty() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testIsEmpty();
+  }
 
-public void testPutAll() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testPutAll();
-}
+  public void testPut() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testPut();
+  }
 
-public void testRemove() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testRemove();
-}
+  public void testPutAll() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testPutAll();
+  }
 
-public void testRow() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testRow();
-}
+  public void testRemove() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testRemove();
+  }
 
-public void testRowKeySet() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testRowKeySet();
-}
+  public void testRow() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testRow();
+  }
 
-public void testRowMap() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testRowMap();
-}
+  public void testRowKeySet() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testRowKeySet();
+  }
 
-public void testSize() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testSize();
-}
+  public void testRowMap() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testRowMap();
+  }
 
-public void testValues() throws Exception {
-  com.google.common.collect.RegularImmutableTableTest testCase = new com.google.common.collect.RegularImmutableTableTest();
-  testCase.testValues();
-}
+  public void testSize() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testSize();
+  }
+
+  public void testValues() throws Exception {
+    com.google.common.collect.RegularImmutableTableTest testCase =
+        new com.google.common.collect.RegularImmutableTableTest();
+    testCase.testValues();
+  }
 }

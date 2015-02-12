@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -41,7 +39,8 @@ public class MultiReaderTest extends TestCase {
           throw new IllegalStateException("More than one source open");
         }
         return new FilterReader(source.openStream()) {
-          @Override public void close() throws IOException {
+          @Override
+          public void close() throws IOException {
             super.close();
             counter[0]--;
           }
@@ -62,7 +61,7 @@ public class MultiReaderTest extends TestCase {
     assertEquals('a', joinedReader.read());
     assertEquals('a', joinedReader.read());
     assertEquals(-1, joinedReader.read());
-    assertFalse(joinedReader.ready());    
+    assertFalse(joinedReader.ready());
   }
 
   public void testSimple() throws Exception {
@@ -74,7 +73,7 @@ public class MultiReaderTest extends TestCase {
     assertEquals(expectedString, CharStreams.toString(joinedReader));
   }
 
-  
+
   private static CharSource newCharSource(final String text) {
     return new CharSource() {
       @Override
@@ -87,8 +86,7 @@ public class MultiReaderTest extends TestCase {
   public void testSkip() throws Exception {
     String begin = "abcde";
     String end = "fghij";
-    Reader joinedReader =
-        CharSource.concat(newCharSource(begin), newCharSource(end)).openStream();
+    Reader joinedReader = CharSource.concat(newCharSource(begin), newCharSource(end)).openStream();
 
     String expected = begin + end;
     assertEquals(expected.charAt(0), joinedReader.read());
@@ -100,7 +98,7 @@ public class MultiReaderTest extends TestCase {
     assertEquals(expected.charAt(9), joinedReader.read());
     assertEquals(-1, joinedReader.read());
   }
-  
+
   public void testSkipZero() throws Exception {
     CharSource source = newCharSource("a");
     Iterable<CharSource> list = ImmutableList.of(source, source);

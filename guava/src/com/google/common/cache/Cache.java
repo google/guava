@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.cache;
@@ -34,10 +32,12 @@ import javax.annotation.Nullable;
  * {@link #get(Object, Callable)} or {@link #put(Object, Object)}, and are stored in the cache until
  * either evicted or manually invalidated.
  *
- * <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
- * by multiple concurrent threads.
+ * <p>
+ * Implementations of this interface are expected to be thread-safe, and can be safely accessed by
+ * multiple concurrent threads.
  *
- * <p>Note that while this class is still annotated as {@link Beta}, the API is frozen from a
+ * <p>
+ * Note that while this class is still annotated as {@link Beta}, the API is frozen from a
  * consumer's standpoint. In other words existing methods are all considered {@code non-Beta} and
  * won't be changed without going through an 18 month deprecation cycle; however new methods may be
  * added at any time.
@@ -64,12 +64,13 @@ public interface Cache<K, V> {
    * until loading completes. This method provides a simple substitute for the conventional
    * "if cached, return; otherwise create, cache and return" pattern.
    *
-   * <p><b>Warning:</b> as with {@link CacheLoader#load}, {@code valueLoader} <b>must not</b> return
+   * <p>
+   * <b>Warning:</b> as with {@link CacheLoader#load}, {@code valueLoader} <b>must not</b> return
    * {@code null}; it may either return a non-null value or throw an exception.
    *
    * @throws ExecutionException if a checked exception was thrown while loading the value
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
-   *     value
+   *         value
    * @throws ExecutionError if an error was thrown while loading the value
    *
    * @since 11.0
@@ -88,8 +89,9 @@ public interface Cache<K, V> {
    * Associates {@code value} with {@code key} in this cache. If the cache previously contained a
    * value associated with {@code key}, the old value is replaced by {@code value}.
    *
-   * <p>Prefer {@link #get(Object, Callable)} when using the conventional "if cached, return;
-   * otherwise create, cache and return" pattern.
+   * <p>
+   * Prefer {@link #get(Object, Callable)} when using the conventional "if cached, return; otherwise
+   * create, cache and return" pattern.
    *
    * @since 11.0
    */
@@ -103,7 +105,7 @@ public interface Cache<K, V> {
    *
    * @since 12.0
    */
-  void putAll(Map<? extends K,? extends V> m);
+  void putAll(Map<? extends K, ? extends V> m);
 
   /**
    * Discards any cached value for key {@code key}.
@@ -128,8 +130,8 @@ public interface Cache<K, V> {
   long size();
 
   /**
-   * Returns a current snapshot of this cache's cumulative statistics. All stats are initialized
-   * to zero, and are monotonically increasing over the lifetime of the cache.
+   * Returns a current snapshot of this cache's cumulative statistics. All stats are initialized to
+   * zero, and are monotonically increasing over the lifetime of the cache.
    *
    */
   CacheStats stats();
@@ -138,7 +140,8 @@ public interface Cache<K, V> {
    * Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
    * the map directly affect the cache.
    *
-   * <p>Iterators from the returned map are at least <i>weakly consistent</i>: they are safe for
+   * <p>
+   * Iterators from the returned map are at least <i>weakly consistent</i>: they are safe for
    * concurrent use, but if the cache is modified (including by eviction) after the iterator is
    * created, it is undefined which of the changes (if any) will be reflected in that iterator.
    */

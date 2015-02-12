@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -79,11 +79,9 @@ public class EmptyCachesTest extends TestCase {
   public void testEqualsAndHashCode_different() {
     for (CacheBuilder<Object, Object> builder : cacheFactory().buildAllPermutations()) {
       // all caches should be different: instance equality
-      new EqualsTester()
+      new EqualsTester().addEqualityGroup(builder.build(identityLoader()))
           .addEqualityGroup(builder.build(identityLoader()))
-          .addEqualityGroup(builder.build(identityLoader()))
-          .addEqualityGroup(builder.build(identityLoader()))
-          .testEquals();
+          .addEqualityGroup(builder.build(identityLoader())).testEquals();
     }
   }
 
@@ -352,8 +350,8 @@ public class EmptyCachesTest extends TestCase {
     CacheBuilderFactory factory = cacheFactory();
     return Iterables.transform(factory.buildAllPermutations(),
         new Function<CacheBuilder<Object, Object>, LoadingCache<Object, Object>>() {
-          @Override public LoadingCache<Object, Object> apply(
-              CacheBuilder<Object, Object> builder) {
+          @Override
+          public LoadingCache<Object, Object> apply(CacheBuilder<Object, Object> builder) {
             return builder.build(identityLoader());
           }
         });
@@ -366,17 +364,13 @@ public class EmptyCachesTest extends TestCase {
         .withConcurrencyLevels(ImmutableSet.of(1, 4, 16, 64))
         .withMaximumSizes(ImmutableSet.of(0, 1, 10, 100, 1000))
         .withInitialCapacities(ImmutableSet.of(0, 1, 10, 100, 1000))
-        .withExpireAfterWrites(ImmutableSet.of(
-            DurationSpec.of(0, SECONDS),
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)))
-        .withExpireAfterAccesses(ImmutableSet.of(
-            DurationSpec.of(0, SECONDS),
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)))
-        .withRefreshes(ImmutableSet.of(
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)));
+        .withExpireAfterWrites(
+            ImmutableSet.of(DurationSpec.of(0, SECONDS), DurationSpec.of(1, SECONDS),
+                DurationSpec.of(1, DAYS)))
+        .withExpireAfterAccesses(
+            ImmutableSet.of(DurationSpec.of(0, SECONDS), DurationSpec.of(1, SECONDS),
+                DurationSpec.of(1, DAYS)))
+        .withRefreshes(ImmutableSet.of(DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)));
   }
 
   private void warmUp(LoadingCache<Object, Object> cache, int minimum, int maximum) {

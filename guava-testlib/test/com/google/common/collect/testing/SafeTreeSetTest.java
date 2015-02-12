@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing;
@@ -41,39 +39,44 @@ public class SafeTreeSetTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SafeTreeSetTest.class);
-    suite.addTest(
-        NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
+    suite.addTest(NavigableSetTestSuiteBuilder
+        .using(new TestStringSetGenerator() {
+          @Override
+          protected Set<String> create(String[] elements) {
             return new SafeTreeSet<String>(Arrays.asList(elements));
           }
 
-          @Override public List<String> order(List<String> insertionOrder) {
+          @Override
+          public List<String> order(List<String> insertionOrder) {
             return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
           }
-        }).withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.GENERAL_PURPOSE).named(
-            "SafeTreeSet with natural comparator").createTestSuite());
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-      @Override protected Set<String> create(String[] elements) {
-        NavigableSet<String> set =
-            new SafeTreeSet<String>(Ordering.natural().nullsFirst());
-        Collections.addAll(set, elements);
-        return set;
-      }
+        })
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE).named("SafeTreeSet with natural comparator")
+        .createTestSuite());
+    suite.addTest(SetTestSuiteBuilder
+        .using(new TestStringSetGenerator() {
+          @Override
+          protected Set<String> create(String[] elements) {
+            NavigableSet<String> set = new SafeTreeSet<String>(Ordering.natural().nullsFirst());
+            Collections.addAll(set, elements);
+            return set;
+          }
 
-      @Override public List<String> order(List<String> insertionOrder) {
-        return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
-      }
-    }).withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-        CollectionFeature.GENERAL_PURPOSE, CollectionFeature.ALLOWS_NULL_VALUES)
+          @Override
+          public List<String> order(List<String> insertionOrder) {
+            return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
+          }
+        })
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE, CollectionFeature.ALLOWS_NULL_VALUES)
         .named("SafeTreeSet with null-friendly comparator").createTestSuite());
     return suite;
   }
 
   @GwtIncompatible("SerializableTester")
   public void testViewSerialization() {
-    Map<String, Integer> map =
-        ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
+    Map<String, Integer> map = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
     SerializableTester.reserializeAndAssert(map.entrySet());
     SerializableTester.reserializeAndAssert(map.keySet());
     assertEquals(Lists.newArrayList(map.values()),

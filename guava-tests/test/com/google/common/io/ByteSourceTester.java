@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -46,8 +44,7 @@ import java.util.Random;
  */
 public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteSourceFactory> {
 
-  private static final ImmutableList<Method> testMethods
-      = getTestMethods(ByteSourceTester.class);
+  private static final ImmutableList<Method> testMethods = getTestMethods(ByteSourceTester.class);
 
   static TestSuite tests(String name, ByteSourceFactory factory, boolean testAsCharSource) {
     TestSuite suite = new TestSuite(name);
@@ -55,24 +52,24 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
       if (testAsCharSource) {
         suite.addTest(suiteForString(factory, entry.getValue(), name, entry.getKey()));
       } else {
-        suite.addTest(suiteForBytes(
-            factory, entry.getValue().getBytes(Charsets.UTF_8), name, entry.getKey(), true));
+        suite.addTest(suiteForBytes(factory, entry.getValue().getBytes(Charsets.UTF_8), name,
+            entry.getKey(), true));
       }
     }
     return suite;
   }
 
-  private static TestSuite suiteForString(ByteSourceFactory factory, String string,
-      String name, String desc) {
+  private static TestSuite suiteForString(ByteSourceFactory factory, String string, String name,
+      String desc) {
     TestSuite suite = suiteForBytes(factory, string.getBytes(Charsets.UTF_8), name, desc, true);
     CharSourceFactory charSourceFactory = SourceSinkFactories.asCharSourceFactory(factory);
-    suite.addTest(CharSourceTester.suiteForString(charSourceFactory, string,
-        name + ".asCharSource[Charset]", desc));
+    suite.addTest(CharSourceTester.suiteForString(charSourceFactory, string, name
+        + ".asCharSource[Charset]", desc));
     return suite;
   }
 
-  private static TestSuite suiteForBytes(ByteSourceFactory factory, byte[] bytes,
-      String name, String desc, boolean slice) {
+  private static TestSuite suiteForBytes(ByteSourceFactory factory, byte[] bytes, String name,
+      String desc, boolean slice) {
     TestSuite suite = new TestSuite(name + " [" + desc + "]");
     for (Method method : testMethods) {
       suite.addTest(new ByteSourceTester(factory, bytes, name, desc, method));
@@ -86,8 +83,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
       int off = expected.length == 0 ? 0 : random.nextInt(expected.length);
       int len = expected.length == 0 ? 4 : random.nextInt(expected.length - off);
       ByteSourceFactory sliced = SourceSinkFactories.asSlicedByteSourceFactory(factory, off, len);
-      suite.addTest(suiteForBytes(sliced, bytes, name + ".slice[int, int]",
-          desc, false));
+      suite.addTest(suiteForBytes(sliced, bytes, name + ".slice[int, int]", desc, false));
     }
 
     return suite;
@@ -95,8 +91,8 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
 
   private ByteSource source;
 
-  public ByteSourceTester(ByteSourceFactory factory, byte[] bytes,
-      String suiteName, String caseDesc, Method method) {
+  public ByteSourceTester(ByteSourceFactory factory, byte[] bytes, String suiteName,
+      String caseDesc, Method method) {
     super(factory, bytes, suiteName, caseDesc, method);
   }
 
@@ -160,8 +156,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
     assertTrue(source.contentEquals(new ByteSource() {
       @Override
       public InputStream openStream() throws IOException {
-        return new RandomAmountInputStream(
-            new ByteArrayInputStream(expected), new Random());
+        return new RandomAmountInputStream(new ByteArrayInputStream(expected), new Random());
       }
     }));
   }

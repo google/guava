@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -28,7 +28,8 @@ import java.util.Iterator;
 /**
  * Multiset implementation backed by an {@link EnumMap}.
  * 
- * <p>See the Guava User Guide article on <a href=
+ * <p>
+ * See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
  * {@code Multiset}</a>.
  *
@@ -45,8 +46,8 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
   /**
    * Creates a new {@code EnumMultiset} containing the specified elements.
    *
-   * <p>This implementation is highly efficient when {@code elements} is itself a {@link
-   * Multiset}.
+   * <p>
+   * This implementation is highly efficient when {@code elements} is itself a {@link Multiset}.
    *
    * @param elements the elements that the multiset should contain
    * @throws IllegalArgumentException if {@code elements} is empty
@@ -58,9 +59,9 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
     Iterables.addAll(multiset, elements);
     return multiset;
   }
-  
+
   /**
-   * Returns a new {@code EnumMultiset} instance containing the given elements.  Unlike
+   * Returns a new {@code EnumMultiset} instance containing the given elements. Unlike
    * {@link EnumMultiset#create(Iterable)}, this method does not produce an exception on an empty
    * iterable.
    * 
@@ -88,14 +89,14 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
   }
 
   /**
-   * @serialData the {@code Class<E>} for the enum type, the number of distinct
-   *             elements, the first element, its count, the second element, its
-   *             count, and so on
+   * @serialData the {@code Class<E>} for the enum type, the number of distinct elements, the first
+   *             element, its count, the second element, its count, and so on
    */
   @GwtIncompatible("java.io.ObjectInputStream")
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    @SuppressWarnings("unchecked") // reading data stored by writeObject
+    @SuppressWarnings("unchecked")
+    // reading data stored by writeObject
     Class<E> localType = (Class<E>) stream.readObject();
     type = localType;
     setBackingMap(WellBehavedMap.wrap(new EnumMap<E, Count>(type)));

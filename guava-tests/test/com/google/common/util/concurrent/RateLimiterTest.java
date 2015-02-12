@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -82,11 +80,13 @@ public class RateLimiterTest extends TestCase {
     try {
       limiter.setRate(0.0);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     try {
       limiter.setRate(-10.0);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testAcquireParameterValidation() {
@@ -125,19 +125,19 @@ public class RateLimiterTest extends TestCase {
 
   public void testSimpleWithWait() {
     RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
-    limiter.acquire();          // R0.00
-    stopwatch.sleepMillis(200);    // U0.20, we are ready for the next request...
-    limiter.acquire();          // R0.00, ...which is granted immediately
-    limiter.acquire();          // R0.20
+    limiter.acquire(); // R0.00
+    stopwatch.sleepMillis(200); // U0.20, we are ready for the next request...
+    limiter.acquire(); // R0.00, ...which is granted immediately
+    limiter.acquire(); // R0.20
     assertEvents("R0.00", "U0.20", "R0.00", "R0.20");
   }
 
   public void testSimpleAcquireReturnValues() {
     RateLimiter limiter = RateLimiter.create(stopwatch, 5.0);
-    assertEquals(0.0, limiter.acquire(), EPSILON);  // R0.00
-    stopwatch.sleepMillis(200);                     // U0.20, we are ready for the next request...
-    assertEquals(0.0, limiter.acquire(), EPSILON);  // R0.00, ...which is granted immediately
-    assertEquals(0.2, limiter.acquire(), EPSILON);  // R0.20
+    assertEquals(0.0, limiter.acquire(), EPSILON); // R0.00
+    stopwatch.sleepMillis(200); // U0.20, we are ready for the next request...
+    assertEquals(0.0, limiter.acquire(), EPSILON); // R0.00, ...which is granted immediately
+    assertEquals(0.2, limiter.acquire(), EPSILON); // R0.20
     assertEvents("R0.00", "U0.20", "R0.00", "R0.20");
   }
 
@@ -161,8 +161,7 @@ public class RateLimiterTest extends TestCase {
     limiter.acquire(1); // R0.00, concluding a burst of 5 permits
 
     limiter.acquire(); // R0.20, capacity exhausted
-    assertEvents("U1.00", "U1.00",
-        "R0.00", "R0.00", "R0.00", "R0.00", // first request and burst
+    assertEvents("U1.00", "U1.00", "R0.00", "R0.00", "R0.00", "R0.00", // first request and burst
         "R0.20");
   }
 
@@ -198,8 +197,7 @@ public class RateLimiterTest extends TestCase {
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #7
     }
-    assertEvents(
-        "R0.00, R1.38, R1.13, R0.88, R0.63, R0.50, R0.50, R0.50", // #1
+    assertEvents("R0.00, R1.38, R1.13, R0.88, R0.63, R0.50, R0.50, R0.50", // #1
         "U0.50", // #2
         "U4.00", // #3
         "R0.00, R1.38, R1.13, R0.88, R0.63, R0.50, R0.50, R0.50", // #4
@@ -223,8 +221,7 @@ public class RateLimiterTest extends TestCase {
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #7
     }
-    assertEvents(
-        "R0.00, R1.75, R1.26, R0.76, R0.30, R0.20, R0.20, R0.20", // #1
+    assertEvents("R0.00, R1.75, R1.26, R0.76, R0.30, R0.20, R0.20, R0.20", // #1
         "U0.20", // #2
         "U4.00", // #3
         "R0.00, R1.75, R1.26, R0.76, R0.30, R0.20, R0.20, R0.20", // #4
@@ -242,8 +239,7 @@ public class RateLimiterTest extends TestCase {
     for (int i = 0; i < 8; i++) {
       limiter.acquire(); // #3
     }
-    assertEvents(
-        "R0.00, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20", // #1
+    assertEvents("R0.00, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20", // #1
         "U0.34", // #2
         "R0.00, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20"); // #3
   }
@@ -269,8 +265,7 @@ public class RateLimiterTest extends TestCase {
     }
 
     // make sure the areas (times) remain the same, while permits are different
-    assertEvents(
-        "R0.00, R1.38, R1.13, R0.88, R0.63, R0.50, R0.50, R0.50", // #1
+    assertEvents("R0.00, R1.38, R1.13, R0.88, R0.63, R0.50, R0.50, R0.50", // #1
         "U4.50", // #2
         "R0.00, R1.38, R1.13", // #3, after that the rate changes
         "R0.88", // #4, this is what the throttling would be with the old rate
@@ -301,8 +296,7 @@ public class RateLimiterTest extends TestCase {
     }
 
     // make sure the areas (times) remain the same, while permits are different
-    assertEvents(
-        "R0.00, R1.75, R1.26, R0.76, R0.30, R0.20, R0.20, R0.20", // #1
+    assertEvents("R0.00, R1.75, R1.26, R0.76, R0.30, R0.20, R0.20, R0.20", // #1
         "U4.20", // #2
         "R0.00, R1.75, R1.26", // #3, after that the rate changes
         "R0.76", // #4, this is what the throttling would be with the old rate
@@ -384,10 +378,9 @@ public class RateLimiterTest extends TestCase {
     limiter.acquire();
     limiter.acquire();
     limiter.acquire();
-    assertEvents(
-        "R0.00", // First comes the saved-up burst, which defaults to a 1-second burst (2 requests).
-        "R0.00",
-        "R0.00", // Now comes the free request.
+    assertEvents("R0.00", // First comes the saved-up burst, which defaults to a 1-second burst (2
+                          // requests).
+        "R0.00", "R0.00", // Now comes the free request.
         "R0.50", // Now it's 0.5 seconds per request.
         "R0.50");
 
@@ -406,17 +399,15 @@ public class RateLimiterTest extends TestCase {
     for (int i = 0; i < 5; i++) {
       limiter.acquire();
     }
-    assertEvents(
-        "R0.00", // First comes the saved-up burst, which defaults to a 1-second burst (2 requests).
-        "R0.00",
-        "R0.00", // Now comes the free request.
+    assertEvents("R0.00", // First comes the saved-up burst, which defaults to a 1-second burst (2
+                          // requests).
+        "R0.00", "R0.00", // Now comes the free request.
         "R0.50", // Now it's 0.5 seconds per request.
         "R0.50");
   }
 
   public void testInfinity_WarmUp() {
-    RateLimiter limiter = RateLimiter.create(
-        stopwatch, Double.POSITIVE_INFINITY, 10, SECONDS, 3.0);
+    RateLimiter limiter = RateLimiter.create(stopwatch, Double.POSITIVE_INFINITY, 10, SECONDS, 3.0);
     limiter.acquire(Integer.MAX_VALUE / 4);
     limiter.acquire(Integer.MAX_VALUE / 2);
     limiter.acquire(Integer.MAX_VALUE);
@@ -446,12 +437,12 @@ public class RateLimiterTest extends TestCase {
   }
 
   /**
-   * Make sure that bursts can never go above 1-second-worth-of-work for the current
-   * rate, even when we change the rate.
+   * Make sure that bursts can never go above 1-second-worth-of-work for the current rate, even when
+   * we change the rate.
    */
   public void testWeNeverGetABurstMoreThanOneSec() {
     RateLimiter limiter = RateLimiter.create(stopwatch, 1.0);
-    int[] rates = { 1000, 1, 10, 1000000, 10, 1};
+    int[] rates = {1000, 1, 10, 1000000, 10, 1};
     for (int rate : rates) {
       int oneSecWorthOfWork = rate;
       stopwatch.sleepMillis(rate * 1000);
@@ -466,25 +457,24 @@ public class RateLimiterTest extends TestCase {
   }
 
   /**
-   * This neat test shows that no matter what weights we use in our requests, if we push X
-   * amount of permits in a cool state, where X = rate * timeToCoolDown, and we have
-   * specified a timeToWarmUp() period, it will cost as the prescribed amount of time. E.g.,
-   * calling [acquire(5), acquire(1)] takes exactly the same time as
-   * [acquire(2), acquire(3), acquire(1)].
+   * This neat test shows that no matter what weights we use in our requests, if we push X amount of
+   * permits in a cool state, where X = rate * timeToCoolDown, and we have specified a
+   * timeToWarmUp() period, it will cost as the prescribed amount of time. E.g., calling
+   * [acquire(5), acquire(1)] takes exactly the same time as [acquire(2), acquire(3), acquire(1)].
    */
   public void testTimeToWarmUpIsHonouredEvenWithWeights() {
     Random random = new Random();
     int warmupPermits = 10;
-    double[] coldFactorsToTest = { 2.0, 3.0, 10.0 };
-    double[] qpsToTest = { 4.0, 2.0, 1.0, 0.5, 0.1 };
+    double[] coldFactorsToTest = {2.0, 3.0, 10.0};
+    double[] qpsToTest = {4.0, 2.0, 1.0, 0.5, 0.1};
     for (int trial = 0; trial < 100; trial++) {
       for (double coldFactor : coldFactorsToTest) {
         for (double qps : qpsToTest) {
           // If warmupPermits = maxPermits - thresholdPermits then
           // warmupPeriod = (1 + coldFactor) * warmupPermits * stableInterval / 2
           long warmupMillis = (long) ((1 + coldFactor) * warmupPermits / (2.0 * qps) * 1000.0);
-          RateLimiter rateLimiter = RateLimiter.create(
-              stopwatch, qps, warmupMillis, MILLISECONDS, coldFactor);
+          RateLimiter rateLimiter =
+              RateLimiter.create(stopwatch, qps, warmupMillis, MILLISECONDS, coldFactor);
           assertEquals(warmupMillis, measureTotalTimeMillis(rateLimiter, warmupPermits, random));
         }
       }
@@ -492,10 +482,9 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester()
-        .setDefault(SleepingStopwatch.class, stopwatch)
-        .setDefault(int.class, 1)
-        .setDefault(double.class, 1.0d);
+    NullPointerTester tester =
+        new NullPointerTester().setDefault(SleepingStopwatch.class, stopwatch)
+            .setDefault(int.class, 1).setDefault(double.class, 1.0d);
     tester.testStaticMethods(RateLimiter.class, Visibility.PACKAGE);
     tester.testInstanceMethods(RateLimiter.create(stopwatch, 5.0), Visibility.PACKAGE);
   }
@@ -516,9 +505,8 @@ public class RateLimiterTest extends TestCase {
   }
 
   /**
-   * The stopwatch gathers events and presents them as strings.
-   * R0.6 means a delay of 0.6 seconds caused by the (R)ateLimiter
-   * U1.0 means the (U)ser caused the stopwatch to sleep for a second.
+   * The stopwatch gathers events and presents them as strings. R0.6 means a delay of 0.6 seconds
+   * caused by the (R)ateLimiter U1.0 means the (U)ser caused the stopwatch to sleep for a second.
    */
   static class FakeStopwatch extends SleepingStopwatch {
     long instant = 0L;
@@ -562,8 +550,7 @@ public class RateLimiterTest extends TestCase {
     RateLimiter easyMock = EasyMock.createNiceMock(RateLimiter.class);
     EasyMock.replay(easyMock);
     for (Method method : RateLimiter.class.getMethods()) {
-      if (!isStatic(method.getModifiers())
-          && !NOT_WORKING_ON_MOCKS.contains(method.getName())
+      if (!isStatic(method.getModifiers()) && !NOT_WORKING_ON_MOCKS.contains(method.getName())
           && !method.getDeclaringClass().equals(Object.class)) {
         method.invoke(mockito, arbitraryParameters(method));
         method.invoke(easyMock, arbitraryParameters(method));
@@ -580,15 +567,11 @@ public class RateLimiterTest extends TestCase {
     return params;
   }
 
-  private static final ImmutableSet<String> NOT_WORKING_ON_MOCKS =
-      ImmutableSet.of("latestPermitAgeSec", "setRate");
+  private static final ImmutableSet<String> NOT_WORKING_ON_MOCKS = ImmutableSet.of(
+      "latestPermitAgeSec", "setRate");
 
   // We would use ArbitraryInstances, but it returns 0, invalid for many RateLimiter methods.
   private static final ImmutableClassToInstanceMap<Object> PARAMETER_VALUES =
-      ImmutableClassToInstanceMap.builder()
-          .put(int.class, 1)
-          .put(long.class, 1L)
-          .put(double.class, 1.0)
-          .put(TimeUnit.class, SECONDS)
-          .build();
+      ImmutableClassToInstanceMap.builder().put(int.class, 1).put(long.class, 1L)
+          .put(double.class, 1.0).put(TimeUnit.class, SECONDS).build();
 }

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -35,8 +33,7 @@ import java.util.List;
  */
 public class CharStreamsTest extends IoTestCase {
 
-  private static final String TEXT
-      = "The quick brown fox jumped over the lazy dog.";
+  private static final String TEXT = "The quick brown fox jumped over the lazy dog.";
 
   public void testToString() throws IOException {
     assertEquals(TEXT, CharStreams.toString(new StringReader(TEXT)));
@@ -60,8 +57,7 @@ public class CharStreamsTest extends IoTestCase {
   }
 
   public void testReadLines() throws IOException {
-    List<String> lines = CharStreams.readLines(
-        new StringReader("a\nb\nc"));
+    List<String> lines = CharStreams.readLines(new StringReader("a\nb\nc"));
     assertEquals(ImmutableList.of("a", "b", "c"), lines);
   }
 
@@ -72,28 +68,32 @@ public class CharStreamsTest extends IoTestCase {
     Reader r = new StringReader(text);
     LineProcessor<Integer> alwaysFalse = new LineProcessor<Integer>() {
       int seen;
+
       @Override
       public boolean processLine(String line) {
         seen++;
         return false;
       }
+
       @Override
       public Integer getResult() {
         return seen;
       }
     };
-    assertEquals("processLine was called more than once", 1,
-        CharStreams.readLines(r, alwaysFalse).intValue());
+    assertEquals("processLine was called more than once", 1, CharStreams.readLines(r, alwaysFalse)
+        .intValue());
 
     // Test a LineProcessor that always returns true.
     r = new StringReader(text);
     LineProcessor<Integer> alwaysTrue = new LineProcessor<Integer>() {
       int seen;
+
       @Override
       public boolean processLine(String line) {
         seen++;
         return true;
       }
+
       @Override
       public Integer getResult() {
         return seen;
@@ -107,12 +107,14 @@ public class CharStreamsTest extends IoTestCase {
     final StringBuilder sb = new StringBuilder();
     LineProcessor<Integer> conditional = new LineProcessor<Integer>() {
       int seen;
+
       @Override
       public boolean processLine(String line) {
         seen++;
         sb.append(line);
         return seen < 2;
       }
+
       @Override
       public Integer getResult() {
         return seen;
@@ -173,7 +175,8 @@ public class CharStreamsTest extends IoTestCase {
   /**
    * Test for Guava issue 1061: http://code.google.com/p/guava-libraries/issues/detail?id=1061
    *
-   * <p>CharStreams.copy was failing to clear its CharBuffer after each read call, which effectively
+   * <p>
+   * CharStreams.copy was failing to clear its CharBuffer after each read call, which effectively
    * reduced the available size of the buffer each time a call to read didn't fill up the available
    * space in the buffer completely. In general this is a performance problem since the buffer size
    * is permanently reduced, but with certain Reader implementations it could also cause the buffer

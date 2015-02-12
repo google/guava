@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -209,12 +207,9 @@ public class CharSourceTest extends IoTestCase {
 
     String expected = "abcde";
 
-    assertEquals(expected,
-        CharSource.concat(ImmutableList.of(c1, c2, c3)).read());
-    assertEquals(expected,
-        CharSource.concat(c1, c2, c3).read());
-    assertEquals(expected,
-        CharSource.concat(ImmutableList.of(c1, c2, c3).iterator()).read());
+    assertEquals(expected, CharSource.concat(ImmutableList.of(c1, c2, c3)).read());
+    assertEquals(expected, CharSource.concat(c1, c2, c3).read());
+    assertEquals(expected, CharSource.concat(ImmutableList.of(c1, c2, c3).iterator()).read());
     assertFalse(CharSource.concat(c1, c2, c3).isEmpty());
 
     CharSource emptyConcat = CharSource.concat(CharSource.empty(), CharSource.empty());
@@ -245,10 +240,10 @@ public class CharSourceTest extends IoTestCase {
   static final CharSink BROKEN_CLOSE_SINK = new TestCharSink(CLOSE_THROWS);
   static final CharSink BROKEN_OPEN_SINK = new TestCharSink(OPEN_THROWS);
 
-  private static final ImmutableSet<CharSource> BROKEN_SOURCES
-      = ImmutableSet.of(BROKEN_CLOSE_SOURCE, BROKEN_OPEN_SOURCE, BROKEN_READ_SOURCE);
-  private static final ImmutableSet<CharSink> BROKEN_SINKS
-      = ImmutableSet.of(BROKEN_CLOSE_SINK, BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
+  private static final ImmutableSet<CharSource> BROKEN_SOURCES = ImmutableSet.of(
+      BROKEN_CLOSE_SOURCE, BROKEN_OPEN_SOURCE, BROKEN_READ_SOURCE);
+  private static final ImmutableSet<CharSink> BROKEN_SINKS = ImmutableSet.of(BROKEN_CLOSE_SINK,
+      BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
 
   public void testCopyExceptions() {
     if (!Closer.SuppressingSuppressor.isAvailable()) {
@@ -343,7 +338,8 @@ public class CharSourceTest extends IoTestCase {
 
   private static CharSink newNormalCharSink() {
     return new CharSink() {
-      @Override public Writer openStream() {
+      @Override
+      public Writer openStream() {
         return new StringWriter();
       }
     };

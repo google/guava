@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -62,19 +62,11 @@ public class Crc32cHashFunctionTest extends TestCase {
 
   public void testScsiReadCommad() {
     // Test SCSI read command.
-    byte[] scsiReadCommand = new byte[] {
-        0x01, (byte) 0xc0, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x14, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x04, 0x00,
-        0x00, 0x00, 0x00, 0x14,
-        0x00, 0x00, 0x00, 0x18,
-        0x28, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00,
-        0x02, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00 };
+    byte[] scsiReadCommand =
+        new byte[] {0x01, (byte) 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00,
+            0x00, 0x14, 0x00, 0x00, 0x00, 0x18, 0x28, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     assertCrc(0xd9963a56, scsiReadCommand);
   }
 
@@ -99,9 +91,9 @@ public class Crc32cHashFunctionTest extends TestCase {
 
   // From RFC 3720, Section 12.1, the polynomial generator is 0x11EDC6F41.
   // We calculate the constant below by:
-  //   1. Omitting the most significant bit (because it's always 1). => 0x1EDC6F41
-  //   2. Flipping the bits of the constant so we can process a byte at a time. => 0x82F63B78
-  private static final int CRC32C_GENERATOR = 0x1EDC6F41;  // 0x11EDC6F41
+  // 1. Omitting the most significant bit (because it's always 1). => 0x1EDC6F41
+  // 2. Flipping the bits of the constant so we can process a byte at a time. => 0x82F63B78
+  private static final int CRC32C_GENERATOR = 0x1EDC6F41; // 0x11EDC6F41
   private static final int CRC32C_GENERATOR_FLIPPED = Integer.reverse(CRC32C_GENERATOR);
 
   public void testCrc32cLookupTable() {

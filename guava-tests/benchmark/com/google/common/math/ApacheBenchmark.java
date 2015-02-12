@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -32,7 +30,8 @@ import com.google.common.math.LongMath;
 /**
  * Benchmarks against the Apache Commons Math utilities.
  *
- * <p>Note: the Apache benchmarks are not open sourced to avoid the extra dependency.
+ * <p>
+ * Note: the Apache benchmarks are not open sourced to avoid the extra dependency.
  *
  * @author Louis Wasserman
  */
@@ -163,7 +162,8 @@ public class ApacheBenchmark {
     }
   }
 
-  @Benchmark long factorialDouble(int reps) {
+  @Benchmark
+  long factorialDouble(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -172,7 +172,8 @@ public class ApacheBenchmark {
     return tmp;
   }
 
-  @Benchmark int intGCD(int reps) {
+  @Benchmark
+  int intGCD(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -181,7 +182,8 @@ public class ApacheBenchmark {
     return tmp;
   }
 
-  @Benchmark long longGCD(int reps) {
+  @Benchmark
+  long longGCD(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -190,7 +192,8 @@ public class ApacheBenchmark {
     return tmp;
   }
 
-  @Benchmark long binomialCoefficient(int reps) {
+  @Benchmark
+  long binomialCoefficient(int reps) {
     long tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -199,7 +202,8 @@ public class ApacheBenchmark {
     return tmp;
   }
 
-  @Benchmark int intAddOverflow(int reps) {
+  @Benchmark
+  int intAddOverflow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -210,7 +214,8 @@ public class ApacheBenchmark {
     return tmp;
   }
 
-  @Benchmark int longAddOverflow(int reps) {
+  @Benchmark
+  int longAddOverflow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -221,7 +226,8 @@ public class ApacheBenchmark {
     return tmp;
   }
 
-  @Benchmark int intMulOverflow(int reps) {
+  @Benchmark
+  int intMulOverflow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -232,7 +238,8 @@ public class ApacheBenchmark {
     return tmp;
   }
 
-  @Benchmark int longMulOverflow(int reps) {
+  @Benchmark
+  int longMulOverflow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;

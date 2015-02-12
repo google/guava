@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.reflect;
@@ -50,8 +48,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
     // *some* remappings will be allowed and others not.
     Method remapTest = null;
     try {
-      remapTest = MapPutTester.class.getMethod(
-          "testPut_replaceNullValueWithNonNullSupported");
+      remapTest = MapPutTester.class.getMethod("testPut_replaceNullValueWithNonNullSupported");
     } catch (NoSuchMethodException e) {
       throw new AssertionError();
     }
@@ -63,8 +60,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
           @Override
           @SuppressWarnings("unchecked")
           public Map<TypeToken, Object> create(Object... elements) {
-            MutableTypeToInstanceMap<Object> map
-                = new MutableTypeToInstanceMap<Object>();
+            MutableTypeToInstanceMap<Object> map = new MutableTypeToInstanceMap<Object>();
             for (Object object : elements) {
               Entry<TypeToken, Object> entry = (Entry<TypeToken, Object>) object;
               map.putInstance(entry.getKey(), entry.getValue());
@@ -73,14 +69,9 @@ public class MutableTypeToInstanceMapTest extends TestCase {
           }
         })
         .named("MutableTypeToInstanceMap")
-        .withFeatures(
-            MapFeature.SUPPORTS_REMOVE,
-            MapFeature.RESTRICTS_KEYS,
-            MapFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            CollectionSize.ANY,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES)
-        .suppressing(remapTest)
+        .withFeatures(MapFeature.SUPPORTS_REMOVE, MapFeature.RESTRICTS_KEYS,
+            MapFeature.ALLOWS_NULL_VALUES, CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+            CollectionSize.ANY, MapFeature.ALLOWS_ANY_NULL_QUERIES).suppressing(remapTest)
         .createTestSuite());
 
     return suite;
@@ -88,7 +79,8 @@ public class MutableTypeToInstanceMapTest extends TestCase {
 
   private TypeToInstanceMap<Object> map;
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     map = new MutableTypeToInstanceMap<Object>();
   }
 
@@ -96,14 +88,16 @@ public class MutableTypeToInstanceMapTest extends TestCase {
     try {
       map.put(TypeToken.of(Integer.class), new Integer(5));
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   public void testPutAllThrows() {
     try {
       map.putAll(ImmutableMap.of(TypeToken.of(Integer.class), new Integer(5)));
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   public void testEntrySetMutationThrows() {
@@ -113,31 +107,36 @@ public class MutableTypeToInstanceMapTest extends TestCase {
     try {
       map.entrySet().iterator().next().setValue(1);
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   public void testEntrySetToArrayMutationThrows() {
     map.putInstance(String.class, "test");
-    @SuppressWarnings("unchecked") // Should get a CCE later if cast is wrong
+    @SuppressWarnings("unchecked")
+    // Should get a CCE later if cast is wrong
     Entry<Object, Object> entry = (Entry<Object, Object>) map.entrySet().toArray()[0];
     assertEquals(TypeToken.of(String.class), entry.getKey());
     assertEquals("test", entry.getValue());
     try {
       entry.setValue(1);
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   public void testEntrySetToTypedArrayMutationThrows() {
     map.putInstance(String.class, "test");
-    @SuppressWarnings("unchecked") // Should get a CCE later if cast is wrong
+    @SuppressWarnings("unchecked")
+    // Should get a CCE later if cast is wrong
     Entry<Object, Object> entry = map.entrySet().toArray(new Entry[0])[0];
     assertEquals(TypeToken.of(String.class), entry.getKey());
     assertEquals("test", entry.getValue());
     try {
       entry.setValue(1);
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   public void testPutAndGetInstance() {
@@ -195,7 +194,8 @@ public class MutableTypeToInstanceMapTest extends TestCase {
   }
 
   public void testGenericArrayType() {
-    @SuppressWarnings("unchecked") // Trying to test generic array
+    @SuppressWarnings("unchecked")
+    // Trying to test generic array
     ImmutableList<Integer>[] array = new ImmutableList[] {ImmutableList.of(1)};
     TypeToken<ImmutableList<Integer>[]> type = new TypeToken<ImmutableList<Integer>[]>() {};
     map.putInstance(type, array);
@@ -214,14 +214,16 @@ public class MutableTypeToInstanceMapTest extends TestCase {
     try {
       map.getInstance(this.<Number>anyIterableType());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testPutInstance_withTypeVariable() {
     try {
       map.putInstance(this.<Integer>anyIterableType(), ImmutableList.of(1));
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   private <T> TypeToken<Iterable<T>> anyIterableType() {

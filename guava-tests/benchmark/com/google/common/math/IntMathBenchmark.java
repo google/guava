@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -52,7 +50,8 @@ public class IntMathBenchmark {
     }
   }
 
-  @Benchmark int pow(int reps) {
+  @Benchmark
+  int pow(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -61,7 +60,8 @@ public class IntMathBenchmark {
     return tmp;
   }
 
-  @Benchmark int mod(int reps) {
+  @Benchmark
+  int mod(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -70,7 +70,8 @@ public class IntMathBenchmark {
     return tmp;
   }
 
-  @Benchmark int gCD(int reps) {
+  @Benchmark
+  int gCD(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -79,7 +80,8 @@ public class IntMathBenchmark {
     return tmp;
   }
 
-  @Benchmark int factorial(int reps) {
+  @Benchmark
+  int factorial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
@@ -88,7 +90,8 @@ public class IntMathBenchmark {
     return tmp;
   }
 
-  @Benchmark int binomial(int reps) {
+  @Benchmark
+  int binomial(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;

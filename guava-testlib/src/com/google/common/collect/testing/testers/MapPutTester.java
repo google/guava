@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -36,14 +34,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * A generic JUnit test which tests {@code put} operations on a map. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code put} operations on a map. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Chris Povirk
  * @author Kevin Bourrillion
  */
-@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
+@SuppressWarnings("unchecked")
+// too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
 public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   private Entry<K, V> nullKeyEntry;
@@ -51,7 +49,8 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   private Entry<K, V> nullKeyValueEntry;
   private Entry<K, V> presentKeyNullValueEntry;
 
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     nullKeyEntry = entry(null, v3());
     nullValueEntry = entry(k3(), null);
@@ -119,8 +118,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testPut_unsupportedPresentExistingValue() {
     try {
-      assertEquals("put(present, existingValue) should return present or throw",
-          v0(), put(e0()));
+      assertEquals("put(present, existingValue) should return present or throw", v0(), put(e0()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
@@ -148,8 +146,8 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   public void testPut_nullKeySupportedPresent() {
     Entry<K, V> newEntry = entry(null, v3());
     initMapWithNullKey();
-    assertEquals("put(present, value) should return the associated value",
-        getValueForNullKey(), put(newEntry));
+    assertEquals("put(present, value) should return the associated value", getValueForNullKey(),
+        put(newEntry));
 
     Entry<K, V>[] expected = createArrayWithNullKey();
     expected[getNullLocation()] = newEntry;
@@ -164,8 +162,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
     } catch (NullPointerException expected) {
     }
     expectUnchanged();
-    expectNullKeyMissingWhenNullKeysUnsupported(
-        "Should not contain null key after unsupported put(null, value)");
+    expectNullKeyMissingWhenNullKeysUnsupported("Should not contain null key after unsupported put(null, value)");
   }
 
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
@@ -182,15 +179,14 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
     } catch (NullPointerException expected) {
     }
     expectUnchanged();
-    expectNullValueMissingWhenNullValuesUnsupported(
-        "Should not contain null value after unsupported put(key, null)");
+    expectNullValueMissingWhenNullValuesUnsupported("Should not contain null value after unsupported put(key, null)");
   }
 
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
   @CollectionSize.Require(absent = ZERO)
   public void testPut_replaceWithNullValueSupported() {
-    assertEquals("put(present, null) should return the associated value",
-        v0(), put(presentKeyNullValueEntry));
+    assertEquals("put(present, null) should return the associated value", v0(),
+        put(presentKeyNullValueEntry));
     expectReplacement(presentKeyNullValueEntry);
   }
 
@@ -203,8 +199,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
     } catch (NullPointerException expected) {
     }
     expectUnchanged();
-    expectNullValueMissingWhenNullValuesUnsupported(
-        "Should not contain null after unsupported put(present, null)");
+    expectNullValueMissingWhenNullValuesUnsupported("Should not contain null after unsupported put(present, null)");
   }
 
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
@@ -221,8 +216,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   public void testPut_replaceNullValueWithNonNullSupported() {
     Entry<K, V> newEntry = entry(getKeyForNullValue(), v3());
     initMapWithNullValue();
-    assertNull("put(present, value) should return the associated value (null)",
-        put(newEntry));
+    assertNull("put(present, value) should return the associated value (null)", put(newEntry));
 
     Entry<K, V>[] expected = createArrayWithNullValue();
     expected[getNullLocation()] = newEntry;
@@ -240,12 +234,10 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   /**
-   * Returns the {@link Method} instance for {@link
-   * #testPut_nullKeyUnsupported()} so that tests of {@link java.util.TreeMap}
-   * can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()}
-   * until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug
-   * 5045147</a> is fixed.
+   * Returns the {@link Method} instance for {@link #testPut_nullKeyUnsupported()} so that tests of
+   * {@link java.util.TreeMap} can suppress it with
+   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug 5045147</a> is fixed.
    */
   @GwtIncompatible("reflection")
   public static Method getPutNullKeyUnsupportedMethod() {

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -45,7 +43,7 @@ public class FloatArrayAsListTest extends TestCase {
   private static List<Float> asList(Float[] values) {
     float[] temp = new float[values.length];
     for (int i = 0; i < values.length; i++) {
-      temp[i] = checkNotNull(values[i]);  // checkNotNull for GWT (do not optimize).
+      temp[i] = checkNotNull(values[i]); // checkNotNull for GWT (do not optimize).
     }
     return Floats.asList(temp);
   }
@@ -54,43 +52,38 @@ public class FloatArrayAsListTest extends TestCase {
   public static Test suite() {
     List<ListTestSuiteBuilder<Float>> builders =
         ImmutableList.of(
-            ListTestSuiteBuilder.using(new FloatsAsListGenerator())
-                .named("Floats.asList"),
+            ListTestSuiteBuilder.using(new FloatsAsListGenerator()).named("Floats.asList"),
 
-            ListTestSuiteBuilder.using(new FloatsAsListHeadSubListGenerator())
-                .named("Floats.asList, head subList"),
+            ListTestSuiteBuilder.using(new FloatsAsListHeadSubListGenerator()).named(
+                "Floats.asList, head subList"),
 
-            ListTestSuiteBuilder.using(new FloatsAsListTailSubListGenerator())
-                .named("Floats.asList, tail subList"),
+            ListTestSuiteBuilder.using(new FloatsAsListTailSubListGenerator()).named(
+                "Floats.asList, tail subList"),
 
-            ListTestSuiteBuilder.using(new FloatsAsListMiddleSubListGenerator())
-                .named("Floats.asList, middle subList")
-            );
+            ListTestSuiteBuilder.using(new FloatsAsListMiddleSubListGenerator()).named(
+                "Floats.asList, middle subList"));
 
     TestSuite suite = new TestSuite();
     for (ListTestSuiteBuilder<Float> builder : builders) {
-      suite.addTest(
-          builder
-          .withFeatures(CollectionSize.ONE,
-                        CollectionSize.SEVERAL,
-                        CollectionFeature.RESTRICTS_ELEMENTS,
-                        ListFeature.SUPPORTS_SET)
-          .createTestSuite());
+      suite.addTest(builder.withFeatures(CollectionSize.ONE, CollectionSize.SEVERAL,
+          CollectionFeature.RESTRICTS_ELEMENTS, ListFeature.SUPPORTS_SET).createTestSuite());
     }
     return suite;
   }
 
-  // Test generators.  To let the GWT test suite generator access them, they need to be
+  // Test generators. To let the GWT test suite generator access them, they need to be
   // public named classes with a public default constructor.
 
   public static final class FloatsAsListGenerator extends TestFloatListGenerator {
-    @Override protected List<Float> create(Float[] elements) {
+    @Override
+    protected List<Float> create(Float[] elements) {
       return asList(elements);
     }
   }
 
   public static final class FloatsAsListHeadSubListGenerator extends TestFloatListGenerator {
-    @Override protected List<Float> create(Float[] elements) {
+    @Override
+    protected List<Float> create(Float[] elements) {
       Float[] suffix = {Float.MIN_VALUE, Float.MAX_VALUE};
       Float[] all = concat(elements, suffix);
       return asList(all).subList(0, elements.length);
@@ -98,7 +91,8 @@ public class FloatArrayAsListTest extends TestCase {
   }
 
   public static final class FloatsAsListTailSubListGenerator extends TestFloatListGenerator {
-    @Override protected List<Float> create(Float[] elements) {
+    @Override
+    protected List<Float> create(Float[] elements) {
       Float[] prefix = {(float) 86, (float) 99};
       Float[] all = concat(prefix, elements);
       return asList(all).subList(2, elements.length + 2);
@@ -106,7 +100,8 @@ public class FloatArrayAsListTest extends TestCase {
   }
 
   public static final class FloatsAsListMiddleSubListGenerator extends TestFloatListGenerator {
-    @Override protected List<Float> create(Float[] elements) {
+    @Override
+    protected List<Float> create(Float[] elements) {
       Float[] prefix = {Float.MIN_VALUE, Float.MAX_VALUE};
       Float[] suffix = {(float) 86, (float) 99};
       Float[] all = concat(concat(prefix, elements), suffix);
@@ -121,8 +116,7 @@ public class FloatArrayAsListTest extends TestCase {
     return result;
   }
 
-  public static abstract class TestFloatListGenerator
-      implements TestListGenerator<Float> {
+  public static abstract class TestFloatListGenerator implements TestListGenerator<Float> {
     @Override
     public SampleElements<Float> samples() {
       return new SampleFloats();
@@ -139,8 +133,8 @@ public class FloatArrayAsListTest extends TestCase {
     }
 
     /**
-     * Creates a new collection containing the given elements; implement this
-     * method instead of {@link #create(Object...)}.
+     * Creates a new collection containing the given elements; implement this method instead of
+     * {@link #create(Object...)}.
      */
     protected abstract List<Float> create(Float[] elements);
 

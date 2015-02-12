@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -30,7 +28,8 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Supplemental tests for {@link Monitor}.
  *
- * <p>This test class contains various test cases that don't fit into the test case generation in
+ * <p>
+ * This test class contains various test cases that don't fit into the test case generation in
  * {@link GeneratedMonitorTest}.
  *
  * @author Justin T. Sampson
@@ -126,7 +125,8 @@ public class SupplementalMonitorTest extends TestCase {
     final AtomicInteger actualOccupiedDepth = new AtomicInteger();
     final AtomicReference<Throwable> thrown = new AtomicReference<Throwable>();
     joinUninterruptibly(startThread(new Runnable() {
-      @Override public void run() {
+      @Override
+      public void run() {
         try {
           actualIsOccupied.set(monitor.isOccupied());
           actualIsOccupiedByCurrentThread.set(monitor.isOccupiedByCurrentThread());

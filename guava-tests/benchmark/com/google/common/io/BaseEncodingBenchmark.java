@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -33,25 +33,22 @@ public class BaseEncodingBenchmark {
   private static final int INPUTS_MASK = 0xFFF;
 
   enum EncodingOption {
-    BASE64(BaseEncoding.base64()),
-    BASE64_URL(BaseEncoding.base64Url()),
-    BASE32(BaseEncoding.base32()),
-    BASE32_HEX(BaseEncoding.base32Hex()),
-    BASE16(BaseEncoding.base16());
-    
+    BASE64(BaseEncoding.base64()), BASE64_URL(BaseEncoding.base64Url()), BASE32(BaseEncoding
+        .base32()), BASE32_HEX(BaseEncoding.base32Hex()), BASE16(BaseEncoding.base16());
+
     final BaseEncoding encoding;
-    
+
     EncodingOption(BaseEncoding encoding) {
       this.encoding = encoding;
     }
   }
-  
+
   @Param
   EncodingOption encoding;
-  
+
   @Param({"10", "100", "10000"})
   int n;
-  
+
   private final byte[][] encodingInputs = new byte[INPUTS_COUNT][];
   private final String[] decodingInputs = new String[INPUTS_COUNT];
 
@@ -64,8 +61,9 @@ public class BaseEncodingBenchmark {
       decodingInputs[i] = encoding.encoding.encode(encodingInputs[i]);
     }
   }
-  
-  @Benchmark public int encode(int reps) {
+
+  @Benchmark
+  public int encode(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       tmp += System.identityHashCode(encoding.encoding.encode(encodingInputs[i & INPUTS_MASK]));
@@ -73,7 +71,8 @@ public class BaseEncodingBenchmark {
     return tmp;
   }
 
-  @Benchmark public int decode(int reps) {
+  @Benchmark
+  public int decode(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       tmp += System.identityHashCode(encoding.encoding.decode(decodingInputs[i & INPUTS_MASK]));
@@ -81,7 +80,8 @@ public class BaseEncodingBenchmark {
     return tmp;
   }
 
-  @Benchmark public int encodingStream(int reps) throws IOException {
+  @Benchmark
+  public int encodingStream(int reps) throws IOException {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       StringWriter target = new StringWriter(2 * n);
@@ -93,7 +93,8 @@ public class BaseEncodingBenchmark {
     return tmp;
   }
 
-  @Benchmark public int decodingStream(int reps) throws IOException {
+  @Benchmark
+  public int decodingStream(int reps) throws IOException {
     int tmp = 0;
     byte[] target = new byte[n];
     for (int i = 0; i < reps; i++) {

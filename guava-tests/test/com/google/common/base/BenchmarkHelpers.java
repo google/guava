@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -21,10 +21,9 @@ package com.google.common.base;
  * @author Louis Wasserman
  */
 class BenchmarkHelpers {
-  private static final String WHITESPACE_CHARACTERS =
-      "\u00a0\u180e\u202f\t\n\013\f\r \u0085"
-          + "\u1680\u2028\u2029\u205f\u3000\u2000\u2001\u2002\u2003\u2004\u2005"
-          + "\u2006\u2007\u2008\u2009\u200a";
+  private static final String WHITESPACE_CHARACTERS = "\u00a0\u180e\u202f\t\n\013\f\r \u0085"
+      + "\u1680\u2028\u2029\u205f\u3000\u2000\u2001\u2002\u2003\u2004\u2005"
+      + "\u2006\u2007\u2008\u2009\u200a";
   private static final String ASCII_CHARACTERS;
   static {
     int spaceInAscii = 32;
@@ -50,22 +49,17 @@ class BenchmarkHelpers {
     }
     ALL_DIGITS = sb.toString();
   }
-  
+
   /**
-   * Sample CharMatcher instances for benchmarking. 
+   * Sample CharMatcher instances for benchmarking.
    */
   public enum SampleMatcherConfig {
-    WHITESPACE(CharMatcher.WHITESPACE, WHITESPACE_CHARACTERS),
-    HASH(CharMatcher.is('#'), "#"),
-    ASCII(CharMatcher.ASCII, ASCII_CHARACTERS),
-    WESTERN_DIGIT("0123456789"),
-    ALL_DIGIT(CharMatcher.DIGIT, ALL_DIGITS),
-    OPS_5("+-*/%"),
-    HEX_16(CharMatcher.inRange('0', '9').or(CharMatcher.inRange('A', 'F')), "0123456789ABCDEF"),
-    HEX_22(CharMatcher.inRange('0', '9')
+    WHITESPACE(CharMatcher.WHITESPACE, WHITESPACE_CHARACTERS), HASH(CharMatcher.is('#'), "#"), ASCII(
+        CharMatcher.ASCII, ASCII_CHARACTERS), WESTERN_DIGIT("0123456789"), ALL_DIGIT(
+        CharMatcher.DIGIT, ALL_DIGITS), OPS_5("+-*/%"), HEX_16(CharMatcher.inRange('0', '9').or(
+        CharMatcher.inRange('A', 'F')), "0123456789ABCDEF"), HEX_22(CharMatcher.inRange('0', '9')
         .or(CharMatcher.inRange('A', 'F')).or(CharMatcher.inRange('a', 'f')),
-        "0123456789ABCDEFabcdef"),
-    GERMAN_59(CharMatcher.inRange('a', 'z')
+        "0123456789ABCDEFabcdef"), GERMAN_59(CharMatcher.inRange('a', 'z')
         .or(CharMatcher.inRange('A', 'Z')).or(CharMatcher.anyOf("äöüßÄÖÜ")),
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZäöüßÄÖÜ");
 

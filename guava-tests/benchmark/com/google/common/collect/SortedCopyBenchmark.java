@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -29,26 +29,31 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Provides supporting data for performance notes in the documentation of {@link
- * Ordering#sortedCopy} and {@link Ordering#immutableSortedCopy}, as well as for
- * automated code suggestions.
+ * Provides supporting data for performance notes in the documentation of
+ * {@link Ordering#sortedCopy} and {@link Ordering#immutableSortedCopy}, as well as for automated
+ * code suggestions.
  *
  */
 public class SortedCopyBenchmark {
-  @Param({"1", "10", "1000", "1000000"}) int size; // logarithmic triangular
+  @Param({"1", "10", "1000", "1000000"})
+  int size; // logarithmic triangular
 
-  @Param boolean mutable;
+  @Param
+  boolean mutable;
 
-  @Param InputOrder inputOrder;
+  @Param
+  InputOrder inputOrder;
 
   enum InputOrder {
     SORTED {
-      @Override void arrange(List<Integer> list) {
+      @Override
+      void arrange(List<Integer> list) {
         Collections.sort(list);
       }
     },
     ALMOST_SORTED {
-      @Override void arrange(List<Integer> list) {
+      @Override
+      void arrange(List<Integer> list) {
         Collections.sort(list);
         if (list.size() > 1) {
           int i = (list.size() - 1) / 2;
@@ -57,7 +62,8 @@ public class SortedCopyBenchmark {
       }
     },
     RANDOM {
-      @Override void arrange(List<Integer> list) {}
+      @Override
+      void arrange(List<Integer> list) {}
     };
 
     abstract void arrange(List<Integer> list);

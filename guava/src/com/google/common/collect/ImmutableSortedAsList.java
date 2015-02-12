@@ -1,15 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -29,10 +29,8 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial")
-final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
-    implements SortedIterable<E> {
-  ImmutableSortedAsList(
-      ImmutableSortedSet<E> backingSet, ImmutableList<E> backingList) {
+final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E> implements SortedIterable<E> {
+  ImmutableSortedAsList(ImmutableSortedSet<E> backingSet, ImmutableList<E> backingList) {
     super(backingSet, backingList);
   }
 
@@ -41,7 +39,8 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
     return (ImmutableSortedSet<E>) super.delegateCollection();
   }
 
-  @Override public Comparator<? super E> comparator() {
+  @Override
+  public Comparator<? super E> comparator() {
     return delegateCollection().comparator();
   }
 
@@ -49,7 +48,8 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
 
   @GwtIncompatible("ImmutableSortedSet.indexOf")
   // TODO(cpovirk): consider manual binary search under GWT to preserve O(log N) lookup
-  @Override public int indexOf(@Nullable Object target) {
+  @Override
+  public int indexOf(@Nullable Object target) {
     int index = delegateCollection().indexOf(target);
 
     // TODO(kevinb): reconsider if it's really worth making feeble attempts at
@@ -61,7 +61,8 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
   }
 
   @GwtIncompatible("ImmutableSortedSet.indexOf")
-  @Override public int lastIndexOf(@Nullable Object target) {
+  @Override
+  public int lastIndexOf(@Nullable Object target) {
     return indexOf(target);
   }
 
@@ -79,8 +80,7 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
    */
   @Override
   ImmutableList<E> subListUnchecked(int fromIndex, int toIndex) {
-    return new RegularImmutableSortedSet<E>(
-        super.subListUnchecked(fromIndex, toIndex), comparator())
-        .asList();
+    return new RegularImmutableSortedSet<E>(super.subListUnchecked(fromIndex, toIndex),
+        comparator()).asList();
   }
 }

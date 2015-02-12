@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.testing;
@@ -50,8 +48,7 @@ public class TearDownStackTest extends TestCase {
     final Callback callback = new Callback() {
       @Override
       public void run() {
-        assertEquals("tearDownTwo should have been run before tearDownOne",
-          false, tearDownOne.ran);
+        assertEquals("tearDownTwo should have been run before tearDownOne", false, tearDownOne.ran);
       }
     };
 
@@ -85,15 +82,16 @@ public class TearDownStackTest extends TestCase {
     } catch (ClusterException expected) {
       assertEquals("two", expected.getCause().getMessage());
     } catch (RuntimeException e) {
-      throw new RuntimeException(
-        "A ClusterException should have been thrown, rather than a " + e.getClass().getName(), e);
+      throw new RuntimeException("A ClusterException should have been thrown, rather than a "
+          + e.getClass().getName(), e);
     }
 
     assertEquals(true, tearDownOne.ran);
     assertEquals(true, tearDownTwo.ran);
   }
 
-  @Override public final void runBare() throws Throwable {
+  @Override
+  public final void runBare() throws Throwable {
     try {
       setUp();
       runTest();
@@ -102,13 +100,13 @@ public class TearDownStackTest extends TestCase {
     }
   }
 
-  @Override protected void tearDown() {
+  @Override
+  protected void tearDown() {
     tearDownStack.runTearDown();
   }
 
   /**
-   * Builds a {@link TearDownStack} that makes sure it's clear by the end of
-   * this test.
+   * Builds a {@link TearDownStack} that makes sure it's clear by the end of this test.
    */
   private TearDownStack buildTearDownStack() {
     final TearDownStack result = new TearDownStack();
@@ -117,8 +115,8 @@ public class TearDownStackTest extends TestCase {
       @Override
       public void tearDown() throws Exception {
         assertEquals(
-          "The test should have cleared the stack (say, by virtue of running runTearDown)",
-          0, result.stack.size());
+            "The test should have cleared the stack (say, by virtue of running runTearDown)", 0,
+            result.stack.size());
       }
     });
     return result;

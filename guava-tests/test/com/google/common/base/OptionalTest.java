@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -179,25 +177,24 @@ public final class OptionalTest extends TestCase {
   @SuppressWarnings("CheckReturnValue")
   public void testTransform_present_functionReturnsNull() {
     try {
-      Optional.of("a").transform(
-          new Function<String, String>() {
-            @Override public String apply(String input) {
-              return null;
-            }
-          });
+      Optional.of("a").transform(new Function<String, String>() {
+        @Override
+        public String apply(String input) {
+          return null;
+        }
+      });
       fail("Should throw if Function returns null.");
     } catch (NullPointerException expected) {
     }
   }
 
   public void testTransform_abssent_functionReturnsNull() {
-    assertEquals(Optional.absent(),
-        Optional.absent().transform(
-          new Function<Object, Object>() {
-            @Override public Object apply(Object input) {
-              return null;
-            }
-          }));
+    assertEquals(Optional.absent(), Optional.absent().transform(new Function<Object, Object>() {
+      @Override
+      public Object apply(Object input) {
+        return null;
+      }
+    }));
   }
 
   // TODO(kevinb): use EqualsTester
@@ -229,8 +226,7 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testPresentInstances_allAbsent() {
-    List<Optional<Object>> optionals =
-        ImmutableList.of(Optional.absent(), Optional.absent());
+    List<Optional<Object>> optionals = ImmutableList.of(Optional.absent(), Optional.absent());
     assertThat(Optional.presentInstances(optionals)).isEmpty();
   }
 
@@ -268,32 +264,37 @@ public final class OptionalTest extends TestCase {
    * mentioned in the method Javadoc does in fact compile.
    */
 
-  @SuppressWarnings("unused") // compilation test
+  @SuppressWarnings("unused")
+  // compilation test
   public void testSampleCodeError1() {
     Optional<Integer> optionalInt = getSomeOptionalInt();
     // Number value = optionalInt.or(0.5); // error
   }
 
-  @SuppressWarnings("unused") // compilation test
+  @SuppressWarnings("unused")
+  // compilation test
   public void testSampleCodeError2() {
     FluentIterable<? extends Number> numbers = getSomeNumbers();
     Optional<? extends Number> first = numbers.first();
     // Number value = first.or(0.5); // error
   }
 
-  @SuppressWarnings("unused") // compilation test
+  @SuppressWarnings("unused")
+  // compilation test
   public void testSampleCodeFine1() {
     Optional<Number> optionalInt = Optional.of((Number) 1);
     Number value = optionalInt.or(0.5); // fine
   }
 
-  @SuppressWarnings("unused") // compilation test
+  @SuppressWarnings("unused")
+  // compilation test
   public void testSampleCodeFine2() {
     FluentIterable<? extends Number> numbers = getSomeNumbers();
 
     // Sadly, the following is what users will have to do in some circumstances.
 
-    @SuppressWarnings("unchecked") // safe covariant cast
+    @SuppressWarnings("unchecked")
+    // safe covariant cast
     Optional<Number> first = (Optional) numbers.first();
     Number value = first.or(0.5); // fine
   }

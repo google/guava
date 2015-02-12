@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2006 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -155,8 +153,7 @@ public class PreconditionsTest extends TestCase {
   }
 
   public void testCheckNotNull_complexMessage_success() {
-    String result = Preconditions.checkNotNull(
-        NON_NULL_STRING, "%s", IGNORE_ME);
+    String result = Preconditions.checkNotNull(NON_NULL_STRING, "%s", IGNORE_ME);
     assertSame(NON_NULL_STRING, result);
   }
 
@@ -199,8 +196,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("index (1) must be less than size (1)",
-          expected.getMessage());
+      assertEquals("index (1) must be less than size (1)", expected.getMessage());
     }
   }
 
@@ -218,8 +214,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(1, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("foo (1) must be less than size (1)",
-          expected.getMessage());
+      assertEquals("foo (1) must be less than size (1)", expected.getMessage());
     }
   }
 
@@ -253,8 +248,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(2, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("index (2) must not be greater than size (1)",
-          expected.getMessage());
+      assertEquals("index (2) must not be greater than size (1)", expected.getMessage());
     }
   }
 
@@ -272,8 +266,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(2, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("foo (2) must not be greater than size (1)",
-          expected.getMessage());
+      assertEquals("foo (2) must not be greater than size (1)", expected.getMessage());
     }
   }
 
@@ -297,8 +290,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(-1, 1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("start index (-1) must not be negative",
-          expected.getMessage());
+      assertEquals("start index (-1) must not be negative", expected.getMessage());
     }
   }
 
@@ -307,8 +299,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(0, 2, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("end index (2) must not be greater than size (1)",
-          expected.getMessage());
+      assertEquals("end index (2) must not be greater than size (1)", expected.getMessage());
     }
   }
 
@@ -317,8 +308,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(1, 0, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("end index (0) must not be less than start index (1)",
-          expected.getMessage());
+      assertEquals("end index (0) must not be less than start index (1)", expected.getMessage());
     }
   }
 
@@ -335,8 +325,7 @@ public class PreconditionsTest extends TestCase {
     assertEquals("5 + 6 = 11", Preconditions.format("5 + %s = 11", 6));
     assertEquals("5 + 6 = 11", Preconditions.format("5 + 6 = %s", 11));
     assertEquals("5 + 6 = 11", Preconditions.format("%s + %s = %s", 5, 6, 11));
-    assertEquals("null [null, null]",
-        Preconditions.format("%s", null, null, null));
+    assertEquals("null [null, null]", Preconditions.format("%s", null, null, null));
     assertEquals("null [5, 6]", Preconditions.format(null, 5, 6));
   }
 
@@ -347,14 +336,17 @@ public class PreconditionsTest extends TestCase {
   }
 
   private static final Object IGNORE_ME = new Object() {
-    @Override public String toString() {
+    @Override
+    public String toString() {
       throw new AssertionFailedError();
     }
   };
 
   private static class Message {
     boolean invoked;
-    @Override public String toString() {
+
+    @Override
+    public String toString() {
       assertFalse(invoked);
       invoked = true;
       return "A message";

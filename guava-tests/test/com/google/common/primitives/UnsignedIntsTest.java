@@ -1,15 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -33,18 +33,8 @@ import java.util.Random;
  */
 @GwtCompatible(emulated = true)
 public class UnsignedIntsTest extends TestCase {
-  private static final long[] UNSIGNED_INTS = {
-      0L,
-      1L,
-      2L,
-      3L,
-      0x12345678L,
-      0x5a4316b8L,
-      0x6cf78a4bL,
-      0xff1a618bL,
-      0xfffffffdL,
-      0xfffffffeL,
-      0xffffffffL};
+  private static final long[] UNSIGNED_INTS = {0L, 1L, 2L, 3L, 0x12345678L, 0x5a4316b8L,
+      0x6cf78a4bL, 0xff1a618bL, 0xfffffffdL, 0xfffffffeL, 0xffffffffL};
 
   private static final int LEAST = (int) 0L;
   private static final int GREATEST = (int) 0xffffffffL;
@@ -77,10 +67,8 @@ public class UnsignedIntsTest extends TestCase {
   public void testMax() {
     assertEquals(LEAST, UnsignedInts.max(LEAST));
     assertEquals(GREATEST, UnsignedInts.max(GREATEST));
-    assertEquals((int) 0xff1a618bL, UnsignedInts.max(
-        (int) 8L, (int) 6L, (int) 7L,
-        (int) 0x12345678L, (int) 0x5a4316b8L,
-        (int) 0xff1a618bL, (int) 0L));
+    assertEquals((int) 0xff1a618bL, UnsignedInts.max((int) 8L, (int) 6L, (int) 7L,
+        (int) 0x12345678L, (int) 0x5a4316b8L, (int) 0xff1a618bL, (int) 0L));
   }
 
   @SuppressWarnings("CheckReturnValue")
@@ -91,28 +79,20 @@ public class UnsignedIntsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testMin() {
     assertEquals(LEAST, UnsignedInts.min(LEAST));
     assertEquals(GREATEST, UnsignedInts.min(GREATEST));
-    assertEquals((int) 0L, UnsignedInts.min(
-        (int) 8L, (int) 6L, (int) 7L,
-        (int) 0x12345678L, (int) 0x5a4316b8L,
-        (int) 0xff1a618bL, (int) 0L));
+    assertEquals((int) 0L, UnsignedInts.min((int) 8L, (int) 6L, (int) 7L, (int) 0x12345678L,
+        (int) 0x5a4316b8L, (int) 0xff1a618bL, (int) 0L));
   }
-  
+
   public void testLexicographicalComparator() {
-    List<int[]> ordered = Arrays.asList(
-        new int[] {},
-        new int[] {LEAST},
-        new int[] {LEAST, LEAST},
-        new int[] {LEAST, (int) 1L},
-        new int[] {(int) 1L},
-        new int[] {(int) 1L, LEAST},
-        new int[] {GREATEST, (GREATEST - (int) 1L)},
-        new int[] {GREATEST, GREATEST},
-        new int[] {GREATEST, GREATEST, GREATEST}
-        );
+    List<int[]> ordered =
+        Arrays.asList(new int[] {}, new int[] {LEAST}, new int[] {LEAST, LEAST}, new int[] {LEAST,
+            (int) 1L}, new int[] {(int) 1L}, new int[] {(int) 1L, LEAST}, new int[] {GREATEST,
+            (GREATEST - (int) 1L)}, new int[] {GREATEST, GREATEST}, new int[] {GREATEST, GREATEST,
+            GREATEST});
 
     Comparator<int[]> comparator = UnsignedInts.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);
@@ -169,7 +149,8 @@ public class UnsignedIntsTest extends TestCase {
     try {
       UnsignedInts.parseUnsignedInt(Long.toString(1L << 32));
       fail("Expected NumberFormatException");
-    } catch (NumberFormatException expected) {}
+    } catch (NumberFormatException expected) {
+    }
   }
 
   public void testParseIntWithRadix() {
@@ -194,7 +175,8 @@ public class UnsignedIntsTest extends TestCase {
         String overflowAsString = Long.toString(overflow, radix);
         UnsignedInts.parseUnsignedInt(overflowAsString, radix);
         fail();
-      } catch (NumberFormatException expected) {}
+      } catch (NumberFormatException expected) {
+      }
     }
   }
 
@@ -205,18 +187,21 @@ public class UnsignedIntsTest extends TestCase {
     try {
       UnsignedInts.parseUnsignedInt("0", Character.MIN_RADIX - 1);
       fail();
-    } catch (NumberFormatException expected) {}
+    } catch (NumberFormatException expected) {
+    }
 
     try {
       UnsignedInts.parseUnsignedInt("0", Character.MAX_RADIX + 1);
       fail();
-    } catch (NumberFormatException expected) {}
+    } catch (NumberFormatException expected) {
+    }
 
     // The radix is used as an array index, so try a negative value.
     try {
       UnsignedInts.parseUnsignedInt("0", -1);
       fail();
-    } catch (NumberFormatException expected) {}
+    } catch (NumberFormatException expected) {
+    }
   }
 
   public void testDecodeInt() {

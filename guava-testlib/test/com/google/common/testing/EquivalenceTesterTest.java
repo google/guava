@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.testing;
@@ -38,7 +36,8 @@ public class EquivalenceTesterTest extends TestCase {
   private EquivalenceTester<Object> tester;
   private MockEquivalence equivalenceMock;
 
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     this.equivalenceMock = new MockEquivalence();
     this.tester = EquivalenceTester.of(equivalenceMock);
@@ -49,7 +48,8 @@ public class EquivalenceTesterTest extends TestCase {
     try {
       EquivalenceTester.of(null);
       fail("Should fail on null reference");
-    } catch (NullPointerException expected) {}
+    } catch (NullPointerException expected) {
+    }
   }
 
   public void testTest_NoData() {
@@ -83,8 +83,7 @@ public class EquivalenceTesterTest extends TestCase {
     equivalenceMock.replay();
 
     tester.addEquivalenceGroup(group1Item1, group1Item2)
-        .addEquivalenceGroup(group2Item1, group2Item2)
-        .test();
+        .addEquivalenceGroup(group2Item1, group2Item2).test();
   }
 
   public void testTest_symmetric() {
@@ -104,7 +103,7 @@ public class EquivalenceTesterTest extends TestCase {
     } catch (AssertionFailedError expected) {
       assertThat(expected.getMessage()).contains(
           "TestObject{group=1, item=2} [group 1, item 2] must be equivalent to "
-          + "TestObject{group=1, item=1} [group 1, item 1]");
+              + "TestObject{group=1, item=1} [group 1, item 1]");
       return;
     }
     fail();
@@ -133,7 +132,7 @@ public class EquivalenceTesterTest extends TestCase {
     } catch (AssertionFailedError expected) {
       assertThat(expected.getMessage()).contains(
           "TestObject{group=1, item=2} [group 1, item 2] must be equivalent to "
-          + "TestObject{group=1, item=3} [group 1, item 3]");
+              + "TestObject{group=1, item=3} [group 1, item 3]");
       return;
     }
     fail();
@@ -156,7 +155,7 @@ public class EquivalenceTesterTest extends TestCase {
     } catch (AssertionFailedError expected) {
       assertThat(expected.getMessage()).contains(
           "TestObject{group=1, item=1} [group 1, item 1] must not be equivalent to "
-          + "TestObject{group=2, item=1} [group 2, item 1]");
+              + "TestObject{group=2, item=1} [group 2, item 1]");
       return;
     }
     fail();
@@ -179,7 +178,7 @@ public class EquivalenceTesterTest extends TestCase {
     } catch (AssertionFailedError expected) {
       String expectedMessage =
           "the hash (1) of TestObject{group=1, item=1} [group 1, item 1] must be "
-          + "equal to the hash (2) of TestObject{group=1, item=2} [group 1, item 2]";
+              + "equal to the hash (2) of TestObject{group=1, item=2} [group 1, item 2]";
       if (!expected.getMessage().contains(expectedMessage)) {
         fail("<" + expected.getMessage() + "> expected to contain <" + expectedMessage + ">");
       }
@@ -193,15 +192,14 @@ public class EquivalenceTesterTest extends TestCase {
     final int group;
     final int item;
 
-    TestObject(int group , int item) {
+    TestObject(int group, int item) {
       this.group = group;
       this.item = item;
     }
 
-    @Override public String toString() {
-      return MoreObjects.toStringHelper("TestObject")
-          .add("group", group)
-          .add("item", item)
+    @Override
+    public String toString() {
+      return MoreObjects.toStringHelper("TestObject").add("group", group).add("item", item)
           .toString();
     }
   }
@@ -209,8 +207,7 @@ public class EquivalenceTesterTest extends TestCase {
   private static final class MockEquivalence extends Equivalence<Object> {
     final ImmutableTable.Builder<Object, Object, Boolean> equivalentExpectationsBuilder =
         ImmutableTable.builder();
-    final ImmutableMap.Builder<Object, Integer> hashExpectationsBuilder =
-        ImmutableMap.builder();
+    final ImmutableMap.Builder<Object, Integer> hashExpectationsBuilder = ImmutableMap.builder();
     ImmutableTable<Object, Object, Boolean> equivalentExpectations;
     ImmutableMap<Object, Integer> hashExpectations;
 
@@ -235,11 +232,13 @@ public class EquivalenceTesterTest extends TestCase {
       hashExpectations = hashExpectationsBuilder.build();
     }
 
-    @Override protected boolean doEquivalent(Object a, Object b) {
+    @Override
+    protected boolean doEquivalent(Object a, Object b) {
       return equivalentExpectations.get(a, b);
     }
 
-    @Override protected int doHash(Object object) {
+    @Override
+    protected int doHash(Object object) {
       return hashExpectations.get(object);
     }
 

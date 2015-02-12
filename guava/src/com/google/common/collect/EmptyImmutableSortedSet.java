@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -32,7 +30,8 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // uses writeReplace(), not default serialization
+@SuppressWarnings("serial")
+// uses writeReplace(), not default serialization
 class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   EmptyImmutableSortedSet(Comparator<? super E> comparator) {
     super(comparator);
@@ -43,32 +42,39 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return 0;
   }
 
-  @Override public boolean isEmpty() {
+  @Override
+  public boolean isEmpty() {
     return true;
   }
 
-  @Override public boolean contains(@Nullable Object target) {
+  @Override
+  public boolean contains(@Nullable Object target) {
     return false;
   }
 
-  @Override public boolean containsAll(Collection<?> targets) {
+  @Override
+  public boolean containsAll(Collection<?> targets) {
     return targets.isEmpty();
   }
 
-  @Override public UnmodifiableIterator<E> iterator() {
+  @Override
+  public UnmodifiableIterator<E> iterator() {
     return Iterators.emptyIterator();
   }
 
   @GwtIncompatible("NavigableSet")
-  @Override public UnmodifiableIterator<E> descendingIterator() {
+  @Override
+  public UnmodifiableIterator<E> descendingIterator() {
     return Iterators.emptyIterator();
   }
 
-  @Override boolean isPartialView() {
+  @Override
+  boolean isPartialView() {
     return false;
   }
 
-  @Override public ImmutableList<E> asList() {
+  @Override
+  public ImmutableList<E> asList() {
     return ImmutableList.of();
   }
 
@@ -77,7 +83,8 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return offset;
   }
 
-  @Override public boolean equals(@Nullable Object object) {
+  @Override
+  public boolean equals(@Nullable Object object) {
     if (object instanceof Set) {
       Set<?> that = (Set<?>) object;
       return that.isEmpty();
@@ -85,11 +92,13 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return false;
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return 0;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "[]";
   }
 
@@ -109,8 +118,8 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  ImmutableSortedSet<E> subSetImpl(
-      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
+  ImmutableSortedSet<E> subSetImpl(E fromElement, boolean fromInclusive, E toElement,
+      boolean toInclusive) {
     return this;
   }
 
@@ -119,7 +128,8 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return this;
   }
 
-  @Override int indexOf(@Nullable Object target) {
+  @Override
+  int indexOf(@Nullable Object target) {
     return -1;
   }
 
