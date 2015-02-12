@@ -41,6 +41,9 @@ import javax.annotation.Nullable;
  * nonzero</i> comparison result in the chain, or will be zero if every
  * comparison result was zero.
  *
+ * <p><b>Note:</b> {@code ComparisonChain} instances are <b>immutable</b>. For
+ * this utility to work correctly, calls must be chained as illustrated above.
+ *
  * <p>Performance note: Even though the {@code ComparisonChain} caller always
  * invokes its {@code compare} methods unconditionally, the {@code
  * ComparisonChain} implementation stops calling its inputs' {@link
