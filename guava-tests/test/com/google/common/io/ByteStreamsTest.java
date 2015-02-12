@@ -388,9 +388,9 @@ public class ByteStreamsTest extends IoTestCase {
 
   public void testChecksum() throws IOException {
     InputSupplier<ByteArrayInputStream> asciiBytes =
-        ByteStreams.newInputStreamSupplier(ASCII.getBytes(Charsets.US_ASCII));
+        ByteStreams.newInputStreamSupplier(ASCII.getBytes(Charsets.US_ASCII.name()));
     InputSupplier<ByteArrayInputStream> i18nBytes =
-        ByteStreams.newInputStreamSupplier(I18N.getBytes(Charsets.UTF_8));
+        ByteStreams.newInputStreamSupplier(I18N.getBytes(Charsets.UTF_8.name()));
 
     Checksum checksum = new CRC32();
     assertEquals(0L, checksum.getValue());
