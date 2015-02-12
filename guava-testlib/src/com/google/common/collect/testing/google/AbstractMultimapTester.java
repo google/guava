@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -36,8 +34,8 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
-    extends AbstractContainerTester<M, Map.Entry<K, V>> {
+public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>> extends
+    AbstractContainerTester<M, Map.Entry<K, V>> {
 
   private M multimap;
 
@@ -46,8 +44,7 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   /**
-   * @return an array of the proper size with {@code null} as the key of the
-   * middle element.
+   * @return an array of the proper size with {@code null} as the key of the middle element.
    */
   protected Map.Entry<K, V>[] createArrayWithNullKey() {
     Map.Entry<K, V>[] array = createSamplesArray();
@@ -58,8 +55,7 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   /**
-   * @return an array of the proper size with {@code null} as the value of the
-   * middle element.
+   * @return an array of the proper size with {@code null} as the value of the middle element.
    */
   protected Map.Entry<K, V>[] createArrayWithNullValue() {
     Map.Entry<K, V>[] array = createSamplesArray();
@@ -70,8 +66,8 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   /**
-   * @return an array of the proper size with {@code null} as the key and value of the
-   * middle element.
+   * @return an array of the proper size with {@code null} as the key and value of the middle
+   *         element.
    */
   protected Map.Entry<K, V>[] createArrayWithNullKeyAndValue() {
     Map.Entry<K, V>[] array = createSamplesArray();

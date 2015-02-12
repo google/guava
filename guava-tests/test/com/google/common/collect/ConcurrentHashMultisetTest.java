@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -56,20 +54,16 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(MultisetTestSuiteBuilder.using(concurrentHashMultisetGenerator())
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.GENERAL_PURPOSE,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ConcurrentHashMultiset")
-        .createTestSuite());
-    suite.addTest(MultisetTestSuiteBuilder.using(concurrentSkipListMultisetGenerator())
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.GENERAL_PURPOSE,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ConcurrentSkipListMultiset")
+    suite.addTest(MultisetTestSuiteBuilder
+        .using(concurrentHashMultisetGenerator())
+        .withFeatures(CollectionSize.ANY, CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE, CollectionFeature.ALLOWS_NULL_QUERIES)
+        .named("ConcurrentHashMultiset").createTestSuite());
+    suite.addTest(MultisetTestSuiteBuilder
+        .using(concurrentSkipListMultisetGenerator())
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE, CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES).named("ConcurrentSkipListMultiset")
         .createTestSuite());
     suite.addTestSuite(ConcurrentHashMultisetTest.class);
     return suite;
@@ -77,7 +71,8 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
   private static TestStringMultisetGenerator concurrentHashMultisetGenerator() {
     return new TestStringMultisetGenerator() {
-      @Override protected Multiset<String> create(String[] elements) {
+      @Override
+      protected Multiset<String> create(String[] elements) {
         return ConcurrentHashMultiset.create(asList(elements));
       }
     };
@@ -85,9 +80,10 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
   private static TestStringMultisetGenerator concurrentSkipListMultisetGenerator() {
     return new TestStringMultisetGenerator() {
-      @Override protected Multiset<String> create(String[] elements) {
-        Multiset<String> multiset = new ConcurrentHashMultiset<String>(
-            new ConcurrentSkipListMap<String, AtomicInteger>());
+      @Override
+      protected Multiset<String> create(String[] elements) {
+        Multiset<String> multiset =
+            new ConcurrentHashMultiset<String>(new ConcurrentSkipListMap<String, AtomicInteger>());
         Collections.addAll(multiset, elements);
         return multiset;
       }
@@ -105,7 +101,8 @@ public class ConcurrentHashMultisetTest extends TestCase {
   ConcurrentHashMultiset<String> multiset;
 
   @SuppressWarnings("unchecked")
-  @Override protected void setUp() {
+  @Override
+  protected void setUp() {
     backingMap = EasyMock.createMock(ConcurrentMap.class);
     expect(backingMap.isEmpty()).andReturn(true);
     replay();
@@ -184,8 +181,8 @@ public class ConcurrentHashMultisetTest extends TestCase {
   /**
    * Simulate some of the races that can happen on add. We can't easily simulate the race that
    * happens when an {@link AtomicInteger#compareAndSet} fails, but we can simulate the case where
-   * the putIfAbsent returns a non-null value, and the case where the replace() of an observed
-   * zero fails.
+   * the putIfAbsent returns a non-null value, and the case where the replace() of an observed zero
+   * fails.
    */
   public void testAdd_withFailures() {
     AtomicInteger existing = new AtomicInteger(12);
@@ -279,7 +276,8 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
     try {
       cms.removeExactly("a", -2);
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     assertTrue(cms.removeExactly("a", 0));
     assertEquals(2, cms.count("a"));
@@ -303,7 +301,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
     multiset.add(KEY);
 
     int mutations = 0;
-    for (Iterator<String> it = multiset.iterator(); it.hasNext(); ) {
+    for (Iterator<String> it = multiset.iterator(); it.hasNext();) {
       it.next();
       it.remove();
       mutations++;
@@ -354,8 +352,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
   public void testCreateFromIterable() {
     Iterable<Integer> iterable = asList(1, 2, 2, 3, 4);
-    ConcurrentHashMultiset<Integer> multiset
-        = ConcurrentHashMultiset.create(iterable);
+    ConcurrentHashMultiset<Integer> multiset = ConcurrentHashMultiset.create(iterable);
     assertEquals(2, multiset.count(2));
     reserializeAndAssert(multiset);
   }
@@ -368,15 +365,12 @@ public class ConcurrentHashMultisetTest extends TestCase {
     testIdentityKeyEquality(WEAK);
   }
 
-  private void testIdentityKeyEquality(
-      MapMakerInternalMap.Strength keyStrength) {
+  private void testIdentityKeyEquality(MapMakerInternalMap.Strength keyStrength) {
 
-    MapMaker mapMaker = new MapMaker()
-        .setKeyStrength(keyStrength)
-        .keyEquivalence(Equivalence.identity());
+    MapMaker mapMaker =
+        new MapMaker().setKeyStrength(keyStrength).keyEquivalence(Equivalence.identity());
 
-    ConcurrentHashMultiset<String> multiset =
-        ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(mapMaker);
 
     String s1 = new String("a");
     String s2 = new String("a");
@@ -407,15 +401,12 @@ public class ConcurrentHashMultisetTest extends TestCase {
     testLogicalKeyEquality(WEAK);
   }
 
-  private void testLogicalKeyEquality(
-      MapMakerInternalMap.Strength keyStrength) {
+  private void testLogicalKeyEquality(MapMakerInternalMap.Strength keyStrength) {
 
-    MapMaker mapMaker = new MapMaker()
-        .setKeyStrength(keyStrength)
-        .keyEquivalence(Equivalence.equals());
+    MapMaker mapMaker =
+        new MapMaker().setKeyStrength(keyStrength).keyEquivalence(Equivalence.equals());
 
-    ConcurrentHashMultiset<String> multiset =
-        ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(mapMaker);
 
     String s1 = new String("a");
     String s2 = new String("a");
@@ -457,11 +448,9 @@ public class ConcurrentHashMultisetTest extends TestCase {
   }
 
   public void testSerializationWithMapMaker_preservesIdentityKeyEquivalence() {
-    MapMaker mapMaker = new MapMaker()
-        .keyEquivalence(Equivalence.identity());
+    MapMaker mapMaker = new MapMaker().keyEquivalence(Equivalence.identity());
 
-    ConcurrentHashMultiset<String> multiset =
-        ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(mapMaker);
     multiset = reserializeAndAssert(multiset);
 
     String s1 = new String("a");
@@ -476,73 +465,72 @@ public class ConcurrentHashMultisetTest extends TestCase {
     assertEquals(0, multiset.count(s2));
   }
 
-//  @Suppress(owner = "bmanes", detail = "Does not call the eviction listener")
-//  public void testWithMapMakerEvictionListener_BROKEN1()
-//      throws InterruptedException {
-//    MapEvictionListener<String, Number> evictionListener =
-//        mockEvictionListener();
-//    evictionListener.onEviction("a", 5);
-//    EasyMock.replay(evictionListener);
-//
-//    GenericMapMaker<String, Number> mapMaker = new MapMaker()
-//        .expireAfterWrite(100, TimeUnit.MILLISECONDS)
-//        .evictionListener(evictionListener);
-//
-//    ConcurrentHashMultiset<String> multiset =
-//        ConcurrentHashMultiset.create(mapMaker);
-//
-//    multiset.add("a", 5);
-//
-//    assertTrue(multiset.contains("a"));
-//    assertEquals(5, multiset.count("a"));
-//
-//    Thread.sleep(2000);
-//
-//    EasyMock.verify(evictionListener);
-//  }
+  // @Suppress(owner = "bmanes", detail = "Does not call the eviction listener")
+  // public void testWithMapMakerEvictionListener_BROKEN1()
+  // throws InterruptedException {
+  // MapEvictionListener<String, Number> evictionListener =
+  // mockEvictionListener();
+  // evictionListener.onEviction("a", 5);
+  // EasyMock.replay(evictionListener);
+  //
+  // GenericMapMaker<String, Number> mapMaker = new MapMaker()
+  // .expireAfterWrite(100, TimeUnit.MILLISECONDS)
+  // .evictionListener(evictionListener);
+  //
+  // ConcurrentHashMultiset<String> multiset =
+  // ConcurrentHashMultiset.create(mapMaker);
+  //
+  // multiset.add("a", 5);
+  //
+  // assertTrue(multiset.contains("a"));
+  // assertEquals(5, multiset.count("a"));
+  //
+  // Thread.sleep(2000);
+  //
+  // EasyMock.verify(evictionListener);
+  // }
 
-//  @Suppress(owner = "bmanes", detail = "Does not call the eviction listener")
-//  public void testWithMapMakerEvictionListener_BROKEN2()
-//      throws InterruptedException {
-//    MapEvictionListener<String, Number> evictionListener =
-//        mockEvictionListener();
-//    evictionListener.onEviction("a", 5);
-//    EasyMock.replay(evictionListener);
-//
-//    GenericMapMaker<String, Number> mapMaker = new MapMaker()
-//        .expireAfterWrite(100, TimeUnit.MILLISECONDS)
-//        .evictionListener(evictionListener);
-//
-//    ConcurrentHashMultiset<String> multiset =
-//        ConcurrentHashMultiset.create(mapMaker);
-//
-//    multiset.add("a", 5);
-//
-//    assertTrue(multiset.contains("a"));
-//    assertEquals(5, multiset.count("a"));
-//
-//    Thread.sleep(2000);
-//
-//    // This call should have the side-effect of calling the
-//    // eviction listener, but it does not.
-//    assertFalse(multiset.contains("a"));
-//
-//    EasyMock.verify(evictionListener);
-//  }
+  // @Suppress(owner = "bmanes", detail = "Does not call the eviction listener")
+  // public void testWithMapMakerEvictionListener_BROKEN2()
+  // throws InterruptedException {
+  // MapEvictionListener<String, Number> evictionListener =
+  // mockEvictionListener();
+  // evictionListener.onEviction("a", 5);
+  // EasyMock.replay(evictionListener);
+  //
+  // GenericMapMaker<String, Number> mapMaker = new MapMaker()
+  // .expireAfterWrite(100, TimeUnit.MILLISECONDS)
+  // .evictionListener(evictionListener);
+  //
+  // ConcurrentHashMultiset<String> multiset =
+  // ConcurrentHashMultiset.create(mapMaker);
+  //
+  // multiset.add("a", 5);
+  //
+  // assertTrue(multiset.contains("a"));
+  // assertEquals(5, multiset.count("a"));
+  //
+  // Thread.sleep(2000);
+  //
+  // // This call should have the side-effect of calling the
+  // // eviction listener, but it does not.
+  // assertFalse(multiset.contains("a"));
+  //
+  // EasyMock.verify(evictionListener);
+  // }
 
   public void testWithMapMakerEvictionListener() {
     final List<RemovalNotification<String, Number>> notificationQueue = Lists.newArrayList();
-    RemovalListener<String, Number> removalListener =
-        new RemovalListener<String, Number>() {
-          @Override public void onRemoval(RemovalNotification<String, Number> notification) {
-            notificationQueue.add(notification);
-          }
-        };
+    RemovalListener<String, Number> removalListener = new RemovalListener<String, Number>() {
+      @Override
+      public void onRemoval(RemovalNotification<String, Number> notification) {
+        notificationQueue.add(notification);
+      }
+    };
 
-    @SuppressWarnings("deprecation") // TODO(kevinb): what to do?
-    MapMaker mapMaker = new MapMaker()
-        .concurrencyLevel(1)
-        .maximumSize(1);
+    @SuppressWarnings("deprecation")
+    // TODO(kevinb): what to do?
+    MapMaker mapMaker = new MapMaker().concurrencyLevel(1).maximumSize(1);
     /*
      * Cleverly ignore the return type now that ConcurrentHashMultiset accepts only MapMaker and not
      * the deprecated GenericMapMaker. We know that a RemovalListener<String, Number> is a type that

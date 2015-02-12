@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -33,10 +31,9 @@ import java.io.Reader;
 /**
  * Unit tests for {@link Closeables}.
  *
- * <p>Checks proper closing behavior, and ensures that
- * IOExceptions on Closeable.close() are not
- * propagated out from the {@link Closeables#close} method if {@code
- * swallowException} is true.
+ * <p>
+ * Checks proper closing behavior, and ensures that IOExceptions on Closeable.close() are not
+ * propagated out from the {@link Closeables#close} method if {@code swallowException} is true.
  *
  * @author Michael Lancaster
  */
@@ -68,8 +65,8 @@ public class CloseablesTest extends TestCase {
   }
 
   public void testCloseQuietly_inputStreamWithEatenException() throws IOException {
-    TestInputStream in = new TestInputStream(
-        new ByteArrayInputStream(new byte[1]), TestOption.CLOSE_THROWS);
+    TestInputStream in =
+        new TestInputStream(new ByteArrayInputStream(new byte[1]), TestOption.CLOSE_THROWS);
     Closeables.closeQuietly(in);
     assertTrue(in.closed());
   }
@@ -93,13 +90,14 @@ public class CloseablesTest extends TestCase {
     Closeables.closeQuietly((Reader) null);
   }
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     mockCloseable = createStrictMock(Closeable.class);
   }
 
   private void expectThrown() {
-    expectLastCall().andThrow(new IOException("This should only appear in the "
-        + "logs. It should not be rethrown."));
+    expectLastCall().andThrow(
+        new IOException("This should only appear in the " + "logs. It should not be rethrown."));
   }
 
   // Set up a closeable to expect to be closed, and optionally to throw an
@@ -120,8 +118,7 @@ public class CloseablesTest extends TestCase {
   // Close the closeable using the Closeables, passing in the swallowException
   // parameter. expectThrown determines whether we expect an exception to
   // be thrown by Closeables.close;
-  private void doClose(Closeable closeable, boolean swallowException,
-      boolean expectThrown) {
+  private void doClose(Closeable closeable, boolean swallowException, boolean expectThrown) {
     try {
       Closeables.close(closeable, swallowException);
       if (expectThrown) {

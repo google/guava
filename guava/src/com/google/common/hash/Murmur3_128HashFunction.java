@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -13,14 +13,13 @@
  */
 
 /*
- * MurmurHash3 was written by Austin Appleby, and is placed in the public
- * domain. The author hereby disclaims copyright to this source code.
+ * MurmurHash3 was written by Austin Appleby, and is placed in the public domain. The author hereby
+ * disclaims copyright to this source code.
  */
 
 /*
- * Source:
- * http://code.google.com/p/smhasher/source/browse/trunk/MurmurHash3.cpp
- * (Modified to adapt to Guava coding conventions and to use the HashFunction interface)
+ * Source: http://code.google.com/p/smhasher/source/browse/trunk/MurmurHash3.cpp (Modified to adapt
+ * to Guava coding conventions and to use the HashFunction interface)
  */
 
 package com.google.common.hash;
@@ -34,8 +33,7 @@ import java.nio.ByteOrder;
 import javax.annotation.Nullable;
 
 /**
- * See http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp
- * MurmurHash3_x64_128
+ * See http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp MurmurHash3_x64_128
  *
  * @author Austin Appleby
  * @author Dimitris Andreou
@@ -48,11 +46,13 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
     this.seed = seed;
   }
 
-  @Override public int bits() {
+  @Override
+  public int bits() {
     return 128;
   }
 
-  @Override public Hasher newHasher() {
+  @Override
+  public Hasher newHasher() {
     return new Murmur3_128Hasher(seed);
   }
 
@@ -90,7 +90,8 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
       this.length = 0;
     }
 
-    @Override protected void process(ByteBuffer bb) {
+    @Override
+    protected void process(ByteBuffer bb) {
       long k1 = bb.getLong();
       long k2 = bb.getLong();
       bmix64(k1, k2);
@@ -111,7 +112,8 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
       h2 = h2 * 5 + 0x38495ab5;
     }
 
-    @Override protected void processRemaining(ByteBuffer bb) {
+    @Override
+    protected void processRemaining(ByteBuffer bb) {
       long k1 = 0;
       long k2 = 0;
       length += bb.remaining();
@@ -155,7 +157,8 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
       h2 ^= mixK2(k2);
     }
 
-    @Override public HashCode makeHash() {
+    @Override
+    public HashCode makeHash() {
       h1 ^= length;
       h2 ^= length;
 
@@ -168,12 +171,8 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
       h1 += h2;
       h2 += h1;
 
-      return HashCode.fromBytesNoCopy(ByteBuffer
-          .wrap(new byte[CHUNK_SIZE])
-          .order(ByteOrder.LITTLE_ENDIAN)
-          .putLong(h1)
-          .putLong(h2)
-          .array());
+      return HashCode.fromBytesNoCopy(ByteBuffer.wrap(new byte[CHUNK_SIZE])
+          .order(ByteOrder.LITTLE_ENDIAN).putLong(h1).putLong(h2).array());
     }
 
     private static long fmix64(long k) {

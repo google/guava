@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -73,12 +71,9 @@ public class FilesTest extends IoTestCase {
   public void testToByteArray() throws IOException {
     File asciiFile = getTestFile("ascii.txt");
     File i18nFile = getTestFile("i18n.txt");
-    assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII),
-        Files.toByteArray(asciiFile)));
-    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8),
-        Files.toByteArray(i18nFile)));
-    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8),
-        Files.asByteSource(i18nFile).read()));
+    assertTrue(Arrays.equals(ASCII.getBytes(Charsets.US_ASCII), Files.toByteArray(asciiFile)));
+    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8), Files.toByteArray(i18nFile)));
+    assertTrue(Arrays.equals(I18N.getBytes(Charsets.UTF_8), Files.asByteSource(i18nFile).read()));
   }
 
   public void testReadFile_withCorrectSize() throws IOException {
@@ -166,8 +161,7 @@ public class FilesTest extends IoTestCase {
     File i18nFile = getTestFile("i18n.txt");
     assertEquals(ASCII, Files.toString(asciiFile, Charsets.US_ASCII));
     assertEquals(I18N, Files.toString(i18nFile, Charsets.UTF_8));
-    assertThat(Files.toString(i18nFile, Charsets.US_ASCII))
-        .isNotEqualTo(I18N);
+    assertThat(Files.toString(i18nFile, Charsets.US_ASCII)).isNotEqualTo(I18N);
   }
 
   public void testWriteString() throws IOException {
@@ -273,8 +267,7 @@ public class FilesTest extends IoTestCase {
     assertEquals(asciiFile.length(), temp.length());
     assertFalse(Files.equal(asciiFile, temp));
 
-    assertTrue(Files.asByteSource(asciiFile)
-        .contentEquals(Files.asByteSource(asciiFile)));
+    assertTrue(Files.asByteSource(asciiFile).contentEquals(Files.asByteSource(asciiFile)));
 
     // 0-length files have special treatment (/proc, etc.)
     assertTrue(Files.equal(asciiFile, new BadLengthFile(asciiFile, 0)));
@@ -445,8 +438,7 @@ public class FilesTest extends IoTestCase {
     File temp2 = createTempFile();
 
     moveHelper(false, new UnmovableFile(temp1, false, false), temp2);
-    moveHelper(false, new UnmovableFile(temp1, false, false),
-        new UnmovableFile(temp2, true, false));
+    moveHelper(false, new UnmovableFile(temp1, false, false), new UnmovableFile(temp2, true, false));
 
     try {
       File asciiFile = getTestFile("ascii.txt");
@@ -456,8 +448,7 @@ public class FilesTest extends IoTestCase {
     }
   }
 
-  private void moveHelper(boolean success, File from, File to)
-      throws IOException {
+  private void moveHelper(boolean success, File from, File to) throws IOException {
     try {
       Files.move(from, to);
       if (success) {
@@ -541,29 +532,26 @@ public class FilesTest extends IoTestCase {
     w.println("");
     w.close();
     Files.readLines(temp, Charsets.UTF_8, collect);
-    assertThat(collect.getResult())
-        .containsExactly("hello", "", " world  ", "").inOrder();
+    assertThat(collect.getResult()).containsExactly("hello", "", " world  ", "").inOrder();
 
-    LineProcessor<List<String>> collectNonEmptyLines =
-        new LineProcessor<List<String>>() {
-          List<String> collector = new ArrayList<String>();
+    LineProcessor<List<String>> collectNonEmptyLines = new LineProcessor<List<String>>() {
+      List<String> collector = new ArrayList<String>();
 
-          @Override
-          public boolean processLine(String line) {
-            if (line.length() > 0) {
-              collector.add(line);
-            }
-            return true;
-          }
+      @Override
+      public boolean processLine(String line) {
+        if (line.length() > 0) {
+          collector.add(line);
+        }
+        return true;
+      }
 
-          @Override
-          public List<String> getResult() {
-            return collector;
-          }
-        };
+      @Override
+      public List<String> getResult() {
+        return collector;
+      }
+    };
     Files.readLines(temp, Charsets.UTF_8, collectNonEmptyLines);
-    assertThat(collectNonEmptyLines.getResult()).containsExactly(
-        "hello", " world  ").inOrder();
+    assertThat(collectNonEmptyLines.getResult()).containsExactly("hello", " world  ").inOrder();
 
     assertTrue(temp.delete());
   }

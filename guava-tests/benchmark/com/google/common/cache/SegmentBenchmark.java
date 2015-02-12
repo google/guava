@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.cache;
@@ -33,15 +31,15 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  */
 public class SegmentBenchmark {
 
-  @Param({"16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192"}) int capacity;
+  @Param({"16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192"})
+  int capacity;
 
   private Segment<Object, Object> segment;
 
   @BeforeExperiment
   void setUp() {
-    LocalCache<Object, Object> cache = new LocalCache<Object, Object>(
-        CacheBuilder.newBuilder()
-            .concurrencyLevel(1)
+    LocalCache<Object, Object> cache =
+        new LocalCache<Object, Object>(CacheBuilder.newBuilder().concurrencyLevel(1)
             .initialCapacity(capacity), null);
     checkState(cache.segments.length == 1);
     segment = cache.segments[0];
@@ -52,7 +50,8 @@ public class SegmentBenchmark {
     checkState(segment.table.length() == capacity);
   }
 
-  @Benchmark int time(int reps) {
+  @Benchmark
+  int time(int reps) {
     int dummy = 0;
     AtomicReferenceArray<ReferenceEntry<Object, Object>> oldTable = segment.table;
     for (int i = 0; i < reps; i++) {

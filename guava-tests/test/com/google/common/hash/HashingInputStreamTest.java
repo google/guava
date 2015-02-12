@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2013 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -37,7 +37,8 @@ public class HashingInputStreamTest extends TestCase {
   private static final byte[] testBytes = new byte[] {'y', 'a', 'm', 's'};
   private ByteArrayInputStream buffer;
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     super.setUp();
     hasher = EasyMock.createMock(Hasher.class);
     hashFunction = EasyMock.createMock(HashFunction.class);
@@ -98,8 +99,7 @@ public class HashingInputStreamTest extends TestCase {
     byte[] expectedBytes = buf.clone();
     System.arraycopy(testBytes, 0, expectedBytes, 0, testBytes.length);
 
-    EasyMock.expect(hasher.putBytes(aryEq(expectedBytes), eq(0), eq(4)))
-        .andReturn(hasher).once();
+    EasyMock.expect(hasher.putBytes(aryEq(expectedBytes), eq(0), eq(4))).andReturn(hasher).once();
     EasyMock.replay(hasher);
     HashingInputStream in = new HashingInputStream(hashFunction, buffer);
 

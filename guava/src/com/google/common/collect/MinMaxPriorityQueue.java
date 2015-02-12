@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -40,46 +38,45 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
- * A double-ended priority queue, which provides constant-time access to both
- * its least element and its greatest element, as determined by the queue's
- * specified comparator. If no comparator is given at construction time, the
- * natural order of elements is used.
+ * A double-ended priority queue, which provides constant-time access to both its least element and
+ * its greatest element, as determined by the queue's specified comparator. If no comparator is
+ * given at construction time, the natural order of elements is used.
  *
- * <p>As a {@link Queue} it functions exactly as a {@link PriorityQueue}: its
- * head element -- the implicit target of the methods {@link #peek()}, {@link
- * #poll()} and {@link #remove()} -- is defined as the <i>least</i> element in
- * the queue according to the queue's comparator. But unlike a regular priority
- * queue, the methods {@link #peekLast}, {@link #pollLast} and
- * {@link #removeLast} are also provided, to act on the <i>greatest</i> element
- * in the queue instead.
+ * <p>
+ * As a {@link Queue} it functions exactly as a {@link PriorityQueue}: its head element -- the
+ * implicit target of the methods {@link #peek()}, {@link #poll()} and {@link #remove()} -- is
+ * defined as the <i>least</i> element in the queue according to the queue's comparator. But unlike
+ * a regular priority queue, the methods {@link #peekLast}, {@link #pollLast} and
+ * {@link #removeLast} are also provided, to act on the <i>greatest</i> element in the queue
+ * instead.
  *
- * <p>A min-max priority queue can be configured with a maximum size. If so,
- * each time the size of the queue exceeds that value, the queue automatically
- * removes its greatest element according to its comparator (which might be the
- * element that was just added). This is different from conventional bounded
- * queues, which either block or reject new elements when full.
+ * <p>
+ * A min-max priority queue can be configured with a maximum size. If so, each time the size of the
+ * queue exceeds that value, the queue automatically removes its greatest element according to its
+ * comparator (which might be the element that was just added). This is different from conventional
+ * bounded queues, which either block or reject new elements when full.
  *
- * <p>This implementation is based on the
- * <a href="http://portal.acm.org/citation.cfm?id=6621">min-max heap</a>
- * developed by Atkinson, et al. Unlike many other double-ended priority queues,
- * it stores elements in a single array, as compact as the traditional heap data
- * structure used in {@link PriorityQueue}.
+ * <p>
+ * This implementation is based on the <a href="http://portal.acm.org/citation.cfm?id=6621">min-max
+ * heap</a> developed by Atkinson, et al. Unlike many other double-ended priority queues, it stores
+ * elements in a single array, as compact as the traditional heap data structure used in
+ * {@link PriorityQueue}.
  *
- * <p>This class is not thread-safe, and does not accept null elements.
+ * <p>
+ * This class is not thread-safe, and does not accept null elements.
  *
- * <p><i>Performance notes:</i>
+ * <p>
+ * <i>Performance notes:</i>
  *
  * <ul>
- * <li>The retrieval operations {@link #peek}, {@link #peekFirst}, {@link
- *     #peekLast}, {@link #element}, and {@link #size} are constant-time
- * <li>The enqueing and dequeing operations ({@link #offer}, {@link #add}, and
- *     all the forms of {@link #poll} and {@link #remove()}) run in {@code
- *     O(log n) time}
- * <li>The {@link #remove(Object)} and {@link #contains} operations require
- *     linear ({@code O(n)}) time
- * <li>If you only access one end of the queue, and don't use a maximum size,
- *     this class is functionally equivalent to {@link PriorityQueue}, but
- *     significantly slower.
+ * <li>The retrieval operations {@link #peek}, {@link #peekFirst}, {@link #peekLast},
+ * {@link #element}, and {@link #size} are constant-time
+ * <li>The enqueing and dequeing operations ({@link #offer}, {@link #add}, and all the forms of
+ * {@link #poll} and {@link #remove()}) run in {@code O(log n) time}
+ * <li>The {@link #remove(Object)} and {@link #contains} operations require linear ({@code O(n)})
+ * time
+ * <li>If you only access one end of the queue, and don't use a maximum size, this class is
+ * functionally equivalent to {@link PriorityQueue}, but significantly slower.
  * </ul>
  *
  * @author Sverre Sundsdal
@@ -91,16 +88,16 @@ import java.util.Queue;
 public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   /**
-   * Creates a new min-max priority queue with default settings: natural order,
-   * no maximum size, no initial contents, and an initial expected size of 11.
+   * Creates a new min-max priority queue with default settings: natural order, no maximum size, no
+   * initial contents, and an initial expected size of 11.
    */
   public static <E extends Comparable<E>> MinMaxPriorityQueue<E> create() {
     return new Builder<Comparable>(Ordering.natural()).create();
   }
 
   /**
-   * Creates a new min-max priority queue using natural order, no maximum size,
-   * and initially containing the given elements.
+   * Creates a new min-max priority queue using natural order, no maximum size, and initially
+   * containing the given elements.
    */
   public static <E extends Comparable<E>> MinMaxPriorityQueue<E> create(
       Iterable<? extends E> initialContents) {
@@ -108,54 +105,46 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   /**
-   * Creates and returns a new builder, configured to build {@code
-   * MinMaxPriorityQueue} instances that use {@code comparator} to determine the
-   * least and greatest elements.
+   * Creates and returns a new builder, configured to build {@code MinMaxPriorityQueue} instances
+   * that use {@code comparator} to determine the least and greatest elements.
    */
   public static <B> Builder<B> orderedBy(Comparator<B> comparator) {
     return new Builder<B>(comparator);
   }
 
   /**
-   * Creates and returns a new builder, configured to build {@code
-   * MinMaxPriorityQueue} instances sized appropriately to hold {@code
-   * expectedSize} elements.
+   * Creates and returns a new builder, configured to build {@code MinMaxPriorityQueue} instances
+   * sized appropriately to hold {@code expectedSize} elements.
    */
   public static Builder<Comparable> expectedSize(int expectedSize) {
-    return new Builder<Comparable>(Ordering.natural())
-        .expectedSize(expectedSize);
+    return new Builder<Comparable>(Ordering.natural()).expectedSize(expectedSize);
   }
 
   /**
-   * Creates and returns a new builder, configured to build {@code
-   * MinMaxPriorityQueue} instances that are limited to {@code maximumSize}
-   * elements. Each time a queue grows beyond this bound, it immediately
-   * removes its greatest element (according to its comparator), which might be
-   * the element that was just added.
+   * Creates and returns a new builder, configured to build {@code MinMaxPriorityQueue} instances
+   * that are limited to {@code maximumSize} elements. Each time a queue grows beyond this bound, it
+   * immediately removes its greatest element (according to its comparator), which might be the
+   * element that was just added.
    */
   public static Builder<Comparable> maximumSize(int maximumSize) {
-    return new Builder<Comparable>(Ordering.natural())
-        .maximumSize(maximumSize);
+    return new Builder<Comparable>(Ordering.natural()).maximumSize(maximumSize);
   }
 
   /**
-   * The builder class used in creation of min-max priority queues. Instead of
-   * constructing one directly, use {@link
-   * MinMaxPriorityQueue#orderedBy(Comparator)}, {@link
-   * MinMaxPriorityQueue#expectedSize(int)} or {@link
-   * MinMaxPriorityQueue#maximumSize(int)}.
+   * The builder class used in creation of min-max priority queues. Instead of constructing one
+   * directly, use {@link MinMaxPriorityQueue#orderedBy(Comparator)},
+   * {@link MinMaxPriorityQueue#expectedSize(int)} or {@link MinMaxPriorityQueue#maximumSize(int)}.
    *
-   * @param <B> the upper bound on the eventual type that can be produced by
-   *     this builder (for example, a {@code Builder<Number>} can produce a
-   *     {@code Queue<Number>} or {@code Queue<Integer>} but not a {@code
-   *     Queue<Object>}).
+   * @param <B> the upper bound on the eventual type that can be produced by this builder (for
+   *        example, a {@code Builder<Number>} can produce a {@code Queue<Number>} or
+   *        {@code Queue<Integer>} but not a {@code Queue<Object>}).
    * @since 8.0
    */
   @Beta
   public static final class Builder<B> {
     /*
-     * TODO(kevinb): when the dust settles, see if we still need this or can
-     * just default to DEFAULT_CAPACITY.
+     * TODO(kevinb): when the dust settles, see if we still need this or can just default to
+     * DEFAULT_CAPACITY.
      */
     private static final int UNSET_EXPECTED_SIZE = -1;
 
@@ -168,8 +157,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Configures this builder to build min-max priority queues with an initial
-     * expected size of {@code expectedSize}.
+     * Configures this builder to build min-max priority queues with an initial expected size of
+     * {@code expectedSize}.
      */
     public Builder<B> expectedSize(int expectedSize) {
       checkArgument(expectedSize >= 0);
@@ -178,10 +167,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Configures this builder to build {@code MinMaxPriorityQueue} instances
-     * that are limited to {@code maximumSize} elements. Each time a queue grows
-     * beyond this bound, it immediately removes its greatest element (according
-     * to its comparator), which might be the element that was just added.
+     * Configures this builder to build {@code MinMaxPriorityQueue} instances that are limited to
+     * {@code maximumSize} elements. Each time a queue grows beyond this bound, it immediately
+     * removes its greatest element (according to its comparator), which might be the element that
+     * was just added.
      */
     public Builder<B> maximumSize(int maximumSize) {
       checkArgument(maximumSize > 0);
@@ -190,28 +179,29 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Builds a new min-max priority queue using the previously specified
-     * options, and having no initial contents.
+     * Builds a new min-max priority queue using the previously specified options, and having no
+     * initial contents.
      */
     public <T extends B> MinMaxPriorityQueue<T> create() {
       return create(Collections.<T>emptySet());
     }
 
     /**
-     * Builds a new min-max priority queue using the previously specified
-     * options, and having the given initial elements.
+     * Builds a new min-max priority queue using the previously specified options, and having the
+     * given initial elements.
      */
-    public <T extends B> MinMaxPriorityQueue<T> create(
-        Iterable<? extends T> initialContents) {
-      MinMaxPriorityQueue<T> queue = new MinMaxPriorityQueue<T>(
-          this, initialQueueSize(expectedSize, maximumSize, initialContents));
+    public <T extends B> MinMaxPriorityQueue<T> create(Iterable<? extends T> initialContents) {
+      MinMaxPriorityQueue<T> queue =
+          new MinMaxPriorityQueue<T>(this, initialQueueSize(expectedSize, maximumSize,
+              initialContents));
       for (T element : initialContents) {
         queue.offer(element);
       }
       return queue;
     }
 
-    @SuppressWarnings("unchecked") // safe "contravariant cast"
+    @SuppressWarnings("unchecked")
+    // safe "contravariant cast"
     private <T extends B> Ordering<T> ordering() {
       return Ordering.from((Comparator<T>) comparator);
     }
@@ -219,7 +209,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   private final Heap minHeap;
   private final Heap maxHeap;
-  @VisibleForTesting final int maximumSize;
+  @VisibleForTesting
+  final int maximumSize;
   private Object[] queue;
   private int size;
   private int modCount;
@@ -236,24 +227,26 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     this.queue = new Object[queueSize];
   }
 
-  @Override public int size() {
+  @Override
+  public int size() {
     return size;
   }
 
   /**
-   * Adds the given element to this queue. If this queue has a maximum size,
-   * after adding {@code element} the queue will automatically evict its
-   * greatest element (according to its comparator), which may be {@code
-   * element} itself.
+   * Adds the given element to this queue. If this queue has a maximum size, after adding
+   * {@code element} the queue will automatically evict its greatest element (according to its
+   * comparator), which may be {@code element} itself.
    *
    * @return {@code true} always
    */
-  @Override public boolean add(E element) {
+  @Override
+  public boolean add(E element) {
     offer(element);
     return true;
   }
 
-  @Override public boolean addAll(Collection<? extends E> newElements) {
+  @Override
+  public boolean addAll(Collection<? extends E> newElements) {
     boolean modified = false;
     for (E element : newElements) {
       offer(element);
@@ -263,12 +256,12 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   /**
-   * Adds the given element to this queue. If this queue has a maximum size,
-   * after adding {@code element} the queue will automatically evict its
-   * greatest element (according to its comparator), which may be {@code
-   * element} itself.
+   * Adds the given element to this queue. If this queue has a maximum size, after adding
+   * {@code element} the queue will automatically evict its greatest element (according to its
+   * comparator), which may be {@code element} itself.
    */
-  @Override public boolean offer(E element) {
+  @Override
+  public boolean offer(E element) {
     checkNotNull(element);
     modCount++;
     int insertIndex = size++;
@@ -281,16 +274,19 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     return size <= maximumSize || pollLast() != element;
   }
 
-  @Override public E poll() {
+  @Override
+  public E poll() {
     return isEmpty() ? null : removeAndGet(0);
   }
 
-  @SuppressWarnings("unchecked") // we must carefully only allow Es to get in
+  @SuppressWarnings("unchecked")
+  // we must carefully only allow Es to get in
   E elementData(int index) {
     return (E) queue[index];
   }
 
-  @Override public E peek() {
+  @Override
+  public E peek() {
     return isEmpty() ? null : elementData(0);
   }
 
@@ -311,8 +307,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   /**
-   * Removes and returns the least element of this queue, or returns {@code
-   * null} if the queue is empty.
+   * Removes and returns the least element of this queue, or returns {@code null} if the queue is
+   * empty.
    */
   public E pollFirst() {
     return poll();
@@ -328,16 +324,16 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   /**
-   * Retrieves, but does not remove, the least element of this queue, or returns
-   * {@code null} if the queue is empty.
+   * Retrieves, but does not remove, the least element of this queue, or returns {@code null} if the
+   * queue is empty.
    */
   public E peekFirst() {
     return peek();
   }
 
   /**
-   * Removes and returns the greatest element of this queue, or returns {@code
-   * null} if the queue is empty.
+   * Removes and returns the greatest element of this queue, or returns {@code null} if the queue is
+   * empty.
    */
   public E pollLast() {
     return isEmpty() ? null : removeAndGet(getMaxElementIndex());
@@ -356,8 +352,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   /**
-   * Retrieves, but does not remove, the greatest element of this queue, or
-   * returns {@code null} if the queue is empty.
+   * Retrieves, but does not remove, the greatest element of this queue, or returns {@code null} if
+   * the queue is empty.
    */
   public E peekLast() {
     return isEmpty() ? null : elementData(getMaxElementIndex());
@@ -366,19 +362,20 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   /**
    * Removes the element at position {@code index}.
    *
-   * <p>Normally this method leaves the elements at up to {@code index - 1},
-   * inclusive, untouched.  Under these circumstances, it returns {@code null}.
+   * <p>
+   * Normally this method leaves the elements at up to {@code index - 1}, inclusive, untouched.
+   * Under these circumstances, it returns {@code null}.
    *
-   * <p>Occasionally, in order to maintain the heap invariant, it must swap a
-   * later element of the list with one before {@code index}. Under these
-   * circumstances it returns a pair of elements as a {@link MoveDesc}. The
-   * first one is the element that was previously at the end of the heap and is
-   * now at some position before {@code index}. The second element is the one
-   * that was swapped down to replace the element at {@code index}. This fact is
-   * used by iterator.remove so as to visit elements during a traversal once and
-   * only once.
+   * <p>
+   * Occasionally, in order to maintain the heap invariant, it must swap a later element of the list
+   * with one before {@code index}. Under these circumstances it returns a pair of elements as a
+   * {@link MoveDesc}. The first one is the element that was previously at the end of the heap and
+   * is now at some position before {@code index}. The second element is the one that was swapped
+   * down to replace the element at {@code index}. This fact is used by iterator.remove so as to
+   * visit elements during a traversal once and only once.
    */
-  @VisibleForTesting MoveDesc<E> removeAt(int index) {
+  @VisibleForTesting
+  MoveDesc<E> removeAt(int index) {
     checkPositionIndex(index, size);
     modCount++;
     size--;
@@ -387,8 +384,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       return null;
     }
     E actualLastElement = elementData(size);
-    int lastElementAt = heapForIndex(size)
-        .getCorrectLastElement(actualLastElement);
+    int lastElementAt = heapForIndex(size).getCorrectLastElement(actualLastElement);
     E toTrickle = elementData(size);
     queue[size] = null;
     MoveDesc<E> changes = fillHole(index, toTrickle);
@@ -425,9 +421,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       // there.
       return heap.tryCrossOverAndBubbleUp(index, vacated, toTrickle);
     } else {
-      return (bubbledTo < index)
-          ? new MoveDesc<E>(toTrickle, elementData(index))
-          : null;
+      return (bubbledTo < index) ? new MoveDesc<E>(toTrickle, elementData(index)) : null;
     }
   }
 
@@ -458,19 +452,20 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   private static final int EVEN_POWERS_OF_TWO = 0x55555555;
   private static final int ODD_POWERS_OF_TWO = 0xaaaaaaaa;
 
-  @VisibleForTesting static boolean isEvenLevel(int index) {
+  @VisibleForTesting
+  static boolean isEvenLevel(int index) {
     int oneBased = index + 1;
     checkState(oneBased > 0, "negative index");
     return (oneBased & EVEN_POWERS_OF_TWO) > (oneBased & ODD_POWERS_OF_TWO);
   }
 
   /**
-   * Returns {@code true} if the MinMax heap structure holds. This is only used
-   * in testing.
+   * Returns {@code true} if the MinMax heap structure holds. This is only used in testing.
    *
    * TODO(kevinb): move to the test class?
    */
-  @VisibleForTesting boolean isIntact() {
+  @VisibleForTesting
+  boolean isIntact() {
     for (int i = 1; i < size; i++) {
       if (!heapForIndex(i).verifyIndex(i)) {
         return false;
@@ -480,10 +475,9 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   /**
-   * Each instance of MinMaxPriortyQueue encapsulates two instances of Heap:
-   * a min-heap and a max-heap. Conceptually, these might each have their own
-   * array for storage, but for efficiency's sake they are stored interleaved on
-   * alternate heap levels in the same array (MMPQ.queue).
+   * Each instance of MinMaxPriortyQueue encapsulates two instances of Heap: a min-heap and a
+   * max-heap. Conceptually, these might each have their own array for storage, but for efficiency's
+   * sake they are stored interleaved on alternate heap levels in the same array (MMPQ.queue).
    */
   private class Heap {
     final Ordering<E> ordering;
@@ -498,12 +492,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Tries to move {@code toTrickle} from a min to a max level and
-     * bubble up there. If it moved before {@code removeIndex} this method
-     * returns a pair as described in {@link #removeAt}.
+     * Tries to move {@code toTrickle} from a min to a max level and bubble up there. If it moved
+     * before {@code removeIndex} this method returns a pair as described in {@link #removeAt}.
      */
-    MoveDesc<E> tryCrossOverAndBubbleUp(
-        int removeIndex, int vacated, E toTrickle) {
+    MoveDesc<E> tryCrossOverAndBubbleUp(int removeIndex, int vacated, E toTrickle) {
       int crossOver = crossOver(vacated, toTrickle);
       if (crossOver == vacated) {
         return null;
@@ -522,8 +514,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
         parent = elementData(getParentIndex(removeIndex));
       }
       // bubble it up the opposite heap
-      if (otherHeap.bubbleUpAlternatingLevels(crossOver, toTrickle)
-          < removeIndex) {
+      if (otherHeap.bubbleUpAlternatingLevels(crossOver, toTrickle) < removeIndex) {
         return new MoveDesc<E>(toTrickle, parent);
       } else {
         return null;
@@ -547,8 +538,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Bubbles a value from {@code index} up the levels of this heap, and
-     * returns the index the element ended up at.
+     * Bubbles a value from {@code index} up the levels of this heap, and returns the index the
+     * element ended up at.
      */
     int bubbleUpAlternatingLevels(int index, E x) {
       while (index > 2) {
@@ -565,9 +556,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Returns the index of minimum value between {@code index} and
-     * {@code index + len}, or {@code -1} if {@code index} is greater than
-     * {@code size}.
+     * Returns the index of minimum value between {@code index} and {@code index + len}, or
+     * {@code -1} if {@code index} is greater than {@code size}.
      */
     int findMin(int index, int len) {
       if (index >= size) {
@@ -603,9 +593,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Moves an element one level up from a min level to a max level
-     * (or vice versa).
-     * Returns the new position of the element.
+     * Moves an element one level up from a min level to a max level (or vice versa). Returns the
+     * new position of the element.
      */
     int crossOverUp(int index, E x) {
       if (index == 0) {
@@ -621,8 +610,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
         // bubble up alternate levels, violating the invariant.
         int grandparentIndex = getParentIndex(parentIndex);
         int uncleIndex = getRightChildIndex(grandparentIndex);
-        if (uncleIndex != parentIndex
-            && getLeftChildIndex(uncleIndex) >= size) {
+        if (uncleIndex != parentIndex && getLeftChildIndex(uncleIndex) >= size) {
           E uncleElement = elementData(uncleIndex);
           if (ordering.compare(uncleElement, parentElement) < 0) {
             parentIndex = uncleIndex;
@@ -642,19 +630,18 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     /**
      * Returns the conceptually correct last element of the heap.
      *
-     * <p>Since the last element of the array is actually in the
-     * middle of the sorted structure, a childless uncle node could be
-     * smaller, which would corrupt the invariant if this element
-     * becomes the new parent of the uncle. In that case, we first
-     * switch the last element with its uncle, before returning.
+     * <p>
+     * Since the last element of the array is actually in the middle of the sorted structure, a
+     * childless uncle node could be smaller, which would corrupt the invariant if this element
+     * becomes the new parent of the uncle. In that case, we first switch the last element with its
+     * uncle, before returning.
      */
     int getCorrectLastElement(E actualLastElement) {
       int parentIndex = getParentIndex(size);
       if (parentIndex != 0) {
         int grandparentIndex = getParentIndex(parentIndex);
         int uncleIndex = getRightChildIndex(grandparentIndex);
-        if (uncleIndex != parentIndex
-            && getLeftChildIndex(uncleIndex) >= size) {
+        if (uncleIndex != parentIndex && getLeftChildIndex(uncleIndex) >= size) {
           E uncleElement = elementData(uncleIndex);
           if (ordering.compare(uncleElement, actualLastElement) < 0) {
             queue[uncleIndex] = actualLastElement;
@@ -667,8 +654,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Crosses an element over to the opposite heap by moving it one level down
-     * (or up if there are no elements below it).
+     * Crosses an element over to the opposite heap by moving it one level down (or up if there are
+     * no elements below it).
      *
      * Returns the new position of the element.
      */
@@ -676,8 +663,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       int minChildIndex = findMinChild(index);
       // TODO(kevinb): split the && into two if's and move crossOverUp so it's
       // only called when there's no child.
-      if ((minChildIndex > 0)
-          && (ordering.compare(elementData(minChildIndex), x) < 0)) {
+      if ((minChildIndex > 0) && (ordering.compare(elementData(minChildIndex), x) < 0)) {
         queue[index] = elementData(minChildIndex);
         queue[minChildIndex] = x;
         return minChildIndex;
@@ -686,12 +672,11 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Fills the hole at {@code index} by moving in the least of its
-     * grandchildren to this position, then recursively filling the new hole
-     * created.
+     * Fills the hole at {@code index} by moving in the least of its grandchildren to this position,
+     * then recursively filling the new hole created.
      *
-     * @return the position of the new hole (where the lowest grandchild moved
-     *     from, that had no grandchild to replace it)
+     * @return the position of the new hole (where the lowest grandchild moved from, that had no
+     *         grandchild to replace it)
      */
     int fillHoleAt(int index) {
       int minGrandchildIndex;
@@ -703,12 +688,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     private boolean verifyIndex(int i) {
-      if ((getLeftChildIndex(i) < size)
-          && (compareElements(i, getLeftChildIndex(i)) > 0)) {
+      if ((getLeftChildIndex(i) < size) && (compareElements(i, getLeftChildIndex(i)) > 0)) {
         return false;
       }
-      if ((getRightChildIndex(i) < size)
-          && (compareElements(i, getRightChildIndex(i)) > 0)) {
+      if ((getRightChildIndex(i) < size) && (compareElements(i, getRightChildIndex(i)) > 0)) {
         return false;
       }
       if ((i > 0) && (compareElements(i, getParentIndex(i)) > 0)) {
@@ -742,8 +725,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   /**
    * Iterates the elements of the queue in no particular order.
    *
-   * If the underlying queue is modified during iteration an exception will be
-   * thrown.
+   * If the underlying queue is modified during iteration an exception will be thrown.
    */
   private class QueueIterator implements Iterator<E> {
     private int cursor = -1;
@@ -753,13 +735,15 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     private E lastFromForgetMeNot;
     private boolean canRemove;
 
-    @Override public boolean hasNext() {
+    @Override
+    public boolean hasNext() {
       checkModCount();
       return (nextNotInSkipMe(cursor + 1) < size())
           || ((forgetMeNot != null) && !forgetMeNot.isEmpty());
     }
 
-    @Override public E next() {
+    @Override
+    public E next() {
       checkModCount();
       int tempCursor = nextNotInSkipMe(cursor + 1);
       if (tempCursor < size()) {
@@ -774,11 +758,11 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
           return lastFromForgetMeNot;
         }
       }
-      throw new NoSuchElementException(
-          "iterator moved past last element in queue.");
+      throw new NoSuchElementException("iterator moved past last element in queue.");
     }
 
-    @Override public void remove() {
+    @Override
+    public void remove() {
       checkRemove(canRemove);
       checkModCount();
       canRemove = false;
@@ -828,8 +812,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     /**
-     * Returns the index of the first element after {@code c} that is not in
-     * {@code skipMe} and returns {@code size()} if there is no such element.
+     * Returns the index of the first element after {@code c} that is not in {@code skipMe} and
+     * returns {@code size()} if there is no such element.
      */
     private int nextNotInSkipMe(int c) {
       if (skipMe != null) {
@@ -842,54 +826,57 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   /**
-   * Returns an iterator over the elements contained in this collection,
-   * <i>in no particular order</i>.
+   * Returns an iterator over the elements contained in this collection, <i>in no particular
+   * order</i>.
    *
-   * <p>The iterator is <i>fail-fast</i>: If the MinMaxPriorityQueue is modified
-   * at any time after the iterator is created, in any way except through the
-   * iterator's own remove method, the iterator will generally throw a
-   * {@link ConcurrentModificationException}. Thus, in the face of concurrent
-   * modification, the iterator fails quickly and cleanly, rather than risking
-   * arbitrary, non-deterministic behavior at an undetermined time in the
-   * future.
+   * <p>
+   * The iterator is <i>fail-fast</i>: If the MinMaxPriorityQueue is modified at any time after the
+   * iterator is created, in any way except through the iterator's own remove method, the iterator
+   * will generally throw a {@link ConcurrentModificationException}. Thus, in the face of concurrent
+   * modification, the iterator fails quickly and cleanly, rather than risking arbitrary,
+   * non-deterministic behavior at an undetermined time in the future.
    *
-   * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
-   * as it is, generally speaking, impossible to make any hard guarantees in the
-   * presence of unsynchronized concurrent modification.  Fail-fast iterators
-   * throw {@code ConcurrentModificationException} on a best-effort basis.
-   * Therefore, it would be wrong to write a program that depended on this
-   * exception for its correctness: <i>the fail-fast behavior of iterators
-   * should be used only to detect bugs.</i>
+   * <p>
+   * Note that the fail-fast behavior of an iterator cannot be guaranteed as it is, generally
+   * speaking, impossible to make any hard guarantees in the presence of unsynchronized concurrent
+   * modification. Fail-fast iterators throw {@code ConcurrentModificationException} on a
+   * best-effort basis. Therefore, it would be wrong to write a program that depended on this
+   * exception for its correctness: <i>the fail-fast behavior of iterators should be used only to
+   * detect bugs.</i>
    *
    * @return an iterator over the elements contained in this collection
    */
-  @Override public Iterator<E> iterator() {
+  @Override
+  public Iterator<E> iterator() {
     return new QueueIterator();
   }
 
-  @Override public void clear() {
+  @Override
+  public void clear() {
     for (int i = 0; i < size; i++) {
       queue[i] = null;
     }
     size = 0;
   }
 
-  @Override public Object[] toArray() {
+  @Override
+  public Object[] toArray() {
     Object[] copyTo = new Object[size];
     System.arraycopy(queue, 0, copyTo, 0, size);
     return copyTo;
   }
 
   /**
-   * Returns the comparator used to order the elements in this queue. Obeys the
-   * general contract of {@link PriorityQueue#comparator}, but returns {@link
-   * Ordering#natural} instead of {@code null} to indicate natural ordering.
+   * Returns the comparator used to order the elements in this queue. Obeys the general contract of
+   * {@link PriorityQueue#comparator}, but returns {@link Ordering#natural} instead of {@code null}
+   * to indicate natural ordering.
    */
   public Comparator<? super E> comparator() {
     return minHeap.ordering;
   }
 
-  @VisibleForTesting int capacity() {
+  @VisibleForTesting
+  int capacity() {
     return queue.length;
   }
 
@@ -897,12 +884,13 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   private static final int DEFAULT_CAPACITY = 11;
 
-  @VisibleForTesting static int initialQueueSize(int configuredExpectedSize,
-      int maximumSize, Iterable<?> initialContents) {
+  @VisibleForTesting
+  static int initialQueueSize(int configuredExpectedSize, int maximumSize,
+      Iterable<?> initialContents) {
     // Start with what they said, if they said it, otherwise DEFAULT_CAPACITY
-    int result = (configuredExpectedSize == Builder.UNSET_EXPECTED_SIZE)
-        ? DEFAULT_CAPACITY
-        : configuredExpectedSize;
+    int result =
+        (configuredExpectedSize == Builder.UNSET_EXPECTED_SIZE) ? DEFAULT_CAPACITY
+            : configuredExpectedSize;
 
     // Enlarge to contain initial contents
     if (initialContents instanceof Collection) {
@@ -926,9 +914,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   /** Returns ~2x the old capacity if small; ~1.5x otherwise. */
   private int calculateNewCapacity() {
     int oldCapacity = queue.length;
-    int newCapacity = (oldCapacity < 64)
-        ? (oldCapacity + 1) * 2
-        : IntMath.checkedMultiply(oldCapacity / 2, 3);
+    int newCapacity =
+        (oldCapacity < 64) ? (oldCapacity + 1) * 2 : IntMath.checkedMultiply(oldCapacity / 2, 3);
     return capAtMaximumSize(newCapacity, maximumSize);
   }
 

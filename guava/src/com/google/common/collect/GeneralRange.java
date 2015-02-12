@@ -1,15 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -32,7 +32,8 @@ import javax.annotation.Nullable;
  * {@link Range}, this allows the use of an arbitrary comparator. This is designed for use in the
  * implementation of subcollections of sorted collection types.
  *
- * <p>Whenever possible, use {@code Range} instead, which is better supported.
+ * <p>
+ * Whenever possible, use {@code Range} instead, which is better supported.
  *
  * @author Louis Wasserman
  */
@@ -231,8 +232,8 @@ final class GeneralRange<T> implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(comparator, getLowerEndpoint(), getLowerBoundType(), getUpperEndpoint(),
-        getUpperBoundType());
+    return Objects.hashCode(comparator, getLowerEndpoint(), getLowerBoundType(),
+        getUpperEndpoint(), getUpperBoundType());
   }
 
   private transient GeneralRange<T> reverse;
@@ -243,9 +244,10 @@ final class GeneralRange<T> implements Serializable {
   GeneralRange<T> reverse() {
     GeneralRange<T> result = reverse;
     if (result == null) {
-      result = new GeneralRange<T>(
-          Ordering.from(comparator).reverse(), hasUpperBound, getUpperEndpoint(),
-          getUpperBoundType(), hasLowerBound, getLowerEndpoint(), getLowerBoundType());
+      result =
+          new GeneralRange<T>(Ordering.from(comparator).reverse(), hasUpperBound,
+              getUpperEndpoint(), getUpperBoundType(), hasLowerBound, getLowerEndpoint(),
+              getLowerBoundType());
       result.reverse = this;
       return this.reverse = result;
     }
@@ -254,15 +256,11 @@ final class GeneralRange<T> implements Serializable {
 
   @Override
   public String toString() {
-    return new StringBuilder()
-        .append(comparator)
-        .append(":")
+    return new StringBuilder().append(comparator).append(":")
         .append(lowerBoundType == CLOSED ? '[' : '(')
-        .append(hasLowerBound ? lowerEndpoint : "-\u221e")
-        .append(',')
+        .append(hasLowerBound ? lowerEndpoint : "-\u221e").append(',')
         .append(hasUpperBound ? upperEndpoint : "\u221e")
-        .append(upperBoundType == CLOSED ? ']' : ')')
-        .toString();
+        .append(upperBoundType == CLOSED ? ']' : ')').toString();
   }
 
   T getLowerEndpoint() {

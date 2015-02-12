@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.google.common.collect;
 
@@ -26,13 +24,13 @@ import java.util.EnumMap;
 import javax.annotation.Nullable;
 
 /**
- * Implementation of {@link ImmutableMap} backed by a non-empty {@link
- * java.util.EnumMap}.
+ * Implementation of {@link ImmutableMap} backed by a non-empty {@link java.util.EnumMap}.
  *
  * @author Louis Wasserman
  */
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // we're overriding default serialization
+@SuppressWarnings("serial")
+// we're overriding default serialization
 final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutableMap<K, V> {
   static <K extends Enum<K>, V> ImmutableMap<K, V> asImmutable(EnumMap<K, V> map) {
     switch (map.size()) {
@@ -54,7 +52,8 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
     checkArgument(!delegate.isEmpty());
   }
 
-  @Override UnmodifiableIterator<K> keyIterator() {
+  @Override
+  UnmodifiableIterator<K> keyIterator() {
     return Iterators.unmodifiableIterator(delegate.keySet().iterator());
   }
 
@@ -95,22 +94,25 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   }
 
   // All callers of the constructor are restricted to <K extends Enum<K>>.
-  @Override Object writeReplace() {
+  @Override
+  Object writeReplace() {
     return new EnumSerializedForm<K, V>(delegate);
   }
 
   /*
    * This class is used to serialize ImmutableEnumSet instances.
    */
-  private static class EnumSerializedForm<K extends Enum<K>, V>
-      implements Serializable {
+  private static class EnumSerializedForm<K extends Enum<K>, V> implements Serializable {
     final EnumMap<K, V> delegate;
+
     EnumSerializedForm(EnumMap<K, V> delegate) {
       this.delegate = delegate;
     }
+
     Object readResolve() {
       return new ImmutableEnumMap<K, V>(delegate);
     }
+
     private static final long serialVersionUID = 0;
   }
 }

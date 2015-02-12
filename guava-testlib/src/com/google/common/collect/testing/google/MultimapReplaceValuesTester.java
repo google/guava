@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -41,8 +39,7 @@ import java.util.List;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class MultimapReplaceValuesTester<K, V>
-    extends AbstractMultimapTester<K, V, Multimap<K, V>> {
+public class MultimapReplaceValuesTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
 
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE, ALLOWS_NULL_VALUES})
   public void testReplaceValuesWithNullValue() {
@@ -51,7 +48,7 @@ public class MultimapReplaceValuesTester<K, V>
     multimap().replaceValues(k0(), values);
     assertGet(k0(), values);
   }
-  
+
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE, ALLOWS_NULL_KEYS})
   public void testReplaceValuesWithNullKey() {
     @SuppressWarnings("unchecked")
@@ -59,7 +56,7 @@ public class MultimapReplaceValuesTester<K, V>
     multimap().replaceValues(null, values);
     assertGet(null, values);
   }
-  
+
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceEmptyValues() {
     int size = multimap().size();
@@ -69,7 +66,7 @@ public class MultimapReplaceValuesTester<K, V>
     assertGet(k3(), values);
     assertEquals(size + values.size(), multimap().size());
   }
-  
+
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesWithEmpty() {
     int size = multimap().size();
@@ -80,19 +77,14 @@ public class MultimapReplaceValuesTester<K, V>
     assertGet(k0());
     assertEquals(size - oldValues.size(), multimap().size());
   }
-  
+
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesWithDuplicates() {
     int size = multimap().size();
     List<V> oldValues = new ArrayList<V>(multimap().get(k0()));
-    List<V> values = Arrays.asList(
-        v0(),
-        v3(),
-        v0());
+    List<V> values = Arrays.asList(v0(), v3(), v0());
     assertEquals(oldValues, new ArrayList<V>(multimap().replaceValues(k0(), values)));
-    assertEquals(
-        size - oldValues.size() + multimap().get(k0()).size(),
-        multimap().size());
+    assertEquals(size - oldValues.size() + multimap().get(k0()).size(), multimap().size());
     assertTrue(multimap().get(k0()).containsAll(values));
   }
 
@@ -113,15 +105,14 @@ public class MultimapReplaceValuesTester<K, V>
       assertEquals(size + values.size() - oldKeyValues.size(), multimap().size());
     }
   }
-  
+
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesPropagatesToGet() {
     Collection<V> getCollection = multimap().get(k0());
     @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(v0(), v2(), v3());
     multimap().replaceValues(k0(), values);
-    assertThat(getCollection).containsExactly(
-        v0(), v2(), v3());
+    assertThat(getCollection).containsExactly(v0(), v2(), v3());
   }
 
   @MapFeature.Require(absent = SUPPORTS_REMOVE)

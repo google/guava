@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2005 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -43,14 +41,13 @@ public class FinalizableReferenceQueueTest extends TestCase {
   }
 
   public void testFinalizeReferentCalled() {
-    final MockReference reference = new MockReference(
-        frq = new FinalizableReferenceQueue());
+    final MockReference reference = new MockReference(frq = new FinalizableReferenceQueue());
 
     GcFinalization.awaitDone(new GcFinalization.FinalizationPredicate() {
-        public boolean isDone() {
-          return reference.finalizeReferentCalled;
-        }
-      });
+      public boolean isDone() {
+        return reference.finalizeReferentCalled;
+      }
+    });
   }
 
   static class MockReference extends FinalizableWeakReference<Object> {
@@ -68,9 +65,8 @@ public class FinalizableReferenceQueueTest extends TestCase {
   }
 
   /**
-   * Keeps a weak reference to the underlying reference queue. When this
-   * reference is cleared, we know that the background thread has stopped
-   * and released its strong reference.
+   * Keeps a weak reference to the underlying reference queue. When this reference is cleared, we
+   * know that the background thread has stopped and released its strong reference.
    */
   private WeakReference<ReferenceQueue<Object>> queueReference;
 
@@ -80,23 +76,20 @@ public class FinalizableReferenceQueueTest extends TestCase {
   }
 
   /**
-   * If we don't keep a strong reference to the reference object, it won't
-   * be enqueued.
+   * If we don't keep a strong reference to the reference object, it won't be enqueued.
    */
   FinalizableWeakReference<Object> reference;
 
   /**
-   * Create the FRQ in a method that goes out of scope so that we're sure
-   * it will be reclaimed.
+   * Create the FRQ in a method that goes out of scope so that we're sure it will be reclaimed.
    */
   private void weaklyReferenceQueue() {
     frq = new FinalizableReferenceQueue();
     queueReference = new WeakReference<ReferenceQueue<Object>>(frq.queue);
 
     /*
-     * Queue and clear a reference for good measure. We test later on that
-     * the finalizer thread stopped, but we should test that it actually
-     * started first.
+     * Queue and clear a reference for good measure. We test later on that the finalizer thread
+     * stopped, but we should test that it actually started first.
      */
     reference = new FinalizableWeakReference<Object>(new Object(), frq) {
       @Override
@@ -112,7 +105,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
         new FinalizableReferenceQueue.DecoupledLoader() {
           @Override
           URLClassLoader newLoader(URL base) {
-            return new DecoupledClassLoader(new URL[] { base });
+            return new DecoupledClassLoader(new URL[] {base});
           }
         };
 

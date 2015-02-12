@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -39,37 +37,44 @@ final class BenchmarkHelpers {
    */
   public enum SetImpl {
     Hash {
-      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+      @Override
+      <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
         return new HashSet<E>(contents);
       }
     },
     LinkedHash {
-      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+      @Override
+      <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
         return new LinkedHashSet<E>(contents);
       }
     },
     Tree {
-      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+      @Override
+      <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
         return new TreeSet<E>(contents);
       }
     },
     Unmodifiable {
-      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+      @Override
+      <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
         return Collections.unmodifiableSet(new HashSet<E>(contents));
       }
     },
     Synchronized {
-      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+      @Override
+      <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
         return Collections.synchronizedSet(new HashSet<E>(contents));
       }
     },
     Immutable {
-      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+      @Override
+      <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
         return ImmutableSet.copyOf(contents);
       }
     },
     ImmutableSorted {
-      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+      @Override
+      <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
         return ImmutableSortedSet.copyOf(contents);
       }
     },
@@ -190,7 +195,7 @@ final class BenchmarkHelpers {
   }
 
   enum BiMapImpl {
-    Hash{
+    Hash {
       @Override
       <K, V> BiMap<K, V> create(BiMap<K, V> map) {
         return HashBiMap.create(map);
@@ -288,8 +293,8 @@ final class BenchmarkHelpers {
       }
     };
 
-    abstract <R extends Comparable<R>, C extends Comparable<C>, V>
-        Table<R, C, V> create(Table<R, C, V> contents);
+    abstract <R extends Comparable<R>, C extends Comparable<C>, V> Table<R, C, V> create(
+        Table<R, C, V> contents);
   }
 
   public enum Value {

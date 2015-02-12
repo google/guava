@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -26,22 +24,21 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
 /**
- * A generic JUnit test which tests conditional {@code setCount()} operations on
- * a multiset. Can't be invoked directly; please see
- * {@link MultisetTestSuiteBuilder}.
+ * A generic JUnit test which tests conditional {@code setCount()} operations on a multiset. Can't
+ * be invoked directly; please see {@link MultisetTestSuiteBuilder}.
  *
  * @author Chris Povirk
  */
 @GwtCompatible
-public class MultisetSetCountConditionallyTester<E> extends
-    AbstractMultisetSetCountTester<E> {
-  @Override void setCountCheckReturnValue(E element, int count) {
-    assertTrue(
-        "setCount() with the correct expected present count should return true",
+public class MultisetSetCountConditionallyTester<E> extends AbstractMultisetSetCountTester<E> {
+  @Override
+  void setCountCheckReturnValue(E element, int count) {
+    assertTrue("setCount() with the correct expected present count should return true",
         setCount(element, count));
   }
 
-  @Override void setCountNoCheckReturnValue(E element, int count) {
+  @Override
+  void setCountNoCheckReturnValue(E element, int count) {
     setCount(element, count);
   }
 
@@ -52,8 +49,7 @@ public class MultisetSetCountConditionallyTester<E> extends
   private void assertSetCountNegativeOldCount() {
     try {
       getMultiset().setCount(e3(), -1, 1);
-      fail("calling setCount() with a negative oldCount should throw "
-          + "IllegalArgumentException");
+      fail("calling setCount() with a negative oldCount should throw " + "IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
   }
@@ -100,8 +96,7 @@ public class MultisetSetCountConditionallyTester<E> extends
   }
 
   /*
-   * TODO: test that unmodifiable multisets either throw UOE or return false
-   * when both are valid options. Currently we test the UOE cases and the
-   * return-false cases but not their intersection
+   * TODO: test that unmodifiable multisets either throw UOE or return false when both are valid
+   * options. Currently we test the UOE cases and the return-false cases but not their intersection
    */
 }

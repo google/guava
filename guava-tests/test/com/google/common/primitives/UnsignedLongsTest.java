@@ -1,15 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -39,7 +39,7 @@ import java.util.Random;
 public class UnsignedLongsTest extends TestCase {
   private static final long LEAST = 0L;
   private static final long GREATEST = 0xffffffffffffffffL;
-  
+
   public void testCompare() {
     // max value
     assertTrue(UnsignedLongs.compare(0, 0xffffffffffffffffL) < 0);
@@ -69,13 +69,12 @@ public class UnsignedLongsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testMax() {
     assertEquals(LEAST, UnsignedLongs.max(LEAST));
     assertEquals(GREATEST, UnsignedLongs.max(GREATEST));
-    assertEquals(0xff1a618b7f65ea12L, UnsignedLongs.max(
-        0x5a4316b8c153ac4dL, 8L, 100L,
-        0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
+    assertEquals(0xff1a618b7f65ea12L, UnsignedLongs.max(0x5a4316b8c153ac4dL, 8L, 100L, 0L,
+        0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
   }
 
   @SuppressWarnings("CheckReturnValue")
@@ -86,27 +85,21 @@ public class UnsignedLongsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testMin() {
     assertEquals(LEAST, UnsignedLongs.min(LEAST));
     assertEquals(GREATEST, UnsignedLongs.min(GREATEST));
-    assertEquals(0L, UnsignedLongs.min(
-        0x5a4316b8c153ac4dL, 8L, 100L,
-        0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
+    assertEquals(0L, UnsignedLongs.min(0x5a4316b8c153ac4dL, 8L, 100L, 0L, 0x6cf78a4b139a4e2aL,
+        0xff1a618b7f65ea12L));
   }
-  
+
   public void testLexicographicalComparator() {
-    List<long[]> ordered = Arrays.asList(
-        new long[] {},
-        new long[] {LEAST},
-        new long[] {LEAST, LEAST},
-        new long[] {LEAST, (long) 1},
-        new long[] {(long) 1},
-        new long[] {(long) 1, LEAST},
-        new long[] {GREATEST, GREATEST - (long) 1},
-        new long[] {GREATEST, GREATEST},
-        new long[] {GREATEST, GREATEST, GREATEST});
-    
+    List<long[]> ordered =
+        Arrays.asList(new long[] {}, new long[] {LEAST}, new long[] {LEAST, LEAST}, new long[] {
+            LEAST, (long) 1}, new long[] {(long) 1}, new long[] {(long) 1, LEAST}, new long[] {
+            GREATEST, GREATEST - (long) 1}, new long[] {GREATEST, GREATEST}, new long[] {GREATEST,
+            GREATEST, GREATEST});
+
     Comparator<long[]> comparator = UnsignedLongs.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);
   }
@@ -140,9 +133,11 @@ public class UnsignedLongsTest extends TestCase {
       long dividend = r.nextLong();
       long divisor = r.nextLong();
       // Test that the Euclidean property is preserved:
-      assertEquals(0,
-          dividend - (divisor * UnsignedLongs.divide(dividend, divisor)
-          + UnsignedLongs.remainder(dividend, divisor)));
+      assertEquals(
+          0,
+          dividend
+              - (divisor * UnsignedLongs.divide(dividend, divisor) + UnsignedLongs.remainder(
+                  dividend, divisor)));
     }
   }
 
@@ -257,14 +252,10 @@ public class UnsignedLongsTest extends TestCase {
   }
 
   public void testToString() {
-    String[] tests = {
-        "ffffffffffffffff",
-        "7fffffffffffffff",
-        "ff1a618b7f65ea12",
-        "5a4316b8c153ac4d",
-        "6cf78a4b139a4e2a"
-    };
-    int[] bases = { 2, 5, 7, 8, 10, 16 };
+    String[] tests =
+        {"ffffffffffffffff", "7fffffffffffffff", "ff1a618b7f65ea12", "5a4316b8c153ac4d",
+            "6cf78a4b139a4e2a"};
+    int[] bases = {2, 5, 7, 8, 10, 16};
     for (int base : bases) {
       for (String x : tests) {
         BigInteger xValue = new BigInteger(x, 16);

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -32,14 +30,15 @@ public class WhitespaceMatcherBenchmark {
 
   private static final String OLD_WHITESPACE_TABLE =
       "\u0001\u0000\u00a0\u0000\u0000\u0000\u0000\u0000"
-      + "\u0000\u0009\n\u000b\u000c\r\u0000\u0000\u2028\u2029\u0000\u0000\u0000\u0000\u0000\u202f"
-      + "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0020\u0000\u0000\u0000\u0000\u0000"
-      + "\u0000\u0000\u0000\u0000\u0000\u3000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
-      + "\u0000\u0000\u0085\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a"
-      + "\u0000\u0000\u0000\u0000\u0000\u205f\u1680\u0000\u0000\u180e\u0000\u0000\u0000";
+          + "\u0000\u0009\n\u000b\u000c\r\u0000\u0000\u2028\u2029\u0000\u0000\u0000\u0000\u0000\u202f"
+          + "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0020\u0000\u0000\u0000\u0000\u0000"
+          + "\u0000\u0000\u0000\u0000\u0000\u3000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
+          + "\u0000\u0000\u0085\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a"
+          + "\u0000\u0000\u0000\u0000\u0000\u205f\u1680\u0000\u0000\u180e\u0000\u0000\u0000";
 
   public static final CharMatcher OLD_WHITESPACE = new CharMatcher() {
-    @Override public boolean matches(char c) {
+    @Override
+    public boolean matches(char c) {
       return OLD_WHITESPACE_TABLE.charAt(c % 79) == c;
     }
   };
@@ -69,7 +68,8 @@ public class WhitespaceMatcherBenchmark {
     teststring = newTestString(new Random(1), bitSet, percentMatching);
   }
 
-  @Benchmark public int countIn(int reps) {
+  @Benchmark
+  public int countIn(int reps) {
     int result = 0;
     CharMatcher matcher = this.matcher;
     String teststring = this.teststring;
@@ -79,7 +79,8 @@ public class WhitespaceMatcherBenchmark {
     return result;
   }
 
-  @Benchmark public int collapseFrom(int reps) {
+  @Benchmark
+  public int collapseFrom(int reps) {
     int result = 0;
     CharMatcher matcher = this.matcher;
     String teststring = this.teststring;

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -39,8 +37,8 @@ public class UnsignedBytesBenchmark {
   private Comparator<byte[]> unsafeImpl;
 
   // 4, 8, 64, 1K, 1M, 1M (unaligned), 64M, 64M (unaligned)
-  //@Param({"4", "8", "64", "1024", "1048576", "1048577", "6710884", "6710883"})
-  @Param({"4", "8", "64", "1024" })
+  // @Param({"4", "8", "64", "1024", "1048576", "1048577", "6710884", "6710883"})
+  @Param({"4", "8", "64", "1024"})
   private int length;
 
   @BeforeExperiment
@@ -56,11 +54,11 @@ public class UnsignedBytesBenchmark {
     ba4[ba1.length - 1] = (byte) 42;
 
     javaImpl = UnsignedBytes.lexicographicalComparatorJavaImpl();
-    unsafeImpl =
-        UnsignedBytes.LexicographicalComparatorHolder.UnsafeComparator.INSTANCE;
+    unsafeImpl = UnsignedBytes.LexicographicalComparatorHolder.UnsafeComparator.INSTANCE;
   }
 
-  @Benchmark void longEqualJava(int reps) {
+  @Benchmark
+  void longEqualJava(int reps) {
     for (int i = 0; i < reps; ++i) {
       if (javaImpl.compare(ba1, ba2) != 0) {
         throw new Error(); // deoptimization
@@ -68,7 +66,8 @@ public class UnsignedBytesBenchmark {
     }
   }
 
-  @Benchmark void longEqualUnsafe(int reps) {
+  @Benchmark
+  void longEqualUnsafe(int reps) {
     for (int i = 0; i < reps; ++i) {
       if (unsafeImpl.compare(ba1, ba2) != 0) {
         throw new Error(); // deoptimization
@@ -76,7 +75,8 @@ public class UnsignedBytesBenchmark {
     }
   }
 
-  @Benchmark void diffLastJava(int reps) {
+  @Benchmark
+  void diffLastJava(int reps) {
     for (int i = 0; i < reps; ++i) {
       if (javaImpl.compare(ba3, ba4) == 0) {
         throw new Error(); // deoptimization
@@ -84,7 +84,8 @@ public class UnsignedBytesBenchmark {
     }
   }
 
-  @Benchmark void diffLastUnsafe(int reps) {
+  @Benchmark
+  void diffLastUnsafe(int reps) {
     for (int i = 0; i < reps; ++i) {
       if (unsafeImpl.compare(ba3, ba4) == 0) {
         throw new Error(); // deoptimization
@@ -93,11 +94,7 @@ public class UnsignedBytesBenchmark {
   }
 
   /*
-  try {
-    UnsignedBytesBenchmark bench = new UnsignedBytesBenchmark();
-    bench.length = 1024;
-    bench.setUp();
-    bench.timeUnsafe(100000);
-  } catch (Exception e) {
-  }*/
+   * try { UnsignedBytesBenchmark bench = new UnsignedBytesBenchmark(); bench.length = 1024;
+   * bench.setUp(); bench.timeUnsafe(100000); } catch (Exception e) { }
+   */
 }

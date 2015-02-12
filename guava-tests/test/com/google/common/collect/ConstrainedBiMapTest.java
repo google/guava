@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -53,23 +51,17 @@ public class ConstrainedBiMapTest extends TestCase {
     suite.addTest(BiMapTestSuiteBuilder
         .using(new ConstrainedBiMapGenerator())
         .named("Maps.constrainedBiMap[HashBiMap]")
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            MapFeature.ALLOWS_NULL_KEYS,
-            MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            MapFeature.GENERAL_PURPOSE,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
-        .createTestSuite());
+        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+            MapFeature.ALLOWS_NULL_KEYS, MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES, MapFeature.GENERAL_PURPOSE,
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION).createTestSuite());
     suite.addTestSuite(ConstrainedBiMapTest.class);
     return suite;
   }
 
   public void testPutWithForbiddenKeyForbiddenValue() {
-    BiMap<String, String> map = MapConstraints.constrainedBiMap(
-        HashBiMap.<String, String> create(),
-        TEST_CONSTRAINT);
+    BiMap<String, String> map =
+        MapConstraints.constrainedBiMap(HashBiMap.<String, String>create(), TEST_CONSTRAINT);
     try {
       map.put(TEST_KEY, TEST_VALUE);
       fail("Expected IllegalArgumentException");
@@ -79,9 +71,8 @@ public class ConstrainedBiMapTest extends TestCase {
   }
 
   public void testPutWithForbiddenKeyAllowedValue() {
-    BiMap<String, String> map = MapConstraints.constrainedBiMap(
-        HashBiMap.<String, String> create(),
-        TEST_CONSTRAINT);
+    BiMap<String, String> map =
+        MapConstraints.constrainedBiMap(HashBiMap.<String, String>create(), TEST_CONSTRAINT);
     try {
       map.put(TEST_KEY, "allowed");
       fail("Expected IllegalArgumentException");
@@ -91,9 +82,8 @@ public class ConstrainedBiMapTest extends TestCase {
   }
 
   public void testPutWithAllowedKeyForbiddenValue() {
-    BiMap<String, String> map = MapConstraints.constrainedBiMap(
-        HashBiMap.<String, String> create(),
-        TEST_CONSTRAINT);
+    BiMap<String, String> map =
+        MapConstraints.constrainedBiMap(HashBiMap.<String, String>create(), TEST_CONSTRAINT);
     try {
       map.put("allowed", TEST_VALUE);
       fail("Expected IllegalArgumentException");
@@ -105,9 +95,8 @@ public class ConstrainedBiMapTest extends TestCase {
   public static final class ConstrainedBiMapGenerator extends TestStringBiMapGenerator {
     @Override
     protected BiMap<String, String> create(Entry<String, String>[] entries) {
-      BiMap<String, String> bimap = MapConstraints.constrainedBiMap(
-          HashBiMap.<String, String> create(),
-          TEST_CONSTRAINT);
+      BiMap<String, String> bimap =
+          MapConstraints.constrainedBiMap(HashBiMap.<String, String>create(), TEST_CONSTRAINT);
       for (Entry<String, String> entry : entries) {
         checkArgument(!bimap.containsKey(entry.getKey()));
         bimap.put(entry.getKey(), entry.getValue());

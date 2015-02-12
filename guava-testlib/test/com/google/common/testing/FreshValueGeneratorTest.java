@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.testing;
@@ -117,36 +115,20 @@ import java.util.regex.Pattern;
 public class FreshValueGeneratorTest extends TestCase {
 
   public void testFreshInstance() {
-    assertFreshInstances(
-        String.class, CharSequence.class,
-        Appendable.class, StringBuffer.class, StringBuilder.class,
-        Pattern.class, MatchResult.class,
-        Number.class, int.class, Integer.class,
-        long.class, Long.class,
-        short.class, Short.class,
-        byte.class, Byte.class,
-        boolean.class, Boolean.class,
-        char.class, Character.class,
-        int[].class, Object[].class,
-        UnsignedInteger.class, UnsignedLong.class,
-        BigInteger.class, BigDecimal.class,
-        Throwable.class, Error.class, Exception.class, RuntimeException.class,
-        Charset.class, Locale.class, Currency.class,
-        List.class, Map.Entry.class,
-        Object.class,
-        Equivalence.class, Predicate.class, Function.class,
-        Comparable.class, Comparator.class, Ordering.class,
-        Class.class, Type.class, TypeToken.class,
-        TimeUnit.class, Ticker.class,
-        Joiner.class, Splitter.class, CharMatcher.class,
-        InputStream.class, ByteArrayInputStream.class,
-        Reader.class, Readable.class, StringReader.class,
-        OutputStream.class, ByteArrayOutputStream.class,
-        Writer.class, StringWriter.class, File.class,
-        Buffer.class, ByteBuffer.class, CharBuffer.class,
-        ShortBuffer.class, IntBuffer.class, LongBuffer.class,
-        FloatBuffer.class, DoubleBuffer.class,
-        String[].class, Object[].class, int[].class);
+    assertFreshInstances(String.class, CharSequence.class, Appendable.class, StringBuffer.class,
+        StringBuilder.class, Pattern.class, MatchResult.class, Number.class, int.class,
+        Integer.class, long.class, Long.class, short.class, Short.class, byte.class, Byte.class,
+        boolean.class, Boolean.class, char.class, Character.class, int[].class, Object[].class,
+        UnsignedInteger.class, UnsignedLong.class, BigInteger.class, BigDecimal.class,
+        Throwable.class, Error.class, Exception.class, RuntimeException.class, Charset.class,
+        Locale.class, Currency.class, List.class, Map.Entry.class, Object.class, Equivalence.class,
+        Predicate.class, Function.class, Comparable.class, Comparator.class, Ordering.class,
+        Class.class, Type.class, TypeToken.class, TimeUnit.class, Ticker.class, Joiner.class,
+        Splitter.class, CharMatcher.class, InputStream.class, ByteArrayInputStream.class,
+        Reader.class, Readable.class, StringReader.class, OutputStream.class,
+        ByteArrayOutputStream.class, Writer.class, StringWriter.class, File.class, Buffer.class,
+        ByteBuffer.class, CharBuffer.class, ShortBuffer.class, IntBuffer.class, LongBuffer.class,
+        FloatBuffer.class, DoubleBuffer.class, String[].class, Object[].class, int[].class);
   }
 
   public void testStringArray() {
@@ -427,9 +409,9 @@ public class FreshValueGeneratorTest extends TestCase {
   }
 
   public void testNulls() throws Exception {
-    new ClassSanityTester()
-        .setDefault(Method.class, FreshValueGeneratorTest.class.getDeclaredMethod("testNulls"))
-        .testNulls(FreshValueGenerator.class);
+    new ClassSanityTester().setDefault(Method.class,
+        FreshValueGeneratorTest.class.getDeclaredMethod("testNulls")).testNulls(
+        FreshValueGenerator.class);
   }
 
   private static void assertFreshInstances(Class<?>... types) {
@@ -461,7 +443,8 @@ public class FreshValueGeneratorTest extends TestCase {
     assertEquals(value, generator.generateFresh(type));
   }
 
-  private enum EmptyEnum {}
+  private enum EmptyEnum {
+  }
 
   private enum OneConstantEnum {
     CONSTANT1

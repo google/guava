@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -27,7 +25,8 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // uses writeReplace(), not default serialization
+@SuppressWarnings("serial")
+// uses writeReplace(), not default serialization
 class RegularImmutableList<E> extends ImmutableList<E> {
   private final transient int offset;
   private final transient int size;
@@ -48,7 +47,8 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return size;
   }
 
-  @Override boolean isPartialView() {
+  @Override
+  boolean isPartialView() {
     return size != array.length;
   }
 
@@ -94,8 +94,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
 
   @Override
   ImmutableList<E> subListUnchecked(int fromIndex, int toIndex) {
-    return new RegularImmutableList<E>(
-        array, offset + fromIndex, toIndex - fromIndex);
+    return new RegularImmutableList<E>(array, offset + fromIndex, toIndex - fromIndex);
   }
 
   @SuppressWarnings("unchecked")
@@ -103,8 +102,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   public UnmodifiableListIterator<E> listIterator(int index) {
     // for performance
     // The fake cast to E is safe because the creation methods only allow E's
-    return (UnmodifiableListIterator<E>)
-        Iterators.forArray(array, offset, size, index);
+    return (UnmodifiableListIterator<E>) Iterators.forArray(array, offset, size, index);
   }
 
   // TODO(user): benchmark optimizations for equals() and see if they're worthwhile

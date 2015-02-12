@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -33,26 +31,28 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // uses writeReplace(), not default serialization
+@SuppressWarnings("serial")
+// uses writeReplace(), not default serialization
 class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
-  
+
   static final double MAX_LOAD_FACTOR = 1.2;
-  
+
   private final transient ImmutableMapEntry<K, V>[] keyTable;
   private final transient ImmutableMapEntry<K, V>[] valueTable;
   private final transient ImmutableMapEntry<K, V>[] entries;
   private final transient int mask;
   private final transient int hashCode;
-  
+
   RegularImmutableBiMap(TerminalEntry<?, ?>... entriesToAdd) {
     this(entriesToAdd.length, entriesToAdd);
   }
-  
+
   /**
    * Constructor for RegularImmutableBiMap that takes as input an array of {@code TerminalEntry}
-   * entries.  Assumes that these entries have already been checked for null.
+   * entries. Assumes that these entries have already been checked for null.
    * 
-   * <p>This allows reuse of the entry objects from the array in the actual implementation.
+   * <p>
+   * This allows reuse of the entry objects from the array in the actual implementation.
    */
   RegularImmutableBiMap(int n, TerminalEntry<?, ?>[] entriesToAdd) {
     int tableSize = Hashing.closedTableSize(n, MAX_LOAD_FACTOR);
@@ -61,38 +61,37 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     ImmutableMapEntry<K, V>[] valueTable = createEntryArray(tableSize);
     ImmutableMapEntry<K, V>[] entries = createEntryArray(n);
     int hashCode = 0;
-    
+
     for (int i = 0; i < n; i++) {
       @SuppressWarnings("unchecked")
       TerminalEntry<K, V> entry = (TerminalEntry<K, V>) entriesToAdd[i];
       K key = entry.getKey();
       V value = entry.getValue();
-      
+
       int keyHash = key.hashCode();
       int valueHash = value.hashCode();
       int keyBucket = Hashing.smear(keyHash) & mask;
       int valueBucket = Hashing.smear(valueHash) & mask;
-      
+
       ImmutableMapEntry<K, V> nextInKeyBucket = keyTable[keyBucket];
       checkNoConflictInKeyBucket(key, entry, nextInKeyBucket);
       ImmutableMapEntry<K, V> nextInValueBucket = valueTable[valueBucket];
       checkNoConflictInValueBucket(value, entry, nextInValueBucket);
       ImmutableMapEntry<K, V> newEntry =
-          (nextInKeyBucket == null && nextInValueBucket == null)
-          ? entry
-          : new NonTerminalBiMapEntry<K, V>(entry, nextInKeyBucket, nextInValueBucket);
+          (nextInKeyBucket == null && nextInValueBucket == null) ? entry
+              : new NonTerminalBiMapEntry<K, V>(entry, nextInKeyBucket, nextInValueBucket);
       keyTable[keyBucket] = newEntry;
       valueTable[valueBucket] = newEntry;
       entries[i] = newEntry;
       hashCode += keyHash ^ valueHash;
     }
-    
+
     this.keyTable = keyTable;
     this.valueTable = valueTable;
     this.entries = entries;
     this.hashCode = hashCode;
   }
-  
+
   /**
    * Constructor for RegularImmutableBiMap that makes no assumptions about the input entries.
    */
@@ -104,7 +103,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     ImmutableMapEntry<K, V>[] valueTable = createEntryArray(tableSize);
     ImmutableMapEntry<K, V>[] entries = createEntryArray(n);
     int hashCode = 0;
-    
+
     for (int i = 0; i < n; i++) {
       @SuppressWarnings("unchecked")
       Entry<K, V> entry = (Entry<K, V>) entriesToAdd[i];
@@ -115,27 +114,27 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       int valueHash = value.hashCode();
       int keyBucket = Hashing.smear(keyHash) & mask;
       int valueBucket = Hashing.smear(valueHash) & mask;
-      
+
       ImmutableMapEntry<K, V> nextInKeyBucket = keyTable[keyBucket];
       checkNoConflictInKeyBucket(key, entry, nextInKeyBucket);
       ImmutableMapEntry<K, V> nextInValueBucket = valueTable[valueBucket];
       checkNoConflictInValueBucket(value, entry, nextInValueBucket);
       ImmutableMapEntry<K, V> newEntry =
-          (nextInKeyBucket == null && nextInValueBucket == null)
-          ? new TerminalEntry<K, V>(key, value)
-          : new NonTerminalBiMapEntry<K, V>(key, value, nextInKeyBucket, nextInValueBucket);
+          (nextInKeyBucket == null && nextInValueBucket == null) ? new TerminalEntry<K, V>(key,
+              value) : new NonTerminalBiMapEntry<K, V>(key, value, nextInKeyBucket,
+              nextInValueBucket);
       keyTable[keyBucket] = newEntry;
       valueTable[valueBucket] = newEntry;
       entries[i] = newEntry;
       hashCode += keyHash ^ valueHash;
     }
-    
+
     this.keyTable = keyTable;
     this.valueTable = valueTable;
     this.entries = entries;
     this.hashCode = hashCode;
   }
-  
+
   // checkNoConflictInKeyBucket is static imported from RegularImmutableMap
 
   private static void checkNoConflictInValueBucket(Object value, Entry<?, ?> entry,
@@ -144,11 +143,13 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       checkNoConflict(!value.equals(valueBucketHead.getValue()), "value", entry, valueBucketHead);
     }
   }
-  
+
   private static final class NonTerminalBiMapEntry<K, V> extends ImmutableMapEntry<K, V> {
-    @Nullable private final ImmutableMapEntry<K, V> nextInKeyBucket;
-    @Nullable private final ImmutableMapEntry<K, V> nextInValueBucket;
-    
+    @Nullable
+    private final ImmutableMapEntry<K, V> nextInKeyBucket;
+    @Nullable
+    private final ImmutableMapEntry<K, V> nextInValueBucket;
+
     NonTerminalBiMapEntry(K key, V value, @Nullable ImmutableMapEntry<K, V> nextInKeyBucket,
         @Nullable ImmutableMapEntry<K, V> nextInValueBucket) {
       super(key, value);
@@ -207,7 +208,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   public int size() {
     return entries.length;
   }
-  
+
   private transient ImmutableBiMap<V, K> inverse;
 
   @Override
@@ -215,7 +216,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     ImmutableBiMap<V, K> result = inverse;
     return (result == null) ? inverse = new Inverse() : result;
   }
-  
+
   private final class Inverse extends ImmutableBiMap<V, K> {
 
     @Override
@@ -234,8 +235,8 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
         return null;
       }
       int bucket = Hashing.smear(value.hashCode()) & mask;
-      for (ImmutableMapEntry<K, V> entry = valueTable[bucket]; entry != null;
-           entry = entry.getNextInValueBucket()) {
+      for (ImmutableMapEntry<K, V> entry = valueTable[bucket]; entry != null; entry =
+          entry.getNextInValueBucket()) {
         if (value.equals(entry.getValue())) {
           return entry.getKey();
         }
@@ -247,7 +248,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     ImmutableSet<Entry<V, K>> createEntrySet() {
       return new InverseEntrySet();
     }
-    
+
     final class InverseEntrySet extends ImmutableMapEntrySet<V, K> {
       @Override
       ImmutableMap<V, K> map() {
@@ -290,24 +291,24 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     boolean isPartialView() {
       return false;
     }
-    
+
     @Override
     Object writeReplace() {
       return new InverseSerializedForm<K, V>(RegularImmutableBiMap.this);
     }
   }
-  
+
   private static class InverseSerializedForm<K, V> implements Serializable {
     private final ImmutableBiMap<K, V> forward;
-    
+
     InverseSerializedForm(ImmutableBiMap<K, V> forward) {
       this.forward = forward;
     }
-    
+
     Object readResolve() {
       return forward.inverse();
     }
-    
+
     private static final long serialVersionUID = 1;
   }
 }

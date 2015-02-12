@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -34,7 +32,8 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@SuppressWarnings("cast") // redundant casts are intentional and harmless
+@SuppressWarnings("cast")
+// redundant casts are intentional and harmless
 public class SignedBytesTest extends TestCase {
   private static final byte[] EMPTY = {};
   private static final byte[] ARRAY1 = {(byte) 1};
@@ -42,8 +41,7 @@ public class SignedBytesTest extends TestCase {
   private static final byte LEAST = Byte.MIN_VALUE;
   private static final byte GREATEST = Byte.MAX_VALUE;
 
-  private static final byte[] VALUES =
-      {LEAST, -1, 0, 1, GREATEST};
+  private static final byte[] VALUES = {LEAST, -1, 0, 1, GREATEST};
 
   public void testCheckedCast() {
     for (byte value : VALUES) {
@@ -71,8 +69,8 @@ public class SignedBytesTest extends TestCase {
       SignedBytes.checkedCast(value);
       fail("Cast to byte should have failed: " + value);
     } catch (IllegalArgumentException ex) {
-      assertTrue(value + " not found in exception text: " + ex.getMessage(),
-          ex.getMessage().contains(String.valueOf(value)));
+      assertTrue(value + " not found in exception text: " + ex.getMessage(), ex.getMessage()
+          .contains(String.valueOf(value)));
     }
   }
 
@@ -107,8 +105,8 @@ public class SignedBytesTest extends TestCase {
   public void testMax() {
     assertEquals(LEAST, SignedBytes.max(LEAST));
     assertEquals(GREATEST, SignedBytes.max(GREATEST));
-    assertEquals((byte) 127, SignedBytes.max(
-        (byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
+    assertEquals((byte) 127,
+        SignedBytes.max((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
   }
 
   @SuppressWarnings("CheckReturnValue")
@@ -123,8 +121,8 @@ public class SignedBytesTest extends TestCase {
   public void testMin() {
     assertEquals(LEAST, SignedBytes.min(LEAST));
     assertEquals(GREATEST, SignedBytes.min(GREATEST));
-    assertEquals((byte) -128, SignedBytes.min(
-        (byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
+    assertEquals((byte) -128,
+        SignedBytes.min((byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
   }
 
   public void testJoin() {
@@ -136,16 +134,11 @@ public class SignedBytesTest extends TestCase {
   }
 
   public void testLexicographicalComparator() {
-    List<byte[]> ordered = Arrays.asList(
-        new byte[] {},
-        new byte[] {LEAST},
-        new byte[] {LEAST, LEAST},
-        new byte[] {LEAST, (byte) 1},
-        new byte[] {(byte) 1},
-        new byte[] {(byte) 1, LEAST},
-        new byte[] {GREATEST, GREATEST - (byte) 1},
-        new byte[] {GREATEST, GREATEST},
-        new byte[] {GREATEST, GREATEST, GREATEST});
+    List<byte[]> ordered =
+        Arrays.asList(new byte[] {}, new byte[] {LEAST}, new byte[] {LEAST, LEAST}, new byte[] {
+            LEAST, (byte) 1}, new byte[] {(byte) 1}, new byte[] {(byte) 1, LEAST}, new byte[] {
+            GREATEST, GREATEST - (byte) 1}, new byte[] {GREATEST, GREATEST}, new byte[] {GREATEST,
+            GREATEST, GREATEST});
 
     Comparator<byte[]> comparator = SignedBytes.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);

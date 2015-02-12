@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.testing;
@@ -151,19 +149,21 @@ import javax.annotation.Nullable;
  * Supplies an arbitrary "default" instance for a wide range of types, often useful in testing
  * utilities.
  * 
- * <p>Covers arrays, enums and common types defined in {@code java.lang}, {@code java.lang.reflect},
- * {@code java.io}, {@code java.nio}, {@code java.math}, {@code java.util}, {@code
- * java.util.concurrent}, {@code java.util.regex}, {@code com.google.common.base}, {@code
- * com.google.common.collect} and {@code com.google.common.primitives}. In addition, if the type
- * exposes at least one public static final constant of the same type, one of the constants will be
- * used; or if the class exposes a public parameter-less constructor then it will be "new"d and
- * returned.
+ * <p>
+ * Covers arrays, enums and common types defined in {@code java.lang}, {@code java.lang.reflect},
+ * {@code java.io}, {@code java.nio}, {@code java.math}, {@code java.util},
+ * {@code java.util.concurrent}, {@code java.util.regex}, {@code com.google.common.base},
+ * {@code com.google.common.collect} and {@code com.google.common.primitives}. In addition, if the
+ * type exposes at least one public static final constant of the same type, one of the constants
+ * will be used; or if the class exposes a public parameter-less constructor then it will be "new"d
+ * and returned.
  * 
- * <p>All default instances returned by {@link #get} are generics-safe. Clients won't get type
- * errors for using {@code get(Comparator.class)} as a {@code Comparator<Foo>}, for example.
- * Immutable empty instances are returned for collection types; {@code ""} for string;
- * {@code 0} for number types; reasonable default instance for other stateless types. For mutable
- * types, a fresh instance is created each time {@code get()} is called.
+ * <p>
+ * All default instances returned by {@link #get} are generics-safe. Clients won't get type errors
+ * for using {@code get(Comparator.class)} as a {@code Comparator<Foo>}, for example. Immutable
+ * empty instances are returned for collection types; {@code ""} for string; {@code 0} for number
+ * types; reasonable default instance for other stateless types. For mutable types, a fresh instance
+ * is created each time {@code get()} is called.
  *
  * @author Kevin Bourrillion
  * @author Ben Yu
@@ -173,7 +173,8 @@ import javax.annotation.Nullable;
 public final class ArbitraryInstances {
 
   private static final Ordering<Field> BY_FIELD_NAME = new Ordering<Field>() {
-    @Override public int compare(Field left, Field right) {
+    @Override
+    public int compare(Field left, Field right) {
       return left.getName().compareTo(right.getName());
     }
   };
@@ -189,7 +190,8 @@ public final class ArbitraryInstances {
     return matcher.toMatchResult();
   }
 
-  private static final ClassToInstanceMap<Object> DEFAULTS = ImmutableClassToInstanceMap.builder()
+  private static final ClassToInstanceMap<Object> DEFAULTS = ImmutableClassToInstanceMap
+      .builder()
       // primitives
       .put(Object.class, "")
       .put(Number.class, 0)
@@ -279,10 +281,8 @@ public final class ArbitraryInstances {
       .put(SortedMapDifference.class,
           Maps.difference(ImmutableSortedMap.of(), ImmutableSortedMap.of()))
       // reflect
-      .put(AnnotatedElement.class, Object.class)
-      .put(GenericDeclaration.class, Object.class)
-      .put(Type.class, Object.class)
-      .build();
+      .put(AnnotatedElement.class, Object.class).put(GenericDeclaration.class, Object.class)
+      .put(Type.class, Object.class).build();
 
   /**
    * type -> implementation. Inherently mutable interfaces and abstract classes are mapped to their
@@ -292,8 +292,8 @@ public final class ArbitraryInstances {
 
   private static <T> void setImplementation(Class<T> type, Class<? extends T> implementation) {
     checkArgument(type != implementation, "Don't register %s to itself!", type);
-    checkArgument(!DEFAULTS.containsKey(type),
-        "A default value was already registered for %s", type);
+    checkArgument(!DEFAULTS.containsKey(type), "A default value was already registered for %s",
+        type);
     checkArgument(implementations.put(type, implementation) == null,
         "Implementation for %s was already registered", type);
   }
@@ -320,7 +320,8 @@ public final class ArbitraryInstances {
     setImplementation(Executor.class, Dummies.DummyExecutor.class);
   }
 
-  @SuppressWarnings("unchecked") // it's a subtype map
+  @SuppressWarnings("unchecked")
+  // it's a subtype map
   @Nullable
   private static <T> Class<? extends T> getImplementation(Class<T> type) {
     return (Class<? extends T>) implementations.get(type);
@@ -329,10 +330,11 @@ public final class ArbitraryInstances {
   private static final Logger logger = Logger.getLogger(ArbitraryInstances.class.getName());
 
   /**
-   * Returns an arbitrary instance for {@code type}, or {@code null} if no arbitrary instance can
-   * be determined.
+   * Returns an arbitrary instance for {@code type}, or {@code null} if no arbitrary instance can be
+   * determined.
    */
-  @Nullable public static <T> T get(Class<T> type) {
+  @Nullable
+  public static <T> T get(Class<T> type) {
     T defaultValue = DEFAULTS.getInstance(type);
     if (defaultValue != null) {
       return defaultValue;
@@ -343,9 +345,7 @@ public final class ArbitraryInstances {
     }
     if (type.isEnum()) {
       T[] enumConstants = type.getEnumConstants();
-      return (enumConstants.length == 0)
-          ? null
-          : enumConstants[0];
+      return (enumConstants.length == 0) ? null : enumConstants[0];
     }
     if (type.isArray()) {
       return createEmptyArray(type);
@@ -376,15 +376,14 @@ public final class ArbitraryInstances {
     }
   }
 
-  @Nullable private static <T> T arbitraryConstantInstanceOrNull(Class<T> type) {
+  @Nullable
+  private static <T> T arbitraryConstantInstanceOrNull(Class<T> type) {
     Field[] fields = type.getDeclaredFields();
     Arrays.sort(fields, BY_FIELD_NAME);
     for (Field field : fields) {
-      if (Modifier.isPublic(field.getModifiers())
-          && Modifier.isStatic(field.getModifiers())
+      if (Modifier.isPublic(field.getModifiers()) && Modifier.isStatic(field.getModifiers())
           && Modifier.isFinal(field.getModifiers())) {
-        if (field.getGenericType() == field.getType()
-            && type.isAssignableFrom(field.getType())) {
+        if (field.getGenericType() == field.getType() && type.isAssignableFrom(field.getType())) {
           field.setAccessible(true);
           try {
             T constant = type.cast(field.get(null));
@@ -420,7 +419,8 @@ public final class ArbitraryInstances {
     }
 
     public static final class DeterministicRandom extends Random {
-      @SuppressWarnings("unused") // invoked by reflection
+      @SuppressWarnings("unused")
+      // invoked by reflection
       public DeterministicRandom() {
         super(0);
       }
@@ -439,24 +439,28 @@ public final class ArbitraryInstances {
     }
 
     public static final class DummyRunnable implements Runnable, Serializable {
-      @Override public void run() {}
+      @Override
+      public void run() {}
     }
 
     public static final class DummyThreadFactory implements ThreadFactory, Serializable {
-      @Override public Thread newThread(Runnable r) {
+      @Override
+      public Thread newThread(Runnable r) {
         return new Thread(r);
       }
     }
 
     public static final class DummyExecutor implements Executor, Serializable {
-      @Override public void execute(Runnable command) {}
+      @Override
+      public void execute(Runnable command) {}
     }
   }
 
   private static final class NullByteSink extends ByteSink implements Serializable {
     private static final NullByteSink INSTANCE = new NullByteSink();
 
-    @Override public OutputStream openStream() {
+    @Override
+    public OutputStream openStream() {
       return ByteStreams.nullOutputStream();
     }
   }
@@ -467,11 +471,13 @@ public final class ArbitraryInstances {
   private static final class ByToString implements Comparable<Object>, Serializable {
     private static final ByToString INSTANCE = new ByToString();
 
-    @Override public int compareTo(Object o) {
+    @Override
+    public int compareTo(Object o) {
       return toString().compareTo(o.toString());
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "BY_TO_STRING";
     }
 
@@ -484,11 +490,13 @@ public final class ArbitraryInstances {
   private static final class AlwaysEqual extends Ordering<Object> implements Serializable {
     private static final AlwaysEqual INSTANCE = new AlwaysEqual();
 
-    @Override public int compare(Object o1, Object o2) {
+    @Override
+    public int compare(Object o1, Object o2) {
       return 0;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "ALWAYS_EQUAL";
     }
 

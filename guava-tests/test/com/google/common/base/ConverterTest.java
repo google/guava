@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -36,20 +34,22 @@ import java.util.List;
 @GwtCompatible
 public class ConverterTest extends TestCase {
 
-  private static final Converter<String, Long> STR_TO_LONG =
-      new Converter<String, Long>() {
-        @Override public Long doForward(String object) {
-          return Long.valueOf(object);
-        }
+  private static final Converter<String, Long> STR_TO_LONG = new Converter<String, Long>() {
+    @Override
+    public Long doForward(String object) {
+      return Long.valueOf(object);
+    }
 
-        @Override public String doBackward(Long object) {
-          return String.valueOf(object);
-        }
+    @Override
+    public String doBackward(Long object) {
+      return String.valueOf(object);
+    }
 
-        @Override public String toString() {
-          return "string2long";
-        }
-      };
+    @Override
+    public String toString() {
+      return "string2long";
+    }
+  };
 
   private static final Long LONG_VAL = 12345L;
   private static final String STR_VAL = "12345";
@@ -89,10 +89,8 @@ public class ConverterTest extends TestCase {
 
     assertEquals("string2long.reverse()", reverseConverter.toString());
 
-    new EqualsTester()
-        .addEqualityGroup(STR_TO_LONG, STR_TO_LONG.reverse().reverse())
-        .addEqualityGroup(STR_TO_LONG.reverse(), STR_TO_LONG.reverse())
-        .testEquals();
+    new EqualsTester().addEqualityGroup(STR_TO_LONG, STR_TO_LONG.reverse().reverse())
+        .addEqualityGroup(STR_TO_LONG.reverse(), STR_TO_LONG.reverse()).testEquals();
   }
 
   public void testReverseReverse() {
@@ -114,15 +112,18 @@ public class ConverterTest extends TestCase {
 
   public void testAndThen() {
     Converter<StringWrapper, String> first = new Converter<StringWrapper, String>() {
-      @Override public String doForward(StringWrapper object) {
+      @Override
+      public String doForward(StringWrapper object) {
         return object.value;
       }
 
-      @Override public StringWrapper doBackward(String object) {
+      @Override
+      public StringWrapper doBackward(String object) {
         return new StringWrapper(object);
       }
 
-      @Override public String toString() {
+      @Override
+      public String toString() {
         return "StringWrapper";
       }
     };
@@ -153,7 +154,8 @@ public class ConverterTest extends TestCase {
 
   public void testFrom() {
     Function<String, Integer> forward = new Function<String, Integer>() {
-      @Override public Integer apply(String input) {
+      @Override
+      public Integer apply(String input) {
         return Integer.parseInt(input);
       }
     };
@@ -186,10 +188,13 @@ public class ConverterTest extends TestCase {
 
   private static Converter<String, String> sillyConverter(final boolean handleNullAutomatically) {
     return new Converter<String, String>(handleNullAutomatically) {
-      @Override public String doForward(String string) {
+      @Override
+      public String doForward(String string) {
         return "forward";
       }
-      @Override public String doBackward(String string) {
+
+      @Override
+      public String doBackward(String string) {
         return "backward";
       }
     };

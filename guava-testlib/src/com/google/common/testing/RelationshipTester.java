@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.testing;
@@ -80,12 +78,10 @@ final class RelationshipTester<T> {
           }
         }
         // check unrelated items in all other groups
-        for (int unrelatedGroupNumber = 0; unrelatedGroupNumber < groups.size();
-            unrelatedGroupNumber++) {
+        for (int unrelatedGroupNumber = 0; unrelatedGroupNumber < groups.size(); unrelatedGroupNumber++) {
           if (groupNumber != unrelatedGroupNumber) {
             ImmutableList<T> unrelatedGroup = groups.get(unrelatedGroupNumber);
-            for (int unrelatedItemNumber = 0; unrelatedItemNumber < unrelatedGroup.size();
-                unrelatedItemNumber++) {
+            for (int unrelatedItemNumber = 0; unrelatedItemNumber < unrelatedGroup.size(); unrelatedItemNumber++) {
               assertUnrelated(groupNumber, itemNumber, unrelatedGroupNumber, unrelatedItemNumber);
             }
           }
@@ -102,7 +98,7 @@ final class RelationshipTester<T> {
     T related = relatedInfo.value;
     assertWithTemplate("$ITEM must be $RELATIONSHIP to $OTHER", itemInfo, relatedInfo,
         equivalence.equivalent(item, related));
-    
+
     int itemHash = equivalence.hash(item);
     int relatedHash = equivalence.hash(related);
     assertWithTemplate("the $HASH (" + itemHash + ") of $ITEM must be equal to the $HASH ("
@@ -120,10 +116,8 @@ final class RelationshipTester<T> {
 
   private void assertWithTemplate(String template, Item<T> item, Item<T> other, boolean condition) {
     if (!condition) {
-      throw new AssertionFailedError(template
-          .replace("$RELATIONSHIP", relationshipName)
-          .replace("$HASH", hashName)
-          .replace("$ITEM", itemReporter.reportItem(item))
+      throw new AssertionFailedError(template.replace("$RELATIONSHIP", relationshipName)
+          .replace("$HASH", hashName).replace("$ITEM", itemReporter.reportItem(item))
           .replace("$OTHER", itemReporter.reportItem(other)));
     }
   }
@@ -143,15 +137,10 @@ final class RelationshipTester<T> {
       this.itemNumber = itemNumber;
     }
 
-    @Override public String toString() {
-      return new StringBuilder()
-          .append(value)
-          .append(" [group ")
-          .append(groupNumber + 1)
-          .append(", item ")
-          .append(itemNumber + 1)
-          .append(']')
-          .toString();
+    @Override
+    public String toString() {
+      return new StringBuilder().append(value).append(" [group ").append(groupNumber + 1)
+          .append(", item ").append(itemNumber + 1).append(']').toString();
     }
   }
 }

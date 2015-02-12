@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -50,8 +48,8 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
           @Override
           @SuppressWarnings("unchecked")
           public Map<Class, Number> create(Object... elements) {
-            ImmutableClassToInstanceMap.Builder<Number> builder
-                = ImmutableClassToInstanceMap.builder();
+            ImmutableClassToInstanceMap.Builder<Number> builder =
+                ImmutableClassToInstanceMap.builder();
             for (Object object : elements) {
               Entry<Class, Number> entry = (Entry<Class, Number>) object;
               builder.put(entry.getKey(), entry.getValue());
@@ -60,20 +58,15 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
           }
         })
         .named("ImmutableClassToInstanceMap")
-        .withFeatures(
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            MapFeature.RESTRICTS_KEYS,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionSize.ANY,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            CollectionFeature.SERIALIZABLE)
-        .createTestSuite());
+        .withFeatures(MapFeature.REJECTS_DUPLICATES_AT_CREATION, MapFeature.RESTRICTS_KEYS,
+            CollectionFeature.KNOWN_ORDER, CollectionSize.ANY, MapFeature.ALLOWS_ANY_NULL_QUERIES,
+            CollectionFeature.SERIALIZABLE).createTestSuite());
 
     return suite;
   }
-  
+
   public void testSerialization_empty() {
-    assertSame(ImmutableClassToInstanceMap.of(), 
+    assertSame(ImmutableClassToInstanceMap.of(),
         SerializableTester.reserialize(ImmutableClassToInstanceMap.of()));
   }
 
@@ -84,14 +77,13 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
     assertSame(map, ImmutableClassToInstanceMap.of());
     assertSame(map, ImmutableClassToInstanceMap.copyOf(map));
   }
-  
+
   public void testOf_zero() {
     assertTrue(ImmutableClassToInstanceMap.of().isEmpty());
   }
-  
+
   public void testOf_one() {
-    ImmutableClassToInstanceMap<Number> map =
-        ImmutableClassToInstanceMap.of(int.class, 1);
+    ImmutableClassToInstanceMap<Number> map = ImmutableClassToInstanceMap.of(int.class, 1);
     assertEquals(1, map.size());
   }
 
@@ -112,16 +104,15 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testCopyOf_map_nulls() {
-    Map<Class<? extends Number>, Number> nullKey = Collections.singletonMap(
-        null, (Number) 1.0);
+    Map<Class<? extends Number>, Number> nullKey = Collections.singletonMap(null, (Number) 1.0);
     try {
       ImmutableClassToInstanceMap.copyOf(nullKey);
       fail();
     } catch (NullPointerException expected) {
     }
 
-    Map<? extends Class<? extends Number>, Number> nullValue
-        = Collections.singletonMap(Number.class, null);
+    Map<? extends Class<? extends Number>, Number> nullValue =
+        Collections.singletonMap(Number.class, null);
     try {
       ImmutableClassToInstanceMap.copyOf(nullValue);
       fail();
@@ -136,8 +127,8 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testCopyOf_imap_valid() {
-    ImmutableMap<Class<? extends Number>, ? extends Number> in
-        = ImmutableMap.of(Number.class, 0, Double.class, Math.PI);
+    ImmutableMap<Class<? extends Number>, ? extends Number> in =
+        ImmutableMap.of(Number.class, 0, Double.class, Math.PI);
     ClassToInstanceMap<Number> map = ImmutableClassToInstanceMap.copyOf(in);
     assertEquals(2, map.size());
 
@@ -149,10 +140,8 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testPrimitiveAndWrapper() {
-    ImmutableClassToInstanceMap<Number> ictim
-        = new ImmutableClassToInstanceMap.Builder<Number>()
-            .put(Integer.class, 0)
-            .put(int.class, 1)
+    ImmutableClassToInstanceMap<Number> ictim =
+        new ImmutableClassToInstanceMap.Builder<Number>().put(Integer.class, 0).put(int.class, 1)
             .build();
     assertEquals(2, ictim.size());
 
@@ -160,8 +149,7 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
     assertEquals(1, (int) ictim.getInstance(int.class));
   }
 
-  abstract static class TestClassToInstanceMapGenerator
-      implements TestMapGenerator<Class, Number> {
+  abstract static class TestClassToInstanceMapGenerator implements TestMapGenerator<Class, Number> {
 
     @Override
     public Class[] createKeyArray(int length) {
@@ -175,19 +163,12 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
 
     @Override
     public SampleElements<Entry<Class, Number>> samples() {
-      Entry<Class, Number> entry1 =
-          Maps.immutableEntry((Class) Integer.class, (Number) 0);
-      Entry<Class, Number> entry2 =
-          Maps.immutableEntry((Class) Number.class, (Number) 1);
-      Entry<Class, Number> entry3 =
-          Maps.immutableEntry((Class) Double.class, (Number) 2.0);
-      Entry<Class, Number> entry4 =
-          Maps.immutableEntry((Class) Byte.class, (Number) (byte) 0x03);
-      Entry<Class, Number> entry5 =
-          Maps.immutableEntry((Class) Long.class, (Number) 0x0FF1C1AL);
-      return new SampleElements<Entry<Class, Number>>(
-          entry1, entry2, entry3, entry4, entry5
-      );
+      Entry<Class, Number> entry1 = Maps.immutableEntry((Class) Integer.class, (Number) 0);
+      Entry<Class, Number> entry2 = Maps.immutableEntry((Class) Number.class, (Number) 1);
+      Entry<Class, Number> entry3 = Maps.immutableEntry((Class) Double.class, (Number) 2.0);
+      Entry<Class, Number> entry4 = Maps.immutableEntry((Class) Byte.class, (Number) (byte) 0x03);
+      Entry<Class, Number> entry5 = Maps.immutableEntry((Class) Long.class, (Number) 0x0FF1C1AL);
+      return new SampleElements<Entry<Class, Number>>(entry1, entry2, entry3, entry4, entry5);
     }
 
     @Override
@@ -197,8 +178,7 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
     }
 
     @Override
-    public Iterable<Entry<Class, Number>> order(
-        List<Entry<Class, Number>> insertionOrder) {
+    public Iterable<Entry<Class, Number>> order(List<Entry<Class, Number>> insertionOrder) {
       return insertionOrder;
     }
   }

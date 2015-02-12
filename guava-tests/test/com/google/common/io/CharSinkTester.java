@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -36,8 +34,7 @@ import java.util.Map;
  */
 public class CharSinkTester extends SourceSinkTester<CharSink, String, CharSinkFactory> {
 
-  private static final ImmutableList<Method> testMethods
-      = getTestMethods(CharSinkTester.class);
+  private static final ImmutableList<Method> testMethods = getTestMethods(CharSinkTester.class);
 
   static TestSuite tests(String name, CharSinkFactory factory) {
     TestSuite suite = new TestSuite(name);
@@ -49,8 +46,7 @@ public class CharSinkTester extends SourceSinkTester<CharSink, String, CharSinkF
     return suite;
   }
 
-  static TestSuite suiteForString(String name, CharSinkFactory factory,
-      String string, String desc) {
+  static TestSuite suiteForString(String name, CharSinkFactory factory, String string, String desc) {
     TestSuite stringSuite = new TestSuite(name + " [" + desc + "]");
     for (final Method method : testMethods) {
       stringSuite.addTest(new CharSinkTester(factory, string, name, desc, method));
@@ -63,8 +59,8 @@ public class CharSinkTester extends SourceSinkTester<CharSink, String, CharSinkF
 
   private CharSink sink;
 
-  public CharSinkTester(CharSinkFactory factory, String string,
-      String suiteName, String caseDesc, Method method) {
+  public CharSinkTester(CharSinkFactory factory, String string, String suiteName, String caseDesc,
+      Method method) {
     super(factory, string, suiteName, caseDesc, method);
     this.lines = getLines(string);
     this.expectedLines = getLines(expected);
@@ -122,9 +118,7 @@ public class CharSinkTester extends SourceSinkTester<CharSink, String, CharSinkF
   }
 
   private void assertContainsExpectedLines(String separator) throws IOException {
-    String expected = expectedLines.isEmpty()
-        ? ""
-        : Joiner.on(separator).join(expectedLines);
+    String expected = expectedLines.isEmpty() ? "" : Joiner.on(separator).join(expectedLines);
     if (!lines.isEmpty()) {
       // if we wrote any lines in writeLines(), there will be a trailing newline
       expected += separator;

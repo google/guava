@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.eventbus;
@@ -52,8 +50,8 @@ public class DispatcherTest extends TestCase {
       subscriber(bus, s1, "handleString", String.class),
       subscriber(bus, s2, "handleString", String.class));
 
-  private final ConcurrentLinkedQueue<Object> dispatchedSubscribers
-      = Queues.newConcurrentLinkedQueue();
+  private final ConcurrentLinkedQueue<Object> dispatchedSubscribers = Queues
+      .newConcurrentLinkedQueue();
 
   private Dispatcher dispatcher;
 
@@ -61,12 +59,11 @@ public class DispatcherTest extends TestCase {
     dispatcher = Dispatcher.perThreadDispatchQueue();
     dispatcher.dispatch(1, integerSubscribers.iterator());
 
-    assertThat(dispatchedSubscribers)
-        .containsExactly(
-            i1, i2, i3, // Integer subscribers are dispatched to first.
-            s1, s2,     // Though each integer subscriber dispatches to all string subscribers,
-            s1, s2,     // those string subscribers aren't actually dispatched to until all integer
-            s1, s2      // subscribers have finished.
+    assertThat(dispatchedSubscribers).containsExactly(i1, i2, i3, // Integer subscribers are
+                                                                  // dispatched to first.
+        s1, s2, // Though each integer subscriber dispatches to all string subscribers,
+        s1, s2, // those string subscribers aren't actually dispatched to until all integer
+        s1, s2 // subscribers have finished.
         ).inOrder();
   }
 
@@ -109,28 +106,21 @@ public class DispatcherTest extends TestCase {
     // See Dispatcher.LegacyAsyncDispatcher for an explanation of why there aren't really any
     // useful testable guarantees about the behavior of that dispatcher in a multithreaded
     // environment. Here we simply test that all the expected dispatches happened in some order.
-    assertThat(dispatchedSubscribers)
-        .containsExactly(
-            i1, i2, i3,
-            s1, s1, s1, s1,
-            s2, s2, s2, s2);
+    assertThat(dispatchedSubscribers).containsExactly(i1, i2, i3, s1, s1, s1, s1, s2, s2, s2, s2);
   }
 
   public void testImmediateDispatcher() {
     dispatcher = Dispatcher.immediate();
     dispatcher.dispatch(1, integerSubscribers.iterator());
 
-    assertThat(dispatchedSubscribers)
-        .containsExactly(
-            i1, s1, s2,  // Each integer subscriber immediately dispatches to 2 string subscribers.
-            i2, s1, s2,
-            i3, s1, s2
-        ).inOrder();
+    assertThat(dispatchedSubscribers).containsExactly(i1, s1, s2, // Each integer subscriber
+                                                                  // immediately dispatches to 2
+                                                                  // string subscribers.
+        i2, s1, s2, i3, s1, s2).inOrder();
   }
 
-  private static Subscriber subscriber(
-      EventBus bus, Object target,
-      String methodName, Class<?> eventType) {
+  private static Subscriber subscriber(EventBus bus, Object target, String methodName,
+      Class<?> eventType) {
     try {
       return Subscriber.create(bus, target, target.getClass().getMethod(methodName, eventType));
     } catch (NoSuchMethodException e) {

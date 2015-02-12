@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -39,37 +37,44 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MoreExecutorsDirectExecutorBenchmark {
   enum Impl {
     EXECUTOR_SERVICE {
-      @Override Executor executor() {
+      @Override
+      Executor executor() {
         return newDirectExecutorService();
       }
     },
     EXECUTOR {
-      @Override Executor executor() {
+      @Override
+      Executor executor() {
         return directExecutor();
       }
     };
     abstract Executor executor();
   }
 
-  @Param Impl impl;
+  @Param
+  Impl impl;
   Executor executor;
 
   static final class CountingRunnable implements Runnable {
     AtomicInteger integer = new AtomicInteger();
-    @Override public void run() {
+
+    @Override
+    public void run() {
       integer.incrementAndGet();
     }
   }
-  
+
   CountingRunnable countingRunnable = new CountingRunnable();
 
   Set<Thread> threads = new HashSet<Thread>();
-  
-  @BeforeExperiment void before() {
+
+  @BeforeExperiment
+  void before() {
     executor = impl.executor();
     for (int i = 0; i < 4; i++) {
       Thread thread = new Thread() {
-        @Override public void run() {
+        @Override
+        public void run() {
           CountingRunnable localRunnable = new CountingRunnable();
           while (!isInterrupted()) {
             executor.execute(localRunnable);
@@ -81,18 +86,21 @@ public class MoreExecutorsDirectExecutorBenchmark {
     }
   }
 
-  @AfterExperiment void after() {
+  @AfterExperiment
+  void after() {
     for (Thread thread : threads) {
-      thread.interrupt();  // try to get them to exit
+      thread.interrupt(); // try to get them to exit
     }
     threads.clear();
   }
-  
-  @Footprint Object measureSize() {
+
+  @Footprint
+  Object measureSize() {
     return executor;
   }
-  
-  @Benchmark int timeUncontendedExecute(int reps) {
+
+  @Benchmark
+  int timeUncontendedExecute(int reps) {
     final Executor executor = this.executor;
     final CountingRunnable countingRunnable = this.countingRunnable;
     for (int i = 0; i < reps; i++) {
@@ -100,8 +108,9 @@ public class MoreExecutorsDirectExecutorBenchmark {
     }
     return countingRunnable.integer.get();
   }
-  
-  @Benchmark int timeContendedExecute(int reps) {
+
+  @Benchmark
+  int timeContendedExecute(int reps) {
     final Executor executor = this.executor;
     for (Thread thread : threads) {
       if (!thread.isAlive()) {

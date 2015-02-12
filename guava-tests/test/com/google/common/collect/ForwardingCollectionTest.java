@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -38,105 +36,111 @@ import java.util.Collections;
  * @author Louis Wasserman
  */
 public class ForwardingCollectionTest extends ForwardingTestCase {
-  static final class StandardImplForwardingCollection<T>
-      extends ForwardingCollection<T> {
+  static final class StandardImplForwardingCollection<T> extends ForwardingCollection<T> {
     private final Collection<T> backingCollection;
 
     StandardImplForwardingCollection(Collection<T> backingCollection) {
       this.backingCollection = backingCollection;
     }
 
-    @Override protected Collection<T> delegate() {
+    @Override
+    protected Collection<T> delegate() {
       return backingCollection;
     }
 
-    @Override public boolean addAll(Collection<? extends T> collection) {
+    @Override
+    public boolean addAll(Collection<? extends T> collection) {
       return standardAddAll(collection);
     }
 
-    @Override public void clear() {
+    @Override
+    public void clear() {
       standardClear();
     }
 
-    @Override public boolean contains(Object object) {
+    @Override
+    public boolean contains(Object object) {
       return standardContains(object);
     }
 
-    @Override public boolean containsAll(Collection<?> collection) {
+    @Override
+    public boolean containsAll(Collection<?> collection) {
       return standardContainsAll(collection);
     }
 
-    @Override public boolean remove(Object object) {
+    @Override
+    public boolean remove(Object object) {
       return standardRemove(object);
     }
 
-    @Override public boolean removeAll(Collection<?> collection) {
+    @Override
+    public boolean removeAll(Collection<?> collection) {
       return standardRemoveAll(collection);
     }
 
-    @Override public boolean retainAll(Collection<?> collection) {
+    @Override
+    public boolean retainAll(Collection<?> collection) {
       return standardRetainAll(collection);
     }
 
-    @Override public Object[] toArray() {
+    @Override
+    public Object[] toArray() {
       return standardToArray();
     }
 
-    @Override public <T> T[] toArray(T[] array) {
+    @Override
+    public <T> T[] toArray(T[] array) {
       return standardToArray(array);
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return standardToString();
     }
   }
 
-  private static final Collection<String> EMPTY_COLLECTION =
-      Collections.emptyList();
+  private static final Collection<String> EMPTY_COLLECTION = Collections.emptyList();
 
   private Collection<String> forward;
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    
+
     suite.addTestSuite(ForwardingCollectionTest.class);
-    suite.addTest(
-        CollectionTestSuiteBuilder.using(new TestStringCollectionGenerator() {
-          @Override protected Collection<String> create(String[] elements) {
-            return new StandardImplForwardingCollection<String>(
-                Lists.newLinkedList(asList(elements)));
+    suite.addTest(CollectionTestSuiteBuilder
+        .using(new TestStringCollectionGenerator() {
+          @Override
+          protected Collection<String> create(String[] elements) {
+            return new StandardImplForwardingCollection<String>(Lists
+                .newLinkedList(asList(elements)));
           }
-        }).named(
-            "ForwardingCollection[LinkedList] with standard implementations")
-            .withFeatures(CollectionSize.ANY,
-                CollectionFeature.ALLOWS_NULL_VALUES,
-                CollectionFeature.GENERAL_PURPOSE).createTestSuite());
-    suite.addTest(
-        CollectionTestSuiteBuilder.using(new TestStringCollectionGenerator() {
-          @Override protected Collection<String> create(String[] elements) {
-            return new StandardImplForwardingCollection<String>(
-                MinimalCollection.of(elements));
-          }
-        }).named(
-            "ForwardingCollection[MinimalCollection] with standard"
-            + " implementations")
-            .withFeatures(CollectionSize.ANY, 
-                CollectionFeature.ALLOWS_NULL_VALUES).createTestSuite());
-    
+        })
+        .named("ForwardingCollection[LinkedList] with standard implementations")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.GENERAL_PURPOSE).createTestSuite());
+    suite.addTest(CollectionTestSuiteBuilder.using(new TestStringCollectionGenerator() {
+      @Override
+      protected Collection<String> create(String[] elements) {
+        return new StandardImplForwardingCollection<String>(MinimalCollection.of(elements));
+      }
+    }).named("ForwardingCollection[MinimalCollection] with standard" + " implementations")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES).createTestSuite());
+
     return suite;
   }
-  
-  @Override public void setUp() throws Exception {
+
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     /*
-     * Class parameters must be raw, so we can't create a proxy with generic
-     * type arguments. The created proxy only records calls and returns null, so
-     * the type is irrelevant at runtime.
+     * Class parameters must be raw, so we can't create a proxy with generic type arguments. The
+     * created proxy only records calls and returns null, so the type is irrelevant at runtime.
      */
     @SuppressWarnings("unchecked")
     final Collection<String> list = createProxyInstance(Collection.class);
     forward = new ForwardingCollection<String>() {
-      @Override protected Collection<String> delegate() {
+      @Override
+      protected Collection<String> delegate() {
         return list;
       }
     };

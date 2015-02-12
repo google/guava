@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.testing;
@@ -85,8 +83,7 @@ public class FakeTickerTest extends TestCase {
 
     for (TimeUnit timeUnit : EnumSet.allOf(TimeUnit.class)) {
       ticker.setAutoIncrementStep(0, timeUnit);
-      assertEquals(
-          "Expected no auto-increment when setting autoIncrementStep to 0 " + timeUnit,
+      assertEquals("Expected no auto-increment when setting autoIncrementStep to 0 " + timeUnit,
           30, ticker.read());
     }
   }
@@ -101,42 +98,38 @@ public class FakeTickerTest extends TestCase {
   }
 
   @GwtIncompatible("concurrency")
-
   public void testConcurrentAdvance() throws Exception {
     final FakeTicker ticker = new FakeTicker();
 
     int numberOfThreads = 64;
-    runConcurrentTest(numberOfThreads,
-        new Callable<Void>() {
-          @Override
-          public Void call() throws Exception {
-            // adds two nanoseconds to the ticker
-            ticker.advance(1L);
-            Thread.sleep(10);
-            ticker.advance(1L);
-            return null;
-          }
-        });
+    runConcurrentTest(numberOfThreads, new Callable<Void>() {
+      @Override
+      public Void call() throws Exception {
+        // adds two nanoseconds to the ticker
+        ticker.advance(1L);
+        Thread.sleep(10);
+        ticker.advance(1L);
+        return null;
+      }
+    });
 
     assertEquals(numberOfThreads * 2, ticker.read());
   }
 
   @GwtIncompatible("concurrency")
-
   public void testConcurrentAutoIncrementStep() throws Exception {
     int incrementByNanos = 3;
     final FakeTicker ticker =
         new FakeTicker().setAutoIncrementStep(incrementByNanos, TimeUnit.NANOSECONDS);
 
     int numberOfThreads = 64;
-    runConcurrentTest(numberOfThreads,
-        new Callable<Void>() {
-          @Override
-          public Void call() throws Exception {
-            ticker.read();
-            return null;
-          }
-        });
+    runConcurrentTest(numberOfThreads, new Callable<Void>() {
+      @Override
+      public Void call() throws Exception {
+        ticker.read();
+        return null;
+      }
+    });
 
     assertEquals(incrementByNanos * numberOfThreads, ticker.read());
   }

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -39,16 +37,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Generators of different types of map and related collections, such as
- * keys, entries and values.
+ * Generators of different types of map and related collections, such as keys, entries and values.
  *
  * @author Hayward Chan
  */
 @GwtCompatible
 public class MapGenerators {
-  public static class ImmutableMapGenerator
-      extends TestStringMapGenerator {
-    @Override protected Map<String, String> create(Entry<String, String>[] entries) {
+  public static class ImmutableMapGenerator extends TestStringMapGenerator {
+    @Override
+    protected Map<String, String> create(Entry<String, String>[] entries) {
       ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
       for (Entry<String, String> entry : entries) {
         builder.put(entry.getKey(), entry.getValue());
@@ -56,10 +53,10 @@ public class MapGenerators {
       return builder.build();
     }
   }
-  
-  public static class ImmutableMapCopyOfGenerator
-      extends TestStringMapGenerator {
-    @Override protected Map<String, String> create(Entry<String, String>[] entries) {
+
+  public static class ImmutableMapCopyOfGenerator extends TestStringMapGenerator {
+    @Override
+    protected Map<String, String> create(Entry<String, String>[] entries) {
       Map<String, String> builder = Maps.newLinkedHashMap();
       for (Entry<String, String> entry : entries) {
         builder.put(entry.getKey(), entry.getValue());
@@ -67,19 +64,19 @@ public class MapGenerators {
       return ImmutableMap.copyOf(builder);
     }
   }
-  
-  public static class ImmutableMapCopyOfEntriesGenerator
-      extends TestStringMapGenerator {
-    @Override protected Map<String, String> create(Entry<String, String>[] entries) {
+
+  public static class ImmutableMapCopyOfEntriesGenerator extends TestStringMapGenerator {
+    @Override
+    protected Map<String, String> create(Entry<String, String>[] entries) {
       return ImmutableMap.copyOf(Arrays.asList(entries));
     }
   }
 
-  public static class ImmutableMapUnhashableValuesGenerator
-      extends TestUnhashableCollectionGenerator<Collection<UnhashableObject>> {
+  public static class ImmutableMapUnhashableValuesGenerator extends
+      TestUnhashableCollectionGenerator<Collection<UnhashableObject>> {
 
-    @Override public Collection<UnhashableObject> create(
-        UnhashableObject[] elements) {
+    @Override
+    public Collection<UnhashableObject> create(UnhashableObject[] elements) {
       ImmutableMap.Builder<Integer, UnhashableObject> builder = ImmutableMap.builder();
       int key = 1;
       for (UnhashableObject value : elements) {
@@ -111,17 +108,13 @@ public class MapGenerators {
     }
   }
 
-  public static class ImmutableMapEntryListGenerator
-      implements TestListGenerator<Entry<String, Integer>> {
+  public static class ImmutableMapEntryListGenerator implements
+      TestListGenerator<Entry<String, Integer>> {
 
     @Override
     public SampleElements<Entry<String, Integer>> samples() {
-      return new SampleElements<Entry<String, Integer>>(
-          mapEntry("foo", 5),
-          mapEntry("bar", 3),
-          mapEntry("baz", 17),
-          mapEntry("quux", 1),
-          mapEntry("toaster", -2));
+      return new SampleElements<Entry<String, Integer>>(mapEntry("foo", 5), mapEntry("bar", 3),
+          mapEntry("baz", 17), mapEntry("quux", 1), mapEntry("toaster", -2));
     }
 
     @SuppressWarnings("unchecked")

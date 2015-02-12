@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -56,41 +54,38 @@ public class ResourcesTest extends IoTestCase {
   public void testToString() throws IOException {
     URL resource = getClass().getResource("testdata/i18n.txt");
     assertEquals(I18N, Resources.toString(resource, Charsets.UTF_8));
-    assertThat(Resources.toString(resource, Charsets.US_ASCII))
-        .isNotEqualTo(I18N);
+    assertThat(Resources.toString(resource, Charsets.US_ASCII)).isNotEqualTo(I18N);
   }
 
   public void testToToByteArray() throws IOException {
     byte[] data = Resources.toByteArray(classfile(Resources.class));
-    assertEquals(0xCAFEBABE,
-        new DataInputStream(new ByteArrayInputStream(data)).readInt());
+    assertEquals(0xCAFEBABE, new DataInputStream(new ByteArrayInputStream(data)).readInt());
   }
 
   public void testReadLines() throws IOException {
     // TODO(chrisn): Check in a better resource
     URL resource = getClass().getResource("testdata/i18n.txt");
-    assertEquals(ImmutableList.of(I18N),
-        Resources.readLines(resource, Charsets.UTF_8));
+    assertEquals(ImmutableList.of(I18N), Resources.readLines(resource, Charsets.UTF_8));
   }
 
   public void testReadLines_withLineProcessor() throws IOException {
     URL resource = getClass().getResource("testdata/alice_in_wonderland.txt");
-    LineProcessor<List<String>> collectAndLowercaseAndTrim =
-        new LineProcessor<List<String>>() {
-          List<String> collector = new ArrayList<String>();
-          @Override
-          public boolean processLine(String line) {
-            collector.add(WHITESPACE.trimFrom(line));
-            return true;
-          }
+    LineProcessor<List<String>> collectAndLowercaseAndTrim = new LineProcessor<List<String>>() {
+      List<String> collector = new ArrayList<String>();
 
-          @Override
-          public List<String> getResult() {
-            return collector;
-          }
-        };
-    List<String> result = Resources.readLines(resource, Charsets.US_ASCII,
-        collectAndLowercaseAndTrim);
+      @Override
+      public boolean processLine(String line) {
+        collector.add(WHITESPACE.trimFrom(line));
+        return true;
+      }
+
+      @Override
+      public List<String> getResult() {
+        return collector;
+      }
+    };
+    List<String> result =
+        Resources.readLines(resource, Charsets.US_ASCII, collectAndLowercaseAndTrim);
     assertEquals(3600, result.size());
     assertEquals("ALICE'S ADVENTURES IN WONDERLAND", result.get(0));
     assertEquals("THE END", result.get(result.size() - 1));
@@ -113,19 +108,16 @@ public class ResourcesTest extends IoTestCase {
   }
 
   public void testGetResource() {
-    assertNotNull(
-        Resources.getResource("com/google/common/io/testdata/i18n.txt"));
+    assertNotNull(Resources.getResource("com/google/common/io/testdata/i18n.txt"));
   }
 
   public void testGetResource_relativePath_notFound() {
     try {
-      Resources.getResource(
-          getClass(), "com/google/common/io/testdata/i18n.txt");
+      Resources.getResource(getClass(), "com/google/common/io/testdata/i18n.txt");
       fail();
     } catch (IllegalArgumentException e) {
-      assertEquals("resource com/google/common/io/testdata/i18n.txt" +
-          " relative to com.google.common.io.ResourcesTest not found.",
-          e.getMessage());
+      assertEquals("resource com/google/common/io/testdata/i18n.txt"
+          + " relative to com.google.common.io.ResourcesTest not found.", e.getMessage());
     }
   }
 
@@ -154,8 +146,7 @@ public class ResourcesTest extends IoTestCase {
     // Now set the context loader to one that should find the resource.
     URL baseUrl = tempFile.getParentFile().toURI().toURL();
     URLClassLoader loader = new URLClassLoader(new URL[] {baseUrl});
-    ClassLoader oldContextLoader =
-        Thread.currentThread().getContextClassLoader();
+    ClassLoader oldContextLoader = Thread.currentThread().getContextClassLoader();
     try {
       Thread.currentThread().setContextClassLoader(loader);
       URL url = Resources.getResource(tempFile.getName());
@@ -167,12 +158,10 @@ public class ResourcesTest extends IoTestCase {
   }
 
   public void testGetResource_contextClassLoaderNull() {
-    ClassLoader oldContextLoader =
-        Thread.currentThread().getContextClassLoader();
+    ClassLoader oldContextLoader = Thread.currentThread().getContextClassLoader();
     try {
       Thread.currentThread().setContextClassLoader(null);
-      assertNotNull(
-          Resources.getResource("com/google/common/io/testdata/i18n.txt"));
+      assertNotNull(Resources.getResource("com/google/common/io/testdata/i18n.txt"));
       try {
         Resources.getResource("no such resource");
         fail("Should get IllegalArgumentException");
@@ -184,8 +173,7 @@ public class ResourcesTest extends IoTestCase {
   }
 
   public void testNulls() {
-    new NullPointerTester()
-        .setDefault(URL.class, classfile(ResourcesTest.class))
+    new NullPointerTester().setDefault(URL.class, classfile(ResourcesTest.class))
         .testAllPublicStaticMethods(Resources.class);
   }
 

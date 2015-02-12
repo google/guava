@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2006 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -36,34 +34,32 @@ public class SimpleTimeLimiterTest extends TestCase {
 
   private TimeLimiter service;
 
-  private static final ExecutorService executor
-      = Executors.newFixedThreadPool(1);
+  private static final ExecutorService executor = Executors.newFixedThreadPool(1);
 
   private static String someGoodStaticMethod() throws InterruptedException {
     TimeUnit.MILLISECONDS.sleep(DELAY_MS);
     return "yes";
   }
 
-  private static String someBadStaticMethod() throws InterruptedException,
-      SampleException {
+  private static String someBadStaticMethod() throws InterruptedException, SampleException {
     TimeUnit.MILLISECONDS.sleep(DELAY_MS);
     throw new SampleException();
   }
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     super.setUp();
     service = new SimpleTimeLimiter(executor);
   }
 
   public void testGoodCallableWithEnoughTime() throws Exception {
     long start = System.nanoTime();
-    String result = service.callWithTimeout(
-        new Callable<String>() {
-          @Override
-          public String call() throws InterruptedException {
-            return someGoodStaticMethod();
-          }
-        }, ENOUGH_MS, TimeUnit.MILLISECONDS, true);
+    String result = service.callWithTimeout(new Callable<String>() {
+      @Override
+      public String call() throws InterruptedException {
+        return someGoodStaticMethod();
+      }
+    }, ENOUGH_MS, TimeUnit.MILLISECONDS, true);
     assertEquals("yes", result);
     assertTheCallTookBetween(start, DELAY_MS, ENOUGH_MS);
   }
@@ -71,13 +67,12 @@ public class SimpleTimeLimiterTest extends TestCase {
   public void testGoodCallableWithNotEnoughTime() throws Exception {
     long start = System.nanoTime();
     try {
-      service.callWithTimeout(
-          new Callable<String>() {
-            @Override
-            public String call() throws InterruptedException {
-              return someGoodStaticMethod();
-            }
-          }, NOT_ENOUGH_MS, TimeUnit.MILLISECONDS, true);
+      service.callWithTimeout(new Callable<String>() {
+        @Override
+        public String call() throws InterruptedException {
+          return someGoodStaticMethod();
+        }
+      }, NOT_ENOUGH_MS, TimeUnit.MILLISECONDS, true);
       fail("no exception thrown");
     } catch (UncheckedTimeoutException expected) {
     }
@@ -87,13 +82,12 @@ public class SimpleTimeLimiterTest extends TestCase {
   public void testBadCallableWithEnoughTime() throws Exception {
     long start = System.nanoTime();
     try {
-      service.callWithTimeout(
-          new Callable<String>() {
-            @Override
-            public String call() throws SampleException, InterruptedException {
-              return someBadStaticMethod();
-            }
-          }, ENOUGH_MS, TimeUnit.MILLISECONDS, true);
+      service.callWithTimeout(new Callable<String>() {
+        @Override
+        public String call() throws SampleException, InterruptedException {
+          return someBadStaticMethod();
+        }
+      }, ENOUGH_MS, TimeUnit.MILLISECONDS, true);
       fail("no exception thrown");
     } catch (SampleException expected) {
     }
@@ -103,13 +97,12 @@ public class SimpleTimeLimiterTest extends TestCase {
   public void testBadCallableWithNotEnoughTime() throws Exception {
     long start = System.nanoTime();
     try {
-      service.callWithTimeout(
-          new Callable<String>() {
-            @Override
-            public String call() throws SampleException, InterruptedException {
-              return someBadStaticMethod();
-            }
-          }, NOT_ENOUGH_MS, TimeUnit.MILLISECONDS, true);
+      service.callWithTimeout(new Callable<String>() {
+        @Override
+        public String call() throws SampleException, InterruptedException {
+          return someBadStaticMethod();
+        }
+      }, NOT_ENOUGH_MS, TimeUnit.MILLISECONDS, true);
       fail("no exception thrown");
     } catch (UncheckedTimeoutException expected) {
     }
@@ -118,8 +111,7 @@ public class SimpleTimeLimiterTest extends TestCase {
 
   public void testGoodMethodWithEnoughTime() throws Exception {
     SampleImpl target = new SampleImpl();
-    Sample proxy = service.newProxy(
-        target, Sample.class, ENOUGH_MS, TimeUnit.MILLISECONDS);
+    Sample proxy = service.newProxy(target, Sample.class, ENOUGH_MS, TimeUnit.MILLISECONDS);
     long start = System.nanoTime();
     assertEquals("x", proxy.sleepThenReturnInput("x"));
     assertTheCallTookBetween(start, DELAY_MS, ENOUGH_MS);
@@ -128,8 +120,7 @@ public class SimpleTimeLimiterTest extends TestCase {
 
   public void testGoodMethodWithNotEnoughTime() throws Exception {
     SampleImpl target = new SampleImpl();
-    Sample proxy = service.newProxy(
-        target, Sample.class, NOT_ENOUGH_MS, TimeUnit.MILLISECONDS);
+    Sample proxy = service.newProxy(target, Sample.class, NOT_ENOUGH_MS, TimeUnit.MILLISECONDS);
     long start = System.nanoTime();
     try {
       proxy.sleepThenReturnInput("x");
@@ -146,8 +137,7 @@ public class SimpleTimeLimiterTest extends TestCase {
 
   public void testBadMethodWithEnoughTime() throws Exception {
     SampleImpl target = new SampleImpl();
-    Sample proxy = service.newProxy(
-        target, Sample.class, ENOUGH_MS, TimeUnit.MILLISECONDS);
+    Sample proxy = service.newProxy(target, Sample.class, ENOUGH_MS, TimeUnit.MILLISECONDS);
     long start = System.nanoTime();
     try {
       proxy.sleepThenThrowException();
@@ -159,8 +149,7 @@ public class SimpleTimeLimiterTest extends TestCase {
 
   public void testBadMethodWithNotEnoughTime() throws Exception {
     SampleImpl target = new SampleImpl();
-    Sample proxy = service.newProxy(
-        target, Sample.class, NOT_ENOUGH_MS, TimeUnit.MILLISECONDS);
+    Sample proxy = service.newProxy(target, Sample.class, NOT_ENOUGH_MS, TimeUnit.MILLISECONDS);
     long start = System.nanoTime();
     try {
       proxy.sleepThenThrowException();
@@ -170,8 +159,7 @@ public class SimpleTimeLimiterTest extends TestCase {
     assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS);
   }
 
-  private static void assertTheCallTookBetween(
-      long startNanos, int atLeastMillis, int atMostMillis) {
+  private static void assertTheCallTookBetween(long startNanos, int atLeastMillis, int atMostMillis) {
     long nanos = System.nanoTime() - startNanos;
     assertTrue(nanos >= atLeastMillis * 1000000);
     assertTrue(nanos <= atMostMillis * 1000000);
@@ -179,11 +167,13 @@ public class SimpleTimeLimiterTest extends TestCase {
 
   public interface Sample {
     String sleepThenReturnInput(String input);
+
     void sleepThenThrowException() throws SampleException;
   }
 
   @SuppressWarnings("serial")
-  public static class SampleException extends Exception {}
+  public static class SampleException extends Exception {
+  }
 
   public static class SampleImpl implements Sample {
     boolean finished;
@@ -198,6 +188,7 @@ public class SimpleTimeLimiterTest extends TestCase {
         return null;
       }
     }
+
     @Override
     public void sleepThenThrowException() throws SampleException {
       try {

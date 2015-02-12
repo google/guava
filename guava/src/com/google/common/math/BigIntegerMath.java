@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -38,11 +36,13 @@ import java.util.List;
 /**
  * A class for arithmetic on values of type {@code BigInteger}.
  *
- * <p>The implementations of many methods in this class are based on material from Henry S. Warren,
+ * <p>
+ * The implementations of many methods in this class are based on material from Henry S. Warren,
  * Jr.'s <i>Hacker's Delight</i>, (Addison Wesley, 2002).
  *
- * <p>Similar functionality for {@code int} and for {@code long} can be found in
- * {@link IntMath} and {@link LongMath} respectively.
+ * <p>
+ * Similar functionality for {@code int} and for {@code long} can be found in {@link IntMath} and
+ * {@link LongMath} respectively.
  *
  * @author Louis Wasserman
  * @since 11.0
@@ -84,8 +84,8 @@ public final class BigIntegerMath {
       case HALF_UP:
       case HALF_EVEN:
         if (logFloor < SQRT2_PRECOMPUTE_THRESHOLD) {
-          BigInteger halfPower = SQRT2_PRECOMPUTED_BITS.shiftRight(
-              SQRT2_PRECOMPUTE_THRESHOLD - logFloor);
+          BigInteger halfPower =
+              SQRT2_PRECOMPUTED_BITS.shiftRight(SQRT2_PRECOMPUTE_THRESHOLD - logFloor);
           if (x.compareTo(halfPower) <= 0) {
             return logFloor;
           } else {
@@ -94,9 +94,9 @@ public final class BigIntegerMath {
         }
         /*
          * Since sqrt(2) is irrational, log2(x) - logFloor cannot be exactly 0.5
-         *
-         * To determine which side of logFloor.5 the logarithm is, we compare x^2 to 2^(2 *
-         * logFloor + 1).
+         * 
+         * To determine which side of logFloor.5 the logarithm is, we compare x^2 to 2^(2 * logFloor
+         * + 1).
          */
         BigInteger x2 = x.pow(2);
         int logX2Floor = x2.bitLength() - 1;
@@ -112,10 +112,12 @@ public final class BigIntegerMath {
    * of two. This can be any value, but higher values incur more class load time and linearly
    * increasing memory consumption.
    */
-  @VisibleForTesting static final int SQRT2_PRECOMPUTE_THRESHOLD = 256;
+  @VisibleForTesting
+  static final int SQRT2_PRECOMPUTE_THRESHOLD = 256;
 
-  @VisibleForTesting static final BigInteger SQRT2_PRECOMPUTED_BITS =
-      new BigInteger("16a09e667f3bcc908b2fb1366ea957d3e3adec17512775099da2f590b0667322a", 16);
+  @VisibleForTesting
+  static final BigInteger SQRT2_PRECOMPUTED_BITS = new BigInteger(
+      "16a09e667f3bcc908b2fb1366ea957d3e3adec17512775099da2f590b0667322a", 16);
 
   /**
    * Returns the base-10 logarithm of {@code x}, rounded according to the specified rounding mode.
@@ -144,8 +146,8 @@ public final class BigIntegerMath {
     if (approxCmp > 0) {
       /*
        * The code is written so that even completely incorrect approximations will still yield the
-       * correct answer eventually, but in practice this branch should almost never be entered,
-       * and even then the loop should not run more than once.
+       * correct answer eventually, but in practice this branch should almost never be entered, and
+       * even then the loop should not run more than once.
        */
       do {
         approxLog10--;
@@ -219,8 +221,8 @@ public final class BigIntegerMath {
       case CEILING:
       case UP:
         int sqrtFloorInt = sqrtFloor.intValue();
-        boolean sqrtFloorIsExact =
-            (sqrtFloorInt * sqrtFloorInt == x.intValue()) // fast check mod 2^32
+        boolean sqrtFloorIsExact = (sqrtFloorInt * sqrtFloorInt == x.intValue()) // fast check mod
+                                                                                 // 2^32
             && sqrtFloor.pow(2).equals(x); // slow exact check
         return sqrtFloorIsExact ? sqrtFloor : sqrtFloor.add(BigInteger.ONE);
       case HALF_DOWN:
@@ -228,8 +230,8 @@ public final class BigIntegerMath {
       case HALF_EVEN:
         BigInteger halfSquare = sqrtFloor.pow(2).add(sqrtFloor);
         /*
-         * We wish to test whether or not x <= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both
-         * x and halfSquare are integers, this is equivalent to testing whether or not x <=
+         * We wish to test whether or not x <= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both x
+         * and halfSquare are integers, this is equivalent to testing whether or not x <=
          * halfSquare.
          */
         return (halfSquare.compareTo(x) >= 0) ? sqrtFloor : sqrtFloor.add(BigInteger.ONE);
@@ -242,19 +244,19 @@ public final class BigIntegerMath {
   private static BigInteger sqrtFloor(BigInteger x) {
     /*
      * Adapted from Hacker's Delight, Figure 11-1.
-     *
+     * 
      * Using DoubleUtils.bigToDouble, getting a double approximation of x is extremely fast, and
      * then we can get a double approximation of the square root. Then, we iteratively improve this
      * guess with an application of Newton's method, which sets guess := (guess + (x / guess)) / 2.
      * This iteration has the following two properties:
-     *
+     * 
      * a) every iteration (except potentially the first) has guess >= floor(sqrt(x)). This is
      * because guess' is the arithmetic mean of guess and x / guess, sqrt(x) is the geometric mean,
      * and the arithmetic mean is always higher than the geometric mean.
-     *
+     * 
      * b) this iteration converges to floor(sqrt(x)). In fact, the number of correct digits doubles
      * with each iteration, so this algorithm takes O(log(digits)) iterations.
-     *
+     * 
      * We start out with a double-precision approximation, which may be higher or lower than the
      * true value. Therefore, we perform at least one Newton iteration to get a guess that's
      * definitely >= floor(sqrt(x)), and then continue the iteration until we reach a fixed point.
@@ -302,14 +304,16 @@ public final class BigIntegerMath {
   }
 
   /**
-   * Returns {@code n!}, that is, the product of the first {@code n} positive
-   * integers, or {@code 1} if {@code n == 0}.
+   * Returns {@code n!}, that is, the product of the first {@code n} positive integers, or {@code 1}
+   * if {@code n == 0}.
    *
-   * <p><b>Warning:</b> the result takes <i>O(n log n)</i> space, so use cautiously.
+   * <p>
+   * <b>Warning:</b> the result takes <i>O(n log n)</i> space, so use cautiously.
    *
-   * <p>This uses an efficient binary recursive algorithm to compute the factorial
-   * with balanced multiplies.  It also removes all the 2s from the intermediate
-   * products (shifting them back in at the end).
+   * <p>
+   * This uses an efficient binary recursive algorithm to compute the factorial with balanced
+   * multiplies. It also removes all the 2s from the intermediate products (shifting them back in at
+   * the end).
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
@@ -389,11 +393,12 @@ public final class BigIntegerMath {
     }
   }
 
- /**
+  /**
    * Returns {@code n} choose {@code k}, also known as the binomial coefficient of {@code n} and
    * {@code k}, that is, {@code n! / (k! (n - k)!)}.
    *
-   * <p><b>Warning:</b> the result can take as much as <i>O(k log n)</i> space.
+   * <p>
+   * <b>Warning:</b> the result can take as much as <i>O(k log n)</i> space.
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
@@ -426,9 +431,9 @@ public final class BigIntegerMath {
       if (numeratorBits + bits >= Long.SIZE - 1) {
         // The numerator is as big as it can get without risking overflow.
         // Multiply numeratorAccum / denominatorAccum into accum.
-        accum = accum
-            .multiply(BigInteger.valueOf(numeratorAccum))
-            .divide(BigInteger.valueOf(denominatorAccum));
+        accum =
+            accum.multiply(BigInteger.valueOf(numeratorAccum)).divide(
+                BigInteger.valueOf(denominatorAccum));
         numeratorAccum = p;
         denominatorAccum = q;
         numeratorBits = bits;
@@ -439,9 +444,8 @@ public final class BigIntegerMath {
         numeratorBits += bits;
       }
     }
-    return accum
-        .multiply(BigInteger.valueOf(numeratorAccum))
-        .divide(BigInteger.valueOf(denominatorAccum));
+    return accum.multiply(BigInteger.valueOf(numeratorAccum)).divide(
+        BigInteger.valueOf(denominatorAccum));
   }
 
   // Returns true if BigInteger.valueOf(x.longValue()).equals(x).

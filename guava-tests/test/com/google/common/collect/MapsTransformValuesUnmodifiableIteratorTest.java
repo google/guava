@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -29,8 +27,8 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * Tests for {@link Maps#transformValues} when the backing map's views
- * have iterators that don't support {@code remove()}.
+ * Tests for {@link Maps#transformValues} when the backing map's views have iterators that don't
+ * support {@code remove()}.
  *
  * @author Jared Levy
  */
@@ -40,7 +38,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
   // to a superclass.
 
   public MapsTransformValuesUnmodifiableIteratorTest() {
-    super(true, true, false /*supportsPut*/, true, true, false);
+    super(true, true, false /* supportsPut */, true, true, false);
   }
 
   private static class UnmodifiableIteratorMap<K, V> extends ForwardingMap<K, V> {
@@ -50,84 +48,111 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
       this.delegate = delegate;
     }
 
-    @Override protected Map<K, V> delegate() {
+    @Override
+    protected Map<K, V> delegate() {
       return delegate;
     }
 
-    @Override public Set<K> keySet() {
+    @Override
+    public Set<K> keySet() {
       return new ForwardingSet<K>() {
-        @Override protected Set<K> delegate() {
+        @Override
+        protected Set<K> delegate() {
           return delegate.keySet();
         }
-        @Override public Iterator<K> iterator() {
+
+        @Override
+        public Iterator<K> iterator() {
           return Iterators.unmodifiableIterator(delegate.keySet().iterator());
         }
-        @Override public boolean removeAll(Collection<?> c) {
+
+        @Override
+        public boolean removeAll(Collection<?> c) {
           return delegate.keySet().removeAll(c);
         }
-        @Override public boolean retainAll(Collection<?> c) {
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
           return delegate.keySet().retainAll(c);
         }
       };
     }
 
-    @Override public Collection<V> values() {
+    @Override
+    public Collection<V> values() {
       return new ForwardingCollection<V>() {
-        @Override protected Collection<V> delegate() {
+        @Override
+        protected Collection<V> delegate() {
           return delegate.values();
         }
-        @Override public Iterator<V> iterator() {
+
+        @Override
+        public Iterator<V> iterator() {
           return Iterators.unmodifiableIterator(delegate.values().iterator());
         }
-        @Override public boolean removeAll(Collection<?> c) {
+
+        @Override
+        public boolean removeAll(Collection<?> c) {
           return delegate.values().removeAll(c);
         }
-        @Override public boolean retainAll(Collection<?> c) {
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
           return delegate.values().retainAll(c);
         }
       };
     }
 
-    @Override public Set<Entry<K, V>> entrySet() {
+    @Override
+    public Set<Entry<K, V>> entrySet() {
       return new ForwardingSet<Entry<K, V>>() {
-        @Override protected Set<Entry<K, V>> delegate() {
+        @Override
+        protected Set<Entry<K, V>> delegate() {
           return delegate.entrySet();
         }
-        @Override public Iterator<Entry<K, V>> iterator() {
+
+        @Override
+        public Iterator<Entry<K, V>> iterator() {
           return Iterators.unmodifiableIterator(delegate.entrySet().iterator());
         }
-        @Override public boolean removeAll(Collection<?> c) {
+
+        @Override
+        public boolean removeAll(Collection<?> c) {
           return delegate.entrySet().removeAll(c);
         }
-        @Override public boolean retainAll(Collection<?> c) {
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
           return delegate.entrySet().retainAll(c);
         }
       };
     }
   }
 
-  @Override protected Map<String, String> makeEmptyMap() {
+  @Override
+  protected Map<String, String> makeEmptyMap() {
     Map<String, Integer> underlying = Maps.newHashMap();
-    return Maps.transformValues(
-        new UnmodifiableIteratorMap<String, Integer>(underlying), Functions.toStringFunction());
+    return Maps.transformValues(new UnmodifiableIteratorMap<String, Integer>(underlying),
+        Functions.toStringFunction());
   }
 
-  @Override protected Map<String, String> makePopulatedMap() {
+  @Override
+  protected Map<String, String> makePopulatedMap() {
     Map<String, Integer> underlying = Maps.newHashMap();
     underlying.put("a", 1);
     underlying.put("b", 2);
     underlying.put("c", 3);
-    return Maps.transformValues(
-        new UnmodifiableIteratorMap<String, Integer>(underlying), Functions.toStringFunction());
+    return Maps.transformValues(new UnmodifiableIteratorMap<String, Integer>(underlying),
+        Functions.toStringFunction());
   }
 
-  @Override protected String getKeyNotInPopulatedMap()
-      throws UnsupportedOperationException {
+  @Override
+  protected String getKeyNotInPopulatedMap() throws UnsupportedOperationException {
     return "z";
   }
 
-  @Override protected String getValueNotInPopulatedMap()
-      throws UnsupportedOperationException {
+  @Override
+  protected String getValueNotInPopulatedMap() throws UnsupportedOperationException {
     return "26";
   }
 
@@ -147,14 +172,14 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
   }
 
   public void testTransformEmptyMapEquality() {
-    Map<String, String> map = Maps.transformValues(
-        ImmutableMap.<String, Integer>of(), Functions.toStringFunction());
+    Map<String, String> map =
+        Maps.transformValues(ImmutableMap.<String, Integer>of(), Functions.toStringFunction());
     assertMapsEqual(Maps.newHashMap(), map);
   }
 
   public void testTransformSingletonMapEquality() {
-    Map<String, String> map = Maps.transformValues(
-        ImmutableMap.of("a", 1), Functions.toStringFunction());
+    Map<String, String> map =
+        Maps.transformValues(ImmutableMap.of("a", 1), Functions.toStringFunction());
     Map<String, String> expected = ImmutableMap.of("a", "1");
     assertMapsEqual(expected, map);
     assertEquals(expected.get("a"), map.get("a"));
@@ -162,14 +187,13 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
 
   public void testTransformIdentityFunctionEquality() {
     Map<String, Integer> underlying = ImmutableMap.of("a", 1);
-    Map<String, Integer> map = Maps.transformValues(
-        underlying, Functions.<Integer>identity());
+    Map<String, Integer> map = Maps.transformValues(underlying, Functions.<Integer>identity());
     assertMapsEqual(underlying, map);
   }
 
   public void testTransformPutEntryIsUnsupported() {
-    Map<String, String> map = Maps.transformValues(
-        ImmutableMap.of("a", 1), Functions.toStringFunction());
+    Map<String, String> map =
+        Maps.transformValues(ImmutableMap.of("a", 1), Functions.toStringFunction());
     try {
       map.put("b", "2");
       fail();
@@ -192,8 +216,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
   public void testTransformRemoveEntry() {
     Map<String, Integer> underlying = Maps.newHashMap();
     underlying.put("a", 1);
-    Map<String, String> map
-        = Maps.transformValues(underlying, Functions.toStringFunction());
+    Map<String, String> map = Maps.transformValues(underlying, Functions.toStringFunction());
     assertEquals("1", map.remove("a"));
     assertNull(map.remove("b"));
   }
@@ -203,14 +226,12 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
     underlying.put("a", null);
     underlying.put("b", "");
 
-    Map<String, Boolean> map = Maps.transformValues(underlying,
-        new Function<String, Boolean>() {
-          @Override
-          public Boolean apply(@Nullable String from) {
-            return from == null;
-          }
-        }
-    );
+    Map<String, Boolean> map = Maps.transformValues(underlying, new Function<String, Boolean>() {
+      @Override
+      public Boolean apply(@Nullable String from) {
+        return from == null;
+      }
+    });
     Map<String, Boolean> expected = ImmutableMap.of("a", true, "b", false);
     assertMapsEqual(expected, map);
     assertEquals(expected.get("a"), map.get("a"));
@@ -226,8 +247,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
     underlying.put("a", 1);
     underlying.put("b", 2);
     underlying.put("c", 3);
-    Map<String, String> map
-        = Maps.transformValues(underlying, Functions.toStringFunction());
+    Map<String, String> map = Maps.transformValues(underlying, Functions.toStringFunction());
     assertEquals(underlying.size(), map.size());
 
     underlying.put("d", 4);
@@ -251,8 +271,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
     underlying.put("e", 5);
     underlying.put("f", 6);
     underlying.put("g", 7);
-    Map<String, String> map
-        = Maps.transformValues(underlying, Functions.toStringFunction());
+    Map<String, String> map = Maps.transformValues(underlying, Functions.toStringFunction());
 
     map.remove("a");
     assertFalse(underlying.containsKey("a"));
@@ -294,25 +313,24 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
 
   public void testTransformEquals() {
     Map<String, Integer> underlying = ImmutableMap.of("a", 0, "b", 1, "c", 2);
-    Map<String, Integer> expected
-        = Maps.transformValues(underlying, Functions.<Integer>identity());
+    Map<String, Integer> expected = Maps.transformValues(underlying, Functions.<Integer>identity());
 
     assertMapsEqual(expected, expected);
 
     Map<String, Integer> equalToUnderlying = Maps.newTreeMap();
     equalToUnderlying.putAll(underlying);
-    Map<String, Integer> map = Maps.transformValues(
-        equalToUnderlying, Functions.<Integer>identity());
+    Map<String, Integer> map =
+        Maps.transformValues(equalToUnderlying, Functions.<Integer>identity());
     assertMapsEqual(expected, map);
 
-    map = Maps.transformValues(ImmutableMap.of("a", 1, "b", 2, "c", 3),
-        new Function<Integer, Integer>() {
-          @Override
-          public Integer apply(Integer from) {
-            return from - 1;
-          }
-        }
-    );
+    map =
+        Maps.transformValues(ImmutableMap.of("a", 1, "b", 2, "c", 3),
+            new Function<Integer, Integer>() {
+              @Override
+              public Integer apply(Integer from) {
+                return from - 1;
+              }
+            });
     assertMapsEqual(expected, map);
   }
 
@@ -322,26 +340,24 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
     underlying.put("b", true);
     underlying.put(null, true);
 
-    Map<String, Boolean> map = Maps.transformValues(
-        underlying, new Function<Boolean, Boolean>() {
-          @Override
-          public Boolean apply(@Nullable Boolean from) {
-            return (from == null) ? true : null;
-          }
-        }
-    );
+    Map<String, Boolean> map = Maps.transformValues(underlying, new Function<Boolean, Boolean>() {
+      @Override
+      public Boolean apply(@Nullable Boolean from) {
+        return (from == null) ? true : null;
+      }
+    });
 
     Set<Map.Entry<String, Boolean>> entries = map.entrySet();
     assertTrue(entries.contains(Maps.immutableEntry("a", true)));
     assertTrue(entries.contains(Maps.immutableEntry("b", (Boolean) null)));
-    assertTrue(entries.contains(
-        Maps.immutableEntry((String) null, (Boolean) null)));
+    assertTrue(entries.contains(Maps.immutableEntry((String) null, (Boolean) null)));
 
     assertFalse(entries.contains(Maps.immutableEntry("c", (Boolean) null)));
     assertFalse(entries.contains(Maps.immutableEntry((String) null, true)));
   }
 
-  @Override public void testKeySetRemoveAllNullFromEmpty() {
+  @Override
+  public void testKeySetRemoveAllNullFromEmpty() {
     try {
       super.testKeySetRemoveAllNullFromEmpty();
     } catch (RuntimeException tolerated) {
@@ -349,7 +365,8 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
     }
   }
 
-  @Override public void testEntrySetRemoveAllNullFromEmpty() {
+  @Override
+  public void testEntrySetRemoveAllNullFromEmpty() {
     try {
       super.testEntrySetRemoveAllNullFromEmpty();
     } catch (RuntimeException tolerated) {

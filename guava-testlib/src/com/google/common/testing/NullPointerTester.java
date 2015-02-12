@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2005 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.testing;
@@ -49,18 +47,18 @@ import java.util.concurrent.ConcurrentMap;
 import javax.annotation.Nullable;
 
 /**
- * A test utility that verifies that your methods and constructors throw {@link
- * NullPointerException} or {@link UnsupportedOperationException} whenever null
- * is passed to a parameter that isn't annotated with {@link Nullable}.
+ * A test utility that verifies that your methods and constructors throw
+ * {@link NullPointerException} or {@link UnsupportedOperationException} whenever null is passed to
+ * a parameter that isn't annotated with {@link Nullable}.
  *
- * <p>The tested methods and constructors are invoked -- each time with one
- * parameter being null and the rest not null -- and the test fails if no
- * expected exception is thrown. {@code NullPointerTester} uses best effort to
- * pick non-null default values for many common JDK and Guava types, and also
- * for interfaces and public classes that have public parameter-less
- * constructors. When the non-null default value for a particular parameter type
- * cannot be provided by {@code NullPointerTester}, the caller can provide a
- * custom non-null default value for the parameter type via {@link #setDefault}.
+ * <p>
+ * The tested methods and constructors are invoked -- each time with one parameter being null and
+ * the rest not null -- and the test fails if no expected exception is thrown.
+ * {@code NullPointerTester} uses best effort to pick non-null default values for many common JDK
+ * and Guava types, and also for interfaces and public classes that have public parameter-less
+ * constructors. When the non-null default value for a particular parameter type cannot be provided
+ * by {@code NullPointerTester}, the caller can provide a custom non-null default value for the
+ * parameter type via {@link #setDefault}.
  *
  * @author Kevin Bourrillion
  * @since 10.0
@@ -68,15 +66,14 @@ import javax.annotation.Nullable;
 @Beta
 public final class NullPointerTester {
 
-  private final ClassToInstanceMap<Object> defaults =
-      MutableClassToInstanceMap.create();
+  private final ClassToInstanceMap<Object> defaults = MutableClassToInstanceMap.create();
   private final List<Member> ignoredMembers = Lists.newArrayList();
 
   private ExceptionTypePolicy policy = ExceptionTypePolicy.NPE_OR_UOE;
 
   /**
-   * Sets a default value that can be used for any parameter of type
-   * {@code type}. Returns this object.
+   * Sets a default value that can be used for any parameter of type {@code type}. Returns this
+   * object.
    */
   public <T> NullPointerTester setDefault(Class<T> type, T value) {
     defaults.putInstance(type, checkNotNull(value));
@@ -94,8 +91,8 @@ public final class NullPointerTester {
   }
 
   /**
-   * Runs {@link #testConstructor} on every constructor in class {@code c} that
-   * has at least {@code minimalVisibility}.
+   * Runs {@link #testConstructor} on every constructor in class {@code c} that has at least
+   * {@code minimalVisibility}.
    */
   public void testConstructors(Class<?> c, Visibility minimalVisibility) {
     for (Constructor<?> constructor : c.getDeclaredConstructors()) {
@@ -106,17 +103,15 @@ public final class NullPointerTester {
   }
 
   /**
-   * Runs {@link #testConstructor} on every public constructor in class {@code
-   * c}.
+   * Runs {@link #testConstructor} on every public constructor in class {@code c}.
    */
   public void testAllPublicConstructors(Class<?> c) {
     testConstructors(c, Visibility.PUBLIC);
   }
 
   /**
-   * Runs {@link #testMethod} on every static method of class {@code c} that has
-   * at least {@code minimalVisibility}, including those "inherited" from
-   * superclasses of the same package.
+   * Runs {@link #testMethod} on every static method of class {@code c} that has at least
+   * {@code minimalVisibility}, including those "inherited" from superclasses of the same package.
    */
   public void testStaticMethods(Class<?> c, Visibility minimalVisibility) {
     for (Method method : minimalVisibility.getStaticMethods(c)) {
@@ -127,17 +122,17 @@ public final class NullPointerTester {
   }
 
   /**
-   * Runs {@link #testMethod} on every public static method of class {@code c},
-   * including those "inherited" from superclasses of the same package.
+   * Runs {@link #testMethod} on every public static method of class {@code c}, including those
+   * "inherited" from superclasses of the same package.
    */
   public void testAllPublicStaticMethods(Class<?> c) {
     testStaticMethods(c, Visibility.PUBLIC);
   }
 
   /**
-   * Runs {@link #testMethod} on every instance method of the class of
-   * {@code instance} with at least {@code minimalVisibility}, including those
-   * inherited from superclasses of the same package.
+   * Runs {@link #testMethod} on every instance method of the class of {@code instance} with at
+   * least {@code minimalVisibility}, including those inherited from superclasses of the same
+   * package.
    */
   public void testInstanceMethods(Object instance, Visibility minimalVisibility) {
     for (Method method : getInstanceMethodsToTest(instance.getClass(), minimalVisibility)) {
@@ -156,21 +151,19 @@ public final class NullPointerTester {
   }
 
   /**
-   * Runs {@link #testMethod} on every public instance method of the class of
-   * {@code instance}, including those inherited from superclasses of the same
-   * package.
+   * Runs {@link #testMethod} on every public instance method of the class of {@code instance},
+   * including those inherited from superclasses of the same package.
    */
   public void testAllPublicInstanceMethods(Object instance) {
     testInstanceMethods(instance, Visibility.PUBLIC);
   }
 
   /**
-   * Verifies that {@code method} produces a {@link NullPointerException}
-   * or {@link UnsupportedOperationException} whenever <i>any</i> of its
-   * non-{@link Nullable} parameters are null.
+   * Verifies that {@code method} produces a {@link NullPointerException} or
+   * {@link UnsupportedOperationException} whenever <i>any</i> of its non-{@link Nullable}
+   * parameters are null.
    *
-   * @param instance the instance to invoke {@code method} on, or null if
-   *     {@code method} is static
+   * @param instance the instance to invoke {@code method} on, or null if {@code method} is static
    */
   public void testMethod(@Nullable Object instance, Method method) {
     Class<?>[] types = method.getParameterTypes();
@@ -181,13 +174,14 @@ public final class NullPointerTester {
 
   /**
    * Verifies that {@code ctor} produces a {@link NullPointerException} or
-   * {@link UnsupportedOperationException} whenever <i>any</i> of its
-   * non-{@link Nullable} parameters are null.
+   * {@link UnsupportedOperationException} whenever <i>any</i> of its non-{@link Nullable}
+   * parameters are null.
    */
   public void testConstructor(Constructor<?> ctor) {
     Class<?> declaringClass = ctor.getDeclaringClass();
-    checkArgument(Modifier.isStatic(declaringClass.getModifiers())
-        || declaringClass.getEnclosingClass() == null,
+    checkArgument(
+        Modifier.isStatic(declaringClass.getModifiers())
+            || declaringClass.getEnclosingClass() == null,
         "Cannot test constructor of non-static inner class: %s", declaringClass.getName());
     Class<?>[] types = ctor.getParameterTypes();
     for (int nullIndex = 0; nullIndex < types.length; nullIndex++) {
@@ -197,24 +191,21 @@ public final class NullPointerTester {
 
   /**
    * Verifies that {@code method} produces a {@link NullPointerException} or
-   * {@link UnsupportedOperationException} when the parameter in position {@code
-   * paramIndex} is null.  If this parameter is marked {@link Nullable}, this
-   * method does nothing.
+   * {@link UnsupportedOperationException} when the parameter in position {@code paramIndex} is
+   * null. If this parameter is marked {@link Nullable}, this method does nothing.
    *
-   * @param instance the instance to invoke {@code method} on, or null if
-   *     {@code method} is static
+   * @param instance the instance to invoke {@code method} on, or null if {@code method} is static
    */
-  public void testMethodParameter(
-      @Nullable final Object instance, final Method method, int paramIndex) {
+  public void testMethodParameter(@Nullable final Object instance, final Method method,
+      int paramIndex) {
     method.setAccessible(true);
     testParameter(instance, invokable(instance, method), paramIndex, method.getDeclaringClass());
   }
 
   /**
    * Verifies that {@code ctor} produces a {@link NullPointerException} or
-   * {@link UnsupportedOperationException} when the parameter in position {@code
-   * paramIndex} is null.  If this parameter is marked {@link Nullable}, this
-   * method does nothing.
+   * {@link UnsupportedOperationException} when the parameter in position {@code paramIndex} is
+   * null. If this parameter is marked {@link Nullable}, this method does nothing.
    */
   public void testConstructorParameter(Constructor<?> ctor, int paramIndex) {
     ctor.setAccessible(true);
@@ -225,19 +216,22 @@ public final class NullPointerTester {
   public enum Visibility {
 
     PACKAGE {
-      @Override boolean isVisible(int modifiers) {
+      @Override
+      boolean isVisible(int modifiers) {
         return !Modifier.isPrivate(modifiers);
       }
     },
 
     PROTECTED {
-      @Override boolean isVisible(int modifiers) {
+      @Override
+      boolean isVisible(int modifiers) {
         return Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers);
       }
     },
 
     PUBLIC {
-      @Override boolean isVisible(int modifiers) {
+      @Override
+      boolean isVisible(int modifiers) {
         return Modifier.isPublic(modifiers);
       }
     };
@@ -245,8 +239,7 @@ public final class NullPointerTester {
     abstract boolean isVisible(int modifiers);
 
     /**
-     * Returns {@code true} if {@code member} is visible under {@code this}
-     * visibility.
+     * Returns {@code true} if {@code member} is visible under {@code this} visibility.
      */
     final boolean isVisible(Member member) {
       return isVisible(member.getModifiers());
@@ -305,48 +298,49 @@ public final class NullPointerTester {
       this.parameterTypes = parameterTypes;
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    public boolean equals(Object obj) {
       if (obj instanceof Signature) {
         Signature that = (Signature) obj;
-        return name.equals(that.name)
-            && parameterTypes.equals(that.parameterTypes);
+        return name.equals(that.name) && parameterTypes.equals(that.parameterTypes);
       }
       return false;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return Objects.hashCode(name, parameterTypes);
     }
   }
 
   /**
    * Verifies that {@code invokable} produces a {@link NullPointerException} or
-   * {@link UnsupportedOperationException} when the parameter in position {@code
-   * paramIndex} is null.  If this parameter is marked {@link Nullable}, this
-   * method does nothing.
+   * {@link UnsupportedOperationException} when the parameter in position {@code paramIndex} is
+   * null. If this parameter is marked {@link Nullable}, this method does nothing.
    *
-   * @param instance the instance to invoke {@code invokable} on, or null if
-   *     {@code invokable} is static
+   * @param instance the instance to invoke {@code invokable} on, or null if {@code invokable} is
+   *        static
    */
-  private void testParameter(Object instance, Invokable<?, ?> invokable,
-      int paramIndex, Class<?> testedClass) {
+  private void testParameter(Object instance, Invokable<?, ?> invokable, int paramIndex,
+      Class<?> testedClass) {
     if (isPrimitiveOrNullable(invokable.getParameters().get(paramIndex))) {
       return; // there's nothing to test
     }
     Object[] params = buildParamList(invokable, paramIndex);
     try {
-      @SuppressWarnings("unchecked") // We'll get a runtime exception if the type is wrong.
+      @SuppressWarnings("unchecked")
+      // We'll get a runtime exception if the type is wrong.
       Invokable<Object, ?> unsafe = (Invokable<Object, ?>) invokable;
       unsafe.invoke(instance, params);
-      Assert.fail("No exception thrown for parameter at index " + paramIndex
-          + " from " + invokable + Arrays.toString(params) + " for " + testedClass);
+      Assert.fail("No exception thrown for parameter at index " + paramIndex + " from " + invokable
+          + Arrays.toString(params) + " for " + testedClass);
     } catch (InvocationTargetException e) {
       Throwable cause = e.getCause();
       if (policy.isExpectedType(cause)) {
         return;
       }
-      AssertionFailedError error = new AssertionFailedError(
-          "wrong exception thrown from " + invokable + ": " + cause);
+      AssertionFailedError error =
+          new AssertionFailedError("wrong exception thrown from " + invokable + ": " + cause);
       error.initCause(cause);
       throw error;
     } catch (IllegalAccessException e) {
@@ -362,11 +356,9 @@ public final class NullPointerTester {
       Parameter param = params.get(i);
       if (i != indexOfParamToSetToNull) {
         args[i] = getDefaultValue(param.getType());
-        Assert.assertTrue(
-            "Can't find or create a sample instance for type '"
-                + param.getType()
-                + "'; please provide one using NullPointerTester.setDefault()",
-            args[i] != null || isNullable(param));
+        Assert.assertTrue("Can't find or create a sample instance for type '" + param.getType()
+            + "'; please provide one using NullPointerTester.setDefault()", args[i] != null
+            || isNullable(param));
       }
     }
     return args;
@@ -380,7 +372,8 @@ public final class NullPointerTester {
     if (defaultValue != null) {
       return defaultValue;
     }
-    @SuppressWarnings("unchecked") // All arbitrary instances are generics-safe
+    @SuppressWarnings("unchecked")
+    // All arbitrary instances are generics-safe
     T arbitrary = (T) ArbitraryInstances.get(type.getRawType());
     if (arbitrary != null) {
       return arbitrary;
@@ -398,11 +391,10 @@ public final class NullPointerTester {
       return defaultType;
     }
     if (type.getRawType() == Converter.class) {
-      TypeToken<?> convertFromType = type.resolveType(
-          Converter.class.getTypeParameters()[0]);
-      TypeToken<?> convertToType = type.resolveType(
-          Converter.class.getTypeParameters()[1]);
-      @SuppressWarnings("unchecked") // returns default for both F and T
+      TypeToken<?> convertFromType = type.resolveType(Converter.class.getTypeParameters()[0]);
+      TypeToken<?> convertToType = type.resolveType(Converter.class.getTypeParameters()[1]);
+      @SuppressWarnings("unchecked")
+      // returns default for both F and T
       T defaultConverter = (T) defaultConverter(convertFromType, convertToType);
       return defaultConverter;
     }
@@ -412,17 +404,20 @@ public final class NullPointerTester {
     return null;
   }
 
-  private <F, T> Converter<F, T> defaultConverter(
-      final TypeToken<F> convertFromType, final TypeToken<T> convertToType) {
+  private <F, T> Converter<F, T> defaultConverter(final TypeToken<F> convertFromType,
+      final TypeToken<T> convertToType) {
     return new Converter<F, T>() {
-      @Override protected T doForward(F a) {
+      @Override
+      protected T doForward(F a) {
         return doConvert(convertToType);
       }
-      @Override protected F doBackward(T b) {
+
+      @Override
+      protected F doBackward(T b) {
         return doConvert(convertFromType);
       }
 
-      private /*static*/ <S> S doConvert(TypeToken<S> type) {
+      private/* static */<S> S doConvert(TypeToken<S> type) {
         return checkNotNull(getDefaultValue(type));
       }
     };
@@ -430,8 +425,7 @@ public final class NullPointerTester {
 
   private static TypeToken<?> getFirstTypeParameter(Type type) {
     if (type instanceof ParameterizedType) {
-      return TypeToken.of(
-          ((ParameterizedType) type).getActualTypeArguments()[0]);
+      return TypeToken.of(((ParameterizedType) type).getActualTypeArguments()[0]);
     } else {
       return TypeToken.of(Object.class);
     }
@@ -439,7 +433,8 @@ public final class NullPointerTester {
 
   private <T> T newDefaultReturningProxy(final TypeToken<T> type) {
     return new DummyProxy() {
-      @Override <R> R dummyReturnValue(TypeToken<R> returnType) {
+      @Override
+      <R> R dummyReturnValue(TypeToken<R> returnType) {
         return getDefaultValue(returnType);
       }
     }.newProxy(type);
@@ -471,8 +466,7 @@ public final class NullPointerTester {
   private enum ExceptionTypePolicy {
 
     /**
-     * Exceptions should be {@link NullPointerException} or
-     * {@link UnsupportedOperationException}.
+     * Exceptions should be {@link NullPointerException} or {@link UnsupportedOperationException}.
      */
     NPE_OR_UOE() {
       @Override
@@ -483,15 +477,13 @@ public final class NullPointerTester {
     },
 
     /**
-     * Exceptions should be {@link NullPointerException},
-     * {@link IllegalArgumentException}, or
+     * Exceptions should be {@link NullPointerException}, {@link IllegalArgumentException}, or
      * {@link UnsupportedOperationException}.
      */
     NPE_IAE_OR_UOE() {
       @Override
       public boolean isExpectedType(Throwable cause) {
-        return cause instanceof NullPointerException
-            || cause instanceof IllegalArgumentException
+        return cause instanceof NullPointerException || cause instanceof IllegalArgumentException
             || cause instanceof UnsupportedOperationException;
       }
     };

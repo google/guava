@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -23,8 +21,8 @@ import com.google.common.base.CharMatcher.NamedFastMatcher;
 import java.util.BitSet;
 
 /**
- * An immutable version of CharMatcher for smallish sets of characters that uses a hash table
- * with linear probing to check for matches.
+ * An immutable version of CharMatcher for smallish sets of characters that uses a hash table with
+ * linear probing to check for matches.
  *
  * @author Christopher Swenson
  */
@@ -35,14 +33,13 @@ final class SmallCharMatcher extends NamedFastMatcher {
   private final boolean containsZero;
   private final long filter;
 
-  private SmallCharMatcher(char[] table, long filter, boolean containsZero,
-      String description) {
+  private SmallCharMatcher(char[] table, long filter, boolean containsZero, String description) {
     super(description);
     this.table = table;
     this.filter = filter;
     this.containsZero = containsZero;
   }
-  
+
   private static final int C1 = 0xcc9e2d51;
   private static final int C2 = 0x1b873593;
 
@@ -50,7 +47,7 @@ final class SmallCharMatcher extends NamedFastMatcher {
    * This method was rewritten in Java from an intermediate step of the Murmur hash function in
    * http://code.google.com/p/smhasher/source/browse/trunk/MurmurHash3.cpp, which contained the
    * following header:
-   *
+   * 
    * MurmurHash3 was written by Austin Appleby, and is placed in the public domain. The author
    * hereby disclaims copyright to this source code.
    */
@@ -68,13 +65,13 @@ final class SmallCharMatcher extends NamedFastMatcher {
   // Represents how tightly we can pack things, as a maximum.
   private static final double DESIRED_LOAD_FACTOR = 0.5;
 
- /**
-  * Returns an array size suitable for the backing array of a hash table that
-  * uses open addressing with linear probing in its implementation.  The
-  * returned size is the smallest power of two that can hold setSize elements
-  * with the desired load factor.
-  */
-  @VisibleForTesting static int chooseTableSize(int setSize) {
+  /**
+   * Returns an array size suitable for the backing array of a hash table that uses open addressing
+   * with linear probing in its implementation. The returned size is the smallest power of two that
+   * can hold setSize elements with the desired load factor.
+   */
+  @VisibleForTesting
+  static int chooseTableSize(int setSize) {
     if (setSize == 1) {
       return 2;
     }
@@ -127,7 +124,7 @@ final class SmallCharMatcher extends NamedFastMatcher {
       // Check for empty.
       if (table[index] == 0) {
         return false;
-      // Check for match.
+        // Check for match.
       } else if (table[index] == c) {
         return true;
       } else {

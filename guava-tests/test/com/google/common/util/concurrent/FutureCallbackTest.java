@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -65,21 +63,21 @@ public class FutureCallbackTest extends TestCase {
 
   public void testCancel() {
     SettableFuture<String> f = SettableFuture.create();
-    FutureCallback<String> callback =
-        new FutureCallback<String>() {
-          private boolean called = false;
-          @Override
-          public void onSuccess(String result) {
-            fail("Was not expecting onSuccess() to be called.");
-          }
+    FutureCallback<String> callback = new FutureCallback<String>() {
+      private boolean called = false;
 
-          @Override
-          public synchronized void onFailure(Throwable t) {
-            assertFalse(called);
-            assertTrue(t instanceof CancellationException);
-            called = true;
-          }
-        };
+      @Override
+      public void onSuccess(String result) {
+        fail("Was not expecting onSuccess() to be called.");
+      }
+
+      @Override
+      public synchronized void onFailure(Throwable t) {
+        assertFalse(called);
+        assertTrue(t instanceof CancellationException);
+        called = true;
+      }
+    };
     Futures.addCallback(f, callback);
     f.cancel(true);
   }
@@ -103,7 +101,8 @@ public class FutureCallbackTest extends TestCase {
     RuntimeException exception = new RuntimeException();
     String result = "result";
     SettableFuture<String> future = SettableFuture.create();
-    @SuppressWarnings("unchecked") // Safe for a mock
+    @SuppressWarnings("unchecked")
+    // Safe for a mock
     FutureCallback<String> callback = Mockito.mock(FutureCallback.class);
     Futures.addCallback(future, callback);
     Mockito.doThrow(exception).when(callback).onSuccess(result);
@@ -115,11 +114,13 @@ public class FutureCallbackTest extends TestCase {
 
   @GwtIncompatible("Mockito")
   public void testOnSuccessThrowsError() throws Exception {
-    class TestError extends Error {}
+    class TestError extends Error {
+    }
     TestError error = new TestError();
     String result = "result";
     SettableFuture<String> future = SettableFuture.create();
-    @SuppressWarnings("unchecked") // Safe for a mock
+    @SuppressWarnings("unchecked")
+    // Safe for a mock
     FutureCallback<String> callback = Mockito.mock(FutureCallback.class);
     Futures.addCallback(future, callback);
     Mockito.doThrow(error).when(callback).onSuccess(result);
@@ -149,6 +150,7 @@ public class FutureCallbackTest extends TestCase {
 
   private class CountingSameThreadExecutor implements Executor {
     int runCount = 0;
+
     @Override
     public void execute(Runnable command) {
       command.run();
@@ -159,11 +161,11 @@ public class FutureCallbackTest extends TestCase {
   // TODO(user): Move to testing, unify with RuntimeExceptionThrowingFuture
 
   /**
-   * A {@link Future} implementation which always throws directly from calls to
-   * get() (i.e. not wrapped in ExecutionException.
-   * For just a normal Future failure, use {@link SettableFuture}).
+   * A {@link Future} implementation which always throws directly from calls to get() (i.e. not
+   * wrapped in ExecutionException. For just a normal Future failure, use {@link SettableFuture}).
    *
-   * <p>Useful for testing the behavior of Future utilities against odd futures.
+   * <p>
+   * Useful for testing the behavior of Future utilities against odd futures.
    *
    * @author Anthony Zana
    */
@@ -175,8 +177,7 @@ public class FutureCallbackTest extends TestCase {
       return new ThrowingFuture<V>(error);
     }
 
-    public static <V> ListenableFuture<V>
-        throwingRuntimeException(RuntimeException e) {
+    public static <V> ListenableFuture<V> throwingRuntimeException(RuntimeException e) {
       return new ThrowingFuture<V>(e);
     }
 
@@ -232,8 +233,10 @@ public class FutureCallbackTest extends TestCase {
   }
 
   private final class MockCallback implements FutureCallback<String> {
-    @Nullable private String value = null;
-    @Nullable private Throwable failure = null;
+    @Nullable
+    private String value = null;
+    @Nullable
+    private Throwable failure = null;
     private boolean wasCalled = false;
 
     MockCallback(String expectedValue) {

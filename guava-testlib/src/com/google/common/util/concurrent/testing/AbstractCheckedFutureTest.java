@@ -1,16 +1,14 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License.  You may obtain a copy
- * of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
- * License for the specific language governing permissions and limitations under
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
 
@@ -31,14 +29,13 @@ import java.util.concurrent.TimeUnit;
  * @since 10.0
  */
 @Beta
-public abstract class AbstractCheckedFutureTest
-    extends AbstractListenableFutureTest {
+public abstract class AbstractCheckedFutureTest extends AbstractListenableFutureTest {
 
   /**
    * More specific type for the create method.
    */
-  protected abstract <V> CheckedFuture<V, ?> createCheckedFuture(V value,
-      Exception except, CountDownLatch waitOn);
+  protected abstract <V> CheckedFuture<V, ?> createCheckedFuture(V value, Exception except,
+      CountDownLatch waitOn);
 
   /**
    * Checks that the exception is the correct type of cancellation exception.
@@ -56,19 +53,18 @@ public abstract class AbstractCheckedFutureTest
   protected abstract void checkInterruptedException(Exception e);
 
   @Override
-  protected <V> ListenableFuture<V> createListenableFuture(V value,
-      Exception except, CountDownLatch waitOn) {
+  protected <V> ListenableFuture<V> createListenableFuture(V value, Exception except,
+      CountDownLatch waitOn) {
     return createCheckedFuture(value, except, waitOn);
   }
 
   /**
-   * Tests that the {@link CheckedFuture#checkedGet()} method throws the correct
-   * type of cancellation exception when it is cancelled.
+   * Tests that the {@link CheckedFuture#checkedGet()} method throws the correct type of
+   * cancellation exception when it is cancelled.
    */
   public void testCheckedGetThrowsApplicationExceptionOnCancellation() {
 
-    final CheckedFuture<Boolean, ?> future =
-        createCheckedFuture(Boolean.TRUE, null, latch);
+    final CheckedFuture<Boolean, ?> future = createCheckedFuture(Boolean.TRUE, null, latch);
 
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
@@ -91,11 +87,9 @@ public abstract class AbstractCheckedFutureTest
     assertTrue(future.isCancelled());
   }
 
-  public void testCheckedGetThrowsApplicationExceptionOnInterruption()
-      throws InterruptedException {
+  public void testCheckedGetThrowsApplicationExceptionOnInterruption() throws InterruptedException {
 
-    final CheckedFuture<Boolean, ?> future =
-        createCheckedFuture(Boolean.TRUE, null, latch);
+    final CheckedFuture<Boolean, ?> future = createCheckedFuture(Boolean.TRUE, null, latch);
 
     final CountDownLatch startingGate = new CountDownLatch(1);
     final CountDownLatch successLatch = new CountDownLatch(1);

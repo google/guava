@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -32,20 +30,22 @@ import javax.annotation.Nullable;
 /**
  * An immutable collection. Does not permit null elements.
  *
- * <p>In addition to the {@link Collection} methods, this class has an {@link
- * #asList()} method, which returns a list view of the collection's elements.
+ * <p>
+ * In addition to the {@link Collection} methods, this class has an {@link #asList()} method, which
+ * returns a list view of the collection's elements.
  *
- * <p><b>Note:</b> Although this class is not final, it cannot be subclassed
- * outside of this package as it has no public or protected constructors. Thus,
- * instances of this type are guaranteed to be immutable.
+ * <p>
+ * <b>Note:</b> Although this class is not final, it cannot be subclassed outside of this package as
+ * it has no public or protected constructors. Thus, instances of this type are guaranteed to be
+ * immutable.
  *
  * @author Jesse Wilson
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
-@SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableCollection<E> extends AbstractCollection<E>
-    implements Serializable {
+@SuppressWarnings("serial")
+// we're overriding default serialization
+public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
 
   ImmutableCollection() {}
 
@@ -155,8 +155,8 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
   }
 
   /*
-   * TODO(kevinb): Restructure code so ImmutableList doesn't contain this
-   * variable, which it doesn't use.
+   * TODO(kevinb): Restructure code so ImmutableList doesn't contain this variable, which it doesn't
+   * use.
    */
   private transient ImmutableList<E> asList;
 
@@ -188,10 +188,10 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
    * memory leaks.
    */
   abstract boolean isPartialView();
-  
+
   /**
    * Copies the contents of this immutable collection into the specified array at the specified
-   * offset.  Returns {@code offset + size()}.
+   * offset. Returns {@code offset + size()}.
    */
   int copyIntoArray(Object[] dst, int offset) {
     for (E e : this) {
@@ -229,14 +229,13 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
       return newCapacity;
     }
 
-    Builder() {
-    }
+    Builder() {}
 
     /**
      * Adds {@code element} to the {@code ImmutableCollection} being built.
      *
-     * <p>Note that each builder class covariantly returns its own type from
-     * this method.
+     * <p>
+     * Note that each builder class covariantly returns its own type from this method.
      *
      * @param element the element to add
      * @return this {@code Builder} instance
@@ -245,16 +244,15 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
     public abstract Builder<E> add(E element);
 
     /**
-     * Adds each element of {@code elements} to the {@code ImmutableCollection}
-     * being built.
+     * Adds each element of {@code elements} to the {@code ImmutableCollection} being built.
      *
-     * <p>Note that each builder class overrides this method in order to
-     * covariantly return its own type.
+     * <p>
+     * Note that each builder class overrides this method in order to covariantly return its own
+     * type.
      *
      * @param elements the elements to add
      * @return this {@code Builder} instance
-     * @throws NullPointerException if {@code elements} is null or contains a
-     *     null element
+     * @throws NullPointerException if {@code elements} is null or contains a null element
      */
     public Builder<E> add(E... elements) {
       for (E element : elements) {
@@ -264,16 +262,15 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
     }
 
     /**
-     * Adds each element of {@code elements} to the {@code ImmutableCollection}
-     * being built.
+     * Adds each element of {@code elements} to the {@code ImmutableCollection} being built.
      *
-     * <p>Note that each builder class overrides this method in order to
-     * covariantly return its own type.
+     * <p>
+     * Note that each builder class overrides this method in order to covariantly return its own
+     * type.
      *
      * @param elements the elements to add
      * @return this {@code Builder} instance
-     * @throws NullPointerException if {@code elements} is null or contains a
-     *     null element
+     * @throws NullPointerException if {@code elements} is null or contains a null element
      */
     public Builder<E> addAll(Iterable<? extends E> elements) {
       for (E element : elements) {
@@ -283,16 +280,15 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
     }
 
     /**
-     * Adds each element of {@code elements} to the {@code ImmutableCollection}
-     * being built.
+     * Adds each element of {@code elements} to the {@code ImmutableCollection} being built.
      *
-     * <p>Note that each builder class overrides this method in order to
-     * covariantly return its own type.
+     * <p>
+     * Note that each builder class overrides this method in order to covariantly return its own
+     * type.
      *
      * @param elements the elements to add
      * @return this {@code Builder} instance
-     * @throws NullPointerException if {@code elements} is null or contains a
-     *     null element
+     * @throws NullPointerException if {@code elements} is null or contains a null element
      */
     public Builder<E> addAll(Iterator<? extends E> elements) {
       while (elements.hasNext()) {
@@ -302,33 +298,35 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
     }
 
     /**
-     * Returns a newly-created {@code ImmutableCollection} of the appropriate
-     * type, containing the elements provided to this builder.
+     * Returns a newly-created {@code ImmutableCollection} of the appropriate type, containing the
+     * elements provided to this builder.
      *
-     * <p>Note that each builder class covariantly returns the appropriate type
-     * of {@code ImmutableCollection} from this method.
+     * <p>
+     * Note that each builder class covariantly returns the appropriate type of
+     * {@code ImmutableCollection} from this method.
      */
     public abstract ImmutableCollection<E> build();
   }
-  
+
   abstract static class ArrayBasedBuilder<E> extends ImmutableCollection.Builder<E> {
     Object[] contents;
     int size;
-    
+
     ArrayBasedBuilder(int initialCapacity) {
       checkNonnegative(initialCapacity, "initialCapacity");
       this.contents = new Object[initialCapacity];
       this.size = 0;
     }
-    
+
     /**
-     * Expand the absolute capacity of the builder so it can accept at least
-     * the specified number of elements without being resized.
+     * Expand the absolute capacity of the builder so it can accept at least the specified number of
+     * elements without being resized.
      */
     private void ensureCapacity(int minCapacity) {
       if (contents.length < minCapacity) {
-        this.contents = ObjectArrays.arraysCopyOf(
-            this.contents, expandedCapacity(contents.length, minCapacity));
+        this.contents =
+            ObjectArrays
+                .arraysCopyOf(this.contents, expandedCapacity(contents.length, minCapacity));
       }
     }
 

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -44,10 +42,8 @@ public class QueuesTest extends TestCase {
    */
 
   public static List<BlockingQueue<Object>> blockingQueues() {
-    return ImmutableList.<BlockingQueue<Object>>of(
-        new LinkedBlockingQueue<Object>(),
-        new LinkedBlockingQueue<Object>(10),
-        new SynchronousQueue<Object>(),
+    return ImmutableList.<BlockingQueue<Object>>of(new LinkedBlockingQueue<Object>(),
+        new LinkedBlockingQueue<Object>(10), new SynchronousQueue<Object>(),
         new ArrayBlockingQueue<Object>(10),
         new PriorityBlockingQueue<Object>(10, Ordering.arbitrary()));
   }
@@ -70,9 +66,8 @@ public class QueuesTest extends TestCase {
 
   private static <T> int drain(BlockingQueue<T> q, Collection<? super T> buffer, int maxElements,
       long timeout, TimeUnit unit, boolean interruptibly) throws InterruptedException {
-    return interruptibly
-        ? Queues.drain(q, buffer, maxElements, timeout, unit)
-        : Queues.drainUninterruptibly(q, buffer, maxElements, timeout, unit);
+    return interruptibly ? Queues.drain(q, buffer, maxElements, timeout, unit) : Queues
+        .drainUninterruptibly(q, buffer, maxElements, timeout, unit);
   }
 
   public void testMultipleProducers() throws Exception {
@@ -81,9 +76,8 @@ public class QueuesTest extends TestCase {
     }
   }
 
-  private void testMultipleProducers(BlockingQueue<Object> q)
-      throws InterruptedException {
-    for (boolean interruptibly : new boolean[] { true, false }) {
+  private void testMultipleProducers(BlockingQueue<Object> q) throws InterruptedException {
+    for (boolean interruptibly : new boolean[] {true, false}) {
       threadPool.submit(new Producer(q, 20));
       threadPool.submit(new Producer(q, 20));
       threadPool.submit(new Producer(q, 20));
@@ -105,7 +99,7 @@ public class QueuesTest extends TestCase {
   }
 
   private void testDrainTimesOut(BlockingQueue<Object> q) throws Exception {
-    for (boolean interruptibly : new boolean[] { true, false }) {
+    for (boolean interruptibly : new boolean[] {true, false}) {
       assertEquals(0, Queues.drain(q, ImmutableList.of(), 1, 10, TimeUnit.MILLISECONDS));
 
       // producing one, will ask for two
@@ -134,7 +128,7 @@ public class QueuesTest extends TestCase {
   }
 
   private void testZeroElements(BlockingQueue<Object> q) throws InterruptedException {
-    for (boolean interruptibly : new boolean[] { true, false }) {
+    for (boolean interruptibly : new boolean[] {true, false}) {
       // asking to drain zero elements
       assertEquals(0, drain(q, ImmutableList.of(), 0, 10, TimeUnit.MILLISECONDS, interruptibly));
     }
@@ -200,8 +194,7 @@ public class QueuesTest extends TestCase {
       }
     });
     List<Object> buf = Lists.newArrayList();
-    int elements =
-        Queues.drainUninterruptibly(q, buf, 100, Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+    int elements = Queues.drainUninterruptibly(q, buf, 100, Long.MAX_VALUE, TimeUnit.NANOSECONDS);
     // so when this drains all elements, we know the thread has also been interrupted in between
     assertTrue(Thread.interrupted());
     assertEquals(100, elements);
@@ -267,11 +260,12 @@ public class QueuesTest extends TestCase {
     threadPool.submit(new Interrupter(Thread.currentThread()));
 
     long startTime = System.nanoTime();
-    Queues.drainUninterruptibly(
-        q, Lists.newArrayList(), 1, 10, TimeUnit.MILLISECONDS);
+    Queues.drainUninterruptibly(q, Lists.newArrayList(), 1, 10, TimeUnit.MILLISECONDS);
     assertTrue((System.nanoTime() - startTime) >= TimeUnit.MILLISECONDS.toNanos(10));
     // wait for interrupted status and clear it
-    while (!Thread.interrupted()) { Thread.yield(); }
+    while (!Thread.interrupted()) {
+      Thread.yield();
+    }
   }
 
   private static class Producer implements Runnable {
@@ -283,7 +277,8 @@ public class QueuesTest extends TestCase {
       this.elements = elements;
     }
 
-    @Override public void run() {
+    @Override
+    public void run() {
       try {
         for (int i = 0; i < elements; i++) {
           q.put(new Object());
@@ -305,7 +300,8 @@ public class QueuesTest extends TestCase {
       this.threadToInterrupt = threadToInterrupt;
     }
 
-    @Override public void run() {
+    @Override
+    public void run() {
       try {
         Thread.sleep(100);
       } catch (InterruptedException e) {

@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -44,7 +44,8 @@ public final class Interners {
   public static <E> Interner<E> newStrongInterner() {
     final ConcurrentMap<E, E> map = new MapMaker().makeMap();
     return new Interner<E>() {
-      @Override public E intern(E sample) {
+      @Override
+      public E intern(E sample) {
         E canonical = map.putIfAbsent(checkNotNull(sample), sample);
         return (canonical == null) ? sample : canonical;
       }
@@ -54,9 +55,9 @@ public final class Interners {
   /**
    * Returns a new thread-safe interner which retains a weak reference to each instance it has
    * interned, and so does not prevent these instances from being garbage-collected. This most
-   * likely does not perform as well as {@link #newStrongInterner}, but is the best alternative
-   * when the memory usage of that implementation is unacceptable. Note that unlike {@link
-   * String#intern}, using this interner does not consume memory in the permanent generation.
+   * likely does not perform as well as {@link #newStrongInterner}, but is the best alternative when
+   * the memory usage of that implementation is unacceptable. Note that unlike {@link String#intern}
+   * , using this interner does not consume memory in the permanent generation.
    */
   @GwtIncompatible("java.lang.ref.WeakReference")
   public static <E> Interner<E> newWeakInterner() {
@@ -65,12 +66,11 @@ public final class Interners {
 
   private static class WeakInterner<E> implements Interner<E> {
     // MapMaker is our friend, we know about this type
-    private final MapMakerInternalMap<E, Dummy> map = new MapMaker()
-          .weakKeys()
-          .keyEquivalence(Equivalence.equals())
-          .makeCustomMap();
+    private final MapMakerInternalMap<E, Dummy> map = new MapMaker().weakKeys()
+        .keyEquivalence(Equivalence.equals()).makeCustomMap();
 
-    @Override public E intern(E sample) {
+    @Override
+    public E intern(E sample) {
       while (true) {
         // trying to read the canonical...
         ReferenceEntry<E, Dummy> entry = map.getEntry(sample);
@@ -86,8 +86,9 @@ public final class Interners {
         if (sneaky == null) {
           return sample;
         } else {
-          /* Someone beat us to it! Trying again...
-           *
+          /*
+           * Someone beat us to it! Trying again...
+           * 
            * Technically this loop not guaranteed to terminate, so theoretically (extremely
            * unlikely) this thread might starve, but even then, there is always going to be another
            * thread doing progress here.
@@ -96,7 +97,9 @@ public final class Interners {
       }
     }
 
-    private enum Dummy { VALUE }
+    private enum Dummy {
+      VALUE
+    }
   }
 
   /**
@@ -116,15 +119,18 @@ public final class Interners {
       this.interner = interner;
     }
 
-    @Override public E apply(E input) {
+    @Override
+    public E apply(E input) {
       return interner.intern(input);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return interner.hashCode();
     }
 
-    @Override public boolean equals(Object other) {
+    @Override
+    public boolean equals(Object other) {
       if (other instanceof InternerFunction) {
         InternerFunction<?> that = (InternerFunction<?>) other;
         return interner.equals(that.interner);

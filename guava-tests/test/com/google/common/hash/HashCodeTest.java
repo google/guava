@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.hash;
@@ -36,31 +34,27 @@ import java.util.Arrays;
 public class HashCodeTest extends TestCase {
   // note: asInt(), asLong() are in little endian
   private static final ImmutableList<ExpectedHashCode> expectedHashCodes = ImmutableList.of(
-      new ExpectedHashCode(new byte[] {
-        (byte) 0xef, (byte) 0xcd, (byte) 0xab, (byte) 0x89,
-        (byte) 0x67, (byte) 0x45, (byte) 0x23, (byte) 0x01},
-        0x89abcdef, 0x0123456789abcdefL, "efcdab8967452301"),
+      new ExpectedHashCode(new byte[] {(byte) 0xef, (byte) 0xcd, (byte) 0xab, (byte) 0x89,
+          (byte) 0x67, (byte) 0x45, (byte) 0x23, (byte) 0x01}, 0x89abcdef, 0x0123456789abcdefL,
+          "efcdab8967452301"),
 
-      new ExpectedHashCode(new byte[] {
-        (byte) 0xef, (byte) 0xcd, (byte) 0xab, (byte) 0x89,
-        (byte) 0x67, (byte) 0x45, (byte) 0x23, (byte) 0x01, // up to here, same bytes as above
-        (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04,
-        (byte) 0x05, (byte) 0x06, (byte) 0x07, (byte) 0x08},
-        0x89abcdef, 0x0123456789abcdefL, // asInt/asLong as above, due to equal eight first bytes
-        "efcdab89674523010102030405060708"),
+      new ExpectedHashCode(new byte[] {(byte) 0xef, (byte) 0xcd, (byte) 0xab, (byte) 0x89,
+          (byte) 0x67, (byte) 0x45, (byte) 0x23,
+          (byte) 0x01, // up to here, same bytes as above
+          (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04, (byte) 0x05, (byte) 0x06,
+          (byte) 0x07, (byte) 0x08}, 0x89abcdef, 0x0123456789abcdefL, // asInt/asLong as above, due
+                                                                      // to equal eight first bytes
+          "efcdab89674523010102030405060708"),
 
-      new ExpectedHashCode(new byte[] { (byte) 0xdf, (byte) 0x9b, (byte) 0x57, (byte) 0x13 },
-        0x13579bdf, null, "df9b5713"),
+      new ExpectedHashCode(new byte[] {(byte) 0xdf, (byte) 0x9b, (byte) 0x57, (byte) 0x13},
+          0x13579bdf, null, "df9b5713"),
 
-      new ExpectedHashCode(new byte[] {
-          (byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00},
+      new ExpectedHashCode(new byte[] {(byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00},
           0x0000abcd, null, "cdab0000"),
 
-      new ExpectedHashCode(new byte[] {
-          (byte) 0xef, (byte) 0xcd, (byte) 0xab, (byte) 0x00,
-          (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00},
-          0x00abcdef, 0x0000000000abcdefL, "efcdab0000000000")
-    );
+      new ExpectedHashCode(new byte[] {(byte) 0xef, (byte) 0xcd, (byte) 0xab, (byte) 0x00,
+          (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00}, 0x00abcdef, 0x0000000000abcdefL,
+          "efcdab0000000000"));
 
   // expectedHashCodes must contain at least one hash code with 4 bytes
   public void testFromInt() {
@@ -90,7 +84,7 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testFromBytes_copyOccurs() {
-    byte[] bytes = new byte[] { (byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00 };
+    byte[] bytes = new byte[] {(byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00};
     HashCode hashCode = HashCode.fromBytes(bytes);
     int expectedInt = 0x0000abcd;
     String expectedToString = "cdab0000";
@@ -105,7 +99,7 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testFromBytesNoCopy_noCopyOccurs() {
-    byte[] bytes = new byte[] { (byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00 };
+    byte[] bytes = new byte[] {(byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00};
     HashCode hashCode = HashCode.fromBytesNoCopy(bytes);
 
     assertEquals(0x0000abcd, hashCode.asInt());
@@ -118,7 +112,7 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testGetBytesInternal_noCloneOccurs() {
-    byte[] bytes = new byte[] { (byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00 };
+    byte[] bytes = new byte[] {(byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00};
     HashCode hashCode = HashCode.fromBytes(bytes);
 
     assertEquals(0x0000abcd, hashCode.asInt());
@@ -156,7 +150,7 @@ public class HashCodeTest extends TestCase {
   }
 
   public void testToString() {
-    byte[] data = new byte[] { 127, -128, 5, -1, 14 };
+    byte[] data = new byte[] {127, -128, 5, -1, 14};
     assertEquals("7f8005ff0e", HashCode.fromBytes(data).toString());
     assertEquals("7f8005ff0e", base16().lowerCase().encode(data));
   }
@@ -171,8 +165,7 @@ public class HashCodeTest extends TestCase {
 
   public void testRoundTripHashCodeUsingBaseEncoding() {
     HashCode hash1 = Hashing.sha1().hashString("foo", Charsets.US_ASCII);
-    HashCode hash2 =
-        HashCode.fromBytes(BaseEncoding.base16().lowerCase().decode(hash1.toString()));
+    HashCode hash2 = HashCode.fromBytes(BaseEncoding.base16().lowerCase().decode(hash1.toString()));
     assertEquals(hash1, hash2);
   }
 
@@ -212,10 +205,8 @@ public class HashCodeTest extends TestCase {
     for (ExpectedHashCode expected : expectedHashCodes) {
       String string = HashCode.fromBytes(expected.bytes).toString();
       assertEquals(expected.toString, string);
-      assertEquals(
-          expected.toString,
-          HashCode.fromBytes(
-              BaseEncoding.base16().lowerCase().decode(string)).toString());
+      assertEquals(expected.toString,
+          HashCode.fromBytes(BaseEncoding.base16().lowerCase().decode(string)).toString());
     }
   }
 
@@ -261,52 +252,43 @@ public class HashCodeTest extends TestCase {
   public void testIntWriteBytesTo() {
     byte[] dest = new byte[4];
     HashCode.fromInt(42).writeBytesTo(dest, 0, 4);
-    assertTrue(Arrays.equals(
-        HashCode.fromInt(42).asBytes(),
-        dest));
+    assertTrue(Arrays.equals(HashCode.fromInt(42).asBytes(), dest));
   }
 
   public void testLongWriteBytesTo() {
     byte[] dest = new byte[8];
     HashCode.fromLong(42).writeBytesTo(dest, 0, 8);
-    assertTrue(Arrays.equals(
-        HashCode.fromLong(42).asBytes(),
-        dest));
+    assertTrue(Arrays.equals(HashCode.fromLong(42).asBytes(), dest));
   }
 
-  private static final HashCode HASH_ABCD =
-      HashCode.fromBytes(new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd });
+  private static final HashCode HASH_ABCD = HashCode.fromBytes(new byte[] {(byte) 0xaa,
+      (byte) 0xbb, (byte) 0xcc, (byte) 0xdd});
 
   public void testWriteBytesTo() {
     byte[] dest = new byte[4];
     HASH_ABCD.writeBytesTo(dest, 0, 4);
-    assertTrue(Arrays.equals(
-        new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd },
-        dest));
+    assertTrue(Arrays.equals(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd}, dest));
   }
 
   public void testWriteBytesToOversizedArray() {
     byte[] dest = new byte[5];
     HASH_ABCD.writeBytesTo(dest, 0, 4);
-    assertTrue(Arrays.equals(
-        new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd, (byte) 0x00 },
-        dest));
+    assertTrue(Arrays.equals(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd,
+        (byte) 0x00}, dest));
   }
 
   public void testWriteBytesToOversizedArrayLongMaxLength() {
     byte[] dest = new byte[5];
     HASH_ABCD.writeBytesTo(dest, 0, 5);
-    assertTrue(Arrays.equals(
-        new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd, (byte) 0x00 },
-        dest));
+    assertTrue(Arrays.equals(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd,
+        (byte) 0x00}, dest));
   }
 
   public void testWriteBytesToOversizedArrayShortMaxLength() {
     byte[] dest = new byte[5];
     HASH_ABCD.writeBytesTo(dest, 0, 3);
-    assertTrue(Arrays.equals(
-        new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0x00, (byte) 0x00 },
-        dest));
+    assertTrue(Arrays.equals(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0x00,
+        (byte) 0x00}, dest));
   }
 
   public void testWriteBytesToUndersizedArray() {
@@ -330,14 +312,11 @@ public class HashCodeTest extends TestCase {
   public void testWriteBytesToUndersizedArrayShortMaxLength() {
     byte[] dest = new byte[3];
     HASH_ABCD.writeBytesTo(dest, 0, 2);
-    assertTrue(Arrays.equals(
-        new byte[] { (byte) 0xaa, (byte) 0xbb, (byte) 0x00 },
-        dest));
+    assertTrue(Arrays.equals(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0x00}, dest));
   }
 
   private static ClassSanityTester.FactoryMethodReturnValueTester sanityTester() {
-    return new ClassSanityTester()
-        .setDefault(byte[].class, new byte[] {1, 2, 3, 4})
+    return new ClassSanityTester().setDefault(byte[].class, new byte[] {1, 2, 3, 4})
         .setDistinctValues(byte[].class, new byte[] {1, 2, 3, 4}, new byte[] {5, 6, 7, 8})
         .setDistinctValues(String.class, "7f8005ff0e", "7f8005ff0f")
         .forAllPublicStaticMethods(HashCode.class);
@@ -353,7 +332,8 @@ public class HashCodeTest extends TestCase {
       try {
         hash.asLong();
         fail();
-      } catch (IllegalStateException expected) {}
+      } catch (IllegalStateException expected) {
+      }
     } else {
       assertEquals(expectedHashCode.asLong.longValue(), hash.asLong());
     }
@@ -387,6 +367,7 @@ public class HashCodeTest extends TestCase {
     final int asInt;
     final Long asLong; // null means that asLong should throw an exception
     final String toString;
+
     ExpectedHashCode(byte[] bytes, int asInt, Long asLong, String toString) {
       this.bytes = bytes;
       this.asInt = asInt;

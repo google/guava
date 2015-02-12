@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2013 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -49,8 +49,7 @@ public class MapToStringTester<K, V> extends AbstractMapTester<K, V> {
 
   @CollectionSize.Require(ONE)
   public void testToString_size1() {
-    assertEquals(
-        "size1Map.toString should return {entry}", "{" + e0() + "}", getMap().toString());
+    assertEquals("size1Map.toString should return {entry}", "{" + e0() + "}", getMap().toString());
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -68,8 +67,8 @@ public class MapToStringTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   public void testToString_formatting() {
-    assertEquals(
-        "map.toString() incorrect", expectedToString(getMap().entrySet()), getMap().toString());
+    assertEquals("map.toString() incorrect", expectedToString(getMap().entrySet()), getMap()
+        .toString());
   }
 
   private String expectedToString(Set<Entry<K, V>> entries) {

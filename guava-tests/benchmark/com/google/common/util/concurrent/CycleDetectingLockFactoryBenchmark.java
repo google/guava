@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -30,7 +28,8 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class CycleDetectingLockFactoryBenchmark {
 
-  @Param({"2","3","4","5","10"}) int lockNestingDepth;
+  @Param({"2", "3", "4", "5", "10"})
+  int lockNestingDepth;
 
   CycleDetectingLockFactory factory;
   private Lock[] plainLocks;
@@ -38,8 +37,7 @@ public class CycleDetectingLockFactoryBenchmark {
 
   @BeforeExperiment
   void setUp() throws Exception {
-    this.factory = CycleDetectingLockFactory.newInstance(
-        CycleDetectingLockFactory.Policies.WARN);
+    this.factory = CycleDetectingLockFactory.newInstance(CycleDetectingLockFactory.Policies.WARN);
     this.plainLocks = new Lock[lockNestingDepth];
     for (int i = 0; i < lockNestingDepth; i++) {
       plainLocks[i] = new ReentrantLock();
@@ -50,11 +48,13 @@ public class CycleDetectingLockFactoryBenchmark {
     }
   }
 
-  @Benchmark void unorderedPlainLocks(int reps) {
+  @Benchmark
+  void unorderedPlainLocks(int reps) {
     lockAndUnlock(new ReentrantLock(), reps);
   }
 
-  @Benchmark void unorderedCycleDetectingLocks(int reps) {
+  @Benchmark
+  void unorderedCycleDetectingLocks(int reps) {
     lockAndUnlock(factory.newReentrantLock("foo"), reps);
   }
 
@@ -65,11 +65,13 @@ public class CycleDetectingLockFactoryBenchmark {
     }
   }
 
-  @Benchmark void orderedPlainLocks(int reps) {
+  @Benchmark
+  void orderedPlainLocks(int reps) {
     lockAndUnlockNested(plainLocks, reps);
   }
 
-  @Benchmark void orderedCycleDetectingLocks(int reps) {
+  @Benchmark
+  void orderedCycleDetectingLocks(int reps) {
     lockAndUnlockNested(detectingLocks, reps);
   }
 

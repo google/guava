@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -35,8 +33,7 @@ import java.util.Set;
 @GwtCompatible
 public class SetEqualsTester<E> extends AbstractSetTester<E> {
   public void testEquals_otherSetWithSameElements() {
-    assertTrue(
-        "A Set should equal any other Set containing the same elements.",
+    assertTrue("A Set should equal any other Set containing the same elements.",
         getSet().equals(MinimalSet.from(getSampleElements())));
   }
 
@@ -45,10 +42,8 @@ public class SetEqualsTester<E> extends AbstractSetTester<E> {
     Collection<E> elements = getSampleElements(getNumElements() - 1);
     elements.add(getSubjectGenerator().samples().e3());
 
-    assertFalse(
-        "A Set should not equal another Set containing different elements.",
-        getSet().equals(MinimalSet.from(elements))
-    );
+    assertFalse("A Set should not equal another Set containing different elements.", getSet()
+        .equals(MinimalSet.from(elements)));
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)
@@ -59,8 +54,7 @@ public class SetEqualsTester<E> extends AbstractSetTester<E> {
 
     collection = getSubjectGenerator().create(elements.toArray());
     assertTrue("A Set should equal any other Set containing the same elements,"
-        + " even if some elements are null.",
-        getSet().equals(MinimalSet.from(elements)));
+        + " even if some elements are null.", getSet().equals(MinimalSet.from(elements)));
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)
@@ -69,9 +63,8 @@ public class SetEqualsTester<E> extends AbstractSetTester<E> {
     elements.add(null);
     Set<E> other = MinimalSet.from(elements);
 
-    assertFalse(
-        "Two Sets should not be equal if exactly one of them contains null.",
-        getSet().equals(other));
+    assertFalse("Two Sets should not be equal if exactly one of them contains null.", getSet()
+        .equals(other));
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)
@@ -88,7 +81,6 @@ public class SetEqualsTester<E> extends AbstractSetTester<E> {
   }
 
   public void testEquals_list() {
-    assertFalse("A List should never equal a Set.",
-        getSet().equals(Helpers.copyToList(getSet())));
+    assertFalse("A List should never equal a Set.", getSet().equals(Helpers.copyToList(getSet())));
   }
 }

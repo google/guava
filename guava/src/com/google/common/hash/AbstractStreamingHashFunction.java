@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -23,52 +23,60 @@ import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 
 /**
- * Skeleton implementation of {@link HashFunction}. Provides default implementations which
- * invokes the appropriate method on {@link #newHasher()}, then return the result of
- * {@link Hasher#hash}.
+ * Skeleton implementation of {@link HashFunction}. Provides default implementations which invokes
+ * the appropriate method on {@link #newHasher()}, then return the result of {@link Hasher#hash}.
  *
- * <p>Invocations of {@link #newHasher(int)} also delegate to {@linkplain #newHasher()}, ignoring
- * the expected input size parameter.
+ * <p>
+ * Invocations of {@link #newHasher(int)} also delegate to {@linkplain #newHasher()}, ignoring the
+ * expected input size parameter.
  *
  * @author Kevin Bourrillion
  */
 abstract class AbstractStreamingHashFunction implements HashFunction {
-  @Override public <T> HashCode hashObject(T instance, Funnel<? super T> funnel) {
+  @Override
+  public <T> HashCode hashObject(T instance, Funnel<? super T> funnel) {
     return newHasher().putObject(instance, funnel).hash();
   }
 
-  @Override public HashCode hashUnencodedChars(CharSequence input) {
+  @Override
+  public HashCode hashUnencodedChars(CharSequence input) {
     return newHasher().putUnencodedChars(input).hash();
   }
 
-  @Override public HashCode hashString(CharSequence input, Charset charset) {
+  @Override
+  public HashCode hashString(CharSequence input, Charset charset) {
     return newHasher().putString(input, charset).hash();
   }
 
-  @Override public HashCode hashInt(int input) {
+  @Override
+  public HashCode hashInt(int input) {
     return newHasher().putInt(input).hash();
   }
 
-  @Override public HashCode hashLong(long input) {
+  @Override
+  public HashCode hashLong(long input) {
     return newHasher().putLong(input).hash();
   }
 
-  @Override public HashCode hashBytes(byte[] input) {
+  @Override
+  public HashCode hashBytes(byte[] input) {
     return newHasher().putBytes(input).hash();
   }
 
-  @Override public HashCode hashBytes(byte[] input, int off, int len) {
+  @Override
+  public HashCode hashBytes(byte[] input, int off, int len) {
     return newHasher().putBytes(input, off, len).hash();
   }
 
-  @Override public Hasher newHasher(int expectedInputSize) {
+  @Override
+  public Hasher newHasher(int expectedInputSize) {
     Preconditions.checkArgument(expectedInputSize >= 0);
     return newHasher();
   }
 
   /**
-   * A convenience base class for implementors of {@code Hasher}; handles accumulating data
-   * until an entire "chunk" (of implementation-dependent length) is ready to be hashed.
+   * A convenience base class for implementors of {@code Hasher}; handles accumulating data until an
+   * entire "chunk" (of implementation-dependent length) is ready to be hashed.
    *
    * @author Kevin Bourrillion
    * @author Dimitris Andreou
@@ -109,8 +117,7 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
       checkArgument(bufferSize % chunkSize == 0);
 
       // TODO(user): benchmark performance difference with longer buffer
-      this.buffer = ByteBuffer
-          .allocate(bufferSize + 7) // always space for a single primitive
+      this.buffer = ByteBuffer.allocate(bufferSize + 7) // always space for a single primitive
           .order(ByteOrder.LITTLE_ENDIAN);
       this.bufferSize = bufferSize;
       this.chunkSize = chunkSize;
@@ -122,12 +129,11 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
     protected abstract void process(ByteBuffer bb);
 
     /**
-     * This is invoked for the last bytes of the input, which are not enough to
-     * fill a whole chunk. The passed {@code ByteBuffer} is guaranteed to be
-     * non-empty.
+     * This is invoked for the last bytes of the input, which are not enough to fill a whole chunk.
+     * The passed {@code ByteBuffer} is guaranteed to be non-empty.
      *
-     * <p>This implementation simply pads with zeros and delegates to
-     * {@link #process(ByteBuffer)}.
+     * <p>
+     * This implementation simply pads with zeros and delegates to {@link #process(ByteBuffer)}.
      */
     protected void processRemaining(ByteBuffer bb) {
       bb.position(bb.limit()); // move at the end

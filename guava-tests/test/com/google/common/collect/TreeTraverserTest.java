@@ -1,15 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License.  You may obtain a copy of the License at
- *
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied.  See the License for the specific language governing permissions and limitations
- * under the License.
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -69,24 +69,24 @@ public class TreeTraverserTest extends TestCase {
   private static final BinaryTreeTraverser<BinaryTree> BIN_ADAPTER =
       new BinaryTreeTraverser<BinaryTree>() {
 
-    @Override
-    public Optional<BinaryTree> leftChild(BinaryTree node) {
-      return Optional.fromNullable(node.left);
-    }
+        @Override
+        public Optional<BinaryTree> leftChild(BinaryTree node) {
+          return Optional.fromNullable(node.left);
+        }
 
-    @Override
-    public Optional<BinaryTree> rightChild(BinaryTree node) {
-      return Optional.fromNullable(node.right);
-    }
-  };
+        @Override
+        public Optional<BinaryTree> rightChild(BinaryTree node) {
+          return Optional.fromNullable(node.right);
+        }
+      };
 
-  //        h
-  //      / | \
-  //     /  e  \
-  //    d       g
-  //   /|\      |
-  //  / | \     f
-  // a  b  c
+  // h
+  // / | \
+  // / e \
+  // d g
+  // /|\ |
+  // / | \ f
+  // a b c
   static final Tree a = new Tree('a');
   static final Tree b = new Tree('b');
   static final Tree c = new Tree('c');
@@ -96,13 +96,13 @@ public class TreeTraverserTest extends TestCase {
   static final Tree g = new Tree('g', f);
   static final Tree h = new Tree('h', d, e, g);
 
-  //      d
-  //     / \
-  //    b   e
-  //   / \   \
-  //  a   c   f
-  //         /
-  //        g
+  // d
+  // / \
+  // b e
+  // / \ \
+  // a c f
+  // /
+  // g
   static final BinaryTree ba = new BinaryTree('a', null, null);
   static final BinaryTree bc = new BinaryTree('c', null, null);
   static final BinaryTree bb = new BinaryTree('b', ba, bc);

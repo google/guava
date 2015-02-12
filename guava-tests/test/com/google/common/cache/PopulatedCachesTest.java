@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -199,10 +199,8 @@ public class PopulatedCachesTest extends TestCase {
       assertThat(keys.toArray()).asList().containsExactlyElementsIn(expected);
       assertThat(keys.toArray(new Object[0])).asList().containsExactlyElementsIn(expected);
 
-      new EqualsTester()
-          .addEqualityGroup(cache.asMap().keySet(), keys)
-          .addEqualityGroup(ImmutableSet.of())
-          .testEquals();
+      new EqualsTester().addEqualityGroup(cache.asMap().keySet(), keys)
+          .addEqualityGroup(ImmutableSet.of()).testEquals();
       assertEquals(WARMUP_SIZE, keys.size());
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
         Object key = warmed.get(i - WARMUP_MIN).getKey();
@@ -239,8 +237,8 @@ public class PopulatedCachesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("unchecked") // generic array creation
-
+  @SuppressWarnings("unchecked")
+  // generic array creation
   public void testEntrySet_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Entry<Object, Object>> entries = cache.asMap().entrySet();
@@ -248,17 +246,13 @@ public class PopulatedCachesTest extends TestCase {
 
       Set<?> expected = Maps.newHashMap(cache.asMap()).entrySet();
       assertThat(entries).containsExactlyElementsIn((Collection<Entry<Object, Object>>) expected);
-      assertThat(entries.toArray())
-          .asList()
-          .containsExactlyElementsIn((Collection<Object>) expected);
-      assertThat(entries.toArray(new Entry[0]))
-          .asList()
-          .containsExactlyElementsIn((Collection<Entry>) expected);
+      assertThat(entries.toArray()).asList().containsExactlyElementsIn(
+          (Collection<Object>) expected);
+      assertThat(entries.toArray(new Entry[0])).asList().containsExactlyElementsIn(
+          (Collection<Entry>) expected);
 
-      new EqualsTester()
-          .addEqualityGroup(cache.asMap().entrySet(), entries)
-          .addEqualityGroup(ImmutableSet.of())
-          .testEquals();
+      new EqualsTester().addEqualityGroup(cache.asMap().entrySet(), entries)
+          .addEqualityGroup(ImmutableSet.of()).testEquals();
       assertEquals(WARMUP_SIZE, entries.size());
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
         Entry<Object, Object> newEntry = warmed.get(i - WARMUP_MIN);
@@ -300,8 +294,8 @@ public class PopulatedCachesTest extends TestCase {
     CacheBuilderFactory factory = cacheFactory();
     return Iterables.transform(factory.buildAllPermutations(),
         new Function<CacheBuilder<Object, Object>, LoadingCache<Object, Object>>() {
-          @Override public LoadingCache<Object, Object> apply(
-              CacheBuilder<Object, Object> builder) {
+          @Override
+          public LoadingCache<Object, Object> apply(CacheBuilder<Object, Object> builder) {
             return builder.recordStats().build(identityLoader());
           }
         });
@@ -321,17 +315,13 @@ public class PopulatedCachesTest extends TestCase {
         .withMaximumSizes(ImmutableSet.of(400, 1000))
         .withInitialCapacities(ImmutableSet.of(0, 1, 10, 100, 1000))
         .withExpireAfterWrites(ImmutableSet.of(
-            // DurationSpec.of(500, MILLISECONDS),
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)))
+        // DurationSpec.of(500, MILLISECONDS),
+            DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)))
         .withExpireAfterAccesses(ImmutableSet.of(
-            // DurationSpec.of(500, MILLISECONDS),
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)))
-        .withRefreshes(ImmutableSet.of(
-            // DurationSpec.of(500, MILLISECONDS),
-            DurationSpec.of(1, SECONDS),
-            DurationSpec.of(1, DAYS)));
+        // DurationSpec.of(500, MILLISECONDS),
+            DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS))).withRefreshes(ImmutableSet.of(
+        // DurationSpec.of(500, MILLISECONDS),
+            DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)));
   }
 
   private List<Map.Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {
@@ -342,8 +332,8 @@ public class PopulatedCachesTest extends TestCase {
    * Returns the entries that were added to the map, so they won't fall out of a map with weak or
    * soft references until the caller drops the reference to the returned entries.
    */
-  private List<Map.Entry<Object, Object>> warmUp(
-      LoadingCache<Object, Object> cache, int minimum, int maximum) {
+  private List<Map.Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache, int minimum,
+      int maximum) {
 
     List<Map.Entry<Object, Object>> entries = Lists.newArrayList();
     for (int i = minimum; i < maximum; i++) {

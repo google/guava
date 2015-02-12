@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2013 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -32,7 +30,7 @@ public class SynchronizedDequeTest extends TestCase {
   protected Deque<String> create() {
     TestDeque<String> inner = new TestDeque<String>();
     Deque<String> outer = Synchronized.deque(inner, inner.mutex);
-    outer.add("foo");  // necessary because we try to remove elements later on
+    outer.add("foo"); // necessary because we try to remove elements later on
     return outer;
   }
 
@@ -274,7 +272,7 @@ public class SynchronizedDequeTest extends TestCase {
     create().retainAll(ImmutableList.of("foo"));
     create().size();
     create().toArray();
-    create().toArray(new String[] { "foo" });
+    create().toArray(new String[] {"foo"});
     create().addFirst("e");
     create().addLast("e");
     create().offerFirst("e");

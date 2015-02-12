@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.google;
@@ -45,7 +43,8 @@ import java.util.SortedMap;
 @GwtCompatible
 public class SortedMapGenerators {
   public static class ImmutableSortedMapGenerator extends TestStringSortedMapGenerator {
-    @Override public SortedMap<String, String> create(Entry<String, String>[] entries) {
+    @Override
+    public SortedMap<String, String> create(Entry<String, String>[] entries) {
       ImmutableSortedMap.Builder<String, String> builder = ImmutableSortedMap.naturalOrder();
       for (Entry<String, String> entry : entries) {
         checkNotNull(entry);
@@ -54,24 +53,20 @@ public class SortedMapGenerators {
       return builder.build();
     }
   }
-  public static class ImmutableSortedMapCopyOfEntriesGenerator 
-      extends TestStringSortedMapGenerator {
-    @Override public SortedMap<String, String> create(Entry<String, String>[] entries) {
+  public static class ImmutableSortedMapCopyOfEntriesGenerator extends TestStringSortedMapGenerator {
+    @Override
+    public SortedMap<String, String> create(Entry<String, String>[] entries) {
       return ImmutableSortedMap.copyOf(Arrays.asList(entries));
     }
   }
 
-  public static class ImmutableSortedMapEntryListGenerator
-      implements TestListGenerator<Entry<String, Integer>> {
+  public static class ImmutableSortedMapEntryListGenerator implements
+      TestListGenerator<Entry<String, Integer>> {
 
     @Override
     public SampleElements<Entry<String, Integer>> samples() {
-      return new SampleElements<Entry<String, Integer>>(
-          mapEntry("foo", 5),
-          mapEntry("bar", 3),
-          mapEntry("baz", 17),
-          mapEntry("quux", 1),
-          mapEntry("toaster", -2));
+      return new SampleElements<Entry<String, Integer>>(mapEntry("foo", 5), mapEntry("bar", 3),
+          mapEntry("baz", 17), mapEntry("quux", 1), mapEntry("toaster", -2));
     }
 
     @SuppressWarnings("unchecked")
@@ -103,7 +98,8 @@ public class SortedMapGenerators {
   }
 
   public static class ImmutableSortedMapKeyListGenerator extends TestStringListGenerator {
-    @Override protected List<String> create(String[] elements) {
+    @Override
+    protected List<String> create(String[] elements) {
       ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
       for (int i = 0; i < elements.length; i++) {
         builder.put(elements[i], i);
@@ -118,7 +114,8 @@ public class SortedMapGenerators {
   }
 
   public static class ImmutableSortedMapValueListGenerator extends TestStringListGenerator {
-    @Override protected List<String> create(String[] elements) {
+    @Override
+    protected List<String> create(String[] elements) {
       ImmutableSortedMap.Builder<Integer, String> builder = ImmutableSortedMap.naturalOrder();
       for (int i = 0; i < elements.length; i++) {
         builder.put(i, elements[i]);

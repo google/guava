@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -34,8 +32,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Basher test for {@link ConcurrentHashMultiset}: start a bunch of threads, have each of them
- * do operations at random. Each thread keeps track of the per-key deltas that it's directly
+ * Basher test for {@link ConcurrentHashMultiset}: start a bunch of threads, have each of them do
+ * operations at random. Each thread keeps track of the per-key deltas that it's directly
  * responsible for; after all threads have completed, we sum the per-key deltas and compare to the
  * existing multiset values.
  *
@@ -82,12 +80,12 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
         }
       }
 
-      List<Integer> actualCounts = Lists.transform(keys,
-          new Function<String, Integer>() {
-            @Override public Integer apply(String key) {
-              return multiset.count(key);
-            }
-          });
+      List<Integer> actualCounts = Lists.transform(keys, new Function<String, Integer>() {
+        @Override
+        public Integer apply(String key) {
+          return multiset.count(key);
+        }
+      });
       assertEquals("Counts not as expected", Ints.asList(deltas), actualCounts);
     } finally {
       pool.shutdownNow();
@@ -109,7 +107,8 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
       this.keys = keys;
     }
 
-    @Override public int[] call() throws Exception {
+    @Override
+    public int[] call() throws Exception {
       int iterations = 100000;
       int nKeys = keys.size();
       int[] deltas = new int[nKeys];
@@ -140,13 +139,13 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
             break;
           }
           case REMOVE: {
-            int delta = random.nextInt(6);  // [0, 5]
+            int delta = random.nextInt(6); // [0, 5]
             int oldValue = multiset.remove(key, delta);
             deltas[keyIndex] -= Math.min(delta, oldValue);
             break;
           }
           case REMOVE_EXACTLY: {
-            int delta = random.nextInt(5);  // [0, 4]
+            int delta = random.nextInt(5); // [0, 4]
             if (multiset.removeExactly(key, delta)) {
               deltas[keyIndex] -= delta;
             }
@@ -158,12 +157,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
     }
 
     private enum Operation {
-      ADD,
-      SET_COUNT,
-      SET_COUNT_IF,
-      REMOVE,
-      REMOVE_EXACTLY,
-      ;
+      ADD, SET_COUNT, SET_COUNT_IF, REMOVE, REMOVE_EXACTLY, ;
     }
   }
 }

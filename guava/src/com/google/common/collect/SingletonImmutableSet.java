@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -30,7 +28,8 @@ import javax.annotation.Nullable;
  * @author Nick Kralevich
  */
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // uses writeReplace(), not default serialization
+@SuppressWarnings("serial")
+// uses writeReplace(), not default serialization
 final class SingletonImmutableSet<E> extends ImmutableSet<E> {
 
   final transient E element;
@@ -39,7 +38,7 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   //
   // A race condition is avoided since threads will either see that the value
   // is zero and recalculate it themselves, or two threads will see it at
-  // the same time, and both recalculate it.  If the cachedHashCode is 0,
+  // the same time, and both recalculate it. If the cachedHashCode is 0,
   // it will always be recalculated, unfortunately.
   private transient int cachedHashCode;
 
@@ -58,19 +57,23 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
     return 1;
   }
 
-  @Override public boolean isEmpty() {
+  @Override
+  public boolean isEmpty() {
     return false;
   }
 
-  @Override public boolean contains(Object target) {
+  @Override
+  public boolean contains(Object target) {
     return element.equals(target);
   }
 
-  @Override public UnmodifiableIterator<E> iterator() {
+  @Override
+  public UnmodifiableIterator<E> iterator() {
     return Iterators.singletonIterator(element);
   }
 
-  @Override boolean isPartialView() {
+  @Override
+  boolean isPartialView() {
     return false;
   }
 
@@ -80,7 +83,8 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
     return offset + 1;
   }
 
-  @Override public boolean equals(@Nullable Object object) {
+  @Override
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }
@@ -91,7 +95,8 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
     return false;
   }
 
-  @Override public final int hashCode() {
+  @Override
+  public final int hashCode() {
     // Racy single-check.
     int code = cachedHashCode;
     if (code == 0) {
@@ -100,16 +105,15 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
     return code;
   }
 
-  @Override boolean isHashCodeFast() {
+  @Override
+  boolean isHashCodeFast() {
     return cachedHashCode != 0;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     String elementToString = element.toString();
-    return new StringBuilder(elementToString.length() + 2)
-        .append('[')
-        .append(elementToString)
-        .append(']')
-        .toString();
+    return new StringBuilder(elementToString.length() + 2).append('[').append(elementToString)
+        .append(']').toString();
   }
 }

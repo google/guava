@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -35,8 +33,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 /**
- * A generic JUnit test which tests creation (typically through a constructor or
- * static factory method) of a map. Can't be invoked directly; please see
+ * A generic JUnit test which tests creation (typically through a constructor or static factory
+ * method) of a map. Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Chris Povirk
@@ -87,8 +85,7 @@ public class MapCreationTester<K, V> extends AbstractMapTester<K, V> {
     expectContents(entries);
   }
 
-  @MapFeature.Require(value = ALLOWS_NULL_KEYS,
-      absent = REJECTS_DUPLICATES_AT_CREATION)
+  @MapFeature.Require(value = ALLOWS_NULL_KEYS, absent = REJECTS_DUPLICATES_AT_CREATION)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testCreateWithDuplicates_nullDuplicatesNotRejected() {
     expectFirstRemoved(getEntriesMultipleNullKeys());
@@ -143,11 +140,9 @@ public class MapCreationTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   /**
-   * Returns the {@link Method} instance for {@link
-   * #testCreateWithNullKeyUnsupported()} so that tests can suppress it
-   * with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun
-   * bug 5045147</a> is fixed.
+   * Returns the {@link Method} instance for {@link #testCreateWithNullKeyUnsupported()} so that
+   * tests can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug 5045147</a> is fixed.
    */
   @GwtIncompatible("reflection")
   public static Method getCreateWithNullKeyUnsupportedMethod() {

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -55,7 +53,8 @@ public class ExecutionListTest extends TestCase {
   public void testExecute_idempotent() {
     final AtomicInteger runCalled = new AtomicInteger();
     list.add(new Runnable() {
-      @Override public void run() {
+      @Override
+      public void run() {
         runCalled.getAndIncrement();
       }
     }, directExecutor());
@@ -69,7 +68,8 @@ public class ExecutionListTest extends TestCase {
     final CountDownLatch okayToRun = new CountDownLatch(1);
     final AtomicInteger runCalled = new AtomicInteger();
     list.add(new Runnable() {
-      @Override public void run() {
+      @Override
+      public void run() {
         try {
           okayToRun.await();
         } catch (InterruptedException e) {
@@ -80,7 +80,8 @@ public class ExecutionListTest extends TestCase {
       }
     }, directExecutor());
     Runnable execute = new Runnable() {
-      @Override public void run() {
+      @Override
+      public void run() {
         list.execute();
       }
     };
@@ -101,7 +102,7 @@ public class ExecutionListTest extends TestCase {
 
     // If it passed, then verify an Add will be executed without calling run
     CountDownLatch countDownLatch = new CountDownLatch(1);
-    list.add(new MockRunnable(countDownLatch),  Executors.newCachedThreadPool());
+    list.add(new MockRunnable(countDownLatch), Executors.newCachedThreadPool());
     assertTrue(countDownLatch.await(1L, TimeUnit.SECONDS));
   }
 
@@ -109,13 +110,12 @@ public class ExecutionListTest extends TestCase {
     final AtomicInteger integer = new AtomicInteger();
     for (int i = 0; i < 10; i++) {
       final int expectedCount = i;
-      list.add(
-          new Runnable() {
-            @Override public void run() {
-              integer.compareAndSet(expectedCount, expectedCount + 1);
-            }
-          },
-          MoreExecutors.directExecutor());
+      list.add(new Runnable() {
+        @Override
+        public void run() {
+          integer.compareAndSet(expectedCount, expectedCount + 1);
+        }
+      }, MoreExecutors.directExecutor());
     }
     list.execute();
     assertEquals(10, integer.get());
@@ -128,7 +128,8 @@ public class ExecutionListTest extends TestCase {
       this.countDownLatch = countDownLatch;
     }
 
-    @Override public void run() {
+    @Override
+    public void run() {
       countDownLatch.countDown();
     }
   }
@@ -144,7 +145,8 @@ public class ExecutionListTest extends TestCase {
   }
 
   private static final Runnable THROWING_RUNNABLE = new Runnable() {
-    @Override public void run() {
+    @Override
+    public void run() {
       throw new RuntimeException();
     }
   };

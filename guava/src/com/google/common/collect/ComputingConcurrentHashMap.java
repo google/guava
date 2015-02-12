@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -46,8 +46,7 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
    * Creates a new, empty map with the specified strategy, initial capacity, load factor and
    * concurrency level.
    */
-  ComputingConcurrentHashMap(MapMaker builder,
-      Function<? super K, ? extends V> computingFunction) {
+  ComputingConcurrentHashMap(MapMaker builder, Function<? super K, ? extends V> computingFunction) {
     super(builder);
     this.computingFunction = checkNotNull(computingFunction);
   }
@@ -67,7 +66,8 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
     return segmentFor(hash).getOrCompute(key, hash, computingFunction);
   }
 
-  @SuppressWarnings("serial") // This class is never serialized.
+  @SuppressWarnings("serial")
+  // This class is never serialized.
   static final class ComputingSegment<K, V> extends Segment<K, V> {
     ComputingSegment(MapMakerInternalMap<K, V> map, int initialCapacity, int maxSegmentSize) {
       super(map, initialCapacity, maxSegmentSize);
@@ -169,8 +169,7 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
     }
 
     V compute(K key, int hash, ReferenceEntry<K, V> e,
-        ComputingValueReference<K, V> computingValueReference)
-        throws ExecutionException {
+        ComputingValueReference<K, V> computingValueReference) throws ExecutionException {
       V value = null;
       long start = System.nanoTime();
       long end = 0;
@@ -223,8 +222,7 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
     }
 
     @Override
-    public ValueReference<K, V> copyFor(
-        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
       return this;
     }
 
@@ -263,8 +261,7 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
     }
 
     @Override
-    public ValueReference<K, V> copyFor(
-        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
       return this;
     }
 
@@ -285,7 +282,8 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
   private static final class ComputingValueReference<K, V> implements ValueReference<K, V> {
     final Function<? super K, ? extends V> computingFunction;
 
-    @GuardedBy("this") // writes
+    @GuardedBy("this")
+    // writes
     volatile ValueReference<K, V> computedReference = unset();
 
     public ComputingValueReference(Function<? super K, ? extends V> computingFunction) {
@@ -305,8 +303,8 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
     }
 
     @Override
-    public ValueReference<K, V> copyFor(
-        ReferenceQueue<V> queue, @Nullable V value, ReferenceEntry<K, V> entry) {
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, @Nullable V value,
+        ReferenceEntry<K, V> entry) {
       return this;
     }
 
@@ -403,7 +401,8 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
       writeMapTo(out);
     }
 
-    @SuppressWarnings("deprecation") // self-use
+    @SuppressWarnings("deprecation")
+    // self-use
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       MapMaker mapMaker = readMapMaker(in);

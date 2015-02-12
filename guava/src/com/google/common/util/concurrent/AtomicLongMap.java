@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -34,14 +32,17 @@ import java.util.concurrent.atomic.AtomicLong;
  * is {@code addAndGet(K, long)}, which adds a {@code long} to the value currently associated with
  * {@code K}. If a key has not yet been associated with a value, its implicit value is zero.
  *
- * <p>Most methods in this class treat absent values and zero values identically, as individually
+ * <p>
+ * Most methods in this class treat absent values and zero values identically, as individually
  * documented. Exceptions to this are {@link #containsKey}, {@link #size}, {@link #isEmpty},
  * {@link #asMap}, and {@link #toString}.
  *
- * <p>Instances of this class may be used by multiple threads concurrently. All operations are
- * atomic unless otherwise noted.
+ * <p>
+ * Instances of this class may be used by multiple threads concurrently. All operations are atomic
+ * unless otherwise noted.
  *
- * <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
+ * <p>
+ * <b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
  * {@link com.google.common.collect.Multiset} such as
  * {@link com.google.common.collect.ConcurrentHashMultiset} instead.
  *
@@ -229,8 +230,8 @@ public final class AtomicLongMap<K> {
   }
 
   /**
-   * Removes and returns the value associated with {@code key}. If {@code key} is not
-   * in the map, this method has no effect and returns zero.
+   * Removes and returns the value associated with {@code key}. If {@code key} is not in the map,
+   * this method has no effect and returns zero.
    */
   public long remove(K key) {
     AtomicLong atomic = map.get(key);
@@ -252,8 +253,9 @@ public final class AtomicLongMap<K> {
   /**
    * Removes all mappings from this map whose values are zero.
    *
-   * <p>This method is not atomic: the map may be visible in intermediate states, where some
-   * of the zero values have been removed and others have not.
+   * <p>
+   * This method is not atomic: the map may be visible in intermediate states, where some of the
+   * zero values have been removed and others have not.
    */
   public void removeAllZeros() {
     Iterator<Map.Entry<K, AtomicLong>> entryIterator = map.entrySet().iterator();
@@ -269,7 +271,8 @@ public final class AtomicLongMap<K> {
   /**
    * Returns the sum of all values in this map.
    *
-   * <p>This method is not atomic: the sum may or may not include other concurrent operations.
+   * <p>
+   * This method is not atomic: the sum may or may not include other concurrent operations.
    */
   public long sum() {
     long sum = 0L;
@@ -290,13 +293,12 @@ public final class AtomicLongMap<K> {
   }
 
   private Map<K, Long> createAsMap() {
-    return Collections.unmodifiableMap(
-        Maps.transformValues(map, new Function<AtomicLong, Long>() {
-          @Override
-          public Long apply(AtomicLong atomic) {
-            return atomic.get();
-          }
-        }));
+    return Collections.unmodifiableMap(Maps.transformValues(map, new Function<AtomicLong, Long>() {
+      @Override
+      public Long apply(AtomicLong atomic) {
+        return atomic.get();
+      }
+    }));
   }
 
   /**
@@ -324,7 +326,8 @@ public final class AtomicLongMap<K> {
   /**
    * Removes all of the mappings from this map. The map will be empty after this call returns.
    *
-   * <p>This method is not atomic: the map may not be empty after returning if there were concurrent
+   * <p>
+   * This method is not atomic: the map may not be empty after returning if there were concurrent
    * writes.
    */
   public void clear() {
@@ -338,25 +341,23 @@ public final class AtomicLongMap<K> {
 
   /*
    * ConcurrentMap operations which we may eventually add.
-   *
+   * 
    * The problem with these is that remove(K, long) has to be done in two phases by definition ---
    * first decrementing to zero, and then removing. putIfAbsent or replace could observe the
    * intermediate zero-state. Ways we could deal with this are:
-   *
+   * 
    * - Don't define any of the ConcurrentMap operations. This is the current state of affairs.
-   *
+   * 
    * - Define putIfAbsent and replace as treating zero and absent identically (as currently
-   *   implemented below). This is a bit surprising with putIfAbsent, which really becomes
-   *   putIfZero.
-   *
+   * implemented below). This is a bit surprising with putIfAbsent, which really becomes putIfZero.
+   * 
    * - Allow putIfAbsent and replace to distinguish between zero and absent, but don't implement
-   *   remove(K, long). Without any two-phase operations it becomes feasible for all remaining
-   *   operations to distinguish between zero and absent. If we do this, then perhaps we should add
-   *   replace(key, long).
-   *
+   * remove(K, long). Without any two-phase operations it becomes feasible for all remaining
+   * operations to distinguish between zero and absent. If we do this, then perhaps we should add
+   * replace(key, long).
+   * 
    * - Introduce a special-value private static final AtomicLong that would have the meaning of
-   *   removal-in-progress, and rework all operations to properly distinguish between zero and
-   *   absent.
+   * removal-in-progress, and rework all operations to properly distinguish between zero and absent.
    */
 
   /**
@@ -391,11 +392,12 @@ public final class AtomicLongMap<K> {
 
   /**
    * If {@code (key, expectedOldValue)} is currently in the map, this method replaces
-   * {@code expectedOldValue} with {@code newValue} and returns true; otherwise, this method
-   * returns false.
+   * {@code expectedOldValue} with {@code newValue} and returns true; otherwise, this method returns
+   * false.
    *
-   * <p>If {@code expectedOldValue} is zero, this method will succeed if {@code (key, zero)}
-   * is currently in the map, or if {@code key} is not in the map at all.
+   * <p>
+   * If {@code expectedOldValue} is zero, this method will succeed if {@code (key, zero)} is
+   * currently in the map, or if {@code key} is not in the map at all.
    */
   boolean replace(K key, long expectedOldValue, long newValue) {
     if (expectedOldValue == 0L) {
@@ -407,8 +409,8 @@ public final class AtomicLongMap<K> {
   }
 
   /**
-   * If {@code (key, value)} is currently in the map, this method removes it and returns
-   * true; otherwise, this method returns false.
+   * If {@code (key, value)} is currently in the map, this method removes it and returns true;
+   * otherwise, this method returns false.
    */
   boolean remove(K key, long value) {
     AtomicLong atomic = map.get(key);

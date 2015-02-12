@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -49,25 +47,22 @@ public class EnumMultisetTest extends TestCase {
   @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(MultisetTestSuiteBuilder.using(enumMultisetGenerator())
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.GENERAL_PURPOSE,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            CollectionFeature.ALLOWS_NULL_QUERIES,
-            MultisetFeature.ENTRIES_ARE_VIEWS)
-        .named("EnumMultiset")
-        .createTestSuite());
+    suite.addTest(MultisetTestSuiteBuilder
+        .using(enumMultisetGenerator())
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE, CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+            CollectionFeature.ALLOWS_NULL_QUERIES, MultisetFeature.ENTRIES_ARE_VIEWS)
+        .named("EnumMultiset").createTestSuite());
     suite.addTestSuite(EnumMultisetTest.class);
     return suite;
   }
 
   private static TestEnumMultisetGenerator enumMultisetGenerator() {
     return new TestEnumMultisetGenerator() {
-      @Override protected Multiset<AnEnum> create(AnEnum[] elements) {
-        return (elements.length == 0)
-            ? EnumMultiset.create(AnEnum.class)
-            : EnumMultiset.create(asList(elements));
+      @Override
+      protected Multiset<AnEnum> create(AnEnum[] elements) {
+        return (elements.length == 0) ? EnumMultiset.create(AnEnum.class) : EnumMultiset
+            .create(asList(elements));
       }
     };
   }
@@ -91,8 +86,7 @@ public class EnumMultisetTest extends TestCase {
   }
 
   public void testCollectionCreate() {
-    Multiset<Color> ms = EnumMultiset.create(
-        asList(Color.RED, Color.YELLOW, Color.RED));
+    Multiset<Color> ms = EnumMultiset.create(asList(Color.RED, Color.YELLOW, Color.RED));
     assertEquals(0, ms.count(Color.BLUE));
     assertEquals(1, ms.count(Color.YELLOW));
     assertEquals(2, ms.count(Color.RED));
@@ -103,17 +97,18 @@ public class EnumMultisetTest extends TestCase {
     try {
       EnumMultiset.create(empty);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
-  
+
   public void testCreateEmptyWithClass() {
     Multiset<Color> ms = EnumMultiset.create(ImmutableList.<Color>of(), Color.class);
     ms.add(Color.RED);
   }
-  
+
   public void testCreateEmptyWithoutClassFails() {
     try {
-      EnumMultiset.create(ImmutableList.<Color> of());
+      EnumMultiset.create(ImmutableList.<Color>of());
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
@@ -129,8 +124,7 @@ public class EnumMultisetTest extends TestCase {
 
   @GwtIncompatible("SerializableTester")
   public void testSerializable() {
-    Multiset<Color> ms = EnumMultiset.create(
-        asList(Color.RED, Color.YELLOW, Color.RED));
+    Multiset<Color> ms = EnumMultiset.create(asList(Color.RED, Color.YELLOW, Color.RED));
     assertEquals(ms, SerializableTester.reserialize(ms));
   }
 
@@ -156,17 +150,14 @@ public class EnumMultisetTest extends TestCase {
 
   @GwtIncompatible("reflection")
   public void testEquals() throws Exception {
-    new ClassSanityTester()
-        .setDistinctValues(Class.class, Color.class, Gender.class)
+    new ClassSanityTester().setDistinctValues(Class.class, Color.class, Gender.class)
         .setDistinctValues(Enum.class, Color.BLUE, Color.RED)
-        .forAllPublicStaticMethods(EnumMultisetFactory.class)
-        .testEquals();
+        .forAllPublicStaticMethods(EnumMultisetFactory.class).testEquals();
   }
 
   @GwtIncompatible("reflection")
   public void testNulls() throws Exception {
-    new NullPointerTester()
-        .setDefault(Class.class, Color.class)
+    new NullPointerTester().setDefault(Class.class, Color.class)
         .setDefault(Iterable.class, EnumSet.allOf(Color.class))
         .testAllPublicStaticMethods(EnumMultiset.class);
   }

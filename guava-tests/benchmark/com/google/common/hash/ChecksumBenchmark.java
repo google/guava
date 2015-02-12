@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.hash;
@@ -28,7 +26,11 @@ import java.util.zip.Checksum;
 /**
  * Benchmarks for comparing {@link Checksum}s and {@link HashFunction}s that wrap {@link Checksum}s.
  *
- * <p>Parameters for the benchmark are: <ul> <li>size: The length of the byte array to hash. </ul>
+ * <p>
+ * Parameters for the benchmark are:
+ * <ul>
+ * <li>size: The length of the byte array to hash.
+ * </ul>
  *
  * @author Colin Decker
  */
@@ -50,11 +52,13 @@ public class ChecksumBenchmark {
 
   // CRC32
 
-  @Benchmark byte crc32HashFunction(int reps) {
+  @Benchmark
+  byte crc32HashFunction(int reps) {
     return runHashFunction(reps, Hashing.crc32());
   }
 
-  @Benchmark byte crc32Checksum(int reps) throws Exception {
+  @Benchmark
+  byte crc32Checksum(int reps) throws Exception {
     byte result = 0x01;
     for (int i = 0; i < reps; i++) {
       CRC32 checksum = new CRC32();
@@ -66,11 +70,13 @@ public class ChecksumBenchmark {
 
   // Adler32
 
-  @Benchmark byte adler32HashFunction(int reps) {
+  @Benchmark
+  byte adler32HashFunction(int reps) {
     return runHashFunction(reps, Hashing.adler32());
   }
 
-  @Benchmark byte adler32Checksum(int reps) throws Exception {
+  @Benchmark
+  byte adler32Checksum(int reps) throws Exception {
     byte result = 0x01;
     for (int i = 0; i < reps; i++) {
       Adler32 checksum = new Adler32();

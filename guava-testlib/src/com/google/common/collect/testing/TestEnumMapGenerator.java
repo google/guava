@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing;
@@ -30,18 +28,13 @@ import java.util.Map.Entry;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-public abstract class TestEnumMapGenerator
-    implements TestMapGenerator<AnEnum, String> {
+public abstract class TestEnumMapGenerator implements TestMapGenerator<AnEnum, String> {
 
   @Override
   public SampleElements<Entry<AnEnum, String>> samples() {
-    return new SampleElements<Entry<AnEnum, String>>(
-        Helpers.mapEntry(AnEnum.A, "January"),
-        Helpers.mapEntry(AnEnum.B, "February"),
-        Helpers.mapEntry(AnEnum.C, "March"),
-        Helpers.mapEntry(AnEnum.D, "April"),
-        Helpers.mapEntry(AnEnum.E, "May")
-    );
+    return new SampleElements<Entry<AnEnum, String>>(Helpers.mapEntry(AnEnum.A, "January"),
+        Helpers.mapEntry(AnEnum.B, "February"), Helpers.mapEntry(AnEnum.C, "March"),
+        Helpers.mapEntry(AnEnum.D, "April"), Helpers.mapEntry(AnEnum.E, "May"));
   }
 
   @Override
@@ -57,8 +50,7 @@ public abstract class TestEnumMapGenerator
     return create(array);
   }
 
-  protected abstract Map<AnEnum, String> create(
-      Entry<AnEnum, String>[] entries);
+  protected abstract Map<AnEnum, String> create(Entry<AnEnum, String>[] entries);
 
   @Override
   @SuppressWarnings("unchecked")
@@ -78,8 +70,7 @@ public abstract class TestEnumMapGenerator
 
   /** Returns the elements sorted in natural order. */
   @Override
-  public Iterable<Entry<AnEnum, String>> order(
-      List<Entry<AnEnum, String>> insertionOrder) {
+  public Iterable<Entry<AnEnum, String>> order(List<Entry<AnEnum, String>> insertionOrder) {
     return orderEntriesByKey(insertionOrder);
   }
 }

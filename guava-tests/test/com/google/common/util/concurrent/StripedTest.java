@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -47,30 +45,28 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class StripedTest extends TestCase {
   private static List<Striped<?>> strongImplementations() {
-    return ImmutableList.of(
-        Striped.readWriteLock(100),
-        Striped.readWriteLock(256),
-        Striped.lock(100),
-        Striped.lock(256),
-        Striped.semaphore(100, 1),
-        Striped.semaphore(256, 1));
+    return ImmutableList.of(Striped.readWriteLock(100), Striped.readWriteLock(256),
+        Striped.lock(100), Striped.lock(256), Striped.semaphore(100, 1), Striped.semaphore(256, 1));
   }
 
   private static final Supplier<ReadWriteLock> READ_WRITE_LOCK_SUPPLIER =
       new Supplier<ReadWriteLock>() {
-    @Override public ReadWriteLock get() {
-      return new ReentrantReadWriteLock();
-    }
-  };
+        @Override
+        public ReadWriteLock get() {
+          return new ReentrantReadWriteLock();
+        }
+      };
 
   private static final Supplier<Lock> LOCK_SUPPLER = new Supplier<Lock>() {
-    @Override public Lock get() {
+    @Override
+    public Lock get() {
       return new ReentrantLock();
     }
   };
 
   private static final Supplier<Semaphore> SEMAPHORE_SUPPLER = new Supplier<Semaphore>() {
-    @Override public Semaphore get() {
+    @Override
+    public Semaphore get() {
       return new Semaphore(1, false);
     }
   };
@@ -88,8 +84,7 @@ public class StripedTest extends TestCase {
         .add(new Striped.SmallLazyStriped<Semaphore>(50, SEMAPHORE_SUPPLER))
         .add(new Striped.SmallLazyStriped<Semaphore>(64, SEMAPHORE_SUPPLER))
         .add(new Striped.LargeLazyStriped<Semaphore>(50, SEMAPHORE_SUPPLER))
-        .add(new Striped.LargeLazyStriped<Semaphore>(64, SEMAPHORE_SUPPLER))
-        .build();
+        .add(new Striped.LargeLazyStriped<Semaphore>(64, SEMAPHORE_SUPPLER)).build();
   }
 
   private static Iterable<Striped<?>> allImplementations() {
@@ -186,17 +181,18 @@ public class StripedTest extends TestCase {
     try {
       striped.getAt(-1);
       fail();
-    } catch (RuntimeException expected) {}
+    } catch (RuntimeException expected) {
+    }
 
     try {
       striped.getAt(striped.size());
       fail();
-    } catch (RuntimeException expected) {}
+    } catch (RuntimeException expected) {
+    }
   }
 
   public void testMaxSize() {
-    for (Striped<?> striped : ImmutableList.of(
-        Striped.lazyWeakLock(Integer.MAX_VALUE),
+    for (Striped<?> striped : ImmutableList.of(Striped.lazyWeakLock(Integer.MAX_VALUE),
         Striped.lazyWeakSemaphore(Integer.MAX_VALUE, Integer.MAX_VALUE),
         Striped.lazyWeakReadWriteLock(Integer.MAX_VALUE))) {
       for (int i = 0; i < 3; i++) {

@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -32,7 +32,8 @@ import javax.annotation.Nullable;
 /**
  * An immutable implementation of {@code RangeMap}, supporting all query operations efficiently.
  *
- * <p>Like all {@code RangeMap} implementations, this supports neither null keys nor null values.
+ * <p>
+ * Like all {@code RangeMap} implementations, this supports neither null keys nor null values.
  *
  * @author Louis Wasserman
  * @since 14.0
@@ -42,8 +43,8 @@ import javax.annotation.Nullable;
 public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V> {
 
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
-      new ImmutableRangeMap<Comparable<?>, Object>(
-          ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
+      new ImmutableRangeMap<Comparable<?>, Object>(ImmutableList.<Range<Comparable<?>>>of(),
+          ImmutableList.of());
 
   /**
    * Returns an empty immutable range map.
@@ -56,8 +57,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   /**
    * Returns an immutable range map mapping a single range to a single value.
    */
-  public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of(
-      Range<K> range, V value) {
+  public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of(Range<K> range, V value) {
     return new ImmutableRangeMap<K, V>(ImmutableList.of(range), ImmutableList.of(value));
   }
 
@@ -111,8 +111,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
         for (Entry<Range<K>, V> entry : rangeMap.asMapOfRanges().entrySet()) {
           Range<K> key = entry.getKey();
           if (key.isConnected(range) && !key.intersection(range).isEmpty()) {
-            throw new IllegalArgumentException(
-                "Overlapping ranges: range " + range + " overlaps with entry " + entry);
+            throw new IllegalArgumentException("Overlapping ranges: range " + range
+                + " overlaps with entry " + entry);
           }
         }
       }
@@ -162,8 +162,9 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   @Override
   @Nullable
   public V get(K key) {
-    int index = SortedLists.binarySearch(ranges, Range.<K>lowerBoundFn(),
-        Cut.belowValue(key), KeyPresentBehavior.ANY_PRESENT, KeyAbsentBehavior.NEXT_LOWER);
+    int index =
+        SortedLists.binarySearch(ranges, Range.<K>lowerBoundFn(), Cut.belowValue(key),
+            KeyPresentBehavior.ANY_PRESENT, KeyAbsentBehavior.NEXT_LOWER);
     if (index == -1) {
       return null;
     } else {
@@ -175,8 +176,9 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   @Override
   @Nullable
   public Map.Entry<Range<K>, V> getEntry(K key) {
-    int index = SortedLists.binarySearch(ranges, Range.<K>lowerBoundFn(),
-        Cut.belowValue(key), KeyPresentBehavior.ANY_PRESENT, KeyAbsentBehavior.NEXT_LOWER);
+    int index =
+        SortedLists.binarySearch(ranges, Range.<K>lowerBoundFn(), Cut.belowValue(key),
+            KeyPresentBehavior.ANY_PRESENT, KeyAbsentBehavior.NEXT_LOWER);
     if (index == -1) {
       return null;
     } else {
@@ -224,7 +226,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
         new RegularImmutableSortedSet<Range<K>>(ranges, Range.RANGE_LEX_ORDERING);
     return new RegularImmutableSortedMap<Range<K>, V>(rangeSet, values);
   }
-  
+
   @Override
   public ImmutableRangeMap<K, V> subRangeMap(final Range<K> range) {
     if (checkNotNull(range).isEmpty()) {
@@ -232,12 +234,12 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     } else if (ranges.isEmpty() || range.encloses(span())) {
       return this;
     }
-    int lowerIndex = SortedLists.binarySearch(
-        ranges, Range.<K>upperBoundFn(), range.lowerBound,
-        KeyPresentBehavior.FIRST_AFTER, KeyAbsentBehavior.NEXT_HIGHER);
-    int upperIndex = SortedLists.binarySearch(ranges, 
-        Range.<K>lowerBoundFn(), range.upperBound,
-        KeyPresentBehavior.ANY_PRESENT, KeyAbsentBehavior.NEXT_HIGHER);
+    int lowerIndex =
+        SortedLists.binarySearch(ranges, Range.<K>upperBoundFn(), range.lowerBound,
+            KeyPresentBehavior.FIRST_AFTER, KeyAbsentBehavior.NEXT_HIGHER);
+    int upperIndex =
+        SortedLists.binarySearch(ranges, Range.<K>lowerBoundFn(), range.upperBound,
+            KeyPresentBehavior.ANY_PRESENT, KeyAbsentBehavior.NEXT_HIGHER);
     if (lowerIndex >= upperIndex) {
       return ImmutableRangeMap.of();
     }
@@ -265,16 +267,15 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       }
     };
     final ImmutableRangeMap<K, V> outer = this;
-    return new ImmutableRangeMap<K, V>(
-        subRanges, values.subList(lowerIndex, upperIndex)) {
-          @Override
-          public ImmutableRangeMap<K, V> subRangeMap(Range<K> subRange) {
-            if (range.isConnected(subRange)) {
-              return outer.subRangeMap(subRange.intersection(range));
-            } else {
-              return ImmutableRangeMap.of();
-            }
-          }
+    return new ImmutableRangeMap<K, V>(subRanges, values.subList(lowerIndex, upperIndex)) {
+      @Override
+      public ImmutableRangeMap<K, V> subRangeMap(Range<K> subRange) {
+        if (range.isConnected(subRange)) {
+          return outer.subRangeMap(subRange.intersection(range));
+        } else {
+          return ImmutableRangeMap.of();
+        }
+      }
     };
   }
 

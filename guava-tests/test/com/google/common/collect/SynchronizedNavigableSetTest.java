@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -42,105 +40,120 @@ import java.util.TreeSet;
  */
 public class SynchronizedNavigableSetTest extends TestCase {
   private static final Object MUTEX = new Integer(1); // something Serializable
-  
+
   @SuppressWarnings("unchecked")
   protected <E> NavigableSet<E> create() {
-    TestSet<E> inner = new TestSet<E>(
-        new TreeSet<E>((Comparator<E>) Ordering.natural().nullsFirst()), MUTEX);
-    NavigableSet<E> outer =
-        Synchronized.navigableSet(inner, MUTEX);
+    TestSet<E> inner =
+        new TestSet<E>(new TreeSet<E>((Comparator<E>) Ordering.natural().nullsFirst()), MUTEX);
+    NavigableSet<E> outer = Synchronized.navigableSet(inner, MUTEX);
     return outer;
   }
 
-  static class TestSet<E> extends SynchronizedSetTest.TestSet<E>
-      implements NavigableSet<E> {
+  static class TestSet<E> extends SynchronizedSetTest.TestSet<E> implements NavigableSet<E> {
 
     TestSet(NavigableSet<E> delegate, Object mutex) {
       super(delegate, mutex);
     }
 
-    @Override protected NavigableSet<E> delegate() {
+    @Override
+    protected NavigableSet<E> delegate() {
       return (NavigableSet<E>) super.delegate();
     }
 
-    @Override public E ceiling(E e) {
+    @Override
+    public E ceiling(E e) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().ceiling(e);
     }
 
-    @Override public Iterator<E> descendingIterator() {
+    @Override
+    public Iterator<E> descendingIterator() {
       return delegate().descendingIterator();
     }
 
-    @Override public NavigableSet<E> descendingSet() {
+    @Override
+    public NavigableSet<E> descendingSet() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().descendingSet();
     }
 
-    @Override public E floor(E e) {
+    @Override
+    public E floor(E e) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().floor(e);
     }
 
-    @Override public NavigableSet<E> headSet(E toElement, boolean inclusive) {
+    @Override
+    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().headSet(toElement, inclusive);
     }
 
-    @Override public SortedSet<E> headSet(E toElement) {
+    @Override
+    public SortedSet<E> headSet(E toElement) {
       return headSet(toElement, false);
     }
 
-    @Override public E higher(E e) {
+    @Override
+    public E higher(E e) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().higher(e);
     }
 
-    @Override public E lower(E e) {
+    @Override
+    public E lower(E e) {
       return delegate().lower(e);
     }
 
-    @Override public E pollFirst() {
+    @Override
+    public E pollFirst() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().pollFirst();
     }
 
-    @Override public E pollLast() {
+    @Override
+    public E pollLast() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().pollLast();
     }
 
-    @Override public NavigableSet<E> subSet(E fromElement,
-        boolean fromInclusive, E toElement, boolean toInclusive) {
+    @Override
+    public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement,
+        boolean toInclusive) {
       assertTrue(Thread.holdsLock(mutex));
-      return delegate().subSet(
-          fromElement, fromInclusive, toElement, toInclusive);
+      return delegate().subSet(fromElement, fromInclusive, toElement, toInclusive);
     }
 
-    @Override public SortedSet<E> subSet(E fromElement, E toElement) {
+    @Override
+    public SortedSet<E> subSet(E fromElement, E toElement) {
       return subSet(fromElement, true, toElement, false);
     }
 
-    @Override public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
+    @Override
+    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().tailSet(fromElement, inclusive);
     }
 
-    @Override public SortedSet<E> tailSet(E fromElement) {
+    @Override
+    public SortedSet<E> tailSet(E fromElement) {
       return tailSet(fromElement, true);
     }
 
-    @Override public Comparator<? super E> comparator() {
+    @Override
+    public Comparator<? super E> comparator() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().comparator();
     }
 
-    @Override public E first() {
+    @Override
+    public E first() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().first();
     }
 
-    @Override public E last() {
+    @Override
+    public E last() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate().last();
     }
@@ -151,25 +164,26 @@ public class SynchronizedNavigableSetTest extends TestCase {
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SynchronizedNavigableSetTest.class);
-    suite.addTest(
-        NavigableSetTestSuiteBuilder.using(new TestStringSortedSetGenerator() {
+    suite.addTest(NavigableSetTestSuiteBuilder
+        .using(new TestStringSortedSetGenerator() {
 
-          @Override protected NavigableSet<String> create(String[] elements) {
+          @Override
+          protected NavigableSet<String> create(String[] elements) {
             NavigableSet<String> innermost = new SafeTreeSet<String>();
             Collections.addAll(innermost, elements);
             TestSet<String> inner = new TestSet<String>(innermost, MUTEX);
-            NavigableSet<String> outer =
-                Synchronized.navigableSet(inner, MUTEX);
+            NavigableSet<String> outer = Synchronized.navigableSet(inner, MUTEX);
             return outer;
           }
 
-          @Override public List<String> order(List<String> insertionOrder) {
+          @Override
+          public List<String> order(List<String> insertionOrder) {
             return Ordering.natural().sortedCopy(insertionOrder);
           }
-        }).named("Sets.synchronizedNavigableSet[SafeTreeSet]")
-            .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-                CollectionFeature.GENERAL_PURPOSE, CollectionFeature.SERIALIZABLE)
-            .createTestSuite());
+        })
+        .named("Sets.synchronizedNavigableSet[SafeTreeSet]")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE, CollectionFeature.SERIALIZABLE).createTestSuite());
 
     return suite;
   }

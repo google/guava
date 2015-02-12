@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2013 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -31,14 +29,17 @@ import java.util.List;
  * finder" implementation that might be used in a logging framework.
  */
 public class LazyStackTraceBenchmark {
-  @Param({"20", "200", "2000"}) int stackDepth;
-  @Param({"-1", "3", "15"}) int breakAt;
+  @Param({"20", "200", "2000"})
+  int stackDepth;
+  @Param({"-1", "3", "15"})
+  int breakAt;
 
   int recursionCount;
 
   private static final Object duh = new Object();
 
-  @Param Mode mode;
+  @Param
+  Mode mode;
 
   enum Mode {
     LAZY_STACK_TRACE {
@@ -86,8 +87,6 @@ public class LazyStackTraceBenchmark {
   }
 
   private boolean timeFindCaller(int reps, int recurse) {
-    return recurse > 0
-        ? timeFindCaller(reps, recurse - 1)
-        : mode.timeIt(reps, breakAt);
+    return recurse > 0 ? timeFindCaller(reps, recurse - 1) : mode.timeIt(reps, breakAt);
   }
 }

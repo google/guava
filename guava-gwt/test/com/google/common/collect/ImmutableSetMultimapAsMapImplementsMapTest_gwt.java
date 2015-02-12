@@ -1,300 +1,358 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.google.common.collect;
-public class ImmutableSetMultimapAsMapImplementsMapTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
-@Override public String getModuleName() {
-  return "com.google.common.collect.testModule";
-}
-public void testClear() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testClear();
-}
 
-public void testContainsKey() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testContainsKey();
-}
+public class ImmutableSetMultimapAsMapImplementsMapTest_gwt extends
+    com.google.gwt.junit.client.GWTTestCase {
+  @Override
+  public String getModuleName() {
+    return "com.google.common.collect.testModule";
+  }
 
-public void testContainsValue() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testContainsValue();
-}
+  public void testClear() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testClear();
+  }
 
-public void testEntrySet() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySet();
-}
+  public void testContainsKey() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testContainsKey();
+  }
 
-public void testEntrySetAddAndAddAll() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetAddAndAddAll();
-}
+  public void testContainsValue() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testContainsValue();
+  }
 
-public void testEntrySetClear() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetClear();
-}
+  public void testEntrySet() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySet();
+  }
 
-public void testEntrySetContainsEntryIncompatibleKey() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetContainsEntryIncompatibleKey();
-}
+  public void testEntrySetAddAndAddAll() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetAddAndAddAll();
+  }
 
-public void testEntrySetContainsEntryNullKeyMissing() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetContainsEntryNullKeyMissing();
-}
+  public void testEntrySetClear() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetClear();
+  }
 
-public void testEntrySetContainsEntryNullKeyPresent() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetContainsEntryNullKeyPresent();
-}
+  public void testEntrySetContainsEntryIncompatibleKey() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetContainsEntryIncompatibleKey();
+  }
 
-public void testEntrySetForEmptyMap() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetForEmptyMap();
-}
+  public void testEntrySetContainsEntryNullKeyMissing() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetContainsEntryNullKeyMissing();
+  }
 
-public void testEntrySetIteratorRemove() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetIteratorRemove();
-}
+  public void testEntrySetContainsEntryNullKeyPresent() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetContainsEntryNullKeyPresent();
+  }
 
-public void testEntrySetRemove() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetRemove();
-}
+  public void testEntrySetForEmptyMap() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetForEmptyMap();
+  }
 
-public void testEntrySetRemoveAll() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetRemoveAll();
-}
+  public void testEntrySetIteratorRemove() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetIteratorRemove();
+  }
 
-public void testEntrySetRemoveAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetRemoveAllNullFromEmpty();
-}
+  public void testEntrySetRemove() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetRemove();
+  }
 
-public void testEntrySetRemoveDifferentValue() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetRemoveDifferentValue();
-}
+  public void testEntrySetRemoveAll() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetRemoveAll();
+  }
 
-public void testEntrySetRemoveMissingKey() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetRemoveMissingKey();
-}
+  public void testEntrySetRemoveAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetRemoveAllNullFromEmpty();
+  }
 
-public void testEntrySetRemoveNullKeyMissing() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetRemoveNullKeyMissing();
-}
+  public void testEntrySetRemoveDifferentValue() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetRemoveDifferentValue();
+  }
 
-public void testEntrySetRemoveNullKeyPresent() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetRemoveNullKeyPresent();
-}
+  public void testEntrySetRemoveMissingKey() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetRemoveMissingKey();
+  }
 
-public void testEntrySetRetainAll() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetRetainAll();
-}
+  public void testEntrySetRemoveNullKeyMissing() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetRemoveNullKeyMissing();
+  }
 
-public void testEntrySetRetainAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetRetainAllNullFromEmpty();
-}
+  public void testEntrySetRemoveNullKeyPresent() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetRemoveNullKeyPresent();
+  }
 
-public void testEntrySetSetValue() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetSetValue();
-}
+  public void testEntrySetRetainAll() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetRetainAll();
+  }
 
-public void testEntrySetSetValueSameValue() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEntrySetSetValueSameValue();
-}
+  public void testEntrySetRetainAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetRetainAllNullFromEmpty();
+  }
 
-public void testEqualsForEmptyMap() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEqualsForEmptyMap();
-}
+  public void testEntrySetSetValue() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetSetValue();
+  }
 
-public void testEqualsForEqualMap() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEqualsForEqualMap();
-}
+  public void testEntrySetSetValueSameValue() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEntrySetSetValueSameValue();
+  }
 
-public void testEqualsForLargerMap() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEqualsForLargerMap();
-}
+  public void testEqualsForEmptyMap() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEqualsForEmptyMap();
+  }
 
-public void testEqualsForSmallerMap() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testEqualsForSmallerMap();
-}
+  public void testEqualsForEqualMap() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEqualsForEqualMap();
+  }
 
-public void testGet() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testGet();
-}
+  public void testEqualsForLargerMap() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEqualsForLargerMap();
+  }
 
-public void testGetForEmptyMap() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testGetForEmptyMap();
-}
+  public void testEqualsForSmallerMap() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testEqualsForSmallerMap();
+  }
 
-public void testGetNull() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testGetNull();
-}
+  public void testGet() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testGet();
+  }
 
-public void testHashCode() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testHashCode();
-}
+  public void testGetForEmptyMap() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testGetForEmptyMap();
+  }
 
-public void testHashCodeForEmptyMap() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testHashCodeForEmptyMap();
-}
+  public void testGetNull() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testGetNull();
+  }
 
-public void testKeySetClear() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testKeySetClear();
-}
+  public void testHashCode() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testHashCode();
+  }
 
-public void testKeySetRemove() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testKeySetRemove();
-}
+  public void testHashCodeForEmptyMap() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testHashCodeForEmptyMap();
+  }
 
-public void testKeySetRemoveAll() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testKeySetRemoveAll();
-}
+  public void testKeySetClear() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testKeySetClear();
+  }
 
-public void testKeySetRemoveAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testKeySetRemoveAllNullFromEmpty();
-}
+  public void testKeySetRemove() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testKeySetRemove();
+  }
 
-public void testKeySetRetainAll() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testKeySetRetainAll();
-}
+  public void testKeySetRemoveAll() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testKeySetRemoveAll();
+  }
 
-public void testKeySetRetainAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testKeySetRetainAllNullFromEmpty();
-}
+  public void testKeySetRemoveAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testKeySetRemoveAllNullFromEmpty();
+  }
 
-public void testPutAllExistingKey() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testPutAllExistingKey();
-}
+  public void testKeySetRetainAll() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testKeySetRetainAll();
+  }
 
-public void testPutAllNewKey() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testPutAllNewKey();
-}
+  public void testKeySetRetainAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testKeySetRetainAllNullFromEmpty();
+  }
 
-public void testPutExistingKey() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testPutExistingKey();
-}
+  public void testPutAllExistingKey() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testPutAllExistingKey();
+  }
 
-public void testPutNewKey() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testPutNewKey();
-}
+  public void testPutAllNewKey() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testPutAllNewKey();
+  }
 
-public void testPutNullKey() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testPutNullKey();
-}
+  public void testPutExistingKey() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testPutExistingKey();
+  }
 
-public void testPutNullValue() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testPutNullValue();
-}
+  public void testPutNewKey() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testPutNewKey();
+  }
 
-public void testPutNullValueForExistingKey() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testPutNullValueForExistingKey();
-}
+  public void testPutNullKey() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testPutNullKey();
+  }
 
-public void testRemove() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testRemove();
-}
+  public void testPutNullValue() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testPutNullValue();
+  }
 
-public void testRemoveMissingKey() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testRemoveMissingKey();
-}
+  public void testPutNullValueForExistingKey() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testPutNullValueForExistingKey();
+  }
 
-public void testSize() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testSize();
-}
+  public void testRemove() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testRemove();
+  }
 
-public void testValues() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testValues();
-}
+  public void testRemoveMissingKey() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testRemoveMissingKey();
+  }
 
-public void testValuesClear() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testValuesClear();
-}
+  public void testSize() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testSize();
+  }
 
-public void testValuesIteratorRemove() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testValuesIteratorRemove();
-}
+  public void testValues() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testValues();
+  }
 
-public void testValuesRemove() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testValuesRemove();
-}
+  public void testValuesClear() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testValuesClear();
+  }
 
-public void testValuesRemoveAll() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testValuesRemoveAll();
-}
+  public void testValuesIteratorRemove() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testValuesIteratorRemove();
+  }
 
-public void testValuesRemoveAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testValuesRemoveAllNullFromEmpty();
-}
+  public void testValuesRemove() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testValuesRemove();
+  }
 
-public void testValuesRemoveMissing() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testValuesRemoveMissing();
-}
+  public void testValuesRemoveAll() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testValuesRemoveAll();
+  }
 
-public void testValuesRetainAll() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testValuesRetainAll();
-}
+  public void testValuesRemoveAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testValuesRemoveAllNullFromEmpty();
+  }
 
-public void testValuesRetainAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase = new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
-  testCase.testValuesRetainAllNullFromEmpty();
-}
+  public void testValuesRemoveMissing() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testValuesRemoveMissing();
+  }
+
+  public void testValuesRetainAll() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testValuesRetainAll();
+  }
+
+  public void testValuesRetainAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest testCase =
+        new com.google.common.collect.ImmutableSetMultimapAsMapImplementsMapTest();
+    testCase.testValuesRetainAllNullFromEmpty();
+  }
 }

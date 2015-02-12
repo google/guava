@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -52,8 +50,8 @@ public class MathTesting {
       FLOOR, CEILING, HALF_EVEN, HALF_UP, HALF_DOWN);
 
   // Exponents to test for the pow() function.
-  static final ImmutableList<Integer> EXPONENTS = ImmutableList.of(0, 1, 2, 3, 4, 7, 10, 15,
-      20, 25, 40, 70);
+  static final ImmutableList<Integer> EXPONENTS = ImmutableList.of(0, 1, 2, 3, 4, 7, 10, 15, 20,
+      25, 40, 70);
 
   /* Helper function to make a Long value from an Integer. */
   private static final Function<Integer, Long> TO_LONG = new Function<Integer, Long>() {
@@ -64,13 +62,12 @@ public class MathTesting {
   };
 
   /* Helper function to make a BigInteger value from a Long. */
-  private static final Function<Long, BigInteger> TO_BIGINTEGER =
-      new Function<Long, BigInteger>() {
-        @Override
-        public BigInteger apply(Long n) {
-          return BigInteger.valueOf(n);
-        }
-      };
+  private static final Function<Long, BigInteger> TO_BIGINTEGER = new Function<Long, BigInteger>() {
+    @Override
+    public BigInteger apply(Long n) {
+      return BigInteger.valueOf(n);
+    }
+  };
 
   private static final Function<Integer, Integer> NEGATE_INT = new Function<Integer, Integer>() {
     @Override
@@ -122,18 +119,20 @@ public class MathTesting {
     intValues.add(9999).add(10000).add(10001).add(1000000); // near powers of 10
     intValues.add(5792).add(5793); // sqrt(2^25) rounded up and down
     POSITIVE_INTEGER_CANDIDATES = intValues.build();
-    NEGATIVE_INTEGER_CANDIDATES = ImmutableList.copyOf(Iterables.concat(
-        Iterables.transform(POSITIVE_INTEGER_CANDIDATES, NEGATE_INT),
-        ImmutableList.of(Integer.MIN_VALUE)));
-    NONZERO_INTEGER_CANDIDATES = ImmutableList.copyOf(
-        Iterables.concat(POSITIVE_INTEGER_CANDIDATES, NEGATIVE_INTEGER_CANDIDATES));
+    NEGATIVE_INTEGER_CANDIDATES =
+        ImmutableList.copyOf(Iterables.concat(
+            Iterables.transform(POSITIVE_INTEGER_CANDIDATES, NEGATE_INT),
+            ImmutableList.of(Integer.MIN_VALUE)));
+    NONZERO_INTEGER_CANDIDATES =
+        ImmutableList.copyOf(Iterables.concat(POSITIVE_INTEGER_CANDIDATES,
+            NEGATIVE_INTEGER_CANDIDATES));
     ALL_INTEGER_CANDIDATES = Iterables.concat(NONZERO_INTEGER_CANDIDATES, ImmutableList.of(0));
   }
 
   /*
    * This list contains values that attempt to provoke overflow in long operations. It contains
-   * positive values on or near 2^N for N near multiples of 8 (near byte boundaries). This list is
-   * a superset of POSITIVE_INTEGER_CANDIDATES.
+   * positive values on or near 2^N for N near multiples of 8 (near byte boundaries). This list is a
+   * superset of POSITIVE_INTEGER_CANDIDATES.
    */
   static final ImmutableSet<Long> POSITIVE_LONG_CANDIDATES;
 
@@ -203,8 +202,7 @@ public class MathTesting {
 
   static final ImmutableSet<Double> INTEGRAL_DOUBLE_CANDIDATES;
   static final ImmutableSet<Double> FRACTIONAL_DOUBLE_CANDIDATES;
-  static final Iterable<Double> INFINITIES = Doubles.asList(
-      Double.POSITIVE_INFINITY,
+  static final Iterable<Double> INFINITIES = Doubles.asList(Double.POSITIVE_INFINITY,
       Double.NEGATIVE_INFINITY);
   static final Iterable<Double> FINITE_DOUBLE_CANDIDATES;
   static final Iterable<Double> POSITIVE_FINITE_DOUBLE_CANDIDATES;
@@ -252,7 +250,6 @@ public class MathTesting {
           }
         });
     DOUBLE_CANDIDATES_EXCEPT_NAN = Iterables.concat(FINITE_DOUBLE_CANDIDATES, INFINITIES);
-    ALL_DOUBLE_CANDIDATES =
-        Iterables.concat(DOUBLE_CANDIDATES_EXCEPT_NAN, asList(Double.NaN));
+    ALL_DOUBLE_CANDIDATES = Iterables.concat(DOUBLE_CANDIDATES_EXCEPT_NAN, asList(Double.NaN));
   }
 }

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -45,7 +43,8 @@ public class InternersTest extends TestCase {
     try {
       pool.intern(null);
       fail();
-    } catch (NullPointerException ok) {}
+    } catch (NullPointerException ok) {
+    }
   }
 
   public void testWeak_simplistic() {
@@ -62,7 +61,8 @@ public class InternersTest extends TestCase {
     try {
       pool.intern(null);
       fail();
-    } catch (NullPointerException ok) {}
+    } catch (NullPointerException ok) {
+    }
   }
 
   public void testWeak_afterGC() throws InterruptedException {
@@ -73,7 +73,7 @@ public class InternersTest extends TestCase {
     assertSame(canonical, pool.intern(canonical));
 
     WeakReference<Integer> signal = new WeakReference<Integer>(canonical);
-    canonical = null;  // Hint to the JIT that canonical is unreachable
+    canonical = null; // Hint to the JIT that canonical is unreachable
 
     GcFinalization.awaitClear(signal);
     assertSame(not, pool.intern(not));

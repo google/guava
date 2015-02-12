@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect.testing.testers;
@@ -30,9 +28,8 @@ import com.google.common.collect.testing.features.ListFeature;
 import java.lang.reflect.Method;
 
 /**
- * A generic JUnit test which tests {@code set()} operations on a list. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code set()} operations on a list. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
  * @author George van den Driessche
  */
@@ -66,12 +63,10 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   private void doTestSet(E newValue) {
     int index = aValidIndex();
     E initialValue = getList().get(index);
-    assertEquals("set(i, x) should return the old element at position i.",
-        initialValue, getList().set(index, newValue));
-    assertEquals("After set(i, x), get(i) should return x",
-        newValue, getList().get(index));
-    assertEquals("set() should not change the size of a list.",
-        getNumElements(), getList().size());
+    assertEquals("set(i, x) should return the old element at position i.", initialValue, getList()
+        .set(index, newValue));
+    assertEquals("After set(i, x), get(i) should return x", newValue, getList().get(index));
+    assertEquals("set() should not change the size of a list.", getNumElements(), getList().size());
   }
 
   @ListFeature.Require(SUPPORTS_SET)
@@ -111,8 +106,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   public void testSet_unsupportedByEmptyList() {
     try {
       getList().set(0, e3());
-      fail("set() should throw UnsupportedOperationException "
-          + "or IndexOutOfBoundsException");
+      fail("set() should throw UnsupportedOperationException " + "or IndexOutOfBoundsException");
     } catch (UnsupportedOperationException tolerated) {
     } catch (IndexOutOfBoundsException tolerated) {
     }
@@ -136,16 +130,13 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link java.lang.reflect.Method} instance for
-   * {@link #testSet_null()} so that tests of {@link
-   * java.util.Collections#checkedCollection(java.util.Collection, Class)} can
-   * suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()}
-   * until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6409434">Sun bug
-   * 6409434</a> is fixed. It's unclear whether nulls were to be permitted or
-   * forbidden, but presumably the eventual fix will be to permit them, as it
-   * seems more likely that code would depend on that behavior than on the
-   * other. Thus, we say the bug is in set(), which fails to support null.
+   * Returns the {@link java.lang.reflect.Method} instance for {@link #testSet_null()} so that tests
+   * of {@link java.util.Collections#checkedCollection(java.util.Collection, Class)} can suppress it
+   * with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6409434">Sun bug 6409434</a> is fixed.
+   * It's unclear whether nulls were to be permitted or forbidden, but presumably the eventual fix
+   * will be to permit them, as it seems more likely that code would depend on that behavior than on
+   * the other. Thus, we say the bug is in set(), which fails to support null.
    */
   @GwtIncompatible("reflection")
   public static Method getSetNullSupportedMethod() {

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -57,9 +55,11 @@ public interface ListeningExecutorService extends ExecutorService {
   /**
    * {@inheritDoc}
    *
-   * <p>All elements in the returned list must be {@link ListenableFuture} instances. The easiest
-   * way to obtain a {@code List<ListenableFuture<T>>} from this method is an unchecked (but safe)
-   * cast:<pre>
+   * <p>
+   * All elements in the returned list must be {@link ListenableFuture} instances. The easiest way
+   * to obtain a {@code List<ListenableFuture<T>>} from this method is an unchecked (but safe) cast:
+   * 
+   * <pre>
    *   {@code @SuppressWarnings("unchecked") // guaranteed by invokeAll contract}
    *   {@code List<ListenableFuture<T>> futures = (List) executor.invokeAll(tasks);}
    * </pre>
@@ -77,9 +77,11 @@ public interface ListeningExecutorService extends ExecutorService {
   /**
    * {@inheritDoc}
    *
-   * <p>All elements in the returned list must be {@link ListenableFuture} instances. The easiest
-   * way to obtain a {@code List<ListenableFuture<T>>} from this method is an unchecked (but safe)
-   * cast:<pre>
+   * <p>
+   * All elements in the returned list must be {@link ListenableFuture} instances. The easiest way
+   * to obtain a {@code List<ListenableFuture<T>>} from this method is an unchecked (but safe) cast:
+   * 
+   * <pre>
    *   {@code @SuppressWarnings("unchecked") // guaranteed by invokeAll contract}
    *   {@code List<ListenableFuture<T>> futures = (List) executor.invokeAll(tasks, timeout, unit);}
    * </pre>
@@ -92,7 +94,6 @@ public interface ListeningExecutorService extends ExecutorService {
    * @throws NullPointerException if any task is null
    */
   @Override
-  <T> List<Future<T>> invokeAll(
-      Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
+  <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException;
 }

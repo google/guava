@@ -1,15 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -29,20 +29,23 @@ import javax.annotation.CheckReturnValue;
 /**
  * Static utility methods pertaining to {@code long} primitives that interpret values as
  * <i>unsigned</i> (that is, any negative value {@code x} is treated as the positive value
- * {@code 2^64 + x}). The methods for which signedness is not an issue are in {@link Longs}, as
- * well as signed versions of methods for which signedness is an issue.
+ * {@code 2^64 + x}). The methods for which signedness is not an issue are in {@link Longs}, as well
+ * as signed versions of methods for which signedness is an issue.
  *
- * <p>In addition, this class provides several static methods for converting a {@code long} to a
+ * <p>
+ * In addition, this class provides several static methods for converting a {@code long} to a
  * {@code String} and a {@code String} to a {@code long} that treat the {@code long} as an unsigned
  * number.
  *
- * <p>Users of these utilities must be <i>extremely careful</i> not to mix up signed and unsigned
- * {@code long} values. When possible, it is recommended that the {@link UnsignedLong} wrapper
- * class be used, at a small efficiency penalty, to enforce the distinction in the type system.
+ * <p>
+ * Users of these utilities must be <i>extremely careful</i> not to mix up signed and unsigned
+ * {@code long} values. When possible, it is recommended that the {@link UnsignedLong} wrapper class
+ * be used, at a small efficiency penalty, to enforce the distinction in the type system.
  *
- * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support">
- * unsigned primitive utilities</a>.
+ * <p>
+ * See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support"> unsigned
+ * primitive utilities</a>.
  *
  * @author Louis Wasserman
  * @author Brian Milch
@@ -58,8 +61,8 @@ public final class UnsignedLongs {
 
   /**
    * A (self-inverse) bijection which converts the ordering on unsigned longs to the ordering on
-   * longs, that is, {@code a <= b} as unsigned longs if and only if {@code flip(a) <= flip(b)}
-   * as signed longs.
+   * longs, that is, {@code a <= b} as unsigned longs if and only if {@code flip(a) <= flip(b)} as
+   * signed longs.
    */
   private static long flip(long a) {
     return a ^ Long.MIN_VALUE;
@@ -125,8 +128,8 @@ public final class UnsignedLongs {
    * Returns a string containing the supplied unsigned {@code long} values separated by
    * {@code separator}. For example, {@code join("-", 1, 2, 3)} returns the string {@code "1-2-3"}.
    *
-   * @param separator the text that should appear between consecutive values in the resulting
-   *        string (but not at the start or end)
+   * @param separator the text that should appear between consecutive values in the resulting string
+   *        (but not at the start or end)
    * @param array an array of unsigned {@code long} values, possibly empty
    */
   @CheckReturnValue
@@ -151,12 +154,13 @@ public final class UnsignedLongs {
    * values that follow any common prefix, or when one array is a prefix of the other, treats the
    * shorter array as the lesser. For example, {@code [] < [1L] < [1L, 2L] < [2L] < [1L << 63]}.
    *
-   * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
+   * <p>
+   * The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
    * support only identity equality), but it is consistent with
    * {@link Arrays#equals(long[], long[])}.
    *
-   * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">Lexicographical order
-   *      article at Wikipedia</a>
+   * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">Lexicographical order article
+   *      at Wikipedia</a>
    */
   @CheckReturnValue
   public static Comparator<long[]> lexicographicalComparator() {
@@ -203,9 +207,9 @@ public final class UnsignedLongs {
 
     /*
      * Otherwise, approximate the quotient, check, and correct if necessary. Our approximation is
-     * guaranteed to be either exact or one less than the correct value. This follows from fact
-     * that floor(floor(x)/i) == floor(x/i) for any real x and integer i != 0. The proof is not
-     * quite trivial.
+     * guaranteed to be either exact or one less than the correct value. This follows from fact that
+     * floor(floor(x)/i) == floor(x/i) for any real x and integer i != 0. The proof is not quite
+     * trivial.
      */
     long quotient = ((dividend >>> 1) / divisor) << 1;
     long rem = dividend - quotient * divisor;
@@ -238,9 +242,9 @@ public final class UnsignedLongs {
 
     /*
      * Otherwise, approximate the quotient, check, and correct if necessary. Our approximation is
-     * guaranteed to be either exact or one less than the correct value. This follows from fact
-     * that floor(floor(x)/i) == floor(x/i) for any real x and integer i != 0. The proof is not
-     * quite trivial.
+     * guaranteed to be either exact or one less than the correct value. This follows from fact that
+     * floor(floor(x)/i) == floor(x/i) for any real x and integer i != 0. The proof is not quite
+     * trivial.
      */
     long quotient = ((dividend >>> 1) / divisor) << 1;
     long rem = dividend - quotient * divisor;
@@ -252,8 +256,8 @@ public final class UnsignedLongs {
    *
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
    *         value
-   * @throws NullPointerException if {@code s} is null
-   *         (in contrast to {@link Long#parseLong(String)})
+   * @throws NullPointerException if {@code s} is null (in contrast to
+   *         {@link Long#parseLong(String)})
    */
   public static long parseUnsignedLong(String s) {
     return parseUnsignedLong(s, 10);
@@ -293,11 +297,11 @@ public final class UnsignedLongs {
    *
    * @param s the string containing the unsigned {@code long} representation to be parsed.
    * @param radix the radix to use while parsing {@code s}
-   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
-   *         with the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX}
-   *         and {@link Character#MAX_RADIX}.
-   * @throws NullPointerException if {@code s} is null 
-   *         (in contrast to {@link Long#parseLong(String)})
+   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long} with
+   *         the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX} and
+   *         {@link Character#MAX_RADIX}.
+   * @throws NullPointerException if {@code s} is null (in contrast to
+   *         {@link Long#parseLong(String)})
    */
   public static long parseUnsignedLong(String s, int radix) {
     checkNotNull(s);
@@ -326,8 +330,8 @@ public final class UnsignedLongs {
 
   /**
    * Returns true if (current * radix) + digit is a number too large to be represented by an
-   * unsigned long. This is useful for detecting overflow while parsing a string representation of
-   * a number. Does not verify whether supplied radix is valid, passing an invalid radix will give
+   * unsigned long. This is useful for detecting overflow while parsing a string representation of a
+   * number. Does not verify whether supplied radix is valid, passing an invalid radix will give
    * undefined results or an ArrayIndexOutOfBoundsException.
    */
   private static boolean overflowInParse(long current, int digit, int radix) {
@@ -355,8 +359,8 @@ public final class UnsignedLongs {
   }
 
   /**
-   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated
-   * as unsigned.
+   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated as
+   * unsigned.
    *
    * @param x the value to convert to a string.
    * @param radix the radix to use while working with {@code x}

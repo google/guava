@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.cache;
@@ -42,8 +40,8 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class LocalLoadingCacheTest extends TestCase {
 
-  private static <K, V> LocalLoadingCache<K, V> makeCache(
-      CacheBuilder<K, V> builder, CacheLoader<? super K, V> loader) {
+  private static <K, V> LocalLoadingCache<K, V> makeCache(CacheBuilder<K, V> builder,
+      CacheLoader<? super K, V> loader) {
     return new LocalLoadingCache<K, V>(builder, loader);
   }
 
@@ -75,9 +73,7 @@ public class LocalLoadingCacheTest extends TestCase {
   // stats tests
 
   public void testStats() {
-    CacheBuilder<Object, Object> builder = createCacheBuilder()
-        .concurrencyLevel(1)
-        .maximumSize(2);
+    CacheBuilder<Object, Object> builder = createCacheBuilder().concurrencyLevel(1).maximumSize(2);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(EMPTY_STATS, cache.stats());
 
@@ -99,9 +95,9 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(2, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0/2, stats.hitRate());
+    assertEquals(1.0 / 2, stats.hitRate());
     assertEquals(1, stats.missCount());
-    assertEquals(1.0/2, stats.missRate());
+    assertEquals(1.0 / 2, stats.missRate());
     assertEquals(1, stats.loadCount());
     assertEquals(0, stats.evictionCount());
 
@@ -110,9 +106,9 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(3, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0/3, stats.hitRate());
+    assertEquals(1.0 / 3, stats.hitRate());
     assertEquals(2, stats.missCount());
-    assertEquals(2.0/3, stats.missRate());
+    assertEquals(2.0 / 3, stats.missRate());
     assertEquals(2, stats.loadCount());
     assertTrue(stats.totalLoadTime() >= totalLoadTime);
     totalLoadTime = stats.totalLoadTime();
@@ -124,9 +120,9 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(4, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0/4, stats.hitRate());
+    assertEquals(1.0 / 4, stats.hitRate());
     assertEquals(3, stats.missCount());
-    assertEquals(3.0/4, stats.missRate());
+    assertEquals(3.0 / 4, stats.missRate());
     assertEquals(3, stats.loadCount());
     assertTrue(stats.totalLoadTime() >= totalLoadTime);
     totalLoadTime = stats.totalLoadTime();
@@ -135,8 +131,7 @@ public class LocalLoadingCacheTest extends TestCase {
   }
 
   public void testStatsNoops() {
-    CacheBuilder<Object, Object> builder = createCacheBuilder()
-        .concurrencyLevel(1);
+    CacheBuilder<Object, Object> builder = createCacheBuilder().concurrencyLevel(1);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     ConcurrentMap<Object, Object> map = cache.localCache; // modifiable map view
     assertEquals(EMPTY_STATS, cache.stats());
@@ -163,14 +158,14 @@ public class LocalLoadingCacheTest extends TestCase {
     assertThat(map).containsEntry(three, one);
     assertThat(map).containsEntry(one, two);
 
-    //TODO(cgruber): Confirm with fry@ that this is a reasonable substitute.
-    //Set<Map.Entry<Object, Object>> entries = map.entrySet();
-    //assertThat(entries).containsExactly(
-    //    Maps.immutableEntry(three, one), Maps.immutableEntry(one, two));
-    //Set<Object> keys = map.keySet();
-    //assertThat(keys).containsExactly(one, three);
-    //Collection<Object> values = map.values();
-    //assertThat(values).containsExactly(one, two);
+    // TODO(cgruber): Confirm with fry@ that this is a reasonable substitute.
+    // Set<Map.Entry<Object, Object>> entries = map.entrySet();
+    // assertThat(entries).containsExactly(
+    // Maps.immutableEntry(three, one), Maps.immutableEntry(one, two));
+    // Set<Object> keys = map.keySet();
+    // assertThat(keys).containsExactly(one, three);
+    // Collection<Object> values = map.values();
+    // assertThat(values).containsExactly(one, two);
 
     map.clear();
 
@@ -178,9 +173,8 @@ public class LocalLoadingCacheTest extends TestCase {
   }
 
   public void testNoStats() {
-    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
-        .concurrencyLevel(1)
-        .maximumSize(2);
+    CacheBuilder<Object, Object> builder =
+        CacheBuilder.newBuilder().concurrencyLevel(1).maximumSize(2);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(EMPTY_STATS, cache.stats());
 
@@ -201,10 +195,8 @@ public class LocalLoadingCacheTest extends TestCase {
   }
 
   public void testRecordStats() {
-    CacheBuilder<Object, Object> builder = createCacheBuilder()
-        .recordStats()
-        .concurrencyLevel(1)
-        .maximumSize(2);
+    CacheBuilder<Object, Object> builder =
+        createCacheBuilder().recordStats().concurrencyLevel(1).maximumSize(2);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(0, cache.stats().hitCount());
     assertEquals(0, cache.stats().missCount());
@@ -289,9 +281,8 @@ public class LocalLoadingCacheTest extends TestCase {
    * Lookups on the map view shouldn't impact the recency queue.
    */
   public void testAsMapRecency() {
-    CacheBuilder<Object, Object> builder = createCacheBuilder()
-        .concurrencyLevel(1)
-        .maximumSize(SMALL_MAX_SIZE);
+    CacheBuilder<Object, Object> builder =
+        createCacheBuilder().concurrencyLevel(1).maximumSize(SMALL_MAX_SIZE);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     Segment<Object, Object> segment = cache.localCache.segments[0];
     ConcurrentMap<Object, Object> map = cache.asMap();
@@ -319,10 +310,8 @@ public class LocalLoadingCacheTest extends TestCase {
       }
     };
 
-    LoadingCache<Integer, String> recursiveCache = new CacheBuilder<Integer, String>()
-        .weakKeys()
-        .weakValues()
-        .build(recursiveLoader);
+    LoadingCache<Integer, String> recursiveCache =
+        new CacheBuilder<Integer, String>().weakKeys().weakValues().build(recursiveLoader);
     cacheRef.set(recursiveCache);
     assertEquals("3, 2, 1, 0", recursiveCache.getUnchecked(3));
 
@@ -333,10 +322,8 @@ public class LocalLoadingCacheTest extends TestCase {
       }
     };
 
-    recursiveCache = new CacheBuilder<Integer, String>()
-        .weakKeys()
-        .weakValues()
-        .build(recursiveLoader);
+    recursiveCache =
+        new CacheBuilder<Integer, String>().weakKeys().weakValues().build(recursiveLoader);
     cacheRef.set(recursiveCache);
 
     // tells the test when the compution has completed

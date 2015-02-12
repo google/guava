@@ -1,300 +1,357 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.google.common.collect;
+
 public class ConstrainedMapImplementsMapTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
-@Override public String getModuleName() {
-  return "com.google.common.collect.testModule";
-}
-public void testClear() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testClear();
-}
+  @Override
+  public String getModuleName() {
+    return "com.google.common.collect.testModule";
+  }
 
-public void testContainsKey() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testContainsKey();
-}
+  public void testClear() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testClear();
+  }
 
-public void testContainsValue() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testContainsValue();
-}
+  public void testContainsKey() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testContainsKey();
+  }
 
-public void testEntrySet() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySet();
-}
+  public void testContainsValue() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testContainsValue();
+  }
 
-public void testEntrySetAddAndAddAll() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetAddAndAddAll();
-}
+  public void testEntrySet() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySet();
+  }
 
-public void testEntrySetClear() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetClear();
-}
+  public void testEntrySetAddAndAddAll() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetAddAndAddAll();
+  }
 
-public void testEntrySetContainsEntryIncompatibleKey() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetContainsEntryIncompatibleKey();
-}
+  public void testEntrySetClear() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetClear();
+  }
 
-public void testEntrySetContainsEntryNullKeyMissing() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetContainsEntryNullKeyMissing();
-}
+  public void testEntrySetContainsEntryIncompatibleKey() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetContainsEntryIncompatibleKey();
+  }
 
-public void testEntrySetContainsEntryNullKeyPresent() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetContainsEntryNullKeyPresent();
-}
+  public void testEntrySetContainsEntryNullKeyMissing() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetContainsEntryNullKeyMissing();
+  }
 
-public void testEntrySetForEmptyMap() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetForEmptyMap();
-}
+  public void testEntrySetContainsEntryNullKeyPresent() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetContainsEntryNullKeyPresent();
+  }
 
-public void testEntrySetIteratorRemove() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetIteratorRemove();
-}
+  public void testEntrySetForEmptyMap() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetForEmptyMap();
+  }
 
-public void testEntrySetRemove() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetRemove();
-}
+  public void testEntrySetIteratorRemove() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetIteratorRemove();
+  }
 
-public void testEntrySetRemoveAll() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetRemoveAll();
-}
+  public void testEntrySetRemove() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetRemove();
+  }
 
-public void testEntrySetRemoveAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetRemoveAllNullFromEmpty();
-}
+  public void testEntrySetRemoveAll() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetRemoveAll();
+  }
 
-public void testEntrySetRemoveDifferentValue() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetRemoveDifferentValue();
-}
+  public void testEntrySetRemoveAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetRemoveAllNullFromEmpty();
+  }
 
-public void testEntrySetRemoveMissingKey() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetRemoveMissingKey();
-}
+  public void testEntrySetRemoveDifferentValue() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetRemoveDifferentValue();
+  }
 
-public void testEntrySetRemoveNullKeyMissing() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetRemoveNullKeyMissing();
-}
+  public void testEntrySetRemoveMissingKey() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetRemoveMissingKey();
+  }
 
-public void testEntrySetRemoveNullKeyPresent() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetRemoveNullKeyPresent();
-}
+  public void testEntrySetRemoveNullKeyMissing() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetRemoveNullKeyMissing();
+  }
 
-public void testEntrySetRetainAll() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetRetainAll();
-}
+  public void testEntrySetRemoveNullKeyPresent() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetRemoveNullKeyPresent();
+  }
 
-public void testEntrySetRetainAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetRetainAllNullFromEmpty();
-}
+  public void testEntrySetRetainAll() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetRetainAll();
+  }
 
-public void testEntrySetSetValue() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetSetValue();
-}
+  public void testEntrySetRetainAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetRetainAllNullFromEmpty();
+  }
 
-public void testEntrySetSetValueSameValue() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEntrySetSetValueSameValue();
-}
+  public void testEntrySetSetValue() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetSetValue();
+  }
 
-public void testEqualsForEmptyMap() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEqualsForEmptyMap();
-}
+  public void testEntrySetSetValueSameValue() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEntrySetSetValueSameValue();
+  }
 
-public void testEqualsForEqualMap() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEqualsForEqualMap();
-}
+  public void testEqualsForEmptyMap() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEqualsForEmptyMap();
+  }
 
-public void testEqualsForLargerMap() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEqualsForLargerMap();
-}
+  public void testEqualsForEqualMap() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEqualsForEqualMap();
+  }
 
-public void testEqualsForSmallerMap() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testEqualsForSmallerMap();
-}
+  public void testEqualsForLargerMap() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEqualsForLargerMap();
+  }
 
-public void testGet() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testGet();
-}
+  public void testEqualsForSmallerMap() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testEqualsForSmallerMap();
+  }
 
-public void testGetForEmptyMap() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testGetForEmptyMap();
-}
+  public void testGet() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testGet();
+  }
 
-public void testGetNull() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testGetNull();
-}
+  public void testGetForEmptyMap() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testGetForEmptyMap();
+  }
 
-public void testHashCode() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testHashCode();
-}
+  public void testGetNull() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testGetNull();
+  }
 
-public void testHashCodeForEmptyMap() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testHashCodeForEmptyMap();
-}
+  public void testHashCode() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testHashCode();
+  }
 
-public void testKeySetClear() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testKeySetClear();
-}
+  public void testHashCodeForEmptyMap() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testHashCodeForEmptyMap();
+  }
 
-public void testKeySetRemove() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testKeySetRemove();
-}
+  public void testKeySetClear() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testKeySetClear();
+  }
 
-public void testKeySetRemoveAll() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testKeySetRemoveAll();
-}
+  public void testKeySetRemove() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testKeySetRemove();
+  }
 
-public void testKeySetRemoveAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testKeySetRemoveAllNullFromEmpty();
-}
+  public void testKeySetRemoveAll() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testKeySetRemoveAll();
+  }
 
-public void testKeySetRetainAll() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testKeySetRetainAll();
-}
+  public void testKeySetRemoveAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testKeySetRemoveAllNullFromEmpty();
+  }
 
-public void testKeySetRetainAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testKeySetRetainAllNullFromEmpty();
-}
+  public void testKeySetRetainAll() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testKeySetRetainAll();
+  }
 
-public void testPutAllExistingKey() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testPutAllExistingKey();
-}
+  public void testKeySetRetainAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testKeySetRetainAllNullFromEmpty();
+  }
 
-public void testPutAllNewKey() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testPutAllNewKey();
-}
+  public void testPutAllExistingKey() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testPutAllExistingKey();
+  }
 
-public void testPutExistingKey() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testPutExistingKey();
-}
+  public void testPutAllNewKey() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testPutAllNewKey();
+  }
 
-public void testPutNewKey() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testPutNewKey();
-}
+  public void testPutExistingKey() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testPutExistingKey();
+  }
 
-public void testPutNullKey() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testPutNullKey();
-}
+  public void testPutNewKey() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testPutNewKey();
+  }
 
-public void testPutNullValue() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testPutNullValue();
-}
+  public void testPutNullKey() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testPutNullKey();
+  }
 
-public void testPutNullValueForExistingKey() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testPutNullValueForExistingKey();
-}
+  public void testPutNullValue() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testPutNullValue();
+  }
 
-public void testRemove() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testRemove();
-}
+  public void testPutNullValueForExistingKey() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testPutNullValueForExistingKey();
+  }
 
-public void testRemoveMissingKey() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testRemoveMissingKey();
-}
+  public void testRemove() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testRemove();
+  }
 
-public void testSize() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testSize();
-}
+  public void testRemoveMissingKey() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testRemoveMissingKey();
+  }
 
-public void testValues() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testValues();
-}
+  public void testSize() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testSize();
+  }
 
-public void testValuesClear() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testValuesClear();
-}
+  public void testValues() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testValues();
+  }
 
-public void testValuesIteratorRemove() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testValuesIteratorRemove();
-}
+  public void testValuesClear() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testValuesClear();
+  }
 
-public void testValuesRemove() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testValuesRemove();
-}
+  public void testValuesIteratorRemove() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testValuesIteratorRemove();
+  }
 
-public void testValuesRemoveAll() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testValuesRemoveAll();
-}
+  public void testValuesRemove() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testValuesRemove();
+  }
 
-public void testValuesRemoveAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testValuesRemoveAllNullFromEmpty();
-}
+  public void testValuesRemoveAll() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testValuesRemoveAll();
+  }
 
-public void testValuesRemoveMissing() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testValuesRemoveMissing();
-}
+  public void testValuesRemoveAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testValuesRemoveAllNullFromEmpty();
+  }
 
-public void testValuesRetainAll() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testValuesRetainAll();
-}
+  public void testValuesRemoveMissing() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testValuesRemoveMissing();
+  }
 
-public void testValuesRetainAllNullFromEmpty() throws Exception {
-  com.google.common.collect.ConstrainedMapImplementsMapTest testCase = new com.google.common.collect.ConstrainedMapImplementsMapTest();
-  testCase.testValuesRetainAllNullFromEmpty();
-}
+  public void testValuesRetainAll() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testValuesRetainAll();
+  }
+
+  public void testValuesRetainAllNullFromEmpty() throws Exception {
+    com.google.common.collect.ConstrainedMapImplementsMapTest testCase =
+        new com.google.common.collect.ConstrainedMapImplementsMapTest();
+    testCase.testValuesRetainAllNullFromEmpty();
+  }
 }

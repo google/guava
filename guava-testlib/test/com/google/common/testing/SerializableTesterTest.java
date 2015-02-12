@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.testing;
@@ -35,8 +33,7 @@ public class SerializableTesterTest extends TestCase {
   }
 
   public void testClassWhichDoesNotImplementEquals() {
-    ClassWhichDoesNotImplementEquals orig =
-        new ClassWhichDoesNotImplementEquals();
+    ClassWhichDoesNotImplementEquals orig = new ClassWhichDoesNotImplementEquals();
     boolean errorNotThrown = false;
     try {
       SerializableTester.reserializeAndAssert(orig);
@@ -63,8 +60,7 @@ public class SerializableTesterTest extends TestCase {
   }
 
   public void testObjectWhichIsEqualButChangesClass() {
-    ObjectWhichIsEqualButChangesClass orig =
-        new ObjectWhichIsEqualButChangesClass();
+    ObjectWhichIsEqualButChangesClass orig = new ObjectWhichIsEqualButChangesClass();
     boolean errorNotThrown = false;
     try {
       SerializableTester.reserializeAndAssert(orig);
@@ -76,13 +72,11 @@ public class SerializableTesterTest extends TestCase {
     assertFalse(errorNotThrown);
   }
 
-  private static class ClassWhichDoesNotImplementEquals
-      implements Serializable {
+  private static class ClassWhichDoesNotImplementEquals implements Serializable {
     private static final long serialVersionUID = 1L;
   }
 
-  private static class ClassWhichIsAlwaysEqualButHasDifferentHashcodes
-      implements Serializable {
+  private static class ClassWhichIsAlwaysEqualButHasDifferentHashcodes implements Serializable {
     private static final long serialVersionUID = 2L;
 
     @Override
@@ -91,14 +85,12 @@ public class SerializableTesterTest extends TestCase {
     }
   }
 
-  private static class ObjectWhichIsEqualButChangesClass
-      implements Serializable {
+  private static class ObjectWhichIsEqualButChangesClass implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Override
     public boolean equals(Object other) {
-      return (other instanceof ObjectWhichIsEqualButChangesClass
-          || other instanceof OtherForm);
+      return (other instanceof ObjectWhichIsEqualButChangesClass || other instanceof OtherForm);
     }
 
     @Override
@@ -113,8 +105,7 @@ public class SerializableTesterTest extends TestCase {
     private static class OtherForm implements Serializable {
       @Override
       public boolean equals(Object other) {
-        return (other instanceof ObjectWhichIsEqualButChangesClass
-            || other instanceof OtherForm);
+        return (other instanceof ObjectWhichIsEqualButChangesClass || other instanceof OtherForm);
       }
 
       @Override

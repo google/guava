@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2013 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -62,26 +62,28 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
       }
     }
   }
- 
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testAsMapGetNullKeyPresent() {
     initMultimapWithNullKey();
     assertThat(multimap().asMap().get(null)).containsExactly(getValueForNullKey());
   }
+
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testAsMapGetNullKeyAbsent() {
     assertThat(multimap().asMap().get(null)).isNull();
   }
- 
+
   @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testAsMapGetNullKeyUnsupported() {
     try {
       multimap().asMap().get(null);
       fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {}
+    } catch (NullPointerException expected) {
+    }
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testAsMapRemove() {
@@ -93,26 +95,20 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testAsMapEntrySetReflectsPutSameKey() {
-    resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k0(), v3()));
-    
+    resetContainer(Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v3()));
+
     Set<Entry<K, Collection<V>>> asMapEntrySet = multimap().asMap().entrySet();
     Collection<V> valueCollection = Iterables.getOnlyElement(asMapEntrySet).getValue();
-    assertThat(valueCollection)
-        .containsExactly(v0(), v3());
+    assertThat(valueCollection).containsExactly(v0(), v3());
     assertTrue(multimap().put(k0(), v4()));
-    assertThat(valueCollection)
-        .containsExactly(v0(), v3(), v4());
+    assertThat(valueCollection).containsExactly(v0(), v3(), v4());
   }
 
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testAsMapEntrySetReflectsPutDifferentKey() {
-    resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k0(), v3()));
-    
+    resetContainer(Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v3()));
+
     Set<Entry<K, Collection<V>>> asMapEntrySet = multimap().asMap().entrySet();
     assertTrue(multimap().put(k1(), v4()));
     assertEquals(2, asMapEntrySet.size());
@@ -121,9 +117,7 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testAsMapEntrySetRemovePropagatesToMultimap() {
-    resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k0(), v3()));
+    resetContainer(Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v3()));
     Set<Entry<K, Collection<V>>> asMapEntrySet = multimap().asMap().entrySet();
     Entry<K, Collection<V>> asMapEntry0 = Iterables.getOnlyElement(asMapEntrySet);
     assertTrue(multimap().put(k1(), v4()));
@@ -135,9 +129,7 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   public void testAsMapEntrySetIteratorRemovePropagatesToMultimap() {
-    resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k0(), v3()));
+    resetContainer(Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v3()));
     Set<Entry<K, Collection<V>>> asMapEntrySet = multimap().asMap().entrySet();
     Iterator<Entry<K, Collection<V>>> asMapEntryItr = asMapEntrySet.iterator();
     asMapEntryItr.next();

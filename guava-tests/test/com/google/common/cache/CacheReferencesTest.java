@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -36,16 +36,16 @@ import java.lang.ref.WeakReference;
  */
 public class CacheReferencesTest extends TestCase {
 
-  private static final CacheLoader<Key,String> KEY_TO_STRING_LOADER =
+  private static final CacheLoader<Key, String> KEY_TO_STRING_LOADER =
       new CacheLoader<Key, String>() {
-        @Override public String load(Key key) {
+        @Override
+        public String load(Key key) {
           return key.toString();
         }
       };
 
   private CacheBuilderFactory factoryWithAllKeyStrengths() {
-    return new CacheBuilderFactory()
-        .withKeyStrengths(ImmutableSet.of(STRONG, Strength.WEAK))
+    return new CacheBuilderFactory().withKeyStrengths(ImmutableSet.of(STRONG, Strength.WEAK))
         .withValueStrengths(ImmutableSet.of(STRONG, Strength.WEAK, Strength.SOFT));
   }
 
@@ -53,7 +53,8 @@ public class CacheReferencesTest extends TestCase {
     CacheBuilderFactory factory = factoryWithAllKeyStrengths();
     return Iterables.transform(factory.buildAllPermutations(),
         new Function<CacheBuilder<Object, Object>, LoadingCache<Key, String>>() {
-          @Override public LoadingCache<Key, String> apply(CacheBuilder<Object, Object> builder) {
+          @Override
+          public LoadingCache<Key, String> apply(CacheBuilder<Object, Object> builder) {
             return builder.build(KEY_TO_STRING_LOADER);
           }
         });
@@ -139,11 +140,13 @@ public class CacheReferencesTest extends TestCase {
       }
       try {
         Thread.sleep(10);
-      } catch (InterruptedException e) { /* ignore */}
+      } catch (InterruptedException e) { /* ignore */
+      }
       try {
         // Fill up heap so soft references get cleared.
         filler = new byte[Math.max(filler.length, filler.length * 2)];
-      } catch (OutOfMemoryError e) {}
+      } catch (OutOfMemoryError e) {
+      }
     }
 
     CacheTesting.processPendingNotifications(cache);
@@ -161,7 +164,8 @@ public class CacheReferencesTest extends TestCase {
       this.value = value;
     }
 
-    @Override public synchronized String toString() {
+    @Override
+    public synchronized String toString() {
       String s;
       if (toString != null) {
         s = toString.get();

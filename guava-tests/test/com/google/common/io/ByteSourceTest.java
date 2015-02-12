@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -218,13 +216,13 @@ public class ByteSourceTest extends IoTestCase {
   }
 
   /**
-   * @param input      the size of the input source
-   * @param offset     the first argument to {@link ByteSource#slice}
-   * @param length     the second argument to {@link ByteSource#slice}
+   * @param input the size of the input source
+   * @param offset the first argument to {@link ByteSource#slice}
+   * @param length the second argument to {@link ByteSource#slice}
    * @param expectRead the number of bytes we expect to read
    */
-  private static void assertCorrectSlice(
-      int input, int offset, long length, int expectRead) throws IOException {
+  private static void assertCorrectSlice(int input, int offset, long length, int expectRead)
+      throws IOException {
     checkArgument(expectRead == (int) Math.max(0, Math.min(input, offset + length) - offset));
 
     byte[] expected = newPreFilledByteArray(offset, expectRead);
@@ -285,12 +283,9 @@ public class ByteSourceTest extends IoTestCase {
 
     byte[] expected = {0, 1, 2, 3, 4, 5};
 
-    assertArrayEquals(expected,
-        ByteSource.concat(ImmutableList.of(b1, b2, b3)).read());
-    assertArrayEquals(expected,
-        ByteSource.concat(b1, b2, b3).read());
-    assertArrayEquals(expected,
-        ByteSource.concat(ImmutableList.of(b1, b2, b3).iterator()).read());
+    assertArrayEquals(expected, ByteSource.concat(ImmutableList.of(b1, b2, b3)).read());
+    assertArrayEquals(expected, ByteSource.concat(b1, b2, b3).read());
+    assertArrayEquals(expected, ByteSource.concat(ImmutableList.of(b1, b2, b3).iterator()).read());
     assertEquals(expected.length, ByteSource.concat(b1, b2, b3).size());
     assertFalse(ByteSource.concat(b1, b2, b3).isEmpty());
 
@@ -308,23 +303,20 @@ public class ByteSourceTest extends IoTestCase {
     assertArrayEquals(expected, concatenated.slice(0, 8).read());
   }
 
-  private static final ByteSource BROKEN_CLOSE_SOURCE
-      = new TestByteSource(new byte[10], CLOSE_THROWS);
-  private static final ByteSource BROKEN_OPEN_SOURCE
-      = new TestByteSource(new byte[10], OPEN_THROWS);
-  private static final ByteSource BROKEN_READ_SOURCE
-      = new TestByteSource(new byte[10], READ_THROWS);
-  private static final ByteSink BROKEN_CLOSE_SINK
-      = new TestByteSink(CLOSE_THROWS);
-  private static final ByteSink BROKEN_OPEN_SINK
-      = new TestByteSink(OPEN_THROWS);
-  private static final ByteSink BROKEN_WRITE_SINK
-      = new TestByteSink(WRITE_THROWS);
+  private static final ByteSource BROKEN_CLOSE_SOURCE = new TestByteSource(new byte[10],
+      CLOSE_THROWS);
+  private static final ByteSource BROKEN_OPEN_SOURCE =
+      new TestByteSource(new byte[10], OPEN_THROWS);
+  private static final ByteSource BROKEN_READ_SOURCE =
+      new TestByteSource(new byte[10], READ_THROWS);
+  private static final ByteSink BROKEN_CLOSE_SINK = new TestByteSink(CLOSE_THROWS);
+  private static final ByteSink BROKEN_OPEN_SINK = new TestByteSink(OPEN_THROWS);
+  private static final ByteSink BROKEN_WRITE_SINK = new TestByteSink(WRITE_THROWS);
 
-  private static final ImmutableSet<ByteSource> BROKEN_SOURCES
-      = ImmutableSet.of(BROKEN_CLOSE_SOURCE, BROKEN_OPEN_SOURCE, BROKEN_READ_SOURCE);
-  private static final ImmutableSet<ByteSink> BROKEN_SINKS
-      = ImmutableSet.of(BROKEN_CLOSE_SINK, BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
+  private static final ImmutableSet<ByteSource> BROKEN_SOURCES = ImmutableSet.of(
+      BROKEN_CLOSE_SOURCE, BROKEN_OPEN_SOURCE, BROKEN_READ_SOURCE);
+  private static final ImmutableSet<ByteSink> BROKEN_SINKS = ImmutableSet.of(BROKEN_CLOSE_SINK,
+      BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
 
   public void testCopyExceptions() {
     if (!Closer.SuppressingSuppressor.isAvailable()) {
@@ -419,7 +411,8 @@ public class ByteSourceTest extends IoTestCase {
 
   private static ByteSink newNormalByteSink() {
     return new ByteSink() {
-      @Override public OutputStream openStream() {
+      @Override
+      public OutputStream openStream() {
         return new ByteArrayOutputStream();
       }
     };

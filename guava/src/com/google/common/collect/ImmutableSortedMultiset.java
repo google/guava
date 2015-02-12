@@ -1,15 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -33,46 +33,56 @@ import java.util.List;
  * are ordered by an explicit comparator, while others follow the natural sort ordering of their
  * elements. Either way, null elements are not supported.
  *
- * <p>Unlike {@link Multisets#unmodifiableSortedMultiset}, which is a <i>view</i> of a separate
- * collection that can still change, an instance of {@code ImmutableSortedMultiset} contains its
- * own private data and will <i>never</i> change. This class is convenient for {@code public static
- * final} multisets ("constant multisets") and also lets you easily make a "defensive copy" of a
- * set provided to your class by a caller.
+ * <p>
+ * Unlike {@link Multisets#unmodifiableSortedMultiset}, which is a <i>view</i> of a separate
+ * collection that can still change, an instance of {@code ImmutableSortedMultiset} contains its own
+ * private data and will <i>never</i> change. This class is convenient for {@code public static
+ * final} multisets ("constant multisets") and also lets you easily make a "defensive copy" of a set
+ * provided to your class by a caller.
  *
- * <p>The multisets returned by the {@link #headMultiset}, {@link #tailMultiset}, and
- * {@link #subMultiset} methods share the same array as the original multiset, preventing that
- * array from being garbage collected. If this is a concern, the data may be copied into a
- * correctly-sized array by calling {@link #copyOfSorted}.
+ * <p>
+ * The multisets returned by the {@link #headMultiset}, {@link #tailMultiset}, and
+ * {@link #subMultiset} methods share the same array as the original multiset, preventing that array
+ * from being garbage collected. If this is a concern, the data may be copied into a correctly-sized
+ * array by calling {@link #copyOfSorted}.
  *
- * <p><b>Note on element equivalence:</b> The {@link #contains(Object)},
+ * <p>
+ * <b>Note on element equivalence:</b> The {@link #contains(Object)},
  * {@link #containsAll(Collection)}, and {@link #equals(Object)} implementations must check whether
  * a provided object is equivalent to an element in the collection. Unlike most collections, an
  * {@code ImmutableSortedMultiset} doesn't use {@link Object#equals} to determine if two elements
  * are equivalent. Instead, with an explicit comparator, the following relation determines whether
  * elements {@code x} and {@code y} are equivalent:
  *
- * <pre>   {@code
+ * <pre>
+ * {@code
+ * 
+ *   {(x, y) | comparator.compare(x, y) == 0}}
+ * </pre>
  *
- *   {(x, y) | comparator.compare(x, y) == 0}}</pre>
- *
- * <p>With natural ordering of elements, the following relation determines whether two elements are
+ * <p>
+ * With natural ordering of elements, the following relation determines whether two elements are
  * equivalent:
  *
- * <pre>   {@code
- *
- *   {(x, y) | x.compareTo(y) == 0}}</pre>
+ * <pre>
+ * {@code
+ * 
+ *   {(x, y) | x.compareTo(y) == 0}}
+ * </pre>
  *
  * <b>Warning:</b> Like most multisets, an {@code ImmutableSortedMultiset} will not function
  * correctly if an element is modified after being placed in the multiset. For this reason, and to
  * avoid general confusion, it is strongly recommended to place only immutable objects into this
  * collection.
  *
- * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as it has no public or
+ * <p>
+ * <b>Note:</b> Although this class is not final, it cannot be subclassed as it has no public or
  * protected constructors. Thus, instances of this type are guaranteed to be immutable.
  *
- * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
- * immutable collections</a>.
+ * <p>
+ * See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained"> immutable
+ * collections</a>.
  *
  * @author Louis Wasserman
  * @since 12.0
@@ -136,8 +146,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * @throws NullPointerException if any element is null
    */
   @SuppressWarnings("unchecked")
-  public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(
-      E e1, E e2, E e3, E e4) {
+  public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E e1, E e2, E e3,
+      E e4) {
     return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4));
   }
 
@@ -148,8 +158,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * @throws NullPointerException if any element is null
    */
   @SuppressWarnings("unchecked")
-  public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(
-      E e1, E e2, E e3, E e4, E e5) {
+  public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E e1, E e2, E e3,
+      E e4, E e5) {
     return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4, e5));
   }
 
@@ -160,8 +170,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * @throws NullPointerException if any element is null
    */
   @SuppressWarnings("unchecked")
-  public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(
-      E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
+  public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E e1, E e2, E e3,
+      E e4, E e5, E e6, E... remaining) {
     int size = remaining.length + 6;
     List<E> all = Lists.newArrayListWithCapacity(size);
     Collections.addAll(all, e1, e2, e3, e4, e5, e6);
@@ -181,22 +191,23 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
   /**
    * Returns an immutable sorted multiset containing the given elements sorted by their natural
-   * ordering. To create a copy of a {@code SortedMultiset} that preserves the
-   * comparator, call {@link #copyOfSorted} instead. This method iterates over {@code elements} at
-   * most once.
+   * ordering. To create a copy of a {@code SortedMultiset} that preserves the comparator, call
+   * {@link #copyOfSorted} instead. This method iterates over {@code elements} at most once.
    *
-   * <p>Note that if {@code s} is a {@code multiset<String>}, then {@code
-   * ImmutableSortedMultiset.copyOf(s)} returns an {@code ImmutableSortedMultiset<String>}
+   * <p>
+   * Note that if {@code s} is a {@code multiset<String>}, then
+   * {@code ImmutableSortedMultiset.copyOf(s)} returns an {@code ImmutableSortedMultiset<String>}
    * containing each of the strings in {@code s}, while {@code ImmutableSortedMultiset.of(s)}
    * returns an {@code ImmutableSortedMultiset<multiset<String>>} containing one element (the given
    * multiset itself).
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * <p>
+   * Despite the method name, this method attempts to avoid actually copying the data when it is
    * safe to do so. The exact circumstances under which a copy will or will not be performed are
    * undocumented and subject to change.
    *
-   * <p>This method is not type-safe, as it may be called on elements that are not mutually
-   * comparable.
+   * <p>
+   * This method is not type-safe, as it may be called on elements that are not mutually comparable.
    *
    * @throws ClassCastException if the elements are not mutually comparable
    * @throws NullPointerException if any of {@code elements} is null
@@ -213,8 +224,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * Returns an immutable sorted multiset containing the given elements sorted by their natural
    * ordering.
    *
-   * <p>This method is not type-safe, as it may be called on elements that are not mutually
-   * comparable.
+   * <p>
+   * This method is not type-safe, as it may be called on elements that are not mutually comparable.
    *
    * @throws ClassCastException if the elements are not mutually comparable
    * @throws NullPointerException if any of {@code elements} is null
@@ -228,31 +239,33 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   /**
-   * Returns an immutable sorted multiset containing the given elements sorted by the given {@code
-   * Comparator}.
+   * Returns an immutable sorted multiset containing the given elements sorted by the given
+   * {@code Comparator}.
    *
    * @throws NullPointerException if {@code comparator} or any of {@code elements} is null
    */
-  public static <E> ImmutableSortedMultiset<E> copyOf(
-      Comparator<? super E> comparator, Iterator<? extends E> elements) {
+  public static <E> ImmutableSortedMultiset<E> copyOf(Comparator<? super E> comparator,
+      Iterator<? extends E> elements) {
     checkNotNull(comparator);
     return new Builder<E>(comparator).addAll(elements).build();
   }
 
   /**
-   * Returns an immutable sorted multiset containing the given elements sorted by the given {@code
-   * Comparator}. This method iterates over {@code elements} at most once.
+   * Returns an immutable sorted multiset containing the given elements sorted by the given
+   * {@code Comparator}. This method iterates over {@code elements} at most once.
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * <p>
+   * Despite the method name, this method attempts to avoid actually copying the data when it is
    * safe to do so. The exact circumstances under which a copy will or will not be performed are
    * undocumented and subject to change.
    *
    * @throws NullPointerException if {@code comparator} or any of {@code elements} is null
    */
-  public static <E> ImmutableSortedMultiset<E> copyOf(
-      Comparator<? super E> comparator, Iterable<? extends E> elements) {
+  public static <E> ImmutableSortedMultiset<E> copyOf(Comparator<? super E> comparator,
+      Iterable<? extends E> elements) {
     if (elements instanceof ImmutableSortedMultiset) {
-      @SuppressWarnings("unchecked") // immutable collections are always safe for covariant casts
+      @SuppressWarnings("unchecked")
+      // immutable collections are always safe for covariant casts
       ImmutableSortedMultiset<E> multiset = (ImmutableSortedMultiset<E>) elements;
       if (comparator.equals(multiset.comparator())) {
         if (multiset.isPartialView()) {
@@ -270,14 +283,16 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
   /**
    * Returns an immutable sorted multiset containing the elements of a sorted multiset, sorted by
-   * the same {@code Comparator}. That behavior differs from {@link #copyOf(Iterable)}, which
-   * always uses the natural ordering of the elements.
+   * the same {@code Comparator}. That behavior differs from {@link #copyOf(Iterable)}, which always
+   * uses the natural ordering of the elements.
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * <p>
+   * Despite the method name, this method attempts to avoid actually copying the data when it is
    * safe to do so. The exact circumstances under which a copy will or will not be performed are
    * undocumented and subject to change.
    *
-   * <p>This method is safe to use even when {@code sortedMultiset} is a synchronized or concurrent
+   * <p>
+   * This method is safe to use even when {@code sortedMultiset} is a synchronized or concurrent
    * collection that is currently being modified by another thread.
    *
    * @throws NullPointerException if {@code sortedMultiset} or any of its elements is null
@@ -302,9 +317,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
       cumulativeCounts[i + 1] = cumulativeCounts[i] + counts[i];
       i++;
     }
-    return new RegularImmutableSortedMultiset<E>(
-        new RegularImmutableSortedSet<E>(elementsBuilder.build(), comparator),
-        counts, cumulativeCounts, 0, entries.size());
+    return new RegularImmutableSortedMultiset<E>(new RegularImmutableSortedSet<E>(
+        elementsBuilder.build(), comparator), counts, cumulativeCounts, 0, entries.size());
   }
 
   @SuppressWarnings("unchecked")
@@ -339,7 +353,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   /**
    * {@inheritDoc}
    *
-   * <p>This implementation is guaranteed to throw an {@link UnsupportedOperationException}.
+   * <p>
+   * This implementation is guaranteed to throw an {@link UnsupportedOperationException}.
    *
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
@@ -353,7 +368,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   /**
    * {@inheritDoc}
    *
-   * <p>This implementation is guaranteed to throw an {@link UnsupportedOperationException}.
+   * <p>
+   * This implementation is guaranteed to throw an {@link UnsupportedOperationException}.
    *
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
@@ -368,8 +384,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   public abstract ImmutableSortedMultiset<E> headMultiset(E upperBound, BoundType boundType);
 
   @Override
-  public ImmutableSortedMultiset<E> subMultiset(
-      E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType) {
+  public ImmutableSortedMultiset<E> subMultiset(E lowerBound, BoundType lowerBoundType,
+      E upperBound, BoundType upperBoundType) {
     checkArgument(comparator().compare(lowerBound, upperBound) <= 0,
         "Expected lowerBound <= upperBound but %s > %s", lowerBound, upperBound);
     return tailMultiset(lowerBound, lowerBoundType).headMultiset(upperBound, upperBoundType);
@@ -380,8 +396,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
   /**
    * Returns a builder that creates immutable sorted multisets with an explicit comparator. If the
-   * comparator has a more general type than the set being generated, such as creating a {@code
-   * SortedMultiset<Integer>} with a {@code Comparator<Number>}, use the {@link Builder}
+   * comparator has a more general type than the set being generated, such as creating a
+   * {@code SortedMultiset<Integer>} with a {@code Comparator<Number>}, use the {@link Builder}
    * constructor instead.
    *
    * @throws NullPointerException if {@code comparator} is null
@@ -394,8 +410,9 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * Returns a builder that creates immutable sorted multisets whose elements are ordered by the
    * reverse of their natural ordering.
    *
-   * <p>Note: the type parameter {@code E} extends {@code Comparable<E>} rather than {@code
-   * Comparable<? super E>} as a workaround for javac <a
+   * <p>
+   * Note: the type parameter {@code E} extends {@code Comparable<E>} rather than
+   * {@code Comparable<? super E>} as a workaround for javac <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
   public static <E extends Comparable<E>> Builder<E> reverseOrder() {
@@ -408,8 +425,9 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * method provides more type-safety than {@link #builder}, as it can be called only for classes
    * that implement {@link Comparable}.
    *
-   * <p>Note: the type parameter {@code E} extends {@code Comparable<E>} rather than {@code
-   * Comparable<? super E>} as a workaround for javac <a
+   * <p>
+   * Note: the type parameter {@code E} extends {@code Comparable<E>} rather than
+   * {@code Comparable<? super E>} as a workaround for javac <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
   public static <E extends Comparable<E>> Builder<E> naturalOrder() {
@@ -420,17 +438,17 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * A builder for creating immutable multiset instances, especially {@code public static final}
    * multisets ("constant multisets"). Example:
    *
-   * <pre> {@code
+   * <pre>
+   * {
+   *   &#064;code
+   *   public static final ImmutableSortedMultiset&lt;Bean&gt; BEANS =
+   *       new ImmutableSortedMultiset.Builder&lt;Bean&gt;().addCopies(Bean.COCOA, 4)
+   *           .addCopies(Bean.GARDEN, 6).addCopies(Bean.RED, 8).addCopies(Bean.BLACK_EYED, 10).build();
+   * }
+   * </pre>
    *
-   *   public static final ImmutableSortedMultiset<Bean> BEANS =
-   *       new ImmutableSortedMultiset.Builder<Bean>()
-   *           .addCopies(Bean.COCOA, 4)
-   *           .addCopies(Bean.GARDEN, 6)
-   *           .addCopies(Bean.RED, 8)
-   *           .addCopies(Bean.BLACK_EYED, 10)
-   *           .build();}</pre>
-   *
-   * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
+   * <p>
+   * Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple multisets in series.
    *
    * @since 12.0
@@ -530,8 +548,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     }
 
     /**
-     * Returns a newly-created {@code ImmutableSortedMultiset} based on the contents of the {@code
-     * Builder}.
+     * Returns a newly-created {@code ImmutableSortedMultiset} based on the contents of the
+     * {@code Builder}.
      */
     @Override
     public ImmutableSortedMultiset<E> build() {

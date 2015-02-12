@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.cache;
@@ -44,7 +42,8 @@ import java.util.logging.Logger;
 import javax.annotation.CheckReturnValue;
 
 /**
- * <p>A builder of {@link LoadingCache} and {@link Cache} instances having any combination of the
+ * <p>
+ * A builder of {@link LoadingCache} and {@link Cache} instances having any combination of the
  * following features:
  *
  * <ul>
@@ -52,82 +51,95 @@ import javax.annotation.CheckReturnValue;
  * <li>least-recently-used eviction when a maximum size is exceeded
  * <li>time-based expiration of entries, measured since last access or last write
  * <li>keys automatically wrapped in {@linkplain WeakReference weak} references
- * <li>values automatically wrapped in {@linkplain WeakReference weak} or
- *     {@linkplain SoftReference soft} references
+ * <li>values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain SoftReference
+ * soft} references
  * <li>notification of evicted (or otherwise removed) entries
  * <li>accumulation of cache access statistics
  * </ul>
  *
  *
- * <p>These features are all optional; caches can be created using all or none of them. By default
+ * <p>
+ * These features are all optional; caches can be created using all or none of them. By default
  * cache instances created by {@code CacheBuilder} will not perform any type of eviction.
  *
- * <p>Usage example: <pre>   {@code
- *
- *   LoadingCache<Key, Graph> graphs = CacheBuilder.newBuilder()
- *       .maximumSize(10000)
- *       .expireAfterWrite(10, TimeUnit.MINUTES)
- *       .removalListener(MY_LISTENER)
- *       .build(
- *           new CacheLoader<Key, Graph>() {
+ * <p>
+ * Usage example:
+ * 
+ * <pre>
+ * {
+ *   &#064;code
+ *   LoadingCache&lt;Key, Graph&gt; graphs =
+ *       CacheBuilder.newBuilder().maximumSize(10000).expireAfterWrite(10, TimeUnit.MINUTES)
+ *           .removalListener(MY_LISTENER).build(new CacheLoader&lt;Key, Graph&gt;() {
  *             public Graph load(Key key) throws AnyException {
  *               return createExpensiveGraph(key);
  *             }
- *           });}</pre>
+ *           });
+ * }
+ * </pre>
  *
- * <p>Or equivalently, <pre>   {@code
- *
+ * <p>
+ * Or equivalently,
+ * 
+ * <pre>
+ * {
+ *   &#064;code
  *   // In real life this would come from a command-line flag or config file
- *   String spec = "maximumSize=10000,expireAfterWrite=10m";
+ *   String spec = &quot;maximumSize=10000,expireAfterWrite=10m&quot;;
+ * 
+ *   LoadingCache&lt;Key, Graph&gt; graphs =
+ *       CacheBuilder.from(spec).removalListener(MY_LISTENER).build(new CacheLoader&lt;Key, Graph&gt;() {
+ *         public Graph load(Key key) throws AnyException {
+ *           return createExpensiveGraph(key);
+ *         }
+ *       });
+ * }
+ * </pre>
  *
- *   LoadingCache<Key, Graph> graphs = CacheBuilder.from(spec)
- *       .removalListener(MY_LISTENER)
- *       .build(
- *           new CacheLoader<Key, Graph>() {
- *             public Graph load(Key key) throws AnyException {
- *               return createExpensiveGraph(key);
- *             }
- *           });}</pre>
- *
- * <p>The returned cache is implemented as a hash table with similar performance characteristics to
+ * <p>
+ * The returned cache is implemented as a hash table with similar performance characteristics to
  * {@link ConcurrentHashMap}. It implements all optional operations of the {@link LoadingCache} and
  * {@link Cache} interfaces. The {@code asMap} view (and its collection views) have <i>weakly
  * consistent iterators</i>. This means that they are safe for concurrent use, but if other threads
  * modify the cache after the iterator is created, it is undefined which of these changes, if any,
- * are reflected in that iterator. These iterators never throw {@link
- * ConcurrentModificationException}.
+ * are reflected in that iterator. These iterators never throw
+ * {@link ConcurrentModificationException}.
  *
- * <p><b>Note:</b> by default, the returned cache uses equality comparisons (the
- * {@link Object#equals equals} method) to determine equality for keys or values. However, if
- * {@link #weakKeys} was specified, the cache uses identity ({@code ==})
- * comparisons instead for keys. Likewise, if {@link #weakValues} or {@link #softValues} was
- * specified, the cache uses identity comparisons for values.
+ * <p>
+ * <b>Note:</b> by default, the returned cache uses equality comparisons (the {@link Object#equals
+ * equals} method) to determine equality for keys or values. However, if {@link #weakKeys} was
+ * specified, the cache uses identity ({@code ==}) comparisons instead for keys. Likewise, if
+ * {@link #weakValues} or {@link #softValues} was specified, the cache uses identity comparisons for
+ * values.
  *
- * <p>Entries are automatically evicted from the cache when any of
- * {@linkplain #maximumSize(long) maximumSize}, {@linkplain #maximumWeight(long) maximumWeight},
- * {@linkplain #expireAfterWrite expireAfterWrite},
- * {@linkplain #expireAfterAccess expireAfterAccess}, {@linkplain #weakKeys weakKeys},
- * {@linkplain #weakValues weakValues}, or {@linkplain #softValues softValues} are requested.
+ * <p>
+ * Entries are automatically evicted from the cache when any of {@linkplain #maximumSize(long)
+ * maximumSize}, {@linkplain #maximumWeight(long) maximumWeight}, {@linkplain #expireAfterWrite
+ * expireAfterWrite}, {@linkplain #expireAfterAccess expireAfterAccess}, {@linkplain #weakKeys
+ * weakKeys}, {@linkplain #weakValues weakValues}, or {@linkplain #softValues softValues} are
+ * requested.
  *
- * <p>If {@linkplain #maximumSize(long) maximumSize} or
- * {@linkplain #maximumWeight(long) maximumWeight} is requested entries may be evicted on each cache
- * modification.
+ * <p>
+ * If {@linkplain #maximumSize(long) maximumSize} or {@linkplain #maximumWeight(long) maximumWeight}
+ * is requested entries may be evicted on each cache modification.
  *
- * <p>If {@linkplain #expireAfterWrite expireAfterWrite} or
- * {@linkplain #expireAfterAccess expireAfterAccess} is requested entries may be evicted on each
- * cache modification, on occasional cache accesses, or on calls to {@link Cache#cleanUp}. Expired
- * entries may be counted by {@link Cache#size}, but will never be visible to read or write
- * operations.
+ * <p>
+ * If {@linkplain #expireAfterWrite expireAfterWrite} or {@linkplain #expireAfterAccess
+ * expireAfterAccess} is requested entries may be evicted on each cache modification, on occasional
+ * cache accesses, or on calls to {@link Cache#cleanUp}. Expired entries may be counted by
+ * {@link Cache#size}, but will never be visible to read or write operations.
  *
- * <p>If {@linkplain #weakKeys weakKeys}, {@linkplain #weakValues weakValues}, or
+ * <p>
+ * If {@linkplain #weakKeys weakKeys}, {@linkplain #weakValues weakValues}, or
  * {@linkplain #softValues softValues} are requested, it is possible for a key or value present in
  * the cache to be reclaimed by the garbage collector. Entries with reclaimed keys or values may be
  * removed from the cache on each cache modification, on occasional cache accesses, or on calls to
  * {@link Cache#cleanUp}; such entries may be counted in {@link Cache#size}, but will never be
  * visible to read or write operations.
  *
- * <p>Certain cache configurations will result in the accrual of periodic maintenance tasks which
- * will be performed during write operations, or during occasional read operations in the absence of
+ * <p>
+ * Certain cache configurations will result in the accrual of periodic maintenance tasks which will
+ * be performed during write operations, or during occasional read operations in the absence of
  * writes. The {@link Cache#cleanUp} method of the returned cache will also perform maintenance, but
  * calling it should not be necessary with a high throughput cache. Only caches built with
  * {@linkplain #removalListener removalListener}, {@linkplain #expireAfterWrite expireAfterWrite},
@@ -135,11 +147,13 @@ import javax.annotation.CheckReturnValue;
  * {@linkplain #weakValues weakValues}, or {@linkplain #softValues softValues} perform periodic
  * maintenance.
  *
- * <p>The caches produced by {@code CacheBuilder} are serializable, and the deserialized caches
- * retain all the configuration properties of the original cache. Note that the serialized form does
+ * <p>
+ * The caches produced by {@code CacheBuilder} are serializable, and the deserialized caches retain
+ * all the configuration properties of the original cache. Note that the serialized form does
  * <i>not</i> include cache contents, but only configuration.
  *
- * <p>See the Guava User Guide article on <a href=
+ * <p>
+ * See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/CachesExplained">caching</a> for a higher-level
  * explanation.
  *
@@ -156,8 +170,8 @@ public final class CacheBuilder<K, V> {
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
   private static final int DEFAULT_REFRESH_NANOS = 0;
 
-  static final Supplier<? extends StatsCounter> NULL_STATS_COUNTER = Suppliers.ofInstance(
-      new StatsCounter() {
+  static final Supplier<? extends StatsCounter> NULL_STATS_COUNTER = Suppliers
+      .ofInstance(new StatsCounter() {
         @Override
         public void recordHits(int count) {}
 
@@ -180,8 +194,7 @@ public final class CacheBuilder<K, V> {
       });
   static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0, 0);
 
-  static final Supplier<StatsCounter> CACHE_STATS_COUNTER =
-      new Supplier<StatsCounter>() {
+  static final Supplier<StatsCounter> CACHE_STATS_COUNTER = new Supplier<StatsCounter>() {
     @Override
     public StatsCounter get() {
       return new SimpleStatsCounter();
@@ -257,8 +270,7 @@ public final class CacheBuilder<K, V> {
   @Beta
   @GwtIncompatible("To be supported")
   public static CacheBuilder<Object, Object> from(CacheBuilderSpec spec) {
-    return spec.toCacheBuilder()
-        .lenientParsing();
+    return spec.toCacheBuilder().lenientParsing();
   }
 
   /**
@@ -286,7 +298,8 @@ public final class CacheBuilder<K, V> {
   /**
    * Sets a custom {@code Equivalence} strategy for comparing keys.
    *
-   * <p>By default, the cache uses {@link Equivalence#identity} to determine key equality when
+   * <p>
+   * By default, the cache uses {@link Equivalence#identity} to determine key equality when
    * {@link #weakKeys} is specified, and {@link Equivalence#equals()} otherwise.
    */
   @GwtIncompatible("To be supported")
@@ -303,14 +316,15 @@ public final class CacheBuilder<K, V> {
   /**
    * Sets a custom {@code Equivalence} strategy for comparing values.
    *
-   * <p>By default, the cache uses {@link Equivalence#identity} to determine value equality when
+   * <p>
+   * By default, the cache uses {@link Equivalence#identity} to determine value equality when
    * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalence#equals()}
    * otherwise.
    */
   @GwtIncompatible("To be supported")
   CacheBuilder<K, V> valueEquivalence(Equivalence<Object> equivalence) {
-    checkState(valueEquivalence == null,
-        "value equivalence was already set to %s", valueEquivalence);
+    checkState(valueEquivalence == null, "value equivalence was already set to %s",
+        valueEquivalence);
     this.valueEquivalence = checkNotNull(equivalence);
     return this;
   }
@@ -353,19 +367,22 @@ public final class CacheBuilder<K, V> {
    * at a time, but since read operations and cache loading computations can proceed concurrently,
    * this still yields higher concurrency than full synchronization.
    *
-   * <p> Defaults to 4. <b>Note:</b>The default may change in the future. If you care about this
-   * value, you should always choose it explicitly.
+   * <p>
+   * Defaults to 4. <b>Note:</b>The default may change in the future. If you care about this value,
+   * you should always choose it explicitly.
    *
-   * <p>The current implementation uses the concurrency level to create a fixed number of hashtable
+   * <p>
+   * The current implementation uses the concurrency level to create a fixed number of hashtable
    * segments, each governed by its own write lock. The segment lock is taken once for each explicit
-   * write, and twice for each cache loading computation (once prior to loading the new value,
-   * and once after loading completes). Much internal cache management is performed at the segment
+   * write, and twice for each cache loading computation (once prior to loading the new value, and
+   * once after loading completes). Much internal cache management is performed at the segment
    * granularity. For example, access queues and write queues are kept per segment when they are
    * required by the selected eviction algorithm. As such, when writing unit tests it is not
    * uncommon to specify {@code concurrencyLevel(1)} in order to achieve more deterministic eviction
    * behavior.
    *
-   * <p>Note that future implementations may abandon segment locking in favor of more advanced
+   * <p>
+   * Note that future implementations may abandon segment locking in favor of more advanced
    * concurrency controls.
    *
    * @throws IllegalArgumentException if {@code concurrencyLevel} is nonpositive
@@ -389,10 +406,12 @@ public final class CacheBuilder<K, V> {
    * cache evicts entries that are less likely to be used again. For example, the cache may evict an
    * entry because it hasn't been used recently or very often.
    *
-   * <p>When {@code size} is zero, elements will be evicted immediately after being loaded into the
+   * <p>
+   * When {@code size} is zero, elements will be evicted immediately after being loaded into the
    * cache. This can be useful in testing, or to disable caching temporarily without a code change.
    *
-   * <p>This feature cannot be used in conjunction with {@link #maximumWeight}.
+   * <p>
+   * This feature cannot be used in conjunction with {@link #maximumWeight}.
    *
    * @param size the maximum size of the cache
    * @throws IllegalArgumentException if {@code size} is negative
@@ -414,19 +433,21 @@ public final class CacheBuilder<K, V> {
    * {@link Weigher} specified with {@link #weigher}, and use of this method requires a
    * corresponding call to {@link #weigher} prior to calling {@link #build}.
    *
-   * <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. As the cache
-   * size grows close to the maximum, the cache evicts entries that are less likely to be used
-   * again. For example, the cache may evict an entry because it hasn't been used recently or very
-   * often.
+   * <p>
+   * Note that the cache <b>may evict an entry before this limit is exceeded</b>. As the cache size
+   * grows close to the maximum, the cache evicts entries that are less likely to be used again. For
+   * example, the cache may evict an entry because it hasn't been used recently or very often.
    *
-   * <p>When {@code weight} is zero, elements will be evicted immediately after being loaded into
-   * cache. This can be useful in testing, or to disable caching temporarily without a code
-   * change.
+   * <p>
+   * When {@code weight} is zero, elements will be evicted immediately after being loaded into
+   * cache. This can be useful in testing, or to disable caching temporarily without a code change.
    *
-   * <p>Note that weight is only used to determine whether the cache is over capacity; it has no
-   * effect on selecting which entry should be evicted next.
+   * <p>
+   * Note that weight is only used to determine whether the cache is over capacity; it has no effect
+   * on selecting which entry should be evicted next.
    *
-   * <p>This feature cannot be used in conjunction with {@link #maximumSize}.
+   * <p>
+   * This feature cannot be used in conjunction with {@link #maximumSize}.
    *
    * @param weight the maximum total weight of entries the cache may contain
    * @throws IllegalArgumentException if {@code weight} is negative
@@ -445,27 +466,30 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
-   * Specifies the weigher to use in determining the weight of entries. Entry weight is taken
-   * into consideration by {@link #maximumWeight(long)} when determining which entries to evict, and
-   * use of this method requires a corresponding call to {@link #maximumWeight(long)} prior to
-   * calling {@link #build}. Weights are measured and recorded when entries are inserted into the
-   * cache, and are thus effectively static during the lifetime of a cache entry.
+   * Specifies the weigher to use in determining the weight of entries. Entry weight is taken into
+   * consideration by {@link #maximumWeight(long)} when determining which entries to evict, and use
+   * of this method requires a corresponding call to {@link #maximumWeight(long)} prior to calling
+   * {@link #build}. Weights are measured and recorded when entries are inserted into the cache, and
+   * are thus effectively static during the lifetime of a cache entry.
    *
-   * <p>When the weight of an entry is zero it will not be considered for size-based eviction
-   * (though it still may be evicted by other means).
+   * <p>
+   * When the weight of an entry is zero it will not be considered for size-based eviction (though
+   * it still may be evicted by other means).
    *
-   * <p><b>Important note:</b> Instead of returning <em>this</em> as a {@code CacheBuilder}
-   * instance, this method returns {@code CacheBuilder<K1, V1>}. From this point on, either the
-   * original reference or the returned reference may be used to complete configuration and build
-   * the cache, but only the "generic" one is type-safe. That is, it will properly prevent you from
-   * building caches whose key or value types are incompatible with the types accepted by the
-   * weigher already provided; the {@code CacheBuilder} type cannot do this. For best results,
-   * simply use the standard method-chaining idiom, as illustrated in the documentation at top,
-   * configuring a {@code CacheBuilder} and building your {@link Cache} all in a single statement.
+   * <p>
+   * <b>Important note:</b> Instead of returning <em>this</em> as a {@code CacheBuilder} instance,
+   * this method returns {@code CacheBuilder<K1, V1>}. From this point on, either the original
+   * reference or the returned reference may be used to complete configuration and build the cache,
+   * but only the "generic" one is type-safe. That is, it will properly prevent you from building
+   * caches whose key or value types are incompatible with the types accepted by the weigher already
+   * provided; the {@code CacheBuilder} type cannot do this. For best results, simply use the
+   * standard method-chaining idiom, as illustrated in the documentation at top, configuring a
+   * {@code CacheBuilder} and building your {@link Cache} all in a single statement.
    *
-   * <p><b>Warning:</b> if you ignore the above advice, and use this {@code CacheBuilder} to build
-   * a cache whose key or value type is incompatible with the weigher, you will likely experience
-   * a {@link ClassCastException} at some <i>undefined</i> point in the future.
+   * <p>
+   * <b>Warning:</b> if you ignore the above advice, and use this {@code CacheBuilder} to build a
+   * cache whose key or value type is incompatible with the weigher, you will likely experience a
+   * {@link ClassCastException} at some <i>undefined</i> point in the future.
    *
    * @param weigher the weigher to use in calculating the weight of cache entries
    * @throws IllegalArgumentException if {@code size} is negative
@@ -502,15 +526,17 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
-   * Specifies that each key (not value) stored in the cache should be wrapped in a {@link
-   * WeakReference} (by default, strong references are used).
+   * Specifies that each key (not value) stored in the cache should be wrapped in a
+   * {@link WeakReference} (by default, strong references are used).
    *
-   * <p><b>Warning:</b> when this method is used, the resulting cache will use identity ({@code ==})
+   * <p>
+   * <b>Warning:</b> when this method is used, the resulting cache will use identity ({@code ==})
    * comparison to determine equality of keys.
    *
-   * <p>Entries with keys that have been garbage collected may be counted in {@link Cache#size},
-   * but will never be visible to read or write operations; such entries are cleaned up as part of
-   * the routine maintenance described in the class javadoc.
+   * <p>
+   * Entries with keys that have been garbage collected may be counted in {@link Cache#size}, but
+   * will never be visible to read or write operations; such entries are cleaned up as part of the
+   * routine maintenance described in the class javadoc.
    *
    * @throws IllegalStateException if the key strength was already set
    */
@@ -533,15 +559,18 @@ public final class CacheBuilder<K, V> {
    * Specifies that each value (not key) stored in the cache should be wrapped in a
    * {@link WeakReference} (by default, strong references are used).
    *
-   * <p>Weak values will be garbage collected once they are weakly reachable. This makes them a poor
+   * <p>
+   * Weak values will be garbage collected once they are weakly reachable. This makes them a poor
    * candidate for caching; consider {@link #softValues} instead.
    *
-   * <p><b>Note:</b> when this method is used, the resulting cache will use identity ({@code ==})
+   * <p>
+   * <b>Note:</b> when this method is used, the resulting cache will use identity ({@code ==})
    * comparison to determine equality of values.
    *
-   * <p>Entries with values that have been garbage collected may be counted in {@link Cache#size},
-   * but will never be visible to read or write operations; such entries are cleaned up as part of
-   * the routine maintenance described in the class javadoc.
+   * <p>
+   * Entries with values that have been garbage collected may be counted in {@link Cache#size}, but
+   * will never be visible to read or write operations; such entries are cleaned up as part of the
+   * routine maintenance described in the class javadoc.
    *
    * @throws IllegalStateException if the value strength was already set
    */
@@ -556,16 +585,19 @@ public final class CacheBuilder<K, V> {
    * be garbage-collected in a <i>globally</i> least-recently-used manner, in response to memory
    * demand.
    *
-   * <p><b>Warning:</b> in most circumstances it is better to set a per-cache {@linkplain
-   * #maximumSize(long) maximum size} instead of using soft references. You should only use this
-   * method if you are well familiar with the practical consequences of soft references.
+   * <p>
+   * <b>Warning:</b> in most circumstances it is better to set a per-cache
+   * {@linkplain #maximumSize(long) maximum size} instead of using soft references. You should only
+   * use this method if you are well familiar with the practical consequences of soft references.
    *
-   * <p><b>Note:</b> when this method is used, the resulting cache will use identity ({@code ==})
+   * <p>
+   * <b>Note:</b> when this method is used, the resulting cache will use identity ({@code ==})
    * comparison to determine equality of values.
    *
-   * <p>Entries with values that have been garbage collected may be counted in {@link Cache#size},
-   * but will never be visible to read or write operations; such entries are cleaned up as part of
-   * the routine maintenance described in the class javadoc.
+   * <p>
+   * Entries with values that have been garbage collected may be counted in {@link Cache#size}, but
+   * will never be visible to read or write operations; such entries are cleaned up as part of the
+   * routine maintenance described in the class javadoc.
    *
    * @throws IllegalStateException if the value strength was already set
    */
@@ -588,17 +620,18 @@ public final class CacheBuilder<K, V> {
    * Specifies that each entry should be automatically removed from the cache once a fixed duration
    * has elapsed after the entry's creation, or the most recent replacement of its value.
    *
-   * <p>When {@code duration} is zero, this method hands off to
-   * {@link #maximumSize(long) maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum
-   * size or weight. This can be useful in testing, or to disable caching temporarily without a code
-   * change.
+   * <p>
+   * When {@code duration} is zero, this method hands off to {@link #maximumSize(long) maximumSize}
+   * {@code (0)}, ignoring any otherwise-specificed maximum size or weight. This can be useful in
+   * testing, or to disable caching temporarily without a code change.
    *
-   * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
+   * <p>
+   * Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
    * in the class javadoc.
    *
    * @param duration the length of time after an entry is created that it should be automatically
-   *     removed
+   *        removed
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was already set
@@ -622,17 +655,18 @@ public final class CacheBuilder<K, V> {
    * {@code Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by operations
    * on the collection-views of {@link Cache#asMap}.
    *
-   * <p>When {@code duration} is zero, this method hands off to
-   * {@link #maximumSize(long) maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum
-   * size or weight. This can be useful in testing, or to disable caching temporarily without a code
-   * change.
+   * <p>
+   * When {@code duration} is zero, this method hands off to {@link #maximumSize(long) maximumSize}
+   * {@code (0)}, ignoring any otherwise-specificed maximum size or weight. This can be useful in
+   * testing, or to disable caching temporarily without a code change.
    *
-   * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
+   * <p>
+   * Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
    * in the class javadoc.
    *
    * @param duration the length of time after an entry is last accessed that it should be
-   *     automatically removed
+   *        automatically removed
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
@@ -646,8 +680,8 @@ public final class CacheBuilder<K, V> {
   }
 
   long getExpireAfterAccessNanos() {
-    return (expireAfterAccessNanos == UNSET_INT)
-        ? DEFAULT_EXPIRATION_NANOS : expireAfterAccessNanos;
+    return (expireAfterAccessNanos == UNSET_INT) ? DEFAULT_EXPIRATION_NANOS
+        : expireAfterAccessNanos;
   }
 
   /**
@@ -656,20 +690,23 @@ public final class CacheBuilder<K, V> {
    * of refreshes are specified in {@link LoadingCache#refresh}, and are performed by calling
    * {@link CacheLoader#reload}.
    *
-   * <p>As the default implementation of {@link CacheLoader#reload} is synchronous, it is
-   * recommended that users of this method override {@link CacheLoader#reload} with an asynchronous
+   * <p>
+   * As the default implementation of {@link CacheLoader#reload} is synchronous, it is recommended
+   * that users of this method override {@link CacheLoader#reload} with an asynchronous
    * implementation; otherwise refreshes will be performed during unrelated cache read and write
    * operations.
    *
-   * <p>Currently automatic refreshes are performed when the first stale request for an entry
-   * occurs. The request triggering refresh will make a blocking call to {@link CacheLoader#reload}
-   * and immediately return the new value if the returned future is complete, and the old value
+   * <p>
+   * Currently automatic refreshes are performed when the first stale request for an entry occurs.
+   * The request triggering refresh will make a blocking call to {@link CacheLoader#reload} and
+   * immediately return the new value if the returned future is complete, and the old value
    * otherwise.
    *
-   * <p><b>Note:</b> <i>all exceptions thrown during refresh will be logged and then swallowed</i>.
+   * <p>
+   * <b>Note:</b> <i>all exceptions thrown during refresh will be logged and then swallowed</i>.
    *
    * @param duration the length of time after an entry is created that it should be considered
-   *     stale, and thus eligible for refresh
+   *        stale, and thus eligible for refresh
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the refresh interval was already set
@@ -693,8 +730,9 @@ public final class CacheBuilder<K, V> {
    * Specifies a nanosecond-precision time source for this cache. By default,
    * {@link System#nanoTime} is used.
    *
-   * <p>The primary intent of this method is to facilitate testing of caches with a fake or mock
-   * time source.
+   * <p>
+   * The primary intent of this method is to facilitate testing of caches with a fake or mock time
+   * source.
    *
    * @throws IllegalStateException if a ticker was already set
    */
@@ -716,20 +754,21 @@ public final class CacheBuilder<K, V> {
    * {@linkplain RemovalCause reason}. Each cache created by this builder will invoke this listener
    * as part of the routine maintenance described in the class documentation above.
    *
-   * <p><b>Warning:</b> after invoking this method, do not continue to use <i>this</i> cache
-   * builder reference; instead use the reference this method <i>returns</i>. At runtime, these
-   * point to the same instance, but only the returned reference has the correct generic type
-   * information so as to ensure type safety. For best results, use the standard method-chaining
-   * idiom illustrated in the class documentation above, configuring a builder and building your
-   * cache in a single statement. Failure to heed this advice can result in a {@link
-   * ClassCastException} being thrown by a cache operation at some <i>undefined</i> point in the
-   * future.
+   * <p>
+   * <b>Warning:</b> after invoking this method, do not continue to use <i>this</i> cache builder
+   * reference; instead use the reference this method <i>returns</i>. At runtime, these point to the
+   * same instance, but only the returned reference has the correct generic type information so as
+   * to ensure type safety. For best results, use the standard method-chaining idiom illustrated in
+   * the class documentation above, configuring a builder and building your cache in a single
+   * statement. Failure to heed this advice can result in a {@link ClassCastException} being thrown
+   * by a cache operation at some <i>undefined</i> point in the future.
    *
-   * <p><b>Warning:</b> any exception thrown by {@code listener} will <i>not</i> be propagated to
-   * the {@code Cache} user, only logged via a {@link Logger}.
+   * <p>
+   * <b>Warning:</b> any exception thrown by {@code listener} will <i>not</i> be propagated to the
+   * {@code Cache} user, only logged via a {@link Logger}.
    *
    * @return the cache builder reference that should be used instead of {@code this} for any
-   *     remaining configuration and cache building
+   *         remaining configuration and cache building
    * @throws IllegalStateException if a removal listener was already set
    */
   @CheckReturnValue
@@ -747,8 +786,8 @@ public final class CacheBuilder<K, V> {
   // Make a safe contravariant cast now so we don't have to do it over and over.
   @SuppressWarnings("unchecked")
   <K1 extends K, V1 extends V> RemovalListener<K1, V1> getRemovalListener() {
-    return (RemovalListener<K1, V1>)
-        MoreObjects.firstNonNull(removalListener, NullListener.INSTANCE);
+    return (RemovalListener<K1, V1>) MoreObjects.firstNonNull(removalListener,
+        NullListener.INSTANCE);
   }
 
   /**
@@ -775,17 +814,17 @@ public final class CacheBuilder<K, V> {
   /**
    * Builds a cache, which either returns an already-loaded value for a given key or atomically
    * computes or retrieves it using the supplied {@code CacheLoader}. If another thread is currently
-   * loading the value for this key, simply waits for that thread to finish and returns its
-   * loaded value. Note that multiple threads can concurrently load values for distinct keys.
+   * loading the value for this key, simply waits for that thread to finish and returns its loaded
+   * value. Note that multiple threads can concurrently load values for distinct keys.
    *
-   * <p>This method does not alter the state of this {@code CacheBuilder} instance, so it can be
+   * <p>
+   * This method does not alter the state of this {@code CacheBuilder} instance, so it can be
    * invoked again to create multiple independent caches.
    *
    * @param loader the cache loader used to obtain new values
    * @return a cache having the requested features
    */
-  public <K1 extends K, V1 extends V> LoadingCache<K1, V1> build(
-          CacheLoader<? super K1, V1> loader) {
+  public <K1 extends K, V1 extends V> LoadingCache<K1, V1> build(CacheLoader<? super K1, V1> loader) {
     checkWeightWithWeigher();
     return new LocalCache.LocalLoadingCache<K1, V1>(this, loader);
   }
@@ -793,10 +832,12 @@ public final class CacheBuilder<K, V> {
   /**
    * Builds a cache which does not automatically load values when keys are requested.
    *
-   * <p>Consider {@link #build(CacheLoader)} instead, if it is feasible to implement a
+   * <p>
+   * Consider {@link #build(CacheLoader)} instead, if it is feasible to implement a
    * {@code CacheLoader}.
    *
-   * <p>This method does not alter the state of this {@code CacheBuilder} instance, so it can be
+   * <p>
+   * This method does not alter the state of this {@code CacheBuilder} instance, so it can be
    * invoked again to create multiple independent caches.
    *
    * @return a cache having the requested features

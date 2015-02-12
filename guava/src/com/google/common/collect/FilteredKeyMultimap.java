@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -67,7 +67,8 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
   @Override
   public boolean containsKey(@Nullable Object key) {
     if (unfiltered.containsKey(key)) {
-      @SuppressWarnings("unchecked") // k is equal to a K, if not one itself
+      @SuppressWarnings("unchecked")
+      // k is equal to a K, if not one itself
       K k = (K) key;
       return keyPredicate.apply(k);
     }
@@ -192,7 +193,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
       if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         if (unfiltered.containsKey(entry.getKey())
-            // if this holds, then we know entry.getKey() is a K
+        // if this holds, then we know entry.getKey() is a K
             && keyPredicate.apply((K) entry.getKey())) {
           return unfiltered.remove(entry.getKey(), entry.getValue());
         }
@@ -200,7 +201,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
       return false;
     }
   }
-  
+
   @Override
   Collection<V> createValues() {
     return new FilteredMultimapValues<K, V>(this);

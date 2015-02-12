@@ -1,15 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -44,15 +44,10 @@ public class UnsignedIntegerTest extends TestCase {
     ImmutableSet.Builder<Integer> testIntsBuilder = ImmutableSet.builder();
     ImmutableSet.Builder<Long> testLongsBuilder = ImmutableSet.builder();
     for (int i = -3; i <= 3; i++) {
-      testIntsBuilder
-        .add(i)
-        .add(force32(Integer.MIN_VALUE + i))
-        .add(force32(Integer.MAX_VALUE + i));
-      testLongsBuilder
-        .add((long) i)
-        .add((long) Integer.MIN_VALUE + i)
-        .add((long) Integer.MAX_VALUE + i)
-        .add((1L << 32) + i);
+      testIntsBuilder.add(i).add(force32(Integer.MIN_VALUE + i))
+          .add(force32(Integer.MAX_VALUE + i));
+      testLongsBuilder.add((long) i).add((long) Integer.MIN_VALUE + i)
+          .add((long) Integer.MAX_VALUE + i).add((1L << 32) + i);
     }
     TEST_INTS = testIntsBuilder.build();
     TEST_LONGS = testLongsBuilder.build();
@@ -72,7 +67,7 @@ public class UnsignedIntegerTest extends TestCase {
           .longValue());
     }
   }
-  
+
   public void testValueOfLong() {
     long min = 0;
     long max = (1L << 32) - 1;
@@ -86,15 +81,14 @@ public class UnsignedIntegerTest extends TestCase {
       }
     }
   }
-  
+
   public void testValueOfBigInteger() {
     long min = 0;
     long max = (1L << 32) - 1;
     for (long value : TEST_LONGS) {
       boolean expectSuccess = value >= min && value <= max;
       try {
-        assertEquals(value, UnsignedInteger.valueOf(BigInteger.valueOf(value))
-            .longValue());
+        assertEquals(value, UnsignedInteger.valueOf(BigInteger.valueOf(value)).longValue());
         assertTrue(expectSuccess);
       } catch (IllegalArgumentException e) {
         assertFalse(expectSuccess);
@@ -188,8 +182,7 @@ public class UnsignedIntegerTest extends TestCase {
         if (b != 0) {
           UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
           UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
-          int expected =
-              aUnsigned.bigIntegerValue().divide(bUnsigned.bigIntegerValue()).intValue();
+          int expected = aUnsigned.bigIntegerValue().divide(bUnsigned.bigIntegerValue()).intValue();
           UnsignedInteger unsignedDiv = aUnsigned.dividedBy(bUnsigned);
           assertEquals(expected, unsignedDiv.intValue());
         }
@@ -200,10 +193,10 @@ public class UnsignedIntegerTest extends TestCase {
   public void testDivideByZeroThrows() {
     for (int a : TEST_INTS) {
       try {
-        UnsignedInteger ignored =
-            UnsignedInteger.fromIntBits(a).dividedBy(UnsignedInteger.ZERO);
+        UnsignedInteger ignored = UnsignedInteger.fromIntBits(a).dividedBy(UnsignedInteger.ZERO);
         fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {}
+      } catch (ArithmeticException expected) {
+      }
     }
   }
 
@@ -213,8 +206,7 @@ public class UnsignedIntegerTest extends TestCase {
         if (b != 0) {
           UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
           UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
-          int expected =
-              aUnsigned.bigIntegerValue().mod(bUnsigned.bigIntegerValue()).intValue();
+          int expected = aUnsigned.bigIntegerValue().mod(bUnsigned.bigIntegerValue()).intValue();
           UnsignedInteger unsignedRem = aUnsigned.mod(bUnsigned);
           assertEquals(expected, unsignedRem.intValue());
         }
@@ -228,7 +220,8 @@ public class UnsignedIntegerTest extends TestCase {
       try {
         UnsignedInteger.fromIntBits(a).mod(UnsignedInteger.ZERO);
         fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {}
+      } catch (ArithmeticException expected) {
+      }
     }
   }
 

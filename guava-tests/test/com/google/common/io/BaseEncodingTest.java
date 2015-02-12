@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2012 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -64,12 +64,14 @@ public class BaseEncodingTest extends TestCase {
     try {
       base64().withSeparator("=", 3);
       fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     try {
       base64().withPadChar('#').withSeparator("!#!", 3);
       fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   @SuppressWarnings("ReturnValueIgnored")
@@ -78,7 +80,8 @@ public class BaseEncodingTest extends TestCase {
     try {
       separated.withSeparator("$", 4);
       fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   public void testBase64() {
@@ -318,22 +321,21 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(base16(), "ABC");
   }
 
-  private static void testEncodingWithCasing(
-      BaseEncoding encoding, String decoded, String encoded) {
+  private static void testEncodingWithCasing(BaseEncoding encoding, String decoded, String encoded) {
     testEncodingWithSeparators(encoding, decoded, encoded);
     testEncodingWithSeparators(encoding.upperCase(), decoded, Ascii.toUpperCase(encoded));
     testEncodingWithSeparators(encoding.lowerCase(), decoded, Ascii.toLowerCase(encoded));
   }
 
-  private static void testEncodingWithSeparators(
-      BaseEncoding encoding, String decoded, String encoded) {
+  private static void testEncodingWithSeparators(BaseEncoding encoding, String decoded,
+      String encoded) {
     testEncoding(encoding, decoded, encoded);
 
     // test separators work
     for (int sepLength = 3; sepLength <= 5; sepLength++) {
       for (String separator : ImmutableList.of(",", "\n", ";;", "")) {
-        testEncoding(encoding.withSeparator(separator, sepLength), decoded,
-            Joiner.on(separator).join(Splitter.fixedLength(sepLength).split(encoded)));
+        testEncoding(encoding.withSeparator(separator, sepLength), decoded, Joiner.on(separator)
+            .join(Splitter.fixedLength(sepLength).split(encoded)));
       }
     }
   }
@@ -369,8 +371,8 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(encoding, cannotDecode, null);
   }
 
-  private static void assertFailsToDecode(
-      BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
+  private static void assertFailsToDecode(BaseEncoding encoding, String cannotDecode,
+      @Nullable String expectedMessage) {
     try {
       encoding.decode(cannotDecode);
       fail("Expected IllegalArgumentException");
@@ -390,16 +392,16 @@ public class BaseEncodingTest extends TestCase {
   }
 
   @GwtIncompatible("Reader/Writer")
-  private static void testStreamingEncodingWithCasing(
-      BaseEncoding encoding, String decoded, String encoded) throws IOException {
+  private static void testStreamingEncodingWithCasing(BaseEncoding encoding, String decoded,
+      String encoded) throws IOException {
     testStreamingEncodingWithSeparators(encoding, decoded, encoded);
     testStreamingEncodingWithSeparators(encoding.upperCase(), decoded, Ascii.toUpperCase(encoded));
     testStreamingEncodingWithSeparators(encoding.lowerCase(), decoded, Ascii.toLowerCase(encoded));
   }
 
   @GwtIncompatible("Reader/Writer")
-  private static void testStreamingEncodingWithSeparators(
-      BaseEncoding encoding, String decoded, String encoded) throws IOException {
+  private static void testStreamingEncodingWithSeparators(BaseEncoding encoding, String decoded,
+      String encoded) throws IOException {
     testStreamingEncoding(encoding, decoded, encoded);
 
     // test separators work
@@ -455,11 +457,11 @@ public class BaseEncodingTest extends TestCase {
 
   public void testToString() {
     assertEquals("BaseEncoding.base64().withPadChar(=)", BaseEncoding.base64().toString());
-    assertEquals("BaseEncoding.base32Hex().omitPadding()",
-        BaseEncoding.base32Hex().omitPadding().toString());
-    assertEquals("BaseEncoding.base32().lowerCase().withPadChar($)",
-        BaseEncoding.base32().lowerCase().withPadChar('$').toString());
-    assertEquals("BaseEncoding.base16().withSeparator(\"\n\", 10)",
-        BaseEncoding.base16().withSeparator("\n", 10).toString());
+    assertEquals("BaseEncoding.base32Hex().omitPadding()", BaseEncoding.base32Hex().omitPadding()
+        .toString());
+    assertEquals("BaseEncoding.base32().lowerCase().withPadChar($)", BaseEncoding.base32()
+        .lowerCase().withPadChar('$').toString());
+    assertEquals("BaseEncoding.base16().withSeparator(\"\n\", 10)", BaseEncoding.base16()
+        .withSeparator("\n", 10).toString());
   }
 }

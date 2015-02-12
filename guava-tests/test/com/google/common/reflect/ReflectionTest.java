@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2006 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.reflect;
@@ -50,13 +48,13 @@ public class ReflectionTest extends TestCase {
 
   private static final InvocationHandler X_RETURNER = new InvocationHandler() {
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args)
-        throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
       return "x";
     }
   };
 
   private static int classesInitialized = 0;
+
   private static class A {
     static {
       ++classesInitialized;
@@ -79,10 +77,8 @@ public class ReflectionTest extends TestCase {
     Reflection.initialize(A.class);
     assertEquals(1, classesInitialized);
 
-    Reflection.initialize(
-        A.class,  // Already initialized (above)
-        B.class,
-        C.class);
+    Reflection.initialize(A.class, // Already initialized (above)
+        B.class, C.class);
     assertEquals(3, classesInitialized);
   }
 

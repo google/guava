@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -65,84 +63,68 @@ public class ImmutableSortedMapTest extends TestCase {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableSortedMapTest.class);
 
-    suite.addTest(NavigableMapTestSuiteBuilder.using(
-        new ImmutableSortedMapGenerator())
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
-            CollectionFeature.KNOWN_ORDER,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES)
-        .named("ImmutableSortedMap")
-        .createTestSuite());
-    suite.addTest(MapTestSuiteBuilder.using(
-        new ImmutableSortedMapCopyOfEntriesGenerator())
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
-            CollectionFeature.KNOWN_ORDER,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES)
-        .named("ImmutableSortedMap.copyOf[Iterable<Entry>]")
+    suite.addTest(NavigableMapTestSuiteBuilder
+        .using(new ImmutableSortedMapGenerator())
+        .withFeatures(CollectionSize.ANY, CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
+            CollectionFeature.KNOWN_ORDER, MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES).named("ImmutableSortedMap").createTestSuite());
+    suite.addTest(MapTestSuiteBuilder
+        .using(new ImmutableSortedMapCopyOfEntriesGenerator())
+        .withFeatures(CollectionSize.ANY, CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
+            CollectionFeature.KNOWN_ORDER, MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES).named("ImmutableSortedMap.copyOf[Iterable<Entry>]")
         .createTestSuite());
 
-    suite.addTest(ListTestSuiteBuilder.using(
-        new ImmutableSortedMapEntryListGenerator())
-        .named("ImmutableSortedMap.entrySet.asList")
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
+    suite
+        .addTest(ListTestSuiteBuilder
+            .using(new ImmutableSortedMapEntryListGenerator())
+            .named("ImmutableSortedMap.entrySet.asList")
+            .withFeatures(CollectionSize.ANY, CollectionFeature.SERIALIZABLE,
+                CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+                CollectionFeature.ALLOWS_NULL_QUERIES).createTestSuite());
 
-    suite.addTest(ListTestSuiteBuilder.using(
-        new ImmutableSortedMapKeyListGenerator())
-        .named("ImmutableSortedMap.keySet.asList")
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
+    suite
+        .addTest(ListTestSuiteBuilder
+            .using(new ImmutableSortedMapKeyListGenerator())
+            .named("ImmutableSortedMap.keySet.asList")
+            .withFeatures(CollectionSize.ANY, CollectionFeature.SERIALIZABLE,
+                CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+                CollectionFeature.ALLOWS_NULL_QUERIES).createTestSuite());
 
-    suite.addTest(ListTestSuiteBuilder.using(
-        new ImmutableSortedMapValueListGenerator())
-        .named("ImmutableSortedMap.values.asList")
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
+    suite
+        .addTest(ListTestSuiteBuilder
+            .using(new ImmutableSortedMapValueListGenerator())
+            .named("ImmutableSortedMap.values.asList")
+            .withFeatures(CollectionSize.ANY, CollectionFeature.SERIALIZABLE,
+                CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+                CollectionFeature.ALLOWS_NULL_QUERIES).createTestSuite());
 
     return suite;
   }
 
-  public abstract static class AbstractMapTests<K, V>
-      extends SortedMapInterfaceTest<K, V> {
+  public abstract static class AbstractMapTests<K, V> extends SortedMapInterfaceTest<K, V> {
     public AbstractMapTests() {
       super(false, false, false, false, false);
     }
 
-    @Override protected SortedMap<K, V> makeEmptyMap() {
+    @Override
+    protected SortedMap<K, V> makeEmptyMap() {
       throw new UnsupportedOperationException();
     }
 
     private static final Joiner joiner = Joiner.on(", ");
 
-    @Override protected void assertMoreInvariants(Map<K, V> map) {
+    @Override
+    protected void assertMoreInvariants(Map<K, V> map) {
       // TODO: can these be moved to MapInterfaceTest?
       for (Entry<K, V> entry : map.entrySet()) {
-        assertEquals(entry.getKey() + "=" + entry.getValue(),
-            entry.toString());
+        assertEquals(entry.getKey() + "=" + entry.getValue(), entry.toString());
       }
 
-      assertEquals("{" + joiner.join(map.entrySet()) + "}",
-          map.toString());
-      assertEquals("[" + joiner.join(map.entrySet()) + "]",
-          map.entrySet().toString());
-      assertEquals("[" + joiner.join(map.keySet()) + "]",
-          map.keySet().toString());
-      assertEquals("[" + joiner.join(map.values()) + "]",
-          map.values().toString());
+      assertEquals("{" + joiner.join(map.entrySet()) + "}", map.toString());
+      assertEquals("[" + joiner.join(map.entrySet()) + "]", map.entrySet().toString());
+      assertEquals("[" + joiner.join(map.keySet()) + "]", map.keySet().toString());
+      assertEquals("[" + joiner.join(map.values()) + "]", map.values().toString());
 
       assertEquals(Sets.newHashSet(map.entrySet()), map.entrySet());
       assertEquals(Sets.newHashSet(map.keySet()), map.keySet());
@@ -150,169 +132,176 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   public static class MapTests extends AbstractMapTests<String, Integer> {
-    @Override protected SortedMap<String, Integer> makeEmptyMap() {
+    @Override
+    protected SortedMap<String, Integer> makeEmptyMap() {
       return ImmutableSortedMap.of();
     }
 
-    @Override protected SortedMap<String, Integer> makePopulatedMap() {
+    @Override
+    protected SortedMap<String, Integer> makePopulatedMap() {
       return ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
     }
 
-    @Override protected String getKeyNotInPopulatedMap() {
+    @Override
+    protected String getKeyNotInPopulatedMap() {
       return "minus one";
     }
 
-    @Override protected Integer getValueNotInPopulatedMap() {
+    @Override
+    protected Integer getValueNotInPopulatedMap() {
       return -1;
     }
   }
 
-  public static class SingletonMapTests
-      extends AbstractMapTests<String, Integer> {
-    @Override protected SortedMap<String, Integer> makePopulatedMap() {
+  public static class SingletonMapTests extends AbstractMapTests<String, Integer> {
+    @Override
+    protected SortedMap<String, Integer> makePopulatedMap() {
       return ImmutableSortedMap.of("one", 1);
     }
 
-    @Override protected String getKeyNotInPopulatedMap() {
+    @Override
+    protected String getKeyNotInPopulatedMap() {
       return "minus one";
     }
 
-    @Override protected Integer getValueNotInPopulatedMap() {
+    @Override
+    protected Integer getValueNotInPopulatedMap() {
       return -1;
     }
   }
 
   @GwtIncompatible("SerializableTester")
-  public static class ReserializedMapTests
-      extends AbstractMapTests<String, Integer> {
-    @Override protected SortedMap<String, Integer> makePopulatedMap() {
-      return SerializableTester.reserialize(
-          ImmutableSortedMap.of("one", 1, "two", 2, "three", 3));
+  public static class ReserializedMapTests extends AbstractMapTests<String, Integer> {
+    @Override
+    protected SortedMap<String, Integer> makePopulatedMap() {
+      return SerializableTester.reserialize(ImmutableSortedMap.of("one", 1, "two", 2, "three", 3));
     }
 
-    @Override protected String getKeyNotInPopulatedMap() {
+    @Override
+    protected String getKeyNotInPopulatedMap() {
       return "minus one";
     }
 
-    @Override protected Integer getValueNotInPopulatedMap() {
+    @Override
+    protected Integer getValueNotInPopulatedMap() {
       return -1;
     }
   }
 
   public static class HeadMapTests extends AbstractMapTests<String, Integer> {
-    @Override protected SortedMap<String, Integer> makePopulatedMap() {
-      return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)
-          .headMap("d");
+    @Override
+    protected SortedMap<String, Integer> makePopulatedMap() {
+      return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5).headMap("d");
     }
 
-    @Override protected String getKeyNotInPopulatedMap() {
+    @Override
+    protected String getKeyNotInPopulatedMap() {
       return "d";
     }
 
-    @Override protected Integer getValueNotInPopulatedMap() {
+    @Override
+    protected Integer getValueNotInPopulatedMap() {
       return 4;
     }
   }
 
   public static class HeadMapInclusiveTests extends AbstractMapTests<String, Integer> {
-    @Override protected SortedMap<String, Integer> makePopulatedMap() {
-      return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)
-          .headMap("c", true);
+    @Override
+    protected SortedMap<String, Integer> makePopulatedMap() {
+      return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5).headMap("c", true);
     }
 
-    @Override protected String getKeyNotInPopulatedMap() {
+    @Override
+    protected String getKeyNotInPopulatedMap() {
       return "d";
     }
 
-    @Override protected Integer getValueNotInPopulatedMap() {
+    @Override
+    protected Integer getValueNotInPopulatedMap() {
       return 4;
     }
   }
 
   public static class TailMapTests extends AbstractMapTests<String, Integer> {
-    @Override protected SortedMap<String, Integer> makePopulatedMap() {
-      return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)
-          .tailMap("b");
+    @Override
+    protected SortedMap<String, Integer> makePopulatedMap() {
+      return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5).tailMap("b");
     }
 
-    @Override protected String getKeyNotInPopulatedMap() {
+    @Override
+    protected String getKeyNotInPopulatedMap() {
       return "a";
     }
 
-    @Override protected Integer getValueNotInPopulatedMap() {
+    @Override
+    protected Integer getValueNotInPopulatedMap() {
       return 1;
     }
   }
 
   public static class TailExclusiveMapTests extends AbstractMapTests<String, Integer> {
-    @Override protected SortedMap<String, Integer> makePopulatedMap() {
-      return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)
-          .tailMap("a", false);
+    @Override
+    protected SortedMap<String, Integer> makePopulatedMap() {
+      return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5).tailMap("a", false);
     }
 
-    @Override protected String getKeyNotInPopulatedMap() {
+    @Override
+    protected String getKeyNotInPopulatedMap() {
       return "a";
     }
 
-    @Override protected Integer getValueNotInPopulatedMap() {
+    @Override
+    protected Integer getValueNotInPopulatedMap() {
       return 1;
     }
   }
 
   public static class SubMapTests extends AbstractMapTests<String, Integer> {
-    @Override protected SortedMap<String, Integer> makePopulatedMap() {
-      return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)
-          .subMap("b", "d");
+    @Override
+    protected SortedMap<String, Integer> makePopulatedMap() {
+      return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5).subMap("b", "d");
     }
 
-    @Override protected String getKeyNotInPopulatedMap() {
+    @Override
+    protected String getKeyNotInPopulatedMap() {
       return "a";
     }
 
-    @Override protected Integer getValueNotInPopulatedMap() {
+    @Override
+    protected Integer getValueNotInPopulatedMap() {
       return 4;
     }
   }
 
   public static class CreationTests extends TestCase {
     public void testEmptyBuilder() {
-      ImmutableSortedMap<String, Integer> map
-          = ImmutableSortedMap.<String, Integer>naturalOrder().build();
+      ImmutableSortedMap<String, Integer> map =
+          ImmutableSortedMap.<String, Integer>naturalOrder().build();
       assertEquals(Collections.<String, Integer>emptyMap(), map);
     }
 
     public void testSingletonBuilder() {
-      ImmutableSortedMap<String, Integer> map
-          = ImmutableSortedMap.<String, Integer>naturalOrder()
-              .put("one", 1)
-              .build();
+      ImmutableSortedMap<String, Integer> map =
+          ImmutableSortedMap.<String, Integer>naturalOrder().put("one", 1).build();
       assertMapEquals(map, "one", 1);
     }
 
     public void testBuilder() {
-      ImmutableSortedMap<String, Integer> map
-          = ImmutableSortedMap.<String, Integer>naturalOrder()
-              .put("one", 1)
-              .put("two", 2)
-              .put("three", 3)
-              .put("four", 4)
-              .put("five", 5)
-              .build();
-      assertMapEquals(map,
-          "five", 5, "four", 4, "one", 1, "three", 3, "two", 2);
+      ImmutableSortedMap<String, Integer> map =
+          ImmutableSortedMap.<String, Integer>naturalOrder().put("one", 1).put("two", 2)
+              .put("three", 3).put("four", 4).put("five", 5).build();
+      assertMapEquals(map, "five", 5, "four", 4, "one", 1, "three", 3, "two", 2);
     }
 
     public void testBuilder_withImmutableEntry() {
       ImmutableSortedMap<String, Integer> map =
-          ImmutableSortedMap.<String, Integer>naturalOrder()
-              .put(Maps.immutableEntry("one", 1))
+          ImmutableSortedMap.<String, Integer>naturalOrder().put(Maps.immutableEntry("one", 1))
               .build();
       assertMapEquals(map, "one", 1);
     }
 
     public void testBuilder_withImmutableEntryAndNullContents() {
-      Builder<String, Integer> builder =
-          ImmutableSortedMap.naturalOrder();
+      Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
       try {
         builder.put(Maps.immutableEntry("one", (Integer) null));
         fail();
@@ -330,15 +319,17 @@ public class ImmutableSortedMapTest extends TestCase {
     }
 
     public void testBuilder_withMutableEntry() {
-      ImmutableSortedMap.Builder<String, Integer> builder =
-          ImmutableSortedMap.naturalOrder();
+      ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
       final StringHolder holder = new StringHolder();
       holder.string = "one";
       Entry<String, Integer> entry = new AbstractMapEntry<String, Integer>() {
-        @Override public String getKey() {
+        @Override
+        public String getKey() {
           return holder.string;
         }
-        @Override public Integer getValue() {
+
+        @Override
+        public Integer getValue() {
           return 1;
         }
       };
@@ -349,10 +340,9 @@ public class ImmutableSortedMapTest extends TestCase {
     }
 
     public void testBuilderPutAllWithEmptyMap() {
-      ImmutableSortedMap<String, Integer> map
-          = ImmutableSortedMap.<String, Integer>naturalOrder()
-              .putAll(Collections.<String, Integer>emptyMap())
-              .build();
+      ImmutableSortedMap<String, Integer> map =
+          ImmutableSortedMap.<String, Integer>naturalOrder()
+              .putAll(Collections.<String, Integer>emptyMap()).build();
       assertEquals(Collections.<String, Integer>emptyMap(), map);
     }
 
@@ -365,25 +355,16 @@ public class ImmutableSortedMapTest extends TestCase {
       moreToPut.put("four", 4);
       moreToPut.put("five", 5);
 
-      ImmutableSortedMap<String, Integer> map
-          = ImmutableSortedMap.<String, Integer>naturalOrder()
-              .putAll(toPut)
-              .putAll(moreToPut)
+      ImmutableSortedMap<String, Integer> map =
+          ImmutableSortedMap.<String, Integer>naturalOrder().putAll(toPut).putAll(moreToPut)
               .build();
-      assertMapEquals(map,
-          "five", 5, "four", 4, "one", 1, "three", 3, "two", 2);
+      assertMapEquals(map, "five", 5, "four", 4, "one", 1, "three", 3, "two", 2);
     }
 
     public void testBuilderReuse() {
       Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
-      ImmutableSortedMap<String, Integer> mapOne = builder
-          .put("one", 1)
-          .put("two", 2)
-          .build();
-      ImmutableSortedMap<String, Integer> mapTwo = builder
-          .put("three", 3)
-          .put("four", 4)
-          .build();
+      ImmutableSortedMap<String, Integer> mapOne = builder.put("one", 1).put("two", 2).build();
+      ImmutableSortedMap<String, Integer> mapTwo = builder.put("three", 3).put("four", 4).build();
 
       assertMapEquals(mapOne, "one", 1, "two", 2);
       assertMapEquals(mapTwo, "four", 4, "one", 1, "three", 3, "two", 2);
@@ -426,10 +407,13 @@ public class ImmutableSortedMapTest extends TestCase {
     }
 
     public void testPuttingTheSameKeyTwiceThrowsOnBuild() {
-      Builder<String, Integer> builder
-          = ImmutableSortedMap.<String, Integer>naturalOrder()
-              .put("one", 1)
-              .put("one", 2); // throwing on this line would be even better
+      Builder<String, Integer> builder =
+          ImmutableSortedMap.<String, Integer>naturalOrder().put("one", 1).put("one", 2); // throwing
+                                                                                          // on this
+                                                                                          // line
+                                                                                          // would
+                                                                                          // be even
+                                                                                          // better
 
       try {
         builder.build();
@@ -439,21 +423,13 @@ public class ImmutableSortedMapTest extends TestCase {
     }
 
     public void testOf() {
-      assertMapEquals(
-          ImmutableSortedMap.of("one", 1),
-          "one", 1);
-      assertMapEquals(
-          ImmutableSortedMap.of("one", 1, "two", 2),
-          "one", 1, "two", 2);
-      assertMapEquals(
-          ImmutableSortedMap.of("one", 1, "two", 2, "three", 3),
+      assertMapEquals(ImmutableSortedMap.of("one", 1), "one", 1);
+      assertMapEquals(ImmutableSortedMap.of("one", 1, "two", 2), "one", 1, "two", 2);
+      assertMapEquals(ImmutableSortedMap.of("one", 1, "two", 2, "three", 3), "one", 1, "three", 3,
+          "two", 2);
+      assertMapEquals(ImmutableSortedMap.of("one", 1, "two", 2, "three", 3, "four", 4), "four", 4,
           "one", 1, "three", 3, "two", 2);
-      assertMapEquals(
-          ImmutableSortedMap.of("one", 1, "two", 2, "three", 3, "four", 4),
-          "four", 4, "one", 1, "three", 3, "two", 2);
-      assertMapEquals(
-          ImmutableSortedMap.of(
-              "one", 1, "two", 2, "three", 3, "four", 4, "five", 5),
+      assertMapEquals(ImmutableSortedMap.of("one", 1, "two", 2, "three", 3, "four", 4, "five", 5),
           "five", 5, "four", 4, "one", 1, "three", 3, "two", 2);
     }
 
@@ -495,16 +471,16 @@ public class ImmutableSortedMapTest extends TestCase {
     }
 
     public void testCopyOfEmptyMap() {
-      ImmutableSortedMap<String, Integer> copy
-          = ImmutableSortedMap.copyOf(Collections.<String, Integer>emptyMap());
+      ImmutableSortedMap<String, Integer> copy =
+          ImmutableSortedMap.copyOf(Collections.<String, Integer>emptyMap());
       assertEquals(Collections.<String, Integer>emptyMap(), copy);
       assertSame(copy, ImmutableSortedMap.copyOf(copy));
       assertSame(Ordering.natural(), copy.comparator());
     }
 
     public void testCopyOfSingletonMap() {
-      ImmutableSortedMap<String, Integer> copy
-          = ImmutableSortedMap.copyOf(Collections.singletonMap("one", 1));
+      ImmutableSortedMap<String, Integer> copy =
+          ImmutableSortedMap.copyOf(Collections.singletonMap("one", 1));
       assertMapEquals(copy, "one", 1);
       assertSame(copy, ImmutableSortedMap.copyOf(copy));
       assertSame(Ordering.natural(), copy.comparator());
@@ -516,8 +492,7 @@ public class ImmutableSortedMapTest extends TestCase {
       original.put("two", 2);
       original.put("three", 3);
 
-      ImmutableSortedMap<String, Integer> copy
-          = ImmutableSortedMap.copyOf(original);
+      ImmutableSortedMap<String, Integer> copy = ImmutableSortedMap.copyOf(original);
       assertMapEquals(copy, "one", 1, "three", 3, "two", 2);
       assertSame(copy, ImmutableSortedMap.copyOf(copy));
       assertSame(Ordering.natural(), copy.comparator());
@@ -530,8 +505,7 @@ public class ImmutableSortedMapTest extends TestCase {
       original.put("two", 2);
       original.put("three", 3);
 
-      ImmutableSortedMap<String, Integer> copy
-          = ImmutableSortedMap.copyOf(original, comparator);
+      ImmutableSortedMap<String, Integer> copy = ImmutableSortedMap.copyOf(original, comparator);
       assertMapEquals(copy, "two", 2, "three", 3, "one", 1);
       assertSame(copy, ImmutableSortedMap.copyOf(copy, comparator));
       assertSame(comparator, copy.comparator());
@@ -539,10 +513,8 @@ public class ImmutableSortedMapTest extends TestCase {
 
     public void testCopyOfImmutableSortedSetDifferentComparator() {
       Comparator<String> comparator = Ordering.natural().reverse();
-      Map<String, Integer> original
-          = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
-      ImmutableSortedMap<String, Integer> copy
-          = ImmutableSortedMap.copyOf(original, comparator);
+      Map<String, Integer> original = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
+      ImmutableSortedMap<String, Integer> copy = ImmutableSortedMap.copyOf(original, comparator);
       assertMapEquals(copy, "two", 2, "three", 3, "one", 1);
       assertSame(copy, ImmutableSortedMap.copyOf(copy, comparator));
       assertSame(comparator, copy.comparator());
@@ -554,8 +526,7 @@ public class ImmutableSortedMapTest extends TestCase {
       original.put("two", 2);
       original.put("three", 3);
 
-      ImmutableSortedMap<String, Integer> copy
-          = ImmutableSortedMap.copyOfSorted(original);
+      ImmutableSortedMap<String, Integer> copy = ImmutableSortedMap.copyOfSorted(original);
       assertMapEquals(copy, "one", 1, "three", 3, "two", 2);
       assertSame(copy, ImmutableSortedMap.copyOfSorted(copy));
       assertSame(Ordering.natural(), copy.comparator());
@@ -568,8 +539,7 @@ public class ImmutableSortedMapTest extends TestCase {
       original.put("two", 2);
       original.put("three", 3);
 
-      ImmutableSortedMap<String, Integer> copy
-          = ImmutableSortedMap.copyOfSorted(original);
+      ImmutableSortedMap<String, Integer> copy = ImmutableSortedMap.copyOfSorted(original);
       assertMapEquals(copy, "two", 2, "three", 3, "one", 1);
       assertSame(copy, ImmutableSortedMap.copyOfSorted(copy));
       assertSame(comparator, copy.comparator());
@@ -587,19 +557,17 @@ public class ImmutableSortedMapTest extends TestCase {
         return value / 10 - o.value / 10;
       }
 
-      @Override public String toString() {
+      @Override
+      public String toString() {
         return Integer.toString(value);
       }
     }
 
     public void testCopyOfDuplicateKey() {
-      Map<IntegerDiv10, String> original = ImmutableMap.of(
-          new IntegerDiv10(3), "three",
-          new IntegerDiv10(20), "twenty",
-          new IntegerDiv10(11), "eleven",
-          new IntegerDiv10(35), "thirty five",
-          new IntegerDiv10(12), "twelve"
-      );
+      Map<IntegerDiv10, String> original =
+          ImmutableMap.of(new IntegerDiv10(3), "three", new IntegerDiv10(20), "twenty",
+              new IntegerDiv10(11), "eleven", new IntegerDiv10(35), "thirty five",
+              new IntegerDiv10(12), "twelve");
 
       try {
         ImmutableSortedMap.copyOf(original);
@@ -613,39 +581,27 @@ public class ImmutableSortedMapTest extends TestCase {
       IntegerDiv10 eleven = new IntegerDiv10(11);
       IntegerDiv10 twelve = new IntegerDiv10(12);
       IntegerDiv10 twenty = new IntegerDiv10(20);
-      Map<IntegerDiv10, String> original = ImmutableSortedMap.of(
-          three, "three", eleven, "eleven", twenty, "twenty");
+      Map<IntegerDiv10, String> original =
+          ImmutableSortedMap.of(three, "three", eleven, "eleven", twenty, "twenty");
       Map<IntegerDiv10, String> copy = ImmutableMap.copyOf(original);
       assertTrue(original.containsKey(twelve));
       assertFalse(copy.containsKey(twelve));
     }
 
     public void testBuilderReverseOrder() {
-      ImmutableSortedMap<String, Integer> map
-          = ImmutableSortedMap.<String, Integer>reverseOrder()
-              .put("one", 1)
-              .put("two", 2)
-              .put("three", 3)
-              .put("four", 4)
-              .put("five", 5)
-              .build();
-      assertMapEquals(map,
-          "two", 2, "three", 3, "one", 1, "four", 4, "five", 5);
+      ImmutableSortedMap<String, Integer> map =
+          ImmutableSortedMap.<String, Integer>reverseOrder().put("one", 1).put("two", 2)
+              .put("three", 3).put("four", 4).put("five", 5).build();
+      assertMapEquals(map, "two", 2, "three", 3, "one", 1, "four", 4, "five", 5);
       assertEquals(Ordering.natural().reverse(), map.comparator());
     }
 
     public void testBuilderComparator() {
       Comparator<String> comparator = Ordering.natural().reverse();
-      ImmutableSortedMap<String, Integer> map
-          = new ImmutableSortedMap.Builder<String, Integer>(comparator)
-              .put("one", 1)
-              .put("two", 2)
-              .put("three", 3)
-              .put("four", 4)
-              .put("five", 5)
-              .build();
-      assertMapEquals(map,
-          "two", 2, "three", 3, "one", 1, "four", 4, "five", 5);
+      ImmutableSortedMap<String, Integer> map =
+          new ImmutableSortedMap.Builder<String, Integer>(comparator).put("one", 1).put("two", 2)
+              .put("three", 3).put("four", 4).put("five", 5).build();
+      assertMapEquals(map, "two", 2, "three", 3, "one", 1, "four", 4, "five", 5);
       assertSame(comparator, map.comparator());
     }
   }
@@ -659,16 +615,13 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableSortedMap.class);
-    tester.testAllPublicInstanceMethods(
-        ImmutableSortedMap.<String, Integer>naturalOrder());
+    tester.testAllPublicInstanceMethods(ImmutableSortedMap.<String, Integer>naturalOrder());
     tester.testAllPublicInstanceMethods(ImmutableSortedMap.of());
     tester.testAllPublicInstanceMethods(ImmutableSortedMap.of("one", 1));
-    tester.testAllPublicInstanceMethods(
-        ImmutableSortedMap.of("one", 1, "two", 2, "three", 3));
+    tester.testAllPublicInstanceMethods(ImmutableSortedMap.of("one", 1, "two", 2, "three", 3));
   }
 
-  private static <K, V> void assertMapEquals(Map<K, V> map,
-      Object... alternatingKeysAndValues) {
+  private static <K, V> void assertMapEquals(Map<K, V> map, Object... alternatingKeysAndValues) {
     assertEquals(map.size(), alternatingKeysAndValues.length / 2);
     int i = 0;
     for (Entry<K, V> entry : map.entrySet()) {
@@ -684,11 +637,13 @@ public class ImmutableSortedMapTest extends TestCase {
       this.value = value;
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
       return (o instanceof IntHolder) && ((IntHolder) o).value == value;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return value;
     }
 
@@ -698,43 +653,42 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testMutableValues() {
     IntHolder holderA = new IntHolder(1);
     IntHolder holderB = new IntHolder(2);
-    Map<String, IntHolder> map
-        = ImmutableSortedMap.of("a", holderA, "b", holderB);
+    Map<String, IntHolder> map = ImmutableSortedMap.of("a", holderA, "b", holderB);
     holderA.value = 3;
     assertTrue(map.entrySet().contains(Maps.immutableEntry("a", new IntHolder(3))));
-    Map<String, Integer> intMap
-        = ImmutableSortedMap.of("a", 3, "b", 2);
+    Map<String, Integer> intMap = ImmutableSortedMap.of("a", 3, "b", 2);
     assertEquals(intMap.hashCode(), map.entrySet().hashCode());
     assertEquals(intMap.hashCode(), map.hashCode());
   }
 
   @GwtIncompatible("SerializableTester")
   public void testViewSerialization() {
-    Map<String, Integer> map
-        = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
+    Map<String, Integer> map = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
     SerializableTester.reserializeAndAssert(map.entrySet());
     SerializableTester.reserializeAndAssert(map.keySet());
     assertEquals(Lists.newArrayList(map.values()),
         Lists.newArrayList(SerializableTester.reserialize(map.values())));
   }
 
-  @SuppressWarnings("unchecked") // varargs
+  @SuppressWarnings("unchecked")
+  // varargs
   public void testHeadMapInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).headMap("three", true);
-    assertThat(map.entrySet()).containsExactly(
-        Maps.immutableEntry("one", 1),
+    assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("one", 1),
         Maps.immutableEntry("three", 3)).inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs
+  @SuppressWarnings("unchecked")
+  // varargs
   public void testHeadMapExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).headMap("three", false);
     assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("one", 1));
   }
 
-  @SuppressWarnings("unchecked") // varargs
+  @SuppressWarnings("unchecked")
+  // varargs
   public void testTailMapInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).tailMap("three", true);
@@ -742,21 +696,24 @@ public class ImmutableSortedMapTest extends TestCase {
         Maps.immutableEntry("two", 2)).inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs
+  @SuppressWarnings("unchecked")
+  // varargs
   public void testTailMapExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).tailMap("three", false);
     assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("two", 2));
   }
 
-  @SuppressWarnings("unchecked") // varargs
+  @SuppressWarnings("unchecked")
+  // varargs
   public void testSubMapExclusiveExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", false, "two", false);
     assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("three", 3));
   }
 
-  @SuppressWarnings("unchecked") // varargs
+  @SuppressWarnings("unchecked")
+  // varargs
   public void testSubMapInclusiveExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", true, "two", false);
@@ -764,7 +721,8 @@ public class ImmutableSortedMapTest extends TestCase {
         Maps.immutableEntry("three", 3)).inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs
+  @SuppressWarnings("unchecked")
+  // varargs
   public void testSubMapExclusiveInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", false, "two", true);
@@ -772,7 +730,8 @@ public class ImmutableSortedMapTest extends TestCase {
         Maps.immutableEntry("two", 2)).inOrder();
   }
 
-  @SuppressWarnings("unchecked") // varargs
+  @SuppressWarnings("unchecked")
+  // varargs
   public void testSubMapInclusiveInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", true, "two", true);
@@ -795,7 +754,8 @@ public class ImmutableSortedMapTest extends TestCase {
         ImmutableSortedMap.reverseOrder();
   }
 
-  private static class SuperComparableExample extends SelfComparableExample {}
+  private static class SuperComparableExample extends SelfComparableExample {
+  }
 
   public void testBuilderGenerics_SuperComparable() {
     ImmutableSortedMap.Builder<SuperComparableExample, Object> natural =

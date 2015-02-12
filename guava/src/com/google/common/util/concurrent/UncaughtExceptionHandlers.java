@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -38,20 +36,25 @@ public final class UncaughtExceptionHandlers {
    * thread, which may start up other, non-daemon threads, but fail to fully initialize the
    * application successfully.
    *
-   * <p>Example usage:
-   * <pre>public static void main(String[] args) {
+   * <p>
+   * Example usage:
+   * 
+   * <pre>
+   * public static void main(String[] args) {
    *   Thread.currentThread().setUncaughtExceptionHandler(UncaughtExceptionHandlers.systemExit());
    *   ...
    * </pre>
    *
-   * <p>The returned handler logs any exception at severity {@code SEVERE} and then shuts down the
+   * <p>
+   * The returned handler logs any exception at severity {@code SEVERE} and then shuts down the
    * process with an exit status of 1, indicating abnormal termination.
    */
   public static UncaughtExceptionHandler systemExit() {
     return new Exiter(Runtime.getRuntime());
   }
 
-  @VisibleForTesting static final class Exiter implements UncaughtExceptionHandler {
+  @VisibleForTesting
+  static final class Exiter implements UncaughtExceptionHandler {
     private static final Logger logger = Logger.getLogger(Exiter.class.getName());
 
     private final Runtime runtime;
@@ -60,7 +63,8 @@ public final class UncaughtExceptionHandlers {
       this.runtime = runtime;
     }
 
-    @Override public void uncaughtException(Thread t, Throwable e) {
+    @Override
+    public void uncaughtException(Thread t, Throwable e) {
       try {
         // cannot use FormattingLogger due to a dependency loop
         logger.log(SEVERE,

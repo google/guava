@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2005 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -45,12 +43,12 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
 
   /*
    * The following tests check that the use of FinalizableReferenceQueue does not prevent the
-   * ClassLoader that loaded that class from later being garbage-collected. If anything continues
-   * to reference the FinalizableReferenceQueue class then its ClassLoader cannot be
-   * garbage-collected, even if there are no more instances of FinalizableReferenceQueue itself.
-   * The code in FinalizableReferenceQueue goes to considerable trouble to ensure that there are
-   * no such references and the tests here check that that trouble has not been in vain.
-   *
+   * ClassLoader that loaded that class from later being garbage-collected. If anything continues to
+   * reference the FinalizableReferenceQueue class then its ClassLoader cannot be garbage-collected,
+   * even if there are no more instances of FinalizableReferenceQueue itself. The code in
+   * FinalizableReferenceQueue goes to considerable trouble to ensure that there are no such
+   * references and the tests here check that that trouble has not been in vain.
+   * 
    * When we reference FinalizableReferenceQueue in this test, we are referencing a class that is
    * loaded by this test and that will obviously remain loaded for as long as the test is running.
    * So in order to check ClassLoader garbage collection we need to create a new ClassLoader and
@@ -66,8 +64,7 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
     }
 
     @Override
-    public void finalizeReferent() {
-    }
+    public void finalizeReferent() {}
   }
 
   private static class PermissivePolicy extends Policy {
@@ -114,8 +111,9 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
     assertSame(sepLoader, sepStopwatchC.getClassLoader());
     AtomicReference<Object> sepStopwatchA =
         new AtomicReference<Object>(sepStopwatchC.getMethod("createUnstarted").invoke(null));
-    AtomicReference<WeakReference<?>> sepStopwatchRef = new AtomicReference<WeakReference<?>>(
-        (WeakReference<?>) sepFwrCons.newInstance(sepStopwatchA.get(), sepFrqA.get()));
+    AtomicReference<WeakReference<?>> sepStopwatchRef =
+        new AtomicReference<WeakReference<?>>((WeakReference<?>) sepFwrCons.newInstance(
+            sepStopwatchA.get(), sepFrqA.get()));
     assertNotNull(sepStopwatchA.get());
     // Clear all references to the Stopwatch and wait for it to be gc'd.
     sepStopwatchA.set(null);

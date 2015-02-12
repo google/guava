@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -50,13 +48,12 @@ public class JoinerTest extends TestCase {
   private static final Iterable<Integer> ITERABLE_12 = Arrays.asList(1, 2);
   private static final Iterable<Integer> ITERABLE_123 = Arrays.asList(1, 2, 3);
   private static final Iterable<Integer> ITERABLE_NULL = Arrays.asList((Integer) null);
-  private static final Iterable<Integer> ITERABLE_NULL_NULL
-      = Arrays.asList((Integer) null, null);
+  private static final Iterable<Integer> ITERABLE_NULL_NULL = Arrays.asList((Integer) null, null);
   private static final Iterable<Integer> ITERABLE_NULL_1 = Arrays.asList(null, 1);
   private static final Iterable<Integer> ITERABLE_1_NULL = Arrays.asList(1, null);
   private static final Iterable<Integer> ITERABLE_1_NULL_2 = Arrays.asList(1, null, 2);
-  private static final Iterable<Integer> ITERABLE_FOUR_NULLS
-      = Arrays.asList((Integer) null, null, null, null);
+  private static final Iterable<Integer> ITERABLE_FOUR_NULLS = Arrays.asList((Integer) null, null,
+      null, null);
 
   @SuppressWarnings("CheckReturnValue")
   public void testNoSpecialNullBehavior() {
@@ -167,10 +164,12 @@ public class JoinerTest extends TestCase {
     public Appendable append(CharSequence csq) throws IOException {
       throw new IOException();
     }
+
     @Override
     public Appendable append(CharSequence csq, int start, int end) throws IOException {
       throw new IOException();
     }
+
     @Override
     public Appendable append(char c) throws IOException {
       throw new IOException();
@@ -300,7 +299,8 @@ public class JoinerTest extends TestCase {
     assertEquals("1:2;1:3;3:4;5:6;5:10", sb2.toString());
   }
 
-  @SuppressWarnings("ReturnValueIgnored") // testing for exception
+  @SuppressWarnings("ReturnValueIgnored")
+  // testing for exception
   public void test_skipNulls_onMap() {
     Joiner j = Joiner.on(",").skipNulls();
     try {
@@ -315,15 +315,19 @@ public class JoinerTest extends TestCase {
     public int length() {
       return 3;
     }
+
     @Override
     public char charAt(int index) {
       return "foo".charAt(index);
     }
+
     @Override
     public CharSequence subSequence(int start, int end) {
       return "foo".subSequence(start, end);
     }
-    @Override public String toString() {
+
+    @Override
+    public String toString() {
       throw new AssertionFailedError("shouldn't be invoked");
     }
   }
@@ -332,29 +336,37 @@ public class JoinerTest extends TestCase {
   private static class IterableIterator implements Iterable<Integer>, Iterator<Integer> {
     private static final ImmutableSet<Integer> INTEGERS = ImmutableSet.of(1, 2, 3, 4);
     private final Iterator<Integer> iterator;
+
     public IterableIterator() {
       this.iterator = iterator();
     }
-    @Override public Iterator<Integer> iterator() {
+
+    @Override
+    public Iterator<Integer> iterator() {
       return INTEGERS.iterator();
     }
-    @Override public boolean hasNext() {
+
+    @Override
+    public boolean hasNext() {
       return iterator.hasNext();
     }
-    @Override public Integer next() {
+
+    @Override
+    public Integer next() {
       return iterator.next();
     }
-    @Override public void remove() {
+
+    @Override
+    public void remove() {
       iterator.remove();
     }
   }
 
   @GwtIncompatible("StringBuilder.append in GWT invokes Object.toString(), unlike the JRE version.")
   public void testDontConvertCharSequenceToString() {
-    assertEquals("foo,foo", Joiner.on(",").join(
-        new DontStringMeBro(), new DontStringMeBro()));
-    assertEquals("foo,bar,foo", Joiner.on(",").useForNull("bar").join(
-        new DontStringMeBro(), null, new DontStringMeBro()));
+    assertEquals("foo,foo", Joiner.on(",").join(new DontStringMeBro(), new DontStringMeBro()));
+    assertEquals("foo,bar,foo",
+        Joiner.on(",").useForNull("bar").join(new DontStringMeBro(), null, new DontStringMeBro()));
   }
 
   @GwtIncompatible("NullPointerTester")
@@ -363,9 +375,9 @@ public class JoinerTest extends TestCase {
     tester.testAllPublicStaticMethods(Joiner.class);
     tester.testInstanceMethods(Joiner.on(","), NullPointerTester.Visibility.PACKAGE);
     tester.testInstanceMethods(Joiner.on(",").skipNulls(), NullPointerTester.Visibility.PACKAGE);
-    tester.testInstanceMethods(
-        Joiner.on(",").useForNull("x"), NullPointerTester.Visibility.PACKAGE);
-    tester.testInstanceMethods(
-        Joiner.on(",").withKeyValueSeparator("="), NullPointerTester.Visibility.PACKAGE);
+    tester
+        .testInstanceMethods(Joiner.on(",").useForNull("x"), NullPointerTester.Visibility.PACKAGE);
+    tester.testInstanceMethods(Joiner.on(",").withKeyValueSeparator("="),
+        NullPointerTester.Visibility.PACKAGE);
   }
 }

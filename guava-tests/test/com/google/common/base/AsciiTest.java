@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -30,11 +28,10 @@ import junit.framework.TestCase;
 public class AsciiTest extends TestCase {
 
   /**
-   * The Unicode points {@code 00c1} and {@code 00e1} are the upper- and
-   * lowercase forms of A-with-acute-accent, {@code Á} and {@code á}.
+   * The Unicode points {@code 00c1} and {@code 00e1} are the upper- and lowercase forms of
+   * A-with-acute-accent, {@code Á} and {@code á}.
    */
-  private static final String IGNORED =
-      "`10-=~!@#$%^&*()_+[]\\{}|;':\",./<>?'\u00c1\u00e1\n";
+  private static final String IGNORED = "`10-=~!@#$%^&*()_+[]\\{}|;':\",./<>?'\u00c1\u00e1\n";
   private static final String LOWER = "abcdefghijklmnopqrstuvwxyz";
   private static final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -103,22 +100,26 @@ public class AsciiTest extends TestCase {
     try {
       truncated = Ascii.truncate("foobar", 2, "...");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     try {
       truncated = Ascii.truncate("foobar", 8, "1234567890");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     try {
       truncated = Ascii.truncate("foobar", -1, "...");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
 
     try {
       truncated = Ascii.truncate("foobar", -1, "");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testEqualsIgnoreCase() {
@@ -144,8 +145,8 @@ public class AsciiTest extends TestCase {
     // regards edge cases.
 
     // The Unicode point {@code 00df} is the lowercase form of sharp-S (ß), whose uppercase is "SS".
-    assertEquals("pa\u00dfword".toUpperCase(), "PASSWORD");    // [*]
-    assertFalse("pa\u00dfword".equalsIgnoreCase("PASSWORD"));  // [*]
+    assertEquals("pa\u00dfword".toUpperCase(), "PASSWORD"); // [*]
+    assertFalse("pa\u00dfword".equalsIgnoreCase("PASSWORD")); // [*]
     assertFalse(Ascii.equalsIgnoreCase("pa\u00dfword", "PASSWORD"));
   }
 }

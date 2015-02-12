@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -41,7 +39,9 @@ public class AbstractIteratorTest extends TestCase {
     // second, then signals that it's reached the end of the data
     Iterator<Integer> iter = new AbstractIterator<Integer>() {
       private int rep;
-      @Override public Integer computeNext() {
+
+      @Override
+      public Integer computeNext() {
         switch (rep++) {
           case 0:
             return 0;
@@ -80,7 +80,9 @@ public class AbstractIteratorTest extends TestCase {
   public void testSneakyThrow() throws Exception {
     Iterator<Integer> iter = new AbstractIterator<Integer>() {
       boolean haveBeenCalled;
-      @Override public Integer computeNext() {
+
+      @Override
+      public Integer computeNext() {
         if (haveBeenCalled) {
           fail("Should not have been called again");
         } else {
@@ -112,7 +114,8 @@ public class AbstractIteratorTest extends TestCase {
   public void testException() {
     final SomeUncheckedException exception = new SomeUncheckedException();
     Iterator<Integer> iter = new AbstractIterator<Integer>() {
-      @Override public Integer computeNext() {
+      @Override
+      public Integer computeNext() {
         throw exception;
       }
     };
@@ -128,7 +131,8 @@ public class AbstractIteratorTest extends TestCase {
 
   public void testExceptionAfterEndOfData() {
     Iterator<Integer> iter = new AbstractIterator<Integer>() {
-      @Override public Integer computeNext() {
+      @Override
+      public Integer computeNext() {
         endOfData();
         throw new SomeUncheckedException();
       }
@@ -143,7 +147,9 @@ public class AbstractIteratorTest extends TestCase {
   public void testCantRemove() {
     Iterator<Integer> iter = new AbstractIterator<Integer>() {
       boolean haveBeenCalled;
-      @Override public Integer computeNext() {
+
+      @Override
+      public Integer computeNext() {
         if (haveBeenCalled) {
           endOfData();
         }
@@ -164,7 +170,8 @@ public class AbstractIteratorTest extends TestCase {
   @GwtIncompatible("weak references")
   public void testFreesNextReference() {
     Iterator<Object> itr = new AbstractIterator<Object>() {
-      @Override public Object computeNext() {
+      @Override
+      public Object computeNext() {
         return new Object();
       }
     };
@@ -174,7 +181,8 @@ public class AbstractIteratorTest extends TestCase {
 
   public void testReentrantHasNext() {
     Iterator<Integer> iter = new AbstractIterator<Integer>() {
-      @Override protected Integer computeNext() {
+      @Override
+      protected Integer computeNext() {
         hasNext();
         return null;
       }
@@ -195,7 +203,8 @@ public class AbstractIteratorTest extends TestCase {
    */
   private static void sneakyThrow(Throwable t) {
     class SneakyThrower<T extends Throwable> {
-      @SuppressWarnings("unchecked") // intentionally unsafe for test
+      @SuppressWarnings("unchecked")
+      // intentionally unsafe for test
       void throwIt(Throwable t) throws T {
         throw (T) t;
       }
