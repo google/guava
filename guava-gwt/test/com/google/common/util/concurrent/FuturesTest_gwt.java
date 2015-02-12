@@ -63,6 +63,101 @@ public void testAllAsList_resultInterrupted() throws Exception {
   testCase.testAllAsList_resultInterrupted();
 }
 
+public void testCatchingAsync_Throwable() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_Throwable();
+}
+
+public void testCatchingAsync_fallbackGeneratesCheckedException() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_fallbackGeneratesCheckedException();
+}
+
+public void testCatchingAsync_fallbackGeneratesError() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_fallbackGeneratesError();
+}
+
+public void testCatchingAsync_fallbackGeneratesRuntimeException() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_fallbackGeneratesRuntimeException();
+}
+
+public void testCatchingAsync_fallbackNotReady() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_fallbackNotReady();
+}
+
+public void testCatchingAsync_fallbackReturnsCheckedException() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_fallbackReturnsCheckedException();
+}
+
+public void testCatchingAsync_fallbackReturnsRuntimeException() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_fallbackReturnsRuntimeException();
+}
+
+public void testCatchingAsync_inputDoesNotRaiseException() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_inputDoesNotRaiseException();
+}
+
+public void testCatchingAsync_inputRaisesException() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_inputRaisesException();
+}
+
+public void testCatchingAsync_nullInsteadOfFuture() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_nullInsteadOfFuture();
+}
+
+public void testCatchingAsync_resultCancelledBeforeFallback() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_resultCancelledBeforeFallback();
+}
+
+public void testCatchingAsync_resultInterruptedBeforeFallback() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatchingAsync_resultInterruptedBeforeFallback();
+}
+
+public void testCatching_Throwable() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatching_Throwable();
+}
+
+public void testCatching_fallbackGeneratesError() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatching_fallbackGeneratesError();
+}
+
+public void testCatching_fallbackGeneratesRuntimeException() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatching_fallbackGeneratesRuntimeException();
+}
+
+public void testCatching_inputDoesNotRaiseException() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatching_inputDoesNotRaiseException();
+}
+
+public void testCatching_inputRaisesException() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatching_inputRaisesException();
+}
+
+public void testCatching_resultCancelledBeforeFallback() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatching_resultCancelledBeforeFallback();
+}
+
+public void testCatching_resultInterruptedBeforeFallback() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testCatching_resultInterruptedBeforeFallback();
+}
+
 public void testDereference_genericsHierarchy() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.testDereference_genericsHierarchy();

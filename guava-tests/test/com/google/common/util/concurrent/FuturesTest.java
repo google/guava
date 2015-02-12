@@ -49,6 +49,7 @@ import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -538,11 +539,11 @@ public class FuturesTest extends TestCase {
         new FunctionSpy<Object, String>(Functions.constant("bar"));
     Future<String> input = Futures.immediateFuture("foo");
     Future<String> transformed = Futures.lazyTransform(input, spy);
-    assertEquals(0, spy.getApplyCount());
+    spy.verifyCallCount(0);
     assertEquals("bar", transformed.get());
-    assertEquals(1, spy.getApplyCount());
+    spy.verifyCallCount(1);
     assertEquals("bar", transformed.get());
-    assertEquals(2, spy.getApplyCount());
+    spy.verifyCallCount(2);
   }
 
   @GwtIncompatible("lazyTransform")
@@ -569,9 +570,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
   private static class FunctionSpy<I, O> implements Function<I, O> {
-
     private int applyCount;
     private final Function<I, O> delegate;
 
@@ -585,9 +584,22 @@ public class FuturesTest extends TestCase {
       return delegate.apply(input);
     }
 
-    public int getApplyCount() {
-      return applyCount;
+    void verifyCallCount(int expected) {
+      assertThat(applyCount).is(expected);
     }
+  }
+
+  private static <I, O> FunctionSpy<I, O> spy(Function<I, O> delegate) {
+    return new FunctionSpy<I, O>(delegate);
+  }
+
+  private static <X extends Throwable, V> Function<X, V> unexpectedFunction() {
+    return new Function<X, V>() {
+      @Override
+      public V apply(X t) {
+        throw new AssertionError("Unexpected fallback", t);
+      }
+    };
   }
 
   private static class FutureFallbackSpy<V> implements FutureFallback<V> {
@@ -617,7 +629,39 @@ public class FuturesTest extends TestCase {
   private static <V> FutureFallback<V> unexpectedFallback() {
     return new FutureFallback<V>() {
       @Override
-      public ListenableFuture<V> create(Throwable t) throws Exception {
+      public ListenableFuture<V> create(Throwable t) {
+        throw new AssertionError("Unexpected fallback", t);
+      }
+    };
+  }
+
+  private static class AsyncFunctionSpy<X extends Throwable, V> implements AsyncFunction<X, V> {
+    private int count;
+    private final AsyncFunction<X, V> delegate;
+
+    public AsyncFunctionSpy(AsyncFunction<X, V> delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    public final ListenableFuture<V> apply(X t) throws Exception {
+      count++;
+      return delegate.apply(t);
+    }
+
+    void verifyCallCount(int expected) {
+      assertThat(count).is(expected);
+    }
+  }
+
+  private static <X extends Throwable, V> AsyncFunctionSpy<X, V> spy(AsyncFunction<X, V> delegate) {
+    return new AsyncFunctionSpy<X, V>(delegate);
+  }
+
+  private static <X extends Throwable, V> AsyncFunction<X, V> unexpectedAsyncFunction() {
+    return new AsyncFunction<X, V>() {
+      @Override
+      public ListenableFuture<V> apply(X t) {
         throw new AssertionError("Unexpected fallback", t);
       }
     };
@@ -780,6 +824,357 @@ public class FuturesTest extends TestCase {
       assertThat(cause).hasMessage("FutureFallback.create returned null instead of a Future. "
           + "Did you mean to return immediateFuture(null)?");
     }
+  }
+
+  // catchingAsync tests cloned from the old withFallback tests:
+
+  public void testCatchingAsync_inputDoesNotRaiseException() throws Exception {
+    AsyncFunction<Throwable, Integer> fallback = unexpectedAsyncFunction();
+    ListenableFuture<Integer> originalFuture = Futures.immediateFuture(7);
+    ListenableFuture<Integer> faultToleranteFuture =
+        Futures.catchingAsync(originalFuture, Throwable.class, fallback);
+    assertEquals(7, faultToleranteFuture.get().intValue());
+  }
+
+  public void testCatchingAsync_inputRaisesException() throws Exception {
+    final RuntimeException raisedException = new RuntimeException();
+    AsyncFunctionSpy<Throwable, Integer> fallback = spy(new AsyncFunction<Throwable, Integer>() {
+      @Override
+      public ListenableFuture<Integer> apply(Throwable t) throws Exception {
+        assertThat(t).isSameAs(raisedException);
+        return Futures.immediateFuture(20);
+      }
+    });
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+    ListenableFuture<Integer> faultTolerantFuture =
+        Futures.catchingAsync(failingFuture, Throwable.class, fallback);
+    assertEquals(20, faultTolerantFuture.get().intValue());
+    fallback.verifyCallCount(1);
+  }
+
+  public void testCatchingAsync_fallbackGeneratesRuntimeException() throws Exception {
+    RuntimeException expectedException = new RuntimeException();
+    runExpectedExceptionCatchingAsyncTest(expectedException, false);
+  }
+
+  public void testCatchingAsync_fallbackGeneratesCheckedException() throws Exception {
+    Exception expectedException = new Exception() {
+    };
+    runExpectedExceptionCatchingAsyncTest(expectedException, false);
+  }
+
+  public void testCatchingAsync_fallbackGeneratesError() throws Exception {
+    final Error error = new Error("deliberate");
+    AsyncFunction<Throwable, Integer> fallback = new AsyncFunction<Throwable, Integer>() {
+      @Override
+      public ListenableFuture<Integer> apply(Throwable t) throws Exception {
+        throw error;
+      }
+    };
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
+    try {
+      Futures.catchingAsync(failingFuture, Throwable.class, fallback).get();
+      fail("An Exception should have been thrown!");
+    } catch (ExecutionException expected) {
+      assertSame(error, expected.getCause());
+    }
+  }
+
+  public void testCatchingAsync_fallbackReturnsRuntimeException() throws Exception {
+    RuntimeException expectedException = new RuntimeException();
+    runExpectedExceptionCatchingAsyncTest(expectedException, true);
+  }
+
+  public void testCatchingAsync_fallbackReturnsCheckedException() throws Exception {
+    Exception expectedException = new Exception() {
+    };
+    runExpectedExceptionCatchingAsyncTest(expectedException, true);
+  }
+
+  private void runExpectedExceptionCatchingAsyncTest(
+      final Exception expectedException, final boolean wrapInFuture) throws Exception {
+    AsyncFunctionSpy<Throwable, Integer> fallback = spy(new AsyncFunction<Throwable, Integer>() {
+      @Override
+      public ListenableFuture<Integer> apply(Throwable t) throws Exception {
+        if (!wrapInFuture) {
+          throw expectedException;
+        } else {
+          return Futures.immediateFailedFuture(expectedException);
+        }
+      }
+    });
+
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
+
+    ListenableFuture<Integer> faultToleranteFuture =
+        Futures.catchingAsync(failingFuture, Throwable.class, fallback);
+    try {
+      faultToleranteFuture.get();
+      fail("An Exception should have been thrown!");
+    } catch (ExecutionException ee) {
+      assertSame(expectedException, ee.getCause());
+    }
+    fallback.verifyCallCount(1);
+  }
+
+  public void testCatchingAsync_fallbackNotReady() throws Exception {
+    ListenableFuture<Integer> primary = immediateFailedFuture(new Exception());
+    final SettableFuture<Integer> secondary = SettableFuture.create();
+    AsyncFunction<Throwable, Integer> fallback = new AsyncFunction<Throwable, Integer>() {
+      @Override
+      public ListenableFuture<Integer> apply(Throwable t) {
+        return secondary;
+      }
+    };
+    ListenableFuture<Integer> derived = Futures.catchingAsync(primary, Throwable.class, fallback);
+    secondary.set(1);
+    assertEquals(1, (int) derived.get());
+  }
+
+  public void testCatchingAsync_resultInterruptedBeforeFallback() throws Exception {
+    SettableFuture<Integer> primary = SettableFuture.create();
+    AsyncFunction<Throwable, Integer> fallback = unexpectedAsyncFunction();
+    ListenableFuture<Integer> derived = Futures.catchingAsync(primary, Throwable.class, fallback);
+    derived.cancel(true);
+    assertTrue(primary.isCancelled());
+    assertTrue(primary.wasInterrupted());
+  }
+
+  public void testCatchingAsync_resultCancelledBeforeFallback() throws Exception {
+    SettableFuture<Integer> primary = SettableFuture.create();
+    AsyncFunction<Throwable, Integer> fallback = unexpectedAsyncFunction();
+    ListenableFuture<Integer> derived = Futures.catchingAsync(primary, Throwable.class, fallback);
+    derived.cancel(false);
+    assertTrue(primary.isCancelled());
+    assertFalse(primary.wasInterrupted());
+  }
+
+  @GwtIncompatible("mocks")
+  @SuppressWarnings("unchecked")
+  public void testCatchingAsync_resultCancelledAfterFallback() throws Exception {
+    final SettableFuture<Integer> secondary = SettableFuture.create();
+    final RuntimeException raisedException = new RuntimeException();
+    AsyncFunctionSpy<Throwable, Integer> fallback = spy(new AsyncFunction<Throwable, Integer>() {
+      @Override
+      public ListenableFuture<Integer> apply(Throwable t) throws Exception {
+        assertThat(t).isSameAs(raisedException);
+        return secondary;
+      }
+    });
+
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+
+    ListenableFuture<Integer> derived =
+        Futures.catchingAsync(failingFuture, Throwable.class, fallback);
+    derived.cancel(false);
+    assertTrue(secondary.isCancelled());
+    assertFalse(secondary.wasInterrupted());
+    fallback.verifyCallCount(1);
+  }
+
+  public void testCatchingAsync_nullInsteadOfFuture() throws Exception {
+    ListenableFuture<Integer> inputFuture = immediateFailedFuture(new Exception());
+    ListenableFuture<?> chainedFuture = Futures.catchingAsync(inputFuture, Throwable.class,
+        new AsyncFunction<Throwable, Integer>() {
+          @Override
+          public ListenableFuture<Integer> apply(Throwable t) {
+            return null;
+          }
+        });
+    try {
+      chainedFuture.get();
+      fail();
+    } catch (ExecutionException expected) {
+      NullPointerException cause = (NullPointerException) expected.getCause();
+      assertThat(cause).hasMessage("AsyncFunction.apply returned null instead of a Future. "
+          + "Did you mean to return immediateFuture(null)?");
+    }
+  }
+
+  // catching tests cloned from the old withFallback tests:
+
+  public void testCatching_inputDoesNotRaiseException() throws Exception {
+    Function<Throwable, Integer> fallback = unexpectedFunction();
+    ListenableFuture<Integer> originalFuture = Futures.immediateFuture(7);
+    ListenableFuture<Integer> faultToleranteFuture =
+        Futures.catching(originalFuture, Throwable.class, fallback);
+    assertEquals(7, faultToleranteFuture.get().intValue());
+  }
+
+  public void testCatching_inputRaisesException() throws Exception {
+    final RuntimeException raisedException = new RuntimeException();
+    FunctionSpy<Throwable, Integer> fallback = spy(new Function<Throwable, Integer>() {
+      @Override
+      public Integer apply(Throwable t) {
+        assertThat(t).isSameAs(raisedException);
+        return 20;
+      }
+    });
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+    ListenableFuture<Integer> faultTolerantFuture =
+        Futures.catching(failingFuture, Throwable.class, fallback);
+    assertEquals(20, faultTolerantFuture.get().intValue());
+    fallback.verifyCallCount(1);
+  }
+
+  public void testCatching_fallbackGeneratesRuntimeException() throws Exception {
+    RuntimeException expectedException = new RuntimeException();
+    runExpectedExceptionCatchingTest(expectedException);
+  }
+
+  /*
+   * catching() uses a plain Function, so there's no
+   * testCatching_fallbackGeneratesCheckedException().
+   */
+
+  public void testCatching_fallbackGeneratesError() throws Exception {
+    final Error error = new Error("deliberate");
+    Function<Throwable, Integer> fallback = new Function<Throwable, Integer>() {
+      @Override
+      public Integer apply(Throwable t) {
+        throw error;
+      }
+    };
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
+    try {
+      Futures.catching(failingFuture, Throwable.class, fallback).get();
+      fail("An Exception should have been thrown!");
+    } catch (ExecutionException expected) {
+      assertSame(error, expected.getCause());
+    }
+  }
+
+  /*
+   * catching() uses a plain Function, so there's no testCatching_fallbackReturnsRuntimeException()
+   * or testCatching_fallbackReturnsCheckedException().
+   */
+
+  private void runExpectedExceptionCatchingTest(final RuntimeException expectedException)
+      throws Exception {
+    FunctionSpy<Throwable, Integer> fallback = spy(new Function<Throwable, Integer>() {
+      @Override
+      public Integer apply(Throwable t) {
+        throw expectedException;
+      }
+    });
+
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(new RuntimeException());
+
+    ListenableFuture<Integer> faultToleranteFuture =
+        Futures.catching(failingFuture, Throwable.class, fallback);
+    try {
+      faultToleranteFuture.get();
+      fail("An Exception should have been thrown!");
+    } catch (ExecutionException ee) {
+      assertSame(expectedException, ee.getCause());
+    }
+    fallback.verifyCallCount(1);
+  }
+
+  // catching() uses a plain Function, so there's no testCatching_fallbackNotReady().
+
+  public void testCatching_resultInterruptedBeforeFallback() throws Exception {
+    SettableFuture<Integer> primary = SettableFuture.create();
+    Function<Throwable, Integer> fallback = unexpectedFunction();
+    ListenableFuture<Integer> derived = Futures.catching(primary, Throwable.class, fallback);
+    derived.cancel(true);
+    assertTrue(primary.isCancelled());
+    assertTrue(primary.wasInterrupted());
+  }
+
+  public void testCatching_resultCancelledBeforeFallback() throws Exception {
+    SettableFuture<Integer> primary = SettableFuture.create();
+    Function<Throwable, Integer> fallback = unexpectedFunction();
+    ListenableFuture<Integer> derived = Futures.catching(primary, Throwable.class, fallback);
+    derived.cancel(false);
+    assertTrue(primary.isCancelled());
+    assertFalse(primary.wasInterrupted());
+  }
+
+  // catching() uses a plain Function, so there's no testCatching_resultCancelledAfterFallback().
+
+  // catching() uses a plain Function, so there's no testCatching_nullInsteadOfFuture().
+
+  // Some tests of the exceptionType parameter:
+
+  public void testCatching_Throwable() throws Exception {
+    Function<Throwable, Integer> fallback = functionReturningOne();
+    ListenableFuture<Integer> originalFuture = immediateFailedFuture(new IOException());
+    ListenableFuture<Integer> faultTolerantFuture =
+        Futures.catching(originalFuture, Throwable.class, fallback);
+    assertEquals(1, (int) faultTolerantFuture.get());
+  }
+
+  @GwtIncompatible("non-Throwable exceptionType")
+  public void testCatching_customTypeMatch() throws Exception {
+    Function<IOException, Integer> fallback = functionReturningOne();
+    ListenableFuture<Integer> originalFuture = immediateFailedFuture(new FileNotFoundException());
+    ListenableFuture<Integer> faultTolerantFuture =
+        Futures.catching(originalFuture, IOException.class, fallback);
+    assertEquals(1, (int) faultTolerantFuture.get());
+  }
+
+  @GwtIncompatible("non-Throwable exceptionType")
+  public void testCatching_customTypeNoMatch() throws Exception {
+    Function<IOException, Integer> fallback = functionReturningOne();
+    ListenableFuture<Integer> originalFuture = immediateFailedFuture(new RuntimeException());
+    ListenableFuture<Integer> faultTolerantFuture =
+        Futures.catching(originalFuture, IOException.class, fallback);
+    try {
+      faultTolerantFuture.get();
+      fail();
+    } catch (ExecutionException expected) {
+      assertTrue(expected.getCause() instanceof RuntimeException);
+    }
+  }
+
+  public void testCatchingAsync_Throwable() throws Exception {
+    AsyncFunction<Throwable, Integer> fallback = asyncFunctionReturningOne();
+    ListenableFuture<Integer> originalFuture = immediateFailedFuture(new IOException());
+    ListenableFuture<Integer> faultTolerantFuture =
+        Futures.catchingAsync(originalFuture, Throwable.class, fallback);
+    assertEquals(1, (int) faultTolerantFuture.get());
+  }
+
+  @GwtIncompatible("non-Throwable exceptionType")
+  public void testCatchingAsync_customTypeMatch() throws Exception {
+    AsyncFunction<IOException, Integer> fallback = asyncFunctionReturningOne();
+    ListenableFuture<Integer> originalFuture = immediateFailedFuture(new FileNotFoundException());
+    ListenableFuture<Integer> faultTolerantFuture =
+        Futures.catchingAsync(originalFuture, IOException.class, fallback);
+    assertEquals(1, (int) faultTolerantFuture.get());
+  }
+
+  @GwtIncompatible("non-Throwable exceptionType")
+  public void testCatchingAsync_customTypeNoMatch() throws Exception {
+    AsyncFunction<IOException, Integer> fallback = asyncFunctionReturningOne();
+    ListenableFuture<Integer> originalFuture = immediateFailedFuture(new RuntimeException());
+    ListenableFuture<Integer> faultTolerantFuture =
+        Futures.catchingAsync(originalFuture, IOException.class, fallback);
+    try {
+      faultTolerantFuture.get();
+      fail();
+    } catch (ExecutionException expected) {
+      assertTrue(expected.getCause() instanceof RuntimeException);
+    }
+  }
+
+  private <X extends Throwable> Function<X, Integer> functionReturningOne() {
+    return new Function<X, Integer>() {
+      @Override
+      public Integer apply(X t) {
+        return 1;
+      }
+    };
+  }
+
+  private <X extends Throwable> AsyncFunction<X, Integer> asyncFunctionReturningOne() {
+    return new AsyncFunction<X, Integer>() {
+      @Override
+      public ListenableFuture<Integer> apply(X t) {
+        return immediateFuture(1);
+      }
+    };
   }
 
   public void testTransform_genericsWildcard_AsyncFunction() throws Exception {

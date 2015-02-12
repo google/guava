@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableClass;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
@@ -72,7 +73,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible(emulated = true)
-public final class Futures {
+public final class Futures extends GwtFuturesCatchingSpecialization {
 
   // A note on memory visibility.
   // Many of the utilities in this class (transform, withFallback, withTimeout, asList, combine)
@@ -359,7 +360,12 @@ public final class Futures {
   }
 
   /**
-   * Returns a {@code Future} whose result is taken from the given primary
+   * <b>To be deprecated:</b> Prefer {@link #catchingAsync(ListenableFuture,
+   * Class, AsyncFunction) catchingAsync(input, Throwable.class,
+   * fallbackImplementedAsAnAsyncFunction)}, usually replacing {@code
+   * Throwable.class} with the specific type you want to handle.
+   *
+   * <p>Returns a {@code Future} whose result is taken from the given primary
    * {@code input} or, if the primary input fails, from the {@code Future}
    * provided by the {@code fallback}. {@link FutureFallback#create} is not
    * invoked until the primary input has failed, so if the primary input
@@ -420,7 +426,7 @@ public final class Futures {
    * an RPC network thread.
    * </ul>
    *
-   * <p>Also note that, regardless of which thread executes the {@code
+   * <p>Also note that, regardless of which thread executes {@code
    * fallback.create}, all other registered but unexecuted listeners are
    * prevented from running during its execution, even if those listeners are
    * to run in other executors.
@@ -437,7 +443,12 @@ public final class Futures {
   }
 
   /**
-   * Returns a {@code Future} whose result is taken from the given primary
+   * <b>To be deprecated:</b> Prefer {@link #catchingAsync(ListenableFuture,
+   * Class, AsyncFunction, Executor) catchingAsync(input, Throwable.class,
+   * fallbackImplementedAsAnAsyncFunction, executor)}, usually replacing {@code
+   * Throwable.class} with the specific type you want to handle.
+   *
+   * <p>Returns a {@code Future} whose result is taken from the given primary
    * {@code input} or, if the primary input fails, from the {@code Future}
    * provided by the {@code fallback}. {@link FutureFallback#create} is not
    * invoked until the primary input has failed, so if the primary input
@@ -497,20 +508,264 @@ public final class Futures {
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback, Executor executor) {
-    checkNotNull(fallback);
-    return new FallbackFuture<V>(input, fallback, executor);
+    return catchingAsync(
+        input, Throwable.class, asAsyncFunction(fallback), executor);
   }
 
   /**
-   * A future that falls back on a second, generated future, in case its
-   * original future fails.
+   * Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
+   * primary input fails with the given {@code exceptionType}, from the result provided by the
+   * {@code fallback}. {@link Function#apply} is not invoked until the primary input has failed, so
+   * if the primary input succeeds, it is never invoked. If, during the invocation of {@code
+   * fallback}, an exception is thrown, this exception is used as the result of the output {@code
+   * Future}.
+   *
+   * <p>Usage example:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   *
+   *   // Falling back to a zero counter in case an exception happens when
+   *   // processing the RPC to fetch counters.
+   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
+   *       fetchCounterFuture, FetchException.class,
+   *       new Function<FetchException, Integer>() {
+   *         public Integer apply(FetchException e) {
+   *           return 0;
+   *         }
+   *       });}</pre>
+   *
+   * <p>Note: If the derived {@code fallback} is slow or heavyweight, consider {@linkplain
+   * #catching(ListenableFuture, Class, Function, Executor) supplying an executor}. If you do not
+   * supply an executor, {@code catching} will use a {@linkplain MoreExecutors#directExecutor direct
+   * executor}, which carries some caveats for heavier operations. For example, the call to {@code
+   * fallback.apply} may run on an unpredictable or undesirable thread:
+   *
+   * <ul>
+   * <li>If the input {@code Future} is done at the time {@code catching} is called, {@code
+   * catching} will call {@code fallback.apply} inline.
+   * <li>If the input {@code Future} is not yet done, {@code catching} will schedule {@code
+   * fallback.apply} to be run by the thread that completes the input {@code Future}, which may be
+   * an internal system thread such as an RPC network thread.
+   * </ul>
+   *
+   * <p>Also note that, regardless of which thread executes {@code fallback.apply}, all other
+   * registered but unexecuted listeners are prevented from running during its execution, even if
+   * those listeners are to run in other executors.
+   *
+   * @param input the primary input {@code Future}
+   * @param fallback the {@link Function} implementation to be called if {@code input} fails with
+   *     the expected exception type
+   * @param exceptionType the exception type that triggers use of {@code fallback}
+   * @since 19.0
    */
-  private static class FallbackFuture<V> extends AbstractFuture.TrustedFuture<V> {
+  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  public static <V, X extends Throwable> ListenableFuture<V> catching(
+      ListenableFuture<? extends V> input, Class<X> exceptionType,
+      Function<? super X, ? extends V> fallback) {
+    return catching(input, exceptionType, fallback, directExecutor());
+  }
+
+  /**
+   * Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
+   * primary input fails with the given {@code exceptionType}, from the result provided by the
+   * {@code fallback}. {@link Function#apply} is not invoked until the primary input has failed, so
+   * if the primary input succeeds, it is never invoked. If, during the invocation of {@code
+   * fallback}, an exception is thrown, this exception is used as the result of the output {@code
+   * Future}.
+   *
+   * <p>Usage example:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   *
+   *   // Falling back to a zero counter in case an exception happens when
+   *   // processing the RPC to fetch counters.
+   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
+   *       fetchCounterFuture, FetchException.class,
+   *       new Function<FetchException, Integer>() {
+   *         public Integer apply(FetchException e) {
+   *           return 0;
+   *         }
+   *       }, directExecutor());}</pre>
+   *
+   * <p>When the execution of {@code fallback.apply} is fast and lightweight, consider {@linkplain
+   * #catching(ListenableFuture, Class, Function) omitting the executor} or explicitly specifying
+   * {@link MoreExecutors#directExecutor() directExecutor()}. However, be aware of the caveats
+   * documented in the link above.
+   *
+   * @param input the primary input {@code Future}
+   * @param fallback the {@link Function} implementation to be called if {@code input} fails with
+   *     the expected exception type
+   * @param exceptionType the exception type that triggers use of {@code fallback}
+   * @param executor the executor that runs {@code fallback} if {@code input} fails
+   * @since 19.0
+   */
+  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  public static <V, X extends Throwable> ListenableFuture<V> catching(
+      ListenableFuture<? extends V> input, Class<X> exceptionType,
+      Function<? super X, ? extends V> fallback, Executor executor) {
+    return catchingAsync(input, exceptionType, asAsyncFunction(fallback), executor);
+  }
+
+  /**
+   * Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
+   * primary input fails with the given {@code exceptionType}, from the result provided by the
+   * {@code fallback}. {@link AsyncFunction#apply} is not invoked until the primary input has
+   * failed, so if the primary input succeeds, it is never invoked. If, during the invocation of
+   * {@code fallback}, an exception is thrown, this exception is used as the result of the output
+   * {@code Future}.
+   *
+   * <p>Usage examples:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   *
+   *   // Falling back to a zero counter in case an exception happens when
+   *   // processing the RPC to fetch counters.
+   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
+   *       fetchCounterFuture, FetchException.class,
+   *       new AsyncFunction<FetchException, Integer>() {
+   *         public ListenableFuture<Integer> apply(FetchException e) {
+   *           return immediateFuture(0);
+   *         }
+   *       });}</pre>
+   *
+   * <p>The fallback can also choose to propagate the original exception when desired:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   *
+   *   // Falling back to a zero counter only in case the exception was a
+   *   // TimeoutException.
+   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
+   *       fetchCounterFuture, FetchException.class,
+   *       new AsyncFunction<FetchException, Integer>() {
+   *         public ListenableFuture<Integer> apply(FetchException e)
+   *             throws FetchException {
+   *           if (omitDataOnFetchFailure) {
+   *             return immediateFuture(0);
+   *           }
+   *           throw e;
+   *         }
+   *       });}</pre>
+   *
+   * <p>Note: If the derived {@code fallback} is slow or heavyweight in <i>creating</i> its {@code
+   * Future} (whether that derived {@code Future} itself is slow or heavyweight in <i>completing</i>
+   * is irrelevant), consider {@linkplain #catchingAsync(ListenableFuture, Class, AsyncFunction,
+   * Executor) supplying an executor}. If you do not supply an executor, {@code catchingAsync} will
+   * use a {@linkplain MoreExecutors#directExecutor direct executor}, which carries some caveats for
+   * heavier operations. For example, the call to {@code fallback.apply} may run on an unpredictable
+   * or undesirable thread:
+   *
+   * <ul>
+   * <li>If the input {@code Future} is done at the time {@code catchingAsync} is called, {@code
+   * catchingAsync} will call {@code fallback.apply} inline.
+   * <li>If the input {@code Future} is not yet done, {@code catchingAsync} will schedule {@code
+   * fallback.apply} to be run by the thread that completes the input {@code Future}, which may be
+   * an internal system thread such as an RPC network thread.
+   * </ul>
+   *
+   * <p>Also note that, regardless of which thread executes {@code fallback.apply}, all other
+   * registered but unexecuted listeners are prevented from running during its execution, even if
+   * those listeners are to run in other executors.
+   *
+   * @param input the primary input {@code Future}
+   * @param fallback the {@link AsyncFunction} implementation to be called if {@code input} fails
+   *     with the expected exception type
+   * @param exceptionType the exception type that triggers use of {@code fallback}
+   * @since 19.0
+   */
+  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  public static <V, X extends Throwable> ListenableFuture<V> catchingAsync(
+      ListenableFuture<? extends V> input, Class<X> exceptionType,
+      AsyncFunction<? super X, ? extends V> fallback) {
+    return catchingAsync(input, exceptionType, fallback, directExecutor());
+  }
+
+  /**
+   * Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
+   * primary input fails with the given {@code exceptionType}, from the result provided by the
+   * {@code fallback}. {@link AsyncFunction#apply} is not invoked until the primary input has
+   * failed, so if the primary input succeeds, it is never invoked. If, during the invocation of
+   * {@code fallback}, an exception is thrown, this exception is used as the result of the output
+   * {@code Future}.
+   *
+   * <p>Usage examples:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   *
+   *   // Falling back to a zero counter in case an exception happens when
+   *   // processing the RPC to fetch counters.
+   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
+   *       fetchCounterFuture, FetchException.class,
+   *       new AsyncFunction<FetchException, Integer>() {
+   *         public ListenableFuture<Integer> apply(FetchException e) {
+   *           return immediateFuture(0);
+   *         }
+   *       }, directExecutor());}</pre>
+   *
+   * <p>The fallback can also choose to propagate the original exception when desired:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<Integer> fetchCounterFuture = ...;
+   *
+   *   // Falling back to a zero counter only in case the exception was a
+   *   // TimeoutException.
+   *   ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
+   *       fetchCounterFuture, FetchException.class,
+   *       new AsyncFunction<FetchException, Integer>() {
+   *         public ListenableFuture<Integer> apply(FetchException e)
+   *             throws FetchException {
+   *           if (omitDataOnFetchFailure) {
+   *             return immediateFuture(0);
+   *           }
+   *           throw e;
+   *         }
+   *       }, directExecutor());}</pre>
+   *
+   * <p>When the execution of {@code fallback.apply} is fast and lightweight (though the {@code
+   * Future} it returns need not meet these criteria), consider {@linkplain
+   * #catchingAsync(ListenableFuture, Class, AsyncFunction) omitting the executor} or explicitly
+   * specifying {@link MoreExecutors#directExecutor() directExecutor()}. However, be aware of the
+   * caveats documented in the link above.
+   *
+   * @param input the primary input {@code Future}
+   * @param fallback the {@link AsyncFunction} implementation to be called if {@code input} fails
+   *     with the expected exception type
+   * @param exceptionType the exception type that triggers use of {@code fallback}
+   * @param executor the executor that runs {@code fallback} if {@code input} fails
+   * @since 19.0
+   */
+  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  public static <V, X extends Throwable> ListenableFuture<V> catchingAsync(
+      ListenableFuture<? extends V> input, Class<X> exceptionType,
+      AsyncFunction<? super X, ? extends V> fallback, Executor executor) {
+    return new CatchingFuture<V, X>(input, exceptionType, fallback, executor);
+  }
+
+  static <V> AsyncFunction<Throwable, V> asAsyncFunction(final FutureFallback<V> fallback) {
+    checkNotNull(fallback);
+    return new AsyncFunction<Throwable, V>() {
+      @Override
+      public ListenableFuture<V> apply(Throwable t) throws Exception {
+        return checkNotNull(fallback.create(t), "FutureFallback.create returned null instead of a "
+            + "Future. Did you mean to return immediateFuture(null)?");
+      }
+    };
+  }
+
+  static class CatchingFuture<V, X extends Throwable> extends AbstractFuture.TrustedFuture<V> {
     ListenableFuture<? extends V> running;
 
-    FallbackFuture(ListenableFuture<? extends V> input,
-        final FutureFallback<? extends V> fallback,
+    CatchingFuture(ListenableFuture<? extends V> input,
+        final Class<X> exceptionType,
+        final AsyncFunction<? super X, ? extends V> fallback,
         final Executor executor) {
+      checkNotNull(exceptionType);
+      checkNotNull(fallback);
+
       running = input;
       input.addListener(new Runnable() {
         @Override public void run() {
@@ -529,10 +784,16 @@ public final class Futures {
             throwable = e;
           }
           try {
-            ListenableFuture<? extends V> replacement = fallback.create(throwable);
-            checkNotNull(replacement, "FutureFallback.create returned null instead of a Future. "
-                + "Did you mean to return immediateFuture(null)?");
-            setFuture(replacement);
+            if (isInstanceOfThrowableClass(throwable, exceptionType)) {
+              @SuppressWarnings("unchecked") // verified safe by isInstance
+              X castThrowable = (X) throwable;
+              ListenableFuture<? extends V> replacement = fallback.apply(castThrowable);
+              checkNotNull(replacement, "AsyncFunction.apply returned null instead of a Future. "
+                  + "Did you mean to return immediateFuture(null)?");
+              setFuture(replacement);
+            } else {
+              setException(throwable);
+            }
           } catch (Throwable e) {
             setException(e);
           }
@@ -732,7 +993,7 @@ public final class Futures {
    * RPC network thread.
    * </ul>
    *
-   * <p>Also note that, regardless of which thread executes the {@code
+   * <p>Also note that, regardless of which thread executes {@code
    * function.apply}, all other registered but unexecuted listeners are
    * prevented from running during its execution, even if those listeners are
    * to run in other executors.
@@ -870,7 +1131,7 @@ public final class Futures {
    * RPC network thread.
    * </ul>
    *
-   * <p>Also note that, regardless of which thread executes the {@code
+   * <p>Also note that, regardless of which thread executes {@code
    * function.apply}, all other registered but unexecuted listeners are
    * prevented from running during its execution, even if those listeners are
    * to run in other executors.
@@ -944,8 +1205,9 @@ public final class Futures {
   }
 
   /** Wraps the given function as an AsyncFunction. */
-  private static <I, O> AsyncFunction<I, O> asAsyncFunction(
+  static <I, O> AsyncFunction<I, O> asAsyncFunction(
       final Function<? super I, ? extends O> function) {
+    checkNotNull(function);
     return new AsyncFunction<I, O>() {
       @Override public ListenableFuture<O> apply(I input) {
         O output = function.apply(input);

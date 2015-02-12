@@ -18,6 +18,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableClass;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
 import com.google.common.annotations.Beta;
@@ -61,7 +62,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible(emulated = true)
-public final class Futures {
+public final class Futures extends GwtFuturesCatchingSpecialization {
 
   // A note on memory visibility.
   // Many of the utilities in this class (transform, withFallback, withTimeout, asList, combine)
@@ -210,7 +211,12 @@ public final class Futures {
   }
 
   /**
-   * Returns a {@code Future} whose result is taken from the given primary
+   * <b>To be deprecated:</b> Prefer {@link #catchingAsync(ListenableFuture,
+   * Class, AsyncFunction) catchingAsync(input, Throwable.class,
+   * fallbackImplementedAsAnAsyncFunction)}, usually replacing {@code
+   * Throwable.class} with the specific type you want to handle.
+   *
+   * <p>Returns a {@code Future} whose result is taken from the given primary
    * {@code input} or, if the primary input fails, from the {@code Future}
    * provided by the {@code fallback}. {@link FutureFallback#create} is not
    * invoked until the primary input has failed, so if the primary input
@@ -271,7 +277,7 @@ public final class Futures {
    * an RPC network thread.
    * </ul>
    *
-   * <p>Also note that, regardless of which thread executes the {@code
+   * <p>Also note that, regardless of which thread executes {@code
    * fallback.create}, all other registered but unexecuted listeners are
    * prevented from running during its execution, even if those listeners are
    * to run in other executors.
@@ -288,7 +294,12 @@ public final class Futures {
   }
 
   /**
-   * Returns a {@code Future} whose result is taken from the given primary
+   * <b>To be deprecated:</b> Prefer {@link #catchingAsync(ListenableFuture,
+   * Class, AsyncFunction, Executor) catchingAsync(input, Throwable.class,
+   * fallbackImplementedAsAnAsyncFunction, executor)}, usually replacing {@code
+   * Throwable.class} with the specific type you want to handle.
+   *
+   * <p>Returns a {@code Future} whose result is taken from the given primary
    * {@code input} or, if the primary input fails, from the {@code Future}
    * provided by the {@code fallback}. {@link FutureFallback#create} is not
    * invoked until the primary input has failed, so if the primary input
@@ -348,20 +359,31 @@ public final class Futures {
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback, Executor executor) {
-    checkNotNull(fallback);
-    return new FallbackFuture<V>(input, fallback, executor);
+    return catchingAsync(
+        input, Throwable.class, asAsyncFunction(fallback), executor);
   }
 
-  /**
-   * A future that falls back on a second, generated future, in case its
-   * original future fails.
-   */
-  private static class FallbackFuture<V> extends AbstractFuture.TrustedFuture<V> {
+  static <V> AsyncFunction<Throwable, V> asAsyncFunction(final FutureFallback<V> fallback) {
+    checkNotNull(fallback);
+    return new AsyncFunction<Throwable, V>() {
+      @Override
+      public ListenableFuture<V> apply(Throwable t) throws Exception {
+        return checkNotNull(fallback.create(t), "FutureFallback.create returned null instead of a "
+            + "Future. Did you mean to return immediateFuture(null)?");
+      }
+    };
+  }
+
+  static class CatchingFuture<V, X extends Throwable> extends AbstractFuture.TrustedFuture<V> {
     ListenableFuture<? extends V> running;
 
-    FallbackFuture(ListenableFuture<? extends V> input,
-        final FutureFallback<? extends V> fallback,
+    CatchingFuture(ListenableFuture<? extends V> input,
+        final Class<X> exceptionType,
+        final AsyncFunction<? super X, ? extends V> fallback,
         final Executor executor) {
+      checkNotNull(exceptionType);
+      checkNotNull(fallback);
+
       running = input;
       input.addListener(new Runnable() {
         @Override public void run() {
@@ -380,10 +402,16 @@ public final class Futures {
             throwable = e;
           }
           try {
-            ListenableFuture<? extends V> replacement = fallback.create(throwable);
-            checkNotNull(replacement, "FutureFallback.create returned null instead of a Future. "
-                + "Did you mean to return immediateFuture(null)?");
-            setFuture(replacement);
+            if (isInstanceOfThrowableClass(throwable, exceptionType)) {
+              @SuppressWarnings("unchecked") // verified safe by isInstance
+              X castThrowable = (X) throwable;
+              ListenableFuture<? extends V> replacement = fallback.apply(castThrowable);
+              checkNotNull(replacement, "AsyncFunction.apply returned null instead of a Future. "
+                  + "Did you mean to return immediateFuture(null)?");
+              setFuture(replacement);
+            } else {
+              setException(throwable);
+            }
           } catch (Throwable e) {
             setException(e);
           }
@@ -559,7 +587,7 @@ public final class Futures {
    * RPC network thread.
    * </ul>
    *
-   * <p>Also note that, regardless of which thread executes the {@code
+   * <p>Also note that, regardless of which thread executes {@code
    * function.apply}, all other registered but unexecuted listeners are
    * prevented from running during its execution, even if those listeners are
    * to run in other executors.
@@ -697,7 +725,7 @@ public final class Futures {
    * RPC network thread.
    * </ul>
    *
-   * <p>Also note that, regardless of which thread executes the {@code
+   * <p>Also note that, regardless of which thread executes {@code
    * function.apply}, all other registered but unexecuted listeners are
    * prevented from running during its execution, even if those listeners are
    * to run in other executors.
@@ -771,8 +799,9 @@ public final class Futures {
   }
 
   /** Wraps the given function as an AsyncFunction. */
-  private static <I, O> AsyncFunction<I, O> asAsyncFunction(
+  static <I, O> AsyncFunction<I, O> asAsyncFunction(
       final Function<? super I, ? extends O> function) {
+    checkNotNull(function);
     return new AsyncFunction<I, O>() {
       @Override public ListenableFuture<O> apply(I input) {
         O output = function.apply(input);
