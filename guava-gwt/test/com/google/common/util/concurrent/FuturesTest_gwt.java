@@ -198,6 +198,46 @@ public void testMultipleImmediateFutures() throws Exception {
   testCase.testMultipleImmediateFutures();
 }
 
+public void testTransformAsync_asyncFunction_error() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testTransformAsync_asyncFunction_error();
+}
+
+public void testTransformAsync_asyncFunction_nullInsteadOfFuture() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testTransformAsync_asyncFunction_nullInsteadOfFuture();
+}
+
+public void testTransformAsync_cancelPropagatesToAsyncOutput() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testTransformAsync_cancelPropagatesToAsyncOutput();
+}
+
+public void testTransformAsync_cancelPropagatesToInput() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testTransformAsync_cancelPropagatesToInput();
+}
+
+public void testTransformAsync_genericsHierarchy_AsyncFunction() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testTransformAsync_genericsHierarchy_AsyncFunction();
+}
+
+public void testTransformAsync_genericsWildcard_AsyncFunction() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testTransformAsync_genericsWildcard_AsyncFunction();
+}
+
+public void testTransformAsync_interruptPropagatesToAsyncOutput() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testTransformAsync_interruptPropagatesToAsyncOutput();
+}
+
+public void testTransformAsync_interruptPropagatesToInput() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.testTransformAsync_interruptPropagatesToInput();
+}
+
 public void testTransformValueRemainsMemoized() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.testTransformValueRemainsMemoized();

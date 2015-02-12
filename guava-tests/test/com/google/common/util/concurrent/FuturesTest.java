@@ -348,6 +348,61 @@ public class FuturesTest extends TestCase {
     assertTrue(secondary.wasInterrupted());
   }
 
+  public void testTransformAsync_cancelPropagatesToInput() throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
+        throw new AssertionFailedError("Unexpeted call to apply.");
+      }
+    };
+    assertTrue(Futures.transformAsync(input, function).cancel(false));
+    assertTrue(input.isCancelled());
+    assertFalse(input.wasInterrupted());
+  }
+
+  public void testTransformAsync_interruptPropagatesToInput() throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
+        throw new AssertionFailedError("Unexpeted call to apply.");
+      }
+    };
+    assertTrue(Futures.transformAsync(input, function).cancel(true));
+    assertTrue(input.isCancelled());
+    assertTrue(input.wasInterrupted());
+  }
+
+  public void testTransformAsync_cancelPropagatesToAsyncOutput() throws Exception {
+    ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
+    final SettableFuture<Bar> secondary = SettableFuture.create();
+    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
+        return secondary;
+      }
+    };
+    assertTrue(Futures.transformAsync(immediate, function).cancel(false));
+    assertTrue(secondary.isCancelled());
+    assertFalse(secondary.wasInterrupted());
+  }
+
+  public void testTransformAsync_interruptPropagatesToAsyncOutput()
+      throws Exception {
+    ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
+    final SettableFuture<Bar> secondary = SettableFuture.create();
+    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
+      @Override
+      public ListenableFuture<Bar> apply(Foo unused) {
+        return secondary;
+      }
+    };
+    assertTrue(Futures.transformAsync(immediate, function).cancel(true));
+    assertTrue(secondary.isCancelled());
+    assertTrue(secondary.wasInterrupted());
+  }
+
   @GwtIncompatible("TODO")
   public void testTransform_rejectionPropagatesToOutput()
       throws Exception {
@@ -1177,13 +1232,6 @@ public class FuturesTest extends TestCase {
     };
   }
 
-  public void testTransform_genericsWildcard_AsyncFunction() throws Exception {
-    ListenableFuture<?> nullFuture = immediateFuture(null);
-    ListenableFuture<?> chainedFuture =
-        Futures.transform(nullFuture, constantAsyncFunction(nullFuture));
-    assertNull(chainedFuture.get());
-  }
-
   private static <I, O> AsyncFunction<I, O> constantAsyncFunction(
       final ListenableFuture<O> output) {
     return new AsyncFunction<I, O>() {
@@ -1192,6 +1240,13 @@ public class FuturesTest extends TestCase {
         return output;
       }
     };
+  }
+
+  public void testTransform_genericsWildcard_AsyncFunction() throws Exception {
+    ListenableFuture<?> nullFuture = immediateFuture(null);
+    ListenableFuture<?> chainedFuture =
+        Futures.transform(nullFuture, constantAsyncFunction(nullFuture));
+    assertNull(chainedFuture.get());
   }
 
   public void testTransform_genericsHierarchy_AsyncFunction() throws Exception {
@@ -1274,6 +1329,110 @@ public class FuturesTest extends TestCase {
     };
     SettableFuture<String> inputFuture = SettableFuture.create();
     ListenableFuture<Integer> future = Futures.transform(
+        inputFuture, function, Executors.newSingleThreadExecutor());
+    inputFuture.set("value");
+    inFunction.await();
+    future.cancel(false);
+    functionDone.countDown();
+    try {
+      future.get();
+      fail();
+    } catch (CancellationException expected) {
+    }
+    try {
+      resultFuture.get();
+      fail();
+    } catch (CancellationException expected) {
+    }
+  }
+
+  public void testTransformAsync_genericsWildcard_AsyncFunction() throws Exception {
+    ListenableFuture<?> nullFuture = immediateFuture(null);
+    ListenableFuture<?> chainedFuture =
+        Futures.transformAsync(nullFuture, constantAsyncFunction(nullFuture));
+    assertNull(chainedFuture.get());
+  }
+
+  public void testTransformAsync_genericsHierarchy_AsyncFunction() throws Exception {
+    ListenableFuture<FooChild> future = Futures.immediateFuture(null);
+    final BarChild barChild = new BarChild();
+    AsyncFunction<Foo, BarChild> function =
+        new AsyncFunction<Foo, BarChild>() {
+          @Override
+          public AbstractFuture<BarChild> apply(Foo unused) {
+            AbstractFuture<BarChild> future = new AbstractFuture<BarChild>() {
+            };
+            future.set(barChild);
+            return future;
+          }
+        };
+    Bar bar = Futures.transformAsync(future, function).get();
+    assertSame(barChild, bar);
+  }
+
+  @GwtIncompatible("get() timeout")
+  public void testTransformAsync_asyncFunction_timeout()
+      throws InterruptedException, ExecutionException {
+    AsyncFunction<String, Integer> function = constantAsyncFunction(Futures.immediateFuture(1));
+    ListenableFuture<Integer> future = Futures.transformAsync(
+        SettableFuture.<String>create(), function);
+    try {
+      future.get(1, TimeUnit.MILLISECONDS);
+      fail();
+    } catch (TimeoutException expected) {
+    }
+  }
+
+  public void testTransformAsync_asyncFunction_error() throws InterruptedException {
+    final Error error = new Error("deliberate");
+    AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
+      @Override
+      public ListenableFuture<Integer> apply(String input) {
+        throw error;
+      }
+    };
+    SettableFuture<String> inputFuture = SettableFuture.create();
+    ListenableFuture<Integer> outputFuture = Futures.transformAsync(inputFuture, function);
+    inputFuture.set("value");
+    try {
+      outputFuture.get();
+      fail("should have thrown error");
+    } catch (ExecutionException e) {
+      assertSame(error, e.getCause());
+    }
+  }
+
+  public void testTransformAsync_asyncFunction_nullInsteadOfFuture() throws Exception {
+    ListenableFuture<?> inputFuture = immediateFuture("a");
+    ListenableFuture<?> chainedFuture =
+        Futures.transformAsync(inputFuture, constantAsyncFunction(null));
+    try {
+      chainedFuture.get();
+      fail();
+    } catch (ExecutionException expected) {
+      NullPointerException cause = (NullPointerException) expected.getCause();
+      assertThat(cause).hasMessage("AsyncFunction.apply returned null instead of a Future. "
+          + "Did you mean to return immediateFuture(null)?");
+    }
+  }
+
+  @GwtIncompatible("threads")
+
+  public void testTransformAsync_asyncFunction_cancelledWhileApplyingFunction()
+      throws InterruptedException, ExecutionException {
+    final CountDownLatch inFunction = new CountDownLatch(1);
+    final CountDownLatch functionDone = new CountDownLatch(1);
+    final SettableFuture<Integer> resultFuture = SettableFuture.create();
+    AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
+      @Override
+      public ListenableFuture<Integer> apply(String input) throws Exception {
+        inFunction.countDown();
+        functionDone.await();
+        return resultFuture;
+      }
+    };
+    SettableFuture<String> inputFuture = SettableFuture.create();
+    ListenableFuture<Integer> future = Futures.transformAsync(
         inputFuture, function, Executors.newSingleThreadExecutor());
     inputFuture.set("value");
     inFunction.await();
