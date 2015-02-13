@@ -23,6 +23,7 @@ import com.google.common.primitives.Longs;
 
 import java.util.Comparator;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -60,6 +61,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible
 public abstract class ComparisonChain {
   private ComparisonChain() {}
