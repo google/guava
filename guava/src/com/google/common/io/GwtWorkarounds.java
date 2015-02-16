@@ -22,9 +22,7 @@ import com.google.common.annotations.GwtIncompatible;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Reader;
-import java.io.Writer;
 
 /**
  * Provides simple GWT-compatible substitutes for {@code InputStream}, {@code OutputStream},
@@ -133,98 +131,6 @@ final class GwtWorkarounds {
       @Override
       public void close() throws IOException {
         input.close();
-      }
-    };
-  }
-
-  /**
-   * A GWT-compatible substitute for an {@code OutputStream}.
-   */
-  interface ByteOutput {
-    void write(byte b) throws IOException;
-    void flush() throws IOException;
-    void close() throws IOException;
-  }
-
-  /**
-   * Views a {@code ByteOutput} as an {@code OutputStream}.
-   */
-  @GwtIncompatible("OutputStream")
-  static OutputStream asOutputStream(final ByteOutput output) {
-    checkNotNull(output);
-    return new OutputStream() {
-      @Override
-      public void write(int b) throws IOException {
-        output.write((byte) b);
-      }
-
-      @Override
-      public void flush() throws IOException {
-        output.flush();
-      }
-
-      @Override
-      public void close() throws IOException {
-        output.close();
-      }
-    };
-  }
-
-  /**
-   * A GWT-compatible substitute for a {@code Writer}.
-   */
-  interface CharOutput {
-    void write(char c) throws IOException;
-    void flush() throws IOException;
-    void close() throws IOException;
-  }
-
-  /**
-   * Views a {@code Writer} as a {@code CharOutput}.
-   */
-  @GwtIncompatible("Writer")
-  static CharOutput asCharOutput(final Writer writer) {
-    checkNotNull(writer);
-    return new CharOutput() {
-      @Override
-      public void write(char c) throws IOException {
-        writer.append(c);
-      }
-
-      @Override
-      public void flush() throws IOException {
-        writer.flush();
-      }
-
-      @Override
-      public void close() throws IOException {
-        writer.close();
-      }
-    };
-  }
-
-  /**
-   * Returns a {@code CharOutput} whose {@code toString()} method can be used
-   * to get the combined output.
-   */
-  static CharOutput stringBuilderOutput(int initialSize) {
-    final StringBuilder builder = new StringBuilder(initialSize);
-    return new CharOutput() {
-
-      @Override
-      public void write(char c) {
-        builder.append(c);
-      }
-
-      @Override
-      public void flush() {}
-
-      @Override
-      public void close() {}
-
-      @Override
-      public String toString() {
-        return builder.toString();
       }
     };
   }

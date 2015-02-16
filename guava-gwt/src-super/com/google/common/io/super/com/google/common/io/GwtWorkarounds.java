@@ -70,49 +70,5 @@ final class GwtWorkarounds {
     int read() throws IOException;
     void close() throws IOException;
   }
-
-  /**
-   * A GWT-compatible substitute for an {@code OutputStream}.
-   */
-  interface ByteOutput {
-    void write(byte b) throws IOException;
-    void flush() throws IOException;
-    void close() throws IOException;
-  }
-
-  /**
-   * A GWT-compatible substitute for a {@code Writer}.
-   */
-  interface CharOutput {
-    void write(char c) throws IOException;
-    void flush() throws IOException;
-    void close() throws IOException;
-  }
-
-  /**
-   * Returns a {@code CharOutput} whose {@code toString()} method can be used
-   * to get the combined output.
-   */
-  static CharOutput stringBuilderOutput(int initialSize) {
-    final StringBuilder builder = new StringBuilder(initialSize);
-    return new CharOutput() {
-
-      @Override
-      public void write(char c) {
-        builder.append(c);
-      }
-
-      @Override
-      public void flush() {}
-
-      @Override
-      public void close() {}
-
-      @Override
-      public String toString() {
-        return builder.toString();
-      }
-    };
-  }
 }
 
