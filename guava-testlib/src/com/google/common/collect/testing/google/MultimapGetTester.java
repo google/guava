@@ -15,7 +15,6 @@
  */
 package com.google.common.collect.testing.google;
 
-import static com.google.common.collect.testing.Helpers.assertContentsAnyOrder;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
@@ -51,7 +50,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   public void testGetNonEmpty() {
     Collection<V> result = multimap().get(k0());
     assertFalse(result.isEmpty());
-    assertContentsAnyOrder(result, v0());
+    assertThat(result).containsExactly(v0());
   }
 
   @CollectionSize.Require(SEVERAL)
