@@ -169,9 +169,17 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     }
   }
 
-  private static final class ImmediateFailedFuture<V> extends AbstractFuture.TrustedFuture<V> {
+  private static class ImmediateFailedFuture<V> extends ImmediateFuture<V> {
+
+    private final Throwable thrown;
+
     ImmediateFailedFuture(Throwable thrown) {
-      setException(thrown);
+      this.thrown = thrown;
+    }
+
+    @Override
+    public V get() throws ExecutionException {
+      throw new ExecutionException(thrown);
     }
   }
 

@@ -225,20 +225,38 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     }
   }
 
-  private static final class ImmediateFailedFuture<V> extends AbstractFuture.TrustedFuture<V> {
+  private static class ImmediateFailedFuture<V> extends ImmediateFuture<V> {
+
+    private final Throwable thrown;
+
     ImmediateFailedFuture(Throwable thrown) {
-      setException(thrown);
+      this.thrown = thrown;
+    }
+
+    @Override
+    public V get() throws ExecutionException {
+      throw new ExecutionException(thrown);
     }
   }
 
   @GwtIncompatible("TODO")
-  private static final class ImmediateCancelledFuture<V>  extends AbstractFuture.TrustedFuture<V> {
+  private static class ImmediateCancelledFuture<V> extends ImmediateFuture<V> {
+
+    private final CancellationException thrown;
+
     ImmediateCancelledFuture() {
-      cancel(false);
+      this.thrown = new CancellationException("Immediate cancelled future.");
     }
 
-    @Override protected Throwable newCancellationCause() {
-      return new CancellationException("Immediate cancelled future.");
+    @Override
+    public boolean isCancelled() {
+      return true;
+    }
+
+    @Override
+    public V get() {
+      throw AbstractFuture.cancellationExceptionWithCause(
+          "Task was cancelled.", thrown);
     }
   }
 

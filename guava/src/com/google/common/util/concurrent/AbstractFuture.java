@@ -802,7 +802,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     }
   }
 
-  private static CancellationException cancellationExceptionWithCause(
+  static final CancellationException cancellationExceptionWithCause(
       @Nullable String message, @Nullable Throwable cause) {
     CancellationException exception = new CancellationException(message);
     exception.initCause(cause);
