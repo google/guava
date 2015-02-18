@@ -712,7 +712,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     output future
    * @return A future that holds result of the function (if the input succeeded) or the original
    *     input's failure (if not)
-   * @since 19.0
+   * @since 19.0 (in 11.0 as {@code transform})
    */
   public static <I, O> ListenableFuture<O> transformAsync(
       ListenableFuture<I> input, AsyncFunction<? super I, ? extends O> function) {
@@ -756,7 +756,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @param executor Executor to run the function in.
    * @return A future that holds result of the function (if the input succeeded) or the original
    *     input's failure (if not)
-   * @since 19.0
+   * @since 19.0 (in 11.0 as {@code transform})
    */
   public static <I, O> ListenableFuture<O> transformAsync(ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function, Executor executor) {

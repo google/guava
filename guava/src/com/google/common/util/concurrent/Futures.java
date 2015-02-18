@@ -674,7 +674,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @param fallback the {@link AsyncFunction} implementation to be called if {@code input} fails
    *     with the expected exception type
    * @param exceptionType the exception type that triggers use of {@code fallback}
-   * @since 19.0
+   * @since 19.0 (similar functionality in 14.0 as {@code withFallback})
    */
   @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
   public static <V, X extends Throwable> ListenableFuture<V> catchingAsync(
@@ -736,7 +736,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     with the expected exception type
    * @param exceptionType the exception type that triggers use of {@code fallback}
    * @param executor the executor that runs {@code fallback} if {@code input} fails
-   * @since 19.0
+   * @since 19.0 (similar functionality in 14.0 as {@code withFallback})
    */
   @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
   public static <V, X extends Throwable> ListenableFuture<V> catchingAsync(
@@ -1118,7 +1118,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     output future
    * @return A future that holds result of the function (if the input succeeded) or the original
    *     input's failure (if not)
-   * @since 19.0
+   * @since 19.0 (in 11.0 as {@code transform})
    */
   public static <I, O> ListenableFuture<O> transformAsync(
       ListenableFuture<I> input, AsyncFunction<? super I, ? extends O> function) {
@@ -1162,7 +1162,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @param executor Executor to run the function in.
    * @return A future that holds result of the function (if the input succeeded) or the original
    *     input's failure (if not)
-   * @since 19.0
+   * @since 19.0 (in 11.0 as {@code transform})
    */
   public static <I, O> ListenableFuture<O> transformAsync(ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function, Executor executor) {
