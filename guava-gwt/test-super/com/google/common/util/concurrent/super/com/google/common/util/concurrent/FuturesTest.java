@@ -319,7 +319,7 @@ public class FuturesTest extends TestCase {
     }
 
     void verifyCallCount(int expected) {
-      assertThat(applyCount).is(expected);
+      assertThat(applyCount).isEqualTo(expected);
     }
   }
 
@@ -384,7 +384,7 @@ public class FuturesTest extends TestCase {
     }
 
     void verifyCallCount(int expected) {
-      assertThat(count).is(expected);
+      assertThat(count).isEqualTo(expected);
     }
   }
 
