@@ -1304,7 +1304,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       final Function<? super I, ? extends O> function, Executor executor) {
     checkNotNull(function);
-    return transform(input, asAsyncFunction(function), executor);
+    return transformAsync(input, asAsyncFunction(function), executor);
   }
 
   /** Wraps the given function as an AsyncFunction. */
@@ -1497,7 +1497,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public static <V> ListenableFuture<V> dereference(
       ListenableFuture<? extends ListenableFuture<? extends V>> nested) {
-    return Futures.transform((ListenableFuture) nested, (AsyncFunction) DEREFERENCER);
+    return transformAsync((ListenableFuture) nested, (AsyncFunction) DEREFERENCER);
   }
 
   /**
