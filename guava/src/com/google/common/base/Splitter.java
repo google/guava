@@ -126,6 +126,7 @@ public final class Splitter {
    * @param separator the character to recognize as a separator
    * @return a splitter, with default settings, that recognizes that separator
    */
+  @CheckReturnValue
   public static Splitter on(char separator) {
     return on(CharMatcher.is(separator));
   }
@@ -140,6 +141,7 @@ public final class Splitter {
    *     character is a separator
    * @return a splitter, with default settings, that uses this matcher
    */
+  @CheckReturnValue
   public static Splitter on(final CharMatcher separatorMatcher) {
     checkNotNull(separatorMatcher);
 
@@ -167,6 +169,7 @@ public final class Splitter {
    * @param separator the literal, nonempty string to recognize as a separator
    * @return a splitter, with default settings, that recognizes that separator
    */
+  @CheckReturnValue
   public static Splitter on(final String separator) {
     checkArgument(separator.length() != 0,
         "The separator may not be the empty string.");
@@ -211,6 +214,7 @@ public final class Splitter {
    * @throws IllegalArgumentException if {@code separatorPattern} matches the
    *     empty string
    */
+  @CheckReturnValue
   @GwtIncompatible("java.util.regex")
   public static Splitter on(final Pattern separatorPattern) {
     checkNotNull(separatorPattern);
@@ -249,6 +253,7 @@ public final class Splitter {
    * @throws IllegalArgumentException if {@code separatorPattern} matches the
    *     empty string
    */
+  @CheckReturnValue
   @GwtIncompatible("java.util.regex")
   public static Splitter onPattern(String separatorPattern) {
     return on(Pattern.compile(separatorPattern));
@@ -273,6 +278,7 @@ public final class Splitter {
    *     pieces
    * @throws IllegalArgumentException if {@code length} is zero or negative
    */
+  @CheckReturnValue
   public static Splitter fixedLength(final int length) {
     checkArgument(length > 0, "The length may not be less than 1");
 
@@ -383,6 +389,7 @@ public final class Splitter {
    * @param sequence the sequence of characters to split
    * @return an iteration over the segments split from the parameter.
    */
+  @CheckReturnValue
   public Iterable<String> split(final CharSequence sequence) {
     checkNotNull(sequence);
 
@@ -412,6 +419,7 @@ public final class Splitter {
    * @return an immutable list of the segments split from the parameter
    * @since 15.0
    */
+  @CheckReturnValue
   @Beta
   public List<String> splitToList(CharSequence sequence) {
     checkNotNull(sequence);
@@ -497,6 +505,7 @@ public final class Splitter {
      * @throws IllegalArgumentException if the specified sequence does not split
      *         into valid map entries, or if there are duplicate keys
      */
+    @CheckReturnValue
     public Map<String, String> split(CharSequence sequence) {
       Map<String, String> map = new LinkedHashMap<String, String>();
       for (String entry : outerSplitter.split(sequence)) {

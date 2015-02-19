@@ -210,7 +210,7 @@ public class Joiner {
    * Returns a string containing the string representation of each argument, using the previously
    * configured separator between each.
    */
-  //@CheckReturnValue
+  @CheckReturnValue
   public final String join(@Nullable Object first, @Nullable Object second, Object... rest) {
     return join(iterable(first, second, rest));
   }
