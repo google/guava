@@ -21,10 +21,13 @@ import com.google.common.base.Charsets;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
@@ -46,6 +49,33 @@ public class ByteStreamsTest extends IoTestCase {
         Channels.newChannel(new ByteArrayInputStream(expected));
     ByteStreams.copy(inChannel, outChannel);
     assertEquals(expected, out.toByteArray());
+  }
+
+  public void testCopyFileChannel() throws IOException {
+    final int chunkSize = 14407; // Random prime, unlikely to match any internal chunk size
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    WritableByteChannel outChannel = Channels.newChannel(out);
+
+    File testFile = createTempFile();
+    FileOutputStream fos = new FileOutputStream(testFile);
+    byte[] dummyData = newPreFilledByteArray(chunkSize);
+    try {
+      for (int i = 0; i < 500; i++) {
+        fos.write(dummyData);
+      }
+    } finally {
+      fos.close();
+    }
+    ReadableByteChannel inChannel = new RandomAccessFile(testFile, "r").getChannel();
+    try {
+      ByteStreams.copy(inChannel, outChannel);
+    } finally {
+      inChannel.close();
+    }
+    byte[] actual = out.toByteArray();
+    for (int i = 0; i < 500 * chunkSize; i += chunkSize) {
+      assertEquals(dummyData, Arrays.copyOfRange(actual, i, i + chunkSize));
+    }
   }
 
   public void testReadFully() throws IOException {
@@ -157,7 +187,7 @@ public class ByteStreamsTest extends IoTestCase {
     in.readFully(actual);
     assertEquals(bytes, actual);
   }
-  
+
   public void testNewDataInput_readFullyAndThenSome() {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
     byte[] actual = new byte[bytes.length * 2];
@@ -168,7 +198,7 @@ public class ByteStreamsTest extends IoTestCase {
       assertTrue(ex.getCause() instanceof EOFException);
     }
   }
-  
+
   public void testNewDataInput_readFullyWithOffset() {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
     byte[] actual = new byte[4];
@@ -178,7 +208,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(bytes[0], actual[2]);
     assertEquals(bytes[1], actual[3]);
   }
-  
+
   public void testNewDataInput_readLine() {
     ByteArrayDataInput in = ByteStreams.newDataInput(
         "This is a line\r\nThis too\rand this\nand also this".getBytes(Charsets.UTF_8));
@@ -194,7 +224,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(Float.intBitsToFloat(0x12345678), in.readFloat(), 0.0);
     assertEquals(Float.intBitsToFloat(0x76543210), in.readFloat(), 0.0);
   }
-  
+
   public void testNewDataInput_readDouble() {
     byte[] data = {0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10};
     ByteArrayDataInput in = ByteStreams.newDataInput(data);
@@ -216,7 +246,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals('e', in.readChar());
     assertEquals('d', in.readChar());
   }
-  
+
   public void testNewDataInput_readUnsignedShort() {
     byte[] data = {0, 0, 0, 1, (byte) 0xFF, (byte) 0xFF, 0x12, 0x34};
     ByteArrayDataInput in = ByteStreams.newDataInput(data);
@@ -225,7 +255,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(65535, in.readUnsignedShort());
     assertEquals(0x1234, in.readUnsignedShort());
   }
-  
+
   public void testNewDataInput_readLong() {
     byte[] data = {0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10};
     ByteArrayDataInput in = ByteStreams.newDataInput(data);
@@ -236,7 +266,7 @@ public class ByteStreamsTest extends IoTestCase {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
     assertTrue(in.readBoolean());
   }
-  
+
   public void testNewDataInput_readByte() {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
     for (int i = 0; i < bytes.length; i++) {
@@ -554,7 +584,7 @@ public class ByteStreamsTest extends IoTestCase {
     lin.skip(3);
     assertEquals(0, lin.available());
   }
-  
+
   public void testLimit_markNotSet() {
     byte[] big = newPreFilledByteArray(5);
     InputStream bin = new ByteArrayInputStream(big);
@@ -567,7 +597,7 @@ public class ByteStreamsTest extends IoTestCase {
       assertEquals("Mark not set", expected.getMessage());
     }
   }
-  
+
   public void testLimit_markNotSupported() {
     InputStream lin = ByteStreams.limit(new UnmarkableInputStream(), 2);
 
@@ -600,6 +630,7 @@ public class ByteStreamsTest extends IoTestCase {
   }
 
   private static void assertEquals(byte[] expected, byte[] actual) {
-    assertTrue(Arrays.equals(expected, actual));
+    assertEquals("Arrays differed in size", expected.length, actual.length);
+    assertTrue("Array contents were different", Arrays.equals(expected, actual));
   }
 }
