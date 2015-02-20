@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -41,6 +42,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0 (imported from Google Collections Library)
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Predicates {
   private Predicates() {}
