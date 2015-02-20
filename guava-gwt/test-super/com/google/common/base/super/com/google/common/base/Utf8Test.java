@@ -91,6 +91,7 @@ public class Utf8Test extends TestCase {
             Character.MIN_HIGH_SURROGATE), 0);
   }
 
+  @SuppressWarnings("CheckReturnValue")
   private static void testEncodedLengthFails(String invalidString,
       int invalidCodePointIndex) {
     try {

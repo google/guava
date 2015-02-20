@@ -506,17 +506,21 @@ public class ThrowablesTest extends TestCase {
 
     assertEquals(asList(ex, re, iae, fnfe), Throwables.getCausalChain(ex));
     assertSame(fnfe, Iterables.getOnlyElement(Throwables.getCausalChain(fnfe)));
-    try {
-      Throwables.getCausalChain(null);
-      fail("Should have throw NPE");
-    } catch (NullPointerException expected) {
-    }
 
     List<Throwable> causes = Throwables.getCausalChain(ex);
     try {
       causes.add(new RuntimeException());
       fail("List should be unmodifiable");
     } catch (UnsupportedOperationException expected) {
+    }
+  }
+
+  @SuppressWarnings("CheckReturnValue")
+  public void testGetCasualChainNull() {
+    try {
+      Throwables.getCausalChain(null);
+      fail("Should have throw NPE");
+    } catch (NullPointerException expected) {
     }
   }
 

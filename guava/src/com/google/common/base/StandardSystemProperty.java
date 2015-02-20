@@ -19,6 +19,7 @@ package com.google.common.base;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -29,6 +30,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtIncompatible("java.lang.System#getProperty")
+@CheckReturnValue
 public enum StandardSystemProperty {
 
   /** Java Runtime Environment version. */

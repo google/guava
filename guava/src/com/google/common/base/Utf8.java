@@ -19,6 +19,8 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * Low-level, high-performance utility methods related to the {@linkplain Charsets#UTF_8 UTF-8}
  * character encoding. UTF-8 is defined in section D92 of
@@ -45,6 +47,7 @@ public final class Utf8 {
    * @throws IllegalArgumentException if {@code sequence} contains ill-formed UTF-16 (unpaired
    *     surrogates)
    */
+  @CheckReturnValue
   public static int encodedLength(CharSequence sequence) {
     // Warning to maintainers: this implementation is highly optimized.
     int utf16Length = sequence.length();
@@ -108,6 +111,7 @@ public final class Utf8 {
    * <p>This method returns {@code true} if and only if {@code Arrays.equals(bytes, new
    * String(bytes, UTF_8).getBytes(UTF_8))} does, but is more efficient in both time and space.
    */
+  @CheckReturnValue
   public static boolean isWellFormed(byte[] bytes) {
     return isWellFormed(bytes, 0, bytes.length);
   }
@@ -121,6 +125,7 @@ public final class Utf8 {
    * @param off the offset in the buffer of the first byte to read
    * @param len the number of bytes to read from the buffer
    */
+  @CheckReturnValue
   public static boolean isWellFormed(byte[] bytes, int off, int len) {
     int end = off + len;
     checkPositionIndexes(off, end, bytes.length);
