@@ -17,9 +17,11 @@
 package com.google.common.reflect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Collections.list;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.io.Closer;
@@ -43,6 +45,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.Attributes;
@@ -55,6 +58,14 @@ import java.util.zip.ZipEntry;
  * Functional tests of {@link ClassPath}.
  */
 public class ClassPathTest extends TestCase {
+  private static final ImmutableSet<URL> TEST_URLS;
+  static {
+    try {
+      TEST_URLS = ImmutableSet.of(new URL("file://foo/bar/baz.txt"));
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   public void testGetResources() throws Exception {
     Map<String, ResourceInfo> byName = Maps.newHashMap();
@@ -154,15 +165,15 @@ public class ClassPathTest extends TestCase {
         findClass(ClassPath.from(sub2).getTopLevelClasses(), ClassPathTest.class));
   }
 
-  public void testEquals() {
+  public void testEquals() throws IOException {
     new EqualsTester()
         .addEqualityGroup(classInfo(ClassPathTest.class), classInfo(ClassPathTest.class))
         .addEqualityGroup(classInfo(Test.class), classInfo(Test.class, getClass().getClassLoader()))
         .addEqualityGroup(
-            new ResourceInfo("a/b/c.txt", getClass().getClassLoader()),
-            new ResourceInfo("a/b/c.txt", getClass().getClassLoader()))
+            new ResourceInfo("a/b/c.txt", TEST_URLS, getClass().getClassLoader()),
+            new ResourceInfo("a/b/c.txt", TEST_URLS, getClass().getClassLoader()))
         .addEqualityGroup(
-            new ResourceInfo("x.txt", getClass().getClassLoader()))
+            new ResourceInfo("x.txt", TEST_URLS, getClass().getClassLoader()))
         .testEquals();
   }
 
@@ -372,35 +383,59 @@ public class ClassPathTest extends TestCase {
     assertEquals("abc.d.Abc", ClassPath.getClassName("abc/d/Abc.class"));
   }
 
-  public void testResourceInfo_of() {
+  public void testResourceInfo_of() throws IOException {
     assertEquals(ClassInfo.class, resourceInfo(ClassPathTest.class).getClass());
     assertEquals(ClassInfo.class, resourceInfo(ClassPath.class).getClass());
     assertEquals(ClassInfo.class, resourceInfo(Nested.class).getClass());
   }
 
   public void testGetSimpleName() {
+    ClassLoader classLoader = getClass().getClassLoader();
     assertEquals("Foo",
-        new ClassInfo("Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("Foo.class", TEST_URLS, classLoader).getSimpleName());
     assertEquals("Foo",
-        new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Foo.class", TEST_URLS, classLoader).getSimpleName());
     assertEquals("Foo",
-        new ClassInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$Foo.class", TEST_URLS, classLoader).getSimpleName());
     assertEquals("",
-        new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$1.class", TEST_URLS, classLoader).getSimpleName());
     assertEquals("Foo",
-        new ClassInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$Foo.class", TEST_URLS, classLoader).getSimpleName());
     assertEquals("",
-        new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$1.class", TEST_URLS, classLoader).getSimpleName());
     assertEquals("Local",
-        new ClassInfo("a/b/Bar$1Local.class", getClass().getClassLoader()).getSimpleName());
-
+        new ClassInfo("a/b/Bar$1Local.class", TEST_URLS, classLoader).getSimpleName());
   }
 
   public void testGetPackageName() {
     assertEquals("",
-        new ClassInfo("Foo.class", getClass().getClassLoader()).getPackageName());
+        new ClassInfo("Foo.class", TEST_URLS, getClass().getClassLoader()).getPackageName());
     assertEquals("a.b",
-        new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getPackageName());
+        new ClassInfo("a/b/Foo.class", TEST_URLS, getClass().getClassLoader()).getPackageName());
+  }
+
+  // Test that ResourceInfo.urls() returns identical content to ClassLoader.getResources()
+
+  public void testUrls() throws IOException {
+    ClassLoader loader = ClassLoader.getSystemClassLoader();
+    for (ResourceInfo resource : ClassPath.from(loader).getResources()) {
+      String resourceName = resource.getResourceName();
+      assertTrue(
+          resourceName + " has different content when loaded by resource.url()",
+          contentEquals(resource.url(), loader.getResource(resourceName)));
+      List<URL> urlsFromLoader = list(loader.getResources(resourceName));
+      List<URL> urlsFromClassPath = resource.urls();
+      assertEquals(urlsFromLoader.size(), urlsFromClassPath.size());
+      for (int i = 0; i < urlsFromClassPath.size(); i++) {
+        assertTrue(
+            resourceName + " #" + i + "has different content when loaded by resource.url()",
+            contentEquals(urlsFromLoader.get(i), urlsFromClassPath.get(i)));
+      }
+    }
+  }
+
+  private static boolean contentEquals(URL left, URL right) throws IOException {
+    return Resources.asByteSource(left).contentEquals(Resources.asByteSource(right));
   }
 
   private static class Nested {}
@@ -421,16 +456,19 @@ public class ClassPathTest extends TestCase {
     throw new AssertionError("failed to find " + cls);
   }
 
-  private static ResourceInfo resourceInfo(Class<?> cls) {
-    return ResourceInfo.of(cls.getName().replace('.', '/') + ".class", cls.getClassLoader());
+  private static ResourceInfo resourceInfo(Class<?> cls) throws IOException {
+    String resource = cls.getName().replace('.', '/') + ".class";
+    ClassLoader loader = cls.getClassLoader();
+    return ResourceInfo.of(resource, list(loader.getResources(resource)), loader);
   }
 
-  private static ClassInfo classInfo(Class<?> cls) {
+  private static ClassInfo classInfo(Class<?> cls) throws IOException {
     return classInfo(cls, cls.getClassLoader());
   }
 
-  private static ClassInfo classInfo(Class<?> cls, ClassLoader classLoader) {
-    return new ClassInfo(cls.getName().replace('.', '/') + ".class", classLoader);
+  private static ClassInfo classInfo(Class<?> cls, ClassLoader classLoader) throws IOException {
+    String resource = cls.getName().replace('.', '/') + ".class";
+    return new ClassInfo(resource, list(classLoader.getResources(resource)), classLoader);
   }
 
   private static Manifest manifestClasspath(String classpath) throws IOException {
