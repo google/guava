@@ -673,6 +673,7 @@ public class FuturesTest extends TestCase {
     ListenableFuture<?> chainedFuture = Futures.catchingAsync(inputFuture, Throwable.class,
         new AsyncFunction<Throwable, Integer>() {
           @Override
+          @SuppressWarnings("AsyncFunctionReturnsNull")
           public ListenableFuture<Integer> apply(Throwable t) {
             return null;
           }
