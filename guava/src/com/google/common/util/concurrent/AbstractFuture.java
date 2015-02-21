@@ -356,8 +356,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     }
     // we delay calling nanoTime until we know we will need to either park or spin
     final long endNanos = remainingNanos > 0 ? System.nanoTime() + remainingNanos : 0;
-    // This may look like a 'while' but it is really an 'if' that we can break <label> out of.
-    long_wait_loop: while (remainingNanos > SPIN_THRESHOLD_NANOS) {
+    long_wait_loop: if (remainingNanos >= SPIN_THRESHOLD_NANOS) {
       Waiter oldHead = waiters;
       if (oldHead != Waiter.TOMBSTONE) {
         Waiter node = new Waiter();
