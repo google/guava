@@ -35,7 +35,6 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
 
