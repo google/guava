@@ -23,12 +23,10 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.common.io.Closer;
 import com.google.common.io.Resources;
 import com.google.common.reflect.ClassPath.ClassInfo;
 import com.google.common.reflect.ClassPath.ResourceInfo;
-import com.google.common.reflect.subpackage.ClassInSubPackage;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 
@@ -47,7 +45,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
@@ -90,79 +87,6 @@ public class ClassPathTest extends TestCase {
         testResourceName);
     assertEquals(getClass().getClassLoader().getResource(testResourceName),
         byName.get("com/google/common/reflect/test.txt").url());
-  }
-
-  public void testGetAllClasses() throws Exception {
-    Set<String> names = Sets.newHashSet();
-    Set<String> strings = Sets.newHashSet();
-    Set<Class<?>> classes = Sets.newHashSet();
-    Set<String> packageNames = Sets.newHashSet();
-    Set<String> simpleNames = Sets.newHashSet();
-    ClassPath classpath = ClassPath.from(getClass().getClassLoader());
-    for (ClassInfo classInfo : classpath.getAllClasses()) {
-      if (!classInfo.getPackageName().equals(ClassPathTest.class.getPackage().getName())) {
-        continue;
-      }
-      names.add(classInfo.getName());
-      strings.add(classInfo.toString());
-      classes.add(classInfo.load());
-      packageNames.add(classInfo.getPackageName());
-      simpleNames.add(classInfo.getSimpleName());
-    }
-    class LocalClass {}
-    Class<?> anonymousClass = new Object() {}.getClass();
-    assertThat(names).containsAllOf(anonymousClass.getName(), LocalClass.class.getName(),
-        ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(strings).containsAllOf(anonymousClass.getName(), LocalClass.class.getName(),
-        ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(classes).containsAllOf(anonymousClass, LocalClass.class, ClassPath.class,
-        ClassPathTest.class);
-    assertThat(packageNames).containsExactly(ClassPath.class.getPackage().getName());
-    assertThat(simpleNames).containsAllOf("", "Local", "ClassPath", "ClassPathTest");
-  }
-
-  public void testGetTopLevelClasses() throws Exception {
-    Set<String> names = Sets.newHashSet();
-    Set<String> strings = Sets.newHashSet();
-    Set<Class<?>> classes = Sets.newHashSet();
-    Set<String> packageNames = Sets.newHashSet();
-    Set<String> simpleNames = Sets.newHashSet();
-    ClassPath classpath = ClassPath.from(getClass().getClassLoader());
-    for (ClassInfo classInfo
-        : classpath.getTopLevelClasses(ClassPathTest.class.getPackage().getName())) {
-      names.add(classInfo.getName());
-      strings.add(classInfo.toString());
-      classes.add(classInfo.load());
-      packageNames.add(classInfo.getPackageName());
-      simpleNames.add(classInfo.getSimpleName());
-    }
-    assertThat(names).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(strings).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(classes).containsAllOf(ClassPath.class, ClassPathTest.class);
-    assertThat(packageNames).contains(ClassPath.class.getPackage().getName());
-    assertThat(simpleNames).containsAllOf("ClassPath", "ClassPathTest");
-    assertFalse(classes.contains(ClassInSubPackage.class));
-  }
-
-  public void testGetTopLevelClassesRecursive() throws Exception {
-    Set<Class<?>> classes = Sets.newHashSet();
-    ClassPath classpath = ClassPath.from(ClassPathTest.class.getClassLoader());
-    for (ClassInfo classInfo
-        : classpath.getTopLevelClassesRecursive(ClassPathTest.class.getPackage().getName())) {
-      if (classInfo.getName().contains("ClassPathTest")) {
-        System.err.println("");
-      }
-      classes.add(classInfo.load());
-    }
-    assertThat(classes).containsAllOf(ClassPathTest.class, ClassInSubPackage.class);
-  }
-
-  public void testGetTopLevelClasses_diamond() throws Exception {
-    ClassLoader parent = ClassPathTest.class.getClassLoader();
-    ClassLoader sub1 = new ClassLoader(parent) {};
-    ClassLoader sub2 = new ClassLoader(parent) {};
-    assertEquals(findClass(ClassPath.from(sub1).getTopLevelClasses(), ClassPathTest.class),
-        findClass(ClassPath.from(sub2).getTopLevelClasses(), ClassPathTest.class));
   }
 
   public void testEquals() throws IOException {
