@@ -396,6 +396,7 @@ public final class ClassPath {
         for (File path : getClassPathFromManifest(file, jarFile.getManifest())) {
           scan(path, classloader);
         }
+        String entryUrlPrefix = file.toURI().toURL() + "!/";
         Enumeration<JarEntry> entries = jarFile.entries();
         while (entries.hasMoreElements()) {
           JarEntry entry = entries.nextElement();
@@ -403,7 +404,7 @@ public final class ClassPath {
             continue;
           }
           String resourceName = entry.getName();
-          URL url = new URL("jar", null, file.toURI().toURL() + "!/" + resourceName);
+          URL url = new URL("jar", null, entryUrlPrefix + resourceName);
           resources.get(classloader).put(resourceName, url);
         }
       } finally {
