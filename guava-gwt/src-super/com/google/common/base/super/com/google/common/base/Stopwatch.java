@@ -31,6 +31,8 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * An object that measures elapsed time in nanoseconds. It is useful to measure
  * elapsed time using this class instead of direct calls to {@link
@@ -84,6 +86,7 @@ public final class Stopwatch {
    *
    * @since 15.0
    */
+  @CheckReturnValue
   public static Stopwatch createUnstarted() {
     return new Stopwatch();
   }
@@ -94,6 +97,7 @@ public final class Stopwatch {
    *
    * @since 15.0
    */
+  @CheckReturnValue
   public static Stopwatch createUnstarted(Ticker ticker) {
     return new Stopwatch(ticker);
   }
@@ -104,6 +108,7 @@ public final class Stopwatch {
    *
    * @since 15.0
    */
+  @CheckReturnValue
   public static Stopwatch createStarted() {
     return new Stopwatch().start();
   }
@@ -114,6 +119,7 @@ public final class Stopwatch {
    *
    * @since 15.0
    */
+  @CheckReturnValue
   public static Stopwatch createStarted(Ticker ticker) {
     return new Stopwatch(ticker).start();
   }
@@ -145,6 +151,7 @@ public final class Stopwatch {
    * and {@link #stop()} has not been called since the last call to {@code
    * start()}.
    */
+  @CheckReturnValue
   public boolean isRunning() {
     return isRunning;
   }
@@ -203,6 +210,7 @@ public final class Stopwatch {
    *
    * @since 14.0 (since 10.0 as {@code elapsedTime()})
    */
+  @CheckReturnValue
   public long elapsed(TimeUnit desiredUnit) {
     return desiredUnit.convert(elapsedNanos(), NANOSECONDS);
   }
