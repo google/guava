@@ -188,6 +188,7 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testPreconditions() {
     try {
       BloomFilter.create(Funnels.unencodedCharsFunnel(), -1);
@@ -207,6 +208,7 @@ public class BloomFilterTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testFailureWhenMoreThan255HashFunctionsAreNeeded() {
     try {
       int n = 1000;
@@ -241,6 +243,7 @@ public class BloomFilterTest extends TestCase {
   /**
    * Tests that we always get a non-negative optimal size.
    */
+  @SuppressWarnings("CheckReturnValue")
   public void testOptimalSize() {
     for (int n = 1; n < 1000; n++) {
       for (double fpp = Double.MIN_VALUE; fpp < 1.0; fpp += 0.001) {
@@ -265,6 +268,7 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testLargeNumberOfInsertions() {
     // We use horrible FPPs here to keep Java from OOM'ing
     BloomFilter.create(Funnels.unencodedCharsFunnel(), 42L + Integer.MAX_VALUE, 0.28);

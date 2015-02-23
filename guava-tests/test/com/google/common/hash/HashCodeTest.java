@@ -219,6 +219,7 @@ public class HashCodeTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testFromStringFailsWithInvalidHexChar() {
     try {
       HashCode.fromString("7f8005ff0z");
@@ -227,6 +228,7 @@ public class HashCodeTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testFromStringFailsWithUpperCaseString() {
     String string = Hashing.sha1().hashString("foo", Charsets.US_ASCII).toString().toUpperCase();
     try {
@@ -236,6 +238,7 @@ public class HashCodeTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testFromStringFailsWithShortInputs() {
     try {
       HashCode.fromString("");
@@ -250,6 +253,7 @@ public class HashCodeTest extends TestCase {
     HashCode.fromString("7f");
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testFromStringFailsWithOddLengthInput() {
     try {
       HashCode.fromString("7f8");
@@ -343,6 +347,7 @@ public class HashCodeTest extends TestCase {
         .forAllPublicStaticMethods(HashCode.class);
   }
 
+  @SuppressWarnings("CheckReturnValue")
   private static void assertExpectedHashCode(ExpectedHashCode expectedHashCode, HashCode hash) {
     assertTrue(Arrays.equals(expectedHashCode.bytes, hash.asBytes()));
     byte[] bb = new byte[hash.bits() / 8];

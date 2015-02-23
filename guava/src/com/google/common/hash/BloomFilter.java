@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -126,6 +127,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    *
    * @since 12.0
    */
+  @CheckReturnValue
   public BloomFilter<T> copy() {
     return new BloomFilter<T>(bits.copy(), numHashFunctions, funnel, strategy);
   }
@@ -134,6 +136,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * Returns {@code true} if the element <i>might</i> have been put in this Bloom filter,
    * {@code false} if this is <i>definitely</i> not the case.
    */
+  @CheckReturnValue
   public boolean mightContain(T object) {
     return strategy.mightContain(object, funnel, numHashFunctions, bits);
   }
@@ -144,6 +147,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   @Deprecated
   @Override
+  @CheckReturnValue
   public boolean apply(T input) {
     return mightContain(input);
   }
@@ -175,6 +179,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    *
    * @since 14.0 (since 11.0 as expectedFalsePositiveProbability())
    */
+  @CheckReturnValue
   public double expectedFpp() {
     // You down with FPP? (Yeah you know me!) Who's down with FPP? (Every last homie!)
     return Math.pow((double) bits.bitCount() / bitSize(), numHashFunctions);
@@ -202,6 +207,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @param that The bloom filter to check for compatibility.
    * @since 15.0
    */
+  @CheckReturnValue
   public boolean isCompatible(BloomFilter<T> that) {
     checkNotNull(that);
     return (this != that) &&
@@ -280,6 +286,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code BloomFilter}
    */
+  @CheckReturnValue
   public static <T> BloomFilter<T> create(
       Funnel<? super T> funnel, long expectedInsertions, double fpp) {
     return create(funnel, expectedInsertions, fpp, BloomFilterStrategies.MURMUR128_MITZ_64);
@@ -329,6 +336,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    *     {@code BloomFilter<T>}; must be positive
    * @return a {@code BloomFilter}
    */
+  @CheckReturnValue
   public static <T> BloomFilter<T> create(
       Funnel<? super T> funnel, long expectedInsertions) {
     return create(funnel, expectedInsertions, 0.03); // FYI, for 3%, we always get 5 hash functions
@@ -438,6 +446,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    *     not appear to be a BloomFilter serialized using the
    *     {@linkplain #writeTo(OutputStream)} method.
    */
+  @CheckReturnValue
   public static <T> BloomFilter<T> readFrom(InputStream in, Funnel<T> funnel) throws IOException {
     checkNotNull(in, "InputStream");
     checkNotNull(funnel, "Funnel");
