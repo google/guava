@@ -22,7 +22,6 @@ import static java.util.Collections.list;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.common.io.Closer;
 import com.google.common.io.Resources;
 import com.google.common.reflect.ClassPath.ClassInfo;
@@ -44,9 +43,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
-import java.util.Map;
 import java.util.jar.Attributes;
-import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
@@ -62,31 +59,6 @@ public class ClassPathTest extends TestCase {
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  public void testGetResources() throws Exception {
-    Map<String, ResourceInfo> byName = Maps.newHashMap();
-    Map<String, ResourceInfo> byToString = Maps.newHashMap();
-    ClassPath classpath = ClassPath.from(getClass().getClassLoader());
-    for (ResourceInfo resource : classpath.getResources()) {
-      assertThat(resource.getResourceName()).isNotEqualTo(JarFile.MANIFEST_NAME);
-      assertThat(resource.toString()).isNotEqualTo(JarFile.MANIFEST_NAME);
-      byName.put(resource.getResourceName(), resource);
-      byToString.put(resource.toString(), resource);
-    }
-    String testResourceName = "com/google/common/reflect/test.txt";
-    assertThat(byName.keySet()).containsAllOf(
-        "com/google/common/reflect/ClassPath.class",
-        "com/google/common/reflect/ClassPathTest.class",
-        "com/google/common/reflect/ClassPathTest$Nested.class",
-        testResourceName);
-    assertThat(byToString.keySet()).containsAllOf(
-        "com.google.common.reflect.ClassPath",
-        "com.google.common.reflect.ClassPathTest",
-        "com.google.common.reflect.ClassPathTest$Nested",
-        testResourceName);
-    assertEquals(getClass().getClassLoader().getResource(testResourceName),
-        byName.get("com/google/common/reflect/test.txt").url());
   }
 
   public void testEquals() throws IOException {
