@@ -28,45 +28,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
 /**
- * A high-performance, immutable {@code Set} with reliable, user-specified
- * iteration order. Does not permit null elements.
+ * An immutable collection that cannot contain duplicate elements and has order-independent
+ * {@linkplain #equals equality}; <b>please see {@link ImmutableCollection}</b> for many important
+ * details common to all immutable collection types.
  *
- * <p>Unlike {@link Collections#unmodifiableSet}, which is a <i>view</i> of a
- * separate collection that can still change, an instance of this class contains
- * its own private data and will <i>never</i> change. This class is convenient
- * for {@code public static final} sets ("constant sets") and also lets you
- * easily make a "defensive copy" of a set provided to your class by a caller.
- *
- * <p><b>Warning:</b> Like most sets, an {@code ImmutableSet} will not function
- * correctly if an element is modified after being placed in the set. For this
- * reason, and to avoid general confusion, it is strongly recommended to place
- * only immutable objects into this collection.
- *
- * <p>This class has been observed to perform significantly better than {@link
- * HashSet} for objects with very fast {@link Object#hashCode} implementations
- * (as a well-behaved immutable object should). While this class's factory
- * methods create hash-based instances, the {@link ImmutableSortedSet} subclass
- * performs binary searches instead.
- *
- * <p><b>Note:</b> Although this class is not final, it cannot be subclassed
- * outside its package as it has no public or protected constructors. Thus,
- * instances of this type are guaranteed to be immutable.
- *
- * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
- * immutable collections</a>.
- *
- * @see ImmutableList
- * @see ImmutableMap
- * @author Kevin Bourrillion
- * @author Nick Kralevich
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
@@ -74,76 +45,64 @@ import javax.annotation.Nullable;
 public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     implements Set<E> {
   /**
-   * Returns the empty immutable set. This set behaves and performs comparably
-   * to {@link Collections#emptySet}, and is preferable mainly for consistency
-   * and maintainability of your code.
+   * Returns the empty immutable set. Preferred over {@link Collections#emptySet} for code
+   * consistency, and because the return type conveys the immutability guarantee.
    */
-  // Casting to any type is safe because the set will never hold any elements.
-  @SuppressWarnings({"unchecked"})
+  @SuppressWarnings({"unchecked"}) // fully variant implementation (never actually produces any Es)
   public static <E> ImmutableSet<E> of() {
     return (ImmutableSet<E>) EmptyImmutableSet.INSTANCE;
   }
 
   /**
-   * Returns an immutable set containing a single element. This set behaves and
-   * performs comparably to {@link Collections#singleton}, but will not accept
-   * a null element. It is preferable mainly for consistency and
-   * maintainability of your code.
+   * Returns an immutable set containing {@code element}. Preferred over {@link
+   * Collections#singleton} for code consistency, {@code null} rejection, and because the return
+   * type conveys the immutability guarantee.
    */
   public static <E> ImmutableSet<E> of(E element) {
     return new SingletonImmutableSet<E>(element);
   }
 
   /**
-   * Returns an immutable set containing the given elements, in order. Repeated
-   * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored.
-   *
-   * @throws NullPointerException if any element is null
+   * Returns an immutable set containing the given elements, minus duplicates, in the order each was
+   * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
+   * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2) {
     return construct(2, e1, e2);
   }
 
   /**
-   * Returns an immutable set containing the given elements, in order. Repeated
-   * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored.
-   *
-   * @throws NullPointerException if any element is null
+   * Returns an immutable set containing the given elements, minus duplicates, in the order each was
+   * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
+   * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3) {
     return construct(3, e1, e2, e3);
   }
 
   /**
-   * Returns an immutable set containing the given elements, in order. Repeated
-   * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored.
-   *
-   * @throws NullPointerException if any element is null
+   * Returns an immutable set containing the given elements, minus duplicates, in the order each was
+   * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
+   * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4) {
     return construct(4, e1, e2, e3, e4);
   }
 
   /**
-   * Returns an immutable set containing the given elements, in order. Repeated
-   * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored.
-   *
-   * @throws NullPointerException if any element is null
+   * Returns an immutable set containing the given elements, minus duplicates, in the order each was
+   * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
+   * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5) {
     return construct(5, e1, e2, e3, e4, e5);
   }
 
   /**
-   * Returns an immutable set containing the given elements, in order. Repeated
-   * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored.
+   * Returns an immutable set containing the given elements, minus duplicates, in the order each was
+   * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
+   * the first are ignored.
    *
-   * @throws NullPointerException if any element is null
    * @since 3.0 (source-compatible since 2.0)
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6,
@@ -261,38 +220,45 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable set containing the given elements, in order. Repeated
-   * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored.
+   * Returns an immutable set containing each of {@code elements}, minus duplicates, in the order
+   * each appears first in the source collection.
+   *
+   * <p><b>Performance note:</b> In certain cases when {@code elements} is an {@link
+   * ImmutableCollection}, its data will be reused directly without copying; the {@code elements}
+   * instance itself might even be returned. The specific circumstances in which these optimizations
+   * happen are undefined and subject to change.
    *
    * @throws NullPointerException if any of {@code elements} is null
-   * @since 3.0
+   * @since 7.0 (source-compatible since 2.0)
    */
-  public static <E> ImmutableSet<E> copyOf(E[] elements) {
-    switch (elements.length) {
-      case 0:
-        return of();
-      case 1:
-        return of(elements[0]);
-      default:
-        return construct(elements.length, elements.clone());
+  public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
+    /*
+     * TODO(user): consider checking for ImmutableAsList here
+     * TODO(user): consider checking for Multiset here
+     */
+    if (elements instanceof ImmutableSet
+        && !(elements instanceof ImmutableSortedSet)) {
+      @SuppressWarnings("unchecked") // all supported methods are covariant
+          ImmutableSet<E> set = (ImmutableSet<E>) elements;
+      if (!set.isPartialView()) {
+        return set;
+      }
+    } else if (elements instanceof EnumSet) {
+      return copyOfEnumSet((EnumSet) elements);
     }
+    Object[] array = elements.toArray();
+    return construct(array.length, array);
   }
 
   /**
-   * Returns an immutable set containing the given elements, in order. Repeated
-   * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored. This method iterates over {@code elements} at most once.
+   * Returns an immutable set containing each of {@code elements}, minus duplicates, in the order
+   * each appears first in the source iterable. This method iterates over {@code elements} only
+   * once.
    *
-   * <p>Note that if {@code s} is a {@code Set<String>}, then {@code
-   * ImmutableSet.copyOf(s)} returns an {@code ImmutableSet<String>} containing
-   * each of the strings in {@code s}, while {@code ImmutableSet.of(s)} returns
-   * a {@code ImmutableSet<Set<String>>} containing one element (the given set
-   * itself).
-   *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
+   * <p><b>Performance note:</b> In certain cases when {@code elements} is an {@link
+   * ImmutableCollection}, its data will be reused directly without copying; the {@code elements}
+   * instance itself might even be returned. The specific circumstances in which these optimizations
+   * happen are undefined and subject to change.
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
@@ -303,9 +269,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable set containing the given elements, in order. Repeated
-   * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored.
+   * Returns an immutable set containing each of {@code elements}, minus duplicates, in the order
+   * each appears first in the source iterator.
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
@@ -326,53 +291,21 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable set containing the given elements, in order. Repeated
-   * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored. This method iterates over {@code elements} at most
-   * once.
-   *
-   * <p>Note that if {@code s} is a {@code Set<String>}, then {@code
-   * ImmutableSet.copyOf(s)} returns an {@code ImmutableSet<String>} containing
-   * each of the strings in {@code s}, while {@code ImmutableSet.of(s)} returns
-   * a {@code ImmutableSet<Set<String>>} containing one element (the given set
-   * itself).
-   *
-   * <p><b>Note:</b> Despite what the method name suggests, {@code copyOf} will
-   * return constant-space views, rather than linear-space copies, of some
-   * inputs known to be immutable. For some other immutable inputs, such as key
-   * sets of an {@code ImmutableMap}, it still performs a copy in order to avoid
-   * holding references to the values of the map. The heuristics used in this
-   * decision are undocumented and subject to change except that:
-   * <ul>
-   * <li>A full copy will be done of any {@code ImmutableSortedSet}.</li>
-   * <li>{@code ImmutableSet.copyOf()} is idempotent with respect to pointer
-   * equality.</li>
-   * </ul>
-   *
-   * <p>This method is safe to use even when {@code elements} is a synchronized
-   * or concurrent collection that is currently being modified by another
-   * thread.
+   * Returns an immutable set containing each of {@code elements}, minus duplicates, in the order
+   * each appears first in the source array.
    *
    * @throws NullPointerException if any of {@code elements} is null
-   * @since 7.0 (source-compatible since 2.0)
+   * @since 3.0
    */
-  public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
-    /*
-     * TODO(user): consider checking for ImmutableAsList here
-     * TODO(user): consider checking for Multiset here
-     */
-    if (elements instanceof ImmutableSet
-        && !(elements instanceof ImmutableSortedSet)) {
-      @SuppressWarnings("unchecked") // all supported methods are covariant
-      ImmutableSet<E> set = (ImmutableSet<E>) elements;
-      if (!set.isPartialView()) {
-        return set;
-      }
-    } else if (elements instanceof EnumSet) {
-      return copyOfEnumSet((EnumSet) elements);
+  public static <E> ImmutableSet<E> copyOf(E[] elements) {
+    switch (elements.length) {
+      case 0:
+        return of();
+      case 1:
+        return of(elements[0]);
+      default:
+        return construct(elements.length, elements.clone());
     }
-    Object[] array = elements.toArray();
-    return construct(array.length, array);
   }
 
   private static <E extends Enum<E>> ImmutableSet<E> copyOfEnumSet(
