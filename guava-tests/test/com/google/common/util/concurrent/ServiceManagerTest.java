@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TestLogHandler;
+import com.google.common.util.concurrent.Service.State;
 import com.google.common.util.concurrent.ServiceManager.Listener;
 
 import junit.framework.TestCase;
@@ -91,20 +92,20 @@ public class ServiceManagerTest extends TestCase {
 
   private static class FailStartService extends NoOpService {
     @Override protected void doStart() {
-      notifyFailed(new IllegalStateException("failed"));
+      notifyFailed(new IllegalStateException("start failure"));
     }
   }
 
   private static class FailRunService extends NoOpService {
     @Override protected void doStart() {
       super.doStart();
-      notifyFailed(new IllegalStateException("failed"));
+      notifyFailed(new IllegalStateException("run failure"));
     }
   }
 
   private static class FailStopService extends NoOpService {
     @Override protected void doStop() {
-      notifyFailed(new IllegalStateException("failed"));
+      notifyFailed(new IllegalStateException("stop failure"));
     }
   }
 
