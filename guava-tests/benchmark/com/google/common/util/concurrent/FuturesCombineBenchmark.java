@@ -41,7 +41,7 @@ public class FuturesCombineBenchmark {
         ListenableFuture<?> trigger = Futures.successfulAsList(futures);
         checkNotNull(combiner);
         checkNotNull(trigger);
-        return Futures.transform(trigger, new AsyncFunction<Object, V>() {
+        return Futures.transformAsync(trigger, new AsyncFunction<Object, V>() {
           @Override public ListenableFuture<V> apply(Object arg) throws Exception {
             try {
               return Futures.immediateFuture(combiner.call());
