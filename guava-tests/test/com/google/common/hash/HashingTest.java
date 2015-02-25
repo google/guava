@@ -16,14 +16,13 @@
 
 package com.google.common.hash;
 
-import static com.google.common.hash.Hashing.goodFastHash;
+import static java.util.Arrays.asList;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table.Cell;
-import com.google.common.hash.Hashing.ConcatenatedHashFunction;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -335,35 +334,61 @@ public class HashingTest extends TestCase {
     assertEquals(hashCode1, hashCode2);
   }
 
-  public void testConcatenatedHashFunction_equals() {
-    assertEquals(
-        new ConcatenatedHashFunction(Hashing.md5()),
-        new ConcatenatedHashFunction(Hashing.md5()));
-    assertEquals(
-        new ConcatenatedHashFunction(Hashing.md5(), Hashing.murmur3_32()),
-        new ConcatenatedHashFunction(Hashing.md5(), Hashing.murmur3_32()));
+  // This isn't specified by contract, but it'll still be nice to know if this behavior changes.
+  public void testConcatenating_equals() {
+    new EqualsTester()
+        .addEqualityGroup(Hashing.concatenating(asList(Hashing.md5())))
+        .addEqualityGroup(Hashing.concatenating(asList(Hashing.murmur3_32())))
+        .addEqualityGroup(
+            Hashing.concatenating(Hashing.md5(), Hashing.md5()),
+            Hashing.concatenating(asList(Hashing.md5(), Hashing.md5())))
+        .addEqualityGroup(
+            Hashing.concatenating(Hashing.murmur3_32(), Hashing.md5()),
+            Hashing.concatenating(asList(Hashing.murmur3_32(), Hashing.md5())))
+        .addEqualityGroup(
+            Hashing.concatenating(Hashing.md5(), Hashing.murmur3_32()),
+            Hashing.concatenating(asList(Hashing.md5(), Hashing.murmur3_32())))
+        .testEquals();
   }
 
-  public void testConcatenatedHashFunction_bits() {
-    assertEquals(Hashing.md5().bits(),
-        new ConcatenatedHashFunction(Hashing.md5()).bits());
-    assertEquals(Hashing.md5().bits() + Hashing.murmur3_32().bits(),
-        new ConcatenatedHashFunction(Hashing.md5(), Hashing.murmur3_32()).bits());
-    assertEquals(Hashing.md5().bits() + Hashing.murmur3_32().bits() + Hashing.murmur3_128().bits(),
-        new ConcatenatedHashFunction(
-            Hashing.md5(), Hashing.murmur3_32(), Hashing.murmur3_128()).bits());
+  public void testConcatenatingIterable_bits() {
+    assertEquals(
+        Hashing.md5().bits() + Hashing.md5().bits(),
+        Hashing.concatenating(asList(Hashing.md5(), Hashing.md5())).bits());
+    assertEquals(
+        Hashing.md5().bits() + Hashing.murmur3_32().bits(),
+        Hashing.concatenating(asList(Hashing.md5(), Hashing.murmur3_32())).bits());
+    assertEquals(
+        Hashing.md5().bits() + Hashing.murmur3_32().bits() + Hashing.murmur3_128().bits(),
+        Hashing.concatenating(
+            asList(Hashing.md5(), Hashing.murmur3_32(), Hashing.murmur3_128())).bits());
   }
 
-  public void testConcatenatedHashFunction_makeHash() {
+  public void testConcatenatingVarArgs_bits() {
+    assertEquals(
+        Hashing.md5().bits() + Hashing.md5().bits(),
+        Hashing.concatenating(Hashing.md5(), Hashing.md5()).bits());
+    assertEquals(
+        Hashing.md5().bits() + Hashing.murmur3_32().bits(),
+        Hashing.concatenating(Hashing.md5(), Hashing.murmur3_32()).bits());
+    assertEquals(
+        Hashing.md5().bits() + Hashing.murmur3_32().bits() + Hashing.murmur3_128().bits(),
+        Hashing.concatenating(Hashing.md5(), Hashing.murmur3_32(), Hashing.murmur3_128()).bits());
+  }
+
+  public void testConcatenatingHashFunction_makeHash() {
     byte[] md5Hash = Hashing.md5().hashLong(42L).asBytes();
     byte[] murmur3Hash = Hashing.murmur3_32().hashLong(42L).asBytes();
     byte[] combined = new byte[md5Hash.length + murmur3Hash.length];
     ByteBuffer buffer = ByteBuffer.wrap(combined);
     buffer.put(md5Hash);
     buffer.put(murmur3Hash);
+    HashCode expected = HashCode.fromBytes(combined);
 
-    assertEquals(HashCode.fromBytes(combined),
-        new ConcatenatedHashFunction(Hashing.md5(), Hashing.murmur3_32()).hashLong(42L));
+    assertEquals(expected,
+        Hashing.concatenating(Hashing.md5(), Hashing.murmur3_32()).hashLong(42L));
+    assertEquals(expected,
+        Hashing.concatenating(asList(Hashing.md5(), Hashing.murmur3_32())).hashLong(42L));
   }
 
   public void testHashIntReverseBytesVsHashBytesIntsToByteArray() {
@@ -488,14 +513,14 @@ public class HashingTest extends TestCase {
    * testSeededHashFunctionEquals}.
    */
   public void testGoodFastHashEquals() throws Exception {
-    HashFunction hashFunction1a = goodFastHash(1);
-    HashFunction hashFunction1b = goodFastHash(32);
-    HashFunction hashFunction2a = goodFastHash(33);
-    HashFunction hashFunction2b = goodFastHash(128);
-    HashFunction hashFunction3a = goodFastHash(129);
-    HashFunction hashFunction3b = goodFastHash(256);
-    HashFunction hashFunction4a = goodFastHash(257);
-    HashFunction hashFunction4b = goodFastHash(384);
+    HashFunction hashFunction1a = Hashing.goodFastHash(1);
+    HashFunction hashFunction1b = Hashing.goodFastHash(32);
+    HashFunction hashFunction2a = Hashing.goodFastHash(33);
+    HashFunction hashFunction2b = Hashing.goodFastHash(128);
+    HashFunction hashFunction3a = Hashing.goodFastHash(129);
+    HashFunction hashFunction3b = Hashing.goodFastHash(256);
+    HashFunction hashFunction4a = Hashing.goodFastHash(257);
+    HashFunction hashFunction4b = Hashing.goodFastHash(384);
 
     new EqualsTester()
         .addEqualityGroup(hashFunction1a, hashFunction1b)
@@ -536,6 +561,7 @@ public class HashingTest extends TestCase {
       if (method.getReturnType().equals(HashFunction.class) // must return HashFunction
           && Modifier.isPublic(method.getModifiers()) // only the public methods
           && method.getParameterTypes().length != 0 // only the seeded hash functions
+          && !method.getName().equals("concatenating") // don't test Hashing.concatenating()
           && !method.getName().equals("goodFastHash")) { // tested in testGoodFastHashEquals
         Object[] params1 = new Object[method.getParameterTypes().length];
         Object[] params2 = new Object[method.getParameterTypes().length];

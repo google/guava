@@ -15,13 +15,16 @@
 package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
 
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.zip.Adler32;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
@@ -462,16 +465,60 @@ public final class Hashing {
     return (bits + 31) & ~31;
   }
 
-  // TODO(kevinb): Maybe expose this class via a static Hashing method?
-  @VisibleForTesting
-  static final class ConcatenatedHashFunction extends AbstractCompositeHashFunction {
+  /**
+   * Returns a hash function which computes its hash code by concatenating the hash codes of the
+   * underlying hash functions together. This can be useful if you need to generate hash codes
+   * of a specific length.
+   *
+   * <p>For example, if you need 1024-bit hash codes, you could join two {@link Hashing#sha512}
+   * hash functions together: {@code Hashing.concatenating(Hashing.sha512(), Hashing.sha512())}.
+   *
+   * @since 19.0
+   */
+  public static HashFunction concatenating(
+      HashFunction first, HashFunction second, HashFunction... rest) {
+    // We can't use Lists.asList() here because there's no hash->collect dependency
+    List<HashFunction> list = new ArrayList<HashFunction>();
+    list.add(first);
+    list.add(second);
+    for (HashFunction hashFunc : rest) {
+      list.add(hashFunc);
+    }
+    return new ConcatenatedHashFunction(list.toArray(new HashFunction[0]));
+  }
+
+  /**
+   * Returns a hash function which computes its hash code by concatenating the hash codes of the
+   * underlying hash functions together. This can be useful if you need to generate hash codes
+   * of a specific length.
+   *
+   * <p>For example, if you need 1024-bit hash codes, you could join two {@link Hashing#sha512}
+   * hash functions together: {@code Hashing.concatenating(Hashing.sha512(), Hashing.sha512())}.
+   *
+   * @since 19.0
+   */
+  public static HashFunction concatenating(Iterable<HashFunction> hashFunctions) {
+    checkNotNull(hashFunctions);
+    // We can't use Iterables.toArray() here because there's no hash->collect dependency
+    List<HashFunction> list = new ArrayList<HashFunction>();
+    for (HashFunction hashFunction : hashFunctions) {
+      list.add(hashFunction);
+    }
+    checkArgument(list.size() > 0, "number of hash functions (%s) must be > 0", list.size());
+    return new ConcatenatedHashFunction(list.toArray(new HashFunction[0]));
+  }
+
+  private static final class ConcatenatedHashFunction extends AbstractCompositeHashFunction {
     private final int bits;
 
-    ConcatenatedHashFunction(HashFunction... functions) {
+    private ConcatenatedHashFunction(HashFunction... functions) {
       super(functions);
       int bitSum = 0;
       for (HashFunction function : functions) {
         bitSum += function.bits();
+        checkArgument(function.bits() % 8 == 0,
+            "the number of bits (%s) in hashFunction (%s) must be divisible by 8",
+            function.bits(), function);
       }
       this.bits = bitSum;
     }
@@ -496,26 +543,14 @@ public final class Hashing {
     public boolean equals(@Nullable Object object) {
       if (object instanceof ConcatenatedHashFunction) {
         ConcatenatedHashFunction other = (ConcatenatedHashFunction) object;
-        if (bits != other.bits || functions.length != other.functions.length) {
-          return false;
-        }
-        for (int i = 0; i < functions.length; i++) {
-          if (!functions[i].equals(other.functions[i])) {
-            return false;
-          }
-        }
-        return true;
+        return Arrays.equals(functions, other.functions);
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      int hash = bits;
-      for (HashFunction function : functions) {
-        hash ^= function.hashCode();
-      }
-      return hash;
+      return Arrays.hashCode(functions) * 31 + bits;
     }
   }
 
