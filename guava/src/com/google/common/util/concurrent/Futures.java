@@ -360,12 +360,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * <b>To be deprecated:</b> Prefer {@link #catchingAsync(ListenableFuture,
-   * Class, AsyncFunction) catchingAsync(input, Throwable.class,
-   * fallbackImplementedAsAnAsyncFunction)}, usually replacing {@code
-   * Throwable.class} with the specific type you want to handle.
-   *
-   * <p>Returns a {@code Future} whose result is taken from the given primary
+   * Returns a {@code Future} whose result is taken from the given primary
    * {@code input} or, if the primary input fails, from the {@code Future}
    * provided by the {@code fallback}. {@link FutureFallback#create} is not
    * invoked until the primary input has failed, so if the primary input
@@ -435,7 +430,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @param fallback the {@link FutureFallback} implementation to be called if
    *     {@code input} fails
    * @since 14.0
+   * @deprecated Use {@link #catchingAsync(ListenableFuture, Class,
+   *     AsyncFunction) catchingAsync(input, Throwable.class,
+   *     fallbackImplementedAsAnAsyncFunction)}, usually replacing {@code
+   *     Throwable.class} with the specific type you want to handle. This method
+   *     will be removed in Guava release 20.0.
    */
+  @Deprecated
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback) {
@@ -443,12 +444,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * <b>To be deprecated:</b> Prefer {@link #catchingAsync(ListenableFuture,
-   * Class, AsyncFunction, Executor) catchingAsync(input, Throwable.class,
-   * fallbackImplementedAsAnAsyncFunction, executor)}, usually replacing {@code
-   * Throwable.class} with the specific type you want to handle.
-   *
-   * <p>Returns a {@code Future} whose result is taken from the given primary
+   * Returns a {@code Future} whose result is taken from the given primary
    * {@code input} or, if the primary input fails, from the {@code Future}
    * provided by the {@code fallback}. {@link FutureFallback#create} is not
    * invoked until the primary input has failed, so if the primary input
@@ -504,7 +500,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @param executor the executor that runs {@code fallback} if {@code input}
    *     fails
    * @since 14.0
+   * @deprecated Use {@link #catchingAsync(ListenableFuture, Class,
+   *     AsyncFunction, Executor) catchingAsync(input, Throwable.class,
+   *     fallbackImplementedAsAnAsyncFunction, executor)}, usually replacing
+   *     {@code Throwable.class} with the specific type you want to handle. This method
+   *     will be removed in Guava release 20.0.
    */
+  @Deprecated
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback, Executor executor) {
@@ -958,11 +960,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * <b>To be deprecated:</b> These {@code AsyncFunction} overloads of {@code
-   * transform} are being renamed to {@code transformAsync}. (The {@code
-   * Function} overloads are keeping the "transform" name.)
-   *
-   * <p>Returns a new {@code ListenableFuture} whose result is asynchronously
+   * Returns a new {@code ListenableFuture} whose result is asynchronously
    * derived from the result of the given {@code Future}. More precisely, the
    * returned {@code Future} takes its result from a {@code Future} produced by
    * applying the given {@code AsyncFunction} to the result of the original
@@ -1015,18 +1013,19 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @return A future that holds result of the function (if the input succeeded)
    *     or the original input's failure (if not)
    * @since 11.0
+   * @deprecated These {@code AsyncFunction} overloads of {@code transform} are
+   *     being renamed to {@code transformAsync}. (The {@code Function}
+   *     overloads are keeping the "transform" name.) This method will be removed in Guava release
+   *     20.0.
    */
+  @Deprecated
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function) {
     return transformAsync(input, function);
   }
 
   /**
-   * <b>To be deprecated:</b> These {@code AsyncFunction} overloads of {@code
-   * transform} are being renamed to {@code transformAsync}. (The {@code
-   * Function} overloads are keeping the "transform" name.)
-   *
-   * <p>Returns a new {@code ListenableFuture} whose result is asynchronously
+   * Returns a new {@code ListenableFuture} whose result is asynchronously
    * derived from the result of the given {@code Future}. More precisely, the
    * returned {@code Future} takes its result from a {@code Future} produced by
    * applying the given {@code AsyncFunction} to the result of the original
@@ -1063,7 +1062,12 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @return A future that holds result of the function (if the input succeeded)
    *     or the original input's failure (if not)
    * @since 11.0
+   * @deprecated These {@code AsyncFunction} overloads of {@code transform} are
+   *     being renamed to {@code transformAsync}. (The {@code Function}
+   *     overloads are keeping the "transform" name.) This method will be removed in Guava release
+   *     20.0.
    */
+  @Deprecated
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {
