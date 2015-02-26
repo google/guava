@@ -167,8 +167,9 @@ public abstract class AbstractScheduledService implements Service {
     // TODO(lukes):  why don't we use ListenableFuture to sequence things?  Then we could drop the
     // lock.
     private final ReentrantLock lock = new ReentrantLock();
-    
-    private final Runnable task = new Runnable() {
+
+    @WeakOuter
+    class Task implements Runnable {
       @Override public void run() {
         lock.lock();
         try {
@@ -181,7 +182,7 @@ public abstract class AbstractScheduledService implements Service {
           try {
             shutDown();
           } catch (Exception ignored) {
-            logger.log(Level.WARNING, 
+            logger.log(Level.WARNING,
                 "Error while attempting to shut down the service after failure.", ignored);
           }
           notifyFailed(t);
@@ -191,7 +192,9 @@ public abstract class AbstractScheduledService implements Service {
         }
       }
     };
-    
+
+    private final Runnable task = new Task();
+
     @Override protected final void doStart() {
       executorService = MoreExecutors.renamingDecorator(executor(), new Supplier<String>() {
         @Override public String get() {
@@ -219,7 +222,7 @@ public abstract class AbstractScheduledService implements Service {
     }
 
     @Override protected final void doStop() {
-      runningTask.cancel(false); 
+      runningTask.cancel(false);
       executorService.execute(new Runnable() {
         @Override public void run() {
           try {
