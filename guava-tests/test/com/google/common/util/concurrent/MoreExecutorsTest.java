@@ -53,6 +53,7 @@ import com.google.common.util.concurrent.MoreExecutors.Application;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
+import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -241,6 +242,51 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertNull("Throwable from other thread: "
         + (throwable == null ? null : Throwables.getStackTraceAsString(throwable)),
         throwableFromOtherThread.get());
+  }
+
+  /**
+   * Test for a bug where threads weren't getting signaled when shutdown was called, only when
+   * tasks completed.
+   */
+
+  public void testDirectExecutorService_awaitTermination_missedSignal() {
+    final ExecutorService service = MoreExecutors.newDirectExecutorService();
+    Thread waiter = new Thread() {
+      @Override public void run() {
+        try {
+          service.awaitTermination(1, TimeUnit.DAYS);
+        } catch (InterruptedException e) {
+          return;
+        }
+      }
+    };
+    waiter.start();
+    awaitTimedWaiting(waiter);
+    service.shutdown();
+    Uninterruptibles.joinUninterruptibly(waiter, 10, TimeUnit.SECONDS);
+    if (waiter.isAlive()) {
+      waiter.interrupt();
+      fail("awaitTermination failed to trigger after shutdown()");
+    }
+  }
+
+  /** Wait for the given thread to reach the {@link State#TIMED_WAITING} thread state. */
+  void awaitTimedWaiting(Thread thread) {
+    while (true) {
+      switch (thread.getState()) {
+        case BLOCKED:
+        case NEW:
+        case RUNNABLE:
+        case WAITING:
+          Thread.yield();
+          break;
+        case TIMED_WAITING:
+          return;
+        case TERMINATED:
+        default:
+          throw new AssertionError();
+      }
+    }
   }
 
   public void testDirectExecutorService_shutdownNow() {

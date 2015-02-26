@@ -51,9 +51,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * Factory and utility methods for {@link java.util.concurrent.Executor}, {@link
@@ -290,12 +289,9 @@ public final class MoreExecutors {
       extends AbstractListeningExecutorService {
     /**
      * Lock used whenever accessing the state variables
-     * (runningTasks, shutdown, terminationCondition) of the executor
+     * (runningTasks, shutdown) of the executor
      */
-    private final Lock lock = new ReentrantLock();
-
-    /** Signaled after the executor is shutdown and running tasks are done */
-    private final Condition termination = lock.newCondition();
+    private final Object lock = new Object();
 
     /*
      * Conceptually, these two variables describe the executor being in
@@ -304,8 +300,8 @@ public final class MoreExecutors {
      *   - Shutdown: runningTasks > 0 and shutdown == true
      *   - Terminated: runningTasks == 0 and shutdown == true
      */
-    private int runningTasks = 0;
-    private boolean shutdown = false;
+    @GuardedBy("lock") private int runningTasks = 0;
+    @GuardedBy("lock") private boolean shutdown = false;
 
     @Override
     public void execute(Runnable command) {
@@ -319,21 +315,18 @@ public final class MoreExecutors {
 
     @Override
     public boolean isShutdown() {
-      lock.lock();
-      try {
+      synchronized (lock) {
         return shutdown;
-      } finally {
-        lock.unlock();
       }
     }
 
     @Override
     public void shutdown() {
-      lock.lock();
-      try {
+      synchronized (lock) {
         shutdown = true;
-      } finally {
-        lock.unlock();
+        if (runningTasks == 0) {
+          lock.notifyAll();
+        }
       }
     }
 
@@ -346,11 +339,8 @@ public final class MoreExecutors {
 
     @Override
     public boolean isTerminated() {
-      lock.lock();
-      try {
+      synchronized (lock) {
         return shutdown && runningTasks == 0;
-      } finally {
-        lock.unlock();
       }
     }
 
@@ -358,19 +348,18 @@ public final class MoreExecutors {
     public boolean awaitTermination(long timeout, TimeUnit unit)
         throws InterruptedException {
       long nanos = unit.toNanos(timeout);
-      lock.lock();
-      try {
+      synchronized (lock) {
         for (;;) {
-          if (isTerminated()) {
+          if (shutdown && runningTasks == 0) {
             return true;
           } else if (nanos <= 0) {
             return false;
           } else {
-            nanos = termination.awaitNanos(nanos);
+            long now = System.nanoTime();
+            TimeUnit.NANOSECONDS.timedWait(lock, nanos);
+            nanos -= System.nanoTime() - now;  // subtract the actual time we waited
           }
         }
-      } finally {
-        lock.unlock();
       }
     }
 
@@ -382,14 +371,11 @@ public final class MoreExecutors {
      *         shutdown
      */
     private void startTask() {
-      lock.lock();
-      try {
-        if (isShutdown()) {
+      synchronized (lock) {
+        if (shutdown) {
           throw new RejectedExecutionException("Executor already shutdown");
         }
         runningTasks++;
-      } finally {
-        lock.unlock();
       }
     }
 
@@ -397,14 +383,11 @@ public final class MoreExecutors {
      * Decrements the running task count.
      */
     private void endTask() {
-      lock.lock();
-      try {
-        runningTasks--;
-        if (isTerminated()) {
-          termination.signalAll();
+      synchronized (lock) {
+        int numRunning = --runningTasks;
+        if (numRunning == 0) {
+          lock.notifyAll();
         }
-      } finally {
-        lock.unlock();
       }
     }
   }
