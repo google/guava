@@ -48,7 +48,7 @@ public interface BiMap<K, V> extends Map<K, V> {
    *     event. To avoid this exception, call {@link #forcePut} instead.
    */
   @Override
-  V put(@Nullable K key, @Nullable V value);
+  @Nullable V put(@Nullable K key, @Nullable V value);
 
   /**
    * An alternate form of {@code put} that silently removes any existing entry
@@ -67,7 +67,7 @@ public interface BiMap<K, V> extends Map<K, V> {
    * @return the value which was previously associated with the key, which may
    *     be {@code null}, or {@code null} if there was no previous entry
    */
-  V forcePut(@Nullable K key, @Nullable V value);
+  @Nullable V forcePut(@Nullable K key, @Nullable V value);
 
   // Bulk Operations
 
