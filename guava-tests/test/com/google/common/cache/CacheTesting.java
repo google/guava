@@ -446,6 +446,7 @@ class CacheTesting {
   }
   static void checkEmpty(Cache<?, ?> cache) {
     assertEquals(0, cache.size());
+    assertEquals(0, cache.weight());
     assertFalse(cache.asMap().containsKey(null));
     assertFalse(cache.asMap().containsKey(6));
     assertFalse(cache.asMap().containsValue(null));

@@ -107,6 +107,11 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
+  public long weight() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public void invalidate(Object key) {
     throw new UnsupportedOperationException();
   }

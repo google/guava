@@ -2250,6 +2250,7 @@ public class LocalCacheTest extends TestCase {
     }
     segment.evictEntries();
     assertEquals(maxSize, map.size());
+    assertEquals(maxSize, map.weight()); // Weight is equal to size when not using a weigher
     assertEquals(originalMap, map);
   }
 

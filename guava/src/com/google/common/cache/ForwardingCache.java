@@ -110,6 +110,11 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   }
 
   @Override
+  public long weight() {
+    return delegate().weight();
+  }
+
+  @Override
   public CacheStats stats() {
     return delegate().stats();
   }
