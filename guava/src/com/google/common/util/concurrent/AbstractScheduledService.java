@@ -16,10 +16,11 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 
 import java.util.concurrent.Callable;
@@ -119,6 +120,8 @@ public abstract class AbstractScheduledService implements Service {
      */
     public static Scheduler newFixedDelaySchedule(final long initialDelay, final long delay, 
         final TimeUnit unit) {
+      checkNotNull(unit);
+      checkArgument(delay > 0, "delay must be > 0, found %s", delay);
       return new Scheduler() {
         @Override
         public Future<?> schedule(AbstractService service, ScheduledExecutorService executor,
@@ -138,6 +141,8 @@ public abstract class AbstractScheduledService implements Service {
      */
     public static Scheduler newFixedRateSchedule(final long initialDelay, final long period, 
         final TimeUnit unit) {
+      checkNotNull(unit);
+      checkArgument(period > 0, "period must be > 0, found %s", period);
       return new Scheduler() {
         @Override
         public Future<?> schedule(AbstractService service, ScheduledExecutorService executor,
@@ -531,7 +536,7 @@ public abstract class AbstractScheduledService implements Service {
        */
       public Schedule(long delay, TimeUnit unit) {
         this.delay = delay;
-        this.unit = Preconditions.checkNotNull(unit);
+        this.unit = checkNotNull(unit);
       }
     }
     
