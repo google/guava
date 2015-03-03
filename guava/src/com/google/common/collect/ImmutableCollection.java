@@ -52,7 +52,8 @@ import javax.annotation.Nullable;
  *     public Foo(Iterable<String> codes) {
  *       this.codes = ImmutableSet.copyOf(codes);
  *       checkArgument(Collections.disjoint(this.codes, RESERVED_CODES));
- *   }
+ *     }
+ *   }}</pre>
  *
  * <h3>About <i>all</i> public {@code Immutable-} types in this package</h3>
  *
