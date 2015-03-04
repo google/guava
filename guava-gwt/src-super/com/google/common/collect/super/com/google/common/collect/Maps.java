@@ -654,7 +654,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @Beta
   public static <K, V> Map<K, V> asMap(
       Set<K> set, Function<? super K, V> function) {
     if (set instanceof SortedSet) {
@@ -690,7 +689,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @Beta
   public static <K, V> SortedMap<K, V> asMap(
       SortedSet<K> set, Function<? super K, V> function) {
     return Platform.mapsAsMapSortedSet(set, function);
@@ -895,6 +893,11 @@ public final class Maps {
    * The map's iteration order is the order of the first appearance of each key
    * in {@code keys}.
    *
+   * <p>When there are multiple instances of a key in {@code keys}, it is
+   * unspecified whether {@code valueFunction} will be applied to more than one
+   * instance of that key and, if it is, which result will be mapped to that
+   * key in the returned map.
+   *
    * <p>If {@code keys} is a {@link Set}, a live view can be obtained instead of
    * a copy using {@link Maps#asMap(Set, Function)}.
    *
@@ -903,7 +906,6 @@ public final class Maps {
    *     for any key
    * @since 14.0
    */
-  @Beta
   public static <K, V> ImmutableMap<K, V> toMap(Iterable<K> keys,
       Function<? super K, V> valueFunction) {
     return toMap(keys.iterator(), valueFunction);
@@ -915,12 +917,16 @@ public final class Maps {
    * The map's iteration order is the order of the first appearance of each key
    * in {@code keys}.
    *
+   * <p>When there are multiple instances of a key in {@code keys}, it is
+   * unspecified whether {@code valueFunction} will be applied to more than one
+   * instance of that key and, if it is, which result will be mapped to that
+   * key in the returned map.
+   *
    * @throws NullPointerException if any element of {@code keys} is
    *     {@code null}, or if {@code valueFunction} produces {@code null}
    *     for any key
    * @since 14.0
    */
-  @Beta
   public static <K, V> ImmutableMap<K, V> toMap(Iterator<K> keys,
       Function<? super K, V> valueFunction) {
     checkNotNull(valueFunction);
