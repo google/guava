@@ -321,7 +321,12 @@ public class ClassPathTest extends TestCase {
           contentEquals(resource.url(), loader.getResource(resourceName)));
       List<URL> urlsFromLoader = list(loader.getResources(resourceName));
       List<URL> urlsFromClassPath = resource.urls();
-      assertEquals(urlsFromLoader.size(), urlsFromClassPath.size());
+      if (urlsFromLoader.size() != urlsFromClassPath.size()) {
+        fail(String.format(
+            "Number of URLs from system classloader (%s) and number of URLs from ClassPath (%s) "
+                + "do not match",
+            urlsFromLoader.size(), urlsFromClassPath.size()));
+      }
       for (int i = 0; i < urlsFromClassPath.size(); i++) {
         assertTrue(
             resourceName + " #" + i + "has different content when loaded by resource.url()",
