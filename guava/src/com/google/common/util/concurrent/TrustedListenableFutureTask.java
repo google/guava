@@ -17,14 +17,13 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
-import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 import javax.annotation.Nullable;
 
@@ -35,12 +34,9 @@ import javax.annotation.Nullable;
  * <p>This should be used in preference to {@link ListenableFutureTask} when possible for 
  * performance reasons.
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     implements RunnableFuture<V> {
-
-  private static final AtomicReferenceFieldUpdater<TrustedListenableFutureTask, Thread> RUNNER =
-      newUpdater(TrustedListenableFutureTask.class, Thread.class, "runner");
 
   /**
    * Creates a {@code ListenableFutureTask} that will upon running, execute the
@@ -68,65 +64,32 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     return new TrustedListenableFutureTask<V>(Executors.callable(runnable, result));
   }
 
-  private Callable<V> task;
-
-  // These two fields are used to interrupt running tasks.  The thread executing the task publishes
-  // itself to the 'runner' field and the thread interrupting sets 'doneInterrupting' when it has
-  // finished interrupting.
-  private volatile Thread runner;
-  private volatile boolean doneInterrupting;
+  private TrutestedFutureInterruptibleTask task;
 
   TrustedListenableFutureTask(Callable<V> callable) {
-    this.task = checkNotNull(callable);
+    this.task = new TrutestedFutureInterruptibleTask(callable);
   }
 
   @Override public void run() {
-    if (!RUNNER.compareAndSet(this, null, Thread.currentThread())) {
-      return;  // someone else has run or is running.
-    }
-    try {
-      // Read before checking isDone to ensure that a cancel race doesn't cause us to read null.
-      Callable<V> localTask = task;
-      // Ensure we haven't been cancelled or already run.
-      if (!isDone()) {
-        doRun(localTask);
-      }
-    } catch (Throwable t) {
-      setException(t);
-    } finally {
-      task = null;
-      runner = null;
-      if (wasInterrupted()) {
-        // We were interrupted, it is possible that the interrupted bit hasn't been set yet.  Wait
-        // for the interrupting thread to set 'doneInterrupting' to true. See interruptTask().
-        // We want to wait so that we don't interrupt the _next_ thing run on the thread.
-        // Note. We don't reset the interrupted bit, just wait for it to be set.
-        // If this is a thread pool thread, the thread pool will reset it for us.  Otherwise, the
-        // interrupted bit may have been intended for something else, so don't clear it.
-        while (!doneInterrupting) {
-          Thread.yield();
-        }
-      }
+    TrutestedFutureInterruptibleTask localTask = task;
+    if (localTask != null) {
+      localTask.run();
     }
   }
 
-  @Override public boolean cancel(boolean mayInterruptIfRunning) {
-    if (super.cancel(mayInterruptIfRunning)) {
-      task = null;
-      return true;
-    }
-    return false;
+  @Override void done() {
+    super.done();
+
+    // Free all resources associated with the running task
+    this.task = null;
   }
 
+  @GwtIncompatible("Interruption not supported")
   @Override protected final void interruptTask() {
-    // interruptTask is guaranteed to be called at most once and if runner is non-null when that
-    // happens then it must have been the first thread that entered run().  So there is no risk that
-    // we are interrupting the wrong thread.
-    Thread currentRunner = runner;
-    if (currentRunner != null) {
-      currentRunner.interrupt();
+    TrutestedFutureInterruptibleTask localTask = task;
+    if (localTask != null) {
+      localTask.interruptTask();
     }
-    doneInterrupting = true;
   }
 
   /**
@@ -137,5 +100,28 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
    */
   void doRun(Callable<V> localTask) throws Exception {
     set(localTask.call());
+  }
+
+  final class TrutestedFutureInterruptibleTask extends InterruptibleTask {
+    private final Callable<V> callable;
+
+    TrutestedFutureInterruptibleTask(Callable<V> callable) {
+      this.callable = checkNotNull(callable);
+    }
+
+    @Override void runInterruptibly() {
+      // Ensure we haven't been cancelled or already run.
+      if (!isDone()) {
+        try {
+          doRun(callable);
+        } catch (Throwable t) {
+          setException(t);
+        } 
+      }
+    }
+
+    @Override boolean wasInterrupted() {
+      return TrustedListenableFutureTask.this.wasInterrupted();
+    }
   }
 }

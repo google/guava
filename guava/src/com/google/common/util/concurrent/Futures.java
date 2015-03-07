@@ -30,6 +30,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
@@ -1532,7 +1533,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       ListenableFuture<? extends V>... futures) {
-    return listFuture(ImmutableList.copyOf(futures), true, directExecutor());
+    return new ListFuture<V>(ImmutableList.copyOf(futures), true);
   }
 
   /**
@@ -1554,7 +1555,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
-    return listFuture(ImmutableList.copyOf(futures), true, directExecutor());
+    return new ListFuture<V>(ImmutableList.copyOf(futures), true);
   }
 
   /**
@@ -1607,7 +1608,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @CheckReturnValue
   public static <V> ListenableFuture<List<V>> successfulAsList(
       ListenableFuture<? extends V>... futures) {
-    return listFuture(ImmutableList.copyOf(futures), false, directExecutor());
+    return new ListFuture<V>(ImmutableList.copyOf(futures), false);
   }
 
   /**
@@ -1629,7 +1630,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @CheckReturnValue
   public static <V> ListenableFuture<List<V>> successfulAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
-    return listFuture(ImmutableList.copyOf(futures), false, directExecutor());
+    return new ListFuture<V>(ImmutableList.copyOf(futures), false);
   }
 
   /**
@@ -2085,21 +2086,27 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /** Used for {@link #allAsList} and {@link #successfulAsList}. */
-  private static <V> ListenableFuture<List<V>> listFuture(
-      ImmutableList<ListenableFuture<? extends V>> futures,
-      boolean allMustSucceed, Executor listenerExecutor) {
-    return new CollectionFuture<V, List<V>>(
-        futures, allMustSucceed, listenerExecutor,
-        new CollectionFuture.FutureCollector<V, List<V>>() {
-          @Override
-          public List<V> combine(List<Optional<V>> values) {
-            List<V> result = Lists.newArrayList();
-            for (Optional<V> element : values) {
-              result.add(element != null ? element.orNull() : null);
-            }
-            return Collections.unmodifiableList(result);
-          }
-        });
+  private static final class ListFuture<V> extends CollectionFuture<V, List<V>> {
+    ListFuture(ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
+        boolean allMustSucceed) {
+      init(new ListFutureRunningState(futures, allMustSucceed));
+    }
+
+    private final class ListFutureRunningState extends CollectionFutureRunningState {
+      ListFutureRunningState(ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
+        boolean allMustSucceed) {
+        super(futures, allMustSucceed);
+      }
+
+      @Override
+      public List<V> combine(List<Optional<V>> values) {
+        List<V> result = Lists.newArrayList();
+        for (Optional<V> element : values) {
+          result.add(element != null ? element.orNull() : null);
+        }
+        return Collections.unmodifiableList(result);
+      }
+    }
   }
 
   /**

@@ -80,7 +80,7 @@ import javax.annotation.Nullable;
 public class FuturesTest extends TestCase {
   @GwtIncompatible("TestLogHandler")
   private static final Logger combinedFutureLogger = Logger.getLogger(
-      "com.google.common.util.concurrent.CollectionFuture");
+      AggregateFuture.class.getName());
   @GwtIncompatible("TestLogHandler")
   private final TestLogHandler combinedFutureLogHandler = new TestLogHandler();
 
