@@ -32,7 +32,6 @@ import com.google.common.collect.Lists;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -1084,44 +1083,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   public static <V> ListenableFuture<List<V>> allAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return listFuture(ImmutableList.copyOf(futures), true, directExecutor());
-  }
-
-  private static final class CombinedFuture<V> extends TrustedListenableFutureTask<V> {
-    ImmutableList<ListenableFuture<?>> futures;
-
-    CombinedFuture(Callable<V> callable, ImmutableList<ListenableFuture<?>> futures) {
-      super(callable);
-      this.futures = futures;
-    }
-
-    @Override void doRun(Callable<V> task) throws Exception {
-      // Very similar to the default implementation, but has specialized handling of
-      // ExecutionExceptions and CancellationExceptions
-      try {
-        set(task.call());
-      } catch (ExecutionException e) {
-        setException(e.getCause());
-      } catch (CancellationException e) {
-        cancel(false);
-      }
-    }
-
-    @Override public boolean cancel(boolean mayInterruptIfRunning) {
-      ImmutableList<ListenableFuture<?>> localFutures = this.futures;
-      if (super.cancel(mayInterruptIfRunning)) {
-        if (localFutures != null) {
-          for (ListenableFuture<?> future : localFutures) {
-            future.cancel(mayInterruptIfRunning);
-          }
-        }
-        return true;
-      }
-      return false;
-    }
-
-    @Override void done() {
-      futures = null;
-    }
   }
 
   /**
