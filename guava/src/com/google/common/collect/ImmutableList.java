@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.collect.ObjectArrays.arraysCopyOf;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
+import static com.google.common.collect.RegularImmutableList.EMPTY;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -62,10 +63,6 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
-
-  private static final ImmutableList<Object> EMPTY =
-      new RegularImmutableList<Object>(ObjectArrays.EMPTY_ARRAY);
-
   /**
    * Returns the empty immutable list. This set behaves and performs comparably
    * to {@link Collections#emptyList}, and is preferable mainly for consistency
@@ -400,8 +397,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   class SubList extends ImmutableList<E> {
-    transient final int offset;
-    transient final int length;
+    final transient int offset;
+    final transient int length;
 
     SubList(int offset, int length) {
       this.offset = offset;

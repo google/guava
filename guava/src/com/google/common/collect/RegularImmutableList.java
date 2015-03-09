@@ -22,13 +22,16 @@ import com.google.common.base.Preconditions;
 import javax.annotation.Nullable;
 
 /**
- * Implementation of {@link ImmutableList} with one or more elements.
+ * Implementation of {@link ImmutableList} used for 0 or 2+ elements (not 1).
  *
  * @author Kevin Bourrillion
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableList<E> extends ImmutableList<E> {
+  static final ImmutableList<Object> EMPTY =
+      new RegularImmutableList<Object>(ObjectArrays.EMPTY_ARRAY);
+
   private final transient int offset;
   private final transient int size;
   private final transient Object[] array;
