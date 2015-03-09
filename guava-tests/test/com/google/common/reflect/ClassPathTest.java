@@ -324,8 +324,8 @@ public class ClassPathTest extends TestCase {
       if (urlsFromLoader.size() != urlsFromClassPath.size()) {
         fail(String.format(
             "Number of URLs from system classloader (%s) and number of URLs from ClassPath (%s) "
-                + "do not match",
-            urlsFromLoader.size(), urlsFromClassPath.size()));
+                + "do not match for resource %s",
+            urlsFromLoader.size(), urlsFromClassPath.size(), resourceName));
       }
       for (int i = 0; i < urlsFromClassPath.size(); i++) {
         assertTrue(
