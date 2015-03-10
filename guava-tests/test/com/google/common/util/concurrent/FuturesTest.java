@@ -374,6 +374,44 @@ public class FuturesTest extends TestCase {
     assertTrue(input.wasInterrupted());
   }
 
+  @GwtIncompatible("threads")
+
+  public void testTransformAsync_interruptPropagatesToTransformingThread() throws Exception {
+    SettableFuture<String> input = SettableFuture.create();
+    final CountDownLatch inFunction = new CountDownLatch(1);
+    final CountDownLatch shouldCompleteFunction = new CountDownLatch(1);
+    final CountDownLatch gotException = new CountDownLatch(1);
+    AsyncFunction<String, String> function = new AsyncFunction<String, String>() {
+      @Override
+      public ListenableFuture<String> apply(String s) throws Exception {
+        inFunction.countDown();
+        try {
+          shouldCompleteFunction.await();
+        } catch (InterruptedException expected) {
+          gotException.countDown();
+          throw expected;
+        }
+        return immediateFuture("a");
+      }
+    };
+
+    ListenableFuture<String> futureResult =
+        Futures.transformAsync(input, function, newSingleThreadExecutor());
+
+    input.set("value");
+    inFunction.await();
+    futureResult.cancel(true);
+    shouldCompleteFunction.countDown();
+    try {
+      futureResult.get();
+      fail();
+    } catch (CancellationException expected) {}
+    // TODO(cpovirk): implement interruption, updating this test:
+    // https://github.com/google/guava/issues/1989
+    assertEquals(1, gotException.getCount());
+    // gotException.await();
+  }
+
   public void testTransformAsync_cancelPropagatesToAsyncOutput() throws Exception {
     ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
     final SettableFuture<Bar> secondary = SettableFuture.create();
@@ -1052,6 +1090,44 @@ public class FuturesTest extends TestCase {
       assertThat(cause).hasMessage("AsyncFunction.apply returned null instead of a Future. "
           + "Did you mean to return immediateFuture(null)?");
     }
+  }
+
+  @GwtIncompatible("threads")
+
+  public void testCatchingAsync_interruptPropagatesToTransformingThread() throws Exception {
+    SettableFuture<String> input = SettableFuture.create();
+    final CountDownLatch inFunction = new CountDownLatch(1);
+    final CountDownLatch shouldCompleteFunction = new CountDownLatch(1);
+    final CountDownLatch gotException = new CountDownLatch(1);
+    AsyncFunction<Throwable, String> function = new AsyncFunction<Throwable, String>() {
+      @Override
+      public ListenableFuture<String> apply(Throwable t) throws Exception {
+        inFunction.countDown();
+        try {
+          shouldCompleteFunction.await();
+        } catch (InterruptedException expected) {
+          gotException.countDown();
+          throw expected;
+        }
+        return immediateFuture("a");
+      }
+    };
+
+    ListenableFuture<String> futureResult =
+        Futures.catchingAsync(input, Exception.class, function, newSingleThreadExecutor());
+
+    input.setException(new Exception());
+    inFunction.await();
+    futureResult.cancel(true);
+    shouldCompleteFunction.countDown();
+    try {
+      futureResult.get();
+      fail();
+    } catch (CancellationException expected) {}
+    // TODO(cpovirk): implement interruption, updating this test:
+    // https://github.com/google/guava/issues/1989
+    assertEquals(1, gotException.getCount());
+    // gotException.await();
   }
 
   // catching tests cloned from the old withFallback tests:
