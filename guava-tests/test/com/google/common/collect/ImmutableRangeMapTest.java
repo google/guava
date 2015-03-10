@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.collect.BoundType.OPEN;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -191,6 +192,7 @@ public class ImmutableRangeMapTest extends TestCase {
               ImmutableMap.of(range1, 1, range2, 2);
           ImmutableMap<Range<Integer>, Integer> asMap = rangeMap.asMapOfRanges();
           assertEquals(expectedAsMap, asMap);
+          SerializableTester.reserializeAndAssert(asMap);
 
           for (Range<Integer> query : RANGES) {
             assertEquals(expectedAsMap.get(query), asMap.get(query));

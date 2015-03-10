@@ -378,6 +378,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       }
 
       SerializableTester.reserializeAndAssert(built);
+      SerializableTester.reserializeAndAssert(built.asRanges());
     }
   }
 

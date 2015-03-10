@@ -138,15 +138,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
     return (Function) UPPER_BOUND_FN;
   }
 
-  static final Ordering<Range<?>> RANGE_LEX_ORDERING = new Ordering<Range<?>>() {
-    @Override
-    public int compare(Range<?> left, Range<?> right) {
-      return ComparisonChain.start()
-          .compare(left.lowerBound, right.lowerBound)
-          .compare(left.upperBound, right.upperBound)
-          .result();
-    }
-  };
+  static final Ordering<Range<?>> RANGE_LEX_ORDERING = new RangeLexOrdering();
 
   static <C extends Comparable<?>> Range<C> create(
       Cut<C> lowerBound, Cut<C> upperBound) {
@@ -681,6 +673,22 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
   @SuppressWarnings("unchecked") // this method may throw CCE
   static int compareOrThrow(Comparable left, Comparable right) {
     return left.compareTo(right);
+  }
+
+  /**
+   * Needed to serialize sorted collections of Ranges.
+    */
+  private static class RangeLexOrdering extends Ordering<Range<?>> implements Serializable {
+
+    @Override
+    public int compare(Range<?> left, Range<?> right) {
+      return ComparisonChain.start()
+          .compare(left.lowerBound, right.lowerBound)
+          .compare(left.upperBound, right.upperBound)
+          .result();
+    }
+
+    private static final long serialVersionUID = 0;
   }
 
   private static final long serialVersionUID = 0;
