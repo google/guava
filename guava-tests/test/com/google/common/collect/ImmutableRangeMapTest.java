@@ -227,4 +227,27 @@ public class ImmutableRangeMapTest extends TestCase {
       }
     }
   }
+
+  public void testSerialization() {
+    ImmutableRangeMap<Integer, Integer> emptyRangeMap = ImmutableRangeMap.of();
+    SerializableTester.reserializeAndAssert(emptyRangeMap);
+
+    ImmutableRangeMap<Integer, Integer> nonEmptyRangeMap =
+        new ImmutableRangeMap.Builder<Integer, Integer>()
+            .put(Range.closed(2, 4), 5)
+            .put(Range.open(6, 7), 3)
+            .put(Range.closedOpen(8, 10), 4)
+            .put(Range.openClosed(15, 17), 2)
+        .build();
+
+    ImmutableMap<Range<Integer>, Integer> test = nonEmptyRangeMap.asMapOfRanges();
+
+    for (Range<Integer> range : test.keySet()) {
+      SerializableTester.reserializeAndAssert(range);
+    }
+
+    SerializableTester.reserializeAndAssert(test.keySet());
+
+    SerializableTester.reserializeAndAssert(nonEmptyRangeMap);
+  }
 }
