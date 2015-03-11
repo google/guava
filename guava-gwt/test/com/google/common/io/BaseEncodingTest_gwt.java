@@ -33,6 +33,11 @@ public void testBase16InvalidDecodings() throws Exception {
   testCase.testBase16InvalidDecodings();
 }
 
+public void testBase16Offset() throws Exception {
+  com.google.common.io.BaseEncodingTest testCase = new com.google.common.io.BaseEncodingTest();
+  testCase.testBase16Offset();
+}
+
 public void testBase16UpperCaseIsNoOp() throws Exception {
   com.google.common.io.BaseEncodingTest testCase = new com.google.common.io.BaseEncodingTest();
   testCase.testBase16UpperCaseIsNoOp();
@@ -78,6 +83,11 @@ public void testBase32LenientPadding() throws Exception {
   testCase.testBase32LenientPadding();
 }
 
+public void testBase32Offset() throws Exception {
+  com.google.common.io.BaseEncodingTest testCase = new com.google.common.io.BaseEncodingTest();
+  testCase.testBase32Offset();
+}
+
 public void testBase32UpperCaseIsNoOp() throws Exception {
   com.google.common.io.BaseEncodingTest testCase = new com.google.common.io.BaseEncodingTest();
   testCase.testBase32UpperCaseIsNoOp();
@@ -111,6 +121,11 @@ public void testBase64InvalidDecodings() throws Exception {
 public void testBase64LenientPadding() throws Exception {
   com.google.common.io.BaseEncodingTest testCase = new com.google.common.io.BaseEncodingTest();
   testCase.testBase64LenientPadding();
+}
+
+public void testBase64Offset() throws Exception {
+  com.google.common.io.BaseEncodingTest testCase = new com.google.common.io.BaseEncodingTest();
+  testCase.testBase64Offset();
 }
 
 public void testBase64OmitPadding() throws Exception {
