@@ -365,6 +365,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
         input, Throwable.class, asAsyncFunction(fallback), executor);
   }
 
+  @Deprecated
   static <V> AsyncFunction<Throwable, V> asAsyncFunction(final FutureFallback<V> fallback) {
     checkNotNull(fallback);
     return new AsyncFunction<Throwable, V>() {
@@ -1059,6 +1060,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 10.0
    */
   @Beta
+  @SafeVarargs
   public static <V> ListenableFuture<List<V>> allAsList(
       ListenableFuture<? extends V>... futures) {
     return new ListFuture<V>(ImmutableList.copyOf(futures), true);
@@ -1103,6 +1105,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @Beta
   @CheckReturnValue
+  @SafeVarargs
   public static <V> ListenableFuture<List<V>> successfulAsList(
       ListenableFuture<? extends V>... futures) {
     return new ListFuture<V>(ImmutableList.copyOf(futures), false);
