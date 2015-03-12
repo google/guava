@@ -1802,9 +1802,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * <b>To be deprecated in favor of {@code getChecked}.
-   *
-   * <p>Returns the result of {@link Future#get()}, converting most exceptions to a
+   * Returns the result of {@link Future#get()}, converting most exceptions to a
    * new instance of the given checked exception type. This reduces boilerplate
    * for a common use of {@code Future} in which it is unnecessary to
    * programmatically distinguish between exception types or to extract other
@@ -1849,7 +1847,10 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @throws IllegalArgumentException if {@code exceptionClass} extends {@code
    *         RuntimeException} or does not have a suitable constructor
    * @since 10.0
+   * @deprecated Use {@link #getChecked(Future, Class)}. This method will be
+   *     removed in Guava release 20.0.
    */
+  @Deprecated
   @GwtIncompatible("TODO")
   public static <V, X extends Exception> V get(
       Future<V> future, Class<X> exceptionClass) throws X {
@@ -1857,9 +1858,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * <b>To be deprecated in favor of {@code getChecked}.
-   *
-   * <p>Returns the result of {@link Future#get(long, TimeUnit)}, converting most
+   * Returns the result of {@link Future#get(long, TimeUnit)}, converting most
    * exceptions to a new instance of the given checked exception type. This
    * reduces boilerplate for a common use of {@code Future} in which it is
    * unnecessary to programmatically distinguish between exception types or to
@@ -1905,7 +1904,10 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @throws IllegalArgumentException if {@code exceptionClass} extends {@code
    *         RuntimeException} or does not have a suitable constructor
    * @since 10.0
+   * @deprecated Use {@link #getChecked(Future, long, TimeUnit, Class)}. This
+   *     method will be removed in Guava release 20.0.
    */
+  @Deprecated
   @GwtIncompatible("TODO")
   public static <V, X extends Exception> V get(
       Future<V> future, long timeout, TimeUnit unit, Class<X> exceptionClass)
