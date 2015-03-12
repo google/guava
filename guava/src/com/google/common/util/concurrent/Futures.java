@@ -1802,7 +1802,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * Returns the result of {@link Future#get()}, converting most exceptions to a
+   * <b>To be deprecated in favor of {@code getChecked}.
+   *
+   * <p>Returns the result of {@link Future#get()}, converting most exceptions to a
    * new instance of the given checked exception type. This reduces boilerplate
    * for a common use of {@code Future} in which it is unnecessary to
    * programmatically distinguish between exception types or to extract other
@@ -1850,6 +1852,116 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @GwtIncompatible("TODO")
   public static <V, X extends Exception> V get(
+      Future<V> future, Class<X> exceptionClass) throws X {
+    return getChecked(future, exceptionClass);
+  }
+
+  /**
+   * <b>To be deprecated in favor of {@code getChecked}.
+   *
+   * <p>Returns the result of {@link Future#get(long, TimeUnit)}, converting most
+   * exceptions to a new instance of the given checked exception type. This
+   * reduces boilerplate for a common use of {@code Future} in which it is
+   * unnecessary to programmatically distinguish between exception types or to
+   * extract other information from the exception instance.
+   *
+   * <p>Exceptions from {@code Future.get} are treated as follows:
+   * <ul>
+   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an
+   *     {@code X} if the cause is a checked exception, an {@link
+   *     UncheckedExecutionException} if the cause is a {@code
+   *     RuntimeException}, or an {@link ExecutionError} if the cause is an
+   *     {@code Error}.
+   * <li>Any {@link InterruptedException} is wrapped in an {@code X} (after
+   *     restoring the interrupt).
+   * <li>Any {@link TimeoutException} is wrapped in an {@code X}.
+   * <li>Any {@link CancellationException} is propagated untouched, as is any
+   *     other {@link RuntimeException} (though {@code get} implementations are
+   *     discouraged from throwing such exceptions).
+   * </ul>
+   *
+   * <p>The overall principle is to continue to treat every checked exception as a
+   * checked exception, every unchecked exception as an unchecked exception, and
+   * every error as an error. In addition, the cause of any {@code
+   * ExecutionException} is wrapped in order to ensure that the new stack trace
+   * matches that of the current thread.
+   *
+   * <p>Instances of {@code exceptionClass} are created by choosing an arbitrary
+   * public constructor that accepts zero or more arguments, all of type {@code
+   * String} or {@code Throwable} (preferring constructors with at least one
+   * {@code String}) and calling the constructor via reflection. If the
+   * exception did not already have a cause, one is set by calling {@link
+   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an
+   * {@code IllegalArgumentException} is thrown.
+   *
+   * @throws X if {@code get} throws any checked exception except for an {@code
+   *         ExecutionException} whose cause is not itself a checked exception
+   * @throws UncheckedExecutionException if {@code get} throws an {@code
+   *         ExecutionException} with a {@code RuntimeException} as its cause
+   * @throws ExecutionError if {@code get} throws an {@code ExecutionException}
+   *         with an {@code Error} as its cause
+   * @throws CancellationException if {@code get} throws a {@code
+   *         CancellationException}
+   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code
+   *         RuntimeException} or does not have a suitable constructor
+   * @since 10.0
+   */
+  @GwtIncompatible("TODO")
+  public static <V, X extends Exception> V get(
+      Future<V> future, long timeout, TimeUnit unit, Class<X> exceptionClass)
+      throws X {
+    return getChecked(future, timeout, unit, exceptionClass);
+  }
+
+  /**
+   * Returns the result of {@link Future#get()}, converting most exceptions to a
+   * new instance of the given checked exception type. This reduces boilerplate
+   * for a common use of {@code Future} in which it is unnecessary to
+   * programmatically distinguish between exception types or to extract other
+   * information from the exception instance.
+   *
+   * <p>Exceptions from {@code Future.get} are treated as follows:
+   * <ul>
+   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an
+   *     {@code X} if the cause is a checked exception, an {@link
+   *     UncheckedExecutionException} if the cause is a {@code
+   *     RuntimeException}, or an {@link ExecutionError} if the cause is an
+   *     {@code Error}.
+   * <li>Any {@link InterruptedException} is wrapped in an {@code X} (after
+   *     restoring the interrupt).
+   * <li>Any {@link CancellationException} is propagated untouched, as is any
+   *     other {@link RuntimeException} (though {@code get} implementations are
+   *     discouraged from throwing such exceptions).
+   * </ul>
+   *
+   * <p>The overall principle is to continue to treat every checked exception as a
+   * checked exception, every unchecked exception as an unchecked exception, and
+   * every error as an error. In addition, the cause of any {@code
+   * ExecutionException} is wrapped in order to ensure that the new stack trace
+   * matches that of the current thread.
+   *
+   * <p>Instances of {@code exceptionClass} are created by choosing an arbitrary
+   * public constructor that accepts zero or more arguments, all of type {@code
+   * String} or {@code Throwable} (preferring constructors with at least one
+   * {@code String}) and calling the constructor via reflection. If the
+   * exception did not already have a cause, one is set by calling {@link
+   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an
+   * {@code IllegalArgumentException} is thrown.
+   *
+   * @throws X if {@code get} throws any checked exception except for an {@code
+   *     ExecutionException} whose cause is not itself a checked exception
+   * @throws UncheckedExecutionException if {@code get} throws an {@code
+   *     ExecutionException} with a {@code RuntimeException} as its cause
+   * @throws ExecutionError if {@code get} throws an {@code ExecutionException}
+   *     with an {@code Error} as its cause
+   * @throws CancellationException if {@code get} throws a {@code
+   *     CancellationException}
+   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code
+   *     RuntimeException} or does not have a suitable constructor
+   * @since 19.0 (in 10.0 as {@code get})
+   */
+  @GwtIncompatible("TODO")
+  public static <V, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass) throws X {
     checkNotNull(future);
     checkArgument(!RuntimeException.class.isAssignableFrom(exceptionClass),
@@ -1903,19 +2015,19 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * {@code IllegalArgumentException} is thrown.
    *
    * @throws X if {@code get} throws any checked exception except for an {@code
-   *         ExecutionException} whose cause is not itself a checked exception
+   *     ExecutionException} whose cause is not itself a checked exception
    * @throws UncheckedExecutionException if {@code get} throws an {@code
-   *         ExecutionException} with a {@code RuntimeException} as its cause
+   *     ExecutionException} with a {@code RuntimeException} as its cause
    * @throws ExecutionError if {@code get} throws an {@code ExecutionException}
-   *         with an {@code Error} as its cause
+   *     with an {@code Error} as its cause
    * @throws CancellationException if {@code get} throws a {@code
-   *         CancellationException}
+   *     CancellationException}
    * @throws IllegalArgumentException if {@code exceptionClass} extends {@code
-   *         RuntimeException} or does not have a suitable constructor
-   * @since 10.0
+   *     RuntimeException} or does not have a suitable constructor
+   * @since 19.0 (in 10.0 as {@code get})
    */
   @GwtIncompatible("TODO")
-  public static <V, X extends Exception> V get(
+  public static <V, X extends Exception> V getChecked(
       Future<V> future, long timeout, TimeUnit unit, Class<X> exceptionClass)
       throws X {
     checkNotNull(future);
