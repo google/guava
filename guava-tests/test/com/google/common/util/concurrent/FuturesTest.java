@@ -20,6 +20,7 @@ import static com.google.common.base.Throwables.propagateIfInstanceOf;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.allAsList;
 import static com.google.common.util.concurrent.Futures.get;
+import static com.google.common.util.concurrent.Futures.getChecked;
 import static com.google.common.util.concurrent.Futures.getUnchecked;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
@@ -2964,19 +2965,19 @@ public class FuturesTest extends TestCase {
 
   // Boring untimed-get tests:
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_success()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_success()
       throws TwoArgConstructorException {
     assertEquals("foo",
-        get(immediateFuture("foo"), TwoArgConstructorException.class));
+        getChecked(immediateFuture("foo"), TwoArgConstructorException.class));
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_interrupted() {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_interrupted() {
     SettableFuture<String> future = SettableFuture.create();
     Thread.currentThread().interrupt();
     try {
-      get(future, TwoArgConstructorException.class);
+      getChecked(future, TwoArgConstructorException.class);
       fail();
     } catch (TwoArgConstructorException expected) {
       assertTrue(expected.getCause() instanceof InterruptedException);
@@ -2986,85 +2987,86 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_cancelled()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_cancelled()
       throws TwoArgConstructorException {
     SettableFuture<String> future = SettableFuture.create();
     future.cancel(true);
     try {
-      get(future, TwoArgConstructorException.class);
+      getChecked(future, TwoArgConstructorException.class);
       fail();
     } catch (CancellationException expected) {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_ExecutionExceptionChecked() {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_ExecutionExceptionChecked() {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION, TwoArgConstructorException.class);
+      getChecked(FAILED_FUTURE_CHECKED_EXCEPTION, TwoArgConstructorException.class);
       fail();
     } catch (TwoArgConstructorException expected) {
       assertEquals(CHECKED_EXCEPTION, expected.getCause());
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_ExecutionExceptionUnchecked()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_ExecutionExceptionUnchecked()
       throws TwoArgConstructorException {
     try {
-      get(FAILED_FUTURE_UNCHECKED_EXCEPTION, TwoArgConstructorException.class);
+      getChecked(FAILED_FUTURE_UNCHECKED_EXCEPTION, TwoArgConstructorException.class);
       fail();
     } catch (UncheckedExecutionException expected) {
       assertEquals(UNCHECKED_EXCEPTION, expected.getCause());
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_ExecutionExceptionError()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_ExecutionExceptionError()
       throws TwoArgConstructorException {
     try {
-      get(FAILED_FUTURE_ERROR, TwoArgConstructorException.class);
+      getChecked(FAILED_FUTURE_ERROR, TwoArgConstructorException.class);
       fail();
     } catch (ExecutionError expected) {
       assertEquals(ERROR, expected.getCause());
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_ExecutionExceptionOtherThrowable() {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_ExecutionExceptionOtherThrowable() {
     try {
-      get(FAILED_FUTURE_OTHER_THROWABLE, TwoArgConstructorException.class);
+      getChecked(FAILED_FUTURE_OTHER_THROWABLE, TwoArgConstructorException.class);
       fail();
     } catch (TwoArgConstructorException expected) {
       assertEquals(OTHER_THROWABLE, expected.getCause());
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_RuntimeException()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_RuntimeException()
       throws TwoArgConstructorException {
     try {
-      get(RUNTIME_EXCEPTION_FUTURE, TwoArgConstructorException.class);
+      getChecked(RUNTIME_EXCEPTION_FUTURE, TwoArgConstructorException.class);
       fail();
     } catch (RuntimeException expected) {
       assertEquals(RUNTIME_EXCEPTION, expected);
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_badExceptionConstructor_wrapsOriginalChecked() throws Exception {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_badExceptionConstructor_wrapsOriginalChecked()
+      throws Exception {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION, ExceptionWithBadConstructor.class);
+      getChecked(FAILED_FUTURE_CHECKED_EXCEPTION, ExceptionWithBadConstructor.class);
       fail();
     } catch (IllegalArgumentException expected) {
       assertSame(CHECKED_EXCEPTION, expected.getCause());
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_withGoodAndBadExceptionConstructor() throws Exception {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_withGoodAndBadExceptionConstructor() throws Exception {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION, ExceptionWithGoodAndBadConstructor.class);
+      getChecked(FAILED_FUTURE_CHECKED_EXCEPTION, ExceptionWithGoodAndBadConstructor.class);
       fail();
     } catch (ExceptionWithGoodAndBadConstructor expected) {
       assertSame(CHECKED_EXCEPTION, expected.getCause());
@@ -3073,19 +3075,19 @@ public class FuturesTest extends TestCase {
 
   // Boring timed-get tests:
 
-  @GwtIncompatible("Futures.get")
-  public void testGetTimed_success()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedTimed_success()
       throws TwoArgConstructorException {
-    assertEquals("foo", get(
+    assertEquals("foo", getChecked(
         immediateFuture("foo"), 0, SECONDS, TwoArgConstructorException.class));
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetTimed_interrupted() {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedTimed_interrupted() {
     SettableFuture<String> future = SettableFuture.create();
     Thread.currentThread().interrupt();
     try {
-      get(future, 0, SECONDS, TwoArgConstructorException.class);
+      getChecked(future, 0, SECONDS, TwoArgConstructorException.class);
       fail();
     } catch (TwoArgConstructorException expected) {
       assertTrue(expected.getCause() instanceof InterruptedException);
@@ -3095,22 +3097,22 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetTimed_cancelled()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedTimed_cancelled()
       throws TwoArgConstructorException {
     SettableFuture<String> future = SettableFuture.create();
     future.cancel(true);
     try {
-      get(future, 0, SECONDS, TwoArgConstructorException.class);
+      getChecked(future, 0, SECONDS, TwoArgConstructorException.class);
       fail();
     } catch (CancellationException expected) {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetTimed_ExecutionExceptionChecked() {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedTimed_ExecutionExceptionChecked() {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION, 0, SECONDS,
+      getChecked(FAILED_FUTURE_CHECKED_EXCEPTION, 0, SECONDS,
           TwoArgConstructorException.class);
       fail();
     } catch (TwoArgConstructorException expected) {
@@ -3118,11 +3120,11 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetTimed_ExecutionExceptionUnchecked()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedTimed_ExecutionExceptionUnchecked()
       throws TwoArgConstructorException {
     try {
-      get(FAILED_FUTURE_UNCHECKED_EXCEPTION, 0, SECONDS,
+      getChecked(FAILED_FUTURE_UNCHECKED_EXCEPTION, 0, SECONDS,
           TwoArgConstructorException.class);
       fail();
     } catch (UncheckedExecutionException expected) {
@@ -3130,21 +3132,21 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetTimed_ExecutionExceptionError()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedTimed_ExecutionExceptionError()
       throws TwoArgConstructorException {
     try {
-      get(FAILED_FUTURE_ERROR, 0, SECONDS, TwoArgConstructorException.class);
+      getChecked(FAILED_FUTURE_ERROR, 0, SECONDS, TwoArgConstructorException.class);
       fail();
     } catch (ExecutionError expected) {
       assertEquals(ERROR, expected.getCause());
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetTimed_ExecutionExceptionOtherThrowable() {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedTimed_ExecutionExceptionOtherThrowable() {
     try {
-      get(FAILED_FUTURE_OTHER_THROWABLE, 0, SECONDS,
+      getChecked(FAILED_FUTURE_OTHER_THROWABLE, 0, SECONDS,
           TwoArgConstructorException.class);
       fail();
     } catch (TwoArgConstructorException expected) {
@@ -3152,11 +3154,11 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetTimed_RuntimeException()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedTimed_RuntimeException()
       throws TwoArgConstructorException {
     try {
-      get(RUNTIME_EXCEPTION_FUTURE, 0, SECONDS,
+      getChecked(RUNTIME_EXCEPTION_FUTURE, 0, SECONDS,
           TwoArgConstructorException.class);
       fail();
     } catch (RuntimeException expected) {
@@ -3164,31 +3166,32 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetTimed_TimeoutException() {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedTimed_TimeoutException() {
     SettableFuture<String> future = SettableFuture.create();
     try {
-      get(future, 0, SECONDS, TwoArgConstructorException.class);
+      getChecked(future, 0, SECONDS, TwoArgConstructorException.class);
       fail();
     } catch (TwoArgConstructorException expected) {
       assertTrue(expected.getCause() instanceof TimeoutException);
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetTimed_badExceptionConstructor_wrapsOriginalChecked() throws Exception {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedTimed_badExceptionConstructor_wrapsOriginalChecked() throws Exception {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION, 1, TimeUnit.SECONDS, ExceptionWithBadConstructor.class);
+      getChecked(
+          FAILED_FUTURE_CHECKED_EXCEPTION, 1, TimeUnit.SECONDS, ExceptionWithBadConstructor.class);
       fail();
     } catch (IllegalArgumentException expected) {
       assertSame(CHECKED_EXCEPTION, expected.getCause());
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetTimed_withGoodAndBadExceptionConstructor() throws Exception {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedTimed_withGoodAndBadExceptionConstructor() throws Exception {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION, 1, TimeUnit.SECONDS,
+      getChecked(FAILED_FUTURE_CHECKED_EXCEPTION, 1, TimeUnit.SECONDS,
           ExceptionWithGoodAndBadConstructor.class);
       fail();
     } catch (ExceptionWithGoodAndBadConstructor expected) {
@@ -3277,52 +3280,52 @@ public class FuturesTest extends TestCase {
 
   // Edge case tests of the exception-construction code through untimed get():
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_exceptionClassIsRuntimeException() {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_exceptionClassIsRuntimeException() {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION,
+      getChecked(FAILED_FUTURE_CHECKED_EXCEPTION,
           TwoArgConstructorRuntimeException.class);
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_exceptionClassSomePublicConstructors() {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_exceptionClassSomePublicConstructors() {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION,
+      getChecked(FAILED_FUTURE_CHECKED_EXCEPTION,
           ExceptionWithSomePrivateConstructors.class);
       fail();
     } catch (ExceptionWithSomePrivateConstructors expected) {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_exceptionClassNoPublicConstructor()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_exceptionClassNoPublicConstructor()
       throws ExceptionWithPrivateConstructor {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION,
+      getChecked(FAILED_FUTURE_CHECKED_EXCEPTION,
           ExceptionWithPrivateConstructor.class);
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_exceptionClassPublicConstructorWrongType()
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_exceptionClassPublicConstructorWrongType()
       throws ExceptionWithWrongTypesConstructor {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION,
+      getChecked(FAILED_FUTURE_CHECKED_EXCEPTION,
           ExceptionWithWrongTypesConstructor.class);
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_exceptionClassPrefersStringConstructor() {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_exceptionClassPrefersStringConstructor() {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION,
+      getChecked(FAILED_FUTURE_CHECKED_EXCEPTION,
           ExceptionWithManyConstructors.class);
       fail();
     } catch (ExceptionWithManyConstructors expected) {
@@ -3330,10 +3333,10 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Futures.get")
-  public void testGetUntimed_exceptionClassUsedInitCause() {
+  @GwtIncompatible("Futures.getChecked")
+  public void testGetCheckedUntimed_exceptionClassUsedInitCause() {
     try {
-      get(FAILED_FUTURE_CHECKED_EXCEPTION,
+      getChecked(FAILED_FUTURE_CHECKED_EXCEPTION,
           ExceptionWithoutThrowableConstructor.class);
       fail();
     } catch (ExceptionWithoutThrowableConstructor expected) {
