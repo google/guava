@@ -356,6 +356,7 @@ final class Types {
       ImmutableMap.Builder<String, Method> builder = ImmutableMap.builder();
       for (Method method : TypeVariableImpl.class.getMethods()) {
         if (method.getDeclaringClass().equals(TypeVariableImpl.class)) {
+          method.setAccessible(true);
           builder.put(method.getName(), method);
         }
       }
