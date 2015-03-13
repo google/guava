@@ -411,6 +411,15 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
+   * Returns an {@code ImmutableMultiset} containing all of the elements from this fluent iterable.
+   *
+   * @since 19.0
+   */
+  public final ImmutableMultiset<E> toMultiset() {
+    return ImmutableMultiset.copyOf(iterable);
+  }
+
+  /**
    * Returns an immutable map whose keys are the distinct elements of this {@code FluentIterable}
    * and whose value for each key was computed by {@code valueFunction}. The map's iteration order
    * is the order of the first appearance of each key in this iterable.

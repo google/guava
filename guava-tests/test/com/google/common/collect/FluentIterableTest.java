@@ -581,6 +581,14 @@ public class FluentIterableTest extends TestCase {
         .containsExactly(4, 3, 1).inOrder();
   }
 
+  public void testToMultiset() {
+    assertThat(fluent(1, 2, 1, 3, 2, 4).toMultiset()).containsExactly(1, 1, 2, 2, 3, 4).inOrder();
+  }
+
+  public void testToMultiset_empty() {
+    assertThat(fluent().toMultiset()).isEmpty();
+  }
+
   public void testToMap() {
     assertThat(fluent(1, 2, 3).toMap(Functions.toStringFunction()).entrySet())
         .containsExactly(
