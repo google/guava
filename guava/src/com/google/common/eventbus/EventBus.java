@@ -183,7 +183,8 @@ public class EventBus {
    * @param object  object whose subscriber methods should be registered.
    */
   public void register(Object object) {
-    subscribers.register(object);
+      onRegister(object);
+      subscribers.register(object);
   }
 
   /**
@@ -193,7 +194,8 @@ public class EventBus {
    * @throws IllegalArgumentException if the object was not previously registered.
    */
   public void unregister(Object object) {
-    subscribers.unregister(object);
+      onUnregister(object);
+      subscribers.unregister(object);
   }
 
   /**
@@ -210,11 +212,49 @@ public class EventBus {
   public void post(Object event) {
     Iterator<Subscriber> eventSubscribers = subscribers.getSubscribers(event);
     if (eventSubscribers.hasNext()) {
+      onEventPosted(event);
       dispatcher.dispatch(event, eventSubscribers);
     } else if (!(event instanceof DeadEvent)) {
+      onNoSubscriberRegistered(event);
       // the event had no subscribers and was not itself a DeadEvent
       post(new DeadEvent(this, event));
     }
+  }
+
+  /**
+   * Callback before registration of all subscriber methods on {@code object}.
+   *
+   * @param object  object whose subscriber methods should be registered.
+   */
+  protected void onRegister(Object object) {
+
+  }
+
+  /**
+   * Callback before unregistration of all subscriber methods on a registered {@code object}.
+   *
+   * @param object  object whose subscriber methods should be unregistered.
+   */
+  protected void onUnregister(Object object) {
+
+  }
+
+  /**
+   * Callback before {@code event} is posted to all registered subscribers.
+   *  @param event  event to post.
+   *
+   */
+  protected void onEventPosted(final Object event) {
+
+  }
+
+  /**
+   * Callback when no subscribers have been subscribed for {@code event}'s class.
+   *
+   * @param event  event to post.
+   */
+  protected void onNoSubscriberRegistered(final Object event) {
+
   }
 
   @Override
