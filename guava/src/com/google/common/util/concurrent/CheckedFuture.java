@@ -44,7 +44,7 @@ import java.util.concurrent.TimeoutException;
  * future will guarantee execution of all listeners when the task completes.
  * 
  * <p>For a simpler alternative to CheckedFuture, consider accessing Future 
- * values with {@link Futures#get(Future, Class) Futures.get()}.
+ * values with {@link Futures#getChecked(Future, Class) Futures.getChecked()}.
  *
  * @author Sven Mawson
  * @since 1.0

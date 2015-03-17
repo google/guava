@@ -1967,7 +1967,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       Future<V> future, Class<X> exceptionClass) throws X {
     checkNotNull(future);
     checkArgument(!RuntimeException.class.isAssignableFrom(exceptionClass),
-        "Futures.get exception type (%s) must not be a RuntimeException",
+        "Futures.getChecked exception type (%s) must not be a RuntimeException",
         exceptionClass);
     try {
       return future.get();
@@ -2035,7 +2035,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     checkNotNull(future);
     checkNotNull(unit);
     checkArgument(!RuntimeException.class.isAssignableFrom(exceptionClass),
-        "Futures.get exception type (%s) must not be a RuntimeException",
+        "Futures.getChecked exception type (%s) must not be a RuntimeException",
         exceptionClass);
     try {
       return future.get(timeout, unit);
@@ -2125,7 +2125,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
   /*
    * TODO(user): FutureChecker interface for these to be static methods on? If
-   * so, refer to it in the (static-method) Futures.get documentation
+   * so, refer to it in the (static-method) Futures.getChecked documentation
    */
 
   /*

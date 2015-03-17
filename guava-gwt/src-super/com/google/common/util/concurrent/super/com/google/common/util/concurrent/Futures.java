@@ -1253,7 +1253,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
   /*
    * TODO(user): FutureChecker interface for these to be static methods on? If
-   * so, refer to it in the (static-method) Futures.get documentation
+   * so, refer to it in the (static-method) Futures.getChecked documentation
    */
 
   /*

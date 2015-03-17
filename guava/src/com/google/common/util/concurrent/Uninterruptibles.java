@@ -128,8 +128,8 @@ public final class Uninterruptibles {
    * {@link Futures#getUnchecked}.
    *
    * <p>If instead, you wish to treat {@link InterruptedException} uniformly
-   * with other exceptions, see {@link Futures#get(Future, Class) Futures.get}
-   * or {@link Futures#makeChecked}.
+   * with other exceptions, see {@link Futures#getChecked(Future, Class)
+   * Futures.getChecked}.
    *
    * @throws ExecutionException if the computation threw an exception
    * @throws CancellationException if the computation was cancelled
@@ -158,8 +158,8 @@ public final class Uninterruptibles {
    * uninterruptibly.
    *
    * <p>If instead, you wish to treat {@link InterruptedException} uniformly
-   * with other exceptions, see {@link Futures#get(Future, Class) Futures.get}
-   * or {@link Futures#makeChecked}.
+   * with other exceptions, see {@link Futures#getChecked(Future, Class)
+   * Futures.getChecked}.
    *
    * @throws ExecutionException if the computation threw an exception
    * @throws CancellationException if the computation was cancelled
