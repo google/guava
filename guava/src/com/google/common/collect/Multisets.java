@@ -964,12 +964,7 @@ public final class Multisets {
 
     @Override
     public boolean remove(Object o) {
-      int count = multiset().count(o);
-      if (count > 0) {
-        multiset().remove(o, count);
-        return true;
-      }
-      return false;
+      return multiset().remove(o, Integer.MAX_VALUE) > 0;
     }
 
     @Override public int size() {
