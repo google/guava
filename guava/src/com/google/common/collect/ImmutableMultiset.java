@@ -20,12 +20,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Multiset.Entry;
-import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 import javax.annotation.Nullable;
@@ -52,16 +51,12 @@ import javax.annotation.Nullable;
 // TODO(user): write an efficient asList() implementation
 public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
     implements Multiset<E> {
-
-  private static final ImmutableMultiset<Object> EMPTY =
-      new RegularImmutableMultiset<Object>(ImmutableMap.<Object, Integer>of(), 0);
-
   /**
    * Returns the empty immutable multiset.
    */
   @SuppressWarnings("unchecked") // all supported methods are covariant
   public static <E> ImmutableMultiset<E> of() {
-    return (ImmutableMultiset<E>) EMPTY;
+    return (ImmutableMultiset<E>) RegularImmutableMultiset.EMPTY;
   }
 
   /**
@@ -72,7 +67,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    */
   @SuppressWarnings("unchecked") // generic array created but never written
   public static <E> ImmutableMultiset<E> of(E element) {
-    return copyOfInternal(element);
+    return copyFromElements(element);
   }
 
   /**
@@ -83,7 +78,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2) {
-    return copyOfInternal(e1, e2);
+    return copyFromElements(e1, e2);
   }
 
   /**
@@ -95,7 +90,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3) {
-    return copyOfInternal(e1, e2, e3);
+    return copyFromElements(e1, e2, e3);
   }
 
   /**
@@ -107,7 +102,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4) {
-    return copyOfInternal(e1, e2, e3, e4);
+    return copyFromElements(e1, e2, e3, e4);
   }
 
   /**
@@ -119,7 +114,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
-    return copyOfInternal(e1, e2, e3, e4, e5);
+    return copyFromElements(e1, e2, e3, e4, e5);
   }
 
   /**
@@ -151,7 +146,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @since 6.0
    */
   public static <E> ImmutableMultiset<E> copyOf(E[] elements) {
-    return copyOf(Arrays.asList(elements));
+    return copyFromElements(elements);
   }
 
   /**
@@ -174,38 +169,22 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
         ? Multisets.cast(elements)
         : LinkedHashMultiset.create(elements);
 
-    return copyOfInternal(multiset);
+    return copyFromEntries(multiset.entrySet());
   }
 
-  private static <E> ImmutableMultiset<E> copyOfInternal(E... elements) {
-    return copyOf(Arrays.asList(elements));
-  }
-
-  private static <E> ImmutableMultiset<E> copyOfInternal(
-      Multiset<? extends E> multiset) {
+  private static <E> ImmutableMultiset<E> copyFromElements(E... elements) {
+    Multiset<E> multiset = LinkedHashMultiset.create();
+    Collections.addAll(multiset, elements);
     return copyFromEntries(multiset.entrySet());
   }
 
   static <E> ImmutableMultiset<E> copyFromEntries(
       Collection<? extends Entry<? extends E>> entries) {
-    long size = 0;
-    ImmutableMap.Builder<E, Integer> builder =
-        new ImmutableMap.Builder<E, Integer>(entries.size());
-    for (Entry<? extends E> entry : entries) {
-      int count = entry.getCount();
-      if (count > 0) {
-        // Since ImmutableMap.Builder throws an NPE if an element is null, no
-        // other null checks are needed.
-        builder.put(entry.getElement(), count);
-        size += count;
-      }
-    }
-
-    if (size == 0) {
+    if (entries.isEmpty()) {
       return of();
+    } else {
+      return new RegularImmutableMultiset<E>(entries);
     }
-    return new RegularImmutableMultiset<E>(
-        builder.build(), Ints.saturatedCast(size));
   }
 
   /**
@@ -218,7 +197,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
       Iterator<? extends E> elements) {
     Multiset<E> multiset = LinkedHashMultiset.create();
     Iterators.addAll(multiset, elements);
-    return copyOfInternal(multiset);
+    return copyFromEntries(multiset.entrySet());
   }
 
   ImmutableMultiset() {}
@@ -250,11 +229,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   @Override
   public boolean contains(@Nullable Object object) {
     return count(object) > 0;
-  }
-
-  @Override
-  public boolean containsAll(Collection<?> targets) {
-    return elementSet().containsAll(targets);
   }
 
   /**
