@@ -25,28 +25,14 @@ import com.google.common.collect.ImmutableMapEntry.TerminalEntry;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
 /**
- * An immutable, hash-based {@link Map} with reliable user-specified iteration
- * order. Does not permit null keys or values.
- *
- * <p>Unlike {@link Collections#unmodifiableMap}, which is a <i>view</i> of a
- * separate map which can still change, an instance of {@code ImmutableMap}
- * contains its own data and will <i>never</i> change. {@code ImmutableMap} is
- * convenient for {@code public static final} maps ("constant maps") and also
- * lets you easily make a "defensive copy" of a map provided to your class by a
- * caller.
- *
- * <p><i>Performance notes:</i> unlike {@link HashMap}, {@code ImmutableMap} is
- * not optimized for element types that have slow {@link Object#equals} or
- * {@link Object#hashCode} implementations. You can get better performance by
- * having your element type cache its own hash codes, and by making use of the
- * cached values to short-circuit a slow {@code equals} algorithm.
+ * A {@link Map} whose contents will never change, with many other important properties detailed at
+ * {@link ImmutableCollection}.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">

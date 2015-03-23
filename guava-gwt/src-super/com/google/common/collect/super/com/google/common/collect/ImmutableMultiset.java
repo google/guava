@@ -30,12 +30,13 @@ import java.util.Iterator;
 import javax.annotation.Nullable;
 
 /**
- * An immutable hash-based multiset. Does not permit null elements.
+ * A {@link Multiset} whose contents will never change, with many other important properties
+ * detailed at {@link ImmutableCollection}.
  *
- * <p>Its iterator orders elements according to the first appearance of the
- * element among the items passed to the factory method or builder. When the
- * multiset contains multiple instances of an element, those instances are
- * consecutive in the iteration order.
+ * <p><b>Grouped iteration.</b> In all current implementations, duplicate elements always appear
+ * consecutively when iterating. Elements iterate in order by the <i>first</i> appearance of
+ * that element when the multiset was created. All view collections share the same iteration order
+ * as the parent multiset.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
@@ -85,7 +86,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable multiset containing the given elements, in order.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
@@ -96,7 +98,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable multiset containing the given elements, in order.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
@@ -107,7 +110,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable multiset containing the given elements, in order.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
@@ -118,7 +122,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable multiset containing the given elements, in order.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
@@ -138,11 +143,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable multiset containing the given elements.
-   *
-   * <p>The multiset is ordered by the first occurrence of each element. For
-   * example, {@code ImmutableMultiset.copyOf([2, 3, 1, 3])} yields a multiset
-   * with elements in the order {@code 2, 3, 3, 1}.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any of {@code elements} is null
    * @since 6.0
@@ -152,19 +154,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable multiset containing the given elements.
-   *
-   * <p>The multiset is ordered by the first occurrence of each element. For
-   * example, {@code ImmutableMultiset.copyOf(Arrays.asList(2, 3, 1, 3))} yields
-   * a multiset with elements in the order {@code 2, 3, 3, 1}.
-   *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
-   *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
-   * is an {@code ImmutableMultiset}, no copy will actually be performed, and
-   * the given multiset itself will be returned.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
@@ -217,12 +208,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable multiset containing the given elements.
-   *
-   * <p>The multiset is ordered by the first occurrence of each element. For
-   * example,
-   * {@code ImmutableMultiset.copyOf(Arrays.asList(2, 3, 1, 3).iterator())}
-   * yields a multiset with elements in the order {@code 2, 3, 3, 1}.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
