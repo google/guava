@@ -18,10 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.ImmutableMap.Builder;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * An immutable {@link BiMap} with reliable user-specified iteration order. Does
@@ -249,7 +247,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
         Entry<K, V> entry = (Entry<K, V>) entryArray[0];
         return of(entry.getKey(), entry.getValue());
       default:
-        return new RegularImmutableBiMap<K, V>(entryArray);
+        return new RegularImmutableBiMap<K, V>(entryArray.length, entryArray);
     }
   }
 

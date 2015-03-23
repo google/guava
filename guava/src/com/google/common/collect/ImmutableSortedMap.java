@@ -23,14 +23,11 @@ import static com.google.common.collect.Maps.keyOrNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.ImmutableMap.Builder;
-import com.google.common.collect.ImmutableMapEntry.TerminalEntry;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -108,7 +105,7 @@ public abstract class ImmutableSortedMap<K, V>
   }
   
   private static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V>
-      ofEntries(TerminalEntry<K, V>... entries) {
+      ofEntries(ImmutableMapEntry<K, V>... entries) {
     return fromEntries(Ordering.natural(), false, entries, entries.length);
   }
   

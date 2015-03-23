@@ -20,7 +20,6 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.ImmutableMapEntry.TerminalEntry;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -116,8 +115,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * <p>A call to {@link Map.Entry#setValue} on the returned entry will always
    * throw {@link UnsupportedOperationException}.
    */
-  static <K, V> TerminalEntry<K, V> entryOf(K key, V value) {
-    return new TerminalEntry<K, V>(key, value);
+  static <K, V> ImmutableMapEntry<K, V> entryOf(K key, V value) {
+    return new ImmutableMapEntry<K, V>(key, value);
   }
 
   /**
@@ -157,7 +156,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @since 2.0 (imported from Google Collections Library)
    */
   public static class Builder<K, V> {
-    TerminalEntry<K, V>[] entries;
+    ImmutableMapEntry<K, V>[] entries;
     int size;
 
     /**
@@ -170,7 +169,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     @SuppressWarnings("unchecked")
     Builder(int initialCapacity) {
-      this.entries = new TerminalEntry[initialCapacity];
+      this.entries = new ImmutableMapEntry[initialCapacity];
       this.size = 0;
     }
 
@@ -187,7 +186,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      */
     public Builder<K, V> put(K key, V value) {
       ensureCapacity(size + 1);
-      TerminalEntry<K, V> entry = entryOf(key, value);
+      ImmutableMapEntry<K, V> entry = entryOf(key, value);
       // don't inline this: we want to fail atomically if key or value is null
       entries[size++] = entry;
       return this;
@@ -302,7 +301,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         Entry<K, V> onlyEntry = (Entry<K, V>) entryArray[0];
         return of(onlyEntry.getKey(), onlyEntry.getValue());
       default:
-        return new RegularImmutableMap<K, V>(entryArray);
+        return new RegularImmutableMap<K, V>(entryArray.length, entryArray);
     }
   }
 
