@@ -556,9 +556,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * those listeners are to run in other executors.
    *
    * @param input the primary input {@code Future}
+   * @param exceptionType the exception type that triggers use of {@code fallback}. To avoid hiding
+   *     bugs and other unrecoverable errors, callers should prefer more specific types, avoiding
+   *     {@code Throwable.class} in particular.
    * @param fallback the {@link Function} implementation to be called if {@code input} fails with
    *     the expected exception type
-   * @param exceptionType the exception type that triggers use of {@code fallback}
    * @since 19.0
    */
   @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
@@ -597,9 +599,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * documented in the link above.
    *
    * @param input the primary input {@code Future}
+   * @param exceptionType the exception type that triggers use of {@code fallback}. To avoid hiding
+   *     bugs and other unrecoverable errors, callers should prefer more specific types, avoiding
+   *     {@code Throwable.class} in particular.
    * @param fallback the {@link Function} implementation to be called if {@code input} fails with
    *     the expected exception type
-   * @param exceptionType the exception type that triggers use of {@code fallback}
    * @param executor the executor that runs {@code fallback} if {@code input} fails
    * @since 19.0
    */
@@ -673,9 +677,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * those listeners are to run in other executors.
    *
    * @param input the primary input {@code Future}
+   * @param exceptionType the exception type that triggers use of {@code fallback}. To avoid hiding
+   *     bugs and other unrecoverable errors, callers should prefer more specific types, avoiding
+   *     {@code Throwable.class} in particular.
    * @param fallback the {@link AsyncFunction} implementation to be called if {@code input} fails
    *     with the expected exception type
-   * @param exceptionType the exception type that triggers use of {@code fallback}
    * @since 19.0 (similar functionality in 14.0 as {@code withFallback})
    */
   @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
@@ -734,9 +740,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * caveats documented in the link above.
    *
    * @param input the primary input {@code Future}
+   * @param exceptionType the exception type that triggers use of {@code fallback}. To avoid hiding
+   *     bugs and other unrecoverable errors, callers should prefer more specific types, avoiding
+   *     {@code Throwable.class} in particular.
    * @param fallback the {@link AsyncFunction} implementation to be called if {@code input} fails
    *     with the expected exception type
-   * @param exceptionType the exception type that triggers use of {@code fallback}
    * @param executor the executor that runs {@code fallback} if {@code input} fails
    * @since 19.0 (similar functionality in 14.0 as {@code withFallback})
    */
@@ -1967,7 +1975,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       Future<V> future, Class<X> exceptionClass) throws X {
     checkNotNull(future);
     checkArgument(!RuntimeException.class.isAssignableFrom(exceptionClass),
-        "Futures.get exception type (%s) must not be a RuntimeException",
+        "Futures.getChecked exception type (%s) must not be a RuntimeException",
         exceptionClass);
     try {
       return future.get();
@@ -2035,7 +2043,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     checkNotNull(future);
     checkNotNull(unit);
     checkArgument(!RuntimeException.class.isAssignableFrom(exceptionClass),
-        "Futures.get exception type (%s) must not be a RuntimeException",
+        "Futures.getChecked exception type (%s) must not be a RuntimeException",
         exceptionClass);
     try {
       return future.get(timeout, unit);
@@ -2125,7 +2133,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
   /*
    * TODO(user): FutureChecker interface for these to be static methods on? If
-   * so, refer to it in the (static-method) Futures.get documentation
+   * so, refer to it in the (static-method) Futures.getChecked documentation
    */
 
   /*

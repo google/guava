@@ -19,23 +19,22 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.Multiset.Entry;
-import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 import javax.annotation.Nullable;
 
 /**
- * An immutable hash-based multiset. Does not permit null elements.
+ * A {@link Multiset} whose contents will never change, with many other important properties
+ * detailed at {@link ImmutableCollection}.
  *
- * <p>Its iterator orders elements according to the first appearance of the
- * element among the items passed to the factory method or builder. When the
- * multiset contains multiple instances of an element, those instances are
- * consecutive in the iteration order.
+ * <p><b>Grouped iteration.</b> In all current implementations, duplicate elements always appear
+ * consecutively when iterating. Elements iterate in order by the <i>first</i> appearance of
+ * that element when the multiset was created. All view collections share the same iteration order
+ * as the parent multiset.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
@@ -50,16 +49,12 @@ import javax.annotation.Nullable;
 // TODO(user): write an efficient asList() implementation
 public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
     implements Multiset<E> {
-
-  private static final ImmutableMultiset<Object> EMPTY =
-      new RegularImmutableMultiset<Object>(ImmutableMap.<Object, Integer>of(), 0);
-
   /**
    * Returns the empty immutable multiset.
    */
   @SuppressWarnings("unchecked") // all supported methods are covariant
   public static <E> ImmutableMultiset<E> of() {
-    return (ImmutableMultiset<E>) EMPTY;
+    return (ImmutableMultiset<E>) RegularImmutableMultiset.EMPTY;
   }
 
   /**
@@ -70,7 +65,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    */
   @SuppressWarnings("unchecked") // generic array created but never written
   public static <E> ImmutableMultiset<E> of(E element) {
-    return copyOfInternal(element);
+    return copyFromElements(element);
   }
 
   /**
@@ -81,44 +76,48 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2) {
-    return copyOfInternal(e1, e2);
+    return copyFromElements(e1, e2);
   }
 
   /**
-   * Returns an immutable multiset containing the given elements, in order.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3) {
-    return copyOfInternal(e1, e2, e3);
+    return copyFromElements(e1, e2, e3);
   }
 
   /**
-   * Returns an immutable multiset containing the given elements, in order.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4) {
-    return copyOfInternal(e1, e2, e3, e4);
+    return copyFromElements(e1, e2, e3, e4);
   }
 
   /**
-   * Returns an immutable multiset containing the given elements, in order.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
-    return copyOfInternal(e1, e2, e3, e4, e5);
+    return copyFromElements(e1, e2, e3, e4, e5);
   }
 
   /**
-   * Returns an immutable multiset containing the given elements, in order.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
@@ -138,33 +137,19 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable multiset containing the given elements.
-   *
-   * <p>The multiset is ordered by the first occurrence of each element. For
-   * example, {@code ImmutableMultiset.copyOf([2, 3, 1, 3])} yields a multiset
-   * with elements in the order {@code 2, 3, 3, 1}.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any of {@code elements} is null
    * @since 6.0
    */
   public static <E> ImmutableMultiset<E> copyOf(E[] elements) {
-    return copyOf(Arrays.asList(elements));
+    return copyFromElements(elements);
   }
 
   /**
-   * Returns an immutable multiset containing the given elements.
-   *
-   * <p>The multiset is ordered by the first occurrence of each element. For
-   * example, {@code ImmutableMultiset.copyOf(Arrays.asList(2, 3, 1, 3))} yields
-   * a multiset with elements in the order {@code 2, 3, 3, 1}.
-   *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
-   *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
-   * is an {@code ImmutableMultiset}, no copy will actually be performed, and
-   * the given multiset itself will be returned.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
@@ -182,47 +167,27 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
         ? Multisets.cast(elements)
         : LinkedHashMultiset.create(elements);
 
-    return copyOfInternal(multiset);
+    return copyFromEntries(multiset.entrySet());
   }
 
-  private static <E> ImmutableMultiset<E> copyOfInternal(E... elements) {
-    return copyOf(Arrays.asList(elements));
-  }
-
-  private static <E> ImmutableMultiset<E> copyOfInternal(
-      Multiset<? extends E> multiset) {
+  private static <E> ImmutableMultiset<E> copyFromElements(E... elements) {
+    Multiset<E> multiset = LinkedHashMultiset.create();
+    Collections.addAll(multiset, elements);
     return copyFromEntries(multiset.entrySet());
   }
 
   static <E> ImmutableMultiset<E> copyFromEntries(
       Collection<? extends Entry<? extends E>> entries) {
-    long size = 0;
-    ImmutableMap.Builder<E, Integer> builder =
-        new ImmutableMap.Builder<E, Integer>(entries.size());
-    for (Entry<? extends E> entry : entries) {
-      int count = entry.getCount();
-      if (count > 0) {
-        // Since ImmutableMap.Builder throws an NPE if an element is null, no
-        // other null checks are needed.
-        builder.put(entry.getElement(), count);
-        size += count;
-      }
-    }
-
-    if (size == 0) {
+    if (entries.isEmpty()) {
       return of();
+    } else {
+      return new RegularImmutableMultiset<E>(entries);
     }
-    return new RegularImmutableMultiset<E>(
-        builder.build(), Ints.saturatedCast(size));
   }
 
   /**
-   * Returns an immutable multiset containing the given elements.
-   *
-   * <p>The multiset is ordered by the first occurrence of each element. For
-   * example,
-   * {@code ImmutableMultiset.copyOf(Arrays.asList(2, 3, 1, 3).iterator())}
-   * yields a multiset with elements in the order {@code 2, 3, 3, 1}.
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
@@ -230,7 +195,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
       Iterator<? extends E> elements) {
     Multiset<E> multiset = LinkedHashMultiset.create();
     Iterators.addAll(multiset, elements);
-    return copyOfInternal(multiset);
+    return copyFromEntries(multiset.entrySet());
   }
 
   ImmutableMultiset() {}
@@ -262,11 +227,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   @Override
   public boolean contains(@Nullable Object object) {
     return count(object) > 0;
-  }
-
-  @Override
-  public boolean containsAll(Collection<?> targets) {
-    return elementSet().containsAll(targets);
   }
 
   /**

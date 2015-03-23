@@ -19,7 +19,6 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Throwables.propagateIfInstanceOf;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.allAsList;
-import static com.google.common.util.concurrent.Futures.get;
 import static com.google.common.util.concurrent.Futures.getChecked;
 import static com.google.common.util.concurrent.Futures.getUnchecked;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;

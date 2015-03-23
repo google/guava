@@ -519,7 +519,7 @@ public class CycleDetectingLockFactory {
     static final StackTraceElement[] EMPTY_STACK_TRACE =
         new StackTraceElement[0];
 
-    static Set<String> EXCLUDED_CLASS_NAMES = ImmutableSet.of(
+    static final Set<String> EXCLUDED_CLASS_NAMES = ImmutableSet.of(
         CycleDetectingLockFactory.class.getName(),
         ExampleStackTrace.class.getName(),
         LockGraphNode.class.getName());
@@ -665,10 +665,8 @@ public class CycleDetectingLockFactory {
       // can happen because multiple locks may share the same LockGraphNode. In
       // this situation, throw an IllegalStateException as defined by contract
       // described in the documentation of WithExplicitOrdering.
-      Preconditions.checkState(
-          this != acquiredLock,
-          "Attempted to acquire multiple locks with the same rank " +
-          acquiredLock.getLockName());
+      Preconditions.checkState(this != acquiredLock,
+          "Attempted to acquire multiple locks with the same rank %s", acquiredLock.getLockName());
 
       if (allowedPriorLocks.containsKey(acquiredLock)) {
         // The acquisition ordering from "acquiredLock" to "this" has already
@@ -778,7 +776,7 @@ public class CycleDetectingLockFactory {
       LockGraphNode node = lock.getLockGraphNode();
       // Iterate in reverse because locks are usually locked/unlocked in a
       // LIFO order.
-      for (int i = acquiredLockList.size() - 1; i >=0; i--) {
+      for (int i = acquiredLockList.size() - 1; i >= 0; i--) {
         if (acquiredLockList.get(i) == node) {
           acquiredLockList.remove(i);
           break;

@@ -18,6 +18,7 @@ import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.cache.TestingWeighers.intKeyWeigher;
+import static com.google.common.cache.TestingWeighers.intValueWeigher;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
@@ -128,6 +129,116 @@ public class CacheEvictionTest extends TestCase {
     assertEquals(MAX_SIZE, cache.size());
     CacheTesting.processPendingNotifications(cache);
     assertEquals(MAX_SIZE, removalListener.getCount());
+    CacheTesting.checkValidState(cache);
+  }
+
+  /**
+   * With an unlimited-size cache with maxWeight of 0, entries weighing 0 should still be cached.
+   * Entries with positive weight should not be cached (nor dump existing cache).
+   */
+  public void testEviction_maxWeight_zero() {
+    CountingRemovalListener<Integer, Integer> removalListener = countingRemovalListener();
+    IdentityLoader<Integer> loader = identityLoader();
+
+    // Even numbers are free, odd are too expensive
+    Weigher<Integer, Integer> evensOnly =
+        new Weigher<Integer, Integer>() {
+          @Override public int weigh(Integer k, Integer v) {
+            return k % 2;
+          }
+        };
+
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
+        .concurrencyLevel(1)
+        .maximumWeight(0)
+        .weigher(evensOnly)
+        .removalListener(removalListener)
+        .build(loader);
+
+    // 1 won't be cached
+    assertThat(cache.getUnchecked(1)).isEqualTo(1);
+    assertThat(cache.asMap().keySet()).isEmpty();
+
+    CacheTesting.processPendingNotifications(cache);
+    assertThat(removalListener.getCount()).isEqualTo(1);
+
+    // 2 will be cached
+    assertThat(cache.getUnchecked(2)).isEqualTo(2);
+    assertThat(cache.asMap().keySet()).containsExactly(2);
+
+    CacheTesting.processPendingNotifications(cache);
+    CacheTesting.checkValidState(cache);
+    assertThat(removalListener.getCount()).isEqualTo(1);
+
+    // 4 will be cached
+    assertThat(cache.getUnchecked(4)).isEqualTo(4);
+    assertThat(cache.asMap().keySet()).containsExactly(2, 4);
+
+    CacheTesting.processPendingNotifications(cache);
+    assertThat(removalListener.getCount()).isEqualTo(1);
+
+    // 5 won't be cached, won't dump cache
+    assertThat(cache.getUnchecked(5)).isEqualTo(5);
+    assertThat(cache.asMap().keySet()).containsExactly(2, 4);
+
+    CacheTesting.processPendingNotifications(cache);
+    assertThat(removalListener.getCount()).isEqualTo(2);
+
+    // Should we pepper more of these calls throughout the above? Where?
+    CacheTesting.checkValidState(cache);
+  }
+
+  /**
+   * Tests that when a single entry exceeds the segment's max weight, the new entry is
+   * immediately evicted and nothing else.
+   */
+  public void testEviction_maxWeight_entryTooBig() {
+    CountingRemovalListener<Integer, Integer> removalListener = countingRemovalListener();
+    IdentityLoader<Integer> loader = identityLoader();
+
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
+        .concurrencyLevel(1)
+        .maximumWeight(4)
+        .weigher(intValueWeigher())
+        .removalListener(removalListener)
+        .build(loader);
+
+    // caches 2
+    assertThat(cache.getUnchecked(2)).isEqualTo(2);
+    assertThat(cache.asMap().keySet()).containsExactly(2);
+
+    CacheTesting.processPendingNotifications(cache);
+    assertThat(removalListener.getCount()).isEqualTo(0);
+
+    // caches 3, evicts 2
+    assertThat(cache.getUnchecked(3)).isEqualTo(3);
+    assertThat(cache.asMap().keySet()).containsExactly(3);
+
+    CacheTesting.processPendingNotifications(cache);
+    assertThat(removalListener.getCount()).isEqualTo(1);
+
+    // doesn't cache 5, doesn't evict
+    assertThat(cache.getUnchecked(5)).isEqualTo(5);
+    assertThat(cache.asMap().keySet()).containsExactly(3);
+
+    CacheTesting.processPendingNotifications(cache);
+    assertThat(removalListener.getCount()).isEqualTo(2);
+
+    // caches 1, evicts nothing
+    assertThat(cache.getUnchecked(1)).isEqualTo(1);
+    assertThat(cache.asMap().keySet()).containsExactly(3, 1);
+
+    CacheTesting.processPendingNotifications(cache);
+    assertThat(removalListener.getCount()).isEqualTo(2);
+
+    // caches 4, evicts 1 and 3
+    assertThat(cache.getUnchecked(4)).isEqualTo(4);
+    assertThat(cache.asMap().keySet()).containsExactly(4);
+
+    CacheTesting.processPendingNotifications(cache);
+    assertThat(removalListener.getCount()).isEqualTo(4);
+
+    // Should we pepper more of these calls throughout the above? Where?
     CacheTesting.checkValidState(cache);
   }
 

@@ -213,10 +213,10 @@ public final class Multisets {
     return new ImmutableEntry<E>(e, n);
   }
 
-  static final class ImmutableEntry<E> extends AbstractEntry<E> implements
+  static class ImmutableEntry<E> extends AbstractEntry<E> implements
       Serializable {
-    @Nullable final E element;
-    final int count;
+    @Nullable private final E element;
+    private final int count;
 
     ImmutableEntry(@Nullable E element, int count) {
       this.element = element;
@@ -225,13 +225,17 @@ public final class Multisets {
     }
 
     @Override
-    @Nullable public E getElement() {
+    @Nullable public final E getElement() {
       return element;
     }
 
     @Override
-    public int getCount() {
+    public final int getCount() {
       return count;
+    }
+
+    public ImmutableEntry<E> nextInBucket() {
+      return null;
     }
 
     private static final long serialVersionUID = 0;
@@ -964,12 +968,7 @@ public final class Multisets {
 
     @Override
     public boolean remove(Object o) {
-      int count = multiset().count(o);
-      if (count > 0) {
-        multiset().remove(o, count);
-        return true;
-      }
-      return false;
+      return multiset().remove(o, Integer.MAX_VALUE) > 0;
     }
 
     @Override public int size() {

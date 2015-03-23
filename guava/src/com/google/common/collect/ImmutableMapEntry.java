@@ -27,11 +27,14 @@ import javax.annotation.Nullable;
  * hash buckets for the key and the value. This allows reuse in {@link RegularImmutableMap} and
  * {@link RegularImmutableBiMap}, which don't have to recopy the entries created by their
  * {@code Builder} implementations.
+ * 
+ * This base implementation has no key or value pointers, so instances of ImmutableMapEntry
+ * (but not its subclasses) can be reused when copied from one ImmutableMap to another.
  *
  * @author Louis Wasserman
  */
 @GwtIncompatible("unnecessary")
-abstract class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
+class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   /**
    * Creates an {@code ImmutableMapEntry} array to hold parameterized entries. The
    * result must never be upcast back to ImmutableMapEntry[] (or Object[], etc.), or
@@ -53,30 +56,57 @@ abstract class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   }
 
   @Nullable
-  abstract ImmutableMapEntry<K, V> getNextInKeyBucket();
+  ImmutableMapEntry<K, V> getNextInKeyBucket() {
+    return null;
+  }
 
   @Nullable
-  abstract ImmutableMapEntry<K, V> getNextInValueBucket();
+  ImmutableMapEntry<K, V> getNextInValueBucket() {
+    return null;
+  }
+  
+  /**
+   * Returns true if this entry has no bucket links and can safely be reused as a terminal
+   * entry in a bucket in another map.
+   */
+  boolean isReusable() {
+    return true;
+  }
+  
+  static class NonTerminalImmutableMapEntry<K, V> extends ImmutableMapEntry<K, V> {
+    private final transient ImmutableMapEntry<K, V> nextInKeyBucket;
 
-  static final class TerminalEntry<K, V> extends ImmutableMapEntry<K, V> {
-    TerminalEntry(ImmutableMapEntry<K, V> contents) {
-      super(contents);
-    }
-
-    TerminalEntry(K key, V value) {
+    NonTerminalImmutableMapEntry(K key, V value, ImmutableMapEntry<K, V> nextInKeyBucket) {
       super(key, value);
+      this.nextInKeyBucket = nextInKeyBucket;
     }
 
     @Override
     @Nullable
-    ImmutableMapEntry<K, V> getNextInKeyBucket() {
-      return null;
+    final ImmutableMapEntry<K, V> getNextInKeyBucket() {
+      return nextInKeyBucket;
+    }
+
+    @Override
+    final boolean isReusable() {
+      return false;
+    }
+  }
+
+  static final class NonTerminalImmutableBiMapEntry<K, V>
+      extends NonTerminalImmutableMapEntry<K, V> {
+    private final transient ImmutableMapEntry<K, V> nextInValueBucket;
+
+    NonTerminalImmutableBiMapEntry(K key, V value, ImmutableMapEntry<K, V> nextInKeyBucket,
+        ImmutableMapEntry<K, V> nextInValueBucket) {
+      super(key, value, nextInKeyBucket);
+      this.nextInValueBucket = nextInValueBucket;
     }
 
     @Override
     @Nullable
     ImmutableMapEntry<K, V> getNextInValueBucket() {
-      return null;
+      return nextInValueBucket;
     }
   }
 }
