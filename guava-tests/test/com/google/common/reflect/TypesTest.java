@@ -19,6 +19,8 @@ package com.google.common.reflect;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
+import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -30,9 +32,11 @@ import junit.framework.TestCase;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.ReflectPermission;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.security.Permission;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +47,49 @@ import java.util.Map;
  *
  * @author Ben Yu
  */
+
 public class TypesTest extends TestCase {
+  private SecurityManager oldSecurityManager;
+
+  /**
+   * A SecurityManager that disallows {@link java.lang.reflect.Method#setAccessible(boolean)}
+   * except when it comes from one of a set of known classes. The purpose is to detect whether we
+   * do a setAccessible call that might fail in a context where a SecurityManager forbids it.
+   */
+  private static class NoSetAccessibleSecurityManager extends SecurityManager {
+    private static final Permission DISALLOWED_PERMISSION =
+        new ReflectPermission("suppressAccessChecks");
+    private static final ImmutableSet<String> ALLOWED_CALLERS =
+        ImmutableSet.of("NullPointerTester", "EqualsTester", "ObjectStreamClass");
+
+    @Override
+    public void checkPermission(Permission p) {
+      if (p.equals(DISALLOWED_PERMISSION) && !allowedCaller()) {
+        super.checkPermission(p);
+      }
+    }
+
+    private static boolean allowedCaller() {
+      String stack = Throwables.getStackTraceAsString(new Throwable());
+      for (String allowed : ALLOWED_CALLERS) {
+        if (stack.contains(allowed)) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+
+  @Override
+  protected void setUp() {
+    oldSecurityManager = System.getSecurityManager();
+    System.setSecurityManager(new NoSetAccessibleSecurityManager());
+  }
+
+  @Override
+  protected void tearDown() {
+    System.setSecurityManager(oldSecurityManager);
+  }
 
   public void testNewParameterizedType_ownerTypeImplied() throws Exception {
     ParameterizedType jvmType = (ParameterizedType)

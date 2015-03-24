@@ -42,6 +42,7 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.security.AccessControlException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicReference;
@@ -356,7 +357,12 @@ final class Types {
       ImmutableMap.Builder<String, Method> builder = ImmutableMap.builder();
       for (Method method : TypeVariableImpl.class.getMethods()) {
         if (method.getDeclaringClass().equals(TypeVariableImpl.class)) {
-          method.setAccessible(true);
+          try {
+            method.setAccessible(true);
+          } catch (AccessControlException e) {
+            // OK: the method is accessible to us anyway. The setAccessible call is only for
+            // unusual execution environments where that might not be true.
+          }
           builder.put(method.getName(), method);
         }
       }
