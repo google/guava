@@ -664,10 +664,10 @@ public class GeneratedMonitorTest extends TestCase {
       if (actualException instanceof InterruptedException) {
         return Outcome.INTERRUPT;
       } else {
-        throw new AssertionError("unexpected exception", targetException);
+        throw newAssertionError("unexpected exception", targetException);
       }
     } catch (IllegalAccessException e) {
-      throw new AssertionError("unexpected exception", e);
+      throw newAssertionError("unexpected exception", e);
     }
   }
 
@@ -775,6 +775,13 @@ public class GeneratedMonitorTest extends TestCase {
         }
       }
     };
+  }
+
+  /** Alternative to AssertionError(String, Throwable), which doesn't exist in Java 1.6 */
+  private static AssertionError newAssertionError(String message, Throwable cause) {
+    AssertionError e = new AssertionError(message);
+    e.initCause(cause);
+    return e;
   }
 
 }
