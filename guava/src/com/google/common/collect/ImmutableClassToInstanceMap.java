@@ -26,8 +26,8 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 /**
- * A class-to-instance map backed by an {@link ImmutableMap}. See also {@link
- * MutableClassToInstanceMap}.
+ * A {@link ClassToInstanceMap} whose contents will never change, with many
+ * other important properties detailed at {@link ImmutableCollection}.
  *
  * @author Kevin Bourrillion
  * @since 2.0 (imported from Google Collections Library)

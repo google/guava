@@ -31,20 +31,8 @@ import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 /**
- * An immutable {@link ListMultimap} with reliable user-specified key and value
- * iteration order. Does not permit null keys or values.
- *
- * <p>Unlike {@link Multimaps#unmodifiableListMultimap(ListMultimap)}, which is
- * a <i>view</i> of a separate multimap which can still change, an instance of
- * {@code ImmutableListMultimap} contains its own data and will <i>never</i>
- * change. {@code ImmutableListMultimap} is convenient for
- * {@code public static final} multimaps ("constant multimaps") and also lets
- * you easily make a "defensive copy" of a multimap provided to your class by
- * a caller.
- *
- * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
- * it has no public or protected constructors. Thus, instances of this class
- * are guaranteed to be immutable.
+ * A {@link ListMultimap} whose contents will never change, with many other important properties
+ * detailed at {@link ImmutableCollection}.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">

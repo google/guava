@@ -34,7 +34,8 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * An efficient immutable implementation of a {@link RangeSet}.
+ * A {@link RangeSet} whose contents will never change, with many other important properties
+ * detailed at {@link ImmutableCollection}.
  *
  * @author Louis Wasserman
  * @since 14.0

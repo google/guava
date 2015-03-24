@@ -29,6 +29,7 @@ import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
@@ -38,10 +39,6 @@ import javax.annotation.Nullable;
 /**
  * A {@link List} whose contents will never change, with many other important properties detailed at
  * {@link ImmutableCollection}.
- *
- * <p><b>Performance note:</b> a list returned by the {@link #subList} method may retain a reference
- * to the entire data set, preventing it from being garbage collected. If this is a problem, pass
- * the sublist to {@link #copyOf(Collection)} to obtain a correctly-sized copy.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">

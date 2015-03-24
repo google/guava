@@ -38,30 +38,23 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * An immutable {@link Multimap}. Does not permit null keys or values.
+ * A {@link Multimap} whose contents will never change, with many other important properties
+ * detailed at {@link ImmutableCollection}.
  *
- * <p>Unlike {@link Multimaps#unmodifiableMultimap(Multimap)}, which is
- * a <i>view</i> of a separate multimap which can still change, an instance of
- * {@code ImmutableMultimap} contains its own data and will <i>never</i>
- * change. {@code ImmutableMultimap} is convenient for
- * {@code public static final} multimaps ("constant multimaps") and also lets
- * you easily make a "defensive copy" of a multimap provided to your class by
- * a caller.
+ * <p><b>Warning:</b> avoid <i>direct</i> usage of {@link ImmutableMultimap} as a type (as with
+ * {@link Multimap} itself). Prefer subtypes such as {@link ImmutableSetMultimap} or {@link
+ * ImmutableListMultimap}, which have well-defined {@link #equals} semantics, thus avoiding a common
+ * source of bugs and confusion.
+ *
+ * <p><b>Note:</b> every {@link ImmutableMultimap} offers an {@link #inverse} view, so there is no
+ * need for a distinct {@code ImmutableBiMultimap} type.
  *
  * <a name="iteration"></a>
- * <p><b>Key-grouped iteration.</b> All view collections follow the same
- * iteration order. In all current implementations, the iteration order always
- * keeps multiple entries with the same key together. Any creation method that
- * would customarily respect insertion order (such as {@link #copyOf(Multimap)})
- * instead preserves key-grouped order by inserting entries for an existing key
+ * <p><b>Key-grouped iteration.</b> All view collections follow the same iteration order. In all
+ * current implementations, the iteration order always keeps multiple entries with the same key
+ * together. Any creation method that would customarily respect insertion order (such as {@link
+ * #copyOf(Multimap)}) instead preserves key-grouped order by inserting entries for an existing key
  * immediately after the last entry having that key.
- *
- * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
- * it has no public or protected constructors. Thus, instances of this class
- * are guaranteed to be immutable.
- *
- * <p>In addition to methods defined by {@link Multimap}, an {@link #inverse}
- * method is also supported.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">

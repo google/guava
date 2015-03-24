@@ -29,46 +29,14 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * An immutable {@code SortedMultiset} that stores its elements in a sorted array. Some instances
- * are ordered by an explicit comparator, while others follow the natural sort ordering of their
- * elements. Either way, null elements are not supported.
+ * A {@link SortedMultiset} whose contents will never change, with many other important properties
+ * detailed at {@link ImmutableCollection}.
  *
- * <p>Unlike {@link Multisets#unmodifiableSortedMultiset}, which is a <i>view</i> of a separate
- * collection that can still change, an instance of {@code ImmutableSortedMultiset} contains its
- * own private data and will <i>never</i> change. This class is convenient for {@code public static
- * final} multisets ("constant multisets") and also lets you easily make a "defensive copy" of a
- * set provided to your class by a caller.
- *
- * <p>The multisets returned by the {@link #headMultiset}, {@link #tailMultiset}, and
- * {@link #subMultiset} methods share the same array as the original multiset, preventing that
- * array from being garbage collected. If this is a concern, the data may be copied into a
- * correctly-sized array by calling {@link #copyOfSorted}.
- *
- * <p><b>Note on element equivalence:</b> The {@link #contains(Object)},
- * {@link #containsAll(Collection)}, and {@link #equals(Object)} implementations must check whether
- * a provided object is equivalent to an element in the collection. Unlike most collections, an
- * {@code ImmutableSortedMultiset} doesn't use {@link Object#equals} to determine if two elements
- * are equivalent. Instead, with an explicit comparator, the following relation determines whether
- * elements {@code x} and {@code y} are equivalent:
- *
- * <pre>   {@code
- *
- *   {(x, y) | comparator.compare(x, y) == 0}}</pre>
- *
- * <p>With natural ordering of elements, the following relation determines whether two elements are
- * equivalent:
- *
- * <pre>   {@code
- *
- *   {(x, y) | x.compareTo(y) == 0}}</pre>
- *
- * <b>Warning:</b> Like most multisets, an {@code ImmutableSortedMultiset} will not function
- * correctly if an element is modified after being placed in the multiset. For this reason, and to
- * avoid general confusion, it is strongly recommended to place only immutable objects into this
- * collection.
- *
- * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as it has no public or
- * protected constructors. Thus, instances of this type are guaranteed to be immutable.
+ * <p><b>Warning:</b> as with any sorted collection, you are strongly advised not to use a {@link
+ * Comparator} or {@link Comparable} type whose comparison behavior is <i>inconsistent with
+ * equals</i>. That is, {@code a.compareTo(b)} or {@code comparator.compare(a, b)} should equal zero
+ * <i>if and only if</i> {@code a.equals(b)}. If this advice is not followed, the resulting
+ * collection will not correctly obey its specification.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">

@@ -39,16 +39,11 @@ import javax.annotation.Nullable;
  * A {@link NavigableSet} whose contents will never change, with many other important properties
  * detailed at {@link ImmutableCollection}.
  *
- * <p><b>Warning:</b> as with any {@link SortedSet}, you are strongly advised not to use a {@link
+ * <p><b>Warning:</b> as with any sorted collection, you are strongly advised not to use a {@link
  * Comparator} or {@link Comparable} type whose comparison behavior is <i>inconsistent with
  * equals</i>. That is, {@code a.compareTo(b)} or {@code comparator.compare(a, b)} should equal zero
  * <i>if and only if</i> {@code a.equals(b)}. If this advice is not followed, the resulting
  * collection will not correctly obey its specification.
- *
- * <p><b>Performance note:</b> a set returned by the {@link #headSet}, {@link #tailSet}, or {@link
- * #subSet} method may retain a reference to the entire data set, preventing it from being garbage
- * collected. If this is a problem, pass the subset to {@link #copyOfSorted} to obtain a
- * correctly-sized copy.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">

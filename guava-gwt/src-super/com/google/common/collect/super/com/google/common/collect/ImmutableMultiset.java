@@ -33,8 +33,7 @@ import javax.annotation.Nullable;
  *
  * <p><b>Grouped iteration.</b> In all current implementations, duplicate elements always appear
  * consecutively when iterating. Elements iterate in order by the <i>first</i> appearance of
- * that element when the multiset was created. All view collections share the same iteration order
- * as the parent multiset.
+ * that element when the multiset was created.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
