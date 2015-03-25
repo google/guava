@@ -41,6 +41,7 @@ import javax.annotation.CheckReturnValue;
  * @author Gregory Kick
  * @since 7.0
  */
+@CheckReturnValue
 @GwtCompatible
 public final class Ascii {
 
@@ -580,7 +581,6 @@ public final class Ascii {
    * @since 16.0
    */
   @Beta
-  @CheckReturnValue
   public static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {
     checkNotNull(seq);
 

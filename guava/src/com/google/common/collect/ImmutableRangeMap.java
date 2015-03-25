@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
@@ -39,7 +40,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtIncompatible("NavigableMap")
-public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V> {
+public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V>, Serializable {
 
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
       new ImmutableRangeMap<Comparable<?>, Object>(
@@ -151,8 +152,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     }
   }
 
-  private final ImmutableList<Range<K>> ranges;
-  private final ImmutableList<V> values;
+  private final transient ImmutableList<Range<K>> ranges;
+  private final transient ImmutableList<V> values;
 
   ImmutableRangeMap(ImmutableList<Range<K>> ranges, ImmutableList<V> values) {
     this.ranges = ranges;
@@ -296,4 +297,41 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   public String toString() {
     return asMapOfRanges().toString();
   }
+
+  /**
+   * This class is used to serialize ImmutableRangeMap instances.
+   * Serializes the {@link #asMapOfRanges()} form.
+   */
+  private static class SerializedForm<K extends Comparable<?>, V> implements Serializable {
+
+    private final ImmutableMap<Range<K>, V> mapOfRanges;
+
+    SerializedForm(ImmutableMap<Range<K>, V> mapOfRanges) {
+      this.mapOfRanges = mapOfRanges;
+    }
+
+    Object readResolve() {
+      if (mapOfRanges.isEmpty()) {
+        return of();
+      } else {
+        return createRangeMap();
+      }
+    }
+
+    Object createRangeMap() {
+      Builder<K, V> builder = new Builder<K, V>();
+      for (Entry<Range<K>, V> entry : mapOfRanges.entrySet()) {
+        builder.put(entry.getKey(), entry.getValue());
+      }
+      return builder.build();
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  Object writeReplace() {
+    return new SerializedForm<K, V>(asMapOfRanges());
+  }
+
+  private static final long serialVersionUID = 0;
 }

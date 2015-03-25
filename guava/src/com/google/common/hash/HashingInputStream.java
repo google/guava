@@ -22,6 +22,8 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * An {@link InputStream} that maintains a hash of the data read from it.
  *
@@ -74,6 +76,7 @@ public final class HashingInputStream extends FilterInputStream {
    * @return {@code false} always
    */
   @Override
+  @CheckReturnValue
   public boolean markSupported() {
     return false;
   }
@@ -97,6 +100,7 @@ public final class HashingInputStream extends FilterInputStream {
    * Returns the {@link HashCode} based on the data read from this stream. The result is
    * unspecified if this method is called more than once on the same instance.
    */
+  @CheckReturnValue
   public HashCode hash() {
     return hasher.hash();
   }

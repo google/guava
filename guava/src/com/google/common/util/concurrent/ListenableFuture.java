@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -83,6 +85,7 @@ import java.util.concurrent.RejectedExecutionException;
  * @author Nishant Thakkar
  * @since 1.0
  */
+@GwtCompatible
 public interface ListenableFuture<V> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on
@@ -124,6 +127,10 @@ public interface ListenableFuture<V> extends Future<V> {
    * com.google.common.util.concurrent.Futures}. For a simplified but general
    * listener interface, see {@link
    * com.google.common.util.concurrent.Futures#addCallback addCallback()}.
+   *
+   * <p>Memory consistency effects: Actions in a thread prior to adding a listener
+   * <a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
+   * <i>happen-before</i></a> its execution begins, perhaps in another thread.
    *
    * @param listener the listener to run when the computation is complete
    * @param executor the executor to run the listener in

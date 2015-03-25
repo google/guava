@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -41,6 +42,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0 (imported from Google Collections Library)
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Predicates {
   private Predicates() {}
@@ -275,7 +277,7 @@ public final class Predicates {
       return false;
     }
     @Override public String toString() {
-      return "Predicates.not(" + predicate.toString() + ")";
+      return "Predicates.not(" + predicate + ")";
     }
     private static final long serialVersionUID = 0;
   }
@@ -444,7 +446,8 @@ public final class Predicates {
     }
 
     @Override public String toString() {
-      return p.toString() + "(" + f.toString() + ")";
+      // TODO(cpovirk): maybe make this look like the method call does ("Predicates.compose(...)")
+      return p + "(" + f + ")";
     }
 
     private static final long serialVersionUID = 0;

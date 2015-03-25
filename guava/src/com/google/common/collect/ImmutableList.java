@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.collect.ObjectArrays.arraysCopyOf;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
+import static com.google.common.collect.RegularImmutableList.EMPTY;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -35,19 +36,12 @@ import java.util.RandomAccess;
 import javax.annotation.Nullable;
 
 /**
- * A high-performance, immutable, random-access {@code List} implementation.
- * Does not permit null elements.
+ * A {@link List} whose contents will never change, with many other important properties detailed at
+ * {@link ImmutableCollection}.
  *
- * <p>Unlike {@link Collections#unmodifiableList}, which is a <i>view</i> of a
- * separate collection that can still change, an instance of {@code
- * ImmutableList} contains its own private data and will <i>never</i> change.
- * {@code ImmutableList} is convenient for {@code public static final} lists
- * ("constant lists") and also lets you easily make a "defensive copy" of a list
- * provided to your class by a caller.
- *
- * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
- * it has no public or protected constructors. Thus, instances of this type are
- * guaranteed to be immutable.
+ * <p><b>Performance note:</b> a list returned by the {@link #subList} method may retain a reference
+ * to the entire data set, preventing it from being garbage collected. If this is a problem, pass
+ * the sublist to {@link #copyOf(Collection)} to obtain a correctly-sized copy.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
@@ -62,10 +56,6 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
-
-  private static final ImmutableList<Object> EMPTY =
-      new RegularImmutableList<Object>(ObjectArrays.EMPTY_ARRAY);
-
   /**
    * Returns the empty immutable list. This set behaves and performs comparably
    * to {@link Collections#emptyList}, and is preferable mainly for consistency
@@ -400,8 +390,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   class SubList extends ImmutableList<E> {
-    transient final int offset;
-    transient final int length;
+    final transient int offset;
+    final transient int length;
 
     SubList(int offset, int length) {
       this.offset = offset;

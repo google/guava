@@ -64,14 +64,17 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Xmx1536M</argLine>
+          <redirectTestOutputToFile>true</redirectTestOutputToFile>
+          <!-- Set max heap for tests. -->
+          <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
+          <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN</argLine>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3.1</version>
         <executions>
           <execution>
+            <id>create-test-jar</id>
             <goals><goal>test-jar</goal></goals>
           </execution>
         </executions>
@@ -80,7 +83,6 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
       </plugin>
-      <!-- TODO(cpovirk): reenable after a matching Caliper snapshot is pushed to Maven Central
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -98,7 +100,6 @@
           </execution>
         </executions>
       </plugin>
-      -->
     </plugins>
   </build>
 </project>

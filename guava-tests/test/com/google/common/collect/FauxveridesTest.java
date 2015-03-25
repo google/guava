@@ -33,6 +33,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -113,7 +114,7 @@ public class FauxveridesTest extends TestCase {
     Set<MethodSignature> found = getAllFauxveridden(descendant, ancestor);
     Set<MethodSignature> missing = ImmutableSortedSet.copyOf(difference(required, found));
     if (!missing.isEmpty()) {
-      fail(String.format("%s should hide the public static methods declared in %s: %s",
+      fail(rootLocaleFormat("%s should hide the public static methods declared in %s: %s",
           descendant.getSimpleName(), ancestor.getSimpleName(), missing));
     }
   }
@@ -196,7 +197,7 @@ public class FauxveridesTest extends TestCase {
     }
 
     @Override public String toString() {
-      return String.format("%s%s(%s)",
+      return rootLocaleFormat("%s%s(%s)",
           typeSignature, name, getTypesString(parameterTypes));
     }
 
@@ -287,4 +288,8 @@ public class FauxveridesTest extends TestCase {
           return from.toString();
         }
       };
+
+  private static String rootLocaleFormat(String format, Object... args) {
+    return String.format(Locale.ROOT, format, args);
+  }
 }

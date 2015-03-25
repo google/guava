@@ -569,7 +569,7 @@ public final class ServiceManager {
       try {
         for (Entry<State, Service> entry : servicesByState.entries()) {
           if (!(entry.getValue() instanceof NoOpService)) {
-            builder.put(entry.getKey(), entry.getValue());
+            builder.put(entry);
           }
         }
       } finally {
@@ -594,17 +594,13 @@ public final class ServiceManager {
       } finally {
         monitor.leave();
       }
-      Collections.sort(loadTimes, Ordering.<Long>natural()
+      Collections.sort(loadTimes, Ordering.natural()
           .onResultOf(new Function<Entry<Service, Long>, Long>() {
             @Override public Long apply(Map.Entry<Service, Long> input) {
               return input.getValue();
             }
           }));
-      ImmutableMap.Builder<Service, Long> builder = ImmutableMap.builder();
-      for (Entry<Service, Long> entry : loadTimes) {
-        builder.put(entry);
-      }
-      return builder.build();
+      return ImmutableMap.copyOf(loadTimes);
     }
 
     /**
@@ -763,7 +759,7 @@ public final class ServiceManager {
       if (state != null) {
         // Log before the transition, so that if the process exits in response to server failure,
         // there is a higher likelihood that the cause will be in the logs.
-        if (!(service instanceof NoOpService)) {
+        if (!(service instanceof NoOpService) ) {
           logger.log(Level.SEVERE, "Service " + service + " has failed in the " + from + " state.",
               failure);
         }

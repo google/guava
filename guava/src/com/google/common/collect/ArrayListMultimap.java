@@ -148,7 +148,6 @@ public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
   @GwtIncompatible("java.io.ObjectOutputStream")
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
-    stream.writeInt(expectedValuesPerKey);
     Serialization.writeMultimap(this, stream);
   }
 
@@ -156,9 +155,9 @@ public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
   private void readObject(ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    expectedValuesPerKey = stream.readInt();
+    expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
     int distinctKeys = Serialization.readCount(stream);
-    Map<K, Collection<V>> map = Maps.newHashMapWithExpectedSize(distinctKeys);
+    Map<K, Collection<V>> map = Maps.newHashMap();
     setMap(map);
     Serialization.populateMultimap(this, stream, distinctKeys);
   }

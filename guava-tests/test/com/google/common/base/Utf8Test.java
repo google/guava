@@ -34,6 +34,7 @@ import java.util.Random;
  */
 @GwtCompatible(emulated = true)
 public class Utf8Test extends TestCase {
+
   public void testEncodedLength_validStrings() {
     assertEquals(0, Utf8.encodedLength(""));
     assertEquals(11, Utf8.encodedLength("Hello world"));
@@ -92,6 +93,7 @@ public class Utf8Test extends TestCase {
             Character.MIN_HIGH_SURROGATE), 0);
   }
 
+  @SuppressWarnings("CheckReturnValue")
   private static void testEncodedLengthFails(String invalidString,
       int invalidCodePointIndex) {
     try {

@@ -39,10 +39,8 @@ public class LinkedHashMultimap_CustomFieldSerializer {
       SerializationStreamReader stream) throws SerializationException {
     LinkedHashMultimap<Object, Object> multimap = LinkedHashMultimap.create();
 
-    multimap.valueSetCapacity = stream.readInt();
     int distinctKeys = stream.readInt();
-    Map<Object, Collection<Object>> map =
-        new LinkedHashMap<Object, Collection<Object>>(Maps.capacity(distinctKeys));
+    Map<Object, Collection<Object>> map = new LinkedHashMap<Object, Collection<Object>>();
     for (int i = 0; i < distinctKeys; i++) {
       Object key = stream.readObject();
       map.put(key, multimap.createCollection(key));
@@ -60,7 +58,6 @@ public class LinkedHashMultimap_CustomFieldSerializer {
 
   public static void serialize(SerializationStreamWriter stream,
       LinkedHashMultimap<?, ?> multimap) throws SerializationException {
-    stream.writeInt(multimap.valueSetCapacity);
     stream.writeInt(multimap.keySet().size());
     for (Object key : multimap.keySet()) {
       stream.writeObject(key);

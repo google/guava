@@ -6,6 +6,7 @@
   <inherits name="com.google.common.escape.testing.Testing"/>
   <inherits name="com.google.common.html.Html"/>
   <inherits name="com.google.common.truth.Truth"/>
+  <inherits name="third_party.java_src.gwt.svn.trunk.user.Gwt-testing"/>
   <entry-point class="com.google.common.html.TestModuleEntryPoint"/>
    
   <source path=""/>

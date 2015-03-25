@@ -16,6 +16,7 @@
 
 package com.google.common.math;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.math.MathPreconditions.checkNonNegative;
 import static java.lang.Math.log;
 
@@ -166,6 +167,51 @@ public final class DoubleMath {
     } else {
       return Booleans.compare(Double.isNaN(a), Double.isNaN(b));
     }
+  }
+
+  /**
+   * Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
+   * {@code values}.
+   *
+   * <p>If these values are a sample drawn from a population, this is also an unbiased estimator of
+   * the arithmetic mean of the population.
+   *
+   * @param values a nonempty series of values
+   * @throws IllegalArgumentException if {@code values} is empty
+   */
+  public static double mean(int... values) {
+    checkArgument(values.length > 0, "Cannot take mean of 0 values");
+    // The upper bound on the the length of an array and the bounds on the int values mean that, in
+    // this case only, we can compute the sum as a long without risking overflow or loss of
+    // precision. So we do that, as it's slightly quicker than the Knuth algorithm.
+    long sum = 0;
+    for (int index = 0; index < values.length; ++index) {
+      sum += values[index];
+    }
+    return (double) sum / values.length;
+  }
+
+  /**
+   * Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
+   * {@code values}.
+   *
+   * <p>If these values are a sample drawn from a population, this is also an unbiased estimator of
+   * the arithmetic mean of the population.
+   *
+   * @param values a nonempty series of values, which will be converted to {@code double} values
+   *     (this may cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
+   * @throws IllegalArgumentException if {@code values} is empty
+   */
+  public static double mean(long... values) {
+    checkArgument(values.length > 0, "Cannot take mean of 0 values");
+    long count = 1;
+    double mean = values[0];
+    for (int index = 1; index < values.length; ++index) {
+      count++;
+      // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)
+      mean += (values[index] - mean) / count;
+    }
+    return mean;
   }
 
   private DoubleMath() {}

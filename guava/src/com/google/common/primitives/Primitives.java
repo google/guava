@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * Contains static utility methods pertaining to primitive types and their
  * corresponding wrapper types.
@@ -30,6 +32,7 @@ import java.util.Set;
  * @author Kevin Bourrillion
  * @since 1.0
  */
+@CheckReturnValue
 public final class Primitives {
   private Primitives() {}
 

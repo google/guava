@@ -77,6 +77,7 @@ public class IntsTest extends TestCase {
     assertEquals(LEAST, Ints.saturatedCast(Long.MIN_VALUE));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   private static void assertCastFails(long value) {
     try {
       Ints.checkedCast(value);
@@ -170,6 +171,7 @@ public class IntsTest extends TestCase {
         (int) 3));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       Ints.max();
@@ -186,6 +188,7 @@ public class IntsTest extends TestCase {
         (int) 5, (int) 3, (int) 0, (int) 9));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       Ints.min();
@@ -232,7 +235,11 @@ public class IntsTest extends TestCase {
         Ints.fromByteArray(new byte[] {0x12, 0x13, 0x14, 0x15, 0x33}));
     assertEquals(0xFFEEDDCC, Ints.fromByteArray(
         new byte[] {(byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC}));
+  }
 
+  @SuppressWarnings("CheckReturnValue")
+  @GwtIncompatible("Ints.fromByteArray")
+  public void testFromByteArrayFails() {
     try {
       Ints.fromByteArray(new byte[Ints.BYTES - 1]);
       fail();
@@ -272,6 +279,7 @@ public class IntsTest extends TestCase {
         Ints.ensureCapacity(ARRAY1, 2, 1)));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Ints.ensureCapacity(ARRAY1, -1, 1);
@@ -353,6 +361,7 @@ public class IntsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Integer> list = Arrays.asList((int) 0, (int) 1, null);
     try {
@@ -433,6 +442,7 @@ public class IntsTest extends TestCase {
     assertEquals((Integer) 438, converter.convert("0666"));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testStringConverter_convertError() {
     try {
       Ints.stringConverter().convert("notanumber");

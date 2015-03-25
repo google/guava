@@ -19,7 +19,7 @@
     <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>**/*Test.java</test.include>
-    <truth.version>0.24</truth.version>
+    <truth.version>0.25</truth.version>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -55,6 +55,10 @@
       <timezone>-8</timezone>
     </developer>
   </developers>
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.org/google/guava</url>
+  </ciManagement>
   <modules>
     <module>guava</module>
     <module>guava-gwt</module>
@@ -233,7 +237,7 @@
       <dependency>
         <groupId>com.google.caliper</groupId>
         <artifactId>caliper</artifactId>
-        <version>0.5-rc1</version>
+        <version>1.0-beta-2</version>
         <scope>test</scope>
         <exclusions>
           <exclusion>
@@ -245,4 +249,35 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  <profiles>
+    <profile>
+      <id>jdk8</id>
+      <activation>
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <!-- Disable doclint under JDK 8 -->
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <additionalparam>-Xdoclint:none</additionalparam>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <additionalparam>-Xdoclint:none</additionalparam>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

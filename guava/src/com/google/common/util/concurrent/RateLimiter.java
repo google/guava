@@ -28,6 +28,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothBursty;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothWarmingUp;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -397,7 +398,7 @@ public abstract class RateLimiter {
 
   @Override
   public String toString() {
-    return String.format("RateLimiter[stableRate=%3.1fqps]", getRate());
+    return String.format(Locale.ROOT, "RateLimiter[stableRate=%3.1fqps]", getRate());
   }
 
   @VisibleForTesting

@@ -230,6 +230,13 @@ public final class MediaType {
   public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
 
   /**
+   * Media type for <a href="https://www.dartlang.org/articles/embedding-in-html/">dart files</a>.
+   *
+   * @since 19.0
+   */
+  public static final MediaType DART_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "dart");
+
+  /**
    * Media type for <a href="http://en.wikipedia.org/wiki/Embedded_OpenType">Embedded OpenType</a>
    * fonts. This is
    * <a href="http://www.iana.org/assignments/media-types/application/vnd.ms-fontobject">registered

@@ -490,6 +490,13 @@ public class ImmutableSetMultimap<K, V>
         : ImmutableSortedSet.<V>emptySet(valueComparator);
   }
 
+  private static <V> ImmutableSet.Builder<V> valuesBuilder(
+      @Nullable Comparator<? super V> valueComparator) {
+    return (valueComparator == null)
+        ? new ImmutableSet.Builder<V>()
+        : new ImmutableSortedSet.Builder<V>(valueComparator);
+  }
+
   @Nullable Comparator<? super V> valueComparator() {
     return emptySet instanceof ImmutableSortedSet
         ? ((ImmutableSortedSet<V>) emptySet).comparator()

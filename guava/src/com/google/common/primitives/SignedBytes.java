@@ -23,6 +23,8 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.util.Comparator;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * Static utility methods pertaining to {@code byte} primitives that
  * interpret values as signed. The corresponding methods that treat the values
@@ -38,6 +40,7 @@ import java.util.Comparator;
  */
 // TODO(kevinb): how to prevent warning on UnsignedBytes when building GWT
 // javadoc?
+@CheckReturnValue
 @GwtCompatible
 public final class SignedBytes {
   private SignedBytes() {}

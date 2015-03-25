@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Unit test for {@link Chars}.
@@ -75,6 +76,7 @@ public class CharsTest extends TestCase {
     assertEquals(LEAST, Chars.saturatedCast(Long.MIN_VALUE));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   private void assertCastFails(long value) {
     try {
       Chars.checkedCast(value);
@@ -168,6 +170,7 @@ public class CharsTest extends TestCase {
         (char) 3));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       Chars.max();
@@ -184,6 +187,7 @@ public class CharsTest extends TestCase {
         (char) 5, (char) 3, (char) 0, (char) 9));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       Chars.min();
@@ -221,7 +225,11 @@ public class CharsTest extends TestCase {
         new byte[] {0x23, 0x45, (byte) 0xDC}));
     assertEquals('\uFEDC', Chars.fromByteArray(
         new byte[] {(byte) 0xFE, (byte) 0xDC}));
+  }
 
+  @SuppressWarnings("CheckReturnValue")
+  @GwtIncompatible("Chars.fromByteArray")
+  public void testFromByteArrayFails() {
     try {
       Chars.fromByteArray(new byte[Chars.BYTES - 1]);
       fail();
@@ -241,7 +249,8 @@ public class CharsTest extends TestCase {
     for (int hi = 0; hi < 256; hi++) {
       for (int lo = 0; lo < 256; lo++) {
         char result = Chars.fromByteArray(new byte[]{(byte) hi, (byte) lo});
-        assertEquals(String.format("hi=%s, lo=%s, expected=%s, result=%s",
+        assertEquals(String.format(Locale.ROOT,
+            "hi=%s, lo=%s, expected=%s, result=%s",
             hi, lo, (int) c, (int) result), c, result);
 
         byte[] bytes = Chars.toByteArray(c);
@@ -252,7 +261,11 @@ public class CharsTest extends TestCase {
       }
     }
     assertEquals((char) 0, c); // sanity check
+  }
 
+  @SuppressWarnings("CheckReturnValue")
+  @GwtIncompatible("Chars.fromByteArray, Chars.toByteArray")
+  public void testByteArrayRoundTripsFails() {
     try {
       Chars.fromByteArray(new byte[] {0x11});
       fail();
@@ -269,6 +282,7 @@ public class CharsTest extends TestCase {
         Chars.ensureCapacity(ARRAY1, 2, 1)));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Chars.ensureCapacity(ARRAY1, -1, 1);
@@ -344,6 +358,7 @@ public class CharsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Character> list = Arrays.asList((char) 0, (char) 1, null);
     try {

@@ -86,7 +86,7 @@ public class MultisetsTest extends TestCase {
     Multiset<String> multiset = HashMultiset.create();
     Multiset<String> toRemove =
         HashMultiset.create(Arrays.asList("a", "b", "a"));
-    assertFalse(Multisets.retainOccurrences(multiset, toRemove));
+    assertFalse(Multisets.removeOccurrences(multiset, toRemove));
     assertTrue(multiset.isEmpty());
   }
 

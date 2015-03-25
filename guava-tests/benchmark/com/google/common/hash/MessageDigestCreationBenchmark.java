@@ -29,7 +29,7 @@ import java.security.MessageDigest;
  */
 public class MessageDigestCreationBenchmark {
 
-  @Param({"MD5", "SHA-1", "SHA-256", "SHA-512"})
+  @Param({"MD5", "SHA-1", "SHA-256", "SHA-384", "SHA-512"})
   private String algorithm;
 
   private MessageDigest md;

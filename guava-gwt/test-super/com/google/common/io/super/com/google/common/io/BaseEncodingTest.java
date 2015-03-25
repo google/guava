@@ -18,6 +18,7 @@ import static com.google.common.io.BaseEncoding.base16;
 import static com.google.common.io.BaseEncoding.base32;
 import static com.google.common.io.BaseEncoding.base32Hex;
 import static com.google.common.io.BaseEncoding.base64;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
@@ -29,6 +30,8 @@ import com.google.common.io.BaseEncoding.DecodingException;
 import junit.framework.TestCase;
 
 import java.io.UnsupportedEncodingException;
+
+import javax.annotation.Nullable;
 
 /**
  * Tests for {@code BaseEncoding}.
@@ -93,12 +96,16 @@ public class BaseEncodingTest extends TestCase {
 
   public void testBase64InvalidDecodings() {
     // These contain bytes not in the decodabet.
-    assertFailsToDecode(base64(), "\u007f");
-    assertFailsToDecode(base64(), "Wf2!");
+    assertFailsToDecode(base64(), "A\u007f", "Unrecognized character: 0x7f");
+    assertFailsToDecode(base64(), "Wf2!", "Unrecognized character: !");
     // This sentence just isn't base64() encoded.
     assertFailsToDecode(base64(), "let's not talk of love or chains!");
     // A 4n+1 length string is never legal base64().
-    assertFailsToDecode(base64(), "12345");
+    assertFailsToDecode(base64(), "12345", "Invalid input length 5");
+    // These have a combination of invalid length, unrecognized characters and wrong padding.
+    assertFailsToDecode(base64(), "AB=C", "Unrecognized character: =");
+    assertFailsToDecode(base64(), "A=BCD", "Invalid input length 5");
+    assertFailsToDecode(base64(), "?", "Invalid input length 1");
   }
 
   @SuppressWarnings("ReturnValueIgnored")
@@ -143,6 +150,14 @@ public class BaseEncodingTest extends TestCase {
     testEncodingWithSeparators(enc, "foobar", "Zm9vYmFy");
   }
 
+  public void testBase64Offset() {
+    testEncodesWithOffset(base64(), "foobar", 0, 6, "Zm9vYmFy");
+    testEncodesWithOffset(base64(), "foobar", 1, 5, "b29iYXI=");
+    testEncodesWithOffset(base64(), "foobar", 2, 3, "b2Jh");
+    testEncodesWithOffset(base64(), "foobar", 3, 1, "Yg==");
+    testEncodesWithOffset(base64(), "foobar", 4, 0, "");
+  }
+
   public void testBase32() {
     // The following test vectors are specified in RFC 4648 itself
     testEncodingWithCasing(base32(), "", "");
@@ -176,18 +191,30 @@ public class BaseEncodingTest extends TestCase {
 
   public void testBase32InvalidDecodings() {
     // These contain bytes not in the decodabet.
-    assertFailsToDecode(base32(), "\u007f");
-    assertFailsToDecode(base32(), "Wf2!");
+    assertFailsToDecode(base32(), "A ", "Unrecognized character: 0x20");
+    assertFailsToDecode(base32(), "Wf2!", "Unrecognized character: f");
     // This sentence just isn't base32() encoded.
     assertFailsToDecode(base32(), "let's not talk of love or chains!");
     // An 8n+{1,3,6} length string is never legal base32.
-    assertFailsToDecode(base32(), "A");
+    assertFailsToDecode(base32(), "A", "Invalid input length 1");
     assertFailsToDecode(base32(), "ABC");
     assertFailsToDecode(base32(), "ABCDEF");
+    // These have a combination of invalid length, unrecognized characters and wrong padding.
+    assertFailsToDecode(base32(), "AB=C", "Unrecognized character: =");
+    assertFailsToDecode(base32(), "A=BCDE", "Invalid input length 6");
+    assertFailsToDecode(base32(), "?", "Invalid input length 1");
   }
 
   public void testBase32UpperCaseIsNoOp() {
     assertSame(base32(), base32().upperCase());
+  }
+
+  public void testBase32Offset() {
+    testEncodesWithOffset(base32(), "foobar", 0, 6, "MZXW6YTBOI======");
+    testEncodesWithOffset(base32(), "foobar", 1, 5, "N5XWEYLS");
+    testEncodesWithOffset(base32(), "foobar", 2, 3, "N5RGC===");
+    testEncodesWithOffset(base32(), "foobar", 3, 1, "MI======");
+    testEncodesWithOffset(base32(), "foobar", 4, 0, "");
   }
 
   public void testBase32Hex() {
@@ -212,8 +239,8 @@ public class BaseEncodingTest extends TestCase {
 
   public void testBase32HexInvalidDecodings() {
     // These contain bytes not in the decodabet.
-    assertFailsToDecode(base32Hex(), "\u007f");
-    assertFailsToDecode(base32Hex(), "Wf2!");
+    assertFailsToDecode(base32Hex(), "A\u007f", "Unrecognized character: 0x7f");
+    assertFailsToDecode(base32Hex(), "Wf2!", "Unrecognized character: W");
     // This sentence just isn't base32 encoded.
     assertFailsToDecode(base32Hex(), "let's not talk of love or chains!");
     // An 8n+{1,3,6} length string is never legal base32.
@@ -238,6 +265,25 @@ public class BaseEncodingTest extends TestCase {
 
   public void testBase16UpperCaseIsNoOp() {
     assertSame(base16(), base16().upperCase());
+  }
+
+  public void testBase16InvalidDecodings() {
+    // These contain bytes not in the decodabet.
+    assertFailsToDecode(base16(), "\n\n", "Unrecognized character: 0xa");
+    assertFailsToDecode(base16(), "EFGH", "Unrecognized character: G");
+    // Valid base16 strings always have an even length.
+    assertFailsToDecode(base16(), "A", "Invalid input length 1");
+    assertFailsToDecode(base16(), "ABC");
+    // These have a combination of invalid length and unrecognized characters.
+    assertFailsToDecode(base16(), "?", "Invalid input length 1");
+  }
+
+  public void testBase16Offset() {
+    testEncodesWithOffset(base16(), "foobar", 0, 6, "666F6F626172");
+    testEncodesWithOffset(base16(), "foobar", 1, 5, "6F6F626172");
+    testEncodesWithOffset(base16(), "foobar", 2, 3, "6F6261");
+    testEncodesWithOffset(base16(), "foobar", 3, 1, "62");
+    testEncodesWithOffset(base16(), "foobar", 4, 0, "");
   }
 
   private static void testEncodingWithCasing(
@@ -266,39 +312,48 @@ public class BaseEncodingTest extends TestCase {
   }
 
   private static void testEncodes(BaseEncoding encoding, String decoded, String encoded) {
-    byte[] bytes;
-    try {
-      // GWT does not support String.getBytes(Charset)
-      bytes = decoded.getBytes("UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new AssertionError();
-    }
-    assertEquals(encoded, encoding.encode(bytes));
+    assertEquals(encoded, encoding.encode(getBytes(decoded)));
+  }
+
+  private static void testEncodesWithOffset(
+      BaseEncoding encoding, String decoded, int offset, int len, String encoded) {
+    assertEquals(encoded, encoding.encode(getBytes(decoded), offset, len));
   }
 
   private static void testDecodes(BaseEncoding encoding, String encoded, String decoded) {
-    byte[] bytes;
-    try {
-      // GWT does not support String.getBytes(Charset)
-      bytes = decoded.getBytes("UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new AssertionError();
-    }
-    assertEquals(bytes, encoding.decode(encoded));
+    assertEquals(getBytes(decoded), encoding.decode(encoded));
   }
 
   private static void assertFailsToDecode(BaseEncoding encoding, String cannotDecode) {
+    assertFailsToDecode(encoding, cannotDecode, null);
+  }
+
+  private static void assertFailsToDecode(
+      BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
     try {
       encoding.decode(cannotDecode);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
-      // success
+      if (expectedMessage != null) {
+        assertThat(expected.getCause()).hasMessage(expectedMessage);
+      }
     }
     try {
       encoding.decodeChecked(cannotDecode);
       fail("Expected DecodingException");
     } catch (DecodingException expected) {
-      // success
+      if (expectedMessage != null) {
+        assertThat(expected).hasMessage(expectedMessage);
+      }
+    }
+  }
+
+  private static byte[] getBytes(String decoded) {
+    try {
+      // GWT does not support String.getBytes(Charset)
+      return decoded.getBytes("UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError();
     }
   }
 

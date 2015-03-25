@@ -91,8 +91,7 @@ public final class HashMultiset<E> extends AbstractMapBasedMultiset<E> {
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int distinctElements = Serialization.readCount(stream);
-    setBackingMap(
-        Maps.<E, Count>newHashMapWithExpectedSize(distinctElements));
+    setBackingMap(Maps.<E, Count>newHashMap());
     Serialization.populateMultiset(this, stream, distinctElements);
   }
 

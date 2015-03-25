@@ -383,91 +383,120 @@ public final class DoubleMath {
     }
   }
 
+  /**
+   * Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
+   * {@code values}.
+   *
+   * <p>If these values are a sample drawn from a population, this is also an unbiased estimator of
+   * the arithmetic mean of the population.
+   *
+   * @param values a nonempty series of values
+   * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
+   */
   @GwtIncompatible("com.google.common.math.DoubleUtils")
-  private static final class MeanAccumulator {
+  public static double mean(double... values) {
+    checkArgument(values.length > 0, "Cannot take mean of 0 values");
+    long count = 1;
+    double mean = checkFinite(values[0]);
+    for (int index = 1; index < values.length; ++index) {
+      checkFinite(values[index]);
+      count++;
+      // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)
+      mean += (values[index] - mean) / count;
+    }
+    return mean;
+  }
 
-    private long count = 0;
-    private double mean = 0.0;
+  /**
+   * Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
+   * {@code values}.
+   *
+   * <p>If these values are a sample drawn from a population, this is also an unbiased estimator of
+   * the arithmetic mean of the population.
+   *
+   * @param values a nonempty series of values
+   * @throws IllegalArgumentException if {@code values} is empty
+   */
+  public static double mean(int... values) {
+    checkArgument(values.length > 0, "Cannot take mean of 0 values");
+    // The upper bound on the the length of an array and the bounds on the int values mean that, in
+    // this case only, we can compute the sum as a long without risking overflow or loss of
+    // precision. So we do that, as it's slightly quicker than the Knuth algorithm.
+    long sum = 0;
+    for (int index = 0; index < values.length; ++index) {
+      sum += values[index];
+    }
+    return (double) sum / values.length;
+  }
 
-    void add(double value) {
-      checkArgument(isFinite(value));
-      ++count;
+  /**
+   * Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
+   * {@code values}.
+   *
+   * <p>If these values are a sample drawn from a population, this is also an unbiased estimator of
+   * the arithmetic mean of the population.
+   *
+   * @param values a nonempty series of values, which will be converted to {@code double} values
+   *     (this may cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
+   * @throws IllegalArgumentException if {@code values} is empty
+   */
+  public static double mean(long... values) {
+    checkArgument(values.length > 0, "Cannot take mean of 0 values");
+    long count = 1;
+    double mean = values[0];
+    for (int index = 1; index < values.length; ++index) {
+      count++;
+      // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)
+      mean += (values[index] - mean) / count;
+    }
+    return mean;
+  }
+
+  /**
+   * Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
+   * {@code values}.
+   *
+   * <p>If these values are a sample drawn from a population, this is also an unbiased estimator of
+   * the arithmetic mean of the population.
+   *
+   * @param values a nonempty series of values, which will be converted to {@code double} values
+   *     (this may cause loss of precision)
+   * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
+   */
+  @GwtIncompatible("com.google.common.math.DoubleUtils")
+  public static double mean(Iterable<? extends Number> values) {
+    return mean(values.iterator());
+  }
+
+  /**
+   * Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
+   * {@code values}.
+   *
+   * <p>If these values are a sample drawn from a population, this is also an unbiased estimator of
+   * the arithmetic mean of the population.
+   *
+   * @param values a nonempty series of values, which will be converted to {@code double} values
+   *     (this may cause loss of precision)
+   * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
+   */
+  @GwtIncompatible("com.google.common.math.DoubleUtils")
+  public static double mean(Iterator<? extends Number> values) {
+    checkArgument(values.hasNext(), "Cannot take mean of 0 values");
+    long count = 1;
+    double mean = checkFinite(values.next().doubleValue());
+    while (values.hasNext()) {
+      double value = checkFinite(values.next().doubleValue());
+      count++;
       // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)
       mean += (value - mean) / count;
     }
-
-    double mean() {
-      checkArgument(count > 0, "Cannot take mean of 0 values");
-      return mean;
-    }
+    return mean;
   }
 
-  /**
-   * Returns the arithmetic mean of the values. There must be at least one value, and they must all
-   * be finite.
-   */
-  @GwtIncompatible("MeanAccumulator")
-  public static double mean(double... values) {
-    MeanAccumulator accumulator = new MeanAccumulator();
-    for (double value : values) {
-      accumulator.add(value);
-    }
-    return accumulator.mean();
-  }
-
-  /**
-   * Returns the arithmetic mean of the values. There must be at least one value. The values will
-   * be converted to doubles, which does not cause any loss of precision for ints.
-   */
-  @GwtIncompatible("MeanAccumulator")
-  public static double mean(int... values) {
-    MeanAccumulator accumulator = new MeanAccumulator();
-    for (int value : values) {
-      accumulator.add(value);
-    }
-    return accumulator.mean();
-  }
-
-  /**
-   * Returns the arithmetic mean of the values. There must be at least one value. The values will
-   * be converted to doubles, which causes loss of precision for longs of magnitude over 2^53
-   * (slightly over 9e15).
-   */
-  @GwtIncompatible("MeanAccumulator")
-  public static double mean(long... values) {
-    MeanAccumulator accumulator = new MeanAccumulator();
-    for (long value : values) {
-      accumulator.add(value);
-    }
-    return accumulator.mean();
-  }
-
-  /**
-   * Returns the arithmetic mean of the values. There must be at least one value, and they must all
-   * be finite. The values will be converted to doubles, which may cause loss of precision for some
-   * numeric types.
-   */
-  @GwtIncompatible("MeanAccumulator")
-  public static double mean(Iterable<? extends Number> values) {
-    MeanAccumulator accumulator = new MeanAccumulator();
-    for (Number value : values) {
-      accumulator.add(value.doubleValue());
-    }
-    return accumulator.mean();
-  }
-
-  /**
-   * Returns the arithmetic mean of the values. There must be at least one value, and they must all
-   * be finite. The values will be converted to doubles, which may cause loss of precision for some
-   * numeric types.
-   */
-  @GwtIncompatible("MeanAccumulator")
-  public static double mean(Iterator<? extends Number> values) {
-    MeanAccumulator accumulator = new MeanAccumulator();
-    while (values.hasNext()) {
-      accumulator.add(values.next().doubleValue());
-    }
-    return accumulator.mean();
+  @GwtIncompatible("com.google.common.math.DoubleUtils")
+  private static double checkFinite(double argument) {
+    checkArgument(isFinite(argument));
+    return argument;
   }
 
   private DoubleMath() {}

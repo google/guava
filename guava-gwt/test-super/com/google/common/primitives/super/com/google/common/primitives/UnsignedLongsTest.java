@@ -58,6 +58,7 @@ public class UnsignedLongsTest extends TestCase {
     assertTrue(UnsignedLongs.compare(0xff1a618b7f65ea12L, 0xff1a618b7f65ea12L) == 0);
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       UnsignedLongs.max();
@@ -73,7 +74,8 @@ public class UnsignedLongsTest extends TestCase {
         0x5a4316b8c153ac4dL, 8L, 100L,
         0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
   }
-  
+
+  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       UnsignedLongs.min();
@@ -133,7 +135,10 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(0xff1a618b7f65ea12L, UnsignedLongs.parseUnsignedLong("18382112080831834642"));
     assertEquals(0x5a4316b8c153ac4dL, UnsignedLongs.parseUnsignedLong("6504067269626408013"));
     assertEquals(0x6cf78a4b139a4e2aL, UnsignedLongs.parseUnsignedLong("7851896530399809066"));
+  }
 
+  @SuppressWarnings("CheckReturnValue")
+  public void testParseLongFails() {
     try {
       // One more than maximum value
       UnsignedLongs.parseUnsignedLong("18446744073709551616");
@@ -152,6 +157,7 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(0L, UnsignedLongs.decode("0"));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testDecodeLongFails() {
     try {
       // One more than maximum value
@@ -182,7 +188,10 @@ public class UnsignedLongsTest extends TestCase {
   public void testParseLongWithRadix() {
     assertEquals(0xffffffffffffffffL, UnsignedLongs.parseUnsignedLong("ffffffffffffffff", 16));
     assertEquals(0x1234567890abcdefL, UnsignedLongs.parseUnsignedLong("1234567890abcdef", 16));
+  }
 
+  @SuppressWarnings("CheckReturnValue")
+  public void testParseLongWithRadixLimits() {
     BigInteger max = BigInteger.ZERO.setBit(64).subtract(ONE);
     // loops through all legal radix values.
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
@@ -207,6 +216,7 @@ public class UnsignedLongsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testParseLongThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX, inclusive.
     try {

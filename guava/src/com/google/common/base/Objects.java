@@ -80,6 +80,7 @@ public final class Objects {
    * <p><b>Note for Java 7 and later:</b> This method should be treated as
    * deprecated; use {@link java.util.Objects#hash} instead.
    */
+  @CheckReturnValue
   public static int hashCode(@Nullable Object... objects) {
     return Arrays.hashCode(objects);
   }
@@ -125,6 +126,7 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#toStringHelper(Object)} instead. This
    *     method is scheduled for removal in June 2016.
    */
+  @CheckReturnValue
   @Deprecated
   public static ToStringHelper toStringHelper(Object self) {
     return new ToStringHelper(self.getClass().getSimpleName());
@@ -142,6 +144,7 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#toStringHelper(Class)} instead. This
    *     method is scheduled for removal in June 2016.
    */
+  @CheckReturnValue
   @Deprecated
   public static ToStringHelper toStringHelper(Class<?> clazz) {
     return new ToStringHelper(clazz.getSimpleName());
@@ -157,6 +160,7 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#toStringHelper(String)} instead. This
    *     method is scheduled for removal in June 2016.
    */
+  @CheckReturnValue
   @Deprecated
   public static ToStringHelper toStringHelper(String className) {
     return new ToStringHelper(className);
@@ -181,6 +185,7 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#firstNonNull} instead. This method is
    *      scheduled for removal in June 2016.
    */
+  @CheckReturnValue
   @Deprecated
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
     return MoreObjects.firstNonNull(first, second);

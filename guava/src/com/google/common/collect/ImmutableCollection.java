@@ -24,26 +24,120 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
 /**
- * An immutable collection. Does not permit null elements.
+ * A {@link Collection} whose contents will never change, and which offers a few additional
+ * guarantees detailed below.
  *
- * <p>In addition to the {@link Collection} methods, this class has an {@link
- * #asList()} method, which returns a list view of the collection's elements.
+ * <p><b>Warning:</b> avoid <i>direct</i> usage of {@link ImmutableCollection} as a type (just as
+ * with {@link Collection} itself). Prefer subtypes such as {@link ImmutableSet} or {@link
+ * ImmutableList}, which have well-defined {@link #equals} semantics, thus avoiding a common source
+ * of bugs and confusion.
  *
- * <p><b>Note:</b> Although this class is not final, it cannot be subclassed
- * outside of this package as it has no public or protected constructors. Thus,
- * instances of this type are guaranteed to be immutable.
+ * <h3>About <i>all</i> public {@code Immutable-} types in this package</h3>
  *
- * @author Jesse Wilson
+ * <h4>Guarantees</h4>
+ *
+ * <p>Each makes the following guarantees:
+ *
+ * <ul>
+ * <li><b>Shallow immutability.</b> Elements can never be added, removed or replaced in this
+ *     collection. This is a stronger guarantee than that of {@link
+ *     Collections#unmodifiableCollection}, whose contents change whenever the wrapped collection
+ *     is modified.
+ * <li><b>Null-hostility.</b> This collection will never contain a null element.
+ * <li><b>Deterministic iteration.</b> The specific iteration order depends on how the collection
+ *     was created. See the appropriate factory method for details.
+ * <li><b>Thread safety.</b> It is safe to access this collection concurrently from multiple
+ *     threads.
+ * <li><b>Integrity.</b> This type cannot be subclassed outside this package (which would allow
+ *     these guarantees to be violated).
+ * </ul>
+ *
+ * <h4>Treat as interfaces, not implementations</h4>
+ *
+ * <p>Each of these public classes, such as {@link ImmutableList}, is a <i>type</i>, offering
+ * meaningful behavioral guarantees -- not a specific <i>implementation</i> (as in the case of, say,
+ * {@link ArrayList}). You should treat them as interfaces in every important sense of the word.
+ *
+ * <p>For field types and method return types, you should generally use the immutable type (such as
+ * {@link ImmutableList}) instead of the basic collection interface type (such as {@link List}). The
+ * semantic guarantees listed above are almost always useful to communicate to your callers.
+ *
+ * <p>On the other hand, a <i>parameter</i> type of {@link ImmutableList} is generally a nuisance to
+ * callers; instead, accept {@link Iterable} and pass it to {@link ImmutableList#copyOf(Iterable)}
+ * yourself.
+ *
+ * <h4>Creation</h4>
+ *
+ * <p>Except for logically "abstract" types like {@code ImmutableCollection} itself, each {@code
+ * Immutable} type provides the static operations you need to obtain instances of that type:
+ *
+ * <ul>
+ * <li>Static methods named {@code of}, accepting an explicit list of elements or entries.
+ * <li>Static methods named {@code copyOf}, accepting an existing collection whose contents should
+ *     be copied.
+ * <li>A static nested {@code Builder} class which can be used to populate a new immutable instance.
+ * </ul>
+ *
+ * <h4>Other common properties</h4>
+ *
+ * <ul>
+ * <li>View collections, such as {@link ImmutableMap#keySet} or {@link ImmutableList#subList},
+ *     return the appropriate {@code Immutable-} subtype. This is true even when the language does
+ *     not permit the method's return type to express it (see the case of {@link
+ *     ImmutableListMultimap#asMap}, for example).
+ * </ul>
+ *
+ * <h4>Performance notes</h4>
+ *
+ * <ul>
+ * <li>The {@code copyOf} methods will sometimes recognize that the actual copy operation is
+ *     unnecessary; for example, {@code copyOf(copyOf(anArrayList))} should copy the data only once.
+ *     This reduces the expense of habitually making defensive copies at API boundaries. However,
+ *     the precise conditions for skipping the copy are not contractually guaranteed.
+ * <li>Implementations can be generally assumed to prioritize memory efficiency, then speed of
+ *     access, then speed of creation.
+ * <li>The performance of using the associated {@code Builder} class can be assumed to be
+ *     no worse, and possibly better, than creating a mutable collection and copying it.
+ * <li>Implementations generally do not cache hash codes. If your element or key type has a slow
+ *     {@code hashCode} implementation, it should cache it itself.
+ * </ul>
+ *
+ * <h4>Example usage</h4>
+ *
+ * <pre>   {@code
+ *
+ *   class Foo {
+ *     private static final ImmutableSet<String> RESERVED_CODES =
+ *         ImmutableSet.of("AZ", "CQ", "ZX");
+ *
+ *     private final ImmutableSet<String> codes;
+ *
+ *     public Foo(Iterable<String> codes) {
+ *       this.codes = ImmutableSet.copyOf(codes);
+ *       checkArgument(Collections.disjoint(this.codes, RESERVED_CODES));
+ *     }
+ *   }}</pre>
+ *
+ * <h3>See also</h3>
+ *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
+ * immutable collections</a>.
+ *
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
+// TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
+// just to do everything we can to emphasize the "practically an interface" nature of this class.
 public abstract class ImmutableCollection<E> extends AbstractCollection<E>
     implements Serializable {
 
@@ -161,7 +255,12 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
   private transient ImmutableList<E> asList;
 
   /**
-   * Returns a list view of the collection.
+   * Returns an {@code ImmutableList} containing the same elements, in the same order, as this
+   * collection.
+   *
+   * <p><b>Performance note:</b> in most cases this method can return quickly without actually
+   * copying anything. The exact circumstances under which the copy is performed are undefined and
+   * subject to change.
    *
    * @since 2.0
    */

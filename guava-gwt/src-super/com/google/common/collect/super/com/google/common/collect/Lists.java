@@ -48,6 +48,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -504,6 +505,7 @@ public final class Lists {
    * then serialize the copy. Other methods similar to this do not implement
    * serialization at all for this reason.
    */
+  @CheckReturnValue
   public static <F, T> List<T> transform(
       List<F> fromList, Function<? super F, ? extends T> function) {
     return (fromList instanceof RandomAccess)
@@ -749,6 +751,7 @@ public final class Lists {
    *
    * @since 7.0
    */
+  @CheckReturnValue
   public static <T> List<T> reverse(List<T> list) {
     if (list instanceof ImmutableList) {
       return ((ImmutableList<T>) list).reverse();

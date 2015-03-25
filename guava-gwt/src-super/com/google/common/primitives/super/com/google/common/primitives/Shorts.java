@@ -33,6 +33,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * Static utility methods pertaining to {@code short} primitives, that are not
  * already found in either {@link Short} or {@link Arrays}.
@@ -44,6 +46,7 @@ import java.util.RandomAccess;
  * @author Kevin Bourrillion
  * @since 1.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Shorts {
   private Shorts() {}

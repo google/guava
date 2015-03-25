@@ -51,13 +51,13 @@ import javax.annotation.Nullable;
  * {@link #anyMatch})
  * </ul>
  *
- * <p>Here is an example that merges the lists returned by two separate database calls, transforms
- * it by invoking {@code toString()} on each element, and returns the first 10 elements as an
- * {@code ImmutableList}: <pre>   {@code
+ * <p>Here is an example that accepts a list from a database call, filters it based on a predicate,
+ * transforms it by invoking {@code toString()} on each element, and returns the first 10 elements
+ * as an {@code ImmutableList}: <pre>   {@code
  *
  *   FluentIterable
  *       .from(database.getClientList())
- *       .filter(activeInLastMonth())
+ *       .filter(activeInLastMonth)
  *       .transform(Functions.toStringFunction())
  *       .limit(10)
  *       .toList();}</pre>
@@ -411,10 +411,22 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
-   * Returns an immutable map for which the elements of this {@code FluentIterable} are the keys in
-   * the same order, mapped to values by the given function. If this iterable contains duplicate
-   * elements, the returned map will contain each distinct element once in the order it first
-   * appears.
+   * Returns an {@code ImmutableMultiset} containing all of the elements from this fluent iterable.
+   *
+   * @since 19.0
+   */
+  public final ImmutableMultiset<E> toMultiset() {
+    return ImmutableMultiset.copyOf(iterable);
+  }
+
+  /**
+   * Returns an immutable map whose keys are the distinct elements of this {@code FluentIterable}
+   * and whose value for each key was computed by {@code valueFunction}. The map's iteration order
+   * is the order of the first appearance of each key in this iterable.
+   *
+   * <p>When there are multiple instances of a key in this iterable, it is unspecified whether
+   * {@code valueFunction} will be applied to more than one instance of that key and, if it is,
+   * which result will be mapped to that key in the returned map.
    *
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
    *     valueFunction} produces {@code null} for any key

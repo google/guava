@@ -74,6 +74,9 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   }
 
   @Override public boolean containsAll(Collection<?> collection) {
+    if (collection instanceof ImmutableEnumSet<?>) {
+      collection = ((ImmutableEnumSet<?>) collection).delegate;
+    }
     return delegate.containsAll(collection);
   }
 
@@ -82,7 +85,13 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   }
 
   @Override public boolean equals(Object object) {
-    return object == this || delegate.equals(object);
+    if (object == this) {
+      return true;
+    } 
+    if (object instanceof ImmutableEnumSet) {
+      object = ((ImmutableEnumSet<?>) object).delegate;
+    }
+    return delegate.equals(object);
   }
 
   private transient int hashCode;

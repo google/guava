@@ -2248,7 +2248,7 @@ public class LocalCacheTest extends TestCase {
       it.next();
       it.remove();
     }
-    segment.evictEntries();
+    segment.evictEntries(entry);
     assertEquals(maxSize, map.size());
     assertEquals(originalMap, map);
   }

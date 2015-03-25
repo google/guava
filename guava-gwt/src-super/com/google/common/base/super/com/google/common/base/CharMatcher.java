@@ -257,7 +257,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     char[] tmp = {'\\', 'u', '\0', '\0', '\0', '\0'};
     for (int i = 0; i < 4; i++) {
       tmp[5 - i] = hex.charAt(c & 0xF);
-      c >>= 4;
+      c = (char) (c >> 4);
     }
     return String.copyValueOf(tmp);
   }

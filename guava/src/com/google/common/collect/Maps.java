@@ -35,7 +35,6 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
 
@@ -194,7 +193,7 @@ public final class Maps {
     if (expectedSize < Ints.MAX_POWER_OF_TWO) {
       // This is the calculation used in JDK8 to resize when a putAll
       // happens; it seems to be the most conservative calculation we
-      // can make.  0,75 is the default load factor.
+      // can make.  0.75 is the default load factor.
       return (int) ((float) expectedSize / 0.75F + 1.0F);
     }
     return Integer.MAX_VALUE; // any large value
@@ -660,7 +659,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @Beta
   public static <K, V> Map<K, V> asMap(
       Set<K> set, Function<? super K, V> function) {
     if (set instanceof SortedSet) {
@@ -696,7 +694,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @Beta
   public static <K, V> SortedMap<K, V> asMap(
       SortedSet<K> set, Function<? super K, V> function) {
     return Platform.mapsAsMapSortedSet(set, function);
@@ -733,7 +730,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @Beta
   @GwtIncompatible("NavigableMap")
   public static <K, V> NavigableMap<K, V> asMap(
       NavigableSet<K> set, Function<? super K, V> function) {
@@ -1072,6 +1068,11 @@ public final class Maps {
    * The map's iteration order is the order of the first appearance of each key
    * in {@code keys}.
    *
+   * <p>When there are multiple instances of a key in {@code keys}, it is
+   * unspecified whether {@code valueFunction} will be applied to more than one
+   * instance of that key and, if it is, which result will be mapped to that
+   * key in the returned map.
+   *
    * <p>If {@code keys} is a {@link Set}, a live view can be obtained instead of
    * a copy using {@link Maps#asMap(Set, Function)}.
    *
@@ -1080,7 +1081,6 @@ public final class Maps {
    *     for any key
    * @since 14.0
    */
-  @Beta
   public static <K, V> ImmutableMap<K, V> toMap(Iterable<K> keys,
       Function<? super K, V> valueFunction) {
     return toMap(keys.iterator(), valueFunction);
@@ -1092,12 +1092,16 @@ public final class Maps {
    * The map's iteration order is the order of the first appearance of each key
    * in {@code keys}.
    *
+   * <p>When there are multiple instances of a key in {@code keys}, it is
+   * unspecified whether {@code valueFunction} will be applied to more than one
+   * instance of that key and, if it is, which result will be mapped to that
+   * key in the returned map.
+   *
    * @throws NullPointerException if any element of {@code keys} is
    *     {@code null}, or if {@code valueFunction} produces {@code null}
    *     for any key
    * @since 14.0
    */
-  @Beta
   public static <K, V> ImmutableMap<K, V> toMap(Iterator<K> keys,
       Function<? super K, V> valueFunction) {
     checkNotNull(valueFunction);

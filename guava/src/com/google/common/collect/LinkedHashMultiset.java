@@ -103,8 +103,7 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int distinctElements = Serialization.readCount(stream);
-    setBackingMap(new LinkedHashMap<E, Count>(
-        Maps.capacity(distinctElements)));
+    setBackingMap(new LinkedHashMap<E, Count>());
     Serialization.populateMultiset(this, stream, distinctElements);
   }
 

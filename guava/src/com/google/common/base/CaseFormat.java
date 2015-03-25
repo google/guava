@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -32,6 +33,7 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  * @since 1.0
  */
+@CheckReturnValue
 @GwtCompatible
 public enum CaseFormat {
   /**

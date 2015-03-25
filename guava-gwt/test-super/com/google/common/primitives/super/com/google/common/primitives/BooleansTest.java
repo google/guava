@@ -120,6 +120,7 @@ public class BooleansTest extends TestCase {
         Booleans.ensureCapacity(new boolean[] {true}, 2, 1)));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Booleans.ensureCapacity(ARRAY_FALSE, -1, 1);
@@ -193,6 +194,7 @@ public class BooleansTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Boolean> list = Arrays.asList(false, true, null);
     try {

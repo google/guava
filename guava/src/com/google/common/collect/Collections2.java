@@ -42,6 +42,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -52,6 +53,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)
  */
+@CheckReturnValue
 @GwtCompatible
 public final class Collections2 {
   private Collections2() {}

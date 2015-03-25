@@ -73,6 +73,11 @@ public void testFromByteArray() throws Exception {
   testCase.testFromByteArray();
 }
 
+public void testFromByteArrayFails() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testFromByteArrayFails();
+}
+
 public void testFromBytes() throws Exception {
   com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
   testCase.testFromBytes();

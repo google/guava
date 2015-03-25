@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.Arrays.asList;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -496,6 +495,13 @@ public class ImmutableSetMultimap<K, V>
         : ImmutableSortedSet.<V>emptySet(valueComparator);
   }
 
+  private static <V> ImmutableSet.Builder<V> valuesBuilder(
+      @Nullable Comparator<? super V> valueComparator) {
+    return (valueComparator == null)
+        ? new ImmutableSet.Builder<V>()
+        : new ImmutableSortedSet.Builder<V>(valueComparator);
+  }
+
   /**
    * @serialData number of distinct keys, and then for each distinct key: the
    *     key, the number of values for that key, and the key's values
@@ -536,12 +542,12 @@ public class ImmutableSetMultimap<K, V>
         throw new InvalidObjectException("Invalid value count " + valueCount);
       }
 
-      Object[] array = new Object[valueCount];
+      ImmutableSet.Builder<Object> valuesBuilder = valuesBuilder(valueComparator);
       for (int j = 0; j < valueCount; j++) {
-        array[j] = stream.readObject();
+        valuesBuilder.add(stream.readObject());
       }
-      ImmutableSet<Object> valueSet = valueSet(valueComparator, asList(array));
-      if (valueSet.size() != array.length) {
+      ImmutableSet<Object> valueSet = valuesBuilder.build();
+      if (valueSet.size() != valueCount) {
         throw new InvalidObjectException(
             "Duplicate key-value pairs exist for key " + key);
       }

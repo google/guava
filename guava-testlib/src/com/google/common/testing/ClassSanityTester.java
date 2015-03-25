@@ -124,7 +124,7 @@ public final class ClassSanityTester {
   /**
    * Sets the default value for {@code type}. The default value isn't used in testing {@link
    * Object#equals} because more than one sample instances are needed for testing inequality.
-   * To set sample instances for equality testing, use {@link #setSampleInstances} instead.
+   * To set distinct values for equality testing, use {@link #setDistinctValues} instead.
    */
   public <T> ClassSanityTester setDefault(Class<T> type, T value) {
     nullPointerTester.setDefault(type, value);
@@ -142,13 +142,14 @@ public final class ClassSanityTester {
    * exception that if the sample instance is to be passed to a {@link Nullable} parameter, one
    * non-null sample is sufficient. Setting an empty list will clear sample instances for {@code
    * type}.
-
    *
-
-   * @deprecated Use {@link #setDistinctValues} instead.
+   * @deprecated To supply multiple values, use {@link #setDistinctValues}. It accepts only two
+   *     values, which is enough for any {@code equals} testing. To supply a single value, use
+   *     {@link #setDefault}. This method will be removed in Guava release 20.0.
    */
   @Deprecated
-  public <T> ClassSanityTester setSampleInstances(Class<T> type, Iterable<? extends T> instances) {
+  public <T> ClassSanityTester setSampleInstances(
+      Class<T> type, Iterable<? extends T> instances) {
     ImmutableList<? extends T> samples = ImmutableList.copyOf(instances);
     Set<Object> uniqueValues = new HashSet<Object>();
     for (T instance : instances) {
@@ -300,7 +301,7 @@ public final class ClassSanityTester {
       throw Throwables.propagate(e);
     }
   }
- 
+
   void doTestEquals(Class<?> cls)
       throws ParameterNotInstantiableException, ParameterHasNoDistinctValueException,
              IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {
@@ -662,7 +663,7 @@ public final class ClassSanityTester {
     return generator;
   }
 
-  private static @Nullable Object generateDummyArg(Parameter param, FreshValueGenerator generator)
+  @Nullable private static Object generateDummyArg(Parameter param, FreshValueGenerator generator)
       throws ParameterNotInstantiableException {
     if (param.isAnnotationPresent(Nullable.class)) {
       return null;
@@ -688,7 +689,7 @@ public final class ClassSanityTester {
       if (!invokable.isPrivate()
           && !invokable.isSynthetic()
           && invokable.isStatic()
-          && type.isAssignableFrom(invokable.getReturnType())) {
+          && type.isSupertypeOf(invokable.getReturnType())) {
         @SuppressWarnings("unchecked") // guarded by isAssignableFrom()
         Invokable<?, ? extends T> factory = (Invokable<?, ? extends T>) invokable;
         factories.add(factory);
@@ -802,7 +803,7 @@ public final class ClassSanityTester {
   private static final class SerializableDummyProxy extends DummyProxy
       implements Serializable {
 
-    private transient final ClassSanityTester tester;
+    private final transient ClassSanityTester tester;
 
     SerializableDummyProxy(ClassSanityTester tester) {
       this.tester = tester;
@@ -821,4 +822,3 @@ public final class ClassSanityTester {
     }
   }
 }
-

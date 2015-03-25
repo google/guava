@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TestLogHandler;
+import com.google.common.util.concurrent.Service.State;
 import com.google.common.util.concurrent.ServiceManager.Listener;
 
 import junit.framework.TestCase;
@@ -91,20 +92,20 @@ public class ServiceManagerTest extends TestCase {
 
   private static class FailStartService extends NoOpService {
     @Override protected void doStart() {
-      notifyFailed(new IllegalStateException("failed"));
+      notifyFailed(new IllegalStateException("start failure"));
     }
   }
 
   private static class FailRunService extends NoOpService {
     @Override protected void doStart() {
       super.doStart();
-      notifyFailed(new IllegalStateException("failed"));
+      notifyFailed(new IllegalStateException("run failure"));
     }
   }
 
   private static class FailStopService extends NoOpService {
     @Override protected void doStop() {
-      notifyFailed(new IllegalStateException("failed"));
+      notifyFailed(new IllegalStateException("stop failure"));
     }
   }
 
@@ -115,9 +116,9 @@ public class ServiceManagerTest extends TestCase {
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
     assertEquals(2, startupTimes.size());
-    // TODO(user): Use assertThat(startupTimes.get(a)).isAtLeast(150);
+    // TODO(kak): Use assertThat(startupTimes.get(a)).isAtLeast(150);
     assertTrue(startupTimes.get(a) >= 150);
-    // TODO(user): Use assertThat(startupTimes.get(b)).isAtLeast(353);
+    // TODO(kak): Use assertThat(startupTimes.get(b)).isAtLeast(353);
     assertTrue(startupTimes.get(b) >= 353);
   }
 
@@ -143,7 +144,7 @@ public class ServiceManagerTest extends TestCase {
     serviceManager.startAsync().awaitHealthy();
     ImmutableMap<Service, Long> startupTimes = serviceManager.startupTimes();
     assertEquals(2, startupTimes.size());
-    // TODO(user): Use assertThat(startupTimes.get(a)).isAtLeast(150);
+    // TODO(kak): Use assertThat(startupTimes.get(a)).isAtLeast(150);
     assertTrue(startupTimes.get(a) >= 150);
     // Service b startup takes at least 353 millis, but starting the timer is delayed by at least
     // 150 milliseconds. so in a perfect world the timing would be 353-150=203ms, but since either

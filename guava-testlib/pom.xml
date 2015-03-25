@@ -51,9 +51,9 @@
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3.1</version>
         <executions>
           <execution>
+            <id>create-test-jar</id>
             <goals><goal>test-jar</goal></goals>
           </execution>
         </executions>

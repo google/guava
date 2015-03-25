@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
@@ -295,7 +296,7 @@ public final class CacheBuilderSpec {
         parseInteger(spec, Integer.parseInt(value));
       } catch (NumberFormatException e) {
         throw new IllegalArgumentException(
-            String.format("key %s value set to %s, must be integer", key, value), e);
+            format("key %s value set to %s, must be integer", key, value), e);
       }
     }
   }
@@ -311,7 +312,7 @@ public final class CacheBuilderSpec {
         parseLong(spec, Long.parseLong(value));
       } catch (NumberFormatException e) {
         throw new IllegalArgumentException(
-            String.format("key %s value set to %s, must be integer", key, value), e);
+            format("key %s value set to %s, must be integer", key, value), e);
       }
     }
   }
@@ -433,7 +434,7 @@ public final class CacheBuilderSpec {
             break;
           default:
             throw new IllegalArgumentException(
-                String.format("key %s invalid format.  was %s, must end with one of [dDhHmMsS]",
+                format("key %s invalid format.  was %s, must end with one of [dDhHmMsS]",
                     key, value));
         }
 
@@ -441,7 +442,7 @@ public final class CacheBuilderSpec {
         parseDuration(spec, duration, timeUnit);
       } catch (NumberFormatException e) {
         throw new IllegalArgumentException(
-            String.format("key %s value set to %s, must be integer", key, value));
+            format("key %s value set to %s, must be integer", key, value));
       }
     }
   }
@@ -471,5 +472,9 @@ public final class CacheBuilderSpec {
       spec.refreshDuration = duration;
       spec.refreshTimeUnit = unit;
     }
+  }
+
+  private static String format(String format, Object... args) {
+    return String.format(Locale.ROOT, format, args);
   }
 }

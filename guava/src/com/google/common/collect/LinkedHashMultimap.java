@@ -538,7 +538,6 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
   @GwtIncompatible("java.io.ObjectOutputStream")
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
-    stream.writeInt(valueSetCapacity);
     stream.writeInt(keySet().size());
     for (K key : keySet()) {
       stream.writeObject(key);
@@ -556,10 +555,9 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     stream.defaultReadObject();
     multimapHeaderEntry = new ValueEntry<K, V>(null, null, 0, null);
     succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);
-    valueSetCapacity = stream.readInt();
+    valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;
     int distinctKeys = stream.readInt();
-    Map<K, Collection<V>> map =
-        new LinkedHashMap<K, Collection<V>>(Maps.capacity(distinctKeys));
+    Map<K, Collection<V>> map = new LinkedHashMap<K, Collection<V>>();
     for (int i = 0; i < distinctKeys; i++) {
       @SuppressWarnings("unchecked")
       K key = (K) stream.readObject();

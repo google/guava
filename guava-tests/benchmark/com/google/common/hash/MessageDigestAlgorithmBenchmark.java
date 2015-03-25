@@ -64,6 +64,7 @@ public class MessageDigestAlgorithmBenchmark {
     MD5("MD5", Hashing.md5()),
     SHA_1("SHA-1", Hashing.sha1()),
     SHA_256("SHA-256", Hashing.sha256()),
+    SHA_384("SHA-384", Hashing.sha384()),
     SHA_512("SHA-512", Hashing.sha512());
 
     private final String algorithmName;

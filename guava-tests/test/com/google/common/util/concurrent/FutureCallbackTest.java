@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 
 import junit.framework.TestCase;
@@ -34,6 +36,7 @@ import javax.annotation.Nullable;
  *
  * @author Anthony Zana
  */
+@GwtCompatible(emulated = true)
 public class FutureCallbackTest extends TestCase {
   public void testSameThreadSuccess() {
     SettableFuture<String> f = SettableFuture.create();
@@ -95,6 +98,7 @@ public class FutureCallbackTest extends TestCase {
     Futures.addCallback(f, callback);
   }
 
+  @GwtIncompatible("Mockito")
   public void testOnSuccessThrowsRuntimeException() throws Exception {
     RuntimeException exception = new RuntimeException();
     String result = "result";
@@ -109,6 +113,7 @@ public class FutureCallbackTest extends TestCase {
     Mockito.verifyNoMoreInteractions(callback);
   }
 
+  @GwtIncompatible("Mockito")
   public void testOnSuccessThrowsError() throws Exception {
     class TestError extends Error {}
     TestError error = new TestError();

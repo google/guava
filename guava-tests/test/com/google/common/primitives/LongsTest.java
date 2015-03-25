@@ -143,6 +143,7 @@ public class LongsTest extends TestCase {
         (long) 3));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       Longs.max();
@@ -159,6 +160,7 @@ public class LongsTest extends TestCase {
         (long) 5, (long) 3, (long) 0, (long) 9));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       Longs.min();
@@ -214,7 +216,10 @@ public class LongsTest extends TestCase {
         new byte[] {
             (byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC,
             (byte) 0xBB, (byte) 0xAA, (byte) 0x99, (byte) 0x88}));
+  }
 
+  @SuppressWarnings("CheckReturnValue")
+  public void testFromByteArrayFails() {
     try {
       Longs.fromByteArray(new byte[Longs.BYTES - 1]);
       fail();
@@ -255,6 +260,7 @@ public class LongsTest extends TestCase {
         Longs.ensureCapacity(ARRAY1, 2, 1)));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Longs.ensureCapacity(ARRAY1, -1, 1);
@@ -336,6 +342,7 @@ public class LongsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Long> list = Arrays.asList((long) 0, (long) 1, null);
     try {

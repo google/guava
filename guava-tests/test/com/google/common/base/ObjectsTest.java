@@ -70,6 +70,7 @@ public class ObjectsTest extends TestCase {
     assertSame(n1, n2);
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testFirstNonNull_throwsNullPointerException() throws Exception {
     try {
       Objects.firstNonNull(null, null);

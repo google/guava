@@ -65,10 +65,12 @@ public class EnumsBenchmark {
   }
 
   @Benchmark
-  void getIfPresent(int repetitions) {
+  boolean getIfPresent(int repetitions) {
+    boolean retVal = false;
     for (int i = 0; i < repetitions; ++i) {
-      Enums.getIfPresent(enumType, sampleData[i & 255]);
+      retVal &= Enums.getIfPresent(enumType, sampleData[i & 255]).isPresent();
     }
+    return retVal;
   }
 
   private enum SmallEnum {

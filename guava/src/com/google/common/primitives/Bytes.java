@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -49,6 +50,7 @@ import javax.annotation.Nullable;
  */
 // TODO(kevinb): how to prevent warning on UnsignedBytes when building GWT
 // javadoc?
+@CheckReturnValue
 @GwtCompatible
 public final class Bytes {
   private Bytes() {}

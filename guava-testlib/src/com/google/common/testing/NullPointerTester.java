@@ -291,7 +291,6 @@ public final class NullPointerTester {
     }
   }
 
-  // TODO(benyu): Use labs/reflect/Signature if it graduates.
   private static final class Signature {
     private final String name;
     private final ImmutableList<Class<?>> parameterTypes;
