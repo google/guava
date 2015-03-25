@@ -576,7 +576,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       }
     }
     Object readResolve() {
-      Builder<Object, Object> builder = new Builder<Object, Object>();
+      Builder<Object, Object> builder = new Builder<Object, Object>(keys.length);
       return createMap(builder);
     }
     Object createMap(Builder<Object, Object> builder) {
