@@ -56,6 +56,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -1693,6 +1694,7 @@ public final class Maps {
    * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
    * inconsistent with equals.
    */
+  @CheckReturnValue
   public static <K, V> Map<K, V> filterKeys(
       Map<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof SortedMap) {
@@ -1738,6 +1740,7 @@ public final class Maps {
    *
    * @since 11.0
    */
+  @CheckReturnValue
   public static <K, V> SortedMap<K, V> filterKeys(
       SortedMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     // TODO(user): Return a subclass of Maps.FilteredKeyMap for slightly better
@@ -1770,6 +1773,7 @@ public final class Maps {
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public static <K, V> BiMap<K, V> filterKeys(
       BiMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     checkNotNull(keyPredicate);
@@ -1805,6 +1809,7 @@ public final class Maps {
    * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
    * inconsistent with equals.
    */
+  @CheckReturnValue
   public static <K, V> Map<K, V> filterValues(
       Map<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     if (unfiltered instanceof SortedMap) {
@@ -1846,6 +1851,7 @@ public final class Maps {
    *
    * @since 11.0
    */
+  @CheckReturnValue
   public static <K, V> SortedMap<K, V> filterValues(
       SortedMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -1879,6 +1885,7 @@ public final class Maps {
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public static <K, V> BiMap<K, V> filterValues(
       BiMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -1913,6 +1920,7 @@ public final class Maps {
    * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with
    * equals</i>, as documented at {@link Predicate#apply}.
    */
+  @CheckReturnValue
   public static <K, V> Map<K, V> filterEntries(
       Map<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     if (unfiltered instanceof SortedMap) {
@@ -1957,6 +1965,7 @@ public final class Maps {
    *
    * @since 11.0
    */
+  @CheckReturnValue
   public static <K, V> SortedMap<K, V> filterEntries(
       SortedMap<K, V> unfiltered,
       Predicate<? super Entry<K, V>> entryPredicate) {
@@ -1999,6 +2008,7 @@ public final class Maps {
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public static <K, V> BiMap<K, V> filterEntries(
       BiMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(unfiltered);

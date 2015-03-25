@@ -611,6 +611,7 @@ public final class Iterables {
    *     iterable that were of the requested type
    */
   @GwtIncompatible("Class.isInstance")
+  @CheckReturnValue
   public static <T> Iterable<T> filter(
       final Iterable<?> unfiltered, final Class<T> type) {
     checkNotNull(unfiltered);
