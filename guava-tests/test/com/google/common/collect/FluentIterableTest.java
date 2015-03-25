@@ -49,6 +49,7 @@ import javax.annotation.Nullable;
  *
  * @author Marcin Mikosik
  */
+@SuppressWarnings("CheckReturnValue")
 @GwtCompatible(emulated = true)
 public class FluentIterableTest extends TestCase {
 

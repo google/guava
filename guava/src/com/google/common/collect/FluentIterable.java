@@ -88,6 +88,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns a fluent iterable that wraps {@code iterable}, or {@code iterable} itself if it
    * is already a {@code FluentIterable}.
    */
+  @CheckReturnValue
   public static <E> FluentIterable<E> from(final Iterable<E> iterable) {
     return (iterable instanceof FluentIterable) ? (FluentIterable<E>) iterable
         : new FluentIterable<E>(iterable) {
@@ -107,6 +108,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     {@code FluentIterable}
    */
   @Deprecated
+  @CheckReturnValue
   public static <E> FluentIterable<E> from(FluentIterable<E> iterable) {
     return checkNotNull(iterable);
   }
@@ -117,6 +119,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 18.0
    */
   @Beta
+  @CheckReturnValue
   public static <E> FluentIterable<E> of(E[] elements) {
     return from(Lists.newArrayList(elements));
   }
@@ -126,6 +129,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * {@code [e1, e2, ..., en]}.
    */
   @Override
+  @CheckReturnValue
   public String toString() {
     return Iterables.toString(iterable);
   }
@@ -133,6 +137,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Returns the number of elements in this fluent iterable.
    */
+  @CheckReturnValue
   public final int size() {
     return Iterables.size(iterable);
   }
@@ -141,6 +146,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns {@code true} if this fluent iterable contains any object for which
    * {@code equals(element)} is true.
    */
+  @CheckReturnValue
   public final boolean contains(@Nullable Object element) {
     return Iterables.contains(iterable, element);
   }
@@ -213,6 +219,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Returns {@code true} if any element in this fluent iterable satisfies the predicate.
    */
+  @CheckReturnValue
   public final boolean anyMatch(Predicate<? super E> predicate) {
     return Iterables.any(iterable, predicate);
   }
@@ -221,6 +228,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns {@code true} if every element in this fluent iterable satisfies the predicate.
    * If this fluent iterable is empty, {@code true} is returned.
    */
+  @CheckReturnValue
   public final boolean allMatch(Predicate<? super E> predicate) {
     return Iterables.all(iterable, predicate);
   }
@@ -232,6 +240,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>Warning:</b> avoid using a {@code predicate} that matches {@code null}. If {@code null}
    * is matched in this fluent iterable, a {@link NullPointerException} will be thrown.
    */
+  @CheckReturnValue
   public final Optional<E> firstMatch(Predicate<? super E> predicate) {
     return Iterables.tryFind(iterable, predicate);
   }
@@ -244,6 +253,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * iterator does. After a successful {@code remove()} call, this fluent iterable no longer
    * contains the corresponding element.
    */
+  @CheckReturnValue
   public final <T> FluentIterable<T> transform(Function<? super E, T> function) {
     return from(Iterables.transform(iterable, function));
   }
@@ -259,6 +269,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 13.0 (required {@code Function<E, Iterable<T>>} until 14.0)
    */
+  @CheckReturnValue
   public <T> FluentIterable<T> transformAndConcat(
       Function<? super E, ? extends Iterable<? extends T>> function) {
     return from(Iterables.concat(transform(function)));
@@ -271,6 +282,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if the first element is null; if this is a possibility, use
    *     {@code iterator().next()} or {@link Iterables#getFirst} instead.
    */
+  @CheckReturnValue
   public final Optional<E> first() {
     Iterator<E> iterator = iterable.iterator();
     return iterator.hasNext()
@@ -285,6 +297,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if the last element is null; if this is a possibility, use
    *     {@link Iterables#getLast} instead.
    */
+  @CheckReturnValue
   public final Optional<E> last() {
     // Iterables#getLast was inlined here so we don't have to throw/catch a NSEE
 
@@ -359,6 +372,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Determines whether this fluent iterable is empty.
    */
+  @CheckReturnValue
   public final boolean isEmpty() {
     return !iterable.iterator().hasNext();
   }
@@ -369,6 +383,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 14.0 (since 12.0 as {@code toImmutableList()}).
    */
+  @CheckReturnValue
   public final ImmutableList<E> toList() {
     return ImmutableList.copyOf(iterable);
   }
@@ -382,6 +397,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if any element is null
    * @since 14.0 (since 13.0 as {@code toSortedImmutableList()}).
    */
+  @CheckReturnValue
   public final ImmutableList<E> toSortedList(Comparator<? super E> comparator) {
     return Ordering.from(comparator).immutableSortedCopy(iterable);
   }
@@ -392,6 +408,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 14.0 (since 12.0 as {@code toImmutableSet()}).
    */
+  @CheckReturnValue
   public final ImmutableSet<E> toSet() {
     return ImmutableSet.copyOf(iterable);
   }
@@ -406,6 +423,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if any element is null
    * @since 14.0 (since 12.0 as {@code toImmutableSortedSet()}).
    */
+  @CheckReturnValue
   public final ImmutableSortedSet<E> toSortedSet(Comparator<? super E> comparator) {
     return ImmutableSortedSet.copyOf(comparator, iterable);
   }
@@ -415,6 +433,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 19.0
    */
+  @CheckReturnValue
   public final ImmutableMultiset<E> toMultiset() {
     return ImmutableMultiset.copyOf(iterable);
   }
@@ -432,6 +451,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     valueFunction} produces {@code null} for any key
    * @since 14.0
    */
+  @CheckReturnValue
   public final <V> ImmutableMap<E, V> toMap(Function<? super E, V> valueFunction) {
     return Maps.toMap(iterable, valueFunction);
   }
@@ -454,6 +474,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     </ul>
    * @since 14.0
    */
+  @CheckReturnValue
   public final <K> ImmutableListMultimap<K, E> index(Function<? super E, K> keyFunction) {
     return Multimaps.index(iterable, keyFunction);
   }
@@ -470,6 +491,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     {@code keyFunction} produces {@code null} for any value
    * @since 14.0
    */
+  @CheckReturnValue
   public final <K> ImmutableMap<K, E> uniqueIndex(Function<? super E, K> keyFunction) {
     return Maps.uniqueIndex(iterable, keyFunction);
   }
@@ -482,6 +504,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     been copied
    */
   @GwtIncompatible("Array.newArray(Class, int)")
+  @CheckReturnValue
   public final E[] toArray(Class<E> type) {
     return Iterables.toArray(iterable, type);
   }
@@ -513,6 +536,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 18.0
    */
   @Beta
+  @CheckReturnValue
   public final String join(Joiner joiner) {
     return joiner.join(this);
   }
@@ -525,6 +549,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to
    *     the size of this fluent iterable
    */
+  @CheckReturnValue
   public final E get(int position) {
     return Iterables.get(iterable, position);
   }
