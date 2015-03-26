@@ -288,6 +288,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     will be removed in Guava release 20.0.
    */
   @Deprecated
+  @CheckReturnValue
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback) {
@@ -358,6 +359,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     will be removed in Guava release 20.0.
    */
   @Deprecated
+  @CheckReturnValue
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback, Executor executor) {
@@ -1028,6 +1030,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 13.0
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
+  @CheckReturnValue
   public static <V> ListenableFuture<V> dereference(
       ListenableFuture<? extends ListenableFuture<? extends V>> nested) {
     return transformAsync((ListenableFuture) nested, (AsyncFunction) DEREFERENCER);
@@ -1061,6 +1064,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @Beta
   @SafeVarargs
+  @CheckReturnValue
   public static <V> ListenableFuture<List<V>> allAsList(
       ListenableFuture<? extends V>... futures) {
     return new ListFuture<V>(ImmutableList.copyOf(futures), true);
@@ -1083,6 +1087,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 10.0
    */
   @Beta
+  @CheckReturnValue
   public static <V> ListenableFuture<List<V>> allAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return new ListFuture<V>(ImmutableList.copyOf(futures), true);
@@ -1104,8 +1109,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 10.0
    */
   @Beta
-  @CheckReturnValue
   @SafeVarargs
+  @CheckReturnValue
   public static <V> ListenableFuture<List<V>> successfulAsList(
       ListenableFuture<? extends V>... futures) {
     return new ListFuture<V>(ImmutableList.copyOf(futures), false);

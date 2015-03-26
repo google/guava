@@ -76,6 +76,7 @@ import javax.annotation.Nullable;
  *
  * @author Nishant Thakkar
  */
+@SuppressWarnings("CheckReturnValue")
 @GwtCompatible(emulated = true)
 public class FuturesTest extends TestCase {
   @GwtIncompatible("TestLogHandler")

@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Nishant Thakkar
  */
+@SuppressWarnings("CheckReturnValue")
 @GwtCompatible(emulated = true)
 public class FuturesTest extends TestCase {
 
