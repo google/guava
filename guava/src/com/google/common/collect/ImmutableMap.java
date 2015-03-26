@@ -437,7 +437,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   ImmutableSet<K> createKeySet() {
-    return new ImmutableMapKeySet<K, V>(this);
+    return isEmpty() ? ImmutableSet.<K>of() : new ImmutableMapKeySet<K, V>(this);
   }
 
   UnmodifiableIterator<K> keyIterator() {
@@ -475,6 +475,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   @Beta
   public ImmutableSetMultimap<K, V> asMultimap() {
+    if (isEmpty()) {
+      return ImmutableSetMultimap.of();
+    }
     ImmutableSetMultimap<K, V> result = multimapView;
     return (result == null)
         ? (multimapView = new ImmutableSetMultimap<K, V>(

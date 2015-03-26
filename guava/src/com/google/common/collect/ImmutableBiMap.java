@@ -38,7 +38,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
   // Casting to any type is safe because the set will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <K, V> ImmutableBiMap<K, V> of() {
-    return (ImmutableBiMap<K, V>) EmptyImmutableBiMap.INSTANCE;
+    return (ImmutableBiMap<K, V>) RegularImmutableBiMap.EMPTY;
   }
 
   /**

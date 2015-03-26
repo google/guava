@@ -36,6 +36,8 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
+  static final RegularImmutableBiMap<Object, Object> EMPTY =
+      new RegularImmutableBiMap<Object, Object>();
 
   static final double MAX_LOAD_FACTOR = 1.2;
 
@@ -44,6 +46,15 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   private final transient ImmutableMapEntry<K, V>[] entries;
   private final transient int mask;
   private final transient int hashCode;
+
+  @SuppressWarnings("unchecked")
+  private RegularImmutableBiMap() {
+    this.keyTable = null;
+    this.valueTable = null;
+    this.entries = new ImmutableMapEntry[0];
+    this.mask = 0;
+    this.hashCode = 0;
+  }
 
   RegularImmutableBiMap(ImmutableMapEntry<?, ?>... entriesToAdd) {
     this(entriesToAdd.length, entriesToAdd);
@@ -116,12 +127,14 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   @Override
   @Nullable
   public V get(@Nullable Object key) {
-    return RegularImmutableMap.get(key, keyTable, mask);
+    return (keyTable == null) ? null : RegularImmutableMap.get(key, keyTable, mask);
   }
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new ImmutableMapEntrySet.RegularEntrySet<K, V>(this, entries);
+    return isEmpty()
+        ? ImmutableSet.<Entry<K, V>>of()
+        : new ImmutableMapEntrySet.RegularEntrySet<K, V>(this, entries);
   }
 
   @Override
@@ -148,6 +161,9 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   @Override
   public ImmutableBiMap<V, K> inverse() {
+    if (isEmpty()) {
+      return ImmutableBiMap.of();
+    }
     ImmutableBiMap<V, K> result = inverse;
     return (result == null) ? inverse = new Inverse() : result;
   }
@@ -166,7 +182,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
     @Override
     public K get(@Nullable Object value) {
-      if (value == null) {
+      if (value == null || valueTable == null) {
         return null;
       }
       int bucket = Hashing.smear(value.hashCode()) & mask;
