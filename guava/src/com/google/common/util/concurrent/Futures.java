@@ -1461,6 +1461,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     @Override
     public void run() {
       try {
+        if (isCancelled()) {
+          return;
+        }
         I sourceResult;
         try {
           sourceResult = getUninterruptibly(inputFuture);

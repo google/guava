@@ -26,6 +26,7 @@ import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -65,6 +66,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -1429,6 +1431,43 @@ public class FuturesTest extends TestCase {
       fail();
     } catch (CancellationException expected) {
     }
+  }
+
+  @GwtIncompatible("threads")
+
+  public void testTransform_asyncFunction_cancelledBeforeApplyingFunction()
+      throws InterruptedException, ExecutionException {
+    final AtomicBoolean functionCalled = new AtomicBoolean();
+    AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
+      @Override
+      public ListenableFuture<Integer> apply(String input) throws Exception {
+        functionCalled.set(true);
+        return Futures.immediateFuture(1);
+      }
+    };
+    SettableFuture<String> inputFuture = SettableFuture.create();
+    ExecutorService executor = newSingleThreadExecutor();
+    ListenableFuture<Integer> future = Futures.transform(
+        inputFuture, function, executor);
+
+    // Pause the executor.
+    final CountDownLatch beforeFunction = new CountDownLatch(1);
+    executor.submit(new Runnable() {
+      @Override
+      public void run() {
+        awaitUninterruptibly(beforeFunction);
+      }
+    });
+
+    // Cancel the future after making input available.
+    inputFuture.set("value");
+    future.cancel(false);
+
+    // Unpause the executor.
+    beforeFunction.countDown();
+    executor.awaitTermination(5, TimeUnit.SECONDS);
+
+    assertFalse(functionCalled.get());
   }
 
   public void testTransformAsync_genericsWildcard_AsyncFunction() throws Exception {
