@@ -55,6 +55,8 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 public abstract class ImmutableSortedMap<K, V>
     extends ImmutableSortedMapFauxverideShim<K, V> implements NavigableMap<K, V> {
+  // TODO(user): fold RegularImmutableSortedMap into this type
+
   /*
    * TODO(kevinb): Confirm that ImmutableSortedMap is faster to construct and
    * uses less memory than TreeMap; then say so in the class Javadoc.
@@ -62,13 +64,15 @@ public abstract class ImmutableSortedMap<K, V>
   private static final Comparator<Comparable> NATURAL_ORDER = Ordering.natural();
 
   private static final ImmutableSortedMap<Comparable, Object> NATURAL_EMPTY_MAP =
-      new EmptyImmutableSortedMap<Comparable, Object>(NATURAL_ORDER);
+      new RegularImmutableSortedMap<Comparable, Object>(
+          ImmutableSortedSet.emptySet(Ordering.natural()), ImmutableList.<Object>of());
 
   static <K, V> ImmutableSortedMap<K, V> emptyMap(Comparator<? super K> comparator) {
     if (Ordering.natural().equals(comparator)) {
       return of();
     } else {
-      return new EmptyImmutableSortedMap<K, V>(comparator);
+      return new RegularImmutableSortedMap<K, V>(
+          ImmutableSortedSet.emptySet(comparator), ImmutableList.<V>of());
     }
   }
 
@@ -98,12 +102,12 @@ public abstract class ImmutableSortedMap<K, V>
         new RegularImmutableSortedSet<K>(ImmutableList.of(k1), checkNotNull(comparator)),
         ImmutableList.of(v1));
   }
-  
+
   private static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V>
       ofEntries(ImmutableMapEntry<K, V>... entries) {
     return fromEntries(Ordering.natural(), false, entries, entries.length);
   }
-  
+
   /**
    * Returns an immutable sorted map containing the given entries, sorted by the
    * natural ordering of their keys.
@@ -116,7 +120,7 @@ public abstract class ImmutableSortedMap<K, V>
       of(K k1, V v1, K k2, V v2) {
     return ofEntries(entryOf(k1, v1), entryOf(k2, v2));
   }
-  
+
   /**
    * Returns an immutable sorted map containing the given entries, sorted by the
    * natural ordering of their keys.
@@ -153,7 +157,7 @@ public abstract class ImmutableSortedMap<K, V>
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V>
       of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
-    return ofEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), 
+    return ofEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4),
         entryOf(k5, v5));
   }
 
@@ -199,9 +203,9 @@ public abstract class ImmutableSortedMap<K, V>
       Map<? extends K, ? extends V> map, Comparator<? super K> comparator) {
     return copyOfInternal(map, checkNotNull(comparator));
   }
-  
+
   /**
-   * Returns an immutable map containing the given entries, with keys sorted 
+   * Returns an immutable map containing the given entries, with keys sorted
    * by the provided comparator.
    *
    * <p>This method is not type-safe, as it may be called on a map with keys
@@ -210,7 +214,7 @@ public abstract class ImmutableSortedMap<K, V>
    * @throws NullPointerException if any key or value in {@code map} is null
    * @throws IllegalArgumentException if any two keys are equal according to the
    *         comparator
-   * @since 19.0              
+   * @since 19.0
    */
   @Beta
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
@@ -221,9 +225,9 @@ public abstract class ImmutableSortedMap<K, V>
     Ordering<K> naturalOrder = (Ordering<K>) NATURAL_ORDER;
     return copyOf(entries, naturalOrder);
   }
-  
+
   /**
-   * Returns an immutable map containing the given entries, with keys sorted 
+   * Returns an immutable map containing the given entries, with keys sorted
    * by the provided comparator.
    *
    * @throws NullPointerException if any key or value in {@code map} is null
@@ -263,7 +267,7 @@ public abstract class ImmutableSortedMap<K, V>
       @SuppressWarnings("unchecked")
       ImmutableSortedMap<K, V> kvMap = (ImmutableSortedMap<K, V>) map;
       if (!kvMap.isPartialView()) {
-        return kvMap; 
+        return kvMap;
       }
     }
     return fromEntries(comparator, true, map.entrySet());
@@ -291,13 +295,13 @@ public abstract class ImmutableSortedMap<K, V>
     }
     return fromEntries(comparator, sameComparator, map.entrySet());
   }
-  
+
   /**
-   * Accepts a collection of possibly-null entries.  If {@code sameComparator}, then it is assumed 
+   * Accepts a collection of possibly-null entries.  If {@code sameComparator}, then it is assumed
    * that they do not need to be sorted or checked for dupes.
    */
   private static <K, V> ImmutableSortedMap<K, V> fromEntries(
-      Comparator<? super K> comparator, boolean sameComparator, 
+      Comparator<? super K> comparator, boolean sameComparator,
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
     // "adding" type params to an array of a raw type should be safe as
     // long as no one can ever cast that same array instance back to a
@@ -306,7 +310,7 @@ public abstract class ImmutableSortedMap<K, V>
     Entry<K, V>[] entryArray = (Entry[]) Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);
     return fromEntries(comparator, sameComparator, entryArray, entryArray.length);
   }
-  
+
   private static <K, V> ImmutableSortedMap<K, V> fromEntries(Comparator<? super K> comparator,
       boolean sameComparator, Entry<K, V>[] entryArray, int size) {
     switch (size) {
@@ -329,7 +333,7 @@ public abstract class ImmutableSortedMap<K, V>
           }
         } else {
           // Need to sort and check for nulls and dupes.
-          Arrays.sort(entryArray, 0, size, 
+          Arrays.sort(entryArray, 0, size,
               Ordering.from(comparator).<K>onKeys());
           K prevKey = entryArray[0].getKey();
           keys[0] = prevKey;
@@ -350,7 +354,7 @@ public abstract class ImmutableSortedMap<K, V>
             new RegularImmutableList<V>(values));
     }
   }
-  
+
   /**
    * Returns a builder that creates immutable sorted maps whose keys are
    * ordered by their natural ordering. The sorted maps use {@link
@@ -446,10 +450,10 @@ public abstract class ImmutableSortedMap<K, V>
       super.putAll(map);
       return this;
     }
-    
+
     /**
-     * Adds all the given entries to the built map.  Duplicate keys, according 
-     * to the comparator (which might be the keys' natural order), are not 
+     * Adds all the given entries to the built map.  Duplicate keys, according
+     * to the comparator (which might be the keys' natural order), are not
      * allowed, and will cause {@link #build} to fail.
      *
      * @throws NullPointerException if any key, value, or entry is null

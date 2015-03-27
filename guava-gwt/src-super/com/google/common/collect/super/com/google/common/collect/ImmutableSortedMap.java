@@ -64,7 +64,7 @@ public abstract class ImmutableSortedMap<K, V>
   // Casting to any type is safe because the set will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <K, V> ImmutableSortedMap<K, V> of() {
-    return EmptyImmutableSortedMap.forComparator(NATURAL_ORDER);
+    return new Builder<K, V>(NATURAL_ORDER).build();
   }
 
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V>
@@ -299,7 +299,7 @@ public abstract class ImmutableSortedMap<K, V>
     if (!inclusive) {
       fromKey = higher(fromKey);
       if (fromKey == null) {
-        return EmptyImmutableSortedMap.forComparator(comparator());
+        return new Builder<K, V>(this.comparator).build();
       }
     }
     return tailMap(fromKey);
@@ -311,9 +311,6 @@ public abstract class ImmutableSortedMap<K, V>
 
   private static <K, V> ImmutableSortedMap<K, V> newView(
       SortedMap<K, V> delegate, Comparator<? super K> comparator) {
-    if (delegate.isEmpty()) {
-      return EmptyImmutableSortedMap.forComparator(comparator);
-    }
     return new RegularImmutableSortedMap<K, V>(delegate, comparator);
   }
 

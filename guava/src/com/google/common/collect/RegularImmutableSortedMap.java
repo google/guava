@@ -49,7 +49,7 @@ final class RegularImmutableSortedMap<K, V> extends ImmutableSortedMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new EntrySet();
+    return isEmpty() ? ImmutableSet.<Entry<K, V>>of() : new EntrySet();
   }
 
   private class EntrySet extends ImmutableMapEntrySet<K, V> {
@@ -122,6 +122,9 @@ final class RegularImmutableSortedMap<K, V> extends ImmutableSortedMap<K, V> {
 
   @Override
   ImmutableSortedMap<K, V> createDescendingMap() {
+    if (isEmpty()) {
+      return emptyMap(Ordering.from(comparator()).reverse());
+    }
     return new RegularImmutableSortedMap<K, V>(
         (RegularImmutableSortedSet<K>) keySet.descendingSet(),
         valueList.reverse(),
