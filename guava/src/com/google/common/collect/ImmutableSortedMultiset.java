@@ -70,9 +70,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E element) {
     RegularImmutableSortedSet<E> elementSet =
         (RegularImmutableSortedSet<E>) ImmutableSortedSet.of(element);
-    int[] counts = {1};
     long[] cumulativeCounts = {0, 1};
-    return new RegularImmutableSortedMultiset<E>(elementSet, counts, cumulativeCounts, 0, 1);
+    return new RegularImmutableSortedMultiset<E>(elementSet, cumulativeCounts, 0, 1);
   }
 
   /**
@@ -261,18 +260,16 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
       return emptyMultiset(comparator);
     }
     ImmutableList.Builder<E> elementsBuilder = new ImmutableList.Builder<E>(entries.size());
-    int[] counts = new int[entries.size()];
     long[] cumulativeCounts = new long[entries.size() + 1];
     int i = 0;
     for (Entry<E> entry : entries) {
       elementsBuilder.add(entry.getElement());
-      counts[i] = entry.getCount();
-      cumulativeCounts[i + 1] = cumulativeCounts[i] + counts[i];
+      cumulativeCounts[i + 1] = cumulativeCounts[i] + entry.getCount();
       i++;
     }
     return new RegularImmutableSortedMultiset<E>(
         new RegularImmutableSortedSet<E>(elementsBuilder.build(), comparator),
-        counts, cumulativeCounts, 0, entries.size());
+        cumulativeCounts, 0, entries.size());
   }
 
   @SuppressWarnings("unchecked")

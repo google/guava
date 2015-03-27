@@ -30,29 +30,28 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
 final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private final transient RegularImmutableSortedSet<E> elementSet;
-  private final transient int[] counts;
   private final transient long[] cumulativeCounts;
   private final transient int offset;
   private final transient int length;
 
   RegularImmutableSortedMultiset(
       RegularImmutableSortedSet<E> elementSet,
-      int[] counts,
       long[] cumulativeCounts,
       int offset,
       int length) {
     this.elementSet = elementSet;
-    this.counts = counts;
     this.cumulativeCounts = cumulativeCounts;
     this.offset = offset;
     this.length = length;
   }
+  
+  private int getCount(int index) {
+    return (int) (cumulativeCounts[offset + index + 1] - cumulativeCounts[offset + index]);
+  }
 
   @Override
   Entry<E> getEntry(int index) {
-    return Multisets.immutableEntry(
-        elementSet.asList().get(index),
-        counts[offset + index]);
+    return Multisets.immutableEntry(elementSet.asList().get(index), getCount(index));
   }
 
   @Override
@@ -68,7 +67,7 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
   @Override
   public int count(@Nullable Object element) {
     int index = elementSet.indexOf(element);
-    return (index == -1) ? 0 : counts[index + offset];
+    return (index >= 0) ? getCount(index) : 0;
   }
 
   @Override
@@ -103,12 +102,12 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
       RegularImmutableSortedSet<E> subElementSet =
           (RegularImmutableSortedSet<E>) elementSet.getSubSet(from, to);
       return new RegularImmutableSortedMultiset<E>(
-          subElementSet, counts, cumulativeCounts, offset + from, to - from);
+          subElementSet, cumulativeCounts, offset + from, to - from);
     }
   }
 
   @Override
   boolean isPartialView() {
-    return offset > 0 || length < counts.length;
+    return offset > 0 || length < cumulativeCounts.length - 1;
   }
 }
