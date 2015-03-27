@@ -260,8 +260,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
      *
      * TODO(user): Write tests for memory retention
      */
-    @Override void releaseResourcesAfterFailure() {
-      super.releaseResourcesAfterFailure();
+    void releaseResourcesAfterFailure() {
       this.futures = null;
     }
 

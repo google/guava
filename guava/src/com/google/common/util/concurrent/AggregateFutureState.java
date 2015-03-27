@@ -42,7 +42,8 @@ abstract class AggregateFutureState {
   private static final AtomicIntegerFieldUpdater<AggregateFutureState>
       REMAINING_COUNT_UPDATER = newUpdater(AggregateFutureState.class, "remaining");
 
-  // Initialized once the first time we see an exception
+  // Lazily initialized the first time we see an exception; not released until all the input futures
+  // & this future completes. Released when the future releases the reference to the running state
   private volatile Set<Throwable> seenExceptions = null;
   @SuppressWarnings("unused") private volatile int remaining;
 
@@ -55,6 +56,7 @@ abstract class AggregateFutureState {
     if (seenExceptionsLocal == null) {
       SEEN_EXCEPTIONS_UDPATER.compareAndSet(
           this, null, Sets.<Throwable>newConcurrentHashSet());
+      // Guaranteed to get us the right value because we only set this once (here)
       seenExceptionsLocal = seenExceptions;
     }
     return seenExceptionsLocal;
@@ -62,9 +64,5 @@ abstract class AggregateFutureState {
 
   final int decrementRemainingAndGet() {
     return REMAINING_COUNT_UPDATER.decrementAndGet(this);
-  }
-
-  void releaseResourcesAfterFailure() {
-    seenExceptions = null;
   }
 }
