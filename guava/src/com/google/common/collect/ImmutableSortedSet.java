@@ -63,19 +63,15 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
       Ordering.natural();
 
   private static final ImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
-      new EmptyImmutableSortedSet<Comparable>(NATURAL_ORDER);
-
-  @SuppressWarnings("unchecked")
-  private static <E> ImmutableSortedSet<E> emptySet() {
-    return (ImmutableSortedSet<E>) NATURAL_EMPTY_SET;
-  }
+      new RegularImmutableSortedSet<Comparable>(
+          ImmutableList.<Comparable>of(), NATURAL_ORDER);
 
   static <E> ImmutableSortedSet<E> emptySet(
       Comparator<? super E> comparator) {
     if (NATURAL_ORDER.equals(comparator)) {
-      return emptySet();
+      return of();
     } else {
-      return new EmptyImmutableSortedSet<E>(comparator);
+      return new RegularImmutableSortedSet<E>(ImmutableList.<E>of(), comparator);
     }
   }
 
@@ -83,7 +79,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * Returns the empty immutable sorted set.
    */
   public static <E> ImmutableSortedSet<E> of() {
-    return emptySet();
+    return (ImmutableSortedSet<E>) NATURAL_EMPTY_SET;
   }
 
   /**

@@ -55,25 +55,21 @@ public abstract class ImmutableSortedSet<E>
 
   @SuppressWarnings("unchecked")
   private static final ImmutableSortedSet<Object> NATURAL_EMPTY_SET =
-      new EmptyImmutableSortedSet<Object>(NATURAL_ORDER);
-
-  @SuppressWarnings("unchecked")
-  private static <E> ImmutableSortedSet<E> emptySet() {
-    return (ImmutableSortedSet<E>) NATURAL_EMPTY_SET;
-  }
+      new RegularImmutableSortedSet<Object>(new TreeSet<Object>(NATURAL_ORDER), false);
 
   static <E> ImmutableSortedSet<E> emptySet(
       Comparator<? super E> comparator) {
     checkNotNull(comparator);
     if (NATURAL_ORDER.equals(comparator)) {
-      return emptySet();
+      return of();
     } else {
-      return new EmptyImmutableSortedSet<E>(comparator);
+      return new RegularImmutableSortedSet<E>(new TreeSet<E>(comparator), false);
     }
   }
 
+  @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedSet<E> of() {
-    return emptySet();
+    return (ImmutableSortedSet<E>) NATURAL_EMPTY_SET;
   }
 
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(

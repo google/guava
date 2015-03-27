@@ -494,7 +494,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @since 7.0
    */
   public ImmutableList<E> reverse() {
-    return new ReverseImmutableList<E>(this);
+    return (size() <= 1) ? this : new ReverseImmutableList<E>(this);
   }
 
   private static class ReverseImmutableList<E> extends ImmutableList<E> {
