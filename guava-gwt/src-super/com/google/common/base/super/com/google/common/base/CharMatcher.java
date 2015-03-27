@@ -299,10 +299,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return true;
     }
 
-    @Override public boolean matchesNoneOf(CharSequence sequence) {
-      return sequence.length() == 0;
-    }
-
     @Override public String removeFrom(CharSequence sequence) {
       checkNotNull(sequence);
       return "";
@@ -373,11 +369,6 @@ public abstract class CharMatcher implements Predicate<Character> {
 
     @Override public boolean matchesAllOf(CharSequence sequence) {
       return sequence.length() == 0;
-    }
-
-    @Override public boolean matchesNoneOf(CharSequence sequence) {
-      checkNotNull(sequence);
-      return true;
     }
 
     @Override public String removeFrom(CharSequence sequence) {
