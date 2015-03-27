@@ -377,15 +377,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return sequence.toString();
     }
 
-    @Override public String replaceFrom(CharSequence sequence, char replacement) {
-      return sequence.toString();
-    }
-
-    @Override public String replaceFrom(CharSequence sequence, CharSequence replacement) {
-      checkNotNull(replacement);
-      return sequence.toString();
-    }
-
     @Override public String collapseFrom(CharSequence sequence, char replacement) {
       return sequence.toString();
     }
