@@ -20,6 +20,8 @@ import static com.google.common.collect.BoundType.CLOSED;
 
 import com.google.common.primitives.Ints;
 
+import java.util.Comparator;
+
 import javax.annotation.Nullable;
 
 /**
@@ -29,10 +31,19 @@ import javax.annotation.Nullable;
  */
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
 final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
+  private static final long[] ZERO_CUMULATIVE_COUNTS = {0};
+  
   private final transient RegularImmutableSortedSet<E> elementSet;
   private final transient long[] cumulativeCounts;
   private final transient int offset;
   private final transient int length;
+  
+  RegularImmutableSortedMultiset(Comparator<? super E> comparator) {
+    this.elementSet = ImmutableSortedSet.emptySet(comparator);
+    this.cumulativeCounts = ZERO_CUMULATIVE_COUNTS;
+    this.offset = 0;
+    this.length = 0;
+  }
 
   RegularImmutableSortedMultiset(
       RegularImmutableSortedSet<E> elementSet,
@@ -56,12 +67,12 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
 
   @Override
   public Entry<E> firstEntry() {
-    return getEntry(0);
+    return isEmpty() ? null : getEntry(0);
   }
 
   @Override
   public Entry<E> lastEntry() {
-    return getEntry(length - 1);
+    return isEmpty() ? null : getEntry(length - 1);
   }
 
   @Override

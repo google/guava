@@ -54,7 +54,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   private static final Comparator<Comparable> NATURAL_ORDER = Ordering.natural();
 
   private static final ImmutableSortedMultiset<Comparable> NATURAL_EMPTY_MULTISET =
-      new EmptyImmutableSortedMultiset<Comparable>(NATURAL_ORDER);
+      new RegularImmutableSortedMultiset<Comparable>(NATURAL_ORDER);
 
   /**
    * Returns the empty immutable sorted multiset.
@@ -275,9 +275,10 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @SuppressWarnings("unchecked")
   static <E> ImmutableSortedMultiset<E> emptyMultiset(Comparator<? super E> comparator) {
     if (NATURAL_ORDER.equals(comparator)) {
-      return (ImmutableSortedMultiset) NATURAL_EMPTY_MULTISET;
+      return (ImmutableSortedMultiset<E>) NATURAL_EMPTY_MULTISET;
+    } else {
+      return new RegularImmutableSortedMultiset<E>(comparator);
     }
-    return new EmptyImmutableSortedMultiset<E>(comparator);
   }
 
   ImmutableSortedMultiset() {}
@@ -296,7 +297,9 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   public ImmutableSortedMultiset<E> descendingMultiset() {
     ImmutableSortedMultiset<E> result = descendingMultiset;
     if (result == null) {
-      return descendingMultiset = new DescendingImmutableSortedMultiset<E>(this);
+      return descendingMultiset = this.isEmpty()
+          ? emptyMultiset(Ordering.from(comparator()).reverse())
+          : new DescendingImmutableSortedMultiset<E>(this);
     }
     return result;
   }
