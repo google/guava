@@ -1962,6 +1962,36 @@ public class FuturesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("TestLogHandler")
+  public void testAllAsList_logging_seenExceptionUpdateRaceBuggy() throws Exception {
+    final MyException sameInstance = new MyException();
+    SettableFuture<Object> firstFuture = SettableFuture.create();
+    final SettableFuture<Object> secondFuture = SettableFuture.create();
+    ListenableFuture<List<Object>> bulkFuture = allAsList(firstFuture, secondFuture);
+
+    bulkFuture.addListener(new Runnable() {
+      @Override
+      public void run() {
+        /*
+         * firstFuture just completed, but AggregateFuture hasn't yet had time to record the
+         * exception in seenExceptions. When we complete secondFuture with the same exception,
+         * AggregateFuture will think that it's new.
+         */
+        secondFuture.setException(sameInstance);
+      }
+    }, directExecutor());
+    firstFuture.setException(sameInstance);
+
+    try {
+      bulkFuture.get();
+      fail();
+    } catch (ExecutionException expected) {
+      assertTrue(expected.getCause() instanceof MyException);
+      // TODO(cpovirk): Fix this bug. We should see 0 records:
+      assertEquals(1, combinedFutureLogHandler.getStoredLogRecords().size());
+    }
+  }
+
   /**
    * Different exceptions happening on multiple futures with the same cause should not be logged.
    */
