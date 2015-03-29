@@ -446,6 +446,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     public String toString() {
       return "Converter.from(" + forwardFunction + ", " + backwardFunction + ")";
     }
+
+    private static final long serialVersionUID = 0L;
   }
 
   /**

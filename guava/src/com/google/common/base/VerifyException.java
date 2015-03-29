@@ -56,4 +56,6 @@ public class VerifyException extends RuntimeException {
   public VerifyException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }
+
+  private static final long serialVersionUID = 0L;
 }
