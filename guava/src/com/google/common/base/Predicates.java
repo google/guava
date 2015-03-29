@@ -609,7 +609,7 @@ public final class Predicates {
     }
 
     @Override public String toString() {
-      String patternString = Objects.toStringHelper(pattern)
+      String patternString = MoreObjects.toStringHelper(pattern)
           .add("pattern", pattern.pattern())
           .add("pattern.flags", pattern.flags())
           .toString();
