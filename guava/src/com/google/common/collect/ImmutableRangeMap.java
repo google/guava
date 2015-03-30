@@ -222,7 +222,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
         new RegularImmutableSortedSet<Range<K>>(ranges, Range.RANGE_LEX_ORDERING);
-    return new RegularImmutableSortedMap<Range<K>, V>(rangeSet, values);
+    return new ImmutableSortedMap<Range<K>, V>(rangeSet, values);
   }
   
   @Override

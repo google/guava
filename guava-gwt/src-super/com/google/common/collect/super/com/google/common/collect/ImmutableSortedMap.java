@@ -33,7 +33,7 @@ import java.util.SortedMap;
  *
  * @author Hayward Chan
  */
-public abstract class ImmutableSortedMap<K, V>
+public final class ImmutableSortedMap<K, V>
     extends ForwardingImmutableMap<K, V> implements SortedMap<K, V> {
 
   @SuppressWarnings("unchecked")
@@ -311,7 +311,7 @@ public abstract class ImmutableSortedMap<K, V>
 
   private static <K, V> ImmutableSortedMap<K, V> newView(
       SortedMap<K, V> delegate, Comparator<? super K> comparator) {
-    return new RegularImmutableSortedMap<K, V>(delegate, comparator);
+    return new ImmutableSortedMap<K, V>(delegate, comparator);
   }
 
   /*

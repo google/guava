@@ -256,7 +256,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return (Comparator<Object>) comparator;
   }
 
-  ImmutableSortedSet<E> getSubSet(int newFromIndex, int newToIndex) {
+  RegularImmutableSortedSet<E> getSubSet(int newFromIndex, int newToIndex) {
     if (newFromIndex == 0 && newToIndex == size()) {
       return this;
     } else if (newFromIndex < newToIndex) {
