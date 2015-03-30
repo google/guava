@@ -367,6 +367,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   public ImmutableList<E> subList(int fromIndex, int toIndex) {
     checkPositionIndexes(fromIndex, toIndex, size());
     int length = toIndex - fromIndex;
+    if (length == size()) {
+      return this;
+    }
     switch (length) {
       case 0:
         return of();
