@@ -45,18 +45,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.ConcurrentModificationException;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import java.util.RandomAccess;
-import java.util.Set;
-import java.util.Vector;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.StringReader;
+import java.util.*;
 
 /**
  * Unit test for {@code Iterators}.
@@ -1596,5 +1588,57 @@ public class IteratorsTest extends TestCase {
     assertNotSame(peek, nonpeek);
     assertSame(peek, Iterators.peekingIterator(peek));
     assertSame(peek, Iterators.peekingIterator((Iterator<String>) peek));
+  }
+
+
+  public void testGenerator() {
+    String immenselyLargeFile =
+        "very large \n file consisting \n of a \n huge nuber of \n lines \n of \n text\n";
+    final LineNumberReader reader = new LineNumberReader(new StringReader(immenselyLargeFile));
+
+    UnmodifiableIterator<String> infiniteInput = Iterators.generator(new Generator<String, YieldTarget<String>>() {
+      @Override
+      public void yieldNextValues(YieldTarget<String> yieldTarget) {
+        try {
+          String line = reader.readLine();
+          if (line != null) {
+            yieldTarget.yield(line);
+          }
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    });
+
+    assertEquals("result should contains all lines form input",
+        Lists.newArrayList(infiniteInput),
+        Arrays.asList(immenselyLargeFile.split("\\n")));
+  }
+
+  public void testGeneratorWithState() {
+    // infinite fibonacci generator
+    Iterator<Integer> fibonacci = Iterators.generatorWithState(0, new Generator<Integer, StatefulYieldTarget<Integer, Integer>>() {
+      @Override
+      public void yieldNextValues(StatefulYieldTarget<Integer, Integer> yieldTarget) {
+        Integer previous = yieldTarget.previous();
+        int previousValue = (previous == null ? 0 : previous);
+        int nextValue = (previous == null ? 1 : previousValue + yieldTarget.getState());
+        yieldTarget.setState(previousValue);
+        if (nextValue >= previousValue) {
+          yieldTarget.yield(nextValue);
+        }
+        // else: int overflow: end of "infinite" sequence
+      }
+    });
+    List<Integer> fibonacciFirst6
+        = Arrays.asList(fibonacci.next(), fibonacci.next(), fibonacci.next(),
+                        fibonacci.next(), fibonacci.next(), fibonacci.next());
+
+    assertEquals("wrong first 6 elements of fibonacci sequence",
+        Arrays.asList(1, 1, 2, 3, 5, 8),
+        fibonacciFirst6);
+
+    Integer last = Iterators.getLast(fibonacci);
+    assertEquals("wrong last fibonacci number", 1836311903, last.intValue());
   }
 }

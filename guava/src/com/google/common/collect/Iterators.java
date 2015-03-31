@@ -33,6 +33,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.sun.istack.internal.NotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,6 +42,7 @@ import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
@@ -1133,6 +1135,139 @@ public final class Iterators {
       }
     };
   }
+
+  /**
+   * Create an possibly infinite Iterator that uses the provided Generator
+   * method to generate new values as needed.
+   * The generator is called to yield  new value / a new value whenever
+   * more values are needed to iterate over (i.e. when the previously
+   * yielded values are consumed).
+   * If the generator is not yielding any more values, then hasNext()
+   * returns false and the iterator is finished.
+   * The generator must not loop forever. It must return after having yielded a reasonable
+   * number of elements (for example one) in order to let the values be consumed.
+   * Otherwise, memory will get filled up with yielded, un-consumed values.
+   * The generator will be called again whenever the previously yielded elements are all consumed,
+   * and more elements still are requested.
+   *
+   * @see #generatorWithState(Object, Generator)  for generators that need to keep values between invoations.
+   *
+   * @param <T>  type of value that is generated .
+   * @param generator a generator method (functional interface) that generates values to iterate over.
+   * @return an iterator that iterates over values that are produced as needed by the generator.
+   *
+   * @since 19.0
+   */
+  public static <T> UnmodifiableIterator<T> generator(@NotNull final Generator<T,YieldTarget<T>> generator) {
+    checkNotNull(generator);
+    return new UnmodifiableIterator<T>() {
+
+      private LinkedList<T> yieldedValues = new LinkedList<T>();
+
+      @Override
+      public boolean hasNext() {
+        if (yieldedValues.isEmpty()) {
+          generator.yieldNextValues(new YieldTarget<T>() {
+            @Override
+            public void yield(T element) {
+              yieldedValues.addLast(element);
+            }
+          });
+        }
+        return !yieldedValues.isEmpty();
+      }
+
+      @Override
+      public T next() {
+        if (hasNext()) {
+          return yieldedValues.removeFirst();
+        }
+        throw new NoSuchElementException("next");
+      }
+    };
+  }
+
+  /**
+   * Create an possibly infinite Iterator that uses the provided Generator method
+   * to generate new values as needed. The YieldTarget presented to the Generator method
+   * contains methods for setting and getting state between calls to the Generator,
+   * and also to "remember" the last value yielded in the previous call.
+   *
+   * The generator is called to yield new values / a new value whenever more values are needed
+   * to iterate over (i.e. when the previously yielded values are consumed).
+   * If the generator is not yielding any more values, then hasNext() returns false
+   * and the iterator is finished.
+   * The generator must not loop forever. It must return after having yielded a reasonable
+   * number of elements (for example one) in order to let the values be consumed.
+   * Otherwise, memory will get filled up with yielded, un-consumed values.
+   * The generator will be called again whenever the previously yielded elements are all consumed
+   * and more elements still are requested.
+   *
+   * @param <T>  type of value that is generated.
+   * @param <S> type of state to hold between invocations of the Generator.
+   * @param initialState the initial value for the state, null allowed.
+   * @param generator a generator method (functional interface) that generates values to iterate over.
+   * @return an iterator that iterates over values that are produced as needed by the generator.
+   *
+   * @since 19.0
+   */
+  public static <T, S> UnmodifiableIterator<T> generatorWithState(final S initialState,
+                                                                  @NotNull final
+                                                                  Generator<T,StatefulYieldTarget<S, T>> generator) {
+    checkNotNull(generator);
+    class Holder<E> {
+      public Holder(E element) {
+        this.element = element;
+      }
+      E element;
+    }
+    return new UnmodifiableIterator<T>() {
+      private LinkedList<T> yieldedValues = new LinkedList<T>();
+      private final Holder<S> stateHolder = new Holder<S>(initialState);
+      private final Holder<T> lastYield = new Holder<T>(null);
+
+      @Override
+      public boolean hasNext() {
+        if (yieldedValues.isEmpty()) {
+          generator.yieldNextValues(new StatefulYieldTarget<S, T>() {
+            @Override
+            public void yield(T element) {
+              yieldedValues.addLast(element);
+              // consider moving this til after yieldNextValues returns:
+              lastYield.element = element;
+            }
+
+            @Override
+            public S getState() {
+              return stateHolder.element;
+            }
+
+            @Override
+            public void setState(S state) {
+              stateHolder.element = state;
+            }
+
+            @Override
+            public T previous() {
+              return lastYield.element;
+            }
+          });
+          // consider storing ref to last element yielded (yieldedValues.lastElement if any) here.
+        }
+        return !yieldedValues.isEmpty();
+      }
+
+      @Override
+      public T next() {
+        if (hasNext()) {
+          return yieldedValues.removeFirst();
+        }
+        throw new NoSuchElementException("next");
+      }
+    };
+  }
+
+
 
   /**
    * Implementation of PeekingIterator that avoids peeking unless necessary.
