@@ -45,10 +45,21 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.ConcurrentModificationException;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+import java.util.RandomAccess;
+import java.util.Set;
+import java.util.Vector;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
-import java.util.*;
 
 /**
  * Unit test for {@code Iterators}.
