@@ -33,7 +33,6 @@ import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
-import com.sun.istack.internal.NotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -1158,7 +1157,7 @@ public final class Iterators {
    *
    * @since 19.0
    */
-  public static <T> UnmodifiableIterator<T> generator(@NotNull final Generator<T,YieldTarget<T>> generator) {
+  public static <T> UnmodifiableIterator<T> generator(final Generator<T,YieldTarget<T>> generator) {
     checkNotNull(generator);
     return new UnmodifiableIterator<T>() {
 
@@ -1212,7 +1211,7 @@ public final class Iterators {
    * @since 19.0
    */
   public static <T, S> UnmodifiableIterator<T> generatorWithState(final S initialState,
-                                                                  @NotNull final
+                                                                  final
                                                                   Generator<T,StatefulYieldTarget<S, T>> generator) {
     checkNotNull(generator);
     class Holder<E> {
