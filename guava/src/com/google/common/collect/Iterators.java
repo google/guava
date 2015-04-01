@@ -1210,7 +1210,7 @@ public final class Iterators {
    *
    * @since 19.0
    */
-  public static <T, S> UnmodifiableIterator<T> generatorWithState(final S initialState,
+  public static <T, S> UnmodifiableIterator<T> generatorWithState(@Nullable final S initialState,
                                                                   final
                                                                   Generator<T,StatefulYieldTarget<S, T>> generator) {
     checkNotNull(generator);
