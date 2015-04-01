@@ -205,8 +205,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   @Nullable
   @Override
   public V get(@Nullable Object key) {
-    BiEntry<K, V> entry = seekByKey(key, smearedHash(key));
-    return (entry == null) ? null : entry.value;
+    return Maps.valueOrNull(seekByKey(key, smearedHash(key)));
   }
 
   @Override
@@ -244,7 +243,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     BiEntry<K, V> newEntry = new BiEntry<K, V>(key, keyHash, value, valueHash);
     insert(newEntry);
     rehashIfNecessary();
-    return (oldEntryForKey == null) ? null : oldEntryForKey.value;
+    return Maps.valueOrNull(oldEntryForKey);
   }
 
   @Nullable
@@ -273,7 +272,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     BiEntry<K, V> newEntry = new BiEntry<K, V>(key, keyHash, value, valueHash);
     insert(newEntry);
     rehashIfNecessary();
-    return (oldEntryForValue == null) ? null : oldEntryForValue.key;
+    return Maps.keyOrNull(oldEntryForValue);
   }
 
   private void rehashIfNecessary() {
@@ -492,8 +491,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
     @Override
     public K get(@Nullable Object value) {
-      BiEntry<K, V> entry = seekByValue(value, smearedHash(value));
-      return (entry == null) ? null : entry.key;
+      return Maps.keyOrNull(seekByValue(value, smearedHash(value)));
     }
 
     @Override
