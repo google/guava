@@ -601,6 +601,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
                 delete(delegate);
                 BiEntry<K, V> newEntry =
                     new BiEntry<K, V>(key, keyHash, delegate.value, delegate.valueHash);
+                delegate = newEntry;
                 insert(newEntry);
                 expectedModCount = modCount;
                 // This is safe because entries can only get bumped up to earlier in the iteration,

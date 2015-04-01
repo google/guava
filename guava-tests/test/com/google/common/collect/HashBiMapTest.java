@@ -126,4 +126,12 @@ public class HashBiMapTest extends TestCase {
     iterator.remove(); // removes the updated entry
     assertTrue(map.isEmpty());
   }
+
+  public void testInverseEntrySetValue() {
+    BiMap<Integer, String> map = HashBiMap.create();
+    map.put(1, "one");
+    Entry<String, Integer> inverseEntry = Iterables.getOnlyElement(map.inverse().entrySet());
+    inverseEntry.setValue(2);
+    assertEquals(Integer.valueOf(2), inverseEntry.getValue());
+  }
 }
