@@ -29,7 +29,7 @@ import java.io.Serializable;
 import javax.annotation.Nullable;
 
 /**
- * Bimap with two or more mappings.
+ * Bimap with zero or more mappings.
  *
  * @author Louis Wasserman
  */
@@ -37,44 +37,38 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY =
-      new RegularImmutableBiMap<Object, Object>();
+      new RegularImmutableBiMap<Object, Object>(
+          null, null, (Entry<Object, Object>[]) ImmutableMap.EMPTY_ENTRY_ARRAY, 0, 0);
 
   static final double MAX_LOAD_FACTOR = 1.2;
 
   private final transient ImmutableMapEntry<K, V>[] keyTable;
   private final transient ImmutableMapEntry<K, V>[] valueTable;
-  private final transient ImmutableMapEntry<K, V>[] entries;
+  private final transient Entry<K, V>[] entries;
   private final transient int mask;
   private final transient int hashCode;
 
-  @SuppressWarnings("unchecked")
-  private RegularImmutableBiMap() {
-    this.keyTable = null;
-    this.valueTable = null;
-    this.entries = new ImmutableMapEntry[0];
-    this.mask = 0;
-    this.hashCode = 0;
+  static <K, V> RegularImmutableBiMap<K, V> fromEntries(Entry<K, V>... entries) {
+    return fromEntryArray(entries.length, entries);
   }
 
-  RegularImmutableBiMap(ImmutableMapEntry<?, ?>... entriesToAdd) {
-    this(entriesToAdd.length, entriesToAdd);
-  }
-
-  /**
-   * Constructor for RegularImmutableBiMap that makes no assumptions about the input entries.
-   */
-  RegularImmutableBiMap(int n, Entry<?, ?>[] entriesToAdd) {
-    checkPositionIndex(n, entriesToAdd.length);
+  static <K, V> RegularImmutableBiMap<K, V> fromEntryArray(int n, Entry<K, V>[] entryArray) {
+    checkPositionIndex(n, entryArray.length);
     int tableSize = Hashing.closedTableSize(n, MAX_LOAD_FACTOR);
-    this.mask = tableSize - 1;
+    int mask = tableSize - 1;
     ImmutableMapEntry<K, V>[] keyTable = createEntryArray(tableSize);
     ImmutableMapEntry<K, V>[] valueTable = createEntryArray(tableSize);
-    ImmutableMapEntry<K, V>[] entries = createEntryArray(n);
+    Entry<K, V>[] entries;
+    if (n == entryArray.length) {
+      entries = entryArray;
+    } else {
+      entries = createEntryArray(n);
+    }
     int hashCode = 0;
 
     for (int i = 0; i < n; i++) {
       @SuppressWarnings("unchecked")
-      Entry<K, V> entry = (Entry<K, V>) entriesToAdd[i];
+      Entry<K, V> entry = entryArray[i];
       K key = entry.getKey();
       V value = entry.getValue();
       checkEntryNotNull(key, value);
@@ -108,10 +102,16 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       entries[i] = newEntry;
       hashCode += keyHash ^ valueHash;
     }
+    return new RegularImmutableBiMap<K, V>(keyTable, valueTable, entries, mask, hashCode);
+  }
 
+  private RegularImmutableBiMap(ImmutableMapEntry<K, V>[] keyTable,
+      ImmutableMapEntry<K, V>[] valueTable, Entry<K, V>[] entries, int mask,
+      int hashCode) {
     this.keyTable = keyTable;
     this.valueTable = valueTable;
     this.entries = entries;
+    this.mask = mask;
     this.hashCode = hashCode;
   }
 

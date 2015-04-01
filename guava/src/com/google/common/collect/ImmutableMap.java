@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
@@ -70,7 +71,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @throws IllegalArgumentException if duplicate keys are provided
    */
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2) {
-    return new RegularImmutableMap<K, V>(entryOf(k1, v1), entryOf(k2, v2));
+    return RegularImmutableMap.fromEntries(entryOf(k1, v1), entryOf(k2, v2));
   }
 
   /**
@@ -80,7 +81,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> ImmutableMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3) {
-    return new RegularImmutableMap<K, V>(
+    return RegularImmutableMap.fromEntries(
         entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));
   }
 
@@ -91,7 +92,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> ImmutableMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
-    return new RegularImmutableMap<K, V>(
+    return RegularImmutableMap.fromEntries(
         entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4));
   }
 
@@ -102,7 +103,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> ImmutableMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
-    return new RegularImmutableMap<K, V>(entryOf(k1, v1),
+    return RegularImmutableMap.fromEntries(entryOf(k1, v1),
         entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));
   }
 
@@ -247,7 +248,14 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         case 1:
           return of(entries[0].getKey(), entries[0].getValue());
         default:
-          return new RegularImmutableMap<K, V>(size, entries);
+          /*
+           * If entries is full, then this implementation may end up using the entries array
+           * directly and writing over the entry objects with non-terminal entries, but this is
+           * safe; if this Builder is used further, it will grow the entries array (so it can't
+           * affect the original array), and future build() calls will always copy any entry
+           * objects that cannot be safely reused.
+           */
+          return RegularImmutableMap.fromEntryArray(size, entries);
       }
     }
   }
@@ -292,16 +300,20 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Beta
   public static <K, V> ImmutableMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
-    Entry<?, ?>[] entryArray = Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);
+    @SuppressWarnings("unchecked") // we'll only be using getKey and getValue, which are covariant
+    Entry<K, V>[] entryArray = (Entry<K, V>[]) Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);
     switch (entryArray.length) {
       case 0:
         return of();
       case 1:
-        @SuppressWarnings("unchecked") // all entries will be Entry<K, V>'s
-        Entry<K, V> onlyEntry = (Entry<K, V>) entryArray[0];
+        Entry<K, V> onlyEntry = entryArray[0];
         return of(onlyEntry.getKey(), onlyEntry.getValue());
       default:
-        return new RegularImmutableMap<K, V>(entryArray.length, entryArray);
+        /*
+         * The current implementation will end up using entryArray directly, though it will write
+         * over the (arbitrary, potentially mutable) Entry objects actually stored in entryArray.
+         */
+        return RegularImmutableMap.fromEntries(entryArray);
     }
   }
 

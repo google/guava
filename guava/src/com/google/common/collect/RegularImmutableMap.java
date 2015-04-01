@@ -36,28 +36,34 @@ import javax.annotation.Nullable;
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   // entries in insertion order
-  private final transient ImmutableMapEntry<K, V>[] entries;
+  private final transient Entry<K, V>[] entries;
   // array of linked lists of entries
   private final transient ImmutableMapEntry<K, V>[] table;
   // 'and' with an int to get a table index
   private final transient int mask;
   
-  RegularImmutableMap(ImmutableMapEntry<?, ?>... theEntries) {
-    this(theEntries.length, theEntries);
+  static <K, V> RegularImmutableMap<K, V> fromEntries(Entry<K, V>... entries) {
+    return fromEntryArray(entries.length, entries);
   }
   
   /**
-   * Constructor for RegularImmutableMap that makes no assumptions about the input entries.
+   * Creates a RegularImmutableMap from the first n entries in entryArray.  This implementation
+   * may replace the entries in entryArray with its own entry objects (though they will have the
+   * same key/value contents), and may take ownership of entryArray. 
    */
-  RegularImmutableMap(int size, Entry<?, ?>[] theEntries) {
-    checkPositionIndex(size, theEntries.length);
-    entries = createEntryArray(size);
-    int tableSize = Hashing.closedTableSize(size, MAX_LOAD_FACTOR);
-    table = createEntryArray(tableSize);
-    mask = tableSize - 1;
-    for (int entryIndex = 0; entryIndex < size; entryIndex++) {
-      @SuppressWarnings("unchecked") // all our callers carefully put in only Entry<K, V>s
-      Entry<K, V> entry = (Entry<K, V>) theEntries[entryIndex];
+  static <K, V> RegularImmutableMap<K, V> fromEntryArray(int n, Entry<K, V>[] entryArray) {
+    checkPositionIndex(n, entryArray.length);
+    Entry<K, V>[] entries;
+    if (n == entryArray.length) {
+      entries = entryArray;
+    } else {
+      entries = createEntryArray(n); 
+    }
+    int tableSize = Hashing.closedTableSize(n, MAX_LOAD_FACTOR);
+    ImmutableMapEntry<K, V>[] table = createEntryArray(tableSize);
+    int mask = tableSize - 1;
+    for (int entryIndex = 0; entryIndex < n; entryIndex++) {
+      Entry<K, V> entry = entryArray[entryIndex];
       K key = entry.getKey();
       V value = entry.getValue();
       checkEntryNotNull(key, value);
@@ -77,6 +83,14 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       entries[entryIndex] = newEntry;
       checkNoConflictInKeyBucket(key, newEntry, existing);
     }
+    return new RegularImmutableMap<K, V>(entries, table, mask);
+  }
+  
+  private RegularImmutableMap(Entry<K, V>[] entries, ImmutableMapEntry<K, V>[] table,
+      int mask) {
+    this.entries = entries;
+    this.table = table;
+    this.mask = mask;
   }
 
   static void checkNoConflictInKeyBucket(
