@@ -19,10 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
 /**
  * Implementation of {@link ImmutableSet} with exactly one element.
  *
@@ -58,10 +54,6 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
     return 1;
   }
 
-  @Override public boolean isEmpty() {
-    return false;
-  }
-
   @Override public boolean contains(Object target) {
     return element.equals(target);
   }
@@ -78,17 +70,6 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   int copyIntoArray(Object[] dst, int offset) {
     dst[offset] = element;
     return offset + 1;
-  }
-
-  @Override public boolean equals(@Nullable Object object) {
-    if (object == this) {
-      return true;
-    }
-    if (object instanceof Set) {
-      Set<?> that = (Set<?>) object;
-      return that.size() == 1 && element.equals(that.iterator().next());
-    }
-    return false;
   }
 
   @Override public final int hashCode() {
