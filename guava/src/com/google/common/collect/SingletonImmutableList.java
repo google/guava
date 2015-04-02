@@ -21,8 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 
-import javax.annotation.Nullable;
-
 /**
  * Implementation of {@link ImmutableList} with exactly one element.
  *
@@ -58,20 +56,6 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
     return (fromIndex == toIndex) ? ImmutableList.<E>of() : this;
   }
 
-  @Override public ImmutableList<E> reverse() {
-    return this;
-  }
-
-  @Override public boolean contains(@Nullable Object object) {
-    return element.equals(object);
-  }
-
-  @Override public int hashCode() {
-    // not caching hash code since it could change if the element is mutable
-    // in a way that modifies its hash code.
-    return 31 + element.hashCode();
-  }
-
   @Override public String toString() {
     String elementToString = element.toString();
     return new StringBuilder(elementToString.length() + 2)
@@ -81,17 +65,7 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
         .toString();
   }
 
-  @Override public boolean isEmpty() {
-    return false;
-  }
-
   @Override boolean isPartialView() {
     return false;
-  }
-
-  @Override
-  int copyIntoArray(Object[] dst, int offset) {
-    dst[offset] = element;
-    return offset + 1;
   }
 }
