@@ -112,6 +112,8 @@ public class SimpleAbstractMultisetTest extends TestCase {
     int distinctElements() {
       return backingMap.size();
     }
+    
+    private static final long serialVersionUID = 0L;
   }
 }
 

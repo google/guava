@@ -622,6 +622,8 @@ public class ClassSanityTesterTest extends TestCase {
     @Override public int hashCode() {
       return i.hashCode();
     }
+    
+    private static final long serialVersionUID = 0L;
   }
 
   static class InstantiableFactoryMethodChosen {

@@ -61,6 +61,8 @@ abstract class DummyProxy {
   abstract <R> R dummyReturnValue(TypeToken<R> returnType);
 
   private class DummyHandler extends AbstractInvocationHandler implements Serializable {
+    private static final long serialVersionUID = 0L;    
+    
     private final TypeToken<?> interfaceType;
 
     DummyHandler(TypeToken<?> interfaceType) {

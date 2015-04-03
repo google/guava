@@ -122,6 +122,8 @@ final class GwtSerializationDependencies {
    */
   static final class ImmutableTableDependencies<R, C, V>
       extends SingletonImmutableTable<R, C, V> implements Serializable {
+	private static final long serialVersionUID = 0L;
+	  
     R rowKey;
     C columnKey;
     V value;

@@ -38,6 +38,8 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true)
 final class GeneralRange<T> implements Serializable {
+  private static final long serialVersionUID = 0L;
+	
   /**
    * Converts a Range to a GeneralRange.
    */

@@ -820,5 +820,7 @@ public final class ClassSanityTester {
     @Override public int hashCode() {
       return 0;
     }
+    
+    private static final long serialVersionUID = 0L;
   }
 }

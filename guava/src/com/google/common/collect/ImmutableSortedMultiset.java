@@ -540,6 +540,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   private static final class SerializedForm<E> implements Serializable {
+	private static final long serialVersionUID = 0L;
+	  
     Comparator<? super E> comparator;
     E[] elements;
     int[] counts;

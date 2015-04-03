@@ -2766,6 +2766,8 @@ public class LocalCacheTest extends TestCase {
     public boolean equals(Object o) {
       return (o instanceof SerializableCacheLoader);
     }
+    
+    private static final long serialVersionUID = 0L;
   }
 
   private static class SerializableRemovalListener<K, V>
@@ -2782,6 +2784,8 @@ public class LocalCacheTest extends TestCase {
     public boolean equals(Object o) {
       return (o instanceof SerializableRemovalListener);
     }
+    
+    private static final long serialVersionUID = 0L;
   }
 
   private static class SerializableTicker extends Ticker implements Serializable {
@@ -2799,6 +2803,8 @@ public class LocalCacheTest extends TestCase {
     public boolean equals(Object o) {
       return (o instanceof SerializableTicker);
     }
+    
+    private static final long serialVersionUID = 0L;
   }
 
   private static class SerializableWeigher<K, V> implements Weigher<K, V>, Serializable {
@@ -2816,6 +2822,8 @@ public class LocalCacheTest extends TestCase {
     public boolean equals(Object o) {
       return (o instanceof SerializableWeigher);
     }
+    
+    private static final long serialVersionUID = 0L;
   }
 
 }

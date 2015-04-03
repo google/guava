@@ -42,6 +42,8 @@ import javax.annotation.Nullable;
 @Beta
 public final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
     implements Serializable {
+  private static final long serialVersionUID = 0L;
+	
 
   private static final ImmutableRangeSet<Comparable<?>> EMPTY =
       new ImmutableRangeSet<Comparable<?>>(ImmutableList.<Range<Comparable<?>>>of());
@@ -509,6 +511,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
   }
 
   private static class AsSetSerializedForm<C extends Comparable> implements Serializable {
+	private static final long serialVersionUID = 0L;
     private final ImmutableList<Range<C>> ranges;
     private final DiscreteDomain<C> domain;
 
@@ -591,6 +594,8 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
   }
 
   private static final class SerializedForm<C extends Comparable> implements Serializable {
+	private static final long serialVersionUID = 0L;
+	  
     private final ImmutableList<Range<C>> ranges;
 
     SerializedForm(ImmutableList<Range<C>> ranges) {

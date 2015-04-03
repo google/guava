@@ -945,5 +945,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
    * calls the comparator to compare the two keys. If that change is made,
    * AbstractMultiset.equals() can simply check whether two multisets have equal entry sets.
    */
+  
+  private static final long serialVersionUID = 0L;
 }
 

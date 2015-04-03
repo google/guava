@@ -127,6 +127,8 @@ public class AbstractInvocationHandlerTest extends TestCase {
     @Override public String toString() {
       return "some arbitrary string";
     }
+    
+    private static final long serialVersionUID = 0L;
   }
 
   private static class DelegatingInvocationHandlerWithEquals extends DelegatingInvocationHandler {

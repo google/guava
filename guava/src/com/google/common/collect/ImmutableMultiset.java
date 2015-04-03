@@ -375,6 +375,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   static class EntrySetSerializedForm<E> implements Serializable {
+	private static final long serialVersionUID = 0L;
     final ImmutableMultiset<E> multiset;
 
     EntrySetSerializedForm(ImmutableMultiset<E> multiset) {
