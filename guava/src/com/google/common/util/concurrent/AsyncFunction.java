@@ -24,7 +24,8 @@ import javax.annotation.Nullable;
 
 /**
  * Transforms a value, possibly asynchronously. For an example usage and more
- * information, see {@link Futures#transform(ListenableFuture, AsyncFunction)}.
+ * information, see
+ * {@link Futures#transformAsync(ListenableFuture, AsyncFunction)}.
  *
  * @author Chris Povirk
  * @since 11.0
