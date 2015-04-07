@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.Table.Cell;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,37 +44,22 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     return isEmpty() ? ImmutableSet.<Cell<R, C, V>>of() : new CellSet();
   }
 
-  private final class CellSet extends ImmutableSet<Cell<R, C, V>> {
+  private final class CellSet extends ImmutableSet.Indexed<Cell<R, C, V>> {
     @Override
     public int size() {
       return RegularImmutableTable.this.size();
     }
 
     @Override
-    public UnmodifiableIterator<Cell<R, C, V>> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    ImmutableList<Cell<R, C, V>> createAsList() {
-      return new ImmutableAsList<Cell<R, C, V>>() {
-        @Override
-        public Cell<R, C, V> get(int index) {
-          return getCell(index);
-        }
-
-        @Override
-        ImmutableCollection<Cell<R, C, V>> delegateCollection() {
-          return CellSet.this;
-        }
-      };
+    Cell<R, C, V> get(int index) {
+      return getCell(index);
     }
 
     @Override
     public boolean contains(@Nullable Object object) {
       if (object instanceof Cell) {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) object;
-        Object value = get(cell.getRowKey(), cell.getColumnKey());
+        Object value = RegularImmutableTable.this.get(cell.getRowKey(), cell.getColumnKey());
         return value != null && value.equals(cell.getValue());
       }
       return false;

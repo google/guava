@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.Multiset.Entry;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -302,30 +303,15 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
 
   abstract Entry<E> getEntry(int index);
 
-  private final class EntrySet extends ImmutableSet<Entry<E>> {
+  private final class EntrySet extends ImmutableSet.Indexed<Entry<E>> {
     @Override
     boolean isPartialView() {
       return ImmutableMultiset.this.isPartialView();
     }
 
     @Override
-    public UnmodifiableIterator<Entry<E>> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    ImmutableList<Entry<E>> createAsList() {
-      return new ImmutableAsList<Entry<E>>() {
-        @Override
-        public Entry<E> get(int index) {
-          return getEntry(index);
-        }
-
-        @Override
-        ImmutableCollection<Entry<E>> delegateCollection() {
-          return EntrySet.this;
-        }
-      };
+    Entry<E> get(int index) {
+      return getEntry(index);
     }
 
     @Override

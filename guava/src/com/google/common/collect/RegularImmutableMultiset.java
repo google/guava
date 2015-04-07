@@ -137,25 +137,11 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     return (result == null) ? elementSet = new ElementSet() : result;
   }
 
-  private final class ElementSet extends ImmutableSet<E> {
-    @Override
-    public UnmodifiableIterator<E> iterator() {
-      return asList().iterator();
-    }
+  private final class ElementSet extends ImmutableSet.Indexed<E> {
 
     @Override
-    ImmutableList<E> createAsList() {
-      return new ImmutableAsList<E>() {
-        @Override
-        public E get(int index) {
-          return entries[index].getElement();
-        }
-
-        @Override
-        ImmutableCollection<E> delegateCollection() {
-          return ElementSet.this;
-        }
-      };
+    E get(int index) {
+      return entries[index].getElement();
     }
 
     @Override

@@ -339,6 +339,30 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   // ImmutableCollection.iterator() consistent.
   @Override public abstract UnmodifiableIterator<E> iterator();
 
+  abstract static class Indexed<E> extends ImmutableSet<E> {
+    abstract E get(int index);
+
+    @Override
+    public UnmodifiableIterator<E> iterator() {
+      return asList().iterator();
+    }
+
+    @Override
+    ImmutableList<E> createAsList() {
+      return new ImmutableAsList<E>() {
+        @Override
+        public E get(int index) {
+          return Indexed.this.get(index);
+        }
+
+        @Override
+        Indexed<E> delegateCollection() {
+          return Indexed.this;
+        }
+      };
+    }
+  }
+
   /*
    * This class is used to serialize all ImmutableSet instances, except for
    * ImmutableEnumSet/ImmutableSortedSet, regardless of implementation type. It
