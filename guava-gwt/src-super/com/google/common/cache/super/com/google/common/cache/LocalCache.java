@@ -238,7 +238,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   
   private void alertListenerIfPresent(Object key, Object value, RemovalCause cause) {
     if (removalListener != null) {
-      removalListener.onRemoval(new RemovalNotification(key, value, cause));
+      removalListener.onRemoval(RemovalNotification.create(key, value, cause));
     }
   }
 
@@ -488,7 +488,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     protected boolean removeEldestEntry(Map.Entry<K, Timestamped<V>> ignored) {
       boolean removal = (maximumSize == UNSET_INT) ? false : (size() > maximumSize);
       if ((removalListener != null) && removal) {
-        removalListener.onRemoval(new RemovalNotification(
+        removalListener.onRemoval(RemovalNotification.create(
             ignored.getKey(), 
             ignored.getValue().getValue(),
             RemovalCause.SIZE));

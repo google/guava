@@ -2648,7 +2648,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
       if (map.removalNotificationQueue != DISCARDING_QUEUE) {
         V value = valueReference.get();
-        RemovalNotification<K, V> notification = new RemovalNotification<K, V>(key, value, cause);
+        RemovalNotification<K, V> notification = RemovalNotification.create(key, value, cause);
         map.removalNotificationQueue.offer(notification);
       }
     }

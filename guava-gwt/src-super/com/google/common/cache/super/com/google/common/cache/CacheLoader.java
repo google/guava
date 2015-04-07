@@ -151,7 +151,17 @@ public abstract class CacheLoader<K, V> {
     private static final long serialVersionUID = 0;
   }
 
-  static final class UnsupportedLoadingOperationException extends UnsupportedOperationException {}
+  /**
+   * Exception thrown by {@code loadAll()} to indicate that it is not supported.
+   *
+   * @since 19.0
+   */
+  public static final class UnsupportedLoadingOperationException
+      extends UnsupportedOperationException {
+    // Package-private because this should only be thrown by loadAll() when it is not overridden.
+    // Cache implementors may want to catch it but should not need to be able to throw it.
+    UnsupportedLoadingOperationException() {}
+  }
 
   /**
    * Thrown to indicate that an invalid response was returned from a call to {@link CacheLoader}.
