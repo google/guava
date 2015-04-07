@@ -16,7 +16,6 @@
 
 package com.google.common.cache;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
@@ -36,15 +35,9 @@ import java.util.concurrent.ExecutionException;
  * <p>When evaluated as a {@link Function}, a cache yields the same result as invoking
  * {@link #getUnchecked}.
  *
- * <p>Note that while this class is still annotated as {@link Beta}, the API is frozen from a
- * consumer's standpoint. In other words existing methods are all considered {@code non-Beta} and
- * won't be changed without going through an 18 month deprecation cycle; however new methods may be
- * added at any time.
- *
  * @author Charles Fry
  * @since 11.0
  */
-@Beta
 @GwtCompatible
 public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
 
