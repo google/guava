@@ -746,6 +746,23 @@ public class IterablesTest extends TestCase {
     } catch (IndexOutOfBoundsException expected) {}
   }
 
+  private void testOptionalGetOnAbc(Iterable<String> iterable) {
+    try {
+      Iterables.optionalGet(iterable, -1);
+      fail();
+    } catch (IndexOutOfBoundsException expected) {}
+
+    assertEquals("a", Iterables.optionalGet(iterable, 0).get());
+    assertEquals("b", Iterables.optionalGet(iterable, 1).get());
+    assertEquals("c", Iterables.optionalGet(iterable, 2).get());
+
+    assertFalse(Iterables.optionalGet(iterable, Iterables.size(iterable) + 1).isPresent());
+  }
+
+  private void testOptionalGetOnEmpty(Iterable<String> iterable) {
+    assertFalse(Iterables.optionalGet(iterable, 0).isPresent());
+  }
+
   public void testGet_list() {
     testGetOnAbc(newArrayList("a", "b", "c"));
   }
@@ -803,6 +820,73 @@ public class IterablesTest extends TestCase {
     List<String> list = new DiesOnIteratorArrayList();
     list.add("a");
     assertEquals("a", Iterables.get(list, 0, "b"));
+  }
+
+  public void testOptionalGet_list() {
+    testOptionalGetOnAbc(newArrayList("a", "b", "c"));
+  }
+
+  public void testOptionalGet_emptyList() {
+    testOptionalGetOnEmpty(Collections.<String>emptyList());
+  }
+
+  public void testOptionalGet_sortedSet() {
+    testOptionalGetOnAbc(ImmutableSortedSet.of("b", "c", "a"));
+  }
+
+  public void testOptionalGet_emptySortedSet() {
+    testOptionalGetOnEmpty(ImmutableSortedSet.<String>of());
+  }
+
+  public void testOptionalGet_iterable() {
+    testOptionalGetOnAbc(ImmutableSet.of("a", "b", "c"));
+  }
+
+  public void testOptionalGet_emptyIterable() {
+    testOptionalGetOnEmpty(Sets.<String>newHashSet());
+  }
+
+  public void testOptionalGet_nullValue() {
+    assertFalse(Iterables.optionalGet(Lists.newArrayList("a", null, "c"), 1).isPresent());
+  }
+
+  public void testOptionalGet_withDefault_negativePosition() {
+    try {
+      Iterables.optionalGet(newArrayList("a", "b", "c"), -1, "d");
+      fail();
+    } catch (IndexOutOfBoundsException expected) {
+      // pass
+    }
+  }
+
+  public void testOptionalGet_withDefault_simple() {
+    ArrayList<String> list = newArrayList("a", "b", "c");
+    assertEquals("b", Iterables.optionalGet(list, 1, "d").get());
+  }
+
+  public void testOptionalGet_withDefault_iterable() {
+    Set<String> set = ImmutableSet.of("a", "b", "c");
+    assertEquals("b", Iterables.optionalGet(set, 1, "d").get());
+  }
+
+  public void testOptionalGet_withDefault_last() {
+    ArrayList<String> list = newArrayList("a", "b", "c");
+    assertEquals("c", Iterables.optionalGet(list, 2, "d").get());
+  }
+
+  public void testOptionalGet_withDefault_lastPlusOne() {
+    ArrayList<String> list = newArrayList("a", "b", "c");
+    assertEquals("d", Iterables.optionalGet(list, 3, "d").get());
+  }
+
+  public void testOptionalGet_withDefault_doesntIterate() {
+    List<String> list = new DiesOnIteratorArrayList();
+    list.add("a");
+    assertEquals("a", Iterables.optionalGet(list, 0, "b").get());
+  }
+
+  public void testOptionalGet_withDefault_nullValue() {
+    assertFalse(Iterables.optionalGet(Lists.newArrayList("a", null, "c"), 1, "d").isPresent());
   }
 
   public void testGetFirst_withDefault_singleton() {
