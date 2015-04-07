@@ -935,22 +935,6 @@ public final class Iterables {
     };
   }
 
-  private static class ConsumingQueueIterator<T> extends AbstractIterator<T> {
-    private final Queue<T> queue;
-
-    private ConsumingQueueIterator(Queue<T> queue) {
-      this.queue = queue;
-    }
-
-    @Override public T computeNext() {
-      try {
-        return queue.remove();
-      } catch (NoSuchElementException e) {
-        return endOfData();
-      }
-    }
-  }
-
   // Methods only in Iterables, not in Iterators
 
   /**
