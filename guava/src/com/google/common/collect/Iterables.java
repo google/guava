@@ -38,6 +38,7 @@ import java.util.RandomAccess;
 import java.util.Set;
 
 import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -764,6 +765,39 @@ public final class Iterables {
       Iterators.advance(iterator, position);
       return Iterators.getNext(iterator, defaultValue);
     }
+  }
+
+  /**
+   * Returns an optional {@link Optional} of the element at the specified position in an iterable.
+   *
+   * @param position position of the element to return
+   * @return if the element at the specified position in {@code iterable} is non-null
+   * returns an optional of that element, else returns {@link Optional#absent}.
+   * @throws IndexOutOfBoundsException if {@code position} is negative or
+   *     greater than or equal to the size of {@code iterable}
+   */
+  @Nonnull
+  public static <T> Optional<T> optionalGet(Iterable<T> iterable, int position) {
+    return optionalGet(iterable, position, null);
+  }
+
+  /**
+   * Returns an optional {@link Optional} of the element at the specified position in an iterable or a default
+   * value otherwise.
+   *
+   * @param position position of the element to return
+   * @param defaultValue the default value to return if {@code position} is
+   *     greater than or equal to the size of the iterable
+   * @return an optional the element at the specified position in {@code iterable} or
+   *     {@code defaultValue} if {@code iterable} contains fewer than
+   *     {@code position + 1} elements;
+   *     In any case, if the value is null returns an {@link Optional#absent}.
+   * @throws IndexOutOfBoundsException if {@code position} is negative
+   * @since 4.0
+   */
+  @Nonnull
+  public static <T> Optional<T> optionalGet(Iterable<? extends T> iterable, int position, @Nullable T defaultValue) {
+    return Optional.fromNullable(get(iterable, position, defaultValue));
   }
 
   /**
