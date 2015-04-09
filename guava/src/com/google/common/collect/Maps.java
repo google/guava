@@ -77,7 +77,7 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  * @author Isaac Shum
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class Maps {

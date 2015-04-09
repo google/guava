@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
  * use of {@code Predicate}</a>.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @CheckReturnValue
 @GwtCompatible(emulated = true)

@@ -21,7 +21,7 @@ package com.google.common.base;
  *
  * @see FinalizableReferenceQueue
  * @author Bob Lee
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 public interface FinalizableReference {
   /**

@@ -91,7 +91,7 @@ import javax.annotation.Nullable;
  * Preconditions}</a>.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public final class Preconditions {

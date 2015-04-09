@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
  * @see ImmutableMap
  * @see ImmutableSet
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -615,7 +615,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * times to build multiple lists in series. Each new list contains all the
    * elements of the ones created before it.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public static final class Builder<E> extends ImmutableCollection.ArrayBasedBuilder<E> {
     /**

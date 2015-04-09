@@ -42,7 +42,7 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public abstract class ForwardingCollection<E> extends ForwardingObject

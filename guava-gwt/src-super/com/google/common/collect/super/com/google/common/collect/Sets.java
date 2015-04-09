@@ -55,7 +55,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Jared Levy
  * @author Chris Povirk
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class Sets {
@@ -488,7 +488,7 @@ public final class Sets {
    * as a plain {@link Set}, or immediately invoke {@link #immutableCopy} or
    * {@link #copyInto} and forget the {@code SetView} itself.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public abstract static class SetView<E> extends AbstractSet<E> {
     private SetView() {} // no subclasses but our own

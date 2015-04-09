@@ -29,7 +29,7 @@ import java.util.Iterator;
  * {@code Multiset}</a>.
  *
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMultiset<E> {

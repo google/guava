@@ -85,7 +85,7 @@ import javax.annotation.Nullable;
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public abstract class Ordering<T> implements Comparator<T> {

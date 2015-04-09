@@ -25,7 +25,7 @@ import java.util.HashMap;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 public final class HashMultiset<E> extends AbstractMapBasedMultiset<E> {

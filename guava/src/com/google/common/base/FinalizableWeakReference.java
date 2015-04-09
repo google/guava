@@ -25,7 +25,7 @@ import java.lang.ref.WeakReference;
  * ReferenceQueue}.
  *
  * @author Bob Lee
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 public abstract class FinalizableWeakReference<T> extends WeakReference<T>
     implements FinalizableReference {

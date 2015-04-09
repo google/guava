@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -154,7 +154,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * multiple times to build multiple maps in series. Each map is a superset of
    * the maps created before it.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public static class Builder<K, V> {
     ImmutableMapEntry<K, V>[] entries;

@@ -52,7 +52,7 @@ import javax.annotation.Nullable;
  *
  * @author Cliff L. Biffle
  * @author mike nonemacher
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> implements Serializable {
 

@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  * {@code Object} methods with {@code Objects}</a>.
  *
  * @author Laurence Gonsalves
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public final class Objects {

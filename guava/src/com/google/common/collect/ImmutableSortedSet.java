@@ -51,7 +51,7 @@ import javax.annotation.Nullable;
  *
  * @author Jared Levy
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library; implements {@code NavigableSet} since 12.0)
+ * @since 2.0 (implements {@code NavigableSet} since 12.0)
  */
 // TODO(benyu): benchmark and optimize all creation paths, which are a mess now
 @GwtCompatible(serializable = true, emulated = true)
@@ -446,7 +446,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * times to build multiple sets in series. Each set is a superset of the set
    * created before it.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public static final class Builder<E> extends ImmutableSet.Builder<E> {
     private final Comparator<? super E> comparator;

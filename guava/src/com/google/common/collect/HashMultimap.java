@@ -44,7 +44,7 @@ import java.util.Set;
  * Multimaps#synchronizedSetMultimap}.
  *
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 public final class HashMultimap<K, V> extends AbstractSetMultimap<K, V> {

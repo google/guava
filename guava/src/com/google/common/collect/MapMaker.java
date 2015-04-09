@@ -99,7 +99,7 @@ import javax.annotation.Nullable;
  * @author Bob Lee
  * @author Charles Fry
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class MapMaker extends GenericMapMaker<Object, Object> {

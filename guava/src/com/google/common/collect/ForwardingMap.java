@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Jared Levy
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public abstract class ForwardingMap<K, V> extends ForwardingObject

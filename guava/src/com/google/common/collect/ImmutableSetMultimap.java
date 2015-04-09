@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
  * immutable collections</a>.
  *
  * @author Mike Ward
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableSetMultimap<K, V>
@@ -165,7 +165,7 @@ public class ImmutableSetMultimap<K, V>
    * times to build multiple multimaps in series. Each multimap contains the
    * key-value mappings in the previously created multimaps.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public static final class Builder<K, V>
       extends ImmutableMultimap.Builder<K, V> {

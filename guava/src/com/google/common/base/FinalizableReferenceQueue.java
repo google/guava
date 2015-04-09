@@ -89,7 +89,7 @@ import javax.annotation.Nullable;
  * </pre>
  *
  * @author Bob Lee
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 public class FinalizableReferenceQueue implements Closeable {
   /*

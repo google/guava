@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
  *
  * @author Mike Bostock
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 @CheckReturnValue

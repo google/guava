@@ -146,7 +146,7 @@ import javax.annotation.Nullable;
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
  * immutable collections</a>.
  *
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization

@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentMap;
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * @author Charles Fry
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>

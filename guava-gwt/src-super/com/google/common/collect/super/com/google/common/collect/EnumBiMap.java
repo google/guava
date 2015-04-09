@@ -34,7 +34,7 @@ import java.util.Map;
  * {@code BiMap}</a>.
  *
  * @author Mike Bostock
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>>

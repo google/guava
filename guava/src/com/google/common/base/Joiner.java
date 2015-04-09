@@ -60,7 +60,7 @@ import javax.annotation.Nullable;
  * "http://code.google.com/p/guava-libraries/wiki/StringsExplained#Joiner">{@code Joiner}</a>. 
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public class Joiner {
@@ -300,7 +300,7 @@ public class Joiner {
    *     key1=[A, B]&key2=C}.
    * </ul>
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public static final class MapJoiner {
     private final Joiner joiner;

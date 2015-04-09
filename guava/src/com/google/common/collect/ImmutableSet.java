@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
  * A {@link Set} whose contents will never change, with many other important properties detailed at
  * {@link ImmutableCollection}.
  *
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -407,7 +407,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * times to build multiple sets in series. Each set is a superset of the set
    * created before it.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public static class Builder<E> extends ImmutableCollection.ArrayBasedBuilder<E> {
 

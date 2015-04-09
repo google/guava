@@ -34,7 +34,7 @@ import java.util.LinkedHashMap;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization

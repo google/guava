@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  * {@code BiMap}</a>.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public interface BiMap<K, V> extends Map<K, V> {

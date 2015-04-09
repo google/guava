@@ -27,7 +27,7 @@ import java.lang.ref.ReferenceQueue;
  * <p>Unlike a normal phantom reference, this reference will be cleared automatically.
  *
  * @author Bob Lee
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 public abstract class FinalizablePhantomReference<T> extends PhantomReference<T>
     implements FinalizableReference {

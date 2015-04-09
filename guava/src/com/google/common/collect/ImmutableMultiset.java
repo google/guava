@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
  *
  * @author Jared Levy
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -429,7 +429,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    * <p>Builder instances can be reused; it is safe to call {@link #build} multiple
    * times to build multiple multisets in series.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public static class Builder<E> extends ImmutableCollection.Builder<E> {
     final Multiset<E> contents;

@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  *
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public abstract class ForwardingMapEntry<K, V>

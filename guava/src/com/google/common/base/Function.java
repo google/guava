@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  * Function}</a>.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public interface Function<F, T> {

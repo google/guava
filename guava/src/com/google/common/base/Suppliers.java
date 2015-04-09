@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  *
  * @author Laurence Gonsalves
  * @author Harry Heymann
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @CheckReturnValue
 @GwtCompatible

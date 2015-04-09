@@ -83,7 +83,7 @@ import javax.annotation.Nullable;
  * {@code Multiset}</a>.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public interface Multiset<E> extends Collection<E> {
@@ -229,7 +229,7 @@ public interface Multiset<E> extends Collection<E> {
    * snapshots. Note that this type is unrelated to the similarly-named type
    * {@code Map.Entry}.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   interface Entry<E> {
 

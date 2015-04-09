@@ -48,7 +48,7 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  * @author Mike Bostock
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V> 

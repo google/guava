@@ -31,7 +31,7 @@ import java.util.Map;
  * {@code ClassToInstanceMap}</a>.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 public final class MutableClassToInstanceMap<B>
     extends ConstrainedMap<Class<? extends B>, B>

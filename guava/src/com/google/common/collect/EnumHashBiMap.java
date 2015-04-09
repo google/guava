@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
  * {@code BiMap}</a>.
  *
  * @author Mike Bostock
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class EnumHashBiMap<K extends Enum<K>, V>

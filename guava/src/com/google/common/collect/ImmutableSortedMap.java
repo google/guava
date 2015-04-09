@@ -49,8 +49,7 @@ import javax.annotation.Nullable;
  *
  * @author Jared Levy
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library; implements {@code
- *        NavigableMap} since 12.0)
+ * @since 2.0 (implements {@code NavigableMap} since 12.0)
  */
 @GwtCompatible(serializable = true, emulated = true)
 public final class ImmutableSortedMap<K, V>
@@ -401,7 +400,7 @@ public final class ImmutableSortedMap<K, V>
    * multiple times to build multiple maps in series. Each map is a superset of
    * the maps created before it.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public static class Builder<K, V> extends ImmutableMap.Builder<K, V> {
     private final Comparator<? super K> comparator;

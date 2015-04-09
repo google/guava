@@ -27,7 +27,7 @@ import java.util.Iterator;
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public abstract class ForwardingIterator<T>

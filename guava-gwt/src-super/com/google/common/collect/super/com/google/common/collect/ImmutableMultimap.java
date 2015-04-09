@@ -60,7 +60,7 @@ import javax.annotation.Nullable;
  * immutable collections</a>.
  *
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
@@ -156,7 +156,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    * times to build multiple multimaps in series. Each multimap contains the
    * key-value mappings in the previously created multimaps.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public static class Builder<K, V> {
     Multimap<K, V> builderMultimap = new BuilderMultimap<K, V>();

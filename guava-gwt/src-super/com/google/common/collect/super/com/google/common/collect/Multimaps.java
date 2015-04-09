@@ -56,7 +56,7 @@ import javax.annotation.Nullable;
  * @author Robert Konigsberg
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class Multimaps {

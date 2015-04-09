@@ -56,7 +56,7 @@ import java.util.List;
  * {@code Multimap}</a>.
  *
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {

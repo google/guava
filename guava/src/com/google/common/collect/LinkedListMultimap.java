@@ -96,7 +96,7 @@ import javax.annotation.Nullable;
  * {@code Multimap}</a>.
  *
  * @author Mike Bostock
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>

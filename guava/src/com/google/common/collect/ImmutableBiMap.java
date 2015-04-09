@@ -26,7 +26,7 @@ import java.util.Map;
  * at {@link ImmutableCollection}.
  *
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
@@ -117,7 +117,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    * multiple times to build multiple bimaps in series. Each bimap is a superset
    * of the bimaps created before it.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public static final class Builder<K, V> extends ImmutableMap.Builder<K, V> {
 

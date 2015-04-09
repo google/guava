@@ -29,7 +29,7 @@ import java.util.NoSuchElementException;
  * {@code PeekingIterator}</a>.
  *
  * @author Mick Killianey
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public interface PeekingIterator<E> extends Iterator<E> {
