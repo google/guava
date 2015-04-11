@@ -17,11 +17,9 @@
 package com.google.common.reflect;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.Collections.list;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Closer;
 import com.google.common.io.Resources;
 import com.google.common.reflect.ClassPath.ClassInfo;
@@ -42,7 +40,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
@@ -52,29 +49,21 @@ import java.util.zip.ZipEntry;
  * Functional tests of {@link ClassPath}.
  */
 public class ClassPathTest extends TestCase {
-  private static final ImmutableSet<URL> TEST_URLS;
-  static {
-    try {
-      TEST_URLS = ImmutableSet.of(new URL("file://foo/bar/baz.txt"));
-    } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
-    }
-  }
 
-  public void testEquals() throws IOException {
+  public void testEquals() {
     new EqualsTester()
         .addEqualityGroup(classInfo(ClassPathTest.class), classInfo(ClassPathTest.class))
         .addEqualityGroup(classInfo(Test.class), classInfo(Test.class, getClass().getClassLoader()))
         .addEqualityGroup(
-            new ResourceInfo("a/b/c.txt", TEST_URLS, getClass().getClassLoader()),
-            new ResourceInfo("a/b/c.txt", TEST_URLS, getClass().getClassLoader()))
+            new ResourceInfo("a/b/c.txt", getClass().getClassLoader()),
+            new ResourceInfo("a/b/c.txt", getClass().getClassLoader()))
         .addEqualityGroup(
-            new ResourceInfo("x.txt", TEST_URLS, getClass().getClassLoader()))
+            new ResourceInfo("x.txt", getClass().getClassLoader()))
         .testEquals();
   }
 
   public void testClassPathEntries_emptyURLClassLoader_noParent() {
-    assertThat(ClassPath.getClassPathEntries(new URLClassLoader(new URL[0], null)).keySet())
+    assertThat(ClassPath.Scanner.getClassPathEntries(new URLClassLoader(new URL[0], null)).keySet())
         .isEmpty();
   }
 
@@ -84,7 +73,7 @@ public class ClassPathTest extends TestCase {
     URLClassLoader classloader = new URLClassLoader(new URL[] {url1, url2}, null);
     assertEquals(
         ImmutableMap.of(new File("/a"), classloader, new File("/b"), classloader),
-        ClassPath.getClassPathEntries(classloader));
+        ClassPath.Scanner.getClassPathEntries(classloader));
   }
 
   public void testClassPathEntries_URLClassLoader_withParent() throws Exception {
@@ -92,7 +81,7 @@ public class ClassPathTest extends TestCase {
     URL url2 = new URL("file:/b");
     URLClassLoader parent = new URLClassLoader(new URL[] {url1}, null);
     URLClassLoader child = new URLClassLoader(new URL[] {url2}, parent) {};
-    ImmutableMap<File, ClassLoader> classPathEntries = ClassPath.getClassPathEntries(child);
+    ImmutableMap<File, ClassLoader> classPathEntries = ClassPath.Scanner.getClassPathEntries(child);
     assertEquals(ImmutableMap.of(new File("/a"), parent, new File("/b"), child),  classPathEntries);
     assertThat(classPathEntries.keySet()).containsExactly(new File("/a"), new File("/b")).inOrder();
   }
@@ -101,11 +90,12 @@ public class ClassPathTest extends TestCase {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
     URLClassLoader child = new URLClassLoader(new URL[] {url}, parent) {};
-    assertEquals(ImmutableMap.of(new File("/a"), parent), ClassPath.getClassPathEntries(child));
+    assertEquals(ImmutableMap.of(new File("/a"), parent),
+        ClassPath.Scanner.getClassPathEntries(child));
   }
 
   public void testClassPathEntries_notURLClassLoader_noParent() {
-    assertThat(ClassPath.getClassPathEntries(new ClassLoader(null) {}).keySet()).isEmpty();
+    assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(null) {}).keySet()).isEmpty();
   }
 
   public void testClassPathEntries_notURLClassLoader_withParent() throws Exception {
@@ -113,7 +103,7 @@ public class ClassPathTest extends TestCase {
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
     assertEquals(
         ImmutableMap.of(new File("/a"), parent),
-        ClassPath.getClassPathEntries(new ClassLoader(parent) {}));
+        ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
   public void testClassPathEntries_notURLClassLoader_withParentAndGrandParent() throws Exception {
@@ -123,7 +113,7 @@ public class ClassPathTest extends TestCase {
     URLClassLoader parent = new URLClassLoader(new URL[] {url2}, grandParent);
     assertEquals(
         ImmutableMap.of(new File("/a"), grandParent, new File("/b"), parent),
-        ClassPath.getClassPathEntries(new ClassLoader(parent) {}));
+        ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
   public void testClassPathEntries_notURLClassLoader_withGrandParent() throws Exception {
@@ -132,14 +122,14 @@ public class ClassPathTest extends TestCase {
     ClassLoader parent = new ClassLoader(grandParent) {};
     assertEquals(
         ImmutableMap.of(new File("/a"), grandParent),
-        ClassPath.getClassPathEntries(new ClassLoader(parent) {}));
+        ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
   public void testScan_classPathCycle() throws IOException {
     File jarFile = File.createTempFile("with_circular_class_path", ".jar");
     try {
       writeSelfReferencingJarFile(jarFile, "test.txt");
-      ClassPath.Scanner scanner = new ClassPath.Scanner();
+      ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
       scanner.scan(jarFile, ClassPathTest.class.getClassLoader());
       assertEquals(1, scanner.getResources().size());
     } finally {
@@ -149,17 +139,17 @@ public class ClassPathTest extends TestCase {
 
   public void testScanFromFile_fileNotExists() throws IOException {
     ClassLoader classLoader = ClassPathTest.class.getClassLoader();
-    ClassPath.Scanner scanner = new ClassPath.Scanner();
-    scanner.scanFrom(new File("no/such/file/anywhere"), classLoader);
+    ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
+    scanner.scan(new File("no/such/file/anywhere"), classLoader);
     assertThat(scanner.getResources()).isEmpty();
   }
 
   public void testScanFromFile_notJarFile() throws IOException {
     ClassLoader classLoader = ClassPathTest.class.getClassLoader();
     File notJar = File.createTempFile("not_a_jar", "txt");
-    ClassPath.Scanner scanner = new ClassPath.Scanner();
+    ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
     try {
-      scanner.scanFrom(notJar, classLoader);
+      scanner.scan(notJar, classLoader);
     } finally {
       notJar.delete();
     }
@@ -279,7 +269,7 @@ public class ClassPathTest extends TestCase {
     assertEquals("abc.d.Abc", ClassPath.getClassName("abc/d/Abc.class"));
   }
 
-  public void testResourceInfo_of() throws IOException {
+  public void testResourceInfo_of() {
     assertEquals(ClassInfo.class, resourceInfo(ClassPathTest.class).getClass());
     assertEquals(ClassInfo.class, resourceInfo(ClassPath.class).getClass());
     assertEquals(ClassInfo.class, resourceInfo(Nested.class).getClass());
@@ -288,52 +278,29 @@ public class ClassPathTest extends TestCase {
   public void testGetSimpleName() {
     ClassLoader classLoader = getClass().getClassLoader();
     assertEquals("Foo",
-        new ClassInfo("Foo.class", TEST_URLS, classLoader).getSimpleName());
+        new ClassInfo("Foo.class", classLoader).getSimpleName());
     assertEquals("Foo",
-        new ClassInfo("a/b/Foo.class", TEST_URLS, classLoader).getSimpleName());
+        new ClassInfo("a/b/Foo.class", classLoader).getSimpleName());
     assertEquals("Foo",
-        new ClassInfo("a/b/Bar$Foo.class", TEST_URLS, classLoader).getSimpleName());
+        new ClassInfo("a/b/Bar$Foo.class", classLoader).getSimpleName());
     assertEquals("",
-        new ClassInfo("a/b/Bar$1.class", TEST_URLS, classLoader).getSimpleName());
+        new ClassInfo("a/b/Bar$1.class", classLoader).getSimpleName());
     assertEquals("Foo",
-        new ClassInfo("a/b/Bar$Foo.class", TEST_URLS, classLoader).getSimpleName());
+        new ClassInfo("a/b/Bar$Foo.class", classLoader).getSimpleName());
     assertEquals("",
-        new ClassInfo("a/b/Bar$1.class", TEST_URLS, classLoader).getSimpleName());
+        new ClassInfo("a/b/Bar$1.class", classLoader).getSimpleName());
     assertEquals("Local",
-        new ClassInfo("a/b/Bar$1Local.class", TEST_URLS, classLoader).getSimpleName());
+        new ClassInfo("a/b/Bar$1Local.class", classLoader).getSimpleName());
   }
 
   public void testGetPackageName() {
     assertEquals("",
-        new ClassInfo("Foo.class", TEST_URLS, getClass().getClassLoader()).getPackageName());
+        new ClassInfo("Foo.class", getClass().getClassLoader()).getPackageName());
     assertEquals("a.b",
-        new ClassInfo("a/b/Foo.class", TEST_URLS, getClass().getClassLoader()).getPackageName());
+        new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getPackageName());
   }
 
   // Test that ResourceInfo.urls() returns identical content to ClassLoader.getResources()
-
-  public void testUrls() throws IOException {
-    ClassLoader loader = ClassLoader.getSystemClassLoader();
-    for (ResourceInfo resource : ClassPath.from(loader).getResources()) {
-      String resourceName = resource.getResourceName();
-      assertTrue(
-          resourceName + " has different content when loaded by resource.url()",
-          contentEquals(resource.url(), loader.getResource(resourceName)));
-      List<URL> urlsFromLoader = list(loader.getResources(resourceName));
-      List<URL> urlsFromClassPath = resource.urls();
-      if (urlsFromLoader.size() != urlsFromClassPath.size()) {
-        fail(String.format(
-            "Number of URLs from system classloader (%s) and number of URLs from ClassPath (%s) "
-                + "do not match for resource %s",
-            urlsFromLoader.size(), urlsFromClassPath.size(), resourceName));
-      }
-      for (int i = 0; i < urlsFromClassPath.size(); i++) {
-        assertTrue(
-            resourceName + " #" + i + "has different content when loaded by resource.url()",
-            contentEquals(urlsFromLoader.get(i), urlsFromClassPath.get(i)));
-      }
-    }
-  }
 
   private static boolean contentEquals(URL left, URL right) throws IOException {
     return Resources.asByteSource(left).contentEquals(Resources.asByteSource(right));
@@ -357,19 +324,19 @@ public class ClassPathTest extends TestCase {
     throw new AssertionError("failed to find " + cls);
   }
 
-  private static ResourceInfo resourceInfo(Class<?> cls) throws IOException {
+  private static ResourceInfo resourceInfo(Class<?> cls) {
     String resource = cls.getName().replace('.', '/') + ".class";
     ClassLoader loader = cls.getClassLoader();
-    return ResourceInfo.of(resource, list(loader.getResources(resource)), loader);
+    return ResourceInfo.of(resource, loader);
   }
 
-  private static ClassInfo classInfo(Class<?> cls) throws IOException {
+  private static ClassInfo classInfo(Class<?> cls) {
     return classInfo(cls, cls.getClassLoader());
   }
 
-  private static ClassInfo classInfo(Class<?> cls, ClassLoader classLoader) throws IOException {
+  private static ClassInfo classInfo(Class<?> cls, ClassLoader classLoader) {
     String resource = cls.getName().replace('.', '/') + ".class";
-    return new ClassInfo(resource, list(classLoader.getResources(resource)), classLoader);
+    return new ClassInfo(resource, classLoader);
   }
 
   private static Manifest manifestClasspath(String classpath) throws IOException {
