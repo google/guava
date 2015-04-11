@@ -373,6 +373,9 @@ public final class Maps {
    * snapshot of the state of the maps at the time this method is called. It
    * will never change, even if the maps change at a later time.
    *
+   * <p>In the case of equality, the value on the 'left' is returned in the
+   * difference as having been on both maps.
+   *
    * <p>Since this method uses {@code HashMap} instances internally, the keys of
    * the supplied maps must be well-behaved with respect to
    * {@link Object#equals} and {@link Object#hashCode}.
@@ -400,8 +403,9 @@ public final class Maps {
    * snapshot of the state of the maps at the time this method is called. It
    * will never change, even if the maps change at a later time.
    *
-   * <p>Values are compared using a provided equivalence, in the case of
-   * equality, the value on the 'left' is returned in the difference.
+   * <p>Values are compared using a provided equivalence.
+   * In the case of equality, the value on the 'left' is returned in the
+   * difference as having been on both maps.
    *
    * <p>Since this method uses {@code HashMap} instances internally, the keys of
    * the supplied maps must be well-behaved with respect to
