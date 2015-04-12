@@ -311,8 +311,7 @@ public final class ClassPath {
       }
     }
 
-    private void scanFrom(File file, ClassLoader classloader)
-        throws IOException {
+    private void scanFrom(File file, ClassLoader classloader) throws IOException {
       if (!file.exists()) {
         return;
       }
