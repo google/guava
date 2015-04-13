@@ -300,10 +300,12 @@ public final class ClassPath {
     }
 
     /** Called when a resource file is scanned. */
-    protected abstract void onResourceFile(ClassLoader loader, String packagePath, File f);
+    protected abstract void onResourceFile(ClassLoader loader, String packagePath, File f)
+        throws IOException;
 
     /** Called when a resource entry in a jar file is scanned. */
-    protected abstract void onJarEntry(ClassLoader loader, File file, JarEntry entry);
+    protected abstract void onJarEntry(ClassLoader loader, JarFile file, JarEntry entry)
+        throws IOException;
 
     @VisibleForTesting final void scan(File file, ClassLoader classloader) throws IOException {
       if (scannedUris.add(file.getCanonicalFile())) {
@@ -362,7 +364,7 @@ public final class ClassPath {
           if (entry.isDirectory() || entry.getName().equals(JarFile.MANIFEST_NAME)) {
             continue;
           }
-          onJarEntry(classloader, file, entry);
+          onJarEntry(classloader, jarFile, entry);
         }
       } finally {
         try {
@@ -458,7 +460,7 @@ public final class ClassPath {
       }
     }
 
-    @Override protected void onJarEntry(ClassLoader classloader, File file, JarEntry entry) {
+    @Override protected void onJarEntry(ClassLoader classloader, JarFile file, JarEntry entry) {
       String resourceName = entry.getName();
       resources.get(classloader).add(resourceName);
     }
