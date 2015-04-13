@@ -208,14 +208,14 @@ abstract class SmoothRateLimiter extends RateLimiter {
     private double slope;
     private double thresholdPermits;
     private double coldFactor;
-  
+
     SmoothWarmingUp(
         SleepingStopwatch stopwatch, long warmupPeriod, TimeUnit timeUnit, double coldFactor) {
       super(stopwatch);
       this.warmupPeriodMicros = timeUnit.toMicros(warmupPeriod);
       this.coldFactor = coldFactor;
     }
-  
+
     @Override
     void doSetRate(double permitsPerSecond, double stableIntervalMicros) {
       double oldMaxPermits = maxPermits;
@@ -233,7 +233,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
             : storedPermits * maxPermits / oldMaxPermits;
       }
     }
-  
+
     @Override
     long storedPermitsToWaitTime(double storedPermits, double permitsToTake) {
       double availablePermitsAboveThreshold = storedPermits - thresholdPermits;
@@ -250,7 +250,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
       micros += (stableIntervalMicros * permitsToTake);
       return micros;
     }
-  
+
     private double permitsToTime(double permits) {
       return stableIntervalMicros + permits * slope;
     }
@@ -265,17 +265,17 @@ abstract class SmoothRateLimiter extends RateLimiter {
    * This implements a "bursty" RateLimiter, where storedPermits are translated to
    * zero throttling. The maximum number of permits that can be saved (when the RateLimiter is
    * unused) is defined in terms of time, in this sense: if a RateLimiter is 2qps, and this
-   * time is specified as 10 seconds, we can save up to 2 * 10 = 20 permits. 
+   * time is specified as 10 seconds, we can save up to 2 * 10 = 20 permits.
    */
   static final class SmoothBursty extends SmoothRateLimiter {
     /** The work (permits) of how many seconds can be saved up if this RateLimiter is unused? */
-    final double maxBurstSeconds; 
-    
+    final double maxBurstSeconds;
+
     SmoothBursty(SleepingStopwatch stopwatch, double maxBurstSeconds) {
       super(stopwatch);
       this.maxBurstSeconds = maxBurstSeconds;
     }
-  
+
     @Override
     void doSetRate(double permitsPerSecond, double stableIntervalMicros) {
       double oldMaxPermits = this.maxPermits;
@@ -289,7 +289,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
             : storedPermits * maxPermits / oldMaxPermits;
       }
     }
-  
+
     @Override
     long storedPermitsToWaitTime(double storedPermits, double permitsToTake) {
       return 0L;
@@ -381,7 +381,10 @@ abstract class SmoothRateLimiter extends RateLimiter {
    */
   abstract double coolDownIntervalMicros();
 
-  private void resync(long nowMicros) {
+  /**
+   * Updates {@code storedPermits} and {@code nextFreeTicketMicros} based on the current time.
+   */
+  void resync(long nowMicros) {
     // if nextFreeTicket is in the past, resync to now
     if (nowMicros > nextFreeTicketMicros) {
       storedPermits = min(maxPermits,
