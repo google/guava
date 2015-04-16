@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Closer;
+import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import com.google.common.reflect.ClassPath.ClassInfo;
 import com.google.common.reflect.ClassPath.ResourceInfo;
@@ -37,10 +38,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.jar.Attributes;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
@@ -314,6 +321,12 @@ public class ClassPathTest extends TestCase {
         .testAllPublicInstanceMethods(ClassPath.from(getClass().getClassLoader()));
   }
 
+  public void testResourceScanner() throws IOException {
+    ResourceScanner scanner = new ResourceScanner();
+    scanner.scan(ClassLoader.getSystemClassLoader());
+    assertThat(scanner.resources).contains("com/google/common/reflect/ClassPathTest.class");
+  }
+
   private static ClassPath.ClassInfo findClass(
       Iterable<ClassPath.ClassInfo> classes, Class<?> cls) {
     for (ClassPath.ClassInfo classInfo : classes) {
@@ -375,5 +388,24 @@ public class ClassPathTest extends TestCase {
 
   private static File fullpath(String path) {
     return new File(new File(path).toURI());
+  }
+
+  private static class ResourceScanner extends ClassPath.Scanner {
+    final Set<String> resources = new HashSet<String>();
+
+    @Override protected void scanDirectory(ClassLoader loader, File root) throws IOException {
+      URI base = root.toURI();
+      for (File entry : Files.fileTreeTraverser().preOrderTraversal(root)) {
+        String resourceName = new File(base.relativize(entry.toURI()).getPath()).getPath();
+        resources.add(resourceName);
+      }
+    }
+
+    @Override protected void scanJarFile(ClassLoader loader, JarFile file) throws IOException {
+      Enumeration<JarEntry> entries = file.entries();
+      while (entries.hasMoreElements()) {
+        resources.add(entries.nextElement().getName());
+      }
+    }
   }
 }

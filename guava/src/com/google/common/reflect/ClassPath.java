@@ -285,7 +285,8 @@ public final class ClassPath {
 
   /**
    * Abstract class that scans through the class path represented by a {@link ClassLoader} and calls
-   * {@link #onResourceFile} and {@link #onJarEntry} for each resource found on the class path.
+   * {@link #scanDirectory} and {@link #scanJarFile} for directories and jar files on the class path
+   * respectively.
    */
   abstract static class Scanner {
 
@@ -299,13 +300,12 @@ public final class ClassPath {
       }
     }
 
-    /** Called when a resource file is scanned. */
-    protected abstract void onResourceFile(ClassLoader loader, String packagePath, File f)
+    /** Called when a directory is scanned for resource files. */
+    protected abstract void scanDirectory(ClassLoader loader, File directory)
         throws IOException;
 
-    /** Called when a resource entry in a jar file is scanned. */
-    protected abstract void onJarEntry(ClassLoader loader, JarFile file, JarEntry entry)
-        throws IOException;
+    /** Called when a jar file is scanned for resource entries. */
+    protected abstract void scanJarFile(ClassLoader loader, JarFile file) throws IOException;
 
     @VisibleForTesting final void scan(File file, ClassLoader classloader) throws IOException {
       if (scannedUris.add(file.getCanonicalFile())) {
@@ -318,31 +318,9 @@ public final class ClassPath {
         return;
       }
       if (file.isDirectory()) {
-        scanDirectory(file, classloader);
+        scanDirectory(classloader, file);
       } else {
         scanJar(file, classloader);
-      }
-    }
-
-    private void scanDirectory(File directory, ClassLoader classloader) throws IOException {
-      scanDirectory(directory, classloader, "");
-    }
-
-    private void scanDirectory(
-        File directory, ClassLoader classloader, String packagePrefix) throws IOException {
-      File[] files = directory.listFiles();
-      if (files == null) {
-        logger.warning("Cannot read directory " + directory);
-        // IO error, just skip the directory
-        return;
-      }
-      for (File f : files) {
-        String name = f.getName();
-        if (f.isDirectory()) {
-          scanDirectory(f, classloader, packagePrefix + name + "/");
-        } else {
-          onResourceFile(classloader, packagePrefix, f);
-        }
       }
     }
 
@@ -358,14 +336,7 @@ public final class ClassPath {
         for (File path : getClassPathFromManifest(file, jarFile.getManifest())) {
           scan(path, classloader);
         }
-        Enumeration<JarEntry> entries = jarFile.entries();
-        while (entries.hasMoreElements()) {
-          JarEntry entry = entries.nextElement();
-          if (entry.isDirectory() || entry.getName().equals(JarFile.MANIFEST_NAME)) {
-            continue;
-          }
-          onJarEntry(classloader, jarFile, entry);
-        }
+        scanJarFile(classloader, jarFile);
       } finally {
         try {
           jarFile.close();
@@ -452,17 +423,41 @@ public final class ClassPath {
       return builder.build();
     }
 
-    @Override protected void onResourceFile(
-        ClassLoader classloader, String packagePath, File file) {
-      String resourceName = packagePath + file.getName();
-      if (!resourceName.equals(JarFile.MANIFEST_NAME)) {
-        resources.get(classloader).add(resourceName);
+    @Override protected void scanJarFile(ClassLoader classloader, JarFile file) {
+      Enumeration<JarEntry> entries = file.entries();
+      while (entries.hasMoreElements()) {
+        JarEntry entry = entries.nextElement();
+        if (entry.isDirectory() || entry.getName().equals(JarFile.MANIFEST_NAME)) {
+          continue;
+        }
+        resources.get(classloader).add(entry.getName());
       }
     }
 
-    @Override protected void onJarEntry(ClassLoader classloader, JarFile file, JarEntry entry) {
-      String resourceName = entry.getName();
-      resources.get(classloader).add(resourceName);
+    @Override protected void scanDirectory(ClassLoader classloader, File directory)
+        throws IOException {
+      scanDirectory(directory, classloader, "");
+    }
+
+    private void scanDirectory(
+        File directory, ClassLoader classloader, String packagePrefix) throws IOException {
+      File[] files = directory.listFiles();
+      if (files == null) {
+        logger.warning("Cannot read directory " + directory);
+        // IO error, just skip the directory
+        return;
+      }
+      for (File f : files) {
+        String name = f.getName();
+        if (f.isDirectory()) {
+          scanDirectory(f, classloader, packagePrefix + name + "/");
+        } else {
+          String resourceName = packagePrefix + name;
+          if (!resourceName.equals(JarFile.MANIFEST_NAME)) {
+            resources.get(classloader).add(resourceName);
+          }
+        }
+      }
     }
   }
 
