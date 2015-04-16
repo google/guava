@@ -8,7 +8,6 @@
   <inherits name="com.google.common.math.Math"/>
   <inherits name="com.google.common.testing.Testing"/>
   <inherits name="com.google.common.truth.Truth"/>
-  <inherits name="third_party.java_src.gwt.svn.trunk.user.Gwt-testing"/>
   <entry-point class="com.google.common.math.TestModuleEntryPoint"/>
    
   <source path=""/>
