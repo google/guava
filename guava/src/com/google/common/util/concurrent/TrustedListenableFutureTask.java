@@ -64,14 +64,14 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     return new TrustedListenableFutureTask<V>(Executors.callable(runnable, result));
   }
 
-  private TrutestedFutureInterruptibleTask task;
+  private TrustedFutureInterruptibleTask task;
 
   TrustedListenableFutureTask(Callable<V> callable) {
-    this.task = new TrutestedFutureInterruptibleTask(callable);
+    this.task = new TrustedFutureInterruptibleTask(callable);
   }
 
   @Override public void run() {
-    TrutestedFutureInterruptibleTask localTask = task;
+    TrustedFutureInterruptibleTask localTask = task;
     if (localTask != null) {
       localTask.run();
     }
@@ -86,7 +86,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
 
   @GwtIncompatible("Interruption not supported")
   @Override protected final void interruptTask() {
-    TrutestedFutureInterruptibleTask localTask = task;
+    TrustedFutureInterruptibleTask localTask = task;
     if (localTask != null) {
       localTask.interruptTask();
     }
@@ -102,10 +102,10 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     set(localTask.call());
   }
 
-  final class TrutestedFutureInterruptibleTask extends InterruptibleTask {
+  private final class TrustedFutureInterruptibleTask extends InterruptibleTask {
     private final Callable<V> callable;
 
-    TrutestedFutureInterruptibleTask(Callable<V> callable) {
+    TrustedFutureInterruptibleTask(Callable<V> callable) {
       this.callable = checkNotNull(callable);
     }
 
