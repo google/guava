@@ -79,7 +79,7 @@ final class Absent<T> extends Optional<T> {
   }
 
   @Override public int hashCode() {
-    return 0x598df91c;
+    return 0x79a31aac;
   }
 
   @Override public String toString() {

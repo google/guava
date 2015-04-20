@@ -202,6 +202,8 @@ public final class OptionalTest extends TestCase {
   public void testEqualsAndHashCode_absent() {
     assertEquals(Optional.<String>absent(), Optional.<Integer>absent());
     assertEquals(Optional.absent().hashCode(), Optional.absent().hashCode());
+    assertThat(Optional.absent().hashCode())
+        .isNotEqualTo(Optional.of(0).hashCode());
   }
 
   public void testEqualsAndHashCode_present() {
