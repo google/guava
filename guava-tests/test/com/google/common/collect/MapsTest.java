@@ -126,29 +126,50 @@ public class MapsTest extends TestCase {
     assertTrue(bucketsOf(Maps.newHashMapWithExpectedSize(0)) <= 1);
 
     for (int size = 1; size < 200; size++) {
-      HashMap<Integer, Void> map1 = Maps.newHashMapWithExpectedSize(size);
-
-      // Only start measuring table size after the first element inserted, to
-      // deal with empty-map optimization.
-      map1.put(0, null);
-
-      int initialBuckets = bucketsOf(map1);
-
-      for (int i = 1; i < size; i++) {
-        map1.put(i, null);
-      }
-      assertEquals("table size after adding " + size + " elements",
-          initialBuckets, bucketsOf(map1));
-
-      /*
-       * Something slightly different happens when the entries are added all at
-       * once; make sure that passes too.
-       */
-      HashMap<Integer, Void> map2 = Maps.newHashMapWithExpectedSize(size);
-      map2.putAll(map1);
-      assertEquals("table size after adding " + size + " elements: ",
-          initialBuckets, bucketsOf(map2));
+      assertWontGrow(size,
+          Maps.newHashMapWithExpectedSize(size),
+          Maps.newHashMapWithExpectedSize(size));
     }
+  }
+
+  /**
+   * Same test as above but for newLinkedHashMapWithExpectedSize
+   */
+  @GwtIncompatible("reflection")
+  public void testNewLinkedHashMapWithExpectedSize_wontGrow() throws Exception {
+    assertTrue(bucketsOf(Maps.newLinkedHashMapWithExpectedSize(0)) <= 1);
+
+    for (int size = 1; size < 200; size++) {
+      assertWontGrow(size,
+          Maps.newLinkedHashMapWithExpectedSize(size),
+          Maps.newLinkedHashMapWithExpectedSize(size));
+    }
+  }
+
+  @GwtIncompatible("reflection")
+  private static void assertWontGrow(
+      int size, HashMap<Object, Object> map1, HashMap<Object, Object> map2) throws Exception {
+    // Only start measuring table size after the first element inserted, to
+    // deal with empty-map optimization.
+    map1.put(0, null);
+
+    int initialBuckets = bucketsOf(map1);
+
+    for (int i = 1; i < size; i++) {
+      map1.put(i, null);
+    }
+    assertThat(bucketsOf(map1))
+        .named("table size after adding " + size + " elements")
+        .isEqualTo(initialBuckets);
+
+    /*
+     * Something slightly different happens when the entries are added all at
+     * once; make sure that passes too.
+     */
+    map2.putAll(map1);
+    assertThat(bucketsOf(map1))
+        .named("table size after adding " + size + " elements")
+        .isEqualTo(initialBuckets);
   }
 
   @GwtIncompatible("reflection")
