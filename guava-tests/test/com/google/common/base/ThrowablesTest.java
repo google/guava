@@ -531,7 +531,7 @@ public class ThrowablesTest extends TestCase {
     Exception e = new Exception();
     StackTraceElement[] originalStackTrace = e.getStackTrace();
 
-    assertThat(lazyStackTrace(e)).containsExactly(originalStackTrace).inOrder();
+    assertThat(lazyStackTrace(e)).containsExactly((Object[]) originalStackTrace).inOrder();
 
     try {
       lazyStackTrace(e).set(0, null);
@@ -540,7 +540,7 @@ public class ThrowablesTest extends TestCase {
     }
 
     e.setStackTrace(new StackTraceElement[0]);
-    assertThat(lazyStackTrace(e)).containsExactly(originalStackTrace).inOrder();
+    assertThat(lazyStackTrace(e)).containsExactly((Object[]) originalStackTrace).inOrder();
   }
 
   private void doTestLazyStackTraceFallback() {
@@ -548,7 +548,7 @@ public class ThrowablesTest extends TestCase {
 
     Exception e = new Exception();
 
-    assertThat(lazyStackTrace(e)).containsExactly(e.getStackTrace()).inOrder();
+    assertThat(lazyStackTrace(e)).containsExactly((Object[]) e.getStackTrace()).inOrder();
 
     try {
       lazyStackTrace(e).set(0, null);
