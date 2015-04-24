@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Maps.newLinkedHashMapWithExpectedSize;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -130,7 +131,7 @@ public abstract class MultimapBuilder<K0, V0> {
     return new MultimapBuilderWithKeys<Object>() {
       @Override
       <K, V> Map<K, Collection<V>> createMap() {
-        return new LinkedHashMap<K, Collection<V>>(expectedKeys);
+        return newLinkedHashMapWithExpectedSize(expectedKeys);
       }
     };
   }

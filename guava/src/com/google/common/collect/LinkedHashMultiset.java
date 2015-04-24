@@ -84,8 +84,7 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
   }
 
   private LinkedHashMultiset(int distinctElements) {
-    // Could use newLinkedHashMapWithExpectedSize() if it existed
-    super(new LinkedHashMap<E, Count>(Maps.capacity(distinctElements)));
+    super(Maps.<E, Count>newLinkedHashMapWithExpectedSize(distinctElements));
   }
 
   /**
