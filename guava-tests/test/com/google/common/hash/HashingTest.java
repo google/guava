@@ -16,9 +16,9 @@
 
 package com.google.common.hash;
 
+import static com.google.common.base.Charsets.UTF_8;
 import static java.util.Arrays.asList;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Lists;
@@ -487,12 +487,13 @@ public class HashingTest extends TestCase {
       assertEquals(
           String.format(Locale.ROOT, "Known hash for hash(%s, UTF_8) failed", input),
           expected,
-          func.hashString(input, Charsets.UTF_8).toString());
+          func.hashString(input, UTF_8).toString());
     }
   }
 
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester()
+        .setDefault(byte[].class, "secret key".getBytes(UTF_8))
         .setDefault(HashCode.class, HashCode.fromLong(0));
     tester.testAllPublicStaticMethods(Hashing.class);
   }
@@ -562,7 +563,8 @@ public class HashingTest extends TestCase {
           && Modifier.isPublic(method.getModifiers()) // only the public methods
           && method.getParameterTypes().length != 0 // only the seeded hash functions
           && !method.getName().equals("concatenating") // don't test Hashing.concatenating()
-          && !method.getName().equals("goodFastHash")) { // tested in testGoodFastHashEquals
+          && !method.getName().equals("goodFastHash") // tested in testGoodFastHashEquals
+          && !method.getName().startsWith("hmac")) { // skip hmac functions
         Object[] params1 = new Object[method.getParameterTypes().length];
         Object[] params2 = new Object[method.getParameterTypes().length];
         for (int i = 0; i < params1.length; i++) {
