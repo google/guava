@@ -65,6 +65,12 @@
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <redirectTestOutputToFile>true</redirectTestOutputToFile>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
