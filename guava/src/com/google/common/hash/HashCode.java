@@ -382,7 +382,7 @@ public abstract class HashCode {
       return asInt();
     }
     // If we have less than 4 bytes, use them all.
-    byte[] bytes = asBytes();
+    byte[] bytes = getBytesInternal();
     int val = (bytes[0] & 0xFF);
     for (int i = 1; i < bytes.length; i++) {
       val |= ((bytes[i] & 0xFF) << (i * 8));
@@ -403,7 +403,7 @@ public abstract class HashCode {
    */
   @Override
   public final String toString() {
-    byte[] bytes = asBytes();
+    byte[] bytes = getBytesInternal();
     StringBuilder sb = new StringBuilder(2 * bytes.length);
     for (byte b : bytes) {
       sb.append(hexDigits[(b >> 4) & 0xf]).append(hexDigits[b & 0xf]);
