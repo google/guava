@@ -191,8 +191,13 @@ public class ImmutableRangeMapTest extends TestCase {
           ImmutableMap<Range<Integer>, Integer> expectedAsMap =
               ImmutableMap.of(range1, 1, range2, 2);
           ImmutableMap<Range<Integer>, Integer> asMap = rangeMap.asMapOfRanges();
+          ImmutableMap<Range<Integer>, Integer> descendingMap = rangeMap.asDescendingMapOfRanges();
           assertEquals(expectedAsMap, asMap);
+          assertEquals(expectedAsMap, descendingMap);
           SerializableTester.reserializeAndAssert(asMap);
+          SerializableTester.reserializeAndAssert(descendingMap);
+          assertEquals(ImmutableList.copyOf(asMap.entrySet()).reverse(),
+              ImmutableList.copyOf(descendingMap.entrySet()));
 
           for (Range<Integer> query : RANGES) {
             assertEquals(expectedAsMap.get(query), asMap.get(query));

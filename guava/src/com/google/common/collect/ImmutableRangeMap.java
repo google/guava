@@ -224,6 +224,17 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
         new RegularImmutableSortedSet<Range<K>>(ranges, Range.RANGE_LEX_ORDERING);
     return new ImmutableSortedMap<Range<K>, V>(rangeSet, values);
   }
+
+  @Override
+  public ImmutableMap<Range<K>, V> asDescendingMapOfRanges() {
+    if (ranges.isEmpty()) {
+      return ImmutableMap.of();
+    }
+    RegularImmutableSortedSet<Range<K>> rangeSet =
+        new RegularImmutableSortedSet<Range<K>>(
+            ranges.reverse(), Range.RANGE_LEX_ORDERING.reverse());
+    return new ImmutableSortedMap<Range<K>, V>(rangeSet, values.reverse());
+  }
   
   @Override
   public ImmutableRangeMap<K, V> subRangeMap(final Range<K> range) {

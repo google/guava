@@ -101,6 +101,14 @@ public interface RangeSet<C extends Comparable> {
   Set<Range<C>> asRanges();
 
   /**
+   * Returns a descending view of the {@linkplain Range#isConnected disconnected} ranges that
+   * make up this range set. The returned set may be empty. The iterators returned by its
+   * {@link Iterable#iterator} method return the ranges in decreasing order of lower bound
+   * (equivalently, of upper bound).
+   */
+  Set<Range<C>> asDescendingSetOfRanges();
+
+  /**
    * Returns a view of the complement of this {@code RangeSet}.
    *
    * <p>The returned view supports the {@link #add} operation if this {@code RangeSet} supports

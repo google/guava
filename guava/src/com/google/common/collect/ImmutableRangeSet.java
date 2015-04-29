@@ -181,6 +181,15 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     return new RegularImmutableSortedSet<Range<C>>(ranges, Range.RANGE_LEX_ORDERING);
   }
 
+  @Override
+  public ImmutableSet<Range<C>> asDescendingSetOfRanges() {
+    if (ranges.isEmpty()) {
+      return ImmutableSet.of();
+    }
+    return new RegularImmutableSortedSet<Range<C>>(
+        ranges.reverse(), Range.RANGE_LEX_ORDERING.reverse());
+  }
+
   private transient ImmutableRangeSet<C> complement;
 
   private final class ComplementRanges extends ImmutableList<Range<C>> {
