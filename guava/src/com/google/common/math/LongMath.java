@@ -594,7 +594,7 @@ public final class LongMath {
           }
           k >>= 1;
           if (k > 0) {
-            checkNoOverflow(b <= FLOOR_SQRT_MAX_LONG);
+            checkNoOverflow(-FLOOR_SQRT_MAX_LONG <= b && b <= FLOOR_SQRT_MAX_LONG);
             b *= b;
           }
       }

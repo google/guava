@@ -16,7 +16,6 @@
 
 package com.google.common.math;
 
-import static com.google.common.math.MathTesting.ALL_INTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.ALL_LONG_CANDIDATES;
 import static com.google.common.math.MathTesting.ALL_ROUNDING_MODES;
 import static com.google.common.math.MathTesting.ALL_SAFE_ROUNDING_MODES;
@@ -474,8 +473,8 @@ public class LongMathTest extends TestCase {
 
   @GwtIncompatible("TODO")
   public void testCheckedAdd() {
-    for (long a : ALL_INTEGER_CANDIDATES) {
-      for (long b : ALL_INTEGER_CANDIDATES) {
+    for (long a : ALL_LONG_CANDIDATES) {
+      for (long b : ALL_LONG_CANDIDATES) {
         BigInteger expectedResult = valueOf(a).add(valueOf(b));
         boolean expectedSuccess = fitsInLong(expectedResult);
         try {
@@ -490,8 +489,8 @@ public class LongMathTest extends TestCase {
 
   @GwtIncompatible("TODO")
   public void testCheckedSubtract() {
-    for (long a : ALL_INTEGER_CANDIDATES) {
-      for (long b : ALL_INTEGER_CANDIDATES) {
+    for (long a : ALL_LONG_CANDIDATES) {
+      for (long b : ALL_LONG_CANDIDATES) {
         BigInteger expectedResult = valueOf(a).subtract(valueOf(b));
         boolean expectedSuccess = fitsInLong(expectedResult);
         try {
@@ -506,8 +505,8 @@ public class LongMathTest extends TestCase {
 
   @GwtIncompatible("TODO")
   public void testCheckedMultiply() {
-    for (long a : ALL_INTEGER_CANDIDATES) {
-      for (long b : ALL_INTEGER_CANDIDATES) {
+    for (long a : ALL_LONG_CANDIDATES) {
+      for (long b : ALL_LONG_CANDIDATES) {
         BigInteger expectedResult = valueOf(a).multiply(valueOf(b));
         boolean expectedSuccess = fitsInLong(expectedResult);
         try {
@@ -522,7 +521,7 @@ public class LongMathTest extends TestCase {
 
   @GwtIncompatible("TODO")
   public void testCheckedPow() {
-    for (long b : ALL_INTEGER_CANDIDATES) {
+    for (long b : ALL_LONG_CANDIDATES) {
       for (int exp : EXPONENTS) {
         BigInteger expectedResult = valueOf(b).pow(exp);
         boolean expectedSuccess = fitsInLong(expectedResult);
