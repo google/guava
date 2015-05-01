@@ -225,7 +225,7 @@ public final class Floats {
 
   /**
    * Returns the greatest value present in {@code array}, using the same rules
-   * of comparison as {@link Math#min(float, float)}.
+   * of comparison as {@link Math#max(float, float)}.
    *
    * @param array a <i>nonempty</i> array of {@code float} values
    * @return the value present in {@code array} that is greater than or equal to
