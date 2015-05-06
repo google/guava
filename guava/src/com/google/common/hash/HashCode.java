@@ -360,6 +360,13 @@ public abstract class HashCode {
     throw new IllegalArgumentException("Illegal hexadecimal character: " + ch);
   }
 
+  /**
+   * Returns {@code true} if {@code object} is a {@link HashCode} instance with the identical byte
+   * representation to this hash code.
+   *
+   * <p>Security note:</p> this method uses a constant-time (not short-circuiting) implementation
+   * to protect against <a href="http://en.wikipedia.org/wiki/Timing_attack">timing attacks</a>.
+   */
   @Override
   public final boolean equals(@Nullable Object object) {
     if (object instanceof HashCode) {
