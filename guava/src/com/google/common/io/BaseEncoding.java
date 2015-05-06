@@ -146,7 +146,7 @@ public abstract class BaseEncoding {
    * Encodes the specified byte array, and returns the encoded {@code String}.
    */
   public String encode(byte[] bytes) {
-    return encode(checkNotNull(bytes), 0, bytes.length);
+    return encode(bytes, 0, bytes.length);
   }
 
   /**
@@ -154,7 +154,6 @@ public abstract class BaseEncoding {
    * {@code String}.
    */
   public final String encode(byte[] bytes, int off, int len) {
-    checkNotNull(bytes);
     checkPositionIndexes(off, off + len, bytes.length);
     StringBuilder result = new StringBuilder(maxEncodedSize(len));
     try {
@@ -651,7 +650,6 @@ public abstract class BaseEncoding {
     @Override
     int decodeTo(byte[] target, CharSequence chars) throws DecodingException {
       checkNotNull(target);
-      checkNotNull(chars);
       chars = padding().trimTrailingFrom(chars);
       if (!alphabet.isValidPaddingStartPosition(chars.length())) {
         throw new DecodingException("Invalid input length " + chars.length());
@@ -743,9 +741,8 @@ public abstract class BaseEncoding {
 
     @Override
     public BaseEncoding withSeparator(String separator, int afterEveryChars) {
-      checkNotNull(separator);
       checkArgument(padding().or(alphabet).matchesNoneOf(separator),
-          "Separator cannot contain alphabet or padding characters");
+          "Separator (%s) cannot contain alphabet or padding characters", separator);
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
 
@@ -823,7 +820,6 @@ public abstract class BaseEncoding {
     @Override
     int decodeTo(byte[] target, CharSequence chars) throws DecodingException {
       checkNotNull(target);
-      checkNotNull(chars);
       if (chars.length() % 2 == 1) {
         throw new DecodingException("Invalid input length " + chars.length());
       }
@@ -871,7 +867,6 @@ public abstract class BaseEncoding {
     @Override
     int decodeTo(byte[] target, CharSequence chars) throws DecodingException {
       checkNotNull(target);
-      checkNotNull(chars);
       chars = padding().trimTrailingFrom(chars);
       if (!alphabet.isValidPaddingStartPosition(chars.length())) {
         throw new DecodingException("Invalid input length " + chars.length());
