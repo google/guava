@@ -146,7 +146,7 @@ public abstract class BaseEncoding {
    * Encodes the specified byte array, and returns the encoded {@code String}.
    */
   public String encode(byte[] bytes) {
-    return encode(checkNotNull(bytes), 0, bytes.length);
+    return encode(bytes, 0, bytes.length);
   }
 
   /**
