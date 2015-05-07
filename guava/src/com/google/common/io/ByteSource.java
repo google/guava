@@ -604,9 +604,10 @@ public abstract class ByteSource {
       checkArgument(offset >= 0, "offset (%s) may not be negative", offset);
       checkArgument(length >= 0, "length (%s) may not be negative", length);
 
-      int newOffset = this.offset + (int) Math.min(this.length, offset);
-      int endOffset = this.offset + (int) Math.min(this.length, offset + length);
-      return new ByteArrayByteSource(bytes, newOffset, endOffset - newOffset);
+      offset = Math.min(offset, this.length);
+      length = Math.min(length, this.length - offset);
+      int newOffset = this.offset + (int) offset;
+      return new ByteArrayByteSource(bytes, newOffset, (int) length);
     }
 
     @Override

@@ -224,6 +224,14 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
     }
   }
 
+  public void testSlice_longMaxValue() throws IOException {
+    long size = source.read().length;
+    if (size >= 1) {
+      ByteSource sliced = source.slice(1, Long.MAX_VALUE);
+      assertEquals(size - 1, sliced.read().length);
+    }
+  }
+
   private void assertExpectedBytes(byte[] readBytes) {
     assertArrayEquals(expected, readBytes);
   }
