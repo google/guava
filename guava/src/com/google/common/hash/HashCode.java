@@ -24,7 +24,6 @@ import com.google.common.primitives.Ints;
 import com.google.common.primitives.UnsignedInts;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
@@ -318,7 +317,17 @@ public abstract class HashCode {
 
     @Override
     boolean equalsSameBits(HashCode that) {
-      return MessageDigest.isEqual(bytes, that.getBytesInternal());
+      // We don't use MessageDigest.isEqual() here because its contract does not guarantee
+      // constant-time evaluation (no short-circuiting).
+      if (this.bytes.length != that.getBytesInternal().length) {
+        return false;
+      }
+
+      boolean areEqual = true;
+      for (int i = 0; i < this.bytes.length; i++) {
+        areEqual &= (this.bytes[i] == that.getBytesInternal()[i]);
+      }
+      return areEqual;
     }
 
     private static final long serialVersionUID = 0;
