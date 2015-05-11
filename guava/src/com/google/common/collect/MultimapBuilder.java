@@ -100,7 +100,7 @@ public abstract class MultimapBuilder<K0, V0> {
     return new MultimapBuilderWithKeys<Object>() {
       @Override
       <K, V> Map<K, Collection<V>> createMap() {
-        return new HashMap<K, Collection<V>>(expectedKeys);
+        return Maps.newHashMapWithExpectedSize(expectedKeys);
       }
     };
   }
@@ -229,7 +229,7 @@ public abstract class MultimapBuilder<K0, V0> {
 
     @Override
     public Set<V> get() {
-      return new HashSet<V>(expectedValuesPerKey);
+      return Sets.newHashSetWithExpectedSize(expectedValuesPerKey);
     }
   }
 
@@ -242,7 +242,7 @@ public abstract class MultimapBuilder<K0, V0> {
 
     @Override
     public Set<V> get() {
-      return new LinkedHashSet<V>(expectedValuesPerKey);
+      return Sets.newLinkedHashSetWithExpectedSize(expectedValuesPerKey);
     }
   }
 
