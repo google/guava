@@ -204,6 +204,17 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
     }
   }
 
+  // Test that you can not expand the readable data in a previously sliced ByteSource.
+  public void testSlice_constrainedRange() throws IOException {
+    long size = source.read().length;
+    if (size >= 2) {
+      ByteSource sliced = source.slice(1, size - 2);
+      assertEquals(size - 2, sliced.read().length);
+      ByteSource resliced = sliced.slice(0, size - 1);
+      assertTrue(sliced.contentEquals(resliced));
+    }
+  }
+
   private void assertExpectedBytes(byte[] readBytes) {
     assertArrayEquals(expected, readBytes);
   }

@@ -430,10 +430,10 @@ public abstract class ByteSource {
    */
   private final class SlicedByteSource extends ByteSource {
 
-    private final long offset;
-    private final long length;
+    final long offset;
+    final long length;
 
-    private SlicedByteSource(long offset, long length) {
+    SlicedByteSource(long offset, long length) {
       checkArgument(offset >= 0, "offset (%s) may not be negative", offset);
       checkArgument(length >= 0, "length (%s) may not be negative", length);
       this.offset = offset;
@@ -488,15 +488,24 @@ public abstract class ByteSource {
 
   private static class ByteArrayByteSource extends ByteSource {
 
-    protected final byte[] bytes;
+    final byte[] bytes;
+    final int offset;
+    final int length;
 
-    protected ByteArrayByteSource(byte[] bytes) {
-      this.bytes = checkNotNull(bytes);
+    ByteArrayByteSource(byte[] bytes) {
+      this(bytes, 0, bytes.length);
+    }
+
+    // NOTE: Preconditions are enforced by slice, the only non-trivial caller.
+    ByteArrayByteSource(byte[] bytes, int offset, int length) {
+      this.bytes = bytes;
+      this.offset = offset;
+      this.length = length;
     }
 
     @Override
     public InputStream openStream() {
-      return new ByteArrayInputStream(bytes);
+      return new ByteArrayInputStream(bytes, offset, length);
     }
 
     @Override
@@ -506,42 +515,50 @@ public abstract class ByteSource {
 
     @Override
     public boolean isEmpty() {
-      return bytes.length == 0;
+      return length == 0;
     }
 
     @Override
     public long size() {
-      return bytes.length;
+      return length;
     }
 
     @Override
     public byte[] read() {
-      return bytes.clone();
+      return Arrays.copyOfRange(bytes, offset, offset + length);
     }
 
     @Override
     public long copyTo(OutputStream output) throws IOException {
-      output.write(bytes);
-      return bytes.length;
+      output.write(bytes, offset, length);
+      return length;
     }
 
     @Override
     public <T> T read(ByteProcessor<T> processor) throws IOException {
-      processor.processBytes(bytes, 0, bytes.length);
+      processor.processBytes(bytes, offset, length);
       return processor.getResult();
     }
 
     @Override
     public HashCode hash(HashFunction hashFunction) throws IOException {
-      return hashFunction.hashBytes(bytes);
+      return hashFunction.hashBytes(bytes, offset, length);
     }
 
-    // TODO(cgdecker): Possibly override slice()
+    @Override
+    public ByteSource slice(long offset, long length) {
+      checkArgument(offset >= 0, "offset (%s) may not be negative", offset);
+      checkArgument(length >= 0, "length (%s) may not be negative", length);
+
+      int newOffset = this.offset + (int) Math.min(this.length, offset);
+      int endOffset = this.offset + (int) Math.min(this.length, offset + length);
+      return new ByteArrayByteSource(bytes, newOffset, endOffset - newOffset);
+    }
 
     @Override
     public String toString() {
       return "ByteSource.wrap("
-          + truncate(BaseEncoding.base16().encode(bytes), 30, "...") + ")";
+          + truncate(BaseEncoding.base16().encode(bytes, offset, length), 30, "...") + ")";
     }
 
     /**
@@ -609,9 +626,9 @@ public abstract class ByteSource {
 
   private static final class EmptyByteSource extends ByteArrayByteSource {
 
-    private static final EmptyByteSource INSTANCE = new EmptyByteSource();
+    static final EmptyByteSource INSTANCE = new EmptyByteSource();
 
-    private EmptyByteSource() {
+    EmptyByteSource() {
       super(new byte[0]);
     }
 
@@ -634,7 +651,7 @@ public abstract class ByteSource {
 
   private static final class ConcatenatedByteSource extends ByteSource {
 
-    private final Iterable<? extends ByteSource> sources;
+    final Iterable<? extends ByteSource> sources;
 
     ConcatenatedByteSource(Iterable<? extends ByteSource> sources) {
       this.sources = checkNotNull(sources);
