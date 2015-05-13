@@ -178,11 +178,31 @@ public class Helpers {
     };
   }
 
+  /**
+   * Asserts that all pairs of {@code T} values within {@code valuesInExpectedOrder} are ordered
+   * consistently between their order within {@code valuesInExpectedOrder} and the order implied by
+   * the given {@code comparator}.
+   *
+   * @see #testComparator(Comparator, List)
+   */
   public static <T> void testComparator(
       Comparator<? super T> comparator, T... valuesInExpectedOrder) {
     testComparator(comparator, Arrays.asList(valuesInExpectedOrder));
   }
 
+  /**
+   * Asserts that all pairs of {@code T} values within {@code valuesInExpectedOrder} are ordered
+   * consistently between their order within {@code valuesInExpectedOrder} and the order implied by
+   * the given {@code comparator}.
+   *
+   * <p>In detail, this method asserts
+   * <ul>
+   * <li><i>reflexivity</i>: {@code comparator.compare(t, t) = 0} for all {@code t} in
+   * {@code valuesInExpectedOrder}; and
+   * <li><i>consistency</i>: {@code comparator.compare(ti, tj) < 0} and
+   * {@code comparator.compare(tj, ti) > 0} for {@code i < j}, where
+   * {@code ti = valuesInExpectedOrder.get(i)} and {@code tj = valuesInExpectedOrder.get(j)}.
+   */
   public static <T> void testComparator(
       Comparator<? super T> comparator, List<T> valuesInExpectedOrder) {
     // This does an O(n^2) test of all pairs of values in both orders
