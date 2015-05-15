@@ -40,9 +40,15 @@ import javax.annotation.Nullable;
  * @see Constraints
  * @author Mike Bostock
  * @since 3.0
+ * @deprecated Use {@link Preconditions} for basic checks. In place of
+ *     constrained maps, we encourage you to check your preconditions
+ *     explicitly instead of leaving that work to the map implementation.
+ *     For the specific case of rejecting null, consider {@link ImmutableMap}.
+ *     This class is scheduled for removal in Guava 20.0.
  */
 @Beta
 @GwtCompatible
+@Deprecated
 public final class MapConstraints {
   private MapConstraints() {}
 
