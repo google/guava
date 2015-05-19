@@ -367,6 +367,9 @@ public final class MediaType {
   private final String subtype;
   private final ImmutableListMultimap<String, String> parameters;
 
+  // lazily computed
+  private volatile String toString;
+
   private MediaType(String type, String subtype,
       ImmutableListMultimap<String, String> parameters) {
     this.type = type;
@@ -709,6 +712,14 @@ public final class MediaType {
    * href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>.
    */
   @Override public String toString() {
+    String result = toString;
+    if (result == null) {
+      toString = result = computeToString();
+    }
+    return result;
+  }
+
+  private String computeToString() {
     StringBuilder builder = new StringBuilder().append(type).append('/').append(subtype);
     if (!parameters.isEmpty()) {
       builder.append("; ");
