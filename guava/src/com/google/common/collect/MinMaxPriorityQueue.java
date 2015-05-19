@@ -42,8 +42,15 @@ import java.util.Queue;
 /**
  * A double-ended priority queue, which provides constant-time access to both
  * its least element and its greatest element, as determined by the queue's
- * specified comparator. If no comparator is given at construction time, the
- * natural order of elements is used.
+ * specified comparator. If no comparator is given at creation time, the
+ * natural order of elements is used. If no maximum size is given at creation time,
+ * the queue is unbounded.
+ *
+ * <p>Usage example: <pre>   {@code
+ *
+ *   MinMaxPriorityQueue<User> users = MinMaxPriorityQueue.orderedBy(userComparator)
+ *       .maximumSize(1000)
+ *       .create();}</pre>
  *
  * <p>As a {@link Queue} it functions exactly as a {@link PriorityQueue}: its
  * head element -- the implicit target of the methods {@link #peek()}, {@link
