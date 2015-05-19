@@ -21,6 +21,7 @@ import static com.google.common.io.SourceSinkFactory.CharSourceFactory;
 import static org.junit.Assert.assertArrayEquals;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
@@ -154,6 +155,13 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
 
   public void testSize() throws IOException {
     assertEquals(expected.length, source.size());
+  }
+
+  public void testSizeIfKnown() throws IOException {
+    Optional<Long> sizeIfKnown = source.sizeIfKnown();
+    if (sizeIfKnown.isPresent()) {
+      assertEquals(expected.length, (long) sizeIfKnown.get());
+    }
   }
 
   public void testContentEquals() throws IOException {

@@ -18,6 +18,7 @@ package com.google.common.io;
 
 import static com.google.common.io.SourceSinkFactory.CharSourceFactory;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -140,6 +141,17 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
 
   public void testIsEmpty() throws IOException {
     assertEquals(expected.isEmpty(), source.isEmpty());
+  }
+
+  public void testLength() throws IOException {
+    assertEquals(expected.length(), source.length());
+  }
+
+  public void testLengthIfKnown() throws IOException {
+    Optional<Long> lengthIfKnown = source.lengthIfKnown();
+    if (lengthIfKnown.isPresent()) {
+      assertEquals(expected.length(), (long) lengthIfKnown.get());
+    }
   }
 
   public void testReadLines_withProcessor() throws IOException {
