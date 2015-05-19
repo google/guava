@@ -19,6 +19,10 @@
       <artifactId>jsr305</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.errorprone</groupId>
+      <artifactId>error_prone_annotations</artifactId>
+    </dependency>
+    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>guava</artifactId>
       <version>${project.version}</version>
