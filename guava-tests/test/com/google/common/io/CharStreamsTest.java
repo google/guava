@@ -42,23 +42,6 @@ public class CharStreamsTest extends IoTestCase {
     assertEquals(TEXT, CharStreams.toString(new StringReader(TEXT)));
   }
 
-  public void testSkipFully_blockingRead() throws IOException {
-    Reader reader = new NonSkippingReader("abcdef");
-    CharStreams.skipFully(reader, 6);
-    assertEquals(-1, reader.read());
-  }
-
-  private static class NonSkippingReader extends StringReader {
-    NonSkippingReader(String s) {
-      super(s);
-    }
-
-    @Override
-    public long skip(long n) {
-      return 0;
-    }
-  }
-
   public void testReadLines() throws IOException {
     List<String> lines = CharStreams.readLines(
         new StringReader("a\nb\nc"));
