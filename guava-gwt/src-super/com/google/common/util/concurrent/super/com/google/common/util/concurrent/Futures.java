@@ -156,6 +156,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   private static class ImmediateSuccessfulFuture<V> extends ImmediateFuture<V> {
+    static final ImmediateSuccessfulFuture<Object> NULL =
+        new ImmediateSuccessfulFuture<Object>(null);
 
     @Nullable private final V value;
 
@@ -191,6 +193,12 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @CheckReturnValue
   public static <V> ListenableFuture<V> immediateFuture(@Nullable V value) {
+    if (value == null) {
+      // This cast is safe because null is assignable to V for all V (i.e. it is covariant)
+      @SuppressWarnings({"unchecked", "rawtypes"})
+      ListenableFuture<V> typedNull = (ListenableFuture) ImmediateSuccessfulFuture.NULL;
+      return typedNull;
+    }
     return new ImmediateSuccessfulFuture<V>(value);
   }
 
