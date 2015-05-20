@@ -1,9 +1,15 @@
+sudo: false
+
 language: java
 
 jdk:
   - oraclejdk8
   - oraclejdk7
   - openjdk7
+
+cache:
+  directories:
+  - $HOME/.m2
 
 install: mvn install -U -DskipTests=true
 
