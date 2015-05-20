@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 
+import java.util.Arrays;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
@@ -328,14 +329,21 @@ public final class MoreObjects {
           .append('{');
       for (ValueHolder valueHolder = holderHead.next; valueHolder != null;
           valueHolder = valueHolder.next) {
-        if (!omitNullValuesSnapshot || valueHolder.value != null) {
+        Object value = valueHolder.value;
+        if (!omitNullValuesSnapshot || value != null) {
           builder.append(nextSeparator);
           nextSeparator = ", ";
 
           if (valueHolder.name != null) {
             builder.append(valueHolder.name).append('=');
           }
-          builder.append(valueHolder.value);
+          if (value != null && value.getClass().isArray()) {
+            Object[] objectArray = { value };
+            String arrayString = Arrays.deepToString(objectArray);
+            builder.append(arrayString.substring(1, arrayString.length() - 1));
+          } else {
+            builder.append(value);
+          }
         }
       }
       return builder.append('}').toString();
