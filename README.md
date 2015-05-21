@@ -9,6 +9,17 @@ concurrency libraries, common annotations, string processing, I/O, and so forth.
 
 Requires JDK 1.6 or higher (as of 12.0).
 
+Start using Guava
+-----------------
+
+Guava is available in Maven Central under the following identifiers:
+
+- [`com.google.guava:guava`](http://search.maven.org/#artifactdetails%7Ccom.google.guava%7Cguava%7C18.0%7Cbundle) 
+ - JAR download: [guava-18.0.jar](http://search.maven.org/remotecontent?filepath=com/google/guava/guava/18.0/guava-18.0.jar)
+- [`com.google.guava:guava-gwt`](http://search.maven.org/#artifactdetails%7Ccom.google.guava%7Cguava-gwt%7C18.0%7Cbundle) (for GWT users) 
+ - JAR download: [guava-gwt-18.0.jar](http://search.maven.org/remotecontent?filepath=com/google/guava/guava-gwt/18.0/guava-gwt-18.0.jar)
+
+
 Learn about Guava
 ------------------
 
