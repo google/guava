@@ -61,5 +61,9 @@ final class TestPlatform {
     assertFalse(Thread.currentThread().isInterrupted());
   }
 
+  static void clearInterrupt() {
+    Thread.interrupted();
+  }
+
   private TestPlatform() {}
 }

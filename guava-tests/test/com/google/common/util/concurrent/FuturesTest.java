@@ -26,6 +26,7 @@ import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+import static com.google.common.util.concurrent.TestPlatform.clearInterrupt;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
@@ -81,24 +82,20 @@ import javax.annotation.Nullable;
 @SuppressWarnings("CheckReturnValue")
 @GwtCompatible(emulated = true)
 public class FuturesTest extends TestCase {
-  @GwtIncompatible("TestLogHandler")
-  private static final Logger combinedFutureLogger = Logger.getLogger(
-      AggregateFuture.class.getName());
-  @GwtIncompatible("TestLogHandler")
-  private final TestLogHandler combinedFutureLogHandler = new TestLogHandler();
+  private static final Logger aggregateFutureLogger =
+      Logger.getLogger(AggregateFuture.class.getName());
+  private final TestLogHandler aggregateFutureLogHandler = new TestLogHandler();
 
   private static final String DATA1 = "data";
   private static final String DATA2 = "more data";
   private static final String DATA3 = "most data";
 
-  @GwtIncompatible("TestLogHandler, mocks")
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    combinedFutureLogger.addHandler(combinedFutureLogHandler);
+    aggregateFutureLogger.addHandler(aggregateFutureLogHandler);
   }
 
-  @GwtIncompatible("TestLogHandler, interruption")
   @Override
   protected void tearDown() throws Exception {
     /*
@@ -107,8 +104,8 @@ public class FuturesTest extends TestCase {
      * (Ideally we would perform interrupts only in threads that we create, but
      * it's hard to imagine that anything will break in practice.)
      */
-    Thread.interrupted();
-    combinedFutureLogger.removeHandler(combinedFutureLogHandler);
+    clearInterrupt();
+    aggregateFutureLogger.removeHandler(aggregateFutureLogHandler);
     super.tearDown();
   }
 
@@ -128,7 +125,6 @@ public class FuturesTest extends TestCase {
     assertSame(DATA2, future2.get(0L, TimeUnit.MILLISECONDS));
   }
 
-  @GwtIncompatible("immediateFailedFuture")
   public void testImmediateFailedFuture() throws Exception {
     Exception exception = new Exception();
     ListenableFuture<String> future =
@@ -143,7 +139,6 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("immediateFailedFuture")
   public void testImmediateFailedFuture_cancellationException() throws Exception {
     CancellationException exception = new CancellationException();
     ListenableFuture<String> future =
@@ -1896,7 +1891,6 @@ public class FuturesTest extends TestCase {
   /**
    * A single non-error failure is not logged because it is reported via the output future.
    */
-  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_exception() throws Exception {
     try {
@@ -1905,14 +1899,13 @@ public class FuturesTest extends TestCase {
     } catch (ExecutionException e) {
       assertTrue(e.getCause() instanceof MyException);
       assertEquals("Nothing should be logged", 0,
-          combinedFutureLogHandler.getStoredLogRecords().size());
+          aggregateFutureLogHandler.getStoredLogRecords().size());
     }
   }
 
   /**
    * Ensure that errors are always logged.
    */
-  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_error() throws Exception {
     try {
@@ -1920,7 +1913,7 @@ public class FuturesTest extends TestCase {
       fail();
     } catch (ExecutionException e) {
       assertTrue(e.getCause() instanceof MyError);
-      List<LogRecord> logged = combinedFutureLogHandler.getStoredLogRecords();
+      List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
       assertEquals(1, logged.size());  // errors are always logged
       assertTrue(logged.get(0).getThrown() instanceof MyError);
     }
@@ -1929,7 +1922,6 @@ public class FuturesTest extends TestCase {
   /**
    * All as list will log extra exceptions that occur after failure.
    */
-  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_multipleExceptions() throws Exception {
     try {
@@ -1938,7 +1930,7 @@ public class FuturesTest extends TestCase {
       fail();
     } catch (ExecutionException e) {
       assertTrue(e.getCause() instanceof MyException);
-      List<LogRecord> logged = combinedFutureLogHandler.getStoredLogRecords();
+      List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
       assertEquals(1, logged.size());  // the second failure is logged
       assertTrue(logged.get(0).getThrown() instanceof MyException);
     }
@@ -1947,7 +1939,6 @@ public class FuturesTest extends TestCase {
   /**
    * The same exception happening on multiple futures should not be logged.
    */
-  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_same_exception() throws Exception {
     try {
@@ -1958,11 +1949,10 @@ public class FuturesTest extends TestCase {
     } catch (ExecutionException e) {
       assertTrue(e.getCause() instanceof MyException);
       assertEquals("Nothing should be logged", 0,
-          combinedFutureLogHandler.getStoredLogRecords().size());
+          aggregateFutureLogHandler.getStoredLogRecords().size());
     }
   }
 
-  @GwtIncompatible("TestLogHandler")
   public void testAllAsList_logging_seenExceptionUpdateRaceBuggy() throws Exception {
     final MyException sameInstance = new MyException();
     SettableFuture<Object> firstFuture = SettableFuture.create();
@@ -1988,14 +1978,13 @@ public class FuturesTest extends TestCase {
     } catch (ExecutionException expected) {
       assertTrue(expected.getCause() instanceof MyException);
       // TODO(cpovirk): Fix this bug. We should see 0 records:
-      assertEquals(1, combinedFutureLogHandler.getStoredLogRecords().size());
+      assertEquals(1, aggregateFutureLogHandler.getStoredLogRecords().size());
     }
   }
 
   /**
    * Different exceptions happening on multiple futures with the same cause should not be logged.
    */
-  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testAllAsList_logging_same_cause() throws Exception {
     try {
@@ -2013,7 +2002,7 @@ public class FuturesTest extends TestCase {
     } catch (ExecutionException e) {
       assertTrue(e.getCause() instanceof MyException);
       assertEquals("Nothing should be logged", 0,
-          combinedFutureLogHandler.getStoredLogRecords().size());
+          aggregateFutureLogHandler.getStoredLogRecords().size());
     }
   }
 
@@ -2669,14 +2658,13 @@ public class FuturesTest extends TestCase {
   /**
    * Non-Error exceptions are never logged.
    */
-  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testSuccessfulAsList_logging_exception() throws Exception {
     assertEquals(Lists.newArrayList((Object) null),
         Futures.successfulAsList(
             immediateFailedFuture(new MyException())).get());
     assertEquals("Nothing should be logged", 0,
-        combinedFutureLogHandler.getStoredLogRecords().size());
+        aggregateFutureLogHandler.getStoredLogRecords().size());
 
     // Not even if there are a bunch of failures.
     assertEquals(Lists.newArrayList(null, null, null),
@@ -2685,19 +2673,18 @@ public class FuturesTest extends TestCase {
             immediateFailedFuture(new MyException()),
             immediateFailedFuture(new MyException())).get());
     assertEquals("Nothing should be logged", 0,
-        combinedFutureLogHandler.getStoredLogRecords().size());
+        aggregateFutureLogHandler.getStoredLogRecords().size());
   }
 
   /**
    * Ensure that errors are always logged.
    */
-  @GwtIncompatible("TestLogHandler")
   @SuppressWarnings("unchecked")
   public void testSuccessfulAsList_logging_error() throws Exception {
     assertEquals(Lists.newArrayList((Object) null),
         Futures.successfulAsList(
             immediateFailedFuture(new MyError())).get());
-    List<LogRecord> logged = combinedFutureLogHandler.getStoredLogRecords();
+    List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
     assertEquals(1, logged.size());  // errors are always logged
     assertTrue(logged.get(0).getThrown() instanceof MyError);
   }
