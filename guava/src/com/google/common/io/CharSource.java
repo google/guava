@@ -301,6 +301,10 @@ public abstract class CharSource {
    * {@link #lengthIfKnown} returns zero, falling back to opening a stream and checking
    * for EOF if the length is not known.
    *
+   * <p>Note that, in cases where {@code lengthIfKnown} returns zero, it is <i>possible</i> that
+   * chars are actually available for reading. This means that a source may return {@code true} from
+   * {@code isEmpty()} despite having readable content.
+   *
    * @throws IOException if an I/O error occurs
    * @since 15.0
    */
