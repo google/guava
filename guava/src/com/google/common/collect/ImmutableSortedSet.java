@@ -652,7 +652,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
       E fromElement, boolean fromInclusive, E toElement, boolean toInclusive);
 
   abstract ImmutableSortedSet<E> tailSetImpl(E fromElement, boolean inclusive);
-  
+
   /**
    * @since 12.0
    */
@@ -794,4 +794,3 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     return new SerializedForm<E>(comparator, toArray());
   }
 }
-

@@ -34,13 +34,14 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
-  static final RegularImmutableMultiset<Object> EMPTY = 
+  static final RegularImmutableMultiset<Object> EMPTY =
       new RegularImmutableMultiset<Object>(ImmutableList.<Entry<Object>>of());
-  
+
   private final transient Multisets.ImmutableEntry<E>[] entries;
   private final transient Multisets.ImmutableEntry<E>[] hashTable;
   private final transient int size;
   private final transient int hashCode;
+
   private transient ImmutableSet<E> elementSet;
 
   RegularImmutableMultiset(Collection<? extends Entry<? extends E>> entries) {

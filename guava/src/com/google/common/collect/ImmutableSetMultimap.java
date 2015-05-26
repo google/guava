@@ -196,10 +196,10 @@ public class ImmutableSetMultimap<K, V>
           checkNotNull(entry.getKey()), checkNotNull(entry.getValue()));
       return this;
     }
-    
+
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 19.0
      */
     @Beta
@@ -313,7 +313,7 @@ public class ImmutableSetMultimap<K, V>
       }
     }
 
-    ImmutableMap.Builder<K, ImmutableSet<V>> builder = 
+    ImmutableMap.Builder<K, ImmutableSet<V>> builder =
         new ImmutableMap.Builder<K, ImmutableSet<V>>(multimap.asMap().size());
     int size = 0;
 
@@ -435,10 +435,10 @@ public class ImmutableSetMultimap<K, V>
         ? (entries = new EntrySet<K, V>(this))
         : result;
   }
-  
+
   private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
     private transient final ImmutableSetMultimap<K, V> multimap;
-    
+
     EntrySet(ImmutableSetMultimap<K, V> multimap) {
       this.multimap = multimap;
     }
@@ -465,7 +465,7 @@ public class ImmutableSetMultimap<K, V>
     @Override
     boolean isPartialView() {
       return false;
-    }    
+    }
   }
 
   private static <V> ImmutableSet<V> valueSet(

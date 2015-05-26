@@ -405,7 +405,9 @@ public final class MapConstraints {
       extends ForwardingMultimap<K, V> implements Serializable {
     final MapConstraint<? super K, ? super V> constraint;
     final Multimap<K, V> delegate;
+
     transient Collection<Entry<K, V>> entries;
+
     transient Map<K, Collection<V>> asMap;
 
     public ConstrainedMultimap(Multimap<K, V> delegate,

@@ -301,7 +301,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
    * memory leaks.
    */
   abstract boolean isPartialView();
-  
+
   /**
    * Copies the contents of this immutable collection into the specified array at the specified
    * offset.  Returns {@code offset + size()}.
@@ -423,17 +423,17 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
      */
     public abstract ImmutableCollection<E> build();
   }
-  
+
   abstract static class ArrayBasedBuilder<E> extends ImmutableCollection.Builder<E> {
     Object[] contents;
     int size;
-    
+
     ArrayBasedBuilder(int initialCapacity) {
       checkNonnegative(initialCapacity, "initialCapacity");
       this.contents = new Object[initialCapacity];
       this.size = 0;
     }
-    
+
     /**
      * Expand the absolute capacity of the builder so it can accept at least
      * the specified number of elements without being resized.

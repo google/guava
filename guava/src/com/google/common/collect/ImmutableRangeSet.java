@@ -318,7 +318,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       };
     }
   }
-  
+
   /**
    * Returns a view of the intersection of this range set with the given range.
    */
