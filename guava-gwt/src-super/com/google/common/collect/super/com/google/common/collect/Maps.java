@@ -798,7 +798,7 @@ public final class Maps {
 
   static <K, V> Iterator<Entry<K, V>> asMapEntryIterator(
       Set<K> set, final Function<? super K, V> function) {
-    return new TransformedIterator<K, Entry<K,V>>(set.iterator()) {
+    return new TransformedIterator<K, Entry<K, V>>(set.iterator()) {
       @Override
       Entry<K, V> transform(final K key) {
         return immutableEntry(key, function.apply(key));
@@ -960,9 +960,22 @@ public final class Maps {
   }
 
   /**
-   * Returns an immutable map for which the {@link Map#values} are the given
-   * elements in the given order, and each key is the product of invoking a
-   * supplied function on its corresponding value.
+   * Returns a map with the given {@code values}, indexed by keys derived from
+   * those values. In other words, each input value produces an entry in the map
+   * whose key is the result of applying {@code keyFunction} to that value.
+   * These entries appear in the same order as the input values. Example usage:
+   * <pre>   {@code
+   *
+   *   Color red = new Color("red", 255, 0, 0);
+   *   ...
+   *   ImmutableSet<Color> allColors = ImmutableSet.of(red, green, blue);
+   *
+   *   Map<String, Color> colorForName =
+   *       uniqueIndex(allColors, toStringFunction());
+   *   assertThat(colorForName).containsEntry("red", red);}</pre>
+   *
+   * <p>If your index may associate multiple values with each key, use {@link
+   * Multimaps#index(Iterable, Function) Multimaps.index}.
    *
    * @param values the values to use when constructing the {@code Map}
    * @param keyFunction the function used to produce the key for each value
@@ -980,9 +993,22 @@ public final class Maps {
   }
 
   /**
-   * Returns an immutable map for which the {@link Map#values} are the given
-   * elements in the given order, and each key is the product of invoking a
-   * supplied function on its corresponding value.
+   * Returns a map with the given {@code values}, indexed by keys derived from
+   * those values. In other words, each input value produces an entry in the map
+   * whose key is the result of applying {@code keyFunction} to that value.
+   * These entries appear in the same order as the input values. Example usage:
+   * <pre>   {@code
+   *
+   *   Color red = new Color("red", 255, 0, 0);
+   *   ...
+   *   Iterator<Color> allColors = ImmutableSet.of(red, green, blue).iterator();
+   *
+   *   Map<String, Color> colorForName =
+   *       uniqueIndex(allColors, toStringFunction());
+   *   assertThat(colorForName).containsEntry("red", red);}</pre>
+   *
+   * <p>If your index may associate multiple values with each key, use {@link
+   * Multimaps#index(Iterator, Function) Multimaps.index}.
    *
    * @param values the values to use when constructing the {@code Map}
    * @param keyFunction the function used to produce the key for each value
@@ -1002,7 +1028,12 @@ public final class Maps {
       V value = values.next();
       builder.put(keyFunction.apply(value), value);
     }
-    return builder.build();
+    try {
+      return builder.build();
+    } catch (IllegalArgumentException duplicateKeys) {
+      throw new IllegalArgumentException(duplicateKeys.getMessage()
+          + ". To index multiple values under a key, use Multimaps.index.");
+    }
   }
 
   /**

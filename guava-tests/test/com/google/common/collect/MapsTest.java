@@ -106,7 +106,7 @@ public class MapsTest extends TestCase {
     try {
       Maps.capacity(-1);
       fail("Negative expected size must result in IllegalArgumentException");
-    } catch (IllegalArgumentException ex) {
+    } catch (IllegalArgumentException expected) {
     }
   }
 
@@ -1033,6 +1033,7 @@ public class MapsTest extends TestCase {
       Maps.uniqueIndex(ImmutableSet.of("one", "uno"), Functions.constant(1));
       fail();
     } catch (IllegalArgumentException expected) {
+      assertThat(expected.getMessage()).contains("Multimaps.index");
     }
   }
 
