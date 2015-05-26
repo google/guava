@@ -504,14 +504,15 @@ public final class Sets {
    *   Set<Object> identityHashSet = Sets.newSetFromMap(
    *       new IdentityHashMap<Object, Boolean>());}</pre>
    *
-   * <p>This method has the same behavior as the JDK 6 method
-   * {@code Collections.newSetFromMap()}. The returned set is serializable if
-   * the backing map is.
+   * <p>The returned set is serializable if the backing map is.
    *
    * @param map the backing map
    * @return the set backed by the map
    * @throws IllegalArgumentException if {@code map} is not empty
+   * @deprecated Use {@link Collections#newSetFromMap} instead. This method
+   *     will be removed in August 2017.
    */
+  @Deprecated
   public static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
     return Platform.newSetFromMap(map);
   }
