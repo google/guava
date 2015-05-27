@@ -367,8 +367,9 @@ public final class MediaType {
   private final String subtype;
   private final ImmutableListMultimap<String, String> parameters;
 
-  // lazily computed
-  private volatile String toString;
+  private String toString;
+
+  private int hashCode;
 
   private MediaType(String type, String subtype,
       ImmutableListMultimap<String, String> parameters) {
@@ -702,7 +703,13 @@ public final class MediaType {
   }
 
   @Override public int hashCode() {
-    return Objects.hashCode(type, subtype, parametersAsMap());
+    // racy single-check idiom
+    int h = hashCode;
+    if (h == 0) {
+      h = Objects.hashCode(type, subtype, parametersAsMap());
+      hashCode = h;
+    }
+    return h;
   }
 
   private static final MapJoiner PARAMETER_JOINER = Joiner.on("; ").withKeyValueSeparator("=");
@@ -712,9 +719,11 @@ public final class MediaType {
    * href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>.
    */
   @Override public String toString() {
+    // racy single-check idiom, safe because String is immutable
     String result = toString;
     if (result == null) {
-      toString = result = computeToString();
+      result = computeToString();
+      toString = result;
     }
     return result;
   }
@@ -736,7 +745,8 @@ public final class MediaType {
 
   private static String escapeAndQuote(String value) {
     StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');
-    for (char ch : value.toCharArray()) {
+    for (int i = 0; i < value.length(); i++) {
+      char ch = value.charAt(i);
       if (ch == '\r' || ch == '\\' || ch == '"') {
         escaped.append('\\');
       }
