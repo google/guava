@@ -52,98 +52,112 @@ abstract class AbstractCompositeHashFunction extends AbstractStreamingHashFuncti
       hashers[i] = functions[i].newHasher();
     }
     return new Hasher() {
-      @Override public Hasher putByte(byte b) {
+      @Override
+      public Hasher putByte(byte b) {
         for (Hasher hasher : hashers) {
           hasher.putByte(b);
         }
         return this;
       }
 
-      @Override public Hasher putBytes(byte[] bytes) {
+      @Override
+      public Hasher putBytes(byte[] bytes) {
         for (Hasher hasher : hashers) {
           hasher.putBytes(bytes);
         }
         return this;
       }
 
-      @Override public Hasher putBytes(byte[] bytes, int off, int len) {
+      @Override
+      public Hasher putBytes(byte[] bytes, int off, int len) {
         for (Hasher hasher : hashers) {
           hasher.putBytes(bytes, off, len);
         }
         return this;
       }
 
-      @Override public Hasher putShort(short s) {
+      @Override
+      public Hasher putShort(short s) {
         for (Hasher hasher : hashers) {
           hasher.putShort(s);
         }
         return this;
       }
 
-      @Override public Hasher putInt(int i) {
+      @Override
+      public Hasher putInt(int i) {
         for (Hasher hasher : hashers) {
           hasher.putInt(i);
         }
         return this;
       }
 
-      @Override public Hasher putLong(long l) {
+      @Override
+      public Hasher putLong(long l) {
         for (Hasher hasher : hashers) {
           hasher.putLong(l);
         }
         return this;
       }
 
-      @Override public Hasher putFloat(float f) {
+      @Override
+      public Hasher putFloat(float f) {
         for (Hasher hasher : hashers) {
           hasher.putFloat(f);
         }
         return this;
       }
 
-      @Override public Hasher putDouble(double d) {
+      @Override
+      public Hasher putDouble(double d) {
         for (Hasher hasher : hashers) {
           hasher.putDouble(d);
         }
         return this;
       }
 
-      @Override public Hasher putBoolean(boolean b) {
+      @Override
+      public Hasher putBoolean(boolean b) {
         for (Hasher hasher : hashers) {
           hasher.putBoolean(b);
         }
         return this;
       }
 
-      @Override public Hasher putChar(char c) {
+      @Override
+      public Hasher putChar(char c) {
         for (Hasher hasher : hashers) {
           hasher.putChar(c);
         }
         return this;
       }
 
-      @Override public Hasher putUnencodedChars(CharSequence chars) {
+      @Override
+      public Hasher putUnencodedChars(CharSequence chars) {
         for (Hasher hasher : hashers) {
           hasher.putUnencodedChars(chars);
         }
         return this;
       }
 
-      @Override public Hasher putString(CharSequence chars, Charset charset) {
+      @Override
+      public Hasher putString(CharSequence chars, Charset charset) {
         for (Hasher hasher : hashers) {
           hasher.putString(chars, charset);
         }
         return this;
       }
 
-      @Override public <T> Hasher putObject(T instance, Funnel<? super T> funnel) {
+      @Override
+      public <T> Hasher putObject(T instance, Funnel<? super T> funnel) {
         for (Hasher hasher : hashers) {
           hasher.putObject(instance, funnel);
         }
         return this;
       }
 
-      @Override public HashCode hash() {
+      @Override
+      public HashCode hash() {
         return makeHash(hashers);
       }
     };

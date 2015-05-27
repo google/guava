@@ -200,8 +200,7 @@ public final class Hashing {
   }
 
   private static class Sha1Holder {
-    static final HashFunction SHA_1 =
-        new MessageDigestHashFunction("SHA-1", "Hashing.sha1()");
+    static final HashFunction SHA_1 = new MessageDigestHashFunction("SHA-1", "Hashing.sha1()");
   }
 
   /**
@@ -273,8 +272,7 @@ public final class Hashing {
   }
 
   private static class Crc32Holder {
-    static final HashFunction CRC_32 =
-        checksumHashFunction(ChecksumType.CRC_32, "Hashing.crc32()");
+    static final HashFunction CRC_32 = checksumHashFunction(ChecksumType.CRC_32, "Hashing.crc32()");
   }
 
   /**
@@ -423,8 +421,8 @@ public final class Hashing {
     byte[] resultBytes = new byte[bits / 8];
     for (HashCode hashCode : hashCodes) {
       byte[] nextBytes = hashCode.asBytes();
-      checkArgument(nextBytes.length == resultBytes.length,
-          "All hashcodes must have the same bit length.");
+      checkArgument(
+          nextBytes.length == resultBytes.length, "All hashcodes must have the same bit length.");
       for (int i = 0; i < nextBytes.length; i++) {
         resultBytes[i] = (byte) (resultBytes[i] * 37 ^ nextBytes[i]);
       }
@@ -448,8 +446,8 @@ public final class Hashing {
     byte[] resultBytes = new byte[iterator.next().bits() / 8];
     for (HashCode hashCode : hashCodes) {
       byte[] nextBytes = hashCode.asBytes();
-      checkArgument(nextBytes.length == resultBytes.length,
-          "All hashcodes must have the same bit length.");
+      checkArgument(
+          nextBytes.length == resultBytes.length, "All hashcodes must have the same bit length.");
       for (int i = 0; i < nextBytes.length; i++) {
         resultBytes[i] += nextBytes[i];
       }
@@ -516,9 +514,11 @@ public final class Hashing {
       int bitSum = 0;
       for (HashFunction function : functions) {
         bitSum += function.bits();
-        checkArgument(function.bits() % 8 == 0,
+        checkArgument(
+            function.bits() % 8 == 0,
             "the number of bits (%s) in hashFunction (%s) must be divisible by 8",
-            function.bits(), function);
+            function.bits(),
+            function);
       }
       this.bits = bitSum;
     }

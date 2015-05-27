@@ -42,8 +42,9 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
    * performance of a Bloom filter (yet only needs two 32bit hash functions).
    */
   MURMUR128_MITZ_32() {
-    @Override public <T> boolean put(T object, Funnel<? super T> funnel,
-        int numHashFunctions, BitArray bits) {
+    @Override
+    public <T> boolean put(
+        T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits) {
       long bitSize = bits.bitSize();
       long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
       int hash1 = (int) hash64;
@@ -61,8 +62,9 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
       return bitsChanged;
     }
 
-    @Override public <T> boolean mightContain(T object, Funnel<? super T> funnel,
-        int numHashFunctions, BitArray bits) {
+    @Override
+    public <T> boolean mightContain(
+        T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits) {
       long bitSize = bits.bitSize();
       long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
       int hash1 = (int) hash64;
@@ -89,8 +91,8 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
    */
   MURMUR128_MITZ_64() {
     @Override
-    public <T> boolean put(T object, Funnel<? super T> funnel,
-        int numHashFunctions, BitArray bits) {
+    public <T> boolean put(
+        T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits) {
       long bitSize = bits.bitSize();
       byte[] bytes = Hashing.murmur3_128().hashObject(object, funnel).getBytesInternal();
       long hash1 = lowerEight(bytes);
@@ -107,8 +109,8 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     @Override
-    public <T> boolean mightContain(T object, Funnel<? super T> funnel,
-        int numHashFunctions, BitArray bits) {
+    public <T> boolean mightContain(
+        T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits) {
       long bitSize = bits.bitSize();
       byte[] bytes = Hashing.murmur3_128().hashObject(object, funnel).getBytesInternal();
       long hash1 = lowerEight(bytes);
@@ -186,8 +188,11 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
 
     /** Combines the two BitArrays using bitwise OR. */
     void putAll(BitArray array) {
-      checkArgument(data.length == array.data.length,
-          "BitArrays must be of equal length (%s != %s)", data.length, array.data.length);
+      checkArgument(
+          data.length == array.data.length,
+          "BitArrays must be of equal length (%s != %s)",
+          data.length,
+          array.data.length);
       bitCount = 0;
       for (int i = 0; i < data.length; i++) {
         data[i] |= array.data[i];
@@ -195,7 +200,8 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
       }
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
       if (o instanceof BitArray) {
         BitArray bitArray = (BitArray) o;
         return Arrays.equals(data, bitArray.data);
@@ -203,7 +209,8 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
       return false;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return Arrays.hashCode(data);
     }
   }
