@@ -44,8 +44,8 @@ import java.util.SortedSet;
  * @author Louis Wasserman
  * @since 12.0
  */
-public abstract class ForwardingNavigableSet<E>
-    extends ForwardingSortedSet<E> implements NavigableSet<E> {
+public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
+    implements NavigableSet<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingNavigableSet() {}
@@ -174,10 +174,7 @@ public abstract class ForwardingNavigableSet<E>
 
   @Override
   public NavigableSet<E> subSet(
-      E fromElement,
-      boolean fromInclusive,
-      E toElement,
-      boolean toInclusive) {
+      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
     return delegate().subSet(fromElement, fromInclusive, toElement, toInclusive);
   }
 
@@ -188,10 +185,7 @@ public abstract class ForwardingNavigableSet<E>
    */
   @Beta
   protected NavigableSet<E> standardSubSet(
-      E fromElement,
-      boolean fromInclusive,
-      E toElement,
-      boolean toInclusive) {
+      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
     return tailSet(fromElement, fromInclusive).headSet(toElement, toInclusive);
   }
 

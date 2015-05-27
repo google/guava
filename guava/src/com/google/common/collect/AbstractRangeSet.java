@@ -46,7 +46,7 @@ abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
   public void remove(Range<C> range) {
     throw new UnsupportedOperationException();
   }
-  
+
   @Override
   public void clear() {
     remove(Range.<C>all());

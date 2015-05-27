@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 
 /**
  * Skeletal, implementation-agnostic implementation of the {@link Table} interface.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -123,8 +123,9 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
       if (o instanceof Cell) {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
-        return row != null && Collections2.safeContains(
-            row.entrySet(), Maps.immutableEntry(cell.getColumnKey(), cell.getValue()));
+        return row != null
+            && Collections2.safeContains(
+                row.entrySet(), Maps.immutableEntry(cell.getColumnKey(), cell.getValue()));
       }
       return false;
     }
@@ -134,8 +135,9 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
       if (o instanceof Cell) {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
-        return row != null && Collections2.safeRemove(
-            row.entrySet(), Maps.immutableEntry(cell.getColumnKey(), cell.getValue()));
+        return row != null
+            && Collections2.safeRemove(
+                row.entrySet(), Maps.immutableEntry(cell.getColumnKey(), cell.getValue()));
       }
       return false;
     }
@@ -163,11 +165,11 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     Collection<V> result = values;
     return (result == null) ? values = createValues() : result;
   }
-  
+
   Collection<V> createValues() {
     return new Values();
   }
-  
+
   Iterator<V> valuesIterator() {
     return new TransformedIterator<Cell<R, C, V>, V>(cellSet().iterator()) {
       @Override
@@ -199,18 +201,21 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
   }
 
-  @Override public boolean equals(@Nullable Object obj) {
+  @Override
+  public boolean equals(@Nullable Object obj) {
     return Tables.equalsImpl(this, obj);
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return cellSet().hashCode();
   }
 
   /**
    * Returns the string representation {@code rowMap().toString()}.
    */
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return rowMap().toString();
   }
 }

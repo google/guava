@@ -28,7 +28,7 @@ import java.util.Queue;
 @GwtCompatible
 class ConsumingQueueIterator<T> extends AbstractIterator<T> {
   private final Queue<T> queue;
-  
+
   ConsumingQueueIterator(T... elements) {
     // Uses LinkedList because ArrayDeque isn't GWT-compatible for now =(
     this.queue = Lists.newLinkedList();

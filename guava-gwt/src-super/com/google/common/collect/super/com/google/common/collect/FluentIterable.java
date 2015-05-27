@@ -89,7 +89,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @CheckReturnValue
   public static <E> FluentIterable<E> from(final Iterable<E> iterable) {
-    return (iterable instanceof FluentIterable) ? (FluentIterable<E>) iterable
+    return (iterable instanceof FluentIterable)
+        ? (FluentIterable<E>) iterable
         : new FluentIterable<E>(iterable) {
           @Override
           public Iterator<E> iterator() {
@@ -532,8 +533,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Function that transforms {@code Iterable<E>} into a fluent iterable.
    */
-  private static class FromIterableFunction<E>
-      implements Function<Iterable<E>, FluentIterable<E>> {
+  private static class FromIterableFunction<E> implements Function<Iterable<E>, FluentIterable<E>> {
     @Override
     public FluentIterable<E> apply(Iterable<E> fromObject) {
       return FluentIterable.from(fromObject);

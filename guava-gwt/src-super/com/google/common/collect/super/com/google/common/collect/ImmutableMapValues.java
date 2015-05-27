@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 @GwtCompatible(emulated = true)
 final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   private final ImmutableMap<K, V> map;
-  
+
   ImmutableMapValues(ImmutableMap<K, V> map) {
     this.map = map;
   }
@@ -46,13 +46,15 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
     return new UnmodifiableIterator<V>() {
       final UnmodifiableIterator<Entry<K, V>> entryItr = map.entrySet().iterator();
 
-      @Override public boolean hasNext() {
+      @Override
+      public boolean hasNext() {
         return entryItr.hasNext();
       }
 
-      @Override public V next() {
+      @Override
+      public V next() {
         return entryItr.next().getValue();
-      }      
+      }
     };
   }
 

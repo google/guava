@@ -25,11 +25,11 @@ import javax.annotation.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterKeys(ListMultimap, Predicate)}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class FilteredKeyListMultimap<K, V> extends FilteredKeyMultimap<K, V> 
+final class FilteredKeyListMultimap<K, V> extends FilteredKeyMultimap<K, V>
     implements ListMultimap<K, V> {
   FilteredKeyListMultimap(ListMultimap<K, V> unfiltered, Predicate<? super K> keyPredicate) {
     super(unfiltered, keyPredicate);

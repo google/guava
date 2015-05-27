@@ -26,17 +26,16 @@ import java.util.Comparator;
 final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
   final ImmutableList<Comparator<? super T>> comparators;
 
-  CompoundOrdering(Comparator<? super T> primary,
-      Comparator<? super T> secondary) {
-    this.comparators
-        = ImmutableList.<Comparator<? super T>>of(primary, secondary);
+  CompoundOrdering(Comparator<? super T> primary, Comparator<? super T> secondary) {
+    this.comparators = ImmutableList.<Comparator<? super T>>of(primary, secondary);
   }
 
   CompoundOrdering(Iterable<? extends Comparator<? super T>> comparators) {
     this.comparators = ImmutableList.copyOf(comparators);
   }
 
-  @Override public int compare(T left, T right) {
+  @Override
+  public int compare(T left, T right) {
     // Avoid using the Iterator to avoid generating garbage (issue 979).
     int size = comparators.size();
     for (int i = 0; i < size; i++) {
@@ -48,7 +47,8 @@ final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
     return 0;
   }
 
-  @Override public boolean equals(Object object) {
+  @Override
+  public boolean equals(Object object) {
     if (object == this) {
       return true;
     }
@@ -59,11 +59,13 @@ final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
     return false;
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return comparators.hashCode();
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "Ordering.compound(" + comparators + ")";
   }
 

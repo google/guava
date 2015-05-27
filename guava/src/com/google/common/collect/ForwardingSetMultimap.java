@@ -33,24 +33,29 @@ import javax.annotation.Nullable;
  * @since 3.0
  */
 @GwtCompatible
-public abstract class ForwardingSetMultimap<K, V>
-    extends ForwardingMultimap<K, V> implements SetMultimap<K, V> {
+public abstract class ForwardingSetMultimap<K, V> extends ForwardingMultimap<K, V>
+    implements SetMultimap<K, V> {
 
-  @Override protected abstract SetMultimap<K, V> delegate();
+  @Override
+  protected abstract SetMultimap<K, V> delegate();
 
-  @Override public Set<Entry<K, V>> entries() {
+  @Override
+  public Set<Entry<K, V>> entries() {
     return delegate().entries();
   }
 
-  @Override public Set<V> get(@Nullable K key) {
+  @Override
+  public Set<V> get(@Nullable K key) {
     return delegate().get(key);
   }
 
-  @Override public Set<V> removeAll(@Nullable Object key) {
+  @Override
+  public Set<V> removeAll(@Nullable Object key) {
     return delegate().removeAll(key);
   }
 
-  @Override public Set<V> replaceValues(K key, Iterable<? extends V> values) {
+  @Override
+  public Set<V> replaceValues(K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);
   }
 }

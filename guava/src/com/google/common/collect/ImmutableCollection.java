@@ -152,8 +152,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
 // just to do everything we can to emphasize the "practically an interface" nature of this class.
-public abstract class ImmutableCollection<E> extends AbstractCollection<E>
-    implements Serializable {
+public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
 
   ImmutableCollection() {}
 
@@ -342,8 +341,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
       return newCapacity;
     }
 
-    Builder() {
-    }
+    Builder() {}
 
     /**
      * Adds {@code element} to the {@code ImmutableCollection} being built.
@@ -440,8 +438,9 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
      */
     private void ensureCapacity(int minCapacity) {
       if (contents.length < minCapacity) {
-        this.contents = ObjectArrays.arraysCopyOf(
-            this.contents, expandedCapacity(contents.length, minCapacity));
+        this.contents =
+            ObjectArrays.arraysCopyOf(
+                this.contents, expandedCapacity(contents.length, minCapacity));
       }
     }
 

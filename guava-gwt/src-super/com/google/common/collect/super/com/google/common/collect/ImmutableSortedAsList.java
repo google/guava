@@ -28,8 +28,7 @@ import java.util.Comparator;
 @SuppressWarnings("serial")
 final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
     implements SortedIterable<E> {
-  ImmutableSortedAsList(
-      ImmutableSortedSet<E> backingSet, ImmutableList<E> backingList) {
+  ImmutableSortedAsList(ImmutableSortedSet<E> backingSet, ImmutableList<E> backingList) {
     super(backingSet, backingList);
   }
 
@@ -38,7 +37,8 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
     return (ImmutableSortedSet<E>) super.delegateCollection();
   }
 
-  @Override public Comparator<? super E> comparator() {
+  @Override
+  public Comparator<? super E> comparator() {
     return delegateCollection().comparator();
   }
 

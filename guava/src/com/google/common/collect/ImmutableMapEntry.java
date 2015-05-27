@@ -27,8 +27,8 @@ import javax.annotation.Nullable;
  * hash buckets for the key and the value. This allows reuse in {@link RegularImmutableMap} and
  * {@link RegularImmutableBiMap}, which don't have to recopy the entries created by their
  * {@code Builder} implementations.
- * 
- * This base implementation has no key or value pointers, so instances of ImmutableMapEntry
+ *
+ * <p>This base implementation has no key or value pointers, so instances of ImmutableMapEntry
  * (but not its subclasses) can be reused when copied from one ImmutableMap to another.
  *
  * @author Louis Wasserman
@@ -44,7 +44,7 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   static <K, V> ImmutableMapEntry<K, V>[] createEntryArray(int size) {
     return new ImmutableMapEntry[size];
   }
-  
+
   ImmutableMapEntry(K key, V value) {
     super(key, value);
     checkEntryNotNull(key, value);
@@ -64,7 +64,7 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   ImmutableMapEntry<K, V> getNextInValueBucket() {
     return null;
   }
-  
+
   /**
    * Returns true if this entry has no bucket links and can safely be reused as a terminal
    * entry in a bucket in another map.
@@ -72,7 +72,7 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   boolean isReusable() {
     return true;
   }
-  
+
   static class NonTerminalImmutableMapEntry<K, V> extends ImmutableMapEntry<K, V> {
     private final transient ImmutableMapEntry<K, V> nextInKeyBucket;
 
@@ -97,7 +97,10 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
       extends NonTerminalImmutableMapEntry<K, V> {
     private final transient ImmutableMapEntry<K, V> nextInValueBucket;
 
-    NonTerminalImmutableBiMapEntry(K key, V value, ImmutableMapEntry<K, V> nextInKeyBucket,
+    NonTerminalImmutableBiMapEntry(
+        K key,
+        V value,
+        ImmutableMapEntry<K, V> nextInKeyBucket,
         ImmutableMapEntry<K, V> nextInValueBucket) {
       super(key, value, nextInKeyBucket);
       this.nextInValueBucket = nextInValueBucket;

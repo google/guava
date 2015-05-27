@@ -56,11 +56,13 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     this.delegate = delegate;
   }
 
-  @Override boolean isPartialView() {
+  @Override
+  boolean isPartialView() {
     return false;
   }
 
-  @Override public UnmodifiableIterator<E> iterator() {
+  @Override
+  public UnmodifiableIterator<E> iterator() {
     return Iterators.unmodifiableIterator(delegate.iterator());
   }
 
@@ -69,22 +71,26 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     return delegate.size();
   }
 
-  @Override public boolean contains(Object object) {
+  @Override
+  public boolean contains(Object object) {
     return delegate.contains(object);
   }
 
-  @Override public boolean containsAll(Collection<?> collection) {
+  @Override
+  public boolean containsAll(Collection<?> collection) {
     if (collection instanceof ImmutableEnumSet<?>) {
       collection = ((ImmutableEnumSet<?>) collection).delegate;
     }
     return delegate.containsAll(collection);
   }
 
-  @Override public boolean isEmpty() {
+  @Override
+  public boolean isEmpty() {
     return delegate.isEmpty();
   }
 
-  @Override public boolean equals(Object object) {
+  @Override
+  public boolean equals(Object object) {
     if (object == this) {
       return true;
     }
@@ -96,33 +102,38 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
 
   private transient int hashCode;
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     int result = hashCode;
     return (result == 0) ? hashCode = delegate.hashCode() : result;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return delegate.toString();
   }
 
   // All callers of the constructor are restricted to <E extends Enum<E>>.
-  @Override Object writeReplace() {
+  @Override
+  Object writeReplace() {
     return new EnumSerializedForm<E>(delegate);
   }
 
   /*
    * This class is used to serialize ImmutableEnumSet instances.
    */
-  private static class EnumSerializedForm<E extends Enum<E>>
-      implements Serializable {
+  private static class EnumSerializedForm<E extends Enum<E>> implements Serializable {
     final EnumSet<E> delegate;
+
     EnumSerializedForm(EnumSet<E> delegate) {
       this.delegate = delegate;
     }
+
     Object readResolve() {
       // EJ2 #76: Write readObject() methods defensively.
       return new ImmutableEnumSet<E>(delegate.clone());
     }
+
     private static final long serialVersionUID = 0;
   }
 }

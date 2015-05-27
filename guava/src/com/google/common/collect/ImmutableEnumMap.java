@@ -38,10 +38,9 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
     switch (map.size()) {
       case 0:
         return ImmutableMap.of();
-      case 1: {
+      case 1:
         Entry<K, V> entry = Iterables.getOnlyElement(map.entrySet());
         return ImmutableMap.of(entry.getKey(), entry.getValue());
-      }
       default:
         return new ImmutableEnumMap<K, V>(map);
     }
@@ -54,7 +53,8 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
     checkArgument(!delegate.isEmpty());
   }
 
-  @Override UnmodifiableIterator<K> keyIterator() {
+  @Override
+  UnmodifiableIterator<K> keyIterator() {
     return Iterators.unmodifiableIterator(delegate.keySet().iterator());
   }
 
@@ -95,22 +95,25 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   }
 
   // All callers of the constructor are restricted to <K extends Enum<K>>.
-  @Override Object writeReplace() {
+  @Override
+  Object writeReplace() {
     return new EnumSerializedForm<K, V>(delegate);
   }
 
   /*
    * This class is used to serialize ImmutableEnumMap instances.
    */
-  private static class EnumSerializedForm<K extends Enum<K>, V>
-      implements Serializable {
+  private static class EnumSerializedForm<K extends Enum<K>, V> implements Serializable {
     final EnumMap<K, V> delegate;
+
     EnumSerializedForm(EnumMap<K, V> delegate) {
       this.delegate = delegate;
     }
+
     Object readResolve() {
       return new ImmutableEnumMap<K, V>(delegate);
     }
+
     private static final long serialVersionUID = 0;
   }
 }

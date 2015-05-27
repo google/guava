@@ -49,8 +49,8 @@ import java.util.SortedMap;
  * @author Louis Wasserman
  * @since 12.0
  */
-public abstract class ForwardingNavigableMap<K, V>
-    extends ForwardingSortedMap<K, V> implements NavigableMap<K, V> {
+public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K, V>
+    implements NavigableMap<K, V> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingNavigableMap() {}

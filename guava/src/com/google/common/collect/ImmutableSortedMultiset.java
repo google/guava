@@ -250,8 +250,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * @throws NullPointerException if {@code sortedMultiset} or any of its elements is null
    */
   public static <E> ImmutableSortedMultiset<E> copyOfSorted(SortedMultiset<E> sortedMultiset) {
-    return copyOfSortedEntries(sortedMultiset.comparator(),
-        Lists.newArrayList(sortedMultiset.entrySet()));
+    return copyOfSortedEntries(
+        sortedMultiset.comparator(), Lists.newArrayList(sortedMultiset.entrySet()));
   }
 
   private static <E> ImmutableSortedMultiset<E> copyOfSortedEntries(
@@ -269,7 +269,9 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     }
     return new RegularImmutableSortedMultiset<E>(
         new RegularImmutableSortedSet<E>(elementsBuilder.build(), comparator),
-        cumulativeCounts, 0, entries.size());
+        cumulativeCounts,
+        0,
+        entries.size());
   }
 
   @SuppressWarnings("unchecked")
@@ -297,9 +299,10 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   public ImmutableSortedMultiset<E> descendingMultiset() {
     ImmutableSortedMultiset<E> result = descendingMultiset;
     if (result == null) {
-      return descendingMultiset = this.isEmpty()
-          ? emptyMultiset(Ordering.from(comparator()).reverse())
-          : new DescendingImmutableSortedMultiset<E>(this);
+      return descendingMultiset =
+          this.isEmpty()
+              ? emptyMultiset(Ordering.from(comparator()).reverse())
+              : new DescendingImmutableSortedMultiset<E>(this);
     }
     return result;
   }
@@ -338,8 +341,11 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @Override
   public ImmutableSortedMultiset<E> subMultiset(
       E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType) {
-    checkArgument(comparator().compare(lowerBound, upperBound) <= 0,
-        "Expected lowerBound <= upperBound but %s > %s", lowerBound, upperBound);
+    checkArgument(
+        comparator().compare(lowerBound, upperBound) <= 0,
+        "Expected lowerBound <= upperBound but %s > %s",
+        lowerBound,
+        upperBound);
     return tailMultiset(lowerBound, lowerBoundType).headMultiset(upperBound, upperBoundType);
   }
 

@@ -45,8 +45,7 @@ import java.util.Set;
 public final class HashMultimap<K, V> extends AbstractSetMultimap<K, V> {
   private static final int DEFAULT_VALUES_PER_KEY = 2;
 
-  @VisibleForTesting
-  transient int expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
+  @VisibleForTesting transient int expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
 
   /**
    * Creates a new, empty {@code HashMultimap} with the default initial
@@ -65,8 +64,7 @@ public final class HashMultimap<K, V> extends AbstractSetMultimap<K, V> {
    * @throws IllegalArgumentException if {@code expectedKeys} or {@code
    *      expectedValuesPerKey} is negative
    */
-  public static <K, V> HashMultimap<K, V> create(
-      int expectedKeys, int expectedValuesPerKey) {
+  public static <K, V> HashMultimap<K, V> create(int expectedKeys, int expectedValuesPerKey) {
     return new HashMultimap<K, V>(expectedKeys, expectedValuesPerKey);
   }
 
@@ -77,8 +75,7 @@ public final class HashMultimap<K, V> extends AbstractSetMultimap<K, V> {
    *
    * @param multimap the multimap whose contents are copied to this multimap
    */
-  public static <K, V> HashMultimap<K, V> create(
-      Multimap<? extends K, ? extends V> multimap) {
+  public static <K, V> HashMultimap<K, V> create(Multimap<? extends K, ? extends V> multimap) {
     return new HashMultimap<K, V>(multimap);
   }
 
@@ -93,8 +90,7 @@ public final class HashMultimap<K, V> extends AbstractSetMultimap<K, V> {
   }
 
   private HashMultimap(Multimap<? extends K, ? extends V> multimap) {
-    super(Maps.<K, Collection<V>>newHashMapWithExpectedSize(
-        multimap.keySet().size()));
+    super(Maps.<K, Collection<V>>newHashMapWithExpectedSize(multimap.keySet().size()));
     putAll(multimap);
   }
 
@@ -105,7 +101,8 @@ public final class HashMultimap<K, V> extends AbstractSetMultimap<K, V> {
    *
    * @return a new {@code HashSet} containing a collection of values for one key
    */
-  @Override Set<V> createCollection() {
+  @Override
+  Set<V> createCollection() {
     return Sets.<V>newHashSetWithExpectedSize(expectedValuesPerKey);
   }
 }
