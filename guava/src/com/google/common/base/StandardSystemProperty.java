@@ -142,7 +142,8 @@ public enum StandardSystemProperty {
   /**
    * Returns a string representation of this system property.
    */
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return key() + "=" + value();
   }
 }

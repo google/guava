@@ -57,10 +57,11 @@ public abstract class Ticker {
     return SYSTEM_TICKER;
   }
 
-  private static final Ticker SYSTEM_TICKER = new Ticker() {
-    @Override
-    public long read() {
-      return Platform.systemNanoTime();
-    }
-  };
+  private static final Ticker SYSTEM_TICKER =
+      new Ticker() {
+        @Override
+        public long read() {
+          return Platform.systemNanoTime();
+        }
+      };
 }

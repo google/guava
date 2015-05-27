@@ -138,7 +138,8 @@ public final class Preconditions {
    * @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
    *     {@code errorMessageArgs} is null (don't let this happen)
    */
-  public static void checkArgument(boolean expression,
+  public static void checkArgument(
+      boolean expression,
       @Nullable String errorMessageTemplate,
       @Nullable Object... errorMessageArgs) {
     if (!expression) {
@@ -190,7 +191,8 @@ public final class Preconditions {
    * @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
    *     {@code errorMessageArgs} is null (don't let this happen)
    */
-  public static void checkState(boolean expression,
+  public static void checkState(
+      boolean expression,
       @Nullable String errorMessageTemplate,
       @Nullable Object... errorMessageArgs) {
     if (!expression) {
@@ -242,9 +244,8 @@ public final class Preconditions {
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
    */
-  public static <T> T checkNotNull(T reference,
-      @Nullable String errorMessageTemplate,
-      @Nullable Object... errorMessageArgs) {
+  public static <T> T checkNotNull(
+      T reference, @Nullable String errorMessageTemplate, @Nullable Object... errorMessageArgs) {
     if (reference == null) {
       // If either of these parameters is null, the right thing happens anyway
       throw new NullPointerException(format(errorMessageTemplate, errorMessageArgs));
@@ -303,8 +304,7 @@ public final class Preconditions {
    * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
-  public static int checkElementIndex(
-      int index, int size, @Nullable String desc) {
+  public static int checkElementIndex(int index, int size, @Nullable String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index >= size) {
       throw new IndexOutOfBoundsException(badElementIndex(index, size, desc));

@@ -72,8 +72,7 @@ public final class Enums {
    *
    * @since 12.0
    */
-  public static <T extends Enum<T>> Optional<T> getIfPresent(
-      Class<T> enumClass, String value) {
+  public static <T extends Enum<T>> Optional<T> getIfPresent(Class<T> enumClass, String value) {
     checkNotNull(enumClass);
     checkNotNull(value);
     return Platform.getEnumIfPresent(enumClass, value);
@@ -81,14 +80,15 @@ public final class Enums {
 
   @GwtIncompatible("java.lang.ref.WeakReference")
   private static final Map<Class<? extends Enum<?>>, Map<String, WeakReference<? extends Enum<?>>>>
-      enumConstantCache = new WeakHashMap
-              <Class<? extends Enum<?>>, Map<String, WeakReference<? extends Enum<?>>>>();
+      enumConstantCache =
+          new WeakHashMap<
+              Class<? extends Enum<?>>, Map<String, WeakReference<? extends Enum<?>>>>();
 
   @GwtIncompatible("java.lang.ref.WeakReference")
   private static <T extends Enum<T>> Map<String, WeakReference<? extends Enum<?>>> populateCache(
       Class<T> enumClass) {
-    Map<String, WeakReference<? extends Enum<?>>> result
-        = new HashMap<String, WeakReference<? extends Enum<?>>>();
+    Map<String, WeakReference<? extends Enum<?>>> result =
+        new HashMap<String, WeakReference<? extends Enum<?>>>();
     for (T enumInstance : EnumSet.allOf(enumClass)) {
       result.put(enumInstance.name(), new WeakReference<Enum<?>>(enumInstance));
     }
@@ -100,8 +100,7 @@ public final class Enums {
   static <T extends Enum<T>> Map<String, WeakReference<? extends Enum<?>>> getEnumConstants(
       Class<T> enumClass) {
     synchronized (enumConstantCache) {
-      Map<String, WeakReference<? extends Enum<?>>> constants =
-          enumConstantCache.get(enumClass);
+      Map<String, WeakReference<? extends Enum<?>>> constants = enumConstantCache.get(enumClass);
       if (constants == null) {
         constants = populateCache(enumClass);
       }
@@ -121,8 +120,8 @@ public final class Enums {
     return new StringConverter<T>(enumClass);
   }
 
-  private static final class StringConverter<T extends Enum<T>>
-      extends Converter<String, T> implements Serializable {
+  private static final class StringConverter<T extends Enum<T>> extends Converter<String, T>
+      implements Serializable {
 
     private final Class<T> enumClass;
 

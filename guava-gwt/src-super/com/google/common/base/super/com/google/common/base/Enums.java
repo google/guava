@@ -48,8 +48,7 @@ public final class Enums {
    *
    * @since 12.0
    */
-  public static <T extends Enum<T>> Optional<T> getIfPresent(
-      Class<T> enumClass, String value) {
+  public static <T extends Enum<T>> Optional<T> getIfPresent(Class<T> enumClass, String value) {
     checkNotNull(enumClass);
     checkNotNull(value);
     return Platform.getEnumIfPresent(enumClass, value);
@@ -67,8 +66,8 @@ public final class Enums {
     return new StringConverter<T>(enumClass);
   }
 
-  private static final class StringConverter<T extends Enum<T>>
-      extends Converter<String, T> implements Serializable {
+  private static final class StringConverter<T extends Enum<T>> extends Converter<String, T>
+      implements Serializable {
 
     private final Class<T> enumClass;
 

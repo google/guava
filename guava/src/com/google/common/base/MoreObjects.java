@@ -321,13 +321,14 @@ public final class MoreObjects {
      * properties (multiple name/value pairs with the same name can be added).
      */
     @CheckReturnValue
-    @Override public String toString() {
+    @Override
+    public String toString() {
       // create a copy to keep it consistent in case value changes
       boolean omitNullValuesSnapshot = omitNullValues;
       String nextSeparator = "";
-      StringBuilder builder = new StringBuilder(32).append(className)
-          .append('{');
-      for (ValueHolder valueHolder = holderHead.next; valueHolder != null;
+      StringBuilder builder = new StringBuilder(32).append(className).append('{');
+      for (ValueHolder valueHolder = holderHead.next;
+          valueHolder != null;
           valueHolder = valueHolder.next) {
         Object value = valueHolder.value;
         if (!omitNullValuesSnapshot || value != null) {
@@ -338,7 +339,7 @@ public final class MoreObjects {
             builder.append(valueHolder.name).append('=');
           }
           if (value != null && value.getClass().isArray()) {
-            Object[] objectArray = { value };
+            Object[] objectArray = {value};
             String arrayString = Arrays.deepToString(objectArray);
             builder.append(arrayString.substring(1, arrayString.length() - 1));
           } else {

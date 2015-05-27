@@ -221,7 +221,8 @@ public final class Stopwatch {
    * Returns a string representation of the current elapsed time.
    */
   @GwtIncompatible("String.format()")
-  @Override public String toString() {
+  @Override
+  public String toString() {
     long nanos = elapsedNanos();
 
     TimeUnit unit = chooseUnit(nanos);

@@ -387,13 +387,14 @@ public final class Objects {
      * limited reuse of the helper instance. The helper allows duplication of
      * properties (multiple name/value pairs with the same name can be added).
      */
-    @Override public String toString() {
+    @Override
+    public String toString() {
       // create a copy to keep it consistent in case value changes
       boolean omitNullValuesSnapshot = omitNullValues;
       String nextSeparator = "";
-      StringBuilder builder = new StringBuilder(32).append(className)
-          .append('{');
-      for (ValueHolder valueHolder = holderHead.next; valueHolder != null;
+      StringBuilder builder = new StringBuilder(32).append(className).append('{');
+      for (ValueHolder valueHolder = holderHead.next;
+          valueHolder != null;
           valueHolder = valueHolder.next) {
         if (!omitNullValuesSnapshot || valueHolder.value != null) {
           builder.append(nextSeparator);
