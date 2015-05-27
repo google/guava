@@ -196,8 +196,10 @@ public final class UnsignedBytes {
   @Beta
   @CheckReturnValue
   public static String toString(byte x, int radix) {
-    checkArgument(radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
-        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX", radix);
+    checkArgument(
+        radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
+        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX",
+        radix);
     // Benchmarks indicate this is probably not worth optimizing.
     return Integer.toString(toInt(x), radix);
   }
@@ -308,8 +310,7 @@ public final class UnsignedBytes {
     enum UnsafeComparator implements Comparator<byte[]> {
       INSTANCE;
 
-      static final boolean BIG_ENDIAN =
-          ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);
+      static final boolean BIG_ENDIAN = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);
 
       /*
        * The following static final fields exist for performance reasons.
@@ -354,29 +355,33 @@ public final class UnsignedBytes {
        * @return a sun.misc.Unsafe
        */
       private static sun.misc.Unsafe getUnsafe() {
-          try {
-              return sun.misc.Unsafe.getUnsafe();
-          } catch (SecurityException tryReflectionInstead) {}
-          try {
-              return java.security.AccessController.doPrivileged
-              (new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
-                  public sun.misc.Unsafe run() throws Exception {
-                      Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
-                      for (java.lang.reflect.Field f : k.getDeclaredFields()) {
-                          f.setAccessible(true);
-                          Object x = f.get(null);
-                          if (k.isInstance(x))
-                              return k.cast(x);
-                      }
-                      throw new NoSuchFieldError("the Unsafe");
-                  }});
-          } catch (java.security.PrivilegedActionException e) {
-              throw new RuntimeException("Could not initialize intrinsics",
-                                         e.getCause());
-          }
+        try {
+          return sun.misc.Unsafe.getUnsafe();
+        } catch (SecurityException e) {
+          // that's okay; try reflection instead
+        }
+        try {
+          return java.security.AccessController.doPrivileged(
+              new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
+                public sun.misc.Unsafe run() throws Exception {
+                  Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
+                  for (java.lang.reflect.Field f : k.getDeclaredFields()) {
+                    f.setAccessible(true);
+                    Object x = f.get(null);
+                    if (k.isInstance(x)) {
+                      return k.cast(x);
+                    }
+                  }
+                  throw new NoSuchFieldError("the Unsafe");
+                }
+              });
+        } catch (java.security.PrivilegedActionException e) {
+          throw new RuntimeException("Could not initialize intrinsics", e.getCause());
+        }
       }
 
-      @Override public int compare(byte[] left, byte[] right) {
+      @Override
+      public int compare(byte[] left, byte[] right) {
         int minLength = Math.min(left.length, right.length);
         int minWords = minLength / Longs.BYTES;
 
@@ -419,7 +424,8 @@ public final class UnsignedBytes {
     enum PureJavaComparator implements Comparator<byte[]> {
       INSTANCE;
 
-      @Override public int compare(byte[] left, byte[] right) {
+      @Override
+      public int compare(byte[] left, byte[] right) {
         int minLength = Math.min(left.length, right.length);
         for (int i = 0; i < minLength; i++) {
           int result = UnsignedBytes.compare(left[i], right[i]);
@@ -441,8 +447,7 @@ public final class UnsignedBytes {
 
         // yes, UnsafeComparator does implement Comparator<byte[]>
         @SuppressWarnings("unchecked")
-        Comparator<byte[]> comparator =
-            (Comparator<byte[]>) theClass.getEnumConstants()[0];
+        Comparator<byte[]> comparator = (Comparator<byte[]>) theClass.getEnumConstants()[0];
         return comparator;
       } catch (Throwable t) { // ensure we really catch *everything*
         return lexicographicalComparatorJavaImpl();

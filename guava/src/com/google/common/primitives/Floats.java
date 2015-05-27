@@ -140,8 +140,7 @@ public final class Floats {
   }
 
   // TODO(kevinb): consider making this public
-  private static int indexOf(
-      float[] array, float target, int start, int end) {
+  private static int indexOf(float[] array, float target, int start, int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -198,8 +197,7 @@ public final class Floats {
   }
 
   // TODO(kevinb): consider making this public
-  private static int lastIndexOf(
-      float[] array, float target, int start, int end) {
+  private static int lastIndexOf(float[] array, float target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -267,8 +265,8 @@ public final class Floats {
     return result;
   }
 
-  private static final class FloatConverter
-      extends Converter<String, Float> implements Serializable {
+  private static final class FloatConverter extends Converter<String, Float>
+      implements Serializable {
     static final FloatConverter INSTANCE = new FloatConverter();
 
     @Override
@@ -289,6 +287,7 @@ public final class Floats {
     private Object readResolve() {
       return INSTANCE;
     }
+
     private static final long serialVersionUID = 1;
   }
 
@@ -319,8 +318,7 @@ public final class Floats {
    * @return an array containing the values of {@code array}, with guaranteed
    *     minimum length {@code minLength}
    */
-  public static float[] ensureCapacity(
-      float[] array, int minLength, int padding) {
+  public static float[] ensureCapacity(float[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength)
@@ -471,26 +469,30 @@ public final class Floats {
       this.end = end;
     }
 
-    @Override public int size() {
+    @Override
+    public int size() {
       return end - start;
     }
 
-    @Override public boolean isEmpty() {
+    @Override
+    public boolean isEmpty() {
       return false;
     }
 
-    @Override public Float get(int index) {
+    @Override
+    public Float get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
 
-    @Override public boolean contains(Object target) {
+    @Override
+    public boolean contains(Object target) {
       // Overridden to prevent a ton of boxing
-      return (target instanceof Float)
-          && Floats.indexOf(array, (Float) target, start, end) != -1;
+      return (target instanceof Float) && Floats.indexOf(array, (Float) target, start, end) != -1;
     }
 
-    @Override public int indexOf(Object target) {
+    @Override
+    public int indexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Float) {
         int i = Floats.indexOf(array, (Float) target, start, end);
@@ -501,7 +503,8 @@ public final class Floats {
       return -1;
     }
 
-    @Override public int lastIndexOf(Object target) {
+    @Override
+    public int lastIndexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Float) {
         int i = Floats.lastIndexOf(array, (Float) target, start, end);
@@ -512,7 +515,8 @@ public final class Floats {
       return -1;
     }
 
-    @Override public Float set(int index, Float element) {
+    @Override
+    public Float set(int index, Float element) {
       checkElementIndex(index, size());
       float oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
@@ -520,7 +524,8 @@ public final class Floats {
       return oldValue;
     }
 
-    @Override public List<Float> subList(int fromIndex, int toIndex) {
+    @Override
+    public List<Float> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {
@@ -529,7 +534,8 @@ public final class Floats {
       return new FloatArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
-    @Override public boolean equals(@Nullable Object object) {
+    @Override
+    public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -549,7 +555,8 @@ public final class Floats {
       return super.equals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
         result = 31 * result + Floats.hashCode(array[i]);
@@ -557,7 +564,8 @@ public final class Floats {
       return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       StringBuilder builder = new StringBuilder(size() * 12);
       builder.append('[').append(array[start]);
       for (int i = start + 1; i < end; i++) {

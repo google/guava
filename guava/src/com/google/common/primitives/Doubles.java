@@ -144,8 +144,7 @@ public final class Doubles {
   }
 
   // TODO(kevinb): consider making this public
-  private static int indexOf(
-      double[] array, double target, int start, int end) {
+  private static int indexOf(double[] array, double target, int start, int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -202,8 +201,7 @@ public final class Doubles {
   }
 
   // TODO(kevinb): consider making this public
-  private static int lastIndexOf(
-      double[] array, double target, int start, int end) {
+  private static int lastIndexOf(double[] array, double target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -271,8 +269,8 @@ public final class Doubles {
     return result;
   }
 
-  private static final class DoubleConverter
-      extends Converter<String, Double> implements Serializable {
+  private static final class DoubleConverter extends Converter<String, Double>
+      implements Serializable {
     static final DoubleConverter INSTANCE = new DoubleConverter();
 
     @Override
@@ -293,6 +291,7 @@ public final class Doubles {
     private Object readResolve() {
       return INSTANCE;
     }
+
     private static final long serialVersionUID = 1;
   }
 
@@ -323,8 +322,7 @@ public final class Doubles {
    * @return an array containing the values of {@code array}, with guaranteed
    *     minimum length {@code minLength}
    */
-  public static double[] ensureCapacity(
-      double[] array, int minLength, int padding) {
+  public static double[] ensureCapacity(double[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength)
@@ -475,26 +473,31 @@ public final class Doubles {
       this.end = end;
     }
 
-    @Override public int size() {
+    @Override
+    public int size() {
       return end - start;
     }
 
-    @Override public boolean isEmpty() {
+    @Override
+    public boolean isEmpty() {
       return false;
     }
 
-    @Override public Double get(int index) {
+    @Override
+    public Double get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
 
-    @Override public boolean contains(Object target) {
+    @Override
+    public boolean contains(Object target) {
       // Overridden to prevent a ton of boxing
       return (target instanceof Double)
           && Doubles.indexOf(array, (Double) target, start, end) != -1;
     }
 
-    @Override public int indexOf(Object target) {
+    @Override
+    public int indexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Double) {
         int i = Doubles.indexOf(array, (Double) target, start, end);
@@ -505,7 +508,8 @@ public final class Doubles {
       return -1;
     }
 
-    @Override public int lastIndexOf(Object target) {
+    @Override
+    public int lastIndexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Double) {
         int i = Doubles.lastIndexOf(array, (Double) target, start, end);
@@ -516,7 +520,8 @@ public final class Doubles {
       return -1;
     }
 
-    @Override public Double set(int index, Double element) {
+    @Override
+    public Double set(int index, Double element) {
       checkElementIndex(index, size());
       double oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
@@ -524,7 +529,8 @@ public final class Doubles {
       return oldValue;
     }
 
-    @Override public List<Double> subList(int fromIndex, int toIndex) {
+    @Override
+    public List<Double> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {
@@ -533,7 +539,8 @@ public final class Doubles {
       return new DoubleArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
-    @Override public boolean equals(@Nullable Object object) {
+    @Override
+    public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -553,7 +560,8 @@ public final class Doubles {
       return super.equals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
         result = 31 * result + Doubles.hashCode(array[i]);
@@ -561,7 +569,8 @@ public final class Doubles {
       return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       StringBuilder builder = new StringBuilder(size() * 12);
       builder.append('[').append(array[start]);
       for (int i = start + 1; i < end; i++) {

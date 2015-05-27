@@ -296,7 +296,7 @@ public final class UnsignedLongs {
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
    *         with the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX}
    *         and {@link Character#MAX_RADIX}.
-   * @throws NullPointerException if {@code s} is null 
+   * @throws NullPointerException if {@code s} is null
    *         (in contrast to {@link Long#parseLong(String)})
    */
   public static long parseUnsignedLong(String s, int radix) {
@@ -365,8 +365,10 @@ public final class UnsignedLongs {
    */
   @CheckReturnValue
   public static String toString(long x, int radix) {
-    checkArgument(radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
-        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX", radix);
+    checkArgument(
+        radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
+        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX",
+        radix);
     if (x == 0) {
       // Simply return "0"
       return "0";
@@ -395,6 +397,7 @@ public final class UnsignedLongs {
   private static final long[] maxValueDivs = new long[Character.MAX_RADIX + 1];
   private static final int[] maxValueMods = new int[Character.MAX_RADIX + 1];
   private static final int[] maxSafeDigits = new int[Character.MAX_RADIX + 1];
+
   static {
     BigInteger overflow = new BigInteger("10000000000000000", 16);
     for (int i = Character.MIN_RADIX; i <= Character.MAX_RADIX; i++) {

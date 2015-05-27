@@ -162,8 +162,7 @@ public final class Ints {
   }
 
   // TODO(kevinb): consider making this public
-  private static int indexOf(
-      int[] array, int target, int start, int end) {
+  private static int indexOf(int[] array, int target, int start, int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -216,8 +215,7 @@ public final class Ints {
   }
 
   // TODO(kevinb): consider making this public
-  private static int lastIndexOf(
-      int[] array, int target, int start, int end) {
+  private static int lastIndexOf(int[] array, int target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -301,10 +299,11 @@ public final class Ints {
   @GwtIncompatible("doesn't work")
   public static byte[] toByteArray(int value) {
     return new byte[] {
-        (byte) (value >> 24),
-        (byte) (value >> 16),
-        (byte) (value >> 8),
-        (byte) value};
+      (byte) (value >> 24),
+      (byte) (value >> 16),
+      (byte) (value >> 8),
+      (byte) value
+    };
   }
 
   /**
@@ -321,8 +320,7 @@ public final class Ints {
    */
   @GwtIncompatible("doesn't work")
   public static int fromByteArray(byte[] bytes) {
-    checkArgument(bytes.length >= BYTES,
-        "array too small: %s < %s", bytes.length, BYTES);
+    checkArgument(bytes.length >= BYTES, "array too small: %s < %s", bytes.length, BYTES);
     return fromBytes(bytes[0], bytes[1], bytes[2], bytes[3]);
   }
 
@@ -338,8 +336,8 @@ public final class Ints {
     return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
   }
 
-  private static final class IntConverter
-      extends Converter<String, Integer> implements Serializable {
+  private static final class IntConverter extends Converter<String, Integer>
+      implements Serializable {
     static final IntConverter INSTANCE = new IntConverter();
 
     @Override
@@ -360,6 +358,7 @@ public final class Ints {
     private Object readResolve() {
       return INSTANCE;
     }
+
     private static final long serialVersionUID = 1;
   }
 
@@ -390,8 +389,7 @@ public final class Ints {
    * @return an array containing the values of {@code array}, with guaranteed
    *     minimum length {@code minLength}
    */
-  public static int[] ensureCapacity(
-      int[] array, int minLength, int padding) {
+  public static int[] ensureCapacity(int[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength)
@@ -533,26 +531,30 @@ public final class Ints {
       this.end = end;
     }
 
-    @Override public int size() {
+    @Override
+    public int size() {
       return end - start;
     }
 
-    @Override public boolean isEmpty() {
+    @Override
+    public boolean isEmpty() {
       return false;
     }
 
-    @Override public Integer get(int index) {
+    @Override
+    public Integer get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
 
-    @Override public boolean contains(Object target) {
+    @Override
+    public boolean contains(Object target) {
       // Overridden to prevent a ton of boxing
-      return (target instanceof Integer)
-          && Ints.indexOf(array, (Integer) target, start, end) != -1;
+      return (target instanceof Integer) && Ints.indexOf(array, (Integer) target, start, end) != -1;
     }
 
-    @Override public int indexOf(Object target) {
+    @Override
+    public int indexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Integer) {
         int i = Ints.indexOf(array, (Integer) target, start, end);
@@ -563,7 +565,8 @@ public final class Ints {
       return -1;
     }
 
-    @Override public int lastIndexOf(Object target) {
+    @Override
+    public int lastIndexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Integer) {
         int i = Ints.lastIndexOf(array, (Integer) target, start, end);
@@ -574,7 +577,8 @@ public final class Ints {
       return -1;
     }
 
-    @Override public Integer set(int index, Integer element) {
+    @Override
+    public Integer set(int index, Integer element) {
       checkElementIndex(index, size());
       int oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
@@ -582,7 +586,8 @@ public final class Ints {
       return oldValue;
     }
 
-    @Override public List<Integer> subList(int fromIndex, int toIndex) {
+    @Override
+    public List<Integer> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {
@@ -591,7 +596,8 @@ public final class Ints {
       return new IntArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
-    @Override public boolean equals(@Nullable Object object) {
+    @Override
+    public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -611,7 +617,8 @@ public final class Ints {
       return super.equals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
         result = 31 * result + Ints.hashCode(array[i]);
@@ -619,7 +626,8 @@ public final class Ints {
       return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       StringBuilder builder = new StringBuilder(size() * 5);
       builder.append('[').append(array[start]);
       for (int i = start + 1; i < end; i++) {

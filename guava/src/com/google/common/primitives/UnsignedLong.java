@@ -79,8 +79,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * @since 14.0
    */
   public static UnsignedLong valueOf(long value) {
-    checkArgument(value >= 0,
-        "value (%s) is outside the range for an unsigned long value", value);
+    checkArgument(value >= 0, "value (%s) is outside the range for an unsigned long value", value);
     return fromLongBits(value);
   }
 
@@ -92,8 +91,10 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    */
   public static UnsignedLong valueOf(BigInteger value) {
     checkNotNull(value);
-    checkArgument(value.signum() >= 0 && value.bitLength() <= Long.SIZE,
-        "value (%s) is outside the range for an unsigned long value", value);
+    checkArgument(
+        value.signum() >= 0 && value.bitLength() <= Long.SIZE,
+        "value (%s) is outside the range for an unsigned long value",
+        value);
     return fromLongBits(value.longValue());
   }
 

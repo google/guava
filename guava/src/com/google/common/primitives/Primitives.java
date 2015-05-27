@@ -43,7 +43,7 @@ public final class Primitives {
   private static final Map<Class<?>, Class<?>> WRAPPER_TO_PRIMITIVE_TYPE;
 
   // Sad that we can't use a BiMap. :(
-  
+
   static {
     Map<Class<?>, Class<?>> primToWrap = new HashMap<Class<?>, Class<?>>(16);
     Map<Class<?>, Class<?>> wrapToPrim = new HashMap<Class<?>, Class<?>>(16);
@@ -62,8 +62,11 @@ public final class Primitives {
     WRAPPER_TO_PRIMITIVE_TYPE = Collections.unmodifiableMap(wrapToPrim);
   }
 
-  private static void add(Map<Class<?>, Class<?>> forward,
-      Map<Class<?>, Class<?>> backward, Class<?> key, Class<?> value) {
+  private static void add(
+      Map<Class<?>, Class<?>> forward,
+      Map<Class<?>, Class<?>> backward,
+      Class<?> key,
+      Class<?> value) {
     forward.put(key, value);
     backward.put(value, key);
   }

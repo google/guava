@@ -30,7 +30,7 @@ import javax.annotation.CheckReturnValue;
  * interpret values as signed. The corresponding methods that treat the values
  * as unsigned are found in {@link UnsignedBytes}, and the methods for which
  * signedness is not an issue are in {@link Bytes}.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
  * primitive utilities</a>.
@@ -46,12 +46,12 @@ public final class SignedBytes {
   private SignedBytes() {}
 
   /**
-   * The largest power of two that can be represented as a signed {@code byte}. 
+   * The largest power of two that can be represented as a signed {@code byte}.
    *
    * @since 10.0
    */
   public static final byte MAX_POWER_OF_TWO = 1 << 6;
-  
+
   /**
    * Returns the {@code byte} value that is equal to {@code value}, if possible.
    *
