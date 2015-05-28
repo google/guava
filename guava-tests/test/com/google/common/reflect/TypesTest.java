@@ -19,8 +19,6 @@ package com.google.common.reflect;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
-import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -36,6 +34,7 @@ import java.lang.reflect.ReflectPermission;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.security.AccessControlException;
 import java.security.Permission;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -51,28 +50,42 @@ import java.util.Map;
 public class TypesTest extends TestCase {
   private SecurityManager oldSecurityManager;
 
+  // This must be static because the point where it is needed may be earlier than the execution
+  // of the specific test case that uses it. Currently we need it to operate in the static
+  // initializer of TypeVariableInvocationHandler.
+  private static final NoSetAccessibleSecurityManager securityManager =
+      new NoSetAccessibleSecurityManager();
+
   /**
    * A SecurityManager that disallows {@link java.lang.reflect.Method#setAccessible(boolean)}
-   * except when it comes from one of a set of known classes. The purpose is to detect whether we
-   * do a setAccessible call that might fail in a context where a SecurityManager forbids it.
+   * when it comes from a specific place. The idea is to ensure that
+   * {@code Types.newTypeVariableImpl}, which calls {@code setAccessible}, can still work if that
+   * call is refused. We also record whether the refusal happened, so that we can test that we are
+   * indeed refusing access where we expect.
    */
   private static class NoSetAccessibleSecurityManager extends SecurityManager {
     private static final Permission DISALLOWED_PERMISSION =
         new ReflectPermission("suppressAccessChecks");
-    private static final ImmutableSet<String> ALLOWED_CALLERS =
-        ImmutableSet.of("NullPointerTester", "EqualsTester", "ObjectStreamClass");
+    volatile boolean setAccessibleWasRefused;
 
     @Override
     public void checkPermission(Permission p) {
-      if (p.equals(DISALLOWED_PERMISSION) && !allowedCaller()) {
-        super.checkPermission(p);
+      if (p.equals(DISALLOWED_PERMISSION)
+          && callStackContainsMethod("TypeVariableInvocationHandler", "<clinit>")) {
+        try {
+          super.checkPermission(p);
+          fail("Did not get expected AccessControlException");
+        } catch (AccessControlException expected) {
+          setAccessibleWasRefused = true;
+          throw expected;
+        }
       }
     }
 
-    private static boolean allowedCaller() {
-      String stack = Throwables.getStackTraceAsString(new Throwable());
-      for (String allowed : ALLOWED_CALLERS) {
-        if (stack.contains(allowed)) {
+    private static boolean callStackContainsMethod(String classNameFragment, String methodName) {
+      for (StackTraceElement stackTraceElement : new Throwable().getStackTrace()) {
+        if (stackTraceElement.getClassName().contains(classNameFragment)
+            && stackTraceElement.getMethodName().equals(methodName)) {
           return true;
         }
       }
@@ -83,7 +96,7 @@ public class TypesTest extends TestCase {
   @Override
   protected void setUp() {
     oldSecurityManager = System.getSecurityManager();
-    System.setSecurityManager(new NoSetAccessibleSecurityManager());
+    System.setSecurityManager(securityManager);
   }
 
   @Override
@@ -369,6 +382,11 @@ public class TypesTest extends TestCase {
         .addEqualityGroup(objectBoundJvmType, objectBound)
         .addEqualityGroup(upperBoundJvmType, upperBound)
         .testEquals();
+
+    // At some point before now we should have hit the permission check that prevents us from
+    // calling setAccessible. We check that that is indeed true because we want to make sure
+    // that creating a TypeVariable instance works even when that is not allowed.
+    assertTrue(securityManager.setAccessibleWasRefused);
   }
 
   public void testNewTypeVariable_primitiveTypeBound() {
