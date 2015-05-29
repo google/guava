@@ -19,6 +19,8 @@ package com.google.common.collect;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.collect.Iterables.unmodifiableIterable;
 import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static java.lang.reflect.Proxy.newProxyInstance;
 import static java.util.Arrays.asList;
 
@@ -28,7 +30,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.MinimalIterable;
-import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.ListGenerators.BuilderAddAllListGenerator;
 import com.google.common.collect.testing.google.ListGenerators.BuilderReversedListGenerator;
@@ -72,54 +73,54 @@ public class ImmutableListTest extends TestCase {
     suite.addTest(ListTestSuiteBuilder.using(new ImmutableListOfGenerator())
         .named("ImmutableList")
         .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+            SERIALIZABLE,
+            ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(new BuilderAddAllListGenerator())
         .named("ImmutableList, built with Builder.add")
         .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+            SERIALIZABLE,
+            ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(new BuilderAddAllListGenerator())
         .named("ImmutableList, built with Builder.addAll")
         .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+            SERIALIZABLE,
+            ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(new BuilderReversedListGenerator())
         .named("ImmutableList, reversed")
         .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+            SERIALIZABLE,
+            ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(
         new ImmutableListHeadSubListGenerator())
         .named("ImmutableList, head subList")
         .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+            SERIALIZABLE,
+            ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(
         new ImmutableListTailSubListGenerator())
         .named("ImmutableList, tail subList")
         .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+            SERIALIZABLE,
+            ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(
         new ImmutableListMiddleSubListGenerator())
         .named("ImmutableList, middle subList")
         .withFeatures(CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+            SERIALIZABLE,
+            ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(
         new UnhashableElementsImmutableListGenerator())
         .suppressing(ListHashCodeTester.getHashCodeMethod())
         .named("ImmutableList, unhashable values")
         .withFeatures(CollectionSize.ANY,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+            ALLOWS_NULL_QUERIES)
         .createTestSuite());
     return suite;
   }
