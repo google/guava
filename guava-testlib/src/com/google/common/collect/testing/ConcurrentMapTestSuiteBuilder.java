@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   public static <K, V> ConcurrentMapTestSuiteBuilder<K, V> using(
-      TestConcurrentMapGenerator<K, V> generator) {
+      TestMapGenerator<K, V> generator) {
     ConcurrentMapTestSuiteBuilder<K, V> result = new ConcurrentMapTestSuiteBuilder<K, V>();
     result.usingGenerator(generator);
     return result;

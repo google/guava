@@ -36,7 +36,6 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
@@ -249,9 +248,8 @@ public class TestsForMapsInJavaUtil {
 
   public Test testsForConcurrentHashMap() {
     return ConcurrentMapTestSuiteBuilder
-        .using(new TestStringConcurrentMapGenerator() {
-          @Override protected ConcurrentMap<String, String> create(
-              Entry<String, String>[] entries) {
+        .using(new TestStringMapGenerator() {
+          @Override protected Map<String, String> create(Entry<String, String>[] entries) {
             return populate(new ConcurrentHashMap<String, String>(), entries);
           }
         })
