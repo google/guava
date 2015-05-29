@@ -19,6 +19,7 @@ import com.google.common.collect.testing.testers.ConcurrentMapRemoveTester;
 import com.google.common.collect.testing.testers.ConcurrentMapReplaceEntryTester;
 import com.google.common.collect.testing.testers.ConcurrentMapReplaceTester;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,14 +35,18 @@ public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, 
     result.usingGenerator(generator);
     return result;
   }
-
+  
+  static final List<? extends Class<? extends AbstractTester>> TESTERS = 
+      Arrays.asList(
+          ConcurrentMapPutIfAbsentTester.class,
+          ConcurrentMapRemoveTester.class,
+          ConcurrentMapReplaceTester.class,
+          ConcurrentMapReplaceEntryTester.class);
+  
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
-    testers.add(ConcurrentMapPutIfAbsentTester.class);
-    testers.add(ConcurrentMapRemoveTester.class);
-    testers.add(ConcurrentMapReplaceTester.class);
-    testers.add(ConcurrentMapReplaceEntryTester.class);
+    testers.addAll(TESTERS);
     return testers;
   }
 }

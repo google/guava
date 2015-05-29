@@ -107,7 +107,7 @@ public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilde
   @Override
   public NavigableMapTestSuiteBuilder<K, V> newBuilderUsing(
       TestSortedMapGenerator<K, V> delegate, Bound to, Bound from) {
-    return using(new NavigableMapSubmapTestMapGenerator<K, V>(delegate, to, from));
+    return subSuiteUsing(new NavigableMapSubmapTestMapGenerator<K, V>(delegate, to, from));
   }
 
   /**
@@ -122,12 +122,15 @@ public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilde
     features.add(NoRecurse.DESCENDING);
     features.addAll(parentBuilder.getFeatures());
 
-    return NavigableMapTestSuiteBuilder
-        .using(new DescendingTestMapGenerator<K, V>(delegate))
+    return subSuiteUsing(new DescendingTestMapGenerator<K, V>(delegate))
         .named(parentBuilder.getName() + " descending")
         .withFeatures(features)
         .suppressing(parentBuilder.getSuppressedTests())
         .createTestSuite();
+  }
+  
+  NavigableMapTestSuiteBuilder<K, V> subSuiteUsing(TestSortedMapGenerator<K, V> generator) {
+    return using(generator);
   }
   
   static class DescendingTestMapGenerator<K, V>

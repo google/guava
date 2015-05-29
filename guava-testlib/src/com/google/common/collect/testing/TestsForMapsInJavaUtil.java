@@ -264,7 +264,7 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForConcurrentSkipListMapNatural() {
-    return NavigableMapTestSuiteBuilder
+    return ConcurrentNavigableMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {
           @Override protected SortedMap<String, String> create(
               Entry<String, String>[] entries) {
@@ -283,7 +283,7 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForConcurrentSkipListMapWithComparator() {
-    return NavigableMapTestSuiteBuilder
+    return ConcurrentNavigableMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {
           @Override protected SortedMap<String, String> create(
               Entry<String, String>[] entries) {
