@@ -49,7 +49,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.testing.MapTestSuiteBuilder;
+import com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -83,21 +83,101 @@ import java.util.logging.LogRecord;
  * @author Charles Fry
  */
 public class LocalCacheTest extends TestCase {
+  private static class TestStringCacheGenerator extends TestStringMapGenerator {
+    private final CacheBuilder<? super String, ? super String> builder;
+
+    TestStringCacheGenerator(CacheBuilder<? super String, ? super String> builder) {
+      this.builder = builder;
+    }
+
+    @Override
+    protected Map<String, String> create(Entry<String, String>[] entries) {
+      LocalCache<String, String> map = makeLocalCache(builder);
+      for (Entry<String, String> entry : entries) {
+        map.put(entry.getKey(), entry.getValue());
+      }
+      return map;
+    }
+  }
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(LocalCacheTest.class);
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
-          @Override public Map<String, String> create(
-              Entry<String, String>[] entries) {
-            LocalCache<String, String> map = makeLocalCache(createCacheBuilder());
-            for (Entry<String, String> entry : entries) {
-              map.put(entry.getKey(), entry.getValue());
-            }
-            return map;
-          }
-
-        }).named("LocalCache with defaults")
+    suite.addTest(ConcurrentMapTestSuiteBuilder
+        .using(new TestStringCacheGenerator(createCacheBuilder()))
+        .named("LocalCache with defaults")
+        .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
+    suite.addTest(ConcurrentMapTestSuiteBuilder
+        .using(new TestStringCacheGenerator(
+            createCacheBuilder().concurrencyLevel(1)))
+        .named("LocalCache with concurrencyLevel[1]")
+        .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
+    suite.addTest(ConcurrentMapTestSuiteBuilder
+        .using(new TestStringCacheGenerator(
+            createCacheBuilder().maximumSize(Integer.MAX_VALUE)))
+        .named("LocalCache with maximumSize")
+        .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
+    suite.addTest(ConcurrentMapTestSuiteBuilder
+        .using(new TestStringCacheGenerator(
+            createCacheBuilder()
+                .maximumWeight(Integer.MAX_VALUE)
+                .weigher(new SerializableWeigher<String, String>())))
+        .named("LocalCache with maximumWeight")
+        .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
+    suite.addTest(ConcurrentMapTestSuiteBuilder
+        .using(new TestStringCacheGenerator(
+            createCacheBuilder().weakKeys()))
+        .named("LocalCache with weakKeys") // keys are string literals and won't be GC'd
+        .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
+    suite.addTest(ConcurrentMapTestSuiteBuilder
+        .using(new TestStringCacheGenerator(
+            createCacheBuilder().weakValues()))
+        .named("LocalCache with weakValues") // values are string literals and won't be GC'd
+        .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
+    suite.addTest(ConcurrentMapTestSuiteBuilder
+        .using(new TestStringCacheGenerator(
+            createCacheBuilder().softValues()))
+        .named("LocalCache with softValues") // values are string literals and won't be GC'd
+        .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
+    suite.addTest(ConcurrentMapTestSuiteBuilder
+        .using(new TestStringCacheGenerator(
+            createCacheBuilder().expireAfterAccess(1, SECONDS).ticker(new SerializableTicker())))
+        .named("LocalCache with expireAfterAccess") // SerializableTicker never advances
+        .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
+    suite.addTest(ConcurrentMapTestSuiteBuilder
+        .using(new TestStringCacheGenerator(
+            createCacheBuilder().expireAfterWrite(1, SECONDS).ticker(new SerializableTicker())))
+        .named("LocalCache with expireAfterWrite") // SerializableTicker never advances
+        .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
+    suite.addTest(ConcurrentMapTestSuiteBuilder
+        .using(new TestStringCacheGenerator(
+            createCacheBuilder()
+                .removalListener(new SerializableRemovalListener<String, String>())))
+        .named("LocalCache with removalListener")
+        .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+        .createTestSuite());
+    suite.addTest(ConcurrentMapTestSuiteBuilder
+        .using(new TestStringCacheGenerator(createCacheBuilder().recordStats()))
+        .named("LocalCache with recordStats")
         .withFeatures(CollectionSize.ANY, MapFeature.GENERAL_PURPOSE,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
         .createTestSuite());
