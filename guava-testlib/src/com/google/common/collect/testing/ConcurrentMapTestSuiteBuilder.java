@@ -18,6 +18,7 @@ package com.google.common.collect.testing;
 
 import com.google.common.collect.testing.testers.ConcurrentMapPutIfAbsentTester;
 import com.google.common.collect.testing.testers.ConcurrentMapRemoveTester;
+import com.google.common.collect.testing.testers.ConcurrentMapReplaceTester;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, 
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
     testers.add(ConcurrentMapPutIfAbsentTester.class);
     testers.add(ConcurrentMapRemoveTester.class);
+    testers.add(ConcurrentMapReplaceTester.class);
     return testers;
   }
 }
