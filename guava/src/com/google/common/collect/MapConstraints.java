@@ -403,6 +403,8 @@ public final class MapConstraints {
   /** @see MapConstraints#constrainedMultimap */
   private static class ConstrainedMultimap<K, V>
       extends ForwardingMultimap<K, V> implements Serializable {
+	private static final long serialVersionUID = 0L;
+	  
     final MapConstraint<? super K, ? super V> constraint;
     final Multimap<K, V> delegate;
     transient Collection<Entry<K, V>> entries;

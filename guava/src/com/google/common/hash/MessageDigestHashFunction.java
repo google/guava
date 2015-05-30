@@ -156,4 +156,6 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
           : HashCode.fromBytesNoCopy(Arrays.copyOf(digest.digest(), bytes));
     }
   }
+  
+  private static final long serialVersionUID = 0L;
 }

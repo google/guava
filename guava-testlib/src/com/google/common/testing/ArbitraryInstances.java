@@ -459,6 +459,8 @@ public final class ArbitraryInstances {
     @Override public OutputStream openStream() {
       return ByteStreams.nullOutputStream();
     }
+    
+    private static final long serialVersionUID = 0L;
   }
 
   // Compare by toString() to satisfy 2 properties:
@@ -495,6 +497,8 @@ public final class ArbitraryInstances {
     private Object readResolve() {
       return INSTANCE;
     }
+    
+    private static final long serialVersionUID = 0L;
   }
 
   private ArbitraryInstances() {}

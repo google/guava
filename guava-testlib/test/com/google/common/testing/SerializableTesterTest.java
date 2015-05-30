@@ -121,6 +121,8 @@ public class SerializableTesterTest extends TestCase {
       public int hashCode() {
         return 1;
       }
+      
+      private static final long serialVersionUID = 0L;
     }
   }
 

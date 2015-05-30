@@ -71,4 +71,6 @@ final class Count implements Serializable {
   public String toString() {
     return Integer.toString(value);
   }
+  
+  private static final long serialVersionUID = 0L;
 }
