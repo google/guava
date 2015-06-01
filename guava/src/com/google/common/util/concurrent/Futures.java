@@ -1523,7 +1523,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
         }
         I sourceResult;
         try {
-          sourceResult = getUninterruptibly(inputFuture);
+          sourceResult = getUninterruptibly(localInputFuture);
         } catch (CancellationException e) {
           // Cancel this future and return.
           // At this point, inputFuture is cancelled and outputFuture doesn't
