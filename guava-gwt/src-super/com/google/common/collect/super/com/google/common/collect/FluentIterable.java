@@ -469,15 +469,29 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
-   * Returns an immutable map for which the {@link java.util.Map#values} are the elements of this
-   * {@code FluentIterable} in the given order, and each key is the product of invoking a supplied
-   * function on its corresponding value.
+   * Returns a map with the contents of this {@code FluentIterable} as its {@code values}, indexed
+   * by keys derived from those values. In other words, each input value produces an entry in the
+   * map whose key is the result of applying {@code keyFunction} to that value. These entries appear
+   * in the same order as they appeared in this fluent iterable. Example usage:
+   * <pre>   {@code
+   *
+   *   Color red = new Color("red", 255, 0, 0);
+   *   ...
+   *   FluentIterable<Color> allColors = FluentIterable.from(ImmutableSet.of(red, green, blue));
+   *
+   *   Map<String, Color> colorForName = allColors.uniqueIndex(toStringFunction());
+   *   assertThat(colorForName).containsEntry("red", red);}</pre>
+   *
+   * <p>If your index may associate multiple values with each key, use {@link #index(Function)
+   * index}.
    *
    * @param keyFunction the function used to produce the key for each value
-   * @throws IllegalArgumentException if {@code keyFunction} produces the same key for more than one
-   *     value in this fluent iterable
-   * @throws NullPointerException if any element of this fluent iterable is null, or if
-   *     {@code keyFunction} produces {@code null} for any value
+   * @return a map mapping the result of evaluating the function {@code
+   *     keyFunction} on each value in this fluent iterable to that value
+   * @throws IllegalArgumentException if {@code keyFunction} produces the same
+   *     key for more than one value in this fluent iterable
+   * @throws NullPointerException if any elements of this fluent iterable is null, or
+   *     if {@code keyFunction} produces {@code null} for any value
    * @since 14.0
    */
   @CheckReturnValue
