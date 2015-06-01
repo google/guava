@@ -18,6 +18,11 @@ public class ComparisonChainTest_gwt extends com.google.gwt.junit.client.GWTTest
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
+public void testCompareBooleans() throws Exception {
+  com.google.common.collect.ComparisonChainTest testCase = new com.google.common.collect.ComparisonChainTest();
+  testCase.testCompareBooleans();
+}
+
 public void testCompareFalseFirst() throws Exception {
   com.google.common.collect.ComparisonChainTest testCase = new com.google.common.collect.ComparisonChainTest();
   testCase.testCompareFalseFirst();

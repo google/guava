@@ -229,6 +229,18 @@ public abstract class ComparisonChain {
   public abstract ComparisonChain compare(double left, double right);
 
   /**
+   * Discouraged synonym for {@link #compareFalseFirst}.
+   *
+   * @deprecated Use {@link #compareFalseFirst}; or, if the parameters passed
+   *     are being either negated or reversed, undo the negation or reversal and
+   *     use {@link #compareTrueFirst}.
+   */
+  @Deprecated
+  public final ComparisonChain compare(Boolean left, Boolean right) {
+    return compareFalseFirst(left, right);
+  }
+
+  /**
    * Compares two {@code boolean} values, considering {@code true} to be less
    * than {@code false}, <i>if</i> the result of this comparison chain has not
    * already been determined.
