@@ -16,10 +16,10 @@
 
 package com.google.common.util.concurrent;
 
-import static com.google.common.util.concurrent.Futures.asAsyncFunction;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.base.Function;
+import com.google.common.util.concurrent.Futures.AsyncCatchingFuture;
 import com.google.common.util.concurrent.Futures.CatchingFuture;
 
 import java.util.concurrent.Executor;
@@ -48,7 +48,9 @@ abstract class GwtFuturesCatchingSpecialization {
       Class<Throwable> exceptionType,
       Function<? super Throwable, ? extends V> fallback,
       Executor executor) {
-    return catchingAsync(input, exceptionType, asAsyncFunction(fallback), executor);
+    CatchingFuture future = new CatchingFuture<V, Throwable>(input, exceptionType, fallback);
+    input.addListener(future, executor);
+    return future;
   }
 
   public static <V> ListenableFuture<V> catchingAsync(
@@ -63,6 +65,9 @@ abstract class GwtFuturesCatchingSpecialization {
       Class<Throwable> exceptionType,
       AsyncFunction<? super Throwable, ? extends V> fallback,
       Executor executor) {
-    return new CatchingFuture<V, Throwable>(input, exceptionType, fallback, executor);
+    AsyncCatchingFuture<V, Throwable> future =
+        new AsyncCatchingFuture<V, Throwable>(input, exceptionType, fallback);
+    input.addListener(future, executor);
+    return future;
   }
 }

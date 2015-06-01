@@ -439,7 +439,7 @@ public class FuturesTest extends TestCase {
     assertTrue(secondary.wasInterrupted());
   }
 
-  @GwtIncompatible("TODO")
+  @GwtIncompatible("newDirectExecutorService")
   public void testTransform_rejectionPropagatesToOutput()
       throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
@@ -1293,6 +1293,22 @@ public class FuturesTest extends TestCase {
       fail();
     } catch (ExecutionException expected) {
       assertTrue(expected.getCause() instanceof RuntimeException);
+    }
+  }
+
+  @GwtIncompatible("newDirectExecutorService")
+  public void testCatchingAsync_rejectionPropagatesToOutput() throws Exception {
+    SettableFuture<String> input = SettableFuture.create();
+    ExecutorService executor = newDirectExecutorService();
+    ListenableFuture<String> transformed =
+        Futures.catching(input, Throwable.class, Functions.toStringFunction(), executor);
+    executor.shutdown();
+    input.setException(new Exception());
+    try {
+      transformed.get(5, TimeUnit.SECONDS);
+      fail();
+    } catch (ExecutionException expected) {
+      assertTrue(expected.getCause() instanceof RejectedExecutionException);
     }
   }
 
