@@ -229,6 +229,21 @@ public abstract class ComparisonChain {
   public abstract ComparisonChain compare(double left, double right);
 
   /**
+   * Compares two {@code boolean} values, considering {@code false} to be less
+   * than {@code true}, <i>if</i> the result of this comparison chain has not
+   * already been determined.
+   *
+   * This method exists to warn callers of compare(Boolean, Boolean) and
+   * compare(boolean, boolean) with a deprecation warning.
+   *
+   * @deprecated prefer compareTrueFirst or compareFalseFirst instead.
+   * @since 19.0
+   */
+  @Deprecated public final ComparisonChain compare(Boolean left, Boolean right) {
+    return compareFalseFirst(left, right);
+  }
+
+  /**
    * Compares two {@code boolean} values, considering {@code true} to be less
    * than {@code false}, <i>if</i> the result of this comparison chain has not
    * already been determined.
