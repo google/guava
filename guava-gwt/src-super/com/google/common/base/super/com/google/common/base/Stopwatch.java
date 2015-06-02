@@ -26,7 +26,6 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.concurrent.TimeUnit;
@@ -72,7 +71,6 @@ import javax.annotation.CheckReturnValue;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @GwtCompatible(emulated = true)
 public final class Stopwatch {
   private final Ticker ticker;
