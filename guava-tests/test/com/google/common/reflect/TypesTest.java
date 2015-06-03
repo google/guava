@@ -359,36 +359,6 @@ public class TypesTest extends TestCase {
     }
   }
 
-  public void testNewTypeVariable() throws Exception {
-    TypeVariable<?> noBoundJvmType =
-        WithTypeVariable.getTypeVariable("withoutBound");
-    TypeVariable<?> objectBoundJvmType =
-        WithTypeVariable.getTypeVariable("withObjectBound");
-    TypeVariable<?> upperBoundJvmType =
-        WithTypeVariable.getTypeVariable("withUpperBound");
-    TypeVariable<?> noBound = withBounds(noBoundJvmType);
-    TypeVariable<?> objectBound = withBounds(objectBoundJvmType, Object.class);
-    TypeVariable<?> upperBound = withBounds(
-        upperBoundJvmType, Number.class, CharSequence.class);
-
-    assertEqualTypeVariable(noBoundJvmType, noBound);
-    assertEqualTypeVariable(noBoundJvmType,
-        withBounds(noBoundJvmType, Object.class));
-    assertEqualTypeVariable(objectBoundJvmType, objectBound);
-    assertEqualTypeVariable(upperBoundJvmType, upperBound);
-
-    new TypeVariableEqualsTester()
-        .addEqualityGroup(noBoundJvmType, noBound)
-        .addEqualityGroup(objectBoundJvmType, objectBound)
-        .addEqualityGroup(upperBoundJvmType, upperBound)
-        .testEquals();
-
-    // At some point before now we should have hit the permission check that prevents us from
-    // calling setAccessible. We check that that is indeed true because we want to make sure
-    // that creating a TypeVariable instance works even when that is not allowed.
-    assertTrue(securityManager.setAccessibleWasRefused);
-  }
-
   public void testNewTypeVariable_primitiveTypeBound() {
     try {
       Types.newArtificialTypeVariable(List.class, "E", int.class);
