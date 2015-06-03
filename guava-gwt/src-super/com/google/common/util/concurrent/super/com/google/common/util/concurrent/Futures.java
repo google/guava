@@ -75,17 +75,17 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   // For simplicity the rest of this description will discuss Futures.withFallback since it is the
   // simplest instance, though very similar descriptions apply to many other classes in this file.
   //
-  // In the constructor of FutureFallback, the delegate future is assigned to a field 'running'.
-  // That field is non-final and non-volatile.  There are 2 places where the 'running' field is read
-  // and where we will have to consider visibility of the write operation in the constructor.
+  // In the constructor of FutureFallback, the delegate future is assigned to a field 'inputFuture'.
+  // That field is non-final and non-volatile.  There are 2 places where the 'inputFuture' field is
+  // read and where we will have to consider visibility of the write operation in the constructor.
   //
-  // 1. In the listener that performs the callback.  In this case it is fine since running is
+  // 1. In the listener that performs the callback.  In this case it is fine since inputFuture is
   //    assigned prior to calling addListener, and addListener happens-before any invocation of the
-  //    listener. Notably, this means that 'volatile' is unnecessary to make 'running' visible to
-  //    the listener.
+  //    listener. Notably, this means that 'volatile' is unnecessary to make 'inputFuture' visible
+  //    to the listener.
   //
   // 2. In cancel() where we propagate cancellation to the input.  In this case it is _not_ fine.
-  //    There is currently nothing that enforces that the write to running in the constructor is
+  //    There is currently nothing that enforces that the write to inputFuture in the constructor is
   //    visible to cancel().  This is because there is no happens before edge between the write and
   //    a (hypothetical) unsafe read by our caller. Note: adding 'volatile' does not fix this issue,
   //    it would just add an edge such that if cancel() observed non-null, then it would also
@@ -388,28 +388,28 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
   private abstract static class AbstractCatchingFuture<V, X extends Throwable, F>
       extends AbstractFuture.TrustedFuture<V> implements Runnable {
-    @Nullable ListenableFuture<? extends V> running;
+    @Nullable ListenableFuture<? extends V> inputFuture;
     @Nullable Class<X> exceptionType;
     @Nullable F fallback;
 
     AbstractCatchingFuture(
-        ListenableFuture<? extends V> input, Class<X> exceptionType, F fallback) {
+        ListenableFuture<? extends V> inputFuture, Class<X> exceptionType, F fallback) {
       this.exceptionType = checkNotNull(exceptionType);
-      this.running = checkNotNull(input);
+      this.inputFuture = checkNotNull(inputFuture);
       this.fallback = checkNotNull(fallback);
     }
 
     @Override public final void run() {
-      ListenableFuture<? extends V> localRunning = running;
+      ListenableFuture<? extends V> localInputFuture = inputFuture;
       Class<X> localExceptionType = exceptionType;
       F localFallback = fallback;
-      if (localRunning == null | localExceptionType == null | localFallback == null
+      if (localInputFuture == null | localExceptionType == null | localFallback == null
           | isCancelled()) {
         return;
       }
       Throwable throwable;
       try {
-        set(getUninterruptibly(localRunning));
+        set(getUninterruptibly(localInputFuture));
         return;
       } catch (ExecutionException e) {
         throwable = e.getCause();
@@ -433,7 +433,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     abstract void doFallback(F fallback, X throwable) throws Exception;
 
     @Override final void done() {
-      this.running = null;
+      this.inputFuture = null;
       this.exceptionType = null;
       this.fallback = null;
     }
@@ -441,14 +441,14 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     @Override
     public final boolean cancel(boolean mayInterruptIfRunning) {
       // we need to read this field prior to calling super.cancel() because cancel will null it out
-      ListenableFuture<?> current = this.running;
+      ListenableFuture<?> localInputFuture = inputFuture;
       if (super.cancel(mayInterruptIfRunning)) {
         // May be null if the original future completed, but we were cancelled while the fallback
         // is still pending.  This is fine because if the original future completed, then there is
         // nothing to cancel and if the fallback is pending, cancellation would be handled by
         // super.cancel().
-        if (current != null) {
-          current.cancel(mayInterruptIfRunning);
+        if (localInputFuture != null) {
+          localInputFuture.cancel(mayInterruptIfRunning);
         }
         return true;
       }
