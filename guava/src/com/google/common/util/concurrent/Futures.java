@@ -799,8 +799,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
     AbstractCatchingFuture(
         ListenableFuture<? extends V> inputFuture, Class<X> exceptionType, F fallback) {
-      this.exceptionType = checkNotNull(exceptionType);
       this.inputFuture = checkNotNull(inputFuture);
+      this.exceptionType = checkNotNull(exceptionType);
       this.fallback = checkNotNull(fallback);
     }
 
@@ -812,6 +812,10 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
           | isCancelled()) {
         return;
       }
+      inputFuture = null;
+      exceptionType = null;
+      fallback = null;
+
       Throwable throwable;
       try {
         set(getUninterruptibly(localInputFuture));
@@ -1521,6 +1525,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
         if (isCancelled() | localInputFuture == null | localFunction == null) {
           return;
         }
+        inputFuture = null;
+        function = null;
+
         I sourceResult;
         try {
           sourceResult = getUninterruptibly(localInputFuture);
