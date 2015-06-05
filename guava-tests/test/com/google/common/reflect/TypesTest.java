@@ -30,12 +30,9 @@ import junit.framework.TestCase;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.ReflectPermission;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
-import java.security.AccessControlException;
-import java.security.Permission;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -46,64 +43,7 @@ import java.util.Map;
  *
  * @author Ben Yu
  */
-
 public class TypesTest extends TestCase {
-  private SecurityManager oldSecurityManager;
-
-  // This must be static because the point where it is needed may be earlier than the execution
-  // of the specific test case that uses it. Currently we need it to operate in the static
-  // initializer of TypeVariableInvocationHandler.
-  private static final NoSetAccessibleSecurityManager securityManager =
-      new NoSetAccessibleSecurityManager();
-
-  /**
-   * A SecurityManager that disallows {@link java.lang.reflect.Method#setAccessible(boolean)}
-   * when it comes from a specific place. The idea is to ensure that
-   * {@code Types.newTypeVariableImpl}, which calls {@code setAccessible}, can still work if that
-   * call is refused. We also record whether the refusal happened, so that we can test that we are
-   * indeed refusing access where we expect.
-   */
-  private static class NoSetAccessibleSecurityManager extends SecurityManager {
-    private static final Permission DISALLOWED_PERMISSION =
-        new ReflectPermission("suppressAccessChecks");
-    volatile boolean setAccessibleWasRefused;
-
-    @Override
-    public void checkPermission(Permission p) {
-      if (p.equals(DISALLOWED_PERMISSION)
-          && callStackContainsMethod("TypeVariableInvocationHandler", "<clinit>")) {
-        try {
-          super.checkPermission(p);
-          fail("Did not get expected AccessControlException");
-        } catch (AccessControlException expected) {
-          setAccessibleWasRefused = true;
-          throw expected;
-        }
-      }
-    }
-
-    private static boolean callStackContainsMethod(String classNameFragment, String methodName) {
-      for (StackTraceElement stackTraceElement : new Throwable().getStackTrace()) {
-        if (stackTraceElement.getClassName().contains(classNameFragment)
-            && stackTraceElement.getMethodName().equals(methodName)) {
-          return true;
-        }
-      }
-      return false;
-    }
-  }
-
-  @Override
-  protected void setUp() {
-    oldSecurityManager = System.getSecurityManager();
-    System.setSecurityManager(securityManager);
-  }
-
-  @Override
-  protected void tearDown() {
-    System.setSecurityManager(oldSecurityManager);
-  }
-
   public void testNewParameterizedType_ownerTypeImplied() throws Exception {
     ParameterizedType jvmType = (ParameterizedType)
         new TypeCapture<Map.Entry<String, Integer>>() {}.capture();
@@ -357,6 +297,31 @@ public class TypesTest extends TestCase {
               .getGenericParameterTypes()[0];
       return (TypeVariable<?>) parameterType.getActualTypeArguments()[0];
     }
+  }
+
+  public void testNewTypeVariable() throws Exception {
+    TypeVariable<?> noBoundJvmType =
+        WithTypeVariable.getTypeVariable("withoutBound");
+    TypeVariable<?> objectBoundJvmType =
+        WithTypeVariable.getTypeVariable("withObjectBound");
+    TypeVariable<?> upperBoundJvmType =
+        WithTypeVariable.getTypeVariable("withUpperBound");
+    TypeVariable<?> noBound = withBounds(noBoundJvmType);
+    TypeVariable<?> objectBound = withBounds(objectBoundJvmType, Object.class);
+    TypeVariable<?> upperBound = withBounds(
+        upperBoundJvmType, Number.class, CharSequence.class);
+
+    assertEqualTypeVariable(noBoundJvmType, noBound);
+    assertEqualTypeVariable(noBoundJvmType,
+        withBounds(noBoundJvmType, Object.class));
+    assertEqualTypeVariable(objectBoundJvmType, objectBound);
+    assertEqualTypeVariable(upperBoundJvmType, upperBound);
+
+    new TypeVariableEqualsTester()
+        .addEqualityGroup(noBoundJvmType, noBound)
+        .addEqualityGroup(objectBoundJvmType, objectBound)
+        .addEqualityGroup(upperBoundJvmType, upperBound)
+        .testEquals();
   }
 
   public void testNewTypeVariable_primitiveTypeBound() {
