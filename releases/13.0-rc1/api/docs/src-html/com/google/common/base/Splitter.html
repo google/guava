@@ -1,0 +1,637 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.base;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import static com.google.common.base.Preconditions.checkArgument;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import static com.google.common.base.Preconditions.checkNotNull;<a name="line.20"></a>
+<FONT color="green">021</FONT>    <a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.google.common.annotations.Beta;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import com.google.common.annotations.GwtIncompatible;<a name="line.24"></a>
+<FONT color="green">025</FONT>    <a name="line.25"></a>
+<FONT color="green">026</FONT>    import java.util.Collections;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import java.util.Iterator;<a name="line.27"></a>
+<FONT color="green">028</FONT>    import java.util.LinkedHashMap;<a name="line.28"></a>
+<FONT color="green">029</FONT>    import java.util.Map;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import java.util.regex.Matcher;<a name="line.30"></a>
+<FONT color="green">031</FONT>    import java.util.regex.Pattern;<a name="line.31"></a>
+<FONT color="green">032</FONT>    <a name="line.32"></a>
+<FONT color="green">033</FONT>    import javax.annotation.CheckReturnValue;<a name="line.33"></a>
+<FONT color="green">034</FONT>    <a name="line.34"></a>
+<FONT color="green">035</FONT>    /**<a name="line.35"></a>
+<FONT color="green">036</FONT>     * An object that divides strings (or other instances of {@code CharSequence})<a name="line.36"></a>
+<FONT color="green">037</FONT>     * into substrings, by recognizing a &lt;i&gt;separator&lt;/i&gt; (a.k.a. "delimiter")<a name="line.37"></a>
+<FONT color="green">038</FONT>     * which can be expressed as a single character, literal string, regular<a name="line.38"></a>
+<FONT color="green">039</FONT>     * expression, {@code CharMatcher}, or by using a fixed substring length. This<a name="line.39"></a>
+<FONT color="green">040</FONT>     * class provides the complementary functionality to {@link Joiner}.<a name="line.40"></a>
+<FONT color="green">041</FONT>     *<a name="line.41"></a>
+<FONT color="green">042</FONT>     * &lt;p&gt;Here is the most basic example of {@code Splitter} usage: &lt;pre&gt;   {@code<a name="line.42"></a>
+<FONT color="green">043</FONT>     *<a name="line.43"></a>
+<FONT color="green">044</FONT>     *   Splitter.on(',').split("foo,bar")}&lt;/pre&gt;<a name="line.44"></a>
+<FONT color="green">045</FONT>     *<a name="line.45"></a>
+<FONT color="green">046</FONT>     * This invocation returns an {@code Iterable&lt;String&gt;} containing {@code "foo"}<a name="line.46"></a>
+<FONT color="green">047</FONT>     * and {@code "bar"}, in that order.<a name="line.47"></a>
+<FONT color="green">048</FONT>     *<a name="line.48"></a>
+<FONT color="green">049</FONT>     * &lt;p&gt;By default {@code Splitter}'s behavior is very simplistic: &lt;pre&gt;   {@code<a name="line.49"></a>
+<FONT color="green">050</FONT>     *<a name="line.50"></a>
+<FONT color="green">051</FONT>     *   Splitter.on(',').split("foo,,bar, quux")}&lt;/pre&gt;<a name="line.51"></a>
+<FONT color="green">052</FONT>     *<a name="line.52"></a>
+<FONT color="green">053</FONT>     * This returns an iterable containing {@code ["foo", "", "bar", " quux"]}.<a name="line.53"></a>
+<FONT color="green">054</FONT>     * Notice that the splitter does not assume that you want empty strings removed,<a name="line.54"></a>
+<FONT color="green">055</FONT>     * or that you wish to trim whitespace. If you want features like these, simply<a name="line.55"></a>
+<FONT color="green">056</FONT>     * ask for them: &lt;pre&gt; {@code<a name="line.56"></a>
+<FONT color="green">057</FONT>     *<a name="line.57"></a>
+<FONT color="green">058</FONT>     *   private static final Splitter MY_SPLITTER = Splitter.on(',')<a name="line.58"></a>
+<FONT color="green">059</FONT>     *       .trimResults()<a name="line.59"></a>
+<FONT color="green">060</FONT>     *       .omitEmptyStrings();}&lt;/pre&gt;<a name="line.60"></a>
+<FONT color="green">061</FONT>     *<a name="line.61"></a>
+<FONT color="green">062</FONT>     * Now {@code MY_SPLITTER.split("foo, ,bar, quux,")} returns an iterable<a name="line.62"></a>
+<FONT color="green">063</FONT>     * containing just {@code ["foo", "bar", "quux"]}. Note that the order in which<a name="line.63"></a>
+<FONT color="green">064</FONT>     * the configuration methods are called is never significant; for instance,<a name="line.64"></a>
+<FONT color="green">065</FONT>     * trimming is always applied first before checking for an empty result,<a name="line.65"></a>
+<FONT color="green">066</FONT>     * regardless of the order in which the {@link #trimResults()} and<a name="line.66"></a>
+<FONT color="green">067</FONT>     * {@link #omitEmptyStrings()} methods were invoked.<a name="line.67"></a>
+<FONT color="green">068</FONT>     *<a name="line.68"></a>
+<FONT color="green">069</FONT>     * &lt;p&gt;&lt;b&gt;Warning: splitter instances are always immutable&lt;/b&gt;; a configuration<a name="line.69"></a>
+<FONT color="green">070</FONT>     * method such as {@code omitEmptyStrings} has no effect on the instance it<a name="line.70"></a>
+<FONT color="green">071</FONT>     * is invoked on! You must store and use the new splitter instance returned by<a name="line.71"></a>
+<FONT color="green">072</FONT>     * the method. This makes splitters thread-safe, and safe to store as {@code<a name="line.72"></a>
+<FONT color="green">073</FONT>     * static final} constants (as illustrated above). &lt;pre&gt;   {@code<a name="line.73"></a>
+<FONT color="green">074</FONT>     *<a name="line.74"></a>
+<FONT color="green">075</FONT>     *   // Bad! Do not do this!<a name="line.75"></a>
+<FONT color="green">076</FONT>     *   Splitter splitter = Splitter.on('/');<a name="line.76"></a>
+<FONT color="green">077</FONT>     *   splitter.trimResults(); // does nothing!<a name="line.77"></a>
+<FONT color="green">078</FONT>     *   return splitter.split("wrong / wrong / wrong");}&lt;/pre&gt;<a name="line.78"></a>
+<FONT color="green">079</FONT>     *<a name="line.79"></a>
+<FONT color="green">080</FONT>     * The separator recognized by the splitter does not have to be a single<a name="line.80"></a>
+<FONT color="green">081</FONT>     * literal character as in the examples above. See the methods {@link<a name="line.81"></a>
+<FONT color="green">082</FONT>     * #on(String)}, {@link #on(Pattern)} and {@link #on(CharMatcher)} for examples<a name="line.82"></a>
+<FONT color="green">083</FONT>     * of other ways to specify separators.<a name="line.83"></a>
+<FONT color="green">084</FONT>     *<a name="line.84"></a>
+<FONT color="green">085</FONT>     * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this class does not mimic any of the quirky behaviors of<a name="line.85"></a>
+<FONT color="green">086</FONT>     * similar JDK methods; for instance, it does not silently discard trailing<a name="line.86"></a>
+<FONT color="green">087</FONT>     * separators, as does {@link String#split(String)}, nor does it have a default<a name="line.87"></a>
+<FONT color="green">088</FONT>     * behavior of using five particular whitespace characters as separators, like<a name="line.88"></a>
+<FONT color="green">089</FONT>     * {@link java.util.StringTokenizer}.<a name="line.89"></a>
+<FONT color="green">090</FONT>     *<a name="line.90"></a>
+<FONT color="green">091</FONT>     * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.91"></a>
+<FONT color="green">092</FONT>     * "http://code.google.com/p/guava-libraries/wiki/StringsExplained#Splitter"&gt;<a name="line.92"></a>
+<FONT color="green">093</FONT>     * {@code Splitter}&lt;/a&gt;.<a name="line.93"></a>
+<FONT color="green">094</FONT>     *<a name="line.94"></a>
+<FONT color="green">095</FONT>     * @author Julien Silland<a name="line.95"></a>
+<FONT color="green">096</FONT>     * @author Jesse Wilson<a name="line.96"></a>
+<FONT color="green">097</FONT>     * @author Kevin Bourrillion<a name="line.97"></a>
+<FONT color="green">098</FONT>     * @author Louis Wasserman<a name="line.98"></a>
+<FONT color="green">099</FONT>     * @since 1.0<a name="line.99"></a>
+<FONT color="green">100</FONT>     */<a name="line.100"></a>
+<FONT color="green">101</FONT>    @GwtCompatible(emulated = true)<a name="line.101"></a>
+<FONT color="green">102</FONT>    public final class Splitter {<a name="line.102"></a>
+<FONT color="green">103</FONT>      private final CharMatcher trimmer;<a name="line.103"></a>
+<FONT color="green">104</FONT>      private final boolean omitEmptyStrings;<a name="line.104"></a>
+<FONT color="green">105</FONT>      private final Strategy strategy;<a name="line.105"></a>
+<FONT color="green">106</FONT>      private final int limit;<a name="line.106"></a>
+<FONT color="green">107</FONT>    <a name="line.107"></a>
+<FONT color="green">108</FONT>      private Splitter(Strategy strategy) {<a name="line.108"></a>
+<FONT color="green">109</FONT>        this(strategy, false, CharMatcher.NONE, Integer.MAX_VALUE);<a name="line.109"></a>
+<FONT color="green">110</FONT>      }<a name="line.110"></a>
+<FONT color="green">111</FONT>    <a name="line.111"></a>
+<FONT color="green">112</FONT>      private Splitter(Strategy strategy, boolean omitEmptyStrings,<a name="line.112"></a>
+<FONT color="green">113</FONT>          CharMatcher trimmer, int limit) {<a name="line.113"></a>
+<FONT color="green">114</FONT>        this.strategy = strategy;<a name="line.114"></a>
+<FONT color="green">115</FONT>        this.omitEmptyStrings = omitEmptyStrings;<a name="line.115"></a>
+<FONT color="green">116</FONT>        this.trimmer = trimmer;<a name="line.116"></a>
+<FONT color="green">117</FONT>        this.limit = limit;<a name="line.117"></a>
+<FONT color="green">118</FONT>      }<a name="line.118"></a>
+<FONT color="green">119</FONT>    <a name="line.119"></a>
+<FONT color="green">120</FONT>      /**<a name="line.120"></a>
+<FONT color="green">121</FONT>       * Returns a splitter that uses the given single-character separator. For<a name="line.121"></a>
+<FONT color="green">122</FONT>       * example, {@code Splitter.on(',').split("foo,,bar")} returns an iterable<a name="line.122"></a>
+<FONT color="green">123</FONT>       * containing {@code ["foo", "", "bar"]}.<a name="line.123"></a>
+<FONT color="green">124</FONT>       *<a name="line.124"></a>
+<FONT color="green">125</FONT>       * @param separator the character to recognize as a separator<a name="line.125"></a>
+<FONT color="green">126</FONT>       * @return a splitter, with default settings, that recognizes that separator<a name="line.126"></a>
+<FONT color="green">127</FONT>       */<a name="line.127"></a>
+<FONT color="green">128</FONT>      public static Splitter on(char separator) {<a name="line.128"></a>
+<FONT color="green">129</FONT>        return on(CharMatcher.is(separator));<a name="line.129"></a>
+<FONT color="green">130</FONT>      }<a name="line.130"></a>
+<FONT color="green">131</FONT>    <a name="line.131"></a>
+<FONT color="green">132</FONT>      /**<a name="line.132"></a>
+<FONT color="green">133</FONT>       * Returns a splitter that considers any single character matched by the<a name="line.133"></a>
+<FONT color="green">134</FONT>       * given {@code CharMatcher} to be a separator. For example, {@code<a name="line.134"></a>
+<FONT color="green">135</FONT>       * Splitter.on(CharMatcher.anyOf(";,")).split("foo,;bar,quux")} returns an<a name="line.135"></a>
+<FONT color="green">136</FONT>       * iterable containing {@code ["foo", "", "bar", "quux"]}.<a name="line.136"></a>
+<FONT color="green">137</FONT>       *<a name="line.137"></a>
+<FONT color="green">138</FONT>       * @param separatorMatcher a {@link CharMatcher} that determines whether a<a name="line.138"></a>
+<FONT color="green">139</FONT>       *     character is a separator<a name="line.139"></a>
+<FONT color="green">140</FONT>       * @return a splitter, with default settings, that uses this matcher<a name="line.140"></a>
+<FONT color="green">141</FONT>       */<a name="line.141"></a>
+<FONT color="green">142</FONT>      public static Splitter on(final CharMatcher separatorMatcher) {<a name="line.142"></a>
+<FONT color="green">143</FONT>        checkNotNull(separatorMatcher);<a name="line.143"></a>
+<FONT color="green">144</FONT>    <a name="line.144"></a>
+<FONT color="green">145</FONT>        return new Splitter(new Strategy() {<a name="line.145"></a>
+<FONT color="green">146</FONT>          @Override public SplittingIterator iterator(<a name="line.146"></a>
+<FONT color="green">147</FONT>              Splitter splitter, final CharSequence toSplit) {<a name="line.147"></a>
+<FONT color="green">148</FONT>            return new SplittingIterator(splitter, toSplit) {<a name="line.148"></a>
+<FONT color="green">149</FONT>              @Override int separatorStart(int start) {<a name="line.149"></a>
+<FONT color="green">150</FONT>                return separatorMatcher.indexIn(toSplit, start);<a name="line.150"></a>
+<FONT color="green">151</FONT>              }<a name="line.151"></a>
+<FONT color="green">152</FONT>    <a name="line.152"></a>
+<FONT color="green">153</FONT>              @Override int separatorEnd(int separatorPosition) {<a name="line.153"></a>
+<FONT color="green">154</FONT>                return separatorPosition + 1;<a name="line.154"></a>
+<FONT color="green">155</FONT>              }<a name="line.155"></a>
+<FONT color="green">156</FONT>            };<a name="line.156"></a>
+<FONT color="green">157</FONT>          }<a name="line.157"></a>
+<FONT color="green">158</FONT>        });<a name="line.158"></a>
+<FONT color="green">159</FONT>      }<a name="line.159"></a>
+<FONT color="green">160</FONT>    <a name="line.160"></a>
+<FONT color="green">161</FONT>      /**<a name="line.161"></a>
+<FONT color="green">162</FONT>       * Returns a splitter that uses the given fixed string as a separator. For<a name="line.162"></a>
+<FONT color="green">163</FONT>       * example, {@code Splitter.on(", ").split("foo, bar, baz,qux")} returns an<a name="line.163"></a>
+<FONT color="green">164</FONT>       * iterable containing {@code ["foo", "bar", "baz,qux"]}.<a name="line.164"></a>
+<FONT color="green">165</FONT>       *<a name="line.165"></a>
+<FONT color="green">166</FONT>       * @param separator the literal, nonempty string to recognize as a separator<a name="line.166"></a>
+<FONT color="green">167</FONT>       * @return a splitter, with default settings, that recognizes that separator<a name="line.167"></a>
+<FONT color="green">168</FONT>       */<a name="line.168"></a>
+<FONT color="green">169</FONT>      public static Splitter on(final String separator) {<a name="line.169"></a>
+<FONT color="green">170</FONT>        checkArgument(separator.length() != 0,<a name="line.170"></a>
+<FONT color="green">171</FONT>            "The separator may not be the empty string.");<a name="line.171"></a>
+<FONT color="green">172</FONT>    <a name="line.172"></a>
+<FONT color="green">173</FONT>        return new Splitter(new Strategy() {<a name="line.173"></a>
+<FONT color="green">174</FONT>          @Override public SplittingIterator iterator(<a name="line.174"></a>
+<FONT color="green">175</FONT>              Splitter splitter, CharSequence toSplit) {<a name="line.175"></a>
+<FONT color="green">176</FONT>            return new SplittingIterator(splitter, toSplit) {<a name="line.176"></a>
+<FONT color="green">177</FONT>              @Override public int separatorStart(int start) {<a name="line.177"></a>
+<FONT color="green">178</FONT>                int delimeterLength = separator.length();<a name="line.178"></a>
+<FONT color="green">179</FONT>    <a name="line.179"></a>
+<FONT color="green">180</FONT>                positions:<a name="line.180"></a>
+<FONT color="green">181</FONT>                for (int p = start, last = toSplit.length() - delimeterLength;<a name="line.181"></a>
+<FONT color="green">182</FONT>                    p &lt;= last; p++) {<a name="line.182"></a>
+<FONT color="green">183</FONT>                  for (int i = 0; i &lt; delimeterLength; i++) {<a name="line.183"></a>
+<FONT color="green">184</FONT>                    if (toSplit.charAt(i + p) != separator.charAt(i)) {<a name="line.184"></a>
+<FONT color="green">185</FONT>                      continue positions;<a name="line.185"></a>
+<FONT color="green">186</FONT>                    }<a name="line.186"></a>
+<FONT color="green">187</FONT>                  }<a name="line.187"></a>
+<FONT color="green">188</FONT>                  return p;<a name="line.188"></a>
+<FONT color="green">189</FONT>                }<a name="line.189"></a>
+<FONT color="green">190</FONT>                return -1;<a name="line.190"></a>
+<FONT color="green">191</FONT>              }<a name="line.191"></a>
+<FONT color="green">192</FONT>    <a name="line.192"></a>
+<FONT color="green">193</FONT>              @Override public int separatorEnd(int separatorPosition) {<a name="line.193"></a>
+<FONT color="green">194</FONT>                return separatorPosition + separator.length();<a name="line.194"></a>
+<FONT color="green">195</FONT>              }<a name="line.195"></a>
+<FONT color="green">196</FONT>            };<a name="line.196"></a>
+<FONT color="green">197</FONT>          }<a name="line.197"></a>
+<FONT color="green">198</FONT>        });<a name="line.198"></a>
+<FONT color="green">199</FONT>      }<a name="line.199"></a>
+<FONT color="green">200</FONT>    <a name="line.200"></a>
+<FONT color="green">201</FONT>      /**<a name="line.201"></a>
+<FONT color="green">202</FONT>       * Returns a splitter that considers any subsequence matching {@code<a name="line.202"></a>
+<FONT color="green">203</FONT>       * pattern} to be a separator. For example, {@code<a name="line.203"></a>
+<FONT color="green">204</FONT>       * Splitter.on(Pattern.compile("\r?\n")).split(entireFile)} splits a string<a name="line.204"></a>
+<FONT color="green">205</FONT>       * into lines whether it uses DOS-style or UNIX-style line terminators.<a name="line.205"></a>
+<FONT color="green">206</FONT>       *<a name="line.206"></a>
+<FONT color="green">207</FONT>       * @param separatorPattern the pattern that determines whether a subsequence<a name="line.207"></a>
+<FONT color="green">208</FONT>       *     is a separator. This pattern may not match the empty string.<a name="line.208"></a>
+<FONT color="green">209</FONT>       * @return a splitter, with default settings, that uses this pattern<a name="line.209"></a>
+<FONT color="green">210</FONT>       * @throws IllegalArgumentException if {@code separatorPattern} matches the<a name="line.210"></a>
+<FONT color="green">211</FONT>       *     empty string<a name="line.211"></a>
+<FONT color="green">212</FONT>       */<a name="line.212"></a>
+<FONT color="green">213</FONT>      @GwtIncompatible("java.util.regex")<a name="line.213"></a>
+<FONT color="green">214</FONT>      public static Splitter on(final Pattern separatorPattern) {<a name="line.214"></a>
+<FONT color="green">215</FONT>        checkNotNull(separatorPattern);<a name="line.215"></a>
+<FONT color="green">216</FONT>        checkArgument(!separatorPattern.matcher("").matches(),<a name="line.216"></a>
+<FONT color="green">217</FONT>            "The pattern may not match the empty string: %s", separatorPattern);<a name="line.217"></a>
+<FONT color="green">218</FONT>    <a name="line.218"></a>
+<FONT color="green">219</FONT>        return new Splitter(new Strategy() {<a name="line.219"></a>
+<FONT color="green">220</FONT>          @Override public SplittingIterator iterator(<a name="line.220"></a>
+<FONT color="green">221</FONT>              final Splitter splitter, CharSequence toSplit) {<a name="line.221"></a>
+<FONT color="green">222</FONT>            final Matcher matcher = separatorPattern.matcher(toSplit);<a name="line.222"></a>
+<FONT color="green">223</FONT>            return new SplittingIterator(splitter, toSplit) {<a name="line.223"></a>
+<FONT color="green">224</FONT>              @Override public int separatorStart(int start) {<a name="line.224"></a>
+<FONT color="green">225</FONT>                return matcher.find(start) ? matcher.start() : -1;<a name="line.225"></a>
+<FONT color="green">226</FONT>              }<a name="line.226"></a>
+<FONT color="green">227</FONT>    <a name="line.227"></a>
+<FONT color="green">228</FONT>              @Override public int separatorEnd(int separatorPosition) {<a name="line.228"></a>
+<FONT color="green">229</FONT>                return matcher.end();<a name="line.229"></a>
+<FONT color="green">230</FONT>              }<a name="line.230"></a>
+<FONT color="green">231</FONT>            };<a name="line.231"></a>
+<FONT color="green">232</FONT>          }<a name="line.232"></a>
+<FONT color="green">233</FONT>        });<a name="line.233"></a>
+<FONT color="green">234</FONT>      }<a name="line.234"></a>
+<FONT color="green">235</FONT>    <a name="line.235"></a>
+<FONT color="green">236</FONT>      /**<a name="line.236"></a>
+<FONT color="green">237</FONT>       * Returns a splitter that considers any subsequence matching a given<a name="line.237"></a>
+<FONT color="green">238</FONT>       * pattern (regular expression) to be a separator. For example, {@code<a name="line.238"></a>
+<FONT color="green">239</FONT>       * Splitter.onPattern("\r?\n").split(entireFile)} splits a string into lines<a name="line.239"></a>
+<FONT color="green">240</FONT>       * whether it uses DOS-style or UNIX-style line terminators. This is<a name="line.240"></a>
+<FONT color="green">241</FONT>       * equivalent to {@code Splitter.on(Pattern.compile(pattern))}.<a name="line.241"></a>
+<FONT color="green">242</FONT>       *<a name="line.242"></a>
+<FONT color="green">243</FONT>       * @param separatorPattern the pattern that determines whether a subsequence<a name="line.243"></a>
+<FONT color="green">244</FONT>       *     is a separator. This pattern may not match the empty string.<a name="line.244"></a>
+<FONT color="green">245</FONT>       * @return a splitter, with default settings, that uses this pattern<a name="line.245"></a>
+<FONT color="green">246</FONT>       * @throws java.util.regex.PatternSyntaxException if {@code separatorPattern}<a name="line.246"></a>
+<FONT color="green">247</FONT>       *     is a malformed expression<a name="line.247"></a>
+<FONT color="green">248</FONT>       * @throws IllegalArgumentException if {@code separatorPattern} matches the<a name="line.248"></a>
+<FONT color="green">249</FONT>       *     empty string<a name="line.249"></a>
+<FONT color="green">250</FONT>       */<a name="line.250"></a>
+<FONT color="green">251</FONT>      @GwtIncompatible("java.util.regex")<a name="line.251"></a>
+<FONT color="green">252</FONT>      public static Splitter onPattern(String separatorPattern) {<a name="line.252"></a>
+<FONT color="green">253</FONT>        return on(Pattern.compile(separatorPattern));<a name="line.253"></a>
+<FONT color="green">254</FONT>      }<a name="line.254"></a>
+<FONT color="green">255</FONT>    <a name="line.255"></a>
+<FONT color="green">256</FONT>      /**<a name="line.256"></a>
+<FONT color="green">257</FONT>       * Returns a splitter that divides strings into pieces of the given length.<a name="line.257"></a>
+<FONT color="green">258</FONT>       * For example, {@code Splitter.fixedLength(2).split("abcde")} returns an<a name="line.258"></a>
+<FONT color="green">259</FONT>       * iterable containing {@code ["ab", "cd", "e"]}. The last piece can be<a name="line.259"></a>
+<FONT color="green">260</FONT>       * smaller than {@code length} but will never be empty.<a name="line.260"></a>
+<FONT color="green">261</FONT>       *<a name="line.261"></a>
+<FONT color="green">262</FONT>       * @param length the desired length of pieces after splitting<a name="line.262"></a>
+<FONT color="green">263</FONT>       * @return a splitter, with default settings, that can split into fixed sized<a name="line.263"></a>
+<FONT color="green">264</FONT>       *     pieces<a name="line.264"></a>
+<FONT color="green">265</FONT>       */<a name="line.265"></a>
+<FONT color="green">266</FONT>      public static Splitter fixedLength(final int length) {<a name="line.266"></a>
+<FONT color="green">267</FONT>        checkArgument(length &gt; 0, "The length may not be less than 1");<a name="line.267"></a>
+<FONT color="green">268</FONT>    <a name="line.268"></a>
+<FONT color="green">269</FONT>        return new Splitter(new Strategy() {<a name="line.269"></a>
+<FONT color="green">270</FONT>          @Override public SplittingIterator iterator(<a name="line.270"></a>
+<FONT color="green">271</FONT>              final Splitter splitter, CharSequence toSplit) {<a name="line.271"></a>
+<FONT color="green">272</FONT>            return new SplittingIterator(splitter, toSplit) {<a name="line.272"></a>
+<FONT color="green">273</FONT>              @Override public int separatorStart(int start) {<a name="line.273"></a>
+<FONT color="green">274</FONT>                int nextChunkStart = start + length;<a name="line.274"></a>
+<FONT color="green">275</FONT>                return (nextChunkStart &lt; toSplit.length() ? nextChunkStart : -1);<a name="line.275"></a>
+<FONT color="green">276</FONT>              }<a name="line.276"></a>
+<FONT color="green">277</FONT>    <a name="line.277"></a>
+<FONT color="green">278</FONT>              @Override public int separatorEnd(int separatorPosition) {<a name="line.278"></a>
+<FONT color="green">279</FONT>                return separatorPosition;<a name="line.279"></a>
+<FONT color="green">280</FONT>              }<a name="line.280"></a>
+<FONT color="green">281</FONT>            };<a name="line.281"></a>
+<FONT color="green">282</FONT>          }<a name="line.282"></a>
+<FONT color="green">283</FONT>        });<a name="line.283"></a>
+<FONT color="green">284</FONT>      }<a name="line.284"></a>
+<FONT color="green">285</FONT>    <a name="line.285"></a>
+<FONT color="green">286</FONT>      /**<a name="line.286"></a>
+<FONT color="green">287</FONT>       * Returns a splitter that behaves equivalently to {@code this} splitter, but<a name="line.287"></a>
+<FONT color="green">288</FONT>       * automatically omits empty strings from the results. For example, {@code<a name="line.288"></a>
+<FONT color="green">289</FONT>       * Splitter.on(',').omitEmptyStrings().split(",a,,,b,c,,")} returns an<a name="line.289"></a>
+<FONT color="green">290</FONT>       * iterable containing only {@code ["a", "b", "c"]}.<a name="line.290"></a>
+<FONT color="green">291</FONT>       *<a name="line.291"></a>
+<FONT color="green">292</FONT>       * &lt;p&gt;If either {@code trimResults} option is also specified when creating a<a name="line.292"></a>
+<FONT color="green">293</FONT>       * splitter, that splitter always trims results first before checking for<a name="line.293"></a>
+<FONT color="green">294</FONT>       * emptiness. So, for example, {@code<a name="line.294"></a>
+<FONT color="green">295</FONT>       * Splitter.on(':').omitEmptyStrings().trimResults().split(": : : ")} returns<a name="line.295"></a>
+<FONT color="green">296</FONT>       * an empty iterable.<a name="line.296"></a>
+<FONT color="green">297</FONT>       *<a name="line.297"></a>
+<FONT color="green">298</FONT>       * &lt;p&gt;Note that it is ordinarily not possible for {@link #split(CharSequence)}<a name="line.298"></a>
+<FONT color="green">299</FONT>       * to return an empty iterable, but when using this option, it can (if the<a name="line.299"></a>
+<FONT color="green">300</FONT>       * input sequence consists of nothing but separators).<a name="line.300"></a>
+<FONT color="green">301</FONT>       *<a name="line.301"></a>
+<FONT color="green">302</FONT>       * @return a splitter with the desired configuration<a name="line.302"></a>
+<FONT color="green">303</FONT>       */<a name="line.303"></a>
+<FONT color="green">304</FONT>      @CheckReturnValue<a name="line.304"></a>
+<FONT color="green">305</FONT>      public Splitter omitEmptyStrings() {<a name="line.305"></a>
+<FONT color="green">306</FONT>        return new Splitter(strategy, true, trimmer, limit);<a name="line.306"></a>
+<FONT color="green">307</FONT>      }<a name="line.307"></a>
+<FONT color="green">308</FONT>    <a name="line.308"></a>
+<FONT color="green">309</FONT>      /**<a name="line.309"></a>
+<FONT color="green">310</FONT>       * Returns a splitter that behaves equivalently to {@code this} splitter but<a name="line.310"></a>
+<FONT color="green">311</FONT>       * stops splitting after it reaches the limit.<a name="line.311"></a>
+<FONT color="green">312</FONT>       * The limit defines the maximum number of items returned by the iterator.<a name="line.312"></a>
+<FONT color="green">313</FONT>       *<a name="line.313"></a>
+<FONT color="green">314</FONT>       * &lt;p&gt;For example,<a name="line.314"></a>
+<FONT color="green">315</FONT>       * {@code Splitter.on(',').limit(3).split("a,b,c,d")} returns an iterable<a name="line.315"></a>
+<FONT color="green">316</FONT>       * containing {@code ["a", "b", "c,d"]}.  When omitting empty strings, the<a name="line.316"></a>
+<FONT color="green">317</FONT>       * omitted strings do no count.  Hence,<a name="line.317"></a>
+<FONT color="green">318</FONT>       * {@code Splitter.on(',').limit(3).omitEmptyStrings().split("a,,,b,,,c,d")}<a name="line.318"></a>
+<FONT color="green">319</FONT>       * returns an iterable containing {@code ["a", "b", "c,d"}.<a name="line.319"></a>
+<FONT color="green">320</FONT>       * When trim is requested, all entries, including the last are trimmed.  Hence<a name="line.320"></a>
+<FONT color="green">321</FONT>       * {@code Splitter.on(',').limit(3).trimResults().split(" a , b , c , d ")}<a name="line.321"></a>
+<FONT color="green">322</FONT>       * results in @{code ["a", "b", "c , d"]}.<a name="line.322"></a>
+<FONT color="green">323</FONT>       *<a name="line.323"></a>
+<FONT color="green">324</FONT>       * @param limit the maximum number of items returns<a name="line.324"></a>
+<FONT color="green">325</FONT>       * @return a splitter with the desired configuration<a name="line.325"></a>
+<FONT color="green">326</FONT>       * @since 9.0<a name="line.326"></a>
+<FONT color="green">327</FONT>       */<a name="line.327"></a>
+<FONT color="green">328</FONT>      @CheckReturnValue<a name="line.328"></a>
+<FONT color="green">329</FONT>      public Splitter limit(int limit) {<a name="line.329"></a>
+<FONT color="green">330</FONT>        checkArgument(limit &gt; 0, "must be greater than zero: %s", limit);<a name="line.330"></a>
+<FONT color="green">331</FONT>        return new Splitter(strategy, omitEmptyStrings, trimmer, limit);<a name="line.331"></a>
+<FONT color="green">332</FONT>      }<a name="line.332"></a>
+<FONT color="green">333</FONT>    <a name="line.333"></a>
+<FONT color="green">334</FONT>      /**<a name="line.334"></a>
+<FONT color="green">335</FONT>       * Returns a splitter that behaves equivalently to {@code this} splitter, but<a name="line.335"></a>
+<FONT color="green">336</FONT>       * automatically removes leading and trailing {@linkplain<a name="line.336"></a>
+<FONT color="green">337</FONT>       * CharMatcher#WHITESPACE whitespace} from each returned substring; equivalent<a name="line.337"></a>
+<FONT color="green">338</FONT>       * to {@code trimResults(CharMatcher.WHITESPACE)}. For example, {@code<a name="line.338"></a>
+<FONT color="green">339</FONT>       * Splitter.on(',').trimResults().split(" a, b ,c ")} returns an iterable<a name="line.339"></a>
+<FONT color="green">340</FONT>       * containing {@code ["a", "b", "c"]}.<a name="line.340"></a>
+<FONT color="green">341</FONT>       *<a name="line.341"></a>
+<FONT color="green">342</FONT>       * @return a splitter with the desired configuration<a name="line.342"></a>
+<FONT color="green">343</FONT>       */<a name="line.343"></a>
+<FONT color="green">344</FONT>      @CheckReturnValue<a name="line.344"></a>
+<FONT color="green">345</FONT>      public Splitter trimResults() {<a name="line.345"></a>
+<FONT color="green">346</FONT>        return trimResults(CharMatcher.WHITESPACE);<a name="line.346"></a>
+<FONT color="green">347</FONT>      }<a name="line.347"></a>
+<FONT color="green">348</FONT>    <a name="line.348"></a>
+<FONT color="green">349</FONT>      /**<a name="line.349"></a>
+<FONT color="green">350</FONT>       * Returns a splitter that behaves equivalently to {@code this} splitter, but<a name="line.350"></a>
+<FONT color="green">351</FONT>       * removes all leading or trailing characters matching the given {@code<a name="line.351"></a>
+<FONT color="green">352</FONT>       * CharMatcher} from each returned substring. For example, {@code<a name="line.352"></a>
+<FONT color="green">353</FONT>       * Splitter.on(',').trimResults(CharMatcher.is('_')).split("_a ,_b_ ,c__")}<a name="line.353"></a>
+<FONT color="green">354</FONT>       * returns an iterable containing {@code ["a ", "b_ ", "c"]}.<a name="line.354"></a>
+<FONT color="green">355</FONT>       *<a name="line.355"></a>
+<FONT color="green">356</FONT>       * @param trimmer a {@link CharMatcher} that determines whether a character<a name="line.356"></a>
+<FONT color="green">357</FONT>       *     should be removed from the beginning/end of a subsequence<a name="line.357"></a>
+<FONT color="green">358</FONT>       * @return a splitter with the desired configuration<a name="line.358"></a>
+<FONT color="green">359</FONT>       */<a name="line.359"></a>
+<FONT color="green">360</FONT>      // TODO(kevinb): throw if a trimmer was already specified!<a name="line.360"></a>
+<FONT color="green">361</FONT>      @CheckReturnValue<a name="line.361"></a>
+<FONT color="green">362</FONT>      public Splitter trimResults(CharMatcher trimmer) {<a name="line.362"></a>
+<FONT color="green">363</FONT>        checkNotNull(trimmer);<a name="line.363"></a>
+<FONT color="green">364</FONT>        return new Splitter(strategy, omitEmptyStrings, trimmer, limit);<a name="line.364"></a>
+<FONT color="green">365</FONT>      }<a name="line.365"></a>
+<FONT color="green">366</FONT>    <a name="line.366"></a>
+<FONT color="green">367</FONT>      /**<a name="line.367"></a>
+<FONT color="green">368</FONT>       * Splits {@code sequence} into string components and makes them available<a name="line.368"></a>
+<FONT color="green">369</FONT>       * through an {@link Iterator}, which may be lazily evaluated.<a name="line.369"></a>
+<FONT color="green">370</FONT>       *<a name="line.370"></a>
+<FONT color="green">371</FONT>       * @param sequence the sequence of characters to split<a name="line.371"></a>
+<FONT color="green">372</FONT>       * @return an iteration over the segments split from the parameter.<a name="line.372"></a>
+<FONT color="green">373</FONT>       */<a name="line.373"></a>
+<FONT color="green">374</FONT>      public Iterable&lt;String&gt; split(final CharSequence sequence) {<a name="line.374"></a>
+<FONT color="green">375</FONT>        checkNotNull(sequence);<a name="line.375"></a>
+<FONT color="green">376</FONT>    <a name="line.376"></a>
+<FONT color="green">377</FONT>        return new Iterable&lt;String&gt;() {<a name="line.377"></a>
+<FONT color="green">378</FONT>          @Override public Iterator&lt;String&gt; iterator() {<a name="line.378"></a>
+<FONT color="green">379</FONT>            return spliterator(sequence);<a name="line.379"></a>
+<FONT color="green">380</FONT>          }<a name="line.380"></a>
+<FONT color="green">381</FONT>          @Override public String toString() {<a name="line.381"></a>
+<FONT color="green">382</FONT>            return Joiner.on(", ")<a name="line.382"></a>
+<FONT color="green">383</FONT>                .appendTo(new StringBuilder().append('['), this)<a name="line.383"></a>
+<FONT color="green">384</FONT>                .append(']')<a name="line.384"></a>
+<FONT color="green">385</FONT>                .toString();<a name="line.385"></a>
+<FONT color="green">386</FONT>          }<a name="line.386"></a>
+<FONT color="green">387</FONT>        };<a name="line.387"></a>
+<FONT color="green">388</FONT>      }<a name="line.388"></a>
+<FONT color="green">389</FONT>    <a name="line.389"></a>
+<FONT color="green">390</FONT>      private Iterator&lt;String&gt; spliterator(CharSequence sequence) {<a name="line.390"></a>
+<FONT color="green">391</FONT>        return strategy.iterator(this, sequence);<a name="line.391"></a>
+<FONT color="green">392</FONT>      }<a name="line.392"></a>
+<FONT color="green">393</FONT>    <a name="line.393"></a>
+<FONT color="green">394</FONT>      /**<a name="line.394"></a>
+<FONT color="green">395</FONT>       * Returns a {@code MapSplitter} which splits entries based on this splitter,<a name="line.395"></a>
+<FONT color="green">396</FONT>       * and splits entries into keys and values using the specified separator.<a name="line.396"></a>
+<FONT color="green">397</FONT>       *<a name="line.397"></a>
+<FONT color="green">398</FONT>       * @since 10.0<a name="line.398"></a>
+<FONT color="green">399</FONT>       */<a name="line.399"></a>
+<FONT color="green">400</FONT>      @CheckReturnValue<a name="line.400"></a>
+<FONT color="green">401</FONT>      @Beta<a name="line.401"></a>
+<FONT color="green">402</FONT>      public MapSplitter withKeyValueSeparator(String separator) {<a name="line.402"></a>
+<FONT color="green">403</FONT>        return withKeyValueSeparator(on(separator));<a name="line.403"></a>
+<FONT color="green">404</FONT>      }<a name="line.404"></a>
+<FONT color="green">405</FONT>    <a name="line.405"></a>
+<FONT color="green">406</FONT>      /**<a name="line.406"></a>
+<FONT color="green">407</FONT>       * Returns a {@code MapSplitter} which splits entries based on this splitter,<a name="line.407"></a>
+<FONT color="green">408</FONT>       * and splits entries into keys and values using the specified key-value<a name="line.408"></a>
+<FONT color="green">409</FONT>       * splitter.<a name="line.409"></a>
+<FONT color="green">410</FONT>       *<a name="line.410"></a>
+<FONT color="green">411</FONT>       * @since 10.0<a name="line.411"></a>
+<FONT color="green">412</FONT>       */<a name="line.412"></a>
+<FONT color="green">413</FONT>      @CheckReturnValue<a name="line.413"></a>
+<FONT color="green">414</FONT>      @Beta<a name="line.414"></a>
+<FONT color="green">415</FONT>      public MapSplitter withKeyValueSeparator(Splitter keyValueSplitter) {<a name="line.415"></a>
+<FONT color="green">416</FONT>        return new MapSplitter(this, keyValueSplitter);<a name="line.416"></a>
+<FONT color="green">417</FONT>      }<a name="line.417"></a>
+<FONT color="green">418</FONT>    <a name="line.418"></a>
+<FONT color="green">419</FONT>      /**<a name="line.419"></a>
+<FONT color="green">420</FONT>       * An object that splits strings into maps as {@code Splitter} splits<a name="line.420"></a>
+<FONT color="green">421</FONT>       * iterables and lists. Like {@code Splitter}, it is thread-safe and<a name="line.421"></a>
+<FONT color="green">422</FONT>       * immutable.<a name="line.422"></a>
+<FONT color="green">423</FONT>       *<a name="line.423"></a>
+<FONT color="green">424</FONT>       * @since 10.0<a name="line.424"></a>
+<FONT color="green">425</FONT>       */<a name="line.425"></a>
+<FONT color="green">426</FONT>      @Beta<a name="line.426"></a>
+<FONT color="green">427</FONT>      public static final class MapSplitter {<a name="line.427"></a>
+<FONT color="green">428</FONT>        private static final String INVALID_ENTRY_MESSAGE =<a name="line.428"></a>
+<FONT color="green">429</FONT>            "Chunk [%s] is not a valid entry";<a name="line.429"></a>
+<FONT color="green">430</FONT>        private final Splitter outerSplitter;<a name="line.430"></a>
+<FONT color="green">431</FONT>        private final Splitter entrySplitter;<a name="line.431"></a>
+<FONT color="green">432</FONT>    <a name="line.432"></a>
+<FONT color="green">433</FONT>        private MapSplitter(Splitter outerSplitter, Splitter entrySplitter) {<a name="line.433"></a>
+<FONT color="green">434</FONT>          this.outerSplitter = outerSplitter; // only "this" is passed<a name="line.434"></a>
+<FONT color="green">435</FONT>          this.entrySplitter = checkNotNull(entrySplitter);<a name="line.435"></a>
+<FONT color="green">436</FONT>        }<a name="line.436"></a>
+<FONT color="green">437</FONT>    <a name="line.437"></a>
+<FONT color="green">438</FONT>        /**<a name="line.438"></a>
+<FONT color="green">439</FONT>         * Splits {@code sequence} into substrings, splits each substring into<a name="line.439"></a>
+<FONT color="green">440</FONT>         * an entry, and returns an unmodifiable map with each of the entries. For<a name="line.440"></a>
+<FONT color="green">441</FONT>         * example, &lt;code&gt;<a name="line.441"></a>
+<FONT color="green">442</FONT>         * Splitter.on(';').trimResults().withKeyValueSeparator("=&gt;")<a name="line.442"></a>
+<FONT color="green">443</FONT>         * .split("a=&gt;b ; c=&gt;b")<a name="line.443"></a>
+<FONT color="green">444</FONT>         * &lt;/code&gt; will return a mapping from {@code "a"} to {@code "b"} and<a name="line.444"></a>
+<FONT color="green">445</FONT>         * {@code "c"} to {@code b}.<a name="line.445"></a>
+<FONT color="green">446</FONT>         *<a name="line.446"></a>
+<FONT color="green">447</FONT>         * &lt;p&gt;The returned map preserves the order of the entries from<a name="line.447"></a>
+<FONT color="green">448</FONT>         * {@code sequence}.<a name="line.448"></a>
+<FONT color="green">449</FONT>         *<a name="line.449"></a>
+<FONT color="green">450</FONT>         * @throws IllegalArgumentException if the specified sequence does not split<a name="line.450"></a>
+<FONT color="green">451</FONT>         *         into valid map entries, or if there are duplicate keys<a name="line.451"></a>
+<FONT color="green">452</FONT>         */<a name="line.452"></a>
+<FONT color="green">453</FONT>        public Map&lt;String, String&gt; split(CharSequence sequence) {<a name="line.453"></a>
+<FONT color="green">454</FONT>          Map&lt;String, String&gt; map = new LinkedHashMap&lt;String, String&gt;();<a name="line.454"></a>
+<FONT color="green">455</FONT>          for (String entry : outerSplitter.split(sequence)) {<a name="line.455"></a>
+<FONT color="green">456</FONT>            Iterator&lt;String&gt; entryFields = entrySplitter.spliterator(entry);<a name="line.456"></a>
+<FONT color="green">457</FONT>    <a name="line.457"></a>
+<FONT color="green">458</FONT>            checkArgument(entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);<a name="line.458"></a>
+<FONT color="green">459</FONT>            String key = entryFields.next();<a name="line.459"></a>
+<FONT color="green">460</FONT>            checkArgument(!map.containsKey(key), "Duplicate key [%s] found.", key);<a name="line.460"></a>
+<FONT color="green">461</FONT>    <a name="line.461"></a>
+<FONT color="green">462</FONT>            checkArgument(entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);<a name="line.462"></a>
+<FONT color="green">463</FONT>            String value = entryFields.next();<a name="line.463"></a>
+<FONT color="green">464</FONT>            map.put(key, value);<a name="line.464"></a>
+<FONT color="green">465</FONT>    <a name="line.465"></a>
+<FONT color="green">466</FONT>            checkArgument(!entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);<a name="line.466"></a>
+<FONT color="green">467</FONT>          }<a name="line.467"></a>
+<FONT color="green">468</FONT>          return Collections.unmodifiableMap(map);<a name="line.468"></a>
+<FONT color="green">469</FONT>        }<a name="line.469"></a>
+<FONT color="green">470</FONT>      }<a name="line.470"></a>
+<FONT color="green">471</FONT>    <a name="line.471"></a>
+<FONT color="green">472</FONT>      private interface Strategy {<a name="line.472"></a>
+<FONT color="green">473</FONT>        Iterator&lt;String&gt; iterator(Splitter splitter, CharSequence toSplit);<a name="line.473"></a>
+<FONT color="green">474</FONT>      }<a name="line.474"></a>
+<FONT color="green">475</FONT>    <a name="line.475"></a>
+<FONT color="green">476</FONT>      private abstract static class SplittingIterator extends AbstractIterator&lt;String&gt; {<a name="line.476"></a>
+<FONT color="green">477</FONT>        final CharSequence toSplit;<a name="line.477"></a>
+<FONT color="green">478</FONT>        final CharMatcher trimmer;<a name="line.478"></a>
+<FONT color="green">479</FONT>        final boolean omitEmptyStrings;<a name="line.479"></a>
+<FONT color="green">480</FONT>    <a name="line.480"></a>
+<FONT color="green">481</FONT>        /**<a name="line.481"></a>
+<FONT color="green">482</FONT>         * Returns the first index in {@code toSplit} at or after {@code start}<a name="line.482"></a>
+<FONT color="green">483</FONT>         * that contains the separator.<a name="line.483"></a>
+<FONT color="green">484</FONT>         */<a name="line.484"></a>
+<FONT color="green">485</FONT>        abstract int separatorStart(int start);<a name="line.485"></a>
+<FONT color="green">486</FONT>    <a name="line.486"></a>
+<FONT color="green">487</FONT>        /**<a name="line.487"></a>
+<FONT color="green">488</FONT>         * Returns the first index in {@code toSplit} after {@code<a name="line.488"></a>
+<FONT color="green">489</FONT>         * separatorPosition} that does not contain a separator. This method is only<a name="line.489"></a>
+<FONT color="green">490</FONT>         * invoked after a call to {@code separatorStart}.<a name="line.490"></a>
+<FONT color="green">491</FONT>         */<a name="line.491"></a>
+<FONT color="green">492</FONT>        abstract int separatorEnd(int separatorPosition);<a name="line.492"></a>
+<FONT color="green">493</FONT>    <a name="line.493"></a>
+<FONT color="green">494</FONT>        int offset = 0;<a name="line.494"></a>
+<FONT color="green">495</FONT>        int limit;<a name="line.495"></a>
+<FONT color="green">496</FONT>    <a name="line.496"></a>
+<FONT color="green">497</FONT>        protected SplittingIterator(Splitter splitter, CharSequence toSplit) {<a name="line.497"></a>
+<FONT color="green">498</FONT>          this.trimmer = splitter.trimmer;<a name="line.498"></a>
+<FONT color="green">499</FONT>          this.omitEmptyStrings = splitter.omitEmptyStrings;<a name="line.499"></a>
+<FONT color="green">500</FONT>          this.limit = splitter.limit;<a name="line.500"></a>
+<FONT color="green">501</FONT>          this.toSplit = toSplit;<a name="line.501"></a>
+<FONT color="green">502</FONT>        }<a name="line.502"></a>
+<FONT color="green">503</FONT>    <a name="line.503"></a>
+<FONT color="green">504</FONT>        @Override protected String computeNext() {<a name="line.504"></a>
+<FONT color="green">505</FONT>          /*<a name="line.505"></a>
+<FONT color="green">506</FONT>           * The returned string will be from the end of the last match to the<a name="line.506"></a>
+<FONT color="green">507</FONT>           * beginning of the next one. nextStart is the start position of the<a name="line.507"></a>
+<FONT color="green">508</FONT>           * returned substring, while offset is the place to start looking for a<a name="line.508"></a>
+<FONT color="green">509</FONT>           * separator.<a name="line.509"></a>
+<FONT color="green">510</FONT>           */<a name="line.510"></a>
+<FONT color="green">511</FONT>          int nextStart = offset;<a name="line.511"></a>
+<FONT color="green">512</FONT>          while (offset != -1) {<a name="line.512"></a>
+<FONT color="green">513</FONT>            int start = nextStart;<a name="line.513"></a>
+<FONT color="green">514</FONT>            int end;<a name="line.514"></a>
+<FONT color="green">515</FONT>    <a name="line.515"></a>
+<FONT color="green">516</FONT>            int separatorPosition = separatorStart(offset);<a name="line.516"></a>
+<FONT color="green">517</FONT>            if (separatorPosition == -1) {<a name="line.517"></a>
+<FONT color="green">518</FONT>              end = toSplit.length();<a name="line.518"></a>
+<FONT color="green">519</FONT>              offset = -1;<a name="line.519"></a>
+<FONT color="green">520</FONT>            } else {<a name="line.520"></a>
+<FONT color="green">521</FONT>              end = separatorPosition;<a name="line.521"></a>
+<FONT color="green">522</FONT>              offset = separatorEnd(separatorPosition);<a name="line.522"></a>
+<FONT color="green">523</FONT>            }<a name="line.523"></a>
+<FONT color="green">524</FONT>            if (offset == nextStart) {<a name="line.524"></a>
+<FONT color="green">525</FONT>              /*<a name="line.525"></a>
+<FONT color="green">526</FONT>               * This occurs when some pattern has an empty match, even if it<a name="line.526"></a>
+<FONT color="green">527</FONT>               * doesn't match the empty string -- for example, if it requires<a name="line.527"></a>
+<FONT color="green">528</FONT>               * lookahead or the like. The offset must be increased to look for<a name="line.528"></a>
+<FONT color="green">529</FONT>               * separators beyond this point, without changing the start position<a name="line.529"></a>
+<FONT color="green">530</FONT>               * of the next returned substring -- so nextStart stays the same.<a name="line.530"></a>
+<FONT color="green">531</FONT>               */<a name="line.531"></a>
+<FONT color="green">532</FONT>              offset++;<a name="line.532"></a>
+<FONT color="green">533</FONT>              if (offset &gt;= toSplit.length()) {<a name="line.533"></a>
+<FONT color="green">534</FONT>                offset = -1;<a name="line.534"></a>
+<FONT color="green">535</FONT>              }<a name="line.535"></a>
+<FONT color="green">536</FONT>              continue;<a name="line.536"></a>
+<FONT color="green">537</FONT>            }<a name="line.537"></a>
+<FONT color="green">538</FONT>    <a name="line.538"></a>
+<FONT color="green">539</FONT>            while (start &lt; end &amp;&amp; trimmer.matches(toSplit.charAt(start))) {<a name="line.539"></a>
+<FONT color="green">540</FONT>              start++;<a name="line.540"></a>
+<FONT color="green">541</FONT>            }<a name="line.541"></a>
+<FONT color="green">542</FONT>            while (end &gt; start &amp;&amp; trimmer.matches(toSplit.charAt(end - 1))) {<a name="line.542"></a>
+<FONT color="green">543</FONT>              end--;<a name="line.543"></a>
+<FONT color="green">544</FONT>            }<a name="line.544"></a>
+<FONT color="green">545</FONT>    <a name="line.545"></a>
+<FONT color="green">546</FONT>            if (omitEmptyStrings &amp;&amp; start == end) {<a name="line.546"></a>
+<FONT color="green">547</FONT>              // Don't include the (unused) separator in next split string.<a name="line.547"></a>
+<FONT color="green">548</FONT>              nextStart = offset;<a name="line.548"></a>
+<FONT color="green">549</FONT>              continue;<a name="line.549"></a>
+<FONT color="green">550</FONT>            }<a name="line.550"></a>
+<FONT color="green">551</FONT>    <a name="line.551"></a>
+<FONT color="green">552</FONT>            if (limit == 1) {<a name="line.552"></a>
+<FONT color="green">553</FONT>              // The limit has been reached, return the rest of the string as the<a name="line.553"></a>
+<FONT color="green">554</FONT>              // final item.  This is tested after empty string removal so that<a name="line.554"></a>
+<FONT color="green">555</FONT>              // empty strings do not count towards the limit.<a name="line.555"></a>
+<FONT color="green">556</FONT>              end = toSplit.length();<a name="line.556"></a>
+<FONT color="green">557</FONT>              offset = -1;<a name="line.557"></a>
+<FONT color="green">558</FONT>              // Since we may have changed the end, we need to trim it again.<a name="line.558"></a>
+<FONT color="green">559</FONT>              while (end &gt; start &amp;&amp; trimmer.matches(toSplit.charAt(end - 1))) {<a name="line.559"></a>
+<FONT color="green">560</FONT>                end--;<a name="line.560"></a>
+<FONT color="green">561</FONT>              }<a name="line.561"></a>
+<FONT color="green">562</FONT>            } else {<a name="line.562"></a>
+<FONT color="green">563</FONT>              limit--;<a name="line.563"></a>
+<FONT color="green">564</FONT>            }<a name="line.564"></a>
+<FONT color="green">565</FONT>    <a name="line.565"></a>
+<FONT color="green">566</FONT>            return toSplit.subSequence(start, end).toString();<a name="line.566"></a>
+<FONT color="green">567</FONT>          }<a name="line.567"></a>
+<FONT color="green">568</FONT>          return endOfData();<a name="line.568"></a>
+<FONT color="green">569</FONT>        }<a name="line.569"></a>
+<FONT color="green">570</FONT>      }<a name="line.570"></a>
+<FONT color="green">571</FONT>    }<a name="line.571"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

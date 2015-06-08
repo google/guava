@@ -1,0 +1,194 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.base;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import static com.google.common.base.Preconditions.checkNotNull;<a name="line.19"></a>
+<FONT color="green">020</FONT>    <a name="line.20"></a>
+<FONT color="green">021</FONT>    import com.google.common.annotations.Beta;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import com.google.common.annotations.GwtIncompatible;<a name="line.23"></a>
+<FONT color="green">024</FONT>    <a name="line.24"></a>
+<FONT color="green">025</FONT>    import java.io.Serializable;<a name="line.25"></a>
+<FONT color="green">026</FONT>    import java.lang.reflect.Field;<a name="line.26"></a>
+<FONT color="green">027</FONT>    <a name="line.27"></a>
+<FONT color="green">028</FONT>    import javax.annotation.Nullable;<a name="line.28"></a>
+<FONT color="green">029</FONT>    <a name="line.29"></a>
+<FONT color="green">030</FONT>    /**<a name="line.30"></a>
+<FONT color="green">031</FONT>     * Utility methods for working with {@link Enum} instances.<a name="line.31"></a>
+<FONT color="green">032</FONT>     *<a name="line.32"></a>
+<FONT color="green">033</FONT>     * @author Steve McKay<a name="line.33"></a>
+<FONT color="green">034</FONT>     *<a name="line.34"></a>
+<FONT color="green">035</FONT>     * @since 9.0<a name="line.35"></a>
+<FONT color="green">036</FONT>     */<a name="line.36"></a>
+<FONT color="green">037</FONT>    @GwtCompatible(emulated = true)<a name="line.37"></a>
+<FONT color="green">038</FONT>    @Beta<a name="line.38"></a>
+<FONT color="green">039</FONT>    public final class Enums {<a name="line.39"></a>
+<FONT color="green">040</FONT>    <a name="line.40"></a>
+<FONT color="green">041</FONT>      private Enums() {}<a name="line.41"></a>
+<FONT color="green">042</FONT>    <a name="line.42"></a>
+<FONT color="green">043</FONT>      /**<a name="line.43"></a>
+<FONT color="green">044</FONT>       * Returns the {@link Field} in which {@code enumValue} is defined.<a name="line.44"></a>
+<FONT color="green">045</FONT>       * For example, to get the {@code Description} annotation on the {@code GOLF}<a name="line.45"></a>
+<FONT color="green">046</FONT>       * constant of enum {@code Sport}, use<a name="line.46"></a>
+<FONT color="green">047</FONT>       * {@code Enums.getField(Sport.GOLF).getAnnotation(Description.class)}.<a name="line.47"></a>
+<FONT color="green">048</FONT>       *<a name="line.48"></a>
+<FONT color="green">049</FONT>       * @since 12.0<a name="line.49"></a>
+<FONT color="green">050</FONT>       */<a name="line.50"></a>
+<FONT color="green">051</FONT>      @GwtIncompatible("reflection")<a name="line.51"></a>
+<FONT color="green">052</FONT>      public static Field getField(Enum&lt;?&gt; enumValue) {<a name="line.52"></a>
+<FONT color="green">053</FONT>        Class&lt;?&gt; clazz = enumValue.getDeclaringClass();<a name="line.53"></a>
+<FONT color="green">054</FONT>        try {<a name="line.54"></a>
+<FONT color="green">055</FONT>          return clazz.getDeclaredField(enumValue.name());<a name="line.55"></a>
+<FONT color="green">056</FONT>        } catch (NoSuchFieldException impossible) {<a name="line.56"></a>
+<FONT color="green">057</FONT>          throw new AssertionError(impossible);<a name="line.57"></a>
+<FONT color="green">058</FONT>        }<a name="line.58"></a>
+<FONT color="green">059</FONT>      }<a name="line.59"></a>
+<FONT color="green">060</FONT>    <a name="line.60"></a>
+<FONT color="green">061</FONT>      /**<a name="line.61"></a>
+<FONT color="green">062</FONT>       * Returns a {@link Function} that maps an {@link Enum} name to the associated<a name="line.62"></a>
+<FONT color="green">063</FONT>       * {@code Enum} constant. The {@code Function} will return {@code null} if the<a name="line.63"></a>
+<FONT color="green">064</FONT>       * {@code Enum} constant does not exist.<a name="line.64"></a>
+<FONT color="green">065</FONT>       *<a name="line.65"></a>
+<FONT color="green">066</FONT>       * @param enumClass the {@link Class} of the {@code Enum} declaring the<a name="line.66"></a>
+<FONT color="green">067</FONT>       *     constant values.<a name="line.67"></a>
+<FONT color="green">068</FONT>       */<a name="line.68"></a>
+<FONT color="green">069</FONT>      public static &lt;T extends Enum&lt;T&gt;&gt; Function&lt;String, T&gt; valueOfFunction(Class&lt;T&gt; enumClass) {<a name="line.69"></a>
+<FONT color="green">070</FONT>        return new ValueOfFunction&lt;T&gt;(enumClass);<a name="line.70"></a>
+<FONT color="green">071</FONT>      }<a name="line.71"></a>
+<FONT color="green">072</FONT>    <a name="line.72"></a>
+<FONT color="green">073</FONT>      /**<a name="line.73"></a>
+<FONT color="green">074</FONT>       * A {@link Function} that maps an {@link Enum} name to the associated<a name="line.74"></a>
+<FONT color="green">075</FONT>       * constant, or {@code null} if the constant does not exist.<a name="line.75"></a>
+<FONT color="green">076</FONT>       */<a name="line.76"></a>
+<FONT color="green">077</FONT>      private static final class ValueOfFunction&lt;T extends Enum&lt;T&gt;&gt;<a name="line.77"></a>
+<FONT color="green">078</FONT>          implements Function&lt;String, T&gt;, Serializable {<a name="line.78"></a>
+<FONT color="green">079</FONT>    <a name="line.79"></a>
+<FONT color="green">080</FONT>        private final Class&lt;T&gt; enumClass;<a name="line.80"></a>
+<FONT color="green">081</FONT>    <a name="line.81"></a>
+<FONT color="green">082</FONT>        private ValueOfFunction(Class&lt;T&gt; enumClass) {<a name="line.82"></a>
+<FONT color="green">083</FONT>          this.enumClass = checkNotNull(enumClass);<a name="line.83"></a>
+<FONT color="green">084</FONT>        }<a name="line.84"></a>
+<FONT color="green">085</FONT>    <a name="line.85"></a>
+<FONT color="green">086</FONT>        @Override<a name="line.86"></a>
+<FONT color="green">087</FONT>        public T apply(String value) {<a name="line.87"></a>
+<FONT color="green">088</FONT>          try {<a name="line.88"></a>
+<FONT color="green">089</FONT>            return Enum.valueOf(enumClass, value);<a name="line.89"></a>
+<FONT color="green">090</FONT>          } catch (IllegalArgumentException e) {<a name="line.90"></a>
+<FONT color="green">091</FONT>            return null;<a name="line.91"></a>
+<FONT color="green">092</FONT>          }<a name="line.92"></a>
+<FONT color="green">093</FONT>        }<a name="line.93"></a>
+<FONT color="green">094</FONT>    <a name="line.94"></a>
+<FONT color="green">095</FONT>        @Override public boolean equals(@Nullable Object obj) {<a name="line.95"></a>
+<FONT color="green">096</FONT>          return obj instanceof ValueOfFunction &amp;&amp;<a name="line.96"></a>
+<FONT color="green">097</FONT>              enumClass.equals(((ValueOfFunction) obj).enumClass);<a name="line.97"></a>
+<FONT color="green">098</FONT>        }<a name="line.98"></a>
+<FONT color="green">099</FONT>    <a name="line.99"></a>
+<FONT color="green">100</FONT>        @Override public int hashCode() {<a name="line.100"></a>
+<FONT color="green">101</FONT>          return enumClass.hashCode();<a name="line.101"></a>
+<FONT color="green">102</FONT>        }<a name="line.102"></a>
+<FONT color="green">103</FONT>    <a name="line.103"></a>
+<FONT color="green">104</FONT>        @Override public String toString() {<a name="line.104"></a>
+<FONT color="green">105</FONT>          return "Enums.valueOf(" + enumClass + ")";<a name="line.105"></a>
+<FONT color="green">106</FONT>        }<a name="line.106"></a>
+<FONT color="green">107</FONT>    <a name="line.107"></a>
+<FONT color="green">108</FONT>        private static final long serialVersionUID = 0;<a name="line.108"></a>
+<FONT color="green">109</FONT>      }<a name="line.109"></a>
+<FONT color="green">110</FONT>    <a name="line.110"></a>
+<FONT color="green">111</FONT>      /**<a name="line.111"></a>
+<FONT color="green">112</FONT>       * Returns an optional enum constant for the given type, using {@link Enum#valueOf}. If the<a name="line.112"></a>
+<FONT color="green">113</FONT>       * constant does not exist, {@link Optional#absent} is returned. A common use case is for parsing<a name="line.113"></a>
+<FONT color="green">114</FONT>       * user input or falling back to a default enum constant. For example,<a name="line.114"></a>
+<FONT color="green">115</FONT>       * {@code Enums.getIfPresent(Country.class, countryInput).or(Country.DEFAULT);}<a name="line.115"></a>
+<FONT color="green">116</FONT>       *<a name="line.116"></a>
+<FONT color="green">117</FONT>       * @since 12.0<a name="line.117"></a>
+<FONT color="green">118</FONT>       */<a name="line.118"></a>
+<FONT color="green">119</FONT>      public static &lt;T extends Enum&lt;T&gt;&gt; Optional&lt;T&gt; getIfPresent(Class&lt;T&gt; enumClass, String value) {<a name="line.119"></a>
+<FONT color="green">120</FONT>        checkNotNull(enumClass);<a name="line.120"></a>
+<FONT color="green">121</FONT>        checkNotNull(value);<a name="line.121"></a>
+<FONT color="green">122</FONT>        try {<a name="line.122"></a>
+<FONT color="green">123</FONT>          return Optional.of(Enum.valueOf(enumClass, value));<a name="line.123"></a>
+<FONT color="green">124</FONT>        } catch (IllegalArgumentException iae) {<a name="line.124"></a>
+<FONT color="green">125</FONT>          return Optional.absent();<a name="line.125"></a>
+<FONT color="green">126</FONT>        }<a name="line.126"></a>
+<FONT color="green">127</FONT>      }<a name="line.127"></a>
+<FONT color="green">128</FONT>    }<a name="line.128"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,424 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2010 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.base;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import static com.google.common.base.Preconditions.checkNotNull;<a name="line.19"></a>
+<FONT color="green">020</FONT>    <a name="line.20"></a>
+<FONT color="green">021</FONT>    import com.google.common.annotations.Beta;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.22"></a>
+<FONT color="green">023</FONT>    <a name="line.23"></a>
+<FONT color="green">024</FONT>    import java.io.Serializable;<a name="line.24"></a>
+<FONT color="green">025</FONT>    <a name="line.25"></a>
+<FONT color="green">026</FONT>    import javax.annotation.Nullable;<a name="line.26"></a>
+<FONT color="green">027</FONT>    <a name="line.27"></a>
+<FONT color="green">028</FONT>    /**<a name="line.28"></a>
+<FONT color="green">029</FONT>     * A strategy for determining whether two instances are considered equivalent. Examples of<a name="line.29"></a>
+<FONT color="green">030</FONT>     * equivalences are the {@link Equivalences#identity() identity equivalence} and {@link<a name="line.30"></a>
+<FONT color="green">031</FONT>     * Equivalences#equals equals equivalence}.<a name="line.31"></a>
+<FONT color="green">032</FONT>     *<a name="line.32"></a>
+<FONT color="green">033</FONT>     * @author Bob Lee<a name="line.33"></a>
+<FONT color="green">034</FONT>     * @author Ben Yu<a name="line.34"></a>
+<FONT color="green">035</FONT>     * @author Gregory Kick<a name="line.35"></a>
+<FONT color="green">036</FONT>     * @since 10.0 (&lt;a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"<a name="line.36"></a>
+<FONT color="green">037</FONT>     *        &gt;mostly source-compatible&lt;/a&gt; since 4.0)<a name="line.37"></a>
+<FONT color="green">038</FONT>     */<a name="line.38"></a>
+<FONT color="green">039</FONT>    @GwtCompatible<a name="line.39"></a>
+<FONT color="green">040</FONT>    public abstract class Equivalence&lt;T&gt; {<a name="line.40"></a>
+<FONT color="green">041</FONT>      /**<a name="line.41"></a>
+<FONT color="green">042</FONT>       * Constructor for use by subclasses.<a name="line.42"></a>
+<FONT color="green">043</FONT>       */<a name="line.43"></a>
+<FONT color="green">044</FONT>      protected Equivalence() {}<a name="line.44"></a>
+<FONT color="green">045</FONT>    <a name="line.45"></a>
+<FONT color="green">046</FONT>      /**<a name="line.46"></a>
+<FONT color="green">047</FONT>       * Returns {@code true} if the given objects are considered equivalent.<a name="line.47"></a>
+<FONT color="green">048</FONT>       *<a name="line.48"></a>
+<FONT color="green">049</FONT>       * &lt;p&gt;The {@code equivalent} method implements an equivalence relation on object references:<a name="line.49"></a>
+<FONT color="green">050</FONT>       *<a name="line.50"></a>
+<FONT color="green">051</FONT>       * &lt;ul&gt;<a name="line.51"></a>
+<FONT color="green">052</FONT>       * &lt;li&gt;It is &lt;i&gt;reflexive&lt;/i&gt;: for any reference {@code x}, including null, {@code<a name="line.52"></a>
+<FONT color="green">053</FONT>       *     equivalent(x, x)} returns {@code true}.<a name="line.53"></a>
+<FONT color="green">054</FONT>       * &lt;li&gt;It is &lt;i&gt;symmetric&lt;/i&gt;: for any references {@code x} and {@code y}, {@code<a name="line.54"></a>
+<FONT color="green">055</FONT>       *     equivalent(x, y) == equivalent(y, x)}.<a name="line.55"></a>
+<FONT color="green">056</FONT>       * &lt;li&gt;It is &lt;i&gt;transitive&lt;/i&gt;: for any references {@code x}, {@code y}, and {@code z}, if<a name="line.56"></a>
+<FONT color="green">057</FONT>       *     {@code equivalent(x, y)} returns {@code true} and {@code equivalent(y, z)} returns {@code<a name="line.57"></a>
+<FONT color="green">058</FONT>       *     true}, then {@code equivalent(x, z)} returns {@code true}.<a name="line.58"></a>
+<FONT color="green">059</FONT>       * &lt;li&gt;It is &lt;i&gt;consistent&lt;/i&gt;: for any references {@code x} and {@code y}, multiple invocations<a name="line.59"></a>
+<FONT color="green">060</FONT>       *     of {@code equivalent(x, y)} consistently return {@code true} or consistently return {@code<a name="line.60"></a>
+<FONT color="green">061</FONT>       *     false} (provided that neither {@code x} nor {@code y} is modified).<a name="line.61"></a>
+<FONT color="green">062</FONT>       * &lt;/ul&gt;<a name="line.62"></a>
+<FONT color="green">063</FONT>       */<a name="line.63"></a>
+<FONT color="green">064</FONT>      public final boolean equivalent(@Nullable T a, @Nullable T b) {<a name="line.64"></a>
+<FONT color="green">065</FONT>        if (a == b) {<a name="line.65"></a>
+<FONT color="green">066</FONT>          return true;<a name="line.66"></a>
+<FONT color="green">067</FONT>        }<a name="line.67"></a>
+<FONT color="green">068</FONT>        if (a == null || b == null) {<a name="line.68"></a>
+<FONT color="green">069</FONT>          return false;<a name="line.69"></a>
+<FONT color="green">070</FONT>        }<a name="line.70"></a>
+<FONT color="green">071</FONT>        return doEquivalent(a, b);<a name="line.71"></a>
+<FONT color="green">072</FONT>      }<a name="line.72"></a>
+<FONT color="green">073</FONT>    <a name="line.73"></a>
+<FONT color="green">074</FONT>      /**<a name="line.74"></a>
+<FONT color="green">075</FONT>       * Returns {@code true} if {@code a} and {@code b} are considered equivalent.<a name="line.75"></a>
+<FONT color="green">076</FONT>       *<a name="line.76"></a>
+<FONT color="green">077</FONT>       * &lt;p&gt;Called by {@link #equivalent}. {@code a} and {@code b} are not the same<a name="line.77"></a>
+<FONT color="green">078</FONT>       * object and are not nulls.<a name="line.78"></a>
+<FONT color="green">079</FONT>       *<a name="line.79"></a>
+<FONT color="green">080</FONT>       * @since 10.0 (previously, subclasses would override equivalent())<a name="line.80"></a>
+<FONT color="green">081</FONT>       */<a name="line.81"></a>
+<FONT color="green">082</FONT>      protected abstract boolean doEquivalent(T a, T b);<a name="line.82"></a>
+<FONT color="green">083</FONT>    <a name="line.83"></a>
+<FONT color="green">084</FONT>      /**<a name="line.84"></a>
+<FONT color="green">085</FONT>       * Returns a hash code for {@code t}.<a name="line.85"></a>
+<FONT color="green">086</FONT>       *<a name="line.86"></a>
+<FONT color="green">087</FONT>       * &lt;p&gt;The {@code hash} has the following properties:<a name="line.87"></a>
+<FONT color="green">088</FONT>       * &lt;ul&gt;<a name="line.88"></a>
+<FONT color="green">089</FONT>       * &lt;li&gt;It is &lt;i&gt;consistent&lt;/i&gt;: for any reference {@code x}, multiple invocations of<a name="line.89"></a>
+<FONT color="green">090</FONT>       *     {@code hash(x}} consistently return the same value provided {@code x} remains unchanged<a name="line.90"></a>
+<FONT color="green">091</FONT>       *     according to the definition of the equivalence. The hash need not remain consistent from<a name="line.91"></a>
+<FONT color="green">092</FONT>       *     one execution of an application to another execution of the same application.<a name="line.92"></a>
+<FONT color="green">093</FONT>       * &lt;li&gt;It is &lt;i&gt;distributable accross equivalence&lt;/i&gt;: for any references {@code x} and {@code y},<a name="line.93"></a>
+<FONT color="green">094</FONT>       *     if {@code equivalent(x, y)}, then {@code hash(x) == hash(y)}. It is &lt;i&gt;not&lt;/i&gt; necessary<a name="line.94"></a>
+<FONT color="green">095</FONT>       *     that the hash be distributable accorss &lt;i&gt;inequivalence&lt;/i&gt;. If {@code equivalence(x, y)}<a name="line.95"></a>
+<FONT color="green">096</FONT>       *     is false, {@code hash(x) == hash(y)} may still be true.<a name="line.96"></a>
+<FONT color="green">097</FONT>       * &lt;li&gt;{@code hash(null)} is {@code 0}.<a name="line.97"></a>
+<FONT color="green">098</FONT>       * &lt;/ul&gt;<a name="line.98"></a>
+<FONT color="green">099</FONT>       */<a name="line.99"></a>
+<FONT color="green">100</FONT>      public final int hash(@Nullable T t) {<a name="line.100"></a>
+<FONT color="green">101</FONT>        if (t == null) {<a name="line.101"></a>
+<FONT color="green">102</FONT>          return 0;<a name="line.102"></a>
+<FONT color="green">103</FONT>        }<a name="line.103"></a>
+<FONT color="green">104</FONT>        return doHash(t);<a name="line.104"></a>
+<FONT color="green">105</FONT>      }<a name="line.105"></a>
+<FONT color="green">106</FONT>    <a name="line.106"></a>
+<FONT color="green">107</FONT>      /**<a name="line.107"></a>
+<FONT color="green">108</FONT>       * Returns a hash code for non-null object {@code t}.<a name="line.108"></a>
+<FONT color="green">109</FONT>       *<a name="line.109"></a>
+<FONT color="green">110</FONT>       * &lt;p&gt;Called by {@link #hash}.<a name="line.110"></a>
+<FONT color="green">111</FONT>       *<a name="line.111"></a>
+<FONT color="green">112</FONT>       * @since 10.0 (previously, subclasses would override hash())<a name="line.112"></a>
+<FONT color="green">113</FONT>       */<a name="line.113"></a>
+<FONT color="green">114</FONT>      protected abstract int doHash(T t);<a name="line.114"></a>
+<FONT color="green">115</FONT>    <a name="line.115"></a>
+<FONT color="green">116</FONT>      /**<a name="line.116"></a>
+<FONT color="green">117</FONT>       * Returns a new equivalence relation for {@code F} which evaluates equivalence by first applying<a name="line.117"></a>
+<FONT color="green">118</FONT>       * {@code function} to the argument, then evaluating using {@code this}. That is, for any pair of<a name="line.118"></a>
+<FONT color="green">119</FONT>       * non-null objects {@code x} and {@code y}, {@code<a name="line.119"></a>
+<FONT color="green">120</FONT>       * equivalence.onResultOf(function).equivalent(a, b)} is true if and only if {@code<a name="line.120"></a>
+<FONT color="green">121</FONT>       * equivalence.equivalent(function.apply(a), function.apply(b))} is true.<a name="line.121"></a>
+<FONT color="green">122</FONT>       *<a name="line.122"></a>
+<FONT color="green">123</FONT>       * &lt;p&gt;For example: &lt;pre&gt;   {@code<a name="line.123"></a>
+<FONT color="green">124</FONT>       *<a name="line.124"></a>
+<FONT color="green">125</FONT>       *    Equivalence&lt;Person&gt; SAME_AGE = Equivalences.equals().onResultOf(GET_PERSON_AGE);<a name="line.125"></a>
+<FONT color="green">126</FONT>       * }&lt;/pre&gt;<a name="line.126"></a>
+<FONT color="green">127</FONT>       * <a name="line.127"></a>
+<FONT color="green">128</FONT>       * &lt;p&gt;{@code function} will never be invoked with a null value.<a name="line.128"></a>
+<FONT color="green">129</FONT>       * <a name="line.129"></a>
+<FONT color="green">130</FONT>       * &lt;p&gt;Note that {@code function} must be consistent according to {@code this} equivalence<a name="line.130"></a>
+<FONT color="green">131</FONT>       * relation. That is, invoking {@link Function#apply} multiple times for a given value must return<a name="line.131"></a>
+<FONT color="green">132</FONT>       * equivalent results.<a name="line.132"></a>
+<FONT color="green">133</FONT>       * For example, {@code Equivalences.identity().onResultOf(Functions.toStringFunction())} is broken<a name="line.133"></a>
+<FONT color="green">134</FONT>       * because it's not guaranteed that {@link Object#toString}) always returns the same string<a name="line.134"></a>
+<FONT color="green">135</FONT>       * instance.<a name="line.135"></a>
+<FONT color="green">136</FONT>       * <a name="line.136"></a>
+<FONT color="green">137</FONT>       * @since 10.0<a name="line.137"></a>
+<FONT color="green">138</FONT>       */<a name="line.138"></a>
+<FONT color="green">139</FONT>      public final &lt;F&gt; Equivalence&lt;F&gt; onResultOf(Function&lt;F, ? extends T&gt; function) {<a name="line.139"></a>
+<FONT color="green">140</FONT>        return new FunctionalEquivalence&lt;F, T&gt;(function, this);<a name="line.140"></a>
+<FONT color="green">141</FONT>      }<a name="line.141"></a>
+<FONT color="green">142</FONT>      <a name="line.142"></a>
+<FONT color="green">143</FONT>      /**<a name="line.143"></a>
+<FONT color="green">144</FONT>       * Returns a wrapper of {@code reference} that implements<a name="line.144"></a>
+<FONT color="green">145</FONT>       * {@link Wrapper#equals(Object) Object.equals()} such that<a name="line.145"></a>
+<FONT color="green">146</FONT>       * {@code wrap(this, a).equals(wrap(this, b))} if and only if {@code this.equivalent(a, b)}.<a name="line.146"></a>
+<FONT color="green">147</FONT>       * <a name="line.147"></a>
+<FONT color="green">148</FONT>       * @since 10.0<a name="line.148"></a>
+<FONT color="green">149</FONT>       */<a name="line.149"></a>
+<FONT color="green">150</FONT>      public final &lt;S extends T&gt; Wrapper&lt;S&gt; wrap(@Nullable S reference) {<a name="line.150"></a>
+<FONT color="green">151</FONT>        return new Wrapper&lt;S&gt;(this, reference);<a name="line.151"></a>
+<FONT color="green">152</FONT>      }<a name="line.152"></a>
+<FONT color="green">153</FONT>    <a name="line.153"></a>
+<FONT color="green">154</FONT>      /**<a name="line.154"></a>
+<FONT color="green">155</FONT>       * Wraps an object so that {@link #equals(Object)} and {@link #hashCode()} delegate to an<a name="line.155"></a>
+<FONT color="green">156</FONT>       * {@link Equivalence}.<a name="line.156"></a>
+<FONT color="green">157</FONT>       *<a name="line.157"></a>
+<FONT color="green">158</FONT>       * &lt;p&gt;For example, given an {@link Equivalence} for {@link String strings} named {@code equiv}<a name="line.158"></a>
+<FONT color="green">159</FONT>       * that tests equivalence using their lengths:<a name="line.159"></a>
+<FONT color="green">160</FONT>       *<a name="line.160"></a>
+<FONT color="green">161</FONT>       * &lt;pre&gt;   {@code<a name="line.161"></a>
+<FONT color="green">162</FONT>       *   equiv.wrap("a").equals(equiv.wrap("b")) // true<a name="line.162"></a>
+<FONT color="green">163</FONT>       *   equiv.wrap("a").equals(equiv.wrap("hello")) // false<a name="line.163"></a>
+<FONT color="green">164</FONT>       * }&lt;/pre&gt;<a name="line.164"></a>
+<FONT color="green">165</FONT>       *<a name="line.165"></a>
+<FONT color="green">166</FONT>       * &lt;p&gt;Note in particular that an equivalence wrapper is never equal to the object it wraps.<a name="line.166"></a>
+<FONT color="green">167</FONT>       *<a name="line.167"></a>
+<FONT color="green">168</FONT>       * &lt;pre&gt;   {@code<a name="line.168"></a>
+<FONT color="green">169</FONT>       *   equiv.wrap(obj).equals(obj) // always false<a name="line.169"></a>
+<FONT color="green">170</FONT>       * }&lt;/pre&gt;<a name="line.170"></a>
+<FONT color="green">171</FONT>       *<a name="line.171"></a>
+<FONT color="green">172</FONT>       * @since 10.0<a name="line.172"></a>
+<FONT color="green">173</FONT>       */<a name="line.173"></a>
+<FONT color="green">174</FONT>      public static final class Wrapper&lt;T&gt; implements Serializable {<a name="line.174"></a>
+<FONT color="green">175</FONT>        private final Equivalence&lt;? super T&gt; equivalence;<a name="line.175"></a>
+<FONT color="green">176</FONT>        @Nullable private final T reference;<a name="line.176"></a>
+<FONT color="green">177</FONT>    <a name="line.177"></a>
+<FONT color="green">178</FONT>        private Wrapper(Equivalence&lt;? super T&gt; equivalence, @Nullable T reference) {<a name="line.178"></a>
+<FONT color="green">179</FONT>          this.equivalence = checkNotNull(equivalence);<a name="line.179"></a>
+<FONT color="green">180</FONT>          this.reference = reference;<a name="line.180"></a>
+<FONT color="green">181</FONT>        }<a name="line.181"></a>
+<FONT color="green">182</FONT>    <a name="line.182"></a>
+<FONT color="green">183</FONT>        /** Returns the (possibly null) reference wrapped by this instance. */<a name="line.183"></a>
+<FONT color="green">184</FONT>        @Nullable public T get() {<a name="line.184"></a>
+<FONT color="green">185</FONT>          return reference;<a name="line.185"></a>
+<FONT color="green">186</FONT>        }<a name="line.186"></a>
+<FONT color="green">187</FONT>    <a name="line.187"></a>
+<FONT color="green">188</FONT>        /**<a name="line.188"></a>
+<FONT color="green">189</FONT>         * Returns {@code true} if {@link Equivalence#equivalent(Object, Object)} applied to the wrapped<a name="line.189"></a>
+<FONT color="green">190</FONT>         * references is {@code true} and both wrappers use the {@link Object#equals(Object) same}<a name="line.190"></a>
+<FONT color="green">191</FONT>         * equivalence.<a name="line.191"></a>
+<FONT color="green">192</FONT>         */<a name="line.192"></a>
+<FONT color="green">193</FONT>        @Override public boolean equals(@Nullable Object obj) {<a name="line.193"></a>
+<FONT color="green">194</FONT>          if (obj == this) {<a name="line.194"></a>
+<FONT color="green">195</FONT>            return true;<a name="line.195"></a>
+<FONT color="green">196</FONT>          } else if (obj instanceof Wrapper) {<a name="line.196"></a>
+<FONT color="green">197</FONT>            Wrapper&lt;?&gt; that = (Wrapper&lt;?&gt;) obj;<a name="line.197"></a>
+<FONT color="green">198</FONT>            /*<a name="line.198"></a>
+<FONT color="green">199</FONT>             * We cast to Equivalence&lt;Object&gt; here because we can't check the type of the reference held<a name="line.199"></a>
+<FONT color="green">200</FONT>             * by the other wrapper.  But, by checking that the Equivalences are equal, we know that<a name="line.200"></a>
+<FONT color="green">201</FONT>             * whatever type it is, it is assignable to the type handled by this wrapper's equivalence.<a name="line.201"></a>
+<FONT color="green">202</FONT>             */<a name="line.202"></a>
+<FONT color="green">203</FONT>            @SuppressWarnings("unchecked")<a name="line.203"></a>
+<FONT color="green">204</FONT>            Equivalence&lt;Object&gt; equivalence = (Equivalence&lt;Object&gt;) this.equivalence;<a name="line.204"></a>
+<FONT color="green">205</FONT>            return equivalence.equals(that.equivalence)<a name="line.205"></a>
+<FONT color="green">206</FONT>                &amp;&amp; equivalence.equivalent(this.reference, that.reference);<a name="line.206"></a>
+<FONT color="green">207</FONT>          } else {<a name="line.207"></a>
+<FONT color="green">208</FONT>            return false;<a name="line.208"></a>
+<FONT color="green">209</FONT>          }<a name="line.209"></a>
+<FONT color="green">210</FONT>        }<a name="line.210"></a>
+<FONT color="green">211</FONT>    <a name="line.211"></a>
+<FONT color="green">212</FONT>        /**<a name="line.212"></a>
+<FONT color="green">213</FONT>         * Returns the result of {@link Equivalence#hash(Object)} applied to the the wrapped reference.<a name="line.213"></a>
+<FONT color="green">214</FONT>         */<a name="line.214"></a>
+<FONT color="green">215</FONT>        @Override public int hashCode() {<a name="line.215"></a>
+<FONT color="green">216</FONT>          return equivalence.hash(reference);<a name="line.216"></a>
+<FONT color="green">217</FONT>        }<a name="line.217"></a>
+<FONT color="green">218</FONT>    <a name="line.218"></a>
+<FONT color="green">219</FONT>        /**<a name="line.219"></a>
+<FONT color="green">220</FONT>         * Returns a string representation for this equivalence wrapper. The form of this string<a name="line.220"></a>
+<FONT color="green">221</FONT>         * representation is not specified.<a name="line.221"></a>
+<FONT color="green">222</FONT>         */<a name="line.222"></a>
+<FONT color="green">223</FONT>        @Override public String toString() {<a name="line.223"></a>
+<FONT color="green">224</FONT>          return equivalence + ".wrap(" + reference + ")";<a name="line.224"></a>
+<FONT color="green">225</FONT>        }<a name="line.225"></a>
+<FONT color="green">226</FONT>    <a name="line.226"></a>
+<FONT color="green">227</FONT>        private static final long serialVersionUID = 0;<a name="line.227"></a>
+<FONT color="green">228</FONT>      }<a name="line.228"></a>
+<FONT color="green">229</FONT>    <a name="line.229"></a>
+<FONT color="green">230</FONT>      /**<a name="line.230"></a>
+<FONT color="green">231</FONT>       * Returns an equivalence over iterables based on the equivalence of their elements.  More<a name="line.231"></a>
+<FONT color="green">232</FONT>       * specifically, two iterables are considered equivalent if they both contain the same number of<a name="line.232"></a>
+<FONT color="green">233</FONT>       * elements, and each pair of corresponding elements is equivalent according to<a name="line.233"></a>
+<FONT color="green">234</FONT>       * {@code this}.  Null iterables are equivalent to one another.<a name="line.234"></a>
+<FONT color="green">235</FONT>       * <a name="line.235"></a>
+<FONT color="green">236</FONT>       * &lt;p&gt;Note that this method performs a similar function for equivalences as {@link<a name="line.236"></a>
+<FONT color="green">237</FONT>       * com.google.common.collect.Ordering#lexicographical} does for orderings.<a name="line.237"></a>
+<FONT color="green">238</FONT>       *<a name="line.238"></a>
+<FONT color="green">239</FONT>       * @since 10.0<a name="line.239"></a>
+<FONT color="green">240</FONT>       */<a name="line.240"></a>
+<FONT color="green">241</FONT>      @GwtCompatible(serializable = true)<a name="line.241"></a>
+<FONT color="green">242</FONT>      public final &lt;S extends T&gt; Equivalence&lt;Iterable&lt;S&gt;&gt; pairwise() {<a name="line.242"></a>
+<FONT color="green">243</FONT>        // Ideally, the returned equivalence would support Iterable&lt;? extends T&gt;. However,<a name="line.243"></a>
+<FONT color="green">244</FONT>        // the need for this is so rare that it's not worth making callers deal with the ugly wildcard.<a name="line.244"></a>
+<FONT color="green">245</FONT>        return new PairwiseEquivalence&lt;S&gt;(this);<a name="line.245"></a>
+<FONT color="green">246</FONT>      }<a name="line.246"></a>
+<FONT color="green">247</FONT>      <a name="line.247"></a>
+<FONT color="green">248</FONT>      /**<a name="line.248"></a>
+<FONT color="green">249</FONT>       * Returns a predicate that evaluates to true if and only if the input is<a name="line.249"></a>
+<FONT color="green">250</FONT>       * equivalent to {@code target} according to this equivalence relation.<a name="line.250"></a>
+<FONT color="green">251</FONT>       * <a name="line.251"></a>
+<FONT color="green">252</FONT>       * @since 10.0<a name="line.252"></a>
+<FONT color="green">253</FONT>       */<a name="line.253"></a>
+<FONT color="green">254</FONT>      @Beta<a name="line.254"></a>
+<FONT color="green">255</FONT>      public final Predicate&lt;T&gt; equivalentTo(@Nullable T target) {<a name="line.255"></a>
+<FONT color="green">256</FONT>        return new EquivalentToPredicate&lt;T&gt;(this, target);<a name="line.256"></a>
+<FONT color="green">257</FONT>      }<a name="line.257"></a>
+<FONT color="green">258</FONT>    <a name="line.258"></a>
+<FONT color="green">259</FONT>      private static final class EquivalentToPredicate&lt;T&gt; implements Predicate&lt;T&gt;, Serializable {<a name="line.259"></a>
+<FONT color="green">260</FONT>    <a name="line.260"></a>
+<FONT color="green">261</FONT>        private final Equivalence&lt;T&gt; equivalence;<a name="line.261"></a>
+<FONT color="green">262</FONT>        @Nullable private final T target;<a name="line.262"></a>
+<FONT color="green">263</FONT>    <a name="line.263"></a>
+<FONT color="green">264</FONT>        EquivalentToPredicate(Equivalence&lt;T&gt; equivalence, @Nullable T target) {<a name="line.264"></a>
+<FONT color="green">265</FONT>          this.equivalence = checkNotNull(equivalence);<a name="line.265"></a>
+<FONT color="green">266</FONT>          this.target = target;<a name="line.266"></a>
+<FONT color="green">267</FONT>        }<a name="line.267"></a>
+<FONT color="green">268</FONT>    <a name="line.268"></a>
+<FONT color="green">269</FONT>        @Override public boolean apply(@Nullable T input) {<a name="line.269"></a>
+<FONT color="green">270</FONT>          return equivalence.equivalent(input, target);<a name="line.270"></a>
+<FONT color="green">271</FONT>        }<a name="line.271"></a>
+<FONT color="green">272</FONT>    <a name="line.272"></a>
+<FONT color="green">273</FONT>        @Override public boolean equals(@Nullable Object obj) {<a name="line.273"></a>
+<FONT color="green">274</FONT>          if (this == obj) {<a name="line.274"></a>
+<FONT color="green">275</FONT>            return true;<a name="line.275"></a>
+<FONT color="green">276</FONT>          }<a name="line.276"></a>
+<FONT color="green">277</FONT>          if (obj instanceof EquivalentToPredicate) {<a name="line.277"></a>
+<FONT color="green">278</FONT>            EquivalentToPredicate&lt;?&gt; that = (EquivalentToPredicate&lt;?&gt;) obj;<a name="line.278"></a>
+<FONT color="green">279</FONT>            return equivalence.equals(that.equivalence)<a name="line.279"></a>
+<FONT color="green">280</FONT>                &amp;&amp; Objects.equal(target, that.target);<a name="line.280"></a>
+<FONT color="green">281</FONT>          }<a name="line.281"></a>
+<FONT color="green">282</FONT>          return false;<a name="line.282"></a>
+<FONT color="green">283</FONT>        }<a name="line.283"></a>
+<FONT color="green">284</FONT>    <a name="line.284"></a>
+<FONT color="green">285</FONT>        @Override public int hashCode() {<a name="line.285"></a>
+<FONT color="green">286</FONT>          return Objects.hashCode(equivalence, target);<a name="line.286"></a>
+<FONT color="green">287</FONT>        }<a name="line.287"></a>
+<FONT color="green">288</FONT>    <a name="line.288"></a>
+<FONT color="green">289</FONT>        @Override public String toString() {<a name="line.289"></a>
+<FONT color="green">290</FONT>          return equivalence + ".equivalentTo(" + target + ")";<a name="line.290"></a>
+<FONT color="green">291</FONT>        }<a name="line.291"></a>
+<FONT color="green">292</FONT>    <a name="line.292"></a>
+<FONT color="green">293</FONT>        private static final long serialVersionUID = 0;<a name="line.293"></a>
+<FONT color="green">294</FONT>      }<a name="line.294"></a>
+<FONT color="green">295</FONT>    <a name="line.295"></a>
+<FONT color="green">296</FONT>      /**<a name="line.296"></a>
+<FONT color="green">297</FONT>       * Returns an equivalence that delegates to {@link Object#equals} and {@link Object#hashCode}.<a name="line.297"></a>
+<FONT color="green">298</FONT>       * {@link Equivalence#equivalent} returns {@code true} if both values are null, or if neither<a name="line.298"></a>
+<FONT color="green">299</FONT>       * value is null and {@link Object#equals} returns {@code true}. {@link Equivalence#hash} returns<a name="line.299"></a>
+<FONT color="green">300</FONT>       * {@code 0} if passed a null value.<a name="line.300"></a>
+<FONT color="green">301</FONT>       *<a name="line.301"></a>
+<FONT color="green">302</FONT>       * @since 13.0<a name="line.302"></a>
+<FONT color="green">303</FONT>       * @since 8.0 (in Equivalences with null-friendly behavior)<a name="line.303"></a>
+<FONT color="green">304</FONT>       * @since 4.0 (in Equivalences)<a name="line.304"></a>
+<FONT color="green">305</FONT>       */<a name="line.305"></a>
+<FONT color="green">306</FONT>      public static Equivalence&lt;Object&gt; equals() {<a name="line.306"></a>
+<FONT color="green">307</FONT>        return Equals.INSTANCE;<a name="line.307"></a>
+<FONT color="green">308</FONT>      }<a name="line.308"></a>
+<FONT color="green">309</FONT>    <a name="line.309"></a>
+<FONT color="green">310</FONT>      /**<a name="line.310"></a>
+<FONT color="green">311</FONT>       * Returns an equivalence that uses {@code ==} to compare values and {@link<a name="line.311"></a>
+<FONT color="green">312</FONT>       * System#identityHashCode(Object)} to compute the hash code.  {@link Equivalence#equivalent}<a name="line.312"></a>
+<FONT color="green">313</FONT>       * returns {@code true} if {@code a == b}, including in the case that a and b are both null.<a name="line.313"></a>
+<FONT color="green">314</FONT>       *<a name="line.314"></a>
+<FONT color="green">315</FONT>       * @since 13.0<a name="line.315"></a>
+<FONT color="green">316</FONT>       * @since 4.0 (in Equivalences)<a name="line.316"></a>
+<FONT color="green">317</FONT>       */<a name="line.317"></a>
+<FONT color="green">318</FONT>      public static Equivalence&lt;Object&gt; identity() {<a name="line.318"></a>
+<FONT color="green">319</FONT>        return Identity.INSTANCE;<a name="line.319"></a>
+<FONT color="green">320</FONT>      }<a name="line.320"></a>
+<FONT color="green">321</FONT>    <a name="line.321"></a>
+<FONT color="green">322</FONT>      static final class Equals extends Equivalence&lt;Object&gt;<a name="line.322"></a>
+<FONT color="green">323</FONT>          implements Serializable {<a name="line.323"></a>
+<FONT color="green">324</FONT>        <a name="line.324"></a>
+<FONT color="green">325</FONT>        static final Equals INSTANCE = new Equals();<a name="line.325"></a>
+<FONT color="green">326</FONT>    <a name="line.326"></a>
+<FONT color="green">327</FONT>        @Override protected boolean doEquivalent(Object a, Object b) {<a name="line.327"></a>
+<FONT color="green">328</FONT>          return a.equals(b);<a name="line.328"></a>
+<FONT color="green">329</FONT>        }<a name="line.329"></a>
+<FONT color="green">330</FONT>        @Override public int doHash(Object o) {<a name="line.330"></a>
+<FONT color="green">331</FONT>          return o.hashCode();<a name="line.331"></a>
+<FONT color="green">332</FONT>        }<a name="line.332"></a>
+<FONT color="green">333</FONT>    <a name="line.333"></a>
+<FONT color="green">334</FONT>        private Object readResolve() {<a name="line.334"></a>
+<FONT color="green">335</FONT>          return INSTANCE;<a name="line.335"></a>
+<FONT color="green">336</FONT>        } <a name="line.336"></a>
+<FONT color="green">337</FONT>        private static final long serialVersionUID = 1;<a name="line.337"></a>
+<FONT color="green">338</FONT>      }<a name="line.338"></a>
+<FONT color="green">339</FONT>      <a name="line.339"></a>
+<FONT color="green">340</FONT>      static final class Identity extends Equivalence&lt;Object&gt;<a name="line.340"></a>
+<FONT color="green">341</FONT>          implements Serializable {<a name="line.341"></a>
+<FONT color="green">342</FONT>        <a name="line.342"></a>
+<FONT color="green">343</FONT>        static final Identity INSTANCE = new Identity();<a name="line.343"></a>
+<FONT color="green">344</FONT>        <a name="line.344"></a>
+<FONT color="green">345</FONT>        @Override protected boolean doEquivalent(Object a, Object b) {<a name="line.345"></a>
+<FONT color="green">346</FONT>          return false;<a name="line.346"></a>
+<FONT color="green">347</FONT>        }<a name="line.347"></a>
+<FONT color="green">348</FONT>    <a name="line.348"></a>
+<FONT color="green">349</FONT>        @Override protected int doHash(Object o) {<a name="line.349"></a>
+<FONT color="green">350</FONT>          return System.identityHashCode(o);<a name="line.350"></a>
+<FONT color="green">351</FONT>        }<a name="line.351"></a>
+<FONT color="green">352</FONT>     <a name="line.352"></a>
+<FONT color="green">353</FONT>        private Object readResolve() {<a name="line.353"></a>
+<FONT color="green">354</FONT>          return INSTANCE;<a name="line.354"></a>
+<FONT color="green">355</FONT>        }<a name="line.355"></a>
+<FONT color="green">356</FONT>        private static final long serialVersionUID = 1;<a name="line.356"></a>
+<FONT color="green">357</FONT>      }<a name="line.357"></a>
+<FONT color="green">358</FONT>    }<a name="line.358"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,368 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ValueFuture (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ValueFuture (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/UninterruptibleFuture.html" title="interface in com.google.common.util.concurrent"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/google/common/util/concurrent/ValueFuture.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ValueFuture.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.util.concurrent</FONT>
+<BR>
+Class ValueFuture&lt;V&gt;</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">com.google.common.util.concurrent.AbstractFuture</A>&lt;V&gt;
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../com/google/common/util/concurrent/AbstractListenableFuture.html" title="class in com.google.common.util.concurrent">com.google.common.util.concurrent.AbstractListenableFuture</A>&lt;V&gt;
+          <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.util.concurrent.ValueFuture&lt;V&gt;</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</A>&lt;V&gt;, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</A>&lt;V&gt;</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>public class <B>ValueFuture&lt;V&gt;</B><DT>extends <A HREF="../../../../../com/google/common/util/concurrent/AbstractListenableFuture.html" title="class in com.google.common.util.concurrent">AbstractListenableFuture</A>&lt;V&gt;</DL>
+</PRE>
+
+<P>
+A <A HREF="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><CODE>ListenableFuture</CODE></A> whose result may be set by a <A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html#set(V)"><CODE>set(Object)</CODE></A>
+ or <A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html#setException(java.lang.Throwable)"><CODE>setException(Throwable)</CODE></A> call.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>1</DD>
+<DT><B>Author:</B></DT>
+  <DD>Sven Mawson</DD>
+</DL>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html#cancel(boolean)">cancel</A></B>(boolean&nbsp;mayInterruptIfRunning)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Attempts to cancel execution of this task.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;V&gt; <A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html" title="class in com.google.common.util.concurrent">ValueFuture</A>&lt;V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html#create()">create</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a new <code>ValueFuture</code> in the default state.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html#set(V)">set</A></B>(<A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html" title="type parameter in ValueFuture">V</A>&nbsp;newValue)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the value of this future.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html#setException(java.lang.Throwable)">setException</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the future to having failed with the given exception.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.google.common.util.concurrent.AbstractListenableFuture"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class com.google.common.util.concurrent.<A HREF="../../../../../com/google/common/util/concurrent/AbstractListenableFuture.html" title="class in com.google.common.util.concurrent">AbstractListenableFuture</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../com/google/common/util/concurrent/AbstractListenableFuture.html#addListener(java.lang.Runnable, java.util.concurrent.Executor)">addListener</A>, <A HREF="../../../../../com/google/common/util/concurrent/AbstractListenableFuture.html#done()">done</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.google.common.util.concurrent.AbstractFuture"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class com.google.common.util.concurrent.<A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel()">cancel</A>, <A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html#get()">get</A>, <A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html#get(long, java.util.concurrent.TimeUnit)">get</A>, <A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html#isCancelled()">isCancelled</A>, <A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html#isDone()">isDone</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.util.concurrent.Future"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface java.util.concurrent.<A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent">get</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#get(long, java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">get</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#isCancelled()" title="class or interface in java.util.concurrent">isCancelled</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">isDone</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="create()"><!-- --></A><H3>
+create</H3>
+<PRE>
+public static &lt;V&gt; <A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html" title="class in com.google.common.util.concurrent">ValueFuture</A>&lt;V&gt; <B>create</B>()</PRE>
+<DL>
+<DD>Creates a new <code>ValueFuture</code> in the default state.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="set(java.lang.Object)"><!-- --></A><A NAME="set(V)"><!-- --></A><H3>
+set</H3>
+<PRE>
+public boolean <B>set</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                   <A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html" title="type parameter in ValueFuture">V</A>&nbsp;newValue)</PRE>
+<DL>
+<DD>Sets the value of this future.  This method will return <code>true</code> if
+ the value was successfully set, or <code>false</code> if the future has already
+ been set or cancelled.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html#set(V)">set</A></CODE> in class <CODE><A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html" title="type parameter in ValueFuture">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>newValue</CODE> - the value the future should hold.
+<DT><B>Returns:</B><DD>true if the value was successfully set.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setException(java.lang.Throwable)"><!-- --></A><H3>
+setException</H3>
+<PRE>
+public boolean <B>setException</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</A>&nbsp;t)</PRE>
+<DL>
+<DD>Sets the future to having failed with the given exception.  This exception
+ will be wrapped in an ExecutionException and thrown from the get methods.
+ This method will return <code>true</code> if the exception was successfully set,
+ or <code>false</code> if the future has already been set or cancelled.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setException(java.lang.Throwable)">setException</A></CODE> in class <CODE><A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html" title="type parameter in ValueFuture">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - the exception the future should hold.
+<DT><B>Returns:</B><DD>true if the exception was successfully set.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cancel(boolean)"><!-- --></A><H3>
+cancel</H3>
+<PRE>
+public boolean <B>cancel</B>(boolean&nbsp;mayInterruptIfRunning)</PRE>
+<DL>
+<DD>Attempts to cancel execution of this task.  This attempt will
+ fail if the task has already completed, has already been cancelled,
+ or could not be cancelled for some other reason. If successful,
+ and this task has not started when <tt>cancel</tt> is called,
+ this task should never run.  If the task has already started,
+ then the <tt>mayInterruptIfRunning</tt> parameter determines
+ whether the thread executing this task should be interrupted in
+ an attempt to stop the task.
+
+ <p>After this method returns, subsequent calls to <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent"><CODE>Future.isDone()</CODE></A> will
+ always return <tt>true</tt>.  Subsequent calls to <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#isCancelled()" title="class or interface in java.util.concurrent"><CODE>Future.isCancelled()</CODE></A>
+ will always return <tt>true</tt> if this method returned <tt>true</tt>.
+
+ <p>A ValueFuture is never considered in the running state, so the
+ <code>mayInterruptIfRunning</code> argument is ignored.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#cancel(boolean)" title="class or interface in java.util.concurrent">cancel</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html" title="type parameter in ValueFuture">V</A>&gt;</CODE><DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel(boolean)">cancel</A></CODE> in class <CODE><A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html" title="type parameter in ValueFuture">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mayInterruptIfRunning</CODE> - <tt>true</tt> if the thread executing this
+ task should be interrupted; otherwise, in-progress tasks are allowed
+ to complete
+<DT><B>Returns:</B><DD><tt>false</tt> if the task could not be cancelled,
+ typically because it has already completed normally;
+ <tt>true</tt> otherwise</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/UninterruptibleFuture.html" title="interface in com.google.common.util.concurrent"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/google/common/util/concurrent/ValueFuture.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ValueFuture.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

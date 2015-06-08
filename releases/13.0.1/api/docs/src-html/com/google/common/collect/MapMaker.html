@@ -1,0 +1,953 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<FONT color="green">005</FONT>     * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<FONT color="green">006</FONT>     *<a name="line.6"></a>
+<FONT color="green">007</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<FONT color="green">008</FONT>     *<a name="line.8"></a>
+<FONT color="green">009</FONT>     * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<FONT color="green">010</FONT>     * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<FONT color="green">011</FONT>     * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<FONT color="green">012</FONT>     * the License.<a name="line.12"></a>
+<FONT color="green">013</FONT>     */<a name="line.13"></a>
+<FONT color="green">014</FONT>    <a name="line.14"></a>
+<FONT color="green">015</FONT>    package com.google.common.collect;<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    import static com.google.common.base.Objects.firstNonNull;<a name="line.17"></a>
+<FONT color="green">018</FONT>    import static com.google.common.base.Preconditions.checkArgument;<a name="line.18"></a>
+<FONT color="green">019</FONT>    import static com.google.common.base.Preconditions.checkNotNull;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import static com.google.common.base.Preconditions.checkState;<a name="line.20"></a>
+<FONT color="green">021</FONT>    <a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import com.google.common.annotations.GwtIncompatible;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import com.google.common.base.Ascii;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import com.google.common.base.Equivalence;<a name="line.25"></a>
+<FONT color="green">026</FONT>    import com.google.common.base.Function;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import com.google.common.base.Objects;<a name="line.27"></a>
+<FONT color="green">028</FONT>    import com.google.common.base.Ticker;<a name="line.28"></a>
+<FONT color="green">029</FONT>    import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import com.google.common.collect.MapMakerInternalMap.Strength;<a name="line.30"></a>
+<FONT color="green">031</FONT>    <a name="line.31"></a>
+<FONT color="green">032</FONT>    import java.io.Serializable;<a name="line.32"></a>
+<FONT color="green">033</FONT>    import java.lang.ref.SoftReference;<a name="line.33"></a>
+<FONT color="green">034</FONT>    import java.lang.ref.WeakReference;<a name="line.34"></a>
+<FONT color="green">035</FONT>    import java.util.AbstractMap;<a name="line.35"></a>
+<FONT color="green">036</FONT>    import java.util.Collections;<a name="line.36"></a>
+<FONT color="green">037</FONT>    import java.util.ConcurrentModificationException;<a name="line.37"></a>
+<FONT color="green">038</FONT>    import java.util.Map;<a name="line.38"></a>
+<FONT color="green">039</FONT>    import java.util.Set;<a name="line.39"></a>
+<FONT color="green">040</FONT>    import java.util.concurrent.ConcurrentHashMap;<a name="line.40"></a>
+<FONT color="green">041</FONT>    import java.util.concurrent.ConcurrentMap;<a name="line.41"></a>
+<FONT color="green">042</FONT>    import java.util.concurrent.TimeUnit;<a name="line.42"></a>
+<FONT color="green">043</FONT>    <a name="line.43"></a>
+<FONT color="green">044</FONT>    import javax.annotation.Nullable;<a name="line.44"></a>
+<FONT color="green">045</FONT>    <a name="line.45"></a>
+<FONT color="green">046</FONT>    /**<a name="line.46"></a>
+<FONT color="green">047</FONT>     * &lt;p&gt;A builder of {@link ConcurrentMap} instances having any combination of the following features:<a name="line.47"></a>
+<FONT color="green">048</FONT>     *<a name="line.48"></a>
+<FONT color="green">049</FONT>     * &lt;ul&gt;<a name="line.49"></a>
+<FONT color="green">050</FONT>     * &lt;li&gt;keys or values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain<a name="line.50"></a>
+<FONT color="green">051</FONT>     *     SoftReference soft} references<a name="line.51"></a>
+<FONT color="green">052</FONT>     * &lt;li&gt;notification of evicted (or otherwise removed) entries<a name="line.52"></a>
+<FONT color="green">053</FONT>     * &lt;li&gt;on-demand computation of values for keys not already present<a name="line.53"></a>
+<FONT color="green">054</FONT>     * &lt;/ul&gt;<a name="line.54"></a>
+<FONT color="green">055</FONT>     *<a name="line.55"></a>
+<FONT color="green">056</FONT>     * &lt;p&gt;Usage example: &lt;pre&gt;   {@code<a name="line.56"></a>
+<FONT color="green">057</FONT>     *<a name="line.57"></a>
+<FONT color="green">058</FONT>     *   ConcurrentMap&lt;Key, Graph&gt; graphs = new MapMaker()<a name="line.58"></a>
+<FONT color="green">059</FONT>     *       .concurrencyLevel(4)<a name="line.59"></a>
+<FONT color="green">060</FONT>     *       .weakKeys()<a name="line.60"></a>
+<FONT color="green">061</FONT>     *       .makeComputingMap(<a name="line.61"></a>
+<FONT color="green">062</FONT>     *           new Function&lt;Key, Graph&gt;() {<a name="line.62"></a>
+<FONT color="green">063</FONT>     *             public Graph apply(Key key) {<a name="line.63"></a>
+<FONT color="green">064</FONT>     *               return createExpensiveGraph(key);<a name="line.64"></a>
+<FONT color="green">065</FONT>     *             }<a name="line.65"></a>
+<FONT color="green">066</FONT>     *           });}&lt;/pre&gt;<a name="line.66"></a>
+<FONT color="green">067</FONT>     *<a name="line.67"></a>
+<FONT color="green">068</FONT>     * These features are all optional; {@code new MapMaker().makeMap()} returns a valid concurrent map<a name="line.68"></a>
+<FONT color="green">069</FONT>     * that behaves similarly to a {@link ConcurrentHashMap}.<a name="line.69"></a>
+<FONT color="green">070</FONT>     *<a name="line.70"></a>
+<FONT color="green">071</FONT>     * &lt;p&gt;The returned map is implemented as a hash table with similar performance characteristics to<a name="line.71"></a>
+<FONT color="green">072</FONT>     * {@link ConcurrentHashMap}. It supports all optional operations of the {@code ConcurrentMap}<a name="line.72"></a>
+<FONT color="green">073</FONT>     * interface. It does not permit null keys or values.<a name="line.73"></a>
+<FONT color="green">074</FONT>     *<a name="line.74"></a>
+<FONT color="green">075</FONT>     * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; by default, the returned map uses equality comparisons (the {@link Object#equals<a name="line.75"></a>
+<FONT color="green">076</FONT>     * equals} method) to determine equality for keys or values. However, if {@link #weakKeys} or {@link<a name="line.76"></a>
+<FONT color="green">077</FONT>     * #softKeys} was specified, the map uses identity ({@code ==}) comparisons instead for keys.<a name="line.77"></a>
+<FONT color="green">078</FONT>     * Likewise, if {@link #weakValues} or {@link #softValues} was specified, the map uses identity<a name="line.78"></a>
+<FONT color="green">079</FONT>     * comparisons for values.<a name="line.79"></a>
+<FONT color="green">080</FONT>     *<a name="line.80"></a>
+<FONT color="green">081</FONT>     * &lt;p&gt;The view collections of the returned map have &lt;i&gt;weakly consistent iterators&lt;/i&gt;. This means<a name="line.81"></a>
+<FONT color="green">082</FONT>     * that they are safe for concurrent use, but if other threads modify the map after the iterator is<a name="line.82"></a>
+<FONT color="green">083</FONT>     * created, it is undefined which of these changes, if any, are reflected in that iterator. These<a name="line.83"></a>
+<FONT color="green">084</FONT>     * iterators never throw {@link ConcurrentModificationException}.<a name="line.84"></a>
+<FONT color="green">085</FONT>     *<a name="line.85"></a>
+<FONT color="green">086</FONT>     * &lt;p&gt;If soft or weak references were requested, it is possible for a key or value present in the<a name="line.86"></a>
+<FONT color="green">087</FONT>     * the map to be reclaimed by the garbage collector. If this happens, the entry automatically<a name="line.87"></a>
+<FONT color="green">088</FONT>     * disappears from the map. A partially-reclaimed entry is never exposed to the user. Any {@link<a name="line.88"></a>
+<FONT color="green">089</FONT>     * java.util.Map.Entry} instance retrieved from the map's {@linkplain Map#entrySet entry set} is a<a name="line.89"></a>
+<FONT color="green">090</FONT>     * snapshot of that entry's state at the time of retrieval; such entries do, however, support {@link<a name="line.90"></a>
+<FONT color="green">091</FONT>     * java.util.Map.Entry#setValue}, which simply calls {@link Map#put} on the entry's key.<a name="line.91"></a>
+<FONT color="green">092</FONT>     *<a name="line.92"></a>
+<FONT color="green">093</FONT>     * &lt;p&gt;The maps produced by {@code MapMaker} are serializable, and the deserialized maps retain all<a name="line.93"></a>
+<FONT color="green">094</FONT>     * the configuration properties of the original map. During deserialization, if the original map had<a name="line.94"></a>
+<FONT color="green">095</FONT>     * used soft or weak references, the entries are reconstructed as they were, but it's not unlikely<a name="line.95"></a>
+<FONT color="green">096</FONT>     * they'll be quickly garbage-collected before they are ever accessed.<a name="line.96"></a>
+<FONT color="green">097</FONT>     *<a name="line.97"></a>
+<FONT color="green">098</FONT>     * &lt;p&gt;{@code new MapMaker().weakKeys().makeMap()} is a recommended replacement for {@link<a name="line.98"></a>
+<FONT color="green">099</FONT>     * java.util.WeakHashMap}, but note that it compares keys using object identity whereas {@code<a name="line.99"></a>
+<FONT color="green">100</FONT>     * WeakHashMap} uses {@link Object#equals}.<a name="line.100"></a>
+<FONT color="green">101</FONT>     *<a name="line.101"></a>
+<FONT color="green">102</FONT>     * @author Bob Lee<a name="line.102"></a>
+<FONT color="green">103</FONT>     * @author Charles Fry<a name="line.103"></a>
+<FONT color="green">104</FONT>     * @author Kevin Bourrillion<a name="line.104"></a>
+<FONT color="green">105</FONT>     * @since 2.0 (imported from Google Collections Library)<a name="line.105"></a>
+<FONT color="green">106</FONT>     */<a name="line.106"></a>
+<FONT color="green">107</FONT>    @GwtCompatible(emulated = true)<a name="line.107"></a>
+<FONT color="green">108</FONT>    public final class MapMaker extends GenericMapMaker&lt;Object, Object&gt; {<a name="line.108"></a>
+<FONT color="green">109</FONT>      private static final int DEFAULT_INITIAL_CAPACITY = 16;<a name="line.109"></a>
+<FONT color="green">110</FONT>      private static final int DEFAULT_CONCURRENCY_LEVEL = 4;<a name="line.110"></a>
+<FONT color="green">111</FONT>      private static final int DEFAULT_EXPIRATION_NANOS = 0;<a name="line.111"></a>
+<FONT color="green">112</FONT>    <a name="line.112"></a>
+<FONT color="green">113</FONT>      static final int UNSET_INT = -1;<a name="line.113"></a>
+<FONT color="green">114</FONT>    <a name="line.114"></a>
+<FONT color="green">115</FONT>      // TODO(kevinb): dispense with this after benchmarking<a name="line.115"></a>
+<FONT color="green">116</FONT>      boolean useCustomMap;<a name="line.116"></a>
+<FONT color="green">117</FONT>    <a name="line.117"></a>
+<FONT color="green">118</FONT>      int initialCapacity = UNSET_INT;<a name="line.118"></a>
+<FONT color="green">119</FONT>      int concurrencyLevel = UNSET_INT;<a name="line.119"></a>
+<FONT color="green">120</FONT>      int maximumSize = UNSET_INT;<a name="line.120"></a>
+<FONT color="green">121</FONT>    <a name="line.121"></a>
+<FONT color="green">122</FONT>      Strength keyStrength;<a name="line.122"></a>
+<FONT color="green">123</FONT>      Strength valueStrength;<a name="line.123"></a>
+<FONT color="green">124</FONT>    <a name="line.124"></a>
+<FONT color="green">125</FONT>      long expireAfterWriteNanos = UNSET_INT;<a name="line.125"></a>
+<FONT color="green">126</FONT>      long expireAfterAccessNanos = UNSET_INT;<a name="line.126"></a>
+<FONT color="green">127</FONT>    <a name="line.127"></a>
+<FONT color="green">128</FONT>      RemovalCause nullRemovalCause;<a name="line.128"></a>
+<FONT color="green">129</FONT>    <a name="line.129"></a>
+<FONT color="green">130</FONT>      Equivalence&lt;Object&gt; keyEquivalence;<a name="line.130"></a>
+<FONT color="green">131</FONT>    <a name="line.131"></a>
+<FONT color="green">132</FONT>      Ticker ticker;<a name="line.132"></a>
+<FONT color="green">133</FONT>    <a name="line.133"></a>
+<FONT color="green">134</FONT>      /**<a name="line.134"></a>
+<FONT color="green">135</FONT>       * Constructs a new {@code MapMaker} instance with default settings, including strong keys, strong<a name="line.135"></a>
+<FONT color="green">136</FONT>       * values, and no automatic eviction of any kind.<a name="line.136"></a>
+<FONT color="green">137</FONT>       */<a name="line.137"></a>
+<FONT color="green">138</FONT>      public MapMaker() {}<a name="line.138"></a>
+<FONT color="green">139</FONT>    <a name="line.139"></a>
+<FONT color="green">140</FONT>      /**<a name="line.140"></a>
+<FONT color="green">141</FONT>       * Sets a custom {@code Equivalence} strategy for comparing keys.<a name="line.141"></a>
+<FONT color="green">142</FONT>       *<a name="line.142"></a>
+<FONT color="green">143</FONT>       * &lt;p&gt;By default, the map uses {@link Equivalence#identity} to determine key equality when<a name="line.143"></a>
+<FONT color="green">144</FONT>       * {@link #weakKeys} or {@link #softKeys} is specified, and {@link Equivalence#equals()}<a name="line.144"></a>
+<FONT color="green">145</FONT>       * otherwise. The only place this is used is in {@link Interners.WeakInterner}.<a name="line.145"></a>
+<FONT color="green">146</FONT>       */<a name="line.146"></a>
+<FONT color="green">147</FONT>      @GwtIncompatible("To be supported")<a name="line.147"></a>
+<FONT color="green">148</FONT>      @Override<a name="line.148"></a>
+<FONT color="green">149</FONT>      MapMaker keyEquivalence(Equivalence&lt;Object&gt; equivalence) {<a name="line.149"></a>
+<FONT color="green">150</FONT>        checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);<a name="line.150"></a>
+<FONT color="green">151</FONT>        keyEquivalence = checkNotNull(equivalence);<a name="line.151"></a>
+<FONT color="green">152</FONT>        this.useCustomMap = true;<a name="line.152"></a>
+<FONT color="green">153</FONT>        return this;<a name="line.153"></a>
+<FONT color="green">154</FONT>      }<a name="line.154"></a>
+<FONT color="green">155</FONT>    <a name="line.155"></a>
+<FONT color="green">156</FONT>      Equivalence&lt;Object&gt; getKeyEquivalence() {<a name="line.156"></a>
+<FONT color="green">157</FONT>        return firstNonNull(keyEquivalence, getKeyStrength().defaultEquivalence());<a name="line.157"></a>
+<FONT color="green">158</FONT>      }<a name="line.158"></a>
+<FONT color="green">159</FONT>    <a name="line.159"></a>
+<FONT color="green">160</FONT>      /**<a name="line.160"></a>
+<FONT color="green">161</FONT>       * Sets the minimum total size for the internal hash tables. For example, if the initial capacity<a name="line.161"></a>
+<FONT color="green">162</FONT>       * is {@code 60}, and the concurrency level is {@code 8}, then eight segments are created, each<a name="line.162"></a>
+<FONT color="green">163</FONT>       * having a hash table of size eight. Providing a large enough estimate at construction time<a name="line.163"></a>
+<FONT color="green">164</FONT>       * avoids the need for expensive resizing operations later, but setting this value unnecessarily<a name="line.164"></a>
+<FONT color="green">165</FONT>       * high wastes memory.<a name="line.165"></a>
+<FONT color="green">166</FONT>       *<a name="line.166"></a>
+<FONT color="green">167</FONT>       * @throws IllegalArgumentException if {@code initialCapacity} is negative<a name="line.167"></a>
+<FONT color="green">168</FONT>       * @throws IllegalStateException if an initial capacity was already set<a name="line.168"></a>
+<FONT color="green">169</FONT>       */<a name="line.169"></a>
+<FONT color="green">170</FONT>      @Override<a name="line.170"></a>
+<FONT color="green">171</FONT>      public MapMaker initialCapacity(int initialCapacity) {<a name="line.171"></a>
+<FONT color="green">172</FONT>        checkState(this.initialCapacity == UNSET_INT, "initial capacity was already set to %s",<a name="line.172"></a>
+<FONT color="green">173</FONT>            this.initialCapacity);<a name="line.173"></a>
+<FONT color="green">174</FONT>        checkArgument(initialCapacity &gt;= 0);<a name="line.174"></a>
+<FONT color="green">175</FONT>        this.initialCapacity = initialCapacity;<a name="line.175"></a>
+<FONT color="green">176</FONT>        return this;<a name="line.176"></a>
+<FONT color="green">177</FONT>      }<a name="line.177"></a>
+<FONT color="green">178</FONT>    <a name="line.178"></a>
+<FONT color="green">179</FONT>      int getInitialCapacity() {<a name="line.179"></a>
+<FONT color="green">180</FONT>        return (initialCapacity == UNSET_INT) ? DEFAULT_INITIAL_CAPACITY : initialCapacity;<a name="line.180"></a>
+<FONT color="green">181</FONT>      }<a name="line.181"></a>
+<FONT color="green">182</FONT>    <a name="line.182"></a>
+<FONT color="green">183</FONT>      /**<a name="line.183"></a>
+<FONT color="green">184</FONT>       * Specifies the maximum number of entries the map may contain. Note that the map &lt;b&gt;may evict an<a name="line.184"></a>
+<FONT color="green">185</FONT>       * entry before this limit is exceeded&lt;/b&gt;. As the map size grows close to the maximum, the map<a name="line.185"></a>
+<FONT color="green">186</FONT>       * evicts entries that are less likely to be used again. For example, the map may evict an entry<a name="line.186"></a>
+<FONT color="green">187</FONT>       * because it hasn't been used recently or very often.<a name="line.187"></a>
+<FONT color="green">188</FONT>       *<a name="line.188"></a>
+<FONT color="green">189</FONT>       * &lt;p&gt;When {@code size} is zero, elements can be successfully added to the map, but are evicted<a name="line.189"></a>
+<FONT color="green">190</FONT>       * immediately. This has the same effect as invoking {@link #expireAfterWrite<a name="line.190"></a>
+<FONT color="green">191</FONT>       * expireAfterWrite}{@code (0, unit)} or {@link #expireAfterAccess expireAfterAccess}{@code (0,<a name="line.191"></a>
+<FONT color="green">192</FONT>       * unit)}. It can be useful in testing, or to disable caching temporarily without a code change.<a name="line.192"></a>
+<FONT color="green">193</FONT>       *<a name="line.193"></a>
+<FONT color="green">194</FONT>       * &lt;p&gt;Caching functionality in {@code MapMaker} is being moved to<a name="line.194"></a>
+<FONT color="green">195</FONT>       * {@link com.google.common.cache.CacheBuilder}.<a name="line.195"></a>
+<FONT color="green">196</FONT>       *<a name="line.196"></a>
+<FONT color="green">197</FONT>       * @param size the maximum size of the map<a name="line.197"></a>
+<FONT color="green">198</FONT>       * @throws IllegalArgumentException if {@code size} is negative<a name="line.198"></a>
+<FONT color="green">199</FONT>       * @throws IllegalStateException if a maximum size was already set<a name="line.199"></a>
+<FONT color="green">200</FONT>       * @deprecated Caching functionality in {@code MapMaker} is being moved to<a name="line.200"></a>
+<FONT color="green">201</FONT>       *     {@link com.google.common.cache.CacheBuilder}, with {@link #maximumSize} being<a name="line.201"></a>
+<FONT color="green">202</FONT>       *     replaced by {@link com.google.common.cache.CacheBuilder#maximumSize}. Note that {@code<a name="line.202"></a>
+<FONT color="green">203</FONT>       *     CacheBuilder} is simply an enhanced API for an implementation which was branched from<a name="line.203"></a>
+<FONT color="green">204</FONT>       *     {@code MapMaker}.<a name="line.204"></a>
+<FONT color="green">205</FONT>       */<a name="line.205"></a>
+<FONT color="green">206</FONT>      @Deprecated<a name="line.206"></a>
+<FONT color="green">207</FONT>      @Override<a name="line.207"></a>
+<FONT color="green">208</FONT>      MapMaker maximumSize(int size) {<a name="line.208"></a>
+<FONT color="green">209</FONT>        checkState(this.maximumSize == UNSET_INT, "maximum size was already set to %s",<a name="line.209"></a>
+<FONT color="green">210</FONT>            this.maximumSize);<a name="line.210"></a>
+<FONT color="green">211</FONT>        checkArgument(size &gt;= 0, "maximum size must not be negative");<a name="line.211"></a>
+<FONT color="green">212</FONT>        this.maximumSize = size;<a name="line.212"></a>
+<FONT color="green">213</FONT>        this.useCustomMap = true;<a name="line.213"></a>
+<FONT color="green">214</FONT>        if (maximumSize == 0) {<a name="line.214"></a>
+<FONT color="green">215</FONT>          // SIZE trumps EXPIRED<a name="line.215"></a>
+<FONT color="green">216</FONT>          this.nullRemovalCause = RemovalCause.SIZE;<a name="line.216"></a>
+<FONT color="green">217</FONT>        }<a name="line.217"></a>
+<FONT color="green">218</FONT>        return this;<a name="line.218"></a>
+<FONT color="green">219</FONT>      }<a name="line.219"></a>
+<FONT color="green">220</FONT>    <a name="line.220"></a>
+<FONT color="green">221</FONT>      /**<a name="line.221"></a>
+<FONT color="green">222</FONT>       * Guides the allowed concurrency among update operations. Used as a hint for internal sizing. The<a name="line.222"></a>
+<FONT color="green">223</FONT>       * table is internally partitioned to try to permit the indicated number of concurrent updates<a name="line.223"></a>
+<FONT color="green">224</FONT>       * without contention. Because assignment of entries to these partitions is not necessarily<a name="line.224"></a>
+<FONT color="green">225</FONT>       * uniform, the actual concurrency observed may vary. Ideally, you should choose a value to<a name="line.225"></a>
+<FONT color="green">226</FONT>       * accommodate as many threads as will ever concurrently modify the table. Using a significantly<a name="line.226"></a>
+<FONT color="green">227</FONT>       * higher value than you need can waste space and time, and a significantly lower value can lead<a name="line.227"></a>
+<FONT color="green">228</FONT>       * to thread contention. But overestimates and underestimates within an order of magnitude do not<a name="line.228"></a>
+<FONT color="green">229</FONT>       * usually have much noticeable impact. A value of one permits only one thread to modify the map<a name="line.229"></a>
+<FONT color="green">230</FONT>       * at a time, but since read operations can proceed concurrently, this still yields higher<a name="line.230"></a>
+<FONT color="green">231</FONT>       * concurrency than full synchronization. Defaults to 4.<a name="line.231"></a>
+<FONT color="green">232</FONT>       *<a name="line.232"></a>
+<FONT color="green">233</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Prior to Guava release 9.0, the default was 16. It is possible the default will<a name="line.233"></a>
+<FONT color="green">234</FONT>       * change again in the future. If you care about this value, you should always choose it<a name="line.234"></a>
+<FONT color="green">235</FONT>       * explicitly.<a name="line.235"></a>
+<FONT color="green">236</FONT>       *<a name="line.236"></a>
+<FONT color="green">237</FONT>       * @throws IllegalArgumentException if {@code concurrencyLevel} is nonpositive<a name="line.237"></a>
+<FONT color="green">238</FONT>       * @throws IllegalStateException if a concurrency level was already set<a name="line.238"></a>
+<FONT color="green">239</FONT>       */<a name="line.239"></a>
+<FONT color="green">240</FONT>      @Override<a name="line.240"></a>
+<FONT color="green">241</FONT>      public MapMaker concurrencyLevel(int concurrencyLevel) {<a name="line.241"></a>
+<FONT color="green">242</FONT>        checkState(this.concurrencyLevel == UNSET_INT, "concurrency level was already set to %s",<a name="line.242"></a>
+<FONT color="green">243</FONT>            this.concurrencyLevel);<a name="line.243"></a>
+<FONT color="green">244</FONT>        checkArgument(concurrencyLevel &gt; 0);<a name="line.244"></a>
+<FONT color="green">245</FONT>        this.concurrencyLevel = concurrencyLevel;<a name="line.245"></a>
+<FONT color="green">246</FONT>        return this;<a name="line.246"></a>
+<FONT color="green">247</FONT>      }<a name="line.247"></a>
+<FONT color="green">248</FONT>    <a name="line.248"></a>
+<FONT color="green">249</FONT>      int getConcurrencyLevel() {<a name="line.249"></a>
+<FONT color="green">250</FONT>        return (concurrencyLevel == UNSET_INT) ? DEFAULT_CONCURRENCY_LEVEL : concurrencyLevel;<a name="line.250"></a>
+<FONT color="green">251</FONT>      }<a name="line.251"></a>
+<FONT color="green">252</FONT>    <a name="line.252"></a>
+<FONT color="green">253</FONT>      /**<a name="line.253"></a>
+<FONT color="green">254</FONT>       * Specifies that each key (not value) stored in the map should be wrapped in a {@link<a name="line.254"></a>
+<FONT color="green">255</FONT>       * WeakReference} (by default, strong references are used).<a name="line.255"></a>
+<FONT color="green">256</FONT>       *<a name="line.256"></a>
+<FONT color="green">257</FONT>       * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; when this method is used, the resulting map will use identity ({@code ==})<a name="line.257"></a>
+<FONT color="green">258</FONT>       * comparison to determine equality of keys, which is a technical violation of the {@link Map}<a name="line.258"></a>
+<FONT color="green">259</FONT>       * specification, and may not be what you expect.<a name="line.259"></a>
+<FONT color="green">260</FONT>       *<a name="line.260"></a>
+<FONT color="green">261</FONT>       * @throws IllegalStateException if the key strength was already set<a name="line.261"></a>
+<FONT color="green">262</FONT>       * @see WeakReference<a name="line.262"></a>
+<FONT color="green">263</FONT>       */<a name="line.263"></a>
+<FONT color="green">264</FONT>      @GwtIncompatible("java.lang.ref.WeakReference")<a name="line.264"></a>
+<FONT color="green">265</FONT>      @Override<a name="line.265"></a>
+<FONT color="green">266</FONT>      public MapMaker weakKeys() {<a name="line.266"></a>
+<FONT color="green">267</FONT>        return setKeyStrength(Strength.WEAK);<a name="line.267"></a>
+<FONT color="green">268</FONT>      }<a name="line.268"></a>
+<FONT color="green">269</FONT>    <a name="line.269"></a>
+<FONT color="green">270</FONT>      /**<a name="line.270"></a>
+<FONT color="green">271</FONT>       * &lt;b&gt;This method is broken.&lt;/b&gt; Maps with soft keys offer no functional advantage over maps with<a name="line.271"></a>
+<FONT color="green">272</FONT>       * weak keys, and they waste memory by keeping unreachable elements in the map. If your goal is to<a name="line.272"></a>
+<FONT color="green">273</FONT>       * create a memory-sensitive map, then consider using soft values instead.<a name="line.273"></a>
+<FONT color="green">274</FONT>       *<a name="line.274"></a>
+<FONT color="green">275</FONT>       * &lt;p&gt;Specifies that each key (not value) stored in the map should be wrapped in a<a name="line.275"></a>
+<FONT color="green">276</FONT>       * {@link SoftReference} (by default, strong references are used). Softly-referenced objects will<a name="line.276"></a>
+<FONT color="green">277</FONT>       * be garbage-collected in a &lt;i&gt;globally&lt;/i&gt; least-recently-used manner, in response to memory<a name="line.277"></a>
+<FONT color="green">278</FONT>       * demand.<a name="line.278"></a>
+<FONT color="green">279</FONT>       *<a name="line.279"></a>
+<FONT color="green">280</FONT>       * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; when this method is used, the resulting map will use identity ({@code ==})<a name="line.280"></a>
+<FONT color="green">281</FONT>       * comparison to determine equality of keys, which is a technical violation of the {@link Map}<a name="line.281"></a>
+<FONT color="green">282</FONT>       * specification, and may not be what you expect.<a name="line.282"></a>
+<FONT color="green">283</FONT>       *<a name="line.283"></a>
+<FONT color="green">284</FONT>       * @throws IllegalStateException if the key strength was already set<a name="line.284"></a>
+<FONT color="green">285</FONT>       * @see SoftReference<a name="line.285"></a>
+<FONT color="green">286</FONT>       * @deprecated use {@link #softValues} to create a memory-sensitive map, or {@link #weakKeys} to<a name="line.286"></a>
+<FONT color="green">287</FONT>       *     create a map that doesn't hold strong references to the keys.<a name="line.287"></a>
+<FONT color="green">288</FONT>       *     &lt;b&gt;This method is scheduled for deletion in January 2013.&lt;/b&gt;<a name="line.288"></a>
+<FONT color="green">289</FONT>       */<a name="line.289"></a>
+<FONT color="green">290</FONT>      @Deprecated<a name="line.290"></a>
+<FONT color="green">291</FONT>      @GwtIncompatible("java.lang.ref.SoftReference")<a name="line.291"></a>
+<FONT color="green">292</FONT>      @Override<a name="line.292"></a>
+<FONT color="green">293</FONT>      public MapMaker softKeys() {<a name="line.293"></a>
+<FONT color="green">294</FONT>        return setKeyStrength(Strength.SOFT);<a name="line.294"></a>
+<FONT color="green">295</FONT>      }<a name="line.295"></a>
+<FONT color="green">296</FONT>    <a name="line.296"></a>
+<FONT color="green">297</FONT>      MapMaker setKeyStrength(Strength strength) {<a name="line.297"></a>
+<FONT color="green">298</FONT>        checkState(keyStrength == null, "Key strength was already set to %s", keyStrength);<a name="line.298"></a>
+<FONT color="green">299</FONT>        keyStrength = checkNotNull(strength);<a name="line.299"></a>
+<FONT color="green">300</FONT>        if (strength != Strength.STRONG) {<a name="line.300"></a>
+<FONT color="green">301</FONT>          // STRONG could be used during deserialization.<a name="line.301"></a>
+<FONT color="green">302</FONT>          useCustomMap = true;<a name="line.302"></a>
+<FONT color="green">303</FONT>        }<a name="line.303"></a>
+<FONT color="green">304</FONT>        return this;<a name="line.304"></a>
+<FONT color="green">305</FONT>      }<a name="line.305"></a>
+<FONT color="green">306</FONT>    <a name="line.306"></a>
+<FONT color="green">307</FONT>      Strength getKeyStrength() {<a name="line.307"></a>
+<FONT color="green">308</FONT>        return firstNonNull(keyStrength, Strength.STRONG);<a name="line.308"></a>
+<FONT color="green">309</FONT>      }<a name="line.309"></a>
+<FONT color="green">310</FONT>    <a name="line.310"></a>
+<FONT color="green">311</FONT>      /**<a name="line.311"></a>
+<FONT color="green">312</FONT>       * Specifies that each value (not key) stored in the map should be wrapped in a<a name="line.312"></a>
+<FONT color="green">313</FONT>       * {@link WeakReference} (by default, strong references are used).<a name="line.313"></a>
+<FONT color="green">314</FONT>       *<a name="line.314"></a>
+<FONT color="green">315</FONT>       * &lt;p&gt;Weak values will be garbage collected once they are weakly reachable. This makes them a poor<a name="line.315"></a>
+<FONT color="green">316</FONT>       * candidate for caching; consider {@link #softValues} instead.<a name="line.316"></a>
+<FONT color="green">317</FONT>       *<a name="line.317"></a>
+<FONT color="green">318</FONT>       * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; when this method is used, the resulting map will use identity ({@code ==})<a name="line.318"></a>
+<FONT color="green">319</FONT>       * comparison to determine equality of values. This technically violates the specifications of<a name="line.319"></a>
+<FONT color="green">320</FONT>       * the methods {@link Map#containsValue containsValue},<a name="line.320"></a>
+<FONT color="green">321</FONT>       * {@link ConcurrentMap#remove(Object, Object) remove(Object, Object)} and<a name="line.321"></a>
+<FONT color="green">322</FONT>       * {@link ConcurrentMap#replace(Object, Object, Object) replace(K, V, V)}, and may not be what you<a name="line.322"></a>
+<FONT color="green">323</FONT>       * expect.<a name="line.323"></a>
+<FONT color="green">324</FONT>       *<a name="line.324"></a>
+<FONT color="green">325</FONT>       * @throws IllegalStateException if the value strength was already set<a name="line.325"></a>
+<FONT color="green">326</FONT>       * @see WeakReference<a name="line.326"></a>
+<FONT color="green">327</FONT>       */<a name="line.327"></a>
+<FONT color="green">328</FONT>      @GwtIncompatible("java.lang.ref.WeakReference")<a name="line.328"></a>
+<FONT color="green">329</FONT>      @Override<a name="line.329"></a>
+<FONT color="green">330</FONT>      public MapMaker weakValues() {<a name="line.330"></a>
+<FONT color="green">331</FONT>        return setValueStrength(Strength.WEAK);<a name="line.331"></a>
+<FONT color="green">332</FONT>      }<a name="line.332"></a>
+<FONT color="green">333</FONT>    <a name="line.333"></a>
+<FONT color="green">334</FONT>      /**<a name="line.334"></a>
+<FONT color="green">335</FONT>       * Specifies that each value (not key) stored in the map should be wrapped in a<a name="line.335"></a>
+<FONT color="green">336</FONT>       * {@link SoftReference} (by default, strong references are used). Softly-referenced objects will<a name="line.336"></a>
+<FONT color="green">337</FONT>       * be garbage-collected in a &lt;i&gt;globally&lt;/i&gt; least-recently-used manner, in response to memory<a name="line.337"></a>
+<FONT color="green">338</FONT>       * demand.<a name="line.338"></a>
+<FONT color="green">339</FONT>       *<a name="line.339"></a>
+<FONT color="green">340</FONT>       * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; in most circumstances it is better to set a per-cache {@linkplain<a name="line.340"></a>
+<FONT color="green">341</FONT>       * #maximumSize maximum size} instead of using soft references. You should only use this method if<a name="line.341"></a>
+<FONT color="green">342</FONT>       * you are well familiar with the practical consequences of soft references.<a name="line.342"></a>
+<FONT color="green">343</FONT>       *<a name="line.343"></a>
+<FONT color="green">344</FONT>       * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; when this method is used, the resulting map will use identity ({@code ==})<a name="line.344"></a>
+<FONT color="green">345</FONT>       * comparison to determine equality of values. This technically violates the specifications of<a name="line.345"></a>
+<FONT color="green">346</FONT>       * the methods {@link Map#containsValue containsValue},<a name="line.346"></a>
+<FONT color="green">347</FONT>       * {@link ConcurrentMap#remove(Object, Object) remove(Object, Object)} and<a name="line.347"></a>
+<FONT color="green">348</FONT>       * {@link ConcurrentMap#replace(Object, Object, Object) replace(K, V, V)}, and may not be what you<a name="line.348"></a>
+<FONT color="green">349</FONT>       * expect.<a name="line.349"></a>
+<FONT color="green">350</FONT>       *<a name="line.350"></a>
+<FONT color="green">351</FONT>       * @throws IllegalStateException if the value strength was already set<a name="line.351"></a>
+<FONT color="green">352</FONT>       * @see SoftReference<a name="line.352"></a>
+<FONT color="green">353</FONT>       */<a name="line.353"></a>
+<FONT color="green">354</FONT>      @GwtIncompatible("java.lang.ref.SoftReference")<a name="line.354"></a>
+<FONT color="green">355</FONT>      @Override<a name="line.355"></a>
+<FONT color="green">356</FONT>      public MapMaker softValues() {<a name="line.356"></a>
+<FONT color="green">357</FONT>        return setValueStrength(Strength.SOFT);<a name="line.357"></a>
+<FONT color="green">358</FONT>      }<a name="line.358"></a>
+<FONT color="green">359</FONT>    <a name="line.359"></a>
+<FONT color="green">360</FONT>      MapMaker setValueStrength(Strength strength) {<a name="line.360"></a>
+<FONT color="green">361</FONT>        checkState(valueStrength == null, "Value strength was already set to %s", valueStrength);<a name="line.361"></a>
+<FONT color="green">362</FONT>        valueStrength = checkNotNull(strength);<a name="line.362"></a>
+<FONT color="green">363</FONT>        if (strength != Strength.STRONG) {<a name="line.363"></a>
+<FONT color="green">364</FONT>          // STRONG could be used during deserialization.<a name="line.364"></a>
+<FONT color="green">365</FONT>          useCustomMap = true;<a name="line.365"></a>
+<FONT color="green">366</FONT>        }<a name="line.366"></a>
+<FONT color="green">367</FONT>        return this;<a name="line.367"></a>
+<FONT color="green">368</FONT>      }<a name="line.368"></a>
+<FONT color="green">369</FONT>    <a name="line.369"></a>
+<FONT color="green">370</FONT>      Strength getValueStrength() {<a name="line.370"></a>
+<FONT color="green">371</FONT>        return firstNonNull(valueStrength, Strength.STRONG);<a name="line.371"></a>
+<FONT color="green">372</FONT>      }<a name="line.372"></a>
+<FONT color="green">373</FONT>    <a name="line.373"></a>
+<FONT color="green">374</FONT>      /**<a name="line.374"></a>
+<FONT color="green">375</FONT>       * Specifies that each entry should be automatically removed from the map once a fixed duration<a name="line.375"></a>
+<FONT color="green">376</FONT>       * has elapsed after the entry's creation, or the most recent replacement of its value.<a name="line.376"></a>
+<FONT color="green">377</FONT>       *<a name="line.377"></a>
+<FONT color="green">378</FONT>       * &lt;p&gt;When {@code duration} is zero, elements can be successfully added to the map, but are<a name="line.378"></a>
+<FONT color="green">379</FONT>       * evicted immediately. This has a very similar effect to invoking {@link #maximumSize<a name="line.379"></a>
+<FONT color="green">380</FONT>       * maximumSize}{@code (0)}. It can be useful in testing, or to disable caching temporarily without<a name="line.380"></a>
+<FONT color="green">381</FONT>       * a code change.<a name="line.381"></a>
+<FONT color="green">382</FONT>       *<a name="line.382"></a>
+<FONT color="green">383</FONT>       * &lt;p&gt;Expired entries may be counted by {@link Map#size}, but will never be visible to read or<a name="line.383"></a>
+<FONT color="green">384</FONT>       * write operations. Expired entries are currently cleaned up during write operations, or during<a name="line.384"></a>
+<FONT color="green">385</FONT>       * occasional read operations in the absense of writes; though this behavior may change in the<a name="line.385"></a>
+<FONT color="green">386</FONT>       * future.<a name="line.386"></a>
+<FONT color="green">387</FONT>       *<a name="line.387"></a>
+<FONT color="green">388</FONT>       * @param duration the length of time after an entry is created that it should be automatically<a name="line.388"></a>
+<FONT color="green">389</FONT>       *     removed<a name="line.389"></a>
+<FONT color="green">390</FONT>       * @param unit the unit that {@code duration} is expressed in<a name="line.390"></a>
+<FONT color="green">391</FONT>       * @throws IllegalArgumentException if {@code duration} is negative<a name="line.391"></a>
+<FONT color="green">392</FONT>       * @throws IllegalStateException if the time to live or time to idle was already set<a name="line.392"></a>
+<FONT color="green">393</FONT>       * @deprecated Caching functionality in {@code MapMaker} is being moved to<a name="line.393"></a>
+<FONT color="green">394</FONT>       *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterWrite} being<a name="line.394"></a>
+<FONT color="green">395</FONT>       *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterWrite}. Note that {@code<a name="line.395"></a>
+<FONT color="green">396</FONT>       *     CacheBuilder} is simply an enhanced API for an implementation which was branched from<a name="line.396"></a>
+<FONT color="green">397</FONT>       *     {@code MapMaker}.<a name="line.397"></a>
+<FONT color="green">398</FONT>       */<a name="line.398"></a>
+<FONT color="green">399</FONT>      @Deprecated<a name="line.399"></a>
+<FONT color="green">400</FONT>      @Override<a name="line.400"></a>
+<FONT color="green">401</FONT>      MapMaker expireAfterWrite(long duration, TimeUnit unit) {<a name="line.401"></a>
+<FONT color="green">402</FONT>        checkExpiration(duration, unit);<a name="line.402"></a>
+<FONT color="green">403</FONT>        this.expireAfterWriteNanos = unit.toNanos(duration);<a name="line.403"></a>
+<FONT color="green">404</FONT>        if (duration == 0 &amp;&amp; this.nullRemovalCause == null) {<a name="line.404"></a>
+<FONT color="green">405</FONT>          // SIZE trumps EXPIRED<a name="line.405"></a>
+<FONT color="green">406</FONT>          this.nullRemovalCause = RemovalCause.EXPIRED;<a name="line.406"></a>
+<FONT color="green">407</FONT>        }<a name="line.407"></a>
+<FONT color="green">408</FONT>        useCustomMap = true;<a name="line.408"></a>
+<FONT color="green">409</FONT>        return this;<a name="line.409"></a>
+<FONT color="green">410</FONT>      }<a name="line.410"></a>
+<FONT color="green">411</FONT>    <a name="line.411"></a>
+<FONT color="green">412</FONT>      private void checkExpiration(long duration, TimeUnit unit) {<a name="line.412"></a>
+<FONT color="green">413</FONT>        checkState(expireAfterWriteNanos == UNSET_INT, "expireAfterWrite was already set to %s ns",<a name="line.413"></a>
+<FONT color="green">414</FONT>            expireAfterWriteNanos);<a name="line.414"></a>
+<FONT color="green">415</FONT>        checkState(expireAfterAccessNanos == UNSET_INT, "expireAfterAccess was already set to %s ns",<a name="line.415"></a>
+<FONT color="green">416</FONT>            expireAfterAccessNanos);<a name="line.416"></a>
+<FONT color="green">417</FONT>        checkArgument(duration &gt;= 0, "duration cannot be negative: %s %s", duration, unit);<a name="line.417"></a>
+<FONT color="green">418</FONT>      }<a name="line.418"></a>
+<FONT color="green">419</FONT>    <a name="line.419"></a>
+<FONT color="green">420</FONT>      long getExpireAfterWriteNanos() {<a name="line.420"></a>
+<FONT color="green">421</FONT>        return (expireAfterWriteNanos == UNSET_INT) ? DEFAULT_EXPIRATION_NANOS : expireAfterWriteNanos;<a name="line.421"></a>
+<FONT color="green">422</FONT>      }<a name="line.422"></a>
+<FONT color="green">423</FONT>    <a name="line.423"></a>
+<FONT color="green">424</FONT>      /**<a name="line.424"></a>
+<FONT color="green">425</FONT>       * Specifies that each entry should be automatically removed from the map once a fixed duration<a name="line.425"></a>
+<FONT color="green">426</FONT>       * has elapsed after the entry's last read or write access.<a name="line.426"></a>
+<FONT color="green">427</FONT>       *<a name="line.427"></a>
+<FONT color="green">428</FONT>       * &lt;p&gt;When {@code duration} is zero, elements can be successfully added to the map, but are<a name="line.428"></a>
+<FONT color="green">429</FONT>       * evicted immediately. This has a very similar effect to invoking {@link #maximumSize<a name="line.429"></a>
+<FONT color="green">430</FONT>       * maximumSize}{@code (0)}. It can be useful in testing, or to disable caching temporarily without<a name="line.430"></a>
+<FONT color="green">431</FONT>       * a code change.<a name="line.431"></a>
+<FONT color="green">432</FONT>       *<a name="line.432"></a>
+<FONT color="green">433</FONT>       * &lt;p&gt;Expired entries may be counted by {@link Map#size}, but will never be visible to read or<a name="line.433"></a>
+<FONT color="green">434</FONT>       * write operations. Expired entries are currently cleaned up during write operations, or during<a name="line.434"></a>
+<FONT color="green">435</FONT>       * occasional read operations in the absense of writes; though this behavior may change in the<a name="line.435"></a>
+<FONT color="green">436</FONT>       * future.<a name="line.436"></a>
+<FONT color="green">437</FONT>       *<a name="line.437"></a>
+<FONT color="green">438</FONT>       * @param duration the length of time after an entry is last accessed that it should be<a name="line.438"></a>
+<FONT color="green">439</FONT>       *     automatically removed<a name="line.439"></a>
+<FONT color="green">440</FONT>       * @param unit the unit that {@code duration} is expressed in<a name="line.440"></a>
+<FONT color="green">441</FONT>       * @throws IllegalArgumentException if {@code duration} is negative<a name="line.441"></a>
+<FONT color="green">442</FONT>       * @throws IllegalStateException if the time to idle or time to live was already set<a name="line.442"></a>
+<FONT color="green">443</FONT>       * @deprecated Caching functionality in {@code MapMaker} is being moved to<a name="line.443"></a>
+<FONT color="green">444</FONT>       *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterAccess} being<a name="line.444"></a>
+<FONT color="green">445</FONT>       *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterAccess}. Note that<a name="line.445"></a>
+<FONT color="green">446</FONT>       *     {@code CacheBuilder} is simply an enhanced API for an implementation which was branched<a name="line.446"></a>
+<FONT color="green">447</FONT>       *     from {@code MapMaker}.<a name="line.447"></a>
+<FONT color="green">448</FONT>       */<a name="line.448"></a>
+<FONT color="green">449</FONT>      @Deprecated<a name="line.449"></a>
+<FONT color="green">450</FONT>      @GwtIncompatible("To be supported")<a name="line.450"></a>
+<FONT color="green">451</FONT>      @Override<a name="line.451"></a>
+<FONT color="green">452</FONT>      MapMaker expireAfterAccess(long duration, TimeUnit unit) {<a name="line.452"></a>
+<FONT color="green">453</FONT>        checkExpiration(duration, unit);<a name="line.453"></a>
+<FONT color="green">454</FONT>        this.expireAfterAccessNanos = unit.toNanos(duration);<a name="line.454"></a>
+<FONT color="green">455</FONT>        if (duration == 0 &amp;&amp; this.nullRemovalCause == null) {<a name="line.455"></a>
+<FONT color="green">456</FONT>          // SIZE trumps EXPIRED<a name="line.456"></a>
+<FONT color="green">457</FONT>          this.nullRemovalCause = RemovalCause.EXPIRED;<a name="line.457"></a>
+<FONT color="green">458</FONT>        }<a name="line.458"></a>
+<FONT color="green">459</FONT>        useCustomMap = true;<a name="line.459"></a>
+<FONT color="green">460</FONT>        return this;<a name="line.460"></a>
+<FONT color="green">461</FONT>      }<a name="line.461"></a>
+<FONT color="green">462</FONT>    <a name="line.462"></a>
+<FONT color="green">463</FONT>      long getExpireAfterAccessNanos() {<a name="line.463"></a>
+<FONT color="green">464</FONT>        return (expireAfterAccessNanos == UNSET_INT)<a name="line.464"></a>
+<FONT color="green">465</FONT>            ? DEFAULT_EXPIRATION_NANOS : expireAfterAccessNanos;<a name="line.465"></a>
+<FONT color="green">466</FONT>      }<a name="line.466"></a>
+<FONT color="green">467</FONT>    <a name="line.467"></a>
+<FONT color="green">468</FONT>      Ticker getTicker() {<a name="line.468"></a>
+<FONT color="green">469</FONT>        return firstNonNull(ticker, Ticker.systemTicker());<a name="line.469"></a>
+<FONT color="green">470</FONT>      }<a name="line.470"></a>
+<FONT color="green">471</FONT>    <a name="line.471"></a>
+<FONT color="green">472</FONT>      /**<a name="line.472"></a>
+<FONT color="green">473</FONT>       * Specifies a listener instance, which all maps built using this {@code MapMaker} will notify<a name="line.473"></a>
+<FONT color="green">474</FONT>       * each time an entry is removed from the map by any means.<a name="line.474"></a>
+<FONT color="green">475</FONT>       *<a name="line.475"></a>
+<FONT color="green">476</FONT>       * &lt;p&gt;Each map built by this map maker after this method is called invokes the supplied listener<a name="line.476"></a>
+<FONT color="green">477</FONT>       * after removing an element for any reason (see removal causes in {@link RemovalCause}). It will<a name="line.477"></a>
+<FONT color="green">478</FONT>       * invoke the listener during invocations of any of that map's public methods (even read-only<a name="line.478"></a>
+<FONT color="green">479</FONT>       * methods).<a name="line.479"></a>
+<FONT color="green">480</FONT>       *<a name="line.480"></a>
+<FONT color="green">481</FONT>       * &lt;p&gt;&lt;b&gt;Important note:&lt;/b&gt; Instead of returning &lt;i&gt;this&lt;/i&gt; as a {@code MapMaker} instance,<a name="line.481"></a>
+<FONT color="green">482</FONT>       * this method returns {@code GenericMapMaker&lt;K, V&gt;}. From this point on, either the original<a name="line.482"></a>
+<FONT color="green">483</FONT>       * reference or the returned reference may be used to complete configuration and build the map,<a name="line.483"></a>
+<FONT color="green">484</FONT>       * but only the "generic" one is type-safe. That is, it will properly prevent you from building<a name="line.484"></a>
+<FONT color="green">485</FONT>       * maps whose key or value types are incompatible with the types accepted by the listener already<a name="line.485"></a>
+<FONT color="green">486</FONT>       * provided; the {@code MapMaker} type cannot do this. For best results, simply use the standard<a name="line.486"></a>
+<FONT color="green">487</FONT>       * method-chaining idiom, as illustrated in the documentation at top, configuring a {@code<a name="line.487"></a>
+<FONT color="green">488</FONT>       * MapMaker} and building your {@link Map} all in a single statement.<a name="line.488"></a>
+<FONT color="green">489</FONT>       *<a name="line.489"></a>
+<FONT color="green">490</FONT>       * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; if you ignore the above advice, and use this {@code MapMaker} to build a map<a name="line.490"></a>
+<FONT color="green">491</FONT>       * or cache whose key or value type is incompatible with the listener, you will likely experience<a name="line.491"></a>
+<FONT color="green">492</FONT>       * a {@link ClassCastException} at some &lt;i&gt;undefined&lt;/i&gt; point in the future.<a name="line.492"></a>
+<FONT color="green">493</FONT>       *<a name="line.493"></a>
+<FONT color="green">494</FONT>       * @throws IllegalStateException if a removal listener was already set<a name="line.494"></a>
+<FONT color="green">495</FONT>       * @deprecated Caching functionality in {@code MapMaker} is being moved to<a name="line.495"></a>
+<FONT color="green">496</FONT>       *     {@link com.google.common.cache.CacheBuilder}, with {@link #removalListener} being<a name="line.496"></a>
+<FONT color="green">497</FONT>       *     replaced by {@link com.google.common.cache.CacheBuilder#removalListener}. Note that {@code<a name="line.497"></a>
+<FONT color="green">498</FONT>       *     CacheBuilder} is simply an enhanced API for an implementation which was branched from<a name="line.498"></a>
+<FONT color="green">499</FONT>       *     {@code MapMaker}.<a name="line.499"></a>
+<FONT color="green">500</FONT>       */<a name="line.500"></a>
+<FONT color="green">501</FONT>      @Deprecated<a name="line.501"></a>
+<FONT color="green">502</FONT>      @GwtIncompatible("To be supported")<a name="line.502"></a>
+<FONT color="green">503</FONT>      &lt;K, V&gt; GenericMapMaker&lt;K, V&gt; removalListener(RemovalListener&lt;K, V&gt; listener) {<a name="line.503"></a>
+<FONT color="green">504</FONT>        checkState(this.removalListener == null);<a name="line.504"></a>
+<FONT color="green">505</FONT>    <a name="line.505"></a>
+<FONT color="green">506</FONT>        // safely limiting the kinds of maps this can produce<a name="line.506"></a>
+<FONT color="green">507</FONT>        @SuppressWarnings("unchecked")<a name="line.507"></a>
+<FONT color="green">508</FONT>        GenericMapMaker&lt;K, V&gt; me = (GenericMapMaker&lt;K, V&gt;) this;<a name="line.508"></a>
+<FONT color="green">509</FONT>        me.removalListener = checkNotNull(listener);<a name="line.509"></a>
+<FONT color="green">510</FONT>        useCustomMap = true;<a name="line.510"></a>
+<FONT color="green">511</FONT>        return me;<a name="line.511"></a>
+<FONT color="green">512</FONT>      }<a name="line.512"></a>
+<FONT color="green">513</FONT>    <a name="line.513"></a>
+<FONT color="green">514</FONT>      /**<a name="line.514"></a>
+<FONT color="green">515</FONT>       * Builds a thread-safe map, without on-demand computation of values. This method does not alter<a name="line.515"></a>
+<FONT color="green">516</FONT>       * the state of this {@code MapMaker} instance, so it can be invoked again to create multiple<a name="line.516"></a>
+<FONT color="green">517</FONT>       * independent maps.<a name="line.517"></a>
+<FONT color="green">518</FONT>       *<a name="line.518"></a>
+<FONT color="green">519</FONT>       * &lt;p&gt;The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to<a name="line.519"></a>
+<FONT color="green">520</FONT>       * be performed atomically on the returned map. Additionally, {@code size} and {@code<a name="line.520"></a>
+<FONT color="green">521</FONT>       * containsValue} are implemented as bulk read operations, and thus may fail to observe concurrent<a name="line.521"></a>
+<FONT color="green">522</FONT>       * writes.<a name="line.522"></a>
+<FONT color="green">523</FONT>       *<a name="line.523"></a>
+<FONT color="green">524</FONT>       * @return a serializable concurrent map having the requested features<a name="line.524"></a>
+<FONT color="green">525</FONT>       */<a name="line.525"></a>
+<FONT color="green">526</FONT>      @Override<a name="line.526"></a>
+<FONT color="green">527</FONT>      public &lt;K, V&gt; ConcurrentMap&lt;K, V&gt; makeMap() {<a name="line.527"></a>
+<FONT color="green">528</FONT>        if (!useCustomMap) {<a name="line.528"></a>
+<FONT color="green">529</FONT>          return new ConcurrentHashMap&lt;K, V&gt;(getInitialCapacity(), 0.75f, getConcurrencyLevel());<a name="line.529"></a>
+<FONT color="green">530</FONT>        }<a name="line.530"></a>
+<FONT color="green">531</FONT>        return (nullRemovalCause == null)<a name="line.531"></a>
+<FONT color="green">532</FONT>            ? new MapMakerInternalMap&lt;K, V&gt;(this)<a name="line.532"></a>
+<FONT color="green">533</FONT>            : new NullConcurrentMap&lt;K, V&gt;(this);<a name="line.533"></a>
+<FONT color="green">534</FONT>      }<a name="line.534"></a>
+<FONT color="green">535</FONT>    <a name="line.535"></a>
+<FONT color="green">536</FONT>      /**<a name="line.536"></a>
+<FONT color="green">537</FONT>       * Returns a MapMakerInternalMap for the benefit of internal callers that use features of<a name="line.537"></a>
+<FONT color="green">538</FONT>       * that class not exposed through ConcurrentMap.<a name="line.538"></a>
+<FONT color="green">539</FONT>       */<a name="line.539"></a>
+<FONT color="green">540</FONT>      @Override<a name="line.540"></a>
+<FONT color="green">541</FONT>      @GwtIncompatible("MapMakerInternalMap")<a name="line.541"></a>
+<FONT color="green">542</FONT>      &lt;K, V&gt; MapMakerInternalMap&lt;K, V&gt; makeCustomMap() {<a name="line.542"></a>
+<FONT color="green">543</FONT>        return new MapMakerInternalMap&lt;K, V&gt;(this);<a name="line.543"></a>
+<FONT color="green">544</FONT>      }<a name="line.544"></a>
+<FONT color="green">545</FONT>    <a name="line.545"></a>
+<FONT color="green">546</FONT>      /**<a name="line.546"></a>
+<FONT color="green">547</FONT>       * Builds a map that supports atomic, on-demand computation of values. {@link Map#get} either<a name="line.547"></a>
+<FONT color="green">548</FONT>       * returns an already-computed value for the given key, atomically computes it using the supplied<a name="line.548"></a>
+<FONT color="green">549</FONT>       * function, or, if another thread is currently computing the value for this key, simply waits for<a name="line.549"></a>
+<FONT color="green">550</FONT>       * that thread to finish and returns its computed value. Note that the function may be executed<a name="line.550"></a>
+<FONT color="green">551</FONT>       * concurrently by multiple threads, but only for distinct keys.<a name="line.551"></a>
+<FONT color="green">552</FONT>       *<a name="line.552"></a>
+<FONT color="green">553</FONT>       * &lt;p&gt;New code should use {@link com.google.common.cache.CacheBuilder}, which supports<a name="line.553"></a>
+<FONT color="green">554</FONT>       * {@linkplain com.google.common.cache.CacheStats statistics} collection, introduces the<a name="line.554"></a>
+<FONT color="green">555</FONT>       * {@link com.google.common.cache.CacheLoader} interface for loading entries into the cache<a name="line.555"></a>
+<FONT color="green">556</FONT>       * (allowing checked exceptions to be thrown in the process), and more cleanly separates<a name="line.556"></a>
+<FONT color="green">557</FONT>       * computation from the cache's {@code Map} view.<a name="line.557"></a>
+<FONT color="green">558</FONT>       *<a name="line.558"></a>
+<FONT color="green">559</FONT>       * &lt;p&gt;If an entry's value has not finished computing yet, query methods besides {@code get} return<a name="line.559"></a>
+<FONT color="green">560</FONT>       * immediately as if an entry doesn't exist. In other words, an entry isn't externally visible<a name="line.560"></a>
+<FONT color="green">561</FONT>       * until the value's computation completes.<a name="line.561"></a>
+<FONT color="green">562</FONT>       *<a name="line.562"></a>
+<FONT color="green">563</FONT>       * &lt;p&gt;{@link Map#get} on the returned map will never return {@code null}. It may throw:<a name="line.563"></a>
+<FONT color="green">564</FONT>       *<a name="line.564"></a>
+<FONT color="green">565</FONT>       * &lt;ul&gt;<a name="line.565"></a>
+<FONT color="green">566</FONT>       * &lt;li&gt;{@link NullPointerException} if the key is null or the computing function returns a null<a name="line.566"></a>
+<FONT color="green">567</FONT>       *     result<a name="line.567"></a>
+<FONT color="green">568</FONT>       * &lt;li&gt;{@link ComputationException} if an exception was thrown by the computing function. If that<a name="line.568"></a>
+<FONT color="green">569</FONT>       * exception is already of type {@link ComputationException} it is propagated directly; otherwise<a name="line.569"></a>
+<FONT color="green">570</FONT>       * it is wrapped.<a name="line.570"></a>
+<FONT color="green">571</FONT>       * &lt;/ul&gt;<a name="line.571"></a>
+<FONT color="green">572</FONT>       *<a name="line.572"></a>
+<FONT color="green">573</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Callers of {@code get} &lt;i&gt;must&lt;/i&gt; ensure that the key argument is of type<a name="line.573"></a>
+<FONT color="green">574</FONT>       * {@code K}. The {@code get} method accepts {@code Object}, so the key type is not checked at<a name="line.574"></a>
+<FONT color="green">575</FONT>       * compile time. Passing an object of a type other than {@code K} can result in that object being<a name="line.575"></a>
+<FONT color="green">576</FONT>       * unsafely passed to the computing function as type {@code K}, and unsafely stored in the map.<a name="line.576"></a>
+<FONT color="green">577</FONT>       *<a name="line.577"></a>
+<FONT color="green">578</FONT>       * &lt;p&gt;If {@link Map#put} is called before a computation completes, other threads waiting on the<a name="line.578"></a>
+<FONT color="green">579</FONT>       * computation will wake up and return the stored value.<a name="line.579"></a>
+<FONT color="green">580</FONT>       *<a name="line.580"></a>
+<FONT color="green">581</FONT>       * &lt;p&gt;This method does not alter the state of this {@code MapMaker} instance, so it can be invoked<a name="line.581"></a>
+<FONT color="green">582</FONT>       * again to create multiple independent maps.<a name="line.582"></a>
+<FONT color="green">583</FONT>       *<a name="line.583"></a>
+<FONT color="green">584</FONT>       * &lt;p&gt;Insertion, removal, update, and access operations on the returned map safely execute<a name="line.584"></a>
+<FONT color="green">585</FONT>       * concurrently by multiple threads. Iterators on the returned map are weakly consistent,<a name="line.585"></a>
+<FONT color="green">586</FONT>       * returning elements reflecting the state of the map at some point at or since the creation of<a name="line.586"></a>
+<FONT color="green">587</FONT>       * the iterator. They do not throw {@link ConcurrentModificationException}, and may proceed<a name="line.587"></a>
+<FONT color="green">588</FONT>       * concurrently with other operations.<a name="line.588"></a>
+<FONT color="green">589</FONT>       *<a name="line.589"></a>
+<FONT color="green">590</FONT>       * &lt;p&gt;The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to<a name="line.590"></a>
+<FONT color="green">591</FONT>       * be performed atomically on the returned map. Additionally, {@code size} and {@code<a name="line.591"></a>
+<FONT color="green">592</FONT>       * containsValue} are implemented as bulk read operations, and thus may fail to observe concurrent<a name="line.592"></a>
+<FONT color="green">593</FONT>       * writes.<a name="line.593"></a>
+<FONT color="green">594</FONT>       *<a name="line.594"></a>
+<FONT color="green">595</FONT>       * @param computingFunction the function used to compute new values<a name="line.595"></a>
+<FONT color="green">596</FONT>       * @return a serializable concurrent map having the requested features<a name="line.596"></a>
+<FONT color="green">597</FONT>       * @deprecated Caching functionality in {@code MapMaker} is being moved to<a name="line.597"></a>
+<FONT color="green">598</FONT>       *     {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced<a name="line.598"></a>
+<FONT color="green">599</FONT>       *     by {@link com.google.common.cache.CacheBuilder#build}. See the<a name="line.599"></a>
+<FONT color="green">600</FONT>       *     &lt;a href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration"&gt;MapMaker<a name="line.600"></a>
+<FONT color="green">601</FONT>       *     Migration Guide&lt;/a&gt; for more details.<a name="line.601"></a>
+<FONT color="green">602</FONT>       *     &lt;b&gt;This method is scheduled for deletion in February 2013.&lt;/b&gt;<a name="line.602"></a>
+<FONT color="green">603</FONT>       */<a name="line.603"></a>
+<FONT color="green">604</FONT>      @Deprecated<a name="line.604"></a>
+<FONT color="green">605</FONT>      @Override<a name="line.605"></a>
+<FONT color="green">606</FONT>      public &lt;K, V&gt; ConcurrentMap&lt;K, V&gt; makeComputingMap(<a name="line.606"></a>
+<FONT color="green">607</FONT>          Function&lt;? super K, ? extends V&gt; computingFunction) {<a name="line.607"></a>
+<FONT color="green">608</FONT>        return (nullRemovalCause == null)<a name="line.608"></a>
+<FONT color="green">609</FONT>            ? new ComputingMapAdapter&lt;K, V&gt;(this, computingFunction)<a name="line.609"></a>
+<FONT color="green">610</FONT>            : new NullComputingConcurrentMap&lt;K, V&gt;(this, computingFunction);<a name="line.610"></a>
+<FONT color="green">611</FONT>      }<a name="line.611"></a>
+<FONT color="green">612</FONT>    <a name="line.612"></a>
+<FONT color="green">613</FONT>      /**<a name="line.613"></a>
+<FONT color="green">614</FONT>       * Returns a string representation for this MapMaker instance. The exact form of the returned<a name="line.614"></a>
+<FONT color="green">615</FONT>       * string is not specificed.<a name="line.615"></a>
+<FONT color="green">616</FONT>       */<a name="line.616"></a>
+<FONT color="green">617</FONT>      @Override<a name="line.617"></a>
+<FONT color="green">618</FONT>      public String toString() {<a name="line.618"></a>
+<FONT color="green">619</FONT>        Objects.ToStringHelper s = Objects.toStringHelper(this);<a name="line.619"></a>
+<FONT color="green">620</FONT>        if (initialCapacity != UNSET_INT) {<a name="line.620"></a>
+<FONT color="green">621</FONT>          s.add("initialCapacity", initialCapacity);<a name="line.621"></a>
+<FONT color="green">622</FONT>        }<a name="line.622"></a>
+<FONT color="green">623</FONT>        if (concurrencyLevel != UNSET_INT) {<a name="line.623"></a>
+<FONT color="green">624</FONT>          s.add("concurrencyLevel", concurrencyLevel);<a name="line.624"></a>
+<FONT color="green">625</FONT>        }<a name="line.625"></a>
+<FONT color="green">626</FONT>        if (maximumSize != UNSET_INT) {<a name="line.626"></a>
+<FONT color="green">627</FONT>          s.add("maximumSize", maximumSize);<a name="line.627"></a>
+<FONT color="green">628</FONT>        }<a name="line.628"></a>
+<FONT color="green">629</FONT>        if (expireAfterWriteNanos != UNSET_INT) {<a name="line.629"></a>
+<FONT color="green">630</FONT>          s.add("expireAfterWrite", expireAfterWriteNanos + "ns");<a name="line.630"></a>
+<FONT color="green">631</FONT>        }<a name="line.631"></a>
+<FONT color="green">632</FONT>        if (expireAfterAccessNanos != UNSET_INT) {<a name="line.632"></a>
+<FONT color="green">633</FONT>          s.add("expireAfterAccess", expireAfterAccessNanos + "ns");<a name="line.633"></a>
+<FONT color="green">634</FONT>        }<a name="line.634"></a>
+<FONT color="green">635</FONT>        if (keyStrength != null) {<a name="line.635"></a>
+<FONT color="green">636</FONT>          s.add("keyStrength", Ascii.toLowerCase(keyStrength.toString()));<a name="line.636"></a>
+<FONT color="green">637</FONT>        }<a name="line.637"></a>
+<FONT color="green">638</FONT>        if (valueStrength != null) {<a name="line.638"></a>
+<FONT color="green">639</FONT>          s.add("valueStrength", Ascii.toLowerCase(valueStrength.toString()));<a name="line.639"></a>
+<FONT color="green">640</FONT>        }<a name="line.640"></a>
+<FONT color="green">641</FONT>        if (keyEquivalence != null) {<a name="line.641"></a>
+<FONT color="green">642</FONT>          s.addValue("keyEquivalence");<a name="line.642"></a>
+<FONT color="green">643</FONT>        }<a name="line.643"></a>
+<FONT color="green">644</FONT>        if (removalListener != null) {<a name="line.644"></a>
+<FONT color="green">645</FONT>          s.addValue("removalListener");<a name="line.645"></a>
+<FONT color="green">646</FONT>        }<a name="line.646"></a>
+<FONT color="green">647</FONT>        return s.toString();<a name="line.647"></a>
+<FONT color="green">648</FONT>      }<a name="line.648"></a>
+<FONT color="green">649</FONT>    <a name="line.649"></a>
+<FONT color="green">650</FONT>      /**<a name="line.650"></a>
+<FONT color="green">651</FONT>       * An object that can receive a notification when an entry is removed from a map. The removal<a name="line.651"></a>
+<FONT color="green">652</FONT>       * resulting in notification could have occured to an entry being manually removed or replaced, or<a name="line.652"></a>
+<FONT color="green">653</FONT>       * due to eviction resulting from timed expiration, exceeding a maximum size, or garbage<a name="line.653"></a>
+<FONT color="green">654</FONT>       * collection.<a name="line.654"></a>
+<FONT color="green">655</FONT>       *<a name="line.655"></a>
+<FONT color="green">656</FONT>       * &lt;p&gt;An instance may be called concurrently by multiple threads to process different entries.<a name="line.656"></a>
+<FONT color="green">657</FONT>       * Implementations of this interface should avoid performing blocking calls or synchronizing on<a name="line.657"></a>
+<FONT color="green">658</FONT>       * shared resources.<a name="line.658"></a>
+<FONT color="green">659</FONT>       *<a name="line.659"></a>
+<FONT color="green">660</FONT>       * @param &lt;K&gt; the most general type of keys this listener can listen for; for<a name="line.660"></a>
+<FONT color="green">661</FONT>       *     example {@code Object} if any key is acceptable<a name="line.661"></a>
+<FONT color="green">662</FONT>       * @param &lt;V&gt; the most general type of values this listener can listen for; for<a name="line.662"></a>
+<FONT color="green">663</FONT>       *     example {@code Object} if any key is acceptable<a name="line.663"></a>
+<FONT color="green">664</FONT>       */<a name="line.664"></a>
+<FONT color="green">665</FONT>      interface RemovalListener&lt;K, V&gt; {<a name="line.665"></a>
+<FONT color="green">666</FONT>        /**<a name="line.666"></a>
+<FONT color="green">667</FONT>         * Notifies the listener that a removal occurred at some point in the past.<a name="line.667"></a>
+<FONT color="green">668</FONT>         */<a name="line.668"></a>
+<FONT color="green">669</FONT>        void onRemoval(RemovalNotification&lt;K, V&gt; notification);<a name="line.669"></a>
+<FONT color="green">670</FONT>      }<a name="line.670"></a>
+<FONT color="green">671</FONT>    <a name="line.671"></a>
+<FONT color="green">672</FONT>      /**<a name="line.672"></a>
+<FONT color="green">673</FONT>       * A notification of the removal of a single entry. The key or value may be null if it was already<a name="line.673"></a>
+<FONT color="green">674</FONT>       * garbage collected.<a name="line.674"></a>
+<FONT color="green">675</FONT>       *<a name="line.675"></a>
+<FONT color="green">676</FONT>       * &lt;p&gt;Like other {@code Map.Entry} instances associated with MapMaker, this class holds strong<a name="line.676"></a>
+<FONT color="green">677</FONT>       * references to the key and value, regardless of the type of references the map may be using.<a name="line.677"></a>
+<FONT color="green">678</FONT>       */<a name="line.678"></a>
+<FONT color="green">679</FONT>      static final class RemovalNotification&lt;K, V&gt; extends ImmutableEntry&lt;K, V&gt; {<a name="line.679"></a>
+<FONT color="green">680</FONT>        private static final long serialVersionUID = 0;<a name="line.680"></a>
+<FONT color="green">681</FONT>    <a name="line.681"></a>
+<FONT color="green">682</FONT>        private final RemovalCause cause;<a name="line.682"></a>
+<FONT color="green">683</FONT>    <a name="line.683"></a>
+<FONT color="green">684</FONT>        RemovalNotification(@Nullable K key, @Nullable V value, RemovalCause cause) {<a name="line.684"></a>
+<FONT color="green">685</FONT>          super(key, value);<a name="line.685"></a>
+<FONT color="green">686</FONT>          this.cause = cause;<a name="line.686"></a>
+<FONT color="green">687</FONT>        }<a name="line.687"></a>
+<FONT color="green">688</FONT>    <a name="line.688"></a>
+<FONT color="green">689</FONT>        /**<a name="line.689"></a>
+<FONT color="green">690</FONT>         * Returns the cause for which the entry was removed.<a name="line.690"></a>
+<FONT color="green">691</FONT>         */<a name="line.691"></a>
+<FONT color="green">692</FONT>        public RemovalCause getCause() {<a name="line.692"></a>
+<FONT color="green">693</FONT>          return cause;<a name="line.693"></a>
+<FONT color="green">694</FONT>        }<a name="line.694"></a>
+<FONT color="green">695</FONT>    <a name="line.695"></a>
+<FONT color="green">696</FONT>        /**<a name="line.696"></a>
+<FONT color="green">697</FONT>         * Returns {@code true} if there was an automatic removal due to eviction (the cause is neither<a name="line.697"></a>
+<FONT color="green">698</FONT>         * {@link RemovalCause#EXPLICIT} nor {@link RemovalCause#REPLACED}).<a name="line.698"></a>
+<FONT color="green">699</FONT>         */<a name="line.699"></a>
+<FONT color="green">700</FONT>        public boolean wasEvicted() {<a name="line.700"></a>
+<FONT color="green">701</FONT>          return cause.wasEvicted();<a name="line.701"></a>
+<FONT color="green">702</FONT>        }<a name="line.702"></a>
+<FONT color="green">703</FONT>      }<a name="line.703"></a>
+<FONT color="green">704</FONT>    <a name="line.704"></a>
+<FONT color="green">705</FONT>      /**<a name="line.705"></a>
+<FONT color="green">706</FONT>       * The reason why an entry was removed.<a name="line.706"></a>
+<FONT color="green">707</FONT>       */<a name="line.707"></a>
+<FONT color="green">708</FONT>      enum RemovalCause {<a name="line.708"></a>
+<FONT color="green">709</FONT>        /**<a name="line.709"></a>
+<FONT color="green">710</FONT>         * The entry was manually removed by the user. This can result from the user invoking<a name="line.710"></a>
+<FONT color="green">711</FONT>         * {@link Map#remove}, {@link ConcurrentMap#remove}, or {@link java.util.Iterator#remove}.<a name="line.711"></a>
+<FONT color="green">712</FONT>         */<a name="line.712"></a>
+<FONT color="green">713</FONT>        EXPLICIT {<a name="line.713"></a>
+<FONT color="green">714</FONT>          @Override<a name="line.714"></a>
+<FONT color="green">715</FONT>          boolean wasEvicted() {<a name="line.715"></a>
+<FONT color="green">716</FONT>            return false;<a name="line.716"></a>
+<FONT color="green">717</FONT>          }<a name="line.717"></a>
+<FONT color="green">718</FONT>        },<a name="line.718"></a>
+<FONT color="green">719</FONT>    <a name="line.719"></a>
+<FONT color="green">720</FONT>        /**<a name="line.720"></a>
+<FONT color="green">721</FONT>         * The entry itself was not actually removed, but its value was replaced by the user. This can<a name="line.721"></a>
+<FONT color="green">722</FONT>         * result from the user invoking {@link Map#put}, {@link Map#putAll},<a name="line.722"></a>
+<FONT color="green">723</FONT>         * {@link ConcurrentMap#replace(Object, Object)}, or<a name="line.723"></a>
+<FONT color="green">724</FONT>         * {@link ConcurrentMap#replace(Object, Object, Object)}.<a name="line.724"></a>
+<FONT color="green">725</FONT>         */<a name="line.725"></a>
+<FONT color="green">726</FONT>        REPLACED {<a name="line.726"></a>
+<FONT color="green">727</FONT>          @Override<a name="line.727"></a>
+<FONT color="green">728</FONT>          boolean wasEvicted() {<a name="line.728"></a>
+<FONT color="green">729</FONT>            return false;<a name="line.729"></a>
+<FONT color="green">730</FONT>          }<a name="line.730"></a>
+<FONT color="green">731</FONT>        },<a name="line.731"></a>
+<FONT color="green">732</FONT>    <a name="line.732"></a>
+<FONT color="green">733</FONT>        /**<a name="line.733"></a>
+<FONT color="green">734</FONT>         * The entry was removed automatically because its key or value was garbage-collected. This<a name="line.734"></a>
+<FONT color="green">735</FONT>         * can occur when using {@link #softKeys}, {@link #softValues}, {@link #weakKeys}, or {@link<a name="line.735"></a>
+<FONT color="green">736</FONT>         * #weakValues}.<a name="line.736"></a>
+<FONT color="green">737</FONT>         */<a name="line.737"></a>
+<FONT color="green">738</FONT>        COLLECTED {<a name="line.738"></a>
+<FONT color="green">739</FONT>          @Override<a name="line.739"></a>
+<FONT color="green">740</FONT>          boolean wasEvicted() {<a name="line.740"></a>
+<FONT color="green">741</FONT>            return true;<a name="line.741"></a>
+<FONT color="green">742</FONT>          }<a name="line.742"></a>
+<FONT color="green">743</FONT>        },<a name="line.743"></a>
+<FONT color="green">744</FONT>    <a name="line.744"></a>
+<FONT color="green">745</FONT>        /**<a name="line.745"></a>
+<FONT color="green">746</FONT>         * The entry's expiration timestamp has passed. This can occur when using {@link<a name="line.746"></a>
+<FONT color="green">747</FONT>         * #expireAfterWrite} or {@link #expireAfterAccess}.<a name="line.747"></a>
+<FONT color="green">748</FONT>         */<a name="line.748"></a>
+<FONT color="green">749</FONT>        EXPIRED {<a name="line.749"></a>
+<FONT color="green">750</FONT>          @Override<a name="line.750"></a>
+<FONT color="green">751</FONT>          boolean wasEvicted() {<a name="line.751"></a>
+<FONT color="green">752</FONT>            return true;<a name="line.752"></a>
+<FONT color="green">753</FONT>          }<a name="line.753"></a>
+<FONT color="green">754</FONT>        },<a name="line.754"></a>
+<FONT color="green">755</FONT>    <a name="line.755"></a>
+<FONT color="green">756</FONT>        /**<a name="line.756"></a>
+<FONT color="green">757</FONT>         * The entry was evicted due to size constraints. This can occur when using {@link<a name="line.757"></a>
+<FONT color="green">758</FONT>         * #maximumSize}.<a name="line.758"></a>
+<FONT color="green">759</FONT>         */<a name="line.759"></a>
+<FONT color="green">760</FONT>        SIZE {<a name="line.760"></a>
+<FONT color="green">761</FONT>          @Override<a name="line.761"></a>
+<FONT color="green">762</FONT>          boolean wasEvicted() {<a name="line.762"></a>
+<FONT color="green">763</FONT>            return true;<a name="line.763"></a>
+<FONT color="green">764</FONT>          }<a name="line.764"></a>
+<FONT color="green">765</FONT>        };<a name="line.765"></a>
+<FONT color="green">766</FONT>    <a name="line.766"></a>
+<FONT color="green">767</FONT>        /**<a name="line.767"></a>
+<FONT color="green">768</FONT>         * Returns {@code true} if there was an automatic removal due to eviction (the cause is neither<a name="line.768"></a>
+<FONT color="green">769</FONT>         * {@link #EXPLICIT} nor {@link #REPLACED}).<a name="line.769"></a>
+<FONT color="green">770</FONT>         */<a name="line.770"></a>
+<FONT color="green">771</FONT>        abstract boolean wasEvicted();<a name="line.771"></a>
+<FONT color="green">772</FONT>      }<a name="line.772"></a>
+<FONT color="green">773</FONT>    <a name="line.773"></a>
+<FONT color="green">774</FONT>      /** A map that is always empty and evicts on insertion. */<a name="line.774"></a>
+<FONT color="green">775</FONT>      static class NullConcurrentMap&lt;K, V&gt; extends AbstractMap&lt;K, V&gt;<a name="line.775"></a>
+<FONT color="green">776</FONT>          implements ConcurrentMap&lt;K, V&gt;, Serializable {<a name="line.776"></a>
+<FONT color="green">777</FONT>        private static final long serialVersionUID = 0;<a name="line.777"></a>
+<FONT color="green">778</FONT>    <a name="line.778"></a>
+<FONT color="green">779</FONT>        private final RemovalListener&lt;K, V&gt; removalListener;<a name="line.779"></a>
+<FONT color="green">780</FONT>        private final RemovalCause removalCause;<a name="line.780"></a>
+<FONT color="green">781</FONT>    <a name="line.781"></a>
+<FONT color="green">782</FONT>        NullConcurrentMap(MapMaker mapMaker) {<a name="line.782"></a>
+<FONT color="green">783</FONT>          removalListener = mapMaker.getRemovalListener();<a name="line.783"></a>
+<FONT color="green">784</FONT>          removalCause = mapMaker.nullRemovalCause;<a name="line.784"></a>
+<FONT color="green">785</FONT>        }<a name="line.785"></a>
+<FONT color="green">786</FONT>    <a name="line.786"></a>
+<FONT color="green">787</FONT>        // implements ConcurrentMap<a name="line.787"></a>
+<FONT color="green">788</FONT>    <a name="line.788"></a>
+<FONT color="green">789</FONT>        @Override<a name="line.789"></a>
+<FONT color="green">790</FONT>        public boolean containsKey(@Nullable Object key) {<a name="line.790"></a>
+<FONT color="green">791</FONT>          return false;<a name="line.791"></a>
+<FONT color="green">792</FONT>        }<a name="line.792"></a>
+<FONT color="green">793</FONT>    <a name="line.793"></a>
+<FONT color="green">794</FONT>        @Override<a name="line.794"></a>
+<FONT color="green">795</FONT>        public boolean containsValue(@Nullable Object value) {<a name="line.795"></a>
+<FONT color="green">796</FONT>          return false;<a name="line.796"></a>
+<FONT color="green">797</FONT>        }<a name="line.797"></a>
+<FONT color="green">798</FONT>    <a name="line.798"></a>
+<FONT color="green">799</FONT>        @Override<a name="line.799"></a>
+<FONT color="green">800</FONT>        public V get(@Nullable Object key) {<a name="line.800"></a>
+<FONT color="green">801</FONT>          return null;<a name="line.801"></a>
+<FONT color="green">802</FONT>        }<a name="line.802"></a>
+<FONT color="green">803</FONT>    <a name="line.803"></a>
+<FONT color="green">804</FONT>        void notifyRemoval(K key, V value) {<a name="line.804"></a>
+<FONT color="green">805</FONT>          RemovalNotification&lt;K, V&gt; notification =<a name="line.805"></a>
+<FONT color="green">806</FONT>              new RemovalNotification&lt;K, V&gt;(key, value, removalCause);<a name="line.806"></a>
+<FONT color="green">807</FONT>          removalListener.onRemoval(notification);<a name="line.807"></a>
+<FONT color="green">808</FONT>        }<a name="line.808"></a>
+<FONT color="green">809</FONT>    <a name="line.809"></a>
+<FONT color="green">810</FONT>        @Override<a name="line.810"></a>
+<FONT color="green">811</FONT>        public V put(K key, V value) {<a name="line.811"></a>
+<FONT color="green">812</FONT>          checkNotNull(key);<a name="line.812"></a>
+<FONT color="green">813</FONT>          checkNotNull(value);<a name="line.813"></a>
+<FONT color="green">814</FONT>          notifyRemoval(key, value);<a name="line.814"></a>
+<FONT color="green">815</FONT>          return null;<a name="line.815"></a>
+<FONT color="green">816</FONT>        }<a name="line.816"></a>
+<FONT color="green">817</FONT>    <a name="line.817"></a>
+<FONT color="green">818</FONT>        @Override<a name="line.818"></a>
+<FONT color="green">819</FONT>        public V putIfAbsent(K key, V value) {<a name="line.819"></a>
+<FONT color="green">820</FONT>          return put(key, value);<a name="line.820"></a>
+<FONT color="green">821</FONT>        }<a name="line.821"></a>
+<FONT color="green">822</FONT>    <a name="line.822"></a>
+<FONT color="green">823</FONT>        @Override<a name="line.823"></a>
+<FONT color="green">824</FONT>        public V remove(@Nullable Object key) {<a name="line.824"></a>
+<FONT color="green">825</FONT>          return null;<a name="line.825"></a>
+<FONT color="green">826</FONT>        }<a name="line.826"></a>
+<FONT color="green">827</FONT>    <a name="line.827"></a>
+<FONT color="green">828</FONT>        @Override<a name="line.828"></a>
+<FONT color="green">829</FONT>        public boolean remove(@Nullable Object key, @Nullable Object value) {<a name="line.829"></a>
+<FONT color="green">830</FONT>          return false;<a name="line.830"></a>
+<FONT color="green">831</FONT>        }<a name="line.831"></a>
+<FONT color="green">832</FONT>    <a name="line.832"></a>
+<FONT color="green">833</FONT>        @Override<a name="line.833"></a>
+<FONT color="green">834</FONT>        public V replace(K key, V value) {<a name="line.834"></a>
+<FONT color="green">835</FONT>          checkNotNull(key);<a name="line.835"></a>
+<FONT color="green">836</FONT>          checkNotNull(value);<a name="line.836"></a>
+<FONT color="green">837</FONT>          return null;<a name="line.837"></a>
+<FONT color="green">838</FONT>        }<a name="line.838"></a>
+<FONT color="green">839</FONT>    <a name="line.839"></a>
+<FONT color="green">840</FONT>        @Override<a name="line.840"></a>
+<FONT color="green">841</FONT>        public boolean replace(K key, @Nullable V oldValue, V newValue) {<a name="line.841"></a>
+<FONT color="green">842</FONT>          checkNotNull(key);<a name="line.842"></a>
+<FONT color="green">843</FONT>          checkNotNull(newValue);<a name="line.843"></a>
+<FONT color="green">844</FONT>          return false;<a name="line.844"></a>
+<FONT color="green">845</FONT>        }<a name="line.845"></a>
+<FONT color="green">846</FONT>    <a name="line.846"></a>
+<FONT color="green">847</FONT>        @Override<a name="line.847"></a>
+<FONT color="green">848</FONT>        public Set&lt;Entry&lt;K, V&gt;&gt; entrySet() {<a name="line.848"></a>
+<FONT color="green">849</FONT>          return Collections.emptySet();<a name="line.849"></a>
+<FONT color="green">850</FONT>        }<a name="line.850"></a>
+<FONT color="green">851</FONT>      }<a name="line.851"></a>
+<FONT color="green">852</FONT>    <a name="line.852"></a>
+<FONT color="green">853</FONT>      /** Computes on retrieval and evicts the result. */<a name="line.853"></a>
+<FONT color="green">854</FONT>      static final class NullComputingConcurrentMap&lt;K, V&gt; extends NullConcurrentMap&lt;K, V&gt; {<a name="line.854"></a>
+<FONT color="green">855</FONT>        private static final long serialVersionUID = 0;<a name="line.855"></a>
+<FONT color="green">856</FONT>    <a name="line.856"></a>
+<FONT color="green">857</FONT>        final Function&lt;? super K, ? extends V&gt; computingFunction;<a name="line.857"></a>
+<FONT color="green">858</FONT>    <a name="line.858"></a>
+<FONT color="green">859</FONT>        NullComputingConcurrentMap(<a name="line.859"></a>
+<FONT color="green">860</FONT>            MapMaker mapMaker, Function&lt;? super K, ? extends V&gt; computingFunction) {<a name="line.860"></a>
+<FONT color="green">861</FONT>          super(mapMaker);<a name="line.861"></a>
+<FONT color="green">862</FONT>          this.computingFunction = checkNotNull(computingFunction);<a name="line.862"></a>
+<FONT color="green">863</FONT>        }<a name="line.863"></a>
+<FONT color="green">864</FONT>    <a name="line.864"></a>
+<FONT color="green">865</FONT>        @SuppressWarnings("unchecked") // unsafe, which is why Cache is preferred<a name="line.865"></a>
+<FONT color="green">866</FONT>        @Override<a name="line.866"></a>
+<FONT color="green">867</FONT>        public V get(Object k) {<a name="line.867"></a>
+<FONT color="green">868</FONT>          K key = (K) k;<a name="line.868"></a>
+<FONT color="green">869</FONT>          V value = compute(key);<a name="line.869"></a>
+<FONT color="green">870</FONT>          checkNotNull(value, computingFunction + " returned null for key " + key + ".");<a name="line.870"></a>
+<FONT color="green">871</FONT>          notifyRemoval(key, value);<a name="line.871"></a>
+<FONT color="green">872</FONT>          return value;<a name="line.872"></a>
+<FONT color="green">873</FONT>        }<a name="line.873"></a>
+<FONT color="green">874</FONT>    <a name="line.874"></a>
+<FONT color="green">875</FONT>        private V compute(K key) {<a name="line.875"></a>
+<FONT color="green">876</FONT>          checkNotNull(key);<a name="line.876"></a>
+<FONT color="green">877</FONT>          try {<a name="line.877"></a>
+<FONT color="green">878</FONT>            return computingFunction.apply(key);<a name="line.878"></a>
+<FONT color="green">879</FONT>          } catch (ComputationException e) {<a name="line.879"></a>
+<FONT color="green">880</FONT>            throw e;<a name="line.880"></a>
+<FONT color="green">881</FONT>          } catch (Throwable t) {<a name="line.881"></a>
+<FONT color="green">882</FONT>            throw new ComputationException(t);<a name="line.882"></a>
+<FONT color="green">883</FONT>          }<a name="line.883"></a>
+<FONT color="green">884</FONT>        }<a name="line.884"></a>
+<FONT color="green">885</FONT>      }<a name="line.885"></a>
+<FONT color="green">886</FONT>    <a name="line.886"></a>
+<FONT color="green">887</FONT>    }<a name="line.887"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

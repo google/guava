@@ -1,0 +1,776 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Shorts (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Shorts (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/primitives/Primitives.html" title="class in com.google.common.primitives"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/primitives/SignedBytes.html" title="class in com.google.common.primitives"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/primitives/Shorts.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Shorts.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.primitives</FONT>
+<BR>
+Class Shorts</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.primitives.Shorts</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</A>=true)
+</FONT>public final class <B>Shorts</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
+</PRE>
+
+<P>
+Static utility methods pertaining to <code>short</code> primitives, that are not
+ already found in either <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Short.html?is-external=true" title="class or interface in java.lang"><CODE>Short</CODE></A> or <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Arrays.html?is-external=true" title="class or interface in java.util"><CODE>Arrays</CODE></A>.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>1</DD>
+<DT><B>Author:</B></DT>
+  <DD>Kevin Bourrillion</DD>
+</DL>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#BYTES">BYTES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The number of bytes required to represent a primitive <code>short</code>
+ value.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Short.html?is-external=true" title="class or interface in java.lang">Short</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#asList(short...)">asList</A></B>(short...&nbsp;backingArray)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a fixed-size list backed by the specified array, similar to <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Arrays.html?is-external=true#asList(T...)" title="class or interface in java.util"><CODE>Arrays.asList(Object[])</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#checkedCast(long)">checkedCast</A></B>(long&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>short</code> value that is equal to <code>value</code>, if
+ possible.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#compare(short, short)">compare</A></B>(short&nbsp;a,
+        short&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compares the two specified <code>short</code> values.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#concat(short[]...)">concat</A></B>(short[]...&nbsp;arrays)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the values from each provided array combined into a single array.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#contains(short[], short)">contains</A></B>(short[]&nbsp;array,
+         short&nbsp;target)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>true</code> if <code>target</code> is present as an element anywhere in
+ <code>array</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#ensureCapacity(short[], int, int)">ensureCapacity</A></B>(short[]&nbsp;array,
+               int&nbsp;minLength,
+               int&nbsp;padding)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an array containing the same values as <code>array</code>, but
+ guaranteed to be of a specified minimum length.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#fromByteArray(byte[])">fromByteArray</A></B>(byte[]&nbsp;bytes)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>short</code> value whose big-endian representation is
+ stored in the first 2 bytes of <code>bytes</code>; equivalent to <code>ByteBuffer.wrap(bytes).getShort()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#fromBytes(byte, byte)">fromBytes</A></B>(byte&nbsp;b1,
+          byte&nbsp;b2)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>short</code> value whose byte representation is the given 2
+ bytes, in big-endian order; equivalent to <code>Shorts.fromByteArray(new
+ byte[] {b1, b2})</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#hashCode(short)">hashCode</A></B>(short&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a hash code for <code>value</code>; equal to the result of invoking
+ <code>((Short) value).hashCode()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#indexOf(short[], short)">indexOf</A></B>(short[]&nbsp;array,
+        short&nbsp;target)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the index of the first appearance of the value <code>target</code> in
+ <code>array</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#indexOf(short[], short[])">indexOf</A></B>(short[]&nbsp;array,
+        short[]&nbsp;target)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#join(java.lang.String, short...)">join</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;separator,
+     short...&nbsp;array)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string containing the supplied <code>short</code> values separated
+ by <code>separator</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#lastIndexOf(short[], short)">lastIndexOf</A></B>(short[]&nbsp;array,
+            short&nbsp;target)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the index of the last appearance of the value <code>target</code> in
+ <code>array</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</A>&lt;short[]&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#lexicographicalComparator()">lexicographicalComparator</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a comparator that compares two <code>short</code> arrays
+ lexicographically.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#max(short...)">max</A></B>(short...&nbsp;array)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the greatest value present in <code>array</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#min(short...)">min</A></B>(short...&nbsp;array)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the least value present in <code>array</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#saturatedCast(long)">saturatedCast</A></B>(long&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>short</code> nearest in value to <code>value</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#toArray(java.util.Collection)">toArray</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Short.html?is-external=true" title="class or interface in java.lang">Short</A>&gt;&nbsp;collection)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies a collection of <code>Short</code> instances into a new array of
+ primitive <code>short</code> values.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;byte[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/primitives/Shorts.html#toByteArray(short)">toByteArray</A></B>(short&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a big-endian representation of <code>value</code> in a 2-element byte
+ array; equivalent to <code>ByteBuffer.allocate(2).putShort(value).array()</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="BYTES"><!-- --></A><H3>
+BYTES</H3>
+<PRE>
+public static final int <B>BYTES</B></PRE>
+<DL>
+<DD>The number of bytes required to represent a primitive <code>short</code>
+ value.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#com.google.common.primitives.Shorts.BYTES">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="hashCode(short)"><!-- --></A><H3>
+hashCode</H3>
+<PRE>
+public static int <B>hashCode</B>(short&nbsp;value)</PRE>
+<DL>
+<DD>Returns a hash code for <code>value</code>; equal to the result of invoking
+ <code>((Short) value).hashCode()</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - a primitive <code>short</code> value
+<DT><B>Returns:</B><DD>a hash code for the value</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="checkedCast(long)"><!-- --></A><H3>
+checkedCast</H3>
+<PRE>
+public static short <B>checkedCast</B>(long&nbsp;value)</PRE>
+<DL>
+<DD>Returns the <code>short</code> value that is equal to <code>value</code>, if
+ possible.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - any value in the range of the <code>short</code> type
+<DT><B>Returns:</B><DD>the <code>short</code> value that equals <code>value</code>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>value</code> is greater than <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Short.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><CODE>Short.MAX_VALUE</CODE></A> or less than <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Short.html?is-external=true#MIN_VALUE" title="class or interface in java.lang"><CODE>Short.MIN_VALUE</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="saturatedCast(long)"><!-- --></A><H3>
+saturatedCast</H3>
+<PRE>
+public static short <B>saturatedCast</B>(long&nbsp;value)</PRE>
+<DL>
+<DD>Returns the <code>short</code> nearest in value to <code>value</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - any <code>long</code> value
+<DT><B>Returns:</B><DD>the same value cast to <code>short</code> if it is in the range of the
+     <code>short</code> type, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Short.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><CODE>Short.MAX_VALUE</CODE></A> if it is too large,
+     or <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Short.html?is-external=true#MIN_VALUE" title="class or interface in java.lang"><CODE>Short.MIN_VALUE</CODE></A> if it is too small</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="compare(short, short)"><!-- --></A><H3>
+compare</H3>
+<PRE>
+public static int <B>compare</B>(short&nbsp;a,
+                          short&nbsp;b)</PRE>
+<DL>
+<DD>Compares the two specified <code>short</code> values. The sign of the value
+ returned is the same as that of <code>((Short) a).compareTo(b)</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>a</CODE> - the first <code>short</code> to compare<DD><CODE>b</CODE> - the second <code>short</code> to compare
+<DT><B>Returns:</B><DD>a negative value if <code>a</code> is less than <code>b</code>; a positive
+     value if <code>a</code> is greater than <code>b</code>; or zero if they are equal</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="contains(short[], short)"><!-- --></A><H3>
+contains</H3>
+<PRE>
+public static boolean <B>contains</B>(short[]&nbsp;array,
+                               short&nbsp;target)</PRE>
+<DL>
+<DD>Returns <code>true</code> if <code>target</code> is present as an element anywhere in
+ <code>array</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>array</CODE> - an array of <code>short</code> values, possibly empty<DD><CODE>target</CODE> - a primitive <code>short</code> value
+<DT><B>Returns:</B><DD><code>true</code> if <code>array[i] == target</code> for some value of <code>i</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="indexOf(short[], short)"><!-- --></A><H3>
+indexOf</H3>
+<PRE>
+public static int <B>indexOf</B>(short[]&nbsp;array,
+                          short&nbsp;target)</PRE>
+<DL>
+<DD>Returns the index of the first appearance of the value <code>target</code> in
+ <code>array</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>array</CODE> - an array of <code>short</code> values, possibly empty<DD><CODE>target</CODE> - a primitive <code>short</code> value
+<DT><B>Returns:</B><DD>the least index <code>i</code> for which <code>array[i] == target</code>, or
+     <code>-1</code> if no such index exists.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="indexOf(short[], short[])"><!-- --></A><H3>
+indexOf</H3>
+<PRE>
+public static int <B>indexOf</B>(short[]&nbsp;array,
+                          short[]&nbsp;target)</PRE>
+<DL>
+<DD>Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.
+
+ <p>More formally, returns the lowest index <code>i</code> such that <code>java.util.Arrays.copyOfRange(array, i, i + target.length)</code> contains exactly
+ the same elements as <code>target</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>array</CODE> - the array to search for the sequence <code>target</code><DD><CODE>target</CODE> - the array to search for as a sub-sequence of <code>array</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="lastIndexOf(short[], short)"><!-- --></A><H3>
+lastIndexOf</H3>
+<PRE>
+public static int <B>lastIndexOf</B>(short[]&nbsp;array,
+                              short&nbsp;target)</PRE>
+<DL>
+<DD>Returns the index of the last appearance of the value <code>target</code> in
+ <code>array</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>array</CODE> - an array of <code>short</code> values, possibly empty<DD><CODE>target</CODE> - a primitive <code>short</code> value
+<DT><B>Returns:</B><DD>the greatest index <code>i</code> for which <code>array[i] == target</code>,
+     or <code>-1</code> if no such index exists.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="min(short...)"><!-- --></A><H3>
+min</H3>
+<PRE>
+public static short <B>min</B>(short...&nbsp;array)</PRE>
+<DL>
+<DD>Returns the least value present in <code>array</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>array</CODE> - a <i>nonempty</i> array of <code>short</code> values
+<DT><B>Returns:</B><DD>the value present in <code>array</code> that is less than or equal to
+     every other value in the array
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>array</code> is empty</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="max(short...)"><!-- --></A><H3>
+max</H3>
+<PRE>
+public static short <B>max</B>(short...&nbsp;array)</PRE>
+<DL>
+<DD>Returns the greatest value present in <code>array</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>array</CODE> - a <i>nonempty</i> array of <code>short</code> values
+<DT><B>Returns:</B><DD>the value present in <code>array</code> that is greater than or equal to
+     every other value in the array
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>array</code> is empty</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="concat(short[]...)"><!-- --></A><H3>
+concat</H3>
+<PRE>
+public static short[] <B>concat</B>(short[]...&nbsp;arrays)</PRE>
+<DL>
+<DD>Returns the values from each provided array combined into a single array.
+ For example, <code>concat(new short[] {a, b}, new short[] {}, new
+ short[] {c}</code> returns the array <code>{a, b, c}</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>arrays</CODE> - zero or more <code>short</code> arrays
+<DT><B>Returns:</B><DD>a single array containing all the values from the source arrays, in
+     order</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toByteArray(short)"><!-- --></A><H3>
+toByteArray</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</A>="doesn\'t work")
+</FONT>public static byte[] <B>toByteArray</B>(short&nbsp;value)</PRE>
+<DL>
+<DD>Returns a big-endian representation of <code>value</code> in a 2-element byte
+ array; equivalent to <code>ByteBuffer.allocate(2).putShort(value).array()</code>.  For example, the input
+ value <code>(short) 0x1234</code> would yield the byte array <code>{0x12,
+ 0x34}</code>.
+
+ <p>If you need to convert and concatenate several values (possibly even of
+ different types), use a shared <A HREF="http://java.sun.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio"><CODE>ByteBuffer</CODE></A> instance, or use
+ <A HREF="../../../../com/google/common/io/ByteStreams.html#newDataOutput()"><CODE>ByteStreams.newDataOutput()</CODE></A> to get a growable
+ buffer.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fromByteArray(byte[])"><!-- --></A><H3>
+fromByteArray</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</A>="doesn\'t work")
+</FONT>public static short <B>fromByteArray</B>(byte[]&nbsp;bytes)</PRE>
+<DL>
+<DD>Returns the <code>short</code> value whose big-endian representation is
+ stored in the first 2 bytes of <code>bytes</code>; equivalent to <code>ByteBuffer.wrap(bytes).getShort()</code>. For example, the input byte array
+ <code>{0x54, 0x32}</code> would yield the <code>short</code> value <code>0x5432</code>.
+
+ <p>Arguably, it's preferable to use <A HREF="http://java.sun.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio"><CODE>ByteBuffer</CODE></A>; that
+ library exposes much more flexibility at little cost in readability.
+<P>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>bytes</code> has fewer than 2
+     elements</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fromBytes(byte, byte)"><!-- --></A><H3>
+fromBytes</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</A>="doesn\'t work")
+</FONT>public static short <B>fromBytes</B>(byte&nbsp;b1,
+                                                   byte&nbsp;b2)</PRE>
+<DL>
+<DD>Returns the <code>short</code> value whose byte representation is the given 2
+ bytes, in big-endian order; equivalent to <code>Shorts.fromByteArray(new
+ byte[] {b1, b2})</code>.
+<P>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="ensureCapacity(short[], int, int)"><!-- --></A><H3>
+ensureCapacity</H3>
+<PRE>
+public static short[] <B>ensureCapacity</B>(short[]&nbsp;array,
+                                     int&nbsp;minLength,
+                                     int&nbsp;padding)</PRE>
+<DL>
+<DD>Returns an array containing the same values as <code>array</code>, but
+ guaranteed to be of a specified minimum length. If <code>array</code> already
+ has a length of at least <code>minLength</code>, it is returned directly.
+ Otherwise, a new array of size <code>minLength + padding</code> is returned,
+ containing the values of <code>array</code>, and zeroes in the remaining places.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>array</CODE> - the source array<DD><CODE>minLength</CODE> - the minimum length the returned array must guarantee<DD><CODE>padding</CODE> - an extra amount to "grow" the array by if growth is
+     necessary
+<DT><B>Returns:</B><DD>an array containing the values of <code>array</code>, with guaranteed
+     minimum length <code>minLength</code>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>minLength</code> or <code>padding</code> is
+     negative</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="join(java.lang.String, short...)"><!-- --></A><H3>
+join</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>join</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;separator,
+                          short...&nbsp;array)</PRE>
+<DL>
+<DD>Returns a string containing the supplied <code>short</code> values separated
+ by <code>separator</code>. For example, <code>join("-", (short) 1, (short) 2,
+ (short) 3)</code> returns the string <code>"1-2-3"</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>separator</CODE> - the text that should appear between consecutive values in
+     the resulting string (but not at the start or end)<DD><CODE>array</CODE> - an array of <code>short</code> values, possibly empty</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="lexicographicalComparator()"><!-- --></A><H3>
+lexicographicalComparator</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</A>&lt;short[]&gt; <B>lexicographicalComparator</B>()</PRE>
+<DL>
+<DD>Returns a comparator that compares two <code>short</code> arrays
+ lexicographically. That is, it compares, using <A HREF="../../../../com/google/common/primitives/Shorts.html#compare(short, short)"><CODE>compare(short, short)</CODE></A>), the first pair of values that follow any
+ common prefix, or when one array is a prefix of the other, treats the
+ shorter array as the lesser. For example, <code>[] &lt; [(short) 1] &lt;
+ [(short) 1, (short) 2] &lt; [(short) 2]</code>.
+
+ <p>The returned comparator is inconsistent with <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><CODE>Object.equals(Object)</CODE></A> (since arrays support only identity equality), but
+ it is consistent with <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Arrays.html?is-external=true#equals(short[], short[])" title="class or interface in java.util"><CODE>Arrays.equals(short[], short[])</CODE></A>.
+<P>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>2</DD>
+<DT><B>See Also:</B><DD><a href="http://en.wikipedia.org/wiki/Lexicographical_order">
+     Lexicographical order</a> article at Wikipedia</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toArray(java.util.Collection)"><!-- --></A><H3>
+toArray</H3>
+<PRE>
+public static short[] <B>toArray</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Short.html?is-external=true" title="class or interface in java.lang">Short</A>&gt;&nbsp;collection)</PRE>
+<DL>
+<DD>Copies a collection of <code>Short</code> instances into a new array of
+ primitive <code>short</code> values.
+
+ <p>Elements are copied from the argument collection as if by <code>collection.toArray()</code>.  Calling this method is as thread-safe as calling
+ that method.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>collection</CODE> - a collection of <code>Short</code> objects
+<DT><B>Returns:</B><DD>an array containing the same values as <code>collection</code>, in the
+     same order, converted to primitives
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</A></CODE> - if <code>collection</code> or any of its elements
+     is null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="asList(short...)"><!-- --></A><H3>
+asList</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Short.html?is-external=true" title="class or interface in java.lang">Short</A>&gt; <B>asList</B>(short...&nbsp;backingArray)</PRE>
+<DL>
+<DD>Returns a fixed-size list backed by the specified array, similar to <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Arrays.html?is-external=true#asList(T...)" title="class or interface in java.util"><CODE>Arrays.asList(Object[])</CODE></A>. The list supports <A HREF="http://java.sun.com/javase/6/docs/api/java/util/List.html?is-external=true#set(int, E)" title="class or interface in java.util"><CODE>List.set(int, Object)</CODE></A>,
+ but any attempt to set a value to <code>null</code> will result in a <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><CODE>NullPointerException</CODE></A>.
+
+ <p>The returned list maintains the values, but not the identities, of
+ <code>Short</code> objects written to or read from it.  For example, whether
+ <code>list.get(0) == list.get(0)</code> is true for the returned list is
+ unspecified.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>backingArray</CODE> - the array to back the list
+<DT><B>Returns:</B><DD>a list view of the array</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/primitives/Primitives.html" title="class in com.google.common.primitives"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/primitives/SignedBytes.html" title="class in com.google.common.primitives"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/primitives/Shorts.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Shorts.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

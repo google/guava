@@ -1,0 +1,478 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ForwardingConcurrentMap (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ForwardingConcurrentMap (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingIterator.html" title="class in com.google.common.collect"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/collect/ForwardingConcurrentMap.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ForwardingConcurrentMap.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.collect</FONT>
+<BR>
+Class ForwardingConcurrentMap&lt;K,V&gt;</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingObject</A>
+      <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingMap</A>&lt;K,V&gt;
+          <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.collect.ForwardingConcurrentMap&lt;K,V&gt;</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</A>&lt;K,V&gt;, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>
+</FONT>public abstract class <B>ForwardingConcurrentMap&lt;K,V&gt;</B><DT>extends <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</A>&lt;K,V&gt;<DT>implements <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</A>&lt;K,V&gt;</DL>
+</PRE>
+
+<P>
+A concurrent map which forwards all its method calls to another concurrent
+ map. Subclasses should override one or more methods to modify the behavior of
+ the backing map as desired per the <a
+ href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>2 (imported from Google Collections Library)</DD>
+<DT><B>Author:</B></DT>
+  <DD>Charles Fry</DD>
+</DL>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="nested_classes_inherited_from_class_java.util.Map"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from interface java.util.<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">K</A>,<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">V</A>&gt;</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected </CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html#ForwardingConcurrentMap()">ForwardingConcurrentMap</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constructor for use by subclasses.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected abstract &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html#delegate()">delegate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the backing delegate instance that methods are forwarded to.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html#putIfAbsent(K, V)">putIfAbsent</A></B>(<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>&nbsp;key,
+            <A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If the specified key is not already associated
+ with a value, associate it with the given value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html#remove(java.lang.Object, java.lang.Object)">remove</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key,
+       <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes the entry for a key only if currently mapped to a given value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html#replace(K, V)">replace</A></B>(<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>&nbsp;key,
+        <A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the entry for a key only if currently mapped to some value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html#replace(K, V, V)">replace</A></B>(<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>&nbsp;key,
+        <A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&nbsp;oldValue,
+        <A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&nbsp;newValue)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the entry for a key only if currently mapped to a given value.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.google.common.collect.ForwardingMap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class com.google.common.collect.<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../com/google/common/collect/ForwardingMap.html#clear()">clear</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsKey(java.lang.Object)">containsKey</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsValue(java.lang.Object)">containsValue</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()">entrySet</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#equals(java.lang.Object)">equals</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#get(java.lang.Object)">get</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#hashCode()">hashCode</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#isEmpty()">isEmpty</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#keySet()">keySet</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#put(K, V)">put</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#putAll(java.util.Map)">putAll</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#remove(java.lang.Object)">remove</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#size()">size</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardClear()">standardClear</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardContainsKey(java.lang.Object)">standardContainsKey</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardContainsValue(java.lang.Object)">standardContainsValue</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardEntrySet(com.google.common.base.Supplier)">standardEntrySet</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardEquals(java.lang.Object)">standardEquals</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardHashCode()">standardHashCode</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardIsEmpty()">standardIsEmpty</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardKeySet()">standardKeySet</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardPutAll(java.util.Map)">standardPutAll</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardRemove(java.lang.Object)">standardRemove</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardToString()">standardToString</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardValues()">standardValues</A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#values()">values</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.google.common.collect.ForwardingObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class com.google.common.collect.<A HREF="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../com/google/common/collect/ForwardingObject.html#toString()">toString</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.util.Map"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface java.util.<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#clear()" title="class or interface in java.util">clear</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util">containsKey</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsValue(java.lang.Object)" title="class or interface in java.util">containsValue</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#entrySet()" title="class or interface in java.util">entrySet</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#get(java.lang.Object)" title="class or interface in java.util">get</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#hashCode()" title="class or interface in java.util">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#isEmpty()" title="class or interface in java.util">isEmpty</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#keySet()" title="class or interface in java.util">keySet</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#put(K, V)" title="class or interface in java.util">put</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#putAll(java.util.Map)" title="class or interface in java.util">putAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util">remove</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#size()" title="class or interface in java.util">size</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#values()" title="class or interface in java.util">values</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ForwardingConcurrentMap()"><!-- --></A><H3>
+ForwardingConcurrentMap</H3>
+<PRE>
+protected <B>ForwardingConcurrentMap</B>()</PRE>
+<DL>
+<DD>Constructor for use by subclasses.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="delegate()"><!-- --></A><H3>
+delegate</H3>
+<PRE>
+protected abstract <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&gt; <B>delegate</B>()</PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="../../../../com/google/common/collect/ForwardingObject.html#delegate()">ForwardingObject</A></CODE></B></DD>
+<DD>Returns the backing delegate instance that methods are forwarded to.
+ Abstract subclasses generally override this method with an abstract method
+ that has a more specific return type, such as <A HREF="../../../../com/google/common/collect/ForwardingSet.html#delegate()"><CODE>ForwardingSet.delegate()</CODE></A>. Concrete subclasses override this method to supply
+ the instance being decorated.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/ForwardingMap.html#delegate()">delegate</A></CODE> in class <CODE><A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="putIfAbsent(java.lang.Object,java.lang.Object)"><!-- --></A><A NAME="putIfAbsent(K, V)"><!-- --></A><H3>
+putIfAbsent</H3>
+<PRE>
+public <A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A> <B>putIfAbsent</B>(<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>&nbsp;key,
+                     <A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&nbsp;value)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#putIfAbsent(K, V)" title="class or interface in java.util.concurrent">java.util.concurrent.ConcurrentMap</A></CODE></B></DD>
+<DD>If the specified key is not already associated
+ with a value, associate it with the given value.
+ This is equivalent to
+ <pre>
+   if (!map.containsKey(key))
+       return map.put(key, value);
+   else
+       return map.get(key);</pre>
+ except that the action is performed atomically.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#putIfAbsent(K, V)" title="class or interface in java.util.concurrent">putIfAbsent</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key with which the specified value is to be associated<DD><CODE>value</CODE> - value to be associated with the specified key
+<DT><B>Returns:</B><DD>the previous value associated with the specified key, or
+         <tt>null</tt> if there was no mapping for the key.
+         (A <tt>null</tt> return can also indicate that the map
+         previously associated <tt>null</tt> with the key,
+         if the implementation supports null values.)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="remove(java.lang.Object, java.lang.Object)"><!-- --></A><H3>
+remove</H3>
+<PRE>
+public boolean <B>remove</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key,
+                      <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#remove(java.lang.Object, java.lang.Object)" title="class or interface in java.util.concurrent">java.util.concurrent.ConcurrentMap</A></CODE></B></DD>
+<DD>Removes the entry for a key only if currently mapped to a given value.
+ This is equivalent to
+ <pre>
+   if (map.containsKey(key) &amp;&amp; map.get(key).equals(value)) {
+       map.remove(key);
+       return true;
+   } else return false;</pre>
+ except that the action is performed atomically.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#remove(java.lang.Object, java.lang.Object)" title="class or interface in java.util.concurrent">remove</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key with which the specified value is associated<DD><CODE>value</CODE> - value expected to be associated with the specified key
+<DT><B>Returns:</B><DD><tt>true</tt> if the value was removed</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="replace(java.lang.Object,java.lang.Object)"><!-- --></A><A NAME="replace(K, V)"><!-- --></A><H3>
+replace</H3>
+<PRE>
+public <A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A> <B>replace</B>(<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>&nbsp;key,
+                 <A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&nbsp;value)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace(K, V)" title="class or interface in java.util.concurrent">java.util.concurrent.ConcurrentMap</A></CODE></B></DD>
+<DD>Replaces the entry for a key only if currently mapped to some value.
+ This is equivalent to
+ <pre>
+   if (map.containsKey(key)) {
+       return map.put(key, value);
+   } else return null;</pre>
+ except that the action is performed atomically.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace(K, V)" title="class or interface in java.util.concurrent">replace</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key with which the specified value is associated<DD><CODE>value</CODE> - value to be associated with the specified key
+<DT><B>Returns:</B><DD>the previous value associated with the specified key, or
+         <tt>null</tt> if there was no mapping for the key.
+         (A <tt>null</tt> return can also indicate that the map
+         previously associated <tt>null</tt> with the key,
+         if the implementation supports null values.)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="replace(java.lang.Object,java.lang.Object,java.lang.Object)"><!-- --></A><A NAME="replace(K, V, V)"><!-- --></A><H3>
+replace</H3>
+<PRE>
+public boolean <B>replace</B>(<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>&nbsp;key,
+                       <A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&nbsp;oldValue,
+                       <A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&nbsp;newValue)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace(K, V, V)" title="class or interface in java.util.concurrent">java.util.concurrent.ConcurrentMap</A></CODE></B></DD>
+<DD>Replaces the entry for a key only if currently mapped to a given value.
+ This is equivalent to
+ <pre>
+   if (map.containsKey(key) &amp;&amp; map.get(key).equals(oldValue)) {
+       map.put(key, newValue);
+       return true;
+   } else return false;</pre>
+ except that the action is performed atomically.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace(K, V, V)" title="class or interface in java.util.concurrent">replace</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key with which the specified value is associated<DD><CODE>oldValue</CODE> - value expected to be associated with the specified key<DD><CODE>newValue</CODE> - value to be associated with the specified key
+<DT><B>Returns:</B><DD><tt>true</tt> if the value was replaced</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingIterator.html" title="class in com.google.common.collect"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/collect/ForwardingConcurrentMap.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ForwardingConcurrentMap.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

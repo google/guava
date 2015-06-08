@@ -1,0 +1,314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ClassToInstanceMap (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ClassToInstanceMap (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/collect/Collections2.html" title="class in com.google.common.collect"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/collect/ClassToInstanceMap.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ClassToInstanceMap.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.collect</FONT>
+<BR>
+Interface ClassToInstanceMap&lt;B&gt;</H2>
+<DL>
+<DT><DT><B>Type Parameters:</B><DD><CODE>B</CODE> - the common supertype that all entries must share; often this is
+     simply <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang"><CODE>Object</CODE></A></DL>
+<DL>
+<DT><B>All Superinterfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends B&gt;,B&gt;</DD>
+</DL>
+<DL>
+<DT><B>All Known Implementing Classes:</B> <DD><A HREF="../../../../com/google/common/collect/ImmutableClassToInstanceMap.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap</A>, <A HREF="../../../../com/google/common/collect/MutableClassToInstanceMap.html" title="class in com.google.common.collect">MutableClassToInstanceMap</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>
+</FONT>public interface <B>ClassToInstanceMap&lt;B&gt;</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;? extends B&gt;,B&gt;</DL>
+</PRE>
+
+<P>
+A map, each entry of which maps a Java
+ <a href="http://tinyurl.com/2cmwkz">raw type</a> to an instance of that type.
+ In addition to implementing <code>Map</code>, the additional type-safe operations
+ <A HREF="../../../../com/google/common/collect/ClassToInstanceMap.html#putInstance(java.lang.Class, T)"><CODE>putInstance(java.lang.Class<T>, T)</CODE></A> and <A HREF="../../../../com/google/common/collect/ClassToInstanceMap.html#getInstance(java.lang.Class)"><CODE>getInstance(java.lang.Class<T>)</CODE></A> are available.
+
+ <p>Like any other <code>Map&lt;Class, Object&gt;</code>, this map may contain entries
+ for primitive types, and a primitive type and its corresponding wrapper type
+ may map to different values.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>2 (imported from Google Collections Library)</DD>
+<DT><B>Author:</B></DT>
+  <DD>Kevin Bourrillion</DD>
+</DL>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="nested_classes_inherited_from_class_java.util.Map"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from interface java.util.<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">K</A>,<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">V</A>&gt;</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T extends <A HREF="../../../../com/google/common/collect/ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</A>&gt; 
+<BR>
+T</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ClassToInstanceMap.html#getInstance(java.lang.Class)">getInstance</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value the specified class is mapped to, or <code>null</code> if no
+ entry for this class is present.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T extends <A HREF="../../../../com/google/common/collect/ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</A>&gt; 
+<BR>
+T</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ClassToInstanceMap.html#putInstance(java.lang.Class, T)">putInstance</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
+            T&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maps the specified class to the specified value.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.util.Map"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface java.util.<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#clear()" title="class or interface in java.util">clear</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util">containsKey</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsValue(java.lang.Object)" title="class or interface in java.util">containsValue</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#entrySet()" title="class or interface in java.util">entrySet</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#get(java.lang.Object)" title="class or interface in java.util">get</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#hashCode()" title="class or interface in java.util">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#isEmpty()" title="class or interface in java.util">isEmpty</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#keySet()" title="class or interface in java.util">keySet</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#put(K, V)" title="class or interface in java.util">put</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#putAll(java.util.Map)" title="class or interface in java.util">putAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util">remove</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#size()" title="class or interface in java.util">size</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#values()" title="class or interface in java.util">values</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getInstance(java.lang.Class)"><!-- --></A><H3>
+getInstance</H3>
+<PRE>
+&lt;T extends <A HREF="../../../../com/google/common/collect/ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</A>&gt; T <B>getInstance</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type)</PRE>
+<DL>
+<DD>Returns the value the specified class is mapped to, or <code>null</code> if no
+ entry for this class is present. This will only return a value that was
+ bound to this specific class, not a value that may have been bound to a
+ subtype.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="putInstance(java.lang.Class,java.lang.Object)"><!-- --></A><A NAME="putInstance(java.lang.Class, T)"><!-- --></A><H3>
+putInstance</H3>
+<PRE>
+&lt;T extends <A HREF="../../../../com/google/common/collect/ClassToInstanceMap.html" title="type parameter in ClassToInstanceMap">B</A>&gt; T <B>putInstance</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;type,
+                            <FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                            T&nbsp;value)</PRE>
+<DL>
+<DD>Maps the specified class to the specified value. Does <i>not</i> associate
+ this value with any of the class's supertypes.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the value previously associated with this class (possibly <code>null</code>), or <code>null</code> if there was no previous entry.</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/collect/Collections2.html" title="class in com.google.common.collect"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/collect/ClassToInstanceMap.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ClassToInstanceMap.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

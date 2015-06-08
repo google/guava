@@ -1,0 +1,1227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ForwardingMap (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ForwardingMap (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingListMultimap.html" title="class in com.google.common.collect"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingMapEntry.html" title="class in com.google.common.collect"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/collect/ForwardingMap.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ForwardingMap.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.collect</FONT>
+<BR>
+Class ForwardingMap&lt;K,V&gt;</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingObject</A>
+      <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.collect.ForwardingMap&lt;K,V&gt;</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;</DD>
+</DL>
+<DL>
+<DT><B>Direct Known Subclasses:</B> <DD><A HREF="../../../../com/google/common/collect/EnumBiMap.html" title="class in com.google.common.collect">EnumBiMap</A>, <A HREF="../../../../com/google/common/collect/EnumHashBiMap.html" title="class in com.google.common.collect">EnumHashBiMap</A>, <A HREF="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="class in com.google.common.collect">ForwardingConcurrentMap</A>, <A HREF="../../../../com/google/common/collect/ForwardingSortedMap.html" title="class in com.google.common.collect">ForwardingSortedMap</A>, <A HREF="../../../../com/google/common/collect/HashBiMap.html" title="class in com.google.common.collect">HashBiMap</A>, <A HREF="../../../../com/google/common/collect/ImmutableClassToInstanceMap.html" title="class in com.google.common.collect">ImmutableClassToInstanceMap</A>, <A HREF="../../../../com/google/common/collect/MutableClassToInstanceMap.html" title="class in com.google.common.collect">MutableClassToInstanceMap</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>
+</FONT>public abstract class <B>ForwardingMap&lt;K,V&gt;</B><DT>extends <A HREF="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</A><DT>implements <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;</DL>
+</PRE>
+
+<P>
+A map which forwards all its method calls to another map. Subclasses should
+ override one or more methods to modify the behavior of the backing map as
+ desired per the <a
+ href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+
+ <p><em>Warning</em>: The methods of <code>ForwardingMap</code> forward
+ <em>indiscriminately</em> to the methods of the delegate. For example,
+ overriding <A HREF="../../../../com/google/common/collect/ForwardingMap.html#put(K, V)"><CODE>put(K, V)</CODE></A> alone <em>will not</em> change the behavior of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#putAll(java.util.Map)"><CODE>putAll(java.util.Map<? extends K, ? extends V>)</CODE></A>, which can lead to unexpected behavior. In this case, you should
+ override <code>putAll</code> as well, either providing your own implementation, or
+ delegating to the provided <code>standardPutAll</code> method.
+
+ <p>Each of the <code>standard</code> methods, where appropriate, use <A HREF="../../../../com/google/common/base/Objects.html#equal(java.lang.Object, java.lang.Object)"><CODE>Objects.equal(java.lang.Object, java.lang.Object)</CODE></A> to test equality for both keys and values. This may not be
+ the desired behavior for map implementations that use non-standard notions of
+ key equality, such as a <code>SortedMap</code> whose comparator is not consistent
+ with <code>equals</code>.
+
+ <p>The <code>standard</code> methods and the collection views they return are not
+ guaranteed to be thread-safe, even when all of the methods that they depend
+ on are thread-safe.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>2 (imported from Google Collections Library)</DD>
+<DT><B>Author:</B></DT>
+  <DD>Kevin Bourrillion, Jared Levy, Louis Wasserman</DD>
+</DL>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="nested_classes_inherited_from_class_java.util.Map"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from interface java.util.<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">K</A>,<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">V</A>&gt;</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected </CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#ForwardingMap()">ForwardingMap</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constructor for use by subclasses.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#clear()">clear</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes all of the mappings from this map (optional operation).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsKey(java.lang.Object)">containsKey</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <tt>true</tt> if this map contains a mapping for the specified
+ key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsValue(java.lang.Object)">containsValue</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <tt>true</tt> if this map maps one or more keys to the
+ specified value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected abstract &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#delegate()">delegate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the backing delegate instance that methods are forwarded to.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()">entrySet</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><CODE>Set</CODE></A> view of the mappings contained in this map.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#equals(java.lang.Object)">equals</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;object)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Indicates whether some other object is "equal to" this one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#get(java.lang.Object)">get</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value to which the specified key is mapped,
+ or <code>null</code> if this map contains no mapping for the key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#hashCode()">hashCode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a hash code value for the object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#isEmpty()">isEmpty</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <tt>true</tt> if this map contains no key-value mappings.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#keySet()">keySet</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><CODE>Set</CODE></A> view of the keys contained in this map.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#put(K, V)">put</A></B>(<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>&nbsp;key,
+    <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Associates the specified value with the specified key in this map
+ (optional operation).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#putAll(java.util.Map)">putAll</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,? extends <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;&nbsp;map)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies all of the mappings from the specified map to this map
+ (optional operation).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#remove(java.lang.Object)">remove</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;object)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes the mapping for a key from this map if it is present
+ (optional operation).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#size()">size</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of key-value mappings in this map.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardClear()">standardClear</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#clear()"><CODE>clear()</CODE></A> in terms of the <code>iterator</code>
+ method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardContainsKey(java.lang.Object)">standardContainsKey</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible, albeit inefficient, definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsKey(java.lang.Object)"><CODE>containsKey(java.lang.Object)</CODE></A> in terms
+ of the <code>iterator</code> method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardContainsValue(java.lang.Object)">standardContainsValue</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsValue(java.lang.Object)"><CODE>containsValue(java.lang.Object)</CODE></A> in terms of the <code>iterator</code> method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardEntrySet(com.google.common.base.Supplier)">standardEntrySet</A></B>(<A HREF="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;&gt;&gt;&nbsp;entryIteratorSupplier)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A> in terms of the specified <code>Supplier</code>, which is used to generate iterators over the entry set, and in
+ terms of the following methods: <A HREF="../../../../com/google/common/collect/ForwardingMap.html#clear()"><CODE>clear()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsKey(java.lang.Object)"><CODE>containsKey(java.lang.Object)</CODE></A>,
+ <A HREF="../../../../com/google/common/collect/ForwardingMap.html#get(java.lang.Object)"><CODE>get(java.lang.Object)</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#isEmpty()"><CODE>isEmpty()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#remove(java.lang.Object)"><CODE>remove(java.lang.Object)</CODE></A>, and <A HREF="../../../../com/google/common/collect/ForwardingMap.html#size()"><CODE>size()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardEquals(java.lang.Object)">standardEquals</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;object)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#equals(java.lang.Object)"><CODE>equals(java.lang.Object)</CODE></A> in terms of the <code>equals</code>
+ method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardHashCode()">standardHashCode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#hashCode()"><CODE>hashCode()</CODE></A> in terms of the <code>iterator</code>
+ method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardIsEmpty()">standardIsEmpty</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#isEmpty()"><CODE>isEmpty()</CODE></A> in terms of the <code>iterator</code>
+ method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardKeySet()">standardKeySet</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#keySet()"><CODE>keySet()</CODE></A> in terms of the following methods:
+ <A HREF="../../../../com/google/common/collect/ForwardingMap.html#clear()"><CODE>clear()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsKey(java.lang.Object)"><CODE>containsKey(java.lang.Object)</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#isEmpty()"><CODE>isEmpty()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#remove(java.lang.Object)"><CODE>remove(java.lang.Object)</CODE></A>,
+ <A HREF="../../../../com/google/common/collect/ForwardingMap.html#size()"><CODE>size()</CODE></A>, and the <code>iterator</code> method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardPutAll(java.util.Map)">standardPutAll</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,? extends <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;&nbsp;map)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#putAll(java.util.Map)"><CODE>putAll(Map)</CODE></A> in terms of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#put(K, V)"><CODE>put(Object, Object)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardRemove(java.lang.Object)">standardRemove</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible, albeit inefficient, definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#remove(java.lang.Object)"><CODE>remove(java.lang.Object)</CODE></A> in terms of
+ the <code>iterator</code> method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardToString()">standardToString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingObject.html#toString()"><CODE>ForwardingObject.toString()</CODE></A> in terms of the <code>iterator</code>
+ method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#standardValues()">standardValues</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#values()"><CODE>values()</CODE></A> in terms of the following methods:
+ <A HREF="../../../../com/google/common/collect/ForwardingMap.html#clear()"><CODE>clear()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsValue(java.lang.Object)"><CODE>containsValue(java.lang.Object)</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#isEmpty()"><CODE>isEmpty()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#size()"><CODE>size()</CODE></A>,
+ and the <code>iterator</code> method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/ForwardingMap.html#values()">values</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><CODE>Collection</CODE></A> view of the values contained in this map.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.google.common.collect.ForwardingObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class com.google.common.collect.<A HREF="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../com/google/common/collect/ForwardingObject.html#toString()">toString</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ForwardingMap()"><!-- --></A><H3>
+ForwardingMap</H3>
+<PRE>
+protected <B>ForwardingMap</B>()</PRE>
+<DL>
+<DD>Constructor for use by subclasses.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="delegate()"><!-- --></A><H3>
+delegate</H3>
+<PRE>
+protected abstract <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt; <B>delegate</B>()</PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="../../../../com/google/common/collect/ForwardingObject.html#delegate()">ForwardingObject</A></CODE></B></DD>
+<DD>Returns the backing delegate instance that methods are forwarded to.
+ Abstract subclasses generally override this method with an abstract method
+ that has a more specific return type, such as <A HREF="../../../../com/google/common/collect/ForwardingSet.html#delegate()"><CODE>ForwardingSet.delegate()</CODE></A>. Concrete subclasses override this method to supply
+ the instance being decorated.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/ForwardingObject.html#delegate()">delegate</A></CODE> in class <CODE><A HREF="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="size()"><!-- --></A><H3>
+size</H3>
+<PRE>
+public int <B>size</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#size()" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Returns the number of key-value mappings in this map.  If the
+ map contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
+ <tt>Integer.MAX_VALUE</tt>.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#size()" title="class or interface in java.util">size</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of key-value mappings in this map</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isEmpty()"><!-- --></A><H3>
+isEmpty</H3>
+<PRE>
+public boolean <B>isEmpty</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#isEmpty()" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Returns <tt>true</tt> if this map contains no key-value mappings.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#isEmpty()" title="class or interface in java.util">isEmpty</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><tt>true</tt> if this map contains no key-value mappings</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="remove(java.lang.Object)"><!-- --></A><H3>
+remove</H3>
+<PRE>
+public <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A> <B>remove</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;object)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Removes the mapping for a key from this map if it is present
+ (optional operation).   More formally, if this map contains a mapping
+ from key <tt>k</tt> to value <tt>v</tt> such that
+ <code>(key==null ?  k==null : key.equals(k))</code>, that mapping
+ is removed.  (The map can contain at most one such mapping.)
+
+ <p>Returns the value to which this map previously associated the key,
+ or <tt>null</tt> if the map contained no mapping for the key.
+
+ <p>If this map permits null values, then a return value of
+ <tt>null</tt> does not <i>necessarily</i> indicate that the map
+ contained no mapping for the key; it's also possible that the map
+ explicitly mapped the key to <tt>null</tt>.
+
+ <p>The map will not contain a mapping for the specified key once the
+ call returns.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util">remove</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>object</CODE> - key whose mapping is to be removed from the map
+<DT><B>Returns:</B><DD>the previous value associated with <tt>key</tt>, or
+         <tt>null</tt> if there was no mapping for <tt>key</tt>.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clear()"><!-- --></A><H3>
+clear</H3>
+<PRE>
+public void <B>clear</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#clear()" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Removes all of the mappings from this map (optional operation).
+ The map will be empty after this call returns.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#clear()" title="class or interface in java.util">clear</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="containsKey(java.lang.Object)"><!-- --></A><H3>
+containsKey</H3>
+<PRE>
+public boolean <B>containsKey</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Returns <tt>true</tt> if this map contains a mapping for the specified
+ key.  More formally, returns <tt>true</tt> if and only if
+ this map contains a mapping for a key <tt>k</tt> such that
+ <tt>(key==null ? k==null : key.equals(k))</tt>.  (There can be
+ at most one such mapping.)
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util">containsKey</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key whose presence in this map is to be tested
+<DT><B>Returns:</B><DD><tt>true</tt> if this map contains a mapping for the specified
+         key</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="containsValue(java.lang.Object)"><!-- --></A><H3>
+containsValue</H3>
+<PRE>
+public boolean <B>containsValue</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsValue(java.lang.Object)" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Returns <tt>true</tt> if this map maps one or more keys to the
+ specified value.  More formally, returns <tt>true</tt> if and only if
+ this map contains at least one mapping to a value <tt>v</tt> such that
+ <tt>(value==null ? v==null : value.equals(v))</tt>.  This operation
+ will probably require time linear in the map size for most
+ implementations of the <tt>Map</tt> interface.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsValue(java.lang.Object)" title="class or interface in java.util">containsValue</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - value whose presence in this map is to be tested
+<DT><B>Returns:</B><DD><tt>true</tt> if this map maps one or more keys to the
+         specified value</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(java.lang.Object)"><!-- --></A><H3>
+get</H3>
+<PRE>
+public <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A> <B>get</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#get(java.lang.Object)" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Returns the value to which the specified key is mapped,
+ or <code>null</code> if this map contains no mapping for the key.
+
+ <p>More formally, if this map contains a mapping from a key
+ <code>k</code> to a value <code>v</code> such that <code>(key==null ? k==null :
+ key.equals(k))</code>, then this method returns <code>v</code>; otherwise
+ it returns <code>null</code>.  (There can be at most one such mapping.)
+
+ <p>If this map permits null values, then a return value of
+ <code>null</code> does not <i>necessarily</i> indicate that the map
+ contains no mapping for the key; it's also possible that the map
+ explicitly maps the key to <code>null</code>.  The <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util"><CODE>containsKey</CODE></A> operation may be used to distinguish these two cases.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#get(java.lang.Object)" title="class or interface in java.util">get</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key whose associated value is to be returned
+<DT><B>Returns:</B><DD>the value to which the specified key is mapped, or
+         <code>null</code> if this map contains no mapping for the key</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="put(java.lang.Object,java.lang.Object)"><!-- --></A><A NAME="put(K, V)"><!-- --></A><H3>
+put</H3>
+<PRE>
+public <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A> <B>put</B>(<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>&nbsp;key,
+             <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&nbsp;value)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#put(K, V)" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Associates the specified value with the specified key in this map
+ (optional operation).  If the map previously contained a mapping for
+ the key, the old value is replaced by the specified value.  (A map
+ <tt>m</tt> is said to contain a mapping for a key <tt>k</tt> if and only
+ if <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsKey(java.lang.Object)" title="class or interface in java.util"><CODE>m.containsKey(k)</CODE></A> would return
+ <tt>true</tt>.)
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#put(K, V)" title="class or interface in java.util">put</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key with which the specified value is to be associated<DD><CODE>value</CODE> - value to be associated with the specified key
+<DT><B>Returns:</B><DD>the previous value associated with <tt>key</tt>, or
+         <tt>null</tt> if there was no mapping for <tt>key</tt>.
+         (A <tt>null</tt> return can also indicate that the map
+         previously associated <tt>null</tt> with <tt>key</tt>,
+         if the implementation supports <tt>null</tt> values.)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="putAll(java.util.Map)"><!-- --></A><H3>
+putAll</H3>
+<PRE>
+public void <B>putAll</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,? extends <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;&nbsp;map)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#putAll(java.util.Map)" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Copies all of the mappings from the specified map to this map
+ (optional operation).  The effect of this call is equivalent to that
+ of calling <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#put(K, V)" title="class or interface in java.util"><CODE>put(k, v)</CODE></A> on this map once
+ for each mapping from key <tt>k</tt> to value <tt>v</tt> in the
+ specified map.  The behavior of this operation is undefined if the
+ specified map is modified while the operation is in progress.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#putAll(java.util.Map)" title="class or interface in java.util">putAll</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>map</CODE> - mappings to be stored in this map</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="keySet()"><!-- --></A><H3>
+keySet</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>&gt; <B>keySet</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#keySet()" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Returns a <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><CODE>Set</CODE></A> view of the keys contained in this map.
+ The set is backed by the map, so changes to the map are
+ reflected in the set, and vice-versa.  If the map is modified
+ while an iteration over the set is in progress (except through
+ the iterator's own <tt>remove</tt> operation), the results of
+ the iteration are undefined.  The set supports element removal,
+ which removes the corresponding mapping from the map, via the
+ <tt>Iterator.remove</tt>, <tt>Set.remove</tt>,
+ <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt>
+ operations.  It does not support the <tt>add</tt> or <tt>addAll</tt>
+ operations.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#keySet()" title="class or interface in java.util">keySet</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a set view of the keys contained in this map</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="values()"><!-- --></A><H3>
+values</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt; <B>values</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#values()" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Returns a <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><CODE>Collection</CODE></A> view of the values contained in this map.
+ The collection is backed by the map, so changes to the map are
+ reflected in the collection, and vice-versa.  If the map is
+ modified while an iteration over the collection is in progress
+ (except through the iterator's own <tt>remove</tt> operation),
+ the results of the iteration are undefined.  The collection
+ supports element removal, which removes the corresponding
+ mapping from the map, via the <tt>Iterator.remove</tt>,
+ <tt>Collection.remove</tt>, <tt>removeAll</tt>,
+ <tt>retainAll</tt> and <tt>clear</tt> operations.  It does not
+ support the <tt>add</tt> or <tt>addAll</tt> operations.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#values()" title="class or interface in java.util">values</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a collection view of the values contained in this map</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="entrySet()"><!-- --></A><H3>
+entrySet</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;&gt; <B>entrySet</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#entrySet()" title="class or interface in java.util">java.util.Map</A></CODE></B></DD>
+<DD>Returns a <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><CODE>Set</CODE></A> view of the mappings contained in this map.
+ The set is backed by the map, so changes to the map are
+ reflected in the set, and vice-versa.  If the map is modified
+ while an iteration over the set is in progress (except through
+ the iterator's own <tt>remove</tt> operation, or through the
+ <tt>setValue</tt> operation on a map entry returned by the
+ iterator) the results of the iteration are undefined.  The set
+ supports element removal, which removes the corresponding
+ mapping from the map, via the <tt>Iterator.remove</tt>,
+ <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retainAll</tt> and
+ <tt>clear</tt> operations.  It does not support the
+ <tt>add</tt> or <tt>addAll</tt> operations.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#entrySet()" title="class or interface in java.util">entrySet</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a set view of the mappings contained in this map</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="equals(java.lang.Object)"><!-- --></A><H3>
+equals</H3>
+<PRE>
+public boolean <B>equals</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                      <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;object)</PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">java.lang.Object</A></CODE></B></DD>
+<DD>Indicates whether some other object is "equal to" this one.
+ <p>
+ The <code>equals</code> method implements an equivalence relation
+ on non-null object references:
+ <ul>
+ <li>It is <i>reflexive</i>: for any non-null reference value
+     <code>x</code>, <code>x.equals(x)</code> should return
+     <code>true</code>.
+ <li>It is <i>symmetric</i>: for any non-null reference values
+     <code>x</code> and <code>y</code>, <code>x.equals(y)</code>
+     should return <code>true</code> if and only if
+     <code>y.equals(x)</code> returns <code>true</code>.
+ <li>It is <i>transitive</i>: for any non-null reference values
+     <code>x</code>, <code>y</code>, and <code>z</code>, if
+     <code>x.equals(y)</code> returns <code>true</code> and
+     <code>y.equals(z)</code> returns <code>true</code>, then
+     <code>x.equals(z)</code> should return <code>true</code>.
+ <li>It is <i>consistent</i>: for any non-null reference values
+     <code>x</code> and <code>y</code>, multiple invocations of
+     <code>x.equals(y)</code> consistently return <code>true</code>
+     or consistently return <code>false</code>, provided no
+     information used in <code>equals</code> comparisons on the
+     objects is modified.
+ <li>For any non-null reference value <code>x</code>,
+     <code>x.equals(null)</code> should return <code>false</code>.
+ </ul>
+ <p>
+ The <code>equals</code> method for class <code>Object</code> implements
+ the most discriminating possible equivalence relation on objects;
+ that is, for any non-null reference values <code>x</code> and
+ <code>y</code>, this method returns <code>true</code> if and only
+ if <code>x</code> and <code>y</code> refer to the same object
+ (<code>x == y</code> has the value <code>true</code>).
+ <p>
+ Note that it is generally necessary to override the <code>hashCode</code>
+ method whenever this method is overridden, so as to maintain the
+ general contract for the <code>hashCode</code> method, which states
+ that equal objects must have equal hash codes.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util">equals</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE><DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>object</CODE> - the reference object with which to compare.
+<DT><B>Returns:</B><DD><code>true</code> if this object is the same as the obj
+          argument; <code>false</code> otherwise.<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang"><CODE>Object.hashCode()</CODE></A>, 
+<A HREF="http://java.sun.com/javase/6/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><CODE>HashMap</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hashCode()"><!-- --></A><H3>
+hashCode</H3>
+<PRE>
+public int <B>hashCode</B>()</PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">java.lang.Object</A></CODE></B></DD>
+<DD>Returns a hash code value for the object. This method is
+ supported for the benefit of hash tables such as those provided by
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><CODE>HashMap</CODE></A>.
+ <p>
+ The general contract of <code>hashCode</code> is:
+ <ul>
+ <li>Whenever it is invoked on the same object more than once during
+     an execution of a Java application, the <code>hashCode</code> method
+     must consistently return the same integer, provided no information
+     used in <code>equals</code> comparisons on the object is modified.
+     This integer need not remain consistent from one execution of an
+     application to another execution of the same application.
+ <li>If two objects are equal according to the <code>equals(Object)</code>
+     method, then calling the <code>hashCode</code> method on each of
+     the two objects must produce the same integer result.
+ <li>It is <em>not</em> required that if two objects are unequal
+     according to the <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><CODE>Object.equals(java.lang.Object)</CODE></A>
+     method, then calling the <code>hashCode</code> method on each of the
+     two objects must produce distinct integer results.  However, the
+     programmer should be aware that producing distinct integer results
+     for unequal objects may improve the performance of hash tables.
+ </ul>
+ <p>
+ As much as is reasonably practical, the hashCode method defined by
+ class <code>Object</code> does return distinct integers for distinct
+ objects. (This is typically implemented by converting the internal
+ address of the object into an integer, but this implementation
+ technique is not required by the
+ Java<font size="-2"><sup>TM</sup></font> programming language.)
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#hashCode()" title="class or interface in java.util">hashCode</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;</CODE><DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a hash code value for this object.<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><CODE>Object.equals(java.lang.Object)</CODE></A>, 
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/System.html?is-external=true#identityHashCode(java.lang.Object)" title="class or interface in java.lang"><CODE>System.identityHashCode(java.lang.Object)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardPutAll(java.util.Map)"><!-- --></A><H3>
+standardPutAll</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected void <B>standardPutAll</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,? extends <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;&nbsp;map)</PRE>
+<DL>
+<DD>A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#putAll(java.util.Map)"><CODE>putAll(Map)</CODE></A> in terms of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#put(K, V)"><CODE>put(Object, Object)</CODE></A>. If you override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#put(K, V)"><CODE>put(Object, Object)</CODE></A>, you
+ may wish to override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#putAll(java.util.Map)"><CODE>putAll(Map)</CODE></A> to forward to this
+ implementation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardRemove(java.lang.Object)"><!-- --></A><H3>
+standardRemove</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected <A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A> <B>standardRemove</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                                <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</PRE>
+<DL>
+<DD>A sensible, albeit inefficient, definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#remove(java.lang.Object)"><CODE>remove(java.lang.Object)</CODE></A> in terms of
+ the <code>iterator</code> method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>. If you override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>, you may wish to override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#remove(java.lang.Object)"><CODE>remove(java.lang.Object)</CODE></A> to forward to this
+ implementation.
+
+ <p>Alternately, you may wish to override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#remove(java.lang.Object)"><CODE>remove(java.lang.Object)</CODE></A> with <code>keySet().remove</code>, assuming that approach would not lead to an infinite
+ loop.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardClear()"><!-- --></A><H3>
+standardClear</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected void <B>standardClear</B>()</PRE>
+<DL>
+<DD>A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#clear()"><CODE>clear()</CODE></A> in terms of the <code>iterator</code>
+ method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>. In many cases, you may wish to override
+ <A HREF="../../../../com/google/common/collect/ForwardingMap.html#clear()"><CODE>clear()</CODE></A> to forward to this implementation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardKeySet()"><!-- --></A><H3>
+standardKeySet</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>&gt; <B>standardKeySet</B>()</PRE>
+<DL>
+<DD>A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#keySet()"><CODE>keySet()</CODE></A> in terms of the following methods:
+ <A HREF="../../../../com/google/common/collect/ForwardingMap.html#clear()"><CODE>clear()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsKey(java.lang.Object)"><CODE>containsKey(java.lang.Object)</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#isEmpty()"><CODE>isEmpty()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#remove(java.lang.Object)"><CODE>remove(java.lang.Object)</CODE></A>,
+ <A HREF="../../../../com/google/common/collect/ForwardingMap.html#size()"><CODE>size()</CODE></A>, and the <code>iterator</code> method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>. In
+ many cases, you may wish to override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#keySet()"><CODE>keySet()</CODE></A> to forward to this
+ implementation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardContainsKey(java.lang.Object)"><!-- --></A><H3>
+standardContainsKey</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected boolean <B>standardContainsKey</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                                           <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</PRE>
+<DL>
+<DD>A sensible, albeit inefficient, definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsKey(java.lang.Object)"><CODE>containsKey(java.lang.Object)</CODE></A> in terms
+ of the <code>iterator</code> method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>. If you override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>, you may wish to override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsKey(java.lang.Object)"><CODE>containsKey(java.lang.Object)</CODE></A> to forward to
+ this implementation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardValues()"><!-- --></A><H3>
+standardValues</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt; <B>standardValues</B>()</PRE>
+<DL>
+<DD>A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#values()"><CODE>values()</CODE></A> in terms of the following methods:
+ <A HREF="../../../../com/google/common/collect/ForwardingMap.html#clear()"><CODE>clear()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsValue(java.lang.Object)"><CODE>containsValue(java.lang.Object)</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#isEmpty()"><CODE>isEmpty()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#size()"><CODE>size()</CODE></A>,
+ and the <code>iterator</code> method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>. In many cases, you
+ may wish to override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#values()"><CODE>values()</CODE></A> to forward to this implementation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardContainsValue(java.lang.Object)"><!-- --></A><H3>
+standardContainsValue</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected boolean <B>standardContainsValue</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                                             <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</PRE>
+<DL>
+<DD>A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsValue(java.lang.Object)"><CODE>containsValue(java.lang.Object)</CODE></A> in terms of the <code>iterator</code> method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>. If you override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>,
+ you may wish to override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsValue(java.lang.Object)"><CODE>containsValue(java.lang.Object)</CODE></A> to forward to this
+ implementation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardEntrySet(com.google.common.base.Supplier)"><!-- --></A><H3>
+standardEntrySet</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;&gt; <B>standardEntrySet</B>(<A HREF="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">K</A>,<A HREF="../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</A>&gt;&gt;&gt;&nbsp;entryIteratorSupplier)</PRE>
+<DL>
+<DD>A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A> in terms of the specified <code>Supplier</code>, which is used to generate iterators over the entry set, and in
+ terms of the following methods: <A HREF="../../../../com/google/common/collect/ForwardingMap.html#clear()"><CODE>clear()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#containsKey(java.lang.Object)"><CODE>containsKey(java.lang.Object)</CODE></A>,
+ <A HREF="../../../../com/google/common/collect/ForwardingMap.html#get(java.lang.Object)"><CODE>get(java.lang.Object)</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#isEmpty()"><CODE>isEmpty()</CODE></A>, <A HREF="../../../../com/google/common/collect/ForwardingMap.html#remove(java.lang.Object)"><CODE>remove(java.lang.Object)</CODE></A>, and <A HREF="../../../../com/google/common/collect/ForwardingMap.html#size()"><CODE>size()</CODE></A>. In many
+ cases, you may wish to override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A> to forward to this
+ implementation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>entryIteratorSupplier</CODE> - A creator for iterators over the entry set.
+        Each call to <code>get</code> must return an iterator that will
+        traverse the entire entry set.<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardIsEmpty()"><!-- --></A><H3>
+standardIsEmpty</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected boolean <B>standardIsEmpty</B>()</PRE>
+<DL>
+<DD>A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#isEmpty()"><CODE>isEmpty()</CODE></A> in terms of the <code>iterator</code>
+ method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>. If you override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>, you may
+ wish to override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#isEmpty()"><CODE>isEmpty()</CODE></A> to forward to this implementation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardEquals(java.lang.Object)"><!-- --></A><H3>
+standardEquals</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected boolean <B>standardEquals</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                                      <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;object)</PRE>
+<DL>
+<DD>A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#equals(java.lang.Object)"><CODE>equals(java.lang.Object)</CODE></A> in terms of the <code>equals</code>
+ method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>. If you override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>, you may
+ wish to override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#equals(java.lang.Object)"><CODE>equals(java.lang.Object)</CODE></A> to forward to this implementation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardHashCode()"><!-- --></A><H3>
+standardHashCode</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected int <B>standardHashCode</B>()</PRE>
+<DL>
+<DD>A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#hashCode()"><CODE>hashCode()</CODE></A> in terms of the <code>iterator</code>
+ method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>. If you override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>, you may
+ wish to override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#hashCode()"><CODE>hashCode()</CODE></A> to forward to this implementation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="standardToString()"><!-- --></A><H3>
+standardToString</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>protected <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>standardToString</B>()</PRE>
+<DL>
+<DD>A sensible definition of <A HREF="../../../../com/google/common/collect/ForwardingObject.html#toString()"><CODE>ForwardingObject.toString()</CODE></A> in terms of the <code>iterator</code>
+ method of <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>. If you override <A HREF="../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><CODE>entrySet()</CODE></A>, you may
+ wish to override <A HREF="../../../../com/google/common/collect/ForwardingObject.html#toString()"><CODE>ForwardingObject.toString()</CODE></A> to forward to this implementation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingListMultimap.html" title="class in com.google.common.collect"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/collect/ForwardingMapEntry.html" title="class in com.google.common.collect"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/collect/ForwardingMap.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ForwardingMap.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,1383 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Serialized Form (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Serialized Form (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Package</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="overview-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV&nbsp;
+&nbsp;NEXT</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="index.html?serialized-form.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="serialized-form.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<CENTER>
+<H1>
+Serialized Form</H1>
+</CENTER>
+<HR SIZE="4" NOSHADE>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="center"><FONT SIZE="+2">
+<B>Package</B> <B>com.google.common.collect</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="com.google.common.collect.ArrayListMultimap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ArrayListMultimap.html" title="class in com.google.common.collect">com.google.common.collect.ArrayListMultimap</A> extends com.google.common.collect.AbstractListMultimap&lt;<A HREF="com/google/common/collect/ArrayListMultimap.html" title="type parameter in ArrayListMultimap">K</A>,<A HREF="com/google/common/collect/ArrayListMultimap.html" title="type parameter in ArrayListMultimap">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>expectedValuesPerKey, number of distinct keys, and then for
+     each distinct key: the key, number of values for that key, and the
+     key's values</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.AsynchronousComputationException"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/AsynchronousComputationException.html" title="class in com.google.common.collect">com.google.common.collect.AsynchronousComputationException</A> extends <A HREF="com/google/common/collect/ComputationException.html" title="class in com.google.common.collect">ComputationException</A> implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+
+<P>
+<A NAME="com.google.common.collect.ComputationException"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ComputationException.html" title="class in com.google.common.collect">com.google.common.collect.ComputationException</A> extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</A> implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+
+<P>
+<A NAME="com.google.common.collect.ConcurrentHashMultiset"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect">com.google.common.collect.ConcurrentHashMultiset</A> extends com.google.common.collect.AbstractMultiset&lt;<A HREF="com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>1L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>the ConcurrentMap of elements and their counts.</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.EnumBiMap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/EnumBiMap.html" title="class in com.google.common.collect">com.google.common.collect.EnumBiMap</A> extends com.google.common.collect.AbstractBiMap&lt;<A HREF="com/google/common/collect/EnumBiMap.html" title="type parameter in EnumBiMap">K</A> extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</A>&lt;<A HREF="com/google/common/collect/EnumBiMap.html" title="type parameter in EnumBiMap">K</A>&gt;,<A HREF="com/google/common/collect/EnumBiMap.html" title="type parameter in EnumBiMap">V</A> extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</A>&lt;<A HREF="com/google/common/collect/EnumBiMap.html" title="type parameter in EnumBiMap">V</A>&gt;&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>the key class, value class, number of entries, first key, first
+     value, second key, second value, and so on.</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.EnumHashBiMap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/EnumHashBiMap.html" title="class in com.google.common.collect">com.google.common.collect.EnumHashBiMap</A> extends com.google.common.collect.AbstractBiMap&lt;<A HREF="com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</A> extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</A>&lt;<A HREF="com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</A>&gt;,<A HREF="com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>the key class, number of entries, first key, first value,
+     second key, second value, and so on.</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.EnumMultiset"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/EnumMultiset.html" title="class in com.google.common.collect">com.google.common.collect.EnumMultiset</A> extends com.google.common.collect.AbstractMapBasedMultiset&lt;<A HREF="com/google/common/collect/EnumMultiset.html" title="type parameter in EnumMultiset">E</A> extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</A>&lt;<A HREF="com/google/common/collect/EnumMultiset.html" title="type parameter in EnumMultiset">E</A>&gt;&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>the <code>Class&lt;E&gt;</code> for the enum type, the number of distinct
+     elements, the first element, its count, the second element, its count,
+     and so on</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.HashBasedTable"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect">com.google.common.collect.HashBasedTable</A> extends com.google.common.collect.StandardTable&lt;<A HREF="com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">R</A>,<A HREF="com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">C</A>,<A HREF="com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+
+<P>
+<A NAME="com.google.common.collect.HashBiMap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/HashBiMap.html" title="class in com.google.common.collect">com.google.common.collect.HashBiMap</A> extends com.google.common.collect.AbstractBiMap&lt;<A HREF="com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</A>,<A HREF="com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>the number of entries, first key, first value, second key,
+     second value, and so on.</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.HashMultimap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/HashMultimap.html" title="class in com.google.common.collect">com.google.common.collect.HashMultimap</A> extends com.google.common.collect.AbstractSetMultimap&lt;<A HREF="com/google/common/collect/HashMultimap.html" title="type parameter in HashMultimap">K</A>,<A HREF="com/google/common/collect/HashMultimap.html" title="type parameter in HashMultimap">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>expectedValuesPerKey, number of distinct keys, and then for
+     each distinct key: the key, number of values for that key, and the
+     key's values</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.HashMultiset"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/HashMultiset.html" title="class in com.google.common.collect">com.google.common.collect.HashMultiset</A> extends com.google.common.collect.AbstractMapBasedMultiset&lt;<A HREF="com/google/common/collect/HashMultiset.html" title="type parameter in HashMultiset">E</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>the number of distinct elements, the first element, its count,
+     the second element, its count, and so on</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.ImmutableBiMap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ImmutableBiMap.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableBiMap</A> extends <A HREF="com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</A>&lt;<A HREF="com/google/common/collect/ImmutableBiMap.html" title="type parameter in ImmutableBiMap">K</A>,<A HREF="com/google/common/collect/ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="writeReplace()"><!-- --></A><H3>
+writeReplace</H3>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <B>writeReplace</B>()</PRE>
+<DL>
+<DD><DL>
+</DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.ImmutableCollection"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableCollection</A> extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="writeReplace()"><!-- --></A><H3>
+writeReplace</H3>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <B>writeReplace</B>()</PRE>
+<DL>
+<DD><DL>
+</DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.ImmutableList"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableList</A> extends <A HREF="com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</A>&lt;<A HREF="com/google/common/collect/ImmutableList.html" title="type parameter in ImmutableList">E</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io">InvalidObjectException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io">InvalidObjectException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeReplace()"><!-- --></A><H3>
+writeReplace</H3>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <B>writeReplace</B>()</PRE>
+<DL>
+<DD><DL>
+</DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.ImmutableListMultimap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ImmutableListMultimap.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableListMultimap</A> extends <A HREF="com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</A>&lt;<A HREF="com/google/common/collect/ImmutableListMultimap.html" title="type parameter in ImmutableListMultimap">K</A>,<A HREF="com/google/common/collect/ImmutableListMultimap.html" title="type parameter in ImmutableListMultimap">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>number of distinct keys, and then for each distinct key: the
+     key, the number of values for that key, and the key's values</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.ImmutableMap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableMap</A> extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="writeReplace()"><!-- --></A><H3>
+writeReplace</H3>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <B>writeReplace</B>()</PRE>
+<DL>
+<DD><DL>
+</DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.ImmutableMultimap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableMultimap</A> extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+
+<P>
+<A NAME="com.google.common.collect.ImmutableMultiset"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableMultiset</A> extends <A HREF="com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</A>&lt;<A HREF="com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>the number of distinct elements, the first element, its count,
+     the second element, its count, and so on</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeReplace()"><!-- --></A><H3>
+writeReplace</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java serialization not supported.")
+</FONT><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <B>writeReplace</B>()</PRE>
+<DL>
+<DD><DL>
+</DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.ImmutableSet"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableSet</A> extends <A HREF="com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</A>&lt;<A HREF="com/google/common/collect/ImmutableSet.html" title="type parameter in ImmutableSet">E</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="writeReplace()"><!-- --></A><H3>
+writeReplace</H3>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <B>writeReplace</B>()</PRE>
+<DL>
+<DD><DL>
+</DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.ImmutableSetMultimap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableSetMultimap</A> extends <A HREF="com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</A>&lt;<A HREF="com/google/common/collect/ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</A>,<A HREF="com/google/common/collect/ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>number of distinct keys, and then for each distinct key: the
+     key, the number of values for that key, and the key's values</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.ImmutableSortedMap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableSortedMap</A> extends com.google.common.collect.ImmutableSortedMapFauxverideShim&lt;<A HREF="com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">K</A>,<A HREF="com/google/common/collect/ImmutableSortedMap.html" title="type parameter in ImmutableSortedMap">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="writeReplace()"><!-- --></A><H3>
+writeReplace</H3>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <B>writeReplace</B>()</PRE>
+<DL>
+<DD><DL>
+</DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.ImmutableSortedSet"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">com.google.common.collect.ImmutableSortedSet</A> extends com.google.common.collect.ImmutableSortedSetFauxverideShim&lt;<A HREF="com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io">InvalidObjectException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/InvalidObjectException.html?is-external=true" title="class or interface in java.io">InvalidObjectException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeReplace()"><!-- --></A><H3>
+writeReplace</H3>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> <B>writeReplace</B>()</PRE>
+<DL>
+<DD><DL>
+</DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.LinkedHashMultimap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/LinkedHashMultimap.html" title="class in com.google.common.collect">com.google.common.collect.LinkedHashMultimap</A> extends com.google.common.collect.AbstractSetMultimap&lt;<A HREF="com/google/common/collect/LinkedHashMultimap.html" title="type parameter in LinkedHashMultimap">K</A>,<A HREF="com/google/common/collect/LinkedHashMultimap.html" title="type parameter in LinkedHashMultimap">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>the number of distinct keys, and then for each distinct key:
+     the first key, the number of values for that key, and the key's values,
+     followed by successive keys and values from the entries() ordering</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.LinkedHashMultiset"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/LinkedHashMultiset.html" title="class in com.google.common.collect">com.google.common.collect.LinkedHashMultiset</A> extends com.google.common.collect.AbstractMapBasedMultiset&lt;<A HREF="com/google/common/collect/LinkedHashMultiset.html" title="type parameter in LinkedHashMultiset">E</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>the number of distinct elements, the first element, its count,
+     the second element, its count, and so on</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.LinkedListMultimap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/LinkedListMultimap.html" title="class in com.google.common.collect">com.google.common.collect.LinkedListMultimap</A> extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A> implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>the number of distinct keys, and then for each distinct key:
+     the first key, the number of values for that key, and the key's values,
+     followed by successive keys and values from the entries() ordering</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.TreeBasedTable"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect">com.google.common.collect.TreeBasedTable</A> extends com.google.common.collect.StandardRowSortedTable&lt;<A HREF="com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</A>,<A HREF="com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</A>,<A HREF="com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serializedForm"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialized Fields</B></FONT></TH>
+</TR>
+</TABLE>
+
+<H3>
+columnComparator</H3>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">T</A>&gt; <B>columnComparator</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.TreeMultimap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/TreeMultimap.html" title="class in com.google.common.collect">com.google.common.collect.TreeMultimap</A> extends com.google.common.collect.AbstractSortedSetMultimap&lt;<A HREF="com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">K</A>,<A HREF="com/google/common/collect/TreeMultimap.html" title="type parameter in TreeMultimap">V</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>key comparator, value comparator, number of distinct keys, and
+     then for each distinct key: the key, number of values for that key, and
+     key values</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+
+<P>
+<A NAME="com.google.common.collect.TreeMultiset"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">com.google.common.collect.TreeMultiset</A> extends com.google.common.collect.AbstractMapBasedMultiset&lt;<A HREF="com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</A>&gt; implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+<A NAME="serialized_methods"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Serialization Methods</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="readObject(java.io.ObjectInputStream)"><!-- --></A><H3>
+readObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectInputStream")
+</FONT>private void <B>readObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io">ObjectInputStream</A>&nbsp;stream)
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A>,
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></PRE>
+<DL>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassNotFoundException.html?is-external=true" title="class or interface in java.lang">ClassNotFoundException</A></CODE></DD>
+</DL>
+</DL>
+<HR>
+<A NAME="writeObject(java.io.ObjectOutputStream)"><!-- --></A><H3>
+writeObject</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.io.ObjectOutputStream")
+</FONT>private void <B>writeObject</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io">ObjectOutputStream</A>&nbsp;stream)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><DL>
+<DT><B>Serial Data:</B></DT>
+  <DD>the comparator, the number of distinct elements, the first
+     element, its count, the second element, its count, and so on</DD>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE></DD>
+</DL>
+</DL>
+<HR SIZE="4" NOSHADE>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="center"><FONT SIZE="+2">
+<B>Package</B> <B>com.google.common.util.concurrent</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<A NAME="com.google.common.util.concurrent.UncheckedTimeoutException"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class <A HREF="com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent">com.google.common.util.concurrent.UncheckedTimeoutException</A> extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</A> implements Serializable</B></FONT></TH>
+</TR>
+</TABLE>
+
+<P>
+<B>serialVersionUID:&nbsp;</B>0L
+
+<P>
+
+<P>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Package</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="overview-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV&nbsp;
+&nbsp;NEXT</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="index.html?serialized-form.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="serialized-form.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

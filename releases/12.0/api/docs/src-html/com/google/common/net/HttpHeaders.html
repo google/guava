@@ -1,0 +1,266 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.net;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import com.google.common.annotations.Beta;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.20"></a>
+<FONT color="green">021</FONT>    <a name="line.21"></a>
+<FONT color="green">022</FONT>    /**<a name="line.22"></a>
+<FONT color="green">023</FONT>     * Contains constant definitions for the HTTP header field names. See:<a name="line.23"></a>
+<FONT color="green">024</FONT>     * &lt;ul&gt;<a name="line.24"></a>
+<FONT color="green">025</FONT>     * &lt;li&gt;&lt;a href="http://www.ietf.org/rfc/rfc2109.txt"&gt;RFC 2109&lt;/a&gt;<a name="line.25"></a>
+<FONT color="green">026</FONT>     * &lt;li&gt;&lt;a href="http://www.ietf.org/rfc/rfc2183.txt"&gt;RFC 2183&lt;/a&gt;<a name="line.26"></a>
+<FONT color="green">027</FONT>     * &lt;li&gt;&lt;a href="http://www.ietf.org/rfc/rfc2616.txt"&gt;RFC 2616&lt;/a&gt;<a name="line.27"></a>
+<FONT color="green">028</FONT>     * &lt;li&gt;&lt;a href="http://www.ietf.org/rfc/rfc2965.txt"&gt;RFC 2965&lt;/a&gt;<a name="line.28"></a>
+<FONT color="green">029</FONT>     * &lt;li&gt;&lt;a href="http://www.ietf.org/rfc/rfc5988.txt"&gt;RFC 5988&lt;/a&gt;<a name="line.29"></a>
+<FONT color="green">030</FONT>     * &lt;/ul&gt;<a name="line.30"></a>
+<FONT color="green">031</FONT>     *<a name="line.31"></a>
+<FONT color="green">032</FONT>     * @author Kurt Alfred Kluever<a name="line.32"></a>
+<FONT color="green">033</FONT>     * @since 11.0<a name="line.33"></a>
+<FONT color="green">034</FONT>     */<a name="line.34"></a>
+<FONT color="green">035</FONT>    @Beta<a name="line.35"></a>
+<FONT color="green">036</FONT>    @GwtCompatible<a name="line.36"></a>
+<FONT color="green">037</FONT>    public final class HttpHeaders {<a name="line.37"></a>
+<FONT color="green">038</FONT>      private HttpHeaders() {}<a name="line.38"></a>
+<FONT color="green">039</FONT>    <a name="line.39"></a>
+<FONT color="green">040</FONT>      // HTTP Request and Response header fields<a name="line.40"></a>
+<FONT color="green">041</FONT>    <a name="line.41"></a>
+<FONT color="green">042</FONT>      /** The HTTP Cache-Control header field name. */<a name="line.42"></a>
+<FONT color="green">043</FONT>      public static final String CACHE_CONTROL = "Cache-Control";<a name="line.43"></a>
+<FONT color="green">044</FONT>      /** The HTTP Content-Length header field name. */<a name="line.44"></a>
+<FONT color="green">045</FONT>      public static final String CONTENT_LENGTH = "Content-Length";<a name="line.45"></a>
+<FONT color="green">046</FONT>      /** The HTTP Content-Type header field name. */<a name="line.46"></a>
+<FONT color="green">047</FONT>      public static final String CONTENT_TYPE = "Content-Type";<a name="line.47"></a>
+<FONT color="green">048</FONT>      /** The HTTP Date header field name. */<a name="line.48"></a>
+<FONT color="green">049</FONT>      public static final String DATE = "Date";<a name="line.49"></a>
+<FONT color="green">050</FONT>      /** The HTTP Pragma header field name. */<a name="line.50"></a>
+<FONT color="green">051</FONT>      public static final String PRAGMA = "Pragma";<a name="line.51"></a>
+<FONT color="green">052</FONT>      /** The HTTP Via header field name. */<a name="line.52"></a>
+<FONT color="green">053</FONT>      public static final String VIA = "Via";<a name="line.53"></a>
+<FONT color="green">054</FONT>      /** The HTTP Warning header field name. */<a name="line.54"></a>
+<FONT color="green">055</FONT>      public static final String WARNING = "Warning";<a name="line.55"></a>
+<FONT color="green">056</FONT>    <a name="line.56"></a>
+<FONT color="green">057</FONT>      // HTTP Request header fields<a name="line.57"></a>
+<FONT color="green">058</FONT>    <a name="line.58"></a>
+<FONT color="green">059</FONT>      /** The HTTP Accept header field name. */<a name="line.59"></a>
+<FONT color="green">060</FONT>      public static final String ACCEPT = "Accept";<a name="line.60"></a>
+<FONT color="green">061</FONT>      /** The HTTP Accept-Charset header field name. */<a name="line.61"></a>
+<FONT color="green">062</FONT>      public static final String ACCEPT_CHARSET = "Accept-Charset";<a name="line.62"></a>
+<FONT color="green">063</FONT>      /** The HTTP Accept-Encoding header field name. */<a name="line.63"></a>
+<FONT color="green">064</FONT>      public static final String ACCEPT_ENCODING = "Accept-Encoding";<a name="line.64"></a>
+<FONT color="green">065</FONT>      /** The HTTP Accept-Language header field name. */<a name="line.65"></a>
+<FONT color="green">066</FONT>      public static final String ACCEPT_LANGUAGE = "Accept-Language";<a name="line.66"></a>
+<FONT color="green">067</FONT>      /** The HTTP Access-Control-Request-Headers header field name. */<a name="line.67"></a>
+<FONT color="green">068</FONT>      public static final String ACCESS_CONTROL_REQUEST_HEADERS = "Access-Control-Request-Headers";<a name="line.68"></a>
+<FONT color="green">069</FONT>      /** The HTTP Access-Control-Request-Method header field name. */<a name="line.69"></a>
+<FONT color="green">070</FONT>      public static final String ACCESS_CONTROL_REQUEST_METHOD = "Access-Control-Request-Method";<a name="line.70"></a>
+<FONT color="green">071</FONT>      /** The HTTP Authorization header field name. */<a name="line.71"></a>
+<FONT color="green">072</FONT>      public static final String AUTHORIZATION = "Authorization";<a name="line.72"></a>
+<FONT color="green">073</FONT>      /** The HTTP Connection header field name. */<a name="line.73"></a>
+<FONT color="green">074</FONT>      public static final String CONNECTION = "Connection";<a name="line.74"></a>
+<FONT color="green">075</FONT>      /** The HTTP Cookie header field name. */<a name="line.75"></a>
+<FONT color="green">076</FONT>      public static final String COOKIE = "Cookie";<a name="line.76"></a>
+<FONT color="green">077</FONT>      /** The HTTP Expect header field name. */<a name="line.77"></a>
+<FONT color="green">078</FONT>      public static final String EXPECT = "Expect";<a name="line.78"></a>
+<FONT color="green">079</FONT>      /** The HTTP From header field name. */<a name="line.79"></a>
+<FONT color="green">080</FONT>      public static final String FROM = "From";<a name="line.80"></a>
+<FONT color="green">081</FONT>      /** The HTTP Host header field name. */<a name="line.81"></a>
+<FONT color="green">082</FONT>      public static final String HOST = "Host";<a name="line.82"></a>
+<FONT color="green">083</FONT>      /** The HTTP If-Match header field name. */<a name="line.83"></a>
+<FONT color="green">084</FONT>      public static final String IF_MATCH = "If-Match";<a name="line.84"></a>
+<FONT color="green">085</FONT>      /** The HTTP If-Modified-Since header field name. */<a name="line.85"></a>
+<FONT color="green">086</FONT>      public static final String IF_MODIFIED_SINCE = "If-Modified-Since";<a name="line.86"></a>
+<FONT color="green">087</FONT>      /** The HTTP If-None-Match header field name. */<a name="line.87"></a>
+<FONT color="green">088</FONT>      public static final String IF_NONE_MATCH = "If-None-Match";<a name="line.88"></a>
+<FONT color="green">089</FONT>      /** The HTTP If-Range header field name. */<a name="line.89"></a>
+<FONT color="green">090</FONT>      public static final String IF_RANGE = "If-Range";<a name="line.90"></a>
+<FONT color="green">091</FONT>      /** The HTTP If-Unmodified-Since header field name. */<a name="line.91"></a>
+<FONT color="green">092</FONT>      public static final String IF_UNMODIFIED_SINCE = "If-Unmodified-Since";<a name="line.92"></a>
+<FONT color="green">093</FONT>      /** The HTTP Last-Event-ID header field name. */<a name="line.93"></a>
+<FONT color="green">094</FONT>      public static final String LAST_EVENT_ID = "Last-Event-ID";<a name="line.94"></a>
+<FONT color="green">095</FONT>      /** The HTTP Max-Forwards header field name. */<a name="line.95"></a>
+<FONT color="green">096</FONT>      public static final String MAX_FORWARDS = "Max-Forwards";<a name="line.96"></a>
+<FONT color="green">097</FONT>      /** The HTTP Origin header field name. */<a name="line.97"></a>
+<FONT color="green">098</FONT>      public static final String ORIGIN = "Origin";<a name="line.98"></a>
+<FONT color="green">099</FONT>      /** The HTTP Proxy-Authorization header field name. */<a name="line.99"></a>
+<FONT color="green">100</FONT>      public static final String PROXY_AUTHORIZATION = "Proxy-Authorization";<a name="line.100"></a>
+<FONT color="green">101</FONT>      /** The HTTP Range header field name. */<a name="line.101"></a>
+<FONT color="green">102</FONT>      public static final String RANGE = "Range";<a name="line.102"></a>
+<FONT color="green">103</FONT>      /** The HTTP Referer header field name. */<a name="line.103"></a>
+<FONT color="green">104</FONT>      public static final String REFERER = "Referer";<a name="line.104"></a>
+<FONT color="green">105</FONT>      /** The HTTP TE header field name. */<a name="line.105"></a>
+<FONT color="green">106</FONT>      public static final String TE = "TE";<a name="line.106"></a>
+<FONT color="green">107</FONT>      /** The HTTP Upgrade header field name. */<a name="line.107"></a>
+<FONT color="green">108</FONT>      public static final String UPGRADE = "Upgrade";<a name="line.108"></a>
+<FONT color="green">109</FONT>      /** The HTTP User-Agent header field name. */<a name="line.109"></a>
+<FONT color="green">110</FONT>      public static final String USER_AGENT = "User-Agent";<a name="line.110"></a>
+<FONT color="green">111</FONT>    <a name="line.111"></a>
+<FONT color="green">112</FONT>      // HTTP Response header fields<a name="line.112"></a>
+<FONT color="green">113</FONT>    <a name="line.113"></a>
+<FONT color="green">114</FONT>      /** The HTTP Accept-Ranges header field name. */<a name="line.114"></a>
+<FONT color="green">115</FONT>      public static final String ACCEPT_RANGES = "Accept-Ranges";<a name="line.115"></a>
+<FONT color="green">116</FONT>      /** The HTTP Access-Control-Allow-Headers header field name. */<a name="line.116"></a>
+<FONT color="green">117</FONT>      public static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";<a name="line.117"></a>
+<FONT color="green">118</FONT>      /** The HTTP Access-Control-Allow-Methods header field name. */<a name="line.118"></a>
+<FONT color="green">119</FONT>      public static final String ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods";<a name="line.119"></a>
+<FONT color="green">120</FONT>      /** The HTTP Access-Control-Allow-Origin header field name. */<a name="line.120"></a>
+<FONT color="green">121</FONT>      public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";<a name="line.121"></a>
+<FONT color="green">122</FONT>      /** The HTTP Access-Control-Allow-Credentials header field name. */<a name="line.122"></a>
+<FONT color="green">123</FONT>      public static final String ACCESS_CONTROL_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";<a name="line.123"></a>
+<FONT color="green">124</FONT>      /** The HTTP Access-Control-Expose-Headers header field name. */<a name="line.124"></a>
+<FONT color="green">125</FONT>      public static final String ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers";<a name="line.125"></a>
+<FONT color="green">126</FONT>      /** The HTTP Access-Control-Max-Age header field name. */<a name="line.126"></a>
+<FONT color="green">127</FONT>      public static final String ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age";<a name="line.127"></a>
+<FONT color="green">128</FONT>      /** The HTTP Age header field name. */<a name="line.128"></a>
+<FONT color="green">129</FONT>      public static final String AGE = "Age";<a name="line.129"></a>
+<FONT color="green">130</FONT>      /** The HTTP Allow header field name. */<a name="line.130"></a>
+<FONT color="green">131</FONT>      public static final String ALLOW = "Allow";<a name="line.131"></a>
+<FONT color="green">132</FONT>      /** The HTTP Content-Disposition header field name. */<a name="line.132"></a>
+<FONT color="green">133</FONT>      public static final String CONTENT_DISPOSITION = "Content-Disposition";<a name="line.133"></a>
+<FONT color="green">134</FONT>      /** The HTTP Content-Encoding header field name. */<a name="line.134"></a>
+<FONT color="green">135</FONT>      public static final String CONTENT_ENCODING = "Content-Encoding";<a name="line.135"></a>
+<FONT color="green">136</FONT>      /** The HTTP Content-Language header field name. */<a name="line.136"></a>
+<FONT color="green">137</FONT>      public static final String CONTENT_LANGUAGE = "Content-Language";<a name="line.137"></a>
+<FONT color="green">138</FONT>      /** The HTTP Content-Location header field name. */<a name="line.138"></a>
+<FONT color="green">139</FONT>      public static final String CONTENT_LOCATION = "Content-Location";<a name="line.139"></a>
+<FONT color="green">140</FONT>      /** The HTTP Content-MD5 header field name. */<a name="line.140"></a>
+<FONT color="green">141</FONT>      public static final String CONTENT_MD5 = "Content-MD5";<a name="line.141"></a>
+<FONT color="green">142</FONT>      /** The HTTP Content-Range header field name. */<a name="line.142"></a>
+<FONT color="green">143</FONT>      public static final String CONTENT_RANGE = "Content-Range";<a name="line.143"></a>
+<FONT color="green">144</FONT>      /** The HTTP ETag header field name. */<a name="line.144"></a>
+<FONT color="green">145</FONT>      public static final String ETAG = "ETag";<a name="line.145"></a>
+<FONT color="green">146</FONT>      /** The HTTP Expires header field name. */<a name="line.146"></a>
+<FONT color="green">147</FONT>      public static final String EXPIRES = "Expires";<a name="line.147"></a>
+<FONT color="green">148</FONT>      /** The HTTP Last-Modified header field name. */<a name="line.148"></a>
+<FONT color="green">149</FONT>      public static final String LAST_MODIFIED = "Last-Modified";<a name="line.149"></a>
+<FONT color="green">150</FONT>      /** The HTTP Link header field name. */<a name="line.150"></a>
+<FONT color="green">151</FONT>      public static final String LINK = "Link";<a name="line.151"></a>
+<FONT color="green">152</FONT>      /** The HTTP Location header field name. */<a name="line.152"></a>
+<FONT color="green">153</FONT>      public static final String LOCATION = "Location";<a name="line.153"></a>
+<FONT color="green">154</FONT>      /** The HTTP P3P header field name. Limited browser support. */<a name="line.154"></a>
+<FONT color="green">155</FONT>      public static final String P3P = "P3P";<a name="line.155"></a>
+<FONT color="green">156</FONT>      /** The HTTP Proxy-Authenticate header field name. */<a name="line.156"></a>
+<FONT color="green">157</FONT>      public static final String PROXY_AUTHENTICATE = "Proxy-Authenticate";<a name="line.157"></a>
+<FONT color="green">158</FONT>      /** The HTTP Refresh header field name. Non-standard header supported by most browsers. */<a name="line.158"></a>
+<FONT color="green">159</FONT>      public static final String REFRESH = "Refresh";<a name="line.159"></a>
+<FONT color="green">160</FONT>      /** The HTTP Retry-After header field name. */<a name="line.160"></a>
+<FONT color="green">161</FONT>      public static final String RETRY_AFTER = "Retry-After";<a name="line.161"></a>
+<FONT color="green">162</FONT>      /** The HTTP Server header field name. */<a name="line.162"></a>
+<FONT color="green">163</FONT>      public static final String SERVER = "Server";<a name="line.163"></a>
+<FONT color="green">164</FONT>      /** The HTTP Set-Cookie header field name. */<a name="line.164"></a>
+<FONT color="green">165</FONT>      public static final String SET_COOKIE = "Set-Cookie";<a name="line.165"></a>
+<FONT color="green">166</FONT>      /** The HTTP Set-Cookie2 header field name. */<a name="line.166"></a>
+<FONT color="green">167</FONT>      public static final String SET_COOKIE2 = "Set-Cookie2";<a name="line.167"></a>
+<FONT color="green">168</FONT>      /** The HTTP Trailer header field name. */<a name="line.168"></a>
+<FONT color="green">169</FONT>      public static final String TRAILER = "Trailer";<a name="line.169"></a>
+<FONT color="green">170</FONT>      /** The HTTP Transfer-Encoding header field name. */<a name="line.170"></a>
+<FONT color="green">171</FONT>      public static final String TRANSFER_ENCODING = "Transfer-Encoding";<a name="line.171"></a>
+<FONT color="green">172</FONT>      /** The HTTP Vary header field name. */<a name="line.172"></a>
+<FONT color="green">173</FONT>      public static final String VARY = "Vary";<a name="line.173"></a>
+<FONT color="green">174</FONT>      /** The HTTP WWW-Authenticate header field name. */<a name="line.174"></a>
+<FONT color="green">175</FONT>      public static final String WWW_AUTHENTICATE = "WWW-Authenticate";<a name="line.175"></a>
+<FONT color="green">176</FONT>    <a name="line.176"></a>
+<FONT color="green">177</FONT>      // Common, non-standard HTTP header fields<a name="line.177"></a>
+<FONT color="green">178</FONT>    <a name="line.178"></a>
+<FONT color="green">179</FONT>      /** The HTTP DNT header field name. */<a name="line.179"></a>
+<FONT color="green">180</FONT>      public static final String DNT = "DNT";<a name="line.180"></a>
+<FONT color="green">181</FONT>      /** The HTTP X-Content-Type-Options header field name. */<a name="line.181"></a>
+<FONT color="green">182</FONT>      public static final String X_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";<a name="line.182"></a>
+<FONT color="green">183</FONT>      /** The HTTP X-Do-Not-Track header field name. */<a name="line.183"></a>
+<FONT color="green">184</FONT>      public static final String X_DO_NOT_TRACK = "X-Do-Not-Track";<a name="line.184"></a>
+<FONT color="green">185</FONT>      /** The HTTP X-Forwarded-For header field name. */<a name="line.185"></a>
+<FONT color="green">186</FONT>      public static final String X_FORWARDED_FOR = "X-Forwarded-For";<a name="line.186"></a>
+<FONT color="green">187</FONT>      /** The HTTP X-Forwarded-Proto header field name. */<a name="line.187"></a>
+<FONT color="green">188</FONT>      public static final String X_FORWARDED_PROTO = "X-Forwarded-Proto";<a name="line.188"></a>
+<FONT color="green">189</FONT>      /** The HTTP X-Frame-Options header field name. */<a name="line.189"></a>
+<FONT color="green">190</FONT>      public static final String X_FRAME_OPTIONS = "X-Frame-Options";<a name="line.190"></a>
+<FONT color="green">191</FONT>      /** The HTTP X-Powered-By header field name. */<a name="line.191"></a>
+<FONT color="green">192</FONT>      public static final String X_POWERED_BY = "X-Powered-By";<a name="line.192"></a>
+<FONT color="green">193</FONT>      /** The HTTP X-Requested-With header field name. */<a name="line.193"></a>
+<FONT color="green">194</FONT>      public static final String X_REQUESTED_WITH = "X-Requested-With";<a name="line.194"></a>
+<FONT color="green">195</FONT>      /** The HTTP X-User-IP header field name. */<a name="line.195"></a>
+<FONT color="green">196</FONT>      public static final String X_USER_IP = "X-User-IP";<a name="line.196"></a>
+<FONT color="green">197</FONT>      /** The HTTP X-XSS-Protection header field name. */<a name="line.197"></a>
+<FONT color="green">198</FONT>      public static final String X_XSS_PROTECTION = "X-XSS-Protection";<a name="line.198"></a>
+<FONT color="green">199</FONT>    <a name="line.199"></a>
+<FONT color="green">200</FONT>    }<a name="line.200"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

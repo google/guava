@@ -1,0 +1,1732 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.collect;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import static com.google.common.base.Preconditions.checkArgument;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import static com.google.common.base.Preconditions.checkNotNull;<a name="line.20"></a>
+<FONT color="green">021</FONT>    <a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.google.common.annotations.Beta;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import com.google.common.annotations.GwtIncompatible;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import com.google.common.base.Predicate;<a name="line.25"></a>
+<FONT color="green">026</FONT>    import com.google.common.base.Predicates;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import com.google.common.collect.Collections2.FilteredCollection;<a name="line.27"></a>
+<FONT color="green">028</FONT>    import com.google.common.math.IntMath;<a name="line.28"></a>
+<FONT color="green">029</FONT>    <a name="line.29"></a>
+<FONT color="green">030</FONT>    import java.io.IOException;<a name="line.30"></a>
+<FONT color="green">031</FONT>    import java.io.ObjectInputStream;<a name="line.31"></a>
+<FONT color="green">032</FONT>    import java.io.Serializable;<a name="line.32"></a>
+<FONT color="green">033</FONT>    import java.util.AbstractSet;<a name="line.33"></a>
+<FONT color="green">034</FONT>    import java.util.Arrays;<a name="line.34"></a>
+<FONT color="green">035</FONT>    import java.util.Collection;<a name="line.35"></a>
+<FONT color="green">036</FONT>    import java.util.Collections;<a name="line.36"></a>
+<FONT color="green">037</FONT>    import java.util.Comparator;<a name="line.37"></a>
+<FONT color="green">038</FONT>    import java.util.EnumSet;<a name="line.38"></a>
+<FONT color="green">039</FONT>    import java.util.HashSet;<a name="line.39"></a>
+<FONT color="green">040</FONT>    import java.util.Iterator;<a name="line.40"></a>
+<FONT color="green">041</FONT>    import java.util.LinkedHashSet;<a name="line.41"></a>
+<FONT color="green">042</FONT>    import java.util.List;<a name="line.42"></a>
+<FONT color="green">043</FONT>    import java.util.Map;<a name="line.43"></a>
+<FONT color="green">044</FONT>    import java.util.NavigableSet;<a name="line.44"></a>
+<FONT color="green">045</FONT>    import java.util.NoSuchElementException;<a name="line.45"></a>
+<FONT color="green">046</FONT>    import java.util.Set;<a name="line.46"></a>
+<FONT color="green">047</FONT>    import java.util.SortedSet;<a name="line.47"></a>
+<FONT color="green">048</FONT>    import java.util.TreeSet;<a name="line.48"></a>
+<FONT color="green">049</FONT>    import java.util.concurrent.CopyOnWriteArraySet;<a name="line.49"></a>
+<FONT color="green">050</FONT>    <a name="line.50"></a>
+<FONT color="green">051</FONT>    import javax.annotation.Nullable;<a name="line.51"></a>
+<FONT color="green">052</FONT>    <a name="line.52"></a>
+<FONT color="green">053</FONT>    /**<a name="line.53"></a>
+<FONT color="green">054</FONT>     * Static utility methods pertaining to {@link Set} instances. Also see this<a name="line.54"></a>
+<FONT color="green">055</FONT>     * class's counterparts {@link Lists} and {@link Maps}.<a name="line.55"></a>
+<FONT color="green">056</FONT>     *<a name="line.56"></a>
+<FONT color="green">057</FONT>     * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.57"></a>
+<FONT color="green">058</FONT>     * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Sets"&gt;<a name="line.58"></a>
+<FONT color="green">059</FONT>     * {@code Sets}&lt;/a&gt;.<a name="line.59"></a>
+<FONT color="green">060</FONT>     *<a name="line.60"></a>
+<FONT color="green">061</FONT>     * @author Kevin Bourrillion<a name="line.61"></a>
+<FONT color="green">062</FONT>     * @author Jared Levy<a name="line.62"></a>
+<FONT color="green">063</FONT>     * @author Chris Povirk<a name="line.63"></a>
+<FONT color="green">064</FONT>     * @since 2.0 (imported from Google Collections Library)<a name="line.64"></a>
+<FONT color="green">065</FONT>     */<a name="line.65"></a>
+<FONT color="green">066</FONT>    @GwtCompatible(emulated = true)<a name="line.66"></a>
+<FONT color="green">067</FONT>    public final class Sets {<a name="line.67"></a>
+<FONT color="green">068</FONT>      private Sets() {}<a name="line.68"></a>
+<FONT color="green">069</FONT>    <a name="line.69"></a>
+<FONT color="green">070</FONT>      /**<a name="line.70"></a>
+<FONT color="green">071</FONT>       * {@link AbstractSet} substitute without the potentially-quadratic<a name="line.71"></a>
+<FONT color="green">072</FONT>       * {@code removeAll} implementation.<a name="line.72"></a>
+<FONT color="green">073</FONT>       */<a name="line.73"></a>
+<FONT color="green">074</FONT>      abstract static class ImprovedAbstractSet&lt;E&gt; extends AbstractSet&lt;E&gt; {<a name="line.74"></a>
+<FONT color="green">075</FONT>        @Override<a name="line.75"></a>
+<FONT color="green">076</FONT>        public boolean removeAll(Collection&lt;?&gt; c) {<a name="line.76"></a>
+<FONT color="green">077</FONT>          return removeAllImpl(this, c);<a name="line.77"></a>
+<FONT color="green">078</FONT>        }<a name="line.78"></a>
+<FONT color="green">079</FONT>    <a name="line.79"></a>
+<FONT color="green">080</FONT>        @Override<a name="line.80"></a>
+<FONT color="green">081</FONT>        public boolean retainAll(Collection&lt;?&gt; c) {<a name="line.81"></a>
+<FONT color="green">082</FONT>          return super.retainAll(checkNotNull(c)); // GWT compatibility<a name="line.82"></a>
+<FONT color="green">083</FONT>        }<a name="line.83"></a>
+<FONT color="green">084</FONT>      }<a name="line.84"></a>
+<FONT color="green">085</FONT>    <a name="line.85"></a>
+<FONT color="green">086</FONT>      /**<a name="line.86"></a>
+<FONT color="green">087</FONT>       * Returns an immutable set instance containing the given enum elements.<a name="line.87"></a>
+<FONT color="green">088</FONT>       * Internally, the returned set will be backed by an {@link EnumSet}.<a name="line.88"></a>
+<FONT color="green">089</FONT>       *<a name="line.89"></a>
+<FONT color="green">090</FONT>       * &lt;p&gt;The iteration order of the returned set follows the enum's iteration<a name="line.90"></a>
+<FONT color="green">091</FONT>       * order, not the order in which the elements are provided to the method.<a name="line.91"></a>
+<FONT color="green">092</FONT>       *<a name="line.92"></a>
+<FONT color="green">093</FONT>       * @param anElement one of the elements the set should contain<a name="line.93"></a>
+<FONT color="green">094</FONT>       * @param otherElements the rest of the elements the set should contain<a name="line.94"></a>
+<FONT color="green">095</FONT>       * @return an immutable set containing those elements, minus duplicates<a name="line.95"></a>
+<FONT color="green">096</FONT>       */<a name="line.96"></a>
+<FONT color="green">097</FONT>      // http://code.google.com/p/google-web-toolkit/issues/detail?id=3028<a name="line.97"></a>
+<FONT color="green">098</FONT>      @GwtCompatible(serializable = true)<a name="line.98"></a>
+<FONT color="green">099</FONT>      public static &lt;E extends Enum&lt;E&gt;&gt; ImmutableSet&lt;E&gt; immutableEnumSet(<a name="line.99"></a>
+<FONT color="green">100</FONT>          E anElement, E... otherElements) {<a name="line.100"></a>
+<FONT color="green">101</FONT>        return new ImmutableEnumSet&lt;E&gt;(EnumSet.of(anElement, otherElements));<a name="line.101"></a>
+<FONT color="green">102</FONT>      }<a name="line.102"></a>
+<FONT color="green">103</FONT>    <a name="line.103"></a>
+<FONT color="green">104</FONT>      /**<a name="line.104"></a>
+<FONT color="green">105</FONT>       * Returns an immutable set instance containing the given enum elements.<a name="line.105"></a>
+<FONT color="green">106</FONT>       * Internally, the returned set will be backed by an {@link EnumSet}.<a name="line.106"></a>
+<FONT color="green">107</FONT>       *<a name="line.107"></a>
+<FONT color="green">108</FONT>       * &lt;p&gt;The iteration order of the returned set follows the enum's iteration<a name="line.108"></a>
+<FONT color="green">109</FONT>       * order, not the order in which the elements appear in the given collection.<a name="line.109"></a>
+<FONT color="green">110</FONT>       *<a name="line.110"></a>
+<FONT color="green">111</FONT>       * @param elements the elements, all of the same {@code enum} type, that the<a name="line.111"></a>
+<FONT color="green">112</FONT>       *     set should contain<a name="line.112"></a>
+<FONT color="green">113</FONT>       * @return an immutable set containing those elements, minus duplicates<a name="line.113"></a>
+<FONT color="green">114</FONT>       */<a name="line.114"></a>
+<FONT color="green">115</FONT>      // http://code.google.com/p/google-web-toolkit/issues/detail?id=3028<a name="line.115"></a>
+<FONT color="green">116</FONT>      @GwtCompatible(serializable = true)<a name="line.116"></a>
+<FONT color="green">117</FONT>      public static &lt;E extends Enum&lt;E&gt;&gt; ImmutableSet&lt;E&gt; immutableEnumSet(<a name="line.117"></a>
+<FONT color="green">118</FONT>          Iterable&lt;E&gt; elements) {<a name="line.118"></a>
+<FONT color="green">119</FONT>        Iterator&lt;E&gt; iterator = elements.iterator();<a name="line.119"></a>
+<FONT color="green">120</FONT>        if (!iterator.hasNext()) {<a name="line.120"></a>
+<FONT color="green">121</FONT>          return ImmutableSet.of();<a name="line.121"></a>
+<FONT color="green">122</FONT>        }<a name="line.122"></a>
+<FONT color="green">123</FONT>        if (elements instanceof EnumSet) {<a name="line.123"></a>
+<FONT color="green">124</FONT>          EnumSet&lt;E&gt; enumSetClone = EnumSet.copyOf((EnumSet&lt;E&gt;) elements);<a name="line.124"></a>
+<FONT color="green">125</FONT>          return new ImmutableEnumSet&lt;E&gt;(enumSetClone);<a name="line.125"></a>
+<FONT color="green">126</FONT>        }<a name="line.126"></a>
+<FONT color="green">127</FONT>        E first = iterator.next();<a name="line.127"></a>
+<FONT color="green">128</FONT>        EnumSet&lt;E&gt; set = EnumSet.of(first);<a name="line.128"></a>
+<FONT color="green">129</FONT>        while (iterator.hasNext()) {<a name="line.129"></a>
+<FONT color="green">130</FONT>          set.add(iterator.next());<a name="line.130"></a>
+<FONT color="green">131</FONT>        }<a name="line.131"></a>
+<FONT color="green">132</FONT>        return new ImmutableEnumSet&lt;E&gt;(set);<a name="line.132"></a>
+<FONT color="green">133</FONT>      }<a name="line.133"></a>
+<FONT color="green">134</FONT>    <a name="line.134"></a>
+<FONT color="green">135</FONT>      /**<a name="line.135"></a>
+<FONT color="green">136</FONT>       * Returns a new {@code EnumSet} instance containing the given elements.<a name="line.136"></a>
+<FONT color="green">137</FONT>       * Unlike {@link EnumSet#copyOf(Collection)}, this method does not produce an<a name="line.137"></a>
+<FONT color="green">138</FONT>       * exception on an empty collection, and it may be called on any iterable, not<a name="line.138"></a>
+<FONT color="green">139</FONT>       * just a {@code Collection}.<a name="line.139"></a>
+<FONT color="green">140</FONT>       */<a name="line.140"></a>
+<FONT color="green">141</FONT>      public static &lt;E extends Enum&lt;E&gt;&gt; EnumSet&lt;E&gt; newEnumSet(Iterable&lt;E&gt; iterable,<a name="line.141"></a>
+<FONT color="green">142</FONT>          Class&lt;E&gt; elementType) {<a name="line.142"></a>
+<FONT color="green">143</FONT>        /*<a name="line.143"></a>
+<FONT color="green">144</FONT>         * TODO(cpovirk): noneOf() and addAll() will both throw<a name="line.144"></a>
+<FONT color="green">145</FONT>         * NullPointerExceptions when appropriate. However, NullPointerTester will<a name="line.145"></a>
+<FONT color="green">146</FONT>         * fail on this method because it passes in Class.class instead of an enum<a name="line.146"></a>
+<FONT color="green">147</FONT>         * type. This means that, when iterable is null but elementType is not,<a name="line.147"></a>
+<FONT color="green">148</FONT>         * noneOf() will throw a ClassCastException before addAll() has a chance to<a name="line.148"></a>
+<FONT color="green">149</FONT>         * throw a NullPointerException. NullPointerTester considers this a failure.<a name="line.149"></a>
+<FONT color="green">150</FONT>         * Ideally the test would be fixed, but it would require a special case for<a name="line.150"></a>
+<FONT color="green">151</FONT>         * Class&lt;E&gt; where E extends Enum. Until that happens (if ever), leave<a name="line.151"></a>
+<FONT color="green">152</FONT>         * checkNotNull() here. For now, contemplate the irony that checking<a name="line.152"></a>
+<FONT color="green">153</FONT>         * elementType, the problem argument, is harmful, while checking iterable,<a name="line.153"></a>
+<FONT color="green">154</FONT>         * the innocent bystander, is effective.<a name="line.154"></a>
+<FONT color="green">155</FONT>         */<a name="line.155"></a>
+<FONT color="green">156</FONT>        checkNotNull(iterable);<a name="line.156"></a>
+<FONT color="green">157</FONT>        EnumSet&lt;E&gt; set = EnumSet.noneOf(elementType);<a name="line.157"></a>
+<FONT color="green">158</FONT>        Iterables.addAll(set, iterable);<a name="line.158"></a>
+<FONT color="green">159</FONT>        return set;<a name="line.159"></a>
+<FONT color="green">160</FONT>      }<a name="line.160"></a>
+<FONT color="green">161</FONT>    <a name="line.161"></a>
+<FONT color="green">162</FONT>      // HashSet<a name="line.162"></a>
+<FONT color="green">163</FONT>    <a name="line.163"></a>
+<FONT color="green">164</FONT>      /**<a name="line.164"></a>
+<FONT color="green">165</FONT>       * Creates a &lt;i&gt;mutable&lt;/i&gt;, empty {@code HashSet} instance.<a name="line.165"></a>
+<FONT color="green">166</FONT>       *<a name="line.166"></a>
+<FONT color="green">167</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@link<a name="line.167"></a>
+<FONT color="green">168</FONT>       * ImmutableSet#of()} instead.<a name="line.168"></a>
+<FONT color="green">169</FONT>       *<a name="line.169"></a>
+<FONT color="green">170</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code E} is an {@link Enum} type, use {@link<a name="line.170"></a>
+<FONT color="green">171</FONT>       * EnumSet#noneOf} instead.<a name="line.171"></a>
+<FONT color="green">172</FONT>       *<a name="line.172"></a>
+<FONT color="green">173</FONT>       * @return a new, empty {@code HashSet}<a name="line.173"></a>
+<FONT color="green">174</FONT>       */<a name="line.174"></a>
+<FONT color="green">175</FONT>      public static &lt;E&gt; HashSet&lt;E&gt; newHashSet() {<a name="line.175"></a>
+<FONT color="green">176</FONT>        return new HashSet&lt;E&gt;();<a name="line.176"></a>
+<FONT color="green">177</FONT>      }<a name="line.177"></a>
+<FONT color="green">178</FONT>    <a name="line.178"></a>
+<FONT color="green">179</FONT>      /**<a name="line.179"></a>
+<FONT color="green">180</FONT>       * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code HashSet} instance containing the given<a name="line.180"></a>
+<FONT color="green">181</FONT>       * elements in unspecified order.<a name="line.181"></a>
+<FONT color="green">182</FONT>       *<a name="line.182"></a>
+<FONT color="green">183</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are<a name="line.183"></a>
+<FONT color="green">184</FONT>       * non-null, use an overload of {@link ImmutableSet#of()} (for varargs) or<a name="line.184"></a>
+<FONT color="green">185</FONT>       * {@link ImmutableSet#copyOf(Object[])} (for an array) instead.<a name="line.185"></a>
+<FONT color="green">186</FONT>       *<a name="line.186"></a>
+<FONT color="green">187</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code E} is an {@link Enum} type, use {@link<a name="line.187"></a>
+<FONT color="green">188</FONT>       * EnumSet#of(Enum, Enum[])} instead.<a name="line.188"></a>
+<FONT color="green">189</FONT>       *<a name="line.189"></a>
+<FONT color="green">190</FONT>       * @param elements the elements that the set should contain<a name="line.190"></a>
+<FONT color="green">191</FONT>       * @return a new {@code HashSet} containing those elements (minus duplicates)<a name="line.191"></a>
+<FONT color="green">192</FONT>       */<a name="line.192"></a>
+<FONT color="green">193</FONT>      public static &lt;E&gt; HashSet&lt;E&gt; newHashSet(E... elements) {<a name="line.193"></a>
+<FONT color="green">194</FONT>        HashSet&lt;E&gt; set = newHashSetWithExpectedSize(elements.length);<a name="line.194"></a>
+<FONT color="green">195</FONT>        Collections.addAll(set, elements);<a name="line.195"></a>
+<FONT color="green">196</FONT>        return set;<a name="line.196"></a>
+<FONT color="green">197</FONT>      }<a name="line.197"></a>
+<FONT color="green">198</FONT>    <a name="line.198"></a>
+<FONT color="green">199</FONT>      /**<a name="line.199"></a>
+<FONT color="green">200</FONT>       * Creates a {@code HashSet} instance, with a high enough "initial capacity"<a name="line.200"></a>
+<FONT color="green">201</FONT>       * that it &lt;i&gt;should&lt;/i&gt; hold {@code expectedSize} elements without growth.<a name="line.201"></a>
+<FONT color="green">202</FONT>       * This behavior cannot be broadly guaranteed, but it is observed to be true<a name="line.202"></a>
+<FONT color="green">203</FONT>       * for OpenJDK 1.6. It also can't be guaranteed that the method isn't<a name="line.203"></a>
+<FONT color="green">204</FONT>       * inadvertently &lt;i&gt;oversizing&lt;/i&gt; the returned set.<a name="line.204"></a>
+<FONT color="green">205</FONT>       *<a name="line.205"></a>
+<FONT color="green">206</FONT>       * @param expectedSize the number of elements you expect to add to the<a name="line.206"></a>
+<FONT color="green">207</FONT>       *        returned set<a name="line.207"></a>
+<FONT color="green">208</FONT>       * @return a new, empty {@code HashSet} with enough capacity to hold {@code<a name="line.208"></a>
+<FONT color="green">209</FONT>       *         expectedSize} elements without resizing<a name="line.209"></a>
+<FONT color="green">210</FONT>       * @throws IllegalArgumentException if {@code expectedSize} is negative<a name="line.210"></a>
+<FONT color="green">211</FONT>       */<a name="line.211"></a>
+<FONT color="green">212</FONT>      public static &lt;E&gt; HashSet&lt;E&gt; newHashSetWithExpectedSize(int expectedSize) {<a name="line.212"></a>
+<FONT color="green">213</FONT>        return new HashSet&lt;E&gt;(Maps.capacity(expectedSize));<a name="line.213"></a>
+<FONT color="green">214</FONT>      }<a name="line.214"></a>
+<FONT color="green">215</FONT>    <a name="line.215"></a>
+<FONT color="green">216</FONT>      /**<a name="line.216"></a>
+<FONT color="green">217</FONT>       * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code HashSet} instance containing the given<a name="line.217"></a>
+<FONT color="green">218</FONT>       * elements in unspecified order.<a name="line.218"></a>
+<FONT color="green">219</FONT>       *<a name="line.219"></a>
+<FONT color="green">220</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are<a name="line.220"></a>
+<FONT color="green">221</FONT>       * non-null, use {@link ImmutableSet#copyOf(Iterable)} instead.<a name="line.221"></a>
+<FONT color="green">222</FONT>       *<a name="line.222"></a>
+<FONT color="green">223</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code E} is an {@link Enum} type, use<a name="line.223"></a>
+<FONT color="green">224</FONT>       * {@link #newEnumSet(Iterable, Class)} instead.<a name="line.224"></a>
+<FONT color="green">225</FONT>       *<a name="line.225"></a>
+<FONT color="green">226</FONT>       * @param elements the elements that the set should contain<a name="line.226"></a>
+<FONT color="green">227</FONT>       * @return a new {@code HashSet} containing those elements (minus duplicates)<a name="line.227"></a>
+<FONT color="green">228</FONT>       */<a name="line.228"></a>
+<FONT color="green">229</FONT>      public static &lt;E&gt; HashSet&lt;E&gt; newHashSet(Iterable&lt;? extends E&gt; elements) {<a name="line.229"></a>
+<FONT color="green">230</FONT>        return (elements instanceof Collection)<a name="line.230"></a>
+<FONT color="green">231</FONT>            ? new HashSet&lt;E&gt;(Collections2.cast(elements))<a name="line.231"></a>
+<FONT color="green">232</FONT>            : newHashSet(elements.iterator());<a name="line.232"></a>
+<FONT color="green">233</FONT>      }<a name="line.233"></a>
+<FONT color="green">234</FONT>    <a name="line.234"></a>
+<FONT color="green">235</FONT>      /**<a name="line.235"></a>
+<FONT color="green">236</FONT>       * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code HashSet} instance containing the given<a name="line.236"></a>
+<FONT color="green">237</FONT>       * elements in unspecified order.<a name="line.237"></a>
+<FONT color="green">238</FONT>       *<a name="line.238"></a>
+<FONT color="green">239</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are<a name="line.239"></a>
+<FONT color="green">240</FONT>       * non-null, use {@link ImmutableSet#copyOf(Iterable)} instead.<a name="line.240"></a>
+<FONT color="green">241</FONT>       *<a name="line.241"></a>
+<FONT color="green">242</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code E} is an {@link Enum} type, you should create an<a name="line.242"></a>
+<FONT color="green">243</FONT>       * {@link EnumSet} instead.<a name="line.243"></a>
+<FONT color="green">244</FONT>       *<a name="line.244"></a>
+<FONT color="green">245</FONT>       * @param elements the elements that the set should contain<a name="line.245"></a>
+<FONT color="green">246</FONT>       * @return a new {@code HashSet} containing those elements (minus duplicates)<a name="line.246"></a>
+<FONT color="green">247</FONT>       */<a name="line.247"></a>
+<FONT color="green">248</FONT>      public static &lt;E&gt; HashSet&lt;E&gt; newHashSet(Iterator&lt;? extends E&gt; elements) {<a name="line.248"></a>
+<FONT color="green">249</FONT>        HashSet&lt;E&gt; set = newHashSet();<a name="line.249"></a>
+<FONT color="green">250</FONT>        while (elements.hasNext()) {<a name="line.250"></a>
+<FONT color="green">251</FONT>          set.add(elements.next());<a name="line.251"></a>
+<FONT color="green">252</FONT>        }<a name="line.252"></a>
+<FONT color="green">253</FONT>        return set;<a name="line.253"></a>
+<FONT color="green">254</FONT>      }<a name="line.254"></a>
+<FONT color="green">255</FONT>    <a name="line.255"></a>
+<FONT color="green">256</FONT>      // LinkedHashSet<a name="line.256"></a>
+<FONT color="green">257</FONT>    <a name="line.257"></a>
+<FONT color="green">258</FONT>      /**<a name="line.258"></a>
+<FONT color="green">259</FONT>       * Creates a &lt;i&gt;mutable&lt;/i&gt;, empty {@code LinkedHashSet} instance.<a name="line.259"></a>
+<FONT color="green">260</FONT>       *<a name="line.260"></a>
+<FONT color="green">261</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@link<a name="line.261"></a>
+<FONT color="green">262</FONT>       * ImmutableSet#of()} instead.<a name="line.262"></a>
+<FONT color="green">263</FONT>       *<a name="line.263"></a>
+<FONT color="green">264</FONT>       * @return a new, empty {@code LinkedHashSet}<a name="line.264"></a>
+<FONT color="green">265</FONT>       */<a name="line.265"></a>
+<FONT color="green">266</FONT>      public static &lt;E&gt; LinkedHashSet&lt;E&gt; newLinkedHashSet() {<a name="line.266"></a>
+<FONT color="green">267</FONT>        return new LinkedHashSet&lt;E&gt;();<a name="line.267"></a>
+<FONT color="green">268</FONT>      }<a name="line.268"></a>
+<FONT color="green">269</FONT>    <a name="line.269"></a>
+<FONT color="green">270</FONT>      /**<a name="line.270"></a>
+<FONT color="green">271</FONT>       * Creates a {@code LinkedHashSet} instance, with a high enough "initial<a name="line.271"></a>
+<FONT color="green">272</FONT>       * capacity" that it &lt;i&gt;should&lt;/i&gt; hold {@code expectedSize} elements without<a name="line.272"></a>
+<FONT color="green">273</FONT>       * growth. This behavior cannot be broadly guaranteed, but it is observed to<a name="line.273"></a>
+<FONT color="green">274</FONT>       * be true for OpenJDK 1.6. It also can't be guaranteed that the method isn't<a name="line.274"></a>
+<FONT color="green">275</FONT>       * inadvertently &lt;i&gt;oversizing&lt;/i&gt; the returned set.<a name="line.275"></a>
+<FONT color="green">276</FONT>       *<a name="line.276"></a>
+<FONT color="green">277</FONT>       * @param expectedSize the number of elements you expect to add to the<a name="line.277"></a>
+<FONT color="green">278</FONT>       *        returned set<a name="line.278"></a>
+<FONT color="green">279</FONT>       * @return a new, empty {@code LinkedHashSet} with enough capacity to hold<a name="line.279"></a>
+<FONT color="green">280</FONT>       *         {@code expectedSize} elements without resizing<a name="line.280"></a>
+<FONT color="green">281</FONT>       * @throws IllegalArgumentException if {@code expectedSize} is negative<a name="line.281"></a>
+<FONT color="green">282</FONT>       * @since 11.0<a name="line.282"></a>
+<FONT color="green">283</FONT>       */<a name="line.283"></a>
+<FONT color="green">284</FONT>      public static &lt;E&gt; LinkedHashSet&lt;E&gt; newLinkedHashSetWithExpectedSize(<a name="line.284"></a>
+<FONT color="green">285</FONT>          int expectedSize) {<a name="line.285"></a>
+<FONT color="green">286</FONT>        return new LinkedHashSet&lt;E&gt;(Maps.capacity(expectedSize));<a name="line.286"></a>
+<FONT color="green">287</FONT>      }<a name="line.287"></a>
+<FONT color="green">288</FONT>    <a name="line.288"></a>
+<FONT color="green">289</FONT>      /**<a name="line.289"></a>
+<FONT color="green">290</FONT>       * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code LinkedHashSet} instance containing the<a name="line.290"></a>
+<FONT color="green">291</FONT>       * given elements in order.<a name="line.291"></a>
+<FONT color="green">292</FONT>       *<a name="line.292"></a>
+<FONT color="green">293</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are<a name="line.293"></a>
+<FONT color="green">294</FONT>       * non-null, use {@link ImmutableSet#copyOf(Iterable)} instead.<a name="line.294"></a>
+<FONT color="green">295</FONT>       *<a name="line.295"></a>
+<FONT color="green">296</FONT>       * @param elements the elements that the set should contain, in order<a name="line.296"></a>
+<FONT color="green">297</FONT>       * @return a new {@code LinkedHashSet} containing those elements (minus<a name="line.297"></a>
+<FONT color="green">298</FONT>       *     duplicates)<a name="line.298"></a>
+<FONT color="green">299</FONT>       */<a name="line.299"></a>
+<FONT color="green">300</FONT>      public static &lt;E&gt; LinkedHashSet&lt;E&gt; newLinkedHashSet(<a name="line.300"></a>
+<FONT color="green">301</FONT>          Iterable&lt;? extends E&gt; elements) {<a name="line.301"></a>
+<FONT color="green">302</FONT>        if (elements instanceof Collection) {<a name="line.302"></a>
+<FONT color="green">303</FONT>          return new LinkedHashSet&lt;E&gt;(Collections2.cast(elements));<a name="line.303"></a>
+<FONT color="green">304</FONT>        }<a name="line.304"></a>
+<FONT color="green">305</FONT>        LinkedHashSet&lt;E&gt; set = newLinkedHashSet();<a name="line.305"></a>
+<FONT color="green">306</FONT>        for (E element : elements) {<a name="line.306"></a>
+<FONT color="green">307</FONT>          set.add(element);<a name="line.307"></a>
+<FONT color="green">308</FONT>        }<a name="line.308"></a>
+<FONT color="green">309</FONT>        return set;<a name="line.309"></a>
+<FONT color="green">310</FONT>      }<a name="line.310"></a>
+<FONT color="green">311</FONT>    <a name="line.311"></a>
+<FONT color="green">312</FONT>      // TreeSet<a name="line.312"></a>
+<FONT color="green">313</FONT>    <a name="line.313"></a>
+<FONT color="green">314</FONT>      /**<a name="line.314"></a>
+<FONT color="green">315</FONT>       * Creates a &lt;i&gt;mutable&lt;/i&gt;, empty {@code TreeSet} instance sorted by the<a name="line.315"></a>
+<FONT color="green">316</FONT>       * natural sort ordering of its elements.<a name="line.316"></a>
+<FONT color="green">317</FONT>       *<a name="line.317"></a>
+<FONT color="green">318</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@link<a name="line.318"></a>
+<FONT color="green">319</FONT>       * ImmutableSortedSet#of()} instead.<a name="line.319"></a>
+<FONT color="green">320</FONT>       *<a name="line.320"></a>
+<FONT color="green">321</FONT>       * @return a new, empty {@code TreeSet}<a name="line.321"></a>
+<FONT color="green">322</FONT>       */<a name="line.322"></a>
+<FONT color="green">323</FONT>      public static &lt;E extends Comparable&gt; TreeSet&lt;E&gt; newTreeSet() {<a name="line.323"></a>
+<FONT color="green">324</FONT>        return new TreeSet&lt;E&gt;();<a name="line.324"></a>
+<FONT color="green">325</FONT>      }<a name="line.325"></a>
+<FONT color="green">326</FONT>    <a name="line.326"></a>
+<FONT color="green">327</FONT>      /**<a name="line.327"></a>
+<FONT color="green">328</FONT>       * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code TreeSet} instance containing the given<a name="line.328"></a>
+<FONT color="green">329</FONT>       * elements sorted by their natural ordering.<a name="line.329"></a>
+<FONT color="green">330</FONT>       *<a name="line.330"></a>
+<FONT color="green">331</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@link<a name="line.331"></a>
+<FONT color="green">332</FONT>       * ImmutableSortedSet#copyOf(Iterable)} instead.<a name="line.332"></a>
+<FONT color="green">333</FONT>       *<a name="line.333"></a>
+<FONT color="green">334</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; If {@code elements} is a {@code SortedSet} with an explicit<a name="line.334"></a>
+<FONT color="green">335</FONT>       * comparator, this method has different behavior than<a name="line.335"></a>
+<FONT color="green">336</FONT>       * {@link TreeSet#TreeSet(SortedSet)}, which returns a {@code TreeSet} with<a name="line.336"></a>
+<FONT color="green">337</FONT>       * that comparator.<a name="line.337"></a>
+<FONT color="green">338</FONT>       *<a name="line.338"></a>
+<FONT color="green">339</FONT>       * @param elements the elements that the set should contain<a name="line.339"></a>
+<FONT color="green">340</FONT>       * @return a new {@code TreeSet} containing those elements (minus duplicates)<a name="line.340"></a>
+<FONT color="green">341</FONT>       */<a name="line.341"></a>
+<FONT color="green">342</FONT>      public static &lt;E extends Comparable&gt; TreeSet&lt;E&gt; newTreeSet(<a name="line.342"></a>
+<FONT color="green">343</FONT>          Iterable&lt;? extends E&gt; elements) {<a name="line.343"></a>
+<FONT color="green">344</FONT>        TreeSet&lt;E&gt; set = newTreeSet();<a name="line.344"></a>
+<FONT color="green">345</FONT>        for (E element : elements) {<a name="line.345"></a>
+<FONT color="green">346</FONT>          set.add(element);<a name="line.346"></a>
+<FONT color="green">347</FONT>        }<a name="line.347"></a>
+<FONT color="green">348</FONT>        return set;<a name="line.348"></a>
+<FONT color="green">349</FONT>      }<a name="line.349"></a>
+<FONT color="green">350</FONT>    <a name="line.350"></a>
+<FONT color="green">351</FONT>      /**<a name="line.351"></a>
+<FONT color="green">352</FONT>       * Creates a &lt;i&gt;mutable&lt;/i&gt;, empty {@code TreeSet} instance with the given<a name="line.352"></a>
+<FONT color="green">353</FONT>       * comparator.<a name="line.353"></a>
+<FONT color="green">354</FONT>       *<a name="line.354"></a>
+<FONT color="green">355</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@code<a name="line.355"></a>
+<FONT color="green">356</FONT>       * ImmutableSortedSet.orderedBy(comparator).build()} instead.<a name="line.356"></a>
+<FONT color="green">357</FONT>       *<a name="line.357"></a>
+<FONT color="green">358</FONT>       * @param comparator the comparator to use to sort the set<a name="line.358"></a>
+<FONT color="green">359</FONT>       * @return a new, empty {@code TreeSet}<a name="line.359"></a>
+<FONT color="green">360</FONT>       * @throws NullPointerException if {@code comparator} is null<a name="line.360"></a>
+<FONT color="green">361</FONT>       */<a name="line.361"></a>
+<FONT color="green">362</FONT>      public static &lt;E&gt; TreeSet&lt;E&gt; newTreeSet(Comparator&lt;? super E&gt; comparator) {<a name="line.362"></a>
+<FONT color="green">363</FONT>        return new TreeSet&lt;E&gt;(checkNotNull(comparator));<a name="line.363"></a>
+<FONT color="green">364</FONT>      }<a name="line.364"></a>
+<FONT color="green">365</FONT>    <a name="line.365"></a>
+<FONT color="green">366</FONT>      /**<a name="line.366"></a>
+<FONT color="green">367</FONT>       * Creates an empty {@code Set} that uses identity to determine equality. It<a name="line.367"></a>
+<FONT color="green">368</FONT>       * compares object references, instead of calling {@code equals}, to<a name="line.368"></a>
+<FONT color="green">369</FONT>       * determine whether a provided object matches an element in the set. For<a name="line.369"></a>
+<FONT color="green">370</FONT>       * example, {@code contains} returns {@code false} when passed an object that<a name="line.370"></a>
+<FONT color="green">371</FONT>       * equals a set member, but isn't the same instance. This behavior is similar<a name="line.371"></a>
+<FONT color="green">372</FONT>       * to the way {@code IdentityHashMap} handles key lookups.<a name="line.372"></a>
+<FONT color="green">373</FONT>       *<a name="line.373"></a>
+<FONT color="green">374</FONT>       * @since 8.0<a name="line.374"></a>
+<FONT color="green">375</FONT>       */<a name="line.375"></a>
+<FONT color="green">376</FONT>      public static &lt;E&gt; Set&lt;E&gt; newIdentityHashSet() {<a name="line.376"></a>
+<FONT color="green">377</FONT>        return Sets.newSetFromMap(Maps.&lt;E, Boolean&gt;newIdentityHashMap());<a name="line.377"></a>
+<FONT color="green">378</FONT>      }<a name="line.378"></a>
+<FONT color="green">379</FONT>    <a name="line.379"></a>
+<FONT color="green">380</FONT>      /**<a name="line.380"></a>
+<FONT color="green">381</FONT>       * Creates an empty {@code CopyOnWriteArraySet} instance.<a name="line.381"></a>
+<FONT color="green">382</FONT>       *<a name="line.382"></a>
+<FONT color="green">383</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if you need an immutable empty {@link Set}, use<a name="line.383"></a>
+<FONT color="green">384</FONT>       * {@link Collections#emptySet} instead.<a name="line.384"></a>
+<FONT color="green">385</FONT>       *<a name="line.385"></a>
+<FONT color="green">386</FONT>       * @return a new, empty {@code CopyOnWriteArraySet}<a name="line.386"></a>
+<FONT color="green">387</FONT>       * @since 12.0<a name="line.387"></a>
+<FONT color="green">388</FONT>       */<a name="line.388"></a>
+<FONT color="green">389</FONT>      @GwtIncompatible("CopyOnWriteArraySet")<a name="line.389"></a>
+<FONT color="green">390</FONT>      public static &lt;E&gt; CopyOnWriteArraySet&lt;E&gt; newCopyOnWriteArraySet() {<a name="line.390"></a>
+<FONT color="green">391</FONT>        return new CopyOnWriteArraySet&lt;E&gt;();<a name="line.391"></a>
+<FONT color="green">392</FONT>      }<a name="line.392"></a>
+<FONT color="green">393</FONT>    <a name="line.393"></a>
+<FONT color="green">394</FONT>      /**<a name="line.394"></a>
+<FONT color="green">395</FONT>       * Creates a {@code CopyOnWriteArraySet} instance containing the given elements.<a name="line.395"></a>
+<FONT color="green">396</FONT>       *<a name="line.396"></a>
+<FONT color="green">397</FONT>       * @param elements the elements that the set should contain, in order<a name="line.397"></a>
+<FONT color="green">398</FONT>       * @return a new {@code CopyOnWriteArraySet} containing those elements<a name="line.398"></a>
+<FONT color="green">399</FONT>       * @since 12.0<a name="line.399"></a>
+<FONT color="green">400</FONT>       */<a name="line.400"></a>
+<FONT color="green">401</FONT>      @GwtIncompatible("CopyOnWriteArraySet")<a name="line.401"></a>
+<FONT color="green">402</FONT>      public static &lt;E&gt; CopyOnWriteArraySet&lt;E&gt; newCopyOnWriteArraySet(<a name="line.402"></a>
+<FONT color="green">403</FONT>          Iterable&lt;? extends E&gt; elements) {<a name="line.403"></a>
+<FONT color="green">404</FONT>        // We copy elements to an ArrayList first, rather than incurring the<a name="line.404"></a>
+<FONT color="green">405</FONT>        // quadratic cost of adding them to the COWAS directly.<a name="line.405"></a>
+<FONT color="green">406</FONT>        Collection&lt;? extends E&gt; elementsCollection = (elements instanceof Collection)<a name="line.406"></a>
+<FONT color="green">407</FONT>            ? Collections2.cast(elements)<a name="line.407"></a>
+<FONT color="green">408</FONT>            : Lists.newArrayList(elements);<a name="line.408"></a>
+<FONT color="green">409</FONT>        return new CopyOnWriteArraySet&lt;E&gt;(elementsCollection);<a name="line.409"></a>
+<FONT color="green">410</FONT>      }<a name="line.410"></a>
+<FONT color="green">411</FONT>    <a name="line.411"></a>
+<FONT color="green">412</FONT>      /**<a name="line.412"></a>
+<FONT color="green">413</FONT>       * Creates an {@code EnumSet} consisting of all enum values that are not in<a name="line.413"></a>
+<FONT color="green">414</FONT>       * the specified collection. If the collection is an {@link EnumSet}, this<a name="line.414"></a>
+<FONT color="green">415</FONT>       * method has the same behavior as {@link EnumSet#complementOf}. Otherwise,<a name="line.415"></a>
+<FONT color="green">416</FONT>       * the specified collection must contain at least one element, in order to<a name="line.416"></a>
+<FONT color="green">417</FONT>       * determine the element type. If the collection could be empty, use<a name="line.417"></a>
+<FONT color="green">418</FONT>       * {@link #complementOf(Collection, Class)} instead of this method.<a name="line.418"></a>
+<FONT color="green">419</FONT>       *<a name="line.419"></a>
+<FONT color="green">420</FONT>       * @param collection the collection whose complement should be stored in the<a name="line.420"></a>
+<FONT color="green">421</FONT>       *     enum set<a name="line.421"></a>
+<FONT color="green">422</FONT>       * @return a new, modifiable {@code EnumSet} containing all values of the enum<a name="line.422"></a>
+<FONT color="green">423</FONT>       *     that aren't present in the given collection<a name="line.423"></a>
+<FONT color="green">424</FONT>       * @throws IllegalArgumentException if {@code collection} is not an<a name="line.424"></a>
+<FONT color="green">425</FONT>       *     {@code EnumSet} instance and contains no elements<a name="line.425"></a>
+<FONT color="green">426</FONT>       */<a name="line.426"></a>
+<FONT color="green">427</FONT>      public static &lt;E extends Enum&lt;E&gt;&gt; EnumSet&lt;E&gt; complementOf(<a name="line.427"></a>
+<FONT color="green">428</FONT>          Collection&lt;E&gt; collection) {<a name="line.428"></a>
+<FONT color="green">429</FONT>        if (collection instanceof EnumSet) {<a name="line.429"></a>
+<FONT color="green">430</FONT>          return EnumSet.complementOf((EnumSet&lt;E&gt;) collection);<a name="line.430"></a>
+<FONT color="green">431</FONT>        }<a name="line.431"></a>
+<FONT color="green">432</FONT>        checkArgument(!collection.isEmpty(),<a name="line.432"></a>
+<FONT color="green">433</FONT>            "collection is empty; use the other version of this method");<a name="line.433"></a>
+<FONT color="green">434</FONT>        Class&lt;E&gt; type = collection.iterator().next().getDeclaringClass();<a name="line.434"></a>
+<FONT color="green">435</FONT>        return makeComplementByHand(collection, type);<a name="line.435"></a>
+<FONT color="green">436</FONT>      }<a name="line.436"></a>
+<FONT color="green">437</FONT>    <a name="line.437"></a>
+<FONT color="green">438</FONT>      /**<a name="line.438"></a>
+<FONT color="green">439</FONT>       * Creates an {@code EnumSet} consisting of all enum values that are not in<a name="line.439"></a>
+<FONT color="green">440</FONT>       * the specified collection. This is equivalent to<a name="line.440"></a>
+<FONT color="green">441</FONT>       * {@link EnumSet#complementOf}, but can act on any input collection, as long<a name="line.441"></a>
+<FONT color="green">442</FONT>       * as the elements are of enum type.<a name="line.442"></a>
+<FONT color="green">443</FONT>       *<a name="line.443"></a>
+<FONT color="green">444</FONT>       * @param collection the collection whose complement should be stored in the<a name="line.444"></a>
+<FONT color="green">445</FONT>       *     {@code EnumSet}<a name="line.445"></a>
+<FONT color="green">446</FONT>       * @param type the type of the elements in the set<a name="line.446"></a>
+<FONT color="green">447</FONT>       * @return a new, modifiable {@code EnumSet} initially containing all the<a name="line.447"></a>
+<FONT color="green">448</FONT>       *     values of the enum not present in the given collection<a name="line.448"></a>
+<FONT color="green">449</FONT>       */<a name="line.449"></a>
+<FONT color="green">450</FONT>      public static &lt;E extends Enum&lt;E&gt;&gt; EnumSet&lt;E&gt; complementOf(<a name="line.450"></a>
+<FONT color="green">451</FONT>          Collection&lt;E&gt; collection, Class&lt;E&gt; type) {<a name="line.451"></a>
+<FONT color="green">452</FONT>        checkNotNull(collection);<a name="line.452"></a>
+<FONT color="green">453</FONT>        return (collection instanceof EnumSet)<a name="line.453"></a>
+<FONT color="green">454</FONT>            ? EnumSet.complementOf((EnumSet&lt;E&gt;) collection)<a name="line.454"></a>
+<FONT color="green">455</FONT>            : makeComplementByHand(collection, type);<a name="line.455"></a>
+<FONT color="green">456</FONT>      }<a name="line.456"></a>
+<FONT color="green">457</FONT>    <a name="line.457"></a>
+<FONT color="green">458</FONT>      private static &lt;E extends Enum&lt;E&gt;&gt; EnumSet&lt;E&gt; makeComplementByHand(<a name="line.458"></a>
+<FONT color="green">459</FONT>          Collection&lt;E&gt; collection, Class&lt;E&gt; type) {<a name="line.459"></a>
+<FONT color="green">460</FONT>        EnumSet&lt;E&gt; result = EnumSet.allOf(type);<a name="line.460"></a>
+<FONT color="green">461</FONT>        result.removeAll(collection);<a name="line.461"></a>
+<FONT color="green">462</FONT>        return result;<a name="line.462"></a>
+<FONT color="green">463</FONT>      }<a name="line.463"></a>
+<FONT color="green">464</FONT>    <a name="line.464"></a>
+<FONT color="green">465</FONT>      /*<a name="line.465"></a>
+<FONT color="green">466</FONT>       * Regarding newSetForMap() and SetFromMap:<a name="line.466"></a>
+<FONT color="green">467</FONT>       *<a name="line.467"></a>
+<FONT color="green">468</FONT>       * Written by Doug Lea with assistance from members of JCP JSR-166<a name="line.468"></a>
+<FONT color="green">469</FONT>       * Expert Group and released to the public domain, as explained at<a name="line.469"></a>
+<FONT color="green">470</FONT>       * http://creativecommons.org/licenses/publicdomain<a name="line.470"></a>
+<FONT color="green">471</FONT>       */<a name="line.471"></a>
+<FONT color="green">472</FONT>    <a name="line.472"></a>
+<FONT color="green">473</FONT>      /**<a name="line.473"></a>
+<FONT color="green">474</FONT>       * Returns a set backed by the specified map. The resulting set displays<a name="line.474"></a>
+<FONT color="green">475</FONT>       * the same ordering, concurrency, and performance characteristics as the<a name="line.475"></a>
+<FONT color="green">476</FONT>       * backing map. In essence, this factory method provides a {@link Set}<a name="line.476"></a>
+<FONT color="green">477</FONT>       * implementation corresponding to any {@link Map} implementation. There is no<a name="line.477"></a>
+<FONT color="green">478</FONT>       * need to use this method on a {@link Map} implementation that already has a<a name="line.478"></a>
+<FONT color="green">479</FONT>       * corresponding {@link Set} implementation (such as {@link java.util.HashMap}<a name="line.479"></a>
+<FONT color="green">480</FONT>       * or {@link java.util.TreeMap}).<a name="line.480"></a>
+<FONT color="green">481</FONT>       *<a name="line.481"></a>
+<FONT color="green">482</FONT>       * &lt;p&gt;Each method invocation on the set returned by this method results in<a name="line.482"></a>
+<FONT color="green">483</FONT>       * exactly one method invocation on the backing map or its {@code keySet}<a name="line.483"></a>
+<FONT color="green">484</FONT>       * view, with one exception. The {@code addAll} method is implemented as a<a name="line.484"></a>
+<FONT color="green">485</FONT>       * sequence of {@code put} invocations on the backing map.<a name="line.485"></a>
+<FONT color="green">486</FONT>       *<a name="line.486"></a>
+<FONT color="green">487</FONT>       * &lt;p&gt;The specified map must be empty at the time this method is invoked,<a name="line.487"></a>
+<FONT color="green">488</FONT>       * and should not be accessed directly after this method returns. These<a name="line.488"></a>
+<FONT color="green">489</FONT>       * conditions are ensured if the map is created empty, passed directly<a name="line.489"></a>
+<FONT color="green">490</FONT>       * to this method, and no reference to the map is retained, as illustrated<a name="line.490"></a>
+<FONT color="green">491</FONT>       * in the following code fragment: &lt;pre&gt;  {@code<a name="line.491"></a>
+<FONT color="green">492</FONT>       *<a name="line.492"></a>
+<FONT color="green">493</FONT>       *   Set&lt;Object&gt; identityHashSet = Sets.newSetFromMap(<a name="line.493"></a>
+<FONT color="green">494</FONT>       *       new IdentityHashMap&lt;Object, Boolean&gt;());}&lt;/pre&gt;<a name="line.494"></a>
+<FONT color="green">495</FONT>       *<a name="line.495"></a>
+<FONT color="green">496</FONT>       * This method has the same behavior as the JDK 6 method<a name="line.496"></a>
+<FONT color="green">497</FONT>       * {@code Collections.newSetFromMap()}. The returned set is serializable if<a name="line.497"></a>
+<FONT color="green">498</FONT>       * the backing map is.<a name="line.498"></a>
+<FONT color="green">499</FONT>       *<a name="line.499"></a>
+<FONT color="green">500</FONT>       * @param map the backing map<a name="line.500"></a>
+<FONT color="green">501</FONT>       * @return the set backed by the map<a name="line.501"></a>
+<FONT color="green">502</FONT>       * @throws IllegalArgumentException if {@code map} is not empty<a name="line.502"></a>
+<FONT color="green">503</FONT>       */<a name="line.503"></a>
+<FONT color="green">504</FONT>      public static &lt;E&gt; Set&lt;E&gt; newSetFromMap(Map&lt;E, Boolean&gt; map) {<a name="line.504"></a>
+<FONT color="green">505</FONT>        return new SetFromMap&lt;E&gt;(map);<a name="line.505"></a>
+<FONT color="green">506</FONT>      }<a name="line.506"></a>
+<FONT color="green">507</FONT>    <a name="line.507"></a>
+<FONT color="green">508</FONT>      private static class SetFromMap&lt;E&gt; extends AbstractSet&lt;E&gt;<a name="line.508"></a>
+<FONT color="green">509</FONT>          implements Set&lt;E&gt;, Serializable {<a name="line.509"></a>
+<FONT color="green">510</FONT>        private final Map&lt;E, Boolean&gt; m; // The backing map<a name="line.510"></a>
+<FONT color="green">511</FONT>        private transient Set&lt;E&gt; s; // Its keySet<a name="line.511"></a>
+<FONT color="green">512</FONT>    <a name="line.512"></a>
+<FONT color="green">513</FONT>        SetFromMap(Map&lt;E, Boolean&gt; map) {<a name="line.513"></a>
+<FONT color="green">514</FONT>          checkArgument(map.isEmpty(), "Map is non-empty");<a name="line.514"></a>
+<FONT color="green">515</FONT>          m = map;<a name="line.515"></a>
+<FONT color="green">516</FONT>          s = map.keySet();<a name="line.516"></a>
+<FONT color="green">517</FONT>        }<a name="line.517"></a>
+<FONT color="green">518</FONT>    <a name="line.518"></a>
+<FONT color="green">519</FONT>        @Override public void clear() {<a name="line.519"></a>
+<FONT color="green">520</FONT>          m.clear();<a name="line.520"></a>
+<FONT color="green">521</FONT>        }<a name="line.521"></a>
+<FONT color="green">522</FONT>        @Override public int size() {<a name="line.522"></a>
+<FONT color="green">523</FONT>          return m.size();<a name="line.523"></a>
+<FONT color="green">524</FONT>        }<a name="line.524"></a>
+<FONT color="green">525</FONT>        @Override public boolean isEmpty() {<a name="line.525"></a>
+<FONT color="green">526</FONT>          return m.isEmpty();<a name="line.526"></a>
+<FONT color="green">527</FONT>        }<a name="line.527"></a>
+<FONT color="green">528</FONT>        @Override public boolean contains(Object o) {<a name="line.528"></a>
+<FONT color="green">529</FONT>          return m.containsKey(o);<a name="line.529"></a>
+<FONT color="green">530</FONT>        }<a name="line.530"></a>
+<FONT color="green">531</FONT>        @Override public boolean remove(Object o) {<a name="line.531"></a>
+<FONT color="green">532</FONT>          return m.remove(o) != null;<a name="line.532"></a>
+<FONT color="green">533</FONT>        }<a name="line.533"></a>
+<FONT color="green">534</FONT>        @Override public boolean add(E e) {<a name="line.534"></a>
+<FONT color="green">535</FONT>          return m.put(e, Boolean.TRUE) == null;<a name="line.535"></a>
+<FONT color="green">536</FONT>        }<a name="line.536"></a>
+<FONT color="green">537</FONT>        @Override public Iterator&lt;E&gt; iterator() {<a name="line.537"></a>
+<FONT color="green">538</FONT>          return s.iterator();<a name="line.538"></a>
+<FONT color="green">539</FONT>        }<a name="line.539"></a>
+<FONT color="green">540</FONT>        @Override public Object[] toArray() {<a name="line.540"></a>
+<FONT color="green">541</FONT>          return s.toArray();<a name="line.541"></a>
+<FONT color="green">542</FONT>        }<a name="line.542"></a>
+<FONT color="green">543</FONT>        @Override public &lt;T&gt; T[] toArray(T[] a) {<a name="line.543"></a>
+<FONT color="green">544</FONT>          return s.toArray(a);<a name="line.544"></a>
+<FONT color="green">545</FONT>        }<a name="line.545"></a>
+<FONT color="green">546</FONT>        @Override public String toString() {<a name="line.546"></a>
+<FONT color="green">547</FONT>          return s.toString();<a name="line.547"></a>
+<FONT color="green">548</FONT>        }<a name="line.548"></a>
+<FONT color="green">549</FONT>        @Override public int hashCode() {<a name="line.549"></a>
+<FONT color="green">550</FONT>          return s.hashCode();<a name="line.550"></a>
+<FONT color="green">551</FONT>        }<a name="line.551"></a>
+<FONT color="green">552</FONT>        @Override public boolean equals(@Nullable Object object) {<a name="line.552"></a>
+<FONT color="green">553</FONT>          return this == object || this.s.equals(object);<a name="line.553"></a>
+<FONT color="green">554</FONT>        }<a name="line.554"></a>
+<FONT color="green">555</FONT>        @Override public boolean containsAll(Collection&lt;?&gt; c) {<a name="line.555"></a>
+<FONT color="green">556</FONT>          return s.containsAll(c);<a name="line.556"></a>
+<FONT color="green">557</FONT>        }<a name="line.557"></a>
+<FONT color="green">558</FONT>        @Override public boolean removeAll(Collection&lt;?&gt; c) {<a name="line.558"></a>
+<FONT color="green">559</FONT>          return s.removeAll(c);<a name="line.559"></a>
+<FONT color="green">560</FONT>        }<a name="line.560"></a>
+<FONT color="green">561</FONT>        @Override public boolean retainAll(Collection&lt;?&gt; c) {<a name="line.561"></a>
+<FONT color="green">562</FONT>          return s.retainAll(c);<a name="line.562"></a>
+<FONT color="green">563</FONT>        }<a name="line.563"></a>
+<FONT color="green">564</FONT>    <a name="line.564"></a>
+<FONT color="green">565</FONT>        // addAll is the only inherited implementation<a name="line.565"></a>
+<FONT color="green">566</FONT>        @GwtIncompatible("not needed in emulated source")<a name="line.566"></a>
+<FONT color="green">567</FONT>        private static final long serialVersionUID = 0;<a name="line.567"></a>
+<FONT color="green">568</FONT>    <a name="line.568"></a>
+<FONT color="green">569</FONT>        @GwtIncompatible("java.io.ObjectInputStream")<a name="line.569"></a>
+<FONT color="green">570</FONT>        private void readObject(ObjectInputStream stream)<a name="line.570"></a>
+<FONT color="green">571</FONT>            throws IOException, ClassNotFoundException {<a name="line.571"></a>
+<FONT color="green">572</FONT>          stream.defaultReadObject();<a name="line.572"></a>
+<FONT color="green">573</FONT>          s = m.keySet();<a name="line.573"></a>
+<FONT color="green">574</FONT>        }<a name="line.574"></a>
+<FONT color="green">575</FONT>      }<a name="line.575"></a>
+<FONT color="green">576</FONT>    <a name="line.576"></a>
+<FONT color="green">577</FONT>      /**<a name="line.577"></a>
+<FONT color="green">578</FONT>       * An unmodifiable view of a set which may be backed by other sets; this view<a name="line.578"></a>
+<FONT color="green">579</FONT>       * will change as the backing sets do. Contains methods to copy the data into<a name="line.579"></a>
+<FONT color="green">580</FONT>       * a new set which will then remain stable. There is usually no reason to<a name="line.580"></a>
+<FONT color="green">581</FONT>       * retain a reference of type {@code SetView}; typically, you either use it<a name="line.581"></a>
+<FONT color="green">582</FONT>       * as a plain {@link Set}, or immediately invoke {@link #immutableCopy} or<a name="line.582"></a>
+<FONT color="green">583</FONT>       * {@link #copyInto} and forget the {@code SetView} itself.<a name="line.583"></a>
+<FONT color="green">584</FONT>       *<a name="line.584"></a>
+<FONT color="green">585</FONT>       * @since 2.0 (imported from Google Collections Library)<a name="line.585"></a>
+<FONT color="green">586</FONT>       */<a name="line.586"></a>
+<FONT color="green">587</FONT>      public abstract static class SetView&lt;E&gt; extends AbstractSet&lt;E&gt; {<a name="line.587"></a>
+<FONT color="green">588</FONT>        private SetView() {} // no subclasses but our own<a name="line.588"></a>
+<FONT color="green">589</FONT>    <a name="line.589"></a>
+<FONT color="green">590</FONT>        /**<a name="line.590"></a>
+<FONT color="green">591</FONT>         * Returns an immutable copy of the current contents of this set view.<a name="line.591"></a>
+<FONT color="green">592</FONT>         * Does not support null elements.<a name="line.592"></a>
+<FONT color="green">593</FONT>         *<a name="line.593"></a>
+<FONT color="green">594</FONT>         * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; this may have unexpected results if a backing set of<a name="line.594"></a>
+<FONT color="green">595</FONT>         * this view uses a nonstandard notion of equivalence, for example if it is<a name="line.595"></a>
+<FONT color="green">596</FONT>         * a {@link TreeSet} using a comparator that is inconsistent with {@link<a name="line.596"></a>
+<FONT color="green">597</FONT>         * Object#equals(Object)}.<a name="line.597"></a>
+<FONT color="green">598</FONT>         */<a name="line.598"></a>
+<FONT color="green">599</FONT>        public ImmutableSet&lt;E&gt; immutableCopy() {<a name="line.599"></a>
+<FONT color="green">600</FONT>          return ImmutableSet.copyOf(this);<a name="line.600"></a>
+<FONT color="green">601</FONT>        }<a name="line.601"></a>
+<FONT color="green">602</FONT>    <a name="line.602"></a>
+<FONT color="green">603</FONT>        /**<a name="line.603"></a>
+<FONT color="green">604</FONT>         * Copies the current contents of this set view into an existing set. This<a name="line.604"></a>
+<FONT color="green">605</FONT>         * method has equivalent behavior to {@code set.addAll(this)}, assuming that<a name="line.605"></a>
+<FONT color="green">606</FONT>         * all the sets involved are based on the same notion of equivalence.<a name="line.606"></a>
+<FONT color="green">607</FONT>         *<a name="line.607"></a>
+<FONT color="green">608</FONT>         * @return a reference to {@code set}, for convenience<a name="line.608"></a>
+<FONT color="green">609</FONT>         */<a name="line.609"></a>
+<FONT color="green">610</FONT>        // Note: S should logically extend Set&lt;? super E&gt; but can't due to either<a name="line.610"></a>
+<FONT color="green">611</FONT>        // some javac bug or some weirdness in the spec, not sure which.<a name="line.611"></a>
+<FONT color="green">612</FONT>        public &lt;S extends Set&lt;E&gt;&gt; S copyInto(S set) {<a name="line.612"></a>
+<FONT color="green">613</FONT>          set.addAll(this);<a name="line.613"></a>
+<FONT color="green">614</FONT>          return set;<a name="line.614"></a>
+<FONT color="green">615</FONT>        }<a name="line.615"></a>
+<FONT color="green">616</FONT>      }<a name="line.616"></a>
+<FONT color="green">617</FONT>    <a name="line.617"></a>
+<FONT color="green">618</FONT>      /**<a name="line.618"></a>
+<FONT color="green">619</FONT>       * Returns an unmodifiable &lt;b&gt;view&lt;/b&gt; of the union of two sets. The returned<a name="line.619"></a>
+<FONT color="green">620</FONT>       * set contains all elements that are contained in either backing set.<a name="line.620"></a>
+<FONT color="green">621</FONT>       * Iterating over the returned set iterates first over all the elements of<a name="line.621"></a>
+<FONT color="green">622</FONT>       * {@code set1}, then over each element of {@code set2}, in order, that is not<a name="line.622"></a>
+<FONT color="green">623</FONT>       * contained in {@code set1}.<a name="line.623"></a>
+<FONT color="green">624</FONT>       *<a name="line.624"></a>
+<FONT color="green">625</FONT>       * &lt;p&gt;Results are undefined if {@code set1} and {@code set2} are sets based on<a name="line.625"></a>
+<FONT color="green">626</FONT>       * different equivalence relations (as {@link HashSet}, {@link TreeSet}, and<a name="line.626"></a>
+<FONT color="green">627</FONT>       * the {@link Map#keySet} of an {@code IdentityHashMap} all are).<a name="line.627"></a>
+<FONT color="green">628</FONT>       *<a name="line.628"></a>
+<FONT color="green">629</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; The returned view performs better when {@code set1} is the<a name="line.629"></a>
+<FONT color="green">630</FONT>       * smaller of the two sets. If you have reason to believe one of your sets<a name="line.630"></a>
+<FONT color="green">631</FONT>       * will generally be smaller than the other, pass it first.<a name="line.631"></a>
+<FONT color="green">632</FONT>       *<a name="line.632"></a>
+<FONT color="green">633</FONT>       * &lt;p&gt;Further, note that the current implementation is not suitable for nested<a name="line.633"></a>
+<FONT color="green">634</FONT>       * {@code union} views, i.e. the following should be avoided when in a loop:<a name="line.634"></a>
+<FONT color="green">635</FONT>       * {@code union = Sets.union(union, anotherSet);}, since iterating over the resulting<a name="line.635"></a>
+<FONT color="green">636</FONT>       * set has a cubic complexity to the depth of the nesting.<a name="line.636"></a>
+<FONT color="green">637</FONT>       */<a name="line.637"></a>
+<FONT color="green">638</FONT>      public static &lt;E&gt; SetView&lt;E&gt; union(<a name="line.638"></a>
+<FONT color="green">639</FONT>          final Set&lt;? extends E&gt; set1, final Set&lt;? extends E&gt; set2) {<a name="line.639"></a>
+<FONT color="green">640</FONT>        checkNotNull(set1, "set1");<a name="line.640"></a>
+<FONT color="green">641</FONT>        checkNotNull(set2, "set2");<a name="line.641"></a>
+<FONT color="green">642</FONT>    <a name="line.642"></a>
+<FONT color="green">643</FONT>        final Set&lt;? extends E&gt; set2minus1 = difference(set2, set1);<a name="line.643"></a>
+<FONT color="green">644</FONT>    <a name="line.644"></a>
+<FONT color="green">645</FONT>        return new SetView&lt;E&gt;() {<a name="line.645"></a>
+<FONT color="green">646</FONT>          @Override public int size() {<a name="line.646"></a>
+<FONT color="green">647</FONT>            return set1.size() + set2minus1.size();<a name="line.647"></a>
+<FONT color="green">648</FONT>          }<a name="line.648"></a>
+<FONT color="green">649</FONT>          @Override public boolean isEmpty() {<a name="line.649"></a>
+<FONT color="green">650</FONT>            return set1.isEmpty() &amp;&amp; set2.isEmpty();<a name="line.650"></a>
+<FONT color="green">651</FONT>          }<a name="line.651"></a>
+<FONT color="green">652</FONT>          @Override public Iterator&lt;E&gt; iterator() {<a name="line.652"></a>
+<FONT color="green">653</FONT>            return Iterators.unmodifiableIterator(<a name="line.653"></a>
+<FONT color="green">654</FONT>                Iterators.concat(set1.iterator(), set2minus1.iterator()));<a name="line.654"></a>
+<FONT color="green">655</FONT>          }<a name="line.655"></a>
+<FONT color="green">656</FONT>          @Override public boolean contains(Object object) {<a name="line.656"></a>
+<FONT color="green">657</FONT>            return set1.contains(object) || set2.contains(object);<a name="line.657"></a>
+<FONT color="green">658</FONT>          }<a name="line.658"></a>
+<FONT color="green">659</FONT>          @Override public &lt;S extends Set&lt;E&gt;&gt; S copyInto(S set) {<a name="line.659"></a>
+<FONT color="green">660</FONT>            set.addAll(set1);<a name="line.660"></a>
+<FONT color="green">661</FONT>            set.addAll(set2);<a name="line.661"></a>
+<FONT color="green">662</FONT>            return set;<a name="line.662"></a>
+<FONT color="green">663</FONT>          }<a name="line.663"></a>
+<FONT color="green">664</FONT>          @Override public ImmutableSet&lt;E&gt; immutableCopy() {<a name="line.664"></a>
+<FONT color="green">665</FONT>            return new ImmutableSet.Builder&lt;E&gt;()<a name="line.665"></a>
+<FONT color="green">666</FONT>                .addAll(set1).addAll(set2).build();<a name="line.666"></a>
+<FONT color="green">667</FONT>          }<a name="line.667"></a>
+<FONT color="green">668</FONT>        };<a name="line.668"></a>
+<FONT color="green">669</FONT>      }<a name="line.669"></a>
+<FONT color="green">670</FONT>    <a name="line.670"></a>
+<FONT color="green">671</FONT>      /**<a name="line.671"></a>
+<FONT color="green">672</FONT>       * Returns an unmodifiable &lt;b&gt;view&lt;/b&gt; of the intersection of two sets. The<a name="line.672"></a>
+<FONT color="green">673</FONT>       * returned set contains all elements that are contained by both backing sets.<a name="line.673"></a>
+<FONT color="green">674</FONT>       * The iteration order of the returned set matches that of {@code set1}.<a name="line.674"></a>
+<FONT color="green">675</FONT>       *<a name="line.675"></a>
+<FONT color="green">676</FONT>       * &lt;p&gt;Results are undefined if {@code set1} and {@code set2} are sets based<a name="line.676"></a>
+<FONT color="green">677</FONT>       * on different equivalence relations (as {@code HashSet}, {@code TreeSet},<a name="line.677"></a>
+<FONT color="green">678</FONT>       * and the keySet of an {@code IdentityHashMap} all are).<a name="line.678"></a>
+<FONT color="green">679</FONT>       *<a name="line.679"></a>
+<FONT color="green">680</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; The returned view performs slightly better when {@code<a name="line.680"></a>
+<FONT color="green">681</FONT>       * set1} is the smaller of the two sets. If you have reason to believe one of<a name="line.681"></a>
+<FONT color="green">682</FONT>       * your sets will generally be smaller than the other, pass it first.<a name="line.682"></a>
+<FONT color="green">683</FONT>       * Unfortunately, since this method sets the generic type of the returned set<a name="line.683"></a>
+<FONT color="green">684</FONT>       * based on the type of the first set passed, this could in rare cases force<a name="line.684"></a>
+<FONT color="green">685</FONT>       * you to make a cast, for example: &lt;pre&gt;   {@code<a name="line.685"></a>
+<FONT color="green">686</FONT>       *<a name="line.686"></a>
+<FONT color="green">687</FONT>       *   Set&lt;Object&gt; aFewBadObjects = ...<a name="line.687"></a>
+<FONT color="green">688</FONT>       *   Set&lt;String&gt; manyBadStrings = ...<a name="line.688"></a>
+<FONT color="green">689</FONT>       *<a name="line.689"></a>
+<FONT color="green">690</FONT>       *   // impossible for a non-String to be in the intersection<a name="line.690"></a>
+<FONT color="green">691</FONT>       *   SuppressWarnings("unchecked")<a name="line.691"></a>
+<FONT color="green">692</FONT>       *   Set&lt;String&gt; badStrings = (Set) Sets.intersection(<a name="line.692"></a>
+<FONT color="green">693</FONT>       *       aFewBadObjects, manyBadStrings);}&lt;/pre&gt;<a name="line.693"></a>
+<FONT color="green">694</FONT>       *<a name="line.694"></a>
+<FONT color="green">695</FONT>       * This is unfortunate, but should come up only very rarely.<a name="line.695"></a>
+<FONT color="green">696</FONT>       */<a name="line.696"></a>
+<FONT color="green">697</FONT>      public static &lt;E&gt; SetView&lt;E&gt; intersection(<a name="line.697"></a>
+<FONT color="green">698</FONT>          final Set&lt;E&gt; set1, final Set&lt;?&gt; set2) {<a name="line.698"></a>
+<FONT color="green">699</FONT>        checkNotNull(set1, "set1");<a name="line.699"></a>
+<FONT color="green">700</FONT>        checkNotNull(set2, "set2");<a name="line.700"></a>
+<FONT color="green">701</FONT>    <a name="line.701"></a>
+<FONT color="green">702</FONT>        final Predicate&lt;Object&gt; inSet2 = Predicates.in(set2);<a name="line.702"></a>
+<FONT color="green">703</FONT>        return new SetView&lt;E&gt;() {<a name="line.703"></a>
+<FONT color="green">704</FONT>          @Override public Iterator&lt;E&gt; iterator() {<a name="line.704"></a>
+<FONT color="green">705</FONT>            return Iterators.filter(set1.iterator(), inSet2);<a name="line.705"></a>
+<FONT color="green">706</FONT>          }<a name="line.706"></a>
+<FONT color="green">707</FONT>          @Override public int size() {<a name="line.707"></a>
+<FONT color="green">708</FONT>            return Iterators.size(iterator());<a name="line.708"></a>
+<FONT color="green">709</FONT>          }<a name="line.709"></a>
+<FONT color="green">710</FONT>          @Override public boolean isEmpty() {<a name="line.710"></a>
+<FONT color="green">711</FONT>            return !iterator().hasNext();<a name="line.711"></a>
+<FONT color="green">712</FONT>          }<a name="line.712"></a>
+<FONT color="green">713</FONT>          @Override public boolean contains(Object object) {<a name="line.713"></a>
+<FONT color="green">714</FONT>            return set1.contains(object) &amp;&amp; set2.contains(object);<a name="line.714"></a>
+<FONT color="green">715</FONT>          }<a name="line.715"></a>
+<FONT color="green">716</FONT>          @Override public boolean containsAll(Collection&lt;?&gt; collection) {<a name="line.716"></a>
+<FONT color="green">717</FONT>            return set1.containsAll(collection)<a name="line.717"></a>
+<FONT color="green">718</FONT>                &amp;&amp; set2.containsAll(collection);<a name="line.718"></a>
+<FONT color="green">719</FONT>          }<a name="line.719"></a>
+<FONT color="green">720</FONT>        };<a name="line.720"></a>
+<FONT color="green">721</FONT>      }<a name="line.721"></a>
+<FONT color="green">722</FONT>    <a name="line.722"></a>
+<FONT color="green">723</FONT>      /**<a name="line.723"></a>
+<FONT color="green">724</FONT>       * Returns an unmodifiable &lt;b&gt;view&lt;/b&gt; of the difference of two sets. The<a name="line.724"></a>
+<FONT color="green">725</FONT>       * returned set contains all elements that are contained by {@code set1} and<a name="line.725"></a>
+<FONT color="green">726</FONT>       * not contained by {@code set2}. {@code set2} may also contain elements not<a name="line.726"></a>
+<FONT color="green">727</FONT>       * present in {@code set1}; these are simply ignored. The iteration order of<a name="line.727"></a>
+<FONT color="green">728</FONT>       * the returned set matches that of {@code set1}.<a name="line.728"></a>
+<FONT color="green">729</FONT>       *<a name="line.729"></a>
+<FONT color="green">730</FONT>       * &lt;p&gt;Results are undefined if {@code set1} and {@code set2} are sets based<a name="line.730"></a>
+<FONT color="green">731</FONT>       * on different equivalence relations (as {@code HashSet}, {@code TreeSet},<a name="line.731"></a>
+<FONT color="green">732</FONT>       * and the keySet of an {@code IdentityHashMap} all are).<a name="line.732"></a>
+<FONT color="green">733</FONT>       */<a name="line.733"></a>
+<FONT color="green">734</FONT>      public static &lt;E&gt; SetView&lt;E&gt; difference(<a name="line.734"></a>
+<FONT color="green">735</FONT>          final Set&lt;E&gt; set1, final Set&lt;?&gt; set2) {<a name="line.735"></a>
+<FONT color="green">736</FONT>        checkNotNull(set1, "set1");<a name="line.736"></a>
+<FONT color="green">737</FONT>        checkNotNull(set2, "set2");<a name="line.737"></a>
+<FONT color="green">738</FONT>    <a name="line.738"></a>
+<FONT color="green">739</FONT>        final Predicate&lt;Object&gt; notInSet2 = Predicates.not(Predicates.in(set2));<a name="line.739"></a>
+<FONT color="green">740</FONT>        return new SetView&lt;E&gt;() {<a name="line.740"></a>
+<FONT color="green">741</FONT>          @Override public Iterator&lt;E&gt; iterator() {<a name="line.741"></a>
+<FONT color="green">742</FONT>            return Iterators.filter(set1.iterator(), notInSet2);<a name="line.742"></a>
+<FONT color="green">743</FONT>          }<a name="line.743"></a>
+<FONT color="green">744</FONT>          @Override public int size() {<a name="line.744"></a>
+<FONT color="green">745</FONT>            return Iterators.size(iterator());<a name="line.745"></a>
+<FONT color="green">746</FONT>          }<a name="line.746"></a>
+<FONT color="green">747</FONT>          @Override public boolean isEmpty() {<a name="line.747"></a>
+<FONT color="green">748</FONT>            return set2.containsAll(set1);<a name="line.748"></a>
+<FONT color="green">749</FONT>          }<a name="line.749"></a>
+<FONT color="green">750</FONT>          @Override public boolean contains(Object element) {<a name="line.750"></a>
+<FONT color="green">751</FONT>            return set1.contains(element) &amp;&amp; !set2.contains(element);<a name="line.751"></a>
+<FONT color="green">752</FONT>          }<a name="line.752"></a>
+<FONT color="green">753</FONT>        };<a name="line.753"></a>
+<FONT color="green">754</FONT>      }<a name="line.754"></a>
+<FONT color="green">755</FONT>    <a name="line.755"></a>
+<FONT color="green">756</FONT>      /**<a name="line.756"></a>
+<FONT color="green">757</FONT>       * Returns an unmodifiable &lt;b&gt;view&lt;/b&gt; of the symmetric difference of two<a name="line.757"></a>
+<FONT color="green">758</FONT>       * sets. The returned set contains all elements that are contained in either<a name="line.758"></a>
+<FONT color="green">759</FONT>       * {@code set1} or {@code set2} but not in both. The iteration order of the<a name="line.759"></a>
+<FONT color="green">760</FONT>       * returned set is undefined.<a name="line.760"></a>
+<FONT color="green">761</FONT>       *<a name="line.761"></a>
+<FONT color="green">762</FONT>       * &lt;p&gt;Results are undefined if {@code set1} and {@code set2} are sets based<a name="line.762"></a>
+<FONT color="green">763</FONT>       * on different equivalence relations (as {@code HashSet}, {@code TreeSet},<a name="line.763"></a>
+<FONT color="green">764</FONT>       * and the keySet of an {@code IdentityHashMap} all are).<a name="line.764"></a>
+<FONT color="green">765</FONT>       *<a name="line.765"></a>
+<FONT color="green">766</FONT>       * @since 3.0<a name="line.766"></a>
+<FONT color="green">767</FONT>       */<a name="line.767"></a>
+<FONT color="green">768</FONT>      public static &lt;E&gt; SetView&lt;E&gt; symmetricDifference(<a name="line.768"></a>
+<FONT color="green">769</FONT>          Set&lt;? extends E&gt; set1, Set&lt;? extends E&gt; set2) {<a name="line.769"></a>
+<FONT color="green">770</FONT>        checkNotNull(set1, "set1");<a name="line.770"></a>
+<FONT color="green">771</FONT>        checkNotNull(set2, "set2");<a name="line.771"></a>
+<FONT color="green">772</FONT>    <a name="line.772"></a>
+<FONT color="green">773</FONT>        // TODO(kevinb): Replace this with a more efficient implementation<a name="line.773"></a>
+<FONT color="green">774</FONT>        return difference(union(set1, set2), intersection(set1, set2));<a name="line.774"></a>
+<FONT color="green">775</FONT>      }<a name="line.775"></a>
+<FONT color="green">776</FONT>    <a name="line.776"></a>
+<FONT color="green">777</FONT>      /**<a name="line.777"></a>
+<FONT color="green">778</FONT>       * Returns the elements of {@code unfiltered} that satisfy a predicate. The<a name="line.778"></a>
+<FONT color="green">779</FONT>       * returned set is a live view of {@code unfiltered}; changes to one affect<a name="line.779"></a>
+<FONT color="green">780</FONT>       * the other.<a name="line.780"></a>
+<FONT color="green">781</FONT>       *<a name="line.781"></a>
+<FONT color="green">782</FONT>       * &lt;p&gt;The resulting set's iterator does not support {@code remove()}, but all<a name="line.782"></a>
+<FONT color="green">783</FONT>       * other set methods are supported. When given an element that doesn't satisfy<a name="line.783"></a>
+<FONT color="green">784</FONT>       * the predicate, the set's {@code add()} and {@code addAll()} methods throw<a name="line.784"></a>
+<FONT color="green">785</FONT>       * an {@link IllegalArgumentException}. When methods such as {@code<a name="line.785"></a>
+<FONT color="green">786</FONT>       * removeAll()} and {@code clear()} are called on the filtered set, only<a name="line.786"></a>
+<FONT color="green">787</FONT>       * elements that satisfy the filter will be removed from the underlying set.<a name="line.787"></a>
+<FONT color="green">788</FONT>       *<a name="line.788"></a>
+<FONT color="green">789</FONT>       * &lt;p&gt;The returned set isn't threadsafe or serializable, even if<a name="line.789"></a>
+<FONT color="green">790</FONT>       * {@code unfiltered} is.<a name="line.790"></a>
+<FONT color="green">791</FONT>       *<a name="line.791"></a>
+<FONT color="green">792</FONT>       * &lt;p&gt;Many of the filtered set's methods, such as {@code size()}, iterate<a name="line.792"></a>
+<FONT color="green">793</FONT>       * across every element in the underlying set and determine which elements<a name="line.793"></a>
+<FONT color="green">794</FONT>       * satisfy the filter. When a live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster<a name="line.794"></a>
+<FONT color="green">795</FONT>       * to copy {@code Iterables.filter(unfiltered, predicate)} and use the copy.<a name="line.795"></a>
+<FONT color="green">796</FONT>       *<a name="line.796"></a>
+<FONT color="green">797</FONT>       * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code predicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;,<a name="line.797"></a>
+<FONT color="green">798</FONT>       * as documented at {@link Predicate#apply}. Do not provide a predicate such<a name="line.798"></a>
+<FONT color="green">799</FONT>       * as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent<a name="line.799"></a>
+<FONT color="green">800</FONT>       * with equals. (See {@link Iterables#filter(Iterable, Class)} for related<a name="line.800"></a>
+<FONT color="green">801</FONT>       * functionality.)<a name="line.801"></a>
+<FONT color="green">802</FONT>       */<a name="line.802"></a>
+<FONT color="green">803</FONT>      // TODO(kevinb): how to omit that last sentence when building GWT javadoc?<a name="line.803"></a>
+<FONT color="green">804</FONT>      public static &lt;E&gt; Set&lt;E&gt; filter(<a name="line.804"></a>
+<FONT color="green">805</FONT>          Set&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.805"></a>
+<FONT color="green">806</FONT>        if (unfiltered instanceof SortedSet) {<a name="line.806"></a>
+<FONT color="green">807</FONT>          return filter((SortedSet&lt;E&gt;) unfiltered, predicate);<a name="line.807"></a>
+<FONT color="green">808</FONT>        }<a name="line.808"></a>
+<FONT color="green">809</FONT>        if (unfiltered instanceof FilteredSet) {<a name="line.809"></a>
+<FONT color="green">810</FONT>          // Support clear(), removeAll(), and retainAll() when filtering a filtered<a name="line.810"></a>
+<FONT color="green">811</FONT>          // collection.<a name="line.811"></a>
+<FONT color="green">812</FONT>          FilteredSet&lt;E&gt; filtered = (FilteredSet&lt;E&gt;) unfiltered;<a name="line.812"></a>
+<FONT color="green">813</FONT>          Predicate&lt;E&gt; combinedPredicate<a name="line.813"></a>
+<FONT color="green">814</FONT>              = Predicates.&lt;E&gt;and(filtered.predicate, predicate);<a name="line.814"></a>
+<FONT color="green">815</FONT>          return new FilteredSet&lt;E&gt;(<a name="line.815"></a>
+<FONT color="green">816</FONT>              (Set&lt;E&gt;) filtered.unfiltered, combinedPredicate);<a name="line.816"></a>
+<FONT color="green">817</FONT>        }<a name="line.817"></a>
+<FONT color="green">818</FONT>    <a name="line.818"></a>
+<FONT color="green">819</FONT>        return new FilteredSet&lt;E&gt;(<a name="line.819"></a>
+<FONT color="green">820</FONT>            checkNotNull(unfiltered), checkNotNull(predicate));<a name="line.820"></a>
+<FONT color="green">821</FONT>      }<a name="line.821"></a>
+<FONT color="green">822</FONT>    <a name="line.822"></a>
+<FONT color="green">823</FONT>      private static class FilteredSet&lt;E&gt; extends FilteredCollection&lt;E&gt;<a name="line.823"></a>
+<FONT color="green">824</FONT>          implements Set&lt;E&gt; {<a name="line.824"></a>
+<FONT color="green">825</FONT>        FilteredSet(Set&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.825"></a>
+<FONT color="green">826</FONT>          super(unfiltered, predicate);<a name="line.826"></a>
+<FONT color="green">827</FONT>        }<a name="line.827"></a>
+<FONT color="green">828</FONT>    <a name="line.828"></a>
+<FONT color="green">829</FONT>        @Override public boolean equals(@Nullable Object object) {<a name="line.829"></a>
+<FONT color="green">830</FONT>          return equalsImpl(this, object);<a name="line.830"></a>
+<FONT color="green">831</FONT>        }<a name="line.831"></a>
+<FONT color="green">832</FONT>    <a name="line.832"></a>
+<FONT color="green">833</FONT>        @Override public int hashCode() {<a name="line.833"></a>
+<FONT color="green">834</FONT>          return hashCodeImpl(this);<a name="line.834"></a>
+<FONT color="green">835</FONT>        }<a name="line.835"></a>
+<FONT color="green">836</FONT>      }<a name="line.836"></a>
+<FONT color="green">837</FONT>    <a name="line.837"></a>
+<FONT color="green">838</FONT>      /**<a name="line.838"></a>
+<FONT color="green">839</FONT>       * Returns the elements of a {@code SortedSet}, {@code unfiltered}, that<a name="line.839"></a>
+<FONT color="green">840</FONT>       * satisfy a predicate. The returned set is a live view of {@code unfiltered};<a name="line.840"></a>
+<FONT color="green">841</FONT>       * changes to one affect the other.<a name="line.841"></a>
+<FONT color="green">842</FONT>       *<a name="line.842"></a>
+<FONT color="green">843</FONT>       * &lt;p&gt;The resulting set's iterator does not support {@code remove()}, but all<a name="line.843"></a>
+<FONT color="green">844</FONT>       * other set methods are supported. When given an element that doesn't satisfy<a name="line.844"></a>
+<FONT color="green">845</FONT>       * the predicate, the set's {@code add()} and {@code addAll()} methods throw<a name="line.845"></a>
+<FONT color="green">846</FONT>       * an {@link IllegalArgumentException}. When methods such as<a name="line.846"></a>
+<FONT color="green">847</FONT>       * {@code removeAll()} and {@code clear()} are called on the filtered set,<a name="line.847"></a>
+<FONT color="green">848</FONT>       * only elements that satisfy the filter will be removed from the underlying<a name="line.848"></a>
+<FONT color="green">849</FONT>       * set.<a name="line.849"></a>
+<FONT color="green">850</FONT>       *<a name="line.850"></a>
+<FONT color="green">851</FONT>       * &lt;p&gt;The returned set isn't threadsafe or serializable, even if<a name="line.851"></a>
+<FONT color="green">852</FONT>       * {@code unfiltered} is.<a name="line.852"></a>
+<FONT color="green">853</FONT>       *<a name="line.853"></a>
+<FONT color="green">854</FONT>       * &lt;p&gt;Many of the filtered set's methods, such as {@code size()}, iterate across<a name="line.854"></a>
+<FONT color="green">855</FONT>       * every element in the underlying set and determine which elements satisfy<a name="line.855"></a>
+<FONT color="green">856</FONT>       * the filter. When a live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy<a name="line.856"></a>
+<FONT color="green">857</FONT>       * {@code Iterables.filter(unfiltered, predicate)} and use the copy.<a name="line.857"></a>
+<FONT color="green">858</FONT>       *<a name="line.858"></a>
+<FONT color="green">859</FONT>       * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code predicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;,<a name="line.859"></a>
+<FONT color="green">860</FONT>       * as documented at {@link Predicate#apply}. Do not provide a predicate such as<a name="line.860"></a>
+<FONT color="green">861</FONT>       * {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent with<a name="line.861"></a>
+<FONT color="green">862</FONT>       * equals. (See {@link Iterables#filter(Iterable, Class)} for related<a name="line.862"></a>
+<FONT color="green">863</FONT>       * functionality.)<a name="line.863"></a>
+<FONT color="green">864</FONT>       *<a name="line.864"></a>
+<FONT color="green">865</FONT>       * @since 11.0<a name="line.865"></a>
+<FONT color="green">866</FONT>       */<a name="line.866"></a>
+<FONT color="green">867</FONT>      @SuppressWarnings("unchecked")<a name="line.867"></a>
+<FONT color="green">868</FONT>      public static &lt;E&gt; SortedSet&lt;E&gt; filter(<a name="line.868"></a>
+<FONT color="green">869</FONT>          SortedSet&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.869"></a>
+<FONT color="green">870</FONT>        if (unfiltered instanceof FilteredSet) {<a name="line.870"></a>
+<FONT color="green">871</FONT>          // Support clear(), removeAll(), and retainAll() when filtering a filtered<a name="line.871"></a>
+<FONT color="green">872</FONT>          // collection.<a name="line.872"></a>
+<FONT color="green">873</FONT>          FilteredSet&lt;E&gt; filtered = (FilteredSet&lt;E&gt;) unfiltered;<a name="line.873"></a>
+<FONT color="green">874</FONT>          Predicate&lt;E&gt; combinedPredicate<a name="line.874"></a>
+<FONT color="green">875</FONT>              = Predicates.&lt;E&gt;and(filtered.predicate, predicate);<a name="line.875"></a>
+<FONT color="green">876</FONT>          return new FilteredSortedSet&lt;E&gt;(<a name="line.876"></a>
+<FONT color="green">877</FONT>              (SortedSet&lt;E&gt;) filtered.unfiltered, combinedPredicate);<a name="line.877"></a>
+<FONT color="green">878</FONT>        }<a name="line.878"></a>
+<FONT color="green">879</FONT>    <a name="line.879"></a>
+<FONT color="green">880</FONT>        return new FilteredSortedSet&lt;E&gt;(<a name="line.880"></a>
+<FONT color="green">881</FONT>            checkNotNull(unfiltered), checkNotNull(predicate));<a name="line.881"></a>
+<FONT color="green">882</FONT>      }<a name="line.882"></a>
+<FONT color="green">883</FONT>    <a name="line.883"></a>
+<FONT color="green">884</FONT>      private static class FilteredSortedSet&lt;E&gt; extends FilteredCollection&lt;E&gt;<a name="line.884"></a>
+<FONT color="green">885</FONT>          implements SortedSet&lt;E&gt; {<a name="line.885"></a>
+<FONT color="green">886</FONT>    <a name="line.886"></a>
+<FONT color="green">887</FONT>        FilteredSortedSet(SortedSet&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.887"></a>
+<FONT color="green">888</FONT>          super(unfiltered, predicate);<a name="line.888"></a>
+<FONT color="green">889</FONT>        }<a name="line.889"></a>
+<FONT color="green">890</FONT>    <a name="line.890"></a>
+<FONT color="green">891</FONT>        @Override public boolean equals(@Nullable Object object) {<a name="line.891"></a>
+<FONT color="green">892</FONT>          return equalsImpl(this, object);<a name="line.892"></a>
+<FONT color="green">893</FONT>        }<a name="line.893"></a>
+<FONT color="green">894</FONT>    <a name="line.894"></a>
+<FONT color="green">895</FONT>        @Override public int hashCode() {<a name="line.895"></a>
+<FONT color="green">896</FONT>          return hashCodeImpl(this);<a name="line.896"></a>
+<FONT color="green">897</FONT>        }<a name="line.897"></a>
+<FONT color="green">898</FONT>    <a name="line.898"></a>
+<FONT color="green">899</FONT>        @Override<a name="line.899"></a>
+<FONT color="green">900</FONT>        public Comparator&lt;? super E&gt; comparator() {<a name="line.900"></a>
+<FONT color="green">901</FONT>          return ((SortedSet&lt;E&gt;) unfiltered).comparator();<a name="line.901"></a>
+<FONT color="green">902</FONT>        }<a name="line.902"></a>
+<FONT color="green">903</FONT>    <a name="line.903"></a>
+<FONT color="green">904</FONT>        @Override<a name="line.904"></a>
+<FONT color="green">905</FONT>        public SortedSet&lt;E&gt; subSet(E fromElement, E toElement) {<a name="line.905"></a>
+<FONT color="green">906</FONT>          return new FilteredSortedSet&lt;E&gt;(((SortedSet&lt;E&gt;) unfiltered).subSet(fromElement, toElement),<a name="line.906"></a>
+<FONT color="green">907</FONT>              predicate);<a name="line.907"></a>
+<FONT color="green">908</FONT>        }<a name="line.908"></a>
+<FONT color="green">909</FONT>    <a name="line.909"></a>
+<FONT color="green">910</FONT>        @Override<a name="line.910"></a>
+<FONT color="green">911</FONT>        public SortedSet&lt;E&gt; headSet(E toElement) {<a name="line.911"></a>
+<FONT color="green">912</FONT>          return new FilteredSortedSet&lt;E&gt;(((SortedSet&lt;E&gt;) unfiltered).headSet(toElement), predicate);<a name="line.912"></a>
+<FONT color="green">913</FONT>        }<a name="line.913"></a>
+<FONT color="green">914</FONT>    <a name="line.914"></a>
+<FONT color="green">915</FONT>        @Override<a name="line.915"></a>
+<FONT color="green">916</FONT>        public SortedSet&lt;E&gt; tailSet(E fromElement) {<a name="line.916"></a>
+<FONT color="green">917</FONT>          return new FilteredSortedSet&lt;E&gt;(((SortedSet&lt;E&gt;) unfiltered).tailSet(fromElement), predicate);<a name="line.917"></a>
+<FONT color="green">918</FONT>        }<a name="line.918"></a>
+<FONT color="green">919</FONT>    <a name="line.919"></a>
+<FONT color="green">920</FONT>        @Override<a name="line.920"></a>
+<FONT color="green">921</FONT>        public E first() {<a name="line.921"></a>
+<FONT color="green">922</FONT>          return iterator().next();<a name="line.922"></a>
+<FONT color="green">923</FONT>        }<a name="line.923"></a>
+<FONT color="green">924</FONT>    <a name="line.924"></a>
+<FONT color="green">925</FONT>        @Override<a name="line.925"></a>
+<FONT color="green">926</FONT>        public E last() {<a name="line.926"></a>
+<FONT color="green">927</FONT>          SortedSet&lt;E&gt; sortedUnfiltered = (SortedSet&lt;E&gt;) unfiltered;<a name="line.927"></a>
+<FONT color="green">928</FONT>          while (true) {<a name="line.928"></a>
+<FONT color="green">929</FONT>            E element = sortedUnfiltered.last();<a name="line.929"></a>
+<FONT color="green">930</FONT>            if (predicate.apply(element)) {<a name="line.930"></a>
+<FONT color="green">931</FONT>              return element;<a name="line.931"></a>
+<FONT color="green">932</FONT>            }<a name="line.932"></a>
+<FONT color="green">933</FONT>            sortedUnfiltered = sortedUnfiltered.headSet(element);<a name="line.933"></a>
+<FONT color="green">934</FONT>          }<a name="line.934"></a>
+<FONT color="green">935</FONT>        }<a name="line.935"></a>
+<FONT color="green">936</FONT>      }<a name="line.936"></a>
+<FONT color="green">937</FONT>    <a name="line.937"></a>
+<FONT color="green">938</FONT>      /**<a name="line.938"></a>
+<FONT color="green">939</FONT>       * Returns every possible list that can be formed by choosing one element<a name="line.939"></a>
+<FONT color="green">940</FONT>       * from each of the given sets in order; the "n-ary<a name="line.940"></a>
+<FONT color="green">941</FONT>       * &lt;a href="http://en.wikipedia.org/wiki/Cartesian_product"&gt;Cartesian<a name="line.941"></a>
+<FONT color="green">942</FONT>       * product&lt;/a&gt;" of the sets. For example: &lt;pre&gt;   {@code<a name="line.942"></a>
+<FONT color="green">943</FONT>       *<a name="line.943"></a>
+<FONT color="green">944</FONT>       *   Sets.cartesianProduct(ImmutableList.of(<a name="line.944"></a>
+<FONT color="green">945</FONT>       *       ImmutableSet.of(1, 2),<a name="line.945"></a>
+<FONT color="green">946</FONT>       *       ImmutableSet.of("A", "B", "C")))}&lt;/pre&gt;<a name="line.946"></a>
+<FONT color="green">947</FONT>       *<a name="line.947"></a>
+<FONT color="green">948</FONT>       * returns a set containing six lists:<a name="line.948"></a>
+<FONT color="green">949</FONT>       *<a name="line.949"></a>
+<FONT color="green">950</FONT>       * &lt;ul&gt;<a name="line.950"></a>
+<FONT color="green">951</FONT>       * &lt;li&gt;{@code ImmutableList.of(1, "A")}<a name="line.951"></a>
+<FONT color="green">952</FONT>       * &lt;li&gt;{@code ImmutableList.of(1, "B")}<a name="line.952"></a>
+<FONT color="green">953</FONT>       * &lt;li&gt;{@code ImmutableList.of(1, "C")}<a name="line.953"></a>
+<FONT color="green">954</FONT>       * &lt;li&gt;{@code ImmutableList.of(2, "A")}<a name="line.954"></a>
+<FONT color="green">955</FONT>       * &lt;li&gt;{@code ImmutableList.of(2, "B")}<a name="line.955"></a>
+<FONT color="green">956</FONT>       * &lt;li&gt;{@code ImmutableList.of(2, "C")}<a name="line.956"></a>
+<FONT color="green">957</FONT>       * &lt;/ul&gt;<a name="line.957"></a>
+<FONT color="green">958</FONT>       *<a name="line.958"></a>
+<FONT color="green">959</FONT>       * The order in which these lists are returned is not guaranteed, however the<a name="line.959"></a>
+<FONT color="green">960</FONT>       * position of an element inside a tuple always corresponds to the position of<a name="line.960"></a>
+<FONT color="green">961</FONT>       * the set from which it came in the input list. Note that if any input set is<a name="line.961"></a>
+<FONT color="green">962</FONT>       * empty, the Cartesian product will also be empty. If no sets at all are<a name="line.962"></a>
+<FONT color="green">963</FONT>       * provided (an empty list), the resulting Cartesian product has one element,<a name="line.963"></a>
+<FONT color="green">964</FONT>       * an empty list (counter-intuitive, but mathematically consistent).<a name="line.964"></a>
+<FONT color="green">965</FONT>       *<a name="line.965"></a>
+<FONT color="green">966</FONT>       * &lt;p&gt;&lt;i&gt;Performance notes:&lt;/i&gt; while the cartesian product of sets of size<a name="line.966"></a>
+<FONT color="green">967</FONT>       * {@code m, n, p} is a set of size {@code m x n x p}, its actual memory<a name="line.967"></a>
+<FONT color="green">968</FONT>       * consumption is much smaller. When the cartesian set is constructed, the<a name="line.968"></a>
+<FONT color="green">969</FONT>       * input sets are merely copied. Only as the resulting set is iterated are the<a name="line.969"></a>
+<FONT color="green">970</FONT>       * individual lists created, and these are not retained after iteration.<a name="line.970"></a>
+<FONT color="green">971</FONT>       *<a name="line.971"></a>
+<FONT color="green">972</FONT>       * @param sets the sets to choose elements from, in the order that<a name="line.972"></a>
+<FONT color="green">973</FONT>       *     the elements chosen from those sets should appear in the resulting<a name="line.973"></a>
+<FONT color="green">974</FONT>       *     lists<a name="line.974"></a>
+<FONT color="green">975</FONT>       * @param &lt;B&gt; any common base class shared by all axes (often just {@link<a name="line.975"></a>
+<FONT color="green">976</FONT>       *     Object})<a name="line.976"></a>
+<FONT color="green">977</FONT>       * @return the Cartesian product, as an immutable set containing immutable<a name="line.977"></a>
+<FONT color="green">978</FONT>       *     lists<a name="line.978"></a>
+<FONT color="green">979</FONT>       * @throws NullPointerException if {@code sets}, any one of the {@code sets},<a name="line.979"></a>
+<FONT color="green">980</FONT>       *     or any element of a provided set is null<a name="line.980"></a>
+<FONT color="green">981</FONT>       * @since 2.0<a name="line.981"></a>
+<FONT color="green">982</FONT>       */<a name="line.982"></a>
+<FONT color="green">983</FONT>      public static &lt;B&gt; Set&lt;List&lt;B&gt;&gt; cartesianProduct(<a name="line.983"></a>
+<FONT color="green">984</FONT>          List&lt;? extends Set&lt;? extends B&gt;&gt; sets) {<a name="line.984"></a>
+<FONT color="green">985</FONT>        for (Set&lt;? extends B&gt; set : sets) {<a name="line.985"></a>
+<FONT color="green">986</FONT>          if (set.isEmpty()) {<a name="line.986"></a>
+<FONT color="green">987</FONT>            return ImmutableSet.of();<a name="line.987"></a>
+<FONT color="green">988</FONT>          }<a name="line.988"></a>
+<FONT color="green">989</FONT>        }<a name="line.989"></a>
+<FONT color="green">990</FONT>        CartesianSet&lt;B&gt; cartesianSet = new CartesianSet&lt;B&gt;(sets);<a name="line.990"></a>
+<FONT color="green">991</FONT>        return cartesianSet;<a name="line.991"></a>
+<FONT color="green">992</FONT>      }<a name="line.992"></a>
+<FONT color="green">993</FONT>    <a name="line.993"></a>
+<FONT color="green">994</FONT>      /**<a name="line.994"></a>
+<FONT color="green">995</FONT>       * Returns every possible list that can be formed by choosing one element<a name="line.995"></a>
+<FONT color="green">996</FONT>       * from each of the given sets in order; the "n-ary<a name="line.996"></a>
+<FONT color="green">997</FONT>       * &lt;a href="http://en.wikipedia.org/wiki/Cartesian_product"&gt;Cartesian<a name="line.997"></a>
+<FONT color="green">998</FONT>       * product&lt;/a&gt;" of the sets. For example: &lt;pre&gt;   {@code<a name="line.998"></a>
+<FONT color="green">999</FONT>       *<a name="line.999"></a>
+<FONT color="green">1000</FONT>       *   Sets.cartesianProduct(<a name="line.1000"></a>
+<FONT color="green">1001</FONT>       *       ImmutableSet.of(1, 2),<a name="line.1001"></a>
+<FONT color="green">1002</FONT>       *       ImmutableSet.of("A", "B", "C"))}&lt;/pre&gt;<a name="line.1002"></a>
+<FONT color="green">1003</FONT>       *<a name="line.1003"></a>
+<FONT color="green">1004</FONT>       * returns a set containing six lists:<a name="line.1004"></a>
+<FONT color="green">1005</FONT>       *<a name="line.1005"></a>
+<FONT color="green">1006</FONT>       * &lt;ul&gt;<a name="line.1006"></a>
+<FONT color="green">1007</FONT>       * &lt;li&gt;{@code ImmutableList.of(1, "A")}<a name="line.1007"></a>
+<FONT color="green">1008</FONT>       * &lt;li&gt;{@code ImmutableList.of(1, "B")}<a name="line.1008"></a>
+<FONT color="green">1009</FONT>       * &lt;li&gt;{@code ImmutableList.of(1, "C")}<a name="line.1009"></a>
+<FONT color="green">1010</FONT>       * &lt;li&gt;{@code ImmutableList.of(2, "A")}<a name="line.1010"></a>
+<FONT color="green">1011</FONT>       * &lt;li&gt;{@code ImmutableList.of(2, "B")}<a name="line.1011"></a>
+<FONT color="green">1012</FONT>       * &lt;li&gt;{@code ImmutableList.of(2, "C")}<a name="line.1012"></a>
+<FONT color="green">1013</FONT>       * &lt;/ul&gt;<a name="line.1013"></a>
+<FONT color="green">1014</FONT>       *<a name="line.1014"></a>
+<FONT color="green">1015</FONT>       * The order in which these lists are returned is not guaranteed, however the<a name="line.1015"></a>
+<FONT color="green">1016</FONT>       * position of an element inside a tuple always corresponds to the position of<a name="line.1016"></a>
+<FONT color="green">1017</FONT>       * the set from which it came in the input list. Note that if any input set is<a name="line.1017"></a>
+<FONT color="green">1018</FONT>       * empty, the Cartesian product will also be empty. If no sets at all are<a name="line.1018"></a>
+<FONT color="green">1019</FONT>       * provided, the resulting Cartesian product has one element, an empty list<a name="line.1019"></a>
+<FONT color="green">1020</FONT>       * (counter-intuitive, but mathematically consistent).<a name="line.1020"></a>
+<FONT color="green">1021</FONT>       *<a name="line.1021"></a>
+<FONT color="green">1022</FONT>       * &lt;p&gt;&lt;i&gt;Performance notes:&lt;/i&gt; while the cartesian product of sets of size<a name="line.1022"></a>
+<FONT color="green">1023</FONT>       * {@code m, n, p} is a set of size {@code m x n x p}, its actual memory<a name="line.1023"></a>
+<FONT color="green">1024</FONT>       * consumption is much smaller. When the cartesian set is constructed, the<a name="line.1024"></a>
+<FONT color="green">1025</FONT>       * input sets are merely copied. Only as the resulting set is iterated are the<a name="line.1025"></a>
+<FONT color="green">1026</FONT>       * individual lists created, and these are not retained after iteration.<a name="line.1026"></a>
+<FONT color="green">1027</FONT>       *<a name="line.1027"></a>
+<FONT color="green">1028</FONT>       * @param sets the sets to choose elements from, in the order that<a name="line.1028"></a>
+<FONT color="green">1029</FONT>       *     the elements chosen from those sets should appear in the resulting<a name="line.1029"></a>
+<FONT color="green">1030</FONT>       *     lists<a name="line.1030"></a>
+<FONT color="green">1031</FONT>       * @param &lt;B&gt; any common base class shared by all axes (often just {@link<a name="line.1031"></a>
+<FONT color="green">1032</FONT>       *     Object})<a name="line.1032"></a>
+<FONT color="green">1033</FONT>       * @return the Cartesian product, as an immutable set containing immutable<a name="line.1033"></a>
+<FONT color="green">1034</FONT>       *     lists<a name="line.1034"></a>
+<FONT color="green">1035</FONT>       * @throws NullPointerException if {@code sets}, any one of the {@code sets},<a name="line.1035"></a>
+<FONT color="green">1036</FONT>       *     or any element of a provided set is null<a name="line.1036"></a>
+<FONT color="green">1037</FONT>       * @since 2.0<a name="line.1037"></a>
+<FONT color="green">1038</FONT>       */<a name="line.1038"></a>
+<FONT color="green">1039</FONT>      public static &lt;B&gt; Set&lt;List&lt;B&gt;&gt; cartesianProduct(<a name="line.1039"></a>
+<FONT color="green">1040</FONT>          Set&lt;? extends B&gt;... sets) {<a name="line.1040"></a>
+<FONT color="green">1041</FONT>        return cartesianProduct(Arrays.asList(sets));<a name="line.1041"></a>
+<FONT color="green">1042</FONT>      }<a name="line.1042"></a>
+<FONT color="green">1043</FONT>    <a name="line.1043"></a>
+<FONT color="green">1044</FONT>      private static class CartesianSet&lt;B&gt; extends AbstractSet&lt;List&lt;B&gt;&gt; {<a name="line.1044"></a>
+<FONT color="green">1045</FONT>        final ImmutableList&lt;Axis&gt; axes;<a name="line.1045"></a>
+<FONT color="green">1046</FONT>        final int size;<a name="line.1046"></a>
+<FONT color="green">1047</FONT>    <a name="line.1047"></a>
+<FONT color="green">1048</FONT>        CartesianSet(List&lt;? extends Set&lt;? extends B&gt;&gt; sets) {<a name="line.1048"></a>
+<FONT color="green">1049</FONT>          int dividend = 1;<a name="line.1049"></a>
+<FONT color="green">1050</FONT>          ImmutableList.Builder&lt;Axis&gt; builder = ImmutableList.builder();<a name="line.1050"></a>
+<FONT color="green">1051</FONT>          try {<a name="line.1051"></a>
+<FONT color="green">1052</FONT>            for (Set&lt;? extends B&gt; set : sets) {<a name="line.1052"></a>
+<FONT color="green">1053</FONT>              Axis axis = new Axis(set, dividend);<a name="line.1053"></a>
+<FONT color="green">1054</FONT>              builder.add(axis);<a name="line.1054"></a>
+<FONT color="green">1055</FONT>              dividend = IntMath.checkedMultiply(dividend, axis.size());<a name="line.1055"></a>
+<FONT color="green">1056</FONT>            }<a name="line.1056"></a>
+<FONT color="green">1057</FONT>          } catch (ArithmeticException overflow) {<a name="line.1057"></a>
+<FONT color="green">1058</FONT>            throw new IllegalArgumentException("cartesian product too big");<a name="line.1058"></a>
+<FONT color="green">1059</FONT>          }<a name="line.1059"></a>
+<FONT color="green">1060</FONT>          this.axes = builder.build();<a name="line.1060"></a>
+<FONT color="green">1061</FONT>          size = dividend;<a name="line.1061"></a>
+<FONT color="green">1062</FONT>        }<a name="line.1062"></a>
+<FONT color="green">1063</FONT>    <a name="line.1063"></a>
+<FONT color="green">1064</FONT>        @Override public int size() {<a name="line.1064"></a>
+<FONT color="green">1065</FONT>          return size;<a name="line.1065"></a>
+<FONT color="green">1066</FONT>        }<a name="line.1066"></a>
+<FONT color="green">1067</FONT>    <a name="line.1067"></a>
+<FONT color="green">1068</FONT>        @Override public UnmodifiableIterator&lt;List&lt;B&gt;&gt; iterator() {<a name="line.1068"></a>
+<FONT color="green">1069</FONT>          return new AbstractIndexedListIterator&lt;List&lt;B&gt;&gt;(size) {<a name="line.1069"></a>
+<FONT color="green">1070</FONT>            @Override<a name="line.1070"></a>
+<FONT color="green">1071</FONT>            protected List&lt;B&gt; get(int index) {<a name="line.1071"></a>
+<FONT color="green">1072</FONT>              Object[] tuple = new Object[axes.size()];<a name="line.1072"></a>
+<FONT color="green">1073</FONT>              for (int i = 0 ; i &lt; tuple.length; i++) {<a name="line.1073"></a>
+<FONT color="green">1074</FONT>                tuple[i] = axes.get(i).getForIndex(index);<a name="line.1074"></a>
+<FONT color="green">1075</FONT>              }<a name="line.1075"></a>
+<FONT color="green">1076</FONT>    <a name="line.1076"></a>
+<FONT color="green">1077</FONT>              @SuppressWarnings("unchecked") // only B's are put in here<a name="line.1077"></a>
+<FONT color="green">1078</FONT>              List&lt;B&gt; result = (ImmutableList&lt;B&gt;) ImmutableList.copyOf(tuple);<a name="line.1078"></a>
+<FONT color="green">1079</FONT>              return result;<a name="line.1079"></a>
+<FONT color="green">1080</FONT>            }<a name="line.1080"></a>
+<FONT color="green">1081</FONT>          };<a name="line.1081"></a>
+<FONT color="green">1082</FONT>        }<a name="line.1082"></a>
+<FONT color="green">1083</FONT>    <a name="line.1083"></a>
+<FONT color="green">1084</FONT>        @Override public boolean contains(Object element) {<a name="line.1084"></a>
+<FONT color="green">1085</FONT>          if (!(element instanceof List)) {<a name="line.1085"></a>
+<FONT color="green">1086</FONT>            return false;<a name="line.1086"></a>
+<FONT color="green">1087</FONT>          }<a name="line.1087"></a>
+<FONT color="green">1088</FONT>          List&lt;?&gt; tuple = (List&lt;?&gt;) element;<a name="line.1088"></a>
+<FONT color="green">1089</FONT>          int dimensions = axes.size();<a name="line.1089"></a>
+<FONT color="green">1090</FONT>          if (tuple.size() != dimensions) {<a name="line.1090"></a>
+<FONT color="green">1091</FONT>            return false;<a name="line.1091"></a>
+<FONT color="green">1092</FONT>          }<a name="line.1092"></a>
+<FONT color="green">1093</FONT>          for (int i = 0; i &lt; dimensions; i++) {<a name="line.1093"></a>
+<FONT color="green">1094</FONT>            if (!axes.get(i).contains(tuple.get(i))) {<a name="line.1094"></a>
+<FONT color="green">1095</FONT>              return false;<a name="line.1095"></a>
+<FONT color="green">1096</FONT>            }<a name="line.1096"></a>
+<FONT color="green">1097</FONT>          }<a name="line.1097"></a>
+<FONT color="green">1098</FONT>          return true;<a name="line.1098"></a>
+<FONT color="green">1099</FONT>        }<a name="line.1099"></a>
+<FONT color="green">1100</FONT>    <a name="line.1100"></a>
+<FONT color="green">1101</FONT>        @Override public boolean equals(@Nullable Object object) {<a name="line.1101"></a>
+<FONT color="green">1102</FONT>          // Warning: this is broken if size() == 0, so it is critical that we<a name="line.1102"></a>
+<FONT color="green">1103</FONT>          // substitute an empty ImmutableSet to the user in place of this<a name="line.1103"></a>
+<FONT color="green">1104</FONT>          if (object instanceof CartesianSet) {<a name="line.1104"></a>
+<FONT color="green">1105</FONT>            CartesianSet&lt;?&gt; that = (CartesianSet&lt;?&gt;) object;<a name="line.1105"></a>
+<FONT color="green">1106</FONT>            return this.axes.equals(that.axes);<a name="line.1106"></a>
+<FONT color="green">1107</FONT>          }<a name="line.1107"></a>
+<FONT color="green">1108</FONT>          return super.equals(object);<a name="line.1108"></a>
+<FONT color="green">1109</FONT>        }<a name="line.1109"></a>
+<FONT color="green">1110</FONT>    <a name="line.1110"></a>
+<FONT color="green">1111</FONT>        @Override public int hashCode() {<a name="line.1111"></a>
+<FONT color="green">1112</FONT>          // Warning: this is broken if size() == 0, so it is critical that we<a name="line.1112"></a>
+<FONT color="green">1113</FONT>          // substitute an empty ImmutableSet to the user in place of this<a name="line.1113"></a>
+<FONT color="green">1114</FONT>    <a name="line.1114"></a>
+<FONT color="green">1115</FONT>          // It's a weird formula, but tests prove it works.<a name="line.1115"></a>
+<FONT color="green">1116</FONT>          int adjust = size - 1;<a name="line.1116"></a>
+<FONT color="green">1117</FONT>          for (int i = 0; i &lt; axes.size(); i++) {<a name="line.1117"></a>
+<FONT color="green">1118</FONT>            adjust *= 31;<a name="line.1118"></a>
+<FONT color="green">1119</FONT>          }<a name="line.1119"></a>
+<FONT color="green">1120</FONT>          return axes.hashCode() + adjust;<a name="line.1120"></a>
+<FONT color="green">1121</FONT>        }<a name="line.1121"></a>
+<FONT color="green">1122</FONT>    <a name="line.1122"></a>
+<FONT color="green">1123</FONT>        private class Axis {<a name="line.1123"></a>
+<FONT color="green">1124</FONT>          final ImmutableSet&lt;? extends B&gt; choices;<a name="line.1124"></a>
+<FONT color="green">1125</FONT>          final ImmutableList&lt;? extends B&gt; choicesList;<a name="line.1125"></a>
+<FONT color="green">1126</FONT>          final int dividend;<a name="line.1126"></a>
+<FONT color="green">1127</FONT>    <a name="line.1127"></a>
+<FONT color="green">1128</FONT>          Axis(Set&lt;? extends B&gt; set, int dividend) {<a name="line.1128"></a>
+<FONT color="green">1129</FONT>            choices = ImmutableSet.copyOf(set);<a name="line.1129"></a>
+<FONT color="green">1130</FONT>            choicesList = choices.asList();<a name="line.1130"></a>
+<FONT color="green">1131</FONT>            this.dividend = dividend;<a name="line.1131"></a>
+<FONT color="green">1132</FONT>          }<a name="line.1132"></a>
+<FONT color="green">1133</FONT>    <a name="line.1133"></a>
+<FONT color="green">1134</FONT>          int size() {<a name="line.1134"></a>
+<FONT color="green">1135</FONT>            return choices.size();<a name="line.1135"></a>
+<FONT color="green">1136</FONT>          }<a name="line.1136"></a>
+<FONT color="green">1137</FONT>    <a name="line.1137"></a>
+<FONT color="green">1138</FONT>          B getForIndex(int index) {<a name="line.1138"></a>
+<FONT color="green">1139</FONT>            return choicesList.get(index / dividend % size());<a name="line.1139"></a>
+<FONT color="green">1140</FONT>          }<a name="line.1140"></a>
+<FONT color="green">1141</FONT>    <a name="line.1141"></a>
+<FONT color="green">1142</FONT>          boolean contains(Object target) {<a name="line.1142"></a>
+<FONT color="green">1143</FONT>            return choices.contains(target);<a name="line.1143"></a>
+<FONT color="green">1144</FONT>          }<a name="line.1144"></a>
+<FONT color="green">1145</FONT>    <a name="line.1145"></a>
+<FONT color="green">1146</FONT>          @Override public boolean equals(Object obj) {<a name="line.1146"></a>
+<FONT color="green">1147</FONT>            if (obj instanceof CartesianSet.Axis) {<a name="line.1147"></a>
+<FONT color="green">1148</FONT>              CartesianSet.Axis that = (CartesianSet.Axis) obj;<a name="line.1148"></a>
+<FONT color="green">1149</FONT>              return this.choices.equals(that.choices);<a name="line.1149"></a>
+<FONT color="green">1150</FONT>              // dividends must be equal or we wouldn't have gotten this far<a name="line.1150"></a>
+<FONT color="green">1151</FONT>            }<a name="line.1151"></a>
+<FONT color="green">1152</FONT>            return false;<a name="line.1152"></a>
+<FONT color="green">1153</FONT>          }<a name="line.1153"></a>
+<FONT color="green">1154</FONT>    <a name="line.1154"></a>
+<FONT color="green">1155</FONT>          @Override public int hashCode() {<a name="line.1155"></a>
+<FONT color="green">1156</FONT>            // Because Axis instances are not exposed, we can<a name="line.1156"></a>
+<FONT color="green">1157</FONT>            // opportunistically choose whatever bizarre formula happens<a name="line.1157"></a>
+<FONT color="green">1158</FONT>            // to make CartesianSet.hashCode() as simple as possible.<a name="line.1158"></a>
+<FONT color="green">1159</FONT>            return size / choices.size() * choices.hashCode();<a name="line.1159"></a>
+<FONT color="green">1160</FONT>          }<a name="line.1160"></a>
+<FONT color="green">1161</FONT>        }<a name="line.1161"></a>
+<FONT color="green">1162</FONT>      }<a name="line.1162"></a>
+<FONT color="green">1163</FONT>    <a name="line.1163"></a>
+<FONT color="green">1164</FONT>      /**<a name="line.1164"></a>
+<FONT color="green">1165</FONT>       * Returns the set of all possible subsets of {@code set}. For example,<a name="line.1165"></a>
+<FONT color="green">1166</FONT>       * {@code powerSet(ImmutableSet.of(1, 2))} returns the set {@code {{},<a name="line.1166"></a>
+<FONT color="green">1167</FONT>       * {1}, {2}, {1, 2}}}.<a name="line.1167"></a>
+<FONT color="green">1168</FONT>       *<a name="line.1168"></a>
+<FONT color="green">1169</FONT>       * &lt;p&gt;Elements appear in these subsets in the same iteration order as they<a name="line.1169"></a>
+<FONT color="green">1170</FONT>       * appeared in the input set. The order in which these subsets appear in the<a name="line.1170"></a>
+<FONT color="green">1171</FONT>       * outer set is undefined. Note that the power set of the empty set is not the<a name="line.1171"></a>
+<FONT color="green">1172</FONT>       * empty set, but a one-element set containing the empty set.<a name="line.1172"></a>
+<FONT color="green">1173</FONT>       *<a name="line.1173"></a>
+<FONT color="green">1174</FONT>       * &lt;p&gt;The returned set and its constituent sets use {@code equals} to decide<a name="line.1174"></a>
+<FONT color="green">1175</FONT>       * whether two elements are identical, even if the input set uses a different<a name="line.1175"></a>
+<FONT color="green">1176</FONT>       * concept of equivalence.<a name="line.1176"></a>
+<FONT color="green">1177</FONT>       *<a name="line.1177"></a>
+<FONT color="green">1178</FONT>       * &lt;p&gt;&lt;i&gt;Performance notes:&lt;/i&gt; while the power set of a set with size {@code<a name="line.1178"></a>
+<FONT color="green">1179</FONT>       * n} is of size {@code 2^n}, its memory usage is only {@code O(n)}. When the<a name="line.1179"></a>
+<FONT color="green">1180</FONT>       * power set is constructed, the input set is merely copied. Only as the<a name="line.1180"></a>
+<FONT color="green">1181</FONT>       * power set is iterated are the individual subsets created, and these subsets<a name="line.1181"></a>
+<FONT color="green">1182</FONT>       * themselves occupy only a few bytes of memory regardless of their size.<a name="line.1182"></a>
+<FONT color="green">1183</FONT>       *<a name="line.1183"></a>
+<FONT color="green">1184</FONT>       * @param set the set of elements to construct a power set from<a name="line.1184"></a>
+<FONT color="green">1185</FONT>       * @return the power set, as an immutable set of immutable sets<a name="line.1185"></a>
+<FONT color="green">1186</FONT>       * @throws IllegalArgumentException if {@code set} has more than 30 unique<a name="line.1186"></a>
+<FONT color="green">1187</FONT>       *     elements (causing the power set size to exceed the {@code int} range)<a name="line.1187"></a>
+<FONT color="green">1188</FONT>       * @throws NullPointerException if {@code set} is or contains {@code null}<a name="line.1188"></a>
+<FONT color="green">1189</FONT>       * @see &lt;a href="http://en.wikipedia.org/wiki/Power_set"&gt;Power set article at<a name="line.1189"></a>
+<FONT color="green">1190</FONT>       *      Wikipedia&lt;/a&gt;<a name="line.1190"></a>
+<FONT color="green">1191</FONT>       * @since 4.0<a name="line.1191"></a>
+<FONT color="green">1192</FONT>       */<a name="line.1192"></a>
+<FONT color="green">1193</FONT>      @GwtCompatible(serializable = false)<a name="line.1193"></a>
+<FONT color="green">1194</FONT>      public static &lt;E&gt; Set&lt;Set&lt;E&gt;&gt; powerSet(Set&lt;E&gt; set) {<a name="line.1194"></a>
+<FONT color="green">1195</FONT>        ImmutableSet&lt;E&gt; input = ImmutableSet.copyOf(set);<a name="line.1195"></a>
+<FONT color="green">1196</FONT>        checkArgument(input.size() &lt;= 30,<a name="line.1196"></a>
+<FONT color="green">1197</FONT>            "Too many elements to create power set: %s &gt; 30", input.size());<a name="line.1197"></a>
+<FONT color="green">1198</FONT>        return new PowerSet&lt;E&gt;(input);<a name="line.1198"></a>
+<FONT color="green">1199</FONT>      }<a name="line.1199"></a>
+<FONT color="green">1200</FONT>    <a name="line.1200"></a>
+<FONT color="green">1201</FONT>      private static final class PowerSet&lt;E&gt; extends AbstractSet&lt;Set&lt;E&gt;&gt; {<a name="line.1201"></a>
+<FONT color="green">1202</FONT>        final ImmutableSet&lt;E&gt; inputSet;<a name="line.1202"></a>
+<FONT color="green">1203</FONT>        final ImmutableList&lt;E&gt; inputList;<a name="line.1203"></a>
+<FONT color="green">1204</FONT>        final int powerSetSize;<a name="line.1204"></a>
+<FONT color="green">1205</FONT>    <a name="line.1205"></a>
+<FONT color="green">1206</FONT>        PowerSet(ImmutableSet&lt;E&gt; input) {<a name="line.1206"></a>
+<FONT color="green">1207</FONT>          this.inputSet = input;<a name="line.1207"></a>
+<FONT color="green">1208</FONT>          this.inputList = input.asList();<a name="line.1208"></a>
+<FONT color="green">1209</FONT>          this.powerSetSize = 1 &lt;&lt; input.size();<a name="line.1209"></a>
+<FONT color="green">1210</FONT>        }<a name="line.1210"></a>
+<FONT color="green">1211</FONT>    <a name="line.1211"></a>
+<FONT color="green">1212</FONT>        @Override public int size() {<a name="line.1212"></a>
+<FONT color="green">1213</FONT>          return powerSetSize;<a name="line.1213"></a>
+<FONT color="green">1214</FONT>        }<a name="line.1214"></a>
+<FONT color="green">1215</FONT>    <a name="line.1215"></a>
+<FONT color="green">1216</FONT>        @Override public boolean isEmpty() {<a name="line.1216"></a>
+<FONT color="green">1217</FONT>          return false;<a name="line.1217"></a>
+<FONT color="green">1218</FONT>        }<a name="line.1218"></a>
+<FONT color="green">1219</FONT>    <a name="line.1219"></a>
+<FONT color="green">1220</FONT>        @Override public Iterator&lt;Set&lt;E&gt;&gt; iterator() {<a name="line.1220"></a>
+<FONT color="green">1221</FONT>          return new AbstractIndexedListIterator&lt;Set&lt;E&gt;&gt;(powerSetSize) {<a name="line.1221"></a>
+<FONT color="green">1222</FONT>            @Override protected Set&lt;E&gt; get(final int setBits) {<a name="line.1222"></a>
+<FONT color="green">1223</FONT>              return new AbstractSet&lt;E&gt;() {<a name="line.1223"></a>
+<FONT color="green">1224</FONT>                @Override public int size() {<a name="line.1224"></a>
+<FONT color="green">1225</FONT>                  return Integer.bitCount(setBits);<a name="line.1225"></a>
+<FONT color="green">1226</FONT>                }<a name="line.1226"></a>
+<FONT color="green">1227</FONT>                @Override public Iterator&lt;E&gt; iterator() {<a name="line.1227"></a>
+<FONT color="green">1228</FONT>                  return new BitFilteredSetIterator&lt;E&gt;(inputList, setBits);<a name="line.1228"></a>
+<FONT color="green">1229</FONT>                }<a name="line.1229"></a>
+<FONT color="green">1230</FONT>              };<a name="line.1230"></a>
+<FONT color="green">1231</FONT>            }<a name="line.1231"></a>
+<FONT color="green">1232</FONT>          };<a name="line.1232"></a>
+<FONT color="green">1233</FONT>        }<a name="line.1233"></a>
+<FONT color="green">1234</FONT>    <a name="line.1234"></a>
+<FONT color="green">1235</FONT>        private static final class BitFilteredSetIterator&lt;E&gt;<a name="line.1235"></a>
+<FONT color="green">1236</FONT>            extends UnmodifiableIterator&lt;E&gt; {<a name="line.1236"></a>
+<FONT color="green">1237</FONT>          final ImmutableList&lt;E&gt; input;<a name="line.1237"></a>
+<FONT color="green">1238</FONT>          int remainingSetBits;<a name="line.1238"></a>
+<FONT color="green">1239</FONT>    <a name="line.1239"></a>
+<FONT color="green">1240</FONT>          BitFilteredSetIterator(ImmutableList&lt;E&gt; input, int allSetBits) {<a name="line.1240"></a>
+<FONT color="green">1241</FONT>            this.input = input;<a name="line.1241"></a>
+<FONT color="green">1242</FONT>            this.remainingSetBits = allSetBits;<a name="line.1242"></a>
+<FONT color="green">1243</FONT>          }<a name="line.1243"></a>
+<FONT color="green">1244</FONT>    <a name="line.1244"></a>
+<FONT color="green">1245</FONT>          @Override public boolean hasNext() {<a name="line.1245"></a>
+<FONT color="green">1246</FONT>            return remainingSetBits != 0;<a name="line.1246"></a>
+<FONT color="green">1247</FONT>          }<a name="line.1247"></a>
+<FONT color="green">1248</FONT>    <a name="line.1248"></a>
+<FONT color="green">1249</FONT>          @Override public E next() {<a name="line.1249"></a>
+<FONT color="green">1250</FONT>            int index = Integer.numberOfTrailingZeros(remainingSetBits);<a name="line.1250"></a>
+<FONT color="green">1251</FONT>            if (index == 32) {<a name="line.1251"></a>
+<FONT color="green">1252</FONT>              throw new NoSuchElementException();<a name="line.1252"></a>
+<FONT color="green">1253</FONT>            }<a name="line.1253"></a>
+<FONT color="green">1254</FONT>    <a name="line.1254"></a>
+<FONT color="green">1255</FONT>            int currentElementMask = 1 &lt;&lt; index;<a name="line.1255"></a>
+<FONT color="green">1256</FONT>            remainingSetBits &amp;= ~currentElementMask;<a name="line.1256"></a>
+<FONT color="green">1257</FONT>            return input.get(index);<a name="line.1257"></a>
+<FONT color="green">1258</FONT>          }<a name="line.1258"></a>
+<FONT color="green">1259</FONT>        }<a name="line.1259"></a>
+<FONT color="green">1260</FONT>    <a name="line.1260"></a>
+<FONT color="green">1261</FONT>        @Override public boolean contains(@Nullable Object obj) {<a name="line.1261"></a>
+<FONT color="green">1262</FONT>          if (obj instanceof Set) {<a name="line.1262"></a>
+<FONT color="green">1263</FONT>            Set&lt;?&gt; set = (Set&lt;?&gt;) obj;<a name="line.1263"></a>
+<FONT color="green">1264</FONT>            return inputSet.containsAll(set);<a name="line.1264"></a>
+<FONT color="green">1265</FONT>          }<a name="line.1265"></a>
+<FONT color="green">1266</FONT>          return false;<a name="line.1266"></a>
+<FONT color="green">1267</FONT>        }<a name="line.1267"></a>
+<FONT color="green">1268</FONT>    <a name="line.1268"></a>
+<FONT color="green">1269</FONT>        @Override public boolean equals(@Nullable Object obj) {<a name="line.1269"></a>
+<FONT color="green">1270</FONT>          if (obj instanceof PowerSet) {<a name="line.1270"></a>
+<FONT color="green">1271</FONT>            PowerSet&lt;?&gt; that = (PowerSet&lt;?&gt;) obj;<a name="line.1271"></a>
+<FONT color="green">1272</FONT>            return inputSet.equals(that.inputSet);<a name="line.1272"></a>
+<FONT color="green">1273</FONT>          }<a name="line.1273"></a>
+<FONT color="green">1274</FONT>          return super.equals(obj);<a name="line.1274"></a>
+<FONT color="green">1275</FONT>        }<a name="line.1275"></a>
+<FONT color="green">1276</FONT>    <a name="line.1276"></a>
+<FONT color="green">1277</FONT>        @Override public int hashCode() {<a name="line.1277"></a>
+<FONT color="green">1278</FONT>          /*<a name="line.1278"></a>
+<FONT color="green">1279</FONT>           * The sum of the sums of the hash codes in each subset is just the sum of<a name="line.1279"></a>
+<FONT color="green">1280</FONT>           * each input element's hash code times the number of sets that element<a name="line.1280"></a>
+<FONT color="green">1281</FONT>           * appears in. Each element appears in exactly half of the 2^n sets, so:<a name="line.1281"></a>
+<FONT color="green">1282</FONT>           */<a name="line.1282"></a>
+<FONT color="green">1283</FONT>          return inputSet.hashCode() &lt;&lt; (inputSet.size() - 1);<a name="line.1283"></a>
+<FONT color="green">1284</FONT>        }<a name="line.1284"></a>
+<FONT color="green">1285</FONT>    <a name="line.1285"></a>
+<FONT color="green">1286</FONT>        @Override public String toString() {<a name="line.1286"></a>
+<FONT color="green">1287</FONT>          return "powerSet(" + inputSet + ")";<a name="line.1287"></a>
+<FONT color="green">1288</FONT>        }<a name="line.1288"></a>
+<FONT color="green">1289</FONT>      }<a name="line.1289"></a>
+<FONT color="green">1290</FONT>    <a name="line.1290"></a>
+<FONT color="green">1291</FONT>      /**<a name="line.1291"></a>
+<FONT color="green">1292</FONT>       * An implementation for {@link Set#hashCode()}.<a name="line.1292"></a>
+<FONT color="green">1293</FONT>       */<a name="line.1293"></a>
+<FONT color="green">1294</FONT>      static int hashCodeImpl(Set&lt;?&gt; s) {<a name="line.1294"></a>
+<FONT color="green">1295</FONT>        int hashCode = 0;<a name="line.1295"></a>
+<FONT color="green">1296</FONT>        for (Object o : s) {<a name="line.1296"></a>
+<FONT color="green">1297</FONT>          hashCode += o != null ? o.hashCode() : 0;<a name="line.1297"></a>
+<FONT color="green">1298</FONT>        }<a name="line.1298"></a>
+<FONT color="green">1299</FONT>        return hashCode;<a name="line.1299"></a>
+<FONT color="green">1300</FONT>      }<a name="line.1300"></a>
+<FONT color="green">1301</FONT>    <a name="line.1301"></a>
+<FONT color="green">1302</FONT>      /**<a name="line.1302"></a>
+<FONT color="green">1303</FONT>       * An implementation for {@link Set#equals(Object)}.<a name="line.1303"></a>
+<FONT color="green">1304</FONT>       */<a name="line.1304"></a>
+<FONT color="green">1305</FONT>      static boolean equalsImpl(Set&lt;?&gt; s, @Nullable Object object){<a name="line.1305"></a>
+<FONT color="green">1306</FONT>        if (s == object) {<a name="line.1306"></a>
+<FONT color="green">1307</FONT>          return true;<a name="line.1307"></a>
+<FONT color="green">1308</FONT>        }<a name="line.1308"></a>
+<FONT color="green">1309</FONT>        if (object instanceof Set) {<a name="line.1309"></a>
+<FONT color="green">1310</FONT>          Set&lt;?&gt; o = (Set&lt;?&gt;) object;<a name="line.1310"></a>
+<FONT color="green">1311</FONT>    <a name="line.1311"></a>
+<FONT color="green">1312</FONT>          try {<a name="line.1312"></a>
+<FONT color="green">1313</FONT>            return s.size() == o.size() &amp;&amp; s.containsAll(o);<a name="line.1313"></a>
+<FONT color="green">1314</FONT>          } catch (NullPointerException ignored) {<a name="line.1314"></a>
+<FONT color="green">1315</FONT>            return false;<a name="line.1315"></a>
+<FONT color="green">1316</FONT>          } catch (ClassCastException ignored) {<a name="line.1316"></a>
+<FONT color="green">1317</FONT>            return false;<a name="line.1317"></a>
+<FONT color="green">1318</FONT>          }<a name="line.1318"></a>
+<FONT color="green">1319</FONT>        }<a name="line.1319"></a>
+<FONT color="green">1320</FONT>        return false;<a name="line.1320"></a>
+<FONT color="green">1321</FONT>      }<a name="line.1321"></a>
+<FONT color="green">1322</FONT>    <a name="line.1322"></a>
+<FONT color="green">1323</FONT>      /**<a name="line.1323"></a>
+<FONT color="green">1324</FONT>       * Returns an unmodifiable view of the specified navigable set. This method<a name="line.1324"></a>
+<FONT color="green">1325</FONT>       * allows modules to provide users with "read-only" access to internal<a name="line.1325"></a>
+<FONT color="green">1326</FONT>       * navigable sets. Query operations on the returned set "read through" to the<a name="line.1326"></a>
+<FONT color="green">1327</FONT>       * specified set, and attempts to modify the returned set, whether direct or<a name="line.1327"></a>
+<FONT color="green">1328</FONT>       * via its collection views, result in an<a name="line.1328"></a>
+<FONT color="green">1329</FONT>       * {@code UnsupportedOperationException}.<a name="line.1329"></a>
+<FONT color="green">1330</FONT>       *<a name="line.1330"></a>
+<FONT color="green">1331</FONT>       * &lt;p&gt;The returned navigable set will be serializable if the specified<a name="line.1331"></a>
+<FONT color="green">1332</FONT>       * navigable set is serializable.<a name="line.1332"></a>
+<FONT color="green">1333</FONT>       *<a name="line.1333"></a>
+<FONT color="green">1334</FONT>       * @param set the navigable set for which an unmodifiable view is to be<a name="line.1334"></a>
+<FONT color="green">1335</FONT>       *        returned<a name="line.1335"></a>
+<FONT color="green">1336</FONT>       * @return an unmodifiable view of the specified navigable set<a name="line.1336"></a>
+<FONT color="green">1337</FONT>       * @since 12.0<a name="line.1337"></a>
+<FONT color="green">1338</FONT>       */<a name="line.1338"></a>
+<FONT color="green">1339</FONT>      @GwtIncompatible("NavigableSet")<a name="line.1339"></a>
+<FONT color="green">1340</FONT>      public static &lt;E&gt; NavigableSet&lt;E&gt; unmodifiableNavigableSet(<a name="line.1340"></a>
+<FONT color="green">1341</FONT>          NavigableSet&lt;E&gt; set) {<a name="line.1341"></a>
+<FONT color="green">1342</FONT>        if (set instanceof ImmutableSortedSet<a name="line.1342"></a>
+<FONT color="green">1343</FONT>            || set instanceof UnmodifiableNavigableSet) {<a name="line.1343"></a>
+<FONT color="green">1344</FONT>          return set;<a name="line.1344"></a>
+<FONT color="green">1345</FONT>        }<a name="line.1345"></a>
+<FONT color="green">1346</FONT>        return new UnmodifiableNavigableSet&lt;E&gt;(set);<a name="line.1346"></a>
+<FONT color="green">1347</FONT>      }<a name="line.1347"></a>
+<FONT color="green">1348</FONT>    <a name="line.1348"></a>
+<FONT color="green">1349</FONT>      @GwtIncompatible("NavigableSet")<a name="line.1349"></a>
+<FONT color="green">1350</FONT>      static final class UnmodifiableNavigableSet&lt;E&gt;<a name="line.1350"></a>
+<FONT color="green">1351</FONT>          extends ForwardingSortedSet&lt;E&gt; implements NavigableSet&lt;E&gt;, Serializable {<a name="line.1351"></a>
+<FONT color="green">1352</FONT>        private final NavigableSet&lt;E&gt; delegate;<a name="line.1352"></a>
+<FONT color="green">1353</FONT>    <a name="line.1353"></a>
+<FONT color="green">1354</FONT>        UnmodifiableNavigableSet(NavigableSet&lt;E&gt; delegate) {<a name="line.1354"></a>
+<FONT color="green">1355</FONT>          this.delegate = checkNotNull(delegate);<a name="line.1355"></a>
+<FONT color="green">1356</FONT>        }<a name="line.1356"></a>
+<FONT color="green">1357</FONT>    <a name="line.1357"></a>
+<FONT color="green">1358</FONT>        @Override<a name="line.1358"></a>
+<FONT color="green">1359</FONT>        protected SortedSet&lt;E&gt; delegate() {<a name="line.1359"></a>
+<FONT color="green">1360</FONT>          return Collections.unmodifiableSortedSet(delegate);<a name="line.1360"></a>
+<FONT color="green">1361</FONT>        }<a name="line.1361"></a>
+<FONT color="green">1362</FONT>    <a name="line.1362"></a>
+<FONT color="green">1363</FONT>        @Override<a name="line.1363"></a>
+<FONT color="green">1364</FONT>        public E lower(E e) {<a name="line.1364"></a>
+<FONT color="green">1365</FONT>          return delegate.lower(e);<a name="line.1365"></a>
+<FONT color="green">1366</FONT>        }<a name="line.1366"></a>
+<FONT color="green">1367</FONT>    <a name="line.1367"></a>
+<FONT color="green">1368</FONT>        @Override<a name="line.1368"></a>
+<FONT color="green">1369</FONT>        public E floor(E e) {<a name="line.1369"></a>
+<FONT color="green">1370</FONT>          return delegate.floor(e);<a name="line.1370"></a>
+<FONT color="green">1371</FONT>        }<a name="line.1371"></a>
+<FONT color="green">1372</FONT>    <a name="line.1372"></a>
+<FONT color="green">1373</FONT>        @Override<a name="line.1373"></a>
+<FONT color="green">1374</FONT>        public E ceiling(E e) {<a name="line.1374"></a>
+<FONT color="green">1375</FONT>          return delegate.ceiling(e);<a name="line.1375"></a>
+<FONT color="green">1376</FONT>        }<a name="line.1376"></a>
+<FONT color="green">1377</FONT>    <a name="line.1377"></a>
+<FONT color="green">1378</FONT>        @Override<a name="line.1378"></a>
+<FONT color="green">1379</FONT>        public E higher(E e) {<a name="line.1379"></a>
+<FONT color="green">1380</FONT>          return delegate.higher(e);<a name="line.1380"></a>
+<FONT color="green">1381</FONT>        }<a name="line.1381"></a>
+<FONT color="green">1382</FONT>    <a name="line.1382"></a>
+<FONT color="green">1383</FONT>        @Override<a name="line.1383"></a>
+<FONT color="green">1384</FONT>        public E pollFirst() {<a name="line.1384"></a>
+<FONT color="green">1385</FONT>          throw new UnsupportedOperationException();<a name="line.1385"></a>
+<FONT color="green">1386</FONT>        }<a name="line.1386"></a>
+<FONT color="green">1387</FONT>    <a name="line.1387"></a>
+<FONT color="green">1388</FONT>        @Override<a name="line.1388"></a>
+<FONT color="green">1389</FONT>        public E pollLast() {<a name="line.1389"></a>
+<FONT color="green">1390</FONT>          throw new UnsupportedOperationException();<a name="line.1390"></a>
+<FONT color="green">1391</FONT>        }<a name="line.1391"></a>
+<FONT color="green">1392</FONT>    <a name="line.1392"></a>
+<FONT color="green">1393</FONT>        private transient UnmodifiableNavigableSet&lt;E&gt; descendingSet;<a name="line.1393"></a>
+<FONT color="green">1394</FONT>    <a name="line.1394"></a>
+<FONT color="green">1395</FONT>        @Override<a name="line.1395"></a>
+<FONT color="green">1396</FONT>        public NavigableSet&lt;E&gt; descendingSet() {<a name="line.1396"></a>
+<FONT color="green">1397</FONT>          UnmodifiableNavigableSet&lt;E&gt; result = descendingSet;<a name="line.1397"></a>
+<FONT color="green">1398</FONT>          if (result == null) {<a name="line.1398"></a>
+<FONT color="green">1399</FONT>            result = descendingSet = new UnmodifiableNavigableSet&lt;E&gt;(<a name="line.1399"></a>
+<FONT color="green">1400</FONT>                delegate.descendingSet());<a name="line.1400"></a>
+<FONT color="green">1401</FONT>            result.descendingSet = this;<a name="line.1401"></a>
+<FONT color="green">1402</FONT>          }<a name="line.1402"></a>
+<FONT color="green">1403</FONT>          return result;<a name="line.1403"></a>
+<FONT color="green">1404</FONT>        }<a name="line.1404"></a>
+<FONT color="green">1405</FONT>    <a name="line.1405"></a>
+<FONT color="green">1406</FONT>        @Override<a name="line.1406"></a>
+<FONT color="green">1407</FONT>        public Iterator&lt;E&gt; descendingIterator() {<a name="line.1407"></a>
+<FONT color="green">1408</FONT>          return Iterators.unmodifiableIterator(delegate.descendingIterator());<a name="line.1408"></a>
+<FONT color="green">1409</FONT>        }<a name="line.1409"></a>
+<FONT color="green">1410</FONT>    <a name="line.1410"></a>
+<FONT color="green">1411</FONT>        @Override<a name="line.1411"></a>
+<FONT color="green">1412</FONT>        public NavigableSet&lt;E&gt; subSet(<a name="line.1412"></a>
+<FONT color="green">1413</FONT>            E fromElement,<a name="line.1413"></a>
+<FONT color="green">1414</FONT>            boolean fromInclusive,<a name="line.1414"></a>
+<FONT color="green">1415</FONT>            E toElement,<a name="line.1415"></a>
+<FONT color="green">1416</FONT>            boolean toInclusive) {<a name="line.1416"></a>
+<FONT color="green">1417</FONT>          return unmodifiableNavigableSet(delegate.subSet(<a name="line.1417"></a>
+<FONT color="green">1418</FONT>              fromElement,<a name="line.1418"></a>
+<FONT color="green">1419</FONT>              fromInclusive,<a name="line.1419"></a>
+<FONT color="green">1420</FONT>              toElement,<a name="line.1420"></a>
+<FONT color="green">1421</FONT>              toInclusive));<a name="line.1421"></a>
+<FONT color="green">1422</FONT>        }<a name="line.1422"></a>
+<FONT color="green">1423</FONT>    <a name="line.1423"></a>
+<FONT color="green">1424</FONT>        @Override<a name="line.1424"></a>
+<FONT color="green">1425</FONT>        public NavigableSet&lt;E&gt; headSet(E toElement, boolean inclusive) {<a name="line.1425"></a>
+<FONT color="green">1426</FONT>          return unmodifiableNavigableSet(delegate.headSet(toElement, inclusive));<a name="line.1426"></a>
+<FONT color="green">1427</FONT>        }<a name="line.1427"></a>
+<FONT color="green">1428</FONT>    <a name="line.1428"></a>
+<FONT color="green">1429</FONT>        @Override<a name="line.1429"></a>
+<FONT color="green">1430</FONT>        public NavigableSet&lt;E&gt; tailSet(E fromElement, boolean inclusive) {<a name="line.1430"></a>
+<FONT color="green">1431</FONT>          return unmodifiableNavigableSet(<a name="line.1431"></a>
+<FONT color="green">1432</FONT>              delegate.tailSet(fromElement, inclusive));<a name="line.1432"></a>
+<FONT color="green">1433</FONT>        }<a name="line.1433"></a>
+<FONT color="green">1434</FONT>    <a name="line.1434"></a>
+<FONT color="green">1435</FONT>        private static final long serialVersionUID = 0;<a name="line.1435"></a>
+<FONT color="green">1436</FONT>      }<a name="line.1436"></a>
+<FONT color="green">1437</FONT>    <a name="line.1437"></a>
+<FONT color="green">1438</FONT>      /**<a name="line.1438"></a>
+<FONT color="green">1439</FONT>       * Returns a synchronized (thread-safe) navigable set backed by the specified<a name="line.1439"></a>
+<FONT color="green">1440</FONT>       * navigable set.  In order to guarantee serial access, it is critical that<a name="line.1440"></a>
+<FONT color="green">1441</FONT>       * &lt;b&gt;all&lt;/b&gt; access to the backing navigable set is accomplished<a name="line.1441"></a>
+<FONT color="green">1442</FONT>       * through the returned navigable set (or its views).<a name="line.1442"></a>
+<FONT color="green">1443</FONT>       *<a name="line.1443"></a>
+<FONT color="green">1444</FONT>       * &lt;p&gt;It is imperative that the user manually synchronize on the returned<a name="line.1444"></a>
+<FONT color="green">1445</FONT>       * sorted set when iterating over it or any of its {@code descendingSet},<a name="line.1445"></a>
+<FONT color="green">1446</FONT>       * {@code subSet}, {@code headSet}, or {@code tailSet} views. &lt;pre&gt;   {@code<a name="line.1446"></a>
+<FONT color="green">1447</FONT>       *<a name="line.1447"></a>
+<FONT color="green">1448</FONT>       *   NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;E&gt;());<a name="line.1448"></a>
+<FONT color="green">1449</FONT>       *    ...<a name="line.1449"></a>
+<FONT color="green">1450</FONT>       *   synchronized (set) {<a name="line.1450"></a>
+<FONT color="green">1451</FONT>       *     // Must be in the synchronized block<a name="line.1451"></a>
+<FONT color="green">1452</FONT>       *     Iterator&lt;E&gt; it = set.iterator();<a name="line.1452"></a>
+<FONT color="green">1453</FONT>       *     while (it.hasNext()){<a name="line.1453"></a>
+<FONT color="green">1454</FONT>       *       foo(it.next());<a name="line.1454"></a>
+<FONT color="green">1455</FONT>       *     }<a name="line.1455"></a>
+<FONT color="green">1456</FONT>       *   }}&lt;/pre&gt;<a name="line.1456"></a>
+<FONT color="green">1457</FONT>       *<a name="line.1457"></a>
+<FONT color="green">1458</FONT>       * or: &lt;pre&gt;   {@code<a name="line.1458"></a>
+<FONT color="green">1459</FONT>       *<a name="line.1459"></a>
+<FONT color="green">1460</FONT>       *   NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;E&gt;());<a name="line.1460"></a>
+<FONT color="green">1461</FONT>       *   NavigableSet&lt;E&gt; set2 = set.descendingSet().headSet(foo);<a name="line.1461"></a>
+<FONT color="green">1462</FONT>       *    ...<a name="line.1462"></a>
+<FONT color="green">1463</FONT>       *   synchronized (set) { // Note: set, not set2!!!<a name="line.1463"></a>
+<FONT color="green">1464</FONT>       *     // Must be in the synchronized block<a name="line.1464"></a>
+<FONT color="green">1465</FONT>       *     Iterator&lt;E&gt; it = set2.descendingIterator();<a name="line.1465"></a>
+<FONT color="green">1466</FONT>       *     while (it.hasNext())<a name="line.1466"></a>
+<FONT color="green">1467</FONT>       *       foo(it.next());<a name="line.1467"></a>
+<FONT color="green">1468</FONT>       *     }<a name="line.1468"></a>
+<FONT color="green">1469</FONT>       *   }}&lt;/pre&gt;<a name="line.1469"></a>
+<FONT color="green">1470</FONT>       *<a name="line.1470"></a>
+<FONT color="green">1471</FONT>       * Failure to follow this advice may result in non-deterministic behavior.<a name="line.1471"></a>
+<FONT color="green">1472</FONT>       *<a name="line.1472"></a>
+<FONT color="green">1473</FONT>       * &lt;p&gt;The returned navigable set will be serializable if the specified<a name="line.1473"></a>
+<FONT color="green">1474</FONT>       * navigable set is serializable.<a name="line.1474"></a>
+<FONT color="green">1475</FONT>       *<a name="line.1475"></a>
+<FONT color="green">1476</FONT>       * @param navigableSet the navigable set to be "wrapped" in a synchronized<a name="line.1476"></a>
+<FONT color="green">1477</FONT>       *    navigable set.<a name="line.1477"></a>
+<FONT color="green">1478</FONT>       * @return a synchronized view of the specified navigable set.<a name="line.1478"></a>
+<FONT color="green">1479</FONT>       * @since 13.0<a name="line.1479"></a>
+<FONT color="green">1480</FONT>       */<a name="line.1480"></a>
+<FONT color="green">1481</FONT>      @Beta<a name="line.1481"></a>
+<FONT color="green">1482</FONT>      @GwtIncompatible("NavigableSet")<a name="line.1482"></a>
+<FONT color="green">1483</FONT>      public static &lt;E&gt; NavigableSet&lt;E&gt; synchronizedNavigableSet(<a name="line.1483"></a>
+<FONT color="green">1484</FONT>          NavigableSet&lt;E&gt; navigableSet) {<a name="line.1484"></a>
+<FONT color="green">1485</FONT>        return Synchronized.navigableSet(navigableSet);<a name="line.1485"></a>
+<FONT color="green">1486</FONT>      }<a name="line.1486"></a>
+<FONT color="green">1487</FONT>    <a name="line.1487"></a>
+<FONT color="green">1488</FONT>      /**<a name="line.1488"></a>
+<FONT color="green">1489</FONT>       * Remove each element in an iterable from a set.<a name="line.1489"></a>
+<FONT color="green">1490</FONT>       */<a name="line.1490"></a>
+<FONT color="green">1491</FONT>      static boolean removeAllImpl(Set&lt;?&gt; set, Iterator&lt;?&gt; iterator) {<a name="line.1491"></a>
+<FONT color="green">1492</FONT>        boolean changed = false;<a name="line.1492"></a>
+<FONT color="green">1493</FONT>        while (iterator.hasNext()) {<a name="line.1493"></a>
+<FONT color="green">1494</FONT>          changed |= set.remove(iterator.next());<a name="line.1494"></a>
+<FONT color="green">1495</FONT>        }<a name="line.1495"></a>
+<FONT color="green">1496</FONT>        return changed;<a name="line.1496"></a>
+<FONT color="green">1497</FONT>      }<a name="line.1497"></a>
+<FONT color="green">1498</FONT>    <a name="line.1498"></a>
+<FONT color="green">1499</FONT>      static boolean removeAllImpl(Set&lt;?&gt; set, Collection&lt;?&gt; collection) {<a name="line.1499"></a>
+<FONT color="green">1500</FONT>        checkNotNull(collection); // for GWT<a name="line.1500"></a>
+<FONT color="green">1501</FONT>        if (collection instanceof Multiset) {<a name="line.1501"></a>
+<FONT color="green">1502</FONT>          collection = ((Multiset&lt;?&gt;) collection).elementSet();<a name="line.1502"></a>
+<FONT color="green">1503</FONT>        }<a name="line.1503"></a>
+<FONT color="green">1504</FONT>        /*<a name="line.1504"></a>
+<FONT color="green">1505</FONT>         * AbstractSet.removeAll(List) has quadratic behavior if the list size<a name="line.1505"></a>
+<FONT color="green">1506</FONT>         * is just less than the set's size.  We augment the test by<a name="line.1506"></a>
+<FONT color="green">1507</FONT>         * assuming that sets have fast contains() performance, and other<a name="line.1507"></a>
+<FONT color="green">1508</FONT>         * collections don't.  See<a name="line.1508"></a>
+<FONT color="green">1509</FONT>         * http://code.google.com/p/guava-libraries/issues/detail?id=1013<a name="line.1509"></a>
+<FONT color="green">1510</FONT>         */<a name="line.1510"></a>
+<FONT color="green">1511</FONT>        if (collection instanceof Set &amp;&amp; collection.size() &gt; set.size()) {<a name="line.1511"></a>
+<FONT color="green">1512</FONT>          Iterator&lt;?&gt; setIterator = set.iterator();<a name="line.1512"></a>
+<FONT color="green">1513</FONT>          boolean changed = false;<a name="line.1513"></a>
+<FONT color="green">1514</FONT>          while (setIterator.hasNext()) {<a name="line.1514"></a>
+<FONT color="green">1515</FONT>            if (collection.contains(setIterator.next())) {<a name="line.1515"></a>
+<FONT color="green">1516</FONT>              changed = true;<a name="line.1516"></a>
+<FONT color="green">1517</FONT>              setIterator.remove();<a name="line.1517"></a>
+<FONT color="green">1518</FONT>            }<a name="line.1518"></a>
+<FONT color="green">1519</FONT>          }<a name="line.1519"></a>
+<FONT color="green">1520</FONT>          return changed;<a name="line.1520"></a>
+<FONT color="green">1521</FONT>        } else {<a name="line.1521"></a>
+<FONT color="green">1522</FONT>          return removeAllImpl(set, collection.iterator());<a name="line.1522"></a>
+<FONT color="green">1523</FONT>        }<a name="line.1523"></a>
+<FONT color="green">1524</FONT>      }<a name="line.1524"></a>
+<FONT color="green">1525</FONT>    <a name="line.1525"></a>
+<FONT color="green">1526</FONT>      @GwtIncompatible("NavigableSet")<a name="line.1526"></a>
+<FONT color="green">1527</FONT>      static class DescendingSet&lt;E&gt; extends ForwardingNavigableSet&lt;E&gt; {<a name="line.1527"></a>
+<FONT color="green">1528</FONT>        private final NavigableSet&lt;E&gt; forward;<a name="line.1528"></a>
+<FONT color="green">1529</FONT>    <a name="line.1529"></a>
+<FONT color="green">1530</FONT>        DescendingSet(NavigableSet&lt;E&gt; forward) {<a name="line.1530"></a>
+<FONT color="green">1531</FONT>          this.forward = forward;<a name="line.1531"></a>
+<FONT color="green">1532</FONT>        }<a name="line.1532"></a>
+<FONT color="green">1533</FONT>    <a name="line.1533"></a>
+<FONT color="green">1534</FONT>        @Override<a name="line.1534"></a>
+<FONT color="green">1535</FONT>        protected NavigableSet&lt;E&gt; delegate() {<a name="line.1535"></a>
+<FONT color="green">1536</FONT>          return forward;<a name="line.1536"></a>
+<FONT color="green">1537</FONT>        }<a name="line.1537"></a>
+<FONT color="green">1538</FONT>    <a name="line.1538"></a>
+<FONT color="green">1539</FONT>        @Override<a name="line.1539"></a>
+<FONT color="green">1540</FONT>        public E lower(E e) {<a name="line.1540"></a>
+<FONT color="green">1541</FONT>          return forward.higher(e);<a name="line.1541"></a>
+<FONT color="green">1542</FONT>        }<a name="line.1542"></a>
+<FONT color="green">1543</FONT>    <a name="line.1543"></a>
+<FONT color="green">1544</FONT>        @Override<a name="line.1544"></a>
+<FONT color="green">1545</FONT>        public E floor(E e) {<a name="line.1545"></a>
+<FONT color="green">1546</FONT>          return forward.ceiling(e);<a name="line.1546"></a>
+<FONT color="green">1547</FONT>        }<a name="line.1547"></a>
+<FONT color="green">1548</FONT>    <a name="line.1548"></a>
+<FONT color="green">1549</FONT>        @Override<a name="line.1549"></a>
+<FONT color="green">1550</FONT>        public E ceiling(E e) {<a name="line.1550"></a>
+<FONT color="green">1551</FONT>          return forward.floor(e);<a name="line.1551"></a>
+<FONT color="green">1552</FONT>        }<a name="line.1552"></a>
+<FONT color="green">1553</FONT>    <a name="line.1553"></a>
+<FONT color="green">1554</FONT>        @Override<a name="line.1554"></a>
+<FONT color="green">1555</FONT>        public E higher(E e) {<a name="line.1555"></a>
+<FONT color="green">1556</FONT>          return forward.lower(e);<a name="line.1556"></a>
+<FONT color="green">1557</FONT>        }<a name="line.1557"></a>
+<FONT color="green">1558</FONT>    <a name="line.1558"></a>
+<FONT color="green">1559</FONT>        @Override<a name="line.1559"></a>
+<FONT color="green">1560</FONT>        public E pollFirst() {<a name="line.1560"></a>
+<FONT color="green">1561</FONT>          return forward.pollLast();<a name="line.1561"></a>
+<FONT color="green">1562</FONT>        }<a name="line.1562"></a>
+<FONT color="green">1563</FONT>    <a name="line.1563"></a>
+<FONT color="green">1564</FONT>        @Override<a name="line.1564"></a>
+<FONT color="green">1565</FONT>        public E pollLast() {<a name="line.1565"></a>
+<FONT color="green">1566</FONT>          return forward.pollFirst();<a name="line.1566"></a>
+<FONT color="green">1567</FONT>        }<a name="line.1567"></a>
+<FONT color="green">1568</FONT>    <a name="line.1568"></a>
+<FONT color="green">1569</FONT>        @Override<a name="line.1569"></a>
+<FONT color="green">1570</FONT>        public NavigableSet&lt;E&gt; descendingSet() {<a name="line.1570"></a>
+<FONT color="green">1571</FONT>          return forward;<a name="line.1571"></a>
+<FONT color="green">1572</FONT>        }<a name="line.1572"></a>
+<FONT color="green">1573</FONT>    <a name="line.1573"></a>
+<FONT color="green">1574</FONT>        @Override<a name="line.1574"></a>
+<FONT color="green">1575</FONT>        public Iterator&lt;E&gt; descendingIterator() {<a name="line.1575"></a>
+<FONT color="green">1576</FONT>          return forward.iterator();<a name="line.1576"></a>
+<FONT color="green">1577</FONT>        }<a name="line.1577"></a>
+<FONT color="green">1578</FONT>    <a name="line.1578"></a>
+<FONT color="green">1579</FONT>        @Override<a name="line.1579"></a>
+<FONT color="green">1580</FONT>        public NavigableSet&lt;E&gt; subSet(<a name="line.1580"></a>
+<FONT color="green">1581</FONT>            E fromElement,<a name="line.1581"></a>
+<FONT color="green">1582</FONT>            boolean fromInclusive,<a name="line.1582"></a>
+<FONT color="green">1583</FONT>            E toElement,<a name="line.1583"></a>
+<FONT color="green">1584</FONT>            boolean toInclusive) {<a name="line.1584"></a>
+<FONT color="green">1585</FONT>          return forward.subSet(toElement, toInclusive, fromElement, fromInclusive).descendingSet();<a name="line.1585"></a>
+<FONT color="green">1586</FONT>        }<a name="line.1586"></a>
+<FONT color="green">1587</FONT>    <a name="line.1587"></a>
+<FONT color="green">1588</FONT>        @Override<a name="line.1588"></a>
+<FONT color="green">1589</FONT>        public NavigableSet&lt;E&gt; headSet(E toElement, boolean inclusive) {<a name="line.1589"></a>
+<FONT color="green">1590</FONT>          return forward.tailSet(toElement, inclusive).descendingSet();<a name="line.1590"></a>
+<FONT color="green">1591</FONT>        }<a name="line.1591"></a>
+<FONT color="green">1592</FONT>    <a name="line.1592"></a>
+<FONT color="green">1593</FONT>        @Override<a name="line.1593"></a>
+<FONT color="green">1594</FONT>        public NavigableSet&lt;E&gt; tailSet(E fromElement, boolean inclusive) {<a name="line.1594"></a>
+<FONT color="green">1595</FONT>          return forward.headSet(fromElement, inclusive).descendingSet();<a name="line.1595"></a>
+<FONT color="green">1596</FONT>        }<a name="line.1596"></a>
+<FONT color="green">1597</FONT>    <a name="line.1597"></a>
+<FONT color="green">1598</FONT>        @SuppressWarnings("unchecked")<a name="line.1598"></a>
+<FONT color="green">1599</FONT>        @Override<a name="line.1599"></a>
+<FONT color="green">1600</FONT>        public Comparator&lt;? super E&gt; comparator() {<a name="line.1600"></a>
+<FONT color="green">1601</FONT>          Comparator&lt;? super E&gt; forwardComparator = forward.comparator();<a name="line.1601"></a>
+<FONT color="green">1602</FONT>          if (forwardComparator == null) {<a name="line.1602"></a>
+<FONT color="green">1603</FONT>            return (Comparator) Ordering.natural().reverse();<a name="line.1603"></a>
+<FONT color="green">1604</FONT>          } else {<a name="line.1604"></a>
+<FONT color="green">1605</FONT>            return reverse(forwardComparator);<a name="line.1605"></a>
+<FONT color="green">1606</FONT>          }<a name="line.1606"></a>
+<FONT color="green">1607</FONT>        }<a name="line.1607"></a>
+<FONT color="green">1608</FONT>    <a name="line.1608"></a>
+<FONT color="green">1609</FONT>        // If we inline this, we get a javac error.<a name="line.1609"></a>
+<FONT color="green">1610</FONT>        private static &lt;T&gt; Ordering&lt;T&gt; reverse(Comparator&lt;T&gt; forward) {<a name="line.1610"></a>
+<FONT color="green">1611</FONT>          return Ordering.from(forward).reverse();<a name="line.1611"></a>
+<FONT color="green">1612</FONT>        }<a name="line.1612"></a>
+<FONT color="green">1613</FONT>    <a name="line.1613"></a>
+<FONT color="green">1614</FONT>        @Override<a name="line.1614"></a>
+<FONT color="green">1615</FONT>        public E first() {<a name="line.1615"></a>
+<FONT color="green">1616</FONT>          return forward.last();<a name="line.1616"></a>
+<FONT color="green">1617</FONT>        }<a name="line.1617"></a>
+<FONT color="green">1618</FONT>    <a name="line.1618"></a>
+<FONT color="green">1619</FONT>        @Override<a name="line.1619"></a>
+<FONT color="green">1620</FONT>        public SortedSet&lt;E&gt; headSet(E toElement) {<a name="line.1620"></a>
+<FONT color="green">1621</FONT>          return standardHeadSet(toElement);<a name="line.1621"></a>
+<FONT color="green">1622</FONT>        }<a name="line.1622"></a>
+<FONT color="green">1623</FONT>    <a name="line.1623"></a>
+<FONT color="green">1624</FONT>        @Override<a name="line.1624"></a>
+<FONT color="green">1625</FONT>        public E last() {<a name="line.1625"></a>
+<FONT color="green">1626</FONT>          return forward.first();<a name="line.1626"></a>
+<FONT color="green">1627</FONT>        }<a name="line.1627"></a>
+<FONT color="green">1628</FONT>    <a name="line.1628"></a>
+<FONT color="green">1629</FONT>        @Override<a name="line.1629"></a>
+<FONT color="green">1630</FONT>        public SortedSet&lt;E&gt; subSet(E fromElement, E toElement) {<a name="line.1630"></a>
+<FONT color="green">1631</FONT>          return standardSubSet(fromElement, toElement);<a name="line.1631"></a>
+<FONT color="green">1632</FONT>        }<a name="line.1632"></a>
+<FONT color="green">1633</FONT>    <a name="line.1633"></a>
+<FONT color="green">1634</FONT>        @Override<a name="line.1634"></a>
+<FONT color="green">1635</FONT>        public SortedSet&lt;E&gt; tailSet(E fromElement) {<a name="line.1635"></a>
+<FONT color="green">1636</FONT>          return standardTailSet(fromElement);<a name="line.1636"></a>
+<FONT color="green">1637</FONT>        }<a name="line.1637"></a>
+<FONT color="green">1638</FONT>    <a name="line.1638"></a>
+<FONT color="green">1639</FONT>        @Override<a name="line.1639"></a>
+<FONT color="green">1640</FONT>        public Iterator&lt;E&gt; iterator() {<a name="line.1640"></a>
+<FONT color="green">1641</FONT>          return forward.descendingIterator();<a name="line.1641"></a>
+<FONT color="green">1642</FONT>        }<a name="line.1642"></a>
+<FONT color="green">1643</FONT>    <a name="line.1643"></a>
+<FONT color="green">1644</FONT>        @Override<a name="line.1644"></a>
+<FONT color="green">1645</FONT>        public Object[] toArray() {<a name="line.1645"></a>
+<FONT color="green">1646</FONT>          return standardToArray();<a name="line.1646"></a>
+<FONT color="green">1647</FONT>        }<a name="line.1647"></a>
+<FONT color="green">1648</FONT>    <a name="line.1648"></a>
+<FONT color="green">1649</FONT>        @Override<a name="line.1649"></a>
+<FONT color="green">1650</FONT>        public &lt;T&gt; T[] toArray(T[] array) {<a name="line.1650"></a>
+<FONT color="green">1651</FONT>          return standardToArray(array);<a name="line.1651"></a>
+<FONT color="green">1652</FONT>        }<a name="line.1652"></a>
+<FONT color="green">1653</FONT>    <a name="line.1653"></a>
+<FONT color="green">1654</FONT>        @Override<a name="line.1654"></a>
+<FONT color="green">1655</FONT>        public String toString() {<a name="line.1655"></a>
+<FONT color="green">1656</FONT>          return standardToString();<a name="line.1656"></a>
+<FONT color="green">1657</FONT>        }<a name="line.1657"></a>
+<FONT color="green">1658</FONT>      }<a name="line.1658"></a>
+<FONT color="green">1659</FONT>    <a name="line.1659"></a>
+<FONT color="green">1660</FONT>      /**<a name="line.1660"></a>
+<FONT color="green">1661</FONT>       * Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557<a name="line.1661"></a>
+<FONT color="green">1662</FONT>       */<a name="line.1662"></a>
+<FONT color="green">1663</FONT>      static &lt;T&gt; SortedSet&lt;T&gt; cast(Iterable&lt;T&gt; iterable) {<a name="line.1663"></a>
+<FONT color="green">1664</FONT>        return (SortedSet&lt;T&gt;) iterable;<a name="line.1664"></a>
+<FONT color="green">1665</FONT>      }<a name="line.1665"></a>
+<FONT color="green">1666</FONT>    }<a name="line.1666"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,167 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.eventbus;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import com.google.common.annotations.Beta;<a name="line.19"></a>
+<FONT color="green">020</FONT>    <a name="line.20"></a>
+<FONT color="green">021</FONT>    import java.util.concurrent.ConcurrentLinkedQueue;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import java.util.concurrent.Executor;<a name="line.22"></a>
+<FONT color="green">023</FONT>    <a name="line.23"></a>
+<FONT color="green">024</FONT>    /**<a name="line.24"></a>
+<FONT color="green">025</FONT>     * An {@link EventBus} that takes the Executor of your choice and uses it to<a name="line.25"></a>
+<FONT color="green">026</FONT>     * dispatch events, allowing dispatch to occur asynchronously.<a name="line.26"></a>
+<FONT color="green">027</FONT>     *<a name="line.27"></a>
+<FONT color="green">028</FONT>     * @author Cliff Biffle<a name="line.28"></a>
+<FONT color="green">029</FONT>     * @since 10.0<a name="line.29"></a>
+<FONT color="green">030</FONT>     */<a name="line.30"></a>
+<FONT color="green">031</FONT>    @Beta<a name="line.31"></a>
+<FONT color="green">032</FONT>    public class AsyncEventBus extends EventBus {<a name="line.32"></a>
+<FONT color="green">033</FONT>      private final Executor executor;<a name="line.33"></a>
+<FONT color="green">034</FONT>    <a name="line.34"></a>
+<FONT color="green">035</FONT>      /** the queue of events is shared across all threads */<a name="line.35"></a>
+<FONT color="green">036</FONT>      private final ConcurrentLinkedQueue&lt;EventWithHandler&gt; eventsToDispatch =<a name="line.36"></a>
+<FONT color="green">037</FONT>          new ConcurrentLinkedQueue&lt;EventWithHandler&gt;();<a name="line.37"></a>
+<FONT color="green">038</FONT>    <a name="line.38"></a>
+<FONT color="green">039</FONT>      /**<a name="line.39"></a>
+<FONT color="green">040</FONT>       * Creates a new AsyncEventBus that will use {@code executor} to dispatch<a name="line.40"></a>
+<FONT color="green">041</FONT>       * events.  Assigns {@code identifier} as the bus's name for logging purposes.<a name="line.41"></a>
+<FONT color="green">042</FONT>       *<a name="line.42"></a>
+<FONT color="green">043</FONT>       * @param identifier short name for the bus, for logging purposes.<a name="line.43"></a>
+<FONT color="green">044</FONT>       * @param executor   Executor to use to dispatch events. It is the caller's<a name="line.44"></a>
+<FONT color="green">045</FONT>       *        responsibility to shut down the executor after the last event has<a name="line.45"></a>
+<FONT color="green">046</FONT>       *        been posted to this event bus.<a name="line.46"></a>
+<FONT color="green">047</FONT>       */<a name="line.47"></a>
+<FONT color="green">048</FONT>      public AsyncEventBus(String identifier, Executor executor) {<a name="line.48"></a>
+<FONT color="green">049</FONT>        super(identifier);<a name="line.49"></a>
+<FONT color="green">050</FONT>        this.executor = executor;<a name="line.50"></a>
+<FONT color="green">051</FONT>      }<a name="line.51"></a>
+<FONT color="green">052</FONT>    <a name="line.52"></a>
+<FONT color="green">053</FONT>      /**<a name="line.53"></a>
+<FONT color="green">054</FONT>       * Creates a new AsyncEventBus that will use {@code executor} to dispatch<a name="line.54"></a>
+<FONT color="green">055</FONT>       * events.<a name="line.55"></a>
+<FONT color="green">056</FONT>       *<a name="line.56"></a>
+<FONT color="green">057</FONT>       * @param executor Executor to use to dispatch events. It is the caller's<a name="line.57"></a>
+<FONT color="green">058</FONT>       *        responsibility to shut down the executor after the last event has<a name="line.58"></a>
+<FONT color="green">059</FONT>       *        been posted to this event bus.<a name="line.59"></a>
+<FONT color="green">060</FONT>       */<a name="line.60"></a>
+<FONT color="green">061</FONT>      public AsyncEventBus(Executor executor) {<a name="line.61"></a>
+<FONT color="green">062</FONT>        this.executor = executor;<a name="line.62"></a>
+<FONT color="green">063</FONT>      }<a name="line.63"></a>
+<FONT color="green">064</FONT>    <a name="line.64"></a>
+<FONT color="green">065</FONT>      @Override<a name="line.65"></a>
+<FONT color="green">066</FONT>      void enqueueEvent(Object event, EventHandler handler) {<a name="line.66"></a>
+<FONT color="green">067</FONT>        eventsToDispatch.offer(new EventWithHandler(event, handler));<a name="line.67"></a>
+<FONT color="green">068</FONT>      }<a name="line.68"></a>
+<FONT color="green">069</FONT>    <a name="line.69"></a>
+<FONT color="green">070</FONT>      /**<a name="line.70"></a>
+<FONT color="green">071</FONT>       * Dispatch {@code events} in the order they were posted, regardless of<a name="line.71"></a>
+<FONT color="green">072</FONT>       * the posting thread.<a name="line.72"></a>
+<FONT color="green">073</FONT>       */<a name="line.73"></a>
+<FONT color="green">074</FONT>      @SuppressWarnings("deprecation") // only deprecated for external subclasses<a name="line.74"></a>
+<FONT color="green">075</FONT>      @Override<a name="line.75"></a>
+<FONT color="green">076</FONT>      protected void dispatchQueuedEvents() {<a name="line.76"></a>
+<FONT color="green">077</FONT>        while (true) {<a name="line.77"></a>
+<FONT color="green">078</FONT>          EventWithHandler eventWithHandler = eventsToDispatch.poll();<a name="line.78"></a>
+<FONT color="green">079</FONT>          if (eventWithHandler == null) {<a name="line.79"></a>
+<FONT color="green">080</FONT>            break;<a name="line.80"></a>
+<FONT color="green">081</FONT>          }<a name="line.81"></a>
+<FONT color="green">082</FONT>    <a name="line.82"></a>
+<FONT color="green">083</FONT>          dispatch(eventWithHandler.event, eventWithHandler.handler);<a name="line.83"></a>
+<FONT color="green">084</FONT>        }<a name="line.84"></a>
+<FONT color="green">085</FONT>      }<a name="line.85"></a>
+<FONT color="green">086</FONT>    <a name="line.86"></a>
+<FONT color="green">087</FONT>      /**<a name="line.87"></a>
+<FONT color="green">088</FONT>       * Calls the {@link #executor} to dispatch {@code event} to {@code handler}.<a name="line.88"></a>
+<FONT color="green">089</FONT>       */<a name="line.89"></a>
+<FONT color="green">090</FONT>      @Override<a name="line.90"></a>
+<FONT color="green">091</FONT>      void dispatch(final Object event, final EventHandler handler) {<a name="line.91"></a>
+<FONT color="green">092</FONT>        executor.execute(new Runnable() {<a name="line.92"></a>
+<FONT color="green">093</FONT>              @Override<a name="line.93"></a>
+<FONT color="green">094</FONT>              @SuppressWarnings("synthetic-access")<a name="line.94"></a>
+<FONT color="green">095</FONT>              public void run() {<a name="line.95"></a>
+<FONT color="green">096</FONT>                AsyncEventBus.super.dispatch(event, handler);<a name="line.96"></a>
+<FONT color="green">097</FONT>              }<a name="line.97"></a>
+<FONT color="green">098</FONT>            });<a name="line.98"></a>
+<FONT color="green">099</FONT>      }<a name="line.99"></a>
+<FONT color="green">100</FONT>    <a name="line.100"></a>
+<FONT color="green">101</FONT>    }<a name="line.101"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

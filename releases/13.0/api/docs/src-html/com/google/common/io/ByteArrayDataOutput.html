@@ -1,0 +1,121 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.io;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import java.io.DataOutput;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import java.io.IOException;<a name="line.20"></a>
+<FONT color="green">021</FONT>    <a name="line.21"></a>
+<FONT color="green">022</FONT>    /**<a name="line.22"></a>
+<FONT color="green">023</FONT>     * An extension of {@code DataOutput} for writing to in-memory byte arrays; its<a name="line.23"></a>
+<FONT color="green">024</FONT>     * methods offer identical functionality but do not throw {@link IOException}.<a name="line.24"></a>
+<FONT color="green">025</FONT>     *<a name="line.25"></a>
+<FONT color="green">026</FONT>     * @author Jayaprabhakar Kadarkarai<a name="line.26"></a>
+<FONT color="green">027</FONT>     * @since 1.0<a name="line.27"></a>
+<FONT color="green">028</FONT>     */<a name="line.28"></a>
+<FONT color="green">029</FONT>    public interface ByteArrayDataOutput extends DataOutput {<a name="line.29"></a>
+<FONT color="green">030</FONT>      @Override void write(int b);<a name="line.30"></a>
+<FONT color="green">031</FONT>      @Override void write(byte b[]);<a name="line.31"></a>
+<FONT color="green">032</FONT>      @Override void write(byte b[], int off, int len);<a name="line.32"></a>
+<FONT color="green">033</FONT>      @Override void writeBoolean(boolean v);<a name="line.33"></a>
+<FONT color="green">034</FONT>      @Override void writeByte(int v);<a name="line.34"></a>
+<FONT color="green">035</FONT>      @Override void writeShort(int v);<a name="line.35"></a>
+<FONT color="green">036</FONT>      @Override void writeChar(int v);<a name="line.36"></a>
+<FONT color="green">037</FONT>      @Override void writeInt(int v);<a name="line.37"></a>
+<FONT color="green">038</FONT>      @Override void writeLong(long v);<a name="line.38"></a>
+<FONT color="green">039</FONT>      @Override void writeFloat(float v);<a name="line.39"></a>
+<FONT color="green">040</FONT>      @Override void writeDouble(double v);<a name="line.40"></a>
+<FONT color="green">041</FONT>      @Override void writeChars(String s);<a name="line.41"></a>
+<FONT color="green">042</FONT>      @Override void writeUTF(String s);<a name="line.42"></a>
+<FONT color="green">043</FONT>    <a name="line.43"></a>
+<FONT color="green">044</FONT>      /**<a name="line.44"></a>
+<FONT color="green">045</FONT>       * @deprecated This method is dangerous as it discards the high byte of<a name="line.45"></a>
+<FONT color="green">046</FONT>       * every character. For UTF-8, use {@code write(s.getBytes(Charsets.UTF_8))}.<a name="line.46"></a>
+<FONT color="green">047</FONT>       */<a name="line.47"></a>
+<FONT color="green">048</FONT>      @Deprecated @Override void writeBytes(String s);<a name="line.48"></a>
+<FONT color="green">049</FONT>    <a name="line.49"></a>
+<FONT color="green">050</FONT>      /**<a name="line.50"></a>
+<FONT color="green">051</FONT>       * Returns the contents that have been written to this instance,<a name="line.51"></a>
+<FONT color="green">052</FONT>       * as a byte array.<a name="line.52"></a>
+<FONT color="green">053</FONT>       */<a name="line.53"></a>
+<FONT color="green">054</FONT>      byte[] toByteArray();<a name="line.54"></a>
+<FONT color="green">055</FONT>    }<a name="line.55"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

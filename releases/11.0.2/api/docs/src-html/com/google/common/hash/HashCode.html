@@ -1,0 +1,186 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<FONT color="green">005</FONT>     * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<FONT color="green">006</FONT>     *<a name="line.6"></a>
+<FONT color="green">007</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<FONT color="green">008</FONT>     *<a name="line.8"></a>
+<FONT color="green">009</FONT>     * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<FONT color="green">010</FONT>     * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<FONT color="green">011</FONT>     * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<FONT color="green">012</FONT>     * the License.<a name="line.12"></a>
+<FONT color="green">013</FONT>     */<a name="line.13"></a>
+<FONT color="green">014</FONT>    <a name="line.14"></a>
+<FONT color="green">015</FONT>    package com.google.common.hash;<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    import com.google.common.annotations.Beta;<a name="line.17"></a>
+<FONT color="green">018</FONT>    import com.google.common.base.Preconditions;<a name="line.18"></a>
+<FONT color="green">019</FONT>    import com.google.common.primitives.Ints;<a name="line.19"></a>
+<FONT color="green">020</FONT>    <a name="line.20"></a>
+<FONT color="green">021</FONT>    import java.security.MessageDigest;<a name="line.21"></a>
+<FONT color="green">022</FONT>    <a name="line.22"></a>
+<FONT color="green">023</FONT>    /**<a name="line.23"></a>
+<FONT color="green">024</FONT>     * An immutable hash code of arbitrary bit length.<a name="line.24"></a>
+<FONT color="green">025</FONT>     *<a name="line.25"></a>
+<FONT color="green">026</FONT>     * @author Dimitris Andreou<a name="line.26"></a>
+<FONT color="green">027</FONT>     * @since 11.0<a name="line.27"></a>
+<FONT color="green">028</FONT>     */<a name="line.28"></a>
+<FONT color="green">029</FONT>    @Beta<a name="line.29"></a>
+<FONT color="green">030</FONT>    public abstract class HashCode {<a name="line.30"></a>
+<FONT color="green">031</FONT>      HashCode() {}<a name="line.31"></a>
+<FONT color="green">032</FONT>    <a name="line.32"></a>
+<FONT color="green">033</FONT>      /**<a name="line.33"></a>
+<FONT color="green">034</FONT>       * Returns the first four bytes of {@linkplain #asBytes() this hashcode's bytes}, converted to<a name="line.34"></a>
+<FONT color="green">035</FONT>       * an {@code int} value in little-endian order.<a name="line.35"></a>
+<FONT color="green">036</FONT>       */<a name="line.36"></a>
+<FONT color="green">037</FONT>      public abstract int asInt();<a name="line.37"></a>
+<FONT color="green">038</FONT>    <a name="line.38"></a>
+<FONT color="green">039</FONT>      /**<a name="line.39"></a>
+<FONT color="green">040</FONT>       * Returns the first eight bytes of {@linkplain #asBytes() this hashcode's bytes}, converted to<a name="line.40"></a>
+<FONT color="green">041</FONT>       * a {@code long} value in little-endian order.<a name="line.41"></a>
+<FONT color="green">042</FONT>       *<a name="line.42"></a>
+<FONT color="green">043</FONT>       * @throws IllegalStateException if {@code bits() &lt; 64}<a name="line.43"></a>
+<FONT color="green">044</FONT>       */<a name="line.44"></a>
+<FONT color="green">045</FONT>      public abstract long asLong();<a name="line.45"></a>
+<FONT color="green">046</FONT>    <a name="line.46"></a>
+<FONT color="green">047</FONT>      /**<a name="line.47"></a>
+<FONT color="green">048</FONT>       * Returns the value of this hash code as a byte array. The caller may modify the byte array;<a name="line.48"></a>
+<FONT color="green">049</FONT>       * changes to it will &lt;i&gt;not&lt;/i&gt; be reflected in this {@code HashCode} object or any other arrays<a name="line.49"></a>
+<FONT color="green">050</FONT>       * returned by this method.<a name="line.50"></a>
+<FONT color="green">051</FONT>       */<a name="line.51"></a>
+<FONT color="green">052</FONT>      // TODO(user): consider ByteString here, when that is available<a name="line.52"></a>
+<FONT color="green">053</FONT>      public abstract byte[] asBytes();<a name="line.53"></a>
+<FONT color="green">054</FONT>    <a name="line.54"></a>
+<FONT color="green">055</FONT>      /**<a name="line.55"></a>
+<FONT color="green">056</FONT>       * Copies bytes from this hash code into {@code dest}.<a name="line.56"></a>
+<FONT color="green">057</FONT>       *<a name="line.57"></a>
+<FONT color="green">058</FONT>       * @param dest the byte array into which the hash code will be written<a name="line.58"></a>
+<FONT color="green">059</FONT>       * @param offset the start offset in the data<a name="line.59"></a>
+<FONT color="green">060</FONT>       * @param maxLength the maximum number of bytes to write<a name="line.60"></a>
+<FONT color="green">061</FONT>       * @return the number of bytes written to {@code dest}<a name="line.61"></a>
+<FONT color="green">062</FONT>       * @throws IndexOutOfBoundsException if there is not enough room in {@code dest}<a name="line.62"></a>
+<FONT color="green">063</FONT>       */<a name="line.63"></a>
+<FONT color="green">064</FONT>      public int writeBytesTo(byte[] dest, int offset, int maxLength) {<a name="line.64"></a>
+<FONT color="green">065</FONT>        byte[] hash = asBytes();<a name="line.65"></a>
+<FONT color="green">066</FONT>        maxLength = Ints.min(maxLength, hash.length);<a name="line.66"></a>
+<FONT color="green">067</FONT>        Preconditions.checkPositionIndexes(offset, offset + maxLength, dest.length);<a name="line.67"></a>
+<FONT color="green">068</FONT>        System.arraycopy(hash, 0, dest, offset, maxLength);<a name="line.68"></a>
+<FONT color="green">069</FONT>        return maxLength;<a name="line.69"></a>
+<FONT color="green">070</FONT>      }<a name="line.70"></a>
+<FONT color="green">071</FONT>    <a name="line.71"></a>
+<FONT color="green">072</FONT>      /**<a name="line.72"></a>
+<FONT color="green">073</FONT>       * Returns the number of bits in this hash code; a positive multiple of 32.<a name="line.73"></a>
+<FONT color="green">074</FONT>       */<a name="line.74"></a>
+<FONT color="green">075</FONT>      public abstract int bits();<a name="line.75"></a>
+<FONT color="green">076</FONT>    <a name="line.76"></a>
+<FONT color="green">077</FONT>      @Override public boolean equals(Object object) {<a name="line.77"></a>
+<FONT color="green">078</FONT>        if (object instanceof HashCode) {<a name="line.78"></a>
+<FONT color="green">079</FONT>          HashCode that = (HashCode) object;<a name="line.79"></a>
+<FONT color="green">080</FONT>          // Undocumented: this is a non-short-circuiting equals(), in case this is a cryptographic<a name="line.80"></a>
+<FONT color="green">081</FONT>          // hash code, in which case we don't want to leak timing information<a name="line.81"></a>
+<FONT color="green">082</FONT>          return MessageDigest.isEqual(this.asBytes(), that.asBytes());<a name="line.82"></a>
+<FONT color="green">083</FONT>        }<a name="line.83"></a>
+<FONT color="green">084</FONT>        return false;<a name="line.84"></a>
+<FONT color="green">085</FONT>      }<a name="line.85"></a>
+<FONT color="green">086</FONT>    <a name="line.86"></a>
+<FONT color="green">087</FONT>      /**<a name="line.87"></a>
+<FONT color="green">088</FONT>       * Returns a "Java hash code" for this {@code HashCode} instance; this is well-defined<a name="line.88"></a>
+<FONT color="green">089</FONT>       * (so, for example, you can safely put {@code HashCode} instances into a {@code<a name="line.89"></a>
+<FONT color="green">090</FONT>       * HashSet}) but is otherwise probably not what you want to use.<a name="line.90"></a>
+<FONT color="green">091</FONT>       */<a name="line.91"></a>
+<FONT color="green">092</FONT>      @Override public int hashCode() {<a name="line.92"></a>
+<FONT color="green">093</FONT>        /*<a name="line.93"></a>
+<FONT color="green">094</FONT>         * As long as the hash function that produced this isn't of horrible quality, this<a name="line.94"></a>
+<FONT color="green">095</FONT>         * won't be of horrible quality either.<a name="line.95"></a>
+<FONT color="green">096</FONT>         */<a name="line.96"></a>
+<FONT color="green">097</FONT>        return asInt();<a name="line.97"></a>
+<FONT color="green">098</FONT>      }<a name="line.98"></a>
+<FONT color="green">099</FONT>    <a name="line.99"></a>
+<FONT color="green">100</FONT>      /**<a name="line.100"></a>
+<FONT color="green">101</FONT>       * Returns a string containing each byte of {@link #asBytes}, in order, as a two-digit unsigned<a name="line.101"></a>
+<FONT color="green">102</FONT>       * hexadecimal number in lower case.<a name="line.102"></a>
+<FONT color="green">103</FONT>       *<a name="line.103"></a>
+<FONT color="green">104</FONT>       * &lt;p&gt;Note that if the output is considered to be a single hexadecimal number, this hash code's<a name="line.104"></a>
+<FONT color="green">105</FONT>       * bytes are the &lt;i&gt;big-endian&lt;/i&gt; representation of that number. This may be surprising since<a name="line.105"></a>
+<FONT color="green">106</FONT>       * everything else in the hashing API uniformly treats multibyte values as little-endian. But<a name="line.106"></a>
+<FONT color="green">107</FONT>       * this format conveniently matches that of utilities such as the UNIX {@code md5sum} command.<a name="line.107"></a>
+<FONT color="green">108</FONT>       */<a name="line.108"></a>
+<FONT color="green">109</FONT>      @Override public String toString() {<a name="line.109"></a>
+<FONT color="green">110</FONT>        byte[] bytes = asBytes();<a name="line.110"></a>
+<FONT color="green">111</FONT>        // TODO(user): Use c.g.common.base.ByteArrays once it is open sourced.<a name="line.111"></a>
+<FONT color="green">112</FONT>        StringBuilder sb = new StringBuilder(2 * bytes.length);<a name="line.112"></a>
+<FONT color="green">113</FONT>        for (byte b : bytes) {<a name="line.113"></a>
+<FONT color="green">114</FONT>          sb.append(hexDigits[(b &gt;&gt; 4) &amp; 0xf]).append(hexDigits[b &amp; 0xf]);<a name="line.114"></a>
+<FONT color="green">115</FONT>        }<a name="line.115"></a>
+<FONT color="green">116</FONT>        return sb.toString();<a name="line.116"></a>
+<FONT color="green">117</FONT>      }<a name="line.117"></a>
+<FONT color="green">118</FONT>    <a name="line.118"></a>
+<FONT color="green">119</FONT>      private static final char[] hexDigits = "0123456789abcdef".toCharArray();<a name="line.119"></a>
+<FONT color="green">120</FONT>    }<a name="line.120"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

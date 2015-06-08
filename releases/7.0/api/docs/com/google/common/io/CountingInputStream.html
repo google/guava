@@ -1,0 +1,495 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CountingInputStream (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CountingInputStream (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/io/Closeables.html" title="class in com.google.common.io"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/io/CountingOutputStream.html" title="class in com.google.common.io"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/io/CountingInputStream.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CountingInputStream.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_java.io.FilterInputStream">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.io</FONT>
+<BR>
+Class CountingInputStream</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">java.io.InputStream</A>
+      <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true" title="class or interface in java.io">java.io.FilterInputStream</A>
+          <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.io.CountingInputStream</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>public final class <B>CountingInputStream</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true" title="class or interface in java.io">FilterInputStream</A></DL>
+</PRE>
+
+<P>
+An <A HREF="http://java.sun.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io"><CODE>InputStream</CODE></A> that counts the number of bytes read.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>1</DD>
+<DT><B>Author:</B></DT>
+  <DD>Chris Nokleberg</DD>
+</DL>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_java.io.FilterInputStream"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class java.io.<A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true" title="class or interface in java.io">FilterInputStream</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#in" title="class or interface in java.io">in</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../com/google/common/io/CountingInputStream.html#CountingInputStream(java.io.InputStream)">CountingInputStream</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</A>&nbsp;in)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wraps another input stream, counting the number of bytes read.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/CountingInputStream.html#getCount()">getCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of bytes read.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/CountingInputStream.html#mark(int)">mark</A></B>(int&nbsp;readlimit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marks the current position in this input stream.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/CountingInputStream.html#read()">read</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the next byte of data from this input stream.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/CountingInputStream.html#read(byte[], int, int)">read</A></B>(byte[]&nbsp;b,
+     int&nbsp;off,
+     int&nbsp;len)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads up to <code>len</code> bytes of data from this input stream
+ into an array of bytes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/CountingInputStream.html#reset()">reset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Repositions this stream to the position at the time the
+ <code>mark</code> method was last called on this input stream.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/CountingInputStream.html#skip(long)">skip</A></B>(long&nbsp;n)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Skips over and discards <code>n</code> bytes of data from the
+ input stream.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.io.FilterInputStream"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.io.<A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true" title="class or interface in java.io">FilterInputStream</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#available()" title="class or interface in java.io">available</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#close()" title="class or interface in java.io">close</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#markSupported()" title="class or interface in java.io">markSupported</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#read(byte[])" title="class or interface in java.io">read</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="CountingInputStream(java.io.InputStream)"><!-- --></A><H3>
+CountingInputStream</H3>
+<PRE>
+public <B>CountingInputStream</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</A>&nbsp;in)</PRE>
+<DL>
+<DD>Wraps another input stream, counting the number of bytes read.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>in</CODE> - the input stream to be wrapped</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getCount()"><!-- --></A><H3>
+getCount</H3>
+<PRE>
+public long <B>getCount</B>()</PRE>
+<DL>
+<DD>Returns the number of bytes read.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read()"><!-- --></A><H3>
+read</H3>
+<PRE>
+public int <B>read</B>()
+         throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#read()" title="class or interface in java.io">java.io.FilterInputStream</A></CODE></B></DD>
+<DD>Reads the next byte of data from this input stream. The value
+ byte is returned as an <code>int</code> in the range
+ <code>0</code> to <code>255</code>. If no byte is available
+ because the end of the stream has been reached, the value
+ <code>-1</code> is returned. This method blocks until input data
+ is available, the end of the stream is detected, or an exception
+ is thrown.
+ <p>
+ This method
+ simply performs <code>in.read()</code> and returns the result.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#read()" title="class or interface in java.io">read</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true" title="class or interface in java.io">FilterInputStream</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the next byte of data, or <code>-1</code> if the end of the
+             stream is reached.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE> - if an I/O error occurs.<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#in" title="class or interface in java.io"><CODE>FilterInputStream.in</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(byte[], int, int)"><!-- --></A><H3>
+read</H3>
+<PRE>
+public int <B>read</B>(byte[]&nbsp;b,
+                int&nbsp;off,
+                int&nbsp;len)
+         throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#read(byte[], int, int)" title="class or interface in java.io">java.io.FilterInputStream</A></CODE></B></DD>
+<DD>Reads up to <code>len</code> bytes of data from this input stream
+ into an array of bytes. If <code>len</code> is not zero, the method
+ blocks until some input is available; otherwise, no
+ bytes are read and <code>0</code> is returned.
+ <p>
+ This method simply performs <code>in.read(b, off, len)</code>
+ and returns the result.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#read(byte[], int, int)" title="class or interface in java.io">read</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true" title="class or interface in java.io">FilterInputStream</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - the buffer into which the data is read.<DD><CODE>off</CODE> - the start offset in the destination array <code>b</code><DD><CODE>len</CODE> - the maximum number of bytes read.
+<DT><B>Returns:</B><DD>the total number of bytes read into the buffer, or
+             <code>-1</code> if there is no more data because the end of
+             the stream has been reached.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE> - if an I/O error occurs.<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#in" title="class or interface in java.io"><CODE>FilterInputStream.in</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="skip(long)"><!-- --></A><H3>
+skip</H3>
+<PRE>
+public long <B>skip</B>(long&nbsp;n)
+          throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#skip(long)" title="class or interface in java.io">java.io.FilterInputStream</A></CODE></B></DD>
+<DD>Skips over and discards <code>n</code> bytes of data from the
+ input stream. The <code>skip</code> method may, for a variety of
+ reasons, end up skipping over some smaller number of bytes,
+ possibly <code>0</code>. The actual number of bytes skipped is
+ returned.
+ <p>
+ This method simply performs <code>in.skip(n)</code>.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#skip(long)" title="class or interface in java.io">skip</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true" title="class or interface in java.io">FilterInputStream</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>n</CODE> - the number of bytes to be skipped.
+<DT><B>Returns:</B><DD>the actual number of bytes skipped.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE> - if the stream does not support seek,
+                          or if some other I/O error occurs.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mark(int)"><!-- --></A><H3>
+mark</H3>
+<PRE>
+public void <B>mark</B>(int&nbsp;readlimit)</PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#mark(int)" title="class or interface in java.io">java.io.FilterInputStream</A></CODE></B></DD>
+<DD>Marks the current position in this input stream. A subsequent
+ call to the <code>reset</code> method repositions this stream at
+ the last marked position so that subsequent reads re-read the same bytes.
+ <p>
+ The <code>readlimit</code> argument tells this input stream to
+ allow that many bytes to be read before the mark position gets
+ invalidated.
+ <p>
+ This method simply performs <code>in.mark(readlimit)</code>.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#mark(int)" title="class or interface in java.io">mark</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true" title="class or interface in java.io">FilterInputStream</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>readlimit</CODE> - the maximum limit of bytes that can be read before
+                      the mark position becomes invalid.<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#in" title="class or interface in java.io"><CODE>FilterInputStream.in</CODE></A>, 
+<A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#reset()" title="class or interface in java.io"><CODE>FilterInputStream.reset()</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reset()"><!-- --></A><H3>
+reset</H3>
+<PRE>
+public void <B>reset</B>()
+           throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#reset()" title="class or interface in java.io">java.io.FilterInputStream</A></CODE></B></DD>
+<DD>Repositions this stream to the position at the time the
+ <code>mark</code> method was last called on this input stream.
+ <p>
+ This method
+ simply performs <code>in.reset()</code>.
+ <p>
+ Stream marks are intended to be used in
+ situations where you need to read ahead a little to see what's in
+ the stream. Often this is most easily done by invoking some
+ general parser. If the stream is of the type handled by the
+ parse, it just chugs along happily. If the stream is not of
+ that type, the parser should toss an exception when it fails.
+ If this happens within readlimit bytes, it allows the outer
+ code to reset the stream and try another parser.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#reset()" title="class or interface in java.io">reset</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true" title="class or interface in java.io">FilterInputStream</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE> - if the stream has not been marked or if the
+               mark has been invalidated.<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#in" title="class or interface in java.io"><CODE>FilterInputStream.in</CODE></A>, 
+<A HREF="http://java.sun.com/javase/6/docs/api/java/io/FilterInputStream.html?is-external=true#mark(int)" title="class or interface in java.io"><CODE>FilterInputStream.mark(int)</CODE></A></DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/io/Closeables.html" title="class in com.google.common.io"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/io/CountingOutputStream.html" title="class in com.google.common.io"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/io/CountingInputStream.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CountingInputStream.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_java.io.FilterInputStream">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

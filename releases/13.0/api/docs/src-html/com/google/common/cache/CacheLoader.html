@@ -1,0 +1,260 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.cache;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import static com.google.common.base.Preconditions.checkNotNull;<a name="line.19"></a>
+<FONT color="green">020</FONT>    <a name="line.20"></a>
+<FONT color="green">021</FONT>    import com.google.common.annotations.Beta;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import com.google.common.annotations.GwtIncompatible;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import com.google.common.base.Function;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import com.google.common.base.Supplier;<a name="line.25"></a>
+<FONT color="green">026</FONT>    import com.google.common.util.concurrent.Futures;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import com.google.common.util.concurrent.ListenableFuture;<a name="line.27"></a>
+<FONT color="green">028</FONT>    <a name="line.28"></a>
+<FONT color="green">029</FONT>    import java.io.Serializable;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import java.util.Map;<a name="line.30"></a>
+<FONT color="green">031</FONT>    <a name="line.31"></a>
+<FONT color="green">032</FONT>    /**<a name="line.32"></a>
+<FONT color="green">033</FONT>     * Computes or retrieves values, based on a key, for use in populating a {@link LoadingCache}.<a name="line.33"></a>
+<FONT color="green">034</FONT>     *<a name="line.34"></a>
+<FONT color="green">035</FONT>     * &lt;p&gt;Most implementations will only need to implement {@link #load}. Other methods may be<a name="line.35"></a>
+<FONT color="green">036</FONT>     * overridden as desired.<a name="line.36"></a>
+<FONT color="green">037</FONT>     *<a name="line.37"></a>
+<FONT color="green">038</FONT>     * &lt;p&gt;Usage example: &lt;pre&gt;   {@code<a name="line.38"></a>
+<FONT color="green">039</FONT>     *<a name="line.39"></a>
+<FONT color="green">040</FONT>     *   CacheLoader&lt;Key, Graph&gt; loader = new CacheLoader&lt;Key, Graph&gt;() {<a name="line.40"></a>
+<FONT color="green">041</FONT>     *     public Graph load(Key key) throws AnyException {<a name="line.41"></a>
+<FONT color="green">042</FONT>     *       return createExpensiveGraph(key);<a name="line.42"></a>
+<FONT color="green">043</FONT>     *     }<a name="line.43"></a>
+<FONT color="green">044</FONT>     *   };<a name="line.44"></a>
+<FONT color="green">045</FONT>     *   LoadingCache&lt;Key, Graph&gt; cache = CacheBuilder.newBuilder().build(loader);}&lt;/pre&gt;<a name="line.45"></a>
+<FONT color="green">046</FONT>     *<a name="line.46"></a>
+<FONT color="green">047</FONT>     * @author Charles Fry<a name="line.47"></a>
+<FONT color="green">048</FONT>     * @since 10.0<a name="line.48"></a>
+<FONT color="green">049</FONT>     */<a name="line.49"></a>
+<FONT color="green">050</FONT>    @GwtCompatible(emulated = true)<a name="line.50"></a>
+<FONT color="green">051</FONT>    public abstract class CacheLoader&lt;K, V&gt; {<a name="line.51"></a>
+<FONT color="green">052</FONT>      /**<a name="line.52"></a>
+<FONT color="green">053</FONT>       * Constructor for use by subclasses.<a name="line.53"></a>
+<FONT color="green">054</FONT>       */<a name="line.54"></a>
+<FONT color="green">055</FONT>      protected CacheLoader() {}<a name="line.55"></a>
+<FONT color="green">056</FONT>    <a name="line.56"></a>
+<FONT color="green">057</FONT>      /**<a name="line.57"></a>
+<FONT color="green">058</FONT>       * Computes or retrieves the value corresponding to {@code key}.<a name="line.58"></a>
+<FONT color="green">059</FONT>       *<a name="line.59"></a>
+<FONT color="green">060</FONT>       * @param key the non-null key whose value should be loaded<a name="line.60"></a>
+<FONT color="green">061</FONT>       * @return the value associated with {@code key}; &lt;b&gt;must not be null&lt;/b&gt;<a name="line.61"></a>
+<FONT color="green">062</FONT>       * @throws Exception if unable to load the result<a name="line.62"></a>
+<FONT color="green">063</FONT>       * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is<a name="line.63"></a>
+<FONT color="green">064</FONT>       *     treated like any other {@code Exception} in all respects except that, when it is caught,<a name="line.64"></a>
+<FONT color="green">065</FONT>       *     the thread's interrupt status is set<a name="line.65"></a>
+<FONT color="green">066</FONT>       */<a name="line.66"></a>
+<FONT color="green">067</FONT>      public abstract V load(K key) throws Exception;<a name="line.67"></a>
+<FONT color="green">068</FONT>    <a name="line.68"></a>
+<FONT color="green">069</FONT>      /**<a name="line.69"></a>
+<FONT color="green">070</FONT>       * Computes or retrieves a replacement value corresponding to an already-cached {@code key}. This<a name="line.70"></a>
+<FONT color="green">071</FONT>       * method is called when an existing cache entry is refreshed by<a name="line.71"></a>
+<FONT color="green">072</FONT>       * {@link CacheBuilder#refreshAfterWrite}, or through a call to {@link LoadingCache#refresh}.<a name="line.72"></a>
+<FONT color="green">073</FONT>       *<a name="line.73"></a>
+<FONT color="green">074</FONT>       * &lt;p&gt;This implementation synchronously delegates to {@link #load}. It is recommended that it be<a name="line.74"></a>
+<FONT color="green">075</FONT>       * overridden with an asynchronous implementation when using<a name="line.75"></a>
+<FONT color="green">076</FONT>       * {@link CacheBuilder#refreshAfterWrite}.<a name="line.76"></a>
+<FONT color="green">077</FONT>       *<a name="line.77"></a>
+<FONT color="green">078</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; &lt;i&gt;all exceptions thrown by this method will be logged and then swallowed&lt;/i&gt;.<a name="line.78"></a>
+<FONT color="green">079</FONT>       *<a name="line.79"></a>
+<FONT color="green">080</FONT>       * @param key the non-null key whose value should be loaded<a name="line.80"></a>
+<FONT color="green">081</FONT>       * @param oldValue the non-null old value corresponding to {@code key}<a name="line.81"></a>
+<FONT color="green">082</FONT>       * @return the future new value associated with {@code key};<a name="line.82"></a>
+<FONT color="green">083</FONT>       *     &lt;b&gt;must not be null, must not return null&lt;/b&gt;<a name="line.83"></a>
+<FONT color="green">084</FONT>       * @throws Exception if unable to reload the result<a name="line.84"></a>
+<FONT color="green">085</FONT>       * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is<a name="line.85"></a>
+<FONT color="green">086</FONT>       *     treated like any other {@code Exception} in all respects except that, when it is caught,<a name="line.86"></a>
+<FONT color="green">087</FONT>       *     the thread's interrupt status is set<a name="line.87"></a>
+<FONT color="green">088</FONT>       * @since 11.0<a name="line.88"></a>
+<FONT color="green">089</FONT>       */<a name="line.89"></a>
+<FONT color="green">090</FONT>      @GwtIncompatible("Futures")<a name="line.90"></a>
+<FONT color="green">091</FONT>      public ListenableFuture&lt;V&gt; reload(K key, V oldValue) throws Exception {<a name="line.91"></a>
+<FONT color="green">092</FONT>        return Futures.immediateFuture(load(key));<a name="line.92"></a>
+<FONT color="green">093</FONT>      }<a name="line.93"></a>
+<FONT color="green">094</FONT>    <a name="line.94"></a>
+<FONT color="green">095</FONT>      /**<a name="line.95"></a>
+<FONT color="green">096</FONT>       * Computes or retrieves the values corresponding to {@code keys}. This method is called by<a name="line.96"></a>
+<FONT color="green">097</FONT>       * {@link LoadingCache#getAll}.<a name="line.97"></a>
+<FONT color="green">098</FONT>       *<a name="line.98"></a>
+<FONT color="green">099</FONT>       * &lt;p&gt;If the returned map doesn't contain all requested {@code keys} then the entries it does<a name="line.99"></a>
+<FONT color="green">100</FONT>       * contain will be cached, but {@code getAll} will throw an exception. If the returned map<a name="line.100"></a>
+<FONT color="green">101</FONT>       * contains extra keys not present in {@code keys} then all returned entries will be cached,<a name="line.101"></a>
+<FONT color="green">102</FONT>       * but only the entries for {@code keys} will be returned from {@code getAll}.<a name="line.102"></a>
+<FONT color="green">103</FONT>       *<a name="line.103"></a>
+<FONT color="green">104</FONT>       * &lt;p&gt;This method should be overriden when bulk retrieval is significantly more efficient than<a name="line.104"></a>
+<FONT color="green">105</FONT>       * many individual lookups. Note that {@link LoadingCache#getAll} will defer to individual calls<a name="line.105"></a>
+<FONT color="green">106</FONT>       * to {@link LoadingCache#get} if this method is not overriden.<a name="line.106"></a>
+<FONT color="green">107</FONT>       *<a name="line.107"></a>
+<FONT color="green">108</FONT>       * @param keys the unique, non-null keys whose values should be loaded<a name="line.108"></a>
+<FONT color="green">109</FONT>       * @return a map from each key in {@code keys} to the value associated with that key;<a name="line.109"></a>
+<FONT color="green">110</FONT>       *     &lt;b&gt;may not contain null values&lt;/b&gt;<a name="line.110"></a>
+<FONT color="green">111</FONT>       * @throws Exception if unable to load the result<a name="line.111"></a>
+<FONT color="green">112</FONT>       * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is<a name="line.112"></a>
+<FONT color="green">113</FONT>       *     treated like any other {@code Exception} in all respects except that, when it is caught,<a name="line.113"></a>
+<FONT color="green">114</FONT>       *     the thread's interrupt status is set<a name="line.114"></a>
+<FONT color="green">115</FONT>       * @since 11.0<a name="line.115"></a>
+<FONT color="green">116</FONT>       */<a name="line.116"></a>
+<FONT color="green">117</FONT>      public Map&lt;K, V&gt; loadAll(Iterable&lt;? extends K&gt; keys) throws Exception {<a name="line.117"></a>
+<FONT color="green">118</FONT>        // This will be caught by getAll(), causing it to fall back to multiple calls to<a name="line.118"></a>
+<FONT color="green">119</FONT>        // LoadingCache.get<a name="line.119"></a>
+<FONT color="green">120</FONT>        throw new UnsupportedLoadingOperationException();<a name="line.120"></a>
+<FONT color="green">121</FONT>      }<a name="line.121"></a>
+<FONT color="green">122</FONT>    <a name="line.122"></a>
+<FONT color="green">123</FONT>      /**<a name="line.123"></a>
+<FONT color="green">124</FONT>       * Returns a cache loader based on an &lt;i&gt;existing&lt;/i&gt; function instance. Note that there's no need<a name="line.124"></a>
+<FONT color="green">125</FONT>       * to create a &lt;i&gt;new&lt;/i&gt; function just to pass it in here; just subclass {@code CacheLoader} and<a name="line.125"></a>
+<FONT color="green">126</FONT>       * implement {@link #load load} instead.<a name="line.126"></a>
+<FONT color="green">127</FONT>       *<a name="line.127"></a>
+<FONT color="green">128</FONT>       * @param function the function to be used for loading values; must never return {@code null}<a name="line.128"></a>
+<FONT color="green">129</FONT>       * @return a cache loader that loads values by passing each key to {@code function}<a name="line.129"></a>
+<FONT color="green">130</FONT>       */<a name="line.130"></a>
+<FONT color="green">131</FONT>      @Beta<a name="line.131"></a>
+<FONT color="green">132</FONT>      public static &lt;K, V&gt; CacheLoader&lt;K, V&gt; from(Function&lt;K, V&gt; function) {<a name="line.132"></a>
+<FONT color="green">133</FONT>        return new FunctionToCacheLoader&lt;K, V&gt;(function);<a name="line.133"></a>
+<FONT color="green">134</FONT>      }<a name="line.134"></a>
+<FONT color="green">135</FONT>    <a name="line.135"></a>
+<FONT color="green">136</FONT>      private static final class FunctionToCacheLoader&lt;K, V&gt;<a name="line.136"></a>
+<FONT color="green">137</FONT>          extends CacheLoader&lt;K, V&gt; implements Serializable {<a name="line.137"></a>
+<FONT color="green">138</FONT>        private final Function&lt;K, V&gt; computingFunction;<a name="line.138"></a>
+<FONT color="green">139</FONT>    <a name="line.139"></a>
+<FONT color="green">140</FONT>        public FunctionToCacheLoader(Function&lt;K, V&gt; computingFunction) {<a name="line.140"></a>
+<FONT color="green">141</FONT>          this.computingFunction = checkNotNull(computingFunction);<a name="line.141"></a>
+<FONT color="green">142</FONT>        }<a name="line.142"></a>
+<FONT color="green">143</FONT>    <a name="line.143"></a>
+<FONT color="green">144</FONT>        @Override<a name="line.144"></a>
+<FONT color="green">145</FONT>        public V load(K key) {<a name="line.145"></a>
+<FONT color="green">146</FONT>          return computingFunction.apply(key);<a name="line.146"></a>
+<FONT color="green">147</FONT>        }<a name="line.147"></a>
+<FONT color="green">148</FONT>    <a name="line.148"></a>
+<FONT color="green">149</FONT>        private static final long serialVersionUID = 0;<a name="line.149"></a>
+<FONT color="green">150</FONT>      }<a name="line.150"></a>
+<FONT color="green">151</FONT>    <a name="line.151"></a>
+<FONT color="green">152</FONT>      /**<a name="line.152"></a>
+<FONT color="green">153</FONT>       * Returns a cache loader based on an &lt;i&gt;existing&lt;/i&gt; supplier instance. Note that there's no need<a name="line.153"></a>
+<FONT color="green">154</FONT>       * to create a &lt;i&gt;new&lt;/i&gt; supplier just to pass it in here; just subclass {@code CacheLoader} and<a name="line.154"></a>
+<FONT color="green">155</FONT>       * implement {@link #load load} instead.<a name="line.155"></a>
+<FONT color="green">156</FONT>       *<a name="line.156"></a>
+<FONT color="green">157</FONT>       * @param supplier the supplier to be used for loading values; must never return {@code null}<a name="line.157"></a>
+<FONT color="green">158</FONT>       * @return a cache loader that loads values by calling {@link Supplier#get}, irrespective of the<a name="line.158"></a>
+<FONT color="green">159</FONT>       *     key<a name="line.159"></a>
+<FONT color="green">160</FONT>       */<a name="line.160"></a>
+<FONT color="green">161</FONT>      @Beta<a name="line.161"></a>
+<FONT color="green">162</FONT>      public static &lt;V&gt; CacheLoader&lt;Object, V&gt; from(Supplier&lt;V&gt; supplier) {<a name="line.162"></a>
+<FONT color="green">163</FONT>        return new SupplierToCacheLoader&lt;V&gt;(supplier);<a name="line.163"></a>
+<FONT color="green">164</FONT>      }<a name="line.164"></a>
+<FONT color="green">165</FONT>    <a name="line.165"></a>
+<FONT color="green">166</FONT>      private static final class SupplierToCacheLoader&lt;V&gt;<a name="line.166"></a>
+<FONT color="green">167</FONT>          extends CacheLoader&lt;Object, V&gt; implements Serializable {<a name="line.167"></a>
+<FONT color="green">168</FONT>        private final Supplier&lt;V&gt; computingSupplier;<a name="line.168"></a>
+<FONT color="green">169</FONT>    <a name="line.169"></a>
+<FONT color="green">170</FONT>        public SupplierToCacheLoader(Supplier&lt;V&gt; computingSupplier) {<a name="line.170"></a>
+<FONT color="green">171</FONT>          this.computingSupplier = checkNotNull(computingSupplier);<a name="line.171"></a>
+<FONT color="green">172</FONT>        }<a name="line.172"></a>
+<FONT color="green">173</FONT>    <a name="line.173"></a>
+<FONT color="green">174</FONT>        @Override<a name="line.174"></a>
+<FONT color="green">175</FONT>        public V load(Object key) {<a name="line.175"></a>
+<FONT color="green">176</FONT>          return computingSupplier.get();<a name="line.176"></a>
+<FONT color="green">177</FONT>        }<a name="line.177"></a>
+<FONT color="green">178</FONT>    <a name="line.178"></a>
+<FONT color="green">179</FONT>        private static final long serialVersionUID = 0;<a name="line.179"></a>
+<FONT color="green">180</FONT>      }<a name="line.180"></a>
+<FONT color="green">181</FONT>    <a name="line.181"></a>
+<FONT color="green">182</FONT>      static final class UnsupportedLoadingOperationException extends UnsupportedOperationException {}<a name="line.182"></a>
+<FONT color="green">183</FONT>    <a name="line.183"></a>
+<FONT color="green">184</FONT>      /**<a name="line.184"></a>
+<FONT color="green">185</FONT>       * Thrown to indicate that an invalid response was returned from a call to {@link CacheLoader}.<a name="line.185"></a>
+<FONT color="green">186</FONT>       *<a name="line.186"></a>
+<FONT color="green">187</FONT>       * @since 11.0<a name="line.187"></a>
+<FONT color="green">188</FONT>       */<a name="line.188"></a>
+<FONT color="green">189</FONT>      public static final class InvalidCacheLoadException extends RuntimeException {<a name="line.189"></a>
+<FONT color="green">190</FONT>        public InvalidCacheLoadException(String message) {<a name="line.190"></a>
+<FONT color="green">191</FONT>          super(message);<a name="line.191"></a>
+<FONT color="green">192</FONT>        }<a name="line.192"></a>
+<FONT color="green">193</FONT>      }<a name="line.193"></a>
+<FONT color="green">194</FONT>    }<a name="line.194"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

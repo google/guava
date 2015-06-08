@@ -1,0 +1,885 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+InetAddresses (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="InetAddresses (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/net/HostSpecifier.html" title="class in com.google.common.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/net/InetAddresses.TeredoInfo.html" title="class in com.google.common.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/net/InetAddresses.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="InetAddresses.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.net</FONT>
+<BR>
+Class InetAddresses</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.net.InetAddresses</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>public final class <B>InetAddresses</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
+</PRE>
+
+<P>
+Static utility methods pertaining to <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><CODE>InetAddress</CODE></A> instances.
+
+ <p><b>Important note:</b> Unlike <code>InetAddress.getByName()</code>, the
+ methods of this class never cause DNS services to be accessed. For
+ this reason, you should prefer these methods as much as possible over
+ their JDK equivalents whenever you are expecting to handle only
+ IP address string literals -- there is no blocking DNS penalty for a
+ malformed string.
+
+ <p>This class hooks into the <code>sun.net.util.IPAddressUtil</code> class
+ to make use of the <code>textToNumericFormatV4</code> and
+ <code>textToNumericFormatV6</code> methods directly as a means to avoid
+ accidentally traversing all nameservices (it can be vitally important
+ to avoid, say, blocking on DNS at times).
+
+ <p>When dealing with <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet4Address</CODE></A> and <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet6Address</CODE></A>
+ objects as byte arrays (vis. <code>InetAddress.getAddress()</code>) they
+ are 4 and 16 bytes in length, respectively, and represent the address
+ in network byte order.
+
+ <p>Examples of IP addresses and their byte representations:
+ <ul>
+ <li>The IPv4 loopback address, <code>"127.0.0.1"</code>.<br/>
+     <code>7f 00 00 01</code>
+
+ <li>The IPv6 loopback address, <code>"::1"</code>.<br/>
+     <code>00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01</code>
+
+ <li>From the IPv6 reserved documentation prefix (<code>2001:db8::/32</code>),
+     <code>"2001:db8::1"</code>.<br/>
+     <code>20 01 0d b8 00 00 00 00 00 00 00 00 00 00 00 01</code>
+
+ <li>An IPv6 "IPv4 compatible" (or "compat") address,
+     <code>"::192.168.0.1"</code>.<br/>
+     <code>00 00 00 00 00 00 00 00 00 00 00 00 c0 a8 00 01</code>
+
+ <li>An IPv6 "IPv4 mapped" address, <code>"::ffff:192.168.0.1"</code>.<br/>
+     <code>00 00 00 00 00 00 00 00 00 00 ff ff c0 a8 00 01</code>
+ </ul>
+
+ <p>A few notes about IPv6 "IPv4 mapped" addresses and their observed
+ use in Java.
+ <br><br>
+ "IPv4 mapped" addresses were originally a representation of IPv4
+ addresses for use on an IPv6 socket that could receive both IPv4
+ and IPv6 connections (by disabling the <code>IPV6_V6ONLY</code> socket
+ option on an IPv6 socket).  Yes, it's confusing.  Nevertheless,
+ these "mapped" addresses were never supposed to be seen on the
+ wire.  That assumption was dropped, some say mistakenly, in later
+ RFCs with the apparent aim of making IPv4-to-IPv6 transition simpler.
+
+ <p>Technically one <i>can</i> create a 128bit IPv6 address with the wire
+ format of a "mapped" address, as shown above, and transmit it in an
+ IPv6 packet header.  However, Java's InetAddress creation methods
+ appear to adhere doggedly to the original intent of the "mapped"
+ address: all "mapped" addresses return <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet4Address</CODE></A> objects.
+
+ <p>For added safety, it is common for IPv6 network operators to filter
+ all packets where either the source or destination address appears to
+ be a "compat" or "mapped" address.  Filtering suggestions usually
+ recommend discarding any packets with source or destination addresses
+ in the invalid range <code>::/3</code>, which includes both of these bizarre
+ address formats.  For more information on "bogons", including lists
+ of IPv6 bogon space, see:
+
+ <ul>
+ <li><a target="_parent"
+        href="http://en.wikipedia.org/wiki/Bogon_filtering"
+       >http://en.wikipedia.org/wiki/Bogon_filtering</a>
+ <li><a target="_parent"
+        href="http://www.cymru.com/Bogons/ipv6.txt"
+       >http://www.cymru.com/Bogons/ipv6.txt</a>
+ <li><a target="_parent"
+        href="http://www.cymru.com/Bogons/v6bogon.html"
+       >http://www.cymru.com/Bogons/v6bogon.html</a>
+ <li><a target="_parent"
+        href="http://www.space.net/~gert/RIPE/ipv6-filters.html"
+       >http://www.space.net/~gert/RIPE/ipv6-filters.html</a>
+ </ul>
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>5</DD>
+<DT><B>Author:</B></DT>
+  <DD>Erik Kline</DD>
+</DL>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.TeredoInfo.html" title="class in com.google.common.net">InetAddresses.TeredoInfo</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A simple data class to encapsulate the information to be found in a
+ Teredo address.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#coerceToInteger(java.net.InetAddress)">coerceToInteger</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an integer representing an IPv4 address regardless of
+ whether the supplied argument is an IPv4 address or not.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#forString(java.lang.String)">forString</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;ipString)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><CODE>InetAddress</CODE></A> having the given string
+ representation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#forUriString(java.lang.String)">forUriString</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;hostAddr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an InetAddress representing the literal IPv4 or IPv6 host
+ portion of a URL, encoded in the format specified by RFC 3986 section 3.2.2.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#fromInteger(int)">fromInteger</A></B>(int&nbsp;address)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an Inet4Address having the integer value specified by
+ the argument.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#fromLittleEndianByteArray(byte[])">fromLittleEndianByteArray</A></B>(byte[]&nbsp;addr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an address from a <b>little-endian ordered</b> byte array
+ (the opposite of what <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true#getByAddress(java.lang.String, byte[])" title="class or interface in java.net"><CODE>InetAddress.getByAddress(java.lang.String, byte[])</CODE></A> expects).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#get6to4IPv4Address(java.net.Inet6Address)">get6to4IPv4Address</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the IPv4 address embedded in a 6to4 address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#getCoercedIPv4Address(java.net.InetAddress)">getCoercedIPv4Address</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Coerces an IPv6 address into an IPv4 address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#getCompatIPv4Address(java.net.Inet6Address)">getCompatIPv4Address</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the IPv4 address embedded in an IPv4 compatible address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#getEmbeddedIPv4ClientAddress(java.net.Inet6Address)">getEmbeddedIPv4ClientAddress</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Examines the Inet6Address to extract the embedded IPv4 client address
+ if the InetAddress is an IPv6 address of one of the specified address
+ types that contain an embedded IPv4 address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#getIsatapIPv4Address(java.net.Inet6Address)">getIsatapIPv4Address</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the IPv4 address embedded in an ISATAP address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/net/InetAddresses.TeredoInfo.html" title="class in com.google.common.net">InetAddresses.TeredoInfo</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#getTeredoInfo(java.net.Inet6Address)">getTeredoInfo</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the Teredo information embedded in a Teredo address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#hasEmbeddedIPv4ClientAddress(java.net.Inet6Address)">hasEmbeddedIPv4ClientAddress</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Examines the Inet6Address to determine if it is an IPv6 address of one
+ of the specified address types that contain an embedded IPv4 address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#is6to4Address(java.net.Inet6Address)">is6to4Address</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Evaluates whether the argument is a 6to4 address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#isCompatIPv4Address(java.net.Inet6Address)">isCompatIPv4Address</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Evaluates whether the argument is an IPv6 "compat" address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#isInetAddress(java.lang.String)">isInetAddress</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;ipString)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>true</code> if the supplied string is a valid IP string
+ literal, <code>false</code> otherwise.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#isIsatapAddress(java.net.Inet6Address)">isIsatapAddress</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Evaluates whether the argument is an ISATAP address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#isTeredoAddress(java.net.Inet6Address)">isTeredoAddress</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Evaluates whether the argument is a Teredo address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#isUriInetAddress(java.lang.String)">isUriInetAddress</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;ipString)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>true</code> if the supplied string is a valid URI IP string
+ literal, <code>false</code> otherwise.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/net/InetAddresses.html#toUriString(java.net.InetAddress)">toUriString</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A>&nbsp;ip)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the string representation of an <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><CODE>InetAddress</CODE></A> suitable
+ for inclusion in a URI.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="forString(java.lang.String)"><!-- --></A><H3>
+forString</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A> <B>forString</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;ipString)</PRE>
+<DL>
+<DD>Returns the <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><CODE>InetAddress</CODE></A> having the given string
+ representation.
+
+ <p>This deliberately avoids all nameservice lookups (e.g. no DNS).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ipString</CODE> - <code>String</code> containing an IPv4 or IPv6 string literal,
+                 e.g. <code>"192.168.0.1"</code> or <code>"2001:db8::1"</code>
+<DT><B>Returns:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><CODE>InetAddress</CODE></A> representing the argument
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if the argument is not a valid
+         IP string literal</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isInetAddress(java.lang.String)"><!-- --></A><H3>
+isInetAddress</H3>
+<PRE>
+public static boolean <B>isInetAddress</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;ipString)</PRE>
+<DL>
+<DD>Returns <code>true</code> if the supplied string is a valid IP string
+ literal, <code>false</code> otherwise.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ipString</CODE> - <code>String</code> to evaluated as an IP string literal
+<DT><B>Returns:</B><DD><code>true</code> if the argument is a valid IP string literal</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toUriString(java.net.InetAddress)"><!-- --></A><H3>
+toUriString</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>toUriString</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Returns the string representation of an <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><CODE>InetAddress</CODE></A> suitable
+ for inclusion in a URI.
+
+ <p>For IPv4 addresses, this is identical to
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true#getHostAddress()" title="class or interface in java.net"><CODE>InetAddress.getHostAddress()</CODE></A>, but for IPv6 addresses it
+ surrounds this text with square brackets; for example
+ <code>"[2001:db8::1]"</code>.
+
+ <p>Per section 3.2.2 of
+ <a target="_parent"
+    href="http://tools.ietf.org/html/rfc3986#section-3.2.2"
+  >http://tools.ietf.org/html/rfc3986</a>,
+ a URI containing an IPv6 string literal is of the form
+ <code>"http://[2001:db8::1]:8888/index.html"</code>.
+
+ <p>Use of either <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true#getHostAddress()" title="class or interface in java.net"><CODE>InetAddress.getHostAddress()</CODE></A> or this
+ method is recommended over <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true#toString()" title="class or interface in java.net"><CODE>InetAddress.toString()</CODE></A> when an
+ IP address string literal is desired.  This is because
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true#toString()" title="class or interface in java.net"><CODE>InetAddress.toString()</CODE></A> prints the hostname and the IP
+ address string joined by a "/".
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><CODE>InetAddress</CODE></A> to be converted to URI string literal
+<DT><B>Returns:</B><DD><code>String</code> containing URI-safe string literal</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forUriString(java.lang.String)"><!-- --></A><H3>
+forUriString</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A> <B>forUriString</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;hostAddr)</PRE>
+<DL>
+<DD>Returns an InetAddress representing the literal IPv4 or IPv6 host
+ portion of a URL, encoded in the format specified by RFC 3986 section 3.2.2.
+
+ <p>This function is similar to <A HREF="../../../../com/google/common/net/InetAddresses.html#forString(java.lang.String)"><CODE>forString(String)</CODE></A>,
+ however, it requires that IPv6 addresses are surrounded by square brackets.
+
+ <p>This function is the inverse of
+ <A HREF="../../../../com/google/common/net/InetAddresses.html#toUriString(java.net.InetAddress)"><CODE>toUriString(java.net.InetAddress)</CODE></A>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hostAddr</CODE> - A RFC 3986 section 3.2.2 encoded IPv4 or IPv6 address
+<DT><B>Returns:</B><DD>an InetAddress representing the address in <code>hostAddr</code>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>hostAddr</code> is not a valid
+     IPv4 address, or IPv6 address surrounded by square brackets</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isUriInetAddress(java.lang.String)"><!-- --></A><H3>
+isUriInetAddress</H3>
+<PRE>
+public static boolean <B>isUriInetAddress</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;ipString)</PRE>
+<DL>
+<DD>Returns <code>true</code> if the supplied string is a valid URI IP string
+ literal, <code>false</code> otherwise.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ipString</CODE> - <code>String</code> to evaluated as an IP URI host string literal
+<DT><B>Returns:</B><DD><code>true</code> if the argument is a valid IP URI host</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCompatIPv4Address(java.net.Inet6Address)"><!-- --></A><H3>
+isCompatIPv4Address</H3>
+<PRE>
+public static boolean <B>isCompatIPv4Address</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Evaluates whether the argument is an IPv6 "compat" address.
+
+ <p>An "IPv4 compatible", or "compat", address is one with 96 leading
+ bits of zero, with the remaining 32 bits interpreted as an
+ IPv4 address.  These are conventionally represented in string
+ literals as <code>"::192.168.0.1"</code>, though <code>"::c0a8:1"</code> is
+ also considered an IPv4 compatible address (and equivalent to
+ <code>"::192.168.0.1"</code>).
+
+ <p>For more on IPv4 compatible addresses see section 2.5.5.1 of
+ <a target="_parent"
+    href="http://tools.ietf.org/html/rfc4291#section-2.5.5.1"
+    >http://tools.ietf.org/html/rfc4291</a>
+
+ <p>NOTE: This method is different from
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true#isIPv4CompatibleAddress()" title="class or interface in java.net"><CODE>Inet6Address.isIPv4CompatibleAddress()</CODE></A> in that it more
+ correctly classifies <code>"::"</code> and <code>"::1"</code> as
+ proper IPv6 addresses (which they are), NOT IPv4 compatible
+ addresses (which they are generally NOT considered to be).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet6Address</CODE></A> to be examined for embedded IPv4
+           compatible address format
+<DT><B>Returns:</B><DD><code>true</code> if the argument is a valid "compat" address</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCompatIPv4Address(java.net.Inet6Address)"><!-- --></A><H3>
+getCompatIPv4Address</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A> <B>getCompatIPv4Address</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Returns the IPv4 address embedded in an IPv4 compatible address.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet6Address</CODE></A> to be examined for an embedded
+           IPv4 address
+<DT><B>Returns:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet4Address</CODE></A> of the embedded IPv4 address
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if the argument is not a valid
+         IPv4 compatible address</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="is6to4Address(java.net.Inet6Address)"><!-- --></A><H3>
+is6to4Address</H3>
+<PRE>
+public static boolean <B>is6to4Address</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Evaluates whether the argument is a 6to4 address.
+
+ <p>6to4 addresses begin with the <code>"2002::/16"</code> prefix.
+ The next 32 bits are the IPv4 address of the host to which
+ IPv6-in-IPv4 tunneled packets should be routed.
+
+ <p>For more on 6to4 addresses see section 2 of
+ <a target="_parent" href="http://tools.ietf.org/html/rfc3056#section-2"
+    >http://tools.ietf.org/html/rfc3056</a>
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet6Address</CODE></A> to be examined for 6to4 address
+        format
+<DT><B>Returns:</B><DD><code>true</code> if the argument is a 6to4 address</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get6to4IPv4Address(java.net.Inet6Address)"><!-- --></A><H3>
+get6to4IPv4Address</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A> <B>get6to4IPv4Address</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Returns the IPv4 address embedded in a 6to4 address.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet6Address</CODE></A> to be examined for embedded IPv4
+           in 6to4 address.
+<DT><B>Returns:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet4Address</CODE></A> of embedded IPv4 in 6to4 address.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if the argument is not a valid
+         IPv6 6to4 address.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isTeredoAddress(java.net.Inet6Address)"><!-- --></A><H3>
+isTeredoAddress</H3>
+<PRE>
+public static boolean <B>isTeredoAddress</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Evaluates whether the argument is a Teredo address.
+
+ <p>Teredo addresses begin with the <code>"2001::/32"</code> prefix.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet6Address</CODE></A> to be examined for Teredo address
+        format.
+<DT><B>Returns:</B><DD><code>true</code> if the argument is a Teredo address</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTeredoInfo(java.net.Inet6Address)"><!-- --></A><H3>
+getTeredoInfo</H3>
+<PRE>
+public static <A HREF="../../../../com/google/common/net/InetAddresses.TeredoInfo.html" title="class in com.google.common.net">InetAddresses.TeredoInfo</A> <B>getTeredoInfo</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Returns the Teredo information embedded in a Teredo address.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet6Address</CODE></A> to be examined for embedded Teredo
+           information
+<DT><B>Returns:</B><DD>extracted <code>TeredoInfo</code>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if the argument is not a valid
+         IPv6 Teredo address</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isIsatapAddress(java.net.Inet6Address)"><!-- --></A><H3>
+isIsatapAddress</H3>
+<PRE>
+public static boolean <B>isIsatapAddress</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Evaluates whether the argument is an ISATAP address.
+
+ <p>From RFC 5214: "ISATAP interface identifiers are constructed in
+ Modified EUI-64 format [...] by concatenating the 24-bit IANA OUI
+ (00-00-5E), the 8-bit hexadecimal value 0xFE, and a 32-bit IPv4
+ address in network byte order [...]"
+
+ <p>For more on ISATAP addresses see section 6.1 of
+ <a target="_parent" href="http://tools.ietf.org/html/rfc5214#section-6.1"
+    >http://tools.ietf.org/html/rfc5214</a>
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet6Address</CODE></A> to be examined for ISATAP address
+        format.
+<DT><B>Returns:</B><DD><code>true</code> if the argument is an ISATAP address</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getIsatapIPv4Address(java.net.Inet6Address)"><!-- --></A><H3>
+getIsatapIPv4Address</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A> <B>getIsatapIPv4Address</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Returns the IPv4 address embedded in an ISATAP address.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet6Address</CODE></A> to be examined for embedded IPv4
+           in ISATAP address
+<DT><B>Returns:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet4Address</CODE></A> of embedded IPv4 in an ISATAP address
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if the argument is not a valid
+         IPv6 ISATAP address</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasEmbeddedIPv4ClientAddress(java.net.Inet6Address)"><!-- --></A><H3>
+hasEmbeddedIPv4ClientAddress</H3>
+<PRE>
+public static boolean <B>hasEmbeddedIPv4ClientAddress</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Examines the Inet6Address to determine if it is an IPv6 address of one
+ of the specified address types that contain an embedded IPv4 address.
+
+ <p>NOTE: ISATAP addresses are explicitly excluded from this method
+ due to their trivial spoofability.  With other transition addresses
+ spoofing involves (at least) infection of one's BGP routing table.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet6Address</CODE></A> to be examined for embedded IPv4
+           client address.
+<DT><B>Returns:</B><DD><code>true</code> if there is an embedded IPv4 client address.<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEmbeddedIPv4ClientAddress(java.net.Inet6Address)"><!-- --></A><H3>
+getEmbeddedIPv4ClientAddress</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A> <B>getEmbeddedIPv4ClientAddress</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net">Inet6Address</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Examines the Inet6Address to extract the embedded IPv4 client address
+ if the InetAddress is an IPv6 address of one of the specified address
+ types that contain an embedded IPv4 address.
+
+ <p>NOTE: ISATAP addresses are explicitly excluded from this method
+ due to their trivial spoofability.  With other transition addresses
+ spoofing involves (at least) infection of one's BGP routing table.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet6Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet6Address</CODE></A> to be examined for embedded IPv4
+           client address.
+<DT><B>Returns:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet4Address</CODE></A> of embedded IPv4 client address.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if the argument does not have a valid
+         embedded IPv4 address.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCoercedIPv4Address(java.net.InetAddress)"><!-- --></A><H3>
+getCoercedIPv4Address</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A> <B>getCoercedIPv4Address</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Coerces an IPv6 address into an IPv4 address.
+
+ <p>HACK: As long as applications continue to use IPv4 addresses for
+ indexing into tables, accounting, et cetera, it may be necessary to
+ <b>coerce</b> IPv6 addresses into IPv4 addresses. This function does
+ so by hashing the upper 64 bits into <code>224.0.0.0/3</code>
+ (64 bits into 29 bits).
+
+ <p>A "coerced" IPv4 address is equivalent to itself.
+
+ <p>NOTE: This function is failsafe for security purposes: ALL IPv6
+ addresses (except localhost (::1)) are hashed to avoid the security
+ risk associated with extracting an embedded IPv4 address that might
+ permit elevated privileges.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><CODE>InetAddress</CODE></A> to "coerce"
+<DT><B>Returns:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet4Address</CODE></A> represented "coerced" address<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="coerceToInteger(java.net.InetAddress)"><!-- --></A><H3>
+coerceToInteger</H3>
+<PRE>
+public static int <B>coerceToInteger</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A>&nbsp;ip)</PRE>
+<DL>
+<DD>Returns an integer representing an IPv4 address regardless of
+ whether the supplied argument is an IPv4 address or not.
+
+ <p>IPv6 addresses are <b>coerced</b> to IPv4 addresses before being
+ converted to integers.
+
+ <p>As long as there are applications that assume that all IP addresses
+ are IPv4 addresses and can therefore be converted safely to integers
+ (for whatever purpose) this function can be used to handle IPv6
+ addresses as well until the application is suitably fixed.
+
+ <p>NOTE: an IPv6 address coerced to an IPv4 address can only be used
+ for such purposes as rudimentary identification or indexing into a
+ collection of real <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><CODE>InetAddress</CODE></A>es.  They cannot be used as
+ real addresses for the purposes of network communication.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ip</CODE> - <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><CODE>InetAddress</CODE></A> to convert
+<DT><B>Returns:</B><DD><code>int</code>, "coerced" if ip is not an IPv4 address<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fromInteger(int)"><!-- --></A><H3>
+fromInteger</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</A> <B>fromInteger</B>(int&nbsp;address)</PRE>
+<DL>
+<DD>Returns an Inet4Address having the integer value specified by
+ the argument.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>address</CODE> - <code>int</code>, the 32bit integer address to be converted
+<DT><B>Returns:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net"><CODE>Inet4Address</CODE></A> equivalent of the argument</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fromLittleEndianByteArray(byte[])"><!-- --></A><H3>
+fromLittleEndianByteArray</H3>
+<PRE>
+public static <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net">InetAddress</A> <B>fromLittleEndianByteArray</B>(byte[]&nbsp;addr)
+                                             throws <A HREF="http://java.sun.com/javase/6/docs/api/java/net/UnknownHostException.html?is-external=true" title="class or interface in java.net">UnknownHostException</A></PRE>
+<DL>
+<DD>Returns an address from a <b>little-endian ordered</b> byte array
+ (the opposite of what <A HREF="http://java.sun.com/javase/6/docs/api/java/net/InetAddress.html?is-external=true#getByAddress(java.lang.String, byte[])" title="class or interface in java.net"><CODE>InetAddress.getByAddress(java.lang.String, byte[])</CODE></A> expects).
+
+ <p>IPv4 address byte array must be 4 bytes long and IPv6 byte array
+ must be 16 bytes long.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>addr</CODE> - the raw IP address in little-endian byte order
+<DT><B>Returns:</B><DD>an InetAddress object created from the raw IP address
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/net/UnknownHostException.html?is-external=true" title="class or interface in java.net">UnknownHostException</A></CODE> - if IP address is of illegal length</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/net/HostSpecifier.html" title="class in com.google.common.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/net/InetAddresses.TeredoInfo.html" title="class in com.google.common.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/net/InetAddresses.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="InetAddresses.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

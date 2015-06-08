@@ -1,0 +1,692 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.collect;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import static com.google.common.base.Preconditions.checkArgument;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import static com.google.common.base.Preconditions.checkNotNull;<a name="line.20"></a>
+<FONT color="green">021</FONT>    <a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import com.google.common.annotations.VisibleForTesting;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import com.google.common.primitives.Ints;<a name="line.24"></a>
+<FONT color="green">025</FONT>    <a name="line.25"></a>
+<FONT color="green">026</FONT>    import java.io.Serializable;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import java.util.Arrays;<a name="line.27"></a>
+<FONT color="green">028</FONT>    import java.util.Collection;<a name="line.28"></a>
+<FONT color="green">029</FONT>    import java.util.Collections;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import java.util.HashSet;<a name="line.30"></a>
+<FONT color="green">031</FONT>    import java.util.Iterator;<a name="line.31"></a>
+<FONT color="green">032</FONT>    import java.util.Set;<a name="line.32"></a>
+<FONT color="green">033</FONT>    <a name="line.33"></a>
+<FONT color="green">034</FONT>    import javax.annotation.Nullable;<a name="line.34"></a>
+<FONT color="green">035</FONT>    <a name="line.35"></a>
+<FONT color="green">036</FONT>    /**<a name="line.36"></a>
+<FONT color="green">037</FONT>     * A high-performance, immutable {@code Set} with reliable, user-specified<a name="line.37"></a>
+<FONT color="green">038</FONT>     * iteration order. Does not permit null elements.<a name="line.38"></a>
+<FONT color="green">039</FONT>     *<a name="line.39"></a>
+<FONT color="green">040</FONT>     * &lt;p&gt;Unlike {@link Collections#unmodifiableSet}, which is a &lt;i&gt;view&lt;/i&gt; of a<a name="line.40"></a>
+<FONT color="green">041</FONT>     * separate collection that can still change, an instance of this class contains<a name="line.41"></a>
+<FONT color="green">042</FONT>     * its own private data and will &lt;i&gt;never&lt;/i&gt; change. This class is convenient<a name="line.42"></a>
+<FONT color="green">043</FONT>     * for {@code public static final} sets ("constant sets") and also lets you<a name="line.43"></a>
+<FONT color="green">044</FONT>     * easily make a "defensive copy" of a set provided to your class by a caller.<a name="line.44"></a>
+<FONT color="green">045</FONT>     *<a name="line.45"></a>
+<FONT color="green">046</FONT>     * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; Like most sets, an {@code ImmutableSet} will not function<a name="line.46"></a>
+<FONT color="green">047</FONT>     * correctly if an element is modified after being placed in the set. For this<a name="line.47"></a>
+<FONT color="green">048</FONT>     * reason, and to avoid general confusion, it is strongly recommended to place<a name="line.48"></a>
+<FONT color="green">049</FONT>     * only immutable objects into this collection.<a name="line.49"></a>
+<FONT color="green">050</FONT>     *<a name="line.50"></a>
+<FONT color="green">051</FONT>     * &lt;p&gt;This class has been observed to perform significantly better than {@link<a name="line.51"></a>
+<FONT color="green">052</FONT>     * HashSet} for objects with very fast {@link Object#hashCode} implementations<a name="line.52"></a>
+<FONT color="green">053</FONT>     * (as a well-behaved immutable object should). While this class's factory<a name="line.53"></a>
+<FONT color="green">054</FONT>     * methods create hash-based instances, the {@link ImmutableSortedSet} subclass<a name="line.54"></a>
+<FONT color="green">055</FONT>     * performs binary searches instead.<a name="line.55"></a>
+<FONT color="green">056</FONT>     *<a name="line.56"></a>
+<FONT color="green">057</FONT>     * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Although this class is not final, it cannot be subclassed<a name="line.57"></a>
+<FONT color="green">058</FONT>     * outside its package as it has no public or protected constructors. Thus,<a name="line.58"></a>
+<FONT color="green">059</FONT>     * instances of this type are guaranteed to be immutable.<a name="line.59"></a>
+<FONT color="green">060</FONT>     *<a name="line.60"></a>
+<FONT color="green">061</FONT>     * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.61"></a>
+<FONT color="green">062</FONT>     * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained"&gt;<a name="line.62"></a>
+<FONT color="green">063</FONT>     * immutable collections&lt;/a&gt;.<a name="line.63"></a>
+<FONT color="green">064</FONT>     *<a name="line.64"></a>
+<FONT color="green">065</FONT>     * @see ImmutableList<a name="line.65"></a>
+<FONT color="green">066</FONT>     * @see ImmutableMap<a name="line.66"></a>
+<FONT color="green">067</FONT>     * @author Kevin Bourrillion<a name="line.67"></a>
+<FONT color="green">068</FONT>     * @author Nick Kralevich<a name="line.68"></a>
+<FONT color="green">069</FONT>     * @since 2.0 (imported from Google Collections Library)<a name="line.69"></a>
+<FONT color="green">070</FONT>     */<a name="line.70"></a>
+<FONT color="green">071</FONT>    @GwtCompatible(serializable = true, emulated = true)<a name="line.71"></a>
+<FONT color="green">072</FONT>    @SuppressWarnings("serial") // we're overriding default serialization<a name="line.72"></a>
+<FONT color="green">073</FONT>    public abstract class ImmutableSet&lt;E&gt; extends ImmutableCollection&lt;E&gt;<a name="line.73"></a>
+<FONT color="green">074</FONT>        implements Set&lt;E&gt; {<a name="line.74"></a>
+<FONT color="green">075</FONT>      /**<a name="line.75"></a>
+<FONT color="green">076</FONT>       * Returns the empty immutable set. This set behaves and performs comparably<a name="line.76"></a>
+<FONT color="green">077</FONT>       * to {@link Collections#emptySet}, and is preferable mainly for consistency<a name="line.77"></a>
+<FONT color="green">078</FONT>       * and maintainability of your code.<a name="line.78"></a>
+<FONT color="green">079</FONT>       */<a name="line.79"></a>
+<FONT color="green">080</FONT>      // Casting to any type is safe because the set will never hold any elements.<a name="line.80"></a>
+<FONT color="green">081</FONT>      @SuppressWarnings({"unchecked"})<a name="line.81"></a>
+<FONT color="green">082</FONT>      public static &lt;E&gt; ImmutableSet&lt;E&gt; of() {<a name="line.82"></a>
+<FONT color="green">083</FONT>        return (ImmutableSet&lt;E&gt;) EmptyImmutableSet.INSTANCE;<a name="line.83"></a>
+<FONT color="green">084</FONT>      }<a name="line.84"></a>
+<FONT color="green">085</FONT>    <a name="line.85"></a>
+<FONT color="green">086</FONT>      /**<a name="line.86"></a>
+<FONT color="green">087</FONT>       * Returns an immutable set containing a single element. This set behaves and<a name="line.87"></a>
+<FONT color="green">088</FONT>       * performs comparably to {@link Collections#singleton}, but will not accept<a name="line.88"></a>
+<FONT color="green">089</FONT>       * a null element. It is preferable mainly for consistency and<a name="line.89"></a>
+<FONT color="green">090</FONT>       * maintainability of your code.<a name="line.90"></a>
+<FONT color="green">091</FONT>       */<a name="line.91"></a>
+<FONT color="green">092</FONT>      public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E element) {<a name="line.92"></a>
+<FONT color="green">093</FONT>        return new SingletonImmutableSet&lt;E&gt;(element);<a name="line.93"></a>
+<FONT color="green">094</FONT>      }<a name="line.94"></a>
+<FONT color="green">095</FONT>    <a name="line.95"></a>
+<FONT color="green">096</FONT>      /**<a name="line.96"></a>
+<FONT color="green">097</FONT>       * Returns an immutable set containing the given elements, in order. Repeated<a name="line.97"></a>
+<FONT color="green">098</FONT>       * occurrences of an element (according to {@link Object#equals}) after the<a name="line.98"></a>
+<FONT color="green">099</FONT>       * first are ignored.<a name="line.99"></a>
+<FONT color="green">100</FONT>       *<a name="line.100"></a>
+<FONT color="green">101</FONT>       * @throws NullPointerException if any element is null<a name="line.101"></a>
+<FONT color="green">102</FONT>       */<a name="line.102"></a>
+<FONT color="green">103</FONT>      public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1, E e2) {<a name="line.103"></a>
+<FONT color="green">104</FONT>        return construct(2, e1, e2);<a name="line.104"></a>
+<FONT color="green">105</FONT>      }<a name="line.105"></a>
+<FONT color="green">106</FONT>    <a name="line.106"></a>
+<FONT color="green">107</FONT>      /**<a name="line.107"></a>
+<FONT color="green">108</FONT>       * Returns an immutable set containing the given elements, in order. Repeated<a name="line.108"></a>
+<FONT color="green">109</FONT>       * occurrences of an element (according to {@link Object#equals}) after the<a name="line.109"></a>
+<FONT color="green">110</FONT>       * first are ignored.<a name="line.110"></a>
+<FONT color="green">111</FONT>       *<a name="line.111"></a>
+<FONT color="green">112</FONT>       * @throws NullPointerException if any element is null<a name="line.112"></a>
+<FONT color="green">113</FONT>       */<a name="line.113"></a>
+<FONT color="green">114</FONT>      public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1, E e2, E e3) {<a name="line.114"></a>
+<FONT color="green">115</FONT>        return construct(3, e1, e2, e3);<a name="line.115"></a>
+<FONT color="green">116</FONT>      }<a name="line.116"></a>
+<FONT color="green">117</FONT>    <a name="line.117"></a>
+<FONT color="green">118</FONT>      /**<a name="line.118"></a>
+<FONT color="green">119</FONT>       * Returns an immutable set containing the given elements, in order. Repeated<a name="line.119"></a>
+<FONT color="green">120</FONT>       * occurrences of an element (according to {@link Object#equals}) after the<a name="line.120"></a>
+<FONT color="green">121</FONT>       * first are ignored.<a name="line.121"></a>
+<FONT color="green">122</FONT>       *<a name="line.122"></a>
+<FONT color="green">123</FONT>       * @throws NullPointerException if any element is null<a name="line.123"></a>
+<FONT color="green">124</FONT>       */<a name="line.124"></a>
+<FONT color="green">125</FONT>      public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1, E e2, E e3, E e4) {<a name="line.125"></a>
+<FONT color="green">126</FONT>        return construct(4, e1, e2, e3, e4);<a name="line.126"></a>
+<FONT color="green">127</FONT>      }<a name="line.127"></a>
+<FONT color="green">128</FONT>    <a name="line.128"></a>
+<FONT color="green">129</FONT>      /**<a name="line.129"></a>
+<FONT color="green">130</FONT>       * Returns an immutable set containing the given elements, in order. Repeated<a name="line.130"></a>
+<FONT color="green">131</FONT>       * occurrences of an element (according to {@link Object#equals}) after the<a name="line.131"></a>
+<FONT color="green">132</FONT>       * first are ignored.<a name="line.132"></a>
+<FONT color="green">133</FONT>       *<a name="line.133"></a>
+<FONT color="green">134</FONT>       * @throws NullPointerException if any element is null<a name="line.134"></a>
+<FONT color="green">135</FONT>       */<a name="line.135"></a>
+<FONT color="green">136</FONT>      public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1, E e2, E e3, E e4, E e5) {<a name="line.136"></a>
+<FONT color="green">137</FONT>        return construct(5, e1, e2, e3, e4, e5);<a name="line.137"></a>
+<FONT color="green">138</FONT>      }<a name="line.138"></a>
+<FONT color="green">139</FONT>    <a name="line.139"></a>
+<FONT color="green">140</FONT>      /**<a name="line.140"></a>
+<FONT color="green">141</FONT>       * Returns an immutable set containing the given elements, in order. Repeated<a name="line.141"></a>
+<FONT color="green">142</FONT>       * occurrences of an element (according to {@link Object#equals}) after the<a name="line.142"></a>
+<FONT color="green">143</FONT>       * first are ignored.<a name="line.143"></a>
+<FONT color="green">144</FONT>       *<a name="line.144"></a>
+<FONT color="green">145</FONT>       * @throws NullPointerException if any element is null<a name="line.145"></a>
+<FONT color="green">146</FONT>       * @since 3.0 (source-compatible since 2.0)<a name="line.146"></a>
+<FONT color="green">147</FONT>       */<a name="line.147"></a>
+<FONT color="green">148</FONT>      public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1, E e2, E e3, E e4, E e5, E e6,<a name="line.148"></a>
+<FONT color="green">149</FONT>          E... others) {<a name="line.149"></a>
+<FONT color="green">150</FONT>        final int paramCount = 6;<a name="line.150"></a>
+<FONT color="green">151</FONT>        Object[] elements = new Object[paramCount + others.length];<a name="line.151"></a>
+<FONT color="green">152</FONT>        elements[0] = e1;<a name="line.152"></a>
+<FONT color="green">153</FONT>        elements[1] = e2;<a name="line.153"></a>
+<FONT color="green">154</FONT>        elements[2] = e3;<a name="line.154"></a>
+<FONT color="green">155</FONT>        elements[3] = e4;<a name="line.155"></a>
+<FONT color="green">156</FONT>        elements[4] = e5;<a name="line.156"></a>
+<FONT color="green">157</FONT>        elements[5] = e6;<a name="line.157"></a>
+<FONT color="green">158</FONT>        System.arraycopy(others, 0, elements, paramCount, others.length);<a name="line.158"></a>
+<FONT color="green">159</FONT>        return construct(elements.length, elements);<a name="line.159"></a>
+<FONT color="green">160</FONT>      }<a name="line.160"></a>
+<FONT color="green">161</FONT>    <a name="line.161"></a>
+<FONT color="green">162</FONT>      /**<a name="line.162"></a>
+<FONT color="green">163</FONT>       * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified array.<a name="line.163"></a>
+<FONT color="green">164</FONT>       * If {@code k} is the size of the returned {@code ImmutableSet}, then the unique elements of<a name="line.164"></a>
+<FONT color="green">165</FONT>       * {@code elements} will be in the first {@code k} positions, and {@code elements[i] == null} for<a name="line.165"></a>
+<FONT color="green">166</FONT>       * {@code k &lt;= i &lt; n}.<a name="line.166"></a>
+<FONT color="green">167</FONT>       *<a name="line.167"></a>
+<FONT color="green">168</FONT>       * &lt;p&gt;This may modify {@code elements}.  Additionally, if {@code n == elements.length} and<a name="line.168"></a>
+<FONT color="green">169</FONT>       * {@code elements} contains no duplicates, {@code elements} may be used without copying in the<a name="line.169"></a>
+<FONT color="green">170</FONT>       * returned {@code ImmutableSet}, in which case it may no longer be modified.<a name="line.170"></a>
+<FONT color="green">171</FONT>       *<a name="line.171"></a>
+<FONT color="green">172</FONT>       * &lt;p&gt;{@code elements} may contain only values of type {@code E}.<a name="line.172"></a>
+<FONT color="green">173</FONT>       *<a name="line.173"></a>
+<FONT color="green">174</FONT>       * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is<a name="line.174"></a>
+<FONT color="green">175</FONT>       *          null<a name="line.175"></a>
+<FONT color="green">176</FONT>       */<a name="line.176"></a>
+<FONT color="green">177</FONT>      private static &lt;E&gt; ImmutableSet&lt;E&gt; construct(int n, Object... elements) {<a name="line.177"></a>
+<FONT color="green">178</FONT>        switch (n) {<a name="line.178"></a>
+<FONT color="green">179</FONT>          case 0:<a name="line.179"></a>
+<FONT color="green">180</FONT>            return of();<a name="line.180"></a>
+<FONT color="green">181</FONT>          case 1: {<a name="line.181"></a>
+<FONT color="green">182</FONT>            @SuppressWarnings("unchecked") // safe; elements contains only E's<a name="line.182"></a>
+<FONT color="green">183</FONT>            E elem = (E) elements[0];<a name="line.183"></a>
+<FONT color="green">184</FONT>            return of(elem);<a name="line.184"></a>
+<FONT color="green">185</FONT>          }<a name="line.185"></a>
+<FONT color="green">186</FONT>        }<a name="line.186"></a>
+<FONT color="green">187</FONT>        int tableSize = chooseTableSize(n);<a name="line.187"></a>
+<FONT color="green">188</FONT>        Object[] table = new Object[tableSize];<a name="line.188"></a>
+<FONT color="green">189</FONT>        int mask = tableSize - 1;<a name="line.189"></a>
+<FONT color="green">190</FONT>        int hashCode = 0;<a name="line.190"></a>
+<FONT color="green">191</FONT>        int uniques = 0;<a name="line.191"></a>
+<FONT color="green">192</FONT>        for (int i = 0; i &lt; n; i++) {<a name="line.192"></a>
+<FONT color="green">193</FONT>          Object element = ObjectArrays.checkElementNotNull(elements[i], i);<a name="line.193"></a>
+<FONT color="green">194</FONT>          int hash = element.hashCode();<a name="line.194"></a>
+<FONT color="green">195</FONT>          for (int j = Hashing.smear(hash); ; j++) {<a name="line.195"></a>
+<FONT color="green">196</FONT>            int index = j &amp; mask;<a name="line.196"></a>
+<FONT color="green">197</FONT>            Object value = table[index];<a name="line.197"></a>
+<FONT color="green">198</FONT>            if (value == null) {<a name="line.198"></a>
+<FONT color="green">199</FONT>              // Came to an empty slot. Put the element here.<a name="line.199"></a>
+<FONT color="green">200</FONT>              elements[uniques++] = element;<a name="line.200"></a>
+<FONT color="green">201</FONT>              table[index] = element;<a name="line.201"></a>
+<FONT color="green">202</FONT>              hashCode += hash;<a name="line.202"></a>
+<FONT color="green">203</FONT>              break;<a name="line.203"></a>
+<FONT color="green">204</FONT>            } else if (value.equals(element)) {<a name="line.204"></a>
+<FONT color="green">205</FONT>              break;<a name="line.205"></a>
+<FONT color="green">206</FONT>            }<a name="line.206"></a>
+<FONT color="green">207</FONT>          }<a name="line.207"></a>
+<FONT color="green">208</FONT>        }<a name="line.208"></a>
+<FONT color="green">209</FONT>        Arrays.fill(elements, uniques, n, null);<a name="line.209"></a>
+<FONT color="green">210</FONT>        if (uniques == 1) {<a name="line.210"></a>
+<FONT color="green">211</FONT>          // There is only one element or elements are all duplicates<a name="line.211"></a>
+<FONT color="green">212</FONT>          @SuppressWarnings("unchecked") // we are careful to only pass in E<a name="line.212"></a>
+<FONT color="green">213</FONT>          E element = (E) elements[0];<a name="line.213"></a>
+<FONT color="green">214</FONT>          return new SingletonImmutableSet&lt;E&gt;(element, hashCode);<a name="line.214"></a>
+<FONT color="green">215</FONT>        } else if (tableSize != chooseTableSize(uniques)) {<a name="line.215"></a>
+<FONT color="green">216</FONT>          // Resize the table when the array includes too many duplicates.<a name="line.216"></a>
+<FONT color="green">217</FONT>          // when this happens, we have already made a copy<a name="line.217"></a>
+<FONT color="green">218</FONT>          return construct(uniques, elements);<a name="line.218"></a>
+<FONT color="green">219</FONT>        } else {<a name="line.219"></a>
+<FONT color="green">220</FONT>          Object[] uniqueElements = (uniques &lt; elements.length)<a name="line.220"></a>
+<FONT color="green">221</FONT>              ? ObjectArrays.arraysCopyOf(elements, uniques)<a name="line.221"></a>
+<FONT color="green">222</FONT>              : elements;<a name="line.222"></a>
+<FONT color="green">223</FONT>          return new RegularImmutableSet&lt;E&gt;(uniqueElements, hashCode, table, mask);<a name="line.223"></a>
+<FONT color="green">224</FONT>        }<a name="line.224"></a>
+<FONT color="green">225</FONT>      }<a name="line.225"></a>
+<FONT color="green">226</FONT>    <a name="line.226"></a>
+<FONT color="green">227</FONT>      // We use power-of-2 tables, and this is the highest int that's a power of 2<a name="line.227"></a>
+<FONT color="green">228</FONT>      static final int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;<a name="line.228"></a>
+<FONT color="green">229</FONT>    <a name="line.229"></a>
+<FONT color="green">230</FONT>      // Represents how tightly we can pack things, as a maximum.<a name="line.230"></a>
+<FONT color="green">231</FONT>      private static final double DESIRED_LOAD_FACTOR = 0.7;<a name="line.231"></a>
+<FONT color="green">232</FONT>    <a name="line.232"></a>
+<FONT color="green">233</FONT>      // If the set has this many elements, it will "max out" the table size<a name="line.233"></a>
+<FONT color="green">234</FONT>      private static final int CUTOFF =<a name="line.234"></a>
+<FONT color="green">235</FONT>          (int) Math.floor(MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);<a name="line.235"></a>
+<FONT color="green">236</FONT>    <a name="line.236"></a>
+<FONT color="green">237</FONT>      /**<a name="line.237"></a>
+<FONT color="green">238</FONT>       * Returns an array size suitable for the backing array of a hash table that<a name="line.238"></a>
+<FONT color="green">239</FONT>       * uses open addressing with linear probing in its implementation.  The<a name="line.239"></a>
+<FONT color="green">240</FONT>       * returned size is the smallest power of two that can hold setSize elements<a name="line.240"></a>
+<FONT color="green">241</FONT>       * with the desired load factor.<a name="line.241"></a>
+<FONT color="green">242</FONT>       *<a name="line.242"></a>
+<FONT color="green">243</FONT>       * &lt;p&gt;Do not call this method with setSize &lt; 2.<a name="line.243"></a>
+<FONT color="green">244</FONT>       */<a name="line.244"></a>
+<FONT color="green">245</FONT>      @VisibleForTesting static int chooseTableSize(int setSize) {<a name="line.245"></a>
+<FONT color="green">246</FONT>        // Correct the size for open addressing to match desired load factor.<a name="line.246"></a>
+<FONT color="green">247</FONT>        if (setSize &lt; CUTOFF) {<a name="line.247"></a>
+<FONT color="green">248</FONT>          // Round up to the next highest power of 2.<a name="line.248"></a>
+<FONT color="green">249</FONT>          int tableSize = Integer.highestOneBit(setSize - 1) &lt;&lt; 1;<a name="line.249"></a>
+<FONT color="green">250</FONT>          while (tableSize * DESIRED_LOAD_FACTOR &lt; setSize) {<a name="line.250"></a>
+<FONT color="green">251</FONT>            tableSize &lt;&lt;= 1;<a name="line.251"></a>
+<FONT color="green">252</FONT>          }<a name="line.252"></a>
+<FONT color="green">253</FONT>          return tableSize;<a name="line.253"></a>
+<FONT color="green">254</FONT>        }<a name="line.254"></a>
+<FONT color="green">255</FONT>    <a name="line.255"></a>
+<FONT color="green">256</FONT>        // The table can't be completely full or we'll get infinite reprobes<a name="line.256"></a>
+<FONT color="green">257</FONT>        checkArgument(setSize &lt; MAX_TABLE_SIZE, "collection too large");<a name="line.257"></a>
+<FONT color="green">258</FONT>        return MAX_TABLE_SIZE;<a name="line.258"></a>
+<FONT color="green">259</FONT>      }<a name="line.259"></a>
+<FONT color="green">260</FONT>    <a name="line.260"></a>
+<FONT color="green">261</FONT>      /**<a name="line.261"></a>
+<FONT color="green">262</FONT>       * Returns an immutable set containing the given elements, in order. Repeated<a name="line.262"></a>
+<FONT color="green">263</FONT>       * occurrences of an element (according to {@link Object#equals}) after the<a name="line.263"></a>
+<FONT color="green">264</FONT>       * first are ignored.<a name="line.264"></a>
+<FONT color="green">265</FONT>       *<a name="line.265"></a>
+<FONT color="green">266</FONT>       * @throws NullPointerException if any of {@code elements} is null<a name="line.266"></a>
+<FONT color="green">267</FONT>       * @since 3.0<a name="line.267"></a>
+<FONT color="green">268</FONT>       */<a name="line.268"></a>
+<FONT color="green">269</FONT>      public static &lt;E&gt; ImmutableSet&lt;E&gt; copyOf(E[] elements) {<a name="line.269"></a>
+<FONT color="green">270</FONT>        // TODO(benyu): could we delegate to<a name="line.270"></a>
+<FONT color="green">271</FONT>        // copyFromCollection(Arrays.asList(elements))?<a name="line.271"></a>
+<FONT color="green">272</FONT>        switch (elements.length) {<a name="line.272"></a>
+<FONT color="green">273</FONT>          case 0:<a name="line.273"></a>
+<FONT color="green">274</FONT>            return of();<a name="line.274"></a>
+<FONT color="green">275</FONT>          case 1:<a name="line.275"></a>
+<FONT color="green">276</FONT>            return of(elements[0]);<a name="line.276"></a>
+<FONT color="green">277</FONT>          default:<a name="line.277"></a>
+<FONT color="green">278</FONT>            return construct(elements.length, elements.clone());<a name="line.278"></a>
+<FONT color="green">279</FONT>        }<a name="line.279"></a>
+<FONT color="green">280</FONT>      }<a name="line.280"></a>
+<FONT color="green">281</FONT>    <a name="line.281"></a>
+<FONT color="green">282</FONT>      /**<a name="line.282"></a>
+<FONT color="green">283</FONT>       * Returns an immutable set containing the given elements, in order. Repeated<a name="line.283"></a>
+<FONT color="green">284</FONT>       * occurrences of an element (according to {@link Object#equals}) after the<a name="line.284"></a>
+<FONT color="green">285</FONT>       * first are ignored. This method iterates over {@code elements} at most once.<a name="line.285"></a>
+<FONT color="green">286</FONT>       *<a name="line.286"></a>
+<FONT color="green">287</FONT>       * &lt;p&gt;Note that if {@code s} is a {@code Set&lt;String&gt;}, then {@code<a name="line.287"></a>
+<FONT color="green">288</FONT>       * ImmutableSet.copyOf(s)} returns an {@code ImmutableSet&lt;String&gt;} containing<a name="line.288"></a>
+<FONT color="green">289</FONT>       * each of the strings in {@code s}, while {@code ImmutableSet.of(s)} returns<a name="line.289"></a>
+<FONT color="green">290</FONT>       * a {@code ImmutableSet&lt;Set&lt;String&gt;&gt;} containing one element (the given set<a name="line.290"></a>
+<FONT color="green">291</FONT>       * itself).<a name="line.291"></a>
+<FONT color="green">292</FONT>       *<a name="line.292"></a>
+<FONT color="green">293</FONT>       * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying<a name="line.293"></a>
+<FONT color="green">294</FONT>       * the data when it is safe to do so. The exact circumstances under which a<a name="line.294"></a>
+<FONT color="green">295</FONT>       * copy will or will not be performed are undocumented and subject to change.<a name="line.295"></a>
+<FONT color="green">296</FONT>       *<a name="line.296"></a>
+<FONT color="green">297</FONT>       * @throws NullPointerException if any of {@code elements} is null<a name="line.297"></a>
+<FONT color="green">298</FONT>       */<a name="line.298"></a>
+<FONT color="green">299</FONT>      public static &lt;E&gt; ImmutableSet&lt;E&gt; copyOf(Iterable&lt;? extends E&gt; elements) {<a name="line.299"></a>
+<FONT color="green">300</FONT>        return (elements instanceof Collection)<a name="line.300"></a>
+<FONT color="green">301</FONT>            ? copyOf(Collections2.cast(elements))<a name="line.301"></a>
+<FONT color="green">302</FONT>            : copyOf(elements.iterator());<a name="line.302"></a>
+<FONT color="green">303</FONT>      }<a name="line.303"></a>
+<FONT color="green">304</FONT>    <a name="line.304"></a>
+<FONT color="green">305</FONT>      /**<a name="line.305"></a>
+<FONT color="green">306</FONT>       * Returns an immutable set containing the given elements, in order. Repeated<a name="line.306"></a>
+<FONT color="green">307</FONT>       * occurrences of an element (according to {@link Object#equals}) after the<a name="line.307"></a>
+<FONT color="green">308</FONT>       * first are ignored.<a name="line.308"></a>
+<FONT color="green">309</FONT>       *<a name="line.309"></a>
+<FONT color="green">310</FONT>       * @throws NullPointerException if any of {@code elements} is null<a name="line.310"></a>
+<FONT color="green">311</FONT>       */<a name="line.311"></a>
+<FONT color="green">312</FONT>      public static &lt;E&gt; ImmutableSet&lt;E&gt; copyOf(Iterator&lt;? extends E&gt; elements) {<a name="line.312"></a>
+<FONT color="green">313</FONT>        // We special-case for 0 or 1 elements, but anything further is madness.<a name="line.313"></a>
+<FONT color="green">314</FONT>        if (!elements.hasNext()) {<a name="line.314"></a>
+<FONT color="green">315</FONT>          return of();<a name="line.315"></a>
+<FONT color="green">316</FONT>        }<a name="line.316"></a>
+<FONT color="green">317</FONT>        E first = elements.next();<a name="line.317"></a>
+<FONT color="green">318</FONT>        if (!elements.hasNext()) {<a name="line.318"></a>
+<FONT color="green">319</FONT>          return of(first);<a name="line.319"></a>
+<FONT color="green">320</FONT>        } else {<a name="line.320"></a>
+<FONT color="green">321</FONT>          return new ImmutableSet.Builder&lt;E&gt;()<a name="line.321"></a>
+<FONT color="green">322</FONT>              .add(first)<a name="line.322"></a>
+<FONT color="green">323</FONT>              .addAll(elements)<a name="line.323"></a>
+<FONT color="green">324</FONT>              .build();<a name="line.324"></a>
+<FONT color="green">325</FONT>        }<a name="line.325"></a>
+<FONT color="green">326</FONT>      }<a name="line.326"></a>
+<FONT color="green">327</FONT>    <a name="line.327"></a>
+<FONT color="green">328</FONT>      /**<a name="line.328"></a>
+<FONT color="green">329</FONT>       * Returns an immutable set containing the given elements, in order. Repeated<a name="line.329"></a>
+<FONT color="green">330</FONT>       * occurrences of an element (according to {@link Object#equals}) after the<a name="line.330"></a>
+<FONT color="green">331</FONT>       * first are ignored. This method iterates over {@code elements} at most<a name="line.331"></a>
+<FONT color="green">332</FONT>       * once.<a name="line.332"></a>
+<FONT color="green">333</FONT>       *<a name="line.333"></a>
+<FONT color="green">334</FONT>       * &lt;p&gt;Note that if {@code s} is a {@code Set&lt;String&gt;}, then {@code<a name="line.334"></a>
+<FONT color="green">335</FONT>       * ImmutableSet.copyOf(s)} returns an {@code ImmutableSet&lt;String&gt;} containing<a name="line.335"></a>
+<FONT color="green">336</FONT>       * each of the strings in {@code s}, while {@code ImmutableSet.of(s)} returns<a name="line.336"></a>
+<FONT color="green">337</FONT>       * a {@code ImmutableSet&lt;Set&lt;String&gt;&gt;} containing one element (the given set<a name="line.337"></a>
+<FONT color="green">338</FONT>       * itself).<a name="line.338"></a>
+<FONT color="green">339</FONT>       *<a name="line.339"></a>
+<FONT color="green">340</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Despite what the method name suggests, {@code copyOf} will<a name="line.340"></a>
+<FONT color="green">341</FONT>       * return constant-space views, rather than linear-space copies, of some<a name="line.341"></a>
+<FONT color="green">342</FONT>       * inputs known to be immutable. For some other immutable inputs, such as key<a name="line.342"></a>
+<FONT color="green">343</FONT>       * sets of an {@code ImmutableMap}, it still performs a copy in order to avoid<a name="line.343"></a>
+<FONT color="green">344</FONT>       * holding references to the values of the map. The heuristics used in this<a name="line.344"></a>
+<FONT color="green">345</FONT>       * decision are undocumented and subject to change except that:<a name="line.345"></a>
+<FONT color="green">346</FONT>       * &lt;ul&gt;<a name="line.346"></a>
+<FONT color="green">347</FONT>       * &lt;li&gt;A full copy will be done of any {@code ImmutableSortedSet}.&lt;/li&gt;<a name="line.347"></a>
+<FONT color="green">348</FONT>       * &lt;li&gt;{@code ImmutableSet.copyOf()} is idempotent with respect to pointer<a name="line.348"></a>
+<FONT color="green">349</FONT>       * equality.&lt;/li&gt;<a name="line.349"></a>
+<FONT color="green">350</FONT>       * &lt;/ul&gt;<a name="line.350"></a>
+<FONT color="green">351</FONT>       *<a name="line.351"></a>
+<FONT color="green">352</FONT>       * &lt;p&gt;This method is safe to use even when {@code elements} is a synchronized<a name="line.352"></a>
+<FONT color="green">353</FONT>       * or concurrent collection that is currently being modified by another<a name="line.353"></a>
+<FONT color="green">354</FONT>       * thread.<a name="line.354"></a>
+<FONT color="green">355</FONT>       *<a name="line.355"></a>
+<FONT color="green">356</FONT>       * @throws NullPointerException if any of {@code elements} is null<a name="line.356"></a>
+<FONT color="green">357</FONT>       * @since 7.0 (source-compatible since 2.0)<a name="line.357"></a>
+<FONT color="green">358</FONT>       */<a name="line.358"></a>
+<FONT color="green">359</FONT>      public static &lt;E&gt; ImmutableSet&lt;E&gt; copyOf(Collection&lt;? extends E&gt; elements) {<a name="line.359"></a>
+<FONT color="green">360</FONT>        if (elements instanceof ImmutableSet<a name="line.360"></a>
+<FONT color="green">361</FONT>            &amp;&amp; !(elements instanceof ImmutableSortedSet)) {<a name="line.361"></a>
+<FONT color="green">362</FONT>          @SuppressWarnings("unchecked") // all supported methods are covariant<a name="line.362"></a>
+<FONT color="green">363</FONT>          ImmutableSet&lt;E&gt; set = (ImmutableSet&lt;E&gt;) elements;<a name="line.363"></a>
+<FONT color="green">364</FONT>          if (!set.isPartialView()) {<a name="line.364"></a>
+<FONT color="green">365</FONT>            return set;<a name="line.365"></a>
+<FONT color="green">366</FONT>          }<a name="line.366"></a>
+<FONT color="green">367</FONT>        }<a name="line.367"></a>
+<FONT color="green">368</FONT>        return copyFromCollection(elements);<a name="line.368"></a>
+<FONT color="green">369</FONT>      }<a name="line.369"></a>
+<FONT color="green">370</FONT>    <a name="line.370"></a>
+<FONT color="green">371</FONT>      private static &lt;E&gt; ImmutableSet&lt;E&gt; copyFromCollection(<a name="line.371"></a>
+<FONT color="green">372</FONT>          Collection&lt;? extends E&gt; collection) {<a name="line.372"></a>
+<FONT color="green">373</FONT>        Object[] elements = collection.toArray();<a name="line.373"></a>
+<FONT color="green">374</FONT>        switch (elements.length) {<a name="line.374"></a>
+<FONT color="green">375</FONT>          case 0:<a name="line.375"></a>
+<FONT color="green">376</FONT>            return of();<a name="line.376"></a>
+<FONT color="green">377</FONT>          case 1:<a name="line.377"></a>
+<FONT color="green">378</FONT>            @SuppressWarnings("unchecked") // collection had only Es in it<a name="line.378"></a>
+<FONT color="green">379</FONT>            E onlyElement = (E) elements[0];<a name="line.379"></a>
+<FONT color="green">380</FONT>            return of(onlyElement);<a name="line.380"></a>
+<FONT color="green">381</FONT>          default:<a name="line.381"></a>
+<FONT color="green">382</FONT>            // safe to use the array without copying it<a name="line.382"></a>
+<FONT color="green">383</FONT>            // as specified by Collection.toArray().<a name="line.383"></a>
+<FONT color="green">384</FONT>            return construct(elements.length, elements);<a name="line.384"></a>
+<FONT color="green">385</FONT>        }<a name="line.385"></a>
+<FONT color="green">386</FONT>      }<a name="line.386"></a>
+<FONT color="green">387</FONT>    <a name="line.387"></a>
+<FONT color="green">388</FONT>      ImmutableSet() {}<a name="line.388"></a>
+<FONT color="green">389</FONT>    <a name="line.389"></a>
+<FONT color="green">390</FONT>      /** Returns {@code true} if the {@code hashCode()} method runs quickly. */<a name="line.390"></a>
+<FONT color="green">391</FONT>      boolean isHashCodeFast() {<a name="line.391"></a>
+<FONT color="green">392</FONT>        return false;<a name="line.392"></a>
+<FONT color="green">393</FONT>      }<a name="line.393"></a>
+<FONT color="green">394</FONT>    <a name="line.394"></a>
+<FONT color="green">395</FONT>      @Override public boolean equals(@Nullable Object object) {<a name="line.395"></a>
+<FONT color="green">396</FONT>        if (object == this) {<a name="line.396"></a>
+<FONT color="green">397</FONT>          return true;<a name="line.397"></a>
+<FONT color="green">398</FONT>        }<a name="line.398"></a>
+<FONT color="green">399</FONT>        if (object instanceof ImmutableSet<a name="line.399"></a>
+<FONT color="green">400</FONT>            &amp;&amp; isHashCodeFast()<a name="line.400"></a>
+<FONT color="green">401</FONT>            &amp;&amp; ((ImmutableSet&lt;?&gt;) object).isHashCodeFast()<a name="line.401"></a>
+<FONT color="green">402</FONT>            &amp;&amp; hashCode() != object.hashCode()) {<a name="line.402"></a>
+<FONT color="green">403</FONT>          return false;<a name="line.403"></a>
+<FONT color="green">404</FONT>        }<a name="line.404"></a>
+<FONT color="green">405</FONT>        return Sets.equalsImpl(this, object);<a name="line.405"></a>
+<FONT color="green">406</FONT>      }<a name="line.406"></a>
+<FONT color="green">407</FONT>    <a name="line.407"></a>
+<FONT color="green">408</FONT>      @Override public int hashCode() {<a name="line.408"></a>
+<FONT color="green">409</FONT>        return Sets.hashCodeImpl(this);<a name="line.409"></a>
+<FONT color="green">410</FONT>      }<a name="line.410"></a>
+<FONT color="green">411</FONT>    <a name="line.411"></a>
+<FONT color="green">412</FONT>      // This declaration is needed to make Set.iterator() and<a name="line.412"></a>
+<FONT color="green">413</FONT>      // ImmutableCollection.iterator() consistent.<a name="line.413"></a>
+<FONT color="green">414</FONT>      @Override public abstract UnmodifiableIterator&lt;E&gt; iterator();<a name="line.414"></a>
+<FONT color="green">415</FONT>    <a name="line.415"></a>
+<FONT color="green">416</FONT>      abstract static class ArrayImmutableSet&lt;E&gt; extends ImmutableSet&lt;E&gt; {<a name="line.416"></a>
+<FONT color="green">417</FONT>        // the elements (two or more) in the desired order.<a name="line.417"></a>
+<FONT color="green">418</FONT>        final transient Object[] elements;<a name="line.418"></a>
+<FONT color="green">419</FONT>    <a name="line.419"></a>
+<FONT color="green">420</FONT>        ArrayImmutableSet(Object[] elements) {<a name="line.420"></a>
+<FONT color="green">421</FONT>          this.elements = elements;<a name="line.421"></a>
+<FONT color="green">422</FONT>        }<a name="line.422"></a>
+<FONT color="green">423</FONT>    <a name="line.423"></a>
+<FONT color="green">424</FONT>        @Override<a name="line.424"></a>
+<FONT color="green">425</FONT>        public int size() {<a name="line.425"></a>
+<FONT color="green">426</FONT>          return elements.length;<a name="line.426"></a>
+<FONT color="green">427</FONT>        }<a name="line.427"></a>
+<FONT color="green">428</FONT>    <a name="line.428"></a>
+<FONT color="green">429</FONT>        @Override public boolean isEmpty() {<a name="line.429"></a>
+<FONT color="green">430</FONT>          return false;<a name="line.430"></a>
+<FONT color="green">431</FONT>        }<a name="line.431"></a>
+<FONT color="green">432</FONT>    <a name="line.432"></a>
+<FONT color="green">433</FONT>        @Override public UnmodifiableIterator&lt;E&gt; iterator() {<a name="line.433"></a>
+<FONT color="green">434</FONT>          return asList().iterator();<a name="line.434"></a>
+<FONT color="green">435</FONT>        }<a name="line.435"></a>
+<FONT color="green">436</FONT>    <a name="line.436"></a>
+<FONT color="green">437</FONT>        @Override public Object[] toArray() {<a name="line.437"></a>
+<FONT color="green">438</FONT>          return asList().toArray();<a name="line.438"></a>
+<FONT color="green">439</FONT>        }<a name="line.439"></a>
+<FONT color="green">440</FONT>    <a name="line.440"></a>
+<FONT color="green">441</FONT>        @Override public &lt;T&gt; T[] toArray(T[] array) {<a name="line.441"></a>
+<FONT color="green">442</FONT>          return asList().toArray(array);<a name="line.442"></a>
+<FONT color="green">443</FONT>        }<a name="line.443"></a>
+<FONT color="green">444</FONT>    <a name="line.444"></a>
+<FONT color="green">445</FONT>        @Override public boolean containsAll(Collection&lt;?&gt; targets) {<a name="line.445"></a>
+<FONT color="green">446</FONT>          if (targets == this) {<a name="line.446"></a>
+<FONT color="green">447</FONT>            return true;<a name="line.447"></a>
+<FONT color="green">448</FONT>          }<a name="line.448"></a>
+<FONT color="green">449</FONT>          if (!(targets instanceof ArrayImmutableSet)) {<a name="line.449"></a>
+<FONT color="green">450</FONT>            return super.containsAll(targets);<a name="line.450"></a>
+<FONT color="green">451</FONT>          }<a name="line.451"></a>
+<FONT color="green">452</FONT>          if (targets.size() &gt; size()) {<a name="line.452"></a>
+<FONT color="green">453</FONT>            return false;<a name="line.453"></a>
+<FONT color="green">454</FONT>          }<a name="line.454"></a>
+<FONT color="green">455</FONT>          for (Object target : ((ArrayImmutableSet&lt;?&gt;) targets).elements) {<a name="line.455"></a>
+<FONT color="green">456</FONT>            if (!contains(target)) {<a name="line.456"></a>
+<FONT color="green">457</FONT>              return false;<a name="line.457"></a>
+<FONT color="green">458</FONT>            }<a name="line.458"></a>
+<FONT color="green">459</FONT>          }<a name="line.459"></a>
+<FONT color="green">460</FONT>          return true;<a name="line.460"></a>
+<FONT color="green">461</FONT>        }<a name="line.461"></a>
+<FONT color="green">462</FONT>    <a name="line.462"></a>
+<FONT color="green">463</FONT>        @Override boolean isPartialView() {<a name="line.463"></a>
+<FONT color="green">464</FONT>          return false;<a name="line.464"></a>
+<FONT color="green">465</FONT>        }<a name="line.465"></a>
+<FONT color="green">466</FONT>    <a name="line.466"></a>
+<FONT color="green">467</FONT>        @Override ImmutableList&lt;E&gt; createAsList() {<a name="line.467"></a>
+<FONT color="green">468</FONT>          return new RegularImmutableAsList&lt;E&gt;(this, elements);<a name="line.468"></a>
+<FONT color="green">469</FONT>        }<a name="line.469"></a>
+<FONT color="green">470</FONT>      }<a name="line.470"></a>
+<FONT color="green">471</FONT>    <a name="line.471"></a>
+<FONT color="green">472</FONT>      /*<a name="line.472"></a>
+<FONT color="green">473</FONT>       * This class is used to serialize all ImmutableSet instances, except for<a name="line.473"></a>
+<FONT color="green">474</FONT>       * ImmutableEnumSet/ImmutableSortedSet, regardless of implementation type. It<a name="line.474"></a>
+<FONT color="green">475</FONT>       * captures their "logical contents" and they are reconstructed using public<a name="line.475"></a>
+<FONT color="green">476</FONT>       * static factories. This is necessary to ensure that the existence of a<a name="line.476"></a>
+<FONT color="green">477</FONT>       * particular implementation type is an implementation detail.<a name="line.477"></a>
+<FONT color="green">478</FONT>       */<a name="line.478"></a>
+<FONT color="green">479</FONT>      private static class SerializedForm implements Serializable {<a name="line.479"></a>
+<FONT color="green">480</FONT>        final Object[] elements;<a name="line.480"></a>
+<FONT color="green">481</FONT>        SerializedForm(Object[] elements) {<a name="line.481"></a>
+<FONT color="green">482</FONT>          this.elements = elements;<a name="line.482"></a>
+<FONT color="green">483</FONT>        }<a name="line.483"></a>
+<FONT color="green">484</FONT>        Object readResolve() {<a name="line.484"></a>
+<FONT color="green">485</FONT>          return copyOf(elements);<a name="line.485"></a>
+<FONT color="green">486</FONT>        }<a name="line.486"></a>
+<FONT color="green">487</FONT>        private static final long serialVersionUID = 0;<a name="line.487"></a>
+<FONT color="green">488</FONT>      }<a name="line.488"></a>
+<FONT color="green">489</FONT>    <a name="line.489"></a>
+<FONT color="green">490</FONT>      @Override Object writeReplace() {<a name="line.490"></a>
+<FONT color="green">491</FONT>        return new SerializedForm(toArray());<a name="line.491"></a>
+<FONT color="green">492</FONT>      }<a name="line.492"></a>
+<FONT color="green">493</FONT>    <a name="line.493"></a>
+<FONT color="green">494</FONT>      /**<a name="line.494"></a>
+<FONT color="green">495</FONT>       * Returns a new builder. The generated builder is equivalent to the builder<a name="line.495"></a>
+<FONT color="green">496</FONT>       * created by the {@link Builder} constructor.<a name="line.496"></a>
+<FONT color="green">497</FONT>       */<a name="line.497"></a>
+<FONT color="green">498</FONT>      public static &lt;E&gt; Builder&lt;E&gt; builder() {<a name="line.498"></a>
+<FONT color="green">499</FONT>        return new Builder&lt;E&gt;();<a name="line.499"></a>
+<FONT color="green">500</FONT>      }<a name="line.500"></a>
+<FONT color="green">501</FONT>    <a name="line.501"></a>
+<FONT color="green">502</FONT>      /**<a name="line.502"></a>
+<FONT color="green">503</FONT>       * A builder for creating immutable set instances, especially {@code public<a name="line.503"></a>
+<FONT color="green">504</FONT>       * static final} sets ("constant sets"). Example: &lt;pre&gt;   {@code<a name="line.504"></a>
+<FONT color="green">505</FONT>       *<a name="line.505"></a>
+<FONT color="green">506</FONT>       *   public static final ImmutableSet&lt;Color&gt; GOOGLE_COLORS =<a name="line.506"></a>
+<FONT color="green">507</FONT>       *       new ImmutableSet.Builder&lt;Color&gt;()<a name="line.507"></a>
+<FONT color="green">508</FONT>       *           .addAll(WEBSAFE_COLORS)<a name="line.508"></a>
+<FONT color="green">509</FONT>       *           .add(new Color(0, 191, 255))<a name="line.509"></a>
+<FONT color="green">510</FONT>       *           .build();}&lt;/pre&gt;<a name="line.510"></a>
+<FONT color="green">511</FONT>       *<a name="line.511"></a>
+<FONT color="green">512</FONT>       * Builder instances can be reused; it is safe to call {@link #build} multiple<a name="line.512"></a>
+<FONT color="green">513</FONT>       * times to build multiple sets in series. Each set is a superset of the set<a name="line.513"></a>
+<FONT color="green">514</FONT>       * created before it.<a name="line.514"></a>
+<FONT color="green">515</FONT>       *<a name="line.515"></a>
+<FONT color="green">516</FONT>       * @since 2.0 (imported from Google Collections Library)<a name="line.516"></a>
+<FONT color="green">517</FONT>       */<a name="line.517"></a>
+<FONT color="green">518</FONT>      public static class Builder&lt;E&gt; extends ImmutableCollection.Builder&lt;E&gt; {<a name="line.518"></a>
+<FONT color="green">519</FONT>        Object[] contents;<a name="line.519"></a>
+<FONT color="green">520</FONT>        int size;<a name="line.520"></a>
+<FONT color="green">521</FONT>    <a name="line.521"></a>
+<FONT color="green">522</FONT>        /**<a name="line.522"></a>
+<FONT color="green">523</FONT>         * Creates a new builder. The returned builder is equivalent to the builder<a name="line.523"></a>
+<FONT color="green">524</FONT>         * generated by {@link ImmutableSet#builder}.<a name="line.524"></a>
+<FONT color="green">525</FONT>         */<a name="line.525"></a>
+<FONT color="green">526</FONT>        public Builder() {<a name="line.526"></a>
+<FONT color="green">527</FONT>          this(DEFAULT_INITIAL_CAPACITY);<a name="line.527"></a>
+<FONT color="green">528</FONT>        }<a name="line.528"></a>
+<FONT color="green">529</FONT>    <a name="line.529"></a>
+<FONT color="green">530</FONT>        Builder(int capacity) {<a name="line.530"></a>
+<FONT color="green">531</FONT>          checkArgument(capacity &gt;= 0, "capacity must be &gt;= 0 but was %s", capacity);<a name="line.531"></a>
+<FONT color="green">532</FONT>          this.contents = new Object[capacity];<a name="line.532"></a>
+<FONT color="green">533</FONT>          this.size = 0;<a name="line.533"></a>
+<FONT color="green">534</FONT>        }<a name="line.534"></a>
+<FONT color="green">535</FONT>    <a name="line.535"></a>
+<FONT color="green">536</FONT>        /**<a name="line.536"></a>
+<FONT color="green">537</FONT>         * Expand capacity to allow the specified number of elements to be added.<a name="line.537"></a>
+<FONT color="green">538</FONT>         */<a name="line.538"></a>
+<FONT color="green">539</FONT>        Builder&lt;E&gt; expandFor(int count) {<a name="line.539"></a>
+<FONT color="green">540</FONT>          int minCapacity = size + count;<a name="line.540"></a>
+<FONT color="green">541</FONT>          if (contents.length &lt; minCapacity) {<a name="line.541"></a>
+<FONT color="green">542</FONT>            contents = ObjectArrays.arraysCopyOf(<a name="line.542"></a>
+<FONT color="green">543</FONT>                contents, expandedCapacity(contents.length, minCapacity));<a name="line.543"></a>
+<FONT color="green">544</FONT>          }<a name="line.544"></a>
+<FONT color="green">545</FONT>          return this;<a name="line.545"></a>
+<FONT color="green">546</FONT>        }<a name="line.546"></a>
+<FONT color="green">547</FONT>    <a name="line.547"></a>
+<FONT color="green">548</FONT>        /**<a name="line.548"></a>
+<FONT color="green">549</FONT>         * Adds {@code element} to the {@code ImmutableSet}.  If the {@code<a name="line.549"></a>
+<FONT color="green">550</FONT>         * ImmutableSet} already contains {@code element}, then {@code add} has no<a name="line.550"></a>
+<FONT color="green">551</FONT>         * effect (only the previously added element is retained).<a name="line.551"></a>
+<FONT color="green">552</FONT>         *<a name="line.552"></a>
+<FONT color="green">553</FONT>         * @param element the element to add<a name="line.553"></a>
+<FONT color="green">554</FONT>         * @return this {@code Builder} object<a name="line.554"></a>
+<FONT color="green">555</FONT>         * @throws NullPointerException if {@code element} is null<a name="line.555"></a>
+<FONT color="green">556</FONT>         */<a name="line.556"></a>
+<FONT color="green">557</FONT>        @Override public Builder&lt;E&gt; add(E element) {<a name="line.557"></a>
+<FONT color="green">558</FONT>          expandFor(1);<a name="line.558"></a>
+<FONT color="green">559</FONT>          contents[size++] = checkNotNull(element);<a name="line.559"></a>
+<FONT color="green">560</FONT>          return this;<a name="line.560"></a>
+<FONT color="green">561</FONT>        }<a name="line.561"></a>
+<FONT color="green">562</FONT>    <a name="line.562"></a>
+<FONT color="green">563</FONT>        /**<a name="line.563"></a>
+<FONT color="green">564</FONT>         * Adds each element of {@code elements} to the {@code ImmutableSet},<a name="line.564"></a>
+<FONT color="green">565</FONT>         * ignoring duplicate elements (only the first duplicate element is added).<a name="line.565"></a>
+<FONT color="green">566</FONT>         *<a name="line.566"></a>
+<FONT color="green">567</FONT>         * @param elements the elements to add<a name="line.567"></a>
+<FONT color="green">568</FONT>         * @return this {@code Builder} object<a name="line.568"></a>
+<FONT color="green">569</FONT>         * @throws NullPointerException if {@code elements} is null or contains a<a name="line.569"></a>
+<FONT color="green">570</FONT>         *     null element<a name="line.570"></a>
+<FONT color="green">571</FONT>         */<a name="line.571"></a>
+<FONT color="green">572</FONT>        @Override public Builder&lt;E&gt; add(E... elements) {<a name="line.572"></a>
+<FONT color="green">573</FONT>          for (int i = 0; i &lt; elements.length; i++) {<a name="line.573"></a>
+<FONT color="green">574</FONT>            ObjectArrays.checkElementNotNull(elements[i], i);<a name="line.574"></a>
+<FONT color="green">575</FONT>          }<a name="line.575"></a>
+<FONT color="green">576</FONT>          expandFor(elements.length);<a name="line.576"></a>
+<FONT color="green">577</FONT>          System.arraycopy(elements, 0, contents, size, elements.length);<a name="line.577"></a>
+<FONT color="green">578</FONT>          size += elements.length;<a name="line.578"></a>
+<FONT color="green">579</FONT>          return this;<a name="line.579"></a>
+<FONT color="green">580</FONT>        }<a name="line.580"></a>
+<FONT color="green">581</FONT>    <a name="line.581"></a>
+<FONT color="green">582</FONT>        /**<a name="line.582"></a>
+<FONT color="green">583</FONT>         * Adds each element of {@code elements} to the {@code ImmutableSet},<a name="line.583"></a>
+<FONT color="green">584</FONT>         * ignoring duplicate elements (only the first duplicate element is added).<a name="line.584"></a>
+<FONT color="green">585</FONT>         *<a name="line.585"></a>
+<FONT color="green">586</FONT>         * @param elements the {@code Iterable} to add to the {@code ImmutableSet}<a name="line.586"></a>
+<FONT color="green">587</FONT>         * @return this {@code Builder} object<a name="line.587"></a>
+<FONT color="green">588</FONT>         * @throws NullPointerException if {@code elements} is null or contains a<a name="line.588"></a>
+<FONT color="green">589</FONT>         *     null element<a name="line.589"></a>
+<FONT color="green">590</FONT>         */<a name="line.590"></a>
+<FONT color="green">591</FONT>        @Override public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {<a name="line.591"></a>
+<FONT color="green">592</FONT>          if (elements instanceof Collection) {<a name="line.592"></a>
+<FONT color="green">593</FONT>            Collection&lt;?&gt; collection = (Collection&lt;?&gt;) elements;<a name="line.593"></a>
+<FONT color="green">594</FONT>            expandFor(collection.size());<a name="line.594"></a>
+<FONT color="green">595</FONT>          }<a name="line.595"></a>
+<FONT color="green">596</FONT>          super.addAll(elements);<a name="line.596"></a>
+<FONT color="green">597</FONT>          return this;<a name="line.597"></a>
+<FONT color="green">598</FONT>        }<a name="line.598"></a>
+<FONT color="green">599</FONT>    <a name="line.599"></a>
+<FONT color="green">600</FONT>        /**<a name="line.600"></a>
+<FONT color="green">601</FONT>         * Adds each element of {@code elements} to the {@code ImmutableSet},<a name="line.601"></a>
+<FONT color="green">602</FONT>         * ignoring duplicate elements (only the first duplicate element is added).<a name="line.602"></a>
+<FONT color="green">603</FONT>         *<a name="line.603"></a>
+<FONT color="green">604</FONT>         * @param elements the elements to add to the {@code ImmutableSet}<a name="line.604"></a>
+<FONT color="green">605</FONT>         * @return this {@code Builder} object<a name="line.605"></a>
+<FONT color="green">606</FONT>         * @throws NullPointerException if {@code elements} is null or contains a<a name="line.606"></a>
+<FONT color="green">607</FONT>         *     null element<a name="line.607"></a>
+<FONT color="green">608</FONT>         */<a name="line.608"></a>
+<FONT color="green">609</FONT>        @Override public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {<a name="line.609"></a>
+<FONT color="green">610</FONT>          super.addAll(elements);<a name="line.610"></a>
+<FONT color="green">611</FONT>          return this;<a name="line.611"></a>
+<FONT color="green">612</FONT>        }<a name="line.612"></a>
+<FONT color="green">613</FONT>    <a name="line.613"></a>
+<FONT color="green">614</FONT>        /**<a name="line.614"></a>
+<FONT color="green">615</FONT>         * Returns a newly-created {@code ImmutableSet} based on the contents of<a name="line.615"></a>
+<FONT color="green">616</FONT>         * the {@code Builder}.<a name="line.616"></a>
+<FONT color="green">617</FONT>         */<a name="line.617"></a>
+<FONT color="green">618</FONT>        @Override public ImmutableSet&lt;E&gt; build() {<a name="line.618"></a>
+<FONT color="green">619</FONT>          ImmutableSet&lt;E&gt; result = construct(size, contents);<a name="line.619"></a>
+<FONT color="green">620</FONT>          // construct has the side effect of deduping contents, so we update size<a name="line.620"></a>
+<FONT color="green">621</FONT>          // accordingly.<a name="line.621"></a>
+<FONT color="green">622</FONT>          size = result.size();<a name="line.622"></a>
+<FONT color="green">623</FONT>          return result;<a name="line.623"></a>
+<FONT color="green">624</FONT>        }<a name="line.624"></a>
+<FONT color="green">625</FONT>      }<a name="line.625"></a>
+<FONT color="green">626</FONT>    }<a name="line.626"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

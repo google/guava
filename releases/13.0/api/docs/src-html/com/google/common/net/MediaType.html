@@ -1,0 +1,733 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.net;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import static com.google.common.base.CharMatcher.ASCII;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import static com.google.common.base.CharMatcher.JAVA_ISO_CONTROL;<a name="line.20"></a>
+<FONT color="green">021</FONT>    import static com.google.common.base.Charsets.UTF_8;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import static com.google.common.base.Preconditions.checkArgument;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import static com.google.common.base.Preconditions.checkNotNull;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import static com.google.common.base.Preconditions.checkState;<a name="line.24"></a>
+<FONT color="green">025</FONT>    <a name="line.25"></a>
+<FONT color="green">026</FONT>    import com.google.common.annotations.Beta;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.27"></a>
+<FONT color="green">028</FONT>    import com.google.common.base.Ascii;<a name="line.28"></a>
+<FONT color="green">029</FONT>    import com.google.common.base.CharMatcher;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import com.google.common.base.Function;<a name="line.30"></a>
+<FONT color="green">031</FONT>    import com.google.common.base.Joiner;<a name="line.31"></a>
+<FONT color="green">032</FONT>    import com.google.common.base.Joiner.MapJoiner;<a name="line.32"></a>
+<FONT color="green">033</FONT>    import com.google.common.base.Objects;<a name="line.33"></a>
+<FONT color="green">034</FONT>    import com.google.common.base.Optional;<a name="line.34"></a>
+<FONT color="green">035</FONT>    import com.google.common.collect.ImmutableListMultimap;<a name="line.35"></a>
+<FONT color="green">036</FONT>    import com.google.common.collect.ImmutableMap;<a name="line.36"></a>
+<FONT color="green">037</FONT>    import com.google.common.collect.ImmutableMultiset;<a name="line.37"></a>
+<FONT color="green">038</FONT>    import com.google.common.collect.ImmutableSet;<a name="line.38"></a>
+<FONT color="green">039</FONT>    import com.google.common.collect.Iterables;<a name="line.39"></a>
+<FONT color="green">040</FONT>    import com.google.common.collect.Maps;<a name="line.40"></a>
+<FONT color="green">041</FONT>    import com.google.common.collect.Multimap;<a name="line.41"></a>
+<FONT color="green">042</FONT>    import com.google.common.collect.Multimaps;<a name="line.42"></a>
+<FONT color="green">043</FONT>    <a name="line.43"></a>
+<FONT color="green">044</FONT>    import java.nio.charset.Charset;<a name="line.44"></a>
+<FONT color="green">045</FONT>    import java.nio.charset.IllegalCharsetNameException;<a name="line.45"></a>
+<FONT color="green">046</FONT>    import java.nio.charset.UnsupportedCharsetException;<a name="line.46"></a>
+<FONT color="green">047</FONT>    import java.util.Collection;<a name="line.47"></a>
+<FONT color="green">048</FONT>    import java.util.Map;<a name="line.48"></a>
+<FONT color="green">049</FONT>    import java.util.Map.Entry;<a name="line.49"></a>
+<FONT color="green">050</FONT>    <a name="line.50"></a>
+<FONT color="green">051</FONT>    import javax.annotation.Nullable;<a name="line.51"></a>
+<FONT color="green">052</FONT>    import javax.annotation.concurrent.Immutable;<a name="line.52"></a>
+<FONT color="green">053</FONT>    <a name="line.53"></a>
+<FONT color="green">054</FONT>    /**<a name="line.54"></a>
+<FONT color="green">055</FONT>     * Represents an &lt;a href="http://en.wikipedia.org/wiki/Internet_media_type"&gt;Internet Media Type&lt;/a&gt;<a name="line.55"></a>
+<FONT color="green">056</FONT>     * (also known as a MIME Type or Content Type). This class also supports the concept of media ranges<a name="line.56"></a>
+<FONT color="green">057</FONT>     * &lt;a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1"&gt;defined by HTTP/1.1&lt;/a&gt;.<a name="line.57"></a>
+<FONT color="green">058</FONT>     * As such, the {@code *} character is treated as a wildcard and is used to represent any acceptable<a name="line.58"></a>
+<FONT color="green">059</FONT>     * type or subtype value. A media type may not have wildcard type with a declared subtype. The<a name="line.59"></a>
+<FONT color="green">060</FONT>     * {@code *} character has no special meaning as part of a parameter. All values for type, subtype,<a name="line.60"></a>
+<FONT color="green">061</FONT>     * parameter attributes or parameter values must be valid according to RFCs<a name="line.61"></a>
+<FONT color="green">062</FONT>     * &lt;a href="http://www.ietf.org/rfc/rfc2045.txt"&gt;2045&lt;/a&gt; and<a name="line.62"></a>
+<FONT color="green">063</FONT>     * &lt;a href="http://www.ietf.org/rfc/rfc2046.txt"&gt;2046&lt;/a&gt;.<a name="line.63"></a>
+<FONT color="green">064</FONT>     *<a name="line.64"></a>
+<FONT color="green">065</FONT>     * &lt;p&gt;All portions of the media type that are case-insensitive (type, subtype, parameter attributes)<a name="line.65"></a>
+<FONT color="green">066</FONT>     * are normalized to lowercase. The value of the {@code charset} parameter is normalized to<a name="line.66"></a>
+<FONT color="green">067</FONT>     * lowercase, but all others are left as-is.<a name="line.67"></a>
+<FONT color="green">068</FONT>     *<a name="line.68"></a>
+<FONT color="green">069</FONT>     * &lt;p&gt;Note that this specifically does &lt;strong&gt;not&lt;/strong&gt; represent the value of the MIME<a name="line.69"></a>
+<FONT color="green">070</FONT>     * {@code Content-Type} header and as such has no support for header-specific considerations such as<a name="line.70"></a>
+<FONT color="green">071</FONT>     * line folding and comments.<a name="line.71"></a>
+<FONT color="green">072</FONT>     *<a name="line.72"></a>
+<FONT color="green">073</FONT>     * &lt;p&gt;For media types that take a charset the predefined constants default to UTF-8 and have a<a name="line.73"></a>
+<FONT color="green">074</FONT>     * "_UTF_8" suffix. To get a version without a character set, use {@link #withoutParameters}.<a name="line.74"></a>
+<FONT color="green">075</FONT>     *<a name="line.75"></a>
+<FONT color="green">076</FONT>     * @since 12.0<a name="line.76"></a>
+<FONT color="green">077</FONT>     *<a name="line.77"></a>
+<FONT color="green">078</FONT>     * @author Gregory Kick<a name="line.78"></a>
+<FONT color="green">079</FONT>     */<a name="line.79"></a>
+<FONT color="green">080</FONT>    @Beta<a name="line.80"></a>
+<FONT color="green">081</FONT>    @GwtCompatible<a name="line.81"></a>
+<FONT color="green">082</FONT>    @Immutable<a name="line.82"></a>
+<FONT color="green">083</FONT>    public final class MediaType {<a name="line.83"></a>
+<FONT color="green">084</FONT>      private static final String CHARSET_ATTRIBUTE = "charset";<a name="line.84"></a>
+<FONT color="green">085</FONT>      private static final ImmutableListMultimap&lt;String, String&gt; UTF_8_CONSTANT_PARAMETERS =<a name="line.85"></a>
+<FONT color="green">086</FONT>          ImmutableListMultimap.of(CHARSET_ATTRIBUTE, Ascii.toLowerCase(UTF_8.name()));<a name="line.86"></a>
+<FONT color="green">087</FONT>    <a name="line.87"></a>
+<FONT color="green">088</FONT>      /** Matcher for type, subtype and attributes. */<a name="line.88"></a>
+<FONT color="green">089</FONT>      private static final CharMatcher TOKEN_MATCHER = ASCII.and(JAVA_ISO_CONTROL.negate())<a name="line.89"></a>
+<FONT color="green">090</FONT>          .and(CharMatcher.isNot(' '))<a name="line.90"></a>
+<FONT color="green">091</FONT>          .and(CharMatcher.noneOf("()&lt;&gt;@,;:\\\"/[]?="));<a name="line.91"></a>
+<FONT color="green">092</FONT>      private static final CharMatcher QUOTED_TEXT_MATCHER = ASCII<a name="line.92"></a>
+<FONT color="green">093</FONT>          .and(CharMatcher.noneOf("\"\\\r"));<a name="line.93"></a>
+<FONT color="green">094</FONT>      /*<a name="line.94"></a>
+<FONT color="green">095</FONT>       * This matches the same characters as linear-white-space from RFC 822, but we make no effort to<a name="line.95"></a>
+<FONT color="green">096</FONT>       * enforce any particular rules with regards to line folding as stated in the class docs.<a name="line.96"></a>
+<FONT color="green">097</FONT>       */<a name="line.97"></a>
+<FONT color="green">098</FONT>      private static final CharMatcher LINEAR_WHITE_SPACE = CharMatcher.anyOf(" \t\r\n");<a name="line.98"></a>
+<FONT color="green">099</FONT>    <a name="line.99"></a>
+<FONT color="green">100</FONT>      // TODO(gak): make these public?<a name="line.100"></a>
+<FONT color="green">101</FONT>      private static final String APPLICATION_TYPE = "application";<a name="line.101"></a>
+<FONT color="green">102</FONT>      private static final String AUDIO_TYPE = "audio";<a name="line.102"></a>
+<FONT color="green">103</FONT>      private static final String IMAGE_TYPE = "image";<a name="line.103"></a>
+<FONT color="green">104</FONT>      private static final String TEXT_TYPE = "text";<a name="line.104"></a>
+<FONT color="green">105</FONT>      private static final String VIDEO_TYPE = "video";<a name="line.105"></a>
+<FONT color="green">106</FONT>    <a name="line.106"></a>
+<FONT color="green">107</FONT>      private static final String WILDCARD = "*";<a name="line.107"></a>
+<FONT color="green">108</FONT>    <a name="line.108"></a>
+<FONT color="green">109</FONT>      /*<a name="line.109"></a>
+<FONT color="green">110</FONT>       * The following constants are grouped by their type and ordered alphabetically by the constant<a name="line.110"></a>
+<FONT color="green">111</FONT>       * name within that type. The constant name should be a sensible identifier that is closest to the<a name="line.111"></a>
+<FONT color="green">112</FONT>       * "common name" of the media.  This is often, but not necessarily the same as the subtype.<a name="line.112"></a>
+<FONT color="green">113</FONT>       *<a name="line.113"></a>
+<FONT color="green">114</FONT>       * Be sure to declare all constants with the type and subtype in all lowercase.<a name="line.114"></a>
+<FONT color="green">115</FONT>       *<a name="line.115"></a>
+<FONT color="green">116</FONT>       * When adding constants, be sure to add an entry into the KNOWN_TYPES map. For types that<a name="line.116"></a>
+<FONT color="green">117</FONT>       * take a charset (e.g. all text/* types), default to UTF-8 and suffix with "_UTF_8".<a name="line.117"></a>
+<FONT color="green">118</FONT>       */<a name="line.118"></a>
+<FONT color="green">119</FONT>    <a name="line.119"></a>
+<FONT color="green">120</FONT>      public static final MediaType ANY_TYPE = createConstant(WILDCARD, WILDCARD);<a name="line.120"></a>
+<FONT color="green">121</FONT>      public static final MediaType ANY_TEXT_TYPE = createConstant(TEXT_TYPE, WILDCARD);<a name="line.121"></a>
+<FONT color="green">122</FONT>      public static final MediaType ANY_IMAGE_TYPE = createConstant(IMAGE_TYPE, WILDCARD);<a name="line.122"></a>
+<FONT color="green">123</FONT>      public static final MediaType ANY_AUDIO_TYPE = createConstant(AUDIO_TYPE, WILDCARD);<a name="line.123"></a>
+<FONT color="green">124</FONT>      public static final MediaType ANY_VIDEO_TYPE = createConstant(VIDEO_TYPE, WILDCARD);<a name="line.124"></a>
+<FONT color="green">125</FONT>      public static final MediaType ANY_APPLICATION_TYPE = createConstant(APPLICATION_TYPE, WILDCARD);<a name="line.125"></a>
+<FONT color="green">126</FONT>    <a name="line.126"></a>
+<FONT color="green">127</FONT>      /* text types */<a name="line.127"></a>
+<FONT color="green">128</FONT>      public static final MediaType CACHE_MANIFEST_UTF_8 =<a name="line.128"></a>
+<FONT color="green">129</FONT>          createConstantUtf8(TEXT_TYPE, "cache-manifest");<a name="line.129"></a>
+<FONT color="green">130</FONT>      public static final MediaType CSS_UTF_8 = createConstantUtf8(TEXT_TYPE, "css");<a name="line.130"></a>
+<FONT color="green">131</FONT>      public static final MediaType CSV_UTF_8 = createConstantUtf8(TEXT_TYPE, "csv");<a name="line.131"></a>
+<FONT color="green">132</FONT>      public static final MediaType HTML_UTF_8 = createConstantUtf8(TEXT_TYPE, "html");<a name="line.132"></a>
+<FONT color="green">133</FONT>      public static final MediaType I_CALENDAR_UTF_8 = createConstantUtf8(TEXT_TYPE, "calendar");<a name="line.133"></a>
+<FONT color="green">134</FONT>      public static final MediaType PLAIN_TEXT_UTF_8 = createConstantUtf8(TEXT_TYPE, "plain");<a name="line.134"></a>
+<FONT color="green">135</FONT>      /**<a name="line.135"></a>
+<FONT color="green">136</FONT>       * &lt;a href="http://www.rfc-editor.org/rfc/rfc4329.txt"&gt;RFC 4329&lt;/a&gt; declares<a name="line.136"></a>
+<FONT color="green">137</FONT>       * {@link #JAVASCRIPT_UTF_8 application/javascript} to be the correct media type for JavaScript,<a name="line.137"></a>
+<FONT color="green">138</FONT>       * but this may be necessary in certain situations for compatibility.<a name="line.138"></a>
+<FONT color="green">139</FONT>       */<a name="line.139"></a>
+<FONT color="green">140</FONT>      public static final MediaType TEXT_JAVASCRIPT_UTF_8 = createConstantUtf8(TEXT_TYPE, "javascript");<a name="line.140"></a>
+<FONT color="green">141</FONT>      public static final MediaType VCARD_UTF_8 = createConstantUtf8(TEXT_TYPE, "vcard");<a name="line.141"></a>
+<FONT color="green">142</FONT>      public static final MediaType WML_UTF_8 = createConstantUtf8(TEXT_TYPE, "vnd.wap.wml");<a name="line.142"></a>
+<FONT color="green">143</FONT>      public static final MediaType XML_UTF_8 = createConstantUtf8(TEXT_TYPE, "xml");<a name="line.143"></a>
+<FONT color="green">144</FONT>    <a name="line.144"></a>
+<FONT color="green">145</FONT>      /* image types */<a name="line.145"></a>
+<FONT color="green">146</FONT>      public static final MediaType BMP = createConstant(IMAGE_TYPE, "bmp");<a name="line.146"></a>
+<FONT color="green">147</FONT>      public static final MediaType GIF = createConstant(IMAGE_TYPE, "gif");<a name="line.147"></a>
+<FONT color="green">148</FONT>      public static final MediaType ICO = createConstant(IMAGE_TYPE, "vnd.microsoft.icon");<a name="line.148"></a>
+<FONT color="green">149</FONT>      public static final MediaType JPEG = createConstant(IMAGE_TYPE, "jpeg");<a name="line.149"></a>
+<FONT color="green">150</FONT>      public static final MediaType PNG = createConstant(IMAGE_TYPE, "png");<a name="line.150"></a>
+<FONT color="green">151</FONT>      public static final MediaType SVG_UTF_8 = createConstantUtf8(IMAGE_TYPE, "svg+xml");<a name="line.151"></a>
+<FONT color="green">152</FONT>      public static final MediaType TIFF = createConstant(IMAGE_TYPE, "tiff");<a name="line.152"></a>
+<FONT color="green">153</FONT>      public static final MediaType WEBP = createConstant(IMAGE_TYPE, "webp");<a name="line.153"></a>
+<FONT color="green">154</FONT>    <a name="line.154"></a>
+<FONT color="green">155</FONT>      /* audio types */<a name="line.155"></a>
+<FONT color="green">156</FONT>      public static final MediaType MP4_AUDIO = createConstant(AUDIO_TYPE, "mp4");<a name="line.156"></a>
+<FONT color="green">157</FONT>      public static final MediaType MPEG_AUDIO = createConstant(AUDIO_TYPE, "mpeg");<a name="line.157"></a>
+<FONT color="green">158</FONT>      public static final MediaType OGG_AUDIO = createConstant(AUDIO_TYPE, "ogg");<a name="line.158"></a>
+<FONT color="green">159</FONT>      public static final MediaType WEBM_AUDIO = createConstant(AUDIO_TYPE, "webm");<a name="line.159"></a>
+<FONT color="green">160</FONT>    <a name="line.160"></a>
+<FONT color="green">161</FONT>      /* video types */<a name="line.161"></a>
+<FONT color="green">162</FONT>      public static final MediaType MP4_VIDEO = createConstant(VIDEO_TYPE, "mp4");<a name="line.162"></a>
+<FONT color="green">163</FONT>      public static final MediaType MPEG_VIDEO = createConstant(VIDEO_TYPE, "mpeg");<a name="line.163"></a>
+<FONT color="green">164</FONT>      public static final MediaType OGG_VIDEO = createConstant(VIDEO_TYPE, "ogg");<a name="line.164"></a>
+<FONT color="green">165</FONT>      public static final MediaType QUICKTIME = createConstant(VIDEO_TYPE, "quicktime");<a name="line.165"></a>
+<FONT color="green">166</FONT>      public static final MediaType WEBM_VIDEO = createConstant(VIDEO_TYPE, "webm");<a name="line.166"></a>
+<FONT color="green">167</FONT>      public static final MediaType WMV = createConstant(VIDEO_TYPE, "x-ms-wmv");<a name="line.167"></a>
+<FONT color="green">168</FONT>    <a name="line.168"></a>
+<FONT color="green">169</FONT>      /* application types */<a name="line.169"></a>
+<FONT color="green">170</FONT>      public static final MediaType ATOM_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "atom+xml");<a name="line.170"></a>
+<FONT color="green">171</FONT>      public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");<a name="line.171"></a>
+<FONT color="green">172</FONT>      public static final MediaType FORM_DATA = createConstant(APPLICATION_TYPE,<a name="line.172"></a>
+<FONT color="green">173</FONT>          "x-www-form-urlencoded");<a name="line.173"></a>
+<FONT color="green">174</FONT>      public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");<a name="line.174"></a>
+<FONT color="green">175</FONT>       /**<a name="line.175"></a>
+<FONT color="green">176</FONT>        * &lt;a href="http://www.rfc-editor.org/rfc/rfc4329.txt"&gt;RFC 4329&lt;/a&gt; declares this to be the<a name="line.176"></a>
+<FONT color="green">177</FONT>        * correct media type for JavaScript, but {@link #TEXT_JAVASCRIPT_UTF_8 text/javascript} may be<a name="line.177"></a>
+<FONT color="green">178</FONT>        * necessary in certain situations for compatibility.<a name="line.178"></a>
+<FONT color="green">179</FONT>        */<a name="line.179"></a>
+<FONT color="green">180</FONT>      public static final MediaType JAVASCRIPT_UTF_8 =<a name="line.180"></a>
+<FONT color="green">181</FONT>          createConstantUtf8(APPLICATION_TYPE, "javascript");<a name="line.181"></a>
+<FONT color="green">182</FONT>      public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");<a name="line.182"></a>
+<FONT color="green">183</FONT>      public static final MediaType KML = createConstant(APPLICATION_TYPE, "vnd.google-earth.kml+xml");<a name="line.183"></a>
+<FONT color="green">184</FONT>      public static final MediaType KMZ = createConstant(APPLICATION_TYPE, "vnd.google-earth.kmz");<a name="line.184"></a>
+<FONT color="green">185</FONT>      public static final MediaType MBOX = createConstant(APPLICATION_TYPE, "mbox");<a name="line.185"></a>
+<FONT color="green">186</FONT>      public static final MediaType MICROSOFT_EXCEL = createConstant(APPLICATION_TYPE, "vnd.ms-excel");<a name="line.186"></a>
+<FONT color="green">187</FONT>      public static final MediaType MICROSOFT_POWERPOINT =<a name="line.187"></a>
+<FONT color="green">188</FONT>          createConstant(APPLICATION_TYPE, "vnd.ms-powerpoint");<a name="line.188"></a>
+<FONT color="green">189</FONT>      public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");<a name="line.189"></a>
+<FONT color="green">190</FONT>      public static final MediaType OCTET_STREAM = createConstant(APPLICATION_TYPE, "octet-stream");<a name="line.190"></a>
+<FONT color="green">191</FONT>      public static final MediaType OGG_CONTAINER = createConstant(APPLICATION_TYPE, "ogg");<a name="line.191"></a>
+<FONT color="green">192</FONT>      public static final MediaType OOXML_DOCUMENT = createConstant(APPLICATION_TYPE,<a name="line.192"></a>
+<FONT color="green">193</FONT>          "vnd.openxmlformats-officedocument.wordprocessingml.document");<a name="line.193"></a>
+<FONT color="green">194</FONT>      public static final MediaType OOXML_PRESENTATION = createConstant(APPLICATION_TYPE,<a name="line.194"></a>
+<FONT color="green">195</FONT>          "vnd.openxmlformats-officedocument.presentationml.presentation");<a name="line.195"></a>
+<FONT color="green">196</FONT>      public static final MediaType OOXML_SHEET =<a name="line.196"></a>
+<FONT color="green">197</FONT>          createConstant(APPLICATION_TYPE, "vnd.openxmlformats-officedocument.spreadsheetml.sheet");<a name="line.197"></a>
+<FONT color="green">198</FONT>      public static final MediaType OPENDOCUMENT_GRAPHICS =<a name="line.198"></a>
+<FONT color="green">199</FONT>          createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.graphics");<a name="line.199"></a>
+<FONT color="green">200</FONT>      public static final MediaType OPENDOCUMENT_PRESENTATION =<a name="line.200"></a>
+<FONT color="green">201</FONT>          createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.presentation");<a name="line.201"></a>
+<FONT color="green">202</FONT>      public static final MediaType OPENDOCUMENT_SPREADSHEET =<a name="line.202"></a>
+<FONT color="green">203</FONT>          createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.spreadsheet");<a name="line.203"></a>
+<FONT color="green">204</FONT>      public static final MediaType OPENDOCUMENT_TEXT =<a name="line.204"></a>
+<FONT color="green">205</FONT>          createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.text");<a name="line.205"></a>
+<FONT color="green">206</FONT>      public static final MediaType PDF = createConstant(APPLICATION_TYPE, "pdf");<a name="line.206"></a>
+<FONT color="green">207</FONT>      public static final MediaType POSTSCRIPT = createConstant(APPLICATION_TYPE, "postscript");<a name="line.207"></a>
+<FONT color="green">208</FONT>      public static final MediaType RTF_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rtf");<a name="line.208"></a>
+<FONT color="green">209</FONT>      public static final MediaType SHOCKWAVE_FLASH = createConstant(APPLICATION_TYPE,<a name="line.209"></a>
+<FONT color="green">210</FONT>          "x-shockwave-flash");<a name="line.210"></a>
+<FONT color="green">211</FONT>      public static final MediaType SKETCHUP = createConstant(APPLICATION_TYPE, "vnd.sketchup.skp");<a name="line.211"></a>
+<FONT color="green">212</FONT>      public static final MediaType TAR = createConstant(APPLICATION_TYPE, "x-tar");<a name="line.212"></a>
+<FONT color="green">213</FONT>      public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");<a name="line.213"></a>
+<FONT color="green">214</FONT>      public static final MediaType ZIP = createConstant(APPLICATION_TYPE, "zip");<a name="line.214"></a>
+<FONT color="green">215</FONT>    <a name="line.215"></a>
+<FONT color="green">216</FONT>      private static final ImmutableMap&lt;MediaType, MediaType&gt; KNOWN_TYPES =<a name="line.216"></a>
+<FONT color="green">217</FONT>          new ImmutableMap.Builder&lt;MediaType, MediaType&gt;()<a name="line.217"></a>
+<FONT color="green">218</FONT>              .put(ANY_TYPE, ANY_TYPE)<a name="line.218"></a>
+<FONT color="green">219</FONT>              .put(ANY_TEXT_TYPE, ANY_TEXT_TYPE)<a name="line.219"></a>
+<FONT color="green">220</FONT>              .put(ANY_IMAGE_TYPE, ANY_IMAGE_TYPE)<a name="line.220"></a>
+<FONT color="green">221</FONT>              .put(ANY_AUDIO_TYPE, ANY_AUDIO_TYPE)<a name="line.221"></a>
+<FONT color="green">222</FONT>              .put(ANY_VIDEO_TYPE, ANY_VIDEO_TYPE)<a name="line.222"></a>
+<FONT color="green">223</FONT>              .put(ANY_APPLICATION_TYPE, ANY_APPLICATION_TYPE)<a name="line.223"></a>
+<FONT color="green">224</FONT>              /* text types */<a name="line.224"></a>
+<FONT color="green">225</FONT>              .put(CACHE_MANIFEST_UTF_8, CACHE_MANIFEST_UTF_8)<a name="line.225"></a>
+<FONT color="green">226</FONT>              .put(CSS_UTF_8, CSS_UTF_8)<a name="line.226"></a>
+<FONT color="green">227</FONT>              .put(CSV_UTF_8, CSV_UTF_8)<a name="line.227"></a>
+<FONT color="green">228</FONT>              .put(HTML_UTF_8, HTML_UTF_8)<a name="line.228"></a>
+<FONT color="green">229</FONT>              .put(I_CALENDAR_UTF_8, I_CALENDAR_UTF_8)<a name="line.229"></a>
+<FONT color="green">230</FONT>              .put(PLAIN_TEXT_UTF_8, PLAIN_TEXT_UTF_8)<a name="line.230"></a>
+<FONT color="green">231</FONT>              .put(TEXT_JAVASCRIPT_UTF_8, TEXT_JAVASCRIPT_UTF_8)<a name="line.231"></a>
+<FONT color="green">232</FONT>              .put(VCARD_UTF_8, VCARD_UTF_8)<a name="line.232"></a>
+<FONT color="green">233</FONT>              .put(WML_UTF_8, WML_UTF_8)<a name="line.233"></a>
+<FONT color="green">234</FONT>              .put(XML_UTF_8, XML_UTF_8)<a name="line.234"></a>
+<FONT color="green">235</FONT>              /* image types */<a name="line.235"></a>
+<FONT color="green">236</FONT>              .put(BMP, BMP)<a name="line.236"></a>
+<FONT color="green">237</FONT>              .put(GIF, GIF)<a name="line.237"></a>
+<FONT color="green">238</FONT>              .put(ICO, ICO)<a name="line.238"></a>
+<FONT color="green">239</FONT>              .put(JPEG, JPEG)<a name="line.239"></a>
+<FONT color="green">240</FONT>              .put(PNG, PNG)<a name="line.240"></a>
+<FONT color="green">241</FONT>              .put(SVG_UTF_8, SVG_UTF_8)<a name="line.241"></a>
+<FONT color="green">242</FONT>              .put(TIFF, TIFF)<a name="line.242"></a>
+<FONT color="green">243</FONT>              .put(WEBP, WEBP)<a name="line.243"></a>
+<FONT color="green">244</FONT>              /* audio types */<a name="line.244"></a>
+<FONT color="green">245</FONT>              .put(MP4_AUDIO, MP4_AUDIO)<a name="line.245"></a>
+<FONT color="green">246</FONT>              .put(MPEG_AUDIO, MPEG_AUDIO)<a name="line.246"></a>
+<FONT color="green">247</FONT>              .put(OGG_AUDIO, OGG_AUDIO)<a name="line.247"></a>
+<FONT color="green">248</FONT>              .put(WEBM_AUDIO, WEBM_AUDIO)<a name="line.248"></a>
+<FONT color="green">249</FONT>              /* video types */<a name="line.249"></a>
+<FONT color="green">250</FONT>              .put(MP4_VIDEO, MP4_VIDEO)<a name="line.250"></a>
+<FONT color="green">251</FONT>              .put(MPEG_VIDEO, MPEG_VIDEO)<a name="line.251"></a>
+<FONT color="green">252</FONT>              .put(OGG_VIDEO, OGG_VIDEO)<a name="line.252"></a>
+<FONT color="green">253</FONT>              .put(QUICKTIME, QUICKTIME)<a name="line.253"></a>
+<FONT color="green">254</FONT>              .put(WEBM_VIDEO, WEBM_VIDEO)<a name="line.254"></a>
+<FONT color="green">255</FONT>              .put(WMV, WMV)<a name="line.255"></a>
+<FONT color="green">256</FONT>              /* application types */<a name="line.256"></a>
+<FONT color="green">257</FONT>              .put(ATOM_UTF_8, ATOM_UTF_8)<a name="line.257"></a>
+<FONT color="green">258</FONT>              .put(BZIP2, BZIP2)<a name="line.258"></a>
+<FONT color="green">259</FONT>              .put(FORM_DATA, FORM_DATA)<a name="line.259"></a>
+<FONT color="green">260</FONT>              .put(GZIP, GZIP)<a name="line.260"></a>
+<FONT color="green">261</FONT>              .put(JAVASCRIPT_UTF_8, JAVASCRIPT_UTF_8)<a name="line.261"></a>
+<FONT color="green">262</FONT>              .put(JSON_UTF_8, JSON_UTF_8)<a name="line.262"></a>
+<FONT color="green">263</FONT>              .put(KML, KML)<a name="line.263"></a>
+<FONT color="green">264</FONT>              .put(KMZ, KMZ)<a name="line.264"></a>
+<FONT color="green">265</FONT>              .put(MBOX, MBOX)<a name="line.265"></a>
+<FONT color="green">266</FONT>              .put(MICROSOFT_EXCEL, MICROSOFT_EXCEL)<a name="line.266"></a>
+<FONT color="green">267</FONT>              .put(MICROSOFT_POWERPOINT, MICROSOFT_POWERPOINT)<a name="line.267"></a>
+<FONT color="green">268</FONT>              .put(MICROSOFT_WORD, MICROSOFT_WORD)<a name="line.268"></a>
+<FONT color="green">269</FONT>              .put(OCTET_STREAM, OCTET_STREAM)<a name="line.269"></a>
+<FONT color="green">270</FONT>              .put(OGG_CONTAINER, OGG_CONTAINER)<a name="line.270"></a>
+<FONT color="green">271</FONT>              .put(OOXML_DOCUMENT, OOXML_DOCUMENT)<a name="line.271"></a>
+<FONT color="green">272</FONT>              .put(OOXML_PRESENTATION, OOXML_PRESENTATION)<a name="line.272"></a>
+<FONT color="green">273</FONT>              .put(OOXML_SHEET, OOXML_SHEET)<a name="line.273"></a>
+<FONT color="green">274</FONT>              .put(OPENDOCUMENT_GRAPHICS, OPENDOCUMENT_GRAPHICS)<a name="line.274"></a>
+<FONT color="green">275</FONT>              .put(OPENDOCUMENT_PRESENTATION, OPENDOCUMENT_PRESENTATION)<a name="line.275"></a>
+<FONT color="green">276</FONT>              .put(OPENDOCUMENT_SPREADSHEET, OPENDOCUMENT_SPREADSHEET)<a name="line.276"></a>
+<FONT color="green">277</FONT>              .put(OPENDOCUMENT_TEXT, OPENDOCUMENT_TEXT)<a name="line.277"></a>
+<FONT color="green">278</FONT>              .put(PDF, PDF)<a name="line.278"></a>
+<FONT color="green">279</FONT>              .put(POSTSCRIPT, POSTSCRIPT)<a name="line.279"></a>
+<FONT color="green">280</FONT>              .put(RTF_UTF_8, RTF_UTF_8)<a name="line.280"></a>
+<FONT color="green">281</FONT>              .put(SHOCKWAVE_FLASH, SHOCKWAVE_FLASH)<a name="line.281"></a>
+<FONT color="green">282</FONT>              .put(SKETCHUP, SKETCHUP)<a name="line.282"></a>
+<FONT color="green">283</FONT>              .put(TAR, TAR)<a name="line.283"></a>
+<FONT color="green">284</FONT>              .put(XHTML_UTF_8, XHTML_UTF_8)<a name="line.284"></a>
+<FONT color="green">285</FONT>              .put(ZIP, ZIP)<a name="line.285"></a>
+<FONT color="green">286</FONT>              .build();<a name="line.286"></a>
+<FONT color="green">287</FONT>    <a name="line.287"></a>
+<FONT color="green">288</FONT>      private final String type;<a name="line.288"></a>
+<FONT color="green">289</FONT>      private final String subtype;<a name="line.289"></a>
+<FONT color="green">290</FONT>      private final ImmutableListMultimap&lt;String, String&gt; parameters;<a name="line.290"></a>
+<FONT color="green">291</FONT>    <a name="line.291"></a>
+<FONT color="green">292</FONT>      private MediaType(String type, String subtype,<a name="line.292"></a>
+<FONT color="green">293</FONT>          ImmutableListMultimap&lt;String, String&gt; parameters) {<a name="line.293"></a>
+<FONT color="green">294</FONT>        this.type = type;<a name="line.294"></a>
+<FONT color="green">295</FONT>        this.subtype = subtype;<a name="line.295"></a>
+<FONT color="green">296</FONT>        this.parameters = parameters;<a name="line.296"></a>
+<FONT color="green">297</FONT>      }<a name="line.297"></a>
+<FONT color="green">298</FONT>    <a name="line.298"></a>
+<FONT color="green">299</FONT>      private static MediaType createConstant(String type, String subtype) {<a name="line.299"></a>
+<FONT color="green">300</FONT>        return new MediaType(type, subtype, ImmutableListMultimap.&lt;String, String&gt;of());<a name="line.300"></a>
+<FONT color="green">301</FONT>      }<a name="line.301"></a>
+<FONT color="green">302</FONT>    <a name="line.302"></a>
+<FONT color="green">303</FONT>      private static MediaType createConstantUtf8(String type, String subtype) {<a name="line.303"></a>
+<FONT color="green">304</FONT>        return new MediaType(type, subtype, UTF_8_CONSTANT_PARAMETERS);<a name="line.304"></a>
+<FONT color="green">305</FONT>      }<a name="line.305"></a>
+<FONT color="green">306</FONT>    <a name="line.306"></a>
+<FONT color="green">307</FONT>      /** Returns the top-level media type.  For example, {@code "text"} in {@code "text/plain"}. */<a name="line.307"></a>
+<FONT color="green">308</FONT>      public String type() {<a name="line.308"></a>
+<FONT color="green">309</FONT>        return type;<a name="line.309"></a>
+<FONT color="green">310</FONT>      }<a name="line.310"></a>
+<FONT color="green">311</FONT>    <a name="line.311"></a>
+<FONT color="green">312</FONT>      /** Returns the media subtype.  For example, {@code "plain"} in {@code "text/plain"}. */<a name="line.312"></a>
+<FONT color="green">313</FONT>      public String subtype() {<a name="line.313"></a>
+<FONT color="green">314</FONT>        return subtype;<a name="line.314"></a>
+<FONT color="green">315</FONT>      }<a name="line.315"></a>
+<FONT color="green">316</FONT>    <a name="line.316"></a>
+<FONT color="green">317</FONT>      /** Returns a multimap containing the parameters of this media type. */<a name="line.317"></a>
+<FONT color="green">318</FONT>      public ImmutableListMultimap&lt;String, String&gt; parameters() {<a name="line.318"></a>
+<FONT color="green">319</FONT>        return parameters;<a name="line.319"></a>
+<FONT color="green">320</FONT>      }<a name="line.320"></a>
+<FONT color="green">321</FONT>    <a name="line.321"></a>
+<FONT color="green">322</FONT>      private Map&lt;String, ImmutableMultiset&lt;String&gt;&gt; parametersAsMap() {<a name="line.322"></a>
+<FONT color="green">323</FONT>        return Maps.transformValues(parameters.asMap(),<a name="line.323"></a>
+<FONT color="green">324</FONT>            new Function&lt;Collection&lt;String&gt;, ImmutableMultiset&lt;String&gt;&gt;() {<a name="line.324"></a>
+<FONT color="green">325</FONT>              @Override public ImmutableMultiset&lt;String&gt; apply(Collection&lt;String&gt; input) {<a name="line.325"></a>
+<FONT color="green">326</FONT>                return ImmutableMultiset.copyOf(input);<a name="line.326"></a>
+<FONT color="green">327</FONT>              }<a name="line.327"></a>
+<FONT color="green">328</FONT>            });<a name="line.328"></a>
+<FONT color="green">329</FONT>      }<a name="line.329"></a>
+<FONT color="green">330</FONT>    <a name="line.330"></a>
+<FONT color="green">331</FONT>      /**<a name="line.331"></a>
+<FONT color="green">332</FONT>       * Returns an optional charset for the value of the charset parameter if it is specified.<a name="line.332"></a>
+<FONT color="green">333</FONT>       *<a name="line.333"></a>
+<FONT color="green">334</FONT>       * @throws IllegalStateException if multiple charset values have been set for this media type<a name="line.334"></a>
+<FONT color="green">335</FONT>       * @throws IllegalCharsetNameException if a charset value is present, but illegal<a name="line.335"></a>
+<FONT color="green">336</FONT>       * @throws UnsupportedCharsetException if a charset value is present, but no support is available<a name="line.336"></a>
+<FONT color="green">337</FONT>       *     in this instance of the Java virtual machine<a name="line.337"></a>
+<FONT color="green">338</FONT>       */<a name="line.338"></a>
+<FONT color="green">339</FONT>      public Optional&lt;Charset&gt; charset() {<a name="line.339"></a>
+<FONT color="green">340</FONT>        ImmutableSet&lt;String&gt; charsetValues = ImmutableSet.copyOf(parameters.get(CHARSET_ATTRIBUTE));<a name="line.340"></a>
+<FONT color="green">341</FONT>        switch (charsetValues.size()) {<a name="line.341"></a>
+<FONT color="green">342</FONT>          case 0:<a name="line.342"></a>
+<FONT color="green">343</FONT>            return Optional.absent();<a name="line.343"></a>
+<FONT color="green">344</FONT>          case 1:<a name="line.344"></a>
+<FONT color="green">345</FONT>            return Optional.of(Charset.forName(Iterables.getOnlyElement(charsetValues)));<a name="line.345"></a>
+<FONT color="green">346</FONT>          default:<a name="line.346"></a>
+<FONT color="green">347</FONT>            throw new IllegalStateException("Multiple charset values defined: " + charsetValues);<a name="line.347"></a>
+<FONT color="green">348</FONT>        }<a name="line.348"></a>
+<FONT color="green">349</FONT>      }<a name="line.349"></a>
+<FONT color="green">350</FONT>    <a name="line.350"></a>
+<FONT color="green">351</FONT>      /**<a name="line.351"></a>
+<FONT color="green">352</FONT>       * Returns a new instance with the same type and subtype as this instance, but without any<a name="line.352"></a>
+<FONT color="green">353</FONT>       * parameters.<a name="line.353"></a>
+<FONT color="green">354</FONT>       */<a name="line.354"></a>
+<FONT color="green">355</FONT>      public MediaType withoutParameters() {<a name="line.355"></a>
+<FONT color="green">356</FONT>        return parameters.isEmpty() ? this : create(type, subtype);<a name="line.356"></a>
+<FONT color="green">357</FONT>      }<a name="line.357"></a>
+<FONT color="green">358</FONT>    <a name="line.358"></a>
+<FONT color="green">359</FONT>      /**<a name="line.359"></a>
+<FONT color="green">360</FONT>       * &lt;em&gt;Replaces&lt;/em&gt; all parameters with the given parameters.<a name="line.360"></a>
+<FONT color="green">361</FONT>       *<a name="line.361"></a>
+<FONT color="green">362</FONT>       * @throws IllegalArgumentException if any parameter or value is invalid<a name="line.362"></a>
+<FONT color="green">363</FONT>       */<a name="line.363"></a>
+<FONT color="green">364</FONT>      public MediaType withParameters(Multimap&lt;String, String&gt; parameters) {<a name="line.364"></a>
+<FONT color="green">365</FONT>        return create(type, subtype, parameters);<a name="line.365"></a>
+<FONT color="green">366</FONT>      }<a name="line.366"></a>
+<FONT color="green">367</FONT>    <a name="line.367"></a>
+<FONT color="green">368</FONT>      /**<a name="line.368"></a>
+<FONT color="green">369</FONT>       * &lt;em&gt;Replaces&lt;/em&gt; all parameters with the given attribute with a single parameter with the<a name="line.369"></a>
+<FONT color="green">370</FONT>       * given value. If multiple parameters with the same attributes are necessary use<a name="line.370"></a>
+<FONT color="green">371</FONT>       * {@link #withParameters}. Prefer {@link #withCharset} for setting the {@code charset} parameter<a name="line.371"></a>
+<FONT color="green">372</FONT>       * when using a {@link Charset} object.<a name="line.372"></a>
+<FONT color="green">373</FONT>       *<a name="line.373"></a>
+<FONT color="green">374</FONT>       * @throws IllegalArgumentException if either {@code attribute} or {@code value} is invalid<a name="line.374"></a>
+<FONT color="green">375</FONT>       */<a name="line.375"></a>
+<FONT color="green">376</FONT>      public MediaType withParameter(String attribute, String value) {<a name="line.376"></a>
+<FONT color="green">377</FONT>        checkNotNull(attribute);<a name="line.377"></a>
+<FONT color="green">378</FONT>        checkNotNull(value);<a name="line.378"></a>
+<FONT color="green">379</FONT>        String normalizedAttribute = normalizeToken(attribute);<a name="line.379"></a>
+<FONT color="green">380</FONT>        ImmutableListMultimap.Builder&lt;String, String&gt; builder = ImmutableListMultimap.builder();<a name="line.380"></a>
+<FONT color="green">381</FONT>        for (Entry&lt;String, String&gt; entry : parameters.entries()) {<a name="line.381"></a>
+<FONT color="green">382</FONT>          String key = entry.getKey();<a name="line.382"></a>
+<FONT color="green">383</FONT>          if (!normalizedAttribute.equals(key)) {<a name="line.383"></a>
+<FONT color="green">384</FONT>            builder.put(key, entry.getValue());<a name="line.384"></a>
+<FONT color="green">385</FONT>          }<a name="line.385"></a>
+<FONT color="green">386</FONT>        }<a name="line.386"></a>
+<FONT color="green">387</FONT>        builder.put(normalizedAttribute, normalizeParameterValue(normalizedAttribute, value));<a name="line.387"></a>
+<FONT color="green">388</FONT>        MediaType mediaType = new MediaType(type, subtype, builder.build());<a name="line.388"></a>
+<FONT color="green">389</FONT>        // Return one of the constants if the media type is a known type.<a name="line.389"></a>
+<FONT color="green">390</FONT>        return Objects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);<a name="line.390"></a>
+<FONT color="green">391</FONT>      }<a name="line.391"></a>
+<FONT color="green">392</FONT>    <a name="line.392"></a>
+<FONT color="green">393</FONT>      /**<a name="line.393"></a>
+<FONT color="green">394</FONT>       * Returns a new instance with the same type and subtype as this instance, with the<a name="line.394"></a>
+<FONT color="green">395</FONT>       * {@code charset} parameter set to the {@link Charset#name name} of the given charset. Only one<a name="line.395"></a>
+<FONT color="green">396</FONT>       * {@code charset} parameter will be present on the new instance regardless of the number set on<a name="line.396"></a>
+<FONT color="green">397</FONT>       * this one.<a name="line.397"></a>
+<FONT color="green">398</FONT>       *<a name="line.398"></a>
+<FONT color="green">399</FONT>       * &lt;p&gt;If a charset must be specified that is not supported on this JVM (and thus is not<a name="line.399"></a>
+<FONT color="green">400</FONT>       * representable as a {@link Charset} instance, use {@link #withParameter}.<a name="line.400"></a>
+<FONT color="green">401</FONT>       */<a name="line.401"></a>
+<FONT color="green">402</FONT>      public MediaType withCharset(Charset charset) {<a name="line.402"></a>
+<FONT color="green">403</FONT>        checkNotNull(charset);<a name="line.403"></a>
+<FONT color="green">404</FONT>        return withParameter(CHARSET_ATTRIBUTE, charset.name());<a name="line.404"></a>
+<FONT color="green">405</FONT>      }<a name="line.405"></a>
+<FONT color="green">406</FONT>    <a name="line.406"></a>
+<FONT color="green">407</FONT>      /** Returns true if either the type or subtype is the wildcard. */<a name="line.407"></a>
+<FONT color="green">408</FONT>      public boolean hasWildcard() {<a name="line.408"></a>
+<FONT color="green">409</FONT>        return WILDCARD.equals(type) || WILDCARD.equals(subtype);<a name="line.409"></a>
+<FONT color="green">410</FONT>      }<a name="line.410"></a>
+<FONT color="green">411</FONT>    <a name="line.411"></a>
+<FONT color="green">412</FONT>      /**<a name="line.412"></a>
+<FONT color="green">413</FONT>       * Returns {@code true} if this instance falls within the range (as defined by<a name="line.413"></a>
+<FONT color="green">414</FONT>       * &lt;a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html"&gt;the HTTP Accept header&lt;/a&gt;)<a name="line.414"></a>
+<FONT color="green">415</FONT>       * given by the argument according to three criteria:<a name="line.415"></a>
+<FONT color="green">416</FONT>       *<a name="line.416"></a>
+<FONT color="green">417</FONT>       * &lt;ol&gt;<a name="line.417"></a>
+<FONT color="green">418</FONT>       * &lt;li&gt;The type of the argument is the wildcard or equal to the type of this instance.<a name="line.418"></a>
+<FONT color="green">419</FONT>       * &lt;li&gt;The subtype of the argument is the wildcard or equal to the subtype of this instance.<a name="line.419"></a>
+<FONT color="green">420</FONT>       * &lt;li&gt;All of the parameters present in the argument are present in this instance.<a name="line.420"></a>
+<FONT color="green">421</FONT>       * &lt;/ol&gt;<a name="line.421"></a>
+<FONT color="green">422</FONT>       *<a name="line.422"></a>
+<FONT color="green">423</FONT>       * For example: &lt;pre&gt;   {@code<a name="line.423"></a>
+<FONT color="green">424</FONT>       *   PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8) // true<a name="line.424"></a>
+<FONT color="green">425</FONT>       *   PLAIN_TEXT_UTF_8.is(HTML_UTF_8) // false<a name="line.425"></a>
+<FONT color="green">426</FONT>       *   PLAIN_TEXT_UTF_8.is(ANY_TYPE) // true<a name="line.426"></a>
+<FONT color="green">427</FONT>       *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE) // true<a name="line.427"></a>
+<FONT color="green">428</FONT>       *   PLAIN_TEXT_UTF_8.is(ANY_IMAGE_TYPE) // false<a name="line.428"></a>
+<FONT color="green">429</FONT>       *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_8)) // true<a name="line.429"></a>
+<FONT color="green">430</FONT>       *   PLAIN_TEXT_UTF_8.withoutParameters().is(ANY_TEXT_TYPE.withCharset(UTF_8)) // false<a name="line.430"></a>
+<FONT color="green">431</FONT>       *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_16)) // false}&lt;/pre&gt;<a name="line.431"></a>
+<FONT color="green">432</FONT>       *<a name="line.432"></a>
+<FONT color="green">433</FONT>       * &lt;p&gt;Note that while it is possible to have the same parameter declared multiple times within a<a name="line.433"></a>
+<FONT color="green">434</FONT>       * media type this method does not consider the number of occurrences of a parameter.  For<a name="line.434"></a>
+<FONT color="green">435</FONT>       * example, {@code "text/plain; charset=UTF-8"} satisfies<a name="line.435"></a>
+<FONT color="green">436</FONT>       * {@code "text/plain; charset=UTF-8; charset=UTF-8"}.<a name="line.436"></a>
+<FONT color="green">437</FONT>       */<a name="line.437"></a>
+<FONT color="green">438</FONT>      public boolean is(MediaType mediaTypeRange) {<a name="line.438"></a>
+<FONT color="green">439</FONT>        return (mediaTypeRange.type.equals(WILDCARD) || mediaTypeRange.type.equals(this.type))<a name="line.439"></a>
+<FONT color="green">440</FONT>            &amp;&amp; (mediaTypeRange.subtype.equals(WILDCARD) || mediaTypeRange.subtype.equals(this.subtype))<a name="line.440"></a>
+<FONT color="green">441</FONT>            &amp;&amp; this.parameters.entries().containsAll(mediaTypeRange.parameters.entries());<a name="line.441"></a>
+<FONT color="green">442</FONT>      }<a name="line.442"></a>
+<FONT color="green">443</FONT>    <a name="line.443"></a>
+<FONT color="green">444</FONT>      /**<a name="line.444"></a>
+<FONT color="green">445</FONT>       * Creates a new media type with the given type and subtype.<a name="line.445"></a>
+<FONT color="green">446</FONT>       *<a name="line.446"></a>
+<FONT color="green">447</FONT>       * @throws IllegalArgumentException if type or subtype is invalid or if a wildcard is used for the<a name="line.447"></a>
+<FONT color="green">448</FONT>       * type, but not the subtype.<a name="line.448"></a>
+<FONT color="green">449</FONT>       */<a name="line.449"></a>
+<FONT color="green">450</FONT>      public static MediaType create(String type, String subtype) {<a name="line.450"></a>
+<FONT color="green">451</FONT>        return create(type, subtype, ImmutableListMultimap.&lt;String, String&gt;of());<a name="line.451"></a>
+<FONT color="green">452</FONT>      }<a name="line.452"></a>
+<FONT color="green">453</FONT>    <a name="line.453"></a>
+<FONT color="green">454</FONT>      /**<a name="line.454"></a>
+<FONT color="green">455</FONT>       * Creates a media type with the "application" type and the given subtype.<a name="line.455"></a>
+<FONT color="green">456</FONT>       *<a name="line.456"></a>
+<FONT color="green">457</FONT>       * @throws IllegalArgumentException if subtype is invalid<a name="line.457"></a>
+<FONT color="green">458</FONT>       */<a name="line.458"></a>
+<FONT color="green">459</FONT>      static MediaType createApplicationType(String subtype) {<a name="line.459"></a>
+<FONT color="green">460</FONT>        return create(APPLICATION_TYPE, subtype);<a name="line.460"></a>
+<FONT color="green">461</FONT>      }<a name="line.461"></a>
+<FONT color="green">462</FONT>    <a name="line.462"></a>
+<FONT color="green">463</FONT>      /**<a name="line.463"></a>
+<FONT color="green">464</FONT>       * Creates a media type with the "audio" type and the given subtype.<a name="line.464"></a>
+<FONT color="green">465</FONT>       *<a name="line.465"></a>
+<FONT color="green">466</FONT>       * @throws IllegalArgumentException if subtype is invalid<a name="line.466"></a>
+<FONT color="green">467</FONT>       */<a name="line.467"></a>
+<FONT color="green">468</FONT>      static MediaType createAudioType(String subtype) {<a name="line.468"></a>
+<FONT color="green">469</FONT>        return create(AUDIO_TYPE, subtype);<a name="line.469"></a>
+<FONT color="green">470</FONT>      }<a name="line.470"></a>
+<FONT color="green">471</FONT>    <a name="line.471"></a>
+<FONT color="green">472</FONT>      /**<a name="line.472"></a>
+<FONT color="green">473</FONT>       * Creates a media type with the "image" type and the given subtype.<a name="line.473"></a>
+<FONT color="green">474</FONT>       *<a name="line.474"></a>
+<FONT color="green">475</FONT>       * @throws IllegalArgumentException if subtype is invalid<a name="line.475"></a>
+<FONT color="green">476</FONT>       */<a name="line.476"></a>
+<FONT color="green">477</FONT>      static MediaType createImageType(String subtype) {<a name="line.477"></a>
+<FONT color="green">478</FONT>        return create(IMAGE_TYPE, subtype);<a name="line.478"></a>
+<FONT color="green">479</FONT>      }<a name="line.479"></a>
+<FONT color="green">480</FONT>    <a name="line.480"></a>
+<FONT color="green">481</FONT>      /**<a name="line.481"></a>
+<FONT color="green">482</FONT>       * Creates a media type with the "text" type and the given subtype.<a name="line.482"></a>
+<FONT color="green">483</FONT>       *<a name="line.483"></a>
+<FONT color="green">484</FONT>       * @throws IllegalArgumentException if subtype is invalid<a name="line.484"></a>
+<FONT color="green">485</FONT>       */<a name="line.485"></a>
+<FONT color="green">486</FONT>      static MediaType createTextType(String subtype) {<a name="line.486"></a>
+<FONT color="green">487</FONT>        return create(TEXT_TYPE, subtype);<a name="line.487"></a>
+<FONT color="green">488</FONT>      }<a name="line.488"></a>
+<FONT color="green">489</FONT>    <a name="line.489"></a>
+<FONT color="green">490</FONT>      /**<a name="line.490"></a>
+<FONT color="green">491</FONT>       * Creates a media type with the "video" type and the given subtype.<a name="line.491"></a>
+<FONT color="green">492</FONT>       *<a name="line.492"></a>
+<FONT color="green">493</FONT>       * @throws IllegalArgumentException if subtype is invalid<a name="line.493"></a>
+<FONT color="green">494</FONT>       */<a name="line.494"></a>
+<FONT color="green">495</FONT>      static MediaType createVideoType(String subtype) {<a name="line.495"></a>
+<FONT color="green">496</FONT>        return create(VIDEO_TYPE, subtype);<a name="line.496"></a>
+<FONT color="green">497</FONT>      }<a name="line.497"></a>
+<FONT color="green">498</FONT>    <a name="line.498"></a>
+<FONT color="green">499</FONT>      private static MediaType create(String type, String subtype,<a name="line.499"></a>
+<FONT color="green">500</FONT>          Multimap&lt;String, String&gt; parameters) {<a name="line.500"></a>
+<FONT color="green">501</FONT>        checkNotNull(type);<a name="line.501"></a>
+<FONT color="green">502</FONT>        checkNotNull(subtype);<a name="line.502"></a>
+<FONT color="green">503</FONT>        checkNotNull(parameters);<a name="line.503"></a>
+<FONT color="green">504</FONT>        String normalizedType = normalizeToken(type);<a name="line.504"></a>
+<FONT color="green">505</FONT>        String normalizedSubtype = normalizeToken(subtype);<a name="line.505"></a>
+<FONT color="green">506</FONT>        checkArgument(!WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),<a name="line.506"></a>
+<FONT color="green">507</FONT>            "A wildcard type cannot be used with a non-wildcard subtype");<a name="line.507"></a>
+<FONT color="green">508</FONT>        ImmutableListMultimap.Builder&lt;String, String&gt; builder = ImmutableListMultimap.builder();<a name="line.508"></a>
+<FONT color="green">509</FONT>        for (Entry&lt;String, String&gt; entry : parameters.entries()) {<a name="line.509"></a>
+<FONT color="green">510</FONT>          String attribute = normalizeToken(entry.getKey());<a name="line.510"></a>
+<FONT color="green">511</FONT>          builder.put(attribute, normalizeParameterValue(attribute, entry.getValue()));<a name="line.511"></a>
+<FONT color="green">512</FONT>        }<a name="line.512"></a>
+<FONT color="green">513</FONT>        MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());<a name="line.513"></a>
+<FONT color="green">514</FONT>        // Return one of the constants if the media type is a known type.<a name="line.514"></a>
+<FONT color="green">515</FONT>        return Objects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);<a name="line.515"></a>
+<FONT color="green">516</FONT>      }<a name="line.516"></a>
+<FONT color="green">517</FONT>    <a name="line.517"></a>
+<FONT color="green">518</FONT>      private static String normalizeToken(String token) {<a name="line.518"></a>
+<FONT color="green">519</FONT>        checkArgument(TOKEN_MATCHER.matchesAllOf(token));<a name="line.519"></a>
+<FONT color="green">520</FONT>        return Ascii.toLowerCase(token);<a name="line.520"></a>
+<FONT color="green">521</FONT>      }<a name="line.521"></a>
+<FONT color="green">522</FONT>    <a name="line.522"></a>
+<FONT color="green">523</FONT>      private static String normalizeParameterValue(String attribute, String value) {<a name="line.523"></a>
+<FONT color="green">524</FONT>        return CHARSET_ATTRIBUTE.equals(attribute) ? Ascii.toLowerCase(value) : value;<a name="line.524"></a>
+<FONT color="green">525</FONT>      }<a name="line.525"></a>
+<FONT color="green">526</FONT>    <a name="line.526"></a>
+<FONT color="green">527</FONT>      /**<a name="line.527"></a>
+<FONT color="green">528</FONT>       * Parses a media type from its string representation.<a name="line.528"></a>
+<FONT color="green">529</FONT>       *<a name="line.529"></a>
+<FONT color="green">530</FONT>       * @throws IllegalArgumentException if the input is not parsable<a name="line.530"></a>
+<FONT color="green">531</FONT>       */<a name="line.531"></a>
+<FONT color="green">532</FONT>      public static MediaType parse(String input) {<a name="line.532"></a>
+<FONT color="green">533</FONT>        checkNotNull(input);<a name="line.533"></a>
+<FONT color="green">534</FONT>        Tokenizer tokenizer = new Tokenizer(input);<a name="line.534"></a>
+<FONT color="green">535</FONT>        try {<a name="line.535"></a>
+<FONT color="green">536</FONT>          String type = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.536"></a>
+<FONT color="green">537</FONT>          tokenizer.consumeCharacter('/');<a name="line.537"></a>
+<FONT color="green">538</FONT>          String subtype = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.538"></a>
+<FONT color="green">539</FONT>          ImmutableListMultimap.Builder&lt;String, String&gt; parameters = ImmutableListMultimap.builder();<a name="line.539"></a>
+<FONT color="green">540</FONT>          while (tokenizer.hasMore()) {<a name="line.540"></a>
+<FONT color="green">541</FONT>            tokenizer.consumeCharacter(';');<a name="line.541"></a>
+<FONT color="green">542</FONT>            tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);<a name="line.542"></a>
+<FONT color="green">543</FONT>            String attribute = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.543"></a>
+<FONT color="green">544</FONT>            tokenizer.consumeCharacter('=');<a name="line.544"></a>
+<FONT color="green">545</FONT>            final String value;<a name="line.545"></a>
+<FONT color="green">546</FONT>            if ('"' == tokenizer.previewChar()) {<a name="line.546"></a>
+<FONT color="green">547</FONT>              tokenizer.consumeCharacter('"');<a name="line.547"></a>
+<FONT color="green">548</FONT>              StringBuilder valueBuilder = new StringBuilder();<a name="line.548"></a>
+<FONT color="green">549</FONT>              while ('"' != tokenizer.previewChar()) {<a name="line.549"></a>
+<FONT color="green">550</FONT>                if ('\\' == tokenizer.previewChar()) {<a name="line.550"></a>
+<FONT color="green">551</FONT>                  tokenizer.consumeCharacter('\\');<a name="line.551"></a>
+<FONT color="green">552</FONT>                  valueBuilder.append(tokenizer.consumeCharacter(ASCII));<a name="line.552"></a>
+<FONT color="green">553</FONT>                } else {<a name="line.553"></a>
+<FONT color="green">554</FONT>                  valueBuilder.append(tokenizer.consumeToken(QUOTED_TEXT_MATCHER));<a name="line.554"></a>
+<FONT color="green">555</FONT>                }<a name="line.555"></a>
+<FONT color="green">556</FONT>              }<a name="line.556"></a>
+<FONT color="green">557</FONT>              value = valueBuilder.toString();<a name="line.557"></a>
+<FONT color="green">558</FONT>              tokenizer.consumeCharacter('"');<a name="line.558"></a>
+<FONT color="green">559</FONT>            } else {<a name="line.559"></a>
+<FONT color="green">560</FONT>              value = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.560"></a>
+<FONT color="green">561</FONT>            }<a name="line.561"></a>
+<FONT color="green">562</FONT>            parameters.put(attribute, value);<a name="line.562"></a>
+<FONT color="green">563</FONT>          }<a name="line.563"></a>
+<FONT color="green">564</FONT>          return create(type, subtype, parameters.build());<a name="line.564"></a>
+<FONT color="green">565</FONT>        } catch (IllegalStateException e) {<a name="line.565"></a>
+<FONT color="green">566</FONT>          throw new IllegalArgumentException(e);<a name="line.566"></a>
+<FONT color="green">567</FONT>        }<a name="line.567"></a>
+<FONT color="green">568</FONT>      }<a name="line.568"></a>
+<FONT color="green">569</FONT>    <a name="line.569"></a>
+<FONT color="green">570</FONT>      private static final class Tokenizer {<a name="line.570"></a>
+<FONT color="green">571</FONT>        final String input;<a name="line.571"></a>
+<FONT color="green">572</FONT>        int position = 0;<a name="line.572"></a>
+<FONT color="green">573</FONT>    <a name="line.573"></a>
+<FONT color="green">574</FONT>        Tokenizer(String input) {<a name="line.574"></a>
+<FONT color="green">575</FONT>          this.input = input;<a name="line.575"></a>
+<FONT color="green">576</FONT>        }<a name="line.576"></a>
+<FONT color="green">577</FONT>    <a name="line.577"></a>
+<FONT color="green">578</FONT>        String consumeTokenIfPresent(CharMatcher matcher) {<a name="line.578"></a>
+<FONT color="green">579</FONT>          checkState(hasMore());<a name="line.579"></a>
+<FONT color="green">580</FONT>          int startPosition = position;<a name="line.580"></a>
+<FONT color="green">581</FONT>          position = matcher.negate().indexIn(input, startPosition);<a name="line.581"></a>
+<FONT color="green">582</FONT>          return hasMore() ? input.substring(startPosition, position) : input.substring(startPosition);<a name="line.582"></a>
+<FONT color="green">583</FONT>        }<a name="line.583"></a>
+<FONT color="green">584</FONT>    <a name="line.584"></a>
+<FONT color="green">585</FONT>        String consumeToken(CharMatcher matcher) {<a name="line.585"></a>
+<FONT color="green">586</FONT>          int startPosition = position;<a name="line.586"></a>
+<FONT color="green">587</FONT>          String token = consumeTokenIfPresent(matcher);<a name="line.587"></a>
+<FONT color="green">588</FONT>          checkState(position != startPosition);<a name="line.588"></a>
+<FONT color="green">589</FONT>          return token;<a name="line.589"></a>
+<FONT color="green">590</FONT>        }<a name="line.590"></a>
+<FONT color="green">591</FONT>    <a name="line.591"></a>
+<FONT color="green">592</FONT>        char consumeCharacter(CharMatcher matcher) {<a name="line.592"></a>
+<FONT color="green">593</FONT>          checkState(hasMore());<a name="line.593"></a>
+<FONT color="green">594</FONT>          char c = previewChar();<a name="line.594"></a>
+<FONT color="green">595</FONT>          checkState(matcher.matches(c));<a name="line.595"></a>
+<FONT color="green">596</FONT>          position++;<a name="line.596"></a>
+<FONT color="green">597</FONT>          return c;<a name="line.597"></a>
+<FONT color="green">598</FONT>        }<a name="line.598"></a>
+<FONT color="green">599</FONT>    <a name="line.599"></a>
+<FONT color="green">600</FONT>        char consumeCharacter(char c) {<a name="line.600"></a>
+<FONT color="green">601</FONT>          checkState(hasMore());<a name="line.601"></a>
+<FONT color="green">602</FONT>          checkState(previewChar() == c);<a name="line.602"></a>
+<FONT color="green">603</FONT>          position++;<a name="line.603"></a>
+<FONT color="green">604</FONT>          return c;<a name="line.604"></a>
+<FONT color="green">605</FONT>        }<a name="line.605"></a>
+<FONT color="green">606</FONT>    <a name="line.606"></a>
+<FONT color="green">607</FONT>        char previewChar() {<a name="line.607"></a>
+<FONT color="green">608</FONT>          checkState(hasMore());<a name="line.608"></a>
+<FONT color="green">609</FONT>          return input.charAt(position);<a name="line.609"></a>
+<FONT color="green">610</FONT>        }<a name="line.610"></a>
+<FONT color="green">611</FONT>    <a name="line.611"></a>
+<FONT color="green">612</FONT>        boolean hasMore() {<a name="line.612"></a>
+<FONT color="green">613</FONT>          return (position &gt;= 0) &amp;&amp; (position &lt; input.length());<a name="line.613"></a>
+<FONT color="green">614</FONT>        }<a name="line.614"></a>
+<FONT color="green">615</FONT>      }<a name="line.615"></a>
+<FONT color="green">616</FONT>    <a name="line.616"></a>
+<FONT color="green">617</FONT>      @Override public boolean equals(@Nullable Object obj) {<a name="line.617"></a>
+<FONT color="green">618</FONT>        if (obj == this) {<a name="line.618"></a>
+<FONT color="green">619</FONT>          return true;<a name="line.619"></a>
+<FONT color="green">620</FONT>        } else if (obj instanceof MediaType) {<a name="line.620"></a>
+<FONT color="green">621</FONT>          MediaType that = (MediaType) obj;<a name="line.621"></a>
+<FONT color="green">622</FONT>          return this.type.equals(that.type)<a name="line.622"></a>
+<FONT color="green">623</FONT>              &amp;&amp; this.subtype.equals(that.subtype)<a name="line.623"></a>
+<FONT color="green">624</FONT>              // compare parameters regardless of order<a name="line.624"></a>
+<FONT color="green">625</FONT>              &amp;&amp; this.parametersAsMap().equals(that.parametersAsMap());<a name="line.625"></a>
+<FONT color="green">626</FONT>        } else {<a name="line.626"></a>
+<FONT color="green">627</FONT>          return false;<a name="line.627"></a>
+<FONT color="green">628</FONT>        }<a name="line.628"></a>
+<FONT color="green">629</FONT>      }<a name="line.629"></a>
+<FONT color="green">630</FONT>    <a name="line.630"></a>
+<FONT color="green">631</FONT>      @Override public int hashCode() {<a name="line.631"></a>
+<FONT color="green">632</FONT>        return Objects.hashCode(type, subtype, parametersAsMap());<a name="line.632"></a>
+<FONT color="green">633</FONT>      }<a name="line.633"></a>
+<FONT color="green">634</FONT>    <a name="line.634"></a>
+<FONT color="green">635</FONT>      private static final MapJoiner PARAMETER_JOINER = Joiner.on("; ").withKeyValueSeparator("=");<a name="line.635"></a>
+<FONT color="green">636</FONT>    <a name="line.636"></a>
+<FONT color="green">637</FONT>      /**<a name="line.637"></a>
+<FONT color="green">638</FONT>       * Returns the string representation of this media type in the format described in &lt;a<a name="line.638"></a>
+<FONT color="green">639</FONT>       * href="http://www.ietf.org/rfc/rfc2045.txt"&gt;RFC 2045&lt;/a&gt;.<a name="line.639"></a>
+<FONT color="green">640</FONT>       */<a name="line.640"></a>
+<FONT color="green">641</FONT>      @Override public String toString() {<a name="line.641"></a>
+<FONT color="green">642</FONT>        StringBuilder builder = new StringBuilder().append(type).append('/').append(subtype);<a name="line.642"></a>
+<FONT color="green">643</FONT>        if (!parameters.isEmpty()) {<a name="line.643"></a>
+<FONT color="green">644</FONT>          builder.append("; ");<a name="line.644"></a>
+<FONT color="green">645</FONT>          Multimap&lt;String, String&gt; quotedParameters = Multimaps.transformValues(parameters,<a name="line.645"></a>
+<FONT color="green">646</FONT>              new Function&lt;String, String&gt;() {<a name="line.646"></a>
+<FONT color="green">647</FONT>                @Override public String apply(String value) {<a name="line.647"></a>
+<FONT color="green">648</FONT>                  return TOKEN_MATCHER.matchesAllOf(value) ? value : escapeAndQuote(value);<a name="line.648"></a>
+<FONT color="green">649</FONT>                }<a name="line.649"></a>
+<FONT color="green">650</FONT>              });<a name="line.650"></a>
+<FONT color="green">651</FONT>          PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());<a name="line.651"></a>
+<FONT color="green">652</FONT>        }<a name="line.652"></a>
+<FONT color="green">653</FONT>        return builder.toString();<a name="line.653"></a>
+<FONT color="green">654</FONT>      }<a name="line.654"></a>
+<FONT color="green">655</FONT>    <a name="line.655"></a>
+<FONT color="green">656</FONT>      private static String escapeAndQuote(String value) {<a name="line.656"></a>
+<FONT color="green">657</FONT>        StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');<a name="line.657"></a>
+<FONT color="green">658</FONT>        for (char ch : value.toCharArray()) {<a name="line.658"></a>
+<FONT color="green">659</FONT>          if (ch == '\r' || ch == '\\' || ch == '"') {<a name="line.659"></a>
+<FONT color="green">660</FONT>            escaped.append('\\');<a name="line.660"></a>
+<FONT color="green">661</FONT>          }<a name="line.661"></a>
+<FONT color="green">662</FONT>          escaped.append(ch);<a name="line.662"></a>
+<FONT color="green">663</FONT>        }<a name="line.663"></a>
+<FONT color="green">664</FONT>        return escaped.append('"').toString();<a name="line.664"></a>
+<FONT color="green">665</FONT>      }<a name="line.665"></a>
+<FONT color="green">666</FONT>    <a name="line.666"></a>
+<FONT color="green">667</FONT>    }<a name="line.667"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

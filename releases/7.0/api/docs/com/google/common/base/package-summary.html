@@ -1,0 +1,348 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+com.google.common.base (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="com.google.common.base (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/annotations/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/base/internal/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/base/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/ParametersAreNonnullByDefault.html?is-external=true" title="class or interface in javax.annotation">@ParametersAreNonnullByDefault</A>
+</FONT><H2>
+Package com.google.common.base
+</H2>
+Basic utility libraries and interfaces.
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Equivalence.html" title="interface in com.google.common.base">Equivalence&lt;T&gt;</A></B></TD>
+<TD>A strategy for determining whether two instances are considered equivalent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/FinalizableReference.html" title="interface in com.google.common.base">FinalizableReference</A></B></TD>
+<TD>Implemented by references that have code to run after garbage collection of their referents.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function&lt;F,T&gt;</A></B></TD>
+<TD>Determines an output value based on an input value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate&lt;T&gt;</A></B></TD>
+<TD>Determines a true or false value for a given input.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Service.html" title="interface in com.google.common.base">Service</A></B></TD>
+<TD>An object with an operational state, plus asynchronous <A HREF="../../../../com/google/common/base/Service.html#start()"><CODE>Service.start()</CODE></A> and
+ <A HREF="../../../../com/google/common/base/Service.html#stop()"><CODE>Service.stop()</CODE></A> lifecycle methods to transfer into and out of this state.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier&lt;T&gt;</A></B></TD>
+<TD>A class that can supply objects of a single type.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</A></B></TD>
+<TD>Static methods pertaining ASCII characters (those in the range of values <code>0x00</code> through
+ <code>0x7F</code>), and to strings containing such characters.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></B></TD>
+<TD>Determines a true or false value for any Java <code>char</code> value, just as <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><CODE>Predicate</CODE></A> does
+ for any <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang"><CODE>Object</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Charsets.html" title="class in com.google.common.base">Charsets</A></B></TD>
+<TD>Contains constant definitions for the six standard <A HREF="http://java.sun.com/javase/6/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset"><CODE>Charset</CODE></A> instances, which are
+ guaranteed to be supported by all Java platform implementations.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Defaults.html" title="class in com.google.common.base">Defaults</A></B></TD>
+<TD>This class provides default values for all Java types, as defined by the JLS.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Equivalences.html" title="class in com.google.common.base">Equivalences</A></B></TD>
+<TD>Contains static factory methods for creating <code>Equivalence</code> instances.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/FinalizablePhantomReference.html" title="class in com.google.common.base">FinalizablePhantomReference&lt;T&gt;</A></B></TD>
+<TD>Phantom reference with a <code>finalizeReferent()</code> method which a background thread invokes
+ after the garbage collector reclaims the referent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/FinalizableReferenceQueue.html" title="class in com.google.common.base">FinalizableReferenceQueue</A></B></TD>
+<TD>A reference queue with an associated background thread that dequeues references and invokes
+ <A HREF="../../../../com/google/common/base/FinalizableReference.html#finalizeReferent()"><CODE>FinalizableReference.finalizeReferent()</CODE></A> on them.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/FinalizableSoftReference.html" title="class in com.google.common.base">FinalizableSoftReference&lt;T&gt;</A></B></TD>
+<TD>Soft reference with a <code>finalizeReferent()</code> method which a background thread invokes after
+ the garbage collector reclaims the referent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/FinalizableWeakReference.html" title="class in com.google.common.base">FinalizableWeakReference&lt;T&gt;</A></B></TD>
+<TD>Weak reference with a <code>finalizeReferent()</code> method which a background thread invokes after
+ the garbage collector reclaims the referent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Functions.html" title="class in com.google.common.base">Functions</A></B></TD>
+<TD>Static utility methods pertaining to <code>Function</code> instances.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Joiner.html" title="class in com.google.common.base">Joiner</A></B></TD>
+<TD>An object which joins pieces of text (specified as an array, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><CODE>Iterable</CODE></A>, varargs or even a
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><CODE>Map</CODE></A>) with a separator.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Joiner.MapJoiner.html" title="class in com.google.common.base">Joiner.MapJoiner</A></B></TD>
+<TD>An object that joins map entries in the same manner as <code>Joiner</code> joins iterables and
+ arrays.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Objects.html" title="class in com.google.common.base">Objects</A></B></TD>
+<TD>Helper functions that can operate on any <code>Object</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Objects.ToStringHelper.html" title="class in com.google.common.base">Objects.ToStringHelper</A></B></TD>
+<TD>Support class for <A HREF="../../../../com/google/common/base/Objects.html#toStringHelper(java.lang.Object)"><CODE>Objects.toStringHelper(java.lang.Object)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Preconditions.html" title="class in com.google.common.base">Preconditions</A></B></TD>
+<TD>Simple static methods to be called at the start of your own methods to verify
+ correct arguments and state.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Predicates.html" title="class in com.google.common.base">Predicates</A></B></TD>
+<TD>Static utility methods pertaining to <code>Predicate</code> instances.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</A></B></TD>
+<TD>An object that divides strings (or other instances of <code>CharSequence</code>)
+ into substrings, by recognizing a <i>separator</i> (a.k.a.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Strings.html" title="class in com.google.common.base">Strings</A></B></TD>
+<TD>Static utility methods pertaining to <code>String</code> or <code>CharSequence</code>
+ instances.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Suppliers.html" title="class in com.google.common.base">Suppliers</A></B></TD>
+<TD>Useful suppliers.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</A></B></TD>
+<TD>Static utility methods pertaining to instances of <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang"><CODE>Throwable</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Enum Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/CaseFormat.html" title="enum in com.google.common.base">CaseFormat</A></B></TD>
+<TD>Utility class for converting between various ASCII case formats.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A></B></TD>
+<TD>The lifecycle states of a service.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package com.google.common.base Description
+</H2>
+
+<P>
+Basic utility libraries and interfaces.
+
+ <p>This package is a part of the open-source
+ <a href="http://guava-libraries.googlecode.com">Guava libraries</a>.
+
+ <h2>Contents</h2>
+
+ <h3>String-related utilities</h3>
+
+ <ul>
+ <li><A HREF="../../../../com/google/common/base/CaseFormat.html" title="enum in com.google.common.base"><CODE>CaseFormat</CODE></A>
+ <li><A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base"><CODE>CharMatcher</CODE></A>
+ <li><A HREF="../../../../com/google/common/base/Charsets.html" title="class in com.google.common.base"><CODE>Charsets</CODE></A>
+ <li><A HREF="../../../../com/google/common/base/Joiner.html" title="class in com.google.common.base"><CODE>Joiner</CODE></A>
+ <li><A HREF="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base"><CODE>Splitter</CODE></A>
+ <li><A HREF="../../../../com/google/common/base/Strings.html" title="class in com.google.common.base"><CODE>Strings</CODE></A>
+ </ul>
+
+ <h3>Functional types</h3>
+
+ <ul>
+ <li><A HREF="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base"><CODE>Function</CODE></A>,
+     <A HREF="../../../../com/google/common/base/Functions.html" title="class in com.google.common.base"><CODE>Functions</CODE></A>
+ <li><A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><CODE>Predicate</CODE></A>,
+     <A HREF="../../../../com/google/common/base/Predicates.html" title="class in com.google.common.base"><CODE>Predicates</CODE></A>
+ <li><A HREF="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base"><CODE>Supplier</CODE></A>,
+     <A HREF="../../../../com/google/common/base/Suppliers.html" title="class in com.google.common.base"><CODE>Suppliers</CODE></A>
+ </ul>
+
+ <h3>Other</h3>
+
+ <ul>
+ <li><A HREF="../../../../com/google/common/base/Defaults.html" title="class in com.google.common.base"><CODE>Defaults</CODE></A>
+ <li><A HREF="../../../../com/google/common/base/FinalizableReference.html" title="interface in com.google.common.base"><CODE>FinalizableReference</CODE></A> and subtypes
+ <li><A HREF="../../../../com/google/common/base/Objects.html" title="class in com.google.common.base"><CODE>Objects</CODE></A>
+ <li><A HREF="../../../../com/google/common/base/Preconditions.html" title="class in com.google.common.base"><CODE>Preconditions</CODE></A>
+ <li><A HREF="../../../../com/google/common/base/Throwables.html" title="class in com.google.common.base"><CODE>Throwables</CODE></A>
+ </ul>
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/annotations/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/base/internal/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/base/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

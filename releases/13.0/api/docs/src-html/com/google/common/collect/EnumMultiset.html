@@ -1,0 +1,160 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<FONT color="green">005</FONT>     * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<FONT color="green">006</FONT>     *<a name="line.6"></a>
+<FONT color="green">007</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<FONT color="green">008</FONT>     *<a name="line.8"></a>
+<FONT color="green">009</FONT>     * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<FONT color="green">010</FONT>     * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<FONT color="green">011</FONT>     * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<FONT color="green">012</FONT>     * the License.<a name="line.12"></a>
+<FONT color="green">013</FONT>     */<a name="line.13"></a>
+<FONT color="green">014</FONT>    <a name="line.14"></a>
+<FONT color="green">015</FONT>    package com.google.common.collect;<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import com.google.common.annotations.GwtIncompatible;<a name="line.20"></a>
+<FONT color="green">021</FONT>    <a name="line.21"></a>
+<FONT color="green">022</FONT>    import java.io.IOException;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import java.io.ObjectInputStream;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import java.io.ObjectOutputStream;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import java.util.EnumMap;<a name="line.25"></a>
+<FONT color="green">026</FONT>    import java.util.Iterator;<a name="line.26"></a>
+<FONT color="green">027</FONT>    <a name="line.27"></a>
+<FONT color="green">028</FONT>    /**<a name="line.28"></a>
+<FONT color="green">029</FONT>     * Multiset implementation backed by an {@link EnumMap}.<a name="line.29"></a>
+<FONT color="green">030</FONT>     * <a name="line.30"></a>
+<FONT color="green">031</FONT>     * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.31"></a>
+<FONT color="green">032</FONT>     * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset"&gt;<a name="line.32"></a>
+<FONT color="green">033</FONT>     * {@code Multiset}&lt;/a&gt;.<a name="line.33"></a>
+<FONT color="green">034</FONT>     *<a name="line.34"></a>
+<FONT color="green">035</FONT>     * @author Jared Levy<a name="line.35"></a>
+<FONT color="green">036</FONT>     * @since 2.0 (imported from Google Collections Library)<a name="line.36"></a>
+<FONT color="green">037</FONT>     */<a name="line.37"></a>
+<FONT color="green">038</FONT>    @GwtCompatible(emulated = true)<a name="line.38"></a>
+<FONT color="green">039</FONT>    public final class EnumMultiset&lt;E extends Enum&lt;E&gt;&gt; extends AbstractMapBasedMultiset&lt;E&gt; {<a name="line.39"></a>
+<FONT color="green">040</FONT>      /** Creates an empty {@code EnumMultiset}. */<a name="line.40"></a>
+<FONT color="green">041</FONT>      public static &lt;E extends Enum&lt;E&gt;&gt; EnumMultiset&lt;E&gt; create(Class&lt;E&gt; type) {<a name="line.41"></a>
+<FONT color="green">042</FONT>        return new EnumMultiset&lt;E&gt;(type);<a name="line.42"></a>
+<FONT color="green">043</FONT>      }<a name="line.43"></a>
+<FONT color="green">044</FONT>    <a name="line.44"></a>
+<FONT color="green">045</FONT>      /**<a name="line.45"></a>
+<FONT color="green">046</FONT>       * Creates a new {@code EnumMultiset} containing the specified elements.<a name="line.46"></a>
+<FONT color="green">047</FONT>       *<a name="line.47"></a>
+<FONT color="green">048</FONT>       * &lt;p&gt;This implementation is highly efficient when {@code elements} is itself a {@link<a name="line.48"></a>
+<FONT color="green">049</FONT>       * Multiset}.<a name="line.49"></a>
+<FONT color="green">050</FONT>       *<a name="line.50"></a>
+<FONT color="green">051</FONT>       * @param elements the elements that the multiset should contain<a name="line.51"></a>
+<FONT color="green">052</FONT>       * @throws IllegalArgumentException if {@code elements} is empty<a name="line.52"></a>
+<FONT color="green">053</FONT>       */<a name="line.53"></a>
+<FONT color="green">054</FONT>      public static &lt;E extends Enum&lt;E&gt;&gt; EnumMultiset&lt;E&gt; create(Iterable&lt;E&gt; elements) {<a name="line.54"></a>
+<FONT color="green">055</FONT>        Iterator&lt;E&gt; iterator = elements.iterator();<a name="line.55"></a>
+<FONT color="green">056</FONT>        checkArgument(iterator.hasNext(), "EnumMultiset constructor passed empty Iterable");<a name="line.56"></a>
+<FONT color="green">057</FONT>        EnumMultiset&lt;E&gt; multiset = new EnumMultiset&lt;E&gt;(iterator.next().getDeclaringClass());<a name="line.57"></a>
+<FONT color="green">058</FONT>        Iterables.addAll(multiset, elements);<a name="line.58"></a>
+<FONT color="green">059</FONT>        return multiset;<a name="line.59"></a>
+<FONT color="green">060</FONT>      }<a name="line.60"></a>
+<FONT color="green">061</FONT>    <a name="line.61"></a>
+<FONT color="green">062</FONT>      private transient Class&lt;E&gt; type;<a name="line.62"></a>
+<FONT color="green">063</FONT>    <a name="line.63"></a>
+<FONT color="green">064</FONT>      /** Creates an empty {@code EnumMultiset}. */<a name="line.64"></a>
+<FONT color="green">065</FONT>      private EnumMultiset(Class&lt;E&gt; type) {<a name="line.65"></a>
+<FONT color="green">066</FONT>        super(WellBehavedMap.wrap(new EnumMap&lt;E, Count&gt;(type)));<a name="line.66"></a>
+<FONT color="green">067</FONT>        this.type = type;<a name="line.67"></a>
+<FONT color="green">068</FONT>      }<a name="line.68"></a>
+<FONT color="green">069</FONT>    <a name="line.69"></a>
+<FONT color="green">070</FONT>      @GwtIncompatible("java.io.ObjectOutputStream")<a name="line.70"></a>
+<FONT color="green">071</FONT>      private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.71"></a>
+<FONT color="green">072</FONT>        stream.defaultWriteObject();<a name="line.72"></a>
+<FONT color="green">073</FONT>        stream.writeObject(type);<a name="line.73"></a>
+<FONT color="green">074</FONT>        Serialization.writeMultiset(this, stream);<a name="line.74"></a>
+<FONT color="green">075</FONT>      }<a name="line.75"></a>
+<FONT color="green">076</FONT>    <a name="line.76"></a>
+<FONT color="green">077</FONT>      /**<a name="line.77"></a>
+<FONT color="green">078</FONT>       * @serialData the {@code Class&lt;E&gt;} for the enum type, the number of distinct<a name="line.78"></a>
+<FONT color="green">079</FONT>       *             elements, the first element, its count, the second element, its<a name="line.79"></a>
+<FONT color="green">080</FONT>       *             count, and so on<a name="line.80"></a>
+<FONT color="green">081</FONT>       */<a name="line.81"></a>
+<FONT color="green">082</FONT>      @GwtIncompatible("java.io.ObjectInputStream")<a name="line.82"></a>
+<FONT color="green">083</FONT>      private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.83"></a>
+<FONT color="green">084</FONT>        stream.defaultReadObject();<a name="line.84"></a>
+<FONT color="green">085</FONT>        @SuppressWarnings("unchecked") // reading data stored by writeObject<a name="line.85"></a>
+<FONT color="green">086</FONT>        Class&lt;E&gt; localType = (Class&lt;E&gt;) stream.readObject();<a name="line.86"></a>
+<FONT color="green">087</FONT>        type = localType;<a name="line.87"></a>
+<FONT color="green">088</FONT>        setBackingMap(WellBehavedMap.wrap(new EnumMap&lt;E, Count&gt;(type)));<a name="line.88"></a>
+<FONT color="green">089</FONT>        Serialization.populateMultiset(this, stream);<a name="line.89"></a>
+<FONT color="green">090</FONT>      }<a name="line.90"></a>
+<FONT color="green">091</FONT>    <a name="line.91"></a>
+<FONT color="green">092</FONT>      @GwtIncompatible("Not needed in emulated source")<a name="line.92"></a>
+<FONT color="green">093</FONT>      private static final long serialVersionUID = 0;<a name="line.93"></a>
+<FONT color="green">094</FONT>    }<a name="line.94"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

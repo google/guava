@@ -1,0 +1,254 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.util.concurrent;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import com.google.common.annotations.Beta;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import com.google.common.base.Throwables;<a name="line.20"></a>
+<FONT color="green">021</FONT>    <a name="line.21"></a>
+<FONT color="green">022</FONT>    import java.util.concurrent.Executor;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import java.util.logging.Level;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import java.util.logging.Logger;<a name="line.24"></a>
+<FONT color="green">025</FONT>    <a name="line.25"></a>
+<FONT color="green">026</FONT>    /**<a name="line.26"></a>
+<FONT color="green">027</FONT>     * Base class for services that can implement {@link #startUp}, {@link #run} and<a name="line.27"></a>
+<FONT color="green">028</FONT>     * {@link #shutDown} methods. This class uses a single thread to execute the<a name="line.28"></a>
+<FONT color="green">029</FONT>     * service; consider {@link AbstractService} if you would like to manage any<a name="line.29"></a>
+<FONT color="green">030</FONT>     * threading manually.<a name="line.30"></a>
+<FONT color="green">031</FONT>     *<a name="line.31"></a>
+<FONT color="green">032</FONT>     * @author Jesse Wilson<a name="line.32"></a>
+<FONT color="green">033</FONT>     * @since 1.0<a name="line.33"></a>
+<FONT color="green">034</FONT>     */<a name="line.34"></a>
+<FONT color="green">035</FONT>    @Beta<a name="line.35"></a>
+<FONT color="green">036</FONT>    public abstract class AbstractExecutionThreadService implements Service {<a name="line.36"></a>
+<FONT color="green">037</FONT>      private static final Logger logger = Logger.getLogger(<a name="line.37"></a>
+<FONT color="green">038</FONT>          AbstractExecutionThreadService.class.getName());<a name="line.38"></a>
+<FONT color="green">039</FONT>    <a name="line.39"></a>
+<FONT color="green">040</FONT>      /* use AbstractService for state management */<a name="line.40"></a>
+<FONT color="green">041</FONT>      private final Service delegate = new AbstractService() {<a name="line.41"></a>
+<FONT color="green">042</FONT>        @Override protected final void doStart() {<a name="line.42"></a>
+<FONT color="green">043</FONT>          executor().execute(new Runnable() {<a name="line.43"></a>
+<FONT color="green">044</FONT>            @Override<a name="line.44"></a>
+<FONT color="green">045</FONT>            public void run() {<a name="line.45"></a>
+<FONT color="green">046</FONT>              try {<a name="line.46"></a>
+<FONT color="green">047</FONT>                startUp();<a name="line.47"></a>
+<FONT color="green">048</FONT>                notifyStarted();<a name="line.48"></a>
+<FONT color="green">049</FONT>    <a name="line.49"></a>
+<FONT color="green">050</FONT>                if (isRunning()) {<a name="line.50"></a>
+<FONT color="green">051</FONT>                  try {<a name="line.51"></a>
+<FONT color="green">052</FONT>                    AbstractExecutionThreadService.this.run();<a name="line.52"></a>
+<FONT color="green">053</FONT>                  } catch (Throwable t) {<a name="line.53"></a>
+<FONT color="green">054</FONT>                    try {<a name="line.54"></a>
+<FONT color="green">055</FONT>                      shutDown();<a name="line.55"></a>
+<FONT color="green">056</FONT>                    } catch (Exception ignored) {<a name="line.56"></a>
+<FONT color="green">057</FONT>                      logger.log(Level.WARNING,<a name="line.57"></a>
+<FONT color="green">058</FONT>                          "Error while attempting to shut down the service"<a name="line.58"></a>
+<FONT color="green">059</FONT>                          + " after failure.", ignored);<a name="line.59"></a>
+<FONT color="green">060</FONT>                    }<a name="line.60"></a>
+<FONT color="green">061</FONT>                    throw t;<a name="line.61"></a>
+<FONT color="green">062</FONT>                  }<a name="line.62"></a>
+<FONT color="green">063</FONT>                }<a name="line.63"></a>
+<FONT color="green">064</FONT>    <a name="line.64"></a>
+<FONT color="green">065</FONT>                shutDown();<a name="line.65"></a>
+<FONT color="green">066</FONT>                notifyStopped();<a name="line.66"></a>
+<FONT color="green">067</FONT>              } catch (Throwable t) {<a name="line.67"></a>
+<FONT color="green">068</FONT>                notifyFailed(t);<a name="line.68"></a>
+<FONT color="green">069</FONT>                throw Throwables.propagate(t);<a name="line.69"></a>
+<FONT color="green">070</FONT>              }<a name="line.70"></a>
+<FONT color="green">071</FONT>            }<a name="line.71"></a>
+<FONT color="green">072</FONT>          });<a name="line.72"></a>
+<FONT color="green">073</FONT>        }<a name="line.73"></a>
+<FONT color="green">074</FONT>    <a name="line.74"></a>
+<FONT color="green">075</FONT>        @Override protected void doStop() {<a name="line.75"></a>
+<FONT color="green">076</FONT>          triggerShutdown();<a name="line.76"></a>
+<FONT color="green">077</FONT>        }<a name="line.77"></a>
+<FONT color="green">078</FONT>      };<a name="line.78"></a>
+<FONT color="green">079</FONT>    <a name="line.79"></a>
+<FONT color="green">080</FONT>      /**<a name="line.80"></a>
+<FONT color="green">081</FONT>       * Constructor for use by subclasses.<a name="line.81"></a>
+<FONT color="green">082</FONT>       */<a name="line.82"></a>
+<FONT color="green">083</FONT>      protected AbstractExecutionThreadService() {}<a name="line.83"></a>
+<FONT color="green">084</FONT>    <a name="line.84"></a>
+<FONT color="green">085</FONT>      /**<a name="line.85"></a>
+<FONT color="green">086</FONT>       * Start the service. This method is invoked on the execution thread.<a name="line.86"></a>
+<FONT color="green">087</FONT>       *<a name="line.87"></a>
+<FONT color="green">088</FONT>       * &lt;p&gt;By default this method does nothing.<a name="line.88"></a>
+<FONT color="green">089</FONT>       */<a name="line.89"></a>
+<FONT color="green">090</FONT>      protected void startUp() throws Exception {}<a name="line.90"></a>
+<FONT color="green">091</FONT>    <a name="line.91"></a>
+<FONT color="green">092</FONT>      /**<a name="line.92"></a>
+<FONT color="green">093</FONT>       * Run the service. This method is invoked on the execution thread.<a name="line.93"></a>
+<FONT color="green">094</FONT>       * Implementations must respond to stop requests. You could poll for lifecycle<a name="line.94"></a>
+<FONT color="green">095</FONT>       * changes in a work loop:<a name="line.95"></a>
+<FONT color="green">096</FONT>       * &lt;pre&gt;<a name="line.96"></a>
+<FONT color="green">097</FONT>       *   public void run() {<a name="line.97"></a>
+<FONT color="green">098</FONT>       *     while ({@link #isRunning()}) {<a name="line.98"></a>
+<FONT color="green">099</FONT>       *       // perform a unit of work<a name="line.99"></a>
+<FONT color="green">100</FONT>       *     }<a name="line.100"></a>
+<FONT color="green">101</FONT>       *   }<a name="line.101"></a>
+<FONT color="green">102</FONT>       * &lt;/pre&gt;<a name="line.102"></a>
+<FONT color="green">103</FONT>       * ...or you could respond to stop requests by implementing {@link<a name="line.103"></a>
+<FONT color="green">104</FONT>       * #triggerShutdown()}, which should cause {@link #run()} to return.<a name="line.104"></a>
+<FONT color="green">105</FONT>       */<a name="line.105"></a>
+<FONT color="green">106</FONT>      protected abstract void run() throws Exception;<a name="line.106"></a>
+<FONT color="green">107</FONT>    <a name="line.107"></a>
+<FONT color="green">108</FONT>      /**<a name="line.108"></a>
+<FONT color="green">109</FONT>       * Stop the service. This method is invoked on the execution thread.<a name="line.109"></a>
+<FONT color="green">110</FONT>       *<a name="line.110"></a>
+<FONT color="green">111</FONT>       * &lt;p&gt;By default this method does nothing.<a name="line.111"></a>
+<FONT color="green">112</FONT>       */<a name="line.112"></a>
+<FONT color="green">113</FONT>      // TODO: consider supporting a TearDownTestCase-like API<a name="line.113"></a>
+<FONT color="green">114</FONT>      protected void shutDown() throws Exception {}<a name="line.114"></a>
+<FONT color="green">115</FONT>    <a name="line.115"></a>
+<FONT color="green">116</FONT>      /**<a name="line.116"></a>
+<FONT color="green">117</FONT>       * Invoked to request the service to stop.<a name="line.117"></a>
+<FONT color="green">118</FONT>       *<a name="line.118"></a>
+<FONT color="green">119</FONT>       * &lt;p&gt;By default this method does nothing.<a name="line.119"></a>
+<FONT color="green">120</FONT>       */<a name="line.120"></a>
+<FONT color="green">121</FONT>      protected void triggerShutdown() {}<a name="line.121"></a>
+<FONT color="green">122</FONT>    <a name="line.122"></a>
+<FONT color="green">123</FONT>      /**<a name="line.123"></a>
+<FONT color="green">124</FONT>       * Returns the {@link Executor} that will be used to run this service.<a name="line.124"></a>
+<FONT color="green">125</FONT>       * Subclasses may override this method to use a custom {@link Executor}, which<a name="line.125"></a>
+<FONT color="green">126</FONT>       * may configure its worker thread with a specific name, thread group or<a name="line.126"></a>
+<FONT color="green">127</FONT>       * priority. The returned executor's {@link Executor#execute(Runnable)<a name="line.127"></a>
+<FONT color="green">128</FONT>       * execute()} method is called when this service is started, and should return<a name="line.128"></a>
+<FONT color="green">129</FONT>       * promptly.<a name="line.129"></a>
+<FONT color="green">130</FONT>       *<a name="line.130"></a>
+<FONT color="green">131</FONT>       * &lt;p&gt;The default implementation returns a new {@link Executor} that sets the<a name="line.131"></a>
+<FONT color="green">132</FONT>       * name of its threads to the string returned by {@link #getServiceName}<a name="line.132"></a>
+<FONT color="green">133</FONT>       */<a name="line.133"></a>
+<FONT color="green">134</FONT>      protected Executor executor() {<a name="line.134"></a>
+<FONT color="green">135</FONT>        return new Executor() {<a name="line.135"></a>
+<FONT color="green">136</FONT>          @Override<a name="line.136"></a>
+<FONT color="green">137</FONT>          public void execute(Runnable command) {<a name="line.137"></a>
+<FONT color="green">138</FONT>            new Thread(command, getServiceName()).start();<a name="line.138"></a>
+<FONT color="green">139</FONT>          }<a name="line.139"></a>
+<FONT color="green">140</FONT>        };<a name="line.140"></a>
+<FONT color="green">141</FONT>      }<a name="line.141"></a>
+<FONT color="green">142</FONT>    <a name="line.142"></a>
+<FONT color="green">143</FONT>      @Override public String toString() {<a name="line.143"></a>
+<FONT color="green">144</FONT>        return getServiceName() + " [" + state() + "]";<a name="line.144"></a>
+<FONT color="green">145</FONT>      }<a name="line.145"></a>
+<FONT color="green">146</FONT>    <a name="line.146"></a>
+<FONT color="green">147</FONT>      // We override instead of using ForwardingService so that these can be final.<a name="line.147"></a>
+<FONT color="green">148</FONT>    <a name="line.148"></a>
+<FONT color="green">149</FONT>      @Override public final ListenableFuture&lt;State&gt; start() {<a name="line.149"></a>
+<FONT color="green">150</FONT>        return delegate.start();<a name="line.150"></a>
+<FONT color="green">151</FONT>      }<a name="line.151"></a>
+<FONT color="green">152</FONT>    <a name="line.152"></a>
+<FONT color="green">153</FONT>      @Override public final State startAndWait() {<a name="line.153"></a>
+<FONT color="green">154</FONT>        return delegate.startAndWait();<a name="line.154"></a>
+<FONT color="green">155</FONT>      }<a name="line.155"></a>
+<FONT color="green">156</FONT>    <a name="line.156"></a>
+<FONT color="green">157</FONT>      @Override public final boolean isRunning() {<a name="line.157"></a>
+<FONT color="green">158</FONT>        return delegate.isRunning();<a name="line.158"></a>
+<FONT color="green">159</FONT>      }<a name="line.159"></a>
+<FONT color="green">160</FONT>    <a name="line.160"></a>
+<FONT color="green">161</FONT>      @Override public final State state() {<a name="line.161"></a>
+<FONT color="green">162</FONT>        return delegate.state();<a name="line.162"></a>
+<FONT color="green">163</FONT>      }<a name="line.163"></a>
+<FONT color="green">164</FONT>    <a name="line.164"></a>
+<FONT color="green">165</FONT>      @Override public final ListenableFuture&lt;State&gt; stop() {<a name="line.165"></a>
+<FONT color="green">166</FONT>        return delegate.stop();<a name="line.166"></a>
+<FONT color="green">167</FONT>      }<a name="line.167"></a>
+<FONT color="green">168</FONT>    <a name="line.168"></a>
+<FONT color="green">169</FONT>      @Override public final State stopAndWait() {<a name="line.169"></a>
+<FONT color="green">170</FONT>        return delegate.stopAndWait();<a name="line.170"></a>
+<FONT color="green">171</FONT>      }<a name="line.171"></a>
+<FONT color="green">172</FONT>    <a name="line.172"></a>
+<FONT color="green">173</FONT>      @Override public final void addListener(Listener listener, Executor executor) {<a name="line.173"></a>
+<FONT color="green">174</FONT>        delegate.addListener(listener, executor);<a name="line.174"></a>
+<FONT color="green">175</FONT>      }<a name="line.175"></a>
+<FONT color="green">176</FONT>    <a name="line.176"></a>
+<FONT color="green">177</FONT>      /**<a name="line.177"></a>
+<FONT color="green">178</FONT>       * Returns the name of this service. {@link AbstractExecutionThreadService}<a name="line.178"></a>
+<FONT color="green">179</FONT>       * may include the name in debugging output.<a name="line.179"></a>
+<FONT color="green">180</FONT>       *<a name="line.180"></a>
+<FONT color="green">181</FONT>       * &lt;p&gt;Subclasses may override this method.<a name="line.181"></a>
+<FONT color="green">182</FONT>       *<a name="line.182"></a>
+<FONT color="green">183</FONT>       * @since 10.0<a name="line.183"></a>
+<FONT color="green">184</FONT>       */<a name="line.184"></a>
+<FONT color="green">185</FONT>      protected String getServiceName() {<a name="line.185"></a>
+<FONT color="green">186</FONT>        return getClass().getSimpleName();<a name="line.186"></a>
+<FONT color="green">187</FONT>      }<a name="line.187"></a>
+<FONT color="green">188</FONT>    }<a name="line.188"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

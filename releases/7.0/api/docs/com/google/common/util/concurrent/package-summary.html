@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+com.google.common.util.concurrent (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="com.google.common.util.concurrent (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../com/google/common/primitives/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;NEXT PACKAGE</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/google/common/util/concurrent/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/ParametersAreNonnullByDefault.html?is-external=true" title="class or interface in javax.annotation">@ParametersAreNonnullByDefault</A>
+</FONT><H2>
+Package com.google.common.util.concurrent
+</H2>
+Concurrency utilities.
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture&lt;V,X extends Exception&gt;</A></B></TD>
+<TD>A <code>CheckedFuture</code> is an extension of <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>Future</CODE></A> that includes
+ versions of the <code>get</code> methods that can throw a checked exception and
+ allows listeners to be attached to the future.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture&lt;V&gt;</A></B></TD>
+<TD>This interface defines a future that has listeners attached to it, which
+ is useful for asynchronous workflows.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</A></B></TD>
+<TD>Produces proxies that impose a time limit on method
+ calls to the proxied object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/UninterruptibleFuture.html" title="interface in com.google.common.util.concurrent">UninterruptibleFuture&lt;V&gt;</A></B></TD>
+<TD>A <code>Future</code> whose <code>get</code> calls cannot be interrupted.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="class in com.google.common.util.concurrent">AbstractCheckedFuture&lt;V,X extends Exception&gt;</A></B></TD>
+<TD>A delegating wrapper around a <A HREF="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><CODE>ListenableFuture</CODE></A> that adds support for
+ the <A HREF="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet()"><CODE>AbstractCheckedFuture.checkedGet()</CODE></A> and <A HREF="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet(long, java.util.concurrent.TimeUnit)"><CODE>AbstractCheckedFuture.checkedGet(long, TimeUnit)</CODE></A> methods.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html" title="class in com.google.common.util.concurrent">AbstractExecutionThreadService</A></B></TD>
+<TD>Base class for services that can implement <A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#startUp()"><CODE>AbstractExecutionThreadService.startUp()</CODE></A>, <A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#run()"><CODE>AbstractExecutionThreadService.run()</CODE></A> and
+ <A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#shutDown()"><CODE>AbstractExecutionThreadService.shutDown()</CODE></A> methods.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture&lt;V&gt;</A></B></TD>
+<TD>An abstract implementation of the <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>Future</CODE></A> interface.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractIdleService.html" title="class in com.google.common.util.concurrent">AbstractIdleService</A></B></TD>
+<TD>Base class for services that do not need a thread while "running"
+ but may need one during startup and shutdown.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractListenableFuture.html" title="class in com.google.common.util.concurrent">AbstractListenableFuture&lt;V&gt;</A></B></TD>
+<TD>An abstract base implementation of the listener support provided by
+ <A HREF="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><CODE>ListenableFuture</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractService.html" title="class in com.google.common.util.concurrent">AbstractService</A></B></TD>
+<TD>Base class for implementing services that can handle <A HREF="../../../../../com/google/common/util/concurrent/AbstractService.html#doStart()"><CODE>AbstractService.doStart()</CODE></A> and
+ <A HREF="../../../../../com/google/common/util/concurrent/AbstractService.html#doStop()"><CODE>AbstractService.doStop()</CODE></A> requests, responding to them with <A HREF="../../../../../com/google/common/util/concurrent/AbstractService.html#notifyStarted()"><CODE>AbstractService.notifyStarted()</CODE></A>
+ and <A HREF="../../../../../com/google/common/util/concurrent/AbstractService.html#notifyStopped()"><CODE>AbstractService.notifyStopped()</CODE></A> callbacks.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/Callables.html" title="class in com.google.common.util.concurrent">Callables</A></B></TD>
+<TD>Static utility methods pertaining to the <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>Callable</CODE></A> interface.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/ExecutionList.html" title="class in com.google.common.util.concurrent">ExecutionList</A></B></TD>
+<TD>A list of (<code>Runnable</code>, <code>Executor</code>) pairs that guarantees
+ that every <code>Runnable</code> that is added using the add method will be
+ executed in its associated <code>Executor</code> after <A HREF="../../../../../com/google/common/util/concurrent/ExecutionList.html#run()"><CODE>ExecutionList.run()</CODE></A> is called.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent">FakeTimeLimiter</A></B></TD>
+<TD>A TimeLimiter implementation which actually does not attempt to limit time
+ at all.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="class in com.google.common.util.concurrent">ForwardingBlockingQueue&lt;E&gt;</A></B></TD>
+<TD>A <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>BlockingQueue</CODE></A> which forwards all its method calls to another
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>BlockingQueue</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="class in com.google.common.util.concurrent">ForwardingFuture&lt;V&gt;</A></B></TD>
+<TD>A <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>Future</CODE></A> which forwards all its method calls to another future.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.html" title="class in com.google.common.util.concurrent">ForwardingListenableFuture&lt;V&gt;</A></B></TD>
+<TD>A <A HREF="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="class in com.google.common.util.concurrent"><CODE>ForwardingFuture</CODE></A> that also implements <A HREF="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><CODE>ListenableFuture</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingService.html" title="class in com.google.common.util.concurrent">ForwardingService</A></B></TD>
+<TD>A <A HREF="../../../../../com/google/common/base/Service.html" title="interface in com.google.common.base"><CODE>Service</CODE></A> that forwards all method calls to another service.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</A></B></TD>
+<TD>Static utility methods pertaining to the <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>Future</CODE></A> interface.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent">ListenableFutureTask&lt;V&gt;</A></B></TD>
+<TD>A <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/FutureTask.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>FutureTask</CODE></A> that also implements the <A HREF="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><CODE>ListenableFuture</CODE></A>
+ interface.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</A></B></TD>
+<TD>Factory and utility methods for <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>Executor</CODE></A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>ExecutorService</CODE></A>, and <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>ThreadFactory</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent">SimpleTimeLimiter</A></B></TD>
+<TD>A TimeLimiter that runs method calls in the background using an
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>ExecutorService</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</A></B></TD>
+<TD>A ThreadFactory builder, providing any combination of these features:
+ 
+  whether threads should be marked as <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Thread.html?is-external=true#setDaemon(boolean)" title="class or interface in java.lang">daemon</A>
+ threads
+  a <A HREF="../../../../../com/google/common/util/concurrent/ThreadFactoryBuilder.html#setNameFormat(java.lang.String)">naming format</A>
+  a <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Thread.html?is-external=true#setPriority(int)" title="class or interface in java.lang">thread priority</A>
+  an <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Thread.html?is-external=true#setUncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler)" title="class or interface in java.lang">uncaught exception
+ handler</A>
+  a <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true#newThread(java.lang.Runnable)" title="class or interface in java.util.concurrent">backing thread factory</A>
+ 
+ If no backing thread factory is provided, a default backing thread factory is
+ used as if by calling <code>setThreadFactory(</code><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Executors.html?is-external=true#defaultThreadFactory()" title="class or interface in java.util.concurrent"><CODE>Executors.defaultThreadFactory()</CODE></A><code>)</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html" title="class in com.google.common.util.concurrent">ValueFuture&lt;V&gt;</A></B></TD>
+<TD>A <A HREF="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><CODE>ListenableFuture</CODE></A> whose result may be set by a <A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html#set(V)"><CODE>set(Object)</CODE></A>
+ or <A HREF="../../../../../com/google/common/util/concurrent/ValueFuture.html#setException(java.lang.Throwable)"><CODE>setException(Throwable)</CODE></A> call.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Exception Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent">UncheckedTimeoutException</A></B></TD>
+<TD>Unchecked version of <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>TimeoutException</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package com.google.common.util.concurrent Description
+</H2>
+
+<P>
+Concurrency utilities.
+
+ <p>This package is a part of the open-source
+ <a href="http://guava-libraries.googlecode.com">Guava libraries</a>.
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../com/google/common/primitives/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;NEXT PACKAGE</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/google/common/util/concurrent/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,528 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+FileBackedOutputStream (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="FileBackedOutputStream (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/io/CountingOutputStream.html" title="class in com.google.common.io"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/io/Files.html" title="class in com.google.common.io"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/io/FileBackedOutputStream.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FileBackedOutputStream.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.io</FONT>
+<BR>
+Class FileBackedOutputStream</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">java.io.OutputStream</A>
+      <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.io.FileBackedOutputStream</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/io/Flushable.html?is-external=true" title="class or interface in java.io">Flushable</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>public final class <B>FileBackedOutputStream</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</A></DL>
+</PRE>
+
+<P>
+An <A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><CODE>OutputStream</CODE></A> that starts buffering to a byte array, but
+ switches to file buffering once the data reaches a configurable size.
+
+ <p>This class is thread-safe.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>1</DD>
+<DT><B>Author:</B></DT>
+  <DD>Chris Nokleberg</DD>
+</DL>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#FileBackedOutputStream(int)">FileBackedOutputStream</A></B>(int&nbsp;fileThreshold)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a new instance that uses the given file threshold.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#FileBackedOutputStream(int, boolean)">FileBackedOutputStream</A></B>(int&nbsp;fileThreshold,
+                       boolean&nbsp;resetOnFinalize)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a new instance that uses the given file threshold, and
+ optionally resets the data when the <A HREF="../../../../com/google/common/io/InputSupplier.html" title="interface in com.google.common.io"><CODE>InputSupplier</CODE></A> returned
+ by <A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#getSupplier()"><CODE>getSupplier()</CODE></A> is finalized.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#close()">close</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes this output stream and releases any system resources
+ associated with this stream.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#flush()">flush</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flushes this output stream and forces any buffered output bytes
+ to be written out.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../com/google/common/io/InputSupplier.html" title="interface in com.google.common.io">InputSupplier</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#getSupplier()">getSupplier</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a supplier that may be used to retrieve the data buffered
+ by this stream.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#reset()">reset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calls <A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#close()"><CODE>close()</CODE></A> if not already closed, and then resets this
+ object back to its initial state, for reuse.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#write(byte[])">write</A></B>(byte[]&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes <code>b.length</code> bytes from the specified byte array
+ to this output stream.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#write(byte[], int, int)">write</A></B>(byte[]&nbsp;b,
+      int&nbsp;off,
+      int&nbsp;len)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes <code>len</code> bytes from the specified byte array
+ starting at offset <code>off</code> to this output stream.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#write(int)">write</A></B>(int&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes the specified byte to this output stream.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="FileBackedOutputStream(int)"><!-- --></A><H3>
+FileBackedOutputStream</H3>
+<PRE>
+public <B>FileBackedOutputStream</B>(int&nbsp;fileThreshold)</PRE>
+<DL>
+<DD>Creates a new instance that uses the given file threshold.
+ Equivalent to <code>ThresholdOutputStream(fileThreshold, false)</code>.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>fileThreshold</CODE> - the number of bytes before the stream should
+     switch to buffering to a file</DL>
+</DL>
+<HR>
+
+<A NAME="FileBackedOutputStream(int, boolean)"><!-- --></A><H3>
+FileBackedOutputStream</H3>
+<PRE>
+public <B>FileBackedOutputStream</B>(int&nbsp;fileThreshold,
+                              boolean&nbsp;resetOnFinalize)</PRE>
+<DL>
+<DD>Creates a new instance that uses the given file threshold, and
+ optionally resets the data when the <A HREF="../../../../com/google/common/io/InputSupplier.html" title="interface in com.google.common.io"><CODE>InputSupplier</CODE></A> returned
+ by <A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#getSupplier()"><CODE>getSupplier()</CODE></A> is finalized.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>fileThreshold</CODE> - the number of bytes before the stream should
+     switch to buffering to a file<DD><CODE>resetOnFinalize</CODE> - if true, the <A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#reset()"><CODE>reset()</CODE></A> method will
+     be called when the <A HREF="../../../../com/google/common/io/InputSupplier.html" title="interface in com.google.common.io"><CODE>InputSupplier</CODE></A> returned by <A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#getSupplier()"><CODE>getSupplier()</CODE></A> is finalized</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getSupplier()"><!-- --></A><H3>
+getSupplier</H3>
+<PRE>
+public <A HREF="../../../../com/google/common/io/InputSupplier.html" title="interface in com.google.common.io">InputSupplier</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</A>&gt; <B>getSupplier</B>()</PRE>
+<DL>
+<DD>Returns a supplier that may be used to retrieve the data buffered
+ by this stream.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reset()"><!-- --></A><H3>
+reset</H3>
+<PRE>
+public void <B>reset</B>()
+           throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD>Calls <A HREF="../../../../com/google/common/io/FileBackedOutputStream.html#close()"><CODE>close()</CODE></A> if not already closed, and then resets this
+ object back to its initial state, for reuse. If data was buffered
+ to a file, it will be deleted.
+<P>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE> - if an I/O error occurred while deleting the file buffer</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="write(int)"><!-- --></A><H3>
+write</H3>
+<PRE>
+public void <B>write</B>(int&nbsp;b)
+           throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true#write(int)" title="class or interface in java.io">java.io.OutputStream</A></CODE></B></DD>
+<DD>Writes the specified byte to this output stream. The general
+ contract for <code>write</code> is that one byte is written
+ to the output stream. The byte to be written is the eight
+ low-order bits of the argument <code>b</code>. The 24
+ high-order bits of <code>b</code> are ignored.
+ <p>
+ Subclasses of <code>OutputStream</code> must provide an
+ implementation for this method.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true#write(int)" title="class or interface in java.io">write</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - the <code>byte</code>.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE> - if an I/O error occurs. In particular,
+             an <code>IOException</code> may be thrown if the
+             output stream has been closed.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="write(byte[])"><!-- --></A><H3>
+write</H3>
+<PRE>
+public void <B>write</B>(byte[]&nbsp;b)
+           throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true#write(byte[])" title="class or interface in java.io">java.io.OutputStream</A></CODE></B></DD>
+<DD>Writes <code>b.length</code> bytes from the specified byte array
+ to this output stream. The general contract for <code>write(b)</code>
+ is that it should have exactly the same effect as the call
+ <code>write(b, 0, b.length)</code>.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true#write(byte[])" title="class or interface in java.io">write</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - the data.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE> - if an I/O error occurs.<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true#write(byte[], int, int)" title="class or interface in java.io"><CODE>OutputStream.write(byte[], int, int)</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="write(byte[], int, int)"><!-- --></A><H3>
+write</H3>
+<PRE>
+public void <B>write</B>(byte[]&nbsp;b,
+                  int&nbsp;off,
+                  int&nbsp;len)
+           throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true#write(byte[], int, int)" title="class or interface in java.io">java.io.OutputStream</A></CODE></B></DD>
+<DD>Writes <code>len</code> bytes from the specified byte array
+ starting at offset <code>off</code> to this output stream.
+ The general contract for <code>write(b, off, len)</code> is that
+ some of the bytes in the array <code>b</code> are written to the
+ output stream in order; element <code>b[off]</code> is the first
+ byte written and <code>b[off+len-1]</code> is the last byte written
+ by this operation.
+ <p>
+ The <code>write</code> method of <code>OutputStream</code> calls
+ the write method of one argument on each of the bytes to be
+ written out. Subclasses are encouraged to override this method and
+ provide a more efficient implementation.
+ <p>
+ If <code>b</code> is <code>null</code>, a
+ <code>NullPointerException</code> is thrown.
+ <p>
+ If <code>off</code> is negative, or <code>len</code> is negative, or
+ <code>off+len</code> is greater than the length of the array
+ <code>b</code>, then an <tt>IndexOutOfBoundsException</tt> is thrown.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true#write(byte[], int, int)" title="class or interface in java.io">write</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - the data.<DD><CODE>off</CODE> - the start offset in the data.<DD><CODE>len</CODE> - the number of bytes to write.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE> - if an I/O error occurs. In particular,
+             an <code>IOException</code> is thrown if the output
+             stream is closed.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close()"><!-- --></A><H3>
+close</H3>
+<PRE>
+public void <B>close</B>()
+           throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true#close()" title="class or interface in java.io">java.io.OutputStream</A></CODE></B></DD>
+<DD>Closes this output stream and releases any system resources
+ associated with this stream. The general contract of <code>close</code>
+ is that it closes the output stream. A closed stream cannot perform
+ output operations and cannot be reopened.
+ <p>
+ The <code>close</code> method of <code>OutputStream</code> does nothing.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/Closeable.html?is-external=true#close()" title="class or interface in java.io">close</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</A></CODE><DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true#close()" title="class or interface in java.io">close</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE> - if an I/O error occurs.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="flush()"><!-- --></A><H3>
+flush</H3>
+<PRE>
+public void <B>flush</B>()
+           throws <A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true#flush()" title="class or interface in java.io">java.io.OutputStream</A></CODE></B></DD>
+<DD>Flushes this output stream and forces any buffered output bytes
+ to be written out. The general contract of <code>flush</code> is
+ that calling it is an indication that, if any bytes previously
+ written have been buffered by the implementation of the output
+ stream, such bytes should immediately be written to their
+ intended destination.
+ <p>
+ If the intended destination of this stream is an abstraction provided by
+ the underlying operating system, for example a file, then flushing the
+ stream guarantees only that bytes previously written to the stream are
+ passed to the operating system for writing; it does not guarantee that
+ they are actually written to a physical device such as a disk drive.
+ <p>
+ The <code>flush</code> method of <code>OutputStream</code> does nothing.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/Flushable.html?is-external=true#flush()" title="class or interface in java.io">flush</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/Flushable.html?is-external=true" title="class or interface in java.io">Flushable</A></CODE><DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true#flush()" title="class or interface in java.io">flush</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</A></CODE> - if an I/O error occurs.</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/io/CountingOutputStream.html" title="class in com.google.common.io"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/io/Files.html" title="class in com.google.common.io"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/io/FileBackedOutputStream.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FileBackedOutputStream.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

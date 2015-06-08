@@ -1,0 +1,1077 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2008 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.net;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import com.google.common.annotations.Beta;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import com.google.common.base.Objects;<a name="line.20"></a>
+<FONT color="green">021</FONT>    import com.google.common.base.Preconditions;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.google.common.hash.Hashing;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import com.google.common.io.ByteStreams;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import com.google.common.primitives.Ints;<a name="line.24"></a>
+<FONT color="green">025</FONT>    <a name="line.25"></a>
+<FONT color="green">026</FONT>    import java.net.Inet4Address;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import java.net.Inet6Address;<a name="line.27"></a>
+<FONT color="green">028</FONT>    import java.net.InetAddress;<a name="line.28"></a>
+<FONT color="green">029</FONT>    import java.net.UnknownHostException;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import java.nio.ByteBuffer;<a name="line.30"></a>
+<FONT color="green">031</FONT>    import java.util.Arrays;<a name="line.31"></a>
+<FONT color="green">032</FONT>    <a name="line.32"></a>
+<FONT color="green">033</FONT>    import javax.annotation.Nullable;<a name="line.33"></a>
+<FONT color="green">034</FONT>    <a name="line.34"></a>
+<FONT color="green">035</FONT>    /**<a name="line.35"></a>
+<FONT color="green">036</FONT>     * Static utility methods pertaining to {@link InetAddress} instances.<a name="line.36"></a>
+<FONT color="green">037</FONT>     *<a name="line.37"></a>
+<FONT color="green">038</FONT>     * &lt;p&gt;&lt;b&gt;Important note:&lt;/b&gt; Unlike {@code InetAddress.getByName()}, the<a name="line.38"></a>
+<FONT color="green">039</FONT>     * methods of this class never cause DNS services to be accessed. For<a name="line.39"></a>
+<FONT color="green">040</FONT>     * this reason, you should prefer these methods as much as possible over<a name="line.40"></a>
+<FONT color="green">041</FONT>     * their JDK equivalents whenever you are expecting to handle only<a name="line.41"></a>
+<FONT color="green">042</FONT>     * IP address string literals -- there is no blocking DNS penalty for a<a name="line.42"></a>
+<FONT color="green">043</FONT>     * malformed string.<a name="line.43"></a>
+<FONT color="green">044</FONT>     *<a name="line.44"></a>
+<FONT color="green">045</FONT>     * &lt;p&gt;When dealing with {@link Inet4Address} and {@link Inet6Address}<a name="line.45"></a>
+<FONT color="green">046</FONT>     * objects as byte arrays (vis. {@code InetAddress.getAddress()}) they<a name="line.46"></a>
+<FONT color="green">047</FONT>     * are 4 and 16 bytes in length, respectively, and represent the address<a name="line.47"></a>
+<FONT color="green">048</FONT>     * in network byte order.<a name="line.48"></a>
+<FONT color="green">049</FONT>     *<a name="line.49"></a>
+<FONT color="green">050</FONT>     * &lt;p&gt;Examples of IP addresses and their byte representations:<a name="line.50"></a>
+<FONT color="green">051</FONT>     * &lt;ul&gt;<a name="line.51"></a>
+<FONT color="green">052</FONT>     * &lt;li&gt;The IPv4 loopback address, {@code "127.0.0.1"}.&lt;br/&gt;<a name="line.52"></a>
+<FONT color="green">053</FONT>     *     {@code 7f 00 00 01}<a name="line.53"></a>
+<FONT color="green">054</FONT>     *<a name="line.54"></a>
+<FONT color="green">055</FONT>     * &lt;li&gt;The IPv6 loopback address, {@code "::1"}.&lt;br/&gt;<a name="line.55"></a>
+<FONT color="green">056</FONT>     *     {@code 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01}<a name="line.56"></a>
+<FONT color="green">057</FONT>     *<a name="line.57"></a>
+<FONT color="green">058</FONT>     * &lt;li&gt;From the IPv6 reserved documentation prefix ({@code 2001:db8::/32}),<a name="line.58"></a>
+<FONT color="green">059</FONT>     *     {@code "2001:db8::1"}.&lt;br/&gt;<a name="line.59"></a>
+<FONT color="green">060</FONT>     *     {@code 20 01 0d b8 00 00 00 00 00 00 00 00 00 00 00 01}<a name="line.60"></a>
+<FONT color="green">061</FONT>     *<a name="line.61"></a>
+<FONT color="green">062</FONT>     * &lt;li&gt;An IPv6 "IPv4 compatible" (or "compat") address,<a name="line.62"></a>
+<FONT color="green">063</FONT>     *     {@code "::192.168.0.1"}.&lt;br/&gt;<a name="line.63"></a>
+<FONT color="green">064</FONT>     *     {@code 00 00 00 00 00 00 00 00 00 00 00 00 c0 a8 00 01}<a name="line.64"></a>
+<FONT color="green">065</FONT>     *<a name="line.65"></a>
+<FONT color="green">066</FONT>     * &lt;li&gt;An IPv6 "IPv4 mapped" address, {@code "::ffff:192.168.0.1"}.&lt;br/&gt;<a name="line.66"></a>
+<FONT color="green">067</FONT>     *     {@code 00 00 00 00 00 00 00 00 00 00 ff ff c0 a8 00 01}<a name="line.67"></a>
+<FONT color="green">068</FONT>     * &lt;/ul&gt;<a name="line.68"></a>
+<FONT color="green">069</FONT>     *<a name="line.69"></a>
+<FONT color="green">070</FONT>     * &lt;p&gt;A few notes about IPv6 "IPv4 mapped" addresses and their observed<a name="line.70"></a>
+<FONT color="green">071</FONT>     * use in Java.<a name="line.71"></a>
+<FONT color="green">072</FONT>     * &lt;br&gt;&lt;br&gt;<a name="line.72"></a>
+<FONT color="green">073</FONT>     * "IPv4 mapped" addresses were originally a representation of IPv4<a name="line.73"></a>
+<FONT color="green">074</FONT>     * addresses for use on an IPv6 socket that could receive both IPv4<a name="line.74"></a>
+<FONT color="green">075</FONT>     * and IPv6 connections (by disabling the {@code IPV6_V6ONLY} socket<a name="line.75"></a>
+<FONT color="green">076</FONT>     * option on an IPv6 socket).  Yes, it's confusing.  Nevertheless,<a name="line.76"></a>
+<FONT color="green">077</FONT>     * these "mapped" addresses were never supposed to be seen on the<a name="line.77"></a>
+<FONT color="green">078</FONT>     * wire.  That assumption was dropped, some say mistakenly, in later<a name="line.78"></a>
+<FONT color="green">079</FONT>     * RFCs with the apparent aim of making IPv4-to-IPv6 transition simpler.<a name="line.79"></a>
+<FONT color="green">080</FONT>     *<a name="line.80"></a>
+<FONT color="green">081</FONT>     * &lt;p&gt;Technically one &lt;i&gt;can&lt;/i&gt; create a 128bit IPv6 address with the wire<a name="line.81"></a>
+<FONT color="green">082</FONT>     * format of a "mapped" address, as shown above, and transmit it in an<a name="line.82"></a>
+<FONT color="green">083</FONT>     * IPv6 packet header.  However, Java's InetAddress creation methods<a name="line.83"></a>
+<FONT color="green">084</FONT>     * appear to adhere doggedly to the original intent of the "mapped"<a name="line.84"></a>
+<FONT color="green">085</FONT>     * address: all "mapped" addresses return {@link Inet4Address} objects.<a name="line.85"></a>
+<FONT color="green">086</FONT>     *<a name="line.86"></a>
+<FONT color="green">087</FONT>     * &lt;p&gt;For added safety, it is common for IPv6 network operators to filter<a name="line.87"></a>
+<FONT color="green">088</FONT>     * all packets where either the source or destination address appears to<a name="line.88"></a>
+<FONT color="green">089</FONT>     * be a "compat" or "mapped" address.  Filtering suggestions usually<a name="line.89"></a>
+<FONT color="green">090</FONT>     * recommend discarding any packets with source or destination addresses<a name="line.90"></a>
+<FONT color="green">091</FONT>     * in the invalid range {@code ::/3}, which includes both of these bizarre<a name="line.91"></a>
+<FONT color="green">092</FONT>     * address formats.  For more information on "bogons", including lists<a name="line.92"></a>
+<FONT color="green">093</FONT>     * of IPv6 bogon space, see:<a name="line.93"></a>
+<FONT color="green">094</FONT>     *<a name="line.94"></a>
+<FONT color="green">095</FONT>     * &lt;ul&gt;<a name="line.95"></a>
+<FONT color="green">096</FONT>     * &lt;li&gt;&lt;a target="_parent"<a name="line.96"></a>
+<FONT color="green">097</FONT>     *        href="http://en.wikipedia.org/wiki/Bogon_filtering"<a name="line.97"></a>
+<FONT color="green">098</FONT>     *       &gt;http://en.wikipedia.org/wiki/Bogon_filtering&lt;/a&gt;<a name="line.98"></a>
+<FONT color="green">099</FONT>     * &lt;li&gt;&lt;a target="_parent"<a name="line.99"></a>
+<FONT color="green">100</FONT>     *        href="http://www.cymru.com/Bogons/ipv6.txt"<a name="line.100"></a>
+<FONT color="green">101</FONT>     *       &gt;http://www.cymru.com/Bogons/ipv6.txt&lt;/a&gt;<a name="line.101"></a>
+<FONT color="green">102</FONT>     * &lt;li&gt;&lt;a target="_parent"<a name="line.102"></a>
+<FONT color="green">103</FONT>     *        href="http://www.cymru.com/Bogons/v6bogon.html"<a name="line.103"></a>
+<FONT color="green">104</FONT>     *       &gt;http://www.cymru.com/Bogons/v6bogon.html&lt;/a&gt;<a name="line.104"></a>
+<FONT color="green">105</FONT>     * &lt;li&gt;&lt;a target="_parent"<a name="line.105"></a>
+<FONT color="green">106</FONT>     *        href="http://www.space.net/~gert/RIPE/ipv6-filters.html"<a name="line.106"></a>
+<FONT color="green">107</FONT>     *       &gt;http://www.space.net/~gert/RIPE/ipv6-filters.html&lt;/a&gt;<a name="line.107"></a>
+<FONT color="green">108</FONT>     * &lt;/ul&gt;<a name="line.108"></a>
+<FONT color="green">109</FONT>     *<a name="line.109"></a>
+<FONT color="green">110</FONT>     * @author Erik Kline<a name="line.110"></a>
+<FONT color="green">111</FONT>     * @since 5.0<a name="line.111"></a>
+<FONT color="green">112</FONT>     */<a name="line.112"></a>
+<FONT color="green">113</FONT>    @Beta<a name="line.113"></a>
+<FONT color="green">114</FONT>    public final class InetAddresses {<a name="line.114"></a>
+<FONT color="green">115</FONT>      private static final int IPV4_PART_COUNT = 4;<a name="line.115"></a>
+<FONT color="green">116</FONT>      private static final int IPV6_PART_COUNT = 8;<a name="line.116"></a>
+<FONT color="green">117</FONT>      private static final Inet4Address LOOPBACK4 = (Inet4Address) forString("127.0.0.1");<a name="line.117"></a>
+<FONT color="green">118</FONT>      private static final Inet4Address ANY4 = (Inet4Address) forString("0.0.0.0");<a name="line.118"></a>
+<FONT color="green">119</FONT>    <a name="line.119"></a>
+<FONT color="green">120</FONT>      private InetAddresses() {}<a name="line.120"></a>
+<FONT color="green">121</FONT>    <a name="line.121"></a>
+<FONT color="green">122</FONT>      /**<a name="line.122"></a>
+<FONT color="green">123</FONT>       * Returns an {@link Inet4Address}, given a byte array representation of the IPv4 address.<a name="line.123"></a>
+<FONT color="green">124</FONT>       *<a name="line.124"></a>
+<FONT color="green">125</FONT>       * @param bytes byte array representing an IPv4 address (should be of length 4)<a name="line.125"></a>
+<FONT color="green">126</FONT>       * @return {@link Inet4Address} corresponding to the supplied byte array<a name="line.126"></a>
+<FONT color="green">127</FONT>       * @throws IllegalArgumentException if a valid {@link Inet4Address} can not be created<a name="line.127"></a>
+<FONT color="green">128</FONT>       */<a name="line.128"></a>
+<FONT color="green">129</FONT>      private static Inet4Address getInet4Address(byte[] bytes) {<a name="line.129"></a>
+<FONT color="green">130</FONT>        Preconditions.checkArgument(bytes.length == 4,<a name="line.130"></a>
+<FONT color="green">131</FONT>            "Byte array has invalid length for an IPv4 address: %s != 4.",<a name="line.131"></a>
+<FONT color="green">132</FONT>            bytes.length);<a name="line.132"></a>
+<FONT color="green">133</FONT>    <a name="line.133"></a>
+<FONT color="green">134</FONT>        // Given a 4-byte array, this cast should always succeed.<a name="line.134"></a>
+<FONT color="green">135</FONT>        return (Inet4Address) bytesToInetAddress(bytes);<a name="line.135"></a>
+<FONT color="green">136</FONT>      }<a name="line.136"></a>
+<FONT color="green">137</FONT>    <a name="line.137"></a>
+<FONT color="green">138</FONT>      /**<a name="line.138"></a>
+<FONT color="green">139</FONT>       * Returns the {@link InetAddress} having the given string representation.<a name="line.139"></a>
+<FONT color="green">140</FONT>       *<a name="line.140"></a>
+<FONT color="green">141</FONT>       * &lt;p&gt;This deliberately avoids all nameservice lookups (e.g. no DNS).<a name="line.141"></a>
+<FONT color="green">142</FONT>       *<a name="line.142"></a>
+<FONT color="green">143</FONT>       * @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g.<a name="line.143"></a>
+<FONT color="green">144</FONT>       *     {@code "192.168.0.1"} or {@code "2001:db8::1"}<a name="line.144"></a>
+<FONT color="green">145</FONT>       * @return {@link InetAddress} representing the argument<a name="line.145"></a>
+<FONT color="green">146</FONT>       * @throws IllegalArgumentException if the argument is not a valid IP string literal<a name="line.146"></a>
+<FONT color="green">147</FONT>       */<a name="line.147"></a>
+<FONT color="green">148</FONT>      public static InetAddress forString(String ipString) {<a name="line.148"></a>
+<FONT color="green">149</FONT>        byte[] addr = ipStringToBytes(ipString);<a name="line.149"></a>
+<FONT color="green">150</FONT>    <a name="line.150"></a>
+<FONT color="green">151</FONT>        // The argument was malformed, i.e. not an IP string literal.<a name="line.151"></a>
+<FONT color="green">152</FONT>        if (addr == null) {<a name="line.152"></a>
+<FONT color="green">153</FONT>          throw new IllegalArgumentException(<a name="line.153"></a>
+<FONT color="green">154</FONT>              String.format("'%s' is not an IP string literal.", ipString));<a name="line.154"></a>
+<FONT color="green">155</FONT>        }<a name="line.155"></a>
+<FONT color="green">156</FONT>    <a name="line.156"></a>
+<FONT color="green">157</FONT>        return bytesToInetAddress(addr);<a name="line.157"></a>
+<FONT color="green">158</FONT>      }<a name="line.158"></a>
+<FONT color="green">159</FONT>    <a name="line.159"></a>
+<FONT color="green">160</FONT>      /**<a name="line.160"></a>
+<FONT color="green">161</FONT>       * Returns {@code true} if the supplied string is a valid IP string<a name="line.161"></a>
+<FONT color="green">162</FONT>       * literal, {@code false} otherwise.<a name="line.162"></a>
+<FONT color="green">163</FONT>       *<a name="line.163"></a>
+<FONT color="green">164</FONT>       * @param ipString {@code String} to evaluated as an IP string literal<a name="line.164"></a>
+<FONT color="green">165</FONT>       * @return {@code true} if the argument is a valid IP string literal<a name="line.165"></a>
+<FONT color="green">166</FONT>       */<a name="line.166"></a>
+<FONT color="green">167</FONT>      public static boolean isInetAddress(String ipString) {<a name="line.167"></a>
+<FONT color="green">168</FONT>        return ipStringToBytes(ipString) != null;<a name="line.168"></a>
+<FONT color="green">169</FONT>      }<a name="line.169"></a>
+<FONT color="green">170</FONT>    <a name="line.170"></a>
+<FONT color="green">171</FONT>      private static byte[] ipStringToBytes(String ipString) {<a name="line.171"></a>
+<FONT color="green">172</FONT>        // Make a first pass to categorize the characters in this string.<a name="line.172"></a>
+<FONT color="green">173</FONT>        boolean hasColon = false;<a name="line.173"></a>
+<FONT color="green">174</FONT>        boolean hasDot = false;<a name="line.174"></a>
+<FONT color="green">175</FONT>        for (int i = 0; i &lt; ipString.length(); i++) {<a name="line.175"></a>
+<FONT color="green">176</FONT>          char c = ipString.charAt(i);<a name="line.176"></a>
+<FONT color="green">177</FONT>          if (c == '.') {<a name="line.177"></a>
+<FONT color="green">178</FONT>            hasDot = true;<a name="line.178"></a>
+<FONT color="green">179</FONT>          } else if (c == ':') {<a name="line.179"></a>
+<FONT color="green">180</FONT>            if (hasDot) {<a name="line.180"></a>
+<FONT color="green">181</FONT>              return null;  // Colons must not appear after dots.<a name="line.181"></a>
+<FONT color="green">182</FONT>            }<a name="line.182"></a>
+<FONT color="green">183</FONT>            hasColon = true;<a name="line.183"></a>
+<FONT color="green">184</FONT>          } else if (Character.digit(c, 16) == -1) {<a name="line.184"></a>
+<FONT color="green">185</FONT>            return null;  // Everything else must be a decimal or hex digit.<a name="line.185"></a>
+<FONT color="green">186</FONT>          }<a name="line.186"></a>
+<FONT color="green">187</FONT>        }<a name="line.187"></a>
+<FONT color="green">188</FONT>    <a name="line.188"></a>
+<FONT color="green">189</FONT>        // Now decide which address family to parse.<a name="line.189"></a>
+<FONT color="green">190</FONT>        if (hasColon) {<a name="line.190"></a>
+<FONT color="green">191</FONT>          if (hasDot) {<a name="line.191"></a>
+<FONT color="green">192</FONT>            ipString = convertDottedQuadToHex(ipString);<a name="line.192"></a>
+<FONT color="green">193</FONT>            if (ipString == null) {<a name="line.193"></a>
+<FONT color="green">194</FONT>              return null;<a name="line.194"></a>
+<FONT color="green">195</FONT>            }<a name="line.195"></a>
+<FONT color="green">196</FONT>          }<a name="line.196"></a>
+<FONT color="green">197</FONT>          return textToNumericFormatV6(ipString);<a name="line.197"></a>
+<FONT color="green">198</FONT>        } else if (hasDot) {<a name="line.198"></a>
+<FONT color="green">199</FONT>          return textToNumericFormatV4(ipString);<a name="line.199"></a>
+<FONT color="green">200</FONT>        }<a name="line.200"></a>
+<FONT color="green">201</FONT>        return null;<a name="line.201"></a>
+<FONT color="green">202</FONT>      }<a name="line.202"></a>
+<FONT color="green">203</FONT>    <a name="line.203"></a>
+<FONT color="green">204</FONT>      private static byte[] textToNumericFormatV4(String ipString) {<a name="line.204"></a>
+<FONT color="green">205</FONT>        String[] address = ipString.split("\\.", IPV4_PART_COUNT + 1);<a name="line.205"></a>
+<FONT color="green">206</FONT>        if (address.length != IPV4_PART_COUNT) {<a name="line.206"></a>
+<FONT color="green">207</FONT>          return null;<a name="line.207"></a>
+<FONT color="green">208</FONT>        }<a name="line.208"></a>
+<FONT color="green">209</FONT>    <a name="line.209"></a>
+<FONT color="green">210</FONT>        byte[] bytes = new byte[IPV4_PART_COUNT];<a name="line.210"></a>
+<FONT color="green">211</FONT>        try {<a name="line.211"></a>
+<FONT color="green">212</FONT>          for (int i = 0; i &lt; bytes.length; i++) {<a name="line.212"></a>
+<FONT color="green">213</FONT>            bytes[i] = parseOctet(address[i]);<a name="line.213"></a>
+<FONT color="green">214</FONT>          }<a name="line.214"></a>
+<FONT color="green">215</FONT>        } catch (NumberFormatException ex) {<a name="line.215"></a>
+<FONT color="green">216</FONT>          return null;<a name="line.216"></a>
+<FONT color="green">217</FONT>        }<a name="line.217"></a>
+<FONT color="green">218</FONT>    <a name="line.218"></a>
+<FONT color="green">219</FONT>        return bytes;<a name="line.219"></a>
+<FONT color="green">220</FONT>      }<a name="line.220"></a>
+<FONT color="green">221</FONT>    <a name="line.221"></a>
+<FONT color="green">222</FONT>      private static byte[] textToNumericFormatV6(String ipString) {<a name="line.222"></a>
+<FONT color="green">223</FONT>        // An address can have [2..8] colons, and N colons make N+1 parts.<a name="line.223"></a>
+<FONT color="green">224</FONT>        String[] parts = ipString.split(":", IPV6_PART_COUNT + 2);<a name="line.224"></a>
+<FONT color="green">225</FONT>        if (parts.length &lt; 3 || parts.length &gt; IPV6_PART_COUNT + 1) {<a name="line.225"></a>
+<FONT color="green">226</FONT>          return null;<a name="line.226"></a>
+<FONT color="green">227</FONT>        }<a name="line.227"></a>
+<FONT color="green">228</FONT>    <a name="line.228"></a>
+<FONT color="green">229</FONT>        // Disregarding the endpoints, find "::" with nothing in between.<a name="line.229"></a>
+<FONT color="green">230</FONT>        // This indicates that a run of zeroes has been skipped.<a name="line.230"></a>
+<FONT color="green">231</FONT>        int skipIndex = -1;<a name="line.231"></a>
+<FONT color="green">232</FONT>        for (int i = 1; i &lt; parts.length - 1; i++) {<a name="line.232"></a>
+<FONT color="green">233</FONT>          if (parts[i].length() == 0) {<a name="line.233"></a>
+<FONT color="green">234</FONT>            if (skipIndex &gt;= 0) {<a name="line.234"></a>
+<FONT color="green">235</FONT>              return null;  // Can't have more than one ::<a name="line.235"></a>
+<FONT color="green">236</FONT>            }<a name="line.236"></a>
+<FONT color="green">237</FONT>            skipIndex = i;<a name="line.237"></a>
+<FONT color="green">238</FONT>          }<a name="line.238"></a>
+<FONT color="green">239</FONT>        }<a name="line.239"></a>
+<FONT color="green">240</FONT>    <a name="line.240"></a>
+<FONT color="green">241</FONT>        int partsHi;  // Number of parts to copy from above/before the "::"<a name="line.241"></a>
+<FONT color="green">242</FONT>        int partsLo;  // Number of parts to copy from below/after the "::"<a name="line.242"></a>
+<FONT color="green">243</FONT>        if (skipIndex &gt;= 0) {<a name="line.243"></a>
+<FONT color="green">244</FONT>          // If we found a "::", then check if it also covers the endpoints.<a name="line.244"></a>
+<FONT color="green">245</FONT>          partsHi = skipIndex;<a name="line.245"></a>
+<FONT color="green">246</FONT>          partsLo = parts.length - skipIndex - 1;<a name="line.246"></a>
+<FONT color="green">247</FONT>          if (parts[0].length() == 0 &amp;&amp; --partsHi != 0) {<a name="line.247"></a>
+<FONT color="green">248</FONT>            return null;  // ^: requires ^::<a name="line.248"></a>
+<FONT color="green">249</FONT>          }<a name="line.249"></a>
+<FONT color="green">250</FONT>          if (parts[parts.length - 1].length() == 0 &amp;&amp; --partsLo != 0) {<a name="line.250"></a>
+<FONT color="green">251</FONT>            return null;  // :$ requires ::$<a name="line.251"></a>
+<FONT color="green">252</FONT>          }<a name="line.252"></a>
+<FONT color="green">253</FONT>        } else {<a name="line.253"></a>
+<FONT color="green">254</FONT>          // Otherwise, allocate the entire address to partsHi.  The endpoints<a name="line.254"></a>
+<FONT color="green">255</FONT>          // could still be empty, but parseHextet() will check for that.<a name="line.255"></a>
+<FONT color="green">256</FONT>          partsHi = parts.length;<a name="line.256"></a>
+<FONT color="green">257</FONT>          partsLo = 0;<a name="line.257"></a>
+<FONT color="green">258</FONT>        }<a name="line.258"></a>
+<FONT color="green">259</FONT>    <a name="line.259"></a>
+<FONT color="green">260</FONT>        // If we found a ::, then we must have skipped at least one part.<a name="line.260"></a>
+<FONT color="green">261</FONT>        // Otherwise, we must have exactly the right number of parts.<a name="line.261"></a>
+<FONT color="green">262</FONT>        int partsSkipped = IPV6_PART_COUNT - (partsHi + partsLo);<a name="line.262"></a>
+<FONT color="green">263</FONT>        if (!(skipIndex &gt;= 0 ? partsSkipped &gt;= 1 : partsSkipped == 0)) {<a name="line.263"></a>
+<FONT color="green">264</FONT>          return null;<a name="line.264"></a>
+<FONT color="green">265</FONT>        }<a name="line.265"></a>
+<FONT color="green">266</FONT>    <a name="line.266"></a>
+<FONT color="green">267</FONT>        // Now parse the hextets into a byte array.<a name="line.267"></a>
+<FONT color="green">268</FONT>        ByteBuffer rawBytes = ByteBuffer.allocate(2 * IPV6_PART_COUNT);<a name="line.268"></a>
+<FONT color="green">269</FONT>        try {<a name="line.269"></a>
+<FONT color="green">270</FONT>          for (int i = 0; i &lt; partsHi; i++) {<a name="line.270"></a>
+<FONT color="green">271</FONT>            rawBytes.putShort(parseHextet(parts[i]));<a name="line.271"></a>
+<FONT color="green">272</FONT>          }<a name="line.272"></a>
+<FONT color="green">273</FONT>          for (int i = 0; i &lt; partsSkipped; i++) {<a name="line.273"></a>
+<FONT color="green">274</FONT>            rawBytes.putShort((short) 0);<a name="line.274"></a>
+<FONT color="green">275</FONT>          }<a name="line.275"></a>
+<FONT color="green">276</FONT>          for (int i = partsLo; i &gt; 0; i--) {<a name="line.276"></a>
+<FONT color="green">277</FONT>            rawBytes.putShort(parseHextet(parts[parts.length - i]));<a name="line.277"></a>
+<FONT color="green">278</FONT>          }<a name="line.278"></a>
+<FONT color="green">279</FONT>        } catch (NumberFormatException ex) {<a name="line.279"></a>
+<FONT color="green">280</FONT>          return null;<a name="line.280"></a>
+<FONT color="green">281</FONT>        }<a name="line.281"></a>
+<FONT color="green">282</FONT>        return rawBytes.array();<a name="line.282"></a>
+<FONT color="green">283</FONT>      }<a name="line.283"></a>
+<FONT color="green">284</FONT>    <a name="line.284"></a>
+<FONT color="green">285</FONT>      private static String convertDottedQuadToHex(String ipString) {<a name="line.285"></a>
+<FONT color="green">286</FONT>        int lastColon = ipString.lastIndexOf(':');<a name="line.286"></a>
+<FONT color="green">287</FONT>        String initialPart = ipString.substring(0, lastColon + 1);<a name="line.287"></a>
+<FONT color="green">288</FONT>        String dottedQuad = ipString.substring(lastColon + 1);<a name="line.288"></a>
+<FONT color="green">289</FONT>        byte[] quad = textToNumericFormatV4(dottedQuad);<a name="line.289"></a>
+<FONT color="green">290</FONT>        if (quad == null) {<a name="line.290"></a>
+<FONT color="green">291</FONT>          return null;<a name="line.291"></a>
+<FONT color="green">292</FONT>        }<a name="line.292"></a>
+<FONT color="green">293</FONT>        String penultimate = Integer.toHexString(((quad[0] &amp; 0xff) &lt;&lt; 8) | (quad[1] &amp; 0xff));<a name="line.293"></a>
+<FONT color="green">294</FONT>        String ultimate = Integer.toHexString(((quad[2] &amp; 0xff) &lt;&lt; 8) | (quad[3] &amp; 0xff));<a name="line.294"></a>
+<FONT color="green">295</FONT>        return initialPart + penultimate + ":" + ultimate;<a name="line.295"></a>
+<FONT color="green">296</FONT>      }<a name="line.296"></a>
+<FONT color="green">297</FONT>    <a name="line.297"></a>
+<FONT color="green">298</FONT>      private static byte parseOctet(String ipPart) {<a name="line.298"></a>
+<FONT color="green">299</FONT>        // Note: we already verified that this string contains only hex digits.<a name="line.299"></a>
+<FONT color="green">300</FONT>        int octet = Integer.parseInt(ipPart);<a name="line.300"></a>
+<FONT color="green">301</FONT>        // Disallow leading zeroes, because no clear standard exists on<a name="line.301"></a>
+<FONT color="green">302</FONT>        // whether these should be interpreted as decimal or octal.<a name="line.302"></a>
+<FONT color="green">303</FONT>        if (octet &gt; 255 || (ipPart.startsWith("0") &amp;&amp; ipPart.length() &gt; 1)) {<a name="line.303"></a>
+<FONT color="green">304</FONT>          throw new NumberFormatException();<a name="line.304"></a>
+<FONT color="green">305</FONT>        }<a name="line.305"></a>
+<FONT color="green">306</FONT>        return (byte) octet;<a name="line.306"></a>
+<FONT color="green">307</FONT>      }<a name="line.307"></a>
+<FONT color="green">308</FONT>    <a name="line.308"></a>
+<FONT color="green">309</FONT>      private static short parseHextet(String ipPart) {<a name="line.309"></a>
+<FONT color="green">310</FONT>        // Note: we already verified that this string contains only hex digits.<a name="line.310"></a>
+<FONT color="green">311</FONT>        int hextet = Integer.parseInt(ipPart, 16);<a name="line.311"></a>
+<FONT color="green">312</FONT>        if (hextet &gt; 0xffff) {<a name="line.312"></a>
+<FONT color="green">313</FONT>          throw new NumberFormatException();<a name="line.313"></a>
+<FONT color="green">314</FONT>        }<a name="line.314"></a>
+<FONT color="green">315</FONT>        return (short) hextet;<a name="line.315"></a>
+<FONT color="green">316</FONT>      }<a name="line.316"></a>
+<FONT color="green">317</FONT>    <a name="line.317"></a>
+<FONT color="green">318</FONT>      /**<a name="line.318"></a>
+<FONT color="green">319</FONT>       * Convert a byte array into an InetAddress.<a name="line.319"></a>
+<FONT color="green">320</FONT>       *<a name="line.320"></a>
+<FONT color="green">321</FONT>       * {@link InetAddress#getByAddress} is documented as throwing a checked<a name="line.321"></a>
+<FONT color="green">322</FONT>       * exception "if IP address if of illegal length."  We replace it with<a name="line.322"></a>
+<FONT color="green">323</FONT>       * an unchecked exception, for use by callers who already know that addr<a name="line.323"></a>
+<FONT color="green">324</FONT>       * is an array of length 4 or 16.<a name="line.324"></a>
+<FONT color="green">325</FONT>       *<a name="line.325"></a>
+<FONT color="green">326</FONT>       * @param addr the raw 4-byte or 16-byte IP address in big-endian order<a name="line.326"></a>
+<FONT color="green">327</FONT>       * @return an InetAddress object created from the raw IP address<a name="line.327"></a>
+<FONT color="green">328</FONT>       */<a name="line.328"></a>
+<FONT color="green">329</FONT>      private static InetAddress bytesToInetAddress(byte[] addr) {<a name="line.329"></a>
+<FONT color="green">330</FONT>        try {<a name="line.330"></a>
+<FONT color="green">331</FONT>          return InetAddress.getByAddress(addr);<a name="line.331"></a>
+<FONT color="green">332</FONT>        } catch (UnknownHostException e) {<a name="line.332"></a>
+<FONT color="green">333</FONT>          throw new AssertionError(e);<a name="line.333"></a>
+<FONT color="green">334</FONT>        }<a name="line.334"></a>
+<FONT color="green">335</FONT>      }<a name="line.335"></a>
+<FONT color="green">336</FONT>    <a name="line.336"></a>
+<FONT color="green">337</FONT>      /**<a name="line.337"></a>
+<FONT color="green">338</FONT>       * Returns the string representation of an {@link InetAddress}.<a name="line.338"></a>
+<FONT color="green">339</FONT>       *<a name="line.339"></a>
+<FONT color="green">340</FONT>       * &lt;p&gt;For IPv4 addresses, this is identical to<a name="line.340"></a>
+<FONT color="green">341</FONT>       * {@link InetAddress#getHostAddress()}, but for IPv6 addresses, the output<a name="line.341"></a>
+<FONT color="green">342</FONT>       * follows &lt;a href="http://tools.ietf.org/html/rfc5952"&gt;RFC 5952&lt;/a&gt;<a name="line.342"></a>
+<FONT color="green">343</FONT>       * section 4.  The main difference is that this method uses "::" for zero<a name="line.343"></a>
+<FONT color="green">344</FONT>       * compression, while Java's version uses the uncompressed form.<a name="line.344"></a>
+<FONT color="green">345</FONT>       *<a name="line.345"></a>
+<FONT color="green">346</FONT>       * &lt;p&gt;This method uses hexadecimal for all IPv6 addresses, including<a name="line.346"></a>
+<FONT color="green">347</FONT>       * IPv4-mapped IPv6 addresses such as "::c000:201".  The output does not<a name="line.347"></a>
+<FONT color="green">348</FONT>       * include a Scope ID.<a name="line.348"></a>
+<FONT color="green">349</FONT>       *<a name="line.349"></a>
+<FONT color="green">350</FONT>       * @param ip {@link InetAddress} to be converted to an address string<a name="line.350"></a>
+<FONT color="green">351</FONT>       * @return {@code String} containing the text-formatted IP address<a name="line.351"></a>
+<FONT color="green">352</FONT>       * @since 10.0<a name="line.352"></a>
+<FONT color="green">353</FONT>       */<a name="line.353"></a>
+<FONT color="green">354</FONT>      public static String toAddrString(InetAddress ip) {<a name="line.354"></a>
+<FONT color="green">355</FONT>        Preconditions.checkNotNull(ip);<a name="line.355"></a>
+<FONT color="green">356</FONT>        if (ip instanceof Inet4Address) {<a name="line.356"></a>
+<FONT color="green">357</FONT>          // For IPv4, Java's formatting is good enough.<a name="line.357"></a>
+<FONT color="green">358</FONT>          return ip.getHostAddress();<a name="line.358"></a>
+<FONT color="green">359</FONT>        }<a name="line.359"></a>
+<FONT color="green">360</FONT>        Preconditions.checkArgument(ip instanceof Inet6Address);<a name="line.360"></a>
+<FONT color="green">361</FONT>        byte[] bytes = ip.getAddress();<a name="line.361"></a>
+<FONT color="green">362</FONT>        int[] hextets = new int[IPV6_PART_COUNT];<a name="line.362"></a>
+<FONT color="green">363</FONT>        for (int i = 0; i &lt; hextets.length; i++) {<a name="line.363"></a>
+<FONT color="green">364</FONT>          hextets[i] = Ints.fromBytes(<a name="line.364"></a>
+<FONT color="green">365</FONT>              (byte) 0, (byte) 0, bytes[2 * i], bytes[2 * i + 1]);<a name="line.365"></a>
+<FONT color="green">366</FONT>        }<a name="line.366"></a>
+<FONT color="green">367</FONT>        compressLongestRunOfZeroes(hextets);<a name="line.367"></a>
+<FONT color="green">368</FONT>        return hextetsToIPv6String(hextets);<a name="line.368"></a>
+<FONT color="green">369</FONT>      }<a name="line.369"></a>
+<FONT color="green">370</FONT>    <a name="line.370"></a>
+<FONT color="green">371</FONT>      /**<a name="line.371"></a>
+<FONT color="green">372</FONT>       * Identify and mark the longest run of zeroes in an IPv6 address.<a name="line.372"></a>
+<FONT color="green">373</FONT>       *<a name="line.373"></a>
+<FONT color="green">374</FONT>       * &lt;p&gt;Only runs of two or more hextets are considered.  In case of a tie, the<a name="line.374"></a>
+<FONT color="green">375</FONT>       * leftmost run wins.  If a qualifying run is found, its hextets are replaced<a name="line.375"></a>
+<FONT color="green">376</FONT>       * by the sentinel value -1.<a name="line.376"></a>
+<FONT color="green">377</FONT>       *<a name="line.377"></a>
+<FONT color="green">378</FONT>       * @param hextets {@code int[]} mutable array of eight 16-bit hextets<a name="line.378"></a>
+<FONT color="green">379</FONT>       */<a name="line.379"></a>
+<FONT color="green">380</FONT>      private static void compressLongestRunOfZeroes(int[] hextets) {<a name="line.380"></a>
+<FONT color="green">381</FONT>        int bestRunStart = -1;<a name="line.381"></a>
+<FONT color="green">382</FONT>        int bestRunLength = -1;<a name="line.382"></a>
+<FONT color="green">383</FONT>        int runStart = -1;<a name="line.383"></a>
+<FONT color="green">384</FONT>        for (int i = 0; i &lt; hextets.length + 1; i++) {<a name="line.384"></a>
+<FONT color="green">385</FONT>          if (i &lt; hextets.length &amp;&amp; hextets[i] == 0) {<a name="line.385"></a>
+<FONT color="green">386</FONT>            if (runStart &lt; 0) {<a name="line.386"></a>
+<FONT color="green">387</FONT>              runStart = i;<a name="line.387"></a>
+<FONT color="green">388</FONT>            }<a name="line.388"></a>
+<FONT color="green">389</FONT>          } else if (runStart &gt;= 0) {<a name="line.389"></a>
+<FONT color="green">390</FONT>            int runLength = i - runStart;<a name="line.390"></a>
+<FONT color="green">391</FONT>            if (runLength &gt; bestRunLength) {<a name="line.391"></a>
+<FONT color="green">392</FONT>              bestRunStart = runStart;<a name="line.392"></a>
+<FONT color="green">393</FONT>              bestRunLength = runLength;<a name="line.393"></a>
+<FONT color="green">394</FONT>            }<a name="line.394"></a>
+<FONT color="green">395</FONT>            runStart = -1;<a name="line.395"></a>
+<FONT color="green">396</FONT>          }<a name="line.396"></a>
+<FONT color="green">397</FONT>        }<a name="line.397"></a>
+<FONT color="green">398</FONT>        if (bestRunLength &gt;= 2) {<a name="line.398"></a>
+<FONT color="green">399</FONT>          Arrays.fill(hextets, bestRunStart, bestRunStart + bestRunLength, -1);<a name="line.399"></a>
+<FONT color="green">400</FONT>        }<a name="line.400"></a>
+<FONT color="green">401</FONT>      }<a name="line.401"></a>
+<FONT color="green">402</FONT>    <a name="line.402"></a>
+<FONT color="green">403</FONT>      /**<a name="line.403"></a>
+<FONT color="green">404</FONT>       * Convert a list of hextets into a human-readable IPv6 address.<a name="line.404"></a>
+<FONT color="green">405</FONT>       *<a name="line.405"></a>
+<FONT color="green">406</FONT>       * &lt;p&gt;In order for "::" compression to work, the input should contain negative<a name="line.406"></a>
+<FONT color="green">407</FONT>       * sentinel values in place of the elided zeroes.<a name="line.407"></a>
+<FONT color="green">408</FONT>       *<a name="line.408"></a>
+<FONT color="green">409</FONT>       * @param hextets {@code int[]} array of eight 16-bit hextets, or -1s<a name="line.409"></a>
+<FONT color="green">410</FONT>       */<a name="line.410"></a>
+<FONT color="green">411</FONT>      private static String hextetsToIPv6String(int[] hextets) {<a name="line.411"></a>
+<FONT color="green">412</FONT>        /*<a name="line.412"></a>
+<FONT color="green">413</FONT>         * While scanning the array, handle these state transitions:<a name="line.413"></a>
+<FONT color="green">414</FONT>         *   start-&gt;num =&gt; "num"     start-&gt;gap =&gt; "::"<a name="line.414"></a>
+<FONT color="green">415</FONT>         *   num-&gt;num   =&gt; ":num"    num-&gt;gap   =&gt; "::"<a name="line.415"></a>
+<FONT color="green">416</FONT>         *   gap-&gt;num   =&gt; "num"     gap-&gt;gap   =&gt; ""<a name="line.416"></a>
+<FONT color="green">417</FONT>         */<a name="line.417"></a>
+<FONT color="green">418</FONT>        StringBuilder buf = new StringBuilder(39);<a name="line.418"></a>
+<FONT color="green">419</FONT>        boolean lastWasNumber = false;<a name="line.419"></a>
+<FONT color="green">420</FONT>        for (int i = 0; i &lt; hextets.length; i++) {<a name="line.420"></a>
+<FONT color="green">421</FONT>          boolean thisIsNumber = hextets[i] &gt;= 0;<a name="line.421"></a>
+<FONT color="green">422</FONT>          if (thisIsNumber) {<a name="line.422"></a>
+<FONT color="green">423</FONT>            if (lastWasNumber) {<a name="line.423"></a>
+<FONT color="green">424</FONT>              buf.append(':');<a name="line.424"></a>
+<FONT color="green">425</FONT>            }<a name="line.425"></a>
+<FONT color="green">426</FONT>            buf.append(Integer.toHexString(hextets[i]));<a name="line.426"></a>
+<FONT color="green">427</FONT>          } else {<a name="line.427"></a>
+<FONT color="green">428</FONT>            if (i == 0 || lastWasNumber) {<a name="line.428"></a>
+<FONT color="green">429</FONT>              buf.append("::");<a name="line.429"></a>
+<FONT color="green">430</FONT>            }<a name="line.430"></a>
+<FONT color="green">431</FONT>          }<a name="line.431"></a>
+<FONT color="green">432</FONT>          lastWasNumber = thisIsNumber;<a name="line.432"></a>
+<FONT color="green">433</FONT>        }<a name="line.433"></a>
+<FONT color="green">434</FONT>        return buf.toString();<a name="line.434"></a>
+<FONT color="green">435</FONT>      }<a name="line.435"></a>
+<FONT color="green">436</FONT>    <a name="line.436"></a>
+<FONT color="green">437</FONT>      /**<a name="line.437"></a>
+<FONT color="green">438</FONT>       * Returns the string representation of an {@link InetAddress} suitable<a name="line.438"></a>
+<FONT color="green">439</FONT>       * for inclusion in a URI.<a name="line.439"></a>
+<FONT color="green">440</FONT>       *<a name="line.440"></a>
+<FONT color="green">441</FONT>       * &lt;p&gt;For IPv4 addresses, this is identical to<a name="line.441"></a>
+<FONT color="green">442</FONT>       * {@link InetAddress#getHostAddress()}, but for IPv6 addresses it<a name="line.442"></a>
+<FONT color="green">443</FONT>       * compresses zeroes and surrounds the text with square brackets; for example<a name="line.443"></a>
+<FONT color="green">444</FONT>       * {@code "[2001:db8::1]"}.<a name="line.444"></a>
+<FONT color="green">445</FONT>       *<a name="line.445"></a>
+<FONT color="green">446</FONT>       * &lt;p&gt;Per section 3.2.2 of<a name="line.446"></a>
+<FONT color="green">447</FONT>       * &lt;a target="_parent"<a name="line.447"></a>
+<FONT color="green">448</FONT>       *    href="http://tools.ietf.org/html/rfc3986#section-3.2.2"<a name="line.448"></a>
+<FONT color="green">449</FONT>       *  &gt;http://tools.ietf.org/html/rfc3986&lt;/a&gt;,<a name="line.449"></a>
+<FONT color="green">450</FONT>       * a URI containing an IPv6 string literal is of the form<a name="line.450"></a>
+<FONT color="green">451</FONT>       * {@code "http://[2001:db8::1]:8888/index.html"}.<a name="line.451"></a>
+<FONT color="green">452</FONT>       *<a name="line.452"></a>
+<FONT color="green">453</FONT>       * &lt;p&gt;Use of either {@link InetAddresses#toAddrString},<a name="line.453"></a>
+<FONT color="green">454</FONT>       * {@link InetAddress#getHostAddress()}, or this method is recommended over<a name="line.454"></a>
+<FONT color="green">455</FONT>       * {@link InetAddress#toString()} when an IP address string literal is<a name="line.455"></a>
+<FONT color="green">456</FONT>       * desired.  This is because {@link InetAddress#toString()} prints the<a name="line.456"></a>
+<FONT color="green">457</FONT>       * hostname and the IP address string joined by a "/".<a name="line.457"></a>
+<FONT color="green">458</FONT>       *<a name="line.458"></a>
+<FONT color="green">459</FONT>       * @param ip {@link InetAddress} to be converted to URI string literal<a name="line.459"></a>
+<FONT color="green">460</FONT>       * @return {@code String} containing URI-safe string literal<a name="line.460"></a>
+<FONT color="green">461</FONT>       */<a name="line.461"></a>
+<FONT color="green">462</FONT>      public static String toUriString(InetAddress ip) {<a name="line.462"></a>
+<FONT color="green">463</FONT>        if (ip instanceof Inet6Address) {<a name="line.463"></a>
+<FONT color="green">464</FONT>          return "[" + toAddrString(ip) + "]";<a name="line.464"></a>
+<FONT color="green">465</FONT>        }<a name="line.465"></a>
+<FONT color="green">466</FONT>        return toAddrString(ip);<a name="line.466"></a>
+<FONT color="green">467</FONT>      }<a name="line.467"></a>
+<FONT color="green">468</FONT>    <a name="line.468"></a>
+<FONT color="green">469</FONT>      /**<a name="line.469"></a>
+<FONT color="green">470</FONT>       * Returns an InetAddress representing the literal IPv4 or IPv6 host<a name="line.470"></a>
+<FONT color="green">471</FONT>       * portion of a URL, encoded in the format specified by RFC 3986 section 3.2.2.<a name="line.471"></a>
+<FONT color="green">472</FONT>       *<a name="line.472"></a>
+<FONT color="green">473</FONT>       * &lt;p&gt;This function is similar to {@link InetAddresses#forString(String)},<a name="line.473"></a>
+<FONT color="green">474</FONT>       * however, it requires that IPv6 addresses are surrounded by square brackets.<a name="line.474"></a>
+<FONT color="green">475</FONT>       *<a name="line.475"></a>
+<FONT color="green">476</FONT>       * &lt;p&gt;This function is the inverse of<a name="line.476"></a>
+<FONT color="green">477</FONT>       * {@link InetAddresses#toUriString(java.net.InetAddress)}.<a name="line.477"></a>
+<FONT color="green">478</FONT>       *<a name="line.478"></a>
+<FONT color="green">479</FONT>       * @param hostAddr A RFC 3986 section 3.2.2 encoded IPv4 or IPv6 address<a name="line.479"></a>
+<FONT color="green">480</FONT>       * @return an InetAddress representing the address in {@code hostAddr}<a name="line.480"></a>
+<FONT color="green">481</FONT>       * @throws IllegalArgumentException if {@code hostAddr} is not a valid<a name="line.481"></a>
+<FONT color="green">482</FONT>       *     IPv4 address, or IPv6 address surrounded by square brackets<a name="line.482"></a>
+<FONT color="green">483</FONT>       */<a name="line.483"></a>
+<FONT color="green">484</FONT>      public static InetAddress forUriString(String hostAddr) {<a name="line.484"></a>
+<FONT color="green">485</FONT>        Preconditions.checkNotNull(hostAddr);<a name="line.485"></a>
+<FONT color="green">486</FONT>    <a name="line.486"></a>
+<FONT color="green">487</FONT>        // Decide if this should be an IPv6 or IPv4 address.<a name="line.487"></a>
+<FONT color="green">488</FONT>        String ipString;<a name="line.488"></a>
+<FONT color="green">489</FONT>        int expectBytes;<a name="line.489"></a>
+<FONT color="green">490</FONT>        if (hostAddr.startsWith("[") &amp;&amp; hostAddr.endsWith("]")) {<a name="line.490"></a>
+<FONT color="green">491</FONT>          ipString = hostAddr.substring(1, hostAddr.length() - 1);<a name="line.491"></a>
+<FONT color="green">492</FONT>          expectBytes = 16;<a name="line.492"></a>
+<FONT color="green">493</FONT>        } else {<a name="line.493"></a>
+<FONT color="green">494</FONT>          ipString = hostAddr;<a name="line.494"></a>
+<FONT color="green">495</FONT>          expectBytes = 4;<a name="line.495"></a>
+<FONT color="green">496</FONT>        }<a name="line.496"></a>
+<FONT color="green">497</FONT>    <a name="line.497"></a>
+<FONT color="green">498</FONT>        // Parse the address, and make sure the length/version is correct.<a name="line.498"></a>
+<FONT color="green">499</FONT>        byte[] addr = ipStringToBytes(ipString);<a name="line.499"></a>
+<FONT color="green">500</FONT>        if (addr == null || addr.length != expectBytes) {<a name="line.500"></a>
+<FONT color="green">501</FONT>          throw new IllegalArgumentException(<a name="line.501"></a>
+<FONT color="green">502</FONT>              String.format("Not a valid URI IP literal: '%s'", hostAddr));<a name="line.502"></a>
+<FONT color="green">503</FONT>        }<a name="line.503"></a>
+<FONT color="green">504</FONT>    <a name="line.504"></a>
+<FONT color="green">505</FONT>        return bytesToInetAddress(addr);<a name="line.505"></a>
+<FONT color="green">506</FONT>      }<a name="line.506"></a>
+<FONT color="green">507</FONT>    <a name="line.507"></a>
+<FONT color="green">508</FONT>      /**<a name="line.508"></a>
+<FONT color="green">509</FONT>       * Returns {@code true} if the supplied string is a valid URI IP string<a name="line.509"></a>
+<FONT color="green">510</FONT>       * literal, {@code false} otherwise.<a name="line.510"></a>
+<FONT color="green">511</FONT>       *<a name="line.511"></a>
+<FONT color="green">512</FONT>       * @param ipString {@code String} to evaluated as an IP URI host string literal<a name="line.512"></a>
+<FONT color="green">513</FONT>       * @return {@code true} if the argument is a valid IP URI host<a name="line.513"></a>
+<FONT color="green">514</FONT>       */<a name="line.514"></a>
+<FONT color="green">515</FONT>      public static boolean isUriInetAddress(String ipString) {<a name="line.515"></a>
+<FONT color="green">516</FONT>        try {<a name="line.516"></a>
+<FONT color="green">517</FONT>          forUriString(ipString);<a name="line.517"></a>
+<FONT color="green">518</FONT>          return true;<a name="line.518"></a>
+<FONT color="green">519</FONT>        } catch (IllegalArgumentException e) {<a name="line.519"></a>
+<FONT color="green">520</FONT>          return false;<a name="line.520"></a>
+<FONT color="green">521</FONT>        }<a name="line.521"></a>
+<FONT color="green">522</FONT>      }<a name="line.522"></a>
+<FONT color="green">523</FONT>    <a name="line.523"></a>
+<FONT color="green">524</FONT>      /**<a name="line.524"></a>
+<FONT color="green">525</FONT>       * Evaluates whether the argument is an IPv6 "compat" address.<a name="line.525"></a>
+<FONT color="green">526</FONT>       *<a name="line.526"></a>
+<FONT color="green">527</FONT>       * &lt;p&gt;An "IPv4 compatible", or "compat", address is one with 96 leading<a name="line.527"></a>
+<FONT color="green">528</FONT>       * bits of zero, with the remaining 32 bits interpreted as an<a name="line.528"></a>
+<FONT color="green">529</FONT>       * IPv4 address.  These are conventionally represented in string<a name="line.529"></a>
+<FONT color="green">530</FONT>       * literals as {@code "::192.168.0.1"}, though {@code "::c0a8:1"} is<a name="line.530"></a>
+<FONT color="green">531</FONT>       * also considered an IPv4 compatible address (and equivalent to<a name="line.531"></a>
+<FONT color="green">532</FONT>       * {@code "::192.168.0.1"}).<a name="line.532"></a>
+<FONT color="green">533</FONT>       *<a name="line.533"></a>
+<FONT color="green">534</FONT>       * &lt;p&gt;For more on IPv4 compatible addresses see section 2.5.5.1 of<a name="line.534"></a>
+<FONT color="green">535</FONT>       * &lt;a target="_parent"<a name="line.535"></a>
+<FONT color="green">536</FONT>       *    href="http://tools.ietf.org/html/rfc4291#section-2.5.5.1"<a name="line.536"></a>
+<FONT color="green">537</FONT>       *    &gt;http://tools.ietf.org/html/rfc4291&lt;/a&gt;<a name="line.537"></a>
+<FONT color="green">538</FONT>       *<a name="line.538"></a>
+<FONT color="green">539</FONT>       * &lt;p&gt;NOTE: This method is different from<a name="line.539"></a>
+<FONT color="green">540</FONT>       * {@link Inet6Address#isIPv4CompatibleAddress} in that it more<a name="line.540"></a>
+<FONT color="green">541</FONT>       * correctly classifies {@code "::"} and {@code "::1"} as<a name="line.541"></a>
+<FONT color="green">542</FONT>       * proper IPv6 addresses (which they are), NOT IPv4 compatible<a name="line.542"></a>
+<FONT color="green">543</FONT>       * addresses (which they are generally NOT considered to be).<a name="line.543"></a>
+<FONT color="green">544</FONT>       *<a name="line.544"></a>
+<FONT color="green">545</FONT>       * @param ip {@link Inet6Address} to be examined for embedded IPv4 compatible address format<a name="line.545"></a>
+<FONT color="green">546</FONT>       * @return {@code true} if the argument is a valid "compat" address<a name="line.546"></a>
+<FONT color="green">547</FONT>       */<a name="line.547"></a>
+<FONT color="green">548</FONT>      public static boolean isCompatIPv4Address(Inet6Address ip) {<a name="line.548"></a>
+<FONT color="green">549</FONT>        if (!ip.isIPv4CompatibleAddress()) {<a name="line.549"></a>
+<FONT color="green">550</FONT>          return false;<a name="line.550"></a>
+<FONT color="green">551</FONT>        }<a name="line.551"></a>
+<FONT color="green">552</FONT>    <a name="line.552"></a>
+<FONT color="green">553</FONT>        byte[] bytes = ip.getAddress();<a name="line.553"></a>
+<FONT color="green">554</FONT>        if ((bytes[12] == 0) &amp;&amp; (bytes[13] == 0) &amp;&amp; (bytes[14] == 0)<a name="line.554"></a>
+<FONT color="green">555</FONT>            &amp;&amp; ((bytes[15] == 0) || (bytes[15] == 1))) {<a name="line.555"></a>
+<FONT color="green">556</FONT>          return false;<a name="line.556"></a>
+<FONT color="green">557</FONT>        }<a name="line.557"></a>
+<FONT color="green">558</FONT>    <a name="line.558"></a>
+<FONT color="green">559</FONT>        return true;<a name="line.559"></a>
+<FONT color="green">560</FONT>      }<a name="line.560"></a>
+<FONT color="green">561</FONT>    <a name="line.561"></a>
+<FONT color="green">562</FONT>      /**<a name="line.562"></a>
+<FONT color="green">563</FONT>       * Returns the IPv4 address embedded in an IPv4 compatible address.<a name="line.563"></a>
+<FONT color="green">564</FONT>       *<a name="line.564"></a>
+<FONT color="green">565</FONT>       * @param ip {@link Inet6Address} to be examined for an embedded IPv4 address<a name="line.565"></a>
+<FONT color="green">566</FONT>       * @return {@link Inet4Address} of the embedded IPv4 address<a name="line.566"></a>
+<FONT color="green">567</FONT>       * @throws IllegalArgumentException if the argument is not a valid IPv4 compatible address<a name="line.567"></a>
+<FONT color="green">568</FONT>       */<a name="line.568"></a>
+<FONT color="green">569</FONT>      public static Inet4Address getCompatIPv4Address(Inet6Address ip) {<a name="line.569"></a>
+<FONT color="green">570</FONT>        Preconditions.checkArgument(isCompatIPv4Address(ip),<a name="line.570"></a>
+<FONT color="green">571</FONT>            "Address '%s' is not IPv4-compatible.", toAddrString(ip));<a name="line.571"></a>
+<FONT color="green">572</FONT>    <a name="line.572"></a>
+<FONT color="green">573</FONT>        return getInet4Address(Arrays.copyOfRange(ip.getAddress(), 12, 16));<a name="line.573"></a>
+<FONT color="green">574</FONT>      }<a name="line.574"></a>
+<FONT color="green">575</FONT>    <a name="line.575"></a>
+<FONT color="green">576</FONT>      /**<a name="line.576"></a>
+<FONT color="green">577</FONT>       * Evaluates whether the argument is a 6to4 address.<a name="line.577"></a>
+<FONT color="green">578</FONT>       *<a name="line.578"></a>
+<FONT color="green">579</FONT>       * &lt;p&gt;6to4 addresses begin with the {@code "2002::/16"} prefix.<a name="line.579"></a>
+<FONT color="green">580</FONT>       * The next 32 bits are the IPv4 address of the host to which<a name="line.580"></a>
+<FONT color="green">581</FONT>       * IPv6-in-IPv4 tunneled packets should be routed.<a name="line.581"></a>
+<FONT color="green">582</FONT>       *<a name="line.582"></a>
+<FONT color="green">583</FONT>       * &lt;p&gt;For more on 6to4 addresses see section 2 of<a name="line.583"></a>
+<FONT color="green">584</FONT>       * &lt;a target="_parent" href="http://tools.ietf.org/html/rfc3056#section-2"<a name="line.584"></a>
+<FONT color="green">585</FONT>       *    &gt;http://tools.ietf.org/html/rfc3056&lt;/a&gt;<a name="line.585"></a>
+<FONT color="green">586</FONT>       *<a name="line.586"></a>
+<FONT color="green">587</FONT>       * @param ip {@link Inet6Address} to be examined for 6to4 address format<a name="line.587"></a>
+<FONT color="green">588</FONT>       * @return {@code true} if the argument is a 6to4 address<a name="line.588"></a>
+<FONT color="green">589</FONT>       */<a name="line.589"></a>
+<FONT color="green">590</FONT>      public static boolean is6to4Address(Inet6Address ip) {<a name="line.590"></a>
+<FONT color="green">591</FONT>        byte[] bytes = ip.getAddress();<a name="line.591"></a>
+<FONT color="green">592</FONT>        return (bytes[0] == (byte) 0x20) &amp;&amp; (bytes[1] == (byte) 0x02);<a name="line.592"></a>
+<FONT color="green">593</FONT>      }<a name="line.593"></a>
+<FONT color="green">594</FONT>    <a name="line.594"></a>
+<FONT color="green">595</FONT>      /**<a name="line.595"></a>
+<FONT color="green">596</FONT>       * Returns the IPv4 address embedded in a 6to4 address.<a name="line.596"></a>
+<FONT color="green">597</FONT>       *<a name="line.597"></a>
+<FONT color="green">598</FONT>       * @param ip {@link Inet6Address} to be examined for embedded IPv4 in 6to4 address<a name="line.598"></a>
+<FONT color="green">599</FONT>       * @return {@link Inet4Address} of embedded IPv4 in 6to4 address<a name="line.599"></a>
+<FONT color="green">600</FONT>       * @throws IllegalArgumentException if the argument is not a valid IPv6 6to4 address<a name="line.600"></a>
+<FONT color="green">601</FONT>       */<a name="line.601"></a>
+<FONT color="green">602</FONT>      public static Inet4Address get6to4IPv4Address(Inet6Address ip) {<a name="line.602"></a>
+<FONT color="green">603</FONT>        Preconditions.checkArgument(is6to4Address(ip),<a name="line.603"></a>
+<FONT color="green">604</FONT>            "Address '%s' is not a 6to4 address.", toAddrString(ip));<a name="line.604"></a>
+<FONT color="green">605</FONT>    <a name="line.605"></a>
+<FONT color="green">606</FONT>        return getInet4Address(Arrays.copyOfRange(ip.getAddress(), 2, 6));<a name="line.606"></a>
+<FONT color="green">607</FONT>      }<a name="line.607"></a>
+<FONT color="green">608</FONT>    <a name="line.608"></a>
+<FONT color="green">609</FONT>      /**<a name="line.609"></a>
+<FONT color="green">610</FONT>       * A simple immutable data class to encapsulate the information to be found in a<a name="line.610"></a>
+<FONT color="green">611</FONT>       * Teredo address.<a name="line.611"></a>
+<FONT color="green">612</FONT>       *<a name="line.612"></a>
+<FONT color="green">613</FONT>       * &lt;p&gt;All of the fields in this class are encoded in various portions<a name="line.613"></a>
+<FONT color="green">614</FONT>       * of the IPv6 address as part of the protocol.  More protocols details<a name="line.614"></a>
+<FONT color="green">615</FONT>       * can be found at:<a name="line.615"></a>
+<FONT color="green">616</FONT>       * &lt;a target="_parent" href="http://en.wikipedia.org/wiki/Teredo_tunneling"<a name="line.616"></a>
+<FONT color="green">617</FONT>       *    &gt;http://en.wikipedia.org/wiki/Teredo_tunneling&lt;/a&gt;.<a name="line.617"></a>
+<FONT color="green">618</FONT>       *<a name="line.618"></a>
+<FONT color="green">619</FONT>       * &lt;p&gt;The RFC can be found here:<a name="line.619"></a>
+<FONT color="green">620</FONT>       * &lt;a target="_parent" href="http://tools.ietf.org/html/rfc4380"<a name="line.620"></a>
+<FONT color="green">621</FONT>       *    &gt;http://tools.ietf.org/html/rfc4380&lt;/a&gt;.<a name="line.621"></a>
+<FONT color="green">622</FONT>       *<a name="line.622"></a>
+<FONT color="green">623</FONT>       * @since 5.0<a name="line.623"></a>
+<FONT color="green">624</FONT>       */<a name="line.624"></a>
+<FONT color="green">625</FONT>      @Beta<a name="line.625"></a>
+<FONT color="green">626</FONT>      public static final class TeredoInfo {<a name="line.626"></a>
+<FONT color="green">627</FONT>        private final Inet4Address server;<a name="line.627"></a>
+<FONT color="green">628</FONT>        private final Inet4Address client;<a name="line.628"></a>
+<FONT color="green">629</FONT>        private final int port;<a name="line.629"></a>
+<FONT color="green">630</FONT>        private final int flags;<a name="line.630"></a>
+<FONT color="green">631</FONT>    <a name="line.631"></a>
+<FONT color="green">632</FONT>        /**<a name="line.632"></a>
+<FONT color="green">633</FONT>         * Constructs a TeredoInfo instance.<a name="line.633"></a>
+<FONT color="green">634</FONT>         *<a name="line.634"></a>
+<FONT color="green">635</FONT>         * &lt;p&gt;Both server and client can be {@code null}, in which case the<a name="line.635"></a>
+<FONT color="green">636</FONT>         * value {@code "0.0.0.0"} will be assumed.<a name="line.636"></a>
+<FONT color="green">637</FONT>         *<a name="line.637"></a>
+<FONT color="green">638</FONT>         * @throws IllegalArgumentException if either of the {@code port} or the {@code flags}<a name="line.638"></a>
+<FONT color="green">639</FONT>         *     arguments are out of range of an unsigned short<a name="line.639"></a>
+<FONT color="green">640</FONT>         */<a name="line.640"></a>
+<FONT color="green">641</FONT>        // TODO: why is this public?<a name="line.641"></a>
+<FONT color="green">642</FONT>        public TeredoInfo(<a name="line.642"></a>
+<FONT color="green">643</FONT>            @Nullable Inet4Address server, @Nullable Inet4Address client, int port, int flags) {<a name="line.643"></a>
+<FONT color="green">644</FONT>          Preconditions.checkArgument((port &gt;= 0) &amp;&amp; (port &lt;= 0xffff),<a name="line.644"></a>
+<FONT color="green">645</FONT>              "port '%s' is out of range (0 &lt;= port &lt;= 0xffff)", port);<a name="line.645"></a>
+<FONT color="green">646</FONT>          Preconditions.checkArgument((flags &gt;= 0) &amp;&amp; (flags &lt;= 0xffff),<a name="line.646"></a>
+<FONT color="green">647</FONT>              "flags '%s' is out of range (0 &lt;= flags &lt;= 0xffff)", flags);<a name="line.647"></a>
+<FONT color="green">648</FONT>          <a name="line.648"></a>
+<FONT color="green">649</FONT>          this.server = Objects.firstNonNull(server, ANY4);<a name="line.649"></a>
+<FONT color="green">650</FONT>          this.client = Objects.firstNonNull(client, ANY4);<a name="line.650"></a>
+<FONT color="green">651</FONT>          this.port = port;<a name="line.651"></a>
+<FONT color="green">652</FONT>          this.flags = flags;<a name="line.652"></a>
+<FONT color="green">653</FONT>        }<a name="line.653"></a>
+<FONT color="green">654</FONT>    <a name="line.654"></a>
+<FONT color="green">655</FONT>        public Inet4Address getServer() {<a name="line.655"></a>
+<FONT color="green">656</FONT>          return server;<a name="line.656"></a>
+<FONT color="green">657</FONT>        }<a name="line.657"></a>
+<FONT color="green">658</FONT>    <a name="line.658"></a>
+<FONT color="green">659</FONT>        public Inet4Address getClient() {<a name="line.659"></a>
+<FONT color="green">660</FONT>          return client;<a name="line.660"></a>
+<FONT color="green">661</FONT>        }<a name="line.661"></a>
+<FONT color="green">662</FONT>    <a name="line.662"></a>
+<FONT color="green">663</FONT>        public int getPort() {<a name="line.663"></a>
+<FONT color="green">664</FONT>          return port;<a name="line.664"></a>
+<FONT color="green">665</FONT>        }<a name="line.665"></a>
+<FONT color="green">666</FONT>    <a name="line.666"></a>
+<FONT color="green">667</FONT>        public int getFlags() {<a name="line.667"></a>
+<FONT color="green">668</FONT>          return flags;<a name="line.668"></a>
+<FONT color="green">669</FONT>        }<a name="line.669"></a>
+<FONT color="green">670</FONT>      }<a name="line.670"></a>
+<FONT color="green">671</FONT>    <a name="line.671"></a>
+<FONT color="green">672</FONT>      /**<a name="line.672"></a>
+<FONT color="green">673</FONT>       * Evaluates whether the argument is a Teredo address.<a name="line.673"></a>
+<FONT color="green">674</FONT>       *<a name="line.674"></a>
+<FONT color="green">675</FONT>       * &lt;p&gt;Teredo addresses begin with the {@code "2001::/32"} prefix.<a name="line.675"></a>
+<FONT color="green">676</FONT>       *<a name="line.676"></a>
+<FONT color="green">677</FONT>       * @param ip {@link Inet6Address} to be examined for Teredo address format<a name="line.677"></a>
+<FONT color="green">678</FONT>       * @return {@code true} if the argument is a Teredo address<a name="line.678"></a>
+<FONT color="green">679</FONT>       */<a name="line.679"></a>
+<FONT color="green">680</FONT>      public static boolean isTeredoAddress(Inet6Address ip) {<a name="line.680"></a>
+<FONT color="green">681</FONT>        byte[] bytes = ip.getAddress();<a name="line.681"></a>
+<FONT color="green">682</FONT>        return (bytes[0] == (byte) 0x20) &amp;&amp; (bytes[1] == (byte) 0x01)<a name="line.682"></a>
+<FONT color="green">683</FONT>               &amp;&amp; (bytes[2] == 0) &amp;&amp; (bytes[3] == 0);<a name="line.683"></a>
+<FONT color="green">684</FONT>      }<a name="line.684"></a>
+<FONT color="green">685</FONT>    <a name="line.685"></a>
+<FONT color="green">686</FONT>      /**<a name="line.686"></a>
+<FONT color="green">687</FONT>       * Returns the Teredo information embedded in a Teredo address.<a name="line.687"></a>
+<FONT color="green">688</FONT>       *<a name="line.688"></a>
+<FONT color="green">689</FONT>       * @param ip {@link Inet6Address} to be examined for embedded Teredo information<a name="line.689"></a>
+<FONT color="green">690</FONT>       * @return extracted {@code TeredoInfo}<a name="line.690"></a>
+<FONT color="green">691</FONT>       * @throws IllegalArgumentException if the argument is not a valid IPv6 Teredo address<a name="line.691"></a>
+<FONT color="green">692</FONT>       */<a name="line.692"></a>
+<FONT color="green">693</FONT>      public static TeredoInfo getTeredoInfo(Inet6Address ip) {<a name="line.693"></a>
+<FONT color="green">694</FONT>        Preconditions.checkArgument(isTeredoAddress(ip),<a name="line.694"></a>
+<FONT color="green">695</FONT>            "Address '%s' is not a Teredo address.", toAddrString(ip));<a name="line.695"></a>
+<FONT color="green">696</FONT>    <a name="line.696"></a>
+<FONT color="green">697</FONT>        byte[] bytes = ip.getAddress();<a name="line.697"></a>
+<FONT color="green">698</FONT>        Inet4Address server = getInet4Address(Arrays.copyOfRange(bytes, 4, 8));<a name="line.698"></a>
+<FONT color="green">699</FONT>    <a name="line.699"></a>
+<FONT color="green">700</FONT>        int flags = ByteStreams.newDataInput(bytes, 8).readShort() &amp; 0xffff;<a name="line.700"></a>
+<FONT color="green">701</FONT>    <a name="line.701"></a>
+<FONT color="green">702</FONT>        // Teredo obfuscates the mapped client port, per section 4 of the RFC.<a name="line.702"></a>
+<FONT color="green">703</FONT>        int port = ~ByteStreams.newDataInput(bytes, 10).readShort() &amp; 0xffff;<a name="line.703"></a>
+<FONT color="green">704</FONT>    <a name="line.704"></a>
+<FONT color="green">705</FONT>        byte[] clientBytes = Arrays.copyOfRange(bytes, 12, 16);<a name="line.705"></a>
+<FONT color="green">706</FONT>        for (int i = 0; i &lt; clientBytes.length; i++) {<a name="line.706"></a>
+<FONT color="green">707</FONT>          // Teredo obfuscates the mapped client IP, per section 4 of the RFC.<a name="line.707"></a>
+<FONT color="green">708</FONT>          clientBytes[i] = (byte) ~clientBytes[i];<a name="line.708"></a>
+<FONT color="green">709</FONT>        }<a name="line.709"></a>
+<FONT color="green">710</FONT>        Inet4Address client = getInet4Address(clientBytes);<a name="line.710"></a>
+<FONT color="green">711</FONT>    <a name="line.711"></a>
+<FONT color="green">712</FONT>        return new TeredoInfo(server, client, port, flags);<a name="line.712"></a>
+<FONT color="green">713</FONT>      }<a name="line.713"></a>
+<FONT color="green">714</FONT>    <a name="line.714"></a>
+<FONT color="green">715</FONT>      /**<a name="line.715"></a>
+<FONT color="green">716</FONT>       * Evaluates whether the argument is an ISATAP address.<a name="line.716"></a>
+<FONT color="green">717</FONT>       *<a name="line.717"></a>
+<FONT color="green">718</FONT>       * &lt;p&gt;From RFC 5214: "ISATAP interface identifiers are constructed in<a name="line.718"></a>
+<FONT color="green">719</FONT>       * Modified EUI-64 format [...] by concatenating the 24-bit IANA OUI<a name="line.719"></a>
+<FONT color="green">720</FONT>       * (00-00-5E), the 8-bit hexadecimal value 0xFE, and a 32-bit IPv4<a name="line.720"></a>
+<FONT color="green">721</FONT>       * address in network byte order [...]"<a name="line.721"></a>
+<FONT color="green">722</FONT>       *<a name="line.722"></a>
+<FONT color="green">723</FONT>       * &lt;p&gt;For more on ISATAP addresses see section 6.1 of<a name="line.723"></a>
+<FONT color="green">724</FONT>       * &lt;a target="_parent" href="http://tools.ietf.org/html/rfc5214#section-6.1"<a name="line.724"></a>
+<FONT color="green">725</FONT>       *    &gt;http://tools.ietf.org/html/rfc5214&lt;/a&gt;<a name="line.725"></a>
+<FONT color="green">726</FONT>       *<a name="line.726"></a>
+<FONT color="green">727</FONT>       * @param ip {@link Inet6Address} to be examined for ISATAP address format<a name="line.727"></a>
+<FONT color="green">728</FONT>       * @return {@code true} if the argument is an ISATAP address<a name="line.728"></a>
+<FONT color="green">729</FONT>       */<a name="line.729"></a>
+<FONT color="green">730</FONT>      public static boolean isIsatapAddress(Inet6Address ip) {<a name="line.730"></a>
+<FONT color="green">731</FONT>    <a name="line.731"></a>
+<FONT color="green">732</FONT>        // If it's a Teredo address with the right port (41217, or 0xa101)<a name="line.732"></a>
+<FONT color="green">733</FONT>        // which would be encoded as 0x5efe then it can't be an ISATAP address.<a name="line.733"></a>
+<FONT color="green">734</FONT>        if (isTeredoAddress(ip)) {<a name="line.734"></a>
+<FONT color="green">735</FONT>          return false;<a name="line.735"></a>
+<FONT color="green">736</FONT>        }<a name="line.736"></a>
+<FONT color="green">737</FONT>    <a name="line.737"></a>
+<FONT color="green">738</FONT>        byte[] bytes = ip.getAddress();<a name="line.738"></a>
+<FONT color="green">739</FONT>    <a name="line.739"></a>
+<FONT color="green">740</FONT>        if ((bytes[8] | (byte) 0x03) != (byte) 0x03) {<a name="line.740"></a>
+<FONT color="green">741</FONT>    <a name="line.741"></a>
+<FONT color="green">742</FONT>          // Verify that high byte of the 64 bit identifier is zero, modulo<a name="line.742"></a>
+<FONT color="green">743</FONT>          // the U/L and G bits, with which we are not concerned.<a name="line.743"></a>
+<FONT color="green">744</FONT>          return false;<a name="line.744"></a>
+<FONT color="green">745</FONT>        }<a name="line.745"></a>
+<FONT color="green">746</FONT>    <a name="line.746"></a>
+<FONT color="green">747</FONT>        return (bytes[9] == (byte) 0x00) &amp;&amp; (bytes[10] == (byte) 0x5e)<a name="line.747"></a>
+<FONT color="green">748</FONT>               &amp;&amp; (bytes[11] == (byte) 0xfe);<a name="line.748"></a>
+<FONT color="green">749</FONT>      }<a name="line.749"></a>
+<FONT color="green">750</FONT>    <a name="line.750"></a>
+<FONT color="green">751</FONT>      /**<a name="line.751"></a>
+<FONT color="green">752</FONT>       * Returns the IPv4 address embedded in an ISATAP address.<a name="line.752"></a>
+<FONT color="green">753</FONT>       *<a name="line.753"></a>
+<FONT color="green">754</FONT>       * @param ip {@link Inet6Address} to be examined for embedded IPv4 in ISATAP address<a name="line.754"></a>
+<FONT color="green">755</FONT>       * @return {@link Inet4Address} of embedded IPv4 in an ISATAP address<a name="line.755"></a>
+<FONT color="green">756</FONT>       * @throws IllegalArgumentException if the argument is not a valid IPv6 ISATAP address<a name="line.756"></a>
+<FONT color="green">757</FONT>       */<a name="line.757"></a>
+<FONT color="green">758</FONT>      public static Inet4Address getIsatapIPv4Address(Inet6Address ip) {<a name="line.758"></a>
+<FONT color="green">759</FONT>        Preconditions.checkArgument(isIsatapAddress(ip),<a name="line.759"></a>
+<FONT color="green">760</FONT>            "Address '%s' is not an ISATAP address.", toAddrString(ip));<a name="line.760"></a>
+<FONT color="green">761</FONT>    <a name="line.761"></a>
+<FONT color="green">762</FONT>        return getInet4Address(Arrays.copyOfRange(ip.getAddress(), 12, 16));<a name="line.762"></a>
+<FONT color="green">763</FONT>      }<a name="line.763"></a>
+<FONT color="green">764</FONT>    <a name="line.764"></a>
+<FONT color="green">765</FONT>      /**<a name="line.765"></a>
+<FONT color="green">766</FONT>       * Examines the Inet6Address to determine if it is an IPv6 address of one<a name="line.766"></a>
+<FONT color="green">767</FONT>       * of the specified address types that contain an embedded IPv4 address.<a name="line.767"></a>
+<FONT color="green">768</FONT>       *<a name="line.768"></a>
+<FONT color="green">769</FONT>       * &lt;p&gt;NOTE: ISATAP addresses are explicitly excluded from this method<a name="line.769"></a>
+<FONT color="green">770</FONT>       * due to their trivial spoofability.  With other transition addresses<a name="line.770"></a>
+<FONT color="green">771</FONT>       * spoofing involves (at least) infection of one's BGP routing table.<a name="line.771"></a>
+<FONT color="green">772</FONT>       *<a name="line.772"></a>
+<FONT color="green">773</FONT>       * @param ip {@link Inet6Address} to be examined for embedded IPv4 client address<a name="line.773"></a>
+<FONT color="green">774</FONT>       * @return {@code true} if there is an embedded IPv4 client address<a name="line.774"></a>
+<FONT color="green">775</FONT>       * @since 7.0<a name="line.775"></a>
+<FONT color="green">776</FONT>       */<a name="line.776"></a>
+<FONT color="green">777</FONT>      public static boolean hasEmbeddedIPv4ClientAddress(Inet6Address ip) {<a name="line.777"></a>
+<FONT color="green">778</FONT>        return isCompatIPv4Address(ip) || is6to4Address(ip) || isTeredoAddress(ip);<a name="line.778"></a>
+<FONT color="green">779</FONT>      }<a name="line.779"></a>
+<FONT color="green">780</FONT>    <a name="line.780"></a>
+<FONT color="green">781</FONT>      /**<a name="line.781"></a>
+<FONT color="green">782</FONT>       * Examines the Inet6Address to extract the embedded IPv4 client address<a name="line.782"></a>
+<FONT color="green">783</FONT>       * if the InetAddress is an IPv6 address of one of the specified address<a name="line.783"></a>
+<FONT color="green">784</FONT>       * types that contain an embedded IPv4 address.<a name="line.784"></a>
+<FONT color="green">785</FONT>       *<a name="line.785"></a>
+<FONT color="green">786</FONT>       * &lt;p&gt;NOTE: ISATAP addresses are explicitly excluded from this method<a name="line.786"></a>
+<FONT color="green">787</FONT>       * due to their trivial spoofability.  With other transition addresses<a name="line.787"></a>
+<FONT color="green">788</FONT>       * spoofing involves (at least) infection of one's BGP routing table.<a name="line.788"></a>
+<FONT color="green">789</FONT>       *<a name="line.789"></a>
+<FONT color="green">790</FONT>       * @param ip {@link Inet6Address} to be examined for embedded IPv4 client address<a name="line.790"></a>
+<FONT color="green">791</FONT>       * @return {@link Inet4Address} of embedded IPv4 client address<a name="line.791"></a>
+<FONT color="green">792</FONT>       * @throws IllegalArgumentException if the argument does not have a valid embedded IPv4 address<a name="line.792"></a>
+<FONT color="green">793</FONT>       */<a name="line.793"></a>
+<FONT color="green">794</FONT>      public static Inet4Address getEmbeddedIPv4ClientAddress(Inet6Address ip) {<a name="line.794"></a>
+<FONT color="green">795</FONT>        if (isCompatIPv4Address(ip)) {<a name="line.795"></a>
+<FONT color="green">796</FONT>          return getCompatIPv4Address(ip);<a name="line.796"></a>
+<FONT color="green">797</FONT>        }<a name="line.797"></a>
+<FONT color="green">798</FONT>    <a name="line.798"></a>
+<FONT color="green">799</FONT>        if (is6to4Address(ip)) {<a name="line.799"></a>
+<FONT color="green">800</FONT>          return get6to4IPv4Address(ip);<a name="line.800"></a>
+<FONT color="green">801</FONT>        }<a name="line.801"></a>
+<FONT color="green">802</FONT>    <a name="line.802"></a>
+<FONT color="green">803</FONT>        if (isTeredoAddress(ip)) {<a name="line.803"></a>
+<FONT color="green">804</FONT>          return getTeredoInfo(ip).getClient();<a name="line.804"></a>
+<FONT color="green">805</FONT>        }<a name="line.805"></a>
+<FONT color="green">806</FONT>    <a name="line.806"></a>
+<FONT color="green">807</FONT>        throw new IllegalArgumentException(<a name="line.807"></a>
+<FONT color="green">808</FONT>            String.format("'%s' has no embedded IPv4 address.", toAddrString(ip)));<a name="line.808"></a>
+<FONT color="green">809</FONT>      }<a name="line.809"></a>
+<FONT color="green">810</FONT>    <a name="line.810"></a>
+<FONT color="green">811</FONT>      /**<a name="line.811"></a>
+<FONT color="green">812</FONT>       * Evaluates whether the argument is an "IPv4 mapped" IPv6 address.<a name="line.812"></a>
+<FONT color="green">813</FONT>       *<a name="line.813"></a>
+<FONT color="green">814</FONT>       * &lt;p&gt;An "IPv4 mapped" address is anything in the range ::ffff:0:0/96<a name="line.814"></a>
+<FONT color="green">815</FONT>       * (sometimes written as ::ffff:0.0.0.0/96), with the last 32 bits<a name="line.815"></a>
+<FONT color="green">816</FONT>       * interpreted as an IPv4 address.<a name="line.816"></a>
+<FONT color="green">817</FONT>       *<a name="line.817"></a>
+<FONT color="green">818</FONT>       * &lt;p&gt;For more on IPv4 mapped addresses see section 2.5.5.2 of<a name="line.818"></a>
+<FONT color="green">819</FONT>       * &lt;a target="_parent"<a name="line.819"></a>
+<FONT color="green">820</FONT>       *    href="http://tools.ietf.org/html/rfc4291#section-2.5.5.2"<a name="line.820"></a>
+<FONT color="green">821</FONT>       *    &gt;http://tools.ietf.org/html/rfc4291&lt;/a&gt;<a name="line.821"></a>
+<FONT color="green">822</FONT>       *<a name="line.822"></a>
+<FONT color="green">823</FONT>       * &lt;p&gt;Note: This method takes a {@code String} argument because<a name="line.823"></a>
+<FONT color="green">824</FONT>       * {@link InetAddress} automatically collapses mapped addresses to IPv4.<a name="line.824"></a>
+<FONT color="green">825</FONT>       * (It is actually possible to avoid this using one of the obscure<a name="line.825"></a>
+<FONT color="green">826</FONT>       * {@link Inet6Address} methods, but it would be unwise to depend on such<a name="line.826"></a>
+<FONT color="green">827</FONT>       * a poorly-documented feature.)<a name="line.827"></a>
+<FONT color="green">828</FONT>       *<a name="line.828"></a>
+<FONT color="green">829</FONT>       * @param ipString {@code String} to be examined for embedded IPv4-mapped IPv6 address format<a name="line.829"></a>
+<FONT color="green">830</FONT>       * @return {@code true} if the argument is a valid "mapped" address<a name="line.830"></a>
+<FONT color="green">831</FONT>       * @since 10.0<a name="line.831"></a>
+<FONT color="green">832</FONT>       */<a name="line.832"></a>
+<FONT color="green">833</FONT>      public static boolean isMappedIPv4Address(String ipString) {<a name="line.833"></a>
+<FONT color="green">834</FONT>        byte[] bytes = ipStringToBytes(ipString);<a name="line.834"></a>
+<FONT color="green">835</FONT>        if (bytes != null &amp;&amp; bytes.length == 16) {<a name="line.835"></a>
+<FONT color="green">836</FONT>          for (int i = 0; i &lt; 10; i++) {<a name="line.836"></a>
+<FONT color="green">837</FONT>            if (bytes[i] != 0) {<a name="line.837"></a>
+<FONT color="green">838</FONT>              return false;<a name="line.838"></a>
+<FONT color="green">839</FONT>            }<a name="line.839"></a>
+<FONT color="green">840</FONT>          }<a name="line.840"></a>
+<FONT color="green">841</FONT>          for (int i = 10; i &lt; 12; i++) {<a name="line.841"></a>
+<FONT color="green">842</FONT>            if (bytes[i] != (byte) 0xff) {<a name="line.842"></a>
+<FONT color="green">843</FONT>              return false;<a name="line.843"></a>
+<FONT color="green">844</FONT>            }<a name="line.844"></a>
+<FONT color="green">845</FONT>          }<a name="line.845"></a>
+<FONT color="green">846</FONT>          return true;<a name="line.846"></a>
+<FONT color="green">847</FONT>        }<a name="line.847"></a>
+<FONT color="green">848</FONT>        return false;<a name="line.848"></a>
+<FONT color="green">849</FONT>      }<a name="line.849"></a>
+<FONT color="green">850</FONT>    <a name="line.850"></a>
+<FONT color="green">851</FONT>      /**<a name="line.851"></a>
+<FONT color="green">852</FONT>       * Coerces an IPv6 address into an IPv4 address.<a name="line.852"></a>
+<FONT color="green">853</FONT>       *<a name="line.853"></a>
+<FONT color="green">854</FONT>       * &lt;p&gt;HACK: As long as applications continue to use IPv4 addresses for<a name="line.854"></a>
+<FONT color="green">855</FONT>       * indexing into tables, accounting, et cetera, it may be necessary to<a name="line.855"></a>
+<FONT color="green">856</FONT>       * &lt;b&gt;coerce&lt;/b&gt; IPv6 addresses into IPv4 addresses. This function does<a name="line.856"></a>
+<FONT color="green">857</FONT>       * so by hashing the upper 64 bits into {@code 224.0.0.0/3}<a name="line.857"></a>
+<FONT color="green">858</FONT>       * (64 bits into 29 bits).<a name="line.858"></a>
+<FONT color="green">859</FONT>       *<a name="line.859"></a>
+<FONT color="green">860</FONT>       * &lt;p&gt;A "coerced" IPv4 address is equivalent to itself.<a name="line.860"></a>
+<FONT color="green">861</FONT>       *<a name="line.861"></a>
+<FONT color="green">862</FONT>       * &lt;p&gt;NOTE: This function is failsafe for security purposes: ALL IPv6<a name="line.862"></a>
+<FONT color="green">863</FONT>       * addresses (except localhost (::1)) are hashed to avoid the security<a name="line.863"></a>
+<FONT color="green">864</FONT>       * risk associated with extracting an embedded IPv4 address that might<a name="line.864"></a>
+<FONT color="green">865</FONT>       * permit elevated privileges.<a name="line.865"></a>
+<FONT color="green">866</FONT>       *<a name="line.866"></a>
+<FONT color="green">867</FONT>       * @param ip {@link InetAddress} to "coerce"<a name="line.867"></a>
+<FONT color="green">868</FONT>       * @return {@link Inet4Address} represented "coerced" address<a name="line.868"></a>
+<FONT color="green">869</FONT>       * @since 7.0<a name="line.869"></a>
+<FONT color="green">870</FONT>       */<a name="line.870"></a>
+<FONT color="green">871</FONT>      public static Inet4Address getCoercedIPv4Address(InetAddress ip) {<a name="line.871"></a>
+<FONT color="green">872</FONT>        if (ip instanceof Inet4Address) {<a name="line.872"></a>
+<FONT color="green">873</FONT>          return (Inet4Address) ip;<a name="line.873"></a>
+<FONT color="green">874</FONT>        }<a name="line.874"></a>
+<FONT color="green">875</FONT>    <a name="line.875"></a>
+<FONT color="green">876</FONT>        // Special cases:<a name="line.876"></a>
+<FONT color="green">877</FONT>        byte[] bytes = ip.getAddress();<a name="line.877"></a>
+<FONT color="green">878</FONT>        boolean leadingBytesOfZero = true;<a name="line.878"></a>
+<FONT color="green">879</FONT>        for (int i = 0; i &lt; 15; ++i) {<a name="line.879"></a>
+<FONT color="green">880</FONT>          if (bytes[i] != 0) {<a name="line.880"></a>
+<FONT color="green">881</FONT>            leadingBytesOfZero = false;<a name="line.881"></a>
+<FONT color="green">882</FONT>            break;<a name="line.882"></a>
+<FONT color="green">883</FONT>          }<a name="line.883"></a>
+<FONT color="green">884</FONT>        }<a name="line.884"></a>
+<FONT color="green">885</FONT>        if (leadingBytesOfZero &amp;&amp; (bytes[15] == 1)) {<a name="line.885"></a>
+<FONT color="green">886</FONT>          return LOOPBACK4;  // ::1<a name="line.886"></a>
+<FONT color="green">887</FONT>        } else if (leadingBytesOfZero &amp;&amp; (bytes[15] == 0)) {<a name="line.887"></a>
+<FONT color="green">888</FONT>          return ANY4;  // ::0<a name="line.888"></a>
+<FONT color="green">889</FONT>        }<a name="line.889"></a>
+<FONT color="green">890</FONT>    <a name="line.890"></a>
+<FONT color="green">891</FONT>        Inet6Address ip6 = (Inet6Address) ip;<a name="line.891"></a>
+<FONT color="green">892</FONT>        long addressAsLong = 0;<a name="line.892"></a>
+<FONT color="green">893</FONT>        if (hasEmbeddedIPv4ClientAddress(ip6)) {<a name="line.893"></a>
+<FONT color="green">894</FONT>          addressAsLong = getEmbeddedIPv4ClientAddress(ip6).hashCode();<a name="line.894"></a>
+<FONT color="green">895</FONT>        } else {<a name="line.895"></a>
+<FONT color="green">896</FONT>    <a name="line.896"></a>
+<FONT color="green">897</FONT>          // Just extract the high 64 bits (assuming the rest is user-modifiable).<a name="line.897"></a>
+<FONT color="green">898</FONT>          addressAsLong = ByteBuffer.wrap(ip6.getAddress(), 0, 8).getLong();<a name="line.898"></a>
+<FONT color="green">899</FONT>        }<a name="line.899"></a>
+<FONT color="green">900</FONT>    <a name="line.900"></a>
+<FONT color="green">901</FONT>        // Many strategies for hashing are possible.  This might suffice for now.<a name="line.901"></a>
+<FONT color="green">902</FONT>        int coercedHash = Hashing.murmur3_32().hashLong(addressAsLong).asInt();<a name="line.902"></a>
+<FONT color="green">903</FONT>    <a name="line.903"></a>
+<FONT color="green">904</FONT>        // Squash into 224/4 Multicast and 240/4 Reserved space (i.e. 224/3).<a name="line.904"></a>
+<FONT color="green">905</FONT>        coercedHash |= 0xe0000000;<a name="line.905"></a>
+<FONT color="green">906</FONT>    <a name="line.906"></a>
+<FONT color="green">907</FONT>        // Fixup to avoid some "illegal" values.  Currently the only potential<a name="line.907"></a>
+<FONT color="green">908</FONT>        // illegal value is 255.255.255.255.<a name="line.908"></a>
+<FONT color="green">909</FONT>        if (coercedHash == 0xffffffff) {<a name="line.909"></a>
+<FONT color="green">910</FONT>          coercedHash = 0xfffffffe;<a name="line.910"></a>
+<FONT color="green">911</FONT>        }<a name="line.911"></a>
+<FONT color="green">912</FONT>    <a name="line.912"></a>
+<FONT color="green">913</FONT>        return getInet4Address(Ints.toByteArray(coercedHash));<a name="line.913"></a>
+<FONT color="green">914</FONT>      }<a name="line.914"></a>
+<FONT color="green">915</FONT>    <a name="line.915"></a>
+<FONT color="green">916</FONT>      /**<a name="line.916"></a>
+<FONT color="green">917</FONT>       * Returns an integer representing an IPv4 address regardless of<a name="line.917"></a>
+<FONT color="green">918</FONT>       * whether the supplied argument is an IPv4 address or not.<a name="line.918"></a>
+<FONT color="green">919</FONT>       *<a name="line.919"></a>
+<FONT color="green">920</FONT>       * &lt;p&gt;IPv6 addresses are &lt;b&gt;coerced&lt;/b&gt; to IPv4 addresses before being<a name="line.920"></a>
+<FONT color="green">921</FONT>       * converted to integers.<a name="line.921"></a>
+<FONT color="green">922</FONT>       *<a name="line.922"></a>
+<FONT color="green">923</FONT>       * &lt;p&gt;As long as there are applications that assume that all IP addresses<a name="line.923"></a>
+<FONT color="green">924</FONT>       * are IPv4 addresses and can therefore be converted safely to integers<a name="line.924"></a>
+<FONT color="green">925</FONT>       * (for whatever purpose) this function can be used to handle IPv6<a name="line.925"></a>
+<FONT color="green">926</FONT>       * addresses as well until the application is suitably fixed.<a name="line.926"></a>
+<FONT color="green">927</FONT>       *<a name="line.927"></a>
+<FONT color="green">928</FONT>       * &lt;p&gt;NOTE: an IPv6 address coerced to an IPv4 address can only be used<a name="line.928"></a>
+<FONT color="green">929</FONT>       * for such purposes as rudimentary identification or indexing into a<a name="line.929"></a>
+<FONT color="green">930</FONT>       * collection of real {@link InetAddress}es.  They cannot be used as<a name="line.930"></a>
+<FONT color="green">931</FONT>       * real addresses for the purposes of network communication.<a name="line.931"></a>
+<FONT color="green">932</FONT>       *<a name="line.932"></a>
+<FONT color="green">933</FONT>       * @param ip {@link InetAddress} to convert<a name="line.933"></a>
+<FONT color="green">934</FONT>       * @return {@code int}, "coerced" if ip is not an IPv4 address<a name="line.934"></a>
+<FONT color="green">935</FONT>       * @since 7.0<a name="line.935"></a>
+<FONT color="green">936</FONT>       */<a name="line.936"></a>
+<FONT color="green">937</FONT>      public static int coerceToInteger(InetAddress ip) {<a name="line.937"></a>
+<FONT color="green">938</FONT>        return ByteStreams.newDataInput(getCoercedIPv4Address(ip).getAddress()).readInt();<a name="line.938"></a>
+<FONT color="green">939</FONT>      }<a name="line.939"></a>
+<FONT color="green">940</FONT>    <a name="line.940"></a>
+<FONT color="green">941</FONT>      /**<a name="line.941"></a>
+<FONT color="green">942</FONT>       * Returns an Inet4Address having the integer value specified by<a name="line.942"></a>
+<FONT color="green">943</FONT>       * the argument.<a name="line.943"></a>
+<FONT color="green">944</FONT>       *<a name="line.944"></a>
+<FONT color="green">945</FONT>       * @param address {@code int}, the 32bit integer address to be converted<a name="line.945"></a>
+<FONT color="green">946</FONT>       * @return {@link Inet4Address} equivalent of the argument<a name="line.946"></a>
+<FONT color="green">947</FONT>       */<a name="line.947"></a>
+<FONT color="green">948</FONT>      public static Inet4Address fromInteger(int address) {<a name="line.948"></a>
+<FONT color="green">949</FONT>        return getInet4Address(Ints.toByteArray(address));<a name="line.949"></a>
+<FONT color="green">950</FONT>      }<a name="line.950"></a>
+<FONT color="green">951</FONT>    <a name="line.951"></a>
+<FONT color="green">952</FONT>      /**<a name="line.952"></a>
+<FONT color="green">953</FONT>       * Returns an address from a &lt;b&gt;little-endian ordered&lt;/b&gt; byte array<a name="line.953"></a>
+<FONT color="green">954</FONT>       * (the opposite of what {@link InetAddress#getByAddress} expects).<a name="line.954"></a>
+<FONT color="green">955</FONT>       *<a name="line.955"></a>
+<FONT color="green">956</FONT>       * &lt;p&gt;IPv4 address byte array must be 4 bytes long and IPv6 byte array<a name="line.956"></a>
+<FONT color="green">957</FONT>       * must be 16 bytes long.<a name="line.957"></a>
+<FONT color="green">958</FONT>       *<a name="line.958"></a>
+<FONT color="green">959</FONT>       * @param addr the raw IP address in little-endian byte order<a name="line.959"></a>
+<FONT color="green">960</FONT>       * @return an InetAddress object created from the raw IP address<a name="line.960"></a>
+<FONT color="green">961</FONT>       * @throws UnknownHostException if IP address is of illegal length<a name="line.961"></a>
+<FONT color="green">962</FONT>       */<a name="line.962"></a>
+<FONT color="green">963</FONT>      public static InetAddress fromLittleEndianByteArray(byte[] addr) throws UnknownHostException {<a name="line.963"></a>
+<FONT color="green">964</FONT>        byte[] reversed = new byte[addr.length];<a name="line.964"></a>
+<FONT color="green">965</FONT>        for (int i = 0; i &lt; addr.length; i++) {<a name="line.965"></a>
+<FONT color="green">966</FONT>          reversed[i] = addr[addr.length - i - 1];<a name="line.966"></a>
+<FONT color="green">967</FONT>        }<a name="line.967"></a>
+<FONT color="green">968</FONT>        return InetAddress.getByAddress(reversed);<a name="line.968"></a>
+<FONT color="green">969</FONT>      }<a name="line.969"></a>
+<FONT color="green">970</FONT>    <a name="line.970"></a>
+<FONT color="green">971</FONT>      /**<a name="line.971"></a>
+<FONT color="green">972</FONT>       * Returns a new InetAddress that is one more than the passed in address.<a name="line.972"></a>
+<FONT color="green">973</FONT>       * This method works for both IPv4 and IPv6 addresses.<a name="line.973"></a>
+<FONT color="green">974</FONT>       *<a name="line.974"></a>
+<FONT color="green">975</FONT>       * @param address the InetAddress to increment<a name="line.975"></a>
+<FONT color="green">976</FONT>       * @return a new InetAddress that is one more than the passed in address<a name="line.976"></a>
+<FONT color="green">977</FONT>       * @throws IllegalArgumentException if InetAddress is at the end of its range<a name="line.977"></a>
+<FONT color="green">978</FONT>       * @since 10.0<a name="line.978"></a>
+<FONT color="green">979</FONT>       */<a name="line.979"></a>
+<FONT color="green">980</FONT>      public static InetAddress increment(InetAddress address) {<a name="line.980"></a>
+<FONT color="green">981</FONT>        byte[] addr = address.getAddress();<a name="line.981"></a>
+<FONT color="green">982</FONT>        int i = addr.length - 1;<a name="line.982"></a>
+<FONT color="green">983</FONT>        while (i &gt;= 0 &amp;&amp; addr[i] == (byte) 0xff) {<a name="line.983"></a>
+<FONT color="green">984</FONT>          addr[i] = 0;<a name="line.984"></a>
+<FONT color="green">985</FONT>          i--;<a name="line.985"></a>
+<FONT color="green">986</FONT>        }<a name="line.986"></a>
+<FONT color="green">987</FONT>    <a name="line.987"></a>
+<FONT color="green">988</FONT>        Preconditions.checkArgument(i &gt;= 0, "Incrementing %s would wrap.", address);<a name="line.988"></a>
+<FONT color="green">989</FONT>    <a name="line.989"></a>
+<FONT color="green">990</FONT>        addr[i]++;<a name="line.990"></a>
+<FONT color="green">991</FONT>        return bytesToInetAddress(addr);<a name="line.991"></a>
+<FONT color="green">992</FONT>      }<a name="line.992"></a>
+<FONT color="green">993</FONT>    <a name="line.993"></a>
+<FONT color="green">994</FONT>      /**<a name="line.994"></a>
+<FONT color="green">995</FONT>       * Returns true if the InetAddress is either 255.255.255.255 for IPv4 or<a name="line.995"></a>
+<FONT color="green">996</FONT>       * ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.<a name="line.996"></a>
+<FONT color="green">997</FONT>       *<a name="line.997"></a>
+<FONT color="green">998</FONT>       * @return true if the InetAddress is either 255.255.255.255 for IPv4 or<a name="line.998"></a>
+<FONT color="green">999</FONT>       *     ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6<a name="line.999"></a>
+<FONT color="green">1000</FONT>       * @since 10.0<a name="line.1000"></a>
+<FONT color="green">1001</FONT>       */<a name="line.1001"></a>
+<FONT color="green">1002</FONT>      public static boolean isMaximum(InetAddress address) {<a name="line.1002"></a>
+<FONT color="green">1003</FONT>        byte[] addr = address.getAddress();<a name="line.1003"></a>
+<FONT color="green">1004</FONT>        for (int i = 0; i &lt; addr.length; i++) {<a name="line.1004"></a>
+<FONT color="green">1005</FONT>          if (addr[i] != (byte) 0xff) {<a name="line.1005"></a>
+<FONT color="green">1006</FONT>            return false;<a name="line.1006"></a>
+<FONT color="green">1007</FONT>          }<a name="line.1007"></a>
+<FONT color="green">1008</FONT>        }<a name="line.1008"></a>
+<FONT color="green">1009</FONT>        return true;<a name="line.1009"></a>
+<FONT color="green">1010</FONT>      }<a name="line.1010"></a>
+<FONT color="green">1011</FONT>    }<a name="line.1011"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,686 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2008 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.primitives;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import static com.google.common.base.Preconditions.checkArgument;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import static com.google.common.base.Preconditions.checkElementIndex;<a name="line.20"></a>
+<FONT color="green">021</FONT>    import static com.google.common.base.Preconditions.checkNotNull;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import static com.google.common.base.Preconditions.checkPositionIndexes;<a name="line.22"></a>
+<FONT color="green">023</FONT>    <a name="line.23"></a>
+<FONT color="green">024</FONT>    import com.google.common.annotations.Beta;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.25"></a>
+<FONT color="green">026</FONT>    import com.google.common.annotations.GwtIncompatible;<a name="line.26"></a>
+<FONT color="green">027</FONT>    <a name="line.27"></a>
+<FONT color="green">028</FONT>    import java.io.Serializable;<a name="line.28"></a>
+<FONT color="green">029</FONT>    import java.util.AbstractList;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import java.util.Arrays;<a name="line.30"></a>
+<FONT color="green">031</FONT>    import java.util.Collection;<a name="line.31"></a>
+<FONT color="green">032</FONT>    import java.util.Collections;<a name="line.32"></a>
+<FONT color="green">033</FONT>    import java.util.Comparator;<a name="line.33"></a>
+<FONT color="green">034</FONT>    import java.util.List;<a name="line.34"></a>
+<FONT color="green">035</FONT>    import java.util.RandomAccess;<a name="line.35"></a>
+<FONT color="green">036</FONT>    <a name="line.36"></a>
+<FONT color="green">037</FONT>    import javax.annotation.CheckForNull;<a name="line.37"></a>
+<FONT color="green">038</FONT>    <a name="line.38"></a>
+<FONT color="green">039</FONT>    /**<a name="line.39"></a>
+<FONT color="green">040</FONT>     * Static utility methods pertaining to {@code int} primitives, that are not<a name="line.40"></a>
+<FONT color="green">041</FONT>     * already found in either {@link Integer} or {@link Arrays}.<a name="line.41"></a>
+<FONT color="green">042</FONT>     *<a name="line.42"></a>
+<FONT color="green">043</FONT>     * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.43"></a>
+<FONT color="green">044</FONT>     * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained"&gt;<a name="line.44"></a>
+<FONT color="green">045</FONT>     * primitive utilities&lt;/a&gt;.<a name="line.45"></a>
+<FONT color="green">046</FONT>     *<a name="line.46"></a>
+<FONT color="green">047</FONT>     * @author Kevin Bourrillion<a name="line.47"></a>
+<FONT color="green">048</FONT>     * @since 1.0<a name="line.48"></a>
+<FONT color="green">049</FONT>     */<a name="line.49"></a>
+<FONT color="green">050</FONT>    @GwtCompatible(emulated = true)<a name="line.50"></a>
+<FONT color="green">051</FONT>    public final class Ints {<a name="line.51"></a>
+<FONT color="green">052</FONT>      private Ints() {}<a name="line.52"></a>
+<FONT color="green">053</FONT>    <a name="line.53"></a>
+<FONT color="green">054</FONT>      /**<a name="line.54"></a>
+<FONT color="green">055</FONT>       * The number of bytes required to represent a primitive {@code int}<a name="line.55"></a>
+<FONT color="green">056</FONT>       * value.<a name="line.56"></a>
+<FONT color="green">057</FONT>       */<a name="line.57"></a>
+<FONT color="green">058</FONT>      public static final int BYTES = Integer.SIZE / Byte.SIZE;<a name="line.58"></a>
+<FONT color="green">059</FONT>    <a name="line.59"></a>
+<FONT color="green">060</FONT>      /**<a name="line.60"></a>
+<FONT color="green">061</FONT>       * The largest power of two that can be represented as an {@code int}.<a name="line.61"></a>
+<FONT color="green">062</FONT>       *<a name="line.62"></a>
+<FONT color="green">063</FONT>       * @since 10.0<a name="line.63"></a>
+<FONT color="green">064</FONT>       */<a name="line.64"></a>
+<FONT color="green">065</FONT>      public static final int MAX_POWER_OF_TWO = 1 &lt;&lt; (Integer.SIZE - 2);<a name="line.65"></a>
+<FONT color="green">066</FONT>    <a name="line.66"></a>
+<FONT color="green">067</FONT>      /**<a name="line.67"></a>
+<FONT color="green">068</FONT>       * Returns a hash code for {@code value}; equal to the result of invoking<a name="line.68"></a>
+<FONT color="green">069</FONT>       * {@code ((Integer) value).hashCode()}.<a name="line.69"></a>
+<FONT color="green">070</FONT>       *<a name="line.70"></a>
+<FONT color="green">071</FONT>       * @param value a primitive {@code int} value<a name="line.71"></a>
+<FONT color="green">072</FONT>       * @return a hash code for the value<a name="line.72"></a>
+<FONT color="green">073</FONT>       */<a name="line.73"></a>
+<FONT color="green">074</FONT>      public static int hashCode(int value) {<a name="line.74"></a>
+<FONT color="green">075</FONT>        return value;<a name="line.75"></a>
+<FONT color="green">076</FONT>      }<a name="line.76"></a>
+<FONT color="green">077</FONT>    <a name="line.77"></a>
+<FONT color="green">078</FONT>      /**<a name="line.78"></a>
+<FONT color="green">079</FONT>       * Returns the {@code int} value that is equal to {@code value}, if possible.<a name="line.79"></a>
+<FONT color="green">080</FONT>       *<a name="line.80"></a>
+<FONT color="green">081</FONT>       * @param value any value in the range of the {@code int} type<a name="line.81"></a>
+<FONT color="green">082</FONT>       * @return the {@code int} value that equals {@code value}<a name="line.82"></a>
+<FONT color="green">083</FONT>       * @throws IllegalArgumentException if {@code value} is greater than {@link<a name="line.83"></a>
+<FONT color="green">084</FONT>       *     Integer#MAX_VALUE} or less than {@link Integer#MIN_VALUE}<a name="line.84"></a>
+<FONT color="green">085</FONT>       */<a name="line.85"></a>
+<FONT color="green">086</FONT>      public static int checkedCast(long value) {<a name="line.86"></a>
+<FONT color="green">087</FONT>        int result = (int) value;<a name="line.87"></a>
+<FONT color="green">088</FONT>        checkArgument(result == value, "Out of range: %s", value);<a name="line.88"></a>
+<FONT color="green">089</FONT>        return result;<a name="line.89"></a>
+<FONT color="green">090</FONT>      }<a name="line.90"></a>
+<FONT color="green">091</FONT>    <a name="line.91"></a>
+<FONT color="green">092</FONT>      /**<a name="line.92"></a>
+<FONT color="green">093</FONT>       * Returns the {@code int} nearest in value to {@code value}.<a name="line.93"></a>
+<FONT color="green">094</FONT>       *<a name="line.94"></a>
+<FONT color="green">095</FONT>       * @param value any {@code long} value<a name="line.95"></a>
+<FONT color="green">096</FONT>       * @return the same value cast to {@code int} if it is in the range of the<a name="line.96"></a>
+<FONT color="green">097</FONT>       *     {@code int} type, {@link Integer#MAX_VALUE} if it is too large,<a name="line.97"></a>
+<FONT color="green">098</FONT>       *     or {@link Integer#MIN_VALUE} if it is too small<a name="line.98"></a>
+<FONT color="green">099</FONT>       */<a name="line.99"></a>
+<FONT color="green">100</FONT>      public static int saturatedCast(long value) {<a name="line.100"></a>
+<FONT color="green">101</FONT>        if (value &gt; Integer.MAX_VALUE) {<a name="line.101"></a>
+<FONT color="green">102</FONT>          return Integer.MAX_VALUE;<a name="line.102"></a>
+<FONT color="green">103</FONT>        }<a name="line.103"></a>
+<FONT color="green">104</FONT>        if (value &lt; Integer.MIN_VALUE) {<a name="line.104"></a>
+<FONT color="green">105</FONT>          return Integer.MIN_VALUE;<a name="line.105"></a>
+<FONT color="green">106</FONT>        }<a name="line.106"></a>
+<FONT color="green">107</FONT>        return (int) value;<a name="line.107"></a>
+<FONT color="green">108</FONT>      }<a name="line.108"></a>
+<FONT color="green">109</FONT>    <a name="line.109"></a>
+<FONT color="green">110</FONT>      /**<a name="line.110"></a>
+<FONT color="green">111</FONT>       * Compares the two specified {@code int} values. The sign of the value<a name="line.111"></a>
+<FONT color="green">112</FONT>       * returned is the same as that of {@code ((Integer) a).compareTo(b)}.<a name="line.112"></a>
+<FONT color="green">113</FONT>       *<a name="line.113"></a>
+<FONT color="green">114</FONT>       * @param a the first {@code int} to compare<a name="line.114"></a>
+<FONT color="green">115</FONT>       * @param b the second {@code int} to compare<a name="line.115"></a>
+<FONT color="green">116</FONT>       * @return a negative value if {@code a} is less than {@code b}; a positive<a name="line.116"></a>
+<FONT color="green">117</FONT>       *     value if {@code a} is greater than {@code b}; or zero if they are equal<a name="line.117"></a>
+<FONT color="green">118</FONT>       */<a name="line.118"></a>
+<FONT color="green">119</FONT>      public static int compare(int a, int b) {<a name="line.119"></a>
+<FONT color="green">120</FONT>        return (a &lt; b) ? -1 : ((a &gt; b) ? 1 : 0);<a name="line.120"></a>
+<FONT color="green">121</FONT>      }<a name="line.121"></a>
+<FONT color="green">122</FONT>    <a name="line.122"></a>
+<FONT color="green">123</FONT>      /**<a name="line.123"></a>
+<FONT color="green">124</FONT>       * Returns {@code true} if {@code target} is present as an element anywhere in<a name="line.124"></a>
+<FONT color="green">125</FONT>       * {@code array}.<a name="line.125"></a>
+<FONT color="green">126</FONT>       *<a name="line.126"></a>
+<FONT color="green">127</FONT>       * @param array an array of {@code int} values, possibly empty<a name="line.127"></a>
+<FONT color="green">128</FONT>       * @param target a primitive {@code int} value<a name="line.128"></a>
+<FONT color="green">129</FONT>       * @return {@code true} if {@code array[i] == target} for some value of {@code<a name="line.129"></a>
+<FONT color="green">130</FONT>       *     i}<a name="line.130"></a>
+<FONT color="green">131</FONT>       */<a name="line.131"></a>
+<FONT color="green">132</FONT>      public static boolean contains(int[] array, int target) {<a name="line.132"></a>
+<FONT color="green">133</FONT>        for (int value : array) {<a name="line.133"></a>
+<FONT color="green">134</FONT>          if (value == target) {<a name="line.134"></a>
+<FONT color="green">135</FONT>            return true;<a name="line.135"></a>
+<FONT color="green">136</FONT>          }<a name="line.136"></a>
+<FONT color="green">137</FONT>        }<a name="line.137"></a>
+<FONT color="green">138</FONT>        return false;<a name="line.138"></a>
+<FONT color="green">139</FONT>      }<a name="line.139"></a>
+<FONT color="green">140</FONT>    <a name="line.140"></a>
+<FONT color="green">141</FONT>      /**<a name="line.141"></a>
+<FONT color="green">142</FONT>       * Returns the index of the first appearance of the value {@code target} in<a name="line.142"></a>
+<FONT color="green">143</FONT>       * {@code array}.<a name="line.143"></a>
+<FONT color="green">144</FONT>       *<a name="line.144"></a>
+<FONT color="green">145</FONT>       * @param array an array of {@code int} values, possibly empty<a name="line.145"></a>
+<FONT color="green">146</FONT>       * @param target a primitive {@code int} value<a name="line.146"></a>
+<FONT color="green">147</FONT>       * @return the least index {@code i} for which {@code array[i] == target}, or<a name="line.147"></a>
+<FONT color="green">148</FONT>       *     {@code -1} if no such index exists.<a name="line.148"></a>
+<FONT color="green">149</FONT>       */<a name="line.149"></a>
+<FONT color="green">150</FONT>      public static int indexOf(int[] array, int target) {<a name="line.150"></a>
+<FONT color="green">151</FONT>        return indexOf(array, target, 0, array.length);<a name="line.151"></a>
+<FONT color="green">152</FONT>      }<a name="line.152"></a>
+<FONT color="green">153</FONT>    <a name="line.153"></a>
+<FONT color="green">154</FONT>      // TODO(kevinb): consider making this public<a name="line.154"></a>
+<FONT color="green">155</FONT>      private static int indexOf(<a name="line.155"></a>
+<FONT color="green">156</FONT>          int[] array, int target, int start, int end) {<a name="line.156"></a>
+<FONT color="green">157</FONT>        for (int i = start; i &lt; end; i++) {<a name="line.157"></a>
+<FONT color="green">158</FONT>          if (array[i] == target) {<a name="line.158"></a>
+<FONT color="green">159</FONT>            return i;<a name="line.159"></a>
+<FONT color="green">160</FONT>          }<a name="line.160"></a>
+<FONT color="green">161</FONT>        }<a name="line.161"></a>
+<FONT color="green">162</FONT>        return -1;<a name="line.162"></a>
+<FONT color="green">163</FONT>      }<a name="line.163"></a>
+<FONT color="green">164</FONT>    <a name="line.164"></a>
+<FONT color="green">165</FONT>      /**<a name="line.165"></a>
+<FONT color="green">166</FONT>       * Returns the start position of the first occurrence of the specified {@code<a name="line.166"></a>
+<FONT color="green">167</FONT>       * target} within {@code array}, or {@code -1} if there is no such occurrence.<a name="line.167"></a>
+<FONT color="green">168</FONT>       *<a name="line.168"></a>
+<FONT color="green">169</FONT>       * &lt;p&gt;More formally, returns the lowest index {@code i} such that {@code<a name="line.169"></a>
+<FONT color="green">170</FONT>       * java.util.Arrays.copyOfRange(array, i, i + target.length)} contains exactly<a name="line.170"></a>
+<FONT color="green">171</FONT>       * the same elements as {@code target}.<a name="line.171"></a>
+<FONT color="green">172</FONT>       *<a name="line.172"></a>
+<FONT color="green">173</FONT>       * @param array the array to search for the sequence {@code target}<a name="line.173"></a>
+<FONT color="green">174</FONT>       * @param target the array to search for as a sub-sequence of {@code array}<a name="line.174"></a>
+<FONT color="green">175</FONT>       */<a name="line.175"></a>
+<FONT color="green">176</FONT>      public static int indexOf(int[] array, int[] target) {<a name="line.176"></a>
+<FONT color="green">177</FONT>        checkNotNull(array, "array");<a name="line.177"></a>
+<FONT color="green">178</FONT>        checkNotNull(target, "target");<a name="line.178"></a>
+<FONT color="green">179</FONT>        if (target.length == 0) {<a name="line.179"></a>
+<FONT color="green">180</FONT>          return 0;<a name="line.180"></a>
+<FONT color="green">181</FONT>        }<a name="line.181"></a>
+<FONT color="green">182</FONT>    <a name="line.182"></a>
+<FONT color="green">183</FONT>        outer:<a name="line.183"></a>
+<FONT color="green">184</FONT>        for (int i = 0; i &lt; array.length - target.length + 1; i++) {<a name="line.184"></a>
+<FONT color="green">185</FONT>          for (int j = 0; j &lt; target.length; j++) {<a name="line.185"></a>
+<FONT color="green">186</FONT>            if (array[i + j] != target[j]) {<a name="line.186"></a>
+<FONT color="green">187</FONT>              continue outer;<a name="line.187"></a>
+<FONT color="green">188</FONT>            }<a name="line.188"></a>
+<FONT color="green">189</FONT>          }<a name="line.189"></a>
+<FONT color="green">190</FONT>          return i;<a name="line.190"></a>
+<FONT color="green">191</FONT>        }<a name="line.191"></a>
+<FONT color="green">192</FONT>        return -1;<a name="line.192"></a>
+<FONT color="green">193</FONT>      }<a name="line.193"></a>
+<FONT color="green">194</FONT>    <a name="line.194"></a>
+<FONT color="green">195</FONT>      /**<a name="line.195"></a>
+<FONT color="green">196</FONT>       * Returns the index of the last appearance of the value {@code target} in<a name="line.196"></a>
+<FONT color="green">197</FONT>       * {@code array}.<a name="line.197"></a>
+<FONT color="green">198</FONT>       *<a name="line.198"></a>
+<FONT color="green">199</FONT>       * @param array an array of {@code int} values, possibly empty<a name="line.199"></a>
+<FONT color="green">200</FONT>       * @param target a primitive {@code int} value<a name="line.200"></a>
+<FONT color="green">201</FONT>       * @return the greatest index {@code i} for which {@code array[i] == target},<a name="line.201"></a>
+<FONT color="green">202</FONT>       *     or {@code -1} if no such index exists.<a name="line.202"></a>
+<FONT color="green">203</FONT>       */<a name="line.203"></a>
+<FONT color="green">204</FONT>      public static int lastIndexOf(int[] array, int target) {<a name="line.204"></a>
+<FONT color="green">205</FONT>        return lastIndexOf(array, target, 0, array.length);<a name="line.205"></a>
+<FONT color="green">206</FONT>      }<a name="line.206"></a>
+<FONT color="green">207</FONT>    <a name="line.207"></a>
+<FONT color="green">208</FONT>      // TODO(kevinb): consider making this public<a name="line.208"></a>
+<FONT color="green">209</FONT>      private static int lastIndexOf(<a name="line.209"></a>
+<FONT color="green">210</FONT>          int[] array, int target, int start, int end) {<a name="line.210"></a>
+<FONT color="green">211</FONT>        for (int i = end - 1; i &gt;= start; i--) {<a name="line.211"></a>
+<FONT color="green">212</FONT>          if (array[i] == target) {<a name="line.212"></a>
+<FONT color="green">213</FONT>            return i;<a name="line.213"></a>
+<FONT color="green">214</FONT>          }<a name="line.214"></a>
+<FONT color="green">215</FONT>        }<a name="line.215"></a>
+<FONT color="green">216</FONT>        return -1;<a name="line.216"></a>
+<FONT color="green">217</FONT>      }<a name="line.217"></a>
+<FONT color="green">218</FONT>    <a name="line.218"></a>
+<FONT color="green">219</FONT>      /**<a name="line.219"></a>
+<FONT color="green">220</FONT>       * Returns the least value present in {@code array}.<a name="line.220"></a>
+<FONT color="green">221</FONT>       *<a name="line.221"></a>
+<FONT color="green">222</FONT>       * @param array a &lt;i&gt;nonempty&lt;/i&gt; array of {@code int} values<a name="line.222"></a>
+<FONT color="green">223</FONT>       * @return the value present in {@code array} that is less than or equal to<a name="line.223"></a>
+<FONT color="green">224</FONT>       *     every other value in the array<a name="line.224"></a>
+<FONT color="green">225</FONT>       * @throws IllegalArgumentException if {@code array} is empty<a name="line.225"></a>
+<FONT color="green">226</FONT>       */<a name="line.226"></a>
+<FONT color="green">227</FONT>      public static int min(int... array) {<a name="line.227"></a>
+<FONT color="green">228</FONT>        checkArgument(array.length &gt; 0);<a name="line.228"></a>
+<FONT color="green">229</FONT>        int min = array[0];<a name="line.229"></a>
+<FONT color="green">230</FONT>        for (int i = 1; i &lt; array.length; i++) {<a name="line.230"></a>
+<FONT color="green">231</FONT>          if (array[i] &lt; min) {<a name="line.231"></a>
+<FONT color="green">232</FONT>            min = array[i];<a name="line.232"></a>
+<FONT color="green">233</FONT>          }<a name="line.233"></a>
+<FONT color="green">234</FONT>        }<a name="line.234"></a>
+<FONT color="green">235</FONT>        return min;<a name="line.235"></a>
+<FONT color="green">236</FONT>      }<a name="line.236"></a>
+<FONT color="green">237</FONT>    <a name="line.237"></a>
+<FONT color="green">238</FONT>      /**<a name="line.238"></a>
+<FONT color="green">239</FONT>       * Returns the greatest value present in {@code array}.<a name="line.239"></a>
+<FONT color="green">240</FONT>       *<a name="line.240"></a>
+<FONT color="green">241</FONT>       * @param array a &lt;i&gt;nonempty&lt;/i&gt; array of {@code int} values<a name="line.241"></a>
+<FONT color="green">242</FONT>       * @return the value present in {@code array} that is greater than or equal to<a name="line.242"></a>
+<FONT color="green">243</FONT>       *     every other value in the array<a name="line.243"></a>
+<FONT color="green">244</FONT>       * @throws IllegalArgumentException if {@code array} is empty<a name="line.244"></a>
+<FONT color="green">245</FONT>       */<a name="line.245"></a>
+<FONT color="green">246</FONT>      public static int max(int... array) {<a name="line.246"></a>
+<FONT color="green">247</FONT>        checkArgument(array.length &gt; 0);<a name="line.247"></a>
+<FONT color="green">248</FONT>        int max = array[0];<a name="line.248"></a>
+<FONT color="green">249</FONT>        for (int i = 1; i &lt; array.length; i++) {<a name="line.249"></a>
+<FONT color="green">250</FONT>          if (array[i] &gt; max) {<a name="line.250"></a>
+<FONT color="green">251</FONT>            max = array[i];<a name="line.251"></a>
+<FONT color="green">252</FONT>          }<a name="line.252"></a>
+<FONT color="green">253</FONT>        }<a name="line.253"></a>
+<FONT color="green">254</FONT>        return max;<a name="line.254"></a>
+<FONT color="green">255</FONT>      }<a name="line.255"></a>
+<FONT color="green">256</FONT>    <a name="line.256"></a>
+<FONT color="green">257</FONT>      /**<a name="line.257"></a>
+<FONT color="green">258</FONT>       * Returns the values from each provided array combined into a single array.<a name="line.258"></a>
+<FONT color="green">259</FONT>       * For example, {@code concat(new int[] {a, b}, new int[] {}, new<a name="line.259"></a>
+<FONT color="green">260</FONT>       * int[] {c}} returns the array {@code {a, b, c}}.<a name="line.260"></a>
+<FONT color="green">261</FONT>       *<a name="line.261"></a>
+<FONT color="green">262</FONT>       * @param arrays zero or more {@code int} arrays<a name="line.262"></a>
+<FONT color="green">263</FONT>       * @return a single array containing all the values from the source arrays, in<a name="line.263"></a>
+<FONT color="green">264</FONT>       *     order<a name="line.264"></a>
+<FONT color="green">265</FONT>       */<a name="line.265"></a>
+<FONT color="green">266</FONT>      public static int[] concat(int[]... arrays) {<a name="line.266"></a>
+<FONT color="green">267</FONT>        int length = 0;<a name="line.267"></a>
+<FONT color="green">268</FONT>        for (int[] array : arrays) {<a name="line.268"></a>
+<FONT color="green">269</FONT>          length += array.length;<a name="line.269"></a>
+<FONT color="green">270</FONT>        }<a name="line.270"></a>
+<FONT color="green">271</FONT>        int[] result = new int[length];<a name="line.271"></a>
+<FONT color="green">272</FONT>        int pos = 0;<a name="line.272"></a>
+<FONT color="green">273</FONT>        for (int[] array : arrays) {<a name="line.273"></a>
+<FONT color="green">274</FONT>          System.arraycopy(array, 0, result, pos, array.length);<a name="line.274"></a>
+<FONT color="green">275</FONT>          pos += array.length;<a name="line.275"></a>
+<FONT color="green">276</FONT>        }<a name="line.276"></a>
+<FONT color="green">277</FONT>        return result;<a name="line.277"></a>
+<FONT color="green">278</FONT>      }<a name="line.278"></a>
+<FONT color="green">279</FONT>    <a name="line.279"></a>
+<FONT color="green">280</FONT>      /**<a name="line.280"></a>
+<FONT color="green">281</FONT>       * Returns a big-endian representation of {@code value} in a 4-element byte<a name="line.281"></a>
+<FONT color="green">282</FONT>       * array; equivalent to {@code ByteBuffer.allocate(4).putInt(value).array()}.<a name="line.282"></a>
+<FONT color="green">283</FONT>       * For example, the input value {@code 0x12131415} would yield the byte array<a name="line.283"></a>
+<FONT color="green">284</FONT>       * {@code {0x12, 0x13, 0x14, 0x15}}.<a name="line.284"></a>
+<FONT color="green">285</FONT>       *<a name="line.285"></a>
+<FONT color="green">286</FONT>       * &lt;p&gt;If you need to convert and concatenate several values (possibly even of<a name="line.286"></a>
+<FONT color="green">287</FONT>       * different types), use a shared {@link java.nio.ByteBuffer} instance, or use<a name="line.287"></a>
+<FONT color="green">288</FONT>       * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable<a name="line.288"></a>
+<FONT color="green">289</FONT>       * buffer.<a name="line.289"></a>
+<FONT color="green">290</FONT>       */<a name="line.290"></a>
+<FONT color="green">291</FONT>      @GwtIncompatible("doesn't work")<a name="line.291"></a>
+<FONT color="green">292</FONT>      public static byte[] toByteArray(int value) {<a name="line.292"></a>
+<FONT color="green">293</FONT>        return new byte[] {<a name="line.293"></a>
+<FONT color="green">294</FONT>            (byte) (value &gt;&gt; 24),<a name="line.294"></a>
+<FONT color="green">295</FONT>            (byte) (value &gt;&gt; 16),<a name="line.295"></a>
+<FONT color="green">296</FONT>            (byte) (value &gt;&gt; 8),<a name="line.296"></a>
+<FONT color="green">297</FONT>            (byte) value};<a name="line.297"></a>
+<FONT color="green">298</FONT>      }<a name="line.298"></a>
+<FONT color="green">299</FONT>    <a name="line.299"></a>
+<FONT color="green">300</FONT>      /**<a name="line.300"></a>
+<FONT color="green">301</FONT>       * Returns the {@code int} value whose big-endian representation is stored in<a name="line.301"></a>
+<FONT color="green">302</FONT>       * the first 4 bytes of {@code bytes}; equivalent to {@code<a name="line.302"></a>
+<FONT color="green">303</FONT>       * ByteBuffer.wrap(bytes).getInt()}. For example, the input byte array {@code<a name="line.303"></a>
+<FONT color="green">304</FONT>       * {0x12, 0x13, 0x14, 0x15, 0x33}} would yield the {@code int} value {@code<a name="line.304"></a>
+<FONT color="green">305</FONT>       * 0x12131415}.<a name="line.305"></a>
+<FONT color="green">306</FONT>       *<a name="line.306"></a>
+<FONT color="green">307</FONT>       * &lt;p&gt;Arguably, it's preferable to use {@link java.nio.ByteBuffer}; that<a name="line.307"></a>
+<FONT color="green">308</FONT>       * library exposes much more flexibility at little cost in readability.<a name="line.308"></a>
+<FONT color="green">309</FONT>       *<a name="line.309"></a>
+<FONT color="green">310</FONT>       * @throws IllegalArgumentException if {@code bytes} has fewer than 4 elements<a name="line.310"></a>
+<FONT color="green">311</FONT>       */<a name="line.311"></a>
+<FONT color="green">312</FONT>      @GwtIncompatible("doesn't work")<a name="line.312"></a>
+<FONT color="green">313</FONT>      public static int fromByteArray(byte[] bytes) {<a name="line.313"></a>
+<FONT color="green">314</FONT>        checkArgument(bytes.length &gt;= BYTES,<a name="line.314"></a>
+<FONT color="green">315</FONT>            "array too small: %s &lt; %s", bytes.length, BYTES);<a name="line.315"></a>
+<FONT color="green">316</FONT>        return fromBytes(bytes[0], bytes[1], bytes[2], bytes[3]);<a name="line.316"></a>
+<FONT color="green">317</FONT>      }<a name="line.317"></a>
+<FONT color="green">318</FONT>    <a name="line.318"></a>
+<FONT color="green">319</FONT>      /**<a name="line.319"></a>
+<FONT color="green">320</FONT>       * Returns the {@code int} value whose byte representation is the given 4<a name="line.320"></a>
+<FONT color="green">321</FONT>       * bytes, in big-endian order; equivalent to {@code Ints.fromByteArray(new<a name="line.321"></a>
+<FONT color="green">322</FONT>       * byte[] {b1, b2, b3, b4})}.<a name="line.322"></a>
+<FONT color="green">323</FONT>       *<a name="line.323"></a>
+<FONT color="green">324</FONT>       * @since 7.0<a name="line.324"></a>
+<FONT color="green">325</FONT>       */<a name="line.325"></a>
+<FONT color="green">326</FONT>      @GwtIncompatible("doesn't work")<a name="line.326"></a>
+<FONT color="green">327</FONT>      public static int fromBytes(byte b1, byte b2, byte b3, byte b4) {<a name="line.327"></a>
+<FONT color="green">328</FONT>        return b1 &lt;&lt; 24 | (b2 &amp; 0xFF) &lt;&lt; 16 | (b3 &amp; 0xFF) &lt;&lt; 8 | (b4 &amp; 0xFF);<a name="line.328"></a>
+<FONT color="green">329</FONT>      }<a name="line.329"></a>
+<FONT color="green">330</FONT>    <a name="line.330"></a>
+<FONT color="green">331</FONT>      /**<a name="line.331"></a>
+<FONT color="green">332</FONT>       * Returns an array containing the same values as {@code array}, but<a name="line.332"></a>
+<FONT color="green">333</FONT>       * guaranteed to be of a specified minimum length. If {@code array} already<a name="line.333"></a>
+<FONT color="green">334</FONT>       * has a length of at least {@code minLength}, it is returned directly.<a name="line.334"></a>
+<FONT color="green">335</FONT>       * Otherwise, a new array of size {@code minLength + padding} is returned,<a name="line.335"></a>
+<FONT color="green">336</FONT>       * containing the values of {@code array}, and zeroes in the remaining places.<a name="line.336"></a>
+<FONT color="green">337</FONT>       *<a name="line.337"></a>
+<FONT color="green">338</FONT>       * @param array the source array<a name="line.338"></a>
+<FONT color="green">339</FONT>       * @param minLength the minimum length the returned array must guarantee<a name="line.339"></a>
+<FONT color="green">340</FONT>       * @param padding an extra amount to "grow" the array by if growth is<a name="line.340"></a>
+<FONT color="green">341</FONT>       *     necessary<a name="line.341"></a>
+<FONT color="green">342</FONT>       * @throws IllegalArgumentException if {@code minLength} or {@code padding} is<a name="line.342"></a>
+<FONT color="green">343</FONT>       *     negative<a name="line.343"></a>
+<FONT color="green">344</FONT>       * @return an array containing the values of {@code array}, with guaranteed<a name="line.344"></a>
+<FONT color="green">345</FONT>       *     minimum length {@code minLength}<a name="line.345"></a>
+<FONT color="green">346</FONT>       */<a name="line.346"></a>
+<FONT color="green">347</FONT>      public static int[] ensureCapacity(<a name="line.347"></a>
+<FONT color="green">348</FONT>          int[] array, int minLength, int padding) {<a name="line.348"></a>
+<FONT color="green">349</FONT>        checkArgument(minLength &gt;= 0, "Invalid minLength: %s", minLength);<a name="line.349"></a>
+<FONT color="green">350</FONT>        checkArgument(padding &gt;= 0, "Invalid padding: %s", padding);<a name="line.350"></a>
+<FONT color="green">351</FONT>        return (array.length &lt; minLength)<a name="line.351"></a>
+<FONT color="green">352</FONT>            ? copyOf(array, minLength + padding)<a name="line.352"></a>
+<FONT color="green">353</FONT>            : array;<a name="line.353"></a>
+<FONT color="green">354</FONT>      }<a name="line.354"></a>
+<FONT color="green">355</FONT>    <a name="line.355"></a>
+<FONT color="green">356</FONT>      // Arrays.copyOf() requires Java 6<a name="line.356"></a>
+<FONT color="green">357</FONT>      private static int[] copyOf(int[] original, int length) {<a name="line.357"></a>
+<FONT color="green">358</FONT>        int[] copy = new int[length];<a name="line.358"></a>
+<FONT color="green">359</FONT>        System.arraycopy(original, 0, copy, 0, Math.min(original.length, length));<a name="line.359"></a>
+<FONT color="green">360</FONT>        return copy;<a name="line.360"></a>
+<FONT color="green">361</FONT>      }<a name="line.361"></a>
+<FONT color="green">362</FONT>    <a name="line.362"></a>
+<FONT color="green">363</FONT>      /**<a name="line.363"></a>
+<FONT color="green">364</FONT>       * Returns a string containing the supplied {@code int} values separated<a name="line.364"></a>
+<FONT color="green">365</FONT>       * by {@code separator}. For example, {@code join("-", 1, 2, 3)} returns<a name="line.365"></a>
+<FONT color="green">366</FONT>       * the string {@code "1-2-3"}.<a name="line.366"></a>
+<FONT color="green">367</FONT>       *<a name="line.367"></a>
+<FONT color="green">368</FONT>       * @param separator the text that should appear between consecutive values in<a name="line.368"></a>
+<FONT color="green">369</FONT>       *     the resulting string (but not at the start or end)<a name="line.369"></a>
+<FONT color="green">370</FONT>       * @param array an array of {@code int} values, possibly empty<a name="line.370"></a>
+<FONT color="green">371</FONT>       */<a name="line.371"></a>
+<FONT color="green">372</FONT>      public static String join(String separator, int... array) {<a name="line.372"></a>
+<FONT color="green">373</FONT>        checkNotNull(separator);<a name="line.373"></a>
+<FONT color="green">374</FONT>        if (array.length == 0) {<a name="line.374"></a>
+<FONT color="green">375</FONT>          return "";<a name="line.375"></a>
+<FONT color="green">376</FONT>        }<a name="line.376"></a>
+<FONT color="green">377</FONT>    <a name="line.377"></a>
+<FONT color="green">378</FONT>        // For pre-sizing a builder, just get the right order of magnitude<a name="line.378"></a>
+<FONT color="green">379</FONT>        StringBuilder builder = new StringBuilder(array.length * 5);<a name="line.379"></a>
+<FONT color="green">380</FONT>        builder.append(array[0]);<a name="line.380"></a>
+<FONT color="green">381</FONT>        for (int i = 1; i &lt; array.length; i++) {<a name="line.381"></a>
+<FONT color="green">382</FONT>          builder.append(separator).append(array[i]);<a name="line.382"></a>
+<FONT color="green">383</FONT>        }<a name="line.383"></a>
+<FONT color="green">384</FONT>        return builder.toString();<a name="line.384"></a>
+<FONT color="green">385</FONT>      }<a name="line.385"></a>
+<FONT color="green">386</FONT>    <a name="line.386"></a>
+<FONT color="green">387</FONT>      /**<a name="line.387"></a>
+<FONT color="green">388</FONT>       * Returns a comparator that compares two {@code int} arrays<a name="line.388"></a>
+<FONT color="green">389</FONT>       * lexicographically. That is, it compares, using {@link<a name="line.389"></a>
+<FONT color="green">390</FONT>       * #compare(int, int)}), the first pair of values that follow any<a name="line.390"></a>
+<FONT color="green">391</FONT>       * common prefix, or when one array is a prefix of the other, treats the<a name="line.391"></a>
+<FONT color="green">392</FONT>       * shorter array as the lesser. For example, {@code [] &lt; [1] &lt; [1, 2] &lt; [2]}.<a name="line.392"></a>
+<FONT color="green">393</FONT>       *<a name="line.393"></a>
+<FONT color="green">394</FONT>       * &lt;p&gt;The returned comparator is inconsistent with {@link<a name="line.394"></a>
+<FONT color="green">395</FONT>       * Object#equals(Object)} (since arrays support only identity equality), but<a name="line.395"></a>
+<FONT color="green">396</FONT>       * it is consistent with {@link Arrays#equals(int[], int[])}.<a name="line.396"></a>
+<FONT color="green">397</FONT>       *<a name="line.397"></a>
+<FONT color="green">398</FONT>       * @see &lt;a href="http://en.wikipedia.org/wiki/Lexicographical_order"&gt;<a name="line.398"></a>
+<FONT color="green">399</FONT>       *     Lexicographical order article at Wikipedia&lt;/a&gt;<a name="line.399"></a>
+<FONT color="green">400</FONT>       * @since 2.0<a name="line.400"></a>
+<FONT color="green">401</FONT>       */<a name="line.401"></a>
+<FONT color="green">402</FONT>      public static Comparator&lt;int[]&gt; lexicographicalComparator() {<a name="line.402"></a>
+<FONT color="green">403</FONT>        return LexicographicalComparator.INSTANCE;<a name="line.403"></a>
+<FONT color="green">404</FONT>      }<a name="line.404"></a>
+<FONT color="green">405</FONT>    <a name="line.405"></a>
+<FONT color="green">406</FONT>      private enum LexicographicalComparator implements Comparator&lt;int[]&gt; {<a name="line.406"></a>
+<FONT color="green">407</FONT>        INSTANCE;<a name="line.407"></a>
+<FONT color="green">408</FONT>    <a name="line.408"></a>
+<FONT color="green">409</FONT>        @Override<a name="line.409"></a>
+<FONT color="green">410</FONT>        public int compare(int[] left, int[] right) {<a name="line.410"></a>
+<FONT color="green">411</FONT>          int minLength = Math.min(left.length, right.length);<a name="line.411"></a>
+<FONT color="green">412</FONT>          for (int i = 0; i &lt; minLength; i++) {<a name="line.412"></a>
+<FONT color="green">413</FONT>            int result = Ints.compare(left[i], right[i]);<a name="line.413"></a>
+<FONT color="green">414</FONT>            if (result != 0) {<a name="line.414"></a>
+<FONT color="green">415</FONT>              return result;<a name="line.415"></a>
+<FONT color="green">416</FONT>            }<a name="line.416"></a>
+<FONT color="green">417</FONT>          }<a name="line.417"></a>
+<FONT color="green">418</FONT>          return left.length - right.length;<a name="line.418"></a>
+<FONT color="green">419</FONT>        }<a name="line.419"></a>
+<FONT color="green">420</FONT>      }<a name="line.420"></a>
+<FONT color="green">421</FONT>    <a name="line.421"></a>
+<FONT color="green">422</FONT>      /**<a name="line.422"></a>
+<FONT color="green">423</FONT>       * Returns an array containing each value of {@code collection}, converted to<a name="line.423"></a>
+<FONT color="green">424</FONT>       * a {@code int} value in the manner of {@link Number#intValue}.<a name="line.424"></a>
+<FONT color="green">425</FONT>       *<a name="line.425"></a>
+<FONT color="green">426</FONT>       * &lt;p&gt;Elements are copied from the argument collection as if by {@code<a name="line.426"></a>
+<FONT color="green">427</FONT>       * collection.toArray()}.  Calling this method is as thread-safe as calling<a name="line.427"></a>
+<FONT color="green">428</FONT>       * that method.<a name="line.428"></a>
+<FONT color="green">429</FONT>       *<a name="line.429"></a>
+<FONT color="green">430</FONT>       * @param collection a collection of {@code Number} instances<a name="line.430"></a>
+<FONT color="green">431</FONT>       * @return an array containing the same values as {@code collection}, in the<a name="line.431"></a>
+<FONT color="green">432</FONT>       *     same order, converted to primitives<a name="line.432"></a>
+<FONT color="green">433</FONT>       * @throws NullPointerException if {@code collection} or any of its elements<a name="line.433"></a>
+<FONT color="green">434</FONT>       *     is null<a name="line.434"></a>
+<FONT color="green">435</FONT>       * @since 1.0 (parameter was {@code Collection&lt;Integer&gt;} before 12.0)<a name="line.435"></a>
+<FONT color="green">436</FONT>       */<a name="line.436"></a>
+<FONT color="green">437</FONT>      public static int[] toArray(Collection&lt;? extends Number&gt; collection) {<a name="line.437"></a>
+<FONT color="green">438</FONT>        if (collection instanceof IntArrayAsList) {<a name="line.438"></a>
+<FONT color="green">439</FONT>          return ((IntArrayAsList) collection).toIntArray();<a name="line.439"></a>
+<FONT color="green">440</FONT>        }<a name="line.440"></a>
+<FONT color="green">441</FONT>    <a name="line.441"></a>
+<FONT color="green">442</FONT>        Object[] boxedArray = collection.toArray();<a name="line.442"></a>
+<FONT color="green">443</FONT>        int len = boxedArray.length;<a name="line.443"></a>
+<FONT color="green">444</FONT>        int[] array = new int[len];<a name="line.444"></a>
+<FONT color="green">445</FONT>        for (int i = 0; i &lt; len; i++) {<a name="line.445"></a>
+<FONT color="green">446</FONT>          // checkNotNull for GWT (do not optimize)<a name="line.446"></a>
+<FONT color="green">447</FONT>          array[i] = ((Number) checkNotNull(boxedArray[i])).intValue();<a name="line.447"></a>
+<FONT color="green">448</FONT>        }<a name="line.448"></a>
+<FONT color="green">449</FONT>        return array;<a name="line.449"></a>
+<FONT color="green">450</FONT>      }<a name="line.450"></a>
+<FONT color="green">451</FONT>    <a name="line.451"></a>
+<FONT color="green">452</FONT>      /**<a name="line.452"></a>
+<FONT color="green">453</FONT>       * Returns a fixed-size list backed by the specified array, similar to {@link<a name="line.453"></a>
+<FONT color="green">454</FONT>       * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)},<a name="line.454"></a>
+<FONT color="green">455</FONT>       * but any attempt to set a value to {@code null} will result in a {@link<a name="line.455"></a>
+<FONT color="green">456</FONT>       * NullPointerException}.<a name="line.456"></a>
+<FONT color="green">457</FONT>       *<a name="line.457"></a>
+<FONT color="green">458</FONT>       * &lt;p&gt;The returned list maintains the values, but not the identities, of<a name="line.458"></a>
+<FONT color="green">459</FONT>       * {@code Integer} objects written to or read from it.  For example, whether<a name="line.459"></a>
+<FONT color="green">460</FONT>       * {@code list.get(0) == list.get(0)} is true for the returned list is<a name="line.460"></a>
+<FONT color="green">461</FONT>       * unspecified.<a name="line.461"></a>
+<FONT color="green">462</FONT>       *<a name="line.462"></a>
+<FONT color="green">463</FONT>       * @param backingArray the array to back the list<a name="line.463"></a>
+<FONT color="green">464</FONT>       * @return a list view of the array<a name="line.464"></a>
+<FONT color="green">465</FONT>       */<a name="line.465"></a>
+<FONT color="green">466</FONT>      public static List&lt;Integer&gt; asList(int... backingArray) {<a name="line.466"></a>
+<FONT color="green">467</FONT>        if (backingArray.length == 0) {<a name="line.467"></a>
+<FONT color="green">468</FONT>          return Collections.emptyList();<a name="line.468"></a>
+<FONT color="green">469</FONT>        }<a name="line.469"></a>
+<FONT color="green">470</FONT>        return new IntArrayAsList(backingArray);<a name="line.470"></a>
+<FONT color="green">471</FONT>      }<a name="line.471"></a>
+<FONT color="green">472</FONT>    <a name="line.472"></a>
+<FONT color="green">473</FONT>      @GwtCompatible<a name="line.473"></a>
+<FONT color="green">474</FONT>      private static class IntArrayAsList extends AbstractList&lt;Integer&gt;<a name="line.474"></a>
+<FONT color="green">475</FONT>          implements RandomAccess, Serializable {<a name="line.475"></a>
+<FONT color="green">476</FONT>        final int[] array;<a name="line.476"></a>
+<FONT color="green">477</FONT>        final int start;<a name="line.477"></a>
+<FONT color="green">478</FONT>        final int end;<a name="line.478"></a>
+<FONT color="green">479</FONT>    <a name="line.479"></a>
+<FONT color="green">480</FONT>        IntArrayAsList(int[] array) {<a name="line.480"></a>
+<FONT color="green">481</FONT>          this(array, 0, array.length);<a name="line.481"></a>
+<FONT color="green">482</FONT>        }<a name="line.482"></a>
+<FONT color="green">483</FONT>    <a name="line.483"></a>
+<FONT color="green">484</FONT>        IntArrayAsList(int[] array, int start, int end) {<a name="line.484"></a>
+<FONT color="green">485</FONT>          this.array = array;<a name="line.485"></a>
+<FONT color="green">486</FONT>          this.start = start;<a name="line.486"></a>
+<FONT color="green">487</FONT>          this.end = end;<a name="line.487"></a>
+<FONT color="green">488</FONT>        }<a name="line.488"></a>
+<FONT color="green">489</FONT>    <a name="line.489"></a>
+<FONT color="green">490</FONT>        @Override public int size() {<a name="line.490"></a>
+<FONT color="green">491</FONT>          return end - start;<a name="line.491"></a>
+<FONT color="green">492</FONT>        }<a name="line.492"></a>
+<FONT color="green">493</FONT>    <a name="line.493"></a>
+<FONT color="green">494</FONT>        @Override public boolean isEmpty() {<a name="line.494"></a>
+<FONT color="green">495</FONT>          return false;<a name="line.495"></a>
+<FONT color="green">496</FONT>        }<a name="line.496"></a>
+<FONT color="green">497</FONT>    <a name="line.497"></a>
+<FONT color="green">498</FONT>        @Override public Integer get(int index) {<a name="line.498"></a>
+<FONT color="green">499</FONT>          checkElementIndex(index, size());<a name="line.499"></a>
+<FONT color="green">500</FONT>          return array[start + index];<a name="line.500"></a>
+<FONT color="green">501</FONT>        }<a name="line.501"></a>
+<FONT color="green">502</FONT>    <a name="line.502"></a>
+<FONT color="green">503</FONT>        @Override public boolean contains(Object target) {<a name="line.503"></a>
+<FONT color="green">504</FONT>          // Overridden to prevent a ton of boxing<a name="line.504"></a>
+<FONT color="green">505</FONT>          return (target instanceof Integer)<a name="line.505"></a>
+<FONT color="green">506</FONT>              &amp;&amp; Ints.indexOf(array, (Integer) target, start, end) != -1;<a name="line.506"></a>
+<FONT color="green">507</FONT>        }<a name="line.507"></a>
+<FONT color="green">508</FONT>    <a name="line.508"></a>
+<FONT color="green">509</FONT>        @Override public int indexOf(Object target) {<a name="line.509"></a>
+<FONT color="green">510</FONT>          // Overridden to prevent a ton of boxing<a name="line.510"></a>
+<FONT color="green">511</FONT>          if (target instanceof Integer) {<a name="line.511"></a>
+<FONT color="green">512</FONT>            int i = Ints.indexOf(array, (Integer) target, start, end);<a name="line.512"></a>
+<FONT color="green">513</FONT>            if (i &gt;= 0) {<a name="line.513"></a>
+<FONT color="green">514</FONT>              return i - start;<a name="line.514"></a>
+<FONT color="green">515</FONT>            }<a name="line.515"></a>
+<FONT color="green">516</FONT>          }<a name="line.516"></a>
+<FONT color="green">517</FONT>          return -1;<a name="line.517"></a>
+<FONT color="green">518</FONT>        }<a name="line.518"></a>
+<FONT color="green">519</FONT>    <a name="line.519"></a>
+<FONT color="green">520</FONT>        @Override public int lastIndexOf(Object target) {<a name="line.520"></a>
+<FONT color="green">521</FONT>          // Overridden to prevent a ton of boxing<a name="line.521"></a>
+<FONT color="green">522</FONT>          if (target instanceof Integer) {<a name="line.522"></a>
+<FONT color="green">523</FONT>            int i = Ints.lastIndexOf(array, (Integer) target, start, end);<a name="line.523"></a>
+<FONT color="green">524</FONT>            if (i &gt;= 0) {<a name="line.524"></a>
+<FONT color="green">525</FONT>              return i - start;<a name="line.525"></a>
+<FONT color="green">526</FONT>            }<a name="line.526"></a>
+<FONT color="green">527</FONT>          }<a name="line.527"></a>
+<FONT color="green">528</FONT>          return -1;<a name="line.528"></a>
+<FONT color="green">529</FONT>        }<a name="line.529"></a>
+<FONT color="green">530</FONT>    <a name="line.530"></a>
+<FONT color="green">531</FONT>        @Override public Integer set(int index, Integer element) {<a name="line.531"></a>
+<FONT color="green">532</FONT>          checkElementIndex(index, size());<a name="line.532"></a>
+<FONT color="green">533</FONT>          int oldValue = array[start + index];<a name="line.533"></a>
+<FONT color="green">534</FONT>          // checkNotNull for GWT (do not optimize)<a name="line.534"></a>
+<FONT color="green">535</FONT>          array[start + index] = checkNotNull(element);<a name="line.535"></a>
+<FONT color="green">536</FONT>          return oldValue;<a name="line.536"></a>
+<FONT color="green">537</FONT>        }<a name="line.537"></a>
+<FONT color="green">538</FONT>    <a name="line.538"></a>
+<FONT color="green">539</FONT>        @Override public List&lt;Integer&gt; subList(int fromIndex, int toIndex) {<a name="line.539"></a>
+<FONT color="green">540</FONT>          int size = size();<a name="line.540"></a>
+<FONT color="green">541</FONT>          checkPositionIndexes(fromIndex, toIndex, size);<a name="line.541"></a>
+<FONT color="green">542</FONT>          if (fromIndex == toIndex) {<a name="line.542"></a>
+<FONT color="green">543</FONT>            return Collections.emptyList();<a name="line.543"></a>
+<FONT color="green">544</FONT>          }<a name="line.544"></a>
+<FONT color="green">545</FONT>          return new IntArrayAsList(array, start + fromIndex, start + toIndex);<a name="line.545"></a>
+<FONT color="green">546</FONT>        }<a name="line.546"></a>
+<FONT color="green">547</FONT>    <a name="line.547"></a>
+<FONT color="green">548</FONT>        @Override public boolean equals(Object object) {<a name="line.548"></a>
+<FONT color="green">549</FONT>          if (object == this) {<a name="line.549"></a>
+<FONT color="green">550</FONT>            return true;<a name="line.550"></a>
+<FONT color="green">551</FONT>          }<a name="line.551"></a>
+<FONT color="green">552</FONT>          if (object instanceof IntArrayAsList) {<a name="line.552"></a>
+<FONT color="green">553</FONT>            IntArrayAsList that = (IntArrayAsList) object;<a name="line.553"></a>
+<FONT color="green">554</FONT>            int size = size();<a name="line.554"></a>
+<FONT color="green">555</FONT>            if (that.size() != size) {<a name="line.555"></a>
+<FONT color="green">556</FONT>              return false;<a name="line.556"></a>
+<FONT color="green">557</FONT>            }<a name="line.557"></a>
+<FONT color="green">558</FONT>            for (int i = 0; i &lt; size; i++) {<a name="line.558"></a>
+<FONT color="green">559</FONT>              if (array[start + i] != that.array[that.start + i]) {<a name="line.559"></a>
+<FONT color="green">560</FONT>                return false;<a name="line.560"></a>
+<FONT color="green">561</FONT>              }<a name="line.561"></a>
+<FONT color="green">562</FONT>            }<a name="line.562"></a>
+<FONT color="green">563</FONT>            return true;<a name="line.563"></a>
+<FONT color="green">564</FONT>          }<a name="line.564"></a>
+<FONT color="green">565</FONT>          return super.equals(object);<a name="line.565"></a>
+<FONT color="green">566</FONT>        }<a name="line.566"></a>
+<FONT color="green">567</FONT>    <a name="line.567"></a>
+<FONT color="green">568</FONT>        @Override public int hashCode() {<a name="line.568"></a>
+<FONT color="green">569</FONT>          int result = 1;<a name="line.569"></a>
+<FONT color="green">570</FONT>          for (int i = start; i &lt; end; i++) {<a name="line.570"></a>
+<FONT color="green">571</FONT>            result = 31 * result + Ints.hashCode(array[i]);<a name="line.571"></a>
+<FONT color="green">572</FONT>          }<a name="line.572"></a>
+<FONT color="green">573</FONT>          return result;<a name="line.573"></a>
+<FONT color="green">574</FONT>        }<a name="line.574"></a>
+<FONT color="green">575</FONT>    <a name="line.575"></a>
+<FONT color="green">576</FONT>        @Override public String toString() {<a name="line.576"></a>
+<FONT color="green">577</FONT>          StringBuilder builder = new StringBuilder(size() * 5);<a name="line.577"></a>
+<FONT color="green">578</FONT>          builder.append('[').append(array[start]);<a name="line.578"></a>
+<FONT color="green">579</FONT>          for (int i = start + 1; i &lt; end; i++) {<a name="line.579"></a>
+<FONT color="green">580</FONT>            builder.append(", ").append(array[i]);<a name="line.580"></a>
+<FONT color="green">581</FONT>          }<a name="line.581"></a>
+<FONT color="green">582</FONT>          return builder.append(']').toString();<a name="line.582"></a>
+<FONT color="green">583</FONT>        }<a name="line.583"></a>
+<FONT color="green">584</FONT>    <a name="line.584"></a>
+<FONT color="green">585</FONT>        int[] toIntArray() {<a name="line.585"></a>
+<FONT color="green">586</FONT>          // Arrays.copyOfRange() is not available under GWT<a name="line.586"></a>
+<FONT color="green">587</FONT>          int size = size();<a name="line.587"></a>
+<FONT color="green">588</FONT>          int[] result = new int[size];<a name="line.588"></a>
+<FONT color="green">589</FONT>          System.arraycopy(array, start, result, 0, size);<a name="line.589"></a>
+<FONT color="green">590</FONT>          return result;<a name="line.590"></a>
+<FONT color="green">591</FONT>        }<a name="line.591"></a>
+<FONT color="green">592</FONT>    <a name="line.592"></a>
+<FONT color="green">593</FONT>        private static final long serialVersionUID = 0;<a name="line.593"></a>
+<FONT color="green">594</FONT>      }<a name="line.594"></a>
+<FONT color="green">595</FONT>    <a name="line.595"></a>
+<FONT color="green">596</FONT>      /**<a name="line.596"></a>
+<FONT color="green">597</FONT>       * Parses the specified string as a signed decimal integer value. The ASCII<a name="line.597"></a>
+<FONT color="green">598</FONT>       * character {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized as the<a name="line.598"></a>
+<FONT color="green">599</FONT>       * minus sign.<a name="line.599"></a>
+<FONT color="green">600</FONT>       *<a name="line.600"></a>
+<FONT color="green">601</FONT>       * &lt;p&gt;Unlike {@link Integer#parseInt(String)}, this method returns<a name="line.601"></a>
+<FONT color="green">602</FONT>       * {@code null} instead of throwing an exception if parsing fails.<a name="line.602"></a>
+<FONT color="green">603</FONT>       *<a name="line.603"></a>
+<FONT color="green">604</FONT>       * &lt;p&gt;Note that strings prefixed with ASCII {@code '+'} are rejected, even<a name="line.604"></a>
+<FONT color="green">605</FONT>       * under JDK 7, despite the change to {@link Integer#parseInt(String)} for<a name="line.605"></a>
+<FONT color="green">606</FONT>       * that version.<a name="line.606"></a>
+<FONT color="green">607</FONT>       *<a name="line.607"></a>
+<FONT color="green">608</FONT>       * @param string the string representation of an integer value<a name="line.608"></a>
+<FONT color="green">609</FONT>       * @return the integer value represented by {@code string}, or {@code null} if<a name="line.609"></a>
+<FONT color="green">610</FONT>       *     {@code string} has a length of zero or cannot be parsed as an integer<a name="line.610"></a>
+<FONT color="green">611</FONT>       *     value<a name="line.611"></a>
+<FONT color="green">612</FONT>       * @since 11.0<a name="line.612"></a>
+<FONT color="green">613</FONT>       */<a name="line.613"></a>
+<FONT color="green">614</FONT>      @Beta<a name="line.614"></a>
+<FONT color="green">615</FONT>      @CheckForNull<a name="line.615"></a>
+<FONT color="green">616</FONT>      @GwtIncompatible("TODO")<a name="line.616"></a>
+<FONT color="green">617</FONT>      public static Integer tryParse(String string) {<a name="line.617"></a>
+<FONT color="green">618</FONT>        return AndroidInteger.tryParse(string, 10);<a name="line.618"></a>
+<FONT color="green">619</FONT>      }<a name="line.619"></a>
+<FONT color="green">620</FONT>    }<a name="line.620"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

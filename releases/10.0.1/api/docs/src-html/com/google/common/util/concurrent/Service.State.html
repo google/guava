@@ -1,0 +1,226 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.util.concurrent;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import com.google.common.annotations.Beta;<a name="line.19"></a>
+<FONT color="green">020</FONT>    <a name="line.20"></a>
+<FONT color="green">021</FONT>    import java.util.concurrent.ExecutionException;<a name="line.21"></a>
+<FONT color="green">022</FONT>    <a name="line.22"></a>
+<FONT color="green">023</FONT>    /**<a name="line.23"></a>
+<FONT color="green">024</FONT>     * An object with an operational state, plus asynchronous {@link #start()} and<a name="line.24"></a>
+<FONT color="green">025</FONT>     * {@link #stop()} lifecycle methods to transfer into and out of this state.<a name="line.25"></a>
+<FONT color="green">026</FONT>     * Example services include webservers, RPC servers and timers. The normal<a name="line.26"></a>
+<FONT color="green">027</FONT>     * lifecycle of a service is:<a name="line.27"></a>
+<FONT color="green">028</FONT>     * &lt;ul&gt;<a name="line.28"></a>
+<FONT color="green">029</FONT>     *   &lt;li&gt;{@link State#NEW} -&amp;gt;&lt;/li&gt;<a name="line.29"></a>
+<FONT color="green">030</FONT>     *   &lt;li&gt;{@link State#STARTING} -&amp;gt;&lt;/li&gt;<a name="line.30"></a>
+<FONT color="green">031</FONT>     *   &lt;li&gt;{@link State#RUNNING} -&amp;gt;&lt;/li&gt;<a name="line.31"></a>
+<FONT color="green">032</FONT>     *   &lt;li&gt;{@link State#STOPPING} -&amp;gt;&lt;/li&gt;<a name="line.32"></a>
+<FONT color="green">033</FONT>     *   &lt;li&gt;{@link State#TERMINATED}&lt;/li&gt;<a name="line.33"></a>
+<FONT color="green">034</FONT>     * &lt;/ul&gt;<a name="line.34"></a>
+<FONT color="green">035</FONT>     *<a name="line.35"></a>
+<FONT color="green">036</FONT>     * If the service fails while starting, running or stopping, its state will be<a name="line.36"></a>
+<FONT color="green">037</FONT>     * {@link State#FAILED}, and its behavior is undefined. Such a service cannot be<a name="line.37"></a>
+<FONT color="green">038</FONT>     * started nor stopped.<a name="line.38"></a>
+<FONT color="green">039</FONT>     *<a name="line.39"></a>
+<FONT color="green">040</FONT>     * &lt;p&gt;Implementors of this interface are strongly encouraged to extend {@link<a name="line.40"></a>
+<FONT color="green">041</FONT>     * AbstractService}, {@link AbstractExecutionThreadService}, or {@link<a name="line.41"></a>
+<FONT color="green">042</FONT>     * AbstractIdleService}, which make the threading and state management easier.<a name="line.42"></a>
+<FONT color="green">043</FONT>     *<a name="line.43"></a>
+<FONT color="green">044</FONT>     * @author Jesse Wilson<a name="line.44"></a>
+<FONT color="green">045</FONT>     * @since 9.0 (in 1.0 as<a name="line.45"></a>
+<FONT color="green">046</FONT>     *     {@code com.google.common.base.Service})<a name="line.46"></a>
+<FONT color="green">047</FONT>     */<a name="line.47"></a>
+<FONT color="green">048</FONT>    @Beta // TODO(kevinb): make abstract class?<a name="line.48"></a>
+<FONT color="green">049</FONT>    public interface Service {<a name="line.49"></a>
+<FONT color="green">050</FONT>      /**<a name="line.50"></a>
+<FONT color="green">051</FONT>       * If the service state is {@link State#NEW}, this initiates service startup<a name="line.51"></a>
+<FONT color="green">052</FONT>       * and returns immediately. If the service has already been started, this<a name="line.52"></a>
+<FONT color="green">053</FONT>       * method returns immediately without taking action. A stopped service may not<a name="line.53"></a>
+<FONT color="green">054</FONT>       * be restarted.<a name="line.54"></a>
+<FONT color="green">055</FONT>       *<a name="line.55"></a>
+<FONT color="green">056</FONT>       * @return a future for the startup result, regardless of whether this call<a name="line.56"></a>
+<FONT color="green">057</FONT>       *     initiated startup. Calling {@link ListenableFuture#get} will block<a name="line.57"></a>
+<FONT color="green">058</FONT>       *     until the service has finished starting, and returns one of {@link<a name="line.58"></a>
+<FONT color="green">059</FONT>       *     State#RUNNING}, {@link State#STOPPING} or {@link State#TERMINATED}. If<a name="line.59"></a>
+<FONT color="green">060</FONT>       *     the service fails to start, {@link ListenableFuture#get} will throw an<a name="line.60"></a>
+<FONT color="green">061</FONT>       *     {@link ExecutionException}, and the service's state will be {@link<a name="line.61"></a>
+<FONT color="green">062</FONT>       *     State#FAILED}. If it has already finished starting, {@link<a name="line.62"></a>
+<FONT color="green">063</FONT>       *     ListenableFuture#get} returns immediately. Cancelling the returned<a name="line.63"></a>
+<FONT color="green">064</FONT>       *     future is unsupported and always returns {@code false}.<a name="line.64"></a>
+<FONT color="green">065</FONT>       */<a name="line.65"></a>
+<FONT color="green">066</FONT>      ListenableFuture&lt;State&gt; start();<a name="line.66"></a>
+<FONT color="green">067</FONT>    <a name="line.67"></a>
+<FONT color="green">068</FONT>      /**<a name="line.68"></a>
+<FONT color="green">069</FONT>       * Initiates service startup (if necessary), returning once the service has<a name="line.69"></a>
+<FONT color="green">070</FONT>       * finished starting. Unlike calling {@code start().get()}, this method throws<a name="line.70"></a>
+<FONT color="green">071</FONT>       * no checked exceptions, and it cannot be {@linkplain Thread#interrupt<a name="line.71"></a>
+<FONT color="green">072</FONT>       * interrupted}.<a name="line.72"></a>
+<FONT color="green">073</FONT>       *<a name="line.73"></a>
+<FONT color="green">074</FONT>       * @throws UncheckedExecutionException if startup failed<a name="line.74"></a>
+<FONT color="green">075</FONT>       * @return the state of the service when startup finished.<a name="line.75"></a>
+<FONT color="green">076</FONT>       */<a name="line.76"></a>
+<FONT color="green">077</FONT>      State startAndWait();<a name="line.77"></a>
+<FONT color="green">078</FONT>    <a name="line.78"></a>
+<FONT color="green">079</FONT>      /**<a name="line.79"></a>
+<FONT color="green">080</FONT>       * Returns {@code true} if this service is {@linkplain State#RUNNING running}.<a name="line.80"></a>
+<FONT color="green">081</FONT>       */<a name="line.81"></a>
+<FONT color="green">082</FONT>      boolean isRunning();<a name="line.82"></a>
+<FONT color="green">083</FONT>    <a name="line.83"></a>
+<FONT color="green">084</FONT>      /**<a name="line.84"></a>
+<FONT color="green">085</FONT>       * Returns the lifecycle state of the service.<a name="line.85"></a>
+<FONT color="green">086</FONT>       */<a name="line.86"></a>
+<FONT color="green">087</FONT>      State state();<a name="line.87"></a>
+<FONT color="green">088</FONT>    <a name="line.88"></a>
+<FONT color="green">089</FONT>      /**<a name="line.89"></a>
+<FONT color="green">090</FONT>       * If the service is {@linkplain State#STARTING starting} or {@linkplain<a name="line.90"></a>
+<FONT color="green">091</FONT>       * State#RUNNING running}, this initiates service shutdown and returns<a name="line.91"></a>
+<FONT color="green">092</FONT>       * immediately. If the service is {@linkplain State#NEW new}, it is<a name="line.92"></a>
+<FONT color="green">093</FONT>       * {@linkplain State#TERMINATED terminated} without having been started nor<a name="line.93"></a>
+<FONT color="green">094</FONT>       * stopped.  If the service has already been stopped, this method returns<a name="line.94"></a>
+<FONT color="green">095</FONT>       * immediately without taking action.<a name="line.95"></a>
+<FONT color="green">096</FONT>       *<a name="line.96"></a>
+<FONT color="green">097</FONT>       * @return a future for the shutdown result, regardless of whether this call<a name="line.97"></a>
+<FONT color="green">098</FONT>       *     initiated shutdown. Calling {@link ListenableFuture#get} will block<a name="line.98"></a>
+<FONT color="green">099</FONT>       *     until the service has finished shutting down, and either returns<a name="line.99"></a>
+<FONT color="green">100</FONT>       *     {@link State#TERMINATED} or throws an {@link ExecutionException}. If<a name="line.100"></a>
+<FONT color="green">101</FONT>       *     it has already finished stopping, {@link ListenableFuture#get} returns<a name="line.101"></a>
+<FONT color="green">102</FONT>       *     immediately.  Cancelling this future is unsupported and always returns<a name="line.102"></a>
+<FONT color="green">103</FONT>       *     {@code false}.<a name="line.103"></a>
+<FONT color="green">104</FONT>       */<a name="line.104"></a>
+<FONT color="green">105</FONT>      ListenableFuture&lt;State&gt; stop();<a name="line.105"></a>
+<FONT color="green">106</FONT>    <a name="line.106"></a>
+<FONT color="green">107</FONT>      /**<a name="line.107"></a>
+<FONT color="green">108</FONT>       * Initiates service shutdown (if necessary), returning once the service has<a name="line.108"></a>
+<FONT color="green">109</FONT>       * finished stopping. If this is {@link State#STARTING}, startup will be<a name="line.109"></a>
+<FONT color="green">110</FONT>       * cancelled. If this is {@link State#NEW}, it is {@link State#TERMINATED<a name="line.110"></a>
+<FONT color="green">111</FONT>       * terminated} without having been started nor stopped. Unlike calling {@code<a name="line.111"></a>
+<FONT color="green">112</FONT>       * stop().get()}, this method throws no checked exceptions.<a name="line.112"></a>
+<FONT color="green">113</FONT>       *<a name="line.113"></a>
+<FONT color="green">114</FONT>       * @throws UncheckedExecutionException if shutdown failed<a name="line.114"></a>
+<FONT color="green">115</FONT>       * @return the state of the service when shutdown finished.<a name="line.115"></a>
+<FONT color="green">116</FONT>       */<a name="line.116"></a>
+<FONT color="green">117</FONT>      State stopAndWait();<a name="line.117"></a>
+<FONT color="green">118</FONT>    <a name="line.118"></a>
+<FONT color="green">119</FONT>      /**<a name="line.119"></a>
+<FONT color="green">120</FONT>       * The lifecycle states of a service.<a name="line.120"></a>
+<FONT color="green">121</FONT>       *<a name="line.121"></a>
+<FONT color="green">122</FONT>       * @since 9.0 (in 1.0 as<a name="line.122"></a>
+<FONT color="green">123</FONT>       *     {@code com.google.common.base.Service.State})<a name="line.123"></a>
+<FONT color="green">124</FONT>       */<a name="line.124"></a>
+<FONT color="green">125</FONT>      @Beta // should come out of Beta when Service does<a name="line.125"></a>
+<FONT color="green">126</FONT>      enum State {<a name="line.126"></a>
+<FONT color="green">127</FONT>        /**<a name="line.127"></a>
+<FONT color="green">128</FONT>         * A service in this state is inactive. It does minimal work and consumes<a name="line.128"></a>
+<FONT color="green">129</FONT>         * minimal resources.<a name="line.129"></a>
+<FONT color="green">130</FONT>         */<a name="line.130"></a>
+<FONT color="green">131</FONT>        NEW,<a name="line.131"></a>
+<FONT color="green">132</FONT>    <a name="line.132"></a>
+<FONT color="green">133</FONT>        /**<a name="line.133"></a>
+<FONT color="green">134</FONT>         * A service in this state is transitioning to {@link #RUNNING}.<a name="line.134"></a>
+<FONT color="green">135</FONT>         */<a name="line.135"></a>
+<FONT color="green">136</FONT>        STARTING,<a name="line.136"></a>
+<FONT color="green">137</FONT>    <a name="line.137"></a>
+<FONT color="green">138</FONT>        /**<a name="line.138"></a>
+<FONT color="green">139</FONT>         * A service in this state is operational.<a name="line.139"></a>
+<FONT color="green">140</FONT>         */<a name="line.140"></a>
+<FONT color="green">141</FONT>        RUNNING,<a name="line.141"></a>
+<FONT color="green">142</FONT>    <a name="line.142"></a>
+<FONT color="green">143</FONT>        /**<a name="line.143"></a>
+<FONT color="green">144</FONT>         * A service in this state is transitioning to {@link #TERMINATED}.<a name="line.144"></a>
+<FONT color="green">145</FONT>         */<a name="line.145"></a>
+<FONT color="green">146</FONT>        STOPPING,<a name="line.146"></a>
+<FONT color="green">147</FONT>    <a name="line.147"></a>
+<FONT color="green">148</FONT>        /**<a name="line.148"></a>
+<FONT color="green">149</FONT>         * A service in this state has completed execution normally. It does minimal<a name="line.149"></a>
+<FONT color="green">150</FONT>         * work and consumes minimal resources.<a name="line.150"></a>
+<FONT color="green">151</FONT>         */<a name="line.151"></a>
+<FONT color="green">152</FONT>        TERMINATED,<a name="line.152"></a>
+<FONT color="green">153</FONT>    <a name="line.153"></a>
+<FONT color="green">154</FONT>        /**<a name="line.154"></a>
+<FONT color="green">155</FONT>         * A service in this state has encountered a problem and may not be<a name="line.155"></a>
+<FONT color="green">156</FONT>         * operational. It cannot be started nor stopped.<a name="line.156"></a>
+<FONT color="green">157</FONT>         */<a name="line.157"></a>
+<FONT color="green">158</FONT>        FAILED<a name="line.158"></a>
+<FONT color="green">159</FONT>      }<a name="line.159"></a>
+<FONT color="green">160</FONT>    }<a name="line.160"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

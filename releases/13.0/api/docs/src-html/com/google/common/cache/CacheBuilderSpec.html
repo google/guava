@@ -1,0 +1,521 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.cache;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import static com.google.common.base.Preconditions.checkArgument;<a name="line.19"></a>
+<FONT color="green">020</FONT>    <a name="line.20"></a>
+<FONT color="green">021</FONT>    import com.google.common.annotations.Beta;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.google.common.annotations.VisibleForTesting;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import com.google.common.base.Objects;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import com.google.common.base.Splitter;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import com.google.common.cache.LocalCache.Strength;<a name="line.25"></a>
+<FONT color="green">026</FONT>    import com.google.common.collect.ImmutableList;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import com.google.common.collect.ImmutableMap;<a name="line.27"></a>
+<FONT color="green">028</FONT>    <a name="line.28"></a>
+<FONT color="green">029</FONT>    import java.util.List;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import java.util.concurrent.TimeUnit;<a name="line.30"></a>
+<FONT color="green">031</FONT>    <a name="line.31"></a>
+<FONT color="green">032</FONT>    import javax.annotation.Nullable;<a name="line.32"></a>
+<FONT color="green">033</FONT>    <a name="line.33"></a>
+<FONT color="green">034</FONT>    /**<a name="line.34"></a>
+<FONT color="green">035</FONT>     * A specification of a {@link CacheBuilder} configuration.<a name="line.35"></a>
+<FONT color="green">036</FONT>     *<a name="line.36"></a>
+<FONT color="green">037</FONT>     * &lt;p&gt;{@code CacheBuilderSpec} supports parsing configuration off of a string, which<a name="line.37"></a>
+<FONT color="green">038</FONT>     * makes it especially useful for command-line configuration of a {@code CacheBuilder}.<a name="line.38"></a>
+<FONT color="green">039</FONT>     *<a name="line.39"></a>
+<FONT color="green">040</FONT>     * &lt;p&gt;The string syntax is a series of comma-separated keys or key-value pairs,<a name="line.40"></a>
+<FONT color="green">041</FONT>     * each corresponding to a {@code CacheBuilder} method.<a name="line.41"></a>
+<FONT color="green">042</FONT>     * &lt;ul&gt;<a name="line.42"></a>
+<FONT color="green">043</FONT>     * &lt;li&gt;{@code concurrencyLevel=[integer]}: sets {@link CacheBuilder#concurrencyLevel}.<a name="line.43"></a>
+<FONT color="green">044</FONT>     * &lt;li&gt;{@code initialCapacity=[integer]}: sets {@link CacheBuilder#initialCapacity}.<a name="line.44"></a>
+<FONT color="green">045</FONT>     * &lt;li&gt;{@code maximumSize=[long]}: sets {@link CacheBuilder#maximumSize}.<a name="line.45"></a>
+<FONT color="green">046</FONT>     * &lt;li&gt;{@code maximumWeight=[long]}: sets {@link CacheBuilder#maximumWeight}.<a name="line.46"></a>
+<FONT color="green">047</FONT>     * &lt;li&gt;{@code expireAfterAccess=[duration]}: sets {@link CacheBuilder#expireAfterAccess}.<a name="line.47"></a>
+<FONT color="green">048</FONT>     * &lt;li&gt;{@code expireAfterWrite=[duration]}: sets {@link CacheBuilder#expireAfterWrite}.<a name="line.48"></a>
+<FONT color="green">049</FONT>     * &lt;li&gt;{@code refreshAfterWrite=[duration]}: sets {@link CacheBuilder#refreshAfterWrite}.<a name="line.49"></a>
+<FONT color="green">050</FONT>     * &lt;li&gt;{@code weakKeys}: sets {@link CacheBuilder#weakKeys}.<a name="line.50"></a>
+<FONT color="green">051</FONT>     * &lt;li&gt;{@code softValues}: sets {@link CacheBuilder#softValues}.<a name="line.51"></a>
+<FONT color="green">052</FONT>     * &lt;li&gt;{@code weakValues}: sets {@link CacheBuilder#weakValues}.<a name="line.52"></a>
+<FONT color="green">053</FONT>     * &lt;/ul&gt;<a name="line.53"></a>
+<FONT color="green">054</FONT>     *<a name="line.54"></a>
+<FONT color="green">055</FONT>     * The set of supported keys will grow as {@code CacheBuilder} evolves, but existing keys<a name="line.55"></a>
+<FONT color="green">056</FONT>     * will never be removed.<a name="line.56"></a>
+<FONT color="green">057</FONT>     *<a name="line.57"></a>
+<FONT color="green">058</FONT>     * &lt;p&gt;Durations are represented by an integer, followed by one of "d", "h", "m",<a name="line.58"></a>
+<FONT color="green">059</FONT>     * or "s", representing days, hours, minutes, or seconds respectively.  (There<a name="line.59"></a>
+<FONT color="green">060</FONT>     * is currently no syntax to request expiration in milliseconds, microseconds,<a name="line.60"></a>
+<FONT color="green">061</FONT>     * or nanoseconds.)<a name="line.61"></a>
+<FONT color="green">062</FONT>     *<a name="line.62"></a>
+<FONT color="green">063</FONT>     * &lt;p&gt;Whitespace before and after commas and equal signs is ignored.  Keys may<a name="line.63"></a>
+<FONT color="green">064</FONT>     * not be repeated;  it is also illegal to use the following pairs of keys in<a name="line.64"></a>
+<FONT color="green">065</FONT>     * a single value:<a name="line.65"></a>
+<FONT color="green">066</FONT>     * &lt;ul&gt;<a name="line.66"></a>
+<FONT color="green">067</FONT>     * &lt;li&gt;{@code maximumSize} and {@code maximumWeight}<a name="line.67"></a>
+<FONT color="green">068</FONT>     * &lt;li&gt;{@code softValues} and {@code weakValues}<a name="line.68"></a>
+<FONT color="green">069</FONT>     * &lt;/ul&gt;<a name="line.69"></a>
+<FONT color="green">070</FONT>     *<a name="line.70"></a>
+<FONT color="green">071</FONT>     * &lt;p&gt;{@code CacheBuilderSpec} does not support configuring {@code CacheBuilder} methods<a name="line.71"></a>
+<FONT color="green">072</FONT>     * with non-value parameters.  These must be configured in code.<a name="line.72"></a>
+<FONT color="green">073</FONT>     *<a name="line.73"></a>
+<FONT color="green">074</FONT>     * &lt;p&gt;A new {@code CacheBuilder} can be instantiated from a {@code CacheBuilderSpec} using<a name="line.74"></a>
+<FONT color="green">075</FONT>     * {@link CacheBuilder#from(CacheBuilderSpec)} or {@link CacheBuilder#from(String)}.<a name="line.75"></a>
+<FONT color="green">076</FONT>     *<a name="line.76"></a>
+<FONT color="green">077</FONT>     * @author Adam Winer<a name="line.77"></a>
+<FONT color="green">078</FONT>     * @since 12.0<a name="line.78"></a>
+<FONT color="green">079</FONT>     */<a name="line.79"></a>
+<FONT color="green">080</FONT>    @Beta<a name="line.80"></a>
+<FONT color="green">081</FONT>    public final class CacheBuilderSpec {<a name="line.81"></a>
+<FONT color="green">082</FONT>      /** Parses a single value. */<a name="line.82"></a>
+<FONT color="green">083</FONT>      private interface ValueParser {<a name="line.83"></a>
+<FONT color="green">084</FONT>        void parse(CacheBuilderSpec spec, String key, @Nullable String value);<a name="line.84"></a>
+<FONT color="green">085</FONT>      }<a name="line.85"></a>
+<FONT color="green">086</FONT>    <a name="line.86"></a>
+<FONT color="green">087</FONT>      /** Splits each key-value pair. */<a name="line.87"></a>
+<FONT color="green">088</FONT>      private static final Splitter KEYS_SPLITTER = Splitter.on(',').trimResults();<a name="line.88"></a>
+<FONT color="green">089</FONT>    <a name="line.89"></a>
+<FONT color="green">090</FONT>      /** Splits the key from the value. */<a name="line.90"></a>
+<FONT color="green">091</FONT>      private static final Splitter KEY_VALUE_SPLITTER = Splitter.on('=').trimResults();<a name="line.91"></a>
+<FONT color="green">092</FONT>    <a name="line.92"></a>
+<FONT color="green">093</FONT>      /** Map of names to ValueParser. */<a name="line.93"></a>
+<FONT color="green">094</FONT>      private static final ImmutableMap&lt;String, ValueParser&gt; VALUE_PARSERS =<a name="line.94"></a>
+<FONT color="green">095</FONT>          ImmutableMap.&lt;String, ValueParser&gt;builder()<a name="line.95"></a>
+<FONT color="green">096</FONT>              .put("initialCapacity", new InitialCapacityParser())<a name="line.96"></a>
+<FONT color="green">097</FONT>              .put("maximumSize", new MaximumSizeParser())<a name="line.97"></a>
+<FONT color="green">098</FONT>              .put("maximumWeight", new MaximumWeightParser())<a name="line.98"></a>
+<FONT color="green">099</FONT>              .put("concurrencyLevel", new ConcurrencyLevelParser())<a name="line.99"></a>
+<FONT color="green">100</FONT>              .put("weakKeys", new KeyStrengthParser(Strength.WEAK))<a name="line.100"></a>
+<FONT color="green">101</FONT>              .put("softValues", new ValueStrengthParser(Strength.SOFT))<a name="line.101"></a>
+<FONT color="green">102</FONT>              .put("weakValues", new ValueStrengthParser(Strength.WEAK))<a name="line.102"></a>
+<FONT color="green">103</FONT>              .put("expireAfterAccess", new AccessDurationParser())<a name="line.103"></a>
+<FONT color="green">104</FONT>              .put("expireAfterWrite", new WriteDurationParser())<a name="line.104"></a>
+<FONT color="green">105</FONT>              .put("refreshAfterWrite", new RefreshDurationParser())<a name="line.105"></a>
+<FONT color="green">106</FONT>              .put("refreshInterval", new RefreshDurationParser())<a name="line.106"></a>
+<FONT color="green">107</FONT>              .build();<a name="line.107"></a>
+<FONT color="green">108</FONT>    <a name="line.108"></a>
+<FONT color="green">109</FONT>      @VisibleForTesting Integer initialCapacity;<a name="line.109"></a>
+<FONT color="green">110</FONT>      @VisibleForTesting Long maximumSize;<a name="line.110"></a>
+<FONT color="green">111</FONT>      @VisibleForTesting Long maximumWeight;<a name="line.111"></a>
+<FONT color="green">112</FONT>      @VisibleForTesting Integer concurrencyLevel;<a name="line.112"></a>
+<FONT color="green">113</FONT>      @VisibleForTesting Strength keyStrength;<a name="line.113"></a>
+<FONT color="green">114</FONT>      @VisibleForTesting Strength valueStrength;<a name="line.114"></a>
+<FONT color="green">115</FONT>      @VisibleForTesting long writeExpirationDuration;<a name="line.115"></a>
+<FONT color="green">116</FONT>      @VisibleForTesting TimeUnit writeExpirationTimeUnit;<a name="line.116"></a>
+<FONT color="green">117</FONT>      @VisibleForTesting long accessExpirationDuration;<a name="line.117"></a>
+<FONT color="green">118</FONT>      @VisibleForTesting TimeUnit accessExpirationTimeUnit;<a name="line.118"></a>
+<FONT color="green">119</FONT>      @VisibleForTesting long refreshDuration;<a name="line.119"></a>
+<FONT color="green">120</FONT>      @VisibleForTesting TimeUnit refreshTimeUnit;<a name="line.120"></a>
+<FONT color="green">121</FONT>      /** Specification;  used for toParseableString(). */<a name="line.121"></a>
+<FONT color="green">122</FONT>      private final String specification;<a name="line.122"></a>
+<FONT color="green">123</FONT>    <a name="line.123"></a>
+<FONT color="green">124</FONT>      private CacheBuilderSpec(String specification) {<a name="line.124"></a>
+<FONT color="green">125</FONT>        this.specification = specification;<a name="line.125"></a>
+<FONT color="green">126</FONT>      }<a name="line.126"></a>
+<FONT color="green">127</FONT>    <a name="line.127"></a>
+<FONT color="green">128</FONT>      /**<a name="line.128"></a>
+<FONT color="green">129</FONT>       * Creates a CacheBuilderSpec from a string.<a name="line.129"></a>
+<FONT color="green">130</FONT>       *<a name="line.130"></a>
+<FONT color="green">131</FONT>       * @param cacheBuilderSpecification the string form<a name="line.131"></a>
+<FONT color="green">132</FONT>       */<a name="line.132"></a>
+<FONT color="green">133</FONT>      public static CacheBuilderSpec parse(String cacheBuilderSpecification) {<a name="line.133"></a>
+<FONT color="green">134</FONT>        CacheBuilderSpec spec = new CacheBuilderSpec(cacheBuilderSpecification);<a name="line.134"></a>
+<FONT color="green">135</FONT>        if (!cacheBuilderSpecification.isEmpty()) {<a name="line.135"></a>
+<FONT color="green">136</FONT>          for (String keyValuePair : KEYS_SPLITTER.split(cacheBuilderSpecification)) {<a name="line.136"></a>
+<FONT color="green">137</FONT>            List&lt;String&gt; keyAndValue = ImmutableList.copyOf(KEY_VALUE_SPLITTER.split(keyValuePair));<a name="line.137"></a>
+<FONT color="green">138</FONT>            checkArgument(!keyAndValue.isEmpty(), "blank key-value pair");<a name="line.138"></a>
+<FONT color="green">139</FONT>            checkArgument(keyAndValue.size() &lt;= 2,<a name="line.139"></a>
+<FONT color="green">140</FONT>                "key-value pair %s with more than one equals sign", keyValuePair);<a name="line.140"></a>
+<FONT color="green">141</FONT>    <a name="line.141"></a>
+<FONT color="green">142</FONT>            // Find the ValueParser for the current key.<a name="line.142"></a>
+<FONT color="green">143</FONT>            String key = keyAndValue.get(0);<a name="line.143"></a>
+<FONT color="green">144</FONT>            ValueParser valueParser = VALUE_PARSERS.get(key);<a name="line.144"></a>
+<FONT color="green">145</FONT>            checkArgument(valueParser != null, "unknown key %s", key);<a name="line.145"></a>
+<FONT color="green">146</FONT>    <a name="line.146"></a>
+<FONT color="green">147</FONT>            String value = keyAndValue.size() == 1 ? null : keyAndValue.get(1);<a name="line.147"></a>
+<FONT color="green">148</FONT>            valueParser.parse(spec, key, value);<a name="line.148"></a>
+<FONT color="green">149</FONT>          }<a name="line.149"></a>
+<FONT color="green">150</FONT>        }<a name="line.150"></a>
+<FONT color="green">151</FONT>    <a name="line.151"></a>
+<FONT color="green">152</FONT>        return spec;<a name="line.152"></a>
+<FONT color="green">153</FONT>      }<a name="line.153"></a>
+<FONT color="green">154</FONT>    <a name="line.154"></a>
+<FONT color="green">155</FONT>      /**<a name="line.155"></a>
+<FONT color="green">156</FONT>       * Returns a CacheBuilderSpec that will prevent caching.<a name="line.156"></a>
+<FONT color="green">157</FONT>       */<a name="line.157"></a>
+<FONT color="green">158</FONT>      public static CacheBuilderSpec disableCaching() {<a name="line.158"></a>
+<FONT color="green">159</FONT>        // Maximum size of zero is one way to block caching<a name="line.159"></a>
+<FONT color="green">160</FONT>        return CacheBuilderSpec.parse("maximumSize=0");<a name="line.160"></a>
+<FONT color="green">161</FONT>      }<a name="line.161"></a>
+<FONT color="green">162</FONT>    <a name="line.162"></a>
+<FONT color="green">163</FONT>      /**<a name="line.163"></a>
+<FONT color="green">164</FONT>       * Returns a CacheBuilder configured according to this instance's specification.<a name="line.164"></a>
+<FONT color="green">165</FONT>       */<a name="line.165"></a>
+<FONT color="green">166</FONT>      CacheBuilder&lt;Object, Object&gt; toCacheBuilder() {<a name="line.166"></a>
+<FONT color="green">167</FONT>        CacheBuilder&lt;Object, Object&gt; builder = CacheBuilder.newBuilder();<a name="line.167"></a>
+<FONT color="green">168</FONT>        if (initialCapacity != null) {<a name="line.168"></a>
+<FONT color="green">169</FONT>          builder.initialCapacity(initialCapacity);<a name="line.169"></a>
+<FONT color="green">170</FONT>        }<a name="line.170"></a>
+<FONT color="green">171</FONT>        if (maximumSize != null) {<a name="line.171"></a>
+<FONT color="green">172</FONT>          builder.maximumSize(maximumSize);<a name="line.172"></a>
+<FONT color="green">173</FONT>        }<a name="line.173"></a>
+<FONT color="green">174</FONT>        if (maximumWeight != null) {<a name="line.174"></a>
+<FONT color="green">175</FONT>          builder.maximumWeight(maximumWeight);<a name="line.175"></a>
+<FONT color="green">176</FONT>        }<a name="line.176"></a>
+<FONT color="green">177</FONT>        if (concurrencyLevel != null) {<a name="line.177"></a>
+<FONT color="green">178</FONT>          builder.concurrencyLevel(concurrencyLevel);<a name="line.178"></a>
+<FONT color="green">179</FONT>        }<a name="line.179"></a>
+<FONT color="green">180</FONT>        if (keyStrength != null) {<a name="line.180"></a>
+<FONT color="green">181</FONT>          switch (keyStrength) {<a name="line.181"></a>
+<FONT color="green">182</FONT>            case WEAK:<a name="line.182"></a>
+<FONT color="green">183</FONT>              builder.weakKeys();<a name="line.183"></a>
+<FONT color="green">184</FONT>              break;<a name="line.184"></a>
+<FONT color="green">185</FONT>            default:<a name="line.185"></a>
+<FONT color="green">186</FONT>              throw new AssertionError();<a name="line.186"></a>
+<FONT color="green">187</FONT>          }<a name="line.187"></a>
+<FONT color="green">188</FONT>        }<a name="line.188"></a>
+<FONT color="green">189</FONT>        if (valueStrength != null) {<a name="line.189"></a>
+<FONT color="green">190</FONT>          switch (valueStrength) {<a name="line.190"></a>
+<FONT color="green">191</FONT>            case SOFT:<a name="line.191"></a>
+<FONT color="green">192</FONT>              builder.softValues();<a name="line.192"></a>
+<FONT color="green">193</FONT>              break;<a name="line.193"></a>
+<FONT color="green">194</FONT>            case WEAK:<a name="line.194"></a>
+<FONT color="green">195</FONT>              builder.weakValues();<a name="line.195"></a>
+<FONT color="green">196</FONT>              break;<a name="line.196"></a>
+<FONT color="green">197</FONT>            default:<a name="line.197"></a>
+<FONT color="green">198</FONT>              throw new AssertionError();<a name="line.198"></a>
+<FONT color="green">199</FONT>          }<a name="line.199"></a>
+<FONT color="green">200</FONT>        }<a name="line.200"></a>
+<FONT color="green">201</FONT>        if (writeExpirationTimeUnit != null) {<a name="line.201"></a>
+<FONT color="green">202</FONT>          builder.expireAfterWrite(writeExpirationDuration, writeExpirationTimeUnit);<a name="line.202"></a>
+<FONT color="green">203</FONT>        }<a name="line.203"></a>
+<FONT color="green">204</FONT>        if (accessExpirationTimeUnit != null) {<a name="line.204"></a>
+<FONT color="green">205</FONT>          builder.expireAfterAccess(accessExpirationDuration, accessExpirationTimeUnit);<a name="line.205"></a>
+<FONT color="green">206</FONT>        }<a name="line.206"></a>
+<FONT color="green">207</FONT>        if (refreshTimeUnit != null) {<a name="line.207"></a>
+<FONT color="green">208</FONT>          builder.refreshAfterWrite(refreshDuration, refreshTimeUnit);<a name="line.208"></a>
+<FONT color="green">209</FONT>        }<a name="line.209"></a>
+<FONT color="green">210</FONT>    <a name="line.210"></a>
+<FONT color="green">211</FONT>        return builder;<a name="line.211"></a>
+<FONT color="green">212</FONT>      }<a name="line.212"></a>
+<FONT color="green">213</FONT>    <a name="line.213"></a>
+<FONT color="green">214</FONT>      /**<a name="line.214"></a>
+<FONT color="green">215</FONT>       * Returns a string that can be used to parse an equivalent<a name="line.215"></a>
+<FONT color="green">216</FONT>       * {@code CacheBuilderSpec}.  The order and form of this representation is<a name="line.216"></a>
+<FONT color="green">217</FONT>       * not guaranteed, except that reparsing its output will produce<a name="line.217"></a>
+<FONT color="green">218</FONT>       * a {@code CacheBuilderSpec} equal to this instance.<a name="line.218"></a>
+<FONT color="green">219</FONT>       */<a name="line.219"></a>
+<FONT color="green">220</FONT>      public String toParsableString() {<a name="line.220"></a>
+<FONT color="green">221</FONT>        return specification;<a name="line.221"></a>
+<FONT color="green">222</FONT>      }<a name="line.222"></a>
+<FONT color="green">223</FONT>    <a name="line.223"></a>
+<FONT color="green">224</FONT>      /**<a name="line.224"></a>
+<FONT color="green">225</FONT>       * Returns a string representation for this CacheBuilderSpec instance.<a name="line.225"></a>
+<FONT color="green">226</FONT>       * The form of this representation is not guaranteed.<a name="line.226"></a>
+<FONT color="green">227</FONT>       */<a name="line.227"></a>
+<FONT color="green">228</FONT>      @Override<a name="line.228"></a>
+<FONT color="green">229</FONT>      public String toString() {<a name="line.229"></a>
+<FONT color="green">230</FONT>        return Objects.toStringHelper(this).addValue(toParsableString()).toString();<a name="line.230"></a>
+<FONT color="green">231</FONT>      }<a name="line.231"></a>
+<FONT color="green">232</FONT>    <a name="line.232"></a>
+<FONT color="green">233</FONT>      @Override<a name="line.233"></a>
+<FONT color="green">234</FONT>      public int hashCode() {<a name="line.234"></a>
+<FONT color="green">235</FONT>        return Objects.hashCode(<a name="line.235"></a>
+<FONT color="green">236</FONT>            initialCapacity,<a name="line.236"></a>
+<FONT color="green">237</FONT>            maximumSize,<a name="line.237"></a>
+<FONT color="green">238</FONT>            maximumWeight,<a name="line.238"></a>
+<FONT color="green">239</FONT>            concurrencyLevel,<a name="line.239"></a>
+<FONT color="green">240</FONT>            keyStrength,<a name="line.240"></a>
+<FONT color="green">241</FONT>            valueStrength,<a name="line.241"></a>
+<FONT color="green">242</FONT>            durationInNanos(writeExpirationDuration, writeExpirationTimeUnit),<a name="line.242"></a>
+<FONT color="green">243</FONT>            durationInNanos(accessExpirationDuration, accessExpirationTimeUnit),<a name="line.243"></a>
+<FONT color="green">244</FONT>            durationInNanos(refreshDuration, refreshTimeUnit));<a name="line.244"></a>
+<FONT color="green">245</FONT>      }<a name="line.245"></a>
+<FONT color="green">246</FONT>    <a name="line.246"></a>
+<FONT color="green">247</FONT>      @Override<a name="line.247"></a>
+<FONT color="green">248</FONT>      public boolean equals(Object obj) {<a name="line.248"></a>
+<FONT color="green">249</FONT>        if (this == obj) {<a name="line.249"></a>
+<FONT color="green">250</FONT>          return true;<a name="line.250"></a>
+<FONT color="green">251</FONT>        }<a name="line.251"></a>
+<FONT color="green">252</FONT>        if (!(obj instanceof CacheBuilderSpec)) {<a name="line.252"></a>
+<FONT color="green">253</FONT>          return false;<a name="line.253"></a>
+<FONT color="green">254</FONT>        }<a name="line.254"></a>
+<FONT color="green">255</FONT>        CacheBuilderSpec that = (CacheBuilderSpec) obj;<a name="line.255"></a>
+<FONT color="green">256</FONT>        return Objects.equal(initialCapacity, that.initialCapacity)<a name="line.256"></a>
+<FONT color="green">257</FONT>            &amp;&amp; Objects.equal(maximumSize, that.maximumSize)<a name="line.257"></a>
+<FONT color="green">258</FONT>            &amp;&amp; Objects.equal(maximumWeight, that.maximumWeight)<a name="line.258"></a>
+<FONT color="green">259</FONT>            &amp;&amp; Objects.equal(concurrencyLevel, that.concurrencyLevel)<a name="line.259"></a>
+<FONT color="green">260</FONT>            &amp;&amp; Objects.equal(keyStrength, that.keyStrength)<a name="line.260"></a>
+<FONT color="green">261</FONT>            &amp;&amp; Objects.equal(valueStrength, that.valueStrength)<a name="line.261"></a>
+<FONT color="green">262</FONT>            &amp;&amp; Objects.equal(durationInNanos(writeExpirationDuration, writeExpirationTimeUnit),<a name="line.262"></a>
+<FONT color="green">263</FONT>                durationInNanos(that.writeExpirationDuration, that.writeExpirationTimeUnit))<a name="line.263"></a>
+<FONT color="green">264</FONT>            &amp;&amp; Objects.equal(durationInNanos(accessExpirationDuration, accessExpirationTimeUnit),<a name="line.264"></a>
+<FONT color="green">265</FONT>                durationInNanos(that.accessExpirationDuration, that.accessExpirationTimeUnit))<a name="line.265"></a>
+<FONT color="green">266</FONT>            &amp;&amp; Objects.equal(durationInNanos(refreshDuration, refreshTimeUnit),<a name="line.266"></a>
+<FONT color="green">267</FONT>                durationInNanos(that.refreshDuration, that.refreshTimeUnit));<a name="line.267"></a>
+<FONT color="green">268</FONT>      }<a name="line.268"></a>
+<FONT color="green">269</FONT>    <a name="line.269"></a>
+<FONT color="green">270</FONT>      /**<a name="line.270"></a>
+<FONT color="green">271</FONT>       * Converts an expiration duration/unit pair into a single Long for hashing and equality.<a name="line.271"></a>
+<FONT color="green">272</FONT>       * Uses nanos to match CacheBuilder implementation.<a name="line.272"></a>
+<FONT color="green">273</FONT>       */<a name="line.273"></a>
+<FONT color="green">274</FONT>      @Nullable private static Long durationInNanos(long duration, @Nullable TimeUnit unit) {<a name="line.274"></a>
+<FONT color="green">275</FONT>        return (unit == null) ? null : unit.toNanos(duration);<a name="line.275"></a>
+<FONT color="green">276</FONT>      }<a name="line.276"></a>
+<FONT color="green">277</FONT>    <a name="line.277"></a>
+<FONT color="green">278</FONT>      /** Base class for parsing integers. */<a name="line.278"></a>
+<FONT color="green">279</FONT>      abstract static class IntegerParser implements ValueParser {<a name="line.279"></a>
+<FONT color="green">280</FONT>        protected abstract void parseInteger(CacheBuilderSpec spec, int value);<a name="line.280"></a>
+<FONT color="green">281</FONT>    <a name="line.281"></a>
+<FONT color="green">282</FONT>        @Override<a name="line.282"></a>
+<FONT color="green">283</FONT>        public void parse(CacheBuilderSpec spec, String key, String value) {<a name="line.283"></a>
+<FONT color="green">284</FONT>          checkArgument(value != null &amp;&amp; !value.isEmpty(), "value of key %s omitted", key);<a name="line.284"></a>
+<FONT color="green">285</FONT>          try {<a name="line.285"></a>
+<FONT color="green">286</FONT>            parseInteger(spec, Integer.parseInt(value));<a name="line.286"></a>
+<FONT color="green">287</FONT>          } catch (NumberFormatException e) {<a name="line.287"></a>
+<FONT color="green">288</FONT>            throw new IllegalArgumentException(<a name="line.288"></a>
+<FONT color="green">289</FONT>                String.format("key %s value set to %s, must be integer", key, value), e);<a name="line.289"></a>
+<FONT color="green">290</FONT>          }<a name="line.290"></a>
+<FONT color="green">291</FONT>        }<a name="line.291"></a>
+<FONT color="green">292</FONT>      }<a name="line.292"></a>
+<FONT color="green">293</FONT>    <a name="line.293"></a>
+<FONT color="green">294</FONT>      /** Base class for parsing integers. */<a name="line.294"></a>
+<FONT color="green">295</FONT>      abstract static class LongParser implements ValueParser {<a name="line.295"></a>
+<FONT color="green">296</FONT>        protected abstract void parseLong(CacheBuilderSpec spec, long value);<a name="line.296"></a>
+<FONT color="green">297</FONT>    <a name="line.297"></a>
+<FONT color="green">298</FONT>        @Override<a name="line.298"></a>
+<FONT color="green">299</FONT>        public void parse(CacheBuilderSpec spec, String key, String value) {<a name="line.299"></a>
+<FONT color="green">300</FONT>          checkArgument(value != null &amp;&amp; !value.isEmpty(), "value of key %s omitted", key);<a name="line.300"></a>
+<FONT color="green">301</FONT>          try {<a name="line.301"></a>
+<FONT color="green">302</FONT>            parseLong(spec, Long.parseLong(value));<a name="line.302"></a>
+<FONT color="green">303</FONT>          } catch (NumberFormatException e) {<a name="line.303"></a>
+<FONT color="green">304</FONT>            throw new IllegalArgumentException(<a name="line.304"></a>
+<FONT color="green">305</FONT>                String.format("key %s value set to %s, must be integer", key, value), e);<a name="line.305"></a>
+<FONT color="green">306</FONT>          }<a name="line.306"></a>
+<FONT color="green">307</FONT>        }<a name="line.307"></a>
+<FONT color="green">308</FONT>      }<a name="line.308"></a>
+<FONT color="green">309</FONT>    <a name="line.309"></a>
+<FONT color="green">310</FONT>      /** Parse initialCapacity */<a name="line.310"></a>
+<FONT color="green">311</FONT>      static class InitialCapacityParser extends IntegerParser {<a name="line.311"></a>
+<FONT color="green">312</FONT>        @Override<a name="line.312"></a>
+<FONT color="green">313</FONT>        protected void parseInteger(CacheBuilderSpec spec, int value) {<a name="line.313"></a>
+<FONT color="green">314</FONT>          checkArgument(spec.initialCapacity == null,<a name="line.314"></a>
+<FONT color="green">315</FONT>              "initial capacity was already set to ", spec.initialCapacity);<a name="line.315"></a>
+<FONT color="green">316</FONT>          spec.initialCapacity = value;<a name="line.316"></a>
+<FONT color="green">317</FONT>        }<a name="line.317"></a>
+<FONT color="green">318</FONT>      }<a name="line.318"></a>
+<FONT color="green">319</FONT>    <a name="line.319"></a>
+<FONT color="green">320</FONT>      /** Parse maximumSize */<a name="line.320"></a>
+<FONT color="green">321</FONT>      static class MaximumSizeParser extends LongParser {<a name="line.321"></a>
+<FONT color="green">322</FONT>        @Override<a name="line.322"></a>
+<FONT color="green">323</FONT>        protected void parseLong(CacheBuilderSpec spec, long value) {<a name="line.323"></a>
+<FONT color="green">324</FONT>          checkArgument(spec.maximumSize == null,<a name="line.324"></a>
+<FONT color="green">325</FONT>              "maximum size was already set to ", spec.maximumSize);<a name="line.325"></a>
+<FONT color="green">326</FONT>          checkArgument(spec.maximumWeight == null,<a name="line.326"></a>
+<FONT color="green">327</FONT>              "maximum weight was already set to ", spec.maximumWeight);<a name="line.327"></a>
+<FONT color="green">328</FONT>          spec.maximumSize = value;<a name="line.328"></a>
+<FONT color="green">329</FONT>        }<a name="line.329"></a>
+<FONT color="green">330</FONT>      }<a name="line.330"></a>
+<FONT color="green">331</FONT>    <a name="line.331"></a>
+<FONT color="green">332</FONT>      /** Parse maximumWeight */<a name="line.332"></a>
+<FONT color="green">333</FONT>      static class MaximumWeightParser extends LongParser {<a name="line.333"></a>
+<FONT color="green">334</FONT>        @Override<a name="line.334"></a>
+<FONT color="green">335</FONT>        protected void parseLong(CacheBuilderSpec spec, long value) {<a name="line.335"></a>
+<FONT color="green">336</FONT>          checkArgument(spec.maximumWeight == null,<a name="line.336"></a>
+<FONT color="green">337</FONT>              "maximum weight was already set to ", spec.maximumWeight);<a name="line.337"></a>
+<FONT color="green">338</FONT>          checkArgument(spec.maximumSize == null,<a name="line.338"></a>
+<FONT color="green">339</FONT>              "maximum size was already set to ", spec.maximumSize);<a name="line.339"></a>
+<FONT color="green">340</FONT>          spec.maximumWeight = value;<a name="line.340"></a>
+<FONT color="green">341</FONT>        }<a name="line.341"></a>
+<FONT color="green">342</FONT>      }<a name="line.342"></a>
+<FONT color="green">343</FONT>    <a name="line.343"></a>
+<FONT color="green">344</FONT>      /** Parse concurrencyLevel */<a name="line.344"></a>
+<FONT color="green">345</FONT>      static class ConcurrencyLevelParser extends IntegerParser {<a name="line.345"></a>
+<FONT color="green">346</FONT>        @Override<a name="line.346"></a>
+<FONT color="green">347</FONT>        protected void parseInteger(CacheBuilderSpec spec, int value) {<a name="line.347"></a>
+<FONT color="green">348</FONT>          checkArgument(spec.concurrencyLevel == null,<a name="line.348"></a>
+<FONT color="green">349</FONT>              "concurrency level was already set to ", spec.concurrencyLevel);<a name="line.349"></a>
+<FONT color="green">350</FONT>          spec.concurrencyLevel = value;<a name="line.350"></a>
+<FONT color="green">351</FONT>        }<a name="line.351"></a>
+<FONT color="green">352</FONT>      }<a name="line.352"></a>
+<FONT color="green">353</FONT>    <a name="line.353"></a>
+<FONT color="green">354</FONT>      /** Parse weakKeys */<a name="line.354"></a>
+<FONT color="green">355</FONT>      static class KeyStrengthParser implements ValueParser {<a name="line.355"></a>
+<FONT color="green">356</FONT>        private final Strength strength;<a name="line.356"></a>
+<FONT color="green">357</FONT>    <a name="line.357"></a>
+<FONT color="green">358</FONT>        public KeyStrengthParser(Strength strength) {<a name="line.358"></a>
+<FONT color="green">359</FONT>          this.strength = strength;<a name="line.359"></a>
+<FONT color="green">360</FONT>        }<a name="line.360"></a>
+<FONT color="green">361</FONT>    <a name="line.361"></a>
+<FONT color="green">362</FONT>        @Override<a name="line.362"></a>
+<FONT color="green">363</FONT>        public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {<a name="line.363"></a>
+<FONT color="green">364</FONT>          checkArgument(value == null, "key %s does not take values", key);<a name="line.364"></a>
+<FONT color="green">365</FONT>          checkArgument(spec.keyStrength == null, "%s was already set to %s", key, spec.keyStrength);<a name="line.365"></a>
+<FONT color="green">366</FONT>          spec.keyStrength = strength;<a name="line.366"></a>
+<FONT color="green">367</FONT>        }<a name="line.367"></a>
+<FONT color="green">368</FONT>      }<a name="line.368"></a>
+<FONT color="green">369</FONT>    <a name="line.369"></a>
+<FONT color="green">370</FONT>      /** Parse weakValues and softValues */<a name="line.370"></a>
+<FONT color="green">371</FONT>      static class ValueStrengthParser implements ValueParser {<a name="line.371"></a>
+<FONT color="green">372</FONT>        private final Strength strength;<a name="line.372"></a>
+<FONT color="green">373</FONT>    <a name="line.373"></a>
+<FONT color="green">374</FONT>        public ValueStrengthParser(Strength strength) {<a name="line.374"></a>
+<FONT color="green">375</FONT>          this.strength = strength;<a name="line.375"></a>
+<FONT color="green">376</FONT>        }<a name="line.376"></a>
+<FONT color="green">377</FONT>    <a name="line.377"></a>
+<FONT color="green">378</FONT>        @Override<a name="line.378"></a>
+<FONT color="green">379</FONT>        public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {<a name="line.379"></a>
+<FONT color="green">380</FONT>          checkArgument(value == null, "key %s does not take values", key);<a name="line.380"></a>
+<FONT color="green">381</FONT>          checkArgument(spec.valueStrength == null,<a name="line.381"></a>
+<FONT color="green">382</FONT>            "%s was already set to %s", key, spec.valueStrength);<a name="line.382"></a>
+<FONT color="green">383</FONT>    <a name="line.383"></a>
+<FONT color="green">384</FONT>          spec.valueStrength = strength;<a name="line.384"></a>
+<FONT color="green">385</FONT>        }<a name="line.385"></a>
+<FONT color="green">386</FONT>      }<a name="line.386"></a>
+<FONT color="green">387</FONT>    <a name="line.387"></a>
+<FONT color="green">388</FONT>      /** Base class for parsing times with durations */<a name="line.388"></a>
+<FONT color="green">389</FONT>      abstract static class DurationParser implements ValueParser {<a name="line.389"></a>
+<FONT color="green">390</FONT>        protected abstract void parseDuration(<a name="line.390"></a>
+<FONT color="green">391</FONT>            CacheBuilderSpec spec,<a name="line.391"></a>
+<FONT color="green">392</FONT>            long duration,<a name="line.392"></a>
+<FONT color="green">393</FONT>            TimeUnit unit);<a name="line.393"></a>
+<FONT color="green">394</FONT>    <a name="line.394"></a>
+<FONT color="green">395</FONT>        @Override<a name="line.395"></a>
+<FONT color="green">396</FONT>        public void parse(CacheBuilderSpec spec, String key, String value) {<a name="line.396"></a>
+<FONT color="green">397</FONT>          checkArgument(value != null &amp;&amp; !value.isEmpty(), "value of key %s omitted", key);<a name="line.397"></a>
+<FONT color="green">398</FONT>          try {<a name="line.398"></a>
+<FONT color="green">399</FONT>            char lastChar = value.charAt(value.length() - 1);<a name="line.399"></a>
+<FONT color="green">400</FONT>            TimeUnit timeUnit;<a name="line.400"></a>
+<FONT color="green">401</FONT>            switch (lastChar) {<a name="line.401"></a>
+<FONT color="green">402</FONT>              case 'd':<a name="line.402"></a>
+<FONT color="green">403</FONT>                timeUnit = TimeUnit.DAYS;<a name="line.403"></a>
+<FONT color="green">404</FONT>                break;<a name="line.404"></a>
+<FONT color="green">405</FONT>              case 'h':<a name="line.405"></a>
+<FONT color="green">406</FONT>                timeUnit = TimeUnit.HOURS;<a name="line.406"></a>
+<FONT color="green">407</FONT>                break;<a name="line.407"></a>
+<FONT color="green">408</FONT>              case 'm':<a name="line.408"></a>
+<FONT color="green">409</FONT>                timeUnit = TimeUnit.MINUTES;<a name="line.409"></a>
+<FONT color="green">410</FONT>                break;<a name="line.410"></a>
+<FONT color="green">411</FONT>              case 's':<a name="line.411"></a>
+<FONT color="green">412</FONT>                timeUnit = TimeUnit.SECONDS;<a name="line.412"></a>
+<FONT color="green">413</FONT>                break;<a name="line.413"></a>
+<FONT color="green">414</FONT>              default:<a name="line.414"></a>
+<FONT color="green">415</FONT>                throw new IllegalArgumentException(<a name="line.415"></a>
+<FONT color="green">416</FONT>                    String.format("key %s invalid format.  was %s, must end with one of [dDhHmMsS]",<a name="line.416"></a>
+<FONT color="green">417</FONT>                        key, value));<a name="line.417"></a>
+<FONT color="green">418</FONT>            }<a name="line.418"></a>
+<FONT color="green">419</FONT>    <a name="line.419"></a>
+<FONT color="green">420</FONT>            long duration = Long.parseLong(value.substring(0, value.length() - 1));<a name="line.420"></a>
+<FONT color="green">421</FONT>            parseDuration(spec, duration, timeUnit);<a name="line.421"></a>
+<FONT color="green">422</FONT>          } catch (NumberFormatException e) {<a name="line.422"></a>
+<FONT color="green">423</FONT>            throw new IllegalArgumentException(<a name="line.423"></a>
+<FONT color="green">424</FONT>                String.format("key %s value set to %s, must be integer", key, value));<a name="line.424"></a>
+<FONT color="green">425</FONT>          }<a name="line.425"></a>
+<FONT color="green">426</FONT>        }<a name="line.426"></a>
+<FONT color="green">427</FONT>      }<a name="line.427"></a>
+<FONT color="green">428</FONT>    <a name="line.428"></a>
+<FONT color="green">429</FONT>      /** Parse expireAfterAccess */<a name="line.429"></a>
+<FONT color="green">430</FONT>      static class AccessDurationParser extends DurationParser {<a name="line.430"></a>
+<FONT color="green">431</FONT>        @Override protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {<a name="line.431"></a>
+<FONT color="green">432</FONT>          checkArgument(spec.accessExpirationTimeUnit == null, "expireAfterAccess already set");<a name="line.432"></a>
+<FONT color="green">433</FONT>          spec.accessExpirationDuration = duration;<a name="line.433"></a>
+<FONT color="green">434</FONT>          spec.accessExpirationTimeUnit = unit;<a name="line.434"></a>
+<FONT color="green">435</FONT>        }<a name="line.435"></a>
+<FONT color="green">436</FONT>      }<a name="line.436"></a>
+<FONT color="green">437</FONT>    <a name="line.437"></a>
+<FONT color="green">438</FONT>      /** Parse expireAfterWrite */<a name="line.438"></a>
+<FONT color="green">439</FONT>      static class WriteDurationParser extends DurationParser {<a name="line.439"></a>
+<FONT color="green">440</FONT>        @Override protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {<a name="line.440"></a>
+<FONT color="green">441</FONT>          checkArgument(spec.writeExpirationTimeUnit == null, "expireAfterWrite already set");<a name="line.441"></a>
+<FONT color="green">442</FONT>          spec.writeExpirationDuration = duration;<a name="line.442"></a>
+<FONT color="green">443</FONT>          spec.writeExpirationTimeUnit = unit;<a name="line.443"></a>
+<FONT color="green">444</FONT>        }<a name="line.444"></a>
+<FONT color="green">445</FONT>      }<a name="line.445"></a>
+<FONT color="green">446</FONT>    <a name="line.446"></a>
+<FONT color="green">447</FONT>      /** Parse refreshAfterWrite */<a name="line.447"></a>
+<FONT color="green">448</FONT>      static class RefreshDurationParser extends DurationParser {<a name="line.448"></a>
+<FONT color="green">449</FONT>        @Override protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {<a name="line.449"></a>
+<FONT color="green">450</FONT>          checkArgument(spec.refreshTimeUnit == null, "refreshAfterWrite already set");<a name="line.450"></a>
+<FONT color="green">451</FONT>          spec.refreshDuration = duration;<a name="line.451"></a>
+<FONT color="green">452</FONT>          spec.refreshTimeUnit = unit;<a name="line.452"></a>
+<FONT color="green">453</FONT>        }<a name="line.453"></a>
+<FONT color="green">454</FONT>      }<a name="line.454"></a>
+<FONT color="green">455</FONT>    }<a name="line.455"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

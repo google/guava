@@ -1,0 +1,628 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+AbstractExecutionThreadService (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="AbstractExecutionThreadService (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="class in com.google.common.util.concurrent"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/google/common/util/concurrent/AbstractExecutionThreadService.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AbstractExecutionThreadService.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.util.concurrent</FONT>
+<BR>
+Class AbstractExecutionThreadService</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.util.concurrent.AbstractExecutionThreadService</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../com/google/common/base/Service.html" title="interface in com.google.common.base">Service</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>public abstract class <B>AbstractExecutionThreadService</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A><DT>implements <A HREF="../../../../../com/google/common/base/Service.html" title="interface in com.google.common.base">Service</A></DL>
+</PRE>
+
+<P>
+Base class for services that can implement <A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#startUp()"><CODE>startUp()</CODE></A>, <A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#run()"><CODE>run()</CODE></A> and
+ <A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#shutDown()"><CODE>shutDown()</CODE></A> methods. This class uses a single thread to execute the
+ service; consider <A HREF="../../../../../com/google/common/util/concurrent/AbstractService.html" title="class in com.google.common.util.concurrent"><CODE>AbstractService</CODE></A> if you would like to manage any
+ threading manually.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>1</DD>
+<DT><B>Author:</B></DT>
+  <DD>Jesse Wilson</DD>
+</DL>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="nested_classes_inherited_from_class_com.google.common.base.Service"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from interface com.google.common.base.<A HREF="../../../../../com/google/common/base/Service.html" title="interface in com.google.common.base">Service</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#AbstractExecutionThreadService()">AbstractExecutionThreadService</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#executor()">executor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>Executor</CODE></A> that will be used to run this service.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#isRunning()">isRunning</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>true</code> if this service is <A HREF="../../../../../com/google/common/base/Service.State.html#RUNNING"><CODE>running</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected abstract &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#run()">run</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run the service.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#shutDown()">shutDown</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop the service.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</A>&lt;<A HREF="../../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#start()">start</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If the service state is <A HREF="../../../../../com/google/common/base/Service.State.html#NEW"><CODE>Service.State.NEW</CODE></A>, this initiates service startup
+ and returns immediately.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#startAndWait()">startAndWait</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initiates service startup (if necessary), returning once the service has
+ finished starting.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#startUp()">startUp</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start the service.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#state()">state</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the lifecycle state of the service.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</A>&lt;<A HREF="../../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#stop()">stop</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If the service is <A HREF="../../../../../com/google/common/base/Service.State.html#STARTING"><CODE>Service.State.STARTING</CODE></A> or <A HREF="../../../../../com/google/common/base/Service.State.html#RUNNING"><CODE>Service.State.RUNNING</CODE></A>, this
+ initiates service shutdown and returns immediately.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#stopAndWait()">stopAndWait</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initiates service shutdown (if necessary), returning once the service has
+ finished stopping.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string representation of the object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#triggerShutdown()">triggerShutdown</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Invoked to request the service to stop.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="AbstractExecutionThreadService()"><!-- --></A><H3>
+AbstractExecutionThreadService</H3>
+<PRE>
+public <B>AbstractExecutionThreadService</B>()</PRE>
+<DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="startUp()"><!-- --></A><H3>
+startUp</H3>
+<PRE>
+protected void <B>startUp</B>()
+                throws <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></PRE>
+<DL>
+<DD>Start the service. This method is invoked on the execution thread.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="run()"><!-- --></A><H3>
+run</H3>
+<PRE>
+protected abstract void <B>run</B>()
+                     throws <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></PRE>
+<DL>
+<DD>Run the service. This method is invoked on the execution thread.
+ Implementations must respond to stop requests. You could poll for lifecycle
+ changes in a work loop:
+ <pre>
+   public void run() {
+     while (<A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#isRunning()"><CODE>isRunning()</CODE></A>) {
+       // perform a unit of work
+     }
+   }
+ </pre>
+ ...or you could respond to stop requests by implementing <A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#triggerShutdown()"><CODE>triggerShutdown()</CODE></A>, which should cause <A HREF="../../../../../com/google/common/util/concurrent/AbstractExecutionThreadService.html#run()"><CODE>run()</CODE></A> to return.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="shutDown()"><!-- --></A><H3>
+shutDown</H3>
+<PRE>
+protected void <B>shutDown</B>()
+                 throws <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></PRE>
+<DL>
+<DD>Stop the service. This method is invoked on the execution thread.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="triggerShutdown()"><!-- --></A><H3>
+triggerShutdown</H3>
+<PRE>
+protected void <B>triggerShutdown</B>()</PRE>
+<DL>
+<DD>Invoked to request the service to stop.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="executor()"><!-- --></A><H3>
+executor</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</A> <B>executor</B>()</PRE>
+<DL>
+<DD>Returns the <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>Executor</CODE></A> that will be used to run this service.
+ Subclasses may override this method to use a custom <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>Executor</CODE></A>, which
+ may configure its worker thread with a specific name, thread group or
+ priority. The returned executor's <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent"><CODE>execute()</CODE></A> method is called when this service is started, and should return
+ promptly.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>toString</B>()</PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">java.lang.Object</A></CODE></B></DD>
+<DD>Returns a string representation of the object. In general, the
+ <code>toString</code> method returns a string that
+ "textually represents" this object. The result should
+ be a concise but informative representation that is easy for a
+ person to read.
+ It is recommended that all subclasses override this method.
+ <p>
+ The <code>toString</code> method for class <code>Object</code>
+ returns a string consisting of the name of the class of which the
+ object is an instance, the at-sign character `<code>@</code>', and
+ the unsigned hexadecimal representation of the hash code of the
+ object. In other words, this method returns a string equal to the
+ value of:
+ <blockquote>
+ <pre>
+ getClass().getName() + '@' + Integer.toHexString(hashCode())
+ </pre></blockquote>
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a string representation of the object.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="start()"><!-- --></A><H3>
+start</H3>
+<PRE>
+public final <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</A>&lt;<A HREF="../../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A>&gt; <B>start</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../../com/google/common/base/Service.html#start()">Service</A></CODE></B></DD>
+<DD>If the service state is <A HREF="../../../../../com/google/common/base/Service.State.html#NEW"><CODE>Service.State.NEW</CODE></A>, this initiates service startup
+ and returns immediately. If the service has already been started, this
+ method returns immediately without taking action. A stopped service may not
+ be restarted.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../com/google/common/base/Service.html#start()">start</A></CODE> in interface <CODE><A HREF="../../../../../com/google/common/base/Service.html" title="interface in com.google.common.base">Service</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a future for the startup result, regardless of whether this call
+     initiated startup. Calling <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><CODE>Future.get()</CODE></A> will block until the
+     service has finished starting, and returns one of <A HREF="../../../../../com/google/common/base/Service.State.html#RUNNING"><CODE>Service.State.RUNNING</CODE></A>, <A HREF="../../../../../com/google/common/base/Service.State.html#STOPPING"><CODE>Service.State.STOPPING</CODE></A> or <A HREF="../../../../../com/google/common/base/Service.State.html#TERMINATED"><CODE>Service.State.TERMINATED</CODE></A>. If
+     the service fails to start, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><CODE>Future.get()</CODE></A> will throw an <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>ExecutionException</CODE></A>, and the service's state will be <A HREF="../../../../../com/google/common/base/Service.State.html#FAILED"><CODE>Service.State.FAILED</CODE></A>. If it has already finished starting, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><CODE>Future.get()</CODE></A>
+     returns immediately. Cancelling the returned future is unsupported and
+     always returns <code>false</code>.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="startAndWait()"><!-- --></A><H3>
+startAndWait</H3>
+<PRE>
+public final <A HREF="../../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A> <B>startAndWait</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../../com/google/common/base/Service.html#startAndWait()">Service</A></CODE></B></DD>
+<DD>Initiates service startup (if necessary), returning once the service has
+ finished starting. Unlike calling <code>start().get()</code>, this method throws
+ no checked exceptions.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../com/google/common/base/Service.html#startAndWait()">startAndWait</A></CODE> in interface <CODE><A HREF="../../../../../com/google/common/base/Service.html" title="interface in com.google.common.base">Service</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the state of the service when startup finished.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isRunning()"><!-- --></A><H3>
+isRunning</H3>
+<PRE>
+public final boolean <B>isRunning</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../../com/google/common/base/Service.html#isRunning()">Service</A></CODE></B></DD>
+<DD>Returns <code>true</code> if this service is <A HREF="../../../../../com/google/common/base/Service.State.html#RUNNING"><CODE>running</CODE></A>.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../com/google/common/base/Service.html#isRunning()">isRunning</A></CODE> in interface <CODE><A HREF="../../../../../com/google/common/base/Service.html" title="interface in com.google.common.base">Service</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="state()"><!-- --></A><H3>
+state</H3>
+<PRE>
+public final <A HREF="../../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A> <B>state</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../../com/google/common/base/Service.html#state()">Service</A></CODE></B></DD>
+<DD>Returns the lifecycle state of the service.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../com/google/common/base/Service.html#state()">state</A></CODE> in interface <CODE><A HREF="../../../../../com/google/common/base/Service.html" title="interface in com.google.common.base">Service</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="stop()"><!-- --></A><H3>
+stop</H3>
+<PRE>
+public final <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</A>&lt;<A HREF="../../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A>&gt; <B>stop</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../../com/google/common/base/Service.html#stop()">Service</A></CODE></B></DD>
+<DD>If the service is <A HREF="../../../../../com/google/common/base/Service.State.html#STARTING"><CODE>Service.State.STARTING</CODE></A> or <A HREF="../../../../../com/google/common/base/Service.State.html#RUNNING"><CODE>Service.State.RUNNING</CODE></A>, this
+ initiates service shutdown and returns immediately. If this is <A HREF="../../../../../com/google/common/base/Service.State.html#NEW"><CODE>Service.State.NEW</CODE></A>, it is <A HREF="../../../../../com/google/common/base/Service.State.html#TERMINATED"><CODE>terminated</CODE></A> without having been
+ started nor stopped.  If the service has already been stopped, this
+ method returns immediately without taking action.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../com/google/common/base/Service.html#stop()">stop</A></CODE> in interface <CODE><A HREF="../../../../../com/google/common/base/Service.html" title="interface in com.google.common.base">Service</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a future for the shutdown result, regardless of whether this call
+     initiated shutdown. Calling <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><CODE>Future.get()</CODE></A> will block until the
+     service has finished shutting down, and either returns <A HREF="../../../../../com/google/common/base/Service.State.html#TERMINATED"><CODE>Service.State.TERMINATED</CODE></A> or throws an <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>ExecutionException</CODE></A>. If it has
+     already finished stopping, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><CODE>Future.get()</CODE></A> returns immediately.
+     Cancelling this future is unsupported and always returns <code>false</code>.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="stopAndWait()"><!-- --></A><H3>
+stopAndWait</H3>
+<PRE>
+public final <A HREF="../../../../../com/google/common/base/Service.State.html" title="enum in com.google.common.base">Service.State</A> <B>stopAndWait</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../../com/google/common/base/Service.html#stopAndWait()">Service</A></CODE></B></DD>
+<DD>Initiates service shutdown (if necessary), returning once the service has
+ finished stopping. If this is <A HREF="../../../../../com/google/common/base/Service.State.html#STARTING"><CODE>Service.State.STARTING</CODE></A>, startup will be
+ cancelled. If this is <A HREF="../../../../../com/google/common/base/Service.State.html#NEW"><CODE>Service.State.NEW</CODE></A>, it is <A HREF="../../../../../com/google/common/base/Service.State.html#TERMINATED"><CODE>terminated</CODE></A> without having been started nor stopped. Unlike calling <code>stop().get()</code>, this method throws no checked exceptions.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../com/google/common/base/Service.html#stopAndWait()">stopAndWait</A></CODE> in interface <CODE><A HREF="../../../../../com/google/common/base/Service.html" title="interface in com.google.common.base">Service</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the state of the service when shutdown finished.</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="class in com.google.common.util.concurrent"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/google/common/util/concurrent/AbstractExecutionThreadService.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AbstractExecutionThreadService.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

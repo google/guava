@@ -1,0 +1,1160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Maps (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Maps (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/collect/Maps.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Maps.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.collect</FONT>
+<BR>
+Class Maps</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.collect.Maps</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</A>=true)
+</FONT>public final class <B>Maps</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
+</PRE>
+
+<P>
+Static utility methods pertaining to <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><CODE>Map</CODE></A> instances. Also see this
+ class's counterparts <A HREF="../../../../com/google/common/collect/Lists.html" title="class in com.google.common.collect"><CODE>Lists</CODE></A> and <A HREF="../../../../com/google/common/collect/Sets.html" title="class in com.google.common.collect"><CODE>Sets</CODE></A>.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>2 (imported from Google Collections Library)</DD>
+<DT><B>Author:</B></DT>
+  <DD>Kevin Bourrillion, Mike Bostock, Isaac Shum, Louis Wasserman</DD>
+</DL>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</A>&lt;<A HREF="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">K</A>,<A HREF="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">V1</A>,<A HREF="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="type parameter in Maps.EntryTransformer">V2</A>&gt;</B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A transformation of the value of a key-value pair, using both key and value
+ as inputs.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="../../../../com/google/common/collect/MapDifference.html" title="interface in com.google.common.collect">MapDifference</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#difference(java.util.Map, java.util.Map)">difference</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends K,? extends V&gt;&nbsp;left,
+           <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends K,? extends V&gt;&nbsp;right)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the difference between two maps.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#filterEntries(java.util.Map, com.google.common.base.Predicate)">filterEntries</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;&nbsp;unfiltered,
+              <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a map containing the mappings in <code>unfiltered</code> that satisfy a
+ predicate.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#filterKeys(java.util.Map, com.google.common.base.Predicate)">filterKeys</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;&nbsp;unfiltered,
+           <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super K&gt;&nbsp;keyPredicate)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a map containing the mappings in <code>unfiltered</code> whose keys
+ satisfy a predicate.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#filterValues(java.util.Map, com.google.common.base.Predicate)">filterValues</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;&nbsp;unfiltered,
+             <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super V&gt;&nbsp;valuePredicate)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a map containing the mappings in <code>unfiltered</code> whose values
+ satisfy a predicate.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>,<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#fromProperties(java.util.Properties)">fromProperties</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</A>&nbsp;properties)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an <code>ImmutableMap&lt;String, String&gt;</code> from a <code>Properties</code>
+ instance.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#immutableEntry(K, V)">immutableEntry</A></B>(K&nbsp;key,
+               V&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an immutable map entry with the specified key and value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newConcurrentMap()">newConcurrentMap</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a general-purpose instance of <code>ConcurrentMap</code>, which supports
+ all optional operations of the ConcurrentMap interface.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</A>&lt;K&gt;,V&gt; 
+<BR>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/util/EnumMap.html?is-external=true" title="class or interface in java.util">EnumMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newEnumMap(java.lang.Class)">newEnumMap</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;K&gt;&nbsp;type)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an <code>EnumMap</code> instance.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</A>&lt;K&gt;,V&gt; 
+<BR>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/util/EnumMap.html?is-external=true" title="class or interface in java.util">EnumMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newEnumMap(java.util.Map)">newEnumMap</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,? extends V&gt;&nbsp;map)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an <code>EnumMap</code> with the same mappings as the specified map.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util">HashMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newHashMap()">newHashMap</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a <i>mutable</i>, empty <code>HashMap</code> instance.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util">HashMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newHashMap(java.util.Map)">newHashMap</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends K,? extends V&gt;&nbsp;map)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a <i>mutable</i> <code>HashMap</code> instance with the same mappings as
+ the specified map.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util">HashMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newHashMapWithExpectedSize(int)">newHashMapWithExpectedSize</A></B>(int&nbsp;expectedSize)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a <code>HashMap</code> instance with enough capacity to hold the
+ specified number of elements without rehashing.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/IdentityHashMap.html?is-external=true" title="class or interface in java.util">IdentityHashMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newIdentityHashMap()">newIdentityHashMap</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an <code>IdentityHashMap</code> instance.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/LinkedHashMap.html?is-external=true" title="class or interface in java.util">LinkedHashMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newLinkedHashMap()">newLinkedHashMap</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a <i>mutable</i>, empty, insertion-ordered <code>LinkedHashMap</code>
+ instance.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/LinkedHashMap.html?is-external=true" title="class or interface in java.util">LinkedHashMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newLinkedHashMap(java.util.Map)">newLinkedHashMap</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends K,? extends V&gt;&nbsp;map)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a <i>mutable</i>, insertion-ordered <code>LinkedHashMap</code> instance
+ with the same mappings as the specified map.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</A>,V&gt; 
+<BR>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/util/TreeMap.html?is-external=true" title="class or interface in java.util">TreeMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newTreeMap()">newTreeMap</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a <i>mutable</i>, empty <code>TreeMap</code> instance using the natural
+ ordering of its elements.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;C,K extends C,V&gt; 
+<BR>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/util/TreeMap.html?is-external=true" title="class or interface in java.util">TreeMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newTreeMap(java.util.Comparator)">newTreeMap</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</A>&lt;C&gt;&nbsp;comparator)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a <i>mutable</i>, empty <code>TreeMap</code> instance using the given
+ comparator.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/TreeMap.html?is-external=true" title="class or interface in java.util">TreeMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#newTreeMap(java.util.SortedMap)">newTreeMap</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</A>&lt;K,? extends V&gt;&nbsp;map)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a <i>mutable</i> <code>TreeMap</code> instance with the same mappings as
+ the specified map and using the same ordering as the specified map.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#synchronizedBiMap(com.google.common.collect.BiMap)">synchronizedBiMap</A></B>(<A HREF="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</A>&lt;K,V&gt;&nbsp;bimap)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a synchronized (thread-safe) bimap backed by the specified bimap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V1,V2&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V2&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#transformEntries(java.util.Map, com.google.common.collect.Maps.EntryTransformer)">transformEntries</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V1&gt;&nbsp;fromMap,
+                 <A HREF="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</A>&lt;? super K,? super V1,V2&gt;&nbsp;transformer)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a view of a map whose values are derived from the original map's
+ entries.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V1,V2&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V2&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#transformValues(java.util.Map, com.google.common.base.Function)">transformValues</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V1&gt;&nbsp;fromMap,
+                <A HREF="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</A>&lt;? super V1,V2&gt;&nbsp;function)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a view of a map where each value is transformed by a function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#uniqueIndex(java.lang.Iterable, com.google.common.base.Function)">uniqueIndex</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;V&gt;&nbsp;values,
+            <A HREF="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</A>&lt;? super V,K&gt;&nbsp;keyFunction)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an immutable map for which the <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#values()" title="class or interface in java.util"><CODE>Map.values()</CODE></A> are the given
+ elements in the given order, and each key is the product of invoking a
+ supplied function on its corresponding value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/Maps.html#unmodifiableBiMap(com.google.common.collect.BiMap)">unmodifiableBiMap</A></B>(<A HREF="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</A>&lt;? extends K,? extends V&gt;&nbsp;bimap)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an unmodifiable view of the specified bimap.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="newHashMap()"><!-- --></A><H3>
+newHashMap</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util">HashMap</A>&lt;K,V&gt; <B>newHashMap</B>()</PRE>
+<DL>
+<DD>Creates a <i>mutable</i>, empty <code>HashMap</code> instance.
+
+ <p><b>Note:</b> if mutability is not required, use <A HREF="../../../../com/google/common/collect/ImmutableMap.html#of()"><CODE>ImmutableMap.of()</CODE></A> instead.
+
+ <p><b>Note:</b> if <code>K</code> is an <code>enum</code> type, use <A HREF="../../../../com/google/common/collect/Maps.html#newEnumMap(java.lang.Class)"><CODE>newEnumMap(java.lang.Class<K>)</CODE></A> instead.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a new, empty <code>HashMap</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newHashMapWithExpectedSize(int)"><!-- --></A><H3>
+newHashMapWithExpectedSize</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util">HashMap</A>&lt;K,V&gt; <B>newHashMapWithExpectedSize</B>(int&nbsp;expectedSize)</PRE>
+<DL>
+<DD>Creates a <code>HashMap</code> instance with enough capacity to hold the
+ specified number of elements without rehashing.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>expectedSize</CODE> - the expected size
+<DT><B>Returns:</B><DD>a new, empty <code>HashMap</code> with enough capacity to hold <code>expectedSize</code> elements without rehashing
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>expectedSize</code> is negative</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newHashMap(java.util.Map)"><!-- --></A><H3>
+newHashMap</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util">HashMap</A>&lt;K,V&gt; <B>newHashMap</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends K,? extends V&gt;&nbsp;map)</PRE>
+<DL>
+<DD>Creates a <i>mutable</i> <code>HashMap</code> instance with the same mappings as
+ the specified map.
+
+ <p><b>Note:</b> if mutability is not required, use <A HREF="../../../../com/google/common/collect/ImmutableMap.html#copyOf(java.util.Map)"><CODE>ImmutableMap.copyOf(Map)</CODE></A> instead.
+
+ <p><b>Note:</b> if <code>K</code> is an <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang"><CODE>Enum</CODE></A> type, use <A HREF="../../../../com/google/common/collect/Maps.html#newEnumMap(java.lang.Class)"><CODE>newEnumMap(java.lang.Class<K>)</CODE></A> instead.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>map</CODE> - the mappings to be placed in the new map
+<DT><B>Returns:</B><DD>a new <code>HashMap</code> initialized with the mappings from <code>map</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newLinkedHashMap()"><!-- --></A><H3>
+newLinkedHashMap</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/LinkedHashMap.html?is-external=true" title="class or interface in java.util">LinkedHashMap</A>&lt;K,V&gt; <B>newLinkedHashMap</B>()</PRE>
+<DL>
+<DD>Creates a <i>mutable</i>, empty, insertion-ordered <code>LinkedHashMap</code>
+ instance.
+
+ <p><b>Note:</b> if mutability is not required, use <A HREF="../../../../com/google/common/collect/ImmutableMap.html#of()"><CODE>ImmutableMap.of()</CODE></A> instead.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a new, empty <code>LinkedHashMap</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newLinkedHashMap(java.util.Map)"><!-- --></A><H3>
+newLinkedHashMap</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/LinkedHashMap.html?is-external=true" title="class or interface in java.util">LinkedHashMap</A>&lt;K,V&gt; <B>newLinkedHashMap</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends K,? extends V&gt;&nbsp;map)</PRE>
+<DL>
+<DD>Creates a <i>mutable</i>, insertion-ordered <code>LinkedHashMap</code> instance
+ with the same mappings as the specified map.
+
+ <p><b>Note:</b> if mutability is not required, use <A HREF="../../../../com/google/common/collect/ImmutableMap.html#copyOf(java.util.Map)"><CODE>ImmutableMap.copyOf(Map)</CODE></A> instead.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>map</CODE> - the mappings to be placed in the new map
+<DT><B>Returns:</B><DD>a new, <code>LinkedHashMap</code> initialized with the mappings from
+         <code>map</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newConcurrentMap()"><!-- --></A><H3>
+newConcurrentMap</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</A>&lt;K,V&gt; <B>newConcurrentMap</B>()</PRE>
+<DL>
+<DD>Returns a general-purpose instance of <code>ConcurrentMap</code>, which supports
+ all optional operations of the ConcurrentMap interface. It does not permit
+ null keys or values. It is serializable.
+
+ <p>This is currently accomplished by calling <A HREF="../../../../com/google/common/collect/MapMaker.html#makeMap()"><CODE>MapMaker.makeMap()</CODE></A>.
+
+ <p>It is preferable to use <code>MapMaker</code> directly (rather than through
+ this method), as it presents numerous useful configuration options,
+ such as the concurrency level, load factor, key/value reference types,
+ and value computation.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a new, empty <code>ConcurrentMap</code><DT><B>Since:</B></DT>
+  <DD>3</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newTreeMap()"><!-- --></A><H3>
+newTreeMap</H3>
+<PRE>
+public static &lt;K extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</A>,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/TreeMap.html?is-external=true" title="class or interface in java.util">TreeMap</A>&lt;K,V&gt; <B>newTreeMap</B>()</PRE>
+<DL>
+<DD>Creates a <i>mutable</i>, empty <code>TreeMap</code> instance using the natural
+ ordering of its elements.
+
+ <p><b>Note:</b> if mutability is not required, use <A HREF="../../../../com/google/common/collect/ImmutableSortedMap.html#of()"><CODE>ImmutableSortedMap.of()</CODE></A> instead.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a new, empty <code>TreeMap</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newTreeMap(java.util.SortedMap)"><!-- --></A><H3>
+newTreeMap</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/TreeMap.html?is-external=true" title="class or interface in java.util">TreeMap</A>&lt;K,V&gt; <B>newTreeMap</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</A>&lt;K,? extends V&gt;&nbsp;map)</PRE>
+<DL>
+<DD>Creates a <i>mutable</i> <code>TreeMap</code> instance with the same mappings as
+ the specified map and using the same ordering as the specified map.
+
+ <p><b>Note:</b> if mutability is not required, use <A HREF="../../../../com/google/common/collect/ImmutableSortedMap.html#copyOfSorted(java.util.SortedMap)"><CODE>ImmutableSortedMap.copyOfSorted(SortedMap)</CODE></A> instead.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>map</CODE> - the sorted map whose mappings are to be placed in the new map
+        and whose comparator is to be used to sort the new map
+<DT><B>Returns:</B><DD>a new <code>TreeMap</code> initialized with the mappings from <code>map</code> and using the comparator of <code>map</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newTreeMap(java.util.Comparator)"><!-- --></A><H3>
+newTreeMap</H3>
+<PRE>
+public static &lt;C,K extends C,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/TreeMap.html?is-external=true" title="class or interface in java.util">TreeMap</A>&lt;K,V&gt; <B>newTreeMap</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                                                        <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</A>&lt;C&gt;&nbsp;comparator)</PRE>
+<DL>
+<DD>Creates a <i>mutable</i>, empty <code>TreeMap</code> instance using the given
+ comparator.
+
+ <p><b>Note:</b> if mutability is not required, use <code>ImmutableSortedMap.orderedBy(comparator).build()</code> instead.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>comparator</CODE> - the comparator to sort the keys with
+<DT><B>Returns:</B><DD>a new, empty <code>TreeMap</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newEnumMap(java.lang.Class)"><!-- --></A><H3>
+newEnumMap</H3>
+<PRE>
+public static &lt;K extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</A>&lt;K&gt;,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EnumMap.html?is-external=true" title="class or interface in java.util">EnumMap</A>&lt;K,V&gt; <B>newEnumMap</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;K&gt;&nbsp;type)</PRE>
+<DL>
+<DD>Creates an <code>EnumMap</code> instance.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the key type for this map
+<DT><B>Returns:</B><DD>a new, empty <code>EnumMap</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newEnumMap(java.util.Map)"><!-- --></A><H3>
+newEnumMap</H3>
+<PRE>
+public static &lt;K extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</A>&lt;K&gt;,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/EnumMap.html?is-external=true" title="class or interface in java.util">EnumMap</A>&lt;K,V&gt; <B>newEnumMap</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,? extends V&gt;&nbsp;map)</PRE>
+<DL>
+<DD>Creates an <code>EnumMap</code> with the same mappings as the specified map.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>map</CODE> - the map from which to initialize this <code>EnumMap</code>
+<DT><B>Returns:</B><DD>a new <code>EnumMap</code> initialized with the mappings from <code>map</code>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>m</code> is not an <code>EnumMap</code>
+         instance and contains no mappings</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newIdentityHashMap()"><!-- --></A><H3>
+newIdentityHashMap</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/IdentityHashMap.html?is-external=true" title="class or interface in java.util">IdentityHashMap</A>&lt;K,V&gt; <B>newIdentityHashMap</B>()</PRE>
+<DL>
+<DD>Creates an <code>IdentityHashMap</code> instance.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a new, empty <code>IdentityHashMap</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="synchronizedBiMap(com.google.common.collect.BiMap)"><!-- --></A><H3>
+synchronizedBiMap</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</A>&lt;K,V&gt; <B>synchronizedBiMap</B>(<A HREF="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</A>&lt;K,V&gt;&nbsp;bimap)</PRE>
+<DL>
+<DD>Returns a synchronized (thread-safe) bimap backed by the specified bimap.
+ In order to guarantee serial access, it is critical that <b>all</b> access
+ to the backing bimap is accomplished through the returned bimap.
+
+ <p>It is imperative that the user manually synchronize on the returned map
+ when accessing any of its collection views: <pre>   <code>BiMap&lt;Long, String&gt; map = Maps.synchronizedBiMap(
+       HashBiMap.&lt;Long, String&gt;create());
+   ...
+   Set&lt;Long&gt; set = map.keySet();  // Needn't be in synchronized block
+   ...
+   synchronized (map) {  // Synchronizing on map, not set!
+     Iterator&lt;Long&gt; it = set.iterator(); // Must be in synchronized block
+     while (it.hasNext()) {
+       foo(it.next());
+     }
+   }</code></pre>
+
+ Failure to follow this advice may result in non-deterministic behavior.
+
+ <p>The returned bimap will be serializable if the specified bimap is
+ serializable.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bimap</CODE> - the bimap to be wrapped in a synchronized view
+<DT><B>Returns:</B><DD>a sychronized view of the specified bimap</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="difference(java.util.Map, java.util.Map)"><!-- --></A><H3>
+difference</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="../../../../com/google/common/collect/MapDifference.html" title="interface in com.google.common.collect">MapDifference</A>&lt;K,V&gt; <B>difference</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends K,? extends V&gt;&nbsp;left,
+                                                  <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;? extends K,? extends V&gt;&nbsp;right)</PRE>
+<DL>
+<DD>Computes the difference between two maps. This difference is an immutable
+ snapshot of the state of the maps at the time this method is called. It
+ will never change, even if the maps change at a later time.
+
+ <p>Since this method uses <code>HashMap</code> instances internally, the keys of
+ the supplied maps must be well-behaved with respect to
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><CODE>Object.equals(java.lang.Object)</CODE></A> and <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang"><CODE>Object.hashCode()</CODE></A>.
+
+ <p><b>Note:</b>If you only need to know whether two maps have the same
+ mappings, call <code>left.equals(right)</code> instead of this method.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>left</CODE> - the map to treat as the "left" map for purposes of comparison<DD><CODE>right</CODE> - the map to treat as the "right" map for purposes of comparison
+<DT><B>Returns:</B><DD>the difference between the two maps</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="uniqueIndex(java.lang.Iterable, com.google.common.base.Function)"><!-- --></A><H3>
+uniqueIndex</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</A>&lt;K,V&gt; <B>uniqueIndex</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;V&gt;&nbsp;values,
+                                                  <A HREF="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</A>&lt;? super V,K&gt;&nbsp;keyFunction)</PRE>
+<DL>
+<DD>Returns an immutable map for which the <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#values()" title="class or interface in java.util"><CODE>Map.values()</CODE></A> are the given
+ elements in the given order, and each key is the product of invoking a
+ supplied function on its corresponding value.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>values</CODE> - the values to use when constructing the <code>Map</code><DD><CODE>keyFunction</CODE> - the function used to produce the key for each value
+<DT><B>Returns:</B><DD>a map mapping the result of evaluating the function <code>keyFunction</code> on each value in the input collection to that value
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>keyFunction</code> produces the same
+         key for more than one value in the input collection
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</A></CODE> - if any elements of <code>values</code> is null, or
+         if <code>keyFunction</code> produces <code>null</code> for any value</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fromProperties(java.util.Properties)"><!-- --></A><H3>
+fromProperties</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.util.Properties")
+</FONT>public static <A HREF="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>,<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&gt; <B>fromProperties</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</A>&nbsp;properties)</PRE>
+<DL>
+<DD>Creates an <code>ImmutableMap&lt;String, String&gt;</code> from a <code>Properties</code>
+ instance. Properties normally derive from <code>Map&lt;Object, Object&gt;</code>, but
+ they typically contain strings, which is awkward. This method lets you get
+ a plain-old-<code>Map</code> out of a <code>Properties</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>properties</CODE> - a <code>Properties</code> object to be converted
+<DT><B>Returns:</B><DD>an immutable map containing all the entries in <code>properties</code>
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</A></CODE> - if any key in <code>Properties</code> is not a <code>String</code>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</A></CODE> - if any key or value in <code>Properties</code> is
+         null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="immutableEntry(java.lang.Object,java.lang.Object)"><!-- --></A><A NAME="immutableEntry(K, V)"><!-- --></A><H3>
+immutableEntry</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;K,V&gt; <B>immutableEntry</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                                                  K&nbsp;key,
+                                                  <FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                                                  V&nbsp;value)</PRE>
+<DL>
+<DD>Returns an immutable map entry with the specified key and value. The <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true#setValue(V)" title="class or interface in java.util"><CODE>Map.Entry.setValue(V)</CODE></A> operation throws an <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><CODE>UnsupportedOperationException</CODE></A>.
+
+ <p>The returned entry is serializable.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key to be associated with the returned entry<DD><CODE>value</CODE> - the value to be associated with the returned entry</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="unmodifiableBiMap(com.google.common.collect.BiMap)"><!-- --></A><H3>
+unmodifiableBiMap</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</A>&lt;K,V&gt; <B>unmodifiableBiMap</B>(<A HREF="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</A>&lt;? extends K,? extends V&gt;&nbsp;bimap)</PRE>
+<DL>
+<DD>Returns an unmodifiable view of the specified bimap. This method allows
+ modules to provide users with "read-only" access to internal bimaps. Query
+ operations on the returned bimap "read through" to the specified bimap, and
+ attemps to modify the returned map, whether direct or via its collection
+ views, result in an <code>UnsupportedOperationException</code>.
+
+ <p>The returned bimap will be serializable if the specified bimap is
+ serializable.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bimap</CODE> - the bimap for which an unmodifiable view is to be returned
+<DT><B>Returns:</B><DD>an unmodifiable view of the specified bimap</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="transformValues(java.util.Map, com.google.common.base.Function)"><!-- --></A><H3>
+transformValues</H3>
+<PRE>
+public static &lt;K,V1,V2&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V2&gt; <B>transformValues</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V1&gt;&nbsp;fromMap,
+                                                  <A HREF="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</A>&lt;? super V1,V2&gt;&nbsp;function)</PRE>
+<DL>
+<DD>Returns a view of a map where each value is transformed by a function. All
+ other properties of the map, such as iteration order, are left intact. For
+ example, the code: <pre>   <code>Map&lt;String, Integer&gt; map = ImmutableMap.of("a", 4, "b", 9);
+   Function&lt;Integer, Double&gt; sqrt =
+       new Function&lt;Integer, Double&gt;() {
+         public Double apply(Integer in) {
+           return Math.sqrt((int) in);
+         }
+       };
+   Map&lt;String, Double&gt; transformed = Maps.transformValues(map, sqrt);
+   System.out.println(transformed);</code></pre>
+
+ ... prints <code>{a=2.0, b=3.0}</code>.
+
+ <p>Changes in the underlying map are reflected in this view. Conversely,
+ this view supports removal operations, and these are reflected in the
+ underlying map.
+
+ <p>It's acceptable for the underlying map to contain null keys, and even
+ null values provided that the function is capable of accepting null input.
+ The transformed map might contain null values, if the function sometimes
+ gives a null result.
+
+ <p>The returned map is not thread-safe or serializable, even if the
+ underlying map is.
+
+ <p>The function is applied lazily, invoked when needed. This is necessary
+ for the returned map to be a view, but it means that the function will be
+ applied many times for bulk operations like <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsValue(java.lang.Object)" title="class or interface in java.util"><CODE>Map.containsValue(java.lang.Object)</CODE></A> and
+ <code>Map.toString()</code>. For this to perform well, <code>function</code> should
+ be fast. To avoid lazy evaluation when the returned map doesn't need to be
+ a view, copy the returned map into a new map of your choosing.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="transformEntries(java.util.Map, com.google.common.collect.Maps.EntryTransformer)"><!-- --></A><H3>
+transformEntries</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>public static &lt;K,V1,V2&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V2&gt; <B>transformEntries</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V1&gt;&nbsp;fromMap,
+                                                        <A HREF="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</A>&lt;? super K,? super V1,V2&gt;&nbsp;transformer)</PRE>
+<DL>
+<DD>Returns a view of a map whose values are derived from the original map's
+ entries. In contrast to <A HREF="../../../../com/google/common/collect/Maps.html#transformValues(java.util.Map, com.google.common.base.Function)"><CODE>transformValues(java.util.Map<K, V1>, com.google.common.base.Function<? super V1, V2>)</CODE></A>, this method's
+ entry-transformation logic may depend on the key as well as the value.
+
+ <p>All other properties of the transformed map, such as iteration order,
+ are left intact. For example, the code: <pre>   <code>Map&lt;String, Boolean&gt; options =
+       ImmutableMap.of("verbose", true, "sort", false);
+   EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =
+       new EntryTransformer&lt;String, Boolean, String&gt;() {
+         public String transformEntry(String key, Boolean value) {
+           return value ? key : "no" + key;
+         }
+       };
+   Map&lt;String, String&gt; transformed =
+       Maps.transformEntries(options, flagPrefixer);
+   System.out.println(transformed);</code></pre>
+
+ ... prints <code>{verbose=verbose, sort=nosort}</code>.
+
+ <p>Changes in the underlying map are reflected in this view. Conversely,
+ this view supports removal operations, and these are reflected in the
+ underlying map.
+
+ <p>It's acceptable for the underlying map to contain null keys and null
+ values provided that the transformer is capable of accepting null inputs.
+ The transformed map might contain null values if the transformer sometimes
+ gives a null result.
+
+ <p>The returned map is not thread-safe or serializable, even if the
+ underlying map is.
+
+ <p>The transformer is applied lazily, invoked when needed. This is
+ necessary for the returned map to be a view, but it means that the
+ transformer will be applied many times for bulk operations like <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#containsValue(java.lang.Object)" title="class or interface in java.util"><CODE>Map.containsValue(java.lang.Object)</CODE></A> and <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang"><CODE>Object.toString()</CODE></A>. For this to perform well,
+ <code>transformer</code> should be fast. To avoid lazy evaluation when the
+ returned map doesn't need to be a view, copy the returned map into a new
+ map of your choosing.
+
+ <p><b>Warning:</b> This method assumes that for any instance <code>k</code> of
+ <code>EntryTransformer</code> key type <code>K</code>, <code>k.equals(k2)</code> implies
+ that <code>k2</code> is also of type <code>K</code>. Using an <code>EntryTransformer</code> key type for which this may not hold, such as <code>ArrayList</code>, may risk a <code>ClassCastException</code> when calling methods on
+ the transformed map.
+<P>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>7</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="filterKeys(java.util.Map, com.google.common.base.Predicate)"><!-- --></A><H3>
+filterKeys</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt; <B>filterKeys</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;&nbsp;unfiltered,
+                                        <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super K&gt;&nbsp;keyPredicate)</PRE>
+<DL>
+<DD>Returns a map containing the mappings in <code>unfiltered</code> whose keys
+ satisfy a predicate. The returned map is a live view of <code>unfiltered</code>;
+ changes to one affect the other.
+
+ <p>The resulting map's <code>keySet()</code>, <code>entrySet()</code>, and <code>values()</code> views have iterators that don't support <code>remove()</code>, but all
+ other methods are supported by the map and its views. The map's <code>put()</code> and <code>putAll()</code> methods throw an <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><CODE>IllegalArgumentException</CODE></A> if a key that doesn't satisfy the predicate is
+ provided.
+
+ <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called
+ on the filtered map or its views, only mappings whose keys satisfy the
+ filter will be removed from the underlying map.
+
+ <p>The returned map isn't threadsafe or serializable, even if <code>unfiltered</code> is.
+
+ <p>Many of the filtered map's methods, such as <code>size()</code>,
+ iterate across every key/value mapping in the underlying map and determine
+ which satisfy the filter. When a live view is <i>not</i> needed, it may be
+ faster to copy the filtered map and use the copy.
+
+ <p><b>Warning:</b> <code>keyPredicate</code> must be <i>consistent with
+ equals</i>, as documented at <A HREF="../../../../com/google/common/base/Predicate.html#apply(T)"><CODE>Predicate.apply(T)</CODE></A>. Do not provide a
+ predicate such as <code>Predicates.instanceOf(ArrayList.class)</code>, which is
+ inconsistent with equals.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="filterValues(java.util.Map, com.google.common.base.Predicate)"><!-- --></A><H3>
+filterValues</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt; <B>filterValues</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;&nbsp;unfiltered,
+                                          <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super V&gt;&nbsp;valuePredicate)</PRE>
+<DL>
+<DD>Returns a map containing the mappings in <code>unfiltered</code> whose values
+ satisfy a predicate. The returned map is a live view of <code>unfiltered</code>;
+ changes to one affect the other.
+
+ <p>The resulting map's <code>keySet()</code>, <code>entrySet()</code>, and <code>values()</code> views have iterators that don't support <code>remove()</code>, but all
+ other methods are supported by the map and its views. The <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#put(K, V)" title="class or interface in java.util"><CODE>Map.put(K, V)</CODE></A>,
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#putAll(java.util.Map)" title="class or interface in java.util"><CODE>Map.putAll(java.util.Map<? extends K, ? extends V>)</CODE></A>, and <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true#setValue(V)" title="class or interface in java.util"><CODE>Map.Entry.setValue(V)</CODE></A> methods throw an <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><CODE>IllegalArgumentException</CODE></A> if a value that doesn't satisfy the predicate is
+ provided.
+
+ <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called
+ on the filtered map or its views, only mappings whose values satisfy the
+ filter will be removed from the underlying map.
+
+ <p>The returned map isn't threadsafe or serializable, even if <code>unfiltered</code> is.
+
+ <p>Many of the filtered map's methods, such as <code>size()</code>,
+ iterate across every key/value mapping in the underlying map and determine
+ which satisfy the filter. When a live view is <i>not</i> needed, it may be
+ faster to copy the filtered map and use the copy.
+
+ <p><b>Warning:</b> <code>valuePredicate</code> must be <i>consistent with
+ equals</i>, as documented at <A HREF="../../../../com/google/common/base/Predicate.html#apply(T)"><CODE>Predicate.apply(T)</CODE></A>. Do not provide a
+ predicate such as <code>Predicates.instanceOf(ArrayList.class)</code>, which is
+ inconsistent with equals.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="filterEntries(java.util.Map, com.google.common.base.Predicate)"><!-- --></A><H3>
+filterEntries</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt; <B>filterEntries</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,V&gt;&nbsp;unfiltered,
+                                           <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</PRE>
+<DL>
+<DD>Returns a map containing the mappings in <code>unfiltered</code> that satisfy a
+ predicate. The returned map is a live view of <code>unfiltered</code>; changes
+ to one affect the other.
+
+ <p>The resulting map's <code>keySet()</code>, <code>entrySet()</code>, and <code>values()</code> views have iterators that don't support <code>remove()</code>, but all
+ other methods are supported by the map and its views. The map's <code>put()</code> and <code>putAll()</code> methods throw an <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><CODE>IllegalArgumentException</CODE></A> if a key/value pair that doesn't satisfy the
+ predicate is provided. Similarly, the map's entries have a <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true#setValue(V)" title="class or interface in java.util"><CODE>Map.Entry.setValue(V)</CODE></A> method that throws an <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><CODE>IllegalArgumentException</CODE></A> when
+ the existing key and the provided value don't satisfy the predicate.
+
+ <p>When methods such as <code>removeAll()</code> and <code>clear()</code> are called
+ on the filtered map or its views, only mappings that satisfy the filter
+ will be removed from the underlying map.
+
+ <p>The returned map isn't threadsafe or serializable, even if <code>unfiltered</code> is.
+
+ <p>Many of the filtered map's methods, such as <code>size()</code>,
+ iterate across every key/value mapping in the underlying map and determine
+ which satisfy the filter. When a live view is <i>not</i> needed, it may be
+ faster to copy the filtered map and use the copy.
+
+ <p><b>Warning:</b> <code>valuePredicate</code> must be <i>consistent with
+ equals</i>, as documented at <A HREF="../../../../com/google/common/base/Predicate.html#apply(T)"><CODE>Predicate.apply(T)</CODE></A>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/collect/Maps.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Maps.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

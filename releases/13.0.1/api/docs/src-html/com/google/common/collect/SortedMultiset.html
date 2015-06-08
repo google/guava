@@ -1,0 +1,203 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     * <a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License"); you may not<a name="line.4"></a>
+<FONT color="green">005</FONT>     * use this file except in compliance with the License. You may obtain a copy of<a name="line.5"></a>
+<FONT color="green">006</FONT>     * the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     * <a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     * <a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the<a name="line.12"></a>
+<FONT color="green">013</FONT>     * License for the specific language governing permissions and limitations under<a name="line.13"></a>
+<FONT color="green">014</FONT>     * the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.collect;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import com.google.common.annotations.Beta;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.20"></a>
+<FONT color="green">021</FONT>    <a name="line.21"></a>
+<FONT color="green">022</FONT>    import java.util.Collection;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import java.util.Comparator;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import java.util.Iterator;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import java.util.SortedSet;<a name="line.25"></a>
+<FONT color="green">026</FONT>    <a name="line.26"></a>
+<FONT color="green">027</FONT>    /**<a name="line.27"></a>
+<FONT color="green">028</FONT>     * A {@link Multiset} which maintains the ordering of its elements, according to<a name="line.28"></a>
+<FONT color="green">029</FONT>     * either their natural order or an explicit {@link Comparator}. In all cases,<a name="line.29"></a>
+<FONT color="green">030</FONT>     * this implementation uses {@link Comparable#compareTo} or<a name="line.30"></a>
+<FONT color="green">031</FONT>     * {@link Comparator#compare} instead of {@link Object#equals} to determine<a name="line.31"></a>
+<FONT color="green">032</FONT>     * equivalence of instances.<a name="line.32"></a>
+<FONT color="green">033</FONT>     * <a name="line.33"></a>
+<FONT color="green">034</FONT>     * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The comparison must be &lt;i&gt;consistent with equals&lt;/i&gt; as<a name="line.34"></a>
+<FONT color="green">035</FONT>     * explained by the {@link Comparable} class specification. Otherwise, the<a name="line.35"></a>
+<FONT color="green">036</FONT>     * resulting multiset will violate the {@link Collection} contract, which it is<a name="line.36"></a>
+<FONT color="green">037</FONT>     * specified in terms of {@link Object#equals}.<a name="line.37"></a>
+<FONT color="green">038</FONT>     * <a name="line.38"></a>
+<FONT color="green">039</FONT>     * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.39"></a>
+<FONT color="green">040</FONT>     * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset"&gt;<a name="line.40"></a>
+<FONT color="green">041</FONT>     * {@code Multiset}&lt;/a&gt;.<a name="line.41"></a>
+<FONT color="green">042</FONT>     * <a name="line.42"></a>
+<FONT color="green">043</FONT>     * @author Louis Wasserman<a name="line.43"></a>
+<FONT color="green">044</FONT>     * @since 11.0<a name="line.44"></a>
+<FONT color="green">045</FONT>     */<a name="line.45"></a>
+<FONT color="green">046</FONT>    @Beta<a name="line.46"></a>
+<FONT color="green">047</FONT>    @GwtCompatible<a name="line.47"></a>
+<FONT color="green">048</FONT>    public interface SortedMultiset&lt;E&gt; extends Multiset&lt;E&gt;, SortedIterable&lt;E&gt; {<a name="line.48"></a>
+<FONT color="green">049</FONT>      /**<a name="line.49"></a>
+<FONT color="green">050</FONT>       * Returns the comparator that orders this multiset, or<a name="line.50"></a>
+<FONT color="green">051</FONT>       * {@link Ordering#natural()} if the natural ordering of the elements is used.<a name="line.51"></a>
+<FONT color="green">052</FONT>       */<a name="line.52"></a>
+<FONT color="green">053</FONT>      Comparator&lt;? super E&gt; comparator();<a name="line.53"></a>
+<FONT color="green">054</FONT>    <a name="line.54"></a>
+<FONT color="green">055</FONT>      /**<a name="line.55"></a>
+<FONT color="green">056</FONT>       * Returns the entry of the first element in this multiset, or {@code null} if<a name="line.56"></a>
+<FONT color="green">057</FONT>       * this multiset is empty.<a name="line.57"></a>
+<FONT color="green">058</FONT>       */<a name="line.58"></a>
+<FONT color="green">059</FONT>      Entry&lt;E&gt; firstEntry();<a name="line.59"></a>
+<FONT color="green">060</FONT>    <a name="line.60"></a>
+<FONT color="green">061</FONT>      /**<a name="line.61"></a>
+<FONT color="green">062</FONT>       * Returns the entry of the last element in this multiset, or {@code null} if<a name="line.62"></a>
+<FONT color="green">063</FONT>       * this multiset is empty.<a name="line.63"></a>
+<FONT color="green">064</FONT>       */<a name="line.64"></a>
+<FONT color="green">065</FONT>      Entry&lt;E&gt; lastEntry();<a name="line.65"></a>
+<FONT color="green">066</FONT>    <a name="line.66"></a>
+<FONT color="green">067</FONT>      /**<a name="line.67"></a>
+<FONT color="green">068</FONT>       * Returns and removes the entry associated with the lowest element in this<a name="line.68"></a>
+<FONT color="green">069</FONT>       * multiset, or returns {@code null} if this multiset is empty.<a name="line.69"></a>
+<FONT color="green">070</FONT>       */<a name="line.70"></a>
+<FONT color="green">071</FONT>      Entry&lt;E&gt; pollFirstEntry();<a name="line.71"></a>
+<FONT color="green">072</FONT>    <a name="line.72"></a>
+<FONT color="green">073</FONT>      /**<a name="line.73"></a>
+<FONT color="green">074</FONT>       * Returns and removes the entry associated with the greatest element in this<a name="line.74"></a>
+<FONT color="green">075</FONT>       * multiset, or returns {@code null} if this multiset is empty.<a name="line.75"></a>
+<FONT color="green">076</FONT>       */<a name="line.76"></a>
+<FONT color="green">077</FONT>      Entry&lt;E&gt; pollLastEntry();<a name="line.77"></a>
+<FONT color="green">078</FONT>    <a name="line.78"></a>
+<FONT color="green">079</FONT>      /**<a name="line.79"></a>
+<FONT color="green">080</FONT>       * Returns a {@link SortedSet} view of the distinct elements in this multiset.<a name="line.80"></a>
+<FONT color="green">081</FONT>       */<a name="line.81"></a>
+<FONT color="green">082</FONT>      @Override SortedSet&lt;E&gt; elementSet();<a name="line.82"></a>
+<FONT color="green">083</FONT>    <a name="line.83"></a>
+<FONT color="green">084</FONT>      /**<a name="line.84"></a>
+<FONT color="green">085</FONT>       * {@inheritDoc}<a name="line.85"></a>
+<FONT color="green">086</FONT>       *<a name="line.86"></a>
+<FONT color="green">087</FONT>       * &lt;p&gt;The iterator returns the elements in ascending order according to this<a name="line.87"></a>
+<FONT color="green">088</FONT>       * multiset's comparator.<a name="line.88"></a>
+<FONT color="green">089</FONT>       */<a name="line.89"></a>
+<FONT color="green">090</FONT>      @Override Iterator&lt;E&gt; iterator();<a name="line.90"></a>
+<FONT color="green">091</FONT>    <a name="line.91"></a>
+<FONT color="green">092</FONT>      /**<a name="line.92"></a>
+<FONT color="green">093</FONT>       * Returns a descending view of this multiset. Modifications made to either<a name="line.93"></a>
+<FONT color="green">094</FONT>       * map will be reflected in the other.<a name="line.94"></a>
+<FONT color="green">095</FONT>       */<a name="line.95"></a>
+<FONT color="green">096</FONT>      SortedMultiset&lt;E&gt; descendingMultiset();<a name="line.96"></a>
+<FONT color="green">097</FONT>    <a name="line.97"></a>
+<FONT color="green">098</FONT>      /**<a name="line.98"></a>
+<FONT color="green">099</FONT>       * Returns a view of this multiset restricted to the elements less than<a name="line.99"></a>
+<FONT color="green">100</FONT>       * {@code upperBound}, optionally including {@code upperBound} itself. The<a name="line.100"></a>
+<FONT color="green">101</FONT>       * returned multiset is a view of this multiset, so changes to one will be<a name="line.101"></a>
+<FONT color="green">102</FONT>       * reflected in the other. The returned multiset supports all operations that<a name="line.102"></a>
+<FONT color="green">103</FONT>       * this multiset supports.<a name="line.103"></a>
+<FONT color="green">104</FONT>       * <a name="line.104"></a>
+<FONT color="green">105</FONT>       * &lt;p&gt;The returned multiset will throw an {@link IllegalArgumentException} on<a name="line.105"></a>
+<FONT color="green">106</FONT>       * attempts to add elements outside its range.<a name="line.106"></a>
+<FONT color="green">107</FONT>       */<a name="line.107"></a>
+<FONT color="green">108</FONT>      SortedMultiset&lt;E&gt; headMultiset(E upperBound, BoundType boundType);<a name="line.108"></a>
+<FONT color="green">109</FONT>    <a name="line.109"></a>
+<FONT color="green">110</FONT>      /**<a name="line.110"></a>
+<FONT color="green">111</FONT>       * Returns a view of this multiset restricted to the range between<a name="line.111"></a>
+<FONT color="green">112</FONT>       * {@code lowerBound} and {@code upperBound}. The returned multiset is a view<a name="line.112"></a>
+<FONT color="green">113</FONT>       * of this multiset, so changes to one will be reflected in the other. The<a name="line.113"></a>
+<FONT color="green">114</FONT>       * returned multiset supports all operations that this multiset supports.<a name="line.114"></a>
+<FONT color="green">115</FONT>       * <a name="line.115"></a>
+<FONT color="green">116</FONT>       * &lt;p&gt;The returned multiset will throw an {@link IllegalArgumentException} on<a name="line.116"></a>
+<FONT color="green">117</FONT>       * attempts to add elements outside its range.<a name="line.117"></a>
+<FONT color="green">118</FONT>       * <a name="line.118"></a>
+<FONT color="green">119</FONT>       * &lt;p&gt;This method is equivalent to<a name="line.119"></a>
+<FONT color="green">120</FONT>       * {@code tailMultiset(lowerBound, lowerBoundType).headMultiset(upperBound,<a name="line.120"></a>
+<FONT color="green">121</FONT>       * upperBoundType)}.<a name="line.121"></a>
+<FONT color="green">122</FONT>       */<a name="line.122"></a>
+<FONT color="green">123</FONT>      SortedMultiset&lt;E&gt; subMultiset(E lowerBound, BoundType lowerBoundType,<a name="line.123"></a>
+<FONT color="green">124</FONT>          E upperBound, BoundType upperBoundType);<a name="line.124"></a>
+<FONT color="green">125</FONT>    <a name="line.125"></a>
+<FONT color="green">126</FONT>      /**<a name="line.126"></a>
+<FONT color="green">127</FONT>       * Returns a view of this multiset restricted to the elements greater than<a name="line.127"></a>
+<FONT color="green">128</FONT>       * {@code lowerBound}, optionally including {@code lowerBound} itself. The<a name="line.128"></a>
+<FONT color="green">129</FONT>       * returned multiset is a view of this multiset, so changes to one will be<a name="line.129"></a>
+<FONT color="green">130</FONT>       * reflected in the other. The returned multiset supports all operations that<a name="line.130"></a>
+<FONT color="green">131</FONT>       * this multiset supports.<a name="line.131"></a>
+<FONT color="green">132</FONT>       * <a name="line.132"></a>
+<FONT color="green">133</FONT>       * &lt;p&gt;The returned multiset will throw an {@link IllegalArgumentException} on<a name="line.133"></a>
+<FONT color="green">134</FONT>       * attempts to add elements outside its range.<a name="line.134"></a>
+<FONT color="green">135</FONT>       */<a name="line.135"></a>
+<FONT color="green">136</FONT>      SortedMultiset&lt;E&gt; tailMultiset(E lowerBound, BoundType boundType);<a name="line.136"></a>
+<FONT color="green">137</FONT>    }<a name="line.137"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,582 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ForwardingBlockingQueue (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ForwardingBlockingQueue (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="class in com.google.common.util.concurrent"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/google/common/util/concurrent/ForwardingBlockingQueue.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ForwardingBlockingQueue.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.util.concurrent</FONT>
+<BR>
+Class ForwardingBlockingQueue&lt;E&gt;</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingObject</A>
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingCollection</A>&lt;E&gt;
+          <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../com/google/common/collect/ForwardingQueue.html" title="class in com.google.common.collect">com.google.common.collect.ForwardingQueue</A>&lt;E&gt;
+              <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.util.concurrent.ForwardingBlockingQueue&lt;E&gt;</B>
+</PRE>
+<DL>
+<DT><DT><B>Type Parameters:</B><DD><CODE>E</CODE> - the type of elements held in this collection</DL>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;E&gt;, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;E&gt;, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A>&lt;E&gt;, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util">Queue</A>&lt;E&gt;</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public abstract class <B>ForwardingBlockingQueue&lt;E&gt;</B><DT>extends <A HREF="../../../../../com/google/common/collect/ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</A>&lt;E&gt;<DT>implements <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A>&lt;E&gt;</DL>
+</PRE>
+
+<P>
+A <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>BlockingQueue</CODE></A> which forwards all its method calls to another
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent"><CODE>BlockingQueue</CODE></A>. Subclasses should override one or more methods to
+ modify the behavior of the backing collection as desired per the <a
+ href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>4</DD>
+<DT><B>Author:</B></DT>
+  <DD>Raimundo Mirisola</DD>
+</DL>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected </CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#ForwardingBlockingQueue()">ForwardingBlockingQueue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constructor for use by subclasses.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected abstract &nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#delegate()">delegate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the backing delegate instance that methods are forwarded to.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#drainTo(java.util.Collection)">drainTo</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;? super <A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes all available elements from this queue and adds them
+ to the given collection.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#drainTo(java.util.Collection, int)">drainTo</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;? super <A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;&nbsp;c,
+        int&nbsp;maxElements)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes at most the given number of available elements from
+ this queue and adds them to the given collection.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#offer(E, long, java.util.concurrent.TimeUnit)">offer</A></B>(<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&nbsp;e,
+      long&nbsp;timeout,
+      <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</A>&nbsp;unit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts the specified element into this queue, waiting up to the
+ specified wait time if necessary for space to become available.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#poll(long, java.util.concurrent.TimeUnit)">poll</A></B>(long&nbsp;timeout,
+     <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</A>&nbsp;unit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Retrieves and removes the head of this queue, waiting up to the
+ specified wait time if necessary for an element to become available.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#put(E)">put</A></B>(<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts the specified element into this queue, waiting if necessary
+ for space to become available.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#remainingCapacity()">remainingCapacity</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of additional elements that this queue can ideally
+ (in the absence of memory or resource constraints) accept without
+ blocking, or <tt>Integer.MAX_VALUE</tt> if there is no intrinsic
+ limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#take()">take</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Retrieves and removes the head of this queue, waiting if necessary
+ until an element becomes available.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.google.common.collect.ForwardingQueue"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class com.google.common.collect.<A HREF="../../../../../com/google/common/collect/ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../com/google/common/collect/ForwardingQueue.html#element()">element</A>, <A HREF="../../../../../com/google/common/collect/ForwardingQueue.html#offer(E)">offer</A>, <A HREF="../../../../../com/google/common/collect/ForwardingQueue.html#peek()">peek</A>, <A HREF="../../../../../com/google/common/collect/ForwardingQueue.html#poll()">poll</A>, <A HREF="../../../../../com/google/common/collect/ForwardingQueue.html#remove()">remove</A>, <A HREF="../../../../../com/google/common/collect/ForwardingQueue.html#standardOffer(E)">standardOffer</A>, <A HREF="../../../../../com/google/common/collect/ForwardingQueue.html#standardPeek()">standardPeek</A>, <A HREF="../../../../../com/google/common/collect/ForwardingQueue.html#standardPoll()">standardPoll</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.google.common.collect.ForwardingCollection"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class com.google.common.collect.<A HREF="../../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#add(E)">add</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#addAll(java.util.Collection)">addAll</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#clear()">clear</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#contains(java.lang.Object)">contains</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#containsAll(java.util.Collection)">containsAll</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#isEmpty()">isEmpty</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#iterator()">iterator</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#remove(java.lang.Object)">remove</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#removeAll(java.util.Collection)">removeAll</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#retainAll(java.util.Collection)">retainAll</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#size()">size</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#standardAddAll(java.util.Collection)">standardAddAll</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#standardClear()">standardClear</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#standardContains(java.lang.Object)">standardContains</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#standardContainsAll(java.util.Collection)">standardContainsAll</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#standardIsEmpty()">standardIsEmpty</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#standardRemove(java.lang.Object)">standardRemove</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#standardRemoveAll(java.util.Collection)">standardRemoveAll</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#standardRetainAll(java.util.Collection)">standardRetainAll</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#standardToArray()">standardToArray</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#standardToArray(T[])">standardToArray</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#standardToString()">standardToString</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#toArray()">toArray</A>, <A HREF="../../../../../com/google/common/collect/ForwardingCollection.html#toArray(T[])">toArray</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.google.common.collect.ForwardingObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class com.google.common.collect.<A HREF="../../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../com/google/common/collect/ForwardingObject.html#toString()">toString</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.util.concurrent.BlockingQueue"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface java.util.concurrent.<A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#add(E)" title="class or interface in java.util.concurrent">add</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util.concurrent">contains</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#offer(E)" title="class or interface in java.util.concurrent">offer</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#remove(java.lang.Object)" title="class or interface in java.util.concurrent">remove</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.util.Queue"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface java.util.<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util">Queue</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Queue.html?is-external=true#element()" title="class or interface in java.util">element</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Queue.html?is-external=true#peek()" title="class or interface in java.util">peek</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Queue.html?is-external=true#poll()" title="class or interface in java.util">poll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Queue.html?is-external=true#remove()" title="class or interface in java.util">remove</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.util.Collection"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface java.util.<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util">addAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#clear()" title="class or interface in java.util">clear</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#containsAll(java.util.Collection)" title="class or interface in java.util">containsAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#hashCode()" title="class or interface in java.util">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#isEmpty()" title="class or interface in java.util">isEmpty</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#iterator()" title="class or interface in java.util">iterator</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#removeAll(java.util.Collection)" title="class or interface in java.util">removeAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#retainAll(java.util.Collection)" title="class or interface in java.util">retainAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#size()" title="class or interface in java.util">size</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#toArray()" title="class or interface in java.util">toArray</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true#toArray(T[])" title="class or interface in java.util">toArray</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ForwardingBlockingQueue()"><!-- --></A><H3>
+ForwardingBlockingQueue</H3>
+<PRE>
+protected <B>ForwardingBlockingQueue</B>()</PRE>
+<DL>
+<DD>Constructor for use by subclasses.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="delegate()"><!-- --></A><H3>
+delegate</H3>
+<PRE>
+protected abstract <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt; <B>delegate</B>()</PRE>
+<DL>
+<DD><B>Description copied from class: <CODE><A HREF="../../../../../com/google/common/collect/ForwardingObject.html#delegate()">ForwardingObject</A></CODE></B></DD>
+<DD>Returns the backing delegate instance that methods are forwarded to.
+ Abstract subclasses generally override this method with an abstract method
+ that has a more specific return type, such as <A HREF="../../../../../com/google/common/collect/ForwardingSet.html#delegate()"><CODE>ForwardingSet.delegate()</CODE></A>. Concrete subclasses override this method to supply
+ the instance being decorated.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../com/google/common/collect/ForwardingQueue.html#delegate()">delegate</A></CODE> in class <CODE><A HREF="../../../../../com/google/common/collect/ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="drainTo(java.util.Collection, int)"><!-- --></A><H3>
+drainTo</H3>
+<PRE>
+public int <B>drainTo</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;? super <A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;&nbsp;c,
+                   int&nbsp;maxElements)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection, int)" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</A></CODE></B></DD>
+<DD>Removes at most the given number of available elements from
+ this queue and adds them to the given collection.  A failure
+ encountered while attempting to add elements to
+ collection <tt>c</tt> may result in elements being in neither,
+ either or both collections when the associated exception is
+ thrown.  Attempts to drain a queue to itself result in
+ <tt>IllegalArgumentException</tt>. Further, the behavior of
+ this operation is undefined if the specified collection is
+ modified while the operation is in progress.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection, int)" title="class or interface in java.util.concurrent">drainTo</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>c</CODE> - the collection to transfer elements into<DD><CODE>maxElements</CODE> - the maximum number of elements to transfer
+<DT><B>Returns:</B><DD>the number of elements transferred</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="drainTo(java.util.Collection)"><!-- --></A><H3>
+drainTo</H3>
+<PRE>
+public int <B>drainTo</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;? super <A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;&nbsp;c)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection)" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</A></CODE></B></DD>
+<DD>Removes all available elements from this queue and adds them
+ to the given collection.  This operation may be more
+ efficient than repeatedly polling this queue.  A failure
+ encountered while attempting to add elements to
+ collection <tt>c</tt> may result in elements being in neither,
+ either or both collections when the associated exception is
+ thrown.  Attempts to drain a queue to itself result in
+ <tt>IllegalArgumentException</tt>. Further, the behavior of
+ this operation is undefined if the specified collection is
+ modified while the operation is in progress.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection)" title="class or interface in java.util.concurrent">drainTo</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>c</CODE> - the collection to transfer elements into
+<DT><B>Returns:</B><DD>the number of elements transferred</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="offer(java.lang.Object,long,java.util.concurrent.TimeUnit)"><!-- --></A><A NAME="offer(E, long, java.util.concurrent.TimeUnit)"><!-- --></A><H3>
+offer</H3>
+<PRE>
+public boolean <B>offer</B>(<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&nbsp;e,
+                     long&nbsp;timeout,
+                     <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</A>&nbsp;unit)
+              throws <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#offer(E, long, java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</A></CODE></B></DD>
+<DD>Inserts the specified element into this queue, waiting up to the
+ specified wait time if necessary for space to become available.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#offer(E, long, java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">offer</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element to add<DD><CODE>timeout</CODE> - how long to wait before giving up, in units of
+        <tt>unit</tt><DD><CODE>unit</CODE> - a <tt>TimeUnit</tt> determining how to interpret the
+        <tt>timeout</tt> parameter
+<DT><B>Returns:</B><DD><tt>true</tt> if successful, or <tt>false</tt> if
+         the specified waiting time elapses before space is available
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</A></CODE> - if interrupted while waiting</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="poll(long, java.util.concurrent.TimeUnit)"><!-- --></A><H3>
+poll</H3>
+<PRE>
+public <A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A> <B>poll</B>(long&nbsp;timeout,
+              <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</A>&nbsp;unit)
+       throws <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#poll(long, java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</A></CODE></B></DD>
+<DD>Retrieves and removes the head of this queue, waiting up to the
+ specified wait time if necessary for an element to become available.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#poll(long, java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">poll</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>timeout</CODE> - how long to wait before giving up, in units of
+        <tt>unit</tt><DD><CODE>unit</CODE> - a <tt>TimeUnit</tt> determining how to interpret the
+        <tt>timeout</tt> parameter
+<DT><B>Returns:</B><DD>the head of this queue, or <tt>null</tt> if the
+         specified waiting time elapses before an element is available
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</A></CODE> - if interrupted while waiting</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="put(java.lang.Object)"><!-- --></A><A NAME="put(E)"><!-- --></A><H3>
+put</H3>
+<PRE>
+public void <B>put</B>(<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&nbsp;e)
+         throws <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#put(E)" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</A></CODE></B></DD>
+<DD>Inserts the specified element into this queue, waiting if necessary
+ for space to become available.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#put(E)" title="class or interface in java.util.concurrent">put</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element to add
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</A></CODE> - if interrupted while waiting</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="remainingCapacity()"><!-- --></A><H3>
+remainingCapacity</H3>
+<PRE>
+public int <B>remainingCapacity</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#remainingCapacity()" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</A></CODE></B></DD>
+<DD>Returns the number of additional elements that this queue can ideally
+ (in the absence of memory or resource constraints) accept without
+ blocking, or <tt>Integer.MAX_VALUE</tt> if there is no intrinsic
+ limit.
+
+ <p>Note that you <em>cannot</em> always tell if an attempt to insert
+ an element will succeed by inspecting <tt>remainingCapacity</tt>
+ because it may be the case that another thread is about to
+ insert or remove an element.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#remainingCapacity()" title="class or interface in java.util.concurrent">remainingCapacity</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the remaining capacity</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="take()"><!-- --></A><H3>
+take</H3>
+<PRE>
+public <A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A> <B>take</B>()
+       throws <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#take()" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</A></CODE></B></DD>
+<DD>Retrieves and removes the head of this queue, waiting if necessary
+ until an element becomes available.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#take()" title="class or interface in java.util.concurrent">take</A></CODE> in interface <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</A>&lt;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the head of this queue
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</A></CODE> - if interrupted while waiting</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="class in com.google.common.util.concurrent"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/google/common/util/concurrent/ForwardingBlockingQueue.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ForwardingBlockingQueue.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

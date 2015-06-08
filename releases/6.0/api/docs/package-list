@@ -1,0 +1,8 @@
+com.google.common.annotations
+com.google.common.base
+com.google.common.base.internal
+com.google.common.collect
+com.google.common.io
+com.google.common.net
+com.google.common.primitives
+com.google.common.util.concurrent

@@ -1,0 +1,1379 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CharMatcher (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CharMatcher (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/base/CaseFormat.html" title="enum in com.google.common.base"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/base/Charsets.html" title="class in com.google.common.base"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/base/CharMatcher.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CharMatcher.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.base</FONT>
+<BR>
+Class CharMatcher</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.base.CharMatcher</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</A>&gt;</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+<A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>
+</FONT>public abstract class <B>CharMatcher</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A><DT>implements <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</A>&gt;</DL>
+</PRE>
+
+<P>
+Determines a true or false value for any Java <code>char</code> value, just as <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><CODE>Predicate</CODE></A> does
+ for any <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang"><CODE>Object</CODE></A>. Also offers basic text processing methods based on this function.
+ Implementations are strongly encouraged to be side-effect-free and immutable.
+
+ <p>Throughout the documentation of this class, the phrase "matching character" is used to mean
+ "any character <code>c</code> for which <code>this.matches(c)</code> returns <code>true</code>".
+
+ <p><b>Note:</b> This class deals only with <code>char</code> values; it does not understand
+ supplementary Unicode code points in the range <code>0x10000</code> to <code>0x10FFFF</code>. Such logical
+ characters are encoded into a <code>String</code> using surrogate pairs, and a <code>CharMatcher</code>
+ treats these just as two separate characters.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>1</DD>
+<DT><B>Author:</B></DT>
+  <DD>Kevin Bourrillion</DD>
+</DL>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#ANY">ANY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matches any character.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#ASCII">ASCII</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is ASCII, meaning that its code point is less than 128.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#BREAKING_WHITESPACE">BREAKING_WHITESPACE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is a breaking whitespace (that is, a whitespace which can be
+ interpreted as a break between words for formatting purposes).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#DIGIT">DIGIT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is a digit according to
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#INVISIBLE">INVISIBLE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is invisible; that is, if its Unicode category is any of
+ SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and
+ PRIVATE_USE according to ICU4J.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#JAVA_DIGIT">JAVA_DIGIT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is a digit according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isDigit(char)" title="class or interface in java.lang"><CODE>Java's
+ definition</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#JAVA_ISO_CONTROL">JAVA_ISO_CONTROL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is an ISO control character as specified by <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><CODE>Character.isISOControl(char)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#JAVA_LETTER">JAVA_LETTER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is a letter according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isLetter(char)" title="class or interface in java.lang"><CODE>Java's
+ definition</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#JAVA_LETTER_OR_DIGIT">JAVA_LETTER_OR_DIGIT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is a letter or digit according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang"><CODE>Java's definition</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#JAVA_LOWER_CASE">JAVA_LOWER_CASE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is lower case according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang"><CODE>Java's definition</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#JAVA_UPPER_CASE">JAVA_UPPER_CASE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is upper case according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang"><CODE>Java's definition</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#JAVA_WHITESPACE">JAVA_WHITESPACE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is whitespace according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isWhitespace(char)" title="class or interface in java.lang"><CODE>Java's definition</CODE></A>; it is usually preferable to use <A HREF="../../../../com/google/common/base/CharMatcher.html#WHITESPACE"><CODE>WHITESPACE</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#NONE">NONE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matches no characters.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#SINGLE_WIDTH">SINGLE_WIDTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is single-width (not double-width).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#WHITESPACE">WHITESPACE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines whether a character is whitespace according to the latest Unicode standard, as
+ illustrated
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#CharMatcher()">CharMatcher</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#and(com.google.common.base.CharMatcher)">and</A></B>(<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A>&nbsp;other)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a matcher that matches any character matched by both this matcher and <code>other</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#anyOf(java.lang.CharSequence)">anyOf</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a <code>char</code> matcher that matches any character present in the given character
+ sequence.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#apply(java.lang.Character)">apply</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</A>&nbsp;character)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>true</code> if this matcher matches the given character.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#collapseFrom(java.lang.CharSequence, char)">collapseFrom</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence,
+             char&nbsp;replacement)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string copy of the input character sequence, with each group of consecutive
+ characters that match this matcher replaced by a single replacement character.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#countIn(java.lang.CharSequence)">countIn</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of matching characters found in a character sequence.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#forPredicate(com.google.common.base.Predicate)">forPredicate</A></B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</A>&gt;&nbsp;predicate)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a matcher with identical behavior to the given <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang"><CODE>Character</CODE></A>-based predicate, but
+ which operates on primitive <code>char</code> instances instead.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#indexIn(java.lang.CharSequence)">indexIn</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the index of the first matching character in a character sequence, or <code>-1</code> if no
+ matching character is present.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#indexIn(java.lang.CharSequence, int)">indexIn</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence,
+        int&nbsp;start)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the index of the first matching character in a character sequence, starting from a
+ given position, or <code>-1</code> if no character matches after that position.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#inRange(char, char)">inRange</A></B>(char&nbsp;startInclusive,
+        char&nbsp;endInclusive)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a <code>char</code> matcher that matches any character in a given range (both endpoints are
+ inclusive).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#is(char)">is</A></B>(char&nbsp;match)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a <code>char</code> matcher that matches only one specified character.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#isNot(char)">isNot</A></B>(char&nbsp;match)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a <code>char</code> matcher that matches any character except the one specified.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#lastIndexIn(java.lang.CharSequence)">lastIndexIn</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the index of the last matching character in a character sequence, or <code>-1</code> if no
+ matching character is present.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>abstract &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#matches(char)">matches</A></B>(char&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Determines a true or false value for the given character.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#matchesAllOf(java.lang.CharSequence)">matchesAllOf</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>true</code> if a character sequence contains only matching characters.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#matchesNoneOf(java.lang.CharSequence)">matchesNoneOf</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>true</code> if a character sequence contains no matching characters.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#negate()">negate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a matcher that matches any character not matched by this matcher.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#noneOf(java.lang.CharSequence)">noneOf</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a <code>char</code> matcher that matches any character not present in the given character
+ sequence.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#or(com.google.common.base.CharMatcher)">or</A></B>(<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A>&nbsp;other)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a matcher that matches any character matched by either this matcher or <code>other</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#precomputed()">precomputed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a <code>char</code> matcher functionally equivalent to this one, but which may be faster to
+ query than the original; your mileage may vary.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#removeFrom(java.lang.CharSequence)">removeFrom</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string containing all non-matching characters of a character sequence, in order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#replaceFrom(java.lang.CharSequence, char)">replaceFrom</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence,
+            char&nbsp;replacement)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string copy of the input character sequence, with each character that matches this
+ matcher replaced by a given replacement character.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#replaceFrom(java.lang.CharSequence, java.lang.CharSequence)">replaceFrom</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence,
+            <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;replacement)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string copy of the input character sequence, with each character that matches this
+ matcher replaced by a given replacement sequence.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#retainFrom(java.lang.CharSequence)">retainFrom</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string containing all matching characters of a character sequence, in order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#trimAndCollapseFrom(java.lang.CharSequence, char)">trimAndCollapseFrom</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence,
+                    char&nbsp;replacement)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collapses groups of matching characters exactly as <A HREF="../../../../com/google/common/base/CharMatcher.html#collapseFrom(java.lang.CharSequence, char)"><CODE>collapseFrom(java.lang.CharSequence, char)</CODE></A> does, except that
+ groups of matching characters at the start or end of the sequence are removed without
+ replacement.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#trimFrom(java.lang.CharSequence)">trimFrom</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a substring of the input character sequence that omits all characters this matcher
+ matches from the beginning and from the end of the string.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#trimLeadingFrom(java.lang.CharSequence)">trimLeadingFrom</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a substring of the input character sequence that omits all characters this matcher
+ matches from the beginning of the string.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/CharMatcher.html#trimTrailingFrom(java.lang.CharSequence)">trimTrailingFrom</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a substring of the input character sequence that omits all characters this matcher
+ matches from the end of the string.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.google.common.base.Predicate"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface com.google.common.base.<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../com/google/common/base/Predicate.html#equals(java.lang.Object)">equals</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="WHITESPACE"><!-- --></A><H3>
+WHITESPACE</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>WHITESPACE</B></PRE>
+<DL>
+<DD>Determines whether a character is whitespace according to the latest Unicode standard, as
+ illustrated
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
+ This is not the same definition used by other Java APIs. (See a
+ <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
+ definitions of "whitespace"</a>.)
+
+ <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant to keep it up
+ to date.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="BREAKING_WHITESPACE"><!-- --></A><H3>
+BREAKING_WHITESPACE</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>BREAKING_WHITESPACE</B></PRE>
+<DL>
+<DD>Determines whether a character is a breaking whitespace (that is, a whitespace which can be
+ interpreted as a break between words for formatting purposes). See <A HREF="../../../../com/google/common/base/CharMatcher.html#WHITESPACE"><CODE>WHITESPACE</CODE></A> for a
+ discussion of that term.
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>2</DD>
+</DL>
+</DL>
+<HR>
+
+<A NAME="ASCII"><!-- --></A><H3>
+ASCII</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>ASCII</B></PRE>
+<DL>
+<DD>Determines whether a character is ASCII, meaning that its code point is less than 128.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="DIGIT"><!-- --></A><H3>
+DIGIT</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>DIGIT</B></PRE>
+<DL>
+<DD>Determines whether a character is a digit according to
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="JAVA_WHITESPACE"><!-- --></A><H3>
+JAVA_WHITESPACE</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>JAVA_WHITESPACE</B></PRE>
+<DL>
+<DD>Determines whether a character is whitespace according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isWhitespace(char)" title="class or interface in java.lang"><CODE>Java's definition</CODE></A>; it is usually preferable to use <A HREF="../../../../com/google/common/base/CharMatcher.html#WHITESPACE"><CODE>WHITESPACE</CODE></A>. (See a
+ <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
+ definitions of "whitespace"</a>.)
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="JAVA_DIGIT"><!-- --></A><H3>
+JAVA_DIGIT</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>JAVA_DIGIT</B></PRE>
+<DL>
+<DD>Determines whether a character is a digit according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isDigit(char)" title="class or interface in java.lang"><CODE>Java's
+ definition</CODE></A>. If you only care to match ASCII digits, you can use <code>inRange('0', '9')</code>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="JAVA_LETTER"><!-- --></A><H3>
+JAVA_LETTER</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>JAVA_LETTER</B></PRE>
+<DL>
+<DD>Determines whether a character is a letter according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isLetter(char)" title="class or interface in java.lang"><CODE>Java's
+ definition</CODE></A>. If you only care to match letters of the Latin alphabet, you can use <code>inRange('a', 'z').or(inRange('A', 'Z'))</code>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="JAVA_LETTER_OR_DIGIT"><!-- --></A><H3>
+JAVA_LETTER_OR_DIGIT</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>JAVA_LETTER_OR_DIGIT</B></PRE>
+<DL>
+<DD>Determines whether a character is a letter or digit according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang"><CODE>Java's definition</CODE></A>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="JAVA_UPPER_CASE"><!-- --></A><H3>
+JAVA_UPPER_CASE</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>JAVA_UPPER_CASE</B></PRE>
+<DL>
+<DD>Determines whether a character is upper case according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang"><CODE>Java's definition</CODE></A>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="JAVA_LOWER_CASE"><!-- --></A><H3>
+JAVA_LOWER_CASE</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>JAVA_LOWER_CASE</B></PRE>
+<DL>
+<DD>Determines whether a character is lower case according to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang"><CODE>Java's definition</CODE></A>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="JAVA_ISO_CONTROL"><!-- --></A><H3>
+JAVA_ISO_CONTROL</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>JAVA_ISO_CONTROL</B></PRE>
+<DL>
+<DD>Determines whether a character is an ISO control character as specified by <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><CODE>Character.isISOControl(char)</CODE></A>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="INVISIBLE"><!-- --></A><H3>
+INVISIBLE</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>INVISIBLE</B></PRE>
+<DL>
+<DD>Determines whether a character is invisible; that is, if its Unicode category is any of
+ SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and
+ PRIVATE_USE according to ICU4J.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="SINGLE_WIDTH"><!-- --></A><H3>
+SINGLE_WIDTH</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>SINGLE_WIDTH</B></PRE>
+<DL>
+<DD>Determines whether a character is single-width (not double-width). When in doubt, this matcher
+ errs on the side of returning <code>false</code> (that is, it tends to assume a character is
+ double-width).
+
+ <p><b>Note:</b> as the reference file evolves, we will modify this constant to keep it up to
+ date.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="ANY"><!-- --></A><H3>
+ANY</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>ANY</B></PRE>
+<DL>
+<DD>Matches any character.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="NONE"><!-- --></A><H3>
+NONE</H3>
+<PRE>
+public static final <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>NONE</B></PRE>
+<DL>
+<DD>Matches no characters.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="CharMatcher()"><!-- --></A><H3>
+CharMatcher</H3>
+<PRE>
+public <B>CharMatcher</B>()</PRE>
+<DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="is(char)"><!-- --></A><H3>
+is</H3>
+<PRE>
+public static <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>is</B>(char&nbsp;match)</PRE>
+<DL>
+<DD>Returns a <code>char</code> matcher that matches only one specified character.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isNot(char)"><!-- --></A><H3>
+isNot</H3>
+<PRE>
+public static <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>isNot</B>(char&nbsp;match)</PRE>
+<DL>
+<DD>Returns a <code>char</code> matcher that matches any character except the one specified.
+
+ <p>To negate another <code>CharMatcher</code>, use <A HREF="../../../../com/google/common/base/CharMatcher.html#negate()"><CODE>negate()</CODE></A>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="anyOf(java.lang.CharSequence)"><!-- --></A><H3>
+anyOf</H3>
+<PRE>
+public static <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>anyOf</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns a <code>char</code> matcher that matches any character present in the given character
+ sequence.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="noneOf(java.lang.CharSequence)"><!-- --></A><H3>
+noneOf</H3>
+<PRE>
+public static <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>noneOf</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns a <code>char</code> matcher that matches any character not present in the given character
+ sequence.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="inRange(char, char)"><!-- --></A><H3>
+inRange</H3>
+<PRE>
+public static <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>inRange</B>(char&nbsp;startInclusive,
+                                  char&nbsp;endInclusive)</PRE>
+<DL>
+<DD>Returns a <code>char</code> matcher that matches any character in a given range (both endpoints are
+ inclusive). For example, to match any lowercase letter of the English alphabet, use <code>CharMatcher.inRange('a', 'z')</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>endInclusive &lt; startInclusive</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forPredicate(com.google.common.base.Predicate)"><!-- --></A><H3>
+forPredicate</H3>
+<PRE>
+public static <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>forPredicate</B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</A>&gt;&nbsp;predicate)</PRE>
+<DL>
+<DD>Returns a matcher with identical behavior to the given <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang"><CODE>Character</CODE></A>-based predicate, but
+ which operates on primitive <code>char</code> instances instead.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="matches(char)"><!-- --></A><H3>
+matches</H3>
+<PRE>
+public abstract boolean <B>matches</B>(char&nbsp;c)</PRE>
+<DL>
+<DD>Determines a true or false value for the given character.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="negate()"><!-- --></A><H3>
+negate</H3>
+<PRE>
+public <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>negate</B>()</PRE>
+<DL>
+<DD>Returns a matcher that matches any character not matched by this matcher.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="and(com.google.common.base.CharMatcher)"><!-- --></A><H3>
+and</H3>
+<PRE>
+public <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>and</B>(<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A>&nbsp;other)</PRE>
+<DL>
+<DD>Returns a matcher that matches any character matched by both this matcher and <code>other</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="or(com.google.common.base.CharMatcher)"><!-- --></A><H3>
+or</H3>
+<PRE>
+public <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>or</B>(<A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A>&nbsp;other)</PRE>
+<DL>
+<DD>Returns a matcher that matches any character matched by either this matcher or <code>other</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="precomputed()"><!-- --></A><H3>
+precomputed</H3>
+<PRE>
+public <A HREF="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</A> <B>precomputed</B>()</PRE>
+<DL>
+<DD>Returns a <code>char</code> matcher functionally equivalent to this one, but which may be faster to
+ query than the original; your mileage may vary. Precomputation takes time and is likely to be
+ worthwhile only if the precomputed matcher is queried many thousands of times.
+
+ <p>This method has no effect (returns <code>this</code>) when called in GWT: it's unclear whether a
+ precomputed matcher is faster, but it certainly consumes more memory, which doesn't seem like a
+ worthwhile tradeoff in a browser.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="matchesAllOf(java.lang.CharSequence)"><!-- --></A><H3>
+matchesAllOf</H3>
+<PRE>
+public boolean <B>matchesAllOf</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns <code>true</code> if a character sequence contains only matching characters.
+
+ <p>The default implementation iterates over the sequence, invoking <A HREF="../../../../com/google/common/base/CharMatcher.html#matches(char)"><CODE>matches(char)</CODE></A> for each
+ character, until this returns <code>false</code> or the end is reached.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sequence</CODE> - the character sequence to examine, possibly empty
+<DT><B>Returns:</B><DD><code>true</code> if this matcher matches every character in the sequence, including when
+         the sequence is empty</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="matchesNoneOf(java.lang.CharSequence)"><!-- --></A><H3>
+matchesNoneOf</H3>
+<PRE>
+public boolean <B>matchesNoneOf</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns <code>true</code> if a character sequence contains no matching characters.
+
+ <p>The default implementation iterates over the sequence, invoking <A HREF="../../../../com/google/common/base/CharMatcher.html#matches(char)"><CODE>matches(char)</CODE></A> for each
+ character, until this returns <code>false</code> or the end is reached.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sequence</CODE> - the character sequence to examine, possibly empty
+<DT><B>Returns:</B><DD><code>true</code> if this matcher matches every character in the sequence, including when
+         the sequence is empty</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="indexIn(java.lang.CharSequence)"><!-- --></A><H3>
+indexIn</H3>
+<PRE>
+public int <B>indexIn</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns the index of the first matching character in a character sequence, or <code>-1</code> if no
+ matching character is present.
+
+ <p>The default implementation iterates over the sequence in forward order calling <A HREF="../../../../com/google/common/base/CharMatcher.html#matches(char)"><CODE>matches(char)</CODE></A> for each character.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sequence</CODE> - the character sequence to examine from the beginning
+<DT><B>Returns:</B><DD>an index, or <code>-1</code> if no character matches</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="indexIn(java.lang.CharSequence, int)"><!-- --></A><H3>
+indexIn</H3>
+<PRE>
+public int <B>indexIn</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence,
+                   int&nbsp;start)</PRE>
+<DL>
+<DD>Returns the index of the first matching character in a character sequence, starting from a
+ given position, or <code>-1</code> if no character matches after that position.
+
+ <p>The default implementation iterates over the sequence in forward order, beginning at <code>start</code>, calling <A HREF="../../../../com/google/common/base/CharMatcher.html#matches(char)"><CODE>matches(char)</CODE></A> for each character.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sequence</CODE> - the character sequence to examine<DD><CODE>start</CODE> - the first index to examine; must be nonnegative and no greater than <code>sequence.length()</code>
+<DT><B>Returns:</B><DD>the index of the first matching character, guaranteed to be no less than <code>start</code>,
+         or <code>-1</code> if no character matches
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang">IndexOutOfBoundsException</A></CODE> - if start is negative or greater than <code>sequence.length()</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="lastIndexIn(java.lang.CharSequence)"><!-- --></A><H3>
+lastIndexIn</H3>
+<PRE>
+public int <B>lastIndexIn</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns the index of the last matching character in a character sequence, or <code>-1</code> if no
+ matching character is present.
+
+ <p>The default implementation iterates over the sequence in reverse order calling <A HREF="../../../../com/google/common/base/CharMatcher.html#matches(char)"><CODE>matches(char)</CODE></A> for each character.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sequence</CODE> - the character sequence to examine from the end
+<DT><B>Returns:</B><DD>an index, or <code>-1</code> if no character matches</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="countIn(java.lang.CharSequence)"><!-- --></A><H3>
+countIn</H3>
+<PRE>
+public int <B>countIn</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns the number of matching characters found in a character sequence.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeFrom(java.lang.CharSequence)"><!-- --></A><H3>
+removeFrom</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>removeFrom</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns a string containing all non-matching characters of a character sequence, in order. For
+ example: <pre>   <code>CharMatcher.is('a').removeFrom("bazaar")</code></pre>
+
+ ... returns <code>"bzr"</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="retainFrom(java.lang.CharSequence)"><!-- --></A><H3>
+retainFrom</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>retainFrom</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns a string containing all matching characters of a character sequence, in order. For
+ example: <pre>   <code>CharMatcher.is('a').retainFrom("bazaar")</code></pre>
+
+ ... returns <code>"aaa"</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="replaceFrom(java.lang.CharSequence, char)"><!-- --></A><H3>
+replaceFrom</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>replaceFrom</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence,
+                          char&nbsp;replacement)</PRE>
+<DL>
+<DD>Returns a string copy of the input character sequence, with each character that matches this
+ matcher replaced by a given replacement character. For example: <pre>   <code>CharMatcher.is('a').replaceFrom("radar", 'o')</code></pre>
+
+ ... returns <code>"rodor"</code>.
+
+ <p>The default implementation uses <A HREF="../../../../com/google/common/base/CharMatcher.html#indexIn(java.lang.CharSequence)"><CODE>indexIn(CharSequence)</CODE></A> to find the first matching
+ character, then iterates the remainder of the sequence calling <A HREF="../../../../com/google/common/base/CharMatcher.html#matches(char)"><CODE>matches(char)</CODE></A> for each
+ character.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sequence</CODE> - the character sequence to replace matching characters in<DD><CODE>replacement</CODE> - the character to append to the result string in place of each matching
+        character in <code>sequence</code>
+<DT><B>Returns:</B><DD>the new string</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="replaceFrom(java.lang.CharSequence, java.lang.CharSequence)"><!-- --></A><H3>
+replaceFrom</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>replaceFrom</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence,
+                          <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;replacement)</PRE>
+<DL>
+<DD>Returns a string copy of the input character sequence, with each character that matches this
+ matcher replaced by a given replacement sequence. For example: <pre>   <code>CharMatcher.is('a').replaceFrom("yaha", "oo")</code></pre>
+
+ ... returns <code>"yoohoo"</code>.
+
+ <p><b>Note:</b> If the replacement is a fixed string with only one character, you are better
+ off calling <A HREF="../../../../com/google/common/base/CharMatcher.html#replaceFrom(java.lang.CharSequence, char)"><CODE>replaceFrom(CharSequence, char)</CODE></A> directly.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sequence</CODE> - the character sequence to replace matching characters in<DD><CODE>replacement</CODE> - the characters to append to the result string in place of each matching
+        character in <code>sequence</code>
+<DT><B>Returns:</B><DD>the new string</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="trimFrom(java.lang.CharSequence)"><!-- --></A><H3>
+trimFrom</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>trimFrom</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns a substring of the input character sequence that omits all characters this matcher
+ matches from the beginning and from the end of the string. For example: <pre>   <code>CharMatcher.anyOf("ab").trimFrom("abacatbab")</code></pre>
+
+ ... returns <code>"cat"</code>.
+
+ <p>Note that: <pre>   <code>CharMatcher.inRange('\0', ' ').trimFrom(str)</code></pre>
+
+ ... is equivalent to <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true#trim()" title="class or interface in java.lang"><CODE>String.trim()</CODE></A>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="trimLeadingFrom(java.lang.CharSequence)"><!-- --></A><H3>
+trimLeadingFrom</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>trimLeadingFrom</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns a substring of the input character sequence that omits all characters this matcher
+ matches from the beginning of the string. For example: <pre> <code>CharMatcher.anyOf("ab").trimLeadingFrom("abacatbab")</code></pre>
+
+ ... returns <code>"catbab"</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="trimTrailingFrom(java.lang.CharSequence)"><!-- --></A><H3>
+trimTrailingFrom</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>trimTrailingFrom</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence)</PRE>
+<DL>
+<DD>Returns a substring of the input character sequence that omits all characters this matcher
+ matches from the end of the string. For example: <pre> <code>CharMatcher.anyOf("ab").trimTrailingFrom("abacatbab")</code></pre>
+
+ ... returns <code>"abacat"</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="collapseFrom(java.lang.CharSequence, char)"><!-- --></A><H3>
+collapseFrom</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>collapseFrom</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence,
+                           char&nbsp;replacement)</PRE>
+<DL>
+<DD>Returns a string copy of the input character sequence, with each group of consecutive
+ characters that match this matcher replaced by a single replacement character. For example:
+ <pre>   <code>CharMatcher.anyOf("eko").collapseFrom("bookkeeper", '-')</code></pre>
+
+ ... returns <code>"b-p-r"</code>.
+
+ <p>The default implementation uses <A HREF="../../../../com/google/common/base/CharMatcher.html#indexIn(java.lang.CharSequence)"><CODE>indexIn(CharSequence)</CODE></A> to find the first matching
+ character, then iterates the remainder of the sequence calling <A HREF="../../../../com/google/common/base/CharMatcher.html#matches(char)"><CODE>matches(char)</CODE></A> for each
+ character.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sequence</CODE> - the character sequence to replace matching groups of characters in<DD><CODE>replacement</CODE> - the character to append to the result string in place of each group of
+        matching characters in <code>sequence</code>
+<DT><B>Returns:</B><DD>the new string</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="trimAndCollapseFrom(java.lang.CharSequence, char)"><!-- --></A><H3>
+trimAndCollapseFrom</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>trimAndCollapseFrom</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&nbsp;sequence,
+                                  char&nbsp;replacement)</PRE>
+<DL>
+<DD>Collapses groups of matching characters exactly as <A HREF="../../../../com/google/common/base/CharMatcher.html#collapseFrom(java.lang.CharSequence, char)"><CODE>collapseFrom(java.lang.CharSequence, char)</CODE></A> does, except that
+ groups of matching characters at the start or end of the sequence are removed without
+ replacement.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="apply(java.lang.Character)"><!-- --></A><H3>
+apply</H3>
+<PRE>
+public boolean <B>apply</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</A>&nbsp;character)</PRE>
+<DL>
+<DD>Returns <code>true</code> if this matcher matches the given character.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/base/Predicate.html#apply(T)">apply</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</A>&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</A></CODE> - if <code>character</code> is null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/base/CaseFormat.html" title="enum in com.google.common.base"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/base/Charsets.html" title="class in com.google.common.base"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/base/CharMatcher.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CharMatcher.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

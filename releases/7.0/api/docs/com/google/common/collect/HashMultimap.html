@@ -1,0 +1,954 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+HashMultimap (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="HashMultimap (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/collect/HashBiMap.html" title="class in com.google.common.collect"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/collect/HashMultiset.html" title="class in com.google.common.collect"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/collect/HashMultimap.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HashMultimap.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.collect</FONT>
+<BR>
+Class HashMultimap&lt;K,V&gt;</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.collect.HashMultimap&lt;K,V&gt;</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;, <A HREF="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</A>&lt;K,V&gt;, <A HREF="http://java.sun.com/javase/6/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</A>=true,
+               <A HREF="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</A>=true)
+</FONT>public final class <B>HashMultimap&lt;K,V&gt;</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
+</PRE>
+
+<P>
+Implementation of <A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect"><CODE>Multimap</CODE></A> using hash tables.
+
+ <p>The multimap does not store duplicate key-value pairs. Adding a new
+ key-value pair equal to an existing key-value pair has no effect.
+
+ <p>Keys and values may be null. All optional multimap methods are supported,
+ and all returned views are modifiable.
+
+ <p>This class is not threadsafe when any concurrent operations update the
+ multimap. Concurrent read operations will work correctly. To allow concurrent
+ update operations, wrap your multimap with a call to <A HREF="../../../../com/google/common/collect/Multimaps.html#synchronizedSetMultimap(com.google.common.collect.SetMultimap)"><CODE>Multimaps.synchronizedSetMultimap(com.google.common.collect.SetMultimap<K, V>)</CODE></A>.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>2 (imported from Google Collections Library)</DD>
+<DT><B>Author:</B></DT>
+  <DD>Jared Levy</DD>
+<DT><B>See Also:</B><DD><A HREF="../../../../serialized-form.html#com.google.common.collect.HashMultimap">Serialized Form</A></DL>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;V&gt;&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#asMap()">asMap</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a map view that associates each key with the corresponding values
+ in the multimap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#clear()">clear</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes all key-value pairs from the multimap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#containsEntry(java.lang.Object, java.lang.Object)">containsEntry</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key,
+              <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>true</code> if the multimap contains the specified key-value pair.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#containsKey(java.lang.Object)">containsKey</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>true</code> if the multimap contains any values for the specified
+ key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#containsValue(java.lang.Object)">containsValue</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>true</code> if the multimap contains the specified value for any
+ key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="../../../../com/google/common/collect/HashMultimap.html" title="class in com.google.common.collect">HashMultimap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#create()">create</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a new, empty <code>HashMultimap</code> with the default initial
+ capacities.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="../../../../com/google/common/collect/HashMultimap.html" title="class in com.google.common.collect">HashMultimap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#create(int, int)">create</A></B>(int&nbsp;expectedKeys,
+       int&nbsp;expectedValuesPerKey)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constructs an empty <code>HashMultimap</code> with enough capacity to hold the
+ specified numbers of keys and values without rehashing.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;K,V&gt; <A HREF="../../../../com/google/common/collect/HashMultimap.html" title="class in com.google.common.collect">HashMultimap</A>&lt;K,V&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#create(com.google.common.collect.Multimap)">create</A></B>(<A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;? extends K,? extends V&gt;&nbsp;multimap)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constructs a <code>HashMultimap</code> with the same mappings as the specified
+ multimap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;K,V&gt;&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#entries()">entries</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a collection of all key-value pairs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#equals(java.lang.Object)">equals</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;object)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compares the specified object to this multimap for equality.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;V&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#get(K)">get</A></B>(K&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a collection view of all values associated with a key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#hashCode()">hashCode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the hash code for this multimap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#isEmpty()">isEmpty</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>true</code> if the multimap contains no key-value pairs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</A>&lt;K&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#keys()">keys</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a collection, which may contain duplicates, of all keys.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;K&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#keySet()">keySet</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the set of all keys, each appearing once in the returned set.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#put(K, V)">put</A></B>(K&nbsp;key,
+    V&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores a key-value pair in the multimap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#putAll(K, java.lang.Iterable)">putAll</A></B>(K&nbsp;key,
+       <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;? extends V&gt;&nbsp;values)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores a collection of values with the same key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#putAll(com.google.common.collect.Multimap)">putAll</A></B>(<A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;? extends K,? extends V&gt;&nbsp;multimap)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies all of another multimap's key-value pairs into this multimap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#remove(java.lang.Object, java.lang.Object)">remove</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key,
+       <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a key-value pair from the multimap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;V&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#removeAll(java.lang.Object)">removeAll</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes all values associated with a given key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;V&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#replaceValues(K, java.lang.Iterable)">replaceValues</A></B>(K&nbsp;key,
+              <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;? extends V&gt;&nbsp;values)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores a collection of values with the same key, replacing any existing
+ values for that key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#size()">size</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of key-value pairs in the multimap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string representation of the multimap, generated by calling
+ <code>toString</code> on the map returned by <A HREF="../../../../com/google/common/collect/Multimap.html#asMap()"><CODE>Multimap.asMap()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;V&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/collect/HashMultimap.html#values()">values</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a collection of all values in the multimap.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.google.common.collect.SetMultimap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface com.google.common.collect.<A HREF="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../com/google/common/collect/SetMultimap.html#asMap()">asMap</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.google.common.collect.Multimap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface com.google.common.collect.<A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#clear()">clear</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#containsEntry(java.lang.Object, java.lang.Object)">containsEntry</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#containsKey(java.lang.Object)">containsKey</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#containsValue(java.lang.Object)">containsValue</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#hashCode()">hashCode</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#isEmpty()">isEmpty</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#keys()">keys</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#keySet()">keySet</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#putAll(K, java.lang.Iterable)">putAll</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#putAll(com.google.common.collect.Multimap)">putAll</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#remove(java.lang.Object, java.lang.Object)">remove</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#size()">size</A>, <A HREF="../../../../com/google/common/collect/Multimap.html#values()">values</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="create()"><!-- --></A><H3>
+create</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="../../../../com/google/common/collect/HashMultimap.html" title="class in com.google.common.collect">HashMultimap</A>&lt;K,V&gt; <B>create</B>()</PRE>
+<DL>
+<DD>Creates a new, empty <code>HashMultimap</code> with the default initial
+ capacities.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="create(int, int)"><!-- --></A><H3>
+create</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="../../../../com/google/common/collect/HashMultimap.html" title="class in com.google.common.collect">HashMultimap</A>&lt;K,V&gt; <B>create</B>(int&nbsp;expectedKeys,
+                                             int&nbsp;expectedValuesPerKey)</PRE>
+<DL>
+<DD>Constructs an empty <code>HashMultimap</code> with enough capacity to hold the
+ specified numbers of keys and values without rehashing.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>expectedKeys</CODE> - the expected number of distinct keys<DD><CODE>expectedValuesPerKey</CODE> - the expected average number of values per key
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>expectedKeys</code> or <code>expectedValuesPerKey</code> is negative</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="create(com.google.common.collect.Multimap)"><!-- --></A><H3>
+create</H3>
+<PRE>
+public static &lt;K,V&gt; <A HREF="../../../../com/google/common/collect/HashMultimap.html" title="class in com.google.common.collect">HashMultimap</A>&lt;K,V&gt; <B>create</B>(<A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;? extends K,? extends V&gt;&nbsp;multimap)</PRE>
+<DL>
+<DD>Constructs a <code>HashMultimap</code> with the same mappings as the specified
+ multimap. If a key-value mapping appears multiple times in the input
+ multimap, it only appears once in the constructed multimap.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>multimap</CODE> - the multimap whose contents are copied to this multimap</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(java.lang.Object)"><!-- --></A><A NAME="get(K)"><!-- --></A><H3>
+get</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;V&gt; <B>get</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                  K&nbsp;key)</PRE>
+<DL>
+<DD>Returns a collection view of all values associated with a key. If no
+ mappings in the multimap have the provided key, an empty collection is
+ returned.
+
+ <p>Changes to the returned collection will update the underlying multimap,
+ and vice versa.
+
+ <p>The returned collection is not serializable.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#get(K)">get</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE><DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/SetMultimap.html#get(K)">get</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key to search for in multimap
+<DT><B>Returns:</B><DD>the collection of values that the key maps to</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="entries()"><!-- --></A><H3>
+entries</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</A>&lt;K,V&gt;&gt; <B>entries</B>()</PRE>
+<DL>
+<DD>Returns a collection of all key-value pairs. Changes to the returned
+ collection will update the underlying multimap, and vice versa. The entries
+ collection does not support the <code>add</code> or <code>addAll</code> operations.
+
+ <p>The iterator generated by the returned collection traverses the values
+ for one key, followed by the values of a second key, and so on.
+
+ <p>Each entry is an immutable snapshot of a key-value mapping in the
+ multimap, taken at the time the entry is returned by a method call to the
+ collection or its iterator.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#entries()">entries</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE><DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/SetMultimap.html#entries()">entries</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>collection of map entries consisting of key-value pairs</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeAll(java.lang.Object)"><!-- --></A><H3>
+removeAll</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;V&gt; <B>removeAll</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                        <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</PRE>
+<DL>
+<DD>Removes all values associated with a given key.
+
+ <p>The returned collection is immutable.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#removeAll(java.lang.Object)">removeAll</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE><DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/SetMultimap.html#removeAll(java.lang.Object)">removeAll</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key of entries to remove from the multimap
+<DT><B>Returns:</B><DD>the collection of removed values, or an empty collection if no
+     values were associated with the provided key. The collection
+     <i>may</i> be modifiable, but updating it will have no effect on the
+     multimap.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="replaceValues(java.lang.Object,java.lang.Iterable)"><!-- --></A><A NAME="replaceValues(K, java.lang.Iterable)"><!-- --></A><H3>
+replaceValues</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;V&gt; <B>replaceValues</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                            K&nbsp;key,
+                            <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;? extends V&gt;&nbsp;values)</PRE>
+<DL>
+<DD>Stores a collection of values with the same key, replacing any existing
+ values for that key.
+
+ <p>The returned collection is immutable.
+
+ <p>Any duplicates in <code>values</code> will be stored in the multimap once.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#replaceValues(K, java.lang.Iterable)">replaceValues</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE><DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/SetMultimap.html#replaceValues(K, java.lang.Iterable)">replaceValues</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key to store in the multimap<DD><CODE>values</CODE> - values to store in the multimap
+<DT><B>Returns:</B><DD>the collection of replaced values, or an empty collection if no
+     values were previously associated with the key. The collection
+     <i>may</i> be modifiable, but updating it will have no effect on the
+     multimap.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="put(java.lang.Object,java.lang.Object)"><!-- --></A><A NAME="put(K, V)"><!-- --></A><H3>
+put</H3>
+<PRE>
+public boolean <B>put</B>(K&nbsp;key,
+                   V&nbsp;value)</PRE>
+<DL>
+<DD>Stores a key-value pair in the multimap.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#put(K, V)">put</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key to store in the multimap<DD><CODE>value</CODE> - value to store in the multimap
+<DT><B>Returns:</B><DD><code>true</code> if the method increased the size of the multimap, or
+     <code>false</code> if the multimap already contained the key-value pair</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="equals(java.lang.Object)"><!-- --></A><H3>
+equals</H3>
+<PRE>
+public boolean <B>equals</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                      <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;object)</PRE>
+<DL>
+<DD>Compares the specified object to this multimap for equality.
+
+ <p>Two <code>SetMultimap</code> instances are equal if, for each key, they
+ contain the same values. Equality does not depend on the ordering of keys
+ or values.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#equals(java.lang.Object)">equals</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE><DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/SetMultimap.html#equals(java.lang.Object)">equals</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>object</CODE> - the reference object with which to compare.
+<DT><B>Returns:</B><DD><code>true</code> if this object is the same as the obj
+          argument; <code>false</code> otherwise.<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang"><CODE>Object.hashCode()</CODE></A>, 
+<A HREF="http://java.sun.com/javase/6/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><CODE>HashMap</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="size()"><!-- --></A><H3>
+size</H3>
+<PRE>
+public int <B>size</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#size()">Multimap</A></CODE></B></DD>
+<DD>Returns the number of key-value pairs in the multimap.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#size()">size</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isEmpty()"><!-- --></A><H3>
+isEmpty</H3>
+<PRE>
+public boolean <B>isEmpty</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#isEmpty()">Multimap</A></CODE></B></DD>
+<DD>Returns <code>true</code> if the multimap contains no key-value pairs.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#isEmpty()">isEmpty</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="containsKey(java.lang.Object)"><!-- --></A><H3>
+containsKey</H3>
+<PRE>
+public boolean <B>containsKey</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                           <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#containsKey(java.lang.Object)">Multimap</A></CODE></B></DD>
+<DD>Returns <code>true</code> if the multimap contains any values for the specified
+ key.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#containsKey(java.lang.Object)">containsKey</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key to search for in multimap</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="containsValue(java.lang.Object)"><!-- --></A><H3>
+containsValue</H3>
+<PRE>
+public boolean <B>containsValue</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                             <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#containsValue(java.lang.Object)">Multimap</A></CODE></B></DD>
+<DD>Returns <code>true</code> if the multimap contains the specified value for any
+ key.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#containsValue(java.lang.Object)">containsValue</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - value to search for in multimap</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="containsEntry(java.lang.Object, java.lang.Object)"><!-- --></A><H3>
+containsEntry</H3>
+<PRE>
+public boolean <B>containsEntry</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                             <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key,
+                             <FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                             <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#containsEntry(java.lang.Object, java.lang.Object)">Multimap</A></CODE></B></DD>
+<DD>Returns <code>true</code> if the multimap contains the specified key-value pair.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#containsEntry(java.lang.Object, java.lang.Object)">containsEntry</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key to search for in multimap<DD><CODE>value</CODE> - value to search for in multimap</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="remove(java.lang.Object, java.lang.Object)"><!-- --></A><H3>
+remove</H3>
+<PRE>
+public boolean <B>remove</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                      <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;key,
+                      <FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                      <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&nbsp;value)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#remove(java.lang.Object, java.lang.Object)">Multimap</A></CODE></B></DD>
+<DD>Removes a key-value pair from the multimap.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#remove(java.lang.Object, java.lang.Object)">remove</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key of entry to remove from the multimap<DD><CODE>value</CODE> - value of entry to remove the multimap
+<DT><B>Returns:</B><DD><code>true</code> if the multimap changed</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="putAll(java.lang.Object,java.lang.Iterable)"><!-- --></A><A NAME="putAll(K, java.lang.Iterable)"><!-- --></A><H3>
+putAll</H3>
+<PRE>
+public boolean <B>putAll</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                      K&nbsp;key,
+                      <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;? extends V&gt;&nbsp;values)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#putAll(K, java.lang.Iterable)">Multimap</A></CODE></B></DD>
+<DD>Stores a collection of values with the same key.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#putAll(K, java.lang.Iterable)">putAll</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - key to store in the multimap<DD><CODE>values</CODE> - values to store in the multimap
+<DT><B>Returns:</B><DD><code>true</code> if the multimap changed</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="putAll(com.google.common.collect.Multimap)"><!-- --></A><H3>
+putAll</H3>
+<PRE>
+public boolean <B>putAll</B>(<A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;? extends K,? extends V&gt;&nbsp;multimap)</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#putAll(com.google.common.collect.Multimap)">Multimap</A></CODE></B></DD>
+<DD>Copies all of another multimap's key-value pairs into this multimap. The
+ order in which the mappings are added is determined by
+ <code>multimap.entries()</code>.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#putAll(com.google.common.collect.Multimap)">putAll</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>multimap</CODE> - mappings to store in this multimap
+<DT><B>Returns:</B><DD><code>true</code> if the multimap changed</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clear()"><!-- --></A><H3>
+clear</H3>
+<PRE>
+public void <B>clear</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#clear()">Multimap</A></CODE></B></DD>
+<DD>Removes all key-value pairs from the multimap.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#clear()">clear</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="keySet()"><!-- --></A><H3>
+keySet</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</A>&lt;K&gt; <B>keySet</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#keySet()">Multimap</A></CODE></B></DD>
+<DD>Returns the set of all keys, each appearing once in the returned set.
+ Changes to the returned set will update the underlying multimap, and vice
+ versa.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#keySet()">keySet</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the collection of distinct keys</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="keys()"><!-- --></A><H3>
+keys</H3>
+<PRE>
+public <A HREF="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</A>&lt;K&gt; <B>keys</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#keys()">Multimap</A></CODE></B></DD>
+<DD>Returns a collection, which may contain duplicates, of all keys. The number
+ of times of key appears in the returned multiset equals the number of
+ mappings the key has in the multimap. Changes to the returned multiset will
+ update the underlying multimap, and vice versa.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#keys()">keys</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a multiset with keys corresponding to the distinct keys of the
+     multimap and frequencies corresponding to the number of values that
+     each key maps to</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="values()"><!-- --></A><H3>
+values</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;V&gt; <B>values</B>()</PRE>
+<DL>
+<DD>Returns a collection of all values in the multimap. Changes to the returned
+ collection will update the underlying multimap, and vice versa.
+
+ <p>The iterator generated by the returned collection traverses the values
+ for one key, followed by the values of a second key, and so on.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#values()">values</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>collection of values, which may include the same value multiple
+     times if it occurs in multiple mappings</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="asMap()"><!-- --></A><H3>
+asMap</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;K,<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;V&gt;&gt; <B>asMap</B>()</PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/google/common/collect/Multimap.html#asMap()">Multimap</A></CODE></B></DD>
+<DD>Returns a map view that associates each key with the corresponding values
+ in the multimap. Changes to the returned map, such as element removal,
+ will update the underlying multimap. The map does not support
+ <code>setValue()</code> on its entries, <code>put</code>, or <code>putAll</code>.
+
+ <p>The collections returned by <code>asMap().get(Object)</code> have the same
+ behavior as those returned by <A HREF="../../../../com/google/common/collect/Multimap.html#get(K)"><CODE>Multimap.get(K)</CODE></A>.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#asMap()">asMap</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a map view from a key to its collection of values</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hashCode()"><!-- --></A><H3>
+hashCode</H3>
+<PRE>
+public int <B>hashCode</B>()</PRE>
+<DL>
+<DD>Returns the hash code for this multimap.
+
+ <p>The hash code of a multimap is defined as the hash code of the map view,
+ as returned by <A HREF="../../../../com/google/common/collect/Multimap.html#asMap()"><CODE>Multimap.asMap()</CODE></A>.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/google/common/collect/Multimap.html#hashCode()">hashCode</A></CODE> in interface <CODE><A HREF="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</A>&lt;K,V&gt;</CODE><DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a hash code value for this object.<DT><B>See Also:</B><DD><A HREF="http://java.sun.com/javase/6/docs/api/java/util/Map.html?is-external=true#hashCode()" title="class or interface in java.util"><CODE>Map.hashCode()</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>toString</B>()</PRE>
+<DL>
+<DD>Returns a string representation of the multimap, generated by calling
+ <code>toString</code> on the map returned by <A HREF="../../../../com/google/common/collect/Multimap.html#asMap()"><CODE>Multimap.asMap()</CODE></A>.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A></CODE> in class <CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a string representation of the multimap</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/collect/HashBiMap.html" title="class in com.google.common.collect"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/collect/HashMultiset.html" title="class in com.google.common.collect"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/collect/HashMultimap.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HashMultimap.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

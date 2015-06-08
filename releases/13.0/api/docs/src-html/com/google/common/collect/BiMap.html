@@ -1,0 +1,176 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.collect;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.19"></a>
+<FONT color="green">020</FONT>    <a name="line.20"></a>
+<FONT color="green">021</FONT>    import java.util.Map;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import java.util.Set;<a name="line.22"></a>
+<FONT color="green">023</FONT>    <a name="line.23"></a>
+<FONT color="green">024</FONT>    import javax.annotation.Nullable;<a name="line.24"></a>
+<FONT color="green">025</FONT>    <a name="line.25"></a>
+<FONT color="green">026</FONT>    /**<a name="line.26"></a>
+<FONT color="green">027</FONT>     * A bimap (or "bidirectional map") is a map that preserves the uniqueness of<a name="line.27"></a>
+<FONT color="green">028</FONT>     * its values as well as that of its keys. This constraint enables bimaps to<a name="line.28"></a>
+<FONT color="green">029</FONT>     * support an "inverse view", which is another bimap containing the same entries<a name="line.29"></a>
+<FONT color="green">030</FONT>     * as this bimap but with reversed keys and values.<a name="line.30"></a>
+<FONT color="green">031</FONT>     * <a name="line.31"></a>
+<FONT color="green">032</FONT>     * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.32"></a>
+<FONT color="green">033</FONT>     * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#BiMap"&gt;<a name="line.33"></a>
+<FONT color="green">034</FONT>     * {@code BiMap}&lt;/a&gt;.<a name="line.34"></a>
+<FONT color="green">035</FONT>     *<a name="line.35"></a>
+<FONT color="green">036</FONT>     * @author Kevin Bourrillion<a name="line.36"></a>
+<FONT color="green">037</FONT>     * @since 2.0 (imported from Google Collections Library)<a name="line.37"></a>
+<FONT color="green">038</FONT>     */<a name="line.38"></a>
+<FONT color="green">039</FONT>    @GwtCompatible<a name="line.39"></a>
+<FONT color="green">040</FONT>    public interface BiMap&lt;K, V&gt; extends Map&lt;K, V&gt; {<a name="line.40"></a>
+<FONT color="green">041</FONT>      // Modification Operations<a name="line.41"></a>
+<FONT color="green">042</FONT>    <a name="line.42"></a>
+<FONT color="green">043</FONT>      /**<a name="line.43"></a>
+<FONT color="green">044</FONT>       * {@inheritDoc}<a name="line.44"></a>
+<FONT color="green">045</FONT>       *<a name="line.45"></a>
+<FONT color="green">046</FONT>       * @throws IllegalArgumentException if the given value is already bound to a<a name="line.46"></a>
+<FONT color="green">047</FONT>       *     different key in this bimap. The bimap will remain unmodified in this<a name="line.47"></a>
+<FONT color="green">048</FONT>       *     event. To avoid this exception, call {@link #forcePut} instead.<a name="line.48"></a>
+<FONT color="green">049</FONT>       */<a name="line.49"></a>
+<FONT color="green">050</FONT>      @Override<a name="line.50"></a>
+<FONT color="green">051</FONT>      V put(@Nullable K key, @Nullable V value);<a name="line.51"></a>
+<FONT color="green">052</FONT>    <a name="line.52"></a>
+<FONT color="green">053</FONT>      /**<a name="line.53"></a>
+<FONT color="green">054</FONT>       * An alternate form of {@code put} that silently removes any existing entry<a name="line.54"></a>
+<FONT color="green">055</FONT>       * with the value {@code value} before proceeding with the {@link #put}<a name="line.55"></a>
+<FONT color="green">056</FONT>       * operation. If the bimap previously contained the provided key-value<a name="line.56"></a>
+<FONT color="green">057</FONT>       * mapping, this method has no effect.<a name="line.57"></a>
+<FONT color="green">058</FONT>       *<a name="line.58"></a>
+<FONT color="green">059</FONT>       * &lt;p&gt;Note that a successful call to this method could cause the size of the<a name="line.59"></a>
+<FONT color="green">060</FONT>       * bimap to increase by one, stay the same, or even decrease by one.<a name="line.60"></a>
+<FONT color="green">061</FONT>       *<a name="line.61"></a>
+<FONT color="green">062</FONT>       * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; If an existing entry with this value is removed, the key<a name="line.62"></a>
+<FONT color="green">063</FONT>       * for that entry is discarded and not returned.<a name="line.63"></a>
+<FONT color="green">064</FONT>       *<a name="line.64"></a>
+<FONT color="green">065</FONT>       * @param key the key with which the specified value is to be associated<a name="line.65"></a>
+<FONT color="green">066</FONT>       * @param value the value to be associated with the specified key<a name="line.66"></a>
+<FONT color="green">067</FONT>       * @return the value which was previously associated with the key, which may<a name="line.67"></a>
+<FONT color="green">068</FONT>       *     be {@code null}, or {@code null} if there was no previous entry<a name="line.68"></a>
+<FONT color="green">069</FONT>       */<a name="line.69"></a>
+<FONT color="green">070</FONT>      V forcePut(@Nullable K key, @Nullable V value);<a name="line.70"></a>
+<FONT color="green">071</FONT>    <a name="line.71"></a>
+<FONT color="green">072</FONT>      // Bulk Operations<a name="line.72"></a>
+<FONT color="green">073</FONT>    <a name="line.73"></a>
+<FONT color="green">074</FONT>      /**<a name="line.74"></a>
+<FONT color="green">075</FONT>       * {@inheritDoc}<a name="line.75"></a>
+<FONT color="green">076</FONT>       *<a name="line.76"></a>
+<FONT color="green">077</FONT>       * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; the results of calling this method may vary depending on<a name="line.77"></a>
+<FONT color="green">078</FONT>       * the iteration order of {@code map}.<a name="line.78"></a>
+<FONT color="green">079</FONT>       *<a name="line.79"></a>
+<FONT color="green">080</FONT>       * @throws IllegalArgumentException if an attempt to {@code put} any<a name="line.80"></a>
+<FONT color="green">081</FONT>       *     entry fails. Note that some map entries may have been added to the<a name="line.81"></a>
+<FONT color="green">082</FONT>       *     bimap before the exception was thrown.<a name="line.82"></a>
+<FONT color="green">083</FONT>       */<a name="line.83"></a>
+<FONT color="green">084</FONT>      @Override<a name="line.84"></a>
+<FONT color="green">085</FONT>      void putAll(Map&lt;? extends K, ? extends V&gt; map);<a name="line.85"></a>
+<FONT color="green">086</FONT>    <a name="line.86"></a>
+<FONT color="green">087</FONT>      // Views<a name="line.87"></a>
+<FONT color="green">088</FONT>    <a name="line.88"></a>
+<FONT color="green">089</FONT>      /**<a name="line.89"></a>
+<FONT color="green">090</FONT>       * {@inheritDoc}<a name="line.90"></a>
+<FONT color="green">091</FONT>       *<a name="line.91"></a>
+<FONT color="green">092</FONT>       * &lt;p&gt;Because a bimap has unique values, this method returns a {@link Set},<a name="line.92"></a>
+<FONT color="green">093</FONT>       * instead of the {@link java.util.Collection} specified in the {@link Map}<a name="line.93"></a>
+<FONT color="green">094</FONT>       * interface.<a name="line.94"></a>
+<FONT color="green">095</FONT>       */<a name="line.95"></a>
+<FONT color="green">096</FONT>      @Override<a name="line.96"></a>
+<FONT color="green">097</FONT>      Set&lt;V&gt; values();<a name="line.97"></a>
+<FONT color="green">098</FONT>    <a name="line.98"></a>
+<FONT color="green">099</FONT>      /**<a name="line.99"></a>
+<FONT color="green">100</FONT>       * Returns the inverse view of this bimap, which maps each of this bimap's<a name="line.100"></a>
+<FONT color="green">101</FONT>       * values to its associated key. The two bimaps are backed by the same data;<a name="line.101"></a>
+<FONT color="green">102</FONT>       * any changes to one will appear in the other.<a name="line.102"></a>
+<FONT color="green">103</FONT>       *<a name="line.103"></a>
+<FONT color="green">104</FONT>       * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt;There is no guaranteed correspondence between the iteration<a name="line.104"></a>
+<FONT color="green">105</FONT>       * order of a bimap and that of its inverse.<a name="line.105"></a>
+<FONT color="green">106</FONT>       *<a name="line.106"></a>
+<FONT color="green">107</FONT>       * @return the inverse view of this bimap<a name="line.107"></a>
+<FONT color="green">108</FONT>       */<a name="line.108"></a>
+<FONT color="green">109</FONT>      BiMap&lt;V, K&gt; inverse();<a name="line.109"></a>
+<FONT color="green">110</FONT>    }<a name="line.110"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

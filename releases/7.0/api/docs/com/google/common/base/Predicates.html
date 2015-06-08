@@ -1,0 +1,755 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Predicates (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Predicates (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/base/Service.html" title="interface in com.google.common.base"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/base/Predicates.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Predicates.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.base</FONT>
+<BR>
+Class Predicates</H2>
+<PRE>
+<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.google.common.base.Predicates</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</A>=true)
+</FONT>public final class <B>Predicates</B><DT>extends <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></DL>
+</PRE>
+
+<P>
+Static utility methods pertaining to <code>Predicate</code> instances.
+
+ <p>All methods returns serializable predicates as long as they're given
+ serializable parameters.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>2 (imported from Google Collections Library)</DD>
+<DT><B>Author:</B></DT>
+  <DD>Kevin Bourrillion</DD>
+</DL>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#alwaysFalse()">alwaysFalse</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that always evaluates to <code>false</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#alwaysTrue()">alwaysTrue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that always evaluates to <code>true</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#and(java.lang.Iterable)">and</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;? extends <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&gt;&nbsp;components)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if each of its
+ components evaluates to <code>true</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#and(com.google.common.base.Predicate...)">and</A></B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;...&nbsp;components)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if each of its
+ components evaluates to <code>true</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#and(com.google.common.base.Predicate, com.google.common.base.Predicate)">and</A></B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&nbsp;first,
+    <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&nbsp;second)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if both of its
+ components evaluate to <code>true</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;A,B&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;A&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#compose(com.google.common.base.Predicate, com.google.common.base.Function)">compose</A></B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;B&gt;&nbsp;predicate,
+        <A HREF="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</A>&lt;A,? extends B&gt;&nbsp;function)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the composition of a function and a predicate.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#contains(java.util.regex.Pattern)">contains</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex">Pattern</A>&nbsp;pattern)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if the
+ <code>CharSequence</code> being tested contains any match for the given
+ regular expression pattern.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#containsPattern(java.lang.String)">containsPattern</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;pattern)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if the
+ <code>CharSequence</code> being tested contains any match for the given
+ regular expression pattern.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#equalTo(T)">equalTo</A></B>(T&nbsp;target)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if the object being
+ tested <code>equals()</code> the given target or both are null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#in(java.util.Collection)">in</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;? extends T&gt;&nbsp;target)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if the object reference
+ being tested is a member of the given collection.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#instanceOf(java.lang.Class)">instanceOf</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;?&gt;&nbsp;clazz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if the object being
+ tested is an instance of the given class.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#isNull()">isNull</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if the object reference
+ being tested is null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#not(com.google.common.base.Predicate)">not</A></B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;&nbsp;predicate)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if the given predicate
+ evaluates to <code>false</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#notNull()">notNull</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if the object reference
+ being tested is not null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#or(java.lang.Iterable)">or</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;? extends <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&gt;&nbsp;components)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if any one of its
+ components evaluates to <code>true</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#or(com.google.common.base.Predicate...)">or</A></B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;...&nbsp;components)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if any one of its
+ components evaluates to <code>true</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/google/common/base/Predicates.html#or(com.google.common.base.Predicate, com.google.common.base.Predicate)">or</A></B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&nbsp;first,
+   <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&nbsp;second)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a predicate that evaluates to <code>true</code> if either of its
+ components evaluates to <code>true</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="alwaysTrue()"><!-- --></A><H3>
+alwaysTrue</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</A>=true)
+</FONT>public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>alwaysTrue</B>()</PRE>
+<DL>
+<DD>Returns a predicate that always evaluates to <code>true</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="alwaysFalse()"><!-- --></A><H3>
+alwaysFalse</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</A>=true)
+</FONT>public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>alwaysFalse</B>()</PRE>
+<DL>
+<DD>Returns a predicate that always evaluates to <code>false</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isNull()"><!-- --></A><H3>
+isNull</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</A>=true)
+</FONT>public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>isNull</B>()</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if the object reference
+ being tested is null.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="notNull()"><!-- --></A><H3>
+notNull</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</A>=true)
+</FONT>public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>notNull</B>()</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if the object reference
+ being tested is not null.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="not(com.google.common.base.Predicate)"><!-- --></A><H3>
+not</H3>
+<PRE>
+public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>not</B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt;&nbsp;predicate)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if the given predicate
+ evaluates to <code>false</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="and(java.lang.Iterable)"><!-- --></A><H3>
+and</H3>
+<PRE>
+public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>and</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;? extends <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&gt;&nbsp;components)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if each of its
+ components evaluates to <code>true</code>. The components are evaluated in
+ order, and evaluation will be "short-circuited" as soon as a false
+ predicate is found. It defensively copies the iterable passed in, so future
+ changes to it won't alter the behavior of this predicate. If <code>components</code> is empty, the returned predicate will always evaluate to <code>true</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="and(com.google.common.base.Predicate...)"><!-- --></A><H3>
+and</H3>
+<PRE>
+public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>and</B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;...&nbsp;components)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if each of its
+ components evaluates to <code>true</code>. The components are evaluated in
+ order, and evaluation will be "short-circuited" as soon as a false
+ predicate is found. It defensively copies the array passed in, so future
+ changes to it won't alter the behavior of this predicate. If <code>components</code> is empty, the returned predicate will always evaluate to <code>true</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="and(com.google.common.base.Predicate, com.google.common.base.Predicate)"><!-- --></A><H3>
+and</H3>
+<PRE>
+public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>and</B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&nbsp;first,
+                                   <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&nbsp;second)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if both of its
+ components evaluate to <code>true</code>. The components are evaluated in
+ order, and evaluation will be "short-circuited" as soon as a false
+ predicate is found.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="or(java.lang.Iterable)"><!-- --></A><H3>
+or</H3>
+<PRE>
+public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>or</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</A>&lt;? extends <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&gt;&nbsp;components)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if any one of its
+ components evaluates to <code>true</code>. The components are evaluated in
+ order, and evaluation will be "short-circuited" as soon as a
+ true predicate is found. It defensively copies the iterable passed in, so
+ future changes to it won't alter the behavior of this predicate. If <code>components</code> is empty, the returned predicate will always evaluate to <code>false</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="or(com.google.common.base.Predicate...)"><!-- --></A><H3>
+or</H3>
+<PRE>
+public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>or</B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;...&nbsp;components)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if any one of its
+ components evaluates to <code>true</code>. The components are evaluated in
+ order, and evaluation will be "short-circuited" as soon as a
+ true predicate is found. It defensively copies the array passed in, so
+ future changes to it won't alter the behavior of this predicate. If <code>components</code> is empty, the returned predicate will always evaluate to <code>false</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="or(com.google.common.base.Predicate, com.google.common.base.Predicate)"><!-- --></A><H3>
+or</H3>
+<PRE>
+public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>or</B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&nbsp;first,
+                                  <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;? super T&gt;&nbsp;second)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if either of its
+ components evaluates to <code>true</code>. The components are evaluated in
+ order, and evaluation will be "short-circuited" as soon as a
+ true predicate is found.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="equalTo(java.lang.Object)"><!-- --></A><A NAME="equalTo(T)"><!-- --></A><H3>
+equalTo</H3>
+<PRE>
+public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>equalTo</B>(<FONT SIZE="-1"><A HREF="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</A></FONT>
+                                       T&nbsp;target)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if the object being
+ tested <code>equals()</code> the given target or both are null.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="instanceOf(java.lang.Class)"><!-- --></A><H3>
+instanceOf</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</A>="Class.isInstance")
+</FONT>public static <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A>&gt; <B>instanceOf</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;?&gt;&nbsp;clazz)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if the object being
+ tested is an instance of the given class. If the object being tested
+ is <code>null</code> this predicate evaluates to <code>false</code>.
+
+ <p>If you want to filter an <code>Iterable</code> to narrow its type, consider
+ using <A HREF="../../../../com/google/common/collect/Iterables.html#filter(java.lang.Iterable, java.lang.Class)"><CODE>Iterables.filter(Iterable, Class)</CODE></A>
+ in preference.
+
+ <p><b>Warning:</b> contrary to the typical assumptions about predicates (as
+ documented at <A HREF="../../../../com/google/common/base/Predicate.html#apply(T)"><CODE>Predicate.apply(T)</CODE></A>), the returned predicate may not be
+ <i>consistent with equals</i>. For example, <code>instanceOf(ArrayList.class)</code> will yield different results for the two equal
+ instances <code>Lists.newArrayList(1)</code> and <code>Arrays.asList(1)</code>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="in(java.util.Collection)"><!-- --></A><H3>
+in</H3>
+<PRE>
+public static &lt;T&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;T&gt; <B>in</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</A>&lt;? extends T&gt;&nbsp;target)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if the object reference
+ being tested is a member of the given collection. It does not defensively
+ copy the collection passed in, so future changes to it will alter the
+ behavior of the predicate.
+
+ This method can technically accept any Collection<?>, but using a typed
+ collection helps prevent bugs. This approach doesn't block any potential
+ users since it is always possible to use <code>Predicates.&lt;Object&gt;in()</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>target</CODE> - the collection that may contain the function input</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="compose(com.google.common.base.Predicate, com.google.common.base.Function)"><!-- --></A><H3>
+compose</H3>
+<PRE>
+public static &lt;A,B&gt; <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;A&gt; <B>compose</B>(<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;B&gt;&nbsp;predicate,
+                                         <A HREF="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</A>&lt;A,? extends B&gt;&nbsp;function)</PRE>
+<DL>
+<DD>Returns the composition of a function and a predicate. For every <code>x</code>,
+ the generated predicate returns <code>predicate(function(x))</code>.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the composition of the provided function and predicate</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="containsPattern(java.lang.String)"><!-- --></A><H3>
+containsPattern</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+<A HREF="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.util.regex.Pattern")
+</FONT>public static <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&gt; <B>containsPattern</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>&nbsp;pattern)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if the
+ <code>CharSequence</code> being tested contains any match for the given
+ regular expression pattern. The test used is equivalent to
+ <code>Pattern.compile(pattern).matcher(arg).find()</code>
+<P>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/util/regex/PatternSyntaxException.html?is-external=true" title="class or interface in java.util.regex">PatternSyntaxException</A></CODE> - if the pattern is invalid<DT><B>Since:</B></DT>
+  <DD>3</DD>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="contains(java.util.regex.Pattern)"><!-- --></A><H3>
+contains</H3>
+<PRE>
+<FONT SIZE="-1"><A HREF="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</A>(<A HREF="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</A>="java.util.regex.Pattern")
+</FONT>public static <A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</A>&lt;<A HREF="http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</A>&gt; <B>contains</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex">Pattern</A>&nbsp;pattern)</PRE>
+<DL>
+<DD>Returns a predicate that evaluates to <code>true</code> if the
+ <code>CharSequence</code> being tested contains any match for the given
+ regular expression pattern. The test used is equivalent to
+ <code>regex.matcher(arg).find()</code>
+<P>
+<DD><DL>
+<DT><B>Since:</B></DT>
+  <DD>3</DD>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/google/common/base/Service.html" title="interface in com.google.common.base"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/google/common/base/Predicates.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Predicates.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

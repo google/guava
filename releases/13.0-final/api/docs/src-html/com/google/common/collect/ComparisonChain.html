@@ -1,0 +1,291 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<FONT color="green">003</FONT>     *<a name="line.3"></a>
+<FONT color="green">004</FONT>     * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<FONT color="green">005</FONT>     * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<FONT color="green">006</FONT>     * You may obtain a copy of the License at<a name="line.6"></a>
+<FONT color="green">007</FONT>     *<a name="line.7"></a>
+<FONT color="green">008</FONT>     * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<FONT color="green">009</FONT>     *<a name="line.9"></a>
+<FONT color="green">010</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<FONT color="green">011</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<FONT color="green">012</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * See the License for the specific language governing permissions and<a name="line.13"></a>
+<FONT color="green">014</FONT>     * limitations under the License.<a name="line.14"></a>
+<FONT color="green">015</FONT>     */<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>    package com.google.common.collect;<a name="line.17"></a>
+<FONT color="green">018</FONT>    <a name="line.18"></a>
+<FONT color="green">019</FONT>    import com.google.common.annotations.GwtCompatible;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import com.google.common.primitives.Booleans;<a name="line.20"></a>
+<FONT color="green">021</FONT>    import com.google.common.primitives.Ints;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import com.google.common.primitives.Longs;<a name="line.22"></a>
+<FONT color="green">023</FONT>    <a name="line.23"></a>
+<FONT color="green">024</FONT>    import java.util.Comparator;<a name="line.24"></a>
+<FONT color="green">025</FONT>    <a name="line.25"></a>
+<FONT color="green">026</FONT>    import javax.annotation.Nullable;<a name="line.26"></a>
+<FONT color="green">027</FONT>    <a name="line.27"></a>
+<FONT color="green">028</FONT>    /**<a name="line.28"></a>
+<FONT color="green">029</FONT>     * A utility for performing a "lazy" chained comparison statement, which <a name="line.29"></a>
+<FONT color="green">030</FONT>     * performs comparisons only until it finds a nonzero result. For example:<a name="line.30"></a>
+<FONT color="green">031</FONT>     * &lt;pre&gt;   {@code<a name="line.31"></a>
+<FONT color="green">032</FONT>     *<a name="line.32"></a>
+<FONT color="green">033</FONT>     *   public int compareTo(Foo that) {<a name="line.33"></a>
+<FONT color="green">034</FONT>     *     return ComparisonChain.start()<a name="line.34"></a>
+<FONT color="green">035</FONT>     *         .compare(this.aString, that.aString)<a name="line.35"></a>
+<FONT color="green">036</FONT>     *         .compare(this.anInt, that.anInt)<a name="line.36"></a>
+<FONT color="green">037</FONT>     *         .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())<a name="line.37"></a>
+<FONT color="green">038</FONT>     *         .result();<a name="line.38"></a>
+<FONT color="green">039</FONT>     *   }}&lt;/pre&gt;<a name="line.39"></a>
+<FONT color="green">040</FONT>     *<a name="line.40"></a>
+<FONT color="green">041</FONT>     * The value of this expression will have the same sign as the &lt;i&gt;first<a name="line.41"></a>
+<FONT color="green">042</FONT>     * nonzero&lt;/i&gt; comparison result in the chain, or will be zero if every<a name="line.42"></a>
+<FONT color="green">043</FONT>     * comparison result was zero.<a name="line.43"></a>
+<FONT color="green">044</FONT>     *<a name="line.44"></a>
+<FONT color="green">045</FONT>     * &lt;p&gt;Once any comparison returns a nonzero value, remaining comparisons are<a name="line.45"></a>
+<FONT color="green">046</FONT>     * "short-circuited".<a name="line.46"></a>
+<FONT color="green">047</FONT>     * <a name="line.47"></a>
+<FONT color="green">048</FONT>     * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.48"></a>
+<FONT color="green">049</FONT>     * "http://code.google.com/p/guava-libraries/wiki/CommonObjectUtilitiesExplained#compare/compareTo"&gt;<a name="line.49"></a>
+<FONT color="green">050</FONT>     * {@code ComparisonChain}&lt;/a&gt;.<a name="line.50"></a>
+<FONT color="green">051</FONT>     *<a name="line.51"></a>
+<FONT color="green">052</FONT>     * @author Mark Davis<a name="line.52"></a>
+<FONT color="green">053</FONT>     * @author Kevin Bourrillion<a name="line.53"></a>
+<FONT color="green">054</FONT>     * @since 2.0<a name="line.54"></a>
+<FONT color="green">055</FONT>     */<a name="line.55"></a>
+<FONT color="green">056</FONT>    @GwtCompatible<a name="line.56"></a>
+<FONT color="green">057</FONT>    public abstract class ComparisonChain {<a name="line.57"></a>
+<FONT color="green">058</FONT>      private ComparisonChain() {}<a name="line.58"></a>
+<FONT color="green">059</FONT>    <a name="line.59"></a>
+<FONT color="green">060</FONT>      /**<a name="line.60"></a>
+<FONT color="green">061</FONT>       * Begins a new chained comparison statement. See example in the class<a name="line.61"></a>
+<FONT color="green">062</FONT>       * documentation.<a name="line.62"></a>
+<FONT color="green">063</FONT>       */<a name="line.63"></a>
+<FONT color="green">064</FONT>      public static ComparisonChain start() {<a name="line.64"></a>
+<FONT color="green">065</FONT>        return ACTIVE;<a name="line.65"></a>
+<FONT color="green">066</FONT>      }<a name="line.66"></a>
+<FONT color="green">067</FONT>    <a name="line.67"></a>
+<FONT color="green">068</FONT>      private static final ComparisonChain ACTIVE = new ComparisonChain() {<a name="line.68"></a>
+<FONT color="green">069</FONT>        @SuppressWarnings("unchecked")<a name="line.69"></a>
+<FONT color="green">070</FONT>        @Override public ComparisonChain compare(<a name="line.70"></a>
+<FONT color="green">071</FONT>            Comparable left, Comparable right) {<a name="line.71"></a>
+<FONT color="green">072</FONT>          return classify(left.compareTo(right));<a name="line.72"></a>
+<FONT color="green">073</FONT>        }<a name="line.73"></a>
+<FONT color="green">074</FONT>        @Override public &lt;T&gt; ComparisonChain compare(<a name="line.74"></a>
+<FONT color="green">075</FONT>            @Nullable T left, @Nullable T right, Comparator&lt;T&gt; comparator) {<a name="line.75"></a>
+<FONT color="green">076</FONT>          return classify(comparator.compare(left, right));<a name="line.76"></a>
+<FONT color="green">077</FONT>        }<a name="line.77"></a>
+<FONT color="green">078</FONT>        @Override public ComparisonChain compare(int left, int right) {<a name="line.78"></a>
+<FONT color="green">079</FONT>          return classify(Ints.compare(left, right));<a name="line.79"></a>
+<FONT color="green">080</FONT>        }<a name="line.80"></a>
+<FONT color="green">081</FONT>        @Override public ComparisonChain compare(long left, long right) {<a name="line.81"></a>
+<FONT color="green">082</FONT>          return classify(Longs.compare(left, right));<a name="line.82"></a>
+<FONT color="green">083</FONT>        }<a name="line.83"></a>
+<FONT color="green">084</FONT>        @Override public ComparisonChain compare(float left, float right) {<a name="line.84"></a>
+<FONT color="green">085</FONT>          return classify(Float.compare(left, right));<a name="line.85"></a>
+<FONT color="green">086</FONT>        }<a name="line.86"></a>
+<FONT color="green">087</FONT>        @Override public ComparisonChain compare(double left, double right) {<a name="line.87"></a>
+<FONT color="green">088</FONT>          return classify(Double.compare(left, right));<a name="line.88"></a>
+<FONT color="green">089</FONT>        }<a name="line.89"></a>
+<FONT color="green">090</FONT>        @Override public ComparisonChain compareTrueFirst(boolean left, boolean right) {<a name="line.90"></a>
+<FONT color="green">091</FONT>          return classify(Booleans.compare(right, left)); // reversed<a name="line.91"></a>
+<FONT color="green">092</FONT>        }<a name="line.92"></a>
+<FONT color="green">093</FONT>        @Override public ComparisonChain compareFalseFirst(boolean left, boolean right) {<a name="line.93"></a>
+<FONT color="green">094</FONT>          return classify(Booleans.compare(left, right));<a name="line.94"></a>
+<FONT color="green">095</FONT>        }<a name="line.95"></a>
+<FONT color="green">096</FONT>        ComparisonChain classify(int result) {<a name="line.96"></a>
+<FONT color="green">097</FONT>          return (result &lt; 0) ? LESS : (result &gt; 0) ? GREATER : ACTIVE;<a name="line.97"></a>
+<FONT color="green">098</FONT>        }<a name="line.98"></a>
+<FONT color="green">099</FONT>        @Override public int result() {<a name="line.99"></a>
+<FONT color="green">100</FONT>          return 0;<a name="line.100"></a>
+<FONT color="green">101</FONT>        }<a name="line.101"></a>
+<FONT color="green">102</FONT>      };<a name="line.102"></a>
+<FONT color="green">103</FONT>    <a name="line.103"></a>
+<FONT color="green">104</FONT>      private static final ComparisonChain LESS = new InactiveComparisonChain(-1);<a name="line.104"></a>
+<FONT color="green">105</FONT>    <a name="line.105"></a>
+<FONT color="green">106</FONT>      private static final ComparisonChain GREATER = new InactiveComparisonChain(1);<a name="line.106"></a>
+<FONT color="green">107</FONT>    <a name="line.107"></a>
+<FONT color="green">108</FONT>      private static final class InactiveComparisonChain extends ComparisonChain {<a name="line.108"></a>
+<FONT color="green">109</FONT>        final int result;<a name="line.109"></a>
+<FONT color="green">110</FONT>    <a name="line.110"></a>
+<FONT color="green">111</FONT>        InactiveComparisonChain(int result) {<a name="line.111"></a>
+<FONT color="green">112</FONT>          this.result = result;<a name="line.112"></a>
+<FONT color="green">113</FONT>        }<a name="line.113"></a>
+<FONT color="green">114</FONT>        @Override public ComparisonChain compare(<a name="line.114"></a>
+<FONT color="green">115</FONT>            @Nullable Comparable left, @Nullable Comparable right) {<a name="line.115"></a>
+<FONT color="green">116</FONT>          return this;<a name="line.116"></a>
+<FONT color="green">117</FONT>        }<a name="line.117"></a>
+<FONT color="green">118</FONT>        @Override public &lt;T&gt; ComparisonChain compare(@Nullable T left,<a name="line.118"></a>
+<FONT color="green">119</FONT>            @Nullable T right, @Nullable Comparator&lt;T&gt; comparator) {<a name="line.119"></a>
+<FONT color="green">120</FONT>          return this;<a name="line.120"></a>
+<FONT color="green">121</FONT>        }<a name="line.121"></a>
+<FONT color="green">122</FONT>        @Override public ComparisonChain compare(int left, int right) {<a name="line.122"></a>
+<FONT color="green">123</FONT>          return this;<a name="line.123"></a>
+<FONT color="green">124</FONT>        }<a name="line.124"></a>
+<FONT color="green">125</FONT>        @Override public ComparisonChain compare(long left, long right) {<a name="line.125"></a>
+<FONT color="green">126</FONT>          return this;<a name="line.126"></a>
+<FONT color="green">127</FONT>        }<a name="line.127"></a>
+<FONT color="green">128</FONT>        @Override public ComparisonChain compare(float left, float right) {<a name="line.128"></a>
+<FONT color="green">129</FONT>          return this;<a name="line.129"></a>
+<FONT color="green">130</FONT>        }<a name="line.130"></a>
+<FONT color="green">131</FONT>        @Override public ComparisonChain compare(double left, double right) {<a name="line.131"></a>
+<FONT color="green">132</FONT>          return this;<a name="line.132"></a>
+<FONT color="green">133</FONT>        }<a name="line.133"></a>
+<FONT color="green">134</FONT>        @Override public ComparisonChain compareTrueFirst(boolean left, boolean right) {<a name="line.134"></a>
+<FONT color="green">135</FONT>          return this;<a name="line.135"></a>
+<FONT color="green">136</FONT>        }<a name="line.136"></a>
+<FONT color="green">137</FONT>        @Override public ComparisonChain compareFalseFirst(boolean left, boolean right) {<a name="line.137"></a>
+<FONT color="green">138</FONT>          return this;<a name="line.138"></a>
+<FONT color="green">139</FONT>        }<a name="line.139"></a>
+<FONT color="green">140</FONT>        @Override public int result() {<a name="line.140"></a>
+<FONT color="green">141</FONT>          return result;<a name="line.141"></a>
+<FONT color="green">142</FONT>        }<a name="line.142"></a>
+<FONT color="green">143</FONT>      }<a name="line.143"></a>
+<FONT color="green">144</FONT>    <a name="line.144"></a>
+<FONT color="green">145</FONT>      /**<a name="line.145"></a>
+<FONT color="green">146</FONT>       * Compares two comparable objects as specified by {@link<a name="line.146"></a>
+<FONT color="green">147</FONT>       * Comparable#compareTo}, &lt;i&gt;if&lt;/i&gt; the result of this comparison chain<a name="line.147"></a>
+<FONT color="green">148</FONT>       * has not already been determined.<a name="line.148"></a>
+<FONT color="green">149</FONT>       */<a name="line.149"></a>
+<FONT color="green">150</FONT>      public abstract ComparisonChain compare(<a name="line.150"></a>
+<FONT color="green">151</FONT>          Comparable&lt;?&gt; left, Comparable&lt;?&gt; right);<a name="line.151"></a>
+<FONT color="green">152</FONT>    <a name="line.152"></a>
+<FONT color="green">153</FONT>      /**<a name="line.153"></a>
+<FONT color="green">154</FONT>       * Compares two objects using a comparator, &lt;i&gt;if&lt;/i&gt; the result of this<a name="line.154"></a>
+<FONT color="green">155</FONT>       * comparison chain has not already been determined.<a name="line.155"></a>
+<FONT color="green">156</FONT>       */<a name="line.156"></a>
+<FONT color="green">157</FONT>      public abstract &lt;T&gt; ComparisonChain compare(<a name="line.157"></a>
+<FONT color="green">158</FONT>          @Nullable T left, @Nullable T right, Comparator&lt;T&gt; comparator);<a name="line.158"></a>
+<FONT color="green">159</FONT>    <a name="line.159"></a>
+<FONT color="green">160</FONT>      /**<a name="line.160"></a>
+<FONT color="green">161</FONT>       * Compares two {@code int} values as specified by {@link Ints#compare},<a name="line.161"></a>
+<FONT color="green">162</FONT>       * &lt;i&gt;if&lt;/i&gt; the result of this comparison chain has not already been<a name="line.162"></a>
+<FONT color="green">163</FONT>       * determined.<a name="line.163"></a>
+<FONT color="green">164</FONT>       */<a name="line.164"></a>
+<FONT color="green">165</FONT>      public abstract ComparisonChain compare(int left, int right);<a name="line.165"></a>
+<FONT color="green">166</FONT>    <a name="line.166"></a>
+<FONT color="green">167</FONT>      /**<a name="line.167"></a>
+<FONT color="green">168</FONT>       * Compares two {@code long} values as specified by {@link Longs#compare},<a name="line.168"></a>
+<FONT color="green">169</FONT>       * &lt;i&gt;if&lt;/i&gt; the result of this comparison chain has not already been<a name="line.169"></a>
+<FONT color="green">170</FONT>       * determined.<a name="line.170"></a>
+<FONT color="green">171</FONT>       */<a name="line.171"></a>
+<FONT color="green">172</FONT>      public abstract ComparisonChain compare(long left, long right);<a name="line.172"></a>
+<FONT color="green">173</FONT>    <a name="line.173"></a>
+<FONT color="green">174</FONT>      /**<a name="line.174"></a>
+<FONT color="green">175</FONT>       * Compares two {@code float} values as specified by {@link<a name="line.175"></a>
+<FONT color="green">176</FONT>       * Float#compare}, &lt;i&gt;if&lt;/i&gt; the result of this comparison chain has not<a name="line.176"></a>
+<FONT color="green">177</FONT>       * already been determined.<a name="line.177"></a>
+<FONT color="green">178</FONT>       */<a name="line.178"></a>
+<FONT color="green">179</FONT>      public abstract ComparisonChain compare(float left, float right);<a name="line.179"></a>
+<FONT color="green">180</FONT>    <a name="line.180"></a>
+<FONT color="green">181</FONT>      /**<a name="line.181"></a>
+<FONT color="green">182</FONT>       * Compares two {@code double} values as specified by {@link<a name="line.182"></a>
+<FONT color="green">183</FONT>       * Double#compare}, &lt;i&gt;if&lt;/i&gt; the result of this comparison chain has not<a name="line.183"></a>
+<FONT color="green">184</FONT>       * already been determined.<a name="line.184"></a>
+<FONT color="green">185</FONT>       */<a name="line.185"></a>
+<FONT color="green">186</FONT>      public abstract ComparisonChain compare(double left, double right);<a name="line.186"></a>
+<FONT color="green">187</FONT>    <a name="line.187"></a>
+<FONT color="green">188</FONT>      /**<a name="line.188"></a>
+<FONT color="green">189</FONT>       * Compares two {@code boolean} values, considering {@code true} to be less<a name="line.189"></a>
+<FONT color="green">190</FONT>       * than {@code false}, &lt;i&gt;if&lt;/i&gt; the result of this comparison chain has not<a name="line.190"></a>
+<FONT color="green">191</FONT>       * already been determined.<a name="line.191"></a>
+<FONT color="green">192</FONT>       *<a name="line.192"></a>
+<FONT color="green">193</FONT>       * @since 12.0<a name="line.193"></a>
+<FONT color="green">194</FONT>       */<a name="line.194"></a>
+<FONT color="green">195</FONT>      public abstract ComparisonChain compareTrueFirst(boolean left, boolean right);<a name="line.195"></a>
+<FONT color="green">196</FONT>    <a name="line.196"></a>
+<FONT color="green">197</FONT>      /**<a name="line.197"></a>
+<FONT color="green">198</FONT>       * Compares two {@code boolean} values, considering {@code false} to be less<a name="line.198"></a>
+<FONT color="green">199</FONT>       * than {@code true}, &lt;i&gt;if&lt;/i&gt; the result of this comparison chain has not<a name="line.199"></a>
+<FONT color="green">200</FONT>       * already been determined.<a name="line.200"></a>
+<FONT color="green">201</FONT>       *<a name="line.201"></a>
+<FONT color="green">202</FONT>       * @since 12.0 (present as {@code compare} since 2.0)<a name="line.202"></a>
+<FONT color="green">203</FONT>       */<a name="line.203"></a>
+<FONT color="green">204</FONT>      public abstract ComparisonChain compareFalseFirst(boolean left, boolean right);<a name="line.204"></a>
+<FONT color="green">205</FONT>    <a name="line.205"></a>
+<FONT color="green">206</FONT>      /**<a name="line.206"></a>
+<FONT color="green">207</FONT>       * Old name of {@link #compareFalseFirst}.<a name="line.207"></a>
+<FONT color="green">208</FONT>       *<a name="line.208"></a>
+<FONT color="green">209</FONT>       * @deprecated Use {@link #compareFalseFirst}; or, if the parameters passed<a name="line.209"></a>
+<FONT color="green">210</FONT>       *     are being either negated or reversed, undo the negation or reversal and<a name="line.210"></a>
+<FONT color="green">211</FONT>       *     use {@link #compareTrueFirst}. &lt;b&gt;This method is scheduled for deletion<a name="line.211"></a>
+<FONT color="green">212</FONT>       *     in September 2013.&lt;/b&gt;<a name="line.212"></a>
+<FONT color="green">213</FONT>       */<a name="line.213"></a>
+<FONT color="green">214</FONT>      @Deprecated<a name="line.214"></a>
+<FONT color="green">215</FONT>      public final ComparisonChain compare(boolean left, boolean right) {<a name="line.215"></a>
+<FONT color="green">216</FONT>        return compareFalseFirst(left, right);<a name="line.216"></a>
+<FONT color="green">217</FONT>      }<a name="line.217"></a>
+<FONT color="green">218</FONT>    <a name="line.218"></a>
+<FONT color="green">219</FONT>      /**<a name="line.219"></a>
+<FONT color="green">220</FONT>       * Ends this comparison chain and returns its result: a value having the<a name="line.220"></a>
+<FONT color="green">221</FONT>       * same sign as the first nonzero comparison result in the chain, or zero if<a name="line.221"></a>
+<FONT color="green">222</FONT>       * every result was zero.<a name="line.222"></a>
+<FONT color="green">223</FONT>       */<a name="line.223"></a>
+<FONT color="green">224</FONT>      public abstract int result();<a name="line.224"></a>
+<FONT color="green">225</FONT>    }<a name="line.225"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

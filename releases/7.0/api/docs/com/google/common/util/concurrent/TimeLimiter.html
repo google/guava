@@ -1,0 +1,323 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+TimeLimiter (Guava: Google Core Libraries for Java - r07)
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="TimeLimiter (Guava: Google Core Libraries for Java - r07)";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/google/common/util/concurrent/TimeLimiter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="TimeLimiter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.google.common.util.concurrent</FONT>
+<BR>
+Interface TimeLimiter</H2>
+<DL>
+<DT><B>All Known Implementing Classes:</B> <DD><A HREF="../../../../../com/google/common/util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent">FakeTimeLimiter</A>, <A HREF="../../../../../com/google/common/util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent">SimpleTimeLimiter</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE><FONT SIZE="-1"><A HREF="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</A>
+</FONT>public interface <B>TimeLimiter</B></DL>
+</PRE>
+
+<P>
+Produces proxies that impose a time limit on method
+ calls to the proxied object.  For example, to return the value of
+ <code>target.someMethod()</code>, but substitute <code>DEFAULT_VALUE</code> if this
+ method call takes over 50 ms, you can use this code:
+ <pre>
+   TimeLimiter limiter = . . .;
+   TargetType proxy = limiter.newProxy(
+       target, TargetType.class, 50, TimeUnit.MILLISECONDS);
+   try {
+     return proxy.someMethod();
+   } catch (UncheckedTimeoutException e) {
+     return DEFAULT_VALUE;
+   }
+ </pre>
+ Please see <code>SimpleTimeLimiterTest</code> for more usage examples.
+<P>
+
+<P>
+<DL>
+<DT><B>Since:</B></DT>
+  <DD>1</DD>
+<DT><B>Author:</B></DT>
+  <DD>Kevin Bourrillion</DD>
+</DL>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; T</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/TimeLimiter.html#callWithTimeout(java.util.concurrent.Callable, long, java.util.concurrent.TimeUnit, boolean)">callWithTimeout</A></B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</A>&lt;T&gt;&nbsp;callable,
+                long&nbsp;timeoutDuration,
+                <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</A>&nbsp;timeoutUnit,
+                boolean&nbsp;interruptible)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Invokes a specified Callable, timing out after the specified time limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; T</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/google/common/util/concurrent/TimeLimiter.html#newProxy(T, java.lang.Class, long, java.util.concurrent.TimeUnit)">newProxy</A></B>(T&nbsp;target,
+         <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;interfaceType,
+         long&nbsp;timeoutDuration,
+         <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</A>&nbsp;timeoutUnit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an instance of <code>interfaceType</code> that delegates all method
+ calls to the <code>target</code> object, enforcing the specified time limit on
+ each call.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="newProxy(java.lang.Object,java.lang.Class,long,java.util.concurrent.TimeUnit)"><!-- --></A><A NAME="newProxy(T, java.lang.Class, long, java.util.concurrent.TimeUnit)"><!-- --></A><H3>
+newProxy</H3>
+<PRE>
+&lt;T&gt; T <B>newProxy</B>(T&nbsp;target,
+               <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;T&gt;&nbsp;interfaceType,
+               long&nbsp;timeoutDuration,
+               <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</A>&nbsp;timeoutUnit)</PRE>
+<DL>
+<DD>Returns an instance of <code>interfaceType</code> that delegates all method
+ calls to the <code>target</code> object, enforcing the specified time limit on
+ each call.  This time-limited delegation is also performed for calls to
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><CODE>Object.equals(java.lang.Object)</CODE></A>, <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang"><CODE>Object.hashCode()</CODE></A>, and
+ <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang"><CODE>Object.toString()</CODE></A>.
+ <p>
+ If the target method call finishes before the limit is reached, the return
+ value or exception is propagated to the caller exactly as-is. If, on the
+ other hand, the time limit is reached, the proxy will attempt to abort the
+ call to the target, and will throw an <A HREF="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><CODE>UncheckedTimeoutException</CODE></A> to
+ the caller.
+ <p>
+ It is important to note that the primary purpose of the proxy object is to
+ return control to the caller when the timeout elapses; aborting the target
+ method call is of secondary concern.  The particular nature and strength
+ of the guarantees made by the proxy is implementation-dependent.  However,
+ it is important that each of the methods on the target object behaves
+ appropriately when its thread is interrupted.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>target</CODE> - the object to proxy<DD><CODE>interfaceType</CODE> - the interface you wish the returned proxy to
+     implement<DD><CODE>timeoutDuration</CODE> - with timeoutUnit, the maximum length of time that
+     callers are willing to wait on each method call to the proxy<DD><CODE>timeoutUnit</CODE> - with timeoutDuration, the maximum length of time that
+     callers are willing to wait on each method call to the proxy
+<DT><B>Returns:</B><DD>a time-limiting proxy
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</A></CODE> - if <code>interfaceType</code> is a regular
+     class, enum, or annotation type, rather than an interface</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="callWithTimeout(java.util.concurrent.Callable, long, java.util.concurrent.TimeUnit, boolean)"><!-- --></A><H3>
+callWithTimeout</H3>
+<PRE>
+&lt;T&gt; T <B>callWithTimeout</B>(<A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</A>&lt;T&gt;&nbsp;callable,
+                      long&nbsp;timeoutDuration,
+                      <A HREF="http://java.sun.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</A>&nbsp;timeoutUnit,
+                      boolean&nbsp;interruptible)
+                  throws <A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></PRE>
+<DL>
+<DD>Invokes a specified Callable, timing out after the specified time limit.
+ If the target method call finished before the limit is reached, the return
+ value or exception is propagated to the caller exactly as-is.  If, on the
+ other hand, the time limit is reached, we attempt to abort the call to the
+ target, and throw an <A HREF="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><CODE>UncheckedTimeoutException</CODE></A> to the caller.
+ <p>
+ <b>Warning:</b> The future of this method is in doubt.  It may be nuked, or
+ changed significantly.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>callable</CODE> - the Callable to execute<DD><CODE>timeoutDuration</CODE> - with timeoutUnit, the maximum length of time to wait<DD><CODE>timeoutUnit</CODE> - with timeoutDuration, the maximum length of time to wait<DD><CODE>interruptible</CODE> - whether to respond to thread interruption by aborting
+     the operation and throwing InterruptedException; if false, the
+     operation is allowed to complete or time out, and the current thread's
+     interrupt status is re-asserted.
+<DT><B>Returns:</B><DD>the result returned by the Callable
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</A></CODE> - if <code>interruptible</code> is true and our
+     thread is interrupted during execution
+<DD><CODE><A HREF="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent">UncheckedTimeoutException</A></CODE> - if the time limit is reached
+<DD><CODE><A HREF="http://java.sun.com/javase/6/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</A></CODE></DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/google/common/util/concurrent/TimeLimiter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="TimeLimiter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>
