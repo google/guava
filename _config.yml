@@ -7,7 +7,7 @@ description: Google core libraries for Java
 baseurl: /guava
 url: http://google.github.io
 permalink: /news/:year/:month/:day/:title/
-exclude: ['Gemfile*']
+exclude: ['Gemfile*', 'README.md']
 
 # These settings are enabled by default for GitHub and can't be overridden.
 # Specifying them here to ensure that building locally uses the same settings.
