@@ -132,10 +132,9 @@ public final class Sets {
   }
 
   /**
-   * Returns a new {@code EnumSet} instance containing the given elements.
-   * Unlike {@link EnumSet#copyOf(Collection)}, this method does not produce an
-   * exception on an empty collection, and it may be called on any iterable, not
-   * just a {@code Collection}.
+   * Returns a new, <i>mutable</i> {@code EnumSet} instance containing the given elements in their
+   * natural order. This method behaves identically to {@link EnumSet#copyOf(Collection)}, but also
+   * accepts non-{@code Collection} iterables and empty iterables.
    */
   public static <E extends Enum<E>> EnumSet<E> newEnumSet(Iterable<E> iterable,
       Class<E> elementType) {
@@ -147,33 +146,33 @@ public final class Sets {
   // HashSet
 
   /**
-   * Creates a <i>mutable</i>, empty {@code HashSet} instance.
+   * Creates a <i>mutable</i>, initially empty {@code HashSet} instance.
    *
-   * <p><b>Note:</b> if mutability is not required, use {@link
-   * ImmutableSet#of()} instead.
+   * <p><b>Note:</b> if mutability is not required, use {@link ImmutableSet#of()} instead. If
+   * {@code E} is an {@link Enum} type, use {@link EnumSet#noneOf} instead. Otherwise, strongly
+   * consider using a {@code LinkedHashSet} instead, at the cost of increased memory footprint, to
+   * get deterministic iteration behavior.
    *
-   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link
-   * EnumSet#noneOf} instead.
-   *
-   * @return a new, empty {@code HashSet}
+   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
+   * deprecated. Instead, use the {@code HashSet} constructor directly, taking advantage of the new
+   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   public static <E> HashSet<E> newHashSet() {
     return new HashSet<E>();
   }
 
   /**
-   * Creates a <i>mutable</i> {@code HashSet} instance containing the given
-   * elements in unspecified order.
+   * Creates a <i>mutable</i> {@code HashSet} instance initially containing the given elements.
    *
-   * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use an overload of {@link ImmutableSet#of()} (for varargs) or
-   * {@link ImmutableSet#copyOf(Object[])} (for an array) instead.
+   * <p><b>Note:</b> if elements are non-null and won't be added or removed after this point, use
+   * {@link ImmutableSet#of()} or {@link ImmutableSet#copyOf(Object[])} instead. If {@code E} is an
+   * {@link Enum} type, use {@link EnumSet#of(Enum, Enum[])} instead. Otherwise, strongly consider
+   * using a {@code LinkedHashSet} instead, at the cost of increased memory footprint, to get
+   * deterministic iteration behavior.
    *
-   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link
-   * EnumSet#of(Enum, Enum[])} instead.
-   *
-   * @param elements the elements that the set should contain
-   * @return a new {@code HashSet} containing those elements (minus duplicates)
+   * <p>This method is just a small convenience, either for {@code newHashSet(}{@link Arrays#asList
+   * asList}{@code (...))}, or for creating an empty set then calling {@link Collections#addAll}.
+   * This method is not actually very useful and will likely be deprecated in the future.
    */
   public static <E> HashSet<E> newHashSet(E... elements) {
     HashSet<E> set = newHashSetWithExpectedSize(elements.length);
@@ -182,11 +181,10 @@ public final class Sets {
   }
 
   /**
-   * Creates a {@code HashSet} instance, with a high enough "initial capacity"
-   * that it <i>should</i> hold {@code expectedSize} elements without growth.
-   * This behavior cannot be broadly guaranteed, but it is observed to be true
-   * for OpenJDK 1.6. It also can't be guaranteed that the method isn't
-   * inadvertently <i>oversizing</i> the returned set.
+   * Creates a {@code HashSet} instance, with a high enough initial table size that it <i>should</i>
+   * hold {@code expectedSize} elements without resizing. This behavior cannot be broadly
+   * guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the
+   * method isn't inadvertently <i>oversizing</i> the returned set.
    *
    * @param expectedSize the number of elements you expect to add to the
    *        returned set
@@ -199,17 +197,22 @@ public final class Sets {
   }
 
   /**
-   * Creates a <i>mutable</i> {@code HashSet} instance containing the given
-   * elements in unspecified order.
+   * Creates a <i>mutable</i> {@code HashSet} instance containing the given elements. A very thin
+   * convenience for creating an empty set then calling {@link Collection#addAll} or {@link
+   * Iterables#addAll}.
    *
-   * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableSet#copyOf(Iterable)} instead.
+   * <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
+   * ImmutableSet#copyOf(Iterable)} instead. (Or, change {@code elements} to be a {@link
+   * FluentIterable} and call {@code elements.toSet()}.)
    *
-   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use
-   * {@link #newEnumSet(Iterable, Class)} instead.
+   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link #newEnumSet(Iterable, Class)}
+   * instead.
    *
-   * @param elements the elements that the set should contain
-   * @return a new {@code HashSet} containing those elements (minus duplicates)
+   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
+   * need this method. Instead, use the {@code HashSet} constructor directly, taking advantage of
+   * the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   *
+   * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    */
   public static <E> HashSet<E> newHashSet(Iterable<? extends E> elements) {
     return (elements instanceof Collection)
@@ -218,17 +221,16 @@ public final class Sets {
   }
 
   /**
-   * Creates a <i>mutable</i> {@code HashSet} instance containing the given
-   * elements in unspecified order.
+   * Creates a <i>mutable</i> {@code HashSet} instance containing the given elements. A very thin
+   * convenience for creating an empty set and then calling {@link Iterators#addAll}.
    *
-   * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableSet#copyOf(Iterable)} instead.
+   * <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
+   * ImmutableSet#copyOf(Iterator)} instead.
    *
-   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, you should create an
-   * {@link EnumSet} instead.
+   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, you should create an {@link EnumSet}
+   * instead.
    *
-   * @param elements the elements that the set should contain
-   * @return a new {@code HashSet} containing those elements (minus duplicates)
+   * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    */
   public static <E> HashSet<E> newHashSet(Iterator<? extends E> elements) {
     HashSet<E> set = newHashSet();
