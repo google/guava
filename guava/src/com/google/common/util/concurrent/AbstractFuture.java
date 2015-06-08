@@ -40,26 +40,19 @@ import java.util.logging.Logger;
 import javax.annotation.Nullable;
 
 /**
- * An abstract implementation of the {@link ListenableFuture} interface. This
- * class is preferable to {@link java.util.concurrent.FutureTask} for two
- * reasons: It implements {@code ListenableFuture}, and it does not implement
- * {@code Runnable}. (If you want a {@code Runnable} implementation of {@code
- * ListenableFuture}, create a {@link ListenableFutureTask}, or submit your
- * tasks to a {@link ListeningExecutorService}.)
+ * An abstract implementation of {@link ListenableFuture}, intended for advanced users only. More
+ * common ways to create a {@code ListenableFuture} include instantiating a {@link SettableFuture},
+ * submitting a task to a {@link ListeningExecutorService}, and deriving a {@code Future} from an
+ * existing one, typically using methods like {@link Futures#transform(ListenableFuture, Function)
+ * Futures.transform} and {@link Futures#catching(ListenableFuture, Class, Function)
+ * Futures.catching}.
  *
- * <p>This class implements all methods in {@code ListenableFuture}.
- * Subclasses should provide a way to set the result of the computation through
- * the protected methods {@link #set(Object)},
- * {@link #setFuture(ListenableFuture)} and {@link #setException(Throwable)}.
- * Subclasses may also override {@link #interruptTask()}, which will be invoked
- * automatically if a call to {@link #cancel(boolean) cancel(true)} succeeds in
- * canceling the future.
- *
- * <p>Subclasses should rarely override other methods. Instead, prefer designs
- * that derive a new {@code Future} to return to clients, typically using
- * methods like {@link Futures#transform(ListenableFuture, AsyncFunction)
- * Futures.transform} and {@link Futures#withFallback(ListenableFuture,
- * FutureFallback) Futures.withFallback}.
+ * <p>This class implements all methods in {@code ListenableFuture}. Subclasses should provide a way
+ * to set the result of the computation through the protected methods {@link #set(Object)}, {@link
+ * #setFuture(ListenableFuture)} and {@link #setException(Throwable)}. Subclasses may also override
+ * {@link #interruptTask()}, which will be invoked automatically if a call to {@link
+ * #cancel(boolean) cancel(true)} succeeds in canceling the future. Subclasses should rarely
+ * override other methods.
  *
  * @author Sven Mawson
  * @author Luke Sandberg

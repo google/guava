@@ -62,9 +62,10 @@ import java.util.concurrent.RejectedExecutionException;
  * <h3>How to get an instance</h3>
  *
  * <p>Developers are encouraged to return {@code ListenableFuture} from their
- * methods so that users can take advantages of the utilities built atop the
- * class. The way that they will create {@code ListenableFuture} instances
- * depends on how they currently create {@code Future} instances:
+ * methods so that users can take advantages of the {@linkplain Futures
+ * utilities built atop the class}. The way that they will create {@code
+ * ListenableFuture} instances depends on how they currently create {@code
+ * Future} instances:
  * <ul>
  * <li>If they are returned from an {@code ExecutorService}, convert that
  * service to a {@link ListeningExecutorService}, usually by calling {@link
