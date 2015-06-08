@@ -33,7 +33,7 @@ import java.util.LinkedHashMap;
  * the multiset, the element will appear at the end of the iteration.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">
  * {@code Multiset}</a>.
  *
  * @author Kevin Bourrillion

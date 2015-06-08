@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  * Provides static methods acting on or generating a {@code Multimap}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Multimaps">
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multimaps">
  * {@code Multimaps}</a>.
  *
  * @author Jared Levy

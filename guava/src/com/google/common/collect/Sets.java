@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  * class's counterparts {@link Lists}, {@link Maps} and {@link Queues}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Sets">
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#sets">
  * {@code Sets}</a>.
  *
  * @author Kevin Bourrillion

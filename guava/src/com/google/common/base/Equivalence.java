@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  * @author Bob Lee
  * @author Ben Yu
  * @author Gregory Kick
- * @since 10.0 (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
+ * @since 10.0 (<a href="https://github.com/google/guava/wiki/Compatibility"
  *        >mostly source-compatible</a> since 4.0)
  */
 @CheckReturnValue

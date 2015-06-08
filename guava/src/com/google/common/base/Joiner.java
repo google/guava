@@ -57,7 +57,7 @@ import javax.annotation.Nullable;
  *   return joiner.join("wrong", null, "wrong");}</pre>
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/StringsExplained#Joiner">{@code Joiner}</a>.
+ * "https://github.com/google/guava/wiki/StringsExplained#joiner">{@code Joiner}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0

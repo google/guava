@@ -28,7 +28,7 @@ import java.nio.charset.Charset;
  * <p>Assuming you're free to choose, note that <b>{@link #UTF_8} is widely preferred</b>.
  *
  * <p>See the Guava User Guide article on <a
- * href="http://code.google.com/p/guava-libraries/wiki/StringsExplained#Charsets">
+ * href="https://github.com/google/guava/wiki/StringsExplained#charsets">
  * {@code Charsets}</a>.
  *
  * @author Mike Bostock

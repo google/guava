@@ -27,7 +27,7 @@ import java.util.Map;
  * See also {@link ImmutableClassToInstanceMap}.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#ClassToInstanceMap">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">
  * {@code ClassToInstanceMap}</a>.
  *
  * @author Kevin Bourrillion

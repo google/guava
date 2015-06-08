@@ -48,7 +48,7 @@ import javax.annotation.Nullable;
  *     have no value" (present in the map, with value {@code Optional.absent()})
  * <li>To wrap nullable references for storage in a collection that does not support
  *     {@code null} (though there are
- *     <a href="http://code.google.com/p/guava-libraries/wiki/LivingWithNullHostileCollections">
+ *     <a href="https://github.com/google/guava/wiki/LivingWithNullHostileCollections">
  *     several other approaches to this</a> that should be considered first)
  * </ul>
  *
@@ -60,7 +60,7 @@ import javax.annotation.Nullable;
  * construct from other programming environments, though it may bear some similarities.
  *
  * <p>See the Guava User Guide article on <a
- * href="http://code.google.com/p/guava-libraries/wiki/UsingAndAvoidingNullExplained#Optional">
+ * href="https://github.com/google/guava/wiki/UsingAndAvoidingNullExplained#optional">
  * using {@code Optional}</a>.
  *
  * @param <T> the type of instance that can be contained. {@code Optional} is naturally

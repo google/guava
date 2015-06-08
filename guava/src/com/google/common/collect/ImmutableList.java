@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
  * {@link ImmutableCollection}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
  * immutable collections</a>.
  *
  * @see ImmutableMap

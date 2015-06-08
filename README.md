@@ -12,13 +12,13 @@ Requires JDK 1.6 or higher (as of 12.0).
 Learn about Guava
 ------------------
 
-- Our users' guide, [GuavaExplained]( https://code.google.com/p/guava-libraries/wiki/GuavaExplained)
-- Browse [API docs for the most recent release]( http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/index.html)
-- Browse [API diffs for the most recent release]( http://docs.guava-libraries.googlecode.com/git-history/release/jdiff/changes.html)
-- [Presentation slides focusing on base, primitives, and io]( http://guava-libraries.googlecode.com/files/Guava_for_Netflix_.pdf)
+- Our users' guide, [Guava Explained](https://github.com/google/guava/wiki/Home)
+- Browse [API docs for the most recent release](http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/index.html)
+- Browse [API diffs for the most recent release](http://docs.guava-libraries.googlecode.com/git-history/release/jdiff/changes.html)
+- [Presentation slides focusing on base, primitives, and io](http://guava-libraries.googlecode.com/files/Guava_for_Netflix_.pdf)
 - [Presentation slides focusing on cache]( http://guava-libraries.googlecode.com/files/JavaCachingwithGuava.pdf)
 - [Presentation slides focusing on util.concurrent](http://guava-libraries.googlecode.com/files/guava-concurrent-slides.pdf)
-- [A nice collection]( http://www.tfnico.com/presentations/google-guava) of other helpful links
+- [A nice collection](http://www.tfnico.com/presentations/google-guava) of other helpful links
 
 Links
 -----

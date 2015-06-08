@@ -69,7 +69,7 @@ import javax.annotation.Nullable;
  * <p>It is of course possible to use the methods of this class to check for invalid conditions
  * which are <i>not the caller's fault</i>. Doing so is <b>not recommended</b> because it is
  * misleading to future readers of the code and of stack traces. See
- * <a href="http://code.google.com/p/guava-libraries/wiki/ConditionalFailuresExplained">Conditional
+ * <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional
  * failures explained</a> in the Guava User Guide for more advice.
  *
  * <h3>{@code java.util.Objects.requireNonNull()}</h3>
@@ -87,7 +87,7 @@ import javax.annotation.Nullable;
  * <h3>More information</h3>
  *
  * <p>See the Guava User Guide on
- * <a href="http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained">using {@code
+ * <a href="https://github.com/google/guava/wiki/PreconditionsExplained">using {@code
  * Preconditions}</a>.
  *
  * @author Kevin Bourrillion

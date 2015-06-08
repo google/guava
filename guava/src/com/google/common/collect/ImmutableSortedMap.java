@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
  * not correctly obey its specification.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
  * immutable collections</a>.
  *
  * @author Jared Levy

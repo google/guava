@@ -32,7 +32,7 @@ import java.util.concurrent.RejectedExecutionException;
  * immediately.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/ListenableFutureExplained">
+ * "https://github.com/google/guava/wiki/ListenableFutureExplained">
  * {@code ListenableFuture}</a>.
  *
  * <h3>Purpose</h3>

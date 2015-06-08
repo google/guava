@@ -57,7 +57,7 @@ import javax.annotation.Nullable;
  * the backing iteration when absolutely necessary.
  *
  * <p>See the Guava User Guide section on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Iterables">
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#iterables">
  * {@code Iterators}</a>.
  *
  * @author Kevin Bourrillion

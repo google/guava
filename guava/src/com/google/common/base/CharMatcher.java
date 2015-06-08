@@ -46,7 +46,7 @@ import javax.annotation.CheckReturnValue;
  *   if ({@link #ASCII ASCII}.{@link #matchesAllOf matchesAllOf}(s)) { ... }</pre>
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/StringsExplained#CharMatcher">
+ * "https://github.com/google/guava/wiki/StringsExplained#charmatcher">
  * {@code CharMatcher}</a>.
  *
  * @author Kevin Bourrillion

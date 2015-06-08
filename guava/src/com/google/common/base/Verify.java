@@ -81,7 +81,7 @@ import javax.annotation.Nullable;
  * <h3>More information</h3>
  *
  * See
- * <a href="http://code.google.com/p/guava-libraries/wiki/ConditionalFailuresExplained">Conditional
+ * <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional
  * failures explained</a> in the Guava User Guide for advice on when this class should be used.
  *
  * @since 17.0

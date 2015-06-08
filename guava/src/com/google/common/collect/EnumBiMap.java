@@ -34,7 +34,7 @@ import java.util.Map;
  * serializable.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#BiMap">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap">
  * {@code BiMap}</a>.
  *
  * @author Mike Bostock

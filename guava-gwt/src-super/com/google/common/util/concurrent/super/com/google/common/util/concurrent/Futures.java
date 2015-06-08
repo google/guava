@@ -51,7 +51,7 @@ import javax.annotation.Nullable;
  *
  * <p>Many of these methods use the {@link ListenableFuture} API; consult the
  * Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/ListenableFutureExplained">
+ * "https://github.com/google/guava/wiki/ListenableFutureExplained">
  * {@code ListenableFuture}</a>.
  *
  * @author Kevin Bourrillion

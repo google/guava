@@ -90,7 +90,7 @@ import javax.annotation.CheckReturnValue;
  * note that a round-trip between the two should be assumed to be lossy.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/StringsExplained#Splitter">
+ * "https://github.com/google/guava/wiki/StringsExplained#splitter">
  * {@code Splitter}</a>.
  *
  * @author Julien Silland

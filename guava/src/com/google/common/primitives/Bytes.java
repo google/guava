@@ -42,7 +42,7 @@ import javax.annotation.Nullable;
  * UnsignedBytes}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
+ * "https://github.com/google/guava/wiki/PrimitivesExplained">
  * primitive utilities</a>.
  *
  * @author Kevin Bourrillion

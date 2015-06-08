@@ -271,7 +271,7 @@ public final class MoreExecutors {
    * RejectedExecutionException, although a subset of the tasks may already
    * have been executed.
    *
-   * @since 10.0 (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
+   * @since 10.0 (<a href="https://github.com/google/guava/wiki/Compatibility"
    *        >mostly source-compatible</a> since 3.0)
    * @deprecated Use {@link #directExecutor()} if you only require an {@link Executor} and
    *     {@link #newDirectExecutorService()} if you need a {@link ListeningExecutorService}. This

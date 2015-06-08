@@ -35,7 +35,7 @@ import java.util.NoSuchElementException;
  * "strings of length 5."
  *
  * <p>See the Guava User Guide section on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/RangesExplained#Discrete_Domains">
+ * "https://github.com/google/guava/wiki/RangesExplained#discrete-domains">
  * {@code DiscreteDomain}</a>.
  *
  * @author Kevin Bourrillion

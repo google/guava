@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
  * <p>The {@link Functions} class provides common functions and related utilites.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/FunctionalExplained">the use of {@code
+ * "https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
  * Function}</a>.
  *
  * @author Kevin Bourrillion

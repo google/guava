@@ -139,7 +139,7 @@ import javax.annotation.CheckReturnValue;
  * <i>not</i> include cache contents, but only configuration.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/CachesExplained">caching</a> for a higher-level
+ * "https://github.com/google/guava/wiki/CachesExplained">caching</a> for a higher-level
  * explanation.
  *
  * @param <K> the base key type for all caches created by this builder

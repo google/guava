@@ -43,7 +43,7 @@ import javax.annotation.Nullable;
  * {@code HashBiMap} and its inverse are both serializable.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#BiMap"> {@code BiMap}
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"> {@code BiMap}
  * </a>.
  *
  * @author Louis Wasserman

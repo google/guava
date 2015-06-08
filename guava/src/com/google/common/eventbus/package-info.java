@@ -23,7 +23,7 @@
  * intended for interprocess communication.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/EventBusExplained">
+ * "https://github.com/google/guava/wiki/EventBusExplained">
  * {@code EventBus}</a>.
  *
  * <h2>One-Minute Guide</h2>

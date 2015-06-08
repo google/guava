@@ -104,7 +104,7 @@ import javax.annotation.Nullable;
  * <h3>Further reading</h3>
  *
  * <p>See the Guava User Guide article on
- * <a href="http://code.google.com/p/guava-libraries/wiki/RangesExplained">{@code Range}</a>.
+ * <a href="https://github.com/google/guava/wiki/RangesExplained">{@code Range}</a>.
  *
  * @author Kevin Bourrillion
  * @author Gregory Kick

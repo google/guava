@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
  * {@link java.util.Objects}.
  *
  * <p>See the Guava User Guide on <a
- * href="http://code.google.com/p/guava-libraries/wiki/CommonObjectUtilitiesExplained">writing
+ * href="https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained">writing
  * {@code Object} methods with {@code MoreObjects}</a>.
  *
  * @author Laurence Gonsalves

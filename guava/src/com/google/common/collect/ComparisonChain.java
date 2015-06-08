@@ -54,7 +54,7 @@ import javax.annotation.Nullable;
  * {@code compare} implementations.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/CommonObjectUtilitiesExplained#compare/compareTo">
+ * "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto">
  * {@code ComparisonChain}</a>.
  *
  * @author Mark Davis
