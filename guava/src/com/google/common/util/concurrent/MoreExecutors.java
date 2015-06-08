@@ -243,7 +243,7 @@ public final class MoreExecutors {
 
   /**
    * Creates an executor service that runs each task in the thread
-   * that invokes {@code execute/submit}, as in {@link CallerRunsPolicy}  This
+   * that invokes {@code execute/submit}, as in {@link CallerRunsPolicy}.  This
    * applies both to individually submitted tasks and to collections of tasks
    * submitted via {@code invokeAll} or {@code invokeAny}.  In the latter case,
    * tasks will run serially on the calling thread.  Tasks are run to
@@ -935,16 +935,14 @@ public final class MoreExecutors {
    *  <li>waits for the other half of the specified timeout.
    * </ol>
    *
-   * <p>If, at any step of the process, the given executor is terminated or the calling thread is
-   * interrupted, the method calls {@link ExecutorService#shutdownNow()}, cancelling
-   * pending tasks and interrupting running tasks.
+   * <p>If, at any step of the process, the calling thread is interrupted, the method calls {@link
+   * ExecutorService#shutdownNow()} and returns.
    *
    * @param service the {@code ExecutorService} to shut down
    * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
    * @param unit the time unit of the timeout argument
-   * @return {@code true} if the pool was terminated successfully, {@code false} if the
-   *     {@code ExecutorService} could not terminate <b>or</b> the thread running this method
-   *     is interrupted while waiting for the {@code ExecutorService} to terminate
+   * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
+   *     the call timed out or was interrupted
    * @since 17.0
    */
   @Beta
