@@ -77,7 +77,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     }
   }
 
-  @Override void done() {
+  @Override final void done() {
     super.done();
 
     // Free all resources associated with the running task
@@ -92,16 +92,6 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     }
   }
 
-  /**
-   * Template method for calculating and setting the value. Guaranteed to be called at most once.
-   *
-   * <p>Extracted as an extension point for subclasses that wish to modify behavior.
-   * See Futures.combine (which has specialized exception handling).
-   */
-  void doRun(Callable<V> localTask) throws Exception {
-    set(localTask.call());
-  }
-
   private final class TrustedFutureInterruptibleTask extends InterruptibleTask {
     private final Callable<V> callable;
 
@@ -113,7 +103,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
       // Ensure we haven't been cancelled or already run.
       if (!isDone()) {
         try {
-          doRun(callable);
+          set(callable.call());
         } catch (Throwable t) {
           setException(t);
         } 
