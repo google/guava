@@ -28,7 +28,7 @@ fi
 version=$1
 
 # cd to git root dir (the dir above the one containing this script):
-initialdir=$pwd
+initialdir=$PWD
 cd $(dirname $0)
 cd ..
 
