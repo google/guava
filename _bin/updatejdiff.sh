@@ -31,6 +31,7 @@ old=$1
 new=$2
 
 # cd to git root dir (the dir above the one containing this script):
+initialdir=$pwd
 cd $(dirname $0)
 cd ..
 
@@ -62,6 +63,7 @@ cp releases/$old/api/diffs/$old.xml $tempoldxml
 tempnewxml=Guava_$new.xml
 cp releases/$newdir/api/diffs/$newdir.xml $tempnewxml
 
+# Run JDiff
 javadoc \
   -subpackages com \
   -doclet jdiff.JDiff \
@@ -72,6 +74,9 @@ javadoc \
   -javadocnew $newjavadoc \
   -d $outputdir
 
+# Cleanup
 rm $outputdir/user_comments_for_Guava_*
 rm $tempoldxml
 rm $tempnewxml
+
+cd $initialdir

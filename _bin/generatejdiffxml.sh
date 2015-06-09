@@ -28,6 +28,7 @@ fi
 version=$1
 
 # cd to git root dir (the dir above the one containing this script):
+initialdir=$pwd
 cd $(dirname $0)
 cd ..
 
@@ -98,5 +99,7 @@ fi
 echo "Cleaning up temp files"
 rm -fr $srctemp
 rm -fr $classtemp
+
+cd $initialdir
 
 echo "Finished"

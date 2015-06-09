@@ -14,6 +14,7 @@ if [ -z $ref ]; then
 fi
 
 # cd to git root dir (the dir above the one containing this script):
+initialdir=$pwd
 cd $(dirname $0)
 cd ..
 
@@ -58,5 +59,7 @@ echo "Moving Javadoc to $docsdir"
 mkdir -p $docsdir
 rm -fr $docsdir
 mv $doctemp $docsdir
+
+cd $initialdir
 
 echo "Finished"
