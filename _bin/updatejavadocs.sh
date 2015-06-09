@@ -2,15 +2,52 @@
 
 set -e -u
 
+#*****************************************************************************
+#
+# This script generates/updates the Javadoc for a specific
+# version of Guava, committing the Javadoc to the api/docs/
+# directory of that version under releases/.
+#
+# This can be used in a couple different ways:
+#
+#   # Builds Javadoc for the 'master' branch, commits to releases/snapshot
+#   _bin/updatejavadoc.sh
+#   _bin/updatejavadoc.sh master
+#   _bin/updatejavadoc.sh snapshot
+#   _bin/updatejavadoc.sh 19.0-SNAPSHOT
+#
+#   # Builds Javadoc for the 'v18.0' tag, commits to releases/18.0
+#   _bin/updatejavadoc.sh 18.0
+#
+#******************************************************************************
+
 if [ $# -gt 1 ]; then
-  echo "Usage: updatejavadoc <branch-or-tag>" >&2
+  echo "Usage: updatejavadoc.sh <version>" >&2
   exit 1
 fi
 
-ref=$1
+version=$1
 
-if [ -z $ref ]; then
+if [ -z $version ]; then
+  version=snapshot
   ref=master
+elif [ $version == master ]; then
+  version=snapshot
+  ref=master
+elif [ $version == snapshot ]; then
+  ref=master
+elif [[ $version =~ \d+\..+ ]]; then
+  # The version starts with numbers and a dot (a release version)
+  if [[ $version =~ .+-SNAPSHOT ]]; then
+    # If we get any -SNAPSHOT version, use master
+    ref=master
+  else
+    # If the version isn't 'master', prepend v to it to get the tag to check out
+    ref=v$version
+  fi
+else
+  echo "Invalid version specified: $version"
+  exit 1
 fi
 
 # cd to git root dir (the dir above the one containing this script):
@@ -24,7 +61,7 @@ if git diff --name-only | grep . -q ; then
 fi
 
 # Make temp dir
-doctemp=$(mktemp -d -t guava-$ref-docs)
+doctemp=$(mktemp -d -t guava-$version-docs)
 
 # Checkout the main code at the specified version
 echo "Checking out $ref"
@@ -38,17 +75,6 @@ mvn clean javadoc:javadoc -pl guava > /dev/null
 mv guava/target/site/apidocs/* $doctemp/
 rm -fr guava/target
 
-# Get the version name we want to use under the releases/ directory
-if [[ $ref =~ v\d+.* ]]; then
-  # For a version tag (e.g. v18.0), remove the v
-  version=${REF:1}
-elif [ $ref == "master" ]; then
-  # The master branch docs should be under "snapshot"
-  version=snapshot
-else
-  version=$ref
-fi
-
 # Switch back to gh-pages branch
 echo "Checking out gh-pages"
 git checkout -q gh-pages
@@ -59,6 +85,10 @@ echo "Moving Javadoc to $docsdir"
 mkdir -p $docsdir
 rm -fr $docsdir
 mv $doctemp $docsdir
+
+echo "Committing changes"
+git add .
+git commit -m "Generate Javadoc for version $version"
 
 cd $initialdir
 

@@ -7,9 +7,9 @@
 # arbitrary diffs. Except when doing releases, it should
 # generally be invoked as:
 #
-#   _bin/updatejdiff.sh 18.0 19.0-snapshot
+#   _bin/updatejdiff.sh 18.0 19.0-SNAPSHOT
 #
-# Using any -snapshot version as the new version will
+# Using any -SNAPSHOT version as the new version will
 # case the diffs to go in /releases/snapshot.
 #
 # For releases, just use a non-snapshot version instead:
@@ -64,6 +64,7 @@ tempnewxml=Guava_$new.xml
 cp releases/$newdir/api/diffs/$newdir.xml $tempnewxml
 
 # Run JDiff
+echo "Running JDiff"
 javadoc \
   -subpackages com \
   -doclet jdiff.JDiff \
