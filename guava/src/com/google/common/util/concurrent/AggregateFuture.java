@@ -16,13 +16,13 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableCollection;
 
 import java.util.Set;
@@ -93,7 +93,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     RunningState(ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures,
         boolean allMustSucceed, boolean collectsValues) {
       super(futures.size());
-      this.futures = Preconditions.checkNotNull(futures);
+      this.futures = checkNotNull(futures);
       this.allMustSucceed = allMustSucceed;
       this.collectsValues = collectsValues;
     }
@@ -161,7 +161,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
      * this future to fail, and it is the first time we've seen that particular Throwable.
      */
     private void handleException(Throwable throwable) {
-      Preconditions.checkNotNull(throwable);
+      checkNotNull(throwable);
 
       boolean completedWithFailure = false;
       boolean firstTimeSeeingThisException = true;
@@ -171,20 +171,10 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
         completedWithFailure = setException(throwable);
         if (completedWithFailure) {
           releaseResourcesAfterFailure();
-        }
-
-        // seenExceptions is lazily initialized when we get a failure
-        Set<Throwable> seenExceptionsLocal = getSeenExceptions();
-
-        // Go up the causal chain to see if we've already seen this cause; if we have,
-        // even if it's wrapped by a different exception, don't log it.
-        Throwable currentThrowable = throwable;
-        while (currentThrowable != null) {
-          firstTimeSeeingThisException = seenExceptionsLocal.add(currentThrowable);
-          if (!firstTimeSeeingThisException) {
-            break;
-          }
-          currentThrowable = currentThrowable.getCause();
+        } else {
+          // Go up the causal chain to see if we've already seen this cause; if we have,
+          // even if it's wrapped by a different exception, don't log it.
+          firstTimeSeeingThisException = addCausalChain(getOrInitSeenExceptions(), throwable);
         }
       }
 
@@ -193,6 +183,11 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
           | (allMustSucceed & !completedWithFailure & firstTimeSeeingThisException)) {
         logger.log(Level.SEVERE, "input future failed.", throwable);
       }
+    }
+
+    @Override
+    final void addInitialException(Set<Throwable> seen) {
+      addCausalChain(seen, trustedGetException());
     }
 
     /**
@@ -275,5 +270,22 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     abstract void handleAllCompleted();
 
     void interruptTask() {}
+  }
+
+  /** Adds the chain to the seen set, and returns whether all the chain was new to us. */
+  private static boolean addCausalChain(Set<Throwable> seen, Throwable t) {
+    for (; t != null; t = t.getCause()) {
+      boolean firstTimeSeen = seen.add(t);
+      if (!firstTimeSeen) {
+        /*
+         * We've seen this, so we've seen its causes, too. No need to re-add them. (There's one case
+         * where this isn't true, but we ignore it: If we record an exception, then someone calls
+         * initCause() on it, and then we examine it again, we'll conclude that we've seen the whole
+         * chain before when it fact we haven't. But this should be rare.)
+         */
+        return false;
+      }
+    }
+    return true;
   }
 }

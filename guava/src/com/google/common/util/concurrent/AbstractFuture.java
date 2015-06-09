@@ -764,6 +764,16 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    */
   void done() {}
 
+  /**
+   * Returns the exception that this {@code Future} completed with. This includes completion through
+   * a call to {@link setException} or {@link setFuture}{@code (failedFuture)} but not cancellation.
+   *
+   * @throws RuntimeException if the {@code Future} has not failed
+   */
+  final Throwable trustedGetException() {
+    return ((Failure) value).exception;
+  }
+
   /** Clears the {@link #waiters} list and returns the most recently added value. */
   private Waiter clearWaiters() {
     Waiter head;

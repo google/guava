@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
@@ -187,6 +188,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   void done() {}
+
+  final Throwable trustedGetException() {
+    checkState(state == State.FAILURE);
+    return throwable;
+  }
 
   private enum State {
     PENDING {

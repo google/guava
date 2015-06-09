@@ -16,11 +16,11 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.collect.Sets.newConcurrentHashSet;
 import static java.util.concurrent.atomic.AtomicIntegerFieldUpdater.newUpdater;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.Sets;
 
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
@@ -51,16 +51,47 @@ abstract class AggregateFutureState {
     this.remaining = remainingFutures;
   }
 
-  final Set<Throwable> getSeenExceptions() {
+  final Set<Throwable> getOrInitSeenExceptions() {
+    /*
+     * The initialization of seenExceptions has to be more complicated than we'd like. The simple
+     * approach would be for each caller CAS it from null to a Set populated with its exception. But
+     * there's another race: If the first thread fails with an exception and a second thread
+     * immediately fails with the same exception:
+     *
+     * Thread1: calls setException(), which returns true, context switch before it can CAS
+     * seenExceptions to its exception
+     *
+     * Thread2: calls setException(), which returns false, CASes seenExceptions to its exception,
+     * and wrongly believes that its exception is new (leading it to logging it when it shouldn't)
+     *
+     * Our solution is for threads to CAS seenExceptions from null to a Set population with _the
+     * initial exception_, no matter which thread does the work. This ensures that seenExceptions
+     * always contains not just the current thread's exception but also the initial thread's.
+     */
     Set<Throwable> seenExceptionsLocal = seenExceptions;
     if (seenExceptionsLocal == null) {
-      SEEN_EXCEPTIONS_UDPATER.compareAndSet(
-          this, null, Sets.<Throwable>newConcurrentHashSet());
-      // Guaranteed to get us the right value because we only set this once (here)
+      seenExceptionsLocal = newConcurrentHashSet();
+      /*
+       * Other handleException() callers may see this as soon as we publish it. We need to populate
+       * it with the initial failure before we do, or else they may think that the initial failure
+       * has never been seen before.
+       */
+      addInitialException(seenExceptionsLocal);
+
+      SEEN_EXCEPTIONS_UDPATER.compareAndSet(this, null, seenExceptionsLocal);
+      /*
+       * If another handleException() caller created the set, we need to use that copy in case yet
+       * other callers have added to it.
+       *
+       * This read is guaranteed to get us the right value because we only set this once (here).
+       */
       seenExceptionsLocal = seenExceptions;
     }
     return seenExceptionsLocal;
   }
+
+  /** Populates {@code seen} with the exception that was passed to {@code setException}. */
+  abstract void addInitialException(Set<Throwable> seen);
 
   final int decrementRemainingAndGet() {
     return REMAINING_COUNT_UPDATER.decrementAndGet(this);

@@ -1304,10 +1304,10 @@ public class FuturesTest extends TestCase {
   }
 
   /**
-   * All as list will log extra exceptions that occur after failure.
+   * All as list will log extra exceptions that have already occurred.
    */
   @SuppressWarnings("unchecked")
-  public void testAllAsList_logging_multipleExceptions() throws Exception {
+  public void testAllAsList_logging_multipleExceptions_alreadyDone() throws Exception {
     try {
       Futures.allAsList(immediateFailedFuture(new MyException()),
           immediateFailedFuture(new MyException())).get();
@@ -1317,6 +1317,30 @@ public class FuturesTest extends TestCase {
       List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
       assertEquals(1, logged.size());  // the second failure is logged
       assertTrue(logged.get(0).getThrown() instanceof MyException);
+    }
+  }
+
+  /**
+   * All as list will log extra exceptions that occur later.
+   */
+  @SuppressWarnings("unchecked")
+  public void testAllAsList_logging_multipleExceptions_doneLater() throws Exception {
+    SettableFuture<Object> future1 = SettableFuture.create();
+    SettableFuture<Object> future2 = SettableFuture.create();
+    SettableFuture<Object> future3 = SettableFuture.create();
+    ListenableFuture<List<Object>> all = Futures.allAsList(future1, future2, future3);
+
+    future1.setException(new MyException());
+    future2.setException(new MyException());
+    future3.setException(new MyException());
+
+    try {
+      all.get();
+    } catch (ExecutionException e) {
+      List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
+      assertEquals(2, logged.size());  // failures are the first are logged
+      assertTrue(logged.get(0).getThrown() instanceof MyException);
+      assertTrue(logged.get(1).getThrown() instanceof MyException);
     }
   }
 
@@ -1337,7 +1361,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  public void testAllAsList_logging_seenExceptionUpdateRaceBuggy() throws Exception {
+  public void testAllAsList_logging_seenExceptionUpdateRace() throws Exception {
     final MyException sameInstance = new MyException();
     SettableFuture<Object> firstFuture = SettableFuture.create();
     final SettableFuture<Object> secondFuture = SettableFuture.create();
@@ -1349,7 +1373,7 @@ public class FuturesTest extends TestCase {
         /*
          * firstFuture just completed, but AggregateFuture hasn't yet had time to record the
          * exception in seenExceptions. When we complete secondFuture with the same exception,
-         * AggregateFuture will think that it's new.
+         * we want for AggregateFuture to still detect that it's been previously seen.
          */
         secondFuture.setException(sameInstance);
       }
@@ -1361,8 +1385,7 @@ public class FuturesTest extends TestCase {
       fail();
     } catch (ExecutionException expected) {
       assertTrue(expected.getCause() instanceof MyException);
-      // TODO(cpovirk): Fix this bug. We should see 0 records:
-      assertEquals(1, aggregateFutureLogHandler.getStoredLogRecords().size());
+      assertThat(aggregateFutureLogHandler.getStoredLogRecords()).isEmpty();
     }
   }
 

@@ -207,12 +207,39 @@ public void testAllAsList_logging_exception() throws Exception {
   }
 }
 
-public void testAllAsList_logging_multipleExceptions() throws Exception {
+public void testAllAsList_logging_multipleExceptions_alreadyDone() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
   Throwable failure = null;
   try {
-    testCase.testAllAsList_logging_multipleExceptions();
+    testCase.testAllAsList_logging_multipleExceptions_alreadyDone();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
+public void testAllAsList_logging_multipleExceptions_doneLater() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testAllAsList_logging_multipleExceptions_doneLater();
   } catch (Throwable t) {
     failure = t;
   }
@@ -288,12 +315,12 @@ public void testAllAsList_logging_same_exception() throws Exception {
   }
 }
 
-public void testAllAsList_logging_seenExceptionUpdateRaceBuggy() throws Exception {
+public void testAllAsList_logging_seenExceptionUpdateRace() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
   Throwable failure = null;
   try {
-    testCase.testAllAsList_logging_seenExceptionUpdateRaceBuggy();
+    testCase.testAllAsList_logging_seenExceptionUpdateRace();
   } catch (Throwable t) {
     failure = t;
   }
