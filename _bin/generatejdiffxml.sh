@@ -28,7 +28,6 @@ fi
 version=$1
 
 # cd to git root dir (the dir above the one containing this script):
-initialdir=$PWD
 cd $(dirname $0)
 cd ..
 
@@ -102,7 +101,5 @@ rm -fr $classtemp
 echo "Committing changes"
 git add .
 git commit -m "Generate jdiff xml file for $version"
-
-cd $initialdir
 
 echo "Finished"

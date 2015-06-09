@@ -31,7 +31,6 @@ old=$1
 new=$2
 
 # cd to git root dir (the dir above the one containing this script):
-initialdir=$PWD
 cd $(dirname $0)
 cd ..
 
@@ -84,7 +83,5 @@ rm $tempnewxml
 echo "Committing changes"
 git add .
 git commit -m "Generate diffs between $old and $new"
-
-cd $initialdir
 
 echo "Finished"

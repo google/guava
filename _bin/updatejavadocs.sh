@@ -54,7 +54,6 @@ else
 fi
 
 # cd to git root dir (the dir above the one containing this script):
-initialdir=$PWD
 cd $(dirname $0)
 cd ..
 
@@ -92,7 +91,5 @@ mv $doctemp $docsdir
 echo "Committing changes"
 git add .
 git commit -m "Generate Javadoc for version $version"
-
-cd $initialdir
 
 echo "Finished"
