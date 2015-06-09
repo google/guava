@@ -20,10 +20,12 @@ fi
 DOCTEMP=$(mktemp -d -t guava-$REF-docs)
 
 # Checkout the main code at the specified version
+echo "Checking out $REF"
 git checkout -q $REF
 
 # Generate Javadoc and move it to temp dir
-mvn clean javadoc:javadoc -pl guava
+echo "Generating Javadoc"
+mvn clean javadoc:javadoc -pl guava > /dev/null
 mv guava/target/site/apidocs/* $DOCTEMP/
 rm -fr guava/target
 
@@ -39,10 +41,14 @@ else
 fi
 
 # Switch back to gh-pages branch
+echo "Checking out gh-pages"
 git checkout -q gh-pages
 
 DOCSDIR=releases/$VERSION/api/docs
 
+echo "Moving Javadoc to $DOCSDIR"
 mkdir -p $DOCSDIR
 rm -fr $DOCSDIR
 mv $DOCTEMP $DOCSDIR
+
+echo "Finished"
