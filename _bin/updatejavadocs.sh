@@ -21,12 +21,14 @@ set -e -u
 #
 #******************************************************************************
 
-if [ $# -gt 1 ]; then
+if [ $# -eq 0 ]; then
+  version=snapshot
+elif [ $# -eq 1 ]; then
+  version=$1
+else
   echo "Usage: updatejavadoc.sh <version>" >&2
   exit 1
 fi
-
-version=$1
 
 if [ -z $version ]; then
   version=snapshot
