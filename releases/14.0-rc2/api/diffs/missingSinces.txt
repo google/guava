@@ -5,7 +5,9 @@ OK: com.google.common.io.ByteSource Class
 OK: com.google.common.io.CharSink Class
 OK: com.google.common.io.CharSource Class
 OK: com.google.common.reflect.ClassPath Class
-MISSING @SINCE TAG: com.google.common.reflect.ClassPath.ClassInfo Class
+OK: com.google.common.reflect.ClassPath.ClassInfo Class
+OK: com.google.common.reflect.ClassPath.ResourceInfo Class
+OK: com.google.common.io.Closer Class
 MISSING @SINCE TAG: com.google.common.io.FileWriteMode Class
 OK: com.google.common.collect.ForwardingBlockingDeque Class
 OK: com.google.common.util.concurrent.FutureFallback Interface
@@ -142,3 +144,7 @@ OK: com.google.common.util.concurrent.AbstractFuture Method wasInterrupted()
 OK: com.google.common.util.concurrent.Futures Method withFallback(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>)
 OK: com.google.common.util.concurrent.Futures Method withFallback(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>, java.util.concurrent.Executor)
 OK: com.google.common.base.Splitter Method withKeyValueSeparator(char)
+OK: com.google.common.net.MediaType Field APPLICATION_BINARY
+MISSING @SINCE TAG: com.google.common.net.MediaType Field APPLICATION_XML_UTF_8
+NO DOC BLOCK: com.google.common.net.MediaType Field RDF_XML_UTF_8
+MISSING @SINCE TAG: com.google.common.net.MediaType Field XRD_UTF_8
