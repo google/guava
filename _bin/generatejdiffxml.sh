@@ -49,23 +49,28 @@ fi
 outputdir=releases/$dir/api/diffs/
 
 # Switch to the git ref for the target version
-echo "Checking out $ref"
+echo "Checking out '$ref'"
 git checkout -q $ref
 
 # Copy the Guava source code to a temp dir
-srctemp=$(mktemp -d -t guava-$version-jdiff)
-echo "Copying source files to $srctemp"
+srctemp=$(mktemp -d -t guava-$version-src)
+echo "Copying source files to '$srctemp'"
 cp -r guava/src/* $srctemp/
 
-# Copy the Guava dependencies to a temp dir
+# Get a classpath for Guava's dependencies and compiled code
 deptemp=$(mktemp -t guava-$version-deps)
+echo "Compiling Guava"
 # TODO(cgdecker): Output to a log file and tell the user about it if something goes wrong
-mvn dependency:build-classpath -Dmdep.outputFile=$deptemp -pl guava > /dev/null
+mvn clean compile dependency:build-classpath -Dmdep.outputFile=$deptemp -pl guava > /dev/null
 classpath=$(cat $deptemp)
 rm $deptemp
+classtemp=$(mktemp -d -t guava-$version-classes)
+echo "Copying class files to '$classtemp'"
+cp -r guava/target/classes/* $classtemp/
+classpath=$classtemp:$classpath
 
 # Switch back to gh-pages
-echo "Checking out gh-pages"
+echo "Checking out 'gh-pages'"
 git checkout -q gh-pages
 
 # Run JDiff
@@ -78,14 +83,20 @@ javadoc \
   -doclet jdiff.JDiff \
   -docletpath _lib/jdiff.jar:_lib/xerces-for-jdiff.jar \
   -apiname "Guava $version" \
-  -apidir $outputdir
+  -apidir $outputdir \
+  -exclude com.google.common.base.internal \
+  -protected
 
 # Rename the output file if this was for a snapshot
 if [ $dir == "snapshot" ]; then
+  echo "Renaming 'Guava_$version.xml' to 'snapshot.xml'"
   outputfile=$outputdir/Guava_$version.xml
   mv $outputfile $outputdir/snapshot.xml
 fi
 
+# Cleanup temp files
+echo "Cleaning up temp files"
 rm -fr $srctemp
+rm -fr $classtemp
 
 echo "Finished"
