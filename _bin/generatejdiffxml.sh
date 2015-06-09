@@ -100,6 +100,10 @@ echo "Cleaning up temp files"
 rm -fr $srctemp
 rm -fr $classtemp
 
+# Commit
+echo "Committing changes"
+git commit -am "Generate jdiff xml file for $version"
+
 cd $initialdir
 
 echo "Finished"

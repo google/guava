@@ -79,4 +79,10 @@ rm $outputdir/user_comments_for_Guava_*
 rm $tempoldxml
 rm $tempnewxml
 
+# Commit changes
+echo "Committing changes"
+git commit -am "Generate diffs between $old and $new"
+
 cd $initialdir
+
+echo "Finished"
