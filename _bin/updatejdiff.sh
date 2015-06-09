@@ -81,7 +81,8 @@ rm $tempnewxml
 
 # Commit changes
 echo "Committing changes"
-git commit -am "Generate diffs between $old and $new"
+git add .
+git commit -m "Generate diffs between $old and $new"
 
 cd $initialdir
 

@@ -88,12 +88,10 @@ javadoc \
   -exclude com.google.common.base.internal \
   -protected
 
-# Rename the output file if this was for a snapshot
-if [ $dir == "snapshot" ]; then
-  echo "Renaming 'Guava_$version.xml' to 'snapshot.xml'"
-  outputfile=$outputdir/Guava_$version.xml
-  mv $outputfile $outputdir/snapshot.xml
-fi
+# Rename the output file
+outputfile=$outputdir/Guava_$version.xml
+echo "Renaming 'Guava_$version.xml' to '$dir.xml'"
+mv $outputfile $outputdir/$dir.xml
 
 # Cleanup temp files
 echo "Cleaning up temp files"
@@ -102,7 +100,8 @@ rm -fr $classtemp
 
 # Commit
 echo "Committing changes"
-git commit -am "Generate jdiff xml file for $version"
+git add .
+git commit -m "Generate jdiff xml file for $version"
 
 cd $initialdir
 
