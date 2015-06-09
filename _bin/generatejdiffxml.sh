@@ -79,7 +79,7 @@ echo "Running JDiff"
 javadoc \
   -sourcepath $srctemp \
   -classpath $classpath \
-  -subpackages com \
+  -subpackages com.google.common \
   -encoding UTF-8 \
   -doclet jdiff.JDiff \
   -docletpath _lib/jdiff.jar:_lib/xerces-for-jdiff.jar \
