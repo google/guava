@@ -36,7 +36,7 @@ elif [ $version == master ]; then
   ref=master
 elif [ $version == snapshot ]; then
   ref=master
-elif [[ $version =~ \d+\..+ ]]; then
+elif [[ $version =~ [0-9]+\..+ ]]; then
   # The version starts with numbers and a dot (a release version)
   if [[ $version =~ .+-SNAPSHOT ]]; then
     # If we get any -SNAPSHOT version, use master
