@@ -42,6 +42,7 @@ elif [[ $version =~ [0-9]+\..+ ]]; then
   # The version starts with numbers and a dot (a release version)
   if [[ $version =~ .+-SNAPSHOT ]]; then
     # If we get any -SNAPSHOT version, use master
+    version=snapshot
     ref=master
   else
     # If the version isn't 'master', prepend v to it to get the tag to check out
