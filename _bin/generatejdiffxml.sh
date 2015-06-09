@@ -45,7 +45,7 @@ if [[ $version =~ .+-SNAPSHOT ]]; then
 else
   # releases come from a tag of the form "v18.0"
   ref=v$version
-  dir=$new
+  dir=$version
 fi
 outputdir=releases/$dir/api/diffs/
 
