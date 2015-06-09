@@ -18,7 +18,7 @@ com.google.common.collect
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 13.0-rc1</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 13.0</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -78,6 +78,13 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="GenericMapMaker"></A>
+  <nobr><A HREF="com.google.common.collect.GenericMapMaker.html">GenericMapMaker</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A class exactly like <A HREF="../../docs/com/google/common/collect/GenericMapMaker/MapMaker.html"><TT>MapMaker</TT></A>, except restricted in the types of maps it can build.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="ImmutableMap"></A>
   <nobr><A HREF="com.google.common.collect.ImmutableMap.html">ImmutableMap</A></nobr>
   </TD>
@@ -107,6 +114,14 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Iterables"></A>
+  <nobr><A HREF="com.google.common.collect.Iterables.html">Iterables</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">This class contains static utility methods that operate on or return objects
+ of type {@code Iterable}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="Iterators"></A>
   <nobr><A HREF="com.google.common.collect.Iterators.html">Iterators</A></nobr>
   </TD>
@@ -121,6 +136,21 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
   <TD VALIGN="TOP">Implementation of {@code Multimap} that does not allow duplicate key-value
  entries and that returns collections whose iterators follow the ordering in
  which the data was added to the multimap.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="MapMaker"></A>
+  <nobr><A HREF="com.google.common.collect.MapMaker.html">MapMaker</A></nobr>
+  </TD>
+  <TD VALIGN="TOP"><p>A builder of <A HREF="../../docs/com/google/common/collect/MapMaker/ConcurrentMap.html"><TT>ConcurrentMap</TT></A> instances having any combination of the following features:
+
+ <ul>
+ <li>keys or values automatically wrapped in <A HREF="../../docs/com/google/common/collect/MapMaker/lain.html"><TT>WeakReference weak</TT></A> or <A HREF="../../docs/com/google/common/collect/MapMaker/lain.html"><TT>     SoftReference soft</TT></A> references
+ <li>notification of evicted (or otherwise removed) entries
+ <li>on-demand computation of values for keys not already present
+ </ul>
+
+ </TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -161,7 +191,7 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 13.0-rc1</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 13.0</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
