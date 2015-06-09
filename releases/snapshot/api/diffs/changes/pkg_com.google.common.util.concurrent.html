@@ -70,37 +70,6 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="AsyncFunction"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.AsyncFunction.html"><I>AsyncFunction</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Transforms a value, possibly asynchronously.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="CheckedFuture"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.CheckedFuture.html"><I>CheckedFuture</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A {@code CheckedFuture} is a <A HREF="../../docs/com/google/common/util/concurrent/CheckedFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A> that includes versions
- of the {@code get} methods that can throw a checked exception.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="CycleDetectingLockFactory.Policy"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.CycleDetectingLockFactory.Policy.html"><I>CycleDetectingLockFactory.<br>Policy</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Encapsulates the action to be taken when a potential deadlock is
- encountered.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="FutureCallback"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.FutureCallback.html"><I>FutureCallback</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A callback for accepting the results of a <A HREF="../../docs/com/google/common/util/concurrent/FutureCallback/java/util/concurrent/Future.html"><TT>java.util.concurrent.Future</TT></A>
- computation asynchronously.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="FutureFallback"></A>
   <nobr><A HREF="com.google.common.util.concurrent.FutureFallback.html"><I>FutureFallback</I></A></nobr>
   </TD>
@@ -115,62 +84,11 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ListenableFuture"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.ListenableFuture.html"><I>ListenableFuture</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/util/concurrent/ListenableFuture/Future.html"><TT>Future</TT></A> that accepts completion listeners.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ListeningExecutorService"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.ListeningExecutorService.html"><I>ListeningExecutorService</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">An <A HREF="../../docs/com/google/common/util/concurrent/ListeningExecutorService/ExecutorService.html"><TT>ExecutorService</TT></A> that returns <A HREF="../../docs/com/google/common/util/concurrent/ListeningExecutorService/ListenableFuture.html"><TT>ListenableFuture</TT></A> instances.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ListeningScheduledExecutorService"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.ListeningScheduledExecutorService.html"><I>ListeningScheduledExecutorService</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/util/concurrent/ListeningScheduledExecutorService/ScheduledExecutorService.html"><TT>ScheduledExecutorService</TT></A> that returns <A HREF="../../docs/com/google/common/util/concurrent/ListeningScheduledExecutorService/ListenableFuture.html"><TT>ListenableFuture</TT></A>
- instances from its {@code ExecutorService} methods.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Service"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.Service.html"><I>Service</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">An object with an operational state, plus asynchronous <A HREF="../../docs/com/google/common/util/concurrent/Service/.html#startAsync()"><TT>.startAsync()</TT></A> and 
- <A HREF="../../docs/com/google/common/util/concurrent/Service/.html#stopAsync()"><TT>.stopAsync()</TT></A> lifecycle methods to transition between states.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="SettableFuture"></A>
   <nobr><A HREF="com.google.common.util.concurrent.SettableFuture.html">SettableFuture</A></nobr>
   </TD>
   <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/util/concurrent/SettableFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A> whose result may be set by a <A HREF="../../docs/com/google/common/util/concurrent/SettableFuture/.html#set(Object)"><TT>.set(Object)</TT></A>,
  <A HREF="../../docs/com/google/common/util/concurrent/SettableFuture/.html#setException(Throwable)"><TT>.setException(Throwable)</TT></A> or <A HREF="../../docs/com/google/common/util/concurrent/SettableFuture/.html#setFuture(ListenableFuture)"><TT>.setFuture(ListenableFuture)</TT></A> call.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="TimeLimiter"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.TimeLimiter.html"><I>TimeLimiter</I></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Produces proxies that impose a time limit on method
- calls to the proxied object.  For example, to return the value of
- {@code target.someMethod()}, but substitute {@code DEFAULT_VALUE} if this
- method call takes over 50 ms, you can use this code:
- <pre>
-   TimeLimiter limiter = . . .;
-   TargetType proxy = limiter.newProxy(
-       target, TargetType.class, 50, TimeUnit.MILLISECONDS);
-   try {
-     return proxy.someMethod();
-   } catch (UncheckedTimeoutException e) {
-     return DEFAULT_VALUE;
-   }
- </pre>
- </TD>
 </TR>
 </TABLE>
 &nbsp;
