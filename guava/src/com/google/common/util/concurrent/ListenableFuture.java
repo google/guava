@@ -117,7 +117,7 @@ public interface ListenableFuture<V> extends Future<V> {
    * <li>The listener may be executed by the thread that completes this {@code
    * Future}. That thread may be an internal system thread such as an RPC
    * network thread. Blocking that thread may stall progress of the whole
-   * system.
+   * system. It may even cause a deadlock.
    * <li>The listener may delay other listeners, even listeners that are not
    * themselves {@code directExecutor} listeners.
    * </ul>
