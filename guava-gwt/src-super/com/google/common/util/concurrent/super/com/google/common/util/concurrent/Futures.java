@@ -72,25 +72,26 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   // A consequence of these requirements is that the delegate futures cannot be stored in
   // final fields.
   //
-  // For simplicity the rest of this description will discuss Futures.withFallback since it is the
+  // For simplicity the rest of this description will discuss Futures.catching since it is the
   // simplest instance, though very similar descriptions apply to many other classes in this file.
   //
-  // In the constructor of FutureFallback, the delegate future is assigned to a field 'inputFuture'.
-  // That field is non-final and non-volatile.  There are 2 places where the 'inputFuture' field is
-  // read and where we will have to consider visibility of the write operation in the constructor.
+  // In the constructor of AbstractCatchingFuture, the delegate future is assigned to a field
+  // 'inputFuture'. That field is non-final and non-volatile.  There are 2 places where the
+  // 'inputFuture' field is read and where we will have to consider visibility of the write
+  // operation in the constructor.
   //
   // 1. In the listener that performs the callback.  In this case it is fine since inputFuture is
   //    assigned prior to calling addListener, and addListener happens-before any invocation of the
   //    listener. Notably, this means that 'volatile' is unnecessary to make 'inputFuture' visible
   //    to the listener.
   //
-  // 2. In cancel() where we propagate cancellation to the input.  In this case it is _not_ fine.
+  // 2. In done() where we may propagate cancellation to the input.  In this case it is _not_ fine.
   //    There is currently nothing that enforces that the write to inputFuture in the constructor is
-  //    visible to cancel().  This is because there is no happens before edge between the write and
-  //    a (hypothetical) unsafe read by our caller. Note: adding 'volatile' does not fix this issue,
-  //    it would just add an edge such that if cancel() observed non-null, then it would also
-  //    definitely observe all earlier writes, but we still have no guarantee that cancel() would
-  //    see the inital write (just stronger guarantees if it does).
+  //    visible to done().  This is because there is no happens before edge between the write and a
+  //    (hypothetical) unsafe read by our caller. Note: adding 'volatile' does not fix this issue,
+  //    it would just add an edge such that if done() observed non-null, then it would also
+  //    definitely observe all earlier writes, but we still have no guarantee that done() would see
+  //    the inital write (just stronger guarantees if it does).
   //
   // See: http://cs.oswego.edu/pipermail/concurrency-interest/2015-January/013800.html
   // For a (long) discussion about this specific issue and the general futility of life.
@@ -437,26 +438,10 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     abstract void doFallback(F fallback, X throwable) throws Exception;
 
     @Override final void done() {
+      maybePropagateCancellation(inputFuture);
       this.inputFuture = null;
       this.exceptionType = null;
       this.fallback = null;
-    }
-
-    @Override
-    public final boolean cancel(boolean mayInterruptIfRunning) {
-      // we need to read this field prior to calling super.cancel() because cancel will null it out
-      ListenableFuture<?> localInputFuture = inputFuture;
-      if (super.cancel(mayInterruptIfRunning)) {
-        // May be null if the original future completed, but we were cancelled while the fallback
-        // is still pending.  This is fine because if the original future completed, then there is
-        // nothing to cancel and if the fallback is pending, cancellation would be handled by
-        // super.cancel().
-        if (localInputFuture != null) {
-          localInputFuture.cancel(mayInterruptIfRunning);
-        }
-        return true;
-      }
-      return false;
     }
   }
 
@@ -578,6 +563,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
           // to the timeout future completing.  We wrap in a try...finally... for the off chance
           // that cancelling the delegate causes an Error to be thrown from a listener on the
           // delegate.
+          // TODO(cpovirk): fix those callers, and simplify this code, including relying on done()
+          // for most/all of the cleanup above
           try {
             delegate.cancel(true);
           } finally {
@@ -589,27 +576,25 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       }
     }
 
-    @Override public boolean cancel(boolean mayInterruptIfRunning) {
+    @Override void done() {
       Future<?> localTimer = timer;
       ListenableFuture<V> delegate = delegateRef;
-      if (super.cancel(mayInterruptIfRunning)) {
-        // Either can be null if super.cancel() races with an execution of Fire.run, but it doesn't
-        // matter because either 1. the delegate is already done (so there is no point in
-        // propagating cancellation and Fire.run will cancel the timer. or 2. the timeout occurred
-        // and Fire.run will cancel the delegate
-        // Technically this is also possible in the 'unsafe publishing' case described above.
-        if (delegate != null) {
-          // Unpin and prevent Fire from doing anything if delegate.cancel finishes the delegate.
-          delegateRef = null;
-          delegate.cancel(mayInterruptIfRunning);
-        }
-        if (localTimer != null) {
-          timer = null;
-          localTimer.cancel(false);
-        }
-        return true;
+
+      // Either can be null if super.cancel() races with an execution of Fire.run, but it doesn't
+      // matter because either 1. the delegate is already done (so there is no point in
+      // propagating cancellation and Fire.run will cancel the timer. or 2. the timeout occurred
+      // and Fire.run will cancel the delegate
+      // Technically this is also possible in the 'unsafe publishing' case described above.
+      if (delegate != null) {
+        // Unpin and prevent Fire from doing anything if delegate.cancel finishes the delegate.
+        delegateRef = null;
+        // TODO(cpovirk): use maybePropagateCancellation?
+        delegate.cancel(wasInterrupted());
       }
-      return false;
+      if (localTimer != null) {
+        timer = null;
+        localTimer.cancel(false);
+      }
     }
   }
 
@@ -1004,23 +989,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     }
 
     @Override
-    public final boolean cancel(boolean mayInterruptIfRunning) {
-      /*
-       * Our additional cancellation work needs to occur even if
-       * !mayInterruptIfRunning, so we can't move it into interruptTask().
-       */
-      // we need to read this field prior to calling cancel() because cancel will null it out
-      ListenableFuture<? extends I> localInputFuture = inputFuture;
-      if (super.cancel(mayInterruptIfRunning)) {
-        if (localInputFuture != null) {
-          localInputFuture.cancel(mayInterruptIfRunning);
-        }
-        return true;
-      }
-      return false;
-    }
-
-    @Override
     public final void run() {
       try {
         ListenableFuture<? extends I> localInputFuture = inputFuture;
@@ -1060,6 +1028,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     abstract void doTransform(F function, I result) throws Exception;
 
     @Override final void done() {
+      maybePropagateCancellation(inputFuture);
       this.inputFuture = null;
       this.function = null;
     }

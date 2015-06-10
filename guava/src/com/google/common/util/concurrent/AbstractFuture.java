@@ -23,6 +23,7 @@ import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Throwables;
+import com.google.errorprone.annotations.ForOverride;
 
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -30,6 +31,7 @@ import java.security.PrivilegedExceptionAction;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
@@ -762,6 +764,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *
    * <p>This is called exactly once, after all listeners have executed.  By default it does nothing.
    */
+  // TODO(cpovirk): @ForOverride if https://github.com/google/error-prone/issues/342 permits
   void done() {}
 
   /**
@@ -772,6 +775,19 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    */
   final Throwable trustedGetException() {
     return ((Failure) value).exception;
+  }
+
+  /**
+   * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)
+   * the given future (if available).
+   *
+   * <p>This method should be used only when this future is completed. It is designed to be called
+   * from {@code done}.
+   */
+  final void maybePropagateCancellation(@Nullable Future<?> related) {
+    if (related != null && isCancelled()) {
+      related.cancel(wasInterrupted());
+    }
   }
 
   /** Clears the {@link #waiters} list and returns the most recently added value. */

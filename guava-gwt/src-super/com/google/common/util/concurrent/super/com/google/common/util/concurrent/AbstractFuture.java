@@ -32,6 +32,8 @@ import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.Nullable;
+
 /**
  * Emulation for AbstractFuture in GWT.
  */
@@ -192,6 +194,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   final Throwable trustedGetException() {
     checkState(state == State.FAILURE);
     return throwable;
+  }
+
+  final void maybePropagateCancellation(@Nullable Future<?> related) {
+    if (related != null && isCancelled()) {
+      related.cancel(wasInterrupted());
+    }
   }
 
   private enum State {

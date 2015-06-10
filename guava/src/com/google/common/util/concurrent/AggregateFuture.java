@@ -53,6 +53,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     this.runningState = null;
   }
 
+  // TODO(cpovirk): Use maybePropagateCancellation() if the performance is OK and the code is clean.
   @Override public final boolean cancel(boolean mayInterruptIfRunning) {
     // Must get a reference to the futures before we cancel, as they'll be cleared out.
     RunningState localRunningState = runningState;
