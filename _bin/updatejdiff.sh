@@ -74,8 +74,19 @@ javadoc \
   -javadocnew $newjavadoc \
   -d $outputdir
 
-# Cleanup
+# Make changes to the output
+# Remove the useless user comments xml file
 rm $outputdir/user_comments_for_Guava_*
+
+# Change changes.html to index.html, making the url for a diff just /releases/<version>/api/diffs
+mv $outputdir/changes.html $outputdir/index.html
+# Change references to ../changes.html in the changes/ subdirectory  to reference the new URL (just ..)
+find $outputdir/changes -name *.html -exec sed -i'.bak' -e 's#\.\./changes.html#..#g' {} ";"
+# Just create backup files and then delete them... doesn't seem to be any good way to avoid this if
+# you want this to work with either GNU or BSD sed.
+rm $outputdir/changes/*.bak
+
+# Cleanup
 rm $tempoldxml
 rm $tempnewxml
 
