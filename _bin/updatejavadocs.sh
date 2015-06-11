@@ -21,35 +21,24 @@ set -e -u
 #
 #******************************************************************************
 
-if [ $# -eq 0 ]; then
-  version=snapshot
-elif [ $# -eq 1 ]; then
-  version=$1
-else
-  echo "Usage: updatejavadoc.sh <version>" >&2
-  exit 1
-fi
+# defaults
+version=snapshot
+ref=master
 
-if [ -z $version ]; then
-  version=snapshot
-  ref=master
-elif [ $version == master ]; then
-  version=snapshot
-  ref=master
-elif [ $version == snapshot ]; then
-  ref=master
-elif [[ $version =~ [0-9]+\..+ ]]; then
-  # The version starts with numbers and a dot (a release version)
-  if [[ $version =~ .+-SNAPSHOT ]]; then
-    # If we get any -SNAPSHOT version, use master
-    version=snapshot
-    ref=master
-  else
-    # If the version isn't 'master', prepend v to it to get the tag to check out
-    ref=v$version
+if [ $# -eq 1 ]; then
+  if [[ ! $1 =~ .+-SNAPSHOT ]]; then
+    # If we didn't get a -SNAPSHOT version (in which case we should just use master)
+    if [[ $1 =~ [0-9]+\..+ ]]; then
+      # The version starts with numbers and a dot (a release version)
+      version=$1
+      ref=v$version
+    else
+      echo "Invalid version specified: $version" >&2
+      exit 1
+    fi
   fi
-else
-  echo "Invalid version specified: $version"
+elif [ $# -gt 1 ]; then
+  echo "Usage: $0 [<version>]" >&2
   exit 1
 fi
 
