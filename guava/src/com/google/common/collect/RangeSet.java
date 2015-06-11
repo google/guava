@@ -105,6 +105,8 @@ public interface RangeSet<C extends Comparable> {
    * make up this range set. The returned set may be empty. The iterators returned by its
    * {@link Iterable#iterator} method return the ranges in decreasing order of lower bound
    * (equivalently, of upper bound).
+   *
+   * @since 19.0
    */
   Set<Range<C>> asDescendingSetOfRanges();
 

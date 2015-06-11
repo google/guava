@@ -149,6 +149,8 @@ public class EventBus {
 
   /**
    * Returns the identifier for this event bus.
+   *
+   * @since 19.0
    */
   public final String identifier() {
     return identifier;

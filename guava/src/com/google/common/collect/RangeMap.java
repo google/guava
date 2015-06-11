@@ -108,9 +108,11 @@ public interface RangeMap<K extends Comparable, V> {
    * {@code Range} entries.
    *
    * <p>It is guaranteed that no empty ranges will be in the returned {@code Map}.
+   *
+   * @since 19.0
    */
   Map<Range<K>, V> asDescendingMapOfRanges();
-  
+
   /**
    * Returns a view of the part of this range map that intersects with {@code range}.
    * 

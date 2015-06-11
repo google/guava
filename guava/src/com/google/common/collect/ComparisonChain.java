@@ -234,6 +234,7 @@ public abstract class ComparisonChain {
    * @deprecated Use {@link #compareFalseFirst}; or, if the parameters passed
    *     are being either negated or reversed, undo the negation or reversal and
    *     use {@link #compareTrueFirst}.
+   * @since 19.0
    */
   @Deprecated
   public final ComparisonChain compare(Boolean left, Boolean right) {

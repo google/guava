@@ -40,6 +40,8 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
 
   /**
    * Returns an empty {@code ImmutableClassToInstanceMap}.
+   *
+   * @since 19.0
    */
   @SuppressWarnings("unchecked")
   public static <B> ImmutableClassToInstanceMap<B> of() {
@@ -48,6 +50,8 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
 
   /**
    * Returns an {@code ImmutableClassToInstanceMap} containing a single entry.
+   *
+   * @since 19.0
    */
   public static <B, T extends B> ImmutableClassToInstanceMap<B> of(Class<T> type, T value) {
     ImmutableMap<Class<? extends B>, B> map = ImmutableMap.<Class<? extends B>, B>of(type, value);
