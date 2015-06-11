@@ -61,7 +61,8 @@ git checkout -q $ref
 
 # If we're on master, pull to get the latest
 if [ $ref == "master" ]; then
-  git pull
+  echo "Pulling to get latest changes"
+  git pull -q
 fi
 
 # Generate Javadoc and move it to temp dir

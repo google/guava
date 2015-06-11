@@ -55,7 +55,8 @@ git checkout -q $ref
 
 # If we're on master, pull to get the latest
 if [ $ref == "master" ]; then
-  git pull
+  echo "Pulling to get latests changes"
+  git pull -q
 fi
 
 # Copy the Guava source code to a temp dir
