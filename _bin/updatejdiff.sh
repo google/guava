@@ -87,6 +87,7 @@ find $outputdir/changes -name *.html -exec sed -i'.bak' -e 's#\.\./changes.html#
 rm $outputdir/changes/*.bak
 
 # Cleanup
+echo "Cleaning up temp files"
 rm $tempoldxml
 rm $tempnewxml
 

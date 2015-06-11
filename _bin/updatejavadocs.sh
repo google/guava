@@ -55,7 +55,7 @@ fi
 doctemp=$(mktemp -d -t guava-$version-docs.XXX)
 
 # Checkout the main code at the specified version
-echo "Checking out $ref"
+echo "Checking out '$ref'"
 git checkout -q $ref
 
 # Generate Javadoc and move it to temp dir
@@ -63,16 +63,17 @@ echo "Generating Javadoc"
 
 # TODO(cgdecker): Redirect output to a temp log file and tell user about it if something goes wrong
 mvn clean javadoc:javadoc -pl guava > /dev/null
+echo "Moving Javadoc to '$doctemp'"
 mv guava/target/site/apidocs/* $doctemp/
 rm -fr guava/target
 
 # Switch back to gh-pages branch
-echo "Checking out gh-pages"
+echo "Checking out 'gh-pages'"
 git checkout -q gh-pages
 
 docsdir=releases/$version/api/docs
 
-echo "Moving Javadoc to $docsdir"
+echo "Moving Javadoc to '$docsdir'"
 mkdir -p $docsdir
 rm -fr $docsdir
 mv $doctemp $docsdir
