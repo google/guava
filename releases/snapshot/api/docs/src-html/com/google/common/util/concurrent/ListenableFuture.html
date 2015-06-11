@@ -125,7 +125,7 @@
 <span class="sourceLineNo">117</span>   * &lt;li&gt;The listener may be executed by the thread that completes this {@code<a name="line.117"></a>
 <span class="sourceLineNo">118</span>   * Future}. That thread may be an internal system thread such as an RPC<a name="line.118"></a>
 <span class="sourceLineNo">119</span>   * network thread. Blocking that thread may stall progress of the whole<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   * system.<a name="line.120"></a>
+<span class="sourceLineNo">120</span>   * system. It may even cause a deadlock.<a name="line.120"></a>
 <span class="sourceLineNo">121</span>   * &lt;li&gt;The listener may delay other listeners, even listeners that are not<a name="line.121"></a>
 <span class="sourceLineNo">122</span>   * themselves {@code directExecutor} listeners.<a name="line.122"></a>
 <span class="sourceLineNo">123</span>   * &lt;/ul&gt;<a name="line.123"></a>
