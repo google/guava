@@ -121,7 +121,7 @@ import javax.annotation.Nullable;
  * serialized, then {@code ordering.onResultOf(function)} can as well.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/OrderingExplained">
+ * "https://github.com/google/guava/wiki/OrderingExplained">
  * {@code Ordering}</a>.
  *
  * @author Jesse Wilson
