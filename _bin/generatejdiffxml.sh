@@ -53,18 +53,18 @@ echo "Checking out '$ref'"
 git checkout -q $ref
 
 # Copy the Guava source code to a temp dir
-srctemp=$(mktemp -d -t guava-$version-src)
+srctemp=$(mktemp -d -t guava-$version-src.XXX)
 echo "Copying source files to '$srctemp'"
 cp -r guava/src/* $srctemp/
 
 # Get a classpath for Guava's dependencies and compiled code
-deptemp=$(mktemp -t guava-$version-deps)
+deptemp=$(mktemp -t guava-$version-deps.XXX)
 echo "Compiling Guava"
 # TODO(cgdecker): Output to a log file and tell the user about it if something goes wrong
 mvn clean compile dependency:build-classpath -Dmdep.outputFile=$deptemp -pl guava > /dev/null
 classpath=$(cat $deptemp)
 rm $deptemp
-classtemp=$(mktemp -d -t guava-$version-classes)
+classtemp=$(mktemp -d -t guava-$version-classes.XXX)
 echo "Copying class files to '$classtemp'"
 cp -r guava/target/classes/* $classtemp/
 classpath=$classtemp:$classpath

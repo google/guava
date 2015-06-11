@@ -52,7 +52,7 @@ if git diff --name-only | grep . -q ; then
 fi
 
 # Make temp dir
-doctemp=$(mktemp -d -t guava-$version-docs)
+doctemp=$(mktemp -d -t guava-$version-docs.XXX)
 
 # Checkout the main code at the specified version
 echo "Checking out $ref"
