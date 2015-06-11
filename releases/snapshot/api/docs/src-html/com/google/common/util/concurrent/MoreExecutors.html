@@ -251,7 +251,7 @@
 <span class="sourceLineNo">243</span><a name="line.243"></a>
 <span class="sourceLineNo">244</span>  /**<a name="line.244"></a>
 <span class="sourceLineNo">245</span>   * Creates an executor service that runs each task in the thread<a name="line.245"></a>
-<span class="sourceLineNo">246</span>   * that invokes {@code execute/submit}, as in {@link CallerRunsPolicy}  This<a name="line.246"></a>
+<span class="sourceLineNo">246</span>   * that invokes {@code execute/submit}, as in {@link CallerRunsPolicy}.  This<a name="line.246"></a>
 <span class="sourceLineNo">247</span>   * applies both to individually submitted tasks and to collections of tasks<a name="line.247"></a>
 <span class="sourceLineNo">248</span>   * submitted via {@code invokeAll} or {@code invokeAny}.  In the latter case,<a name="line.248"></a>
 <span class="sourceLineNo">249</span>   * tasks will run serially on the calling thread.  Tasks are run to<a name="line.249"></a>
@@ -943,43 +943,41 @@
 <span class="sourceLineNo">935</span>   *  &lt;li&gt;waits for the other half of the specified timeout.<a name="line.935"></a>
 <span class="sourceLineNo">936</span>   * &lt;/ol&gt;<a name="line.936"></a>
 <span class="sourceLineNo">937</span>   *<a name="line.937"></a>
-<span class="sourceLineNo">938</span>   * &lt;p&gt;If, at any step of the process, the given executor is terminated or the calling thread is<a name="line.938"></a>
-<span class="sourceLineNo">939</span>   * interrupted, the method calls {@link ExecutorService#shutdownNow()}, cancelling<a name="line.939"></a>
-<span class="sourceLineNo">940</span>   * pending tasks and interrupting running tasks.<a name="line.940"></a>
-<span class="sourceLineNo">941</span>   *<a name="line.941"></a>
-<span class="sourceLineNo">942</span>   * @param service the {@code ExecutorService} to shut down<a name="line.942"></a>
-<span class="sourceLineNo">943</span>   * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate<a name="line.943"></a>
-<span class="sourceLineNo">944</span>   * @param unit the time unit of the timeout argument<a name="line.944"></a>
-<span class="sourceLineNo">945</span>   * @return {@code true} if the pool was terminated successfully, {@code false} if the<a name="line.945"></a>
-<span class="sourceLineNo">946</span>   *     {@code ExecutorService} could not terminate &lt;b&gt;or&lt;/b&gt; the thread running this method<a name="line.946"></a>
-<span class="sourceLineNo">947</span>   *     is interrupted while waiting for the {@code ExecutorService} to terminate<a name="line.947"></a>
-<span class="sourceLineNo">948</span>   * @since 17.0<a name="line.948"></a>
-<span class="sourceLineNo">949</span>   */<a name="line.949"></a>
-<span class="sourceLineNo">950</span>  @Beta<a name="line.950"></a>
-<span class="sourceLineNo">951</span>  @GwtIncompatible("concurrency")<a name="line.951"></a>
-<span class="sourceLineNo">952</span>  public static boolean shutdownAndAwaitTermination(<a name="line.952"></a>
-<span class="sourceLineNo">953</span>      ExecutorService service, long timeout, TimeUnit unit) {<a name="line.953"></a>
-<span class="sourceLineNo">954</span>    checkNotNull(unit);<a name="line.954"></a>
-<span class="sourceLineNo">955</span>    // Disable new tasks from being submitted<a name="line.955"></a>
-<span class="sourceLineNo">956</span>    service.shutdown();<a name="line.956"></a>
-<span class="sourceLineNo">957</span>    try {<a name="line.957"></a>
-<span class="sourceLineNo">958</span>      long halfTimeoutNanos = TimeUnit.NANOSECONDS.convert(timeout, unit) / 2;<a name="line.958"></a>
-<span class="sourceLineNo">959</span>      // Wait for half the duration of the timeout for existing tasks to terminate<a name="line.959"></a>
-<span class="sourceLineNo">960</span>      if (!service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS)) {<a name="line.960"></a>
-<span class="sourceLineNo">961</span>        // Cancel currently executing tasks<a name="line.961"></a>
-<span class="sourceLineNo">962</span>        service.shutdownNow();<a name="line.962"></a>
-<span class="sourceLineNo">963</span>        // Wait the other half of the timeout for tasks to respond to being cancelled<a name="line.963"></a>
-<span class="sourceLineNo">964</span>        service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS);<a name="line.964"></a>
-<span class="sourceLineNo">965</span>      }<a name="line.965"></a>
-<span class="sourceLineNo">966</span>    } catch (InterruptedException ie) {<a name="line.966"></a>
-<span class="sourceLineNo">967</span>      // Preserve interrupt status<a name="line.967"></a>
-<span class="sourceLineNo">968</span>      Thread.currentThread().interrupt();<a name="line.968"></a>
-<span class="sourceLineNo">969</span>      // (Re-)Cancel if current thread also interrupted<a name="line.969"></a>
-<span class="sourceLineNo">970</span>      service.shutdownNow();<a name="line.970"></a>
-<span class="sourceLineNo">971</span>    }<a name="line.971"></a>
-<span class="sourceLineNo">972</span>    return service.isTerminated();<a name="line.972"></a>
-<span class="sourceLineNo">973</span>  }<a name="line.973"></a>
-<span class="sourceLineNo">974</span>}<a name="line.974"></a>
+<span class="sourceLineNo">938</span>   * &lt;p&gt;If, at any step of the process, the calling thread is interrupted, the method calls {@link<a name="line.938"></a>
+<span class="sourceLineNo">939</span>   * ExecutorService#shutdownNow()} and returns.<a name="line.939"></a>
+<span class="sourceLineNo">940</span>   *<a name="line.940"></a>
+<span class="sourceLineNo">941</span>   * @param service the {@code ExecutorService} to shut down<a name="line.941"></a>
+<span class="sourceLineNo">942</span>   * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate<a name="line.942"></a>
+<span class="sourceLineNo">943</span>   * @param unit the time unit of the timeout argument<a name="line.943"></a>
+<span class="sourceLineNo">944</span>   * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}<a name="line.944"></a>
+<span class="sourceLineNo">945</span>   *     the call timed out or was interrupted<a name="line.945"></a>
+<span class="sourceLineNo">946</span>   * @since 17.0<a name="line.946"></a>
+<span class="sourceLineNo">947</span>   */<a name="line.947"></a>
+<span class="sourceLineNo">948</span>  @Beta<a name="line.948"></a>
+<span class="sourceLineNo">949</span>  @GwtIncompatible("concurrency")<a name="line.949"></a>
+<span class="sourceLineNo">950</span>  public static boolean shutdownAndAwaitTermination(<a name="line.950"></a>
+<span class="sourceLineNo">951</span>      ExecutorService service, long timeout, TimeUnit unit) {<a name="line.951"></a>
+<span class="sourceLineNo">952</span>    checkNotNull(unit);<a name="line.952"></a>
+<span class="sourceLineNo">953</span>    // Disable new tasks from being submitted<a name="line.953"></a>
+<span class="sourceLineNo">954</span>    service.shutdown();<a name="line.954"></a>
+<span class="sourceLineNo">955</span>    try {<a name="line.955"></a>
+<span class="sourceLineNo">956</span>      long halfTimeoutNanos = TimeUnit.NANOSECONDS.convert(timeout, unit) / 2;<a name="line.956"></a>
+<span class="sourceLineNo">957</span>      // Wait for half the duration of the timeout for existing tasks to terminate<a name="line.957"></a>
+<span class="sourceLineNo">958</span>      if (!service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS)) {<a name="line.958"></a>
+<span class="sourceLineNo">959</span>        // Cancel currently executing tasks<a name="line.959"></a>
+<span class="sourceLineNo">960</span>        service.shutdownNow();<a name="line.960"></a>
+<span class="sourceLineNo">961</span>        // Wait the other half of the timeout for tasks to respond to being cancelled<a name="line.961"></a>
+<span class="sourceLineNo">962</span>        service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS);<a name="line.962"></a>
+<span class="sourceLineNo">963</span>      }<a name="line.963"></a>
+<span class="sourceLineNo">964</span>    } catch (InterruptedException ie) {<a name="line.964"></a>
+<span class="sourceLineNo">965</span>      // Preserve interrupt status<a name="line.965"></a>
+<span class="sourceLineNo">966</span>      Thread.currentThread().interrupt();<a name="line.966"></a>
+<span class="sourceLineNo">967</span>      // (Re-)Cancel if current thread also interrupted<a name="line.967"></a>
+<span class="sourceLineNo">968</span>      service.shutdownNow();<a name="line.968"></a>
+<span class="sourceLineNo">969</span>    }<a name="line.969"></a>
+<span class="sourceLineNo">970</span>    return service.isTerminated();<a name="line.970"></a>
+<span class="sourceLineNo">971</span>  }<a name="line.971"></a>
+<span class="sourceLineNo">972</span>}<a name="line.972"></a>
 
 
 

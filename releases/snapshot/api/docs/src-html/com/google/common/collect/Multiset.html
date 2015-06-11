@@ -85,7 +85,7 @@
 <span class="sourceLineNo">077</span> * may wish to use {@link com.google.common.util.concurrent.AtomicLongMap}<a name="line.77"></a>
 <span class="sourceLineNo">078</span> * instead. Note, however, that unlike {@code Multiset}, {@code AtomicLongMap}<a name="line.78"></a>
 <span class="sourceLineNo">079</span> * does not automatically remove zeros.<a name="line.79"></a>
-<span class="sourceLineNo">080</span> * <a name="line.80"></a>
+<span class="sourceLineNo">080</span> *<a name="line.80"></a>
 <span class="sourceLineNo">081</span> * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.81"></a>
 <span class="sourceLineNo">082</span> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"&gt;<a name="line.82"></a>
 <span class="sourceLineNo">083</span> * {@code Multiset}&lt;/a&gt;.<a name="line.83"></a>
@@ -388,64 +388,70 @@
 <span class="sourceLineNo">380</span>   * always increment the count of the element, and the overall size of the<a name="line.380"></a>
 <span class="sourceLineNo">381</span>   * collection, by one.<a name="line.381"></a>
 <span class="sourceLineNo">382</span>   *<a name="line.382"></a>
-<span class="sourceLineNo">383</span>   * @param element the element to add one occurrence of; may be null only if<a name="line.383"></a>
-<span class="sourceLineNo">384</span>   *     explicitly allowed by the implementation<a name="line.384"></a>
-<span class="sourceLineNo">385</span>   * @return {@code true} always, since this call is required to modify the<a name="line.385"></a>
-<span class="sourceLineNo">386</span>   *     multiset, unlike other {@link Collection} types<a name="line.386"></a>
-<span class="sourceLineNo">387</span>   * @throws NullPointerException if {@code element} is null and this<a name="line.387"></a>
-<span class="sourceLineNo">388</span>   *     implementation does not permit null elements<a name="line.388"></a>
-<span class="sourceLineNo">389</span>   * @throws IllegalArgumentException if {@link Integer#MAX_VALUE} occurrences<a name="line.389"></a>
-<span class="sourceLineNo">390</span>   *     of {@code element} are already contained in this multiset<a name="line.390"></a>
-<span class="sourceLineNo">391</span>   */<a name="line.391"></a>
-<span class="sourceLineNo">392</span>  @Override<a name="line.392"></a>
-<span class="sourceLineNo">393</span>  boolean add(E element);<a name="line.393"></a>
-<span class="sourceLineNo">394</span><a name="line.394"></a>
-<span class="sourceLineNo">395</span>  /**<a name="line.395"></a>
-<span class="sourceLineNo">396</span>   * Removes a &lt;i&gt;single&lt;/i&gt; occurrence of the specified element from this<a name="line.396"></a>
-<span class="sourceLineNo">397</span>   * multiset, if present.<a name="line.397"></a>
-<span class="sourceLineNo">398</span>   *<a name="line.398"></a>
-<span class="sourceLineNo">399</span>   * &lt;p&gt;This method refines {@link Collection#remove} to further specify that it<a name="line.399"></a>
-<span class="sourceLineNo">400</span>   * &lt;b&gt;may not&lt;/b&gt; throw an exception in response to {@code element} being null<a name="line.400"></a>
-<span class="sourceLineNo">401</span>   * or of the wrong type.<a name="line.401"></a>
-<span class="sourceLineNo">402</span>   *<a name="line.402"></a>
-<span class="sourceLineNo">403</span>   * @param element the element to remove one occurrence of<a name="line.403"></a>
-<span class="sourceLineNo">404</span>   * @return {@code true} if an occurrence was found and removed<a name="line.404"></a>
-<span class="sourceLineNo">405</span>   */<a name="line.405"></a>
-<span class="sourceLineNo">406</span>  @Override<a name="line.406"></a>
-<span class="sourceLineNo">407</span>  boolean remove(@Nullable Object element);<a name="line.407"></a>
-<span class="sourceLineNo">408</span><a name="line.408"></a>
-<span class="sourceLineNo">409</span>  /**<a name="line.409"></a>
-<span class="sourceLineNo">410</span>   * {@inheritDoc}<a name="line.410"></a>
-<span class="sourceLineNo">411</span>   *<a name="line.411"></a>
-<span class="sourceLineNo">412</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This method ignores how often any element might appear in<a name="line.412"></a>
-<span class="sourceLineNo">413</span>   * {@code c}, and only cares whether or not an element appears at all.<a name="line.413"></a>
-<span class="sourceLineNo">414</span>   * If you wish to remove one occurrence in this multiset for every occurrence<a name="line.414"></a>
-<span class="sourceLineNo">415</span>   * in {@code c}, see {@link Multisets#removeOccurrences(Multiset, Multiset)}.<a name="line.415"></a>
-<span class="sourceLineNo">416</span>   * <a name="line.416"></a>
-<span class="sourceLineNo">417</span>   * &lt;p&gt;This method refines {@link Collection#removeAll} to further specify that<a name="line.417"></a>
-<span class="sourceLineNo">418</span>   * it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to any of {@code elements}<a name="line.418"></a>
-<span class="sourceLineNo">419</span>   * being null or of the wrong type. <a name="line.419"></a>
-<span class="sourceLineNo">420</span>   */<a name="line.420"></a>
-<span class="sourceLineNo">421</span>  @Override<a name="line.421"></a>
-<span class="sourceLineNo">422</span>  boolean removeAll(Collection&lt;?&gt; c);<a name="line.422"></a>
-<span class="sourceLineNo">423</span><a name="line.423"></a>
-<span class="sourceLineNo">424</span>  /**<a name="line.424"></a>
-<span class="sourceLineNo">425</span>   * {@inheritDoc}<a name="line.425"></a>
-<span class="sourceLineNo">426</span>   *<a name="line.426"></a>
-<span class="sourceLineNo">427</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This method ignores how often any element might appear in<a name="line.427"></a>
-<span class="sourceLineNo">428</span>   * {@code c}, and only cares whether or not an element appears at all.<a name="line.428"></a>
-<span class="sourceLineNo">429</span>   * If you wish to remove one occurrence in this multiset for every occurrence<a name="line.429"></a>
-<span class="sourceLineNo">430</span>   * in {@code c}, see {@link Multisets#retainOccurrences(Multiset, Multiset)}.<a name="line.430"></a>
-<span class="sourceLineNo">431</span>   * <a name="line.431"></a>
-<span class="sourceLineNo">432</span>   * &lt;p&gt;This method refines {@link Collection#retainAll} to further specify that<a name="line.432"></a>
-<span class="sourceLineNo">433</span>   * it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to any of {@code elements}<a name="line.433"></a>
-<span class="sourceLineNo">434</span>   * being null or of the wrong type.<a name="line.434"></a>
-<span class="sourceLineNo">435</span>   * <a name="line.435"></a>
-<span class="sourceLineNo">436</span>   * @see Multisets#retainOccurrences(Multiset, Multiset)<a name="line.436"></a>
-<span class="sourceLineNo">437</span>   */<a name="line.437"></a>
-<span class="sourceLineNo">438</span>  @Override<a name="line.438"></a>
-<span class="sourceLineNo">439</span>  boolean retainAll(Collection&lt;?&gt; c);<a name="line.439"></a>
-<span class="sourceLineNo">440</span>}<a name="line.440"></a>
+<span class="sourceLineNo">383</span>   * &lt;p&gt;To both add the element and obtain the previous count of that element,<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   * use {@link #add(E, int) add}{@code (element, 1)} instead.<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   *<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   * @param element the element to add one occurrence of; may be null only if<a name="line.386"></a>
+<span class="sourceLineNo">387</span>   *     explicitly allowed by the implementation<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   * @return {@code true} always, since this call is required to modify the<a name="line.388"></a>
+<span class="sourceLineNo">389</span>   *     multiset, unlike other {@link Collection} types<a name="line.389"></a>
+<span class="sourceLineNo">390</span>   * @throws NullPointerException if {@code element} is null and this<a name="line.390"></a>
+<span class="sourceLineNo">391</span>   *     implementation does not permit null elements<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   * @throws IllegalArgumentException if {@link Integer#MAX_VALUE} occurrences<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   *     of {@code element} are already contained in this multiset<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   */<a name="line.394"></a>
+<span class="sourceLineNo">395</span>  @Override<a name="line.395"></a>
+<span class="sourceLineNo">396</span>  boolean add(E element);<a name="line.396"></a>
+<span class="sourceLineNo">397</span><a name="line.397"></a>
+<span class="sourceLineNo">398</span>  /**<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   * Removes a &lt;i&gt;single&lt;/i&gt; occurrence of the specified element from this<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   * multiset, if present.<a name="line.400"></a>
+<span class="sourceLineNo">401</span>   *<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   * &lt;p&gt;This method refines {@link Collection#remove} to further specify that it<a name="line.402"></a>
+<span class="sourceLineNo">403</span>   * &lt;b&gt;may not&lt;/b&gt; throw an exception in response to {@code element} being null<a name="line.403"></a>
+<span class="sourceLineNo">404</span>   * or of the wrong type.<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   *<a name="line.405"></a>
+<span class="sourceLineNo">406</span>   * &lt;p&gt;To both remove the element and obtain the previous count of that element,<a name="line.406"></a>
+<span class="sourceLineNo">407</span>   * use {@link #remove(E, int) remove}{@code (element, 1)} instead.<a name="line.407"></a>
+<span class="sourceLineNo">408</span>   *<a name="line.408"></a>
+<span class="sourceLineNo">409</span>   * @param element the element to remove one occurrence of<a name="line.409"></a>
+<span class="sourceLineNo">410</span>   * @return {@code true} if an occurrence was found and removed<a name="line.410"></a>
+<span class="sourceLineNo">411</span>   */<a name="line.411"></a>
+<span class="sourceLineNo">412</span>  @Override<a name="line.412"></a>
+<span class="sourceLineNo">413</span>  boolean remove(@Nullable Object element);<a name="line.413"></a>
+<span class="sourceLineNo">414</span><a name="line.414"></a>
+<span class="sourceLineNo">415</span>  /**<a name="line.415"></a>
+<span class="sourceLineNo">416</span>   * {@inheritDoc}<a name="line.416"></a>
+<span class="sourceLineNo">417</span>   *<a name="line.417"></a>
+<span class="sourceLineNo">418</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This method ignores how often any element might appear in<a name="line.418"></a>
+<span class="sourceLineNo">419</span>   * {@code c}, and only cares whether or not an element appears at all.<a name="line.419"></a>
+<span class="sourceLineNo">420</span>   * If you wish to remove one occurrence in this multiset for every occurrence<a name="line.420"></a>
+<span class="sourceLineNo">421</span>   * in {@code c}, see {@link Multisets#removeOccurrences(Multiset, Multiset)}.<a name="line.421"></a>
+<span class="sourceLineNo">422</span>   *<a name="line.422"></a>
+<span class="sourceLineNo">423</span>   * &lt;p&gt;This method refines {@link Collection#removeAll} to further specify that<a name="line.423"></a>
+<span class="sourceLineNo">424</span>   * it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to any of {@code elements}<a name="line.424"></a>
+<span class="sourceLineNo">425</span>   * being null or of the wrong type.<a name="line.425"></a>
+<span class="sourceLineNo">426</span>   */<a name="line.426"></a>
+<span class="sourceLineNo">427</span>  @Override<a name="line.427"></a>
+<span class="sourceLineNo">428</span>  boolean removeAll(Collection&lt;?&gt; c);<a name="line.428"></a>
+<span class="sourceLineNo">429</span><a name="line.429"></a>
+<span class="sourceLineNo">430</span>  /**<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   * {@inheritDoc}<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   *<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This method ignores how often any element might appear in<a name="line.433"></a>
+<span class="sourceLineNo">434</span>   * {@code c}, and only cares whether or not an element appears at all.<a name="line.434"></a>
+<span class="sourceLineNo">435</span>   * If you wish to remove one occurrence in this multiset for every occurrence<a name="line.435"></a>
+<span class="sourceLineNo">436</span>   * in {@code c}, see {@link Multisets#retainOccurrences(Multiset, Multiset)}.<a name="line.436"></a>
+<span class="sourceLineNo">437</span>   *<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   * &lt;p&gt;This method refines {@link Collection#retainAll} to further specify that<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   * it &lt;b&gt;may not&lt;/b&gt; throw an exception in response to any of {@code elements}<a name="line.439"></a>
+<span class="sourceLineNo">440</span>   * being null or of the wrong type.<a name="line.440"></a>
+<span class="sourceLineNo">441</span>   *<a name="line.441"></a>
+<span class="sourceLineNo">442</span>   * @see Multisets#retainOccurrences(Multiset, Multiset)<a name="line.442"></a>
+<span class="sourceLineNo">443</span>   */<a name="line.443"></a>
+<span class="sourceLineNo">444</span>  @Override<a name="line.444"></a>
+<span class="sourceLineNo">445</span>  boolean retainAll(Collection&lt;?&gt; c);<a name="line.445"></a>
+<span class="sourceLineNo">446</span>}<a name="line.446"></a>
 
 
 
