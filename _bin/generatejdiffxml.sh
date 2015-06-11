@@ -53,6 +53,11 @@ ghpagesref=$(_bin/currentref.sh)
 echo "Checking out '$ref'"
 git checkout -q $ref
 
+# If we're on master, pull to get the latest
+if [ $ref == "master" ]; then
+  git pull
+fi
+
 # Copy the Guava source code to a temp dir
 srctemp=$(mktemp -d -t guava-$version-src.XXX)
 echo "Copying source files to '$srctemp'"

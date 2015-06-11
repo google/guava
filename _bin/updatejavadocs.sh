@@ -59,6 +59,11 @@ ghpagesref=$(_bin/currentref.sh)
 echo "Checking out '$ref'"
 git checkout -q $ref
 
+# If we're on master, pull to get the latest
+if [ $ref == "master" ]; then
+  git pull
+fi
+
 # Generate Javadoc and move it to temp dir
 echo "Generating Javadoc"
 
