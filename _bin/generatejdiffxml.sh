@@ -49,6 +49,7 @@ fi
 outputdir=releases/$dir/api/diffs/
 
 # Switch to the git ref for the target version
+ghpagesref=$(_bin/currentref.sh)
 echo "Checking out '$ref'"
 git checkout -q $ref
 
@@ -70,8 +71,8 @@ cp -r guava/target/classes/* $classtemp/
 classpath=$classtemp:$classpath
 
 # Switch back to gh-pages
-echo "Checking out 'gh-pages'"
-git checkout -q gh-pages
+echo "Checking out '$ghpagesref'"
+git checkout -q $ghpagesref
 
 # Run JDiff
 echo "Running JDiff"

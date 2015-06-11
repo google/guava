@@ -55,6 +55,7 @@ fi
 doctemp=$(mktemp -d -t guava-$version-docs.XXX)
 
 # Checkout the main code at the specified version
+ghpagesref=$(_bin/currentref.sh)
 echo "Checking out '$ref'"
 git checkout -q $ref
 
@@ -68,8 +69,8 @@ mv guava/target/site/apidocs/* $doctemp/
 rm -fr guava/target
 
 # Switch back to gh-pages branch
-echo "Checking out 'gh-pages'"
-git checkout -q gh-pages
+echo "Checking out '$ghpagesref'"
+git checkout -q $ghpagesref
 
 docsdir=releases/$version/api/docs
 
