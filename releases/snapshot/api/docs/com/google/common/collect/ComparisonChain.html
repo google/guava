@@ -359,12 +359,14 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>compare</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.239">compare</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;left,
+public final&nbsp;<a href="../../../../com/google/common/collect/ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.240">compare</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;left,
                                  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&nbsp;right)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use <a href="../../../../com/google/common/collect/ComparisonChain.html#compareFalseFirst(boolean,%20boolean)"><code>compareFalseFirst(boolean, boolean)</code></a>; or, if the parameters passed
      are being either negated or reversed, undo the negation or reversal and
      use <a href="../../../../com/google/common/collect/ComparisonChain.html#compareTrueFirst(boolean,%20boolean)"><code>compareTrueFirst(boolean, boolean)</code></a>.</i></div>
 <div class="block">Discouraged synonym for <a href="../../../../com/google/common/collect/ComparisonChain.html#compareFalseFirst(boolean,%20boolean)"><code>compareFalseFirst(boolean, boolean)</code></a>.</div>
+<dl><dt><span class="strong">Since:</span></dt>
+  <dd>19.0</dd></dl>
 </li>
 </ul>
 <a name="compareTrueFirst(boolean, boolean)">
@@ -373,7 +375,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ComparisonChain
 <ul class="blockList">
 <li class="blockList">
 <h4>compareTrueFirst</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.250">compareTrueFirst</a>(boolean&nbsp;left,
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.251">compareTrueFirst</a>(boolean&nbsp;left,
                                boolean&nbsp;right)</pre>
 <div class="block">Compares two <code>boolean</code> values, considering <code>true</code> to be less
  than <code>false</code>, <i>if</i> the result of this comparison chain has not
@@ -388,7 +390,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ComparisonChain
 <ul class="blockList">
 <li class="blockList">
 <h4>compareFalseFirst</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.259">compareFalseFirst</a>(boolean&nbsp;left,
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.260">compareFalseFirst</a>(boolean&nbsp;left,
                                 boolean&nbsp;right)</pre>
 <div class="block">Compares two <code>boolean</code> values, considering <code>false</code> to be less
  than <code>true</code>, <i>if</i> the result of this comparison chain has not
@@ -403,7 +405,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ComparisonChain
 <ul class="blockListLast">
 <li class="blockList">
 <h4>result</h4>
-<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.266">result</a>()</pre>
+<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line.267">result</a>()</pre>
 <div class="block">Ends this comparison chain and returns its result: a value having the
  same sign as the first nonzero comparison result in the chain, or zero if
  every result was zero.</div>

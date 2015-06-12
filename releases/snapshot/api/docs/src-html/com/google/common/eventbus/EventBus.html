@@ -157,108 +157,110 @@
 <span class="sourceLineNo">149</span><a name="line.149"></a>
 <span class="sourceLineNo">150</span>  /**<a name="line.150"></a>
 <span class="sourceLineNo">151</span>   * Returns the identifier for this event bus.<a name="line.151"></a>
-<span class="sourceLineNo">152</span>   */<a name="line.152"></a>
-<span class="sourceLineNo">153</span>  public final String identifier() {<a name="line.153"></a>
-<span class="sourceLineNo">154</span>    return identifier;<a name="line.154"></a>
-<span class="sourceLineNo">155</span>  }<a name="line.155"></a>
-<span class="sourceLineNo">156</span><a name="line.156"></a>
-<span class="sourceLineNo">157</span>  /**<a name="line.157"></a>
-<span class="sourceLineNo">158</span>   * Returns the default executor this event bus uses for dispatching events to subscribers.<a name="line.158"></a>
-<span class="sourceLineNo">159</span>   */<a name="line.159"></a>
-<span class="sourceLineNo">160</span>  final Executor executor() {<a name="line.160"></a>
-<span class="sourceLineNo">161</span>    return executor;<a name="line.161"></a>
-<span class="sourceLineNo">162</span>  }<a name="line.162"></a>
-<span class="sourceLineNo">163</span><a name="line.163"></a>
-<span class="sourceLineNo">164</span>  /**<a name="line.164"></a>
-<span class="sourceLineNo">165</span>   * Handles the given exception thrown by a subscriber with the given context.<a name="line.165"></a>
-<span class="sourceLineNo">166</span>   */<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  void handleSubscriberException(Throwable e, SubscriberExceptionContext context) {<a name="line.167"></a>
-<span class="sourceLineNo">168</span>    checkNotNull(e);<a name="line.168"></a>
-<span class="sourceLineNo">169</span>    checkNotNull(context);<a name="line.169"></a>
-<span class="sourceLineNo">170</span>    try {<a name="line.170"></a>
-<span class="sourceLineNo">171</span>      exceptionHandler.handleException(e, context);<a name="line.171"></a>
-<span class="sourceLineNo">172</span>    } catch (Throwable e2) {<a name="line.172"></a>
-<span class="sourceLineNo">173</span>      // if the handler threw an exception... well, just log it<a name="line.173"></a>
-<span class="sourceLineNo">174</span>      logger.log(Level.SEVERE,<a name="line.174"></a>
-<span class="sourceLineNo">175</span>          String.format(Locale.ROOT, "Exception %s thrown while handling exception: %s", e2, e),<a name="line.175"></a>
-<span class="sourceLineNo">176</span>          e2);<a name="line.176"></a>
-<span class="sourceLineNo">177</span>    }<a name="line.177"></a>
-<span class="sourceLineNo">178</span>  }<a name="line.178"></a>
-<span class="sourceLineNo">179</span><a name="line.179"></a>
-<span class="sourceLineNo">180</span>  /**<a name="line.180"></a>
-<span class="sourceLineNo">181</span>   * Registers all subscriber methods on {@code object} to receive events.<a name="line.181"></a>
-<span class="sourceLineNo">182</span>   *<a name="line.182"></a>
-<span class="sourceLineNo">183</span>   * @param object  object whose subscriber methods should be registered.<a name="line.183"></a>
-<span class="sourceLineNo">184</span>   */<a name="line.184"></a>
-<span class="sourceLineNo">185</span>  public void register(Object object) {<a name="line.185"></a>
-<span class="sourceLineNo">186</span>    subscribers.register(object);<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  }<a name="line.187"></a>
-<span class="sourceLineNo">188</span><a name="line.188"></a>
-<span class="sourceLineNo">189</span>  /**<a name="line.189"></a>
-<span class="sourceLineNo">190</span>   * Unregisters all subscriber methods on a registered {@code object}.<a name="line.190"></a>
-<span class="sourceLineNo">191</span>   *<a name="line.191"></a>
-<span class="sourceLineNo">192</span>   * @param object  object whose subscriber methods should be unregistered.<a name="line.192"></a>
-<span class="sourceLineNo">193</span>   * @throws IllegalArgumentException if the object was not previously registered.<a name="line.193"></a>
-<span class="sourceLineNo">194</span>   */<a name="line.194"></a>
-<span class="sourceLineNo">195</span>  public void unregister(Object object) {<a name="line.195"></a>
-<span class="sourceLineNo">196</span>    subscribers.unregister(object);<a name="line.196"></a>
-<span class="sourceLineNo">197</span>  }<a name="line.197"></a>
-<span class="sourceLineNo">198</span><a name="line.198"></a>
-<span class="sourceLineNo">199</span>  /**<a name="line.199"></a>
-<span class="sourceLineNo">200</span>   * Posts an event to all registered subscribers.  This method will return<a name="line.200"></a>
-<span class="sourceLineNo">201</span>   * successfully after the event has been posted to all subscribers, and<a name="line.201"></a>
-<span class="sourceLineNo">202</span>   * regardless of any exceptions thrown by subscribers.<a name="line.202"></a>
-<span class="sourceLineNo">203</span>   *<a name="line.203"></a>
-<span class="sourceLineNo">204</span>   * &lt;p&gt;If no subscribers have been subscribed for {@code event}'s class, and<a name="line.204"></a>
-<span class="sourceLineNo">205</span>   * {@code event} is not already a {@link DeadEvent}, it will be wrapped in a<a name="line.205"></a>
-<span class="sourceLineNo">206</span>   * DeadEvent and reposted.<a name="line.206"></a>
-<span class="sourceLineNo">207</span>   *<a name="line.207"></a>
-<span class="sourceLineNo">208</span>   * @param event  event to post.<a name="line.208"></a>
-<span class="sourceLineNo">209</span>   */<a name="line.209"></a>
-<span class="sourceLineNo">210</span>  public void post(Object event) {<a name="line.210"></a>
-<span class="sourceLineNo">211</span>    Iterator&lt;Subscriber&gt; eventSubscribers = subscribers.getSubscribers(event);<a name="line.211"></a>
-<span class="sourceLineNo">212</span>    if (eventSubscribers.hasNext()) {<a name="line.212"></a>
-<span class="sourceLineNo">213</span>      dispatcher.dispatch(event, eventSubscribers);<a name="line.213"></a>
-<span class="sourceLineNo">214</span>    } else if (!(event instanceof DeadEvent)) {<a name="line.214"></a>
-<span class="sourceLineNo">215</span>      // the event had no subscribers and was not itself a DeadEvent<a name="line.215"></a>
-<span class="sourceLineNo">216</span>      post(new DeadEvent(this, event));<a name="line.216"></a>
-<span class="sourceLineNo">217</span>    }<a name="line.217"></a>
-<span class="sourceLineNo">218</span>  }<a name="line.218"></a>
-<span class="sourceLineNo">219</span><a name="line.219"></a>
-<span class="sourceLineNo">220</span>  @Override<a name="line.220"></a>
-<span class="sourceLineNo">221</span>  public String toString() {<a name="line.221"></a>
-<span class="sourceLineNo">222</span>    return MoreObjects.toStringHelper(this)<a name="line.222"></a>
-<span class="sourceLineNo">223</span>        .addValue(identifier)<a name="line.223"></a>
-<span class="sourceLineNo">224</span>        .toString();<a name="line.224"></a>
-<span class="sourceLineNo">225</span>  }<a name="line.225"></a>
-<span class="sourceLineNo">226</span><a name="line.226"></a>
-<span class="sourceLineNo">227</span>  /**<a name="line.227"></a>
-<span class="sourceLineNo">228</span>   * Simple logging handler for subscriber exceptions.<a name="line.228"></a>
-<span class="sourceLineNo">229</span>   */<a name="line.229"></a>
-<span class="sourceLineNo">230</span>  static final class LoggingHandler implements SubscriberExceptionHandler {<a name="line.230"></a>
-<span class="sourceLineNo">231</span>    static final LoggingHandler INSTANCE = new LoggingHandler();<a name="line.231"></a>
-<span class="sourceLineNo">232</span><a name="line.232"></a>
-<span class="sourceLineNo">233</span>    @Override<a name="line.233"></a>
-<span class="sourceLineNo">234</span>    public void handleException(Throwable exception, SubscriberExceptionContext context) {<a name="line.234"></a>
-<span class="sourceLineNo">235</span>      Logger logger = logger(context);<a name="line.235"></a>
-<span class="sourceLineNo">236</span>      if (logger.isLoggable(Level.SEVERE)) {<a name="line.236"></a>
-<span class="sourceLineNo">237</span>        logger.log(Level.SEVERE, message(context), exception);<a name="line.237"></a>
-<span class="sourceLineNo">238</span>      }<a name="line.238"></a>
-<span class="sourceLineNo">239</span>    }<a name="line.239"></a>
-<span class="sourceLineNo">240</span><a name="line.240"></a>
-<span class="sourceLineNo">241</span>    private static Logger logger(SubscriberExceptionContext context) {<a name="line.241"></a>
-<span class="sourceLineNo">242</span>      return Logger.getLogger(EventBus.class.getName() + "." + context.getEventBus().identifier());<a name="line.242"></a>
-<span class="sourceLineNo">243</span>    }<a name="line.243"></a>
-<span class="sourceLineNo">244</span><a name="line.244"></a>
-<span class="sourceLineNo">245</span>    private static String message(SubscriberExceptionContext context) {<a name="line.245"></a>
-<span class="sourceLineNo">246</span>      Method method = context.getSubscriberMethod();<a name="line.246"></a>
-<span class="sourceLineNo">247</span>      return "Exception thrown by subscriber method "<a name="line.247"></a>
-<span class="sourceLineNo">248</span>          + method.getName() + '(' + method.getParameterTypes()[0].getName() + ')'<a name="line.248"></a>
-<span class="sourceLineNo">249</span>          + " on subscriber " + context.getSubscriber()<a name="line.249"></a>
-<span class="sourceLineNo">250</span>          + " when dispatching event: " + context.getEvent();<a name="line.250"></a>
-<span class="sourceLineNo">251</span>    }<a name="line.251"></a>
-<span class="sourceLineNo">252</span>  }<a name="line.252"></a>
-<span class="sourceLineNo">253</span>}<a name="line.253"></a>
+<span class="sourceLineNo">152</span>   *<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * @since 19.0<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   */<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  public final String identifier() {<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    return identifier;<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  }<a name="line.157"></a>
+<span class="sourceLineNo">158</span><a name="line.158"></a>
+<span class="sourceLineNo">159</span>  /**<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * Returns the default executor this event bus uses for dispatching events to subscribers.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   */<a name="line.161"></a>
+<span class="sourceLineNo">162</span>  final Executor executor() {<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    return executor;<a name="line.163"></a>
+<span class="sourceLineNo">164</span>  }<a name="line.164"></a>
+<span class="sourceLineNo">165</span><a name="line.165"></a>
+<span class="sourceLineNo">166</span>  /**<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   * Handles the given exception thrown by a subscriber with the given context.<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   */<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  void handleSubscriberException(Throwable e, SubscriberExceptionContext context) {<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    checkNotNull(e);<a name="line.170"></a>
+<span class="sourceLineNo">171</span>    checkNotNull(context);<a name="line.171"></a>
+<span class="sourceLineNo">172</span>    try {<a name="line.172"></a>
+<span class="sourceLineNo">173</span>      exceptionHandler.handleException(e, context);<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    } catch (Throwable e2) {<a name="line.174"></a>
+<span class="sourceLineNo">175</span>      // if the handler threw an exception... well, just log it<a name="line.175"></a>
+<span class="sourceLineNo">176</span>      logger.log(Level.SEVERE,<a name="line.176"></a>
+<span class="sourceLineNo">177</span>          String.format(Locale.ROOT, "Exception %s thrown while handling exception: %s", e2, e),<a name="line.177"></a>
+<span class="sourceLineNo">178</span>          e2);<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    }<a name="line.179"></a>
+<span class="sourceLineNo">180</span>  }<a name="line.180"></a>
+<span class="sourceLineNo">181</span><a name="line.181"></a>
+<span class="sourceLineNo">182</span>  /**<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * Registers all subscriber methods on {@code object} to receive events.<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   *<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * @param object  object whose subscriber methods should be registered.<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   */<a name="line.186"></a>
+<span class="sourceLineNo">187</span>  public void register(Object object) {<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    subscribers.register(object);<a name="line.188"></a>
+<span class="sourceLineNo">189</span>  }<a name="line.189"></a>
+<span class="sourceLineNo">190</span><a name="line.190"></a>
+<span class="sourceLineNo">191</span>  /**<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * Unregisters all subscriber methods on a registered {@code object}.<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   *<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * @param object  object whose subscriber methods should be unregistered.<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * @throws IllegalArgumentException if the object was not previously registered.<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   */<a name="line.196"></a>
+<span class="sourceLineNo">197</span>  public void unregister(Object object) {<a name="line.197"></a>
+<span class="sourceLineNo">198</span>    subscribers.unregister(object);<a name="line.198"></a>
+<span class="sourceLineNo">199</span>  }<a name="line.199"></a>
+<span class="sourceLineNo">200</span><a name="line.200"></a>
+<span class="sourceLineNo">201</span>  /**<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   * Posts an event to all registered subscribers.  This method will return<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * successfully after the event has been posted to all subscribers, and<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * regardless of any exceptions thrown by subscribers.<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   *<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   * &lt;p&gt;If no subscribers have been subscribed for {@code event}'s class, and<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * {@code event} is not already a {@link DeadEvent}, it will be wrapped in a<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   * DeadEvent and reposted.<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   *<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   * @param event  event to post.<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   */<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  public void post(Object event) {<a name="line.212"></a>
+<span class="sourceLineNo">213</span>    Iterator&lt;Subscriber&gt; eventSubscribers = subscribers.getSubscribers(event);<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    if (eventSubscribers.hasNext()) {<a name="line.214"></a>
+<span class="sourceLineNo">215</span>      dispatcher.dispatch(event, eventSubscribers);<a name="line.215"></a>
+<span class="sourceLineNo">216</span>    } else if (!(event instanceof DeadEvent)) {<a name="line.216"></a>
+<span class="sourceLineNo">217</span>      // the event had no subscribers and was not itself a DeadEvent<a name="line.217"></a>
+<span class="sourceLineNo">218</span>      post(new DeadEvent(this, event));<a name="line.218"></a>
+<span class="sourceLineNo">219</span>    }<a name="line.219"></a>
+<span class="sourceLineNo">220</span>  }<a name="line.220"></a>
+<span class="sourceLineNo">221</span><a name="line.221"></a>
+<span class="sourceLineNo">222</span>  @Override<a name="line.222"></a>
+<span class="sourceLineNo">223</span>  public String toString() {<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    return MoreObjects.toStringHelper(this)<a name="line.224"></a>
+<span class="sourceLineNo">225</span>        .addValue(identifier)<a name="line.225"></a>
+<span class="sourceLineNo">226</span>        .toString();<a name="line.226"></a>
+<span class="sourceLineNo">227</span>  }<a name="line.227"></a>
+<span class="sourceLineNo">228</span><a name="line.228"></a>
+<span class="sourceLineNo">229</span>  /**<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   * Simple logging handler for subscriber exceptions.<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   */<a name="line.231"></a>
+<span class="sourceLineNo">232</span>  static final class LoggingHandler implements SubscriberExceptionHandler {<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    static final LoggingHandler INSTANCE = new LoggingHandler();<a name="line.233"></a>
+<span class="sourceLineNo">234</span><a name="line.234"></a>
+<span class="sourceLineNo">235</span>    @Override<a name="line.235"></a>
+<span class="sourceLineNo">236</span>    public void handleException(Throwable exception, SubscriberExceptionContext context) {<a name="line.236"></a>
+<span class="sourceLineNo">237</span>      Logger logger = logger(context);<a name="line.237"></a>
+<span class="sourceLineNo">238</span>      if (logger.isLoggable(Level.SEVERE)) {<a name="line.238"></a>
+<span class="sourceLineNo">239</span>        logger.log(Level.SEVERE, message(context), exception);<a name="line.239"></a>
+<span class="sourceLineNo">240</span>      }<a name="line.240"></a>
+<span class="sourceLineNo">241</span>    }<a name="line.241"></a>
+<span class="sourceLineNo">242</span><a name="line.242"></a>
+<span class="sourceLineNo">243</span>    private static Logger logger(SubscriberExceptionContext context) {<a name="line.243"></a>
+<span class="sourceLineNo">244</span>      return Logger.getLogger(EventBus.class.getName() + "." + context.getEventBus().identifier());<a name="line.244"></a>
+<span class="sourceLineNo">245</span>    }<a name="line.245"></a>
+<span class="sourceLineNo">246</span><a name="line.246"></a>
+<span class="sourceLineNo">247</span>    private static String message(SubscriberExceptionContext context) {<a name="line.247"></a>
+<span class="sourceLineNo">248</span>      Method method = context.getSubscriberMethod();<a name="line.248"></a>
+<span class="sourceLineNo">249</span>      return "Exception thrown by subscriber method "<a name="line.249"></a>
+<span class="sourceLineNo">250</span>          + method.getName() + '(' + method.getParameterTypes()[0].getName() + ')'<a name="line.250"></a>
+<span class="sourceLineNo">251</span>          + " on subscriber " + context.getSubscriber()<a name="line.251"></a>
+<span class="sourceLineNo">252</span>          + " when dispatching event: " + context.getEvent();<a name="line.252"></a>
+<span class="sourceLineNo">253</span>    }<a name="line.253"></a>
+<span class="sourceLineNo">254</span>  }<a name="line.254"></a>
+<span class="sourceLineNo">255</span>}<a name="line.255"></a>
 
 
 

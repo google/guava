@@ -242,37 +242,38 @@
 <span class="sourceLineNo">234</span>   * @deprecated Use {@link #compareFalseFirst}; or, if the parameters passed<a name="line.234"></a>
 <span class="sourceLineNo">235</span>   *     are being either negated or reversed, undo the negation or reversal and<a name="line.235"></a>
 <span class="sourceLineNo">236</span>   *     use {@link #compareTrueFirst}.<a name="line.236"></a>
-<span class="sourceLineNo">237</span>   */<a name="line.237"></a>
-<span class="sourceLineNo">238</span>  @Deprecated<a name="line.238"></a>
-<span class="sourceLineNo">239</span>  public final ComparisonChain compare(Boolean left, Boolean right) {<a name="line.239"></a>
-<span class="sourceLineNo">240</span>    return compareFalseFirst(left, right);<a name="line.240"></a>
-<span class="sourceLineNo">241</span>  }<a name="line.241"></a>
-<span class="sourceLineNo">242</span><a name="line.242"></a>
-<span class="sourceLineNo">243</span>  /**<a name="line.243"></a>
-<span class="sourceLineNo">244</span>   * Compares two {@code boolean} values, considering {@code true} to be less<a name="line.244"></a>
-<span class="sourceLineNo">245</span>   * than {@code false}, &lt;i&gt;if&lt;/i&gt; the result of this comparison chain has not<a name="line.245"></a>
-<span class="sourceLineNo">246</span>   * already been determined.<a name="line.246"></a>
-<span class="sourceLineNo">247</span>   *<a name="line.247"></a>
-<span class="sourceLineNo">248</span>   * @since 12.0<a name="line.248"></a>
-<span class="sourceLineNo">249</span>   */<a name="line.249"></a>
-<span class="sourceLineNo">250</span>  public abstract ComparisonChain compareTrueFirst(boolean left, boolean right);<a name="line.250"></a>
-<span class="sourceLineNo">251</span><a name="line.251"></a>
-<span class="sourceLineNo">252</span>  /**<a name="line.252"></a>
-<span class="sourceLineNo">253</span>   * Compares two {@code boolean} values, considering {@code false} to be less<a name="line.253"></a>
-<span class="sourceLineNo">254</span>   * than {@code true}, &lt;i&gt;if&lt;/i&gt; the result of this comparison chain has not<a name="line.254"></a>
-<span class="sourceLineNo">255</span>   * already been determined.<a name="line.255"></a>
-<span class="sourceLineNo">256</span>   *<a name="line.256"></a>
-<span class="sourceLineNo">257</span>   * @since 12.0 (present as {@code compare} since 2.0)<a name="line.257"></a>
-<span class="sourceLineNo">258</span>   */<a name="line.258"></a>
-<span class="sourceLineNo">259</span>  public abstract ComparisonChain compareFalseFirst(boolean left, boolean right);<a name="line.259"></a>
-<span class="sourceLineNo">260</span><a name="line.260"></a>
-<span class="sourceLineNo">261</span>  /**<a name="line.261"></a>
-<span class="sourceLineNo">262</span>   * Ends this comparison chain and returns its result: a value having the<a name="line.262"></a>
-<span class="sourceLineNo">263</span>   * same sign as the first nonzero comparison result in the chain, or zero if<a name="line.263"></a>
-<span class="sourceLineNo">264</span>   * every result was zero.<a name="line.264"></a>
-<span class="sourceLineNo">265</span>   */<a name="line.265"></a>
-<span class="sourceLineNo">266</span>  public abstract int result();<a name="line.266"></a>
-<span class="sourceLineNo">267</span>}<a name="line.267"></a>
+<span class="sourceLineNo">237</span>   * @since 19.0<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   */<a name="line.238"></a>
+<span class="sourceLineNo">239</span>  @Deprecated<a name="line.239"></a>
+<span class="sourceLineNo">240</span>  public final ComparisonChain compare(Boolean left, Boolean right) {<a name="line.240"></a>
+<span class="sourceLineNo">241</span>    return compareFalseFirst(left, right);<a name="line.241"></a>
+<span class="sourceLineNo">242</span>  }<a name="line.242"></a>
+<span class="sourceLineNo">243</span><a name="line.243"></a>
+<span class="sourceLineNo">244</span>  /**<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * Compares two {@code boolean} values, considering {@code true} to be less<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   * than {@code false}, &lt;i&gt;if&lt;/i&gt; the result of this comparison chain has not<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   * already been determined.<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   *<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   * @since 12.0<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   */<a name="line.250"></a>
+<span class="sourceLineNo">251</span>  public abstract ComparisonChain compareTrueFirst(boolean left, boolean right);<a name="line.251"></a>
+<span class="sourceLineNo">252</span><a name="line.252"></a>
+<span class="sourceLineNo">253</span>  /**<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   * Compares two {@code boolean} values, considering {@code false} to be less<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * than {@code true}, &lt;i&gt;if&lt;/i&gt; the result of this comparison chain has not<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   * already been determined.<a name="line.256"></a>
+<span class="sourceLineNo">257</span>   *<a name="line.257"></a>
+<span class="sourceLineNo">258</span>   * @since 12.0 (present as {@code compare} since 2.0)<a name="line.258"></a>
+<span class="sourceLineNo">259</span>   */<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  public abstract ComparisonChain compareFalseFirst(boolean left, boolean right);<a name="line.260"></a>
+<span class="sourceLineNo">261</span><a name="line.261"></a>
+<span class="sourceLineNo">262</span>  /**<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * Ends this comparison chain and returns its result: a value having the<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   * same sign as the first nonzero comparison result in the chain, or zero if<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   * every result was zero.<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   */<a name="line.266"></a>
+<span class="sourceLineNo">267</span>  public abstract int result();<a name="line.267"></a>
+<span class="sourceLineNo">268</span>}<a name="line.268"></a>
 
 
 
