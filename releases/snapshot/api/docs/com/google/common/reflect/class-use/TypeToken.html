@@ -191,12 +191,12 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;,<a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;</code></td>
-<td class="colLast"><span class="strong">MutableTypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html#delegate()">delegate</a></strong>()</code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="../../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;,<a href="../../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableTypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html#delegate()">delegate</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;,<a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;</code></td>
+<td class="colLast"><span class="strong">MutableTypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html#delegate()">delegate</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? super <a href="../../../../../com/google/common/reflect/TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&gt;</code></td>
@@ -222,19 +222,19 @@
 </tr>
 <tbody>
 <tr class="altColor">
+<td class="colFirst"><code>&lt;T extends <a href="../../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;&nbsp;<br>T</code></td>
+<td class="colLast"><span class="strong">ImmutableTypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html#getInstance(com.google.common.reflect.TypeToken)">getInstance</a></strong>(<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T extends <a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;<br>T</code></td>
 <td class="colLast"><span class="strong">MutableTypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html#getInstance(com.google.common.reflect.TypeToken)">getInstance</a></strong>(<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="../../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;<br>T</code></td>
 <td class="colLast"><span class="strong">TypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/TypeToInstanceMap.html#getInstance(com.google.common.reflect.TypeToken)">getInstance</a></strong>(<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</code>
 <div class="block">Returns the value the specified type is mapped to, or <code>null</code> if no
  entry for this type is present.</div>
 </td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="../../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;&nbsp;<br>T</code></td>
-<td class="colLast"><span class="strong">ImmutableTypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html#getInstance(com.google.common.reflect.TypeToken)">getInstance</a></strong>(<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
@@ -272,22 +272,22 @@
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>&lt;T extends <a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;<br>T</code></td>
-<td class="colLast"><span class="strong">MutableTypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html#putInstance(com.google.common.reflect.TypeToken,%20T)">putInstance</a></strong>(<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
-                      T&nbsp;value)</code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>&lt;T extends <a href="../../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;<br>T</code></td>
-<td class="colLast"><span class="strong">TypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/TypeToInstanceMap.html#putInstance(com.google.common.reflect.TypeToken,%20T)">putInstance</a></strong>(<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
-                      T&nbsp;value)</code>
-<div class="block">Maps the specified type to the specified value.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends <a href="../../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;&nbsp;<br>T</code></td>
 <td class="colLast"><span class="strong">ImmutableTypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html#putInstance(com.google.common.reflect.TypeToken,%20T)">putInstance</a></strong>(<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
                       T&nbsp;value)</code>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>&lt;T extends <a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;<br>T</code></td>
+<td class="colLast"><span class="strong">MutableTypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/MutableTypeToInstanceMap.html#putInstance(com.google.common.reflect.TypeToken,%20T)">putInstance</a></strong>(<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
+                      T&nbsp;value)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>&lt;T extends <a href="../../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;<br>T</code></td>
+<td class="colLast"><span class="strong">TypeToInstanceMap.</span><code><strong><a href="../../../../../com/google/common/reflect/TypeToInstanceMap.html#putInstance(com.google.common.reflect.TypeToken,%20T)">putInstance</a></strong>(<a href="../../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
+                      T&nbsp;value)</code>
+<div class="block">Maps the specified type to the specified value.</div>
 </td>
 </tr>
 <tr class="rowColor">

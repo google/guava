@@ -127,6 +127,17 @@
 <td class="colLast"><span class="strong">ForwardingSortedMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingSortedMultiset.html#lastEntry()">lastEntry</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;</code></td>
+<td class="colLast"><span class="strong">SortedMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/SortedMultiset.html#pollFirstEntry()">pollFirstEntry</a></strong>()</code>
+<div class="block">Returns and removes the entry associated with the lowest element in this
+ multiset, or returns <code>null</code> if this multiset is empty.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</code></td>
+<td class="colLast"><span class="strong">ForwardingSortedMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingSortedMultiset.html#pollFirstEntry()">pollFirstEntry</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableSortedMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableSortedMultiset.html#pollFirstEntry()">pollFirstEntry</a></strong>()</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
@@ -136,14 +147,14 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;</code></td>
-<td class="colLast"><span class="strong">SortedMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/SortedMultiset.html#pollFirstEntry()">pollFirstEntry</a></strong>()</code>
-<div class="block">Returns and removes the entry associated with the lowest element in this
+<td class="colLast"><span class="strong">SortedMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/SortedMultiset.html#pollLastEntry()">pollLastEntry</a></strong>()</code>
+<div class="block">Returns and removes the entry associated with the greatest element in this
  multiset, or returns <code>null</code> if this multiset is empty.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</code></td>
-<td class="colLast"><span class="strong">ForwardingSortedMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingSortedMultiset.html#pollFirstEntry()">pollFirstEntry</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><span class="strong">ForwardingSortedMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingSortedMultiset.html#pollLastEntry()">pollLastEntry</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableSortedMultiset.html" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></td>
@@ -152,17 +163,6 @@
 <div class="block"><i>Unsupported operation.</i></div>
 </div>
 </td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;</code></td>
-<td class="colLast"><span class="strong">SortedMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/SortedMultiset.html#pollLastEntry()">pollLastEntry</a></strong>()</code>
-<div class="block">Returns and removes the entry associated with the greatest element in this
- multiset, or returns <code>null</code> if this multiset is empty.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</code></td>
-<td class="colLast"><span class="strong">ForwardingSortedMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingSortedMultiset.html#pollLastEntry()">pollLastEntry</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</code></td>
@@ -202,26 +202,26 @@
 <td class="colLast"><span class="strong">ConcurrentHashMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ConcurrentHashMultiset.html#createEntrySet()">createEntrySet</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&gt;&gt;</code></td>
+<td class="colLast"><span class="strong">Multiset.</span><code><strong><a href="../../../../../com/google/common/collect/Multiset.html#entrySet()">entrySet</a></strong>()</code>
+<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances, each providing an element of the multiset and
+ the count of that element.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&gt;</code></td>
 <td class="colLast"><span class="strong">ForwardingMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingMultiset.html#entrySet()">entrySet</a></strong>()</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/SortedMultiset.html" title="type parameter in SortedMultiset">E</a>&gt;&gt;</code></td>
 <td class="colLast"><span class="strong">SortedMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/SortedMultiset.html#entrySet()">entrySet</a></strong>()</code>
 <div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances, each providing an element of the multiset and
  the count of that element.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableMultiset.html" title="type parameter in ImmutableMultiset">E</a>&gt;&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableMultiset.html#entrySet()">entrySet</a></strong>()</code>&nbsp;</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&gt;&gt;</code></td>
-<td class="colLast"><span class="strong">Multiset.</span><code><strong><a href="../../../../../com/google/common/collect/Multiset.html#entrySet()">entrySet</a></strong>()</code>
-<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances, each providing an element of the multiset and
- the count of that element.</div>
-</td>
 </tr>
 </tbody>
 </table>
