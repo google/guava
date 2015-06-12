@@ -20,46 +20,23 @@
 
 set -e -u
 
-if [[ $# -ne 1 ]]; then
+cd $(dirname $0)/..
+source _bin/util.sh
+
+ensure_no_uncommitted_changes
+
+if [[ $# -eq 0 ]]; then
+  version="snapshot"
+elif [[ $# -eq 1 ]]; then
+  version=$(parse_version $1)
+else
   echo "Usage: $0 <version>" >&2
   exit 1
 fi
 
-version=$1
-
-# cd to git root dir (the dir above the one containing this script):
-cd $(dirname $0)
-cd ..
-
-source _bin/util.sh
-
-if git diff --name-only | grep . -q ; then
-  echo "Uncommitted changes found. Aborting." >&2
-  exit 1
-fi
-
-# Output to /releases/snapshot if the new version is a snapshot
-if [[ $version =~ .+-SNAPSHOT ]]; then
-  # snapshots come from master
-  ref=master
-  dir=snapshot
-else
-  # releases come from a tag of the form "v18.0"
-  ref=v$version
-  dir=$version
-fi
-outputdir=releases/$dir/api/diffs/
-
 # Switch to the git ref for the target version
 ghpagesref=$(currentref)
-echo "Checking out '$ref'"
-git checkout -q $ref
-
-# If we're on master, pull to get the latest
-if [ $ref == "master" ]; then
-  echo "Pulling to get latests changes"
-  git pull -q
-fi
+checkout $(git_ref $version)
 
 # Copy the Guava source code to a temp dir
 srctemp=$(mktemp -d -t guava-$version-src.XXX)
@@ -73,14 +50,20 @@ echo "Compiling Guava"
 mvn clean compile dependency:build-classpath -Dmdep.outputFile=$deptemp -pl guava > /dev/null
 classpath=$(cat $deptemp)
 rm $deptemp
+
 classtemp=$(mktemp -d -t guava-$version-classes.XXX)
 echo "Copying class files to '$classtemp'"
 cp -r guava/target/classes/* $classtemp/
 classpath=$classtemp:$classpath
 
+# Get the Guava version
+guavaversion=$(guava_version)
+
 # Switch back to gh-pages
 echo "Checking out '$ghpagesref'"
 git checkout -q $ghpagesref
+
+outputdir=releases/$version/api/diffs/
 
 # Run JDiff
 echo "Running JDiff"
@@ -91,15 +74,15 @@ javadoc \
   -encoding UTF-8 \
   -doclet jdiff.JDiff \
   -docletpath _lib/jdiff.jar:_lib/xerces-for-jdiff.jar \
-  -apiname "Guava $version" \
+  -apiname "Guava $guavaversion" \
   -apidir $outputdir \
   -exclude com.google.common.base.internal \
   -protected
 
 # Rename the output file
-outputfile=$outputdir/Guava_$version.xml
-echo "Renaming 'Guava_$version.xml' to '$dir.xml'"
-mv $outputfile $outputdir/$dir.xml
+outputfile=$outputdir/Guava_$guavaversion.xml
+echo "Renaming 'Guava_$guavaversion.xml' to '$version.xml'"
+mv $outputfile $outputdir/$version.xml
 
 # Cleanup temp files
 echo "Cleaning up temp files"

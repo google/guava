@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e -u
-
 #*****************************************************************************
 #
 # This script generates/updates the Javadoc for a specific
@@ -14,58 +12,34 @@ set -e -u
 #   _bin/updatejavadoc.sh
 #   _bin/updatejavadoc.sh master
 #   _bin/updatejavadoc.sh snapshot
-#   _bin/updatejavadoc.sh 19.0-SNAPSHOT
 #
 #   # Builds Javadoc for the 'v18.0' tag, commits to releases/18.0
 #   _bin/updatejavadoc.sh 18.0
 #
 #******************************************************************************
 
-# defaults
-version=snapshot
-ref=master
+set -e -u
 
-if [ $# -eq 1 ]; then
-  if [[ ! $1 =~ .+-SNAPSHOT ]]; then
-    # If we didn't get a -SNAPSHOT version (in which case we should just use master)
-    if [[ $1 =~ [0-9]+\..+ ]]; then
-      # The version starts with numbers and a dot (a release version)
-      version=$1
-      ref=v$version
-    else
-      echo "Invalid version specified: $version" >&2
-      exit 1
-    fi
-  fi
-elif [ $# -gt 1 ]; then
-  echo "Usage: $0 [<version>]" >&2
-  exit 1
-fi
-
-# cd to git root dir (the dir above the one containing this script):
-cd $(dirname $0)
-cd ..
-
+cd $(dirname $0)/..
 source _bin/util.sh
 
-if git diff --name-only | grep . -q ; then
-  echo "Uncommitted changes found. Aborting." >&2
+ensure_no_uncommitted_changes
+
+if [[ $# -eq 0 ]]; then
+  version="snapshot"
+elif [[ $# -eq 1 ]]; then
+  version=$(parse_version $1)
+else
+  echo "Usage: $0 [version]" >&2
   exit 1
 fi
+
+# Switch to the git ref for the target version
+ghpagesref=$(currentref)
+checkout $(git_ref $version)
 
 # Make temp dir
 doctemp=$(mktemp -d -t guava-$version-docs.XXX)
-
-# Checkout the main code at the specified version
-ghpagesref=$(currentref)
-echo "Checking out '$ref'"
-git checkout -q $ref
-
-# If we're on master, pull to get the latest
-if [ $ref == "master" ]; then
-  echo "Pulling to get latest changes"
-  git pull -q
-fi
 
 # Generate Javadoc and move it to temp dir
 echo "Generating Javadoc"
@@ -75,6 +49,8 @@ mvn clean javadoc:javadoc -pl guava > /dev/null
 echo "Moving Javadoc to '$doctemp'"
 mv guava/target/site/apidocs/* $doctemp/
 rm -fr guava/target
+
+guavaversion=$(guava_version)
 
 # Switch back to gh-pages branch
 echo "Checking out '$ghpagesref'"
@@ -89,6 +65,6 @@ mv $doctemp $docsdir
 
 echo "Committing changes"
 git add .
-git commit -m "Generate Javadoc for version $version"
+git commit -m "Generate Javadoc for version $guavaversion"
 
 echo "Finished"

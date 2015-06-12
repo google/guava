@@ -22,6 +22,11 @@
 
 set -e -u
 
+cd $(dirname $0)/..
+source _bin/util.sh
+
+ensure_no_uncommitted_changes
+
 if [[ $# -ne 2 ]]; then
   echo "Usage: $0 <previous version> <version>" >&2
   exit 1
@@ -30,37 +35,43 @@ fi
 old=$1
 new=$2
 
-# cd to git root dir (the dir above the one containing this script):
-cd $(dirname $0)
-cd ..
+oldversion=$(parse_version $old)
+newversion=$(parse_version $new)
 
-if git diff --name-only | grep . -q ; then
-  echo "Uncommitted changes found. Aborting." >&2
+if [[ $oldversion == "snapshot" ]]; then
+  echo "Previous version may not be snapshot" >&2
+  exit 1
+elif [[ $oldversion == $newversion ]]; then
+  echo "The two versions may not be the same ($oldversion)" >&2
   exit 1
 fi
 
-# Output to /releases/snapshot if the new version is a snapshot
-if [[ $new =~ .+-SNAPSHOT ]]; then
-  newdir=snapshot
+# JDiff will want to know what the current snapshot version is actually called
+if [[ $newversion == "snapshot" ]]; then
+  echo "Switching to 'master' to determine current snapshot version"
+  ghpagesref=$(currentref)
+  checkout master
+  newguavaversion=$(guava_version)
+  checkout $ghpagesref
 else
-  newdir=$new
+  newguavaversion=$newversion
 fi
-outputdir=releases/$newdir/api/diffs/
 
 # These are the base paths to Javadoc that will be used in the
 # generated changes html files. Use paths relative to the directory
-# where those files will go (/releases/$newdir/api/diffs/changes).
-
-# /releases/$new/api/docs/
-newjavadoc=../../docs/
-# /releases/$old/api/docs/
-oldjavadoc=../../../../$old/api/docs/
+# where those files will go (/releases/$newversion/api/diffs/changes).
+# /releases/$newversion/api/docs/
+newjavadoc="../../docs/"
+# /releases/$oldversion/api/docs/
+oldjavadoc="../../../../$oldversion/api/docs/"
 
 # Copy JDiff xml files to current dir with the names JDiff expects
 tempoldxml=Guava_$old.xml
-cp releases/$old/api/diffs/$old.xml $tempoldxml
-tempnewxml=Guava_$new.xml
-cp releases/$newdir/api/diffs/$newdir.xml $tempnewxml
+cp releases/$oldversion/api/diffs/$oldversion.xml $tempoldxml
+tempnewxml=Guava_$newguavaversion.xml
+cp releases/$newversion/api/diffs/$newversion.xml $tempnewxml
+
+outputdir="releases/$newversion/api/diffs/"
 
 # Run JDiff
 echo "Running JDiff"
@@ -69,7 +80,7 @@ javadoc \
   -doclet jdiff.JDiff \
   -docletpath _lib/jdiff.jar:_lib/xerces-for-jdiff.jar \
   -oldapi "Guava $old" \
-  -newapi "Guava $new" \
+  -newapi "Guava $newguavaversion" \
   -javadocold $oldjavadoc \
   -javadocnew $newjavadoc \
   -d $outputdir
