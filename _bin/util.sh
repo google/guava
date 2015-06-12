@@ -96,5 +96,3 @@ function latest_release {
     fi
   done
 }
-
-sort_releases
