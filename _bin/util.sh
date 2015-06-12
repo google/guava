@@ -69,6 +69,15 @@ function checkout {
   fi
 }
 
+platform=$(uname)
+if [[ $uname == "Linux" ]]; then
+  # GNU sed
+  extended="-r"
+else
+  # BSD sed
+  extended="-E"
+fi
+
 # Sorts all releases (not including "snapshot") from the releases/
 # directory by version, from greatest version to least. This works as you'd
 # expect, for example:
@@ -80,9 +89,9 @@ function checkout {
 function sort_releases {
   ls releases | \
       grep -v snapshot | \
-      sed -re 's/^([0-9]+\.[0-9]+)$/\1.01/g' -e 's/-rc/!/g' | \
-      sort -r --version-sort | \
-      sed -re 's/!/-rc/g' -e 's/\.01//g'
+      sed $extended -e 's/^([0-9]+\.[0-9]+)$/\1.01/g' -e 's/-rc/!/g' | \
+      sort -r -g | \
+      sed $extended -e 's/!/-rc/g' -e 's/\.01//g'
 }
 
 # Prints the highest non-rc release from the sorted list of releases
