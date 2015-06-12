@@ -71,11 +71,11 @@ function checkout {
 
 platform=$(uname)
 if [[ $platform == "Linux" ]]; then
-  # GNU sed
+  # GNU utils
   extended="-r"
   versionsort="--version-sort"
 else
-  # BSD sed
+  # BSD utils
   extended="-E"
   versionsort="-g"
 fi
