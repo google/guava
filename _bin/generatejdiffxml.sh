@@ -31,6 +31,8 @@ version=$1
 cd $(dirname $0)
 cd ..
 
+source _bin/util.sh
+
 if git diff --name-only | grep . -q ; then
   echo "Uncommitted changes found. Aborting." >&2
   exit 1
@@ -49,7 +51,7 @@ fi
 outputdir=releases/$dir/api/diffs/
 
 # Switch to the git ref for the target version
-ghpagesref=$(_bin/currentref.sh)
+ghpagesref=$(currentref)
 echo "Checking out '$ref'"
 git checkout -q $ref
 

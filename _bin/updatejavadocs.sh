@@ -46,6 +46,8 @@ fi
 cd $(dirname $0)
 cd ..
 
+source _bin/util.sh
+
 if git diff --name-only | grep . -q ; then
   echo "Uncommitted changes found. Aborting." >&2
   exit 1
@@ -55,7 +57,7 @@ fi
 doctemp=$(mktemp -d -t guava-$version-docs.XXX)
 
 # Checkout the main code at the specified version
-ghpagesref=$(_bin/currentref.sh)
+ghpagesref=$(currentref)
 echo "Checking out '$ref'"
 git checkout -q $ref
 
