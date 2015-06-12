@@ -2413,7 +2413,11 @@ public class CacheLoadingTest extends TestCase {
     assertEquals("barfoo", cache.getUnchecked(key));
   }
 
-  public void testExpandDuringRefresh() throws InterruptedException, ExecutionException {
+  // Test ignored because it is extremely flaky in CI builds
+
+  public void
+      ignoreTestExpandDuringRefresh()
+      throws InterruptedException, ExecutionException {
     final AtomicInteger callCount = new AtomicInteger();
     // tells the computing thread when to start computing
     final CountDownLatch computeSignal = new CountDownLatch(1);
