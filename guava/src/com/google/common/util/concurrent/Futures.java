@@ -949,10 +949,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
     /** A runnable that is called when the delegate or the timer completes. */
     private static final class Fire<V> implements Runnable {
-      // Holding a strong reference to the enclosing class (as we would do if
-      // this weren't a static nested class) could cause retention of the
-      // delegate's return value (in AbstractFuture) for the duration of the
-      // timeout in the case of successful completion. We clear this on run.
       @Nullable TimeoutFuture<V> timeoutFutureRef;
 
       Fire(TimeoutFuture<V> timeoutFuture) {
@@ -971,60 +967,46 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
           return;
         }
 
-        // Unpin all the memory before attempting to complete.  Not only does this save us from
-        // wrapping everything in a finally block, it also ensures that if delegate.cancel() (in the
-        // else block), causes delegate to complete, then it won't reentrantly call back in and
-        // cause TimeoutFuture to finish with cancellation.
+        /*
+         * If we're about to complete the TimeoutFuture, we want to release our reference to it.
+         * Otherwise, we'll pin it (and its result) in memory until the timeout task is GCed. (The
+         * need to clear our reference to the TimeoutFuture is the reason we use a *static* nested
+         * class with a manual reference back to the "containing" class.)
+         *
+         * This has the nice-ish side effect of limiting reentrancy: run() calls
+         * timeoutFuture.setException() calls run(). That reentrancy would already be harmless,
+         * since timeoutFuture can be set (and delegate cancelled) only once. (And "set only once"
+         * is important for other reasons: run() can still be invoked concurrently in different
+         * threads, even with the above null checks.)
+         */
         timeoutFutureRef = null;
-        Future<?> timer = timeoutFuture.timer;
-        timeoutFuture.delegateRef = null;
-        timeoutFuture.timer = null;
         if (delegate.isDone()) {
           timeoutFuture.setFuture(delegate);
-          // Try to cancel the timer as an optimization
-          // timer may be null if this call to run was by the timer task since there is no
-          // happens-before edge between the assignment to timer and an execution of the timer
-          // task.
-          if (timer != null) {
-            timer.cancel(false);
-          }
         } else {
-          // Some users, for better or worse, rely on the delegate definitely being cancelled prior
-          // to the timeout future completing.  We wrap in a try...finally... for the off chance
-          // that cancelling the delegate causes an Error to be thrown from a listener on the
-          // delegate.
-          // TODO(cpovirk): fix those callers, and simplify this code, including relying on done()
-          // for most/all of the cleanup above
           try {
-            delegate.cancel(true);
-          } finally {
             // TODO(lukes): this stack trace is particularly useless (all it does is point at the
             // scheduledexecutorservice thread), consider eliminating it altogether?
             timeoutFuture.setException(new TimeoutException("Future timed out: " + delegate));
+          } finally {
+            delegate.cancel(true);
           }
         }
       }
     }
 
     @Override void done() {
-      Future<?> localTimer = timer;
-      ListenableFuture<V> delegate = delegateRef;
+      maybePropagateCancellation(delegateRef);
 
-      // Either can be null if super.cancel() races with an execution of Fire.run, but it doesn't
-      // matter because either 1. the delegate is already done (so there is no point in
-      // propagating cancellation and Fire.run will cancel the timer. or 2. the timeout occurred
-      // and Fire.run will cancel the delegate
-      // Technically this is also possible in the 'unsafe publishing' case described above.
-      if (delegate != null) {
-        // Unpin and prevent Fire from doing anything if delegate.cancel finishes the delegate.
-        delegateRef = null;
-        // TODO(cpovirk): use maybePropagateCancellation?
-        delegate.cancel(wasInterrupted());
-      }
+      Future<?> localTimer = timer;
+      // Try to cancel the timer as an optimization
+      // timer may be null if this call to run was by the timer task since there is no
+      // happens-before edge between the assignment to timer and an execution of the timer task.
       if (localTimer != null) {
-        timer = null;
         localTimer.cancel(false);
       }
+
+      delegateRef = null;
+      timer = null;
     }
   }
 
