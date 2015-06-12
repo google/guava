@@ -22,8 +22,8 @@ function currentref {
 # Returns the version of com.google.guava:guava at the current revision, pulled from Maven.
 function guava_version {
   mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate \
-      -Dartifact=com.google.guava:guava \
       -Dexpression=project.version \
+      -pl guava \
       | grep -Ev '(^\[|Download\w+:)'
 }
 
