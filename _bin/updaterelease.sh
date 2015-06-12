@@ -148,7 +148,7 @@ javadoc \
   -javadocold $prevjavadocpath \
   -javadocnew $releasejavadocpath \
   -d $tempdir/diffs >> $logfile 2>&1
-echo "Done."
+echo " Done."
 
 # Make changes to the JDiff output
 # Remove the useless user comments xml file
