@@ -124,7 +124,7 @@ echo -n "Determining previous release version..."
 prevrelease=$(latest_release $guavaversion)
 echo " $prevrelease"
 
-ln releases/$prevrelease/api/diffs/$prevrelease.xml $tempdir/Guava_$prevrelease.xml
+cp releases/$prevrelease/api/diffs/$prevrelease.xml $tempdir/Guava_$prevrelease.xml
 
 # Generate Jdiff report, putting it in $tempdir/diffs
 
