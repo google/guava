@@ -80,8 +80,6 @@ else
   versionsort="-g"
 fi
 
-echo $extended
-
 # Sorts all releases (not including "snapshot") from the releases/
 # directory by version, from greatest version to least. This works as you'd
 # expect, for example:
