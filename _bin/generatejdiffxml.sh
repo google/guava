@@ -92,6 +92,6 @@ rm -fr $classtemp
 # Commit
 echo "Committing changes"
 git add .
-git commit -m "Generate jdiff xml file for $version"
+git commit -m "Generate JDiff XML file for version $guavaversion"
 
 echo "Finished"

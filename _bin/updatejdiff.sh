@@ -105,6 +105,6 @@ rm $tempnewxml
 # Commit changes
 echo "Committing changes"
 git add .
-git commit -m "Generate diffs between $old and $new"
+git commit -m "Generate JDiff between versions $old and $newguavaversion"
 
 echo "Finished"
