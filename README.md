@@ -13,8 +13,8 @@ Learn about Guava
 ------------------
 
 - Our users' guide, [Guava Explained](https://github.com/google/guava/wiki/Home)
-- Browse [API docs for the most recent release](http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/index.html)
-- Browse [API diffs for the most recent release](http://docs.guava-libraries.googlecode.com/git-history/release/jdiff/changes.html)
+- Browse [API docs for the most recent release](http://google.github.io/guava/releases/18.0/api/docs/)
+- Browse [API diffs for the most recent release](http://google.github.io/guava/releases/18.0/api/diffs/)
 - [Presentation slides focusing on base, primitives, and io](http://guava-libraries.googlecode.com/files/Guava_for_Netflix_.pdf)
 - [Presentation slides focusing on cache]( http://guava-libraries.googlecode.com/files/JavaCachingwithGuava.pdf)
 - [Presentation slides focusing on util.concurrent](http://guava-libraries.googlecode.com/files/guava-concurrent-slides.pdf)
