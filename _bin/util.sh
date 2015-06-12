@@ -68,3 +68,33 @@ function checkout {
     git pull -q
   fi
 }
+
+# Sorts all releases (not including "snapshot") from the releases/
+# directory by version, from greatest version to least. This works as you'd
+# expect, for example:
+#
+#   18.0.2 > 18.0.1 > 18.0 > 18.0-rc2 > 18.0-rc1 > 17.1 > 17.0.1 > 17.0
+#
+# This function expects to be run with the working directory at the root of
+# the git tree.
+function sort_releases {
+  ls releases | \
+      grep -v snapshot | \
+      sed -re 's/^([0-9]+\.[0-9]+)$/\1.01/g' -e 's/-rc/!/g' | \
+      sort -r --version-sort | \
+      sed -re 's/!/-rc/g' -e 's/\.01//g'
+}
+
+# Prints the highest non-rc release from the sorted list of releases
+# produced by sort_releases.
+function latest_release {
+  releases=$(sort_releases)
+  for release in $releases; do
+    if [[ ! $release =~ ^.+-rc[0-9]+$ ]]; then
+      echo $release
+      break
+    fi
+  done
+}
+
+sort_releases
