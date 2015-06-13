@@ -19,3 +19,8 @@ github_username:  google/guava
 
 # Build settings
 markdown: kramdown
+
+collections:
+ releases:
+   output: true
+   permalink: /:collection/:path/
