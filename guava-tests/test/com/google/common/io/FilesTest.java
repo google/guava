@@ -142,7 +142,7 @@ public class FilesTest extends IoTestCase {
   }
 
   /**
-   * A {@link File} that provides a specialized value for {link File#length()}.
+   * A {@link File} that provides a specialized value for {@link File#length()}.
    */
   private static class BadLengthFile extends File {
 

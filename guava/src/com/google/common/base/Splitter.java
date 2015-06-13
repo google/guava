@@ -347,7 +347,7 @@ public final class Splitter {
    * returns an iterable containing {@code ["a", "b", "c,d"}.
    * When trim is requested, all entries, including the last are trimmed.  Hence
    * {@code Splitter.on(',').limit(3).trimResults().split(" a , b , c , d ")}
-   * results in @{code ["a", "b", "c , d"]}.
+   * results in {@code ["a", "b", "c , d"]}.
    *
    * @param limit the maximum number of items returned
    * @return a splitter with the desired configuration

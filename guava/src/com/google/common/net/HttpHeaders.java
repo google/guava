@@ -257,7 +257,7 @@ public final class HttpHeaders {
   public static final String PING_FROM = "Ping-From";
   /**
    * The HTTP <a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing">
-   * {code Ping-To}</a> header field name.
+   * {@code Ping-To}</a> header field name.
    *
    * @since 19.0
    */
