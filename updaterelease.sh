@@ -7,9 +7,9 @@
 #
 # Usage examples:
 #
-#   _bin/updaterelease.sh snapshot
-#   _bin/updaterelease.sh 18.0
-#   _bin/updaterelease.sh 18.0-rc1
+#   ./updaterelease.sh snapshot
+#   ./updaterelease.sh 18.0
+#   ./updaterelease.sh 18.0-rc1
 #
 # All of these update the Javadoc located at _releases/<release>/api/docs
 # and the JDiff located at _releases/<release>/api/diffs, creating those
@@ -31,8 +31,8 @@
 set -e -u
 
 # Ensure working dir is the root of the git repo and load util functions.
-cd $(dirname $0)/..
-source _bin/util.sh
+cd $(dirname $0)
+source _util/util.sh
 
 ensure_no_uncommitted_changes
 
@@ -106,13 +106,14 @@ git_checkout_ref $initialref
 
 # Generate JDiff XML file for the release.
 echo -n "Generating JDiff XML..."
+jdiffpath="_util/lib/jdiff.jar:_util/lib/xerces-for-jdiff.jar"
 javadoc \
   -sourcepath $tempdir/src \
   -classpath $classpath \
   -subpackages com.google.common \
   -encoding UTF-8 \
   -doclet jdiff.JDiff \
-  -docletpath _lib/jdiff.jar:_lib/xerces-for-jdiff.jar \
+  -docletpath $jdiffpath \
   -apiname "Guava $guavaversion" \
   -apidir $tempdir \
   -exclude com.google.common.base.internal \
@@ -140,7 +141,7 @@ mkdir $tempdir/diffs
 javadoc \
   -subpackages com \
   -doclet jdiff.JDiff \
-  -docletpath _lib/jdiff.jar:_lib/xerces-for-jdiff.jar \
+  -docletpath $jdiffpath \
   -oldapi "Guava $prevrelease" \
   -oldapidir $tempdir \
   -newapi "Guava $guavaversion" \

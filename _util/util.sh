@@ -61,7 +61,7 @@ function git_checkout_ref {
   # If we're on master, pull to get the latest
   if [ $ref == "master" ]; then
     echo -n "Pulling to get latest changes..."
-    git pull -q
+    git pull -q --ff-only
     echo " Done."
   fi
 }
@@ -77,9 +77,8 @@ else
   versionsort="-g"
 fi
 
-# Sorts all releases (not including "snapshot") from the releases/ directory
-# by version, from greatest version to least. This works as you'd expect,
-# for example:
+# Sorts all numeric releases from the _releases/ directory by version, from
+# greatest version to least. This works as you'd expect, for example:
 #
 #   18.0.2 > 18.0.1 > 18.0 > 18.0-rc2 > 18.0-rc1 > 17.1 > 17.0.1 > 17.0
 #
@@ -89,8 +88,8 @@ function sort_releases {
   # This is all sorts of hacky and I'm sure there's a better way, but it
   # seems to work as long as we're just dealing with versions like 1.2,
   # 1.2.3, 1.2-rc1 and 1.2.3-rc1.
-  ls releases | \
-      grep -v snapshot | \
+  ls _releases | \
+      grep -E ^[0-9]+\.[0-9]+ | \
       sort -u | \
       sed $extended -e 's/^([0-9]+\.[0-9]+)$/\1.01/g' -e 's/-rc/!/g' | \
       sort -r $versionsort | \

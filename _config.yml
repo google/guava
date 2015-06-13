@@ -1,26 +1,29 @@
-# Site settings
-# Currently these don't really do anything, but if/when we make this a real site they will.
+# Main site settings
 title: Guava
 subtitle: Google core libraries for Java
-email: guava-discuss@googlegroups.com
 description: Google core libraries for Java
 baseurl: /guava
 url: http://google.github.io
 permalink: /news/:year/:month/:day/:title/
-exclude: ['Gemfile*', 'README.md', '*.sh']
 
-# These settings are enabled by default for GitHub and can't be overridden.
-# Specifying them here to ensure that building locally uses the same settings.
+markdown: kramdown
+
+exclude:
+- "Gemfile*"
+- "README.md"
+- "*.sh"
+
+# Required on GitHub pages
 safe: true
 lsi: false
 
-twitter_username: GoogleGuava
-github_username:  google/guava
-
-# Build settings
-markdown: kramdown
-
+# Collections
 collections:
  releases:
    output: true
    permalink: /:collection/:path/
+
+# Miscellaneous data
+email: guava-discuss@googlegroups.com
+twitter_username: GoogleGuava
+github_username:  google/guava
