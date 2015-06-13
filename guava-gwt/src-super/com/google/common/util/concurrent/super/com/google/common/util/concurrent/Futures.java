@@ -262,28 +262,12 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *         }
    *       });}</pre>
    *
-   * <p>Note: If the derived {@code Future} is slow or heavyweight to create
-   * (whether the {@code Future} itself is slow or heavyweight to complete is
-   * irrelevant), consider {@linkplain #withFallback(ListenableFuture,
-   * FutureFallback, Executor) supplying an executor}. If you do not supply an
-   * executor, {@code withFallback} will use a
-   * {@linkplain MoreExecutors#directExecutor direct executor}, which carries
-   * some caveats for heavier operations. For example, the call to {@code
-   * fallback.create} may run on an unpredictable or undesirable thread:
-   *
-   * <ul>
-   * <li>If the input {@code Future} is done at the time {@code withFallback}
-   * is called, {@code withFallback} will call {@code fallback.create} inline.
-   * <li>If the input {@code Future} is not yet done, {@code withFallback} will
-   * schedule {@code fallback.create} to be run by the thread that completes
-   * the input {@code Future}, which may be an internal system thread such as
-   * an RPC network thread.
-   * </ul>
-   *
-   * <p>Also note that, regardless of which thread executes {@code
-   * fallback.create}, all other registered but unexecuted listeners are
-   * prevented from running during its execution, even if those listeners are
-   * to run in other executors.
+   * <p>This overload, which does not accept an executor, uses {@code
+   * directExecutor}, a dangerous choice in some cases. See the discussion in
+   * the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   * documentation. The documentation's warnings about "lightweight listeners"
+   * refer here to the work done during {@code FutureFallback.create}, not to
+   * any work done to complete the returned {@code Future}.
    *
    * @param input the primary input {@code Future}
    * @param fallback the {@link FutureFallback} implementation to be called if
@@ -347,12 +331,12 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *         }
    *       }, directExecutor());}</pre>
    *
-   * <p>When the execution of {@code fallback.create} is fast and lightweight
-   * (though the {@code Future} it returns need not meet these criteria),
-   * consider {@linkplain #withFallback(ListenableFuture, FutureFallback)
-   * omitting the executor} or explicitly specifying {@code
-   * directExecutor}. However, be aware of the caveats documented in the
-   * link above.
+   * <p>When selecting an executor, note that {@code directExecutor} is
+   * dangerous in some cases. See the discussion in the {@link
+   * ListenableFuture#addListener ListenableFuture.addListener} documentation.
+   * The documentation's warnings about "lightweight listeners" refer here to
+   * the work done during {@code FutureFallback.create}, not to any work done to
+   * complete the returned {@code Future}.
    *
    * @param input the primary input {@code Future}
    * @param fallback the {@link FutureFallback} implementation to be called if
@@ -598,28 +582,12 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *   ListenableFuture<QueryResult> queryFuture =
    *       transform(rowKeyFuture, queryFunction);}</pre>
    *
-   * <p>Note: If the derived {@code Future} is slow or heavyweight to create
-   * (whether the {@code Future} itself is slow or heavyweight to complete is
-   * irrelevant), consider {@linkplain #transform(ListenableFuture,
-   * AsyncFunction, Executor) supplying an executor}. If you do not supply an
-   * executor, {@code transform} will use a
-   * {@linkplain MoreExecutors#directExecutor direct executor}, which carries
-   * some caveats for heavier operations. For example, the call to {@code
-   * function.apply} may run on an unpredictable or undesirable thread:
-   *
-   * <ul>
-   * <li>If the input {@code Future} is done at the time {@code transform} is
-   * called, {@code transform} will call {@code function.apply} inline.
-   * <li>If the input {@code Future} is not yet done, {@code transform} will
-   * schedule {@code function.apply} to be run by the thread that completes the
-   * input {@code Future}, which may be an internal system thread such as an
-   * RPC network thread.
-   * </ul>
-   *
-   * <p>Also note that, regardless of which thread executes {@code
-   * function.apply}, all other registered but unexecuted listeners are
-   * prevented from running during its execution, even if those listeners are
-   * to run in other executors.
+   * <p>This overload, which does not accept an executor, uses {@code
+   * directExecutor}, a dangerous choice in some cases. See the discussion in
+   * the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   * documentation. The documentation's warnings about "lightweight listeners"
+   * refer here to the work done during {@code AsyncFunction.apply}, not to any
+   * work done to complete the returned {@code Future}.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future and that of the future returned by the
@@ -663,18 +631,19 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *   ListenableFuture<QueryResult> queryFuture =
    *       transform(rowKeyFuture, queryFunction, executor);}</pre>
    *
+   * <p>When selecting an executor, note that {@code directExecutor} is
+   * dangerous in some cases. See the discussion in the {@link
+   * ListenableFuture#addListener ListenableFuture.addListener} documentation.
+   * The documentation's warnings about "lightweight listeners" refer here to
+   * the work done during {@code AsyncFunction.apply}, not to any work done to
+   * complete the returned {@code Future}.
+   *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future and that of the future returned by the
    * chain function. That is, if the returned {@code Future} is cancelled, it
    * will attempt to cancel the other two, and if either of the other two is
    * cancelled, the returned {@code Future} will receive a callback in which it
    * will attempt to cancel itself.
-   *
-   * <p>When the execution of {@code function.apply} is fast and lightweight
-   * (though the {@code Future} it returns need not meet these criteria),
-   * consider {@linkplain #transform(ListenableFuture, AsyncFunction) omitting
-   * the executor} or explicitly specifying {@code directExecutor}.
-   * However, be aware of the caveats documented in the link above.
    *
    * @param input The future to transform
    * @param function A function to transform the result of the input future
@@ -712,25 +681,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *   ListenableFuture<QueryResult> queryFuture =
    *       transformAsync(rowKeyFuture, queryFunction);}</pre>
    *
-   * <p>Note: If the derived {@code Future} is slow or heavyweight to create (whether the {@code
-   * Future} itself is slow or heavyweight to complete is irrelevant), consider {@linkplain
-   * #transformAsync(ListenableFuture, AsyncFunction, Executor) supplying an executor}. If you do
-   * not supply an executor, {@code transformAsync} will use a {@linkplain
-   * MoreExecutors#directExecutor direct executor}, which carries some caveats for heavier
-   * operations. For example, the call to {@code function.apply} may run on an unpredictable or
-   * undesirable thread:
-   *
-   * <ul>
-   * <li>If the input {@code Future} is done at the time {@code transformAsync} is called, {@code
-   * transformAsync} will call {@code function.apply} inline.
-   * <li>If the input {@code Future} is not yet done, {@code transformAsync} will schedule {@code
-   * function.apply} to be run by the thread that completes the input {@code Future}, which may be
-   * an internal system thread such as an RPC network thread.
-   * </ul>
-   *
-   * <p>Also note that, regardless of which thread executes {@code function.apply}, all other
-   * registered but unexecuted listeners are prevented from running during its execution, even if
-   * those listeners are to run in other executors.
+   * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
+   * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
+   * ListenableFuture.addListener} documentation. The documentation's warnings about "lightweight
+   * listeners" refer here to the work done during {@code AsyncFunction.apply}, not to any work done
+   * to complete the returned {@code Future}.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
    * input future and that of the future returned by the function. That is, if the returned {@code
@@ -769,17 +724,17 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *   ListenableFuture<QueryResult> queryFuture =
    *       transformAsync(rowKeyFuture, queryFunction, executor);}</pre>
    *
+   * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
+   * the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   * documentation. The documentation's warnings about "lightweight listeners" refer here to the
+   * work done during {@code AsyncFunction.apply}, not to any work done to complete the returned
+   * {@code Future}.
+   *
    * <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
    * input future and that of the future returned by the chain function. That is, if the returned
    * {@code Future} is cancelled, it will attempt to cancel the other two, and if either of the
    * other two is cancelled, the returned {@code Future} will receive a callback in which it will
    * attempt to cancel itself.
-   *
-   * <p>When the execution of {@code function.apply} is fast and lightweight (though the {@code
-   * Future} it returns need not meet these criteria), consider {@linkplain
-   * #transformAsync(ListenableFuture, AsyncFunction) omitting the executor} or explicitly
-   * specifying {@code directExecutor}. However, be aware of the caveats documented in the link
-   * above.
    *
    * @param input The future to transform
    * @param function A function to transform the result of the input future to the result of the
@@ -848,26 +803,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *   ListenableFuture<List<Row>> rowsFuture =
    *       transform(queryFuture, rowsFunction);}</pre>
    *
-   * <p>Note: If the transformation is slow or heavyweight, consider {@linkplain
-   * #transform(ListenableFuture, Function, Executor) supplying an executor}.
-   * If you do not supply an executor, {@code transform} will use an inline
-   * executor, which carries some caveats for heavier operations.  For example,
-   * the call to {@code function.apply} may run on an unpredictable or
-   * undesirable thread:
-   *
-   * <ul>
-   * <li>If the input {@code Future} is done at the time {@code transform} is
-   * called, {@code transform} will call {@code function.apply} inline.
-   * <li>If the input {@code Future} is not yet done, {@code transform} will
-   * schedule {@code function.apply} to be run by the thread that completes the
-   * input {@code Future}, which may be an internal system thread such as an
-   * RPC network thread.
-   * </ul>
-   *
-   * <p>Also note that, regardless of which thread executes {@code
-   * function.apply}, all other registered but unexecuted listeners are
-   * prevented from running during its execution, even if those listeners are
-   * to run in other executors.
+   * <p>This overload, which does not accept an executor, uses {@code
+   * directExecutor}, a dangerous choice in some cases. See the discussion in
+   * the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   * documentation. The documentation's warnings about "lightweight listeners"
+   * refer here to the work done during {@code Function.apply}.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future. That is, if the returned {@code Future}
@@ -909,6 +849,12 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *   ListenableFuture<List<Row>> rowsFuture =
    *       transform(queryFuture, rowsFunction, executor);}</pre>
    *
+   * <p>When selecting an executor, note that {@code directExecutor} is
+   * dangerous in some cases. See the discussion in the {@link
+   * ListenableFuture#addListener ListenableFuture.addListener} documentation.
+   * The documentation's warnings about "lightweight listeners" refer here to
+   * the work done during {@code Function.apply}.
+   *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future. That is, if the returned {@code Future}
    * is cancelled, it will attempt to cancel the input, and if the input is
@@ -917,11 +863,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>An example use of this method is to convert a serializable object
    * returned from an RPC into a POJO.
-   *
-   * <p>When the transformation is fast and lightweight, consider {@linkplain
-   * #transform(ListenableFuture, Function) omitting the executor} or
-   * explicitly specifying {@code directExecutor}. However, be aware of the
-   * caveats documented in the link above.
    *
    * @param input The future to transform
    * @param function A Function to transform the results of the provided future
@@ -1206,26 +1147,10 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *       }
    *     });}</pre>
    *
-   * <p>Note: If the callback is slow or heavyweight, consider {@linkplain
-   * #addCallback(ListenableFuture, FutureCallback, Executor) supplying an
-   * executor}. If you do not supply an executor, {@code addCallback} will use
-   * a {@linkplain MoreExecutors#directExecutor direct executor}, which carries
-   * some caveats for heavier operations. For example, the callback may run on
-   * an unpredictable or undesirable thread:
-   *
-   * <ul>
-   * <li>If the input {@code Future} is done at the time {@code addCallback} is
-   * called, {@code addCallback} will execute the callback inline.
-   * <li>If the input {@code Future} is not yet done, {@code addCallback} will
-   * schedule the callback to be run by the thread that completes the input
-   * {@code Future}, which may be an internal system thread such as an RPC
-   * network thread.
-   * </ul>
-   *
-   * <p>Also note that, regardless of which thread executes the callback, all
-   * other registered but unexecuted listeners are prevented from running
-   * during its execution, even if those listeners are to run in other
-   * executors.
+   * <p>This overload, which does not accept an executor, uses {@code
+   * directExecutor}, a dangerous choice in some cases. See the discussion in
+   * the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   * documentation.
    *
    * <p>For a more general interface to attach a completion listener to a
    * {@code Future}, see {@link ListenableFuture#addListener addListener}.
@@ -1262,10 +1187,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *       }
    *     }, e);}</pre>
    *
-   * <p>When the callback is fast and lightweight, consider {@linkplain
-   * #addCallback(ListenableFuture, FutureCallback) omitting the executor} or
-   * explicitly specifying {@code directExecutor}. However, be aware of the
-   * caveats documented in the link above.
+   * <p>When selecting an executor, note that {@code directExecutor} is
+   * dangerous in some cases. See the discussion in the {@link
+   * ListenableFuture#addListener ListenableFuture.addListener} documentation.
    *
    * <p>For a more general interface to attach a completion listener to a
    * {@code Future}, see {@link ListenableFuture#addListener addListener}.
