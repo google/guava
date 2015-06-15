@@ -197,7 +197,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   final void maybePropagateCancellation(@Nullable Future<?> related) {
-    if (related != null && isCancelled()) {
+    if (related != null & isCancelled()) {
       related.cancel(wasInterrupted());
     }
   }
