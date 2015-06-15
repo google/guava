@@ -100,6 +100,11 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     return delegate.equals(object);
   }
 
+  @Override
+  boolean isHashCodeFast() {
+    return true;
+  }
+
   private transient int hashCode;
 
   @Override

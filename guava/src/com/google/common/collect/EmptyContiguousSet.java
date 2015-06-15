@@ -131,6 +131,12 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     return false;
   }
 
+  @GwtIncompatible("not used in GWT")
+  @Override
+  boolean isHashCodeFast() {
+    return true;
+  }
+
   @Override
   public int hashCode() {
     return 0;
