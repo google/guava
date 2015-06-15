@@ -33,9 +33,9 @@ import java.util.logging.Logger;
  * of our published API. It is public so we can access it reflectively across
  * class loaders in secure environments.
  *
- * <p>This class can't depend on other Google Collections code. If we were
+ * <p>This class can't depend on other Guava code. If we were
  * to load this class in the same class loader as the rest of
- * Google Collections, this thread would keep an indirect strong reference
+ * Guava, this thread would keep an indirect strong reference
  * to the class loader and prevent it from being garbage collected. This
  * poses a problem for environments where you want to throw away the class
  * loader. For example, dynamically reloading a web application or unloading
