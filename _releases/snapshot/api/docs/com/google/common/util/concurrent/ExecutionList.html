@@ -95,18 +95,17 @@
 <li class="blockList">
 <hr>
 <br>
-<pre>public final class <a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionList.html#line.47">ExecutionList</a>
+<pre>public final class <a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionList.html#line.46">ExecutionList</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block"><p>A list of listeners, each with an associated <code>Executor</code>, that
- guarantees that every <code>Runnable</code> that is <a href="../../../../../com/google/common/util/concurrent/ExecutionList.html#add(java.lang.Runnable,%20java.util.concurrent.Executor)">added</a> will
- be executed after <a href="../../../../../com/google/common/util/concurrent/ExecutionList.html#execute()"><code>execute()</code></a> is called. Any <code>Runnable</code> added
- after the call to <code>execute</code> is still guaranteed to execute. There is no
- guarantee, however, that listeners will be executed in the order that they
- are added.
+<div class="block">A support class for <code>ListenableFuture</code> implementations to manage their listeners. An
+ instance contains a list of listeners, each with an associated <code>Executor</code>, and guarantees
+ that every <code>Runnable</code> that is <a href="../../../../../com/google/common/util/concurrent/ExecutionList.html#add(java.lang.Runnable,%20java.util.concurrent.Executor)">added</a> will be executed after <a href="../../../../../com/google/common/util/concurrent/ExecutionList.html#execute()"><code>execute()</code></a> is called. Any <code>Runnable</code> added after the call to <code>execute</code> is still
+ guaranteed to execute. There is no guarantee, however, that listeners will be executed in the
+ order that they are added.
 
- <p>Exceptions thrown by a listener will be propagated up to the executor.
- Any exception thrown during <code>Executor.execute</code> (e.g., a <code>RejectedExecutionException</code> or an exception thrown by <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()">direct execution</a>) will be caught and
- logged.</div>
+ <p>Exceptions thrown by a listener will be propagated up to the executor. Any exception thrown
+ during <code>Executor.execute</code> (e.g., a <code>RejectedExecutionException</code> or an exception
+ thrown by <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()">direct execution</a>) will be caught and logged.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>1.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -152,15 +151,14 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/ExecutionList.html#add(java.lang.Runnable,%20java.util.concurrent.Executor)">add</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;runnable,
       <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
-<div class="block">Adds the <code>Runnable</code> and accompanying <code>Executor</code> to the list of
- listeners to execute.</div>
+<div class="block">Adds the <code>Runnable</code> and accompanying <code>Executor</code> to the list of listeners to
+ execute.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/ExecutionList.html#execute()">execute</a></strong>()</code>
-<div class="block">Runs this execution list, executing all existing pairs in the order they
- were added.</div>
+<div class="block">Runs this execution list, executing all existing pairs in the order they were added.</div>
 </td>
 </tr>
 </table>
@@ -191,7 +189,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ExecutionList</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionList.html#line.61">ExecutionList</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionList.html#line.60">ExecutionList</a>()</pre>
 <div class="block">Creates a new, empty <a href="../../../../../com/google/common/util/concurrent/ExecutionList.html" title="class in com.google.common.util.concurrent"><code>ExecutionList</code></a>.</div>
 </li>
 </ul>
@@ -209,22 +207,14 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionList.html#line.81">add</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;runnable,
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionList.html#line.70">add</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;runnable,
        <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
-<div class="block">Adds the <code>Runnable</code> and accompanying <code>Executor</code> to the list of
- listeners to execute. If execution has already begun, the listener is
- executed immediately.
+<div class="block">Adds the <code>Runnable</code> and accompanying <code>Executor</code> to the list of listeners to
+ execute. If execution has already begun, the listener is executed immediately.
 
- <p>Note: For fast, lightweight listeners that would be safe to execute in
- any thread, consider <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()"><code>MoreExecutors.directExecutor()</code></a>. For heavier
- listeners, <code>directExecutor()</code> carries some caveats: First, the
- thread that the listener runs in depends on whether the <code>ExecutionList</code> has been executed at the time it is added. In particular,
- listeners may run in the thread that calls <code>add</code>. Second, the thread
- that calls <a href="../../../../../com/google/common/util/concurrent/ExecutionList.html#execute()"><code>execute()</code></a> may be an internal implementation thread, such
- as an RPC network thread, and <code>directExecutor()</code> listeners may
- run in this thread. Finally, during the execution of a <code>directExecutor</code> listener, all other registered but unexecuted
- listeners are prevented from running, even if those listeners are to run
- in other executors.</div>
+ <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
+ the discussion in the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)"><code>ListenableFuture.addListener</code></a>
+ documentation.</div>
 </li>
 </ul>
 <a name="execute()">
@@ -233,15 +223,14 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>execute</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionList.html#line.116">execute</a>()</pre>
-<div class="block">Runs this execution list, executing all existing pairs in the order they
- were added. However, note that listeners added after this point may be
- executed before those previously added, and note that the execution order
- of all listeners is ultimately chosen by the implementations of the
- supplied executors.
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionList.html#line.103">execute</a>()</pre>
+<div class="block">Runs this execution list, executing all existing pairs in the order they were added. However,
+ note that listeners added after this point may be executed before those previously added, and
+ note that the execution order of all listeners is ultimately chosen by the implementations of
+ the supplied executors.
 
- <p>This method is idempotent. Calling it several times in parallel is
- semantically equivalent to calling it exactly once.</div>
+ <p>This method is idempotent. Calling it several times in parallel is semantically equivalent
+ to calling it exactly once.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0 (present in 1.0 as <code>run</code>)</dd></dl>
 </li>

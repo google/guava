@@ -793,7 +793,7 @@
 <span class="sourceLineNo">785</span>   * from {@code done}.<a name="line.785"></a>
 <span class="sourceLineNo">786</span>   */<a name="line.786"></a>
 <span class="sourceLineNo">787</span>  final void maybePropagateCancellation(@Nullable Future&lt;?&gt; related) {<a name="line.787"></a>
-<span class="sourceLineNo">788</span>    if (related != null &amp;&amp; isCancelled()) {<a name="line.788"></a>
+<span class="sourceLineNo">788</span>    if (related != null &amp; isCancelled()) {<a name="line.788"></a>
 <span class="sourceLineNo">789</span>      related.cancel(wasInterrupted());<a name="line.789"></a>
 <span class="sourceLineNo">790</span>    }<a name="line.790"></a>
 <span class="sourceLineNo">791</span>  }<a name="line.791"></a>
