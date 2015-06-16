@@ -7,10 +7,24 @@ jdk:
   - oraclejdk7
   - openjdk7
 
+install: mvn install -U -DskipTests=true
+
+script: mvn verify -U -Dmaven.javadoc.skip=true
+
+after_success:
+  - util/deploy_snapshot.sh
+  - util/update_snapshot_docs.sh
+
 cache:
   directories:
   - $HOME/.m2
 
-install: mvn install -U -DskipTests=true
+env:
+  global:
+    - secure: "pv7+ajpW4U4UArfRqVPUcFfk7hKO72L3K/9mSFbL9z4tnGDtz0hTHA2u50VEoe7Ny2ryXPCYNEPA8NyUoyLq9Tvd7tTaNw8u8ewRlLcJzO0Wrqvrsh9+VRS6IXLqXpGAGI77N9ThaPViYmlLI5L+KAiiYbU0ajOSYLPMzXZyVxw="
+    - secure: "aC7XPmGgO4Yd1jEnJZMI6SzowX6vj4OUzSzFLlOdbdnDatOkJ2T3WkPJXFwK2Kkxk8QOm5MwV/DxIdIkhsBB2yjCNEf1lc88d5TeIDfohMUOOpxvjACIP+W0JJkLh07euQfkJHsFgjh2VRoj7QXq7bfDONcsHy14aZi3h9BojP4="
+    - secure: "wieIClPLTXS3QjDzqyp0TqIrVP/Q6iWNPOtcUQYfdDZJGwufE61laTFtzVKXZRb7uJ4GXDObcVU3AcpAwkTX/5sEksBxgv3TZ5Qi0mVx2GRmbE06ULLxi7sPnTCZ/VFtselDWcWArWGAcdCjW9gcCrgj5K/+sYpVKz9a8V+SDM4="
 
-script: mvn verify -U -Dmaven.javadoc.skip=true
+branches:
+  except:
+    - gh-pages
