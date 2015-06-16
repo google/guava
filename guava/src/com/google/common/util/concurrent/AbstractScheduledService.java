@@ -196,7 +196,7 @@ public abstract class AbstractScheduledService implements Service {
           lock.unlock();
         }
       }
-    };
+    }
 
     private final Runnable task = new Task();
 
@@ -458,14 +458,22 @@ public abstract class AbstractScheduledService implements Service {
        * Atomically reschedules this task and assigns the new future to {@link #currentFuture}.
        */
       public void reschedule() {
+        // invoke the callback outside the lock, prevents some shenanigans.
+        Schedule schedule;
+        try {
+          schedule = CustomScheduler.this.getNextSchedule();
+        } catch (Throwable t) {
+          service.notifyFailed(t);
+          return;
+        }
         // We reschedule ourselves with a lock held for two reasons. 1. we want to make sure that
         // cancel calls cancel on the correct future. 2. we want to make sure that the assignment
         // to currentFuture doesn't race with itself so that currentFuture is assigned in the 
         // correct order.
+        Throwable scheduleFailure = null;
         lock.lock();
         try {
           if (currentFuture == null || !currentFuture.isCancelled()) {
-            final Schedule schedule = CustomScheduler.this.getNextSchedule();
             currentFuture = executor.schedule(this, schedule.delay, schedule.unit);
           }
         } catch (Throwable e) {
@@ -474,9 +482,16 @@ public abstract class AbstractScheduledService implements Service {
           // because the service does not monitor the state of the future so if the exception is not
           // caught and forwarded to the service the task would stop executing but the service would
           // have no idea.
-          service.notifyFailed(e);
+          // TODO(lukes): consider building everything in terms of ListenableScheduledFuture then
+          // the AbstractService could monitor the future directly.  Rescheduling is still hard...
+          // but it would help with some of these lock ordering issues.
+          scheduleFailure = e;
         } finally {
           lock.unlock();
+        }
+        // Call notifyFailed outside the lock to avoid lock ordering issues.
+        if (scheduleFailure != null) {
+          service.notifyFailed(scheduleFailure);
         }
       }
       

@@ -25,6 +25,7 @@ import com.google.common.util.concurrent.Service.State;
 
 import junit.framework.TestCase;
 
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
@@ -439,6 +440,31 @@ public class AbstractScheduledServiceTest extends TestCase {
       // Sleep for a while just to ensure that our task wasn't called again.
       Thread.sleep(unit.toMillis(3 * delay));
       assertEquals(1, service.numIterations.get());
+    }
+
+    public void testCustomScheduler_deadlock() throws InterruptedException, BrokenBarrierException {
+      final CyclicBarrier inGetNextSchedule = new CyclicBarrier(2);
+      // This will flakily deadlock, so run it multiple times to increase the flake likelihood
+      for (int i = 0; i < 1000; i++) {
+        Service service = new AbstractScheduledService() {
+          @Override protected void runOneIteration() {}
+          @Override protected Scheduler scheduler() {
+            return new CustomScheduler() {
+              @Override protected Schedule getNextSchedule() throws Exception {
+                if (state() != State.STARTING) {
+                  inGetNextSchedule.await();
+                  Thread.yield();
+                  throw new RuntimeException("boom");
+                }
+                return new Schedule(0, TimeUnit.NANOSECONDS);
+              }
+            };
+          }
+        };
+        service.startAsync().awaitRunning();
+        inGetNextSchedule.await();
+        service.stopAsync();
+      }
     }
 
     public void testBig() throws Exception {
