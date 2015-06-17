@@ -23,6 +23,10 @@ collections:
    output: true
    permalink: /:collection/:path/
 
+# Release data
+latest_release: 18.0
+latest_snapshot: 19.0-SNAPSHOT
+
 # Miscellaneous data
 email: guava-discuss@googlegroups.com
 twitter_username: GoogleGuava
