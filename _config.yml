@@ -13,9 +13,14 @@ exclude:
 - "README.md"
 - "*.sh"
 
-# Required on GitHub pages
+# Set by default by GitHub pages (can't be changed)
 safe: true
 lsi: false
+# source: <top level directory>
+
+# Set by default by GitHub pages (can be changed)
+# highlighter: pygments
+# github: <repository metadata> (https://help.github.com/articles/repository-metadata-on-github-pages/)
 
 # Collections
 collections:
