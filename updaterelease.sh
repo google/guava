@@ -180,10 +180,27 @@ echo -n "Moving generated JDiff to $diffsdir..."
 mv $tempdir/diffs $diffsdir
 echo " Done."
 
-# Commit and finish.
+# Commit
 echo -n "Committing changes..."
 git add .
 git commit -q -m "Generate Javadoc and JDiff for Guava $guavaversion"
 echo " Done."
+
+# Update version info in _config.yml
+if [[ $release == "snapshot" ]]; then
+  fieldtoupdate="latest_snapshot"
+  version="$guavaversion"
+else
+  fieldtoupdate="latest_release"
+  # The release being updated currently may not be the latest release.
+  version=$(latest_release)
+fi
+sed -i 's/$fieldtoupdate:[ ]+.+/$fieldtoupdate: $version/g' _config.yml
+if ! git diff --quiet ; then
+  echo -n "Updating $fieldtoupdate in _config.yml to $version..."
+  git add _config.yml > /dev/null
+  git commit -q -m "Update $fieldtoupdate version to $version"
+  echo " Done."
+fi
 
 echo "Update succeeded."

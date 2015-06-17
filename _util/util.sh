@@ -4,7 +4,7 @@ set -e -u
 
 # Exits if there are uncommitted changes in the git repo.
 function ensure_no_uncommitted_changes {
-  if git diff --name-only | grep . -q ; then
+  if ! git diff --quiet ; then
     echo "Uncommitted changes found. Aborting." >&2
     exit 1
   fi
