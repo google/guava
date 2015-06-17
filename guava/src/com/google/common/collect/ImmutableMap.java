@@ -280,7 +280,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return kvMap;
       }
     } else if (map instanceof EnumMap) {
-      return copyOfEnumMapUnsafe(map);
+      @SuppressWarnings("unchecked") // safe since map is not writable
+      ImmutableMap<K, V> kvMap = (ImmutableMap<K, V>) copyOfEnumMap((EnumMap<?, ?>) map);
+      return kvMap;
     }
     return copyOf(map.entrySet());
   }
@@ -311,12 +313,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
          */
         return RegularImmutableMap.fromEntries(entryArray);
     }
-  }
-
-  // If the map is an EnumMap, it must have key type K for some <K extends Enum<K>>.
-  @SuppressWarnings({"unchecked", "rawtypes"})
-  private static <K, V> ImmutableMap<K, V> copyOfEnumMapUnsafe(Map<? extends K, ? extends V> map) {
-    return copyOfEnumMap((EnumMap) map);
   }
 
   private static <K extends Enum<K>, V> ImmutableMap<K, V> copyOfEnumMap(
