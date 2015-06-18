@@ -235,7 +235,7 @@ public final class ArbitraryInstances {
       .put(CharSink.class, NullByteSink.INSTANCE.asCharSink(Charsets.UTF_8))
       // All collections are immutable empty. So safe for any type parameter.
       .put(Iterator.class, ImmutableSet.of().iterator())
-      .put(PeekingIterator.class, Iterators.peekingIterator(Iterators.emptyIterator()))
+      .put(PeekingIterator.class, Iterators.peekingIterator(ImmutableSet.of().iterator()))
       .put(ListIterator.class, ImmutableList.of().listIterator())
       .put(Iterable.class, ImmutableSet.of())
       .put(Collection.class, ImmutableList.of())

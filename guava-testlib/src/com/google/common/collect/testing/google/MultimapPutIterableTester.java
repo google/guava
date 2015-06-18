@@ -23,6 +23,7 @@ import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -172,7 +173,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     Iterable<V> iterable = new Iterable<V>() {
       @Override
       public Iterator<V> iterator() {
-        return Iterators.emptyIterator();
+        return ImmutableSet.<V>of().iterator();
       }
     };
 
