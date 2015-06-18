@@ -98,6 +98,7 @@ import java.util.logging.Logger;
  */
 @Beta
 // TODO: Switch to JUnit 4 and use @Parameterized and @BeforeClass
+@J2ObjCIncompatible("com.google.common.reflect.ClassPath")
 public abstract class AbstractPackageSanityTests extends TestCase {
 
   /**

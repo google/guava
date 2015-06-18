@@ -56,6 +56,7 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
+@J2ObjCIncompatible("java.util.jar")
 public final class ClassPath {
   private static final Logger logger = Logger.getLogger(ClassPath.class.getName());
 
