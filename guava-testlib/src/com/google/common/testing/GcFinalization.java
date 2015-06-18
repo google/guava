@@ -100,6 +100,7 @@ import java.util.concurrent.TimeoutException;
  * @since 11.0
  */
 @Beta
+@J2ObjCIncompatible("gc")
 public final class GcFinalization {
   private GcFinalization() {}
 
