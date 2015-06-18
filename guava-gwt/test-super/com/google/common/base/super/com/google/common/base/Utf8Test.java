@@ -241,11 +241,11 @@ public class Utf8Test extends TestCase {
     return realBytes;
   }
 
-  private void assertWellFormed(int... bytes) {
+  private static void assertWellFormed(int... bytes) {
     assertTrue(Utf8.isWellFormed(toByteArray(bytes)));
   }
 
-  private void assertNotWellFormed(int... bytes) {
+  private static void assertNotWellFormed(int... bytes) {
     assertFalse(Utf8.isWellFormed(toByteArray(bytes)));
   }
 
