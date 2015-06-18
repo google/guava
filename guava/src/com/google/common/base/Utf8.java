@@ -16,6 +16,10 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
+import static java.lang.Character.MAX_SURROGATE;
+import static java.lang.Character.MIN_SUPPLEMENTARY_CODE_POINT;
+import static java.lang.Character.MIN_SURROGATE;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
@@ -88,10 +92,10 @@ public final class Utf8 {
       } else {
         utf8Length += 2;
         // jdk7+: if (Character.isSurrogate(c)) {
-        if (Character.MIN_SURROGATE <= c && c <= Character.MAX_SURROGATE) {
+        if (MIN_SURROGATE <= c && c <= MAX_SURROGATE) {
           // Check that we have a well-formed surrogate pair.
           int cp = Character.codePointAt(sequence, i);
-          if (cp < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
+          if (cp < MIN_SUPPLEMENTARY_CODE_POINT) {
             throw new IllegalArgumentException("Unpaired surrogate at index " + i);
           }
           i++;
