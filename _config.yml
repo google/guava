@@ -6,12 +6,15 @@ baseurl: /guava
 url: http://google.github.io
 permalink: /news/:year/:month/:day/:title/
 
-markdown: kramdown
-
 exclude:
 - "Gemfile*"
 - "README.md"
 - "*.sh"
+
+# GitHub-flavored Markdown support
+markdown: kramdown
+kramdown:
+  input: GFM
 
 # Set by default by GitHub pages (can't be changed)
 safe: true
