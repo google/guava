@@ -22,6 +22,8 @@ import static com.google.common.collect.Maps.newTreeMap;
 import static java.util.Collections.singletonMap;
 import static java.util.Collections.unmodifiableSortedMap;
 
+import com.google.common.collect.ImmutableSortedMap.Builder;
+
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
@@ -207,6 +209,11 @@ public final class ImmutableSortedMap<K, V>
         put(entry);
       }
       return this;
+    }
+    
+    @Override
+    public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
+      throw new UnsupportedOperationException("Not available on ImmutableSortedMap.Builder");
     }
 
     @Override public ImmutableSortedMap<K, V> build() {

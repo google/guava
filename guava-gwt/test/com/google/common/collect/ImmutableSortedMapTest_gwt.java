@@ -128,6 +128,11 @@ public void testBuilderReverseOrder__CreationTests() throws Exception {
   testCase.testBuilderReverseOrder();
 }
 
+public void testBuilder_orderEntriesByValueFails__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableSortedMapTest.CreationTests testCase = new com.google.common.collect.ImmutableSortedMapTest.CreationTests();
+  testCase.testBuilder_orderEntriesByValueFails();
+}
+
 public void testBuilder_withImmutableEntry__CreationTests() throws Exception {
   com.google.common.collect.ImmutableSortedMapTest.CreationTests testCase = new com.google.common.collect.ImmutableSortedMapTest.CreationTests();
   testCase.testBuilder_withImmutableEntry();

@@ -19,6 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Map;
 
 /**
@@ -124,6 +126,10 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
      */
     public Builder() {}
 
+    Builder(int size) {
+      super(size);
+    }
+
     /**
      * Associates {@code key} with {@code value} in the built bimap. Duplicate
      * keys or values are not allowed, and will cause {@link #build} to fail.
@@ -174,6 +180,24 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     }
 
     /**
+     * Configures this {@code Builder} to order entries by value according to the specified
+     * comparator.
+     *
+     * <p>The sort order is stable, that is, if two entries have values that compare
+     * as equivalent, the entry that was inserted first will be first in the built map's
+     * iteration order.
+     *
+     * @throws IllegalStateException if this method was already called
+     * @since 19.0
+     */
+    @Beta
+    @Override
+    public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
+      super.orderEntriesByValue(valueComparator);
+      return this;
+    }
+
+    /**
      * Returns a newly-created immutable bimap.
      *
      * @throws IllegalArgumentException if duplicate keys or values were added
@@ -193,6 +217,14 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
            * affect the original array), and future build() calls will always copy any entry
            * objects that cannot be safely reused.
            */
+          if (valueComparator != null) {
+            if (entriesUsed) {
+              entries = ObjectArrays.arraysCopyOf(entries, size);
+            }
+            Arrays.sort(entries, 0, size,
+                Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
+          }
+          entriesUsed = size == entries.length;
           return RegularImmutableBiMap.fromEntryArray(size, entries);
       }
     }

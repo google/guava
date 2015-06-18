@@ -23,6 +23,7 @@ import static com.google.common.collect.Maps.keyOrNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ImmutableMap.Builder;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -466,6 +467,19 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       super.putAll(entries);
       return this;
+    }
+
+    /**
+     * Throws an {@code UnsupportedOperationException}.
+     * 
+     * @since 19.0
+     * @deprecated Unsupported by ImmutableSortedMap.Builder.
+     */
+    @Beta
+    @Override
+    @Deprecated
+    public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
+      throw new UnsupportedOperationException("Not available on ImmutableSortedMap.Builder");
     }
 
     /**

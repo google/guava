@@ -302,6 +302,14 @@ public class ImmutableSortedMapTest extends TestCase {
           "five", 5, "four", 4, "one", 1, "three", 3, "two", 2);
     }
 
+    public void testBuilder_orderEntriesByValueFails() {
+      ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
+      try {
+        builder.orderEntriesByValue(Ordering.natural());
+        fail("Expected UnsupportedOperationException");
+      } catch (UnsupportedOperationException expected) {}
+    }
+
     public void testBuilder_withImmutableEntry() {
       ImmutableSortedMap<String, Integer> map =
           ImmutableSortedMap.<String, Integer>naturalOrder()

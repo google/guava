@@ -17,12 +17,14 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
@@ -107,6 +109,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   public static class Builder<K, V> {
     final List<Entry<K, V>> entries;
+    Comparator<? super V> valueComparator;
 
     public Builder() {
       this.entries = Lists.newArrayList();
@@ -144,8 +147,19 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       }
       return this;
     }
+    
+    public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
+      checkState(this.valueComparator == null, "valueComparator was already set");
+      this.valueComparator = checkNotNull(valueComparator, "valueComparator");
+      return this;
+    }
 
     public ImmutableMap<K, V> build() {
+      if (valueComparator != null) {
+        Collections.sort(
+            entries, 
+            Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
+      }
       return fromEntryList(entries);
     }
   }

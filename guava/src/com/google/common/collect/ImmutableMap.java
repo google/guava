@@ -16,17 +16,20 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
@@ -154,8 +157,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @since 2.0
    */
   public static class Builder<K, V> {
+    Comparator<? super V> valueComparator;
     ImmutableMapEntry<K, V>[] entries;
     int size;
+    boolean entriesUsed;
 
     /**
      * Creates a new builder. The returned builder is equivalent to the builder
@@ -169,6 +174,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     Builder(int initialCapacity) {
       this.entries = new ImmutableMapEntry[initialCapacity];
       this.size = 0;
+      this.entriesUsed = false;
     }
 
     private void ensureCapacity(int minCapacity) {
@@ -176,6 +182,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         entries =
             ObjectArrays.arraysCopyOf(
                 entries, ImmutableCollection.Builder.expandedCapacity(entries.length, minCapacity));
+        entriesUsed = false;
       }
     }
 
@@ -228,6 +235,24 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return this;
     }
 
+    /**
+     * Configures this {@code Builder} to order entries by value according to the specified
+     * comparator.
+     *
+     * <p>The sort order is stable, that is, if two entries have values that compare
+     * as equivalent, the entry that was inserted first will be first in the built map's
+     * iteration order.
+     *
+     * @throws IllegalStateException if this method was already called
+     * @since 19.0
+     */
+    @Beta
+    public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
+      checkState(this.valueComparator == null, "valueComparator was already set");
+      this.valueComparator = checkNotNull(valueComparator, "valueComparator");
+      return this;
+    }
+
     /*
      * TODO(kevinb): Should build() and the ImmutableBiMap & ImmutableSortedMap
      * versions throw an IllegalStateException instead?
@@ -252,6 +277,14 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
            * affect the original array), and future build() calls will always copy any entry
            * objects that cannot be safely reused.
            */
+          if (valueComparator != null) {
+            if (entriesUsed) {
+              entries = ObjectArrays.arraysCopyOf(entries, size);
+            }
+            Arrays.sort(entries, 0, size,
+                Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
+          }
+          entriesUsed = size == entries.length;
           return RegularImmutableMap.fromEntryArray(size, entries);
       }
     }
