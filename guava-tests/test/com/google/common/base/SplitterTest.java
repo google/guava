@@ -782,4 +782,10 @@ public class SplitterTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
+
+  public void testSplit_emptyMatchAtEndOfString() {
+    assertThat(Splitter.onPattern("(?=\\d)").split("abc82"))
+        .containsExactly("abc", "8", "2")
+        .inOrder();
+  }
 }
