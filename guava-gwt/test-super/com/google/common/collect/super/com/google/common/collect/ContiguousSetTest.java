@@ -67,6 +67,10 @@ public class ContiguousSetTest extends TestCase {
             ContiguousSet.create(Range.openClosed(0, 3), NOT_EQUAL_TO_INTEGERS),
             ContiguousSet.create(Range.open(0, 4), NOT_EQUAL_TO_INTEGERS),
             ImmutableSortedSet.of(1, 2, 3))
+        .addEqualityGroup(
+            ContiguousSet.create(Range.closedOpen(1, 1), integers()),
+            ImmutableSortedSet.of(),
+            ImmutableSet.of())
         .testEquals();
     // not testing hashCode for these because it takes forever to compute
     assertEquals(
