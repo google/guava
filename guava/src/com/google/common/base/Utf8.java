@@ -15,7 +15,6 @@
 package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkPositionIndexes;
-
 import static java.lang.Character.MAX_SURROGATE;
 import static java.lang.Character.MIN_SUPPLEMENTARY_CODE_POINT;
 import static java.lang.Character.MIN_SURROGATE;
