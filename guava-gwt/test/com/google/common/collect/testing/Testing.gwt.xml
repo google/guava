@@ -22,8 +22,6 @@
    
   <inherits name="java.lang.Lang"/>
     
-  <inherits name="com.google.common.truth.Truth"/>
-   
   <inherits name="com.google.gwt.core.Core"/>
    
 </module>

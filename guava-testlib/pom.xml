@@ -33,9 +33,12 @@
       <scope>compile</scope><!-- testlib must carry these transitively -->
     </dependency>
     <dependency>
+      <!--
+      Do not include Truth in non-test scope! Doing so creates a problematic dependency cycle.
+      -->
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
-      <scope>compile</scope><!-- testlib must carry these transitively -->
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>

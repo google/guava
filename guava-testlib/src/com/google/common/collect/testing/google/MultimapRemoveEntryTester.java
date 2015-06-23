@@ -16,13 +16,13 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
-import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
@@ -132,7 +132,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
       multimap().remove(key, value);
       expectedCollection.remove(value);
 
-      assertThat(collection).containsExactlyElementsIn(expectedCollection);
+      assertEqualIgnoringOrder(expectedCollection, collection);
       assertEquals(!expectedCollection.isEmpty(), multimap().containsKey(key));
     }
   }
@@ -153,7 +153,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
       multimap().remove(key, value);
       expectedCollection.remove(value);
 
-      assertThat(collection).containsExactlyElementsIn(expectedCollection);
+      assertEqualIgnoringOrder(expectedCollection, collection);
       assertEquals(!expectedCollection.isEmpty(), multimap().containsKey(key));
     }
   }
@@ -183,7 +183,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
       multimap().remove(key, value);
       expectedCollection.remove(value);
 
-      assertThat(collection).containsExactlyElementsIn(expectedCollection);
+      assertEqualIgnoringOrder(expectedCollection, collection);
       assertEquals(!expectedCollection.isEmpty(), multimap().containsKey(key));
     }
   }

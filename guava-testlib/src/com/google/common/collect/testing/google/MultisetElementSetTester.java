@@ -16,11 +16,11 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.assertEmpty;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -31,7 +31,7 @@ import java.util.Set;
 
 /**
  * Tests for {@code Multiset.elementSet()} not covered by the derived {@code SetTestSuiteBuilder}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -43,7 +43,7 @@ public class MultisetElementSetTester<E> extends AbstractMultisetTester<E> {
     getMultiset().add(e3(), 4);
     assertTrue(elementSet.contains(e3()));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testElementSetReflectsRemove() {
@@ -67,7 +67,7 @@ public class MultisetElementSetTester<E> extends AbstractMultisetTester<E> {
     initThreeCopies();
     Set<E> elementSet = getMultiset().elementSet();
     assertTrue(elementSet.remove(e0()));
-    assertThat(getMultiset()).isEmpty();
+    assertEmpty(getMultiset());
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -76,10 +76,10 @@ public class MultisetElementSetTester<E> extends AbstractMultisetTester<E> {
     assertFalse(elementSet.remove(e3()));
     expectUnchanged();
   }
-  
+
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testElementSetClear() {
     getMultiset().elementSet().clear();
-    assertThat(getMultiset()).isEmpty();    
+    assertEmpty(getMultiset());
   }
 }

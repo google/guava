@@ -15,6 +15,9 @@
  */
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.assertContains;
+import static com.google.common.collect.testing.Helpers.assertContentsAnyOrder;
+import static com.google.common.collect.testing.Helpers.assertEmpty;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
@@ -22,7 +25,6 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
-import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -42,15 +44,15 @@ import java.util.Collections;
 public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testGetEmpty() {
     Collection<V> result = multimap().get(k3());
-    assertTrue(result.isEmpty());
+    assertEmpty(result);
     assertEquals(0, result.size());
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testGetNonEmpty() {
     Collection<V> result = multimap().get(k0());
     assertFalse(result.isEmpty());
-    assertThat(result).containsExactly(v0());
+    assertContentsAnyOrder(result, v0());
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -64,11 +66,11 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
         v1(),
         v2());
   }
-  
+
   public void testGetAbsentKey() {
     assertGet(k4());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testPropagatesRemoveToMultimap() {
@@ -88,7 +90,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
     Collection<V> result = multimap().get(k0());
     assertTrue(result.remove(v0()));
     assertGet(k0());
-  }  
+  }
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPropagatesAddToMultimap() {
@@ -118,13 +120,13 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
     assertFalse(multimap().containsKey(k0()));
     assertFalse(multimap().containsEntry(k0(), v0()));
-    assertThat(result).isEmpty();
+    assertEmpty(result);
 
     assertTrue(result.add(v1()));
     assertTrue(result.add(v2()));
 
-    assertThat(result).containsExactly(v1(), v2());
-    assertThat(multimap().get(k0())).containsExactly(v1(), v2());
+    assertContentsAnyOrder(result, v1(), v2());
+    assertContentsAnyOrder(multimap().get(k0()), v1(), v2());
     assertTrue(multimap().containsKey(k0()));
     assertFalse(multimap().containsEntry(k0(), v0()));
     assertTrue(multimap().containsEntry(k0(), v2()));
@@ -135,12 +137,12 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @CollectionSize.Require(absent = ZERO)
   public void testGetNullPresent() {
     initMultimapWithNullKey();
-    assertThat(multimap().get(null)).contains(getValueForNullKey());
+    assertContains(multimap().get(null), getValueForNullKey());
   }
 
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testGetNullAbsent() {
-    assertThat(multimap().get(null)).isEmpty();
+    assertEmpty(multimap().get(null));
   }
 
   @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
@@ -157,6 +159,6 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @CollectionSize.Require(absent = ZERO)
   public void testGetWithNullValue() {
     initMultimapWithNullValue();
-    assertThat(multimap().get(getKeyForNullValue())).contains(null);
+    assertContains(multimap().get(getKeyForNullValue()), null);
   }
 }
