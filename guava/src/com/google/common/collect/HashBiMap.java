@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -386,6 +387,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     return new KeySet();
   }
 
+  @WeakOuter
   private final class KeySet extends Maps.KeySet<K, V> {
     KeySet() {
       super(HashBiMap.this);
@@ -529,6 +531,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       return new InverseKeySet();
     }
 
+    @WeakOuter
     private final class InverseKeySet extends Maps.KeySet<V, K> {
       InverseKeySet() {
         super(Inverse.this);

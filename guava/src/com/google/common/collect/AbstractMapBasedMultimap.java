@@ -23,6 +23,7 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
@@ -350,6 +351,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    * removeIfEmpty}, and {@code addToMap} methods call the corresponding methods
    * of the full wrapped collection.
    */
+  @WeakOuter
   private class WrappedCollection extends AbstractCollection<V> {
     final K key;
     Collection<V> delegate;
@@ -609,6 +611,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /** Set decorator that stays in sync with the multimap values for a key. */
+  @WeakOuter
   private class WrappedSet extends WrappedCollection implements Set<V> {
     WrappedSet(@Nullable K key, Set<V> delegate) {
       super(key, delegate, null);
@@ -637,6 +640,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   /**
    * SortedSet decorator that stays in sync with the multimap values for a key.
    */
+  @WeakOuter
   private class WrappedSortedSet extends WrappedCollection implements SortedSet<V> {
     WrappedSortedSet(@Nullable K key, SortedSet<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
@@ -692,6 +696,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   @GwtIncompatible("NavigableSet")
+  @WeakOuter
   class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
     WrappedNavigableSet(
         @Nullable K key, NavigableSet<V> delegate, @Nullable WrappedCollection ancestor) {
@@ -766,6 +771,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /** List decorator that stays in sync with the multimap values for a key. */
+  @WeakOuter
   private class WrappedList extends WrappedCollection implements List<V> {
     WrappedList(@Nullable K key, List<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
@@ -926,6 +932,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
         : new KeySet(map);
   }
 
+  @WeakOuter
   private class KeySet extends Maps.KeySet<K, Collection<V>> {
     KeySet(final Map<K, Collection<V>> subMap) {
       super(subMap);
@@ -994,6 +1001,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
+  @WeakOuter
   private class SortedKeySet extends KeySet implements SortedSet<K> {
 
     SortedKeySet(SortedMap<K, Collection<V>> subMap) {
@@ -1036,6 +1044,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   @GwtIncompatible("NavigableSet")
+  @WeakOuter
   class NavigableKeySet extends SortedKeySet implements NavigableSet<K> {
     NavigableKeySet(NavigableMap<K, Collection<V>> subMap) {
       super(subMap);
@@ -1245,6 +1254,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
         : new AsMap(map);
   }
 
+  @WeakOuter
   private class AsMap extends ViewCachingAbstractMap<K, Collection<V>> {
     /**
      * Usually the same as map, but smaller for the headMap(), tailMap(), or
@@ -1332,6 +1342,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
       return Maps.immutableEntry(key, wrapCollection(key, entry.getValue()));
     }
 
+    @WeakOuter
     class AsMapEntries extends Maps.EntrySet<K, Collection<V>> {
       @Override
       Map<K, Collection<V>> map() {
@@ -1387,6 +1398,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
+  @WeakOuter
   private class SortedAsMap extends AsMap implements SortedMap<K, Collection<V>> {
     SortedAsMap(SortedMap<K, Collection<V>> submap) {
       super(submap);

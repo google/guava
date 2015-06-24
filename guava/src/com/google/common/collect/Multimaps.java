@@ -28,6 +28,8 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -1513,8 +1515,8 @@ public final class Multimaps {
   }
 
   static class Keys<K, V> extends AbstractMultiset<K> {
-    final Multimap<K, V> multimap;
-    
+    @Weak final Multimap<K, V> multimap;
+
     Keys(Multimap<K, V> multimap) {
       this.multimap = multimap;
     }
@@ -1548,6 +1550,7 @@ public final class Multimaps {
       return new KeysEntrySet();
     }
 
+    @WeakOuter
     class KeysEntrySet extends Multisets.EntrySet<K> {
       @Override Multiset<K> multiset() {
         return Keys.this;
@@ -1671,8 +1674,8 @@ public final class Multimaps {
    */
   static final class AsMap<K, V> extends
       Maps.ViewCachingAbstractMap<K, Collection<V>> {
-    private final Multimap<K, V> multimap;
-    
+    @Weak private final Multimap<K, V> multimap;
+
     AsMap(Multimap<K, V> multimap) {
       this.multimap = checkNotNull(multimap);
     }
@@ -1689,6 +1692,7 @@ public final class Multimaps {
       multimap.keySet().remove(key);
     }
 
+    @WeakOuter
     class EntrySet extends Maps.EntrySet<K, Collection<V>> {
       @Override Map<K, Collection<V>> map() {
         return AsMap.this;

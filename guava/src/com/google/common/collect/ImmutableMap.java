@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -364,7 +365,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     @Override
     ImmutableSet<Entry<K, V>> createEntrySet() {
-      return new ImmutableMapEntrySet<K, V>() {
+      @WeakOuter
+      class EntrySetImpl extends ImmutableMapEntrySet<K, V> {
         @Override
         ImmutableMap<K, V> map() {
           return IteratorBasedImmutableMap.this;
@@ -374,7 +376,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         public UnmodifiableIterator<Entry<K, V>> iterator() {
           return entryIterator();
         }
-      };
+      }
+      return new EntrySetImpl();
     }
   }
 
@@ -524,6 +527,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         : result;
   }
 
+  @WeakOuter
   private final class MapViewOfValuesAsSingletonSets
       extends IteratorBasedImmutableMap<K, ImmutableSet<V>> {
 

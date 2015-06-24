@@ -24,6 +24,7 @@ import static com.google.common.collect.Maps.keyOrNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap.Builder;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -545,6 +546,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
+    @WeakOuter
     class EntrySet extends ImmutableMapEntrySet<K, V> {
       @Override
       public UnmodifiableIterator<Entry<K, V>> iterator() {

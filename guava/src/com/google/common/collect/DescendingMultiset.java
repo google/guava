@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -114,7 +115,8 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements So
   }
 
   Set<Entry<E>> createEntrySet() {
-    return new Multisets.EntrySet<E>() {
+    @WeakOuter
+    class EntrySetImpl extends Multisets.EntrySet<E> {
       @Override
       Multiset<E> multiset() {
         return DescendingMultiset.this;
@@ -129,7 +131,8 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements So
       public int size() {
         return forwardMultiset().entrySet().size();
       }
-    };
+    }
+    return new EntrySetImpl();
   }
 
   @Override

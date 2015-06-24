@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -425,7 +426,8 @@ public final class MapConstraints {
       if (result == null) {
         final Map<K, Collection<V>> asMapDelegate = delegate.asMap();
 
-        asMap = result = new ForwardingMap<K, Collection<V>>() {
+        @WeakOuter
+        class AsMap extends ForwardingMap<K, Collection<V>> {
           Set<Entry<K, Collection<V>>> entrySet;
           Collection<Collection<V>> values;
 
@@ -464,7 +466,8 @@ public final class MapConstraints {
           @Override public boolean containsValue(Object o) {
             return values().contains(o);
           }
-        };
+        }
+        asMap = result = new AsMap();
       }
       return result;
     }

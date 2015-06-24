@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Table.Cell;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,6 +45,7 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     return isEmpty() ? ImmutableSet.<Cell<R, C, V>>of() : new CellSet();
   }
 
+  @WeakOuter
   private final class CellSet extends ImmutableSet.Indexed<Cell<R, C, V>> {
     @Override
     public int size() {
@@ -77,7 +79,8 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   final ImmutableCollection<V> createValues() {
     return isEmpty() ? ImmutableList.<V>of() : new Values();
   }
-  
+
+  @WeakOuter
   private final class Values extends ImmutableList<V> {
     @Override
     public int size() {

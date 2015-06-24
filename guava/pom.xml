@@ -29,6 +29,11 @@
       <artifactId>error_prone_annotations</artifactId>
       <optional>true</optional><!-- needed only for annotations -->
     </dependency>
+    <dependency>
+      <groupId>com.google.j2objc</groupId>
+      <artifactId>j2objc-annotations</artifactId>
+      <optional>true</optional><!-- needed only for annotations -->
+    </dependency>
     <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
   </dependencies>
   <build>

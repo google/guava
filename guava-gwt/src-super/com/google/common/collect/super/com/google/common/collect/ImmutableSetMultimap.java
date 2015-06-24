@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
+import com.google.j2objc.annotations.Weak;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -441,7 +442,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
-    private transient final ImmutableSetMultimap<K, V> multimap;
+    @Weak private final transient ImmutableSetMultimap<K, V> multimap;
 
     EntrySet(ImmutableSetMultimap<K, V> multimap) {
       this.multimap = multimap;

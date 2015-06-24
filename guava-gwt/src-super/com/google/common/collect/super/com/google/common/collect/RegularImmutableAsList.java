@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.Weak;
 
 /**
  * An {@link ImmutableAsList} implementation specialized for when the delegate collection is
@@ -27,7 +28,7 @@ import com.google.common.annotations.GwtCompatible;
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
 class RegularImmutableAsList<E> extends ImmutableAsList<E> {
-  private final ImmutableCollection<E> delegate;
+  @Weak private final ImmutableCollection<E> delegate;
   private final ImmutableList<? extends E> delegateList;
 
   RegularImmutableAsList(ImmutableCollection<E> delegate, ImmutableList<? extends E> delegateList) {

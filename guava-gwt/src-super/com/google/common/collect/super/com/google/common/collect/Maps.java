@@ -36,6 +36,8 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
@@ -782,7 +784,8 @@ public final class Maps {
 
     @Override
     protected Set<Entry<K, V>> createEntrySet() {
-      return new EntrySet<K, V>() {
+      @WeakOuter
+      class EntrySetImpl extends EntrySet<K, V> {
         @Override
         Map<K, V> map() {
           return AsMapView.this;
@@ -792,7 +795,8 @@ public final class Maps {
         public Iterator<Entry<K, V>> iterator() {
           return asMapEntryIterator(backingSet(), function);
         }
-      };
+      }
+      return new EntrySetImpl();
     }
   }
 
@@ -2218,6 +2222,7 @@ public final class Maps {
       return new EntrySet();
     }
 
+    @WeakOuter
     private class EntrySet extends ForwardingSet<Entry<K, V>> {
       @Override protected Set<Entry<K, V>> delegate() {
         return filteredEntrySet;
@@ -2249,6 +2254,7 @@ public final class Maps {
       return new KeySet();
     }
 
+    @WeakOuter
     class KeySet extends Maps.KeySet<K, V> {
       KeySet() {
         super(FilteredEntryMap.this);
@@ -2321,6 +2327,7 @@ public final class Maps {
       return new SortedKeySet();
     }
 
+    @WeakOuter
     class SortedKeySet extends KeySet implements SortedSet<K> {
       @Override
       public Comparator<? super K> comparator() {
@@ -2656,7 +2663,7 @@ public final class Maps {
   }
 
   static class KeySet<K, V> extends Sets.ImprovedAbstractSet<K> {
-    final Map<K, V> map;
+    @Weak final Map<K, V> map;
 
     KeySet(Map<K, V> map) {
       this.map = checkNotNull(map);
@@ -2747,7 +2754,7 @@ public final class Maps {
   }
 
   static class Values<K, V> extends AbstractCollection<V> {
-    final Map<K, V> map;
+    @Weak final Map<K, V> map;
 
     Values(Map<K, V> map) {
       this.map = checkNotNull(map);

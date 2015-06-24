@@ -21,6 +21,8 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -514,7 +516,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   private static class EntryCollection<K, V> extends ImmutableCollection<Entry<K, V>> {
-    final ImmutableMultimap<K, V> multimap;
+    @Weak final ImmutableMultimap<K, V> multimap;
 
     EntryCollection(ImmutableMultimap<K, V> multimap) {
       this.multimap = multimap;
@@ -596,6 +598,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   @SuppressWarnings("serial") // Uses writeReplace, not default serialization
+  @WeakOuter
   class Keys extends ImmutableMultiset<K> {
     @Override
     public boolean contains(@Nullable Object object) {
@@ -656,7 +659,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   private static final class Values<K, V> extends ImmutableCollection<V> {
-    private transient final ImmutableMultimap<K, V> multimap;
+    @Weak private final transient ImmutableMultimap<K, V> multimap;
 
     Values(ImmutableMultimap<K, V> multimap) {
       this.multimap = multimap;

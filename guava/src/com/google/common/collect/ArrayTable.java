@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -626,6 +627,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     return (map == null) ? columnMap = new ColumnMap() : map;
   }
 
+  @WeakOuter
   private class ColumnMap extends ArrayMap<C, Map<R, V>> {
     private ColumnMap() {
       super(columnKeyToIndex);
@@ -715,6 +717,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     return (map == null) ? rowMap = new RowMap() : map;
   }
 
+  @WeakOuter
   private class RowMap extends ArrayMap<R, Map<C, V>> {
     private RowMap() {
       super(rowKeyToIndex);

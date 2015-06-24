@@ -25,6 +25,8 @@ import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
 import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.primitives.Ints;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -2016,7 +2018,7 @@ class MapMakerInternalMap<K, V>
      * comments.
      */
 
-    final MapMakerInternalMap<K, V> map;
+    @Weak final MapMakerInternalMap<K, V> map;
 
     /**
      * The number of live elements in this segment's region. This does not include unset elements
@@ -3770,6 +3772,7 @@ class MapMakerInternalMap<K, V>
     }
   }
 
+  @WeakOuter
   final class KeySet extends AbstractSet<K> {
 
     @Override
@@ -3803,6 +3806,7 @@ class MapMakerInternalMap<K, V>
     }
   }
 
+  @WeakOuter
   final class Values extends AbstractCollection<V> {
 
     @Override
@@ -3831,6 +3835,7 @@ class MapMakerInternalMap<K, V>
     }
   }
 
+  @WeakOuter
   final class EntrySet extends AbstractSet<Entry<K, V>> {
 
     @Override

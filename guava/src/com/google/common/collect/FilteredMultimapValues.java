@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.j2objc.annotations.Weak;
 
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -36,7 +37,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 final class FilteredMultimapValues<K, V> extends AbstractCollection<V> {
-  private final FilteredMultimap<K, V> multimap;
+  @Weak private final FilteredMultimap<K, V> multimap;
 
   FilteredMultimapValues(FilteredMultimap<K, V> multimap) {
     this.multimap = checkNotNull(multimap);

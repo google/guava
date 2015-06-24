@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.j2objc.annotations.Weak;
 
 import java.io.Serializable;
 import java.util.Map.Entry;
@@ -33,7 +34,7 @@ import javax.annotation.Nullable;
 @GwtCompatible(emulated = true)
 abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   static final class RegularEntrySet<K, V> extends ImmutableMapEntrySet<K, V> {
-    private final transient ImmutableMap<K, V> map;
+    @Weak private final transient ImmutableMap<K, V> map;
     private final transient Entry<K, V>[] entries;
 
     RegularEntrySet(ImmutableMap<K, V> map, Entry<K, V>[] entries) {

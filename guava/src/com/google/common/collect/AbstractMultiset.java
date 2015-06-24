@@ -20,6 +20,7 @@ import static com.google.common.collect.Multisets.setCountImpl;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -159,6 +160,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
     return new ElementSet();
   }
 
+  @WeakOuter
   class ElementSet extends Multisets.ElementSet<E> {
     @Override
     Multiset<E> multiset() {
@@ -181,6 +183,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
     return result;
   }
 
+  @WeakOuter
   class EntrySet extends Multisets.EntrySet<E> {
     @Override
     Multiset<E> multiset() {

@@ -23,6 +23,7 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -188,6 +189,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     return (result == null) ? keySet = new KeySet() : result;
   }
 
+  @WeakOuter
   private class KeySet extends ForwardingSet<K> {
     @Override
     protected Set<K> delegate() {
@@ -236,6 +238,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     return (result == null) ? valueSet = new ValueSet() : result;
   }
 
+  @WeakOuter
   private class ValueSet extends ForwardingSet<V> {
     final Set<V> valuesDelegate = inverse.keySet();
 
@@ -273,6 +276,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     return (result == null) ? entrySet = new EntrySet() : result;
   }
 
+  @WeakOuter
   private class EntrySet extends ForwardingSet<Entry<K, V>> {
     final Set<Entry<K, V>> esDelegate = delegate.entrySet();
 

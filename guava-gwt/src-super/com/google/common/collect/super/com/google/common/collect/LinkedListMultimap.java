@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
 import java.util.AbstractSequentialList;
@@ -677,7 +678,8 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   Set<K> createKeySet() {
-    return new Sets.ImprovedAbstractSet<K>() {
+    @WeakOuter
+    class KeySetImpl extends Sets.ImprovedAbstractSet<K> {
       @Override public int size() {
         return keyToKeyList.size();
       }
@@ -691,7 +693,8 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
       public boolean remove(Object o) { // for performance
         return !LinkedListMultimap.this.removeAll(o).isEmpty();
       }
-    };
+    }
+    return new KeySetImpl();
   }
 
   /**
@@ -710,7 +713,8 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   List<V> createValues() {
-    return new AbstractSequentialList<V>() {
+    @WeakOuter
+    class ValuesImpl extends AbstractSequentialList<V> {
       @Override public int size() {
         return size;
       }
@@ -729,7 +733,8 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
           }
         };
       }
-    };
+    }
+    return new ValuesImpl();
   }
 
   /**
@@ -757,7 +762,8 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   List<Entry<K, V>> createEntries() {
-    return new AbstractSequentialList<Entry<K, V>>() {
+    @WeakOuter
+    class EntriesImpl extends AbstractSequentialList<Entry<K, V>> {
       @Override public int size() {
         return size;
       }
@@ -765,7 +771,8 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
       @Override public ListIterator<Entry<K, V>> listIterator(int index) {
         return new NodeIterator(index);
       }
-    };
+    }
+    return new EntriesImpl();
   }
 
   @Override

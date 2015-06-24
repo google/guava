@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -182,6 +183,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     }
   }
 
+  @WeakOuter
   private final class RowMap extends ImmutableArrayMap<R, Map<C, V>> {
     private RowMap() {
       super(rowCounts.length);
@@ -203,6 +205,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     }
   }
 
+  @WeakOuter
   private final class ColumnMap extends ImmutableArrayMap<C, Map<R, V>> {
     private ColumnMap() {
       super(columnCounts.length);

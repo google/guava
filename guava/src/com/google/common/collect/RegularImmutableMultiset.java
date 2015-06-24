@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Multisets.ImmutableEntry;
 import com.google.common.primitives.Ints;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Collection;
 
@@ -138,6 +139,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     return (result == null) ? elementSet = new ElementSet() : result;
   }
 
+  @WeakOuter
   private final class ElementSet extends ImmutableSet.Indexed<E> {
 
     @Override

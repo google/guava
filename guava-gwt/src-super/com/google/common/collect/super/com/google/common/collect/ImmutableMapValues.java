@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.Weak;
 
 import java.util.Map.Entry;
 
@@ -30,7 +31,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
-  private final ImmutableMap<K, V> map;
+  @Weak private final ImmutableMap<K, V> map;
 
   ImmutableMapValues(ImmutableMap<K, V> map) {
     this.map = map;

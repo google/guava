@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multiset.Entry;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -316,6 +317,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
 
   abstract Entry<E> getEntry(int index);
 
+  @WeakOuter
   private final class EntrySet extends ImmutableSet.Indexed<Entry<E>> {
     @Override
     boolean isPartialView() {

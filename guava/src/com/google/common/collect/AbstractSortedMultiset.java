@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -125,7 +126,8 @@ abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements 
   }
 
   SortedMultiset<E> createDescendingMultiset() {
-    return new DescendingMultiset<E>() {
+    @WeakOuter
+    class DescendingMultisetImpl extends DescendingMultiset<E> {
       @Override
       SortedMultiset<E> forwardMultiset() {
         return AbstractSortedMultiset.this;
@@ -140,6 +142,7 @@ abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements 
       public Iterator<E> iterator() {
         return descendingIterator();
       }
-    };
+    }
+    return new DescendingMultisetImpl();
   }
 }

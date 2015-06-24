@@ -25,6 +25,8 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.AbstractQueue;
 import java.util.ArrayDeque;
@@ -492,9 +494,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * array for storage, but for efficiency's sake they are stored interleaved on
    * alternate heap levels in the same array (MMPQ.queue).
    */
+  @WeakOuter
   private class Heap {
     final Ordering<E> ordering;
-    Heap otherHeap;
+    @Weak Heap otherHeap;
 
     Heap(Ordering<E> ordering) {
       this.ordering = ordering;

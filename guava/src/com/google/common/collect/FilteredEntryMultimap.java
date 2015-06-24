@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -164,6 +165,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
     return changed;
   }
 
+  @WeakOuter
   class AsMap extends ViewCachingAbstractMap<K, Collection<V>> {
     @Override
     public boolean containsKey(@Nullable Object key) {
@@ -215,7 +217,12 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
 
     @Override
     Set<K> createKeySet() {
-      return new Maps.KeySet<K, Collection<V>>(this) {
+      @WeakOuter
+      class KeySetImpl extends Maps.KeySet<K, Collection<V>> {
+        KeySetImpl() {
+          super(AsMap.this);
+        }
+
         @Override
         public boolean removeAll(Collection<?> c) {
           return removeEntriesIf(Maps.<K>keyPredicateOnEntries(in(c)));
@@ -230,12 +237,14 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
         public boolean remove(@Nullable Object o) {
           return AsMap.this.remove(o) != null;
         }
-      };
+      }
+      return new KeySetImpl();
     }
 
     @Override
     Set<Entry<K, Collection<V>>> createEntrySet() {
-      return new Maps.EntrySet<K, Collection<V>>() {
+      @WeakOuter
+      class EntrySetImpl extends Maps.EntrySet<K, Collection<V>> {
         @Override
         Map<K, Collection<V>> map() {
           return AsMap.this;
@@ -277,12 +286,18 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
         public int size() {
           return Iterators.size(iterator());
         }
-      };
+      }
+      return new EntrySetImpl();
     }
 
     @Override
     Collection<Collection<V>> createValues() {
-      return new Maps.Values<K, Collection<V>>(AsMap.this) {
+      @WeakOuter
+      class ValuesImpl extends Maps.Values<K, Collection<V>> {
+        ValuesImpl() {
+          super(AsMap.this);
+        }
+
         @Override
         public boolean remove(@Nullable Object o) {
           if (o instanceof Collection) {
@@ -316,7 +331,8 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
         public boolean retainAll(Collection<?> c) {
           return removeEntriesIf(Maps.<Collection<V>>valuePredicateOnEntries(not(in(c))));
         }
-      };
+      }
+      return new ValuesImpl();
     }
   }
 
@@ -325,6 +341,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
     return new Keys();
   }
 
+  @WeakOuter
   class Keys extends Multimaps.Keys<K, V> {
     Keys() {
       super(FilteredEntryMultimap.this);

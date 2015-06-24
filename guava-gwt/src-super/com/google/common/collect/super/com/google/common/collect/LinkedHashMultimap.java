@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -296,6 +297,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
   }
 
   @VisibleForTesting
+  @WeakOuter
   final class ValueSet extends Sets.ImprovedAbstractSet<V> implements ValueSetLink<K, V> {
     /*
      * We currently use a fixed load factor of 1.0, a bit higher than normal to reduce memory
