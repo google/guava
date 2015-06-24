@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.allAsList;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
@@ -1386,6 +1387,34 @@ public class FuturesTest extends TestCase {
     } catch (ExecutionException expected) {
       assertTrue(expected.getCause() instanceof MyException);
       assertThat(aggregateFutureLogHandler.getStoredLogRecords()).isEmpty();
+    }
+  }
+
+  public void testAllAsList_logging_seenExceptionUpdateCancelRace() throws Exception {
+    final MyException subsequentFailure = new MyException();
+    SettableFuture<Object> firstFuture = SettableFuture.create();
+    final SettableFuture<Object> secondFuture = SettableFuture.create();
+    ListenableFuture<List<Object>> bulkFuture = allAsList(firstFuture, secondFuture);
+
+    bulkFuture.addListener(new Runnable() {
+      @Override
+      public void run() {
+        /*
+         * This is similar to the above test, but this time we're making sure that we recognize that
+         * the output Future is done early not because of an exception but because of a
+         * cancellation.
+         */
+        secondFuture.setException(subsequentFailure);
+      }
+    }, directExecutor());
+    firstFuture.cancel(false);
+
+    try {
+      bulkFuture.get();
+      fail();
+    } catch (CancellationException expected) {
+      assertThat(getOnlyElement(aggregateFutureLogHandler.getStoredLogRecords()).getThrown())
+          .isSameAs(subsequentFailure);
     }
   }
 

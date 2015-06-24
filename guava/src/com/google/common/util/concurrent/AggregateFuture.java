@@ -188,7 +188,9 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
 
     @Override
     final void addInitialException(Set<Throwable> seen) {
-      addCausalChain(seen, trustedGetException());
+      if (!isCancelled()) {
+        addCausalChain(seen, trustedGetException());
+      }
     }
 
     /**
