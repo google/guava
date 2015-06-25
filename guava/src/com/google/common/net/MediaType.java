@@ -237,6 +237,14 @@ public final class MediaType {
   public static final MediaType DART_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "dart");
 
   /**
+   * Media type for <a href="https://goo.gl/dNnKKj">Apple Passbook</a>.
+   *
+   * @since 19.0
+   */
+  public static final MediaType APPLE_PASSBOOK = createConstant(APPLICATION_TYPE,
+      "vnd.apple.pkpass");
+
+  /**
    * Media type for <a href="http://en.wikipedia.org/wiki/Embedded_OpenType">Embedded OpenType</a>
    * fonts. This is
    * <a href="http://www.iana.org/assignments/media-types/application/vnd.ms-fontobject">registered
