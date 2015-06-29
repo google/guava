@@ -79,13 +79,18 @@ import java.util.Queue;
  * <p><i>Performance notes:</i>
  *
  * <ul>
+ * <li>If you only access one end of the queue, and do use a maximum size,
+ *     this class will perform significantly worse than a {@code PriorityQueue}
+ *     with manual eviction above the maximum size.  In many cases
+ *     {@link Ordering#leastOf} may work for your use case with significantly
+ *     improved (and asymptotically superior) performance.
  * <li>The retrieval operations {@link #peek}, {@link #peekFirst}, {@link
- *     #peekLast}, {@link #element}, and {@link #size} are constant-time
+ *     #peekLast}, {@link #element}, and {@link #size} are constant-time.
  * <li>The enqueing and dequeing operations ({@link #offer}, {@link #add}, and
  *     all the forms of {@link #poll} and {@link #remove()}) run in {@code
- *     O(log n) time}
+ *     O(log n) time}.
  * <li>The {@link #remove(Object)} and {@link #contains} operations require
- *     linear ({@code O(n)}) time
+ *     linear ({@code O(n)}) time.
  * <li>If you only access one end of the queue, and don't use a maximum size,
  *     this class is functionally equivalent to {@link PriorityQueue}, but
  *     significantly slower.
