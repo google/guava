@@ -3405,6 +3405,7 @@ public class FuturesTest extends TestCase {
   // Edge case tests of the exception-construction code through untimed get():
 
   @GwtIncompatible("Futures.getChecked")
+  @SuppressWarnings("FuturesGetCheckedIllegalExceptionType")
   public void testGetCheckedUntimed_exceptionClassIsRuntimeException() {
     try {
       getChecked(FAILED_FUTURE_CHECKED_EXCEPTION,
@@ -3425,6 +3426,7 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible("Futures.getChecked")
+  @SuppressWarnings("FuturesGetCheckedIllegalExceptionType")
   public void testGetCheckedUntimed_exceptionClassNoPublicConstructor()
       throws ExceptionWithPrivateConstructor {
     try {
@@ -3436,6 +3438,7 @@ public class FuturesTest extends TestCase {
   }
 
   @GwtIncompatible("Futures.getChecked")
+  @SuppressWarnings("FuturesGetCheckedIllegalExceptionType")
   public void testGetCheckedUntimed_exceptionClassPublicConstructorWrongType()
       throws ExceptionWithWrongTypesConstructor {
     try {
