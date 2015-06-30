@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -60,6 +62,7 @@ public class HashBiMapTest extends TestCase {
       .withFeatures(CollectionSize.ANY,
           CollectionFeature.SERIALIZABLE,
           CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+          CollectionFeature.KNOWN_ORDER,
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.ALLOWS_ANY_NULL_QUERIES,
@@ -125,6 +128,96 @@ public class HashBiMapTest extends TestCase {
     assertEquals(Integer.valueOf(1), map.inverse().get("two"));
     iterator.remove(); // removes the updated entry
     assertTrue(map.isEmpty());
+  }
+
+  @GwtIncompatible("insertion order currently not preserved in GWT")
+  public void testInsertionOrder() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("foo", 1);
+    map.put("bar", 2);
+    map.put("quux", 3);
+    assertThat(map.entrySet()).containsExactly(
+        Maps.immutableEntry("foo", 1),
+        Maps.immutableEntry("bar", 2),
+        Maps.immutableEntry("quux", 3)).inOrder();
+  }
+
+  @GwtIncompatible("insertion order currently not preserved in GWT")
+  public void testInsertionOrderAfterRemoveFirst() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("foo", 1);
+    map.put("bar", 2);
+    map.put("quux", 3);
+
+    map.remove("foo");
+    assertThat(map.entrySet()).containsExactly(
+        Maps.immutableEntry("bar", 2),
+        Maps.immutableEntry("quux", 3)).inOrder();
+  }
+
+  @GwtIncompatible("insertion order currently not preserved in GWT")
+  public void testInsertionOrderAfterRemoveMiddle() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("foo", 1);
+    map.put("bar", 2);
+    map.put("quux", 3);
+
+    map.remove("bar");
+    assertThat(map.entrySet()).containsExactly(
+        Maps.immutableEntry("foo", 1),
+        Maps.immutableEntry("quux", 3)).inOrder();
+  }
+
+  @GwtIncompatible("insertion order currently not preserved in GWT")
+  public void testInsertionOrderAfterRemoveLast() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("foo", 1);
+    map.put("bar", 2);
+    map.put("quux", 3);
+
+    map.remove("quux");
+    assertThat(map.entrySet()).containsExactly(
+        Maps.immutableEntry("foo", 1),
+        Maps.immutableEntry("bar", 2)).inOrder();
+  }
+
+  @GwtIncompatible("insertion order currently not preserved in GWT")
+  public void testInsertionOrderAfterForcePut() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("foo", 1);
+    map.put("bar", 2);
+    map.put("quux", 3);
+
+    map.forcePut("quux", 1);
+    assertThat(map.entrySet()).containsExactly(
+        Maps.immutableEntry("bar", 2),
+        Maps.immutableEntry("quux", 1)).inOrder();
+  }
+
+  @GwtIncompatible("insertion order currently not preserved in GWT")
+  public void testInsertionOrderAfterInverseForcePut() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("foo", 1);
+    map.put("bar", 2);
+    map.put("quux", 3);
+
+    map.inverse().forcePut(1, "quux");
+    assertThat(map.entrySet()).containsExactly(
+        Maps.immutableEntry("bar", 2),
+        Maps.immutableEntry("quux", 1)).inOrder();
+  }
+
+  @GwtIncompatible("insertion order currently not preserved in GWT")
+  public void testInverseInsertionOrderAfterInverseForcePut() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("foo", 1);
+    map.put("bar", 2);
+    map.put("quux", 3);
+
+    map.inverse().forcePut(1, "quux");
+    assertThat(map.inverse().entrySet()).containsExactly(
+        Maps.immutableEntry(2, "bar"),
+        Maps.immutableEntry(1, "quux")).inOrder();
   }
 
   public void testInverseEntrySetValue() {
