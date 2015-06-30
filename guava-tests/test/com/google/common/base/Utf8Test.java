@@ -19,11 +19,9 @@ package com.google.common.base;
 import static java.lang.Character.MAX_CODE_POINT;
 import static java.lang.Character.MAX_HIGH_SURROGATE;
 import static java.lang.Character.MAX_LOW_SURROGATE;
-import static java.lang.Character.MAX_SURROGATE;
 import static java.lang.Character.MIN_HIGH_SURROGATE;
 import static java.lang.Character.MIN_LOW_SURROGATE;
 import static java.lang.Character.MIN_SUPPLEMENTARY_CODE_POINT;
-import static java.lang.Character.MIN_SURROGATE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -62,11 +60,6 @@ public class Utf8Test extends TestCase {
     }
     builder.add(newString(MIN_LOW_SURROGATE, MAX_HIGH_SURROGATE));
     ILL_FORMED_STRINGS = builder.build();
-  }
-
-  /** jdk7+ has Character.isSurrogate */
-  private static boolean isSurrogate(char c) {
-    return c >= MIN_SURROGATE && c <= MAX_SURROGATE;
   }
 
   public void testEncodedLength_validStrings() {
