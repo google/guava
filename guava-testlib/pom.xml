@@ -23,6 +23,11 @@
       <artifactId>error_prone_annotations</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.j2objc</groupId>
+      <artifactId>j2objc-annotations</artifactId>
+      <optional>true</optional><!-- needed only for annotations -->
+    </dependency>
+    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>guava</artifactId>
       <version>${project.version}</version>

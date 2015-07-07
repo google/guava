@@ -22,6 +22,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Supplier;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
