@@ -319,6 +319,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @param element the element to remove
    * @param occurrences the number of occurrences of {@code element} to remove
    * @return {@code true} if the removal was possible (including if {@code occurrences} is zero)
+   * @throws IllegalArgumentException if {@code occurrences} is negative
    */
   public boolean removeExactly(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
