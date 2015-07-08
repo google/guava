@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import com.google.common.testing.AbstractPackageSanityTests;
 import com.google.common.util.concurrent.RateLimiter.SleepingStopwatch;
 
+import java.io.IOException;
+
 /**
  * Basic sanity tests for the entire package.
  *
@@ -40,6 +42,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
   public PackageSanityTests() {
     setDefault(RateLimiter.class, RateLimiter.create(1.0));
     setDefault(SleepingStopwatch.class, NO_OP_STOPWATCH);
+    setDefault(Class.class, IOException.class);
     setDefault(long.class, 0L);
   }
 }
