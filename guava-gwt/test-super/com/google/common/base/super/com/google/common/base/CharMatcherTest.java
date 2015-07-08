@@ -16,14 +16,14 @@
 
 package com.google.common.base;
 
-import static com.google.common.base.CharMatcher.BREAKING_WHITESPACE;
-import static com.google.common.base.CharMatcher.WHITESPACE;
 import static com.google.common.base.CharMatcher.anyOf;
+import static com.google.common.base.CharMatcher.breakingWhitespace;
 import static com.google.common.base.CharMatcher.forPredicate;
 import static com.google.common.base.CharMatcher.inRange;
 import static com.google.common.base.CharMatcher.is;
 import static com.google.common.base.CharMatcher.isNot;
 import static com.google.common.base.CharMatcher.noneOf;
+import static com.google.common.base.CharMatcher.whitespace;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Sets;
@@ -56,14 +56,14 @@ public class CharMatcherTest extends TestCase {
     // we're lucky enough that these do pass, it saves us from having to write
     // more excruciating tests! Hooray!
 
-    assertSame(CharMatcher.ANY, CharMatcher.NONE.negate());
-    assertSame(CharMatcher.NONE, CharMatcher.ANY.negate());
+    assertSame(CharMatcher.any(), CharMatcher.none().negate());
+    assertSame(CharMatcher.none(), CharMatcher.any().negate());
 
-    assertSame(WHATEVER, CharMatcher.ANY.and(WHATEVER));
-    assertSame(CharMatcher.ANY, CharMatcher.ANY.or(WHATEVER));
+    assertSame(WHATEVER, CharMatcher.any().and(WHATEVER));
+    assertSame(CharMatcher.any(), CharMatcher.any().or(WHATEVER));
 
-    assertSame(CharMatcher.NONE, CharMatcher.NONE.and(WHATEVER));
-    assertSame(WHATEVER, CharMatcher.NONE.or(WHATEVER));
+    assertSame(CharMatcher.none(), CharMatcher.none().and(WHATEVER));
+    assertSame(WHATEVER, CharMatcher.none().or(WHATEVER));
   }
 
   // The rest of the behavior of ANY and DEFAULT will be covered in the tests for
@@ -71,8 +71,8 @@ public class CharMatcherTest extends TestCase {
 
   public void testWhitespaceBreakingWhitespaceSubset() throws Exception {
     for (int c = 0; c <= Character.MAX_VALUE; c++) {
-      if (BREAKING_WHITESPACE.apply((char) c)) {
-        assertTrue(Integer.toHexString(c), WHITESPACE.apply((char) c));
+      if (breakingWhitespace().matches((char) c)) {
+        assertTrue(Integer.toHexString(c), whitespace().matches((char) c));
       }
     }
   }
@@ -91,8 +91,8 @@ public class CharMatcherTest extends TestCase {
   // do borders on absurd overkill. Better safe than sorry, though?
 
   public void testEmpty() throws Exception {
-    doTestEmpty(CharMatcher.ANY);
-    doTestEmpty(CharMatcher.NONE);
+    doTestEmpty(CharMatcher.any());
+    doTestEmpty(CharMatcher.none());
     doTestEmpty(is('a'));
     doTestEmpty(isNot('a'));
     doTestEmpty(anyOf(""));
@@ -135,7 +135,7 @@ public class CharMatcherTest extends TestCase {
   }
 
   public void testNoMatches() {
-    doTestNoMatches(CharMatcher.NONE, "blah");
+    doTestNoMatches(CharMatcher.none(), "blah");
     doTestNoMatches(is('a'), "bcde");
     doTestNoMatches(isNot('a'), "aaaa");
     doTestNoMatches(anyOf(""), "abcd");
@@ -146,10 +146,10 @@ public class CharMatcherTest extends TestCase {
     doTestNoMatches(inRange('p', 'x'), "mom");
     doTestNoMatches(forPredicate(Predicates.equalTo('c')), "abe");
     doTestNoMatches(inRange('A', 'Z').and(inRange('F', 'K').negate()), "F1a");
-    doTestNoMatches(CharMatcher.DIGIT, "\tAz()");
-    doTestNoMatches(CharMatcher.JAVA_DIGIT, "\tAz()");
-    doTestNoMatches(CharMatcher.DIGIT.and(CharMatcher.ASCII), "\tAz()");
-    doTestNoMatches(CharMatcher.SINGLE_WIDTH, "\u05bf\u3000");
+    doTestNoMatches(CharMatcher.digit(), "\tAz()");
+    doTestNoMatches(CharMatcher.javaDigit(), "\tAz()");
+    doTestNoMatches(CharMatcher.digit().and(CharMatcher.ascii()), "\tAz()");
+    doTestNoMatches(CharMatcher.singleWidth(), "\u05bf\u3000");
   }
 
   private void doTestNoMatches(CharMatcher matcher, String s) {
@@ -164,7 +164,7 @@ public class CharMatcherTest extends TestCase {
   }
 
   public void testAllMatches() {
-    doTestAllMatches(CharMatcher.ANY, "blah");
+    doTestAllMatches(CharMatcher.any(), "blah");
     doTestAllMatches(isNot('a'), "bcde");
     doTestAllMatches(is('a'), "aaaa");
     doTestAllMatches(noneOf("CharMatcher"), "zxqy");
@@ -173,10 +173,10 @@ public class CharMatcherTest extends TestCase {
     doTestAllMatches(anyOf("CharMatcher"), "ChMa");
     doTestAllMatches(inRange('m', 'p'), "mom");
     doTestAllMatches(forPredicate(Predicates.equalTo('c')), "ccc");
-    doTestAllMatches(CharMatcher.DIGIT, "0123456789\u0ED0\u1B59");
-    doTestAllMatches(CharMatcher.JAVA_DIGIT, "0123456789");
-    doTestAllMatches(CharMatcher.DIGIT.and(CharMatcher.ASCII), "0123456789");
-    doTestAllMatches(CharMatcher.SINGLE_WIDTH, "\t0123ABCdef~\u00A0\u2111");
+    doTestAllMatches(CharMatcher.digit(), "0123456789\u0ED0\u1B59");
+    doTestAllMatches(CharMatcher.javaDigit(), "0123456789");
+    doTestAllMatches(CharMatcher.digit().and(CharMatcher.ascii()), "0123456789");
+    doTestAllMatches(CharMatcher.singleWidth(), "\t0123ABCdef~\u00A0\u2111");
   }
 
   private void doTestAllMatches(CharMatcher matcher, String s) {
@@ -286,6 +286,7 @@ public class CharMatcherTest extends TestCase {
     reallyTestMatchThenNoMatch(matcher.precomputed().negate(), s);
   }
 
+  @SuppressWarnings("deprecation") // intentionally testing apply() method
   private void reallyTestOneCharMatch(CharMatcher matcher, String s) {
     assertTrue(matcher.matches(s.charAt(0)));
     assertTrue(matcher.apply(s.charAt(0)));
@@ -303,6 +304,7 @@ public class CharMatcherTest extends TestCase {
     assertEquals(1, matcher.countIn(s));
   }
 
+  @SuppressWarnings("deprecation") // intentionally testing apply() method
   private void reallyTestOneCharNoMatch(CharMatcher matcher, String s) {
     assertFalse(matcher.matches(s.charAt(0)));
     assertFalse(matcher.apply(s.charAt(0)));
@@ -418,14 +420,14 @@ public class CharMatcherTest extends TestCase {
     assertSame(inout, anyOf("-").collapseFrom(inout, '_'));
     assertSame(inout, anyOf("-#").collapseFrom(inout, '_'));
     assertSame(inout, anyOf("-#123").collapseFrom(inout, '_'));
-    assertSame(inout, CharMatcher.NONE.collapseFrom(inout, '_'));
+    assertSame(inout, CharMatcher.none().collapseFrom(inout, '_'));
   }
 
   public void testCollapse_any() {
-    assertEquals("", CharMatcher.ANY.collapseFrom("", '_'));
-    assertEquals("_", CharMatcher.ANY.collapseFrom("a", '_'));
-    assertEquals("_", CharMatcher.ANY.collapseFrom("ab", '_'));
-    assertEquals("_", CharMatcher.ANY.collapseFrom("abcd", '_'));
+    assertEquals("", CharMatcher.any().collapseFrom("", '_'));
+    assertEquals("_", CharMatcher.any().collapseFrom("a", '_'));
+    assertEquals("_", CharMatcher.any().collapseFrom("ab", '_'));
+    assertEquals("_", CharMatcher.any().collapseFrom("abcd", '_'));
   }
 
   public void testTrimFrom() {
@@ -593,14 +595,14 @@ public class CharMatcherTest extends TestCase {
     assertSame(m3, m3.precomputed());
     assertEquals(m3.toString(), m3.precomputed().toString());
 
-    assertSame(CharMatcher.NONE, CharMatcher.NONE.precomputed());
-    assertSame(CharMatcher.ANY, CharMatcher.ANY.precomputed());
+    assertSame(CharMatcher.none(), CharMatcher.none().precomputed());
+    assertSame(CharMatcher.any(), CharMatcher.any().precomputed());
   }
 
   static void checkExactMatches(CharMatcher m, char[] chars) {
     Set<Character> positive = Sets.newHashSetWithExpectedSize(chars.length);
-    for (int i = 0; i < chars.length; i++) {
-      positive.add(chars[i]);
+    for (char c : chars) {
+      positive.add(c);
     }
     for (int c = 0; c <= Character.MAX_VALUE; c++) {
       assertFalse(positive.contains(new Character((char) c)) ^ m.matches((char) c));
@@ -629,7 +631,7 @@ public class CharMatcherTest extends TestCase {
   }
 
   public void testToString() {
-    assertToStringWorks("CharMatcher.NONE", CharMatcher.anyOf(""));
+    assertToStringWorks("CharMatcher.none()", CharMatcher.anyOf(""));
     assertToStringWorks("CharMatcher.is('\\u0031')", CharMatcher.anyOf("1"));
     assertToStringWorks("CharMatcher.isNot('\\u0031')", CharMatcher.isNot('1'));
     assertToStringWorks("CharMatcher.anyOf(\"\\u0031\\u0032\")", CharMatcher.anyOf("12"));
