@@ -20,7 +20,6 @@
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>**/*Test.java</test.include>
     <truth.version>0.25</truth.version>
-    <animal.sniffer.version>1.14</animal.sniffer.version>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -138,12 +137,12 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>animal-sniffer-maven-plugin</artifactId>
-          <version>${animal.sniffer.version}</version>
+          <version>1.7</version>
           <configuration>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>
               <artifactId>java16-sun</artifactId>
-              <version>1.10</version>
+              <version>1.0</version>
             </signature>
           </configuration>
           <executions>

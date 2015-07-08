@@ -16,10 +16,13 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableClass;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
+import static java.lang.Thread.currentThread;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -30,9 +33,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Queues;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -1820,7 +1827,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     removed in Guava release 20.0.
    */
   @Deprecated
-  @GwtIncompatible("reflection")
+  @GwtIncompatible("TODO")
   public static <V, X extends Exception> V get(
       Future<V> future, Class<X> exceptionClass) throws X {
     return getChecked(future, exceptionClass);
@@ -1878,7 +1885,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     release 20.0.
    */
   @Deprecated
-  @GwtIncompatible("reflection")
+  @GwtIncompatible("TODO")
   public static <V, X extends Exception> V get(
       Future<V> future, long timeout, TimeUnit unit, Class<X> exceptionClass)
       throws X {
@@ -1932,10 +1939,22 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     RuntimeException} or does not have a suitable constructor
    * @since 19.0 (in 10.0 as {@code get})
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible("TODO")
   public static <V, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass) throws X {
-    return FuturesGetChecked.getChecked(future, exceptionClass);
+    checkNotNull(future);
+    checkArgument(!RuntimeException.class.isAssignableFrom(exceptionClass),
+        "Futures.getChecked exception type (%s) must not be a RuntimeException",
+        exceptionClass);
+    try {
+      return future.get();
+    } catch (InterruptedException e) {
+      currentThread().interrupt();
+      throw newWithCause(exceptionClass, e);
+    } catch (ExecutionException e) {
+      wrapAndThrowExceptionOrError(e.getCause(), exceptionClass);
+      throw new AssertionError();
+    }
   }
 
   /**
@@ -1986,11 +2005,38 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     RuntimeException} or does not have a suitable constructor
    * @since 19.0 (in 10.0 as {@code get} and with different parameter order)
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible("TODO")
   public static <V, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit)
       throws X {
-    return FuturesGetChecked.getChecked(future, exceptionClass, timeout, unit);
+    checkNotNull(future);
+    checkNotNull(unit);
+    checkArgument(!RuntimeException.class.isAssignableFrom(exceptionClass),
+        "Futures.getChecked exception type (%s) must not be a RuntimeException",
+        exceptionClass);
+    try {
+      return future.get(timeout, unit);
+    } catch (InterruptedException e) {
+      currentThread().interrupt();
+      throw newWithCause(exceptionClass, e);
+    } catch (TimeoutException e) {
+      throw newWithCause(exceptionClass, e);
+    } catch (ExecutionException e) {
+      wrapAndThrowExceptionOrError(e.getCause(), exceptionClass);
+      throw new AssertionError();
+    }
+  }
+
+  @GwtIncompatible("TODO")
+  private static <X extends Exception> void wrapAndThrowExceptionOrError(
+      Throwable cause, Class<X> exceptionClass) throws X {
+    if (cause instanceof Error) {
+      throw new ExecutionError((Error) cause);
+    }
+    if (cause instanceof RuntimeException) {
+      throw new UncheckedExecutionException(cause);
+    }
+    throw newWithCause(exceptionClass, cause);
   }
 
   /**
@@ -2055,6 +2101,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /*
+   * TODO(user): FutureChecker interface for these to be static methods on? If
+   * so, refer to it in the (static-method) Futures.getChecked documentation
+   */
+
+  /*
    * Arguably we don't need a timed getUnchecked because any operation slow
    * enough to require a timeout is heavyweight enough to throw a checked
    * exception and therefore be inappropriate to use with getUnchecked. Further,
@@ -2063,10 +2114,70 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * wasn't thrown by the computation -- makes sense, and if we don't convert
    * it, the user still has to write a try-catch block.
    *
-   * If you think you would use this method, let us know. You might also also
-   * look into the Fork-Join framework:
-   * http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html
+   * If you think you would use this method, let us know.
    */
+  @GwtIncompatible("TODO")
+  private static <X extends Exception> X newWithCause(
+      Class<X> exceptionClass, Throwable cause) {
+    // getConstructors() guarantees this as long as we don't modify the array.
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    List<Constructor<X>> constructors =
+        (List) Arrays.asList(exceptionClass.getConstructors());
+    for (Constructor<X> constructor : preferringStrings(constructors)) {
+      @Nullable X instance = newFromConstructor(constructor, cause);
+      if (instance != null) {
+        if (instance.getCause() == null) {
+          instance.initCause(cause);
+        }
+        return instance;
+      }
+    }
+    throw new IllegalArgumentException(
+        "No appropriate constructor for exception of type " + exceptionClass
+            + " in response to chained exception", cause);
+  }
+
+  @GwtIncompatible("TODO")
+  private static <X extends Exception> List<Constructor<X>>
+      preferringStrings(List<Constructor<X>> constructors) {
+    return WITH_STRING_PARAM_FIRST.sortedCopy(constructors);
+  }
+
+  @GwtIncompatible("TODO")
+  private static final Ordering<Constructor<?>> WITH_STRING_PARAM_FIRST =
+      Ordering.natural().onResultOf(new Function<Constructor<?>, Boolean>() {
+        @Override public Boolean apply(Constructor<?> input) {
+          return asList(input.getParameterTypes()).contains(String.class);
+        }
+      }).reverse();
+
+  @GwtIncompatible("TODO")
+  @Nullable private static <X> X newFromConstructor(
+      Constructor<X> constructor, Throwable cause) {
+    Class<?>[] paramTypes = constructor.getParameterTypes();
+    Object[] params = new Object[paramTypes.length];
+    for (int i = 0; i < paramTypes.length; i++) {
+      Class<?> paramType = paramTypes[i];
+      if (paramType.equals(String.class)) {
+        params[i] = cause.toString();
+      } else if (paramType.equals(Throwable.class)) {
+        params[i] = cause;
+      } else {
+        return null;
+      }
+    }
+    try {
+      return constructor.newInstance(params);
+    } catch (IllegalArgumentException e) {
+      return null;
+    } catch (InstantiationException e) {
+      return null;
+    } catch (IllegalAccessException e) {
+      return null;
+    } catch (InvocationTargetException e) {
+      return null;
+    }
+  }
 
   /** Used for {@link #allAsList} and {@link #successfulAsList}. */
   private static final class ListFuture<V> extends CollectionFuture<V, List<V>> {
