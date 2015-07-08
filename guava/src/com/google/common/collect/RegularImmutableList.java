@@ -27,7 +27,7 @@ import com.google.common.base.Preconditions;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableList<E> extends ImmutableList<E> {
-  static final ImmutableList<Object> EMPTY =
+  static final ImmutableList<Object> EMPTY = 
       new RegularImmutableList<Object>(ObjectArrays.EMPTY_ARRAY);
 
   private final transient int offset;
@@ -82,5 +82,5 @@ class RegularImmutableList<E> extends ImmutableList<E> {
         Iterators.forArray(array, offset, size, index);
   }
 
-  // TODO(user): benchmark optimizations for equals() and see if they're worthwhile
+  // TODO(lowasser): benchmark optimizations for equals() and see if they're worthwhile
 }

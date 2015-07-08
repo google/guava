@@ -241,7 +241,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
       };
     }
 
-    // TODO(user): consider an optimized values() implementation
+    // TODO(lowasser): consider an optimized values() implementation
 
     @Override
     public boolean containsKey(@Nullable Object key) {
@@ -736,3 +736,4 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
 
   private static final long serialVersionUID = 0;
 }
+

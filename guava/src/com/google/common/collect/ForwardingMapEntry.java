@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 public abstract class ForwardingMapEntry<K, V> extends ForwardingObject implements Map.Entry<K, V> {
-  // TODO(user): identify places where thread safety is actually lost
+  // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
   protected ForwardingMapEntry() {}

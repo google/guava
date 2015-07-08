@@ -169,7 +169,7 @@ public class MapTestSuiteBuilder<K, V>
     Set<Feature<?>> keySetFeatures =
         computeCommonDerivedCollectionFeatures(mapFeatures);
 
-    // TODO(user): make this trigger only if the map is a submap
+    // TODO(lowasser): make this trigger only if the map is a submap
     // currently, the KeySetGenerator won't work properly for a subset of a keyset of a submap
     keySetFeatures.add(CollectionFeature.SUBSET_VIEW);
     if (mapFeatures.contains(MapFeature.ALLOWS_NULL_KEYS)) {

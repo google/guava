@@ -231,7 +231,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
       return removeAll(key);
     }
 
-    // TODO(user): investigate atomic failure?
+    // TODO(lowasser): investigate atomic failure?
     Collection<V> collection = getOrCreateCollection(key);
     Collection<V> oldValues = createCollection();
     oldValues.addAll(collection);

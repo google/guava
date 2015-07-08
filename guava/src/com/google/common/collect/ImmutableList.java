@@ -640,7 +640,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       this(DEFAULT_INITIAL_CAPACITY);
     }
 
-    // TODO(user): consider exposing this
+    // TODO(lowasser): consider exposing this
     Builder(int capacity) {
       super(capacity);
     }

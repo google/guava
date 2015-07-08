@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-// TODO(user): write an efficient asList() implementation
+// TODO(lowasser): write an efficient asList() implementation
 public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implements Multiset<E> {
   /**
    * Returns the empty immutable multiset.

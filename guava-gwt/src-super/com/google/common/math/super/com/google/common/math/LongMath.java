@@ -57,7 +57,7 @@ public final class LongMath {
   public static boolean isPowerOfTwo(long x) {
     return x > 0 & (x & (x - 1)) == 0;
   }
-
+  
   /**
    * Returns 1 if {@code x < y} as unsigned longs, and 0 otherwise.  Assumes that x - y fits into a
    * signed long.  The implementation is branch-free, and benchmarks suggest it is measurably
@@ -228,14 +228,14 @@ public final class LongMath {
           return result;
         } else {
           int nBits = LongMath.log2(n, RoundingMode.CEILING);
-
+          
           long result = 1;
           long numerator = n--;
           long denominator = 1;
-
+          
           int numeratorBits = nBits;
           // This is an upper bound on log2(numerator, ceiling).
-
+          
           /*
            * We want to do this in long math for speed, but want to avoid overflow. We adapt the
            * technique previously used by BigIntegerMath: maintain separate numerator and
@@ -260,7 +260,7 @@ public final class LongMath {
         }
     }
   }
-
+  
   /**
    * Returns (x * numerator / denominator), which is assumed to come out to an integral value.
    */
@@ -312,11 +312,11 @@ public final class LongMath {
     // The alternative (x + y) >>> 1 fails for negative values.
     return (x & y) + ((x ^ y) >> 1);
   }
-
+  
   /*
    * If n <= millerRabinBases[i][0], then testing n against bases millerRabinBases[i][1..]
    * suffices to prove its primality.  Values from miller-rabin.appspot.com.
-   *
+   * 
    * NOTE: We could get slightly better bases that would be treated as unsigned, but benchmarks
    * showed negligible performance improvements.
    */
@@ -333,7 +333,7 @@ public final class LongMath {
     {Long.MAX_VALUE,
         2, 325, 9375, 28178, 450775, 9780504, 1795265022}
   };
-
+  
   private enum MillerRabinTester {
     /**
      * Works for inputs <= FLOOR_SQRT_MAX_LONG.
@@ -341,15 +341,15 @@ public final class LongMath {
     SMALL {
       @Override
       long mulMod(long a, long b, long m) {
-        /*
-         * NOTE(user, 2015-Feb-12): Benchmarks suggest that changing this to
+        /* 
+         * NOTE(lowasser, 2015-Feb-12): Benchmarks suggest that changing this to 
          * UnsignedLongs.remainder and increasing the threshold to 2^32 doesn't pay for itself,
          * and adding another enum constant hurts performance further -- I suspect because
          * bimorphic implementation is a sweet spot for the JVM.
-         */
+         */ 
         return (a * b) % m;
       }
-
+      
       @Override
       long squareMod(long a, long m) {
         return (a * a) % m;
@@ -387,11 +387,11 @@ public final class LongMath {
         long bHi = b >>> 32; // < 2^31
         long aLo = a & 0xFFFFFFFFL; // < 2^32
         long bLo = b & 0xFFFFFFFFL; // < 2^32
-
+        
         /*
          * a * b == aHi * bHi * 2^64 + (aHi * bLo + aLo * bHi) * 2^63 + aLo * bLo.
          *       == (aHi * bHi * 2^32 + aHi * bLo + aLo * bHi) * 2^32 + aLo * bLo
-         *
+         * 
          * We carry out this computation in modular arithmetic.  Since times2ToThe32Mod accepts
          * any unsigned long, we don't have to do a mod on every operation, only when intermediate
          * results can exceed 2^63.
@@ -414,13 +414,13 @@ public final class LongMath {
       long squareMod(long a, long m) {
         long aHi = a >>> 32; // < 2^31
         long aLo = a & 0xFFFFFFFFL; // < 2^32
-
+        
         /*
          * a^2 == aHi^2 * 2^64 + aHi * aLo * 2^33 + aLo^2
          *     == (aHi^2 * 2^32 + aHi * aLo * 2) * 2^32 + aLo^2
          * We carry out this computation in modular arithmetic.  Since times2ToThe32Mod accepts
          * any unsigned long, we don't have to do a mod on every operation, only when intermediate
-         * results can exceed 2^63.
+         * results can exceed 2^63.  
          */
         long result = times2ToThe32Mod(aHi * aHi /* < 2^62 */, m); // < m < 2^63
         long hiLo = aHi * aLo * 2;
@@ -436,23 +436,23 @@ public final class LongMath {
             m);
       }
     };
-
+    
     static boolean test(long base, long n) {
       // Since base will be considered % n, it's okay if base > FLOOR_SQRT_MAX_LONG,
       // so long as n <= FLOOR_SQRT_MAX_LONG.
       return ((n <= FLOOR_SQRT_MAX_LONG) ? SMALL : LARGE).testWitness(base, n);
     }
-
+    
     /**
      * Returns a * b mod m.
      */
     abstract long mulMod(long a, long b, long m);
-
+    
     /**
      * Returns a^2 mod m.
      */
     abstract long squareMod(long a, long m);
-
+    
     /**
      * Returns a^p mod m.
      */
@@ -466,7 +466,7 @@ public final class LongMath {
       }
       return res;
     }
-
+    
     /**
      * Returns true if n is a strong probable prime relative to the specified base.
      */
@@ -498,3 +498,4 @@ public final class LongMath {
 
   private LongMath() {}
 }
+

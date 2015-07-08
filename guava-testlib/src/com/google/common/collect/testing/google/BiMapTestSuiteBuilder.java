@@ -135,7 +135,7 @@ public class BiMapTestSuiteBuilder<K, V>
     return inverseFeatures;
   }
 
-  // TODO(user): can we eliminate the duplication from MapTestSuiteBuilder here?
+  // TODO(lowasser): can we eliminate the duplication from MapTestSuiteBuilder here?
 
   private static Set<Feature<?>> computeValuesSetFeatures(
       Set<Feature<?>> mapFeatures) {

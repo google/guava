@@ -231,8 +231,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
     /*
-     * TODO(user): consider checking for ImmutableAsList here
-     * TODO(user): consider checking for Multiset here
+     * TODO(lowasser): consider checking for ImmutableAsList here
+     * TODO(lowasser): consider checking for Multiset here
      */
     if (elements instanceof ImmutableSet && !(elements instanceof ImmutableSortedSet)) {
       @SuppressWarnings("unchecked") // all supported methods are covariant

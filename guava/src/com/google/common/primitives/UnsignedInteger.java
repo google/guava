@@ -148,7 +148,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    */
   @GwtIncompatible("Does not truncate correctly")
   public UnsignedInteger times(UnsignedInteger val) {
-    // TODO(user): make this GWT-compatible
+    // TODO(lowasser): make this GWT-compatible
     return fromIntBits(value * checkNotNull(val).value);
   }
 

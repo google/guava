@@ -415,7 +415,7 @@ public final class Multisets {
             = multiset1.entrySet().iterator();
         final Iterator<? extends Entry<? extends E>> iterator2
             = multiset2.entrySet().iterator();
-        // TODO(user): consider making the entries live views
+        // TODO(lowasser): consider making the entries live views
         return new AbstractIterator<Entry<E>>() {
           @Override
           protected Entry<E> computeNext() {
@@ -479,7 +479,7 @@ public final class Multisets {
       @Override
       Iterator<Entry<E>> entryIterator() {
         final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
-        // TODO(user): consider making the entries live views
+        // TODO(lowasser): consider making the entries live views
         return new AbstractIterator<Entry<E>>() {
           @Override
           protected Entry<E> computeNext() {
@@ -524,7 +524,7 @@ public final class Multisets {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
 
-    // TODO(user): consider making the entries live views
+    // TODO(lowasser): consider making the entries live views
     return new AbstractMultiset<E>() {
       @Override
       public boolean contains(@Nullable Object element) {
@@ -606,7 +606,7 @@ public final class Multisets {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
 
-    // TODO(user): consider making the entries live views
+    // TODO(lowasser): consider making the entries live views
     return new AbstractMultiset<E>() {
       @Override
       public int count(@Nullable Object element) {

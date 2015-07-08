@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 public abstract class ForwardingSet<E> extends ForwardingCollection<E> implements Set<E> {
-  // TODO(user): identify places where thread safety is actually lost
+  // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
   protected ForwardingSet() {}

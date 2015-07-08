@@ -85,7 +85,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       ImmutableMapEntry<K, V> newEntry;
       if (nextInValueBucket == null && nextInKeyBucket == null) {
         /*
-         * TODO(user): consider using a NonTerminalImmutableMapEntry when nextInKeyBucket is
+         * TODO(lowasser): consider using a NonTerminalImmutableMapEntry when nextInKeyBucket is
          * nonnull but nextInValueBucket is null.  This may save a few bytes on some platforms, but
          * 2-morphic call sites are often optimized much better than 3-morphic, so it'd require
          * benchmarking.

@@ -37,7 +37,7 @@ import java.util.Iterator;
 @Beta
 @GwtCompatible(emulated = true)
 public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
-  // TODO(user): make this GWT-compatible when we've checked in ArrayDeque and BitSet emulation
+  // TODO(lowasser): make this GWT-compatible when we've checked in ArrayDeque and BitSet emulation
 
   /**
    * Returns the left child of the specified node, or {@link Optional#absent()} if the specified
@@ -164,7 +164,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
     }
   }
 
-  // TODO(user): see if any significant optimizations are possible for breadthFirstIterator
+  // TODO(lowasser): see if any significant optimizations are possible for breadthFirstIterator
 
   public final FluentIterable<T> inOrderTraversal(final T root) {
     checkNotNull(root);

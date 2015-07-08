@@ -340,7 +340,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       case 2:
         return isEither(sequence.charAt(0), sequence.charAt(1));
       default:
-        // TODO(user): is it potentially worth just going ahead and building a precomputed
+        // TODO(lowasser): is it potentially worth just going ahead and building a precomputed
         // matcher?
         return new AnyOf(sequence);
     }
@@ -442,7 +442,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     if (totalCharacters * 2 <= DISTINCT_CHARS) {
       return precomputedPositive(totalCharacters, table, toString());
     } else {
-      // TODO(user): is it worth it to worry about the last character of large matchers?
+      // TODO(lowasser): is it worth it to worry about the last character of large matchers?
       table.flip(Character.MIN_VALUE, Character.MAX_VALUE + 1);
       int negatedCharacters = DISTINCT_CHARS - totalCharacters;
       String suffix = ".negate()";

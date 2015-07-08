@@ -49,7 +49,7 @@ import java.util.List;
 @GwtIncompatible("hasn't been tested yet")
 public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
     implements SortedMultiset<E> {
-  // TODO(user): GWT compatibility
+  // TODO(lowasser): GWT compatibility
 
   private static final Comparator<Comparable> NATURAL_ORDER = Ordering.natural();
 

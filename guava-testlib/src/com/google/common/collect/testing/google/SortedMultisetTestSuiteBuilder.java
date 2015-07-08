@@ -85,7 +85,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends
   @Override
   TestSuite createElementSetTestSuite(FeatureSpecificTestSuiteBuilder<
       ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
-    // TODO(user): make a SortedElementSetGenerator
+    // TODO(lowasser): make a SortedElementSetGenerator
     return SetTestSuiteBuilder
         .using(new ElementSetGenerator<E>(parentBuilder.getSubjectGenerator()))
         .named(getName() + ".elementSet")

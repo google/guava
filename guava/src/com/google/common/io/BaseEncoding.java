@@ -122,7 +122,7 @@ import javax.annotation.Nullable;
 @Beta
 @GwtCompatible(emulated = true)
 public abstract class BaseEncoding {
-  // TODO(user): consider making encodeTo(Appendable, byte[], int, int) public.
+  // TODO(lowasser): consider making encodeTo(Appendable, byte[], int, int) public.
 
   BaseEncoding() {}
 
@@ -186,7 +186,7 @@ public abstract class BaseEncoding {
     };
   }
 
-  // TODO(user): document the extent of leniency, probably after adding ignore(CharMatcher)
+  // TODO(lowasser): document the extent of leniency, probably after adding ignore(CharMatcher)
 
   private static byte[] extract(byte[] result, int length) {
     if (length == result.length) {
@@ -533,7 +533,7 @@ public abstract class BaseEncoding {
   }
 
   static class StandardBaseEncoding extends BaseEncoding {
-    // TODO(user): provide a useful toString
+    // TODO(lowasser): provide a useful toString
     final Alphabet alphabet;
 
     @Nullable

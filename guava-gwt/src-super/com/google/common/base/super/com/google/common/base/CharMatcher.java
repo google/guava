@@ -338,7 +338,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       case 2:
         return isEither(sequence.charAt(0), sequence.charAt(1));
       default:
-        // TODO(user): is it potentially worth just going ahead and building a precomputed
+        // TODO(lowasser): is it potentially worth just going ahead and building a precomputed
         // matcher?
         return new AnyOf(sequence);
     }

@@ -235,7 +235,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
       return of();
     }
 
-    // TODO(user): copy ImmutableSetMultimap by using asList() on the sets
+    // TODO(lowasser): copy ImmutableSetMultimap by using asList() on the sets
     if (multimap instanceof ImmutableListMultimap) {
       @SuppressWarnings("unchecked") // safe since multimap is not writable
       ImmutableListMultimap<K, V> kvMultimap = (ImmutableListMultimap<K, V>) multimap;

@@ -787,7 +787,7 @@ public final class LongMath {
       @Override
       long mulMod(long a, long b, long m) {
         /*
-         * NOTE(user, 2015-Feb-12): Benchmarks suggest that changing this to
+         * NOTE(lowasser, 2015-Feb-12): Benchmarks suggest that changing this to
          * UnsignedLongs.remainder and increasing the threshold to 2^32 doesn't pay for itself,
          * and adding another enum constant hurts performance further -- I suspect because
          * bimorphic implementation is a sweet spot for the JVM.

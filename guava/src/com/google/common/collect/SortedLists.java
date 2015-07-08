@@ -261,7 +261,7 @@ import javax.annotation.Nullable;
     if (!(list instanceof RandomAccess)) {
       list = Lists.newArrayList(list);
     }
-    // TODO(user): benchmark when it's best to do a linear search
+    // TODO(lowasser): benchmark when it's best to do a linear search
 
     int lower = 0;
     int upper = list.size() - 1;

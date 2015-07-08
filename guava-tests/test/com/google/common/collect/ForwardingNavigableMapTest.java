@@ -249,7 +249,7 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
         CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
         CollectionFeature.SUPPORTS_ITERATOR_REMOVE, MapFeature.GENERAL_PURPOSE)
         .createTestSuite());
-    // TODO(user): add forwarding-to-ImmutableSortedMap test
+    // TODO(lowasser): add forwarding-to-ImmutableSortedMap test
     return suite;
   }
 

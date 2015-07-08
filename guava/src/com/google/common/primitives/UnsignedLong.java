@@ -68,7 +68,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * @since 14.0
    */
   public static UnsignedLong fromLongBits(long bits) {
-    // TODO(user): consider caching small values, like Long.valueOf
+    // TODO(lowasser): consider caching small values, like Long.valueOf
     return new UnsignedLong(bits);
   }
 

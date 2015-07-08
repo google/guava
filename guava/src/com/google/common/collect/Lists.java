@@ -933,7 +933,7 @@ public final class Lists {
    * An implementation of {@link List#hashCode()}.
    */
   static int hashCodeImpl(List<?> list) {
-    // TODO(user): worth optimizing for RandomAccess?
+    // TODO(lowasser): worth optimizing for RandomAccess?
     int hashCode = 1;
     for (Object o : list) {
       hashCode = 31 * hashCode + (o == null ? 0 : o.hashCode());

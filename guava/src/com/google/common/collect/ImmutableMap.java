@@ -305,7 +305,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> ImmutableMap<K, V> copyOf(Map<? extends K, ? extends V> map) {
     if ((map instanceof ImmutableMap) && !(map instanceof ImmutableSortedMap)) {
-      // TODO(user): Make ImmutableMap.copyOf(immutableBiMap) call copyOf()
+      // TODO(lowasser): Make ImmutableMap.copyOf(immutableBiMap) call copyOf()
       // on the ImmutableMap delegate(), rather than the bimap itself
 
       @SuppressWarnings("unchecked") // safe since map is not writable

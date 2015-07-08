@@ -610,7 +610,7 @@ public final class Floats {
   @GwtIncompatible("regular expressions")
   public static Float tryParse(String string) {
     if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {
-      // TODO(user): could be potentially optimized, but only with
+      // TODO(lowasser): could be potentially optimized, but only with
       // extensive testing
       try {
         return Float.parseFloat(string);

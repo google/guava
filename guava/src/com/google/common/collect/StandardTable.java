@@ -359,7 +359,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
             }
             @Override
             public boolean equals(Object object) {
-              // TODO(user): identify why this affects GWT tests
+              // TODO(lowasser): identify why this affects GWT tests
               return standardEquals(object);
             }
           };
@@ -683,14 +683,14 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   @Override public Collection<V> values() {
     return super.values();
   }
-
+  
   private transient Map<R, Map<C, V>> rowMap;
 
   @Override public Map<R, Map<C, V>> rowMap() {
     Map<R, Map<C, V>> result = rowMap;
     return (result == null) ? rowMap = createRowMap() : result;
   }
-
+  
   Map<R, Map<C, V>> createRowMap() {
     return new RowMap();
   }

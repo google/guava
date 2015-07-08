@@ -55,7 +55,7 @@ import javax.annotation.Nullable;
 @GwtCompatible
 public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
     implements SortedMap<K, V> {
-  // TODO(user): identify places where thread safety is actually lost
+  // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
   protected ForwardingSortedMap() {}
