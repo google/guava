@@ -816,6 +816,10 @@
 <dd>
 <div class="block">Matches any character.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#any()">any()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Matches any character.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Iterables.html#any(java.lang.Iterable,%20com.google.common.base.Predicate)">any(Iterable&lt;T&gt;, Predicate&lt;? super T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Iterables.html" title="class in com.google.common.collect">Iterables</a></dt>
 <dd>
 <div class="block">Returns <code>true</code> if any element in <code>iterable</code> satisfies the predicate.</div>
@@ -1116,6 +1120,10 @@
  characters.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#ASCII">ASCII</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is ASCII, meaning that its code point is less than 128.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#ascii()">ascii()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block">Determines whether a character is ASCII, meaning that its code point is less than 128.</div>
 </dd>
@@ -1651,6 +1659,11 @@
  traversal.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#BREAKING_WHITESPACE">BREAKING_WHITESPACE</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is a breaking whitespace (that is, a whitespace which can be
+ interpreted as a break between words for formatting purposes).</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#breakingWhitespace()">breakingWhitespace()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block">Determines whether a character is a breaking whitespace (that is, a whitespace which can be
  interpreted as a break between words for formatting purposes).</div>
@@ -4301,6 +4314,11 @@
 <div class="block">Returns an unmodifiable <b>view</b> of the difference of two sets.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#DIGIT">DIGIT</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is a digit according to
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#digit()">digit()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block">Determines whether a character is a digit according to
  <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.</div>
@@ -8090,6 +8108,12 @@
  SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and
  PRIVATE_USE according to ICU4J.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#invisible()">invisible()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is invisible; that is, if its Unicode category is any of
+ SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and
+ PRIVATE_USE according to ICU4J.</div>
+</dd>
 <dt><a href="./com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><span class="strong">Invokable</span></a>&lt;<a href="./com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>,<a href="./com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&gt; - Class in <a href="./com/google/common/reflect/package-summary.html">com.google.common.reflect</a></dt>
 <dd>
 <div class="block">Wrapper around either a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect"><code>Method</code></a> or a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect"><code>Constructor</code></a>.</div>
@@ -8504,11 +8528,35 @@
 <dd>
 <div class="block">Determines whether a character is upper case according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#javaDigit()">javaDigit()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is a digit according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#javaIsoControl()">javaIsoControl()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is an ISO control character as specified by <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><code>Character.isISOControl(char)</code></a>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#javaLetter()">javaLetter()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is a letter according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetter(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#javaLetterOrDigit()">javaLetterOrDigit()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is a letter or digit according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#javaLowerCase()">javaLowerCase()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is lower case according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/net/MediaType.html#JAVASCRIPT_UTF_8">JAVASCRIPT_UTF_8</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>
 <div class="block"><a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares this to be the
  correct media type for JavaScript, but <a href="./com/google/common/net/MediaType.html#TEXT_JAVASCRIPT_UTF_8"><code>text/javascript</code></a> may be
  necessary in certain situations for compatibility.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#javaUpperCase()">javaUpperCase()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is upper case according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </dd>
 <dt><a href="./com/google/common/util/concurrent/JdkFutureAdapters.html" title="class in com.google.common.util.concurrent"><span class="strong">JdkFutureAdapters</span></a> - Class in <a href="./com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
@@ -10321,6 +10369,10 @@
  supplied future when it completes.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#NONE">NONE</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Matches no characters.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#none()">none()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block">Matches no characters.</div>
 </dd>
@@ -13290,6 +13342,10 @@
 <dd>
 <div class="block">Returns an iterator containing only <code>value</code>.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#singleWidth()">singleWidth()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is single-width (not double-width).</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#sipHash24()">sipHash24()</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
 <div class="block">Returns a hash function implementing the
@@ -15953,8 +16009,12 @@ the order they are declared.</div>
 <dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#WHITESPACE">WHITESPACE</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block">Determines whether a character is whitespace according to the latest Unicode standard, as
- illustrated
- <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.</div>
+ illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#whitespace()">whitespace()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block">Determines whether a character is whitespace according to the latest Unicode standard, as
+ illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/MediaType.html#withCharset(java.nio.charset.Charset)">withCharset(Charset)</a></span> - Method in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>
