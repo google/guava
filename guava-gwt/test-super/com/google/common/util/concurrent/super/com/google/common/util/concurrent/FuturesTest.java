@@ -1485,18 +1485,6 @@ public class FuturesTest extends TestCase {
     assertTrue(logged.get(0).getThrown() instanceof MyError);
   }
 
-  private static final class OtherThrowable extends Throwable {
-
-  }
-
-  // Boring untimed-get tests:
-
-  // Boring timed-get tests:
-
-  // Boring getUnchecked tests:
-
-  // Edge case tests of the exception-construction code through untimed get():
-
   // Mostly an example of how it would look like to use a list of mixed types
 
   static AssertionFailedError failureWithCause(Throwable cause, String message) {
