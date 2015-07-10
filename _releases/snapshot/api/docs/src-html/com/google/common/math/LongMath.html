@@ -795,7 +795,7 @@
 <span class="sourceLineNo">787</span>      @Override<a name="line.787"></a>
 <span class="sourceLineNo">788</span>      long mulMod(long a, long b, long m) {<a name="line.788"></a>
 <span class="sourceLineNo">789</span>        /*<a name="line.789"></a>
-<span class="sourceLineNo">790</span>         * NOTE(user, 2015-Feb-12): Benchmarks suggest that changing this to<a name="line.790"></a>
+<span class="sourceLineNo">790</span>         * NOTE(lowasser, 2015-Feb-12): Benchmarks suggest that changing this to<a name="line.790"></a>
 <span class="sourceLineNo">791</span>         * UnsignedLongs.remainder and increasing the threshold to 2^32 doesn't pay for itself,<a name="line.791"></a>
 <span class="sourceLineNo">792</span>         * and adding another enum constant hurts performance further -- I suspect because<a name="line.792"></a>
 <span class="sourceLineNo">793</span>         * bimorphic implementation is a sweet spot for the JVM.<a name="line.793"></a>

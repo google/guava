@@ -941,7 +941,7 @@
 <span class="sourceLineNo">933</span>   * An implementation of {@link List#hashCode()}.<a name="line.933"></a>
 <span class="sourceLineNo">934</span>   */<a name="line.934"></a>
 <span class="sourceLineNo">935</span>  static int hashCodeImpl(List&lt;?&gt; list) {<a name="line.935"></a>
-<span class="sourceLineNo">936</span>    // TODO(user): worth optimizing for RandomAccess?<a name="line.936"></a>
+<span class="sourceLineNo">936</span>    // TODO(lowasser): worth optimizing for RandomAccess?<a name="line.936"></a>
 <span class="sourceLineNo">937</span>    int hashCode = 1;<a name="line.937"></a>
 <span class="sourceLineNo">938</span>    for (Object o : list) {<a name="line.938"></a>
 <span class="sourceLineNo">939</span>      hashCode = 31 * hashCode + (o == null ? 0 : o.hashCode());<a name="line.939"></a>

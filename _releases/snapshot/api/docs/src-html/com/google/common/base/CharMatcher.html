@@ -348,7 +348,7 @@
 <span class="sourceLineNo">340</span>      case 2:<a name="line.340"></a>
 <span class="sourceLineNo">341</span>        return isEither(sequence.charAt(0), sequence.charAt(1));<a name="line.341"></a>
 <span class="sourceLineNo">342</span>      default:<a name="line.342"></a>
-<span class="sourceLineNo">343</span>        // TODO(user): is it potentially worth just going ahead and building a precomputed<a name="line.343"></a>
+<span class="sourceLineNo">343</span>        // TODO(lowasser): is it potentially worth just going ahead and building a precomputed<a name="line.343"></a>
 <span class="sourceLineNo">344</span>        // matcher?<a name="line.344"></a>
 <span class="sourceLineNo">345</span>        return new AnyOf(sequence);<a name="line.345"></a>
 <span class="sourceLineNo">346</span>    }<a name="line.346"></a>
@@ -450,7 +450,7 @@
 <span class="sourceLineNo">442</span>    if (totalCharacters * 2 &lt;= DISTINCT_CHARS) {<a name="line.442"></a>
 <span class="sourceLineNo">443</span>      return precomputedPositive(totalCharacters, table, toString());<a name="line.443"></a>
 <span class="sourceLineNo">444</span>    } else {<a name="line.444"></a>
-<span class="sourceLineNo">445</span>      // TODO(user): is it worth it to worry about the last character of large matchers?<a name="line.445"></a>
+<span class="sourceLineNo">445</span>      // TODO(lowasser): is it worth it to worry about the last character of large matchers?<a name="line.445"></a>
 <span class="sourceLineNo">446</span>      table.flip(Character.MIN_VALUE, Character.MAX_VALUE + 1);<a name="line.446"></a>
 <span class="sourceLineNo">447</span>      int negatedCharacters = DISTINCT_CHARS - totalCharacters;<a name="line.447"></a>
 <span class="sourceLineNo">448</span>      String suffix = ".negate()";<a name="line.448"></a>

@@ -313,7 +313,7 @@
 <span class="sourceLineNo">305</span>   */<a name="line.305"></a>
 <span class="sourceLineNo">306</span>  public static &lt;K, V&gt; ImmutableMap&lt;K, V&gt; copyOf(Map&lt;? extends K, ? extends V&gt; map) {<a name="line.306"></a>
 <span class="sourceLineNo">307</span>    if ((map instanceof ImmutableMap) &amp;&amp; !(map instanceof ImmutableSortedMap)) {<a name="line.307"></a>
-<span class="sourceLineNo">308</span>      // TODO(user): Make ImmutableMap.copyOf(immutableBiMap) call copyOf()<a name="line.308"></a>
+<span class="sourceLineNo">308</span>      // TODO(lowasser): Make ImmutableMap.copyOf(immutableBiMap) call copyOf()<a name="line.308"></a>
 <span class="sourceLineNo">309</span>      // on the ImmutableMap delegate(), rather than the bimap itself<a name="line.309"></a>
 <span class="sourceLineNo">310</span><a name="line.310"></a>
 <span class="sourceLineNo">311</span>      @SuppressWarnings("unchecked") // safe since map is not writable<a name="line.311"></a>

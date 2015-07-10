@@ -239,8 +239,8 @@
 <span class="sourceLineNo">231</span>   */<a name="line.231"></a>
 <span class="sourceLineNo">232</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; copyOf(Collection&lt;? extends E&gt; elements) {<a name="line.232"></a>
 <span class="sourceLineNo">233</span>    /*<a name="line.233"></a>
-<span class="sourceLineNo">234</span>     * TODO(user): consider checking for ImmutableAsList here<a name="line.234"></a>
-<span class="sourceLineNo">235</span>     * TODO(user): consider checking for Multiset here<a name="line.235"></a>
+<span class="sourceLineNo">234</span>     * TODO(lowasser): consider checking for ImmutableAsList here<a name="line.234"></a>
+<span class="sourceLineNo">235</span>     * TODO(lowasser): consider checking for Multiset here<a name="line.235"></a>
 <span class="sourceLineNo">236</span>     */<a name="line.236"></a>
 <span class="sourceLineNo">237</span>    if (elements instanceof ImmutableSet &amp;&amp; !(elements instanceof ImmutableSortedSet)) {<a name="line.237"></a>
 <span class="sourceLineNo">238</span>      @SuppressWarnings("unchecked") // all supported methods are covariant<a name="line.238"></a>

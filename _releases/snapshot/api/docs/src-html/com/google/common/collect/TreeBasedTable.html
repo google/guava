@@ -73,7 +73,7 @@
 <span class="sourceLineNo">065</span> * &lt;p&gt;Note that this implementation is not synchronized. If multiple threads<a name="line.65"></a>
 <span class="sourceLineNo">066</span> * access this table concurrently and one of the threads modifies the table, it<a name="line.66"></a>
 <span class="sourceLineNo">067</span> * must be synchronized externally.<a name="line.67"></a>
-<span class="sourceLineNo">068</span> *<a name="line.68"></a>
+<span class="sourceLineNo">068</span> * <a name="line.68"></a>
 <span class="sourceLineNo">069</span> * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.69"></a>
 <span class="sourceLineNo">070</span> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"&gt;<a name="line.70"></a>
 <span class="sourceLineNo">071</span> * {@code Table}&lt;/a&gt;.<a name="line.71"></a>
@@ -167,12 +167,12 @@
 <span class="sourceLineNo">159</span>  public Comparator&lt;? super C&gt; columnComparator() {<a name="line.159"></a>
 <span class="sourceLineNo">160</span>    return columnComparator;<a name="line.160"></a>
 <span class="sourceLineNo">161</span>  }<a name="line.161"></a>
-<span class="sourceLineNo">162</span><a name="line.162"></a>
-<span class="sourceLineNo">163</span>  // TODO(user): make column return a SortedMap<a name="line.163"></a>
+<span class="sourceLineNo">162</span>  <a name="line.162"></a>
+<span class="sourceLineNo">163</span>  // TODO(lowasser): make column return a SortedMap<a name="line.163"></a>
 <span class="sourceLineNo">164</span><a name="line.164"></a>
 <span class="sourceLineNo">165</span>  /**<a name="line.165"></a>
 <span class="sourceLineNo">166</span>   * {@inheritDoc}<a name="line.166"></a>
-<span class="sourceLineNo">167</span>   *<a name="line.167"></a>
+<span class="sourceLineNo">167</span>   * <a name="line.167"></a>
 <span class="sourceLineNo">168</span>   * &lt;p&gt;Because a {@code TreeBasedTable} has unique sorted values for a given<a name="line.168"></a>
 <span class="sourceLineNo">169</span>   * row, this method returns a {@link SortedMap}, instead of the {@link Map}<a name="line.169"></a>
 <span class="sourceLineNo">170</span>   * specified in the {@link Table} interface.<a name="line.170"></a>
@@ -184,7 +184,7 @@
 <span class="sourceLineNo">176</span>  public SortedMap&lt;C, V&gt; row(R rowKey) {<a name="line.176"></a>
 <span class="sourceLineNo">177</span>    return new TreeRow(rowKey);<a name="line.177"></a>
 <span class="sourceLineNo">178</span>  }<a name="line.178"></a>
-<span class="sourceLineNo">179</span><a name="line.179"></a>
+<span class="sourceLineNo">179</span>  <a name="line.179"></a>
 <span class="sourceLineNo">180</span>  private class TreeRow extends Row implements SortedMap&lt;C, V&gt; {<a name="line.180"></a>
 <span class="sourceLineNo">181</span>    @Nullable final C lowerBound;<a name="line.181"></a>
 <span class="sourceLineNo">182</span>    @Nullable final C upperBound;<a name="line.182"></a>
@@ -305,7 +305,7 @@
 <span class="sourceLineNo">297</span>      return super.put(key, value);<a name="line.297"></a>
 <span class="sourceLineNo">298</span>    }<a name="line.298"></a>
 <span class="sourceLineNo">299</span>  }<a name="line.299"></a>
-<span class="sourceLineNo">300</span><a name="line.300"></a>
+<span class="sourceLineNo">300</span>  <a name="line.300"></a>
 <span class="sourceLineNo">301</span>  // rowKeySet() and rowMap() are defined here so they appear in the Javadoc.<a name="line.301"></a>
 <span class="sourceLineNo">302</span><a name="line.302"></a>
 <span class="sourceLineNo">303</span>  @Override public SortedSet&lt;R&gt; rowKeySet() {<a name="line.303"></a>

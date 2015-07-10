@@ -642,7 +642,7 @@
 <span class="sourceLineNo">634</span>  @GwtIncompatible("regular expressions")<a name="line.634"></a>
 <span class="sourceLineNo">635</span>  public static Double tryParse(String string) {<a name="line.635"></a>
 <span class="sourceLineNo">636</span>    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.636"></a>
-<span class="sourceLineNo">637</span>      // TODO(user): could be potentially optimized, but only with<a name="line.637"></a>
+<span class="sourceLineNo">637</span>      // TODO(lowasser): could be potentially optimized, but only with<a name="line.637"></a>
 <span class="sourceLineNo">638</span>      // extensive testing<a name="line.638"></a>
 <span class="sourceLineNo">639</span>      try {<a name="line.639"></a>
 <span class="sourceLineNo">640</span>        return Double.parseDouble(string);<a name="line.640"></a>
