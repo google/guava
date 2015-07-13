@@ -17,7 +17,8 @@
 package com.google.common.collect.testing;
 
 import com.google.gwt.core.client.GwtScriptOnly;
-import com.google.gwt.lang.Array;
+
+import java.util.Arrays;
 
 /**
  * Version of {@link GwtPlatform} used in web-mode.  It includes methods in
@@ -33,6 +34,6 @@ public final class GwtPlatform {
   private GwtPlatform() {}
 
   public static <T> T[] clone(T[] array) {
-    return (T[]) Array.clone(array);
+    return (T[]) Arrays.copyOfRange(array, 0, array.length);
   }
 }
