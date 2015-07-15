@@ -9,12 +9,38 @@ concurrency libraries, common annotations, string processing, I/O, and so forth.
 
 Requires JDK 1.6 or higher (as of 12.0).
 
+Latest release
+--------------
+
+The most recent release is [Guava 18.0][], released August 25, 2014.
+
+- [18.0 API Docs][Release API Docs]
+- [18.0 API Diffs from 17.0][Release API Diffs]
+
+To add a dependency on Guava using Maven, use the following:
+
+```xml
+<dependency>
+  <groupId>com.google.guava</groupId>
+  <artifactId>guava</artifactId>
+  <version>18.0</version>
+</dependency>
+```
+
+Snapshots
+---------
+
+Snapshots of Guava built from the `master` branch are available through Maven
+using version `19.0-SNAPSHOT`. API documentation and diffs from version 18.0
+are available here:
+
+- [Snapshot API Docs][]
+- [Snapshot API Diffs from 18.0][Snapshot API Diffs]
+
 Learn about Guava
 ------------------
 
-- Our users' guide, [Guava Explained](https://github.com/google/guava/wiki/Home)
-- Browse [API docs for the most recent release](http://google.github.io/guava/releases/18.0/api/docs/)
-- Browse [API diffs for the most recent release](http://google.github.io/guava/releases/18.0/api/diffs/)
+- Our users' guide, [Guava Explained][]
 - [Presentation slides focusing on base, primitives, and io](http://guava-libraries.googlecode.com/files/Guava_for_Netflix_.pdf)
 - [Presentation slides focusing on cache]( http://guava-libraries.googlecode.com/files/JavaCachingwithGuava.pdf)
 - [Presentation slides focusing on util.concurrent](http://guava-libraries.googlecode.com/files/guava-concurrent-slides.pdf)
@@ -53,3 +79,10 @@ untrusted code.
 5. We unit-test and benchmark the libraries using only OpenJDK 1.7 on
 Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments.
+
+[Guava 18.0]: https://github.com/google/guava/wiki/Release18
+[Release API Docs]: http://google.github.io/guava/releases/18.0/api/docs/
+[Release API Diffs]: http://google.github.io/guava/releases/18.0/api/diffs/
+[Snapshot API Docs]: http://google.github.io/guava/releases/snapshot/api/docs/
+[Snapshot API Diffs]: http://google.github.io/guava/releases/snapshot/api/diffs/
+[Guava Explained]: https://github.com/google/guava/wiki/Home
