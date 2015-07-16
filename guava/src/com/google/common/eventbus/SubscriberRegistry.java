@@ -35,6 +35,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.reflect.TypeToken;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.j2objc.annotations.Weak;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -67,7 +68,7 @@ final class SubscriberRegistry {
   /**
    * The event bus this registry belongs to.
    */
-  private final EventBus bus;
+  @Weak private final EventBus bus;
 
   SubscriberRegistry(EventBus bus) {
     this.bus = checkNotNull(bus);
