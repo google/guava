@@ -92,6 +92,8 @@ public final class Verify {
   /**
    * Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with no
    * message otherwise.
+   *
+   * @throws VerifyException if {@code expression} is {@code false}
    */
   public static void verify(boolean expression) {
     if (!expression) {
@@ -129,6 +131,7 @@ public final class Verify {
    * message otherwise.
    *
    * @return {@code reference}, guaranteed to be non-null, for convenience
+   * @throws VerifyException if {@code reference} is {@code null}
    */
   public static <T> T verifyNotNull(@Nullable T reference) {
     return verifyNotNull(reference, "expected a non-null reference");
@@ -148,6 +151,7 @@ public final class Verify {
    *     template. Arguments are converted to strings using
    *     {@link String#valueOf(Object)}.
    * @return {@code reference}, guaranteed to be non-null, for convenience
+   * @throws VerifyException if {@code reference} is {@code null}
    */
   public static <T> T verifyNotNull(
       @Nullable T reference,
