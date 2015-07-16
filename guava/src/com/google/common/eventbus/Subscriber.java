@@ -19,6 +19,7 @@ package com.google.common.eventbus;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.j2objc.annotations.Weak;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -47,7 +48,7 @@ class Subscriber {
   }
 
   /** The event bus this subscriber belongs to. */
-  private EventBus bus;
+  @Weak private EventBus bus;
 
   /** Object sporting the subscriber method. */
   @VisibleForTesting
