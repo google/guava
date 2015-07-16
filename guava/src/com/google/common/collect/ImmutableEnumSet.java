@@ -31,14 +31,15 @@ import java.util.EnumSet;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
-  static <E extends Enum<E>> ImmutableSet<E> asImmutable(EnumSet<E> set) {
+  @SuppressWarnings("rawtypes") // necessary to compile against Java 8
+  static ImmutableSet asImmutable(EnumSet set) {
     switch (set.size()) {
       case 0:
         return ImmutableSet.of();
       case 1:
         return ImmutableSet.of(Iterables.getOnlyElement(set));
       default:
-        return new ImmutableEnumSet<E>(set);
+        return new ImmutableEnumSet(set);
     }
   }
 

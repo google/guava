@@ -305,7 +305,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
   }
 
-  private static <E extends Enum<E>> ImmutableSet<E> copyOfEnumSet(EnumSet<E> enumSet) {
+  @SuppressWarnings("rawtypes") // necessary to compile against Java 8
+  private static ImmutableSet copyOfEnumSet(EnumSet enumSet) {
     return ImmutableEnumSet.asImmutable(EnumSet.copyOf(enumSet));
   }
 
