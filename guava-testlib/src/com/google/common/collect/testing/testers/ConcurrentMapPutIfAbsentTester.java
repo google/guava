@@ -84,8 +84,7 @@ public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V
   public void testPutIfAbsent_unsupportedPresentDifferentValue() {
     try {
       getMap().putIfAbsent(k0(), v3());
-      fail("putIfAbsent(present, differentValue) should throw");
-    } catch (UnsupportedOperationException expected) {
+    } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
   }
