@@ -48,7 +48,6 @@ import java.util.Arrays;
  */
 @Beta
 public final class ByteStreams {
-  private static final int BUF_SIZE = 8192;
   /**
    * There are three methods to implement {@link FileChannel#transferTo(long, long,
    *  WritableByteChannel)}:
@@ -93,7 +92,7 @@ public final class ByteStreams {
       throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    byte[] buf = new byte[BUF_SIZE];
+    byte[] buf = ThreadLocalBuffers.getByteArray();
     long total = 0;
     while (true) {
       int r = from.read(buf);
@@ -132,7 +131,7 @@ public final class ByteStreams {
       return position - oldPosition;
     }
 
-    ByteBuffer buf = ByteBuffer.allocate(BUF_SIZE);
+    ByteBuffer buf = ByteBuffer.wrap(ThreadLocalBuffers.getByteArray(0, true));
     long total = 0;
     while (from.read(buf) != -1) {
       buf.flip();
@@ -153,7 +152,7 @@ public final class ByteStreams {
    * @throws IOException if an I/O error occurs
    */
   public static byte[] toByteArray(InputStream in) throws IOException {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ByteArrayOutputStream out = ThreadLocalBuffers.getByteArrayOutputStream();
     copy(in, out);
     return out.toByteArray();
   }
@@ -187,7 +186,7 @@ public final class ByteStreams {
     }
 
     // the stream was longer, so read the rest normally
-    FastByteArrayOutputStream out = new FastByteArrayOutputStream();
+    FastByteArrayOutputStream out = ThreadLocalBuffers.getByteArrayOutputStream();
     out.write(b); // write the byte we read when testing for end of stream
     copy(in, out);
 
@@ -195,20 +194,6 @@ public final class ByteStreams {
     System.arraycopy(bytes, 0, result, 0, bytes.length);
     out.writeTo(result, bytes.length);
     return result;
-  }
-
-  /**
-   * BAOS that provides limited access to its internal byte array.
-   */
-  private static final class FastByteArrayOutputStream
-      extends ByteArrayOutputStream {
-    /**
-     * Writes the contents of the internal buffer to the given array starting
-     * at the given offset. Assumes the array has space to hold count bytes.
-     */
-    void writeTo(byte[] b, int off) {
-      System.arraycopy(buf, 0, b, off, count);
-    }
   }
 
   /**
@@ -735,7 +720,7 @@ public final class ByteStreams {
     checkNotNull(input);
     checkNotNull(processor);
 
-    byte[] buf = new byte[BUF_SIZE];
+    byte[] buf = ThreadLocalBuffers.getByteArray();
     int read;
     do {
       read = input.read(buf);

@@ -34,6 +34,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -346,17 +347,21 @@ public abstract class ByteSource {
   public boolean contentEquals(ByteSource other) throws IOException {
     checkNotNull(other);
 
-    byte[] buf1 = new byte[BUF_SIZE];
-    byte[] buf2 = new byte[BUF_SIZE];
+    byte[] buffer = ThreadLocalBuffers.getByteArray(0, true);
+
+    int segmentLength = buffer.length / 2;
+
+    ByteBuffer segment1 = ByteBuffer.wrap(buffer, 0, segmentLength);
+    ByteBuffer segment2 = ByteBuffer.wrap(buffer, segmentLength, segmentLength);
 
     Closer closer = Closer.create();
     try {
       InputStream in1 = closer.register(openStream());
       InputStream in2 = closer.register(other.openStream());
       while (true) {
-        int read1 = ByteStreams.read(in1, buf1, 0, BUF_SIZE);
-        int read2 = ByteStreams.read(in2, buf2, 0, BUF_SIZE);
-        if (read1 != read2 || !Arrays.equals(buf1, buf2)) {
+        int read1 = ByteStreams.read(in1, buffer, 0, segmentLength);
+        int read2 = ByteStreams.read(in2, buffer, segmentLength, segmentLength);
+        if (read1 != read2 || !segment1.equals(segment2)) {
           return false;
         } else if (read1 != BUF_SIZE) {
           return true;
