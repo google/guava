@@ -118,8 +118,7 @@ public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V
   public void testPutIfAbsent_putWithNullValueUnsupported() {
     try {
       getMap().putIfAbsent(k0(), null);
-      fail("putIfAbsent(present, null) should throw");
-    } catch (NullPointerException expected) {
+    } catch (NullPointerException tolerated) {
     }
     expectUnchanged();
     expectNullValueMissingWhenNullValuesUnsupported(
