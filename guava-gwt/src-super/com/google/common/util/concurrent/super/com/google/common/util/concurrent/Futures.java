@@ -1256,7 +1256,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
       @Override
       public List<V> combine(List<Optional<V>> values) {
-        List<V> result = Lists.newArrayList();
+        List<V> result = Lists.newArrayListWithCapacity(values.size());
         for (Optional<V> element : values) {
           result.add(element != null ? element.orNull() : null);
         }
