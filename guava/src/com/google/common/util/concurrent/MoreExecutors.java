@@ -285,7 +285,7 @@ public final class MoreExecutors {
 
   // See sameThreadExecutor javadoc for behavioral notes.
   @GwtIncompatible("TODO")
-  private static class DirectExecutorService
+  private static final class DirectExecutorService
       extends AbstractListeningExecutorService {
     /**
      * Lock used whenever accessing the state variables
@@ -526,39 +526,39 @@ public final class MoreExecutors {
     }
 
     @Override
-    public boolean awaitTermination(long timeout, TimeUnit unit)
+    public final boolean awaitTermination(long timeout, TimeUnit unit)
         throws InterruptedException {
       return delegate.awaitTermination(timeout, unit);
     }
 
     @Override
-    public boolean isShutdown() {
+    public final boolean isShutdown() {
       return delegate.isShutdown();
     }
 
     @Override
-    public boolean isTerminated() {
+    public final boolean isTerminated() {
       return delegate.isTerminated();
     }
 
     @Override
-    public void shutdown() {
+    public final void shutdown() {
       delegate.shutdown();
     }
 
     @Override
-    public List<Runnable> shutdownNow() {
+    public final List<Runnable> shutdownNow() {
       return delegate.shutdownNow();
     }
 
     @Override
-    public void execute(Runnable command) {
+    public final void execute(Runnable command) {
       delegate.execute(command);
     }
   }
 
   @GwtIncompatible("TODO")
-  private static class ScheduledListeningDecorator
+  private static final class ScheduledListeningDecorator
       extends ListeningDecorator implements ListeningScheduledExecutorService {
     @SuppressWarnings("hiding")
     final ScheduledExecutorService delegate;
