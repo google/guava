@@ -2,6 +2,7 @@ Guava: Google Core Libraries for Java
 =====================================
 
 [![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava)
 
 The Guava project contains several of Google's core libraries that we rely on
 in our Java-based projects: collections, caching, primitives support,
