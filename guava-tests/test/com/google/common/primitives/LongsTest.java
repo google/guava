@@ -484,4 +484,50 @@ public class LongsTest extends TestCase {
   private static void tryParseAndAssertEquals(Long expected, String value) {
     assertEquals(expected, Longs.tryParse(value));
   }
+
+  public void testTryParse_radix() {
+    for (int radix = Character.MIN_RADIX;
+        radix <= Character.MAX_RADIX; radix++) {
+      radixEncodeParseAndAssertEquals((long) 0, radix);
+      radixEncodeParseAndAssertEquals((long) 8000, radix);
+      radixEncodeParseAndAssertEquals((long) -8000, radix);
+      radixEncodeParseAndAssertEquals(MAX_VALUE, radix);
+      radixEncodeParseAndAssertEquals(MIN_VALUE, radix);
+      assertNull("Radix: " + radix, Longs.tryParse("999999999999999999999999", radix));
+      assertNull("Radix: " + radix,
+          Longs.tryParse(BigInteger.valueOf(MAX_VALUE).add(BigInteger.ONE).toString(), radix));
+      assertNull("Radix: " + radix,
+          Longs.tryParse(BigInteger.valueOf(MIN_VALUE).subtract(BigInteger.ONE).toString(), radix));
+    }
+    assertNull("Hex string and dec parm", Longs.tryParse("FFFF", 10));
+    assertEquals("Mixed hex case", 65535, Longs.tryParse("ffFF", 16).longValue());
+  }
+
+  /**
+   * Encodes the long as a string with given radix, then uses
+   * {@link Longs#tryParse(String, int)} to parse the result. Asserts the result
+   * is the same as what we started with.
+   */
+  private static void radixEncodeParseAndAssertEquals(Long value, int radix) {
+    assertEquals("Radix: " + radix, value,
+        Longs.tryParse(Long.toString(value, radix), radix));
+  }
+
+  @SuppressWarnings("CheckReturnValue")
+  public void testTryParse_radixTooBig() {
+    try {
+      Longs.tryParse("0", Character.MAX_RADIX + 1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @SuppressWarnings("CheckReturnValue")
+  public void testTryParse_radixTooSmall() {
+    try {
+      Longs.tryParse("0", Character.MIN_RADIX - 1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
 }
