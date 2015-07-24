@@ -305,6 +305,14 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <div class="block">Parses the specified string as a signed decimal integer value.</div>
 </td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/primitives/Ints.html#tryParse(java.lang.String,%20int)">tryParse</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
+                int&nbsp;radix)</code>
+<div class="block">Parses the specified string as a signed integer value using the specified
+ radix.</div>
+</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
@@ -691,13 +699,13 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <a name="tryParse(java.lang.String)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>tryParse</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
 <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation">@CheckForNull</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.690">tryParse</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
+public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.673">tryParse</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
 <div class="block">Parses the specified string as a signed decimal integer value. The ASCII
  character <code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the
  minus sign.
@@ -715,6 +723,39 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/I
      <code>string</code> has a length of zero or cannot be parsed as an integer
      value</dd><dt><span class="strong">Since:</span></dt>
   <dd>11.0</dd></dl>
+</li>
+</ul>
+<a name="tryParse(java.lang.String, int)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>tryParse</h4>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation">@CheckForNull</a>
+public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Ints.html#line.703">tryParse</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
+                                          int&nbsp;radix)</pre>
+<div class="block">Parses the specified string as a signed integer value using the specified
+ radix. The ASCII character <code>'-'</code> (<code>'&#92;u002D'</code>) is
+ recognized as the minus sign.
+
+ <p>Unlike <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true#parseInt(java.lang.String,%20int)" title="class or interface in java.lang"><code>Integer.parseInt(String, int)</code></a>, this method returns
+ <code>null</code> instead of throwing an exception if parsing fails.
+ Additionally, this method only accepts ASCII digits, and returns
+ <code>null</code> if non-ASCII digits are present in the string.
+
+ <p>Note that strings prefixed with ASCII <code>'+'</code> are rejected, even
+ under JDK 7, despite the change to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true#parseInt(java.lang.String,%20int)" title="class or interface in java.lang"><code>Integer.parseInt(String, int)</code></a>
+ for that version.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>string</code> - the string representation of an integer value</dd><dd><code>radix</code> - the radix to use when parsing</dd>
+<dt><span class="strong">Returns:</span></dt><dd>the integer value represented by <code>string</code> using
+     <code>radix</code>, or <code>null</code> if <code>string</code> has a length of zero
+     or cannot be parsed as an integer value</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>radix &lt; Character.MIN_RADIX</code> or
+     <code>radix &gt; Character.MAX_RADIX</code></dd><dt><span class="strong">Since:</span></dt>
+  <dd>19.0</dd></dl>
 </li>
 </ul>
 </li>

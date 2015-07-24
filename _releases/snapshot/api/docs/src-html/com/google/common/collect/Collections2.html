@@ -204,12 +204,12 @@
 <span class="sourceLineNo">196</span><a name="line.196"></a>
 <span class="sourceLineNo">197</span>    @Override<a name="line.197"></a>
 <span class="sourceLineNo">198</span>    public boolean removeAll(final Collection&lt;?&gt; collection) {<a name="line.198"></a>
-<span class="sourceLineNo">199</span>      return Iterables.removeIf(unfiltered, and(predicate, in(collection)));<a name="line.199"></a>
+<span class="sourceLineNo">199</span>      return Iterables.removeIf(unfiltered, and(predicate, Predicates.&lt;Object&gt;in(collection)));<a name="line.199"></a>
 <span class="sourceLineNo">200</span>    }<a name="line.200"></a>
 <span class="sourceLineNo">201</span><a name="line.201"></a>
 <span class="sourceLineNo">202</span>    @Override<a name="line.202"></a>
 <span class="sourceLineNo">203</span>    public boolean retainAll(final Collection&lt;?&gt; collection) {<a name="line.203"></a>
-<span class="sourceLineNo">204</span>      return Iterables.removeIf(unfiltered, and(predicate, not(in(collection))));<a name="line.204"></a>
+<span class="sourceLineNo">204</span>      return Iterables.removeIf(unfiltered, and(predicate, not(Predicates.&lt;Object&gt;in(collection))));<a name="line.204"></a>
 <span class="sourceLineNo">205</span>    }<a name="line.205"></a>
 <span class="sourceLineNo">206</span><a name="line.206"></a>
 <span class="sourceLineNo">207</span>    @Override<a name="line.207"></a>
