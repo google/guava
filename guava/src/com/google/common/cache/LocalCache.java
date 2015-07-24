@@ -49,6 +49,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.common.util.concurrent.Uninterruptibles;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -2007,7 +2009,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
      * comments.
      */
 
-    final LocalCache<K, V> map;
+    @Weak final LocalCache<K, V> map;
 
     /**
      * The number of live elements in this segment's region.
@@ -4447,7 +4449,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   abstract class AbstractCacheSet<T> extends AbstractSet<T> {
-    final ConcurrentMap<?, ?> map;
+    @Weak final ConcurrentMap<?, ?> map;
 
     AbstractCacheSet(ConcurrentMap<?, ?> map) {
       this.map = map;
@@ -4469,6 +4471,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
+  @WeakOuter
   final class KeySet extends AbstractCacheSet<K> {
 
     KeySet(ConcurrentMap<?, ?> map) {
@@ -4491,6 +4494,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
+  @WeakOuter
   final class Values extends AbstractCollection<V> {
     private final ConcurrentMap<?, ?> map;
 
@@ -4521,6 +4525,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
+  @WeakOuter
   final class EntrySet extends AbstractCacheSet<Entry<K, V>> {
 
     EntrySet(ConcurrentMap<?, ?> map) {
