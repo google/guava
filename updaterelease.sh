@@ -195,7 +195,10 @@ else
   # The release being updated currently may not be the latest release.
   version=$(latest_release)
 fi
-sed -i 's/$fieldtoupdate:[ ]+.+/$fieldtoupdate: $version/g' _config.yml
+sed -i'.bak' -e "s/$fieldtoupdate:[ ]+.+/$fieldtoupdate: $version/g" _config.yml
+if [ -e _config.yml.bak ]; then
+  rm _config.yml.bak
+fi
 if ! git diff --quiet ; then
   echo -n "Updating $fieldtoupdate in _config.yml to $version..."
   git add _config.yml > /dev/null
