@@ -95,7 +95,7 @@
 <li class="blockList">
 <hr>
 <br>
-<pre>public abstract class <a href="../../../../src-html/com/google/common/io/ByteSource.html#line.59">ByteSource</a>
+<pre>public abstract class <a href="../../../../src-html/com/google/common/io/ByteSource.html#line.60">ByteSource</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A readable source of bytes, such as a file. Unlike an <a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io"><code>InputStream</code></a>, a
  <code>ByteSource</code> is not an open, stateful stream for input that can be read and closed.
@@ -296,7 +296,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ByteSource</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.66">ByteSource</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.67">ByteSource</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -314,7 +314,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>asCharSource</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.72">asCharSource</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.73">asCharSource</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> view of this byte source that decodes bytes read from this source
  as characters using the given <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset"><code>Charset</code></a>.</div>
 </li>
@@ -325,7 +325,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>openStream</h4>
-<pre>public abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.84">openStream</a>()
+<pre>public abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.85">openStream</a>()
                                 throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Opens a new <a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io"><code>InputStream</code></a> for reading from this source. This method should return a new,
  independent stream each time it is called.
@@ -341,7 +341,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>openBufferedStream</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.98">openBufferedStream</a>()
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.99">openBufferedStream</a>()
                                throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Opens a new buffered <a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io"><code>InputStream</code></a> for reading from this source. The returned stream is
  not required to be a <a href="http://docs.oracle.com/javase/7/docs/api/java/io/BufferedInputStream.html?is-external=true" title="class or interface in java.io"><code>BufferedInputStream</code></a> in order to allow implementations to simply
@@ -361,7 +361,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>slice</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.111">slice</a>(long&nbsp;offset,
+<pre>public&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.112">slice</a>(long&nbsp;offset,
                long&nbsp;length)</pre>
 <div class="block">Returns a view of a slice of this byte source that is at most <code>length</code> bytes long
  starting at the given <code>offset</code>.</div>
@@ -375,7 +375,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.128">isEmpty</a>()
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.129">isEmpty</a>()
                 throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Returns whether the source has zero bytes. The default implementation returns true if
  <a href="../../../../com/google/common/io/ByteSource.html#sizeIfKnown()"><code>sizeIfKnown()</code></a> returns zero, falling back to opening a stream and checking for
@@ -397,7 +397,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>sizeIfKnown</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.159">sizeIfKnown</a>()</pre>
+public&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.160">sizeIfKnown</a>()</pre>
 <div class="block">Returns the size of this source in bytes, if the size can be easily determined without
  actually opening the data stream.
 
@@ -418,7 +418,7 @@ public&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="cl
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.182">size</a>()
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.183">size</a>()
           throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Returns the size of this source in bytes, even if doing so requires opening and traversing
  an entire stream. To avoid a potentially expensive operation, see <a href="../../../../com/google/common/io/ByteSource.html#sizeIfKnown()"><code>sizeIfKnown()</code></a>.
@@ -445,7 +445,7 @@ public&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="cl
 <ul class="blockList">
 <li class="blockList">
 <h4>copyTo</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.252">copyTo</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;output)
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.253">copyTo</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;output)
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Copies the contents of this byte source to the given <code>OutputStream</code>. Does not close
  <code>output</code>.</div>
@@ -460,7 +460,7 @@ public&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="cl
 <ul class="blockList">
 <li class="blockList">
 <h4>copyTo</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.272">copyTo</a>(<a href="../../../../com/google/common/io/ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;sink)
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.273">copyTo</a>(<a href="../../../../com/google/common/io/ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;sink)
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Copies the contents of this byte source to the given <code>ByteSink</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -474,7 +474,7 @@ public&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="cl
 <ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
-<pre>public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.292">read</a>()
+<pre>public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.293">read</a>()
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads the full contents of this byte source as a byte array.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -488,7 +488,7 @@ public&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="cl
 <li class="blockList">
 <h4>read</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.314">read</a>(<a href="../../../../com/google/common/io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)
+public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.315">read</a>(<a href="../../../../com/google/common/io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)
        throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads the contents of this byte source using the given <code>processor</code> to process bytes as
  they are read. Stops when all bytes have been read or the consumer returns <code>false</code>.
@@ -505,7 +505,7 @@ public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/commo
 <ul class="blockList">
 <li class="blockList">
 <h4>hash</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.333">hash</a>(<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)
+<pre>public&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.334">hash</a>(<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)
               throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Hashes the contents of this byte source using the given hash function.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -518,7 +518,7 @@ public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/commo
 <ul class="blockList">
 <li class="blockList">
 <h4>contentEquals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.346">contentEquals</a>(<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;other)
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.347">contentEquals</a>(<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;other)
                       throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Checks that the contents of this byte source are equal to the contents of the given byte
  source.</div>
@@ -533,7 +533,7 @@ public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/commo
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.383">concat</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.384">concat</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -550,7 +550,7 @@ public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/commo
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.405">concat</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.406">concat</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -575,7 +575,7 @@ public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/commo
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.421">concat</a>(<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>...&nbsp;sources)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.422">concat</a>(<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>...&nbsp;sources)</pre>
 <div class="block">Concatenates multiple <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -594,7 +594,7 @@ public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/commo
 <ul class="blockList">
 <li class="blockList">
 <h4>wrap</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.431">wrap</a>(byte[]&nbsp;b)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.432">wrap</a>(byte[]&nbsp;b)</pre>
 <div class="block">Returns a view of the given byte array as a <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a>. To view only a specific range
  in the array, use <code>ByteSource.wrap(b).slice(offset, length)</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -607,7 +607,7 @@ public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/commo
 <ul class="blockListLast">
 <li class="blockList">
 <h4>empty</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.440">empty</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteSource.html#line.441">empty</a>()</pre>
 <div class="block">Returns an immutable <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> that contains no bytes.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0</dd></dl>
