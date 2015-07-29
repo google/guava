@@ -368,6 +368,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
+  @SuppressUnderAndroid // TODO(cpovirk): File Android bug.
   public void testPatternSplitLookBehind() {
     String toSplit = ":foo::barbaz:";
     String regexPattern = "(?<=:)";
@@ -377,6 +378,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
+  @SuppressUnderAndroid // TODO(cpovirk): File Android bug.
   public void testPatternSplitWordBoundary() {
     String string = "foo<bar>bletch";
     Iterable<String> words = Splitter.on(Pattern.compile("\\b")).split(string);
@@ -490,6 +492,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
+  @SuppressUnderAndroid // TODO(cpovirk): File Android bug (different from the two above).
   public void testSplitterIterableIsLazy_pattern() {
     assertSplitterIterableIsLazy(Splitter.onPattern(","));
   }
@@ -669,6 +672,7 @@ public class SplitterTest extends TestCase {
     return ImmutableList.copyOf(collection);
   }
 
+  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_trimmedBoth() {
     Map<String, String> m = COMMA_SPLITTER
         .trimResults()
@@ -680,6 +684,7 @@ public class SplitterTest extends TestCase {
     assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
   }
 
+  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_trimmedEntries() {
     Map<String, String> m = COMMA_SPLITTER
         .trimResults()
@@ -692,6 +697,7 @@ public class SplitterTest extends TestCase {
     assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
   }
 
+  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_trimmedKeyValue() {
     Map<String, String> m =
         COMMA_SPLITTER.withKeyValueSeparator(Splitter.on(':').trimResults()).split(
@@ -702,6 +708,7 @@ public class SplitterTest extends TestCase {
     assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
   }
 
+  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_notTrimmed() {
     Map<String, String> m = COMMA_SPLITTER.withKeyValueSeparator(":").split(
         " boy:tom , girl: tina , cat :kitty , dog:  tommy ");
@@ -711,6 +718,7 @@ public class SplitterTest extends TestCase {
     assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
   }
 
+  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_CharacterSeparator() {
     // try different delimiters.
     Map<String, String> m = Splitter
@@ -724,6 +732,7 @@ public class SplitterTest extends TestCase {
     assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
   }
 
+  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_multiCharacterSeparator() {
     // try different delimiters.
     Map<String, String> m = Splitter

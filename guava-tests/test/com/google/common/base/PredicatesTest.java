@@ -918,6 +918,7 @@ public class PredicatesTest extends TestCase {
   }
 
   @GwtIncompatible("reflection")
+  @SuppressUnderAndroid // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
   public void testEqualsAndSerializable() throws Exception {
     new ClassSanityTester().forAllPublicStaticMethods(Predicates.class).testEqualsAndSerializable();
   }
