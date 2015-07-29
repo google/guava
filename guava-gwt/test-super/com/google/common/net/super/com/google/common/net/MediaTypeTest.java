@@ -27,7 +27,6 @@ import static com.google.common.net.MediaType.HTML_UTF_8;
 import static com.google.common.net.MediaType.JPEG;
 import static com.google.common.net.MediaType.PLAIN_TEXT_UTF_8;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableListMultimap;
@@ -44,7 +43,6 @@ import java.nio.charset.UnsupportedCharsetException;
  *
  * @author Gregory Kick
  */
-@Beta
 @GwtCompatible(emulated = true)
 public class MediaTypeTest extends TestCase {
 
