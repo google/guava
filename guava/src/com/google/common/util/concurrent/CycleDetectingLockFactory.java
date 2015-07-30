@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MapMaker;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.j2objc.annotations.Weak;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -909,7 +910,7 @@ public class CycleDetectingLockFactory {
   private class CycleDetectingReentrantReadLock
       extends ReentrantReadWriteLock.ReadLock {
 
-    final CycleDetectingReentrantReadWriteLock readWriteLock;
+    @Weak final CycleDetectingReentrantReadWriteLock readWriteLock;
 
     CycleDetectingReentrantReadLock(
         CycleDetectingReentrantReadWriteLock readWriteLock) {
@@ -971,7 +972,7 @@ public class CycleDetectingLockFactory {
   private class CycleDetectingReentrantWriteLock
       extends ReentrantReadWriteLock.WriteLock {
 
-    final CycleDetectingReentrantReadWriteLock readWriteLock;
+    @Weak final CycleDetectingReentrantReadWriteLock readWriteLock;
 
     CycleDetectingReentrantWriteLock(
         CycleDetectingReentrantReadWriteLock readWriteLock) {

@@ -161,7 +161,10 @@ public abstract class AbstractScheduledService implements Service {
   }
   
   /* use AbstractService for state management */
-  private final AbstractService delegate = new AbstractService() {
+  private final AbstractService delegate = new ServiceDelegate();
+
+  @WeakOuter
+  private final class ServiceDelegate extends AbstractService {
     
     // A handle to the running task so that we can stop it when a shutdown has been requested.
     // These two fields are volatile because their values will be accessed from multiple threads.
@@ -252,8 +255,8 @@ public abstract class AbstractScheduledService implements Service {
         }
       });
     }
-  };
-  
+  }
+
   /** Constructor for use by subclasses. */
   protected AbstractScheduledService() {}
 
@@ -300,12 +303,13 @@ public abstract class AbstractScheduledService implements Service {
    * {@linkplain Service.State#TERMINATED fails}.
    */
   protected ScheduledExecutorService executor() {
-    final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(
-        new ThreadFactory() {
-          @Override public Thread newThread(Runnable runnable) {
-            return MoreExecutors.newThread(serviceName(), runnable);
-          }
-        });
+    @WeakOuter class ThreadFactoryImpl implements ThreadFactory {
+      @Override public Thread newThread(Runnable runnable) {
+        return MoreExecutors.newThread(serviceName(), runnable);
+      }
+    }
+    final ScheduledExecutorService executor =
+        Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl());
     // Add a listener to shutdown the executor after the service is stopped.  This ensures that the
     // JVM shutdown will not be prevented from exiting after this service has stopped or failed.
     // Technically this listener is added after start() was called so it is a little gross, but it

@@ -51,6 +51,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.util.concurrent.ListenerCallQueue.Callback;
 import com.google.common.util.concurrent.Service.State;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -430,7 +431,14 @@ public final class ServiceManager {
      * Controls how long to wait for all the services to either become healthy or reach a
      * state from which it is guaranteed that it can never become healthy.
      */
-    final Monitor.Guard awaitHealthGuard = new Monitor.Guard(monitor) {
+    final Monitor.Guard awaitHealthGuard = new AwaitHealthGuard();
+
+    @WeakOuter
+    final class AwaitHealthGuard extends Monitor.Guard {
+      AwaitHealthGuard() {
+        super(ServiceManagerState.this.monitor);
+      }
+
       @Override public boolean isSatisfied() {
         // All services have started or some service has terminated/failed.
         return states.count(RUNNING) == numberOfServices
@@ -438,16 +446,23 @@ public final class ServiceManager {
             || states.contains(TERMINATED)
             || states.contains(FAILED);
       }
-    };
+    }
 
     /**
      * Controls how long to wait for all services to reach a terminal state.
      */
-    final Monitor.Guard stoppedGuard = new Monitor.Guard(monitor) {
+    final Monitor.Guard stoppedGuard = new StoppedGuard();
+
+    @WeakOuter
+    final class StoppedGuard extends Monitor.Guard {
+      StoppedGuard() {
+        super(ServiceManagerState.this.monitor);
+      }
+
       @Override public boolean isSatisfied() {
         return states.count(TERMINATED) + states.count(FAILED) == numberOfServices;
       }
-    };
+    }
 
     /** The listeners to notify during a state transition. */
     @GuardedBy("monitor")

@@ -30,6 +30,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.util.concurrent.ListenerCallQueue.Callback;
 import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -96,29 +97,57 @@ public abstract class AbstractService implements Service {
   
   private final Monitor monitor = new Monitor();
 
-  private final Guard isStartable = new Guard(monitor) {
+  private final Guard isStartable = new IsStartableGuard();
+
+  @WeakOuter
+  private final class IsStartableGuard extends Guard {
+    IsStartableGuard() {
+      super(AbstractService.this.monitor);
+    }
+
     @Override public boolean isSatisfied() {
       return state() == NEW;
     }
-  };
-    
-  private final Guard isStoppable = new Guard(monitor) {
+  }
+
+  private final Guard isStoppable = new IsStoppableGuard();
+
+  @WeakOuter
+  private final class IsStoppableGuard extends Guard {
+    IsStoppableGuard() {
+      super(AbstractService.this.monitor);
+    }
+
     @Override public boolean isSatisfied() {
       return state().compareTo(RUNNING) <= 0;
     }
-  };
-  
-  private final Guard hasReachedRunning = new Guard(monitor) {
+  }
+
+  private final Guard hasReachedRunning = new HasReachedRunningGuard();
+
+  @WeakOuter
+  private final class HasReachedRunningGuard extends Guard {
+    HasReachedRunningGuard() {
+      super(AbstractService.this.monitor);
+    }
+
     @Override public boolean isSatisfied() {
       return state().compareTo(RUNNING) >= 0;
     }
-  };
-  
-  private final Guard isStopped = new Guard(monitor) {
+  }
+
+  private final Guard isStopped = new IsStoppedGuard();
+
+  @WeakOuter
+  private final class IsStoppedGuard extends Guard {
+    IsStoppedGuard() {
+      super(AbstractService.this.monitor);
+    }
+
     @Override public boolean isSatisfied() {
       return state().isTerminal();
     }
-  };
+  }
 
   /**
    * The listeners to notify during a state transition.

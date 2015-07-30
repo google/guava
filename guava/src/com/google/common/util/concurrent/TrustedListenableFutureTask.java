@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -92,6 +93,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     }
   }
 
+  @WeakOuter
   private final class TrustedFutureInterruptibleTask extends InterruptibleTask {
     private final Callable<V> callable;
 
