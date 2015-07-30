@@ -372,7 +372,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * Comparable<? super E>} as a workaround for javac <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
-  public static <E extends Comparable<E>> Builder<E> reverseOrder() {
+  public static <E extends Comparable<?>> Builder<E> reverseOrder() {
     return new Builder<E>(Ordering.natural().reverse());
   }
 
@@ -386,7 +386,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * Comparable<? super E>} as a workaround for javac <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
-  public static <E extends Comparable<E>> Builder<E> naturalOrder() {
+  public static <E extends Comparable<?>> Builder<E> naturalOrder() {
     return new Builder<E>(Ordering.natural());
   }
 
