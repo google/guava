@@ -368,7 +368,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * Returns a builder that creates immutable sorted multisets whose elements are ordered by the
    * reverse of their natural ordering.
    *
-   * <p>Note: the type parameter {@code E} extends {@code Comparable<E>} rather than {@code
+   * <p>Note: the type parameter {@code E} extends {@code Comparable<?>} rather than {@code
    * Comparable<? super E>} as a workaround for javac <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
@@ -382,7 +382,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * method provides more type-safety than {@link #builder}, as it can be called only for classes
    * that implement {@link Comparable}.
    *
-   * <p>Note: the type parameter {@code E} extends {@code Comparable<E>} rather than {@code
+   * <p>Note: the type parameter {@code E} extends {@code Comparable<?>} rather than {@code
    * Comparable<? super E>} as a workaround for javac <a
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.
    */
