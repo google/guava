@@ -3914,7 +3914,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     Segment<K, V>[] segments = this.segments;
     long sum = 0;
     for (int i = 0; i < segments.length; ++i) {
-      sum += segments[i].count;
+      sum += Math.max(0, segments[i].count); // see https://github.com/google/guava/issues/2108
     }
     return sum;
   }
