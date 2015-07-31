@@ -20,13 +20,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -668,23 +666,17 @@ public class SplitterTest extends TestCase {
     tester.testAllPublicInstanceMethods(Splitter.on(',').trimResults());
   }
 
-  private static <E> List<E> asList(Collection<E> collection) {
-    return ImmutableList.copyOf(collection);
-  }
-
-  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_trimmedBoth() {
     Map<String, String> m = COMMA_SPLITTER
         .trimResults()
         .withKeyValueSeparator(Splitter.on(':').trimResults())
         .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
     ImmutableMap<String, String> expected =
-          ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
+        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
-  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_trimmedEntries() {
     Map<String, String> m = COMMA_SPLITTER
         .trimResults()
@@ -694,10 +686,9 @@ public class SplitterTest extends TestCase {
         ImmutableMap.of("boy  ", " tom", "girl", " tina", "cat  ", " kitty", "dog", " tommy");
 
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
-  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_trimmedKeyValue() {
     Map<String, String> m =
         COMMA_SPLITTER.withKeyValueSeparator(Splitter.on(':').trimResults()).split(
@@ -705,20 +696,18 @@ public class SplitterTest extends TestCase {
     ImmutableMap<String, String> expected =
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
-  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_notTrimmed() {
     Map<String, String> m = COMMA_SPLITTER.withKeyValueSeparator(":").split(
         " boy:tom , girl: tina , cat :kitty , dog:  tommy ");
     ImmutableMap<String, String> expected =
         ImmutableMap.of(" boy", "tom ", " girl", " tina ", " cat ", "kitty ", " dog", "  tommy ");
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
-  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_CharacterSeparator() {
     // try different delimiters.
     Map<String, String> m = Splitter
@@ -729,10 +718,9 @@ public class SplitterTest extends TestCase {
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
 
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
-  @SuppressUnderAndroid // https://code.google.com/p/android/issues/detail?id=72073
   public void testMapSplitter_multiCharacterSeparator() {
     // try different delimiters.
     Map<String, String> m = Splitter
@@ -743,7 +731,7 @@ public class SplitterTest extends TestCase {
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
 
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
   @SuppressWarnings("CheckReturnValue")
