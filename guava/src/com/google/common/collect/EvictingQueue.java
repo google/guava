@@ -30,7 +30,8 @@ import java.util.Queue;
 
 /**
  * A non-blocking queue which automatically evicts elements from the head of the queue when
- * attempting to add new elements onto the queue and it is full.
+ * attempting to add new elements onto the queue and it is full. This data structure is logically
+ * equivalent to a circular buffer (i.e., cyclic buffer or ring buffer).
  *
  * <p>An evicting queue must be configured with a maximum size. Each time an element is added
  * to a full queue, the queue automatically removes its head element. This is different from
