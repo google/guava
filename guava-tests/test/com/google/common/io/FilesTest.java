@@ -50,6 +50,7 @@ import java.util.Random;
  *
  * @author Chris Nokleberg
  */
+
 public class FilesTest extends IoTestCase {
 
   public static TestSuite suite() {
