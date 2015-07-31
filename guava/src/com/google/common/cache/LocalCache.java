@@ -40,6 +40,7 @@ import com.google.common.cache.CacheLoader.UnsupportedLoadingOperationException;
 import com.google.common.collect.AbstractSequentialIterator;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
@@ -63,6 +64,7 @@ import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractQueue;
 import java.util.AbstractSet;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -4469,6 +4471,27 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     public void clear() {
       map.clear();
     }
+
+    // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
+    // https://code.google.com/p/android/issues/detail?id=36519
+
+    @Override
+    public Object[] toArray() {
+      return toArrayList().toArray();
+    }
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+      return toArrayList().toArray(a);
+    }
+
+    private ArrayList<T> toArrayList() {
+      // Avoid calling ArrayList(Collection), which may call back into toArray.
+      ArrayList<T> result = new ArrayList<T>(size());
+      Iterators.addAll(result, iterator());
+      return result;
+    }
+
   }
 
   @WeakOuter
