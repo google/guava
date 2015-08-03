@@ -367,13 +367,18 @@ public class BigIntegerMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
+  @SuppressUnderAndroid // TODO(cpovirk): Problem with BigIntegerMath.divide on Android?
   public void testDivNonZeroExact() {
     for (BigInteger p : NONZERO_BIGINTEGER_CANDIDATES) {
       for (BigInteger q : NONZERO_BIGINTEGER_CANDIDATES) {
         boolean dividesEvenly = p.remainder(q).equals(ZERO);
 
         try {
-          assertEquals(p, BigIntegerMath.divide(p, q, UNNECESSARY).multiply(q));
+          BigInteger quotient = BigIntegerMath.divide(p, q, UNNECESSARY);
+          BigInteger undone = quotient.multiply(q);
+          if (!p.equals(undone)) {
+            failFormat("expected %s.multiply(%s) = %s; got %s", quotient, q, p, undone);
+          }
           assertTrue(dividesEvenly);
         } catch (ArithmeticException e) {
           assertFalse(dividesEvenly);
@@ -464,5 +469,10 @@ public class BigIntegerMathTest extends TestCase {
     tester.setDefault(int.class, 1);
     tester.setDefault(long.class, 1L);
     tester.testAllPublicStaticMethods(BigIntegerMath.class);
+  }
+
+  @GwtIncompatible("String.format")
+  private static void failFormat(String template, Object... args) {
+    fail(String.format(template, args));
   }
 }
