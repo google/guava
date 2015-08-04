@@ -293,7 +293,7 @@
 <span class="sourceLineNo">285</span><a name="line.285"></a>
 <span class="sourceLineNo">286</span>  // See sameThreadExecutor javadoc for behavioral notes.<a name="line.286"></a>
 <span class="sourceLineNo">287</span>  @GwtIncompatible("TODO")<a name="line.287"></a>
-<span class="sourceLineNo">288</span>  private static class DirectExecutorService<a name="line.288"></a>
+<span class="sourceLineNo">288</span>  private static final class DirectExecutorService<a name="line.288"></a>
 <span class="sourceLineNo">289</span>      extends AbstractListeningExecutorService {<a name="line.289"></a>
 <span class="sourceLineNo">290</span>    /**<a name="line.290"></a>
 <span class="sourceLineNo">291</span>     * Lock used whenever accessing the state variables<a name="line.291"></a>
@@ -534,39 +534,39 @@
 <span class="sourceLineNo">526</span>    }<a name="line.526"></a>
 <span class="sourceLineNo">527</span><a name="line.527"></a>
 <span class="sourceLineNo">528</span>    @Override<a name="line.528"></a>
-<span class="sourceLineNo">529</span>    public boolean awaitTermination(long timeout, TimeUnit unit)<a name="line.529"></a>
+<span class="sourceLineNo">529</span>    public final boolean awaitTermination(long timeout, TimeUnit unit)<a name="line.529"></a>
 <span class="sourceLineNo">530</span>        throws InterruptedException {<a name="line.530"></a>
 <span class="sourceLineNo">531</span>      return delegate.awaitTermination(timeout, unit);<a name="line.531"></a>
 <span class="sourceLineNo">532</span>    }<a name="line.532"></a>
 <span class="sourceLineNo">533</span><a name="line.533"></a>
 <span class="sourceLineNo">534</span>    @Override<a name="line.534"></a>
-<span class="sourceLineNo">535</span>    public boolean isShutdown() {<a name="line.535"></a>
+<span class="sourceLineNo">535</span>    public final boolean isShutdown() {<a name="line.535"></a>
 <span class="sourceLineNo">536</span>      return delegate.isShutdown();<a name="line.536"></a>
 <span class="sourceLineNo">537</span>    }<a name="line.537"></a>
 <span class="sourceLineNo">538</span><a name="line.538"></a>
 <span class="sourceLineNo">539</span>    @Override<a name="line.539"></a>
-<span class="sourceLineNo">540</span>    public boolean isTerminated() {<a name="line.540"></a>
+<span class="sourceLineNo">540</span>    public final boolean isTerminated() {<a name="line.540"></a>
 <span class="sourceLineNo">541</span>      return delegate.isTerminated();<a name="line.541"></a>
 <span class="sourceLineNo">542</span>    }<a name="line.542"></a>
 <span class="sourceLineNo">543</span><a name="line.543"></a>
 <span class="sourceLineNo">544</span>    @Override<a name="line.544"></a>
-<span class="sourceLineNo">545</span>    public void shutdown() {<a name="line.545"></a>
+<span class="sourceLineNo">545</span>    public final void shutdown() {<a name="line.545"></a>
 <span class="sourceLineNo">546</span>      delegate.shutdown();<a name="line.546"></a>
 <span class="sourceLineNo">547</span>    }<a name="line.547"></a>
 <span class="sourceLineNo">548</span><a name="line.548"></a>
 <span class="sourceLineNo">549</span>    @Override<a name="line.549"></a>
-<span class="sourceLineNo">550</span>    public List&lt;Runnable&gt; shutdownNow() {<a name="line.550"></a>
+<span class="sourceLineNo">550</span>    public final List&lt;Runnable&gt; shutdownNow() {<a name="line.550"></a>
 <span class="sourceLineNo">551</span>      return delegate.shutdownNow();<a name="line.551"></a>
 <span class="sourceLineNo">552</span>    }<a name="line.552"></a>
 <span class="sourceLineNo">553</span><a name="line.553"></a>
 <span class="sourceLineNo">554</span>    @Override<a name="line.554"></a>
-<span class="sourceLineNo">555</span>    public void execute(Runnable command) {<a name="line.555"></a>
+<span class="sourceLineNo">555</span>    public final void execute(Runnable command) {<a name="line.555"></a>
 <span class="sourceLineNo">556</span>      delegate.execute(command);<a name="line.556"></a>
 <span class="sourceLineNo">557</span>    }<a name="line.557"></a>
 <span class="sourceLineNo">558</span>  }<a name="line.558"></a>
 <span class="sourceLineNo">559</span><a name="line.559"></a>
 <span class="sourceLineNo">560</span>  @GwtIncompatible("TODO")<a name="line.560"></a>
-<span class="sourceLineNo">561</span>  private static class ScheduledListeningDecorator<a name="line.561"></a>
+<span class="sourceLineNo">561</span>  private static final class ScheduledListeningDecorator<a name="line.561"></a>
 <span class="sourceLineNo">562</span>      extends ListeningDecorator implements ListeningScheduledExecutorService {<a name="line.562"></a>
 <span class="sourceLineNo">563</span>    @SuppressWarnings("hiding")<a name="line.563"></a>
 <span class="sourceLineNo">564</span>    final ScheduledExecutorService delegate;<a name="line.564"></a>

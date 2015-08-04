@@ -260,7 +260,7 @@ implements <a href="../../../../com/google/common/collect/SortedMultiset.html" t
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;E&gt;&gt;&nbsp;<br><a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<br><a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ImmutableSortedMultiset.html#naturalOrder()">naturalOrder</a></strong>()</code>
 <div class="block">Returns a builder that creates immutable sorted multisets whose elements are ordered by their
  natural ordering.</div>
@@ -352,7 +352,7 @@ implements <a href="../../../../com/google/common/collect/SortedMultiset.html" t
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;E&gt;&gt;&nbsp;<br><a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;</code></td>
+<td class="colFirst"><code>static &lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<br><a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ImmutableSortedMultiset.html#reverseOrder()">reverseOrder</a></strong>()</code>
 <div class="block">Returns a builder that creates immutable sorted multisets whose elements are ordered by the
  reverse of their natural ordering.</div>
@@ -853,11 +853,11 @@ public final&nbsp;<a href="../../../../com/google/common/collect/Multiset.Entry.
 <ul class="blockList">
 <li class="blockList">
 <h4>reverseOrder</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.375">reverseOrder</a>()</pre>
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.375">reverseOrder</a>()</pre>
 <div class="block">Returns a builder that creates immutable sorted multisets whose elements are ordered by the
  reverse of their natural ordering.
 
- <p>Note: the type parameter <code>E</code> extends <code>Comparable&lt;E&gt;</code> rather than <code>Comparable&lt;? super E&gt;</code> as a workaround for javac <a
+ <p>Note: the type parameter <code>E</code> extends <code>Comparable&lt;?&gt;</code> rather than <code>Comparable&lt;? super E&gt;</code> as a workaround for javac <a
  href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.</div>
 </li>
 </ul>
@@ -867,13 +867,13 @@ public final&nbsp;<a href="../../../../com/google/common/collect/Multiset.Entry.
 <ul class="blockList">
 <li class="blockList">
 <h4>naturalOrder</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.389">naturalOrder</a>()</pre>
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.html#line.389">naturalOrder</a>()</pre>
 <div class="block">Returns a builder that creates immutable sorted multisets whose elements are ordered by their
  natural ordering. The sorted multisets use <a href="../../../../com/google/common/collect/Ordering.html#natural()"><code>Ordering.natural()</code></a> as the comparator. This
  method provides more type-safety than <a href="../../../../com/google/common/collect/ImmutableSortedMultiset.html#builder()"><code>builder()</code></a>, as it can be called only for classes
  that implement <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang"><code>Comparable</code></a>.
 
- <p>Note: the type parameter <code>E</code> extends <code>Comparable&lt;E&gt;</code> rather than <code>Comparable&lt;? super E&gt;</code> as a workaround for javac <a
+ <p>Note: the type parameter <code>E</code> extends <code>Comparable&lt;?&gt;</code> rather than <code>Comparable&lt;? super E&gt;</code> as a workaround for javac <a
  href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug 6468354</a>.</div>
 </li>
 </ul>

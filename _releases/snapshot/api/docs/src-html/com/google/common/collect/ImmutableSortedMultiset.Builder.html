@@ -376,11 +376,11 @@
 <span class="sourceLineNo">368</span>   * Returns a builder that creates immutable sorted multisets whose elements are ordered by the<a name="line.368"></a>
 <span class="sourceLineNo">369</span>   * reverse of their natural ordering.<a name="line.369"></a>
 <span class="sourceLineNo">370</span>   *<a name="line.370"></a>
-<span class="sourceLineNo">371</span>   * &lt;p&gt;Note: the type parameter {@code E} extends {@code Comparable&lt;E&gt;} rather than {@code<a name="line.371"></a>
+<span class="sourceLineNo">371</span>   * &lt;p&gt;Note: the type parameter {@code E} extends {@code Comparable&lt;?&gt;} rather than {@code<a name="line.371"></a>
 <span class="sourceLineNo">372</span>   * Comparable&lt;? super E&gt;} as a workaround for javac &lt;a<a name="line.372"></a>
 <span class="sourceLineNo">373</span>   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354"&gt;bug 6468354&lt;/a&gt;.<a name="line.373"></a>
 <span class="sourceLineNo">374</span>   */<a name="line.374"></a>
-<span class="sourceLineNo">375</span>  public static &lt;E extends Comparable&lt;E&gt;&gt; Builder&lt;E&gt; reverseOrder() {<a name="line.375"></a>
+<span class="sourceLineNo">375</span>  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; reverseOrder() {<a name="line.375"></a>
 <span class="sourceLineNo">376</span>    return new Builder&lt;E&gt;(Ordering.natural().reverse());<a name="line.376"></a>
 <span class="sourceLineNo">377</span>  }<a name="line.377"></a>
 <span class="sourceLineNo">378</span><a name="line.378"></a>
@@ -390,11 +390,11 @@
 <span class="sourceLineNo">382</span>   * method provides more type-safety than {@link #builder}, as it can be called only for classes<a name="line.382"></a>
 <span class="sourceLineNo">383</span>   * that implement {@link Comparable}.<a name="line.383"></a>
 <span class="sourceLineNo">384</span>   *<a name="line.384"></a>
-<span class="sourceLineNo">385</span>   * &lt;p&gt;Note: the type parameter {@code E} extends {@code Comparable&lt;E&gt;} rather than {@code<a name="line.385"></a>
+<span class="sourceLineNo">385</span>   * &lt;p&gt;Note: the type parameter {@code E} extends {@code Comparable&lt;?&gt;} rather than {@code<a name="line.385"></a>
 <span class="sourceLineNo">386</span>   * Comparable&lt;? super E&gt;} as a workaround for javac &lt;a<a name="line.386"></a>
 <span class="sourceLineNo">387</span>   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354"&gt;bug 6468354&lt;/a&gt;.<a name="line.387"></a>
 <span class="sourceLineNo">388</span>   */<a name="line.388"></a>
-<span class="sourceLineNo">389</span>  public static &lt;E extends Comparable&lt;E&gt;&gt; Builder&lt;E&gt; naturalOrder() {<a name="line.389"></a>
+<span class="sourceLineNo">389</span>  public static &lt;E extends Comparable&lt;?&gt;&gt; Builder&lt;E&gt; naturalOrder() {<a name="line.389"></a>
 <span class="sourceLineNo">390</span>    return new Builder&lt;E&gt;(Ordering.natural());<a name="line.390"></a>
 <span class="sourceLineNo">391</span>  }<a name="line.391"></a>
 <span class="sourceLineNo">392</span><a name="line.392"></a>

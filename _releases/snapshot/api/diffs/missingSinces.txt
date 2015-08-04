@@ -81,5 +81,6 @@ OK: com.google.common.base.CharMatcher Method whitespace()
 OK: com.google.common.util.concurrent.Futures Method withTimeout(com.google.common.util.concurrent.ListenableFuture<V>, long, java.util.concurrent.TimeUnit, java.util.concurrent.ScheduledExecutorService)
 OK: com.google.common.net.MediaType Field APPLE_PASSBOOK
 OK: com.google.common.net.MediaType Field DART_UTF_8
+OK: com.google.common.net.MediaType Field MANIFEST_JSON_UTF_8
 OK: com.google.common.net.HttpHeaders Field PING_FROM
 OK: com.google.common.net.HttpHeaders Field PING_TO

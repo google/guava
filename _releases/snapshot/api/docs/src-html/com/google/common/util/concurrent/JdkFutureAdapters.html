@@ -165,32 +165,31 @@
 <span class="sourceLineNo">157</span>          return;<a name="line.157"></a>
 <span class="sourceLineNo">158</span>        }<a name="line.158"></a>
 <span class="sourceLineNo">159</span><a name="line.159"></a>
-<span class="sourceLineNo">160</span>        adapterExecutor.execute(new Runnable() {<a name="line.160"></a>
-<span class="sourceLineNo">161</span>          @Override<a name="line.161"></a>
-<span class="sourceLineNo">162</span>          public void run() {<a name="line.162"></a>
-<span class="sourceLineNo">163</span>            try {<a name="line.163"></a>
-<span class="sourceLineNo">164</span>              /*<a name="line.164"></a>
-<span class="sourceLineNo">165</span>               * Threads from our private pool are never interrupted. Threads<a name="line.165"></a>
-<span class="sourceLineNo">166</span>               * from a user-supplied executor might be, but... what can we do?<a name="line.166"></a>
-<span class="sourceLineNo">167</span>               * This is another reason to return a proper ListenableFuture<a name="line.167"></a>
-<span class="sourceLineNo">168</span>               * instead of using listenInPoolThread.<a name="line.168"></a>
-<span class="sourceLineNo">169</span>               */<a name="line.169"></a>
-<span class="sourceLineNo">170</span>              getUninterruptibly(delegate);<a name="line.170"></a>
-<span class="sourceLineNo">171</span>            } catch (Error e) {<a name="line.171"></a>
-<span class="sourceLineNo">172</span>              throw e;<a name="line.172"></a>
-<span class="sourceLineNo">173</span>            } catch (Throwable e) {<a name="line.173"></a>
-<span class="sourceLineNo">174</span>              // ExecutionException / CancellationException / RuntimeException<a name="line.174"></a>
-<span class="sourceLineNo">175</span>              // The task is done, run the listeners.<a name="line.175"></a>
-<span class="sourceLineNo">176</span>            }<a name="line.176"></a>
-<span class="sourceLineNo">177</span>            executionList.execute();<a name="line.177"></a>
-<span class="sourceLineNo">178</span>          }<a name="line.178"></a>
-<span class="sourceLineNo">179</span>        });<a name="line.179"></a>
-<span class="sourceLineNo">180</span>      }<a name="line.180"></a>
-<span class="sourceLineNo">181</span>    }<a name="line.181"></a>
-<span class="sourceLineNo">182</span>  }<a name="line.182"></a>
-<span class="sourceLineNo">183</span><a name="line.183"></a>
-<span class="sourceLineNo">184</span>  private JdkFutureAdapters() {}<a name="line.184"></a>
-<span class="sourceLineNo">185</span>}<a name="line.185"></a>
+<span class="sourceLineNo">160</span>        // TODO(lukes): handle RejectedExecutionException<a name="line.160"></a>
+<span class="sourceLineNo">161</span>        adapterExecutor.execute(new Runnable() {<a name="line.161"></a>
+<span class="sourceLineNo">162</span>          @Override<a name="line.162"></a>
+<span class="sourceLineNo">163</span>          public void run() {<a name="line.163"></a>
+<span class="sourceLineNo">164</span>            try {<a name="line.164"></a>
+<span class="sourceLineNo">165</span>              /*<a name="line.165"></a>
+<span class="sourceLineNo">166</span>               * Threads from our private pool are never interrupted. Threads<a name="line.166"></a>
+<span class="sourceLineNo">167</span>               * from a user-supplied executor might be, but... what can we do?<a name="line.167"></a>
+<span class="sourceLineNo">168</span>               * This is another reason to return a proper ListenableFuture<a name="line.168"></a>
+<span class="sourceLineNo">169</span>               * instead of using listenInPoolThread.<a name="line.169"></a>
+<span class="sourceLineNo">170</span>               */<a name="line.170"></a>
+<span class="sourceLineNo">171</span>              getUninterruptibly(delegate);<a name="line.171"></a>
+<span class="sourceLineNo">172</span>            } catch (Throwable e) {<a name="line.172"></a>
+<span class="sourceLineNo">173</span>              // ExecutionException / CancellationException / RuntimeException / Error<a name="line.173"></a>
+<span class="sourceLineNo">174</span>              // The task is presumably done, run the listeners.<a name="line.174"></a>
+<span class="sourceLineNo">175</span>            }<a name="line.175"></a>
+<span class="sourceLineNo">176</span>            executionList.execute();<a name="line.176"></a>
+<span class="sourceLineNo">177</span>          }<a name="line.177"></a>
+<span class="sourceLineNo">178</span>        });<a name="line.178"></a>
+<span class="sourceLineNo">179</span>      }<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    }<a name="line.180"></a>
+<span class="sourceLineNo">181</span>  }<a name="line.181"></a>
+<span class="sourceLineNo">182</span><a name="line.182"></a>
+<span class="sourceLineNo">183</span>  private JdkFutureAdapters() {}<a name="line.183"></a>
+<span class="sourceLineNo">184</span>}<a name="line.184"></a>
 
 
 
