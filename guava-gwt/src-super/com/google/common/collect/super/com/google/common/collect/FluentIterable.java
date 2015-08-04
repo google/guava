@@ -195,7 +195,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns {@code true} if this fluent iterable contains any object for which
    * {@code equals(target)} is true.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code stream.anyMatch(Predicate.isEqual(target))}
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.anyMatch(Predicate.isEqual(target))}.
    */
   @CheckReturnValue
   public final boolean contains(@Nullable Object target) {
@@ -358,7 +358,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns an {@link Optional} containing the last element in this fluent iterable.
    * If the iterable is empty, {@code Optional.absent()} is returned.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code stream.reduce((a, b) -> b)}
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.reduce((a, b) -> b)}.
    *
    * @throws NullPointerException if the last element is null; if this is a possibility, use
    *     {@link Iterables#getLast} instead.
@@ -415,7 +415,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * to {@code * remove()} before a call to {@code next()} will throw an
    * {@link IllegalStateException}.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code stream.skip(numberToSkip)} (same)
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.skip(numberToSkip)} (same).
    */
   @CheckReturnValue
   public final FluentIterable<E> skip(int numberToSkip) {
@@ -429,7 +429,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * The returned fluent iterable's iterator supports {@code remove()} if this
    * fluent iterable's iterator does.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code stream.limit(maxSize)} (same)
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.limit(maxSize)} (same).
    *
    * @param maxSize the maximum number of elements in the returned fluent iterable
    * @throws IllegalArgumentException if {@code size} is negative
@@ -442,7 +442,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Determines whether this fluent iterable is empty.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code !stream.findAny().isPresent()}
+   * <p><b>{@code Stream} equivalent:</b> {@code !stream.findAny().isPresent()}.
    */
   @CheckReturnValue
   public final boolean isEmpty() {
@@ -453,7 +453,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns an {@code ImmutableList} containing all of the elements from this fluent iterable in
    * proper sequence.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableList.copyOf(stream.iterator())}
+   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableList.copyOf(stream.iterator())}.
    *
    * @since 14.0 (since 12.0 as {@code toImmutableList()}).
    */
@@ -468,7 +468,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * ImmutableList} sorted by its natural ordering, use {@code toSortedList(Ordering.natural())}.
    *
    * <p><b>{@code Stream} equivalent:</b>
-   * {@code ImmutableList.copyOf(stream.sorted(comparator).iterator())}
+   * {@code ImmutableList.copyOf(stream.sorted(comparator).iterator())}.
    *
    * @param comparator the function by which to sort list elements
    * @throws NullPointerException if any element is null
@@ -483,7 +483,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns an {@code ImmutableSet} containing all of the elements from this fluent iterable with
    * duplicates removed.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableSet.copyOf(stream.iterator())}
+   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableSet.copyOf(stream.iterator())}.
    *
    * @since 14.0 (since 12.0 as {@code toImmutableSet()}).
    */
@@ -499,7 +499,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * by its natural ordering, use {@code toSortedSet(Ordering.natural())}.
    *
    * <p><b>{@code Stream} equivalent:</b>
-   * {@code ImmutableSortedSet.copyOf(comparator, stream.iterator())}
+   * {@code ImmutableSortedSet.copyOf(comparator, stream.iterator())}.
    *
    * @param comparator the function by which to sort set elements
    * @throws NullPointerException if any element is null
@@ -513,7 +513,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Returns an {@code ImmutableMultiset} containing all of the elements from this fluent iterable.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableMultiset.copyOf(stream.iterator())}
+   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableMultiset.copyOf(stream.iterator())}.
    *
    * @since 19.0
    */
@@ -531,7 +531,9 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * {@code valueFunction} will be applied to more than one instance of that key and, if it is,
    * which result will be mapped to that key in the returned map.
    *
-   * <p><b>{@code Stream} equivalent:</b> TODO (note that Collectors.toMap would trash the order...)
+   * <p><b>{@code Stream} equivalent:</b> {@code
+   * ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -> k, valueFunction)))} (but note that
+   * this may not preserve the order of entries).
    *
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
    *     valueFunction} produces {@code null} for any key
@@ -558,6 +560,11 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *       <li>An element in this fluent iterable is null
    *       <li>{@code keyFunction} returns {@code null} for any element of this iterable
    *     </ul>
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.collect(Collectors.groupingBy(keyFunction))}
+   * behaves similarly, but returns a mutable {@code Map<K, List<E>>} instead, and may not preserve
+   * the order of entries).
+   *
    * @since 14.0
    */
   @CheckReturnValue
@@ -582,7 +589,9 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p>If your index may associate multiple values with each key, use {@link #index(Function)
    * index}.
    *
-   * <p><b>{@code Stream} equivalent:</b> TODO
+   * <p><b>{@code Stream} equivalent:</b> {@code
+   * ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -> v)))} (but note that this
+   * may not preserve the order of entries).
    *
    * @param keyFunction the function used to produce the key for each value
    * @return a map mapping the result of evaluating the function {@code
@@ -601,6 +610,9 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Copies all the elements from this fluent iterable to {@code collection}. This is equivalent to
    * calling {@code Iterables.addAll(collection, this)}.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.forEachOrdered(collection::add)} or
+   * {@code stream.forEach(collection::add)}.
    *
    * @param collection the collection to copy elements to
    * @return {@code collection}, for convenience
@@ -622,6 +634,10 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns a {@link String} containing all of the elements of this fluent iterable joined with
    * {@code joiner}.
    *
+   * <p><b>{@code Stream} equivalent:</b> {@code joiner.join(stream.iterator())}, or, if you are not
+   * using any optional {@code Joiner} features,
+   * {@code stream.collect(Collectors.joining(delimiter)}.
+   *
    * @since 18.0
    */
   @Beta
@@ -633,11 +649,16 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Returns the element at the specified position in this fluent iterable.
    *
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.skip(position).findFirst().get()} (but note
+   * that this throws different exception types, and throws an exception if {@code null} would be
+   * returned).
+   *
    * @param position position of the element to return
    * @return the element at the specified position in this fluent iterable
    * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to
    *     the size of this fluent iterable
    */
+  // TODO(kevinb): add @Nullable?
   @CheckReturnValue
   public final E get(int position) {
     return Iterables.get(iterable, position);
