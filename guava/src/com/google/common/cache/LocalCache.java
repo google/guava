@@ -4473,25 +4473,24 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
-    // https://code.google.com/p/android/issues/detail?id=36519
+    // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
 
     @Override
     public Object[] toArray() {
-      return toArrayList().toArray();
+      return toArrayList(this).toArray();
     }
 
     @Override
     public <E> E[] toArray(E[] a) {
-      return toArrayList().toArray(a);
+      return toArrayList(this).toArray(a);
     }
+  }
 
-    private ArrayList<T> toArrayList() {
-      // Avoid calling ArrayList(Collection), which may call back into toArray.
-      ArrayList<T> result = new ArrayList<T>(size());
-      Iterators.addAll(result, iterator());
-      return result;
-    }
-
+  private static <E> ArrayList<E> toArrayList(Collection<E> c) {
+    // Avoid calling ArrayList(Collection), which may call back into toArray.
+    ArrayList<E> result = new ArrayList<E>(c.size());
+    Iterators.addAll(result, c.iterator());
+    return result;
   }
 
   @WeakOuter
@@ -4545,6 +4544,19 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     @Override
     public boolean contains(Object o) {
       return map.containsValue(o);
+    }
+
+    // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
+    // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
+
+    @Override
+    public Object[] toArray() {
+      return toArrayList(this).toArray();
+    }
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+      return toArrayList(this).toArray(a);
     }
   }
 

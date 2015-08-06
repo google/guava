@@ -40,6 +40,7 @@ import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractQueue;
 import java.util.AbstractSet;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -3785,7 +3786,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   }
 
   @WeakOuter
-  final class KeySet extends AbstractSet<K> {
+  final class KeySet extends SafeToArraySet<K> {
 
     @Override
     public Iterator<K> iterator() {
@@ -3845,10 +3846,23 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     public void clear() {
       MapMakerInternalMap.this.clear();
     }
+
+    // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
+    // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
+
+    @Override
+    public Object[] toArray() {
+      return toArrayList(this).toArray();
+    }
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+      return toArrayList(this).toArray(a);
+    }
   }
 
   @WeakOuter
-  final class EntrySet extends AbstractSet<Entry<K, V>> {
+  final class EntrySet extends SafeToArraySet<Entry<K, V>> {
 
     @Override
     public Iterator<Entry<K, V>> iterator() {
@@ -3894,6 +3908,28 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     public void clear() {
       MapMakerInternalMap.this.clear();
     }
+  }
+
+  private abstract static class SafeToArraySet<E> extends AbstractSet<E> {
+    // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
+    // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
+
+    @Override
+    public Object[] toArray() {
+      return toArrayList(this).toArray();
+    }
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+      return toArrayList(this).toArray(a);
+    }
+  }
+
+  private static <E> ArrayList<E> toArrayList(Collection<E> c) {
+    // Avoid calling ArrayList(Collection), which may call back into toArray.
+    ArrayList<E> result = new ArrayList<E>(c.size());
+    Iterators.addAll(result, c.iterator());
+    return result;
   }
 
   // Serialization Support
