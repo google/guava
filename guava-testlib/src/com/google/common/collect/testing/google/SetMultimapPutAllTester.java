@@ -31,6 +31,7 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class SetMultimapPutAllTester<K, V>
     extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
 

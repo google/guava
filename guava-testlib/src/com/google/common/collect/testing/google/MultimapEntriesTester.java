@@ -42,6 +42,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testEntries() {
     assertEqualIgnoringOrder(getSampleElements(), multimap().entries());

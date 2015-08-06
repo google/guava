@@ -111,6 +111,7 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
     }
   }
 
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

@@ -39,6 +39,7 @@ import java.util.Map.Entry;
  * @author Chris Povirk
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testClear() {

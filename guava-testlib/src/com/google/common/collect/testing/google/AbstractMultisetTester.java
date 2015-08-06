@@ -26,6 +26,7 @@ import com.google.common.collect.testing.AbstractCollectionTester;
  * @author Jared Levy
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class AbstractMultisetTester<E> extends AbstractCollectionTester<E> {
   protected final Multiset<E> getMultiset() {
     return (Multiset<E>) collection;

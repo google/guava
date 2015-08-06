@@ -39,6 +39,7 @@ import java.util.Iterator;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(SEVERAL)
   public void testKeys() {

@@ -43,6 +43,7 @@ import java.util.Iterator;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAdd_supportedNotPresent() {

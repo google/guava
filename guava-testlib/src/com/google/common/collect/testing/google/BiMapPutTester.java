@@ -28,6 +28,7 @@ import com.google.common.collect.testing.features.MapFeature;
  * Tester for {@code BiMap.put} and {@code BiMap.forcePut}.
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
   
   @SuppressWarnings("unchecked")

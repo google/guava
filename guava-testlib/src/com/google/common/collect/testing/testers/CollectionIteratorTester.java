@@ -45,6 +45,7 @@ import java.util.Set;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
   public void testIterator() {
     List<E> iteratorElements = new ArrayList<E>();

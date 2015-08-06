@@ -177,6 +177,7 @@ public class ForwardingSortedMultisetTest extends ForwardingMultisetTest {
     }
   }
 
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

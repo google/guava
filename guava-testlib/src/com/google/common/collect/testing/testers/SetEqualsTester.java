@@ -33,6 +33,7 @@ import java.util.Set;
  * @author George van den Driessche
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class SetEqualsTester<E> extends AbstractSetTester<E> {
   public void testEquals_otherSetWithSameElements() {
     assertTrue(

@@ -31,6 +31,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
+@SuppressUnderAndroid
 public class QueueOfferTester<E> extends AbstractQueueTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testOffer_supportedNotPresent() {

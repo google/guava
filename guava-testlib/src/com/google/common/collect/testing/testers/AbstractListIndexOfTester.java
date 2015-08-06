@@ -31,6 +31,7 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Chris Povirk
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public abstract class AbstractListIndexOfTester<E>
     extends AbstractListTester<E> {
   /** Override to call {@code indexOf()} or {@code lastIndexOf()}. */

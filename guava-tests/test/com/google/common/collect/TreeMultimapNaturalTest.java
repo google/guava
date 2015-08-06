@@ -63,6 +63,7 @@ import java.util.SortedSet;
 public class TreeMultimapNaturalTest extends TestCase {
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     // TODO(lowasser): should we force TreeMultimap to be more thorough about checking nulls?

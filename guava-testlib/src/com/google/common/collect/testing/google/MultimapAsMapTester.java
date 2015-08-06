@@ -46,6 +46,7 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testAsMapGet() {
     for (K key : sampleKeys()) {

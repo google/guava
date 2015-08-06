@@ -38,6 +38,7 @@ import java.util.SortedMap;
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
  * a NavigableMap implementation.
  */
+@SuppressUnderAndroid
 public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilder<K, V> {
   public static <K, V> NavigableMapTestSuiteBuilder<K, V> using(
       TestSortedMapGenerator<K, V> generator) {

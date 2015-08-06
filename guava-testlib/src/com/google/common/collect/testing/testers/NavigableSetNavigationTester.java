@@ -40,6 +40,7 @@ import java.util.TreeSet;
  * @author Jesse Wilson
  * @author Louis Wasserman
  */
+@SuppressUnderAndroid
 public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
 
   private NavigableSet<E> navigableSet;

@@ -46,6 +46,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  *
  * @author Kevin Bourrillion
  */
+@SuppressUnderAndroid
 public class TestsForSetsInJavaUtil {
   public static Test suite() {
     return new TestsForSetsInJavaUtil().allTests();

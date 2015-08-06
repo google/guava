@@ -29,6 +29,7 @@ import com.google.common.testing.SerializableTester;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MapSerializationTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionFeature.Require(SERIALIZABLE)
   public void testReserializeMap() {

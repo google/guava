@@ -39,6 +39,7 @@ import java.util.List;
  * @author Chris Povirk
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class ListRemoveAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(absent = SUPPORTS_REMOVE_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)

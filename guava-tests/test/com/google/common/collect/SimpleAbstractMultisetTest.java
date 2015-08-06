@@ -45,6 +45,7 @@ import javax.annotation.Nullable;
 @GwtCompatible(emulated = true)
 public class SimpleAbstractMultisetTest extends TestCase {
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SimpleAbstractMultisetTest.class);

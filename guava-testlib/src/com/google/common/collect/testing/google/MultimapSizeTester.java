@@ -36,6 +36,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MultimapSizeTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
 
   public void testSize() {

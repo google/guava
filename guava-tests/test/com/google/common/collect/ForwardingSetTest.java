@@ -104,6 +104,7 @@ public class ForwardingSetTest extends ForwardingTestCase {
 
   Set<String> forward;
   
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     

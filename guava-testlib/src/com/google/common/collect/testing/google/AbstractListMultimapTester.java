@@ -28,6 +28,7 @@ import java.util.Collection;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class AbstractListMultimapTester<K, V>
     extends AbstractMultimapTester<K, V, ListMultimap<K, V>> {
 

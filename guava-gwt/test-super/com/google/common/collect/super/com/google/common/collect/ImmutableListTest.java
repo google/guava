@@ -39,6 +39,7 @@ import java.util.List;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid // nested classes
 public class ImmutableListTest extends TestCase {
 
   public static class CreationTests extends TestCase {

@@ -36,6 +36,7 @@ import java.lang.reflect.Method;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class SetAddTester<E> extends AbstractSetTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)

@@ -32,6 +32,7 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class DoubleArrayAsListTest extends TestCase {
 
   private static List<Double> asList(Double[] values) {

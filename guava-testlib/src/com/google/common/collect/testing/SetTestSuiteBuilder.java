@@ -43,6 +43,7 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
+@SuppressUnderAndroid
 public class SetTestSuiteBuilder<E>
     extends AbstractCollectionTestSuiteBuilder<SetTestSuiteBuilder<E>, E> {
   public static <E> SetTestSuiteBuilder<E> using(

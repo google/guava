@@ -45,6 +45,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  *
  * @author Kevin Bourrillion
  */
+@SuppressUnderAndroid
 public class TestsForMapsInJavaUtil {
 
   public static Test suite() {

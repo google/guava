@@ -36,6 +36,7 @@ import java.util.Map;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K, V> {
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)

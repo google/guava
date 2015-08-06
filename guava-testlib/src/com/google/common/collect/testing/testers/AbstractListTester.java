@@ -29,6 +29,7 @@ import java.util.List;
  * @author George van den Driessche
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class AbstractListTester<E> extends AbstractCollectionTester<E> {
   /*
    * Previously we had a field named list that was initialized to the value of

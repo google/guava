@@ -40,6 +40,7 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class LongArrayAsListTest extends TestCase {
 
   private static List<Long> asList(Long[] values) {

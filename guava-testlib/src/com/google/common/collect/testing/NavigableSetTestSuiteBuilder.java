@@ -38,6 +38,7 @@ import java.util.SortedSet;
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
  * a NavigableSet implementation.
  */
+@SuppressUnderAndroid
 public final class NavigableSetTestSuiteBuilder<E>
     extends SortedSetTestSuiteBuilder<E> {
   public static <E> NavigableSetTestSuiteBuilder<E> using(

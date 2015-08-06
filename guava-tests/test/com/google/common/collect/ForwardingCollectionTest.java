@@ -96,6 +96,7 @@ public class ForwardingCollectionTest extends ForwardingTestCase {
 
   private Collection<String> forward;
 
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     

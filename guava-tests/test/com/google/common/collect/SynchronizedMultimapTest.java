@@ -45,6 +45,7 @@ import javax.annotation.Nullable;
  */
 public class SynchronizedMultimapTest extends TestCase {
   
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SynchronizedMultimapTest.class);

@@ -47,6 +47,7 @@ public class ConstrainedSetMultimapTest extends TestCase {
     }
   }
   
+  @SuppressUnderAndroid
   public static Test suite() {
     return SetMultimapTestSuiteBuilder.using(
         new TestStringSetMultimapGenerator() {

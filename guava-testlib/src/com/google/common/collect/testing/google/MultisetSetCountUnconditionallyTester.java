@@ -26,6 +26,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Chris Povirk
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MultisetSetCountUnconditionallyTester<E>
     extends AbstractMultisetSetCountTester<E> {
   @Override void setCountCheckReturnValue(E element, int count) {

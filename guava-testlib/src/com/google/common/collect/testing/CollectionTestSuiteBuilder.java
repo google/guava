@@ -38,6 +38,7 @@ import java.util.Set;
  * @author Chris Povirk
  * @author Louis Wasserman
  */
+@SuppressUnderAndroid
 public class CollectionTestSuiteBuilder<E>
     extends AbstractCollectionTestSuiteBuilder<
         CollectionTestSuiteBuilder<E>, E> {

@@ -225,6 +225,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     private static final long serialVersionUID = 0;
   }
 
+  @SuppressUnderAndroid
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SynchronizedNavigableMapTest.class);

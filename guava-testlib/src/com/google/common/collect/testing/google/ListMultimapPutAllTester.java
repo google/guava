@@ -30,6 +30,7 @@ import java.util.List;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class ListMultimapPutAllTester<K, V> extends AbstractListMultimapTester<K, V> {
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllAddsAtEndInOrder() {

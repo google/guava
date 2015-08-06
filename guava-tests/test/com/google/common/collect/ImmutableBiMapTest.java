@@ -49,6 +49,7 @@ import java.util.Set;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid // nested tests
 public class ImmutableBiMapTest extends TestCase {
 
   // TODO: Reduce duplication of ImmutableMapTest code

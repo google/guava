@@ -33,6 +33,7 @@ import java.util.SortedSet;
  * @param <V> The value type of the tested multimap.
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class SortedSetMultimapAsMapTester<K, V> 
     extends AbstractMultimapTester<K, V, SortedSetMultimap<K, V>> {
   public void testAsMapValuesImplementSortedSet() {

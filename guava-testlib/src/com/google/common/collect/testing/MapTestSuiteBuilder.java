@@ -55,6 +55,7 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
+@SuppressUnderAndroid
 public class MapTestSuiteBuilder<K, V>
     extends PerCollectionSizeTestSuiteBuilder<
         MapTestSuiteBuilder<K, V>,

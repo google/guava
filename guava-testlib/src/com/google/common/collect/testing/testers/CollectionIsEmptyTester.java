@@ -30,6 +30,7 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class CollectionIsEmptyTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(ZERO)
   public void testIsEmpty_yes() {

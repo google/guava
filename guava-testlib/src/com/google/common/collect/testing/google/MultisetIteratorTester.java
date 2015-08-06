@@ -37,6 +37,7 @@ import java.util.List;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
   @SuppressWarnings("unchecked")
   @CollectionFeature.Require({SUPPORTS_ITERATOR_REMOVE, KNOWN_ORDER})

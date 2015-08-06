@@ -26,6 +26,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Chris Povirk
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class ListGetTester<E> extends AbstractListTester<E> {
   public void testGet_valid() {
     // This calls get() on each index and checks the result:

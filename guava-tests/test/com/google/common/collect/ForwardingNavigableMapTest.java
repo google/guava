@@ -82,7 +82,7 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
 
     @Override public Set<K> keySet() {
       /*
-       * We can't use StandardKeySet, as NavigableMapTestSuiteBuilder assumes that our keySet is a
+       * We can't use StandardKeySet, as the suite builder assumes that our keySet is a
        * NavigableSet. We test StandardKeySet in the superclass, so it's still covered.
        */
       return navigableKeySet();
@@ -231,6 +231,7 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
     }
   }
 
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

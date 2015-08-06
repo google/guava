@@ -77,6 +77,7 @@ public class ImmutableSortedMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class MapTests extends AbstractMapTests<String, Integer> {
     @Override protected SortedMap<String, Integer> makeEmptyMap() {
       return ImmutableSortedMap.of();
@@ -95,6 +96,7 @@ public class ImmutableSortedMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class SingletonMapTests
       extends AbstractMapTests<String, Integer> {
     @Override protected SortedMap<String, Integer> makePopulatedMap() {
@@ -110,6 +112,7 @@ public class ImmutableSortedMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class HeadMapTests extends AbstractMapTests<String, Integer> {
     @Override protected SortedMap<String, Integer> makePopulatedMap() {
       return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)
@@ -125,6 +128,7 @@ public class ImmutableSortedMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class HeadMapInclusiveTests extends AbstractMapTests<String, Integer> {
     @Override protected SortedMap<String, Integer> makePopulatedMap() {
       return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)
@@ -140,6 +144,7 @@ public class ImmutableSortedMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class TailMapTests extends AbstractMapTests<String, Integer> {
     @Override protected SortedMap<String, Integer> makePopulatedMap() {
       return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)
@@ -155,6 +160,7 @@ public class ImmutableSortedMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class TailExclusiveMapTests extends AbstractMapTests<String, Integer> {
     @Override protected SortedMap<String, Integer> makePopulatedMap() {
       return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)
@@ -170,6 +176,7 @@ public class ImmutableSortedMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class SubMapTests extends AbstractMapTests<String, Integer> {
     @Override protected SortedMap<String, Integer> makePopulatedMap() {
       return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)
@@ -185,6 +192,7 @@ public class ImmutableSortedMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class CreationTests extends TestCase {
     public void testEmptyBuilder() {
       ImmutableSortedMap<String, Integer> map

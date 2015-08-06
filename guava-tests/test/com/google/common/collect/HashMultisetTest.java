@@ -44,6 +44,7 @@ import java.util.Arrays;
 public class HashMultisetTest extends TestCase {
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MultisetTestSuiteBuilder.using(hashMultisetGenerator())

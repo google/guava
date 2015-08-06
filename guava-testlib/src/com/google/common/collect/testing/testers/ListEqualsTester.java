@@ -33,6 +33,7 @@ import java.util.List;
  * @author George van den Driessche
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class ListEqualsTester<E> extends AbstractListTester<E> {
   public void testEquals_otherListWithSameElements() {
     assertTrue(

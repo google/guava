@@ -350,6 +350,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
   }
 
   @GwtIncompatible("Mind-bogglingly slow in GWT")
+  @SuppressUnderAndroid // slow
   public void testOverflowCondition() {
     // See https://code.google.com/p/guava-libraries/issues/detail?id=1322 for details.
     ImmutableTable.Builder<Integer, Integer, String> builder = ImmutableTable.builder();

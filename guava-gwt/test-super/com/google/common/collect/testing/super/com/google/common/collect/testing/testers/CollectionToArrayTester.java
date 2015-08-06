@@ -38,6 +38,7 @@ import java.util.List;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
   public void testToArray_noArgs() {
     Object[] array = collection.toArray();
