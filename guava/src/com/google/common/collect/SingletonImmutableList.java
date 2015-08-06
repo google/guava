@@ -42,7 +42,8 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
     return element;
   }
 
-  @Override public UnmodifiableIterator<E> iterator() {
+  @Override
+  public UnmodifiableIterator<E> iterator() {
     return Iterators.singletonIterator(element);
   }
 
@@ -51,12 +52,14 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
     return 1;
   }
 
-  @Override public ImmutableList<E> subList(int fromIndex, int toIndex) {
+  @Override
+  public ImmutableList<E> subList(int fromIndex, int toIndex) {
     Preconditions.checkPositionIndexes(fromIndex, toIndex, 1);
     return (fromIndex == toIndex) ? ImmutableList.<E>of() : this;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     String elementToString = element.toString();
     return new StringBuilder(elementToString.length() + 2)
         .append('[')
@@ -65,7 +68,8 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
         .toString();
   }
 
-  @Override boolean isPartialView() {
+  @Override
+  boolean isPartialView() {
     return false;
   }
 }

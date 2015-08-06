@@ -161,12 +161,13 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   @Override
   @Nullable
   public V get(K key) {
-    int index = SortedLists.binarySearch(
-        ranges,
-        Range.<K>lowerBoundFn(),
-        Cut.belowValue(key),
-        KeyPresentBehavior.ANY_PRESENT,
-        KeyAbsentBehavior.NEXT_LOWER);
+    int index =
+        SortedLists.binarySearch(
+            ranges,
+            Range.<K>lowerBoundFn(),
+            Cut.belowValue(key),
+            KeyPresentBehavior.ANY_PRESENT,
+            KeyAbsentBehavior.NEXT_LOWER);
     if (index == -1) {
       return null;
     } else {
@@ -178,12 +179,13 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   @Override
   @Nullable
   public Map.Entry<Range<K>, V> getEntry(K key) {
-    int index = SortedLists.binarySearch(
-        ranges,
-        Range.<K>lowerBoundFn(),
-        Cut.belowValue(key),
-        KeyPresentBehavior.ANY_PRESENT,
-        KeyAbsentBehavior.NEXT_LOWER);
+    int index =
+        SortedLists.binarySearch(
+            ranges,
+            Range.<K>lowerBoundFn(),
+            Cut.belowValue(key),
+            KeyPresentBehavior.ANY_PRESENT,
+            KeyAbsentBehavior.NEXT_LOWER);
     if (index == -1) {
       return null;
     } else {

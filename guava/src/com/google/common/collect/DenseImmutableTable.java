@@ -241,9 +241,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
   public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
     Integer rowIndex = rowKeyToIndex.get(rowKey);
     Integer columnIndex = columnKeyToIndex.get(columnKey);
-    return ((rowIndex == null) || (columnIndex == null))
-        ? null
-        : values[rowIndex][columnIndex];
+    return ((rowIndex == null) || (columnIndex == null)) ? null : values[rowIndex][columnIndex];
   }
 
   @Override

@@ -53,7 +53,7 @@ final class Platform {
     T[] result = (T[]) Array.newInstance(type, length);
     return result;
   }
-  
+
   static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
     return Collections.newSetFromMap(map);
   }
@@ -69,29 +69,27 @@ final class Platform {
   }
 
   static <K, V1, V2> SortedMap<K, V2> mapsTransformEntriesSortedMap(
-      SortedMap<K, V1> fromMap,
-      EntryTransformer<? super K, ? super V1, V2> transformer) {
+      SortedMap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
     return (fromMap instanceof NavigableMap)
         ? Maps.transformEntries((NavigableMap<K, V1>) fromMap, transformer)
         : Maps.transformEntriesIgnoreNavigable(fromMap, transformer);
   }
 
-  static <K, V> SortedMap<K, V> mapsAsMapSortedSet(SortedSet<K> set,
-      Function<? super K, V> function) {
+  static <K, V> SortedMap<K, V> mapsAsMapSortedSet(
+      SortedSet<K> set, Function<? super K, V> function) {
     return (set instanceof NavigableSet)
         ? Maps.asMap((NavigableSet<K>) set, function)
         : Maps.asMapSortedIgnoreNavigable(set, function);
   }
 
-  static <E> SortedSet<E> setsFilterSortedSet(SortedSet<E> set,
-      Predicate<? super E> predicate) {
+  static <E> SortedSet<E> setsFilterSortedSet(SortedSet<E> set, Predicate<? super E> predicate) {
     return (set instanceof NavigableSet)
         ? Sets.filter((NavigableSet<E>) set, predicate)
         : Sets.filterSortedIgnoreNavigable(set, predicate);
   }
-  
-  static <K, V> SortedMap<K, V> mapsFilterSortedMap(SortedMap<K, V> map,
-      Predicate<? super Map.Entry<K, V>> predicate) {
+
+  static <K, V> SortedMap<K, V> mapsFilterSortedMap(
+      SortedMap<K, V> map, Predicate<? super Map.Entry<K, V>> predicate) {
     return (map instanceof NavigableMap)
         ? Maps.filterEntries((NavigableMap<K, V>) map, predicate)
         : Maps.filterSortedIgnoreNavigable(map, predicate);

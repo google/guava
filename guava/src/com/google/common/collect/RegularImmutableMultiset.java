@@ -72,9 +72,10 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
         Multisets.ImmutableEntry<E> bucketHead = hashTable[bucket];
         Multisets.ImmutableEntry<E> newEntry;
         if (bucketHead == null) {
-          boolean canReuseEntry = entry instanceof Multisets.ImmutableEntry
-              && !(entry instanceof NonTerminalEntry);
-          newEntry = canReuseEntry
+          boolean canReuseEntry =
+              entry instanceof Multisets.ImmutableEntry && !(entry instanceof NonTerminalEntry);
+          newEntry =
+              canReuseEntry
                   ? (Multisets.ImmutableEntry<E>) entry
                   : new Multisets.ImmutableEntry<E>(element, count);
         } else {
@@ -119,7 +120,8 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     }
     int hash = Hashing.smearedHash(element);
     int mask = hashTable.length - 1;
-    for (Multisets.ImmutableEntry<E> entry = hashTable[hash & mask]; entry != null;
+    for (Multisets.ImmutableEntry<E> entry = hashTable[hash & mask];
+        entry != null;
         entry = entry.nextInBucket()) {
       if (Objects.equal(element, entry.getElement())) {
         return entry.getCount();

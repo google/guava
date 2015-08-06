@@ -27,7 +27,7 @@ import com.google.common.base.Preconditions;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableList<E> extends ImmutableList<E> {
-  static final ImmutableList<Object> EMPTY = 
+  static final ImmutableList<Object> EMPTY =
       new RegularImmutableList<Object>(ObjectArrays.EMPTY_ARRAY);
 
   private final transient int offset;
@@ -49,7 +49,8 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return size;
   }
 
-  @Override boolean isPartialView() {
+  @Override
+  boolean isPartialView() {
     return size != array.length;
   }
 
@@ -69,8 +70,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
 
   @Override
   ImmutableList<E> subListUnchecked(int fromIndex, int toIndex) {
-    return new RegularImmutableList<E>(
-        array, offset + fromIndex, toIndex - fromIndex);
+    return new RegularImmutableList<E>(array, offset + fromIndex, toIndex - fromIndex);
   }
 
   @SuppressWarnings("unchecked")
@@ -78,8 +78,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   public UnmodifiableListIterator<E> listIterator(int index) {
     // for performance
     // The fake cast to E is safe because the creation methods only allow E's
-    return (UnmodifiableListIterator<E>)
-        Iterators.forArray(array, offset, size, index);
+    return (UnmodifiableListIterator<E>) Iterators.forArray(array, offset, size, index);
   }
 
   // TODO(lowasser): benchmark optimizations for equals() and see if they're worthwhile

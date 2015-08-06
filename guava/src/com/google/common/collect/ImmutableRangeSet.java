@@ -114,25 +114,27 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
   @Override
   public boolean encloses(Range<C> otherRange) {
-    int index = SortedLists.binarySearch(
-        ranges,
-        Range.<C>lowerBoundFn(),
-        otherRange.lowerBound,
-        Ordering.natural(),
-        ANY_PRESENT,
-        NEXT_LOWER);
+    int index =
+        SortedLists.binarySearch(
+            ranges,
+            Range.<C>lowerBoundFn(),
+            otherRange.lowerBound,
+            Ordering.natural(),
+            ANY_PRESENT,
+            NEXT_LOWER);
     return index != -1 && ranges.get(index).encloses(otherRange);
   }
 
   @Override
   public Range<C> rangeContaining(C value) {
-    int index = SortedLists.binarySearch(
-        ranges,
-        Range.<C>lowerBoundFn(),
-        Cut.belowValue(value),
-        Ordering.natural(),
-        ANY_PRESENT,
-        NEXT_LOWER);
+    int index =
+        SortedLists.binarySearch(
+            ranges,
+            Range.<C>lowerBoundFn(),
+            Cut.belowValue(value),
+            Ordering.natural(),
+            ANY_PRESENT,
+            NEXT_LOWER);
     if (index != -1) {
       Range<C> range = ranges.get(index);
       return range.contains(value) ? range : null;
@@ -145,9 +147,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     if (ranges.isEmpty()) {
       throw new NoSuchElementException();
     }
-    return Range.create(
-        ranges.get(0).lowerBound,
-        ranges.get(ranges.size() - 1).upperBound);
+    return Range.create(ranges.get(0).lowerBound, ranges.get(ranges.size() - 1).upperBound);
   }
 
   @Override

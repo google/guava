@@ -234,9 +234,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     if (elements instanceof ImmutableCollection) {
       @SuppressWarnings("unchecked") // all supported methods are covariant
       ImmutableList<E> list = ((ImmutableCollection<E>) elements).asList();
-      return list.isPartialView()
-          ? ImmutableList.<E>asImmutableList(list.toArray())
-          : list;
+      return list.isPartialView() ? ImmutableList.<E>asImmutableList(list.toArray()) : list;
     }
     return construct(elements.toArray());
   }
@@ -255,10 +253,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     if (!elements.hasNext()) {
       return of(first);
     } else {
-      return new ImmutableList.Builder<E>()
-          .add(first)
-          .addAll(elements)
-          .build();
+      return new ImmutableList.Builder<E>().add(first).addAll(elements).build();
     }
   }
 
@@ -540,9 +535,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     @Override
     public ImmutableList<E> subList(int fromIndex, int toIndex) {
       checkPositionIndexes(fromIndex, toIndex, size());
-      return forwardList
-          .subList(reversePosition(toIndex), reversePosition(fromIndex))
-          .reverse();
+      return forwardList.subList(reversePosition(toIndex), reversePosition(fromIndex)).reverse();
     }
 
     @Override
