@@ -128,8 +128,8 @@
 <span class="sourceLineNo">120</span> * &lt;li&gt;There is no need to populate an empty collection before adding an entry<a name="line.120"></a>
 <span class="sourceLineNo">121</span> *     with {@link #put put}.<a name="line.121"></a>
 <span class="sourceLineNo">122</span> * &lt;li&gt;{@code get} never returns {@code null}, only an empty collection.<a name="line.122"></a>
-<span class="sourceLineNo">123</span> * &lt;li&gt;A key is contained in the multimap if and only if it maps to at least <a name="line.123"></a>
-<span class="sourceLineNo">124</span> *     one value. Any operation that causes a key to have zero associated <a name="line.124"></a>
+<span class="sourceLineNo">123</span> * &lt;li&gt;A key is contained in the multimap if and only if it maps to at least<a name="line.123"></a>
+<span class="sourceLineNo">124</span> *     one value. Any operation that causes a key to have zero associated<a name="line.124"></a>
 <span class="sourceLineNo">125</span> *     values has the effect of &lt;i&gt;removing&lt;/i&gt; that key from the multimap.<a name="line.125"></a>
 <span class="sourceLineNo">126</span> * &lt;li&gt;The total entry count is available as {@link #size}.<a name="line.126"></a>
 <span class="sourceLineNo">127</span> * &lt;li&gt;Many complex operations become easier; for example, {@code<a name="line.127"></a>
@@ -150,10 +150,10 @@
 <span class="sourceLineNo">142</span> * to multimaps.<a name="line.142"></a>
 <span class="sourceLineNo">143</span> *<a name="line.143"></a>
 <span class="sourceLineNo">144</span> * &lt;h3&gt;Other Notes&lt;/h3&gt;<a name="line.144"></a>
-<span class="sourceLineNo">145</span> * <a name="line.145"></a>
-<span class="sourceLineNo">146</span> * &lt;p&gt;As with {@code Map}, the behavior of a {@code Multimap} is not specified <a name="line.146"></a>
-<span class="sourceLineNo">147</span> * if key objects already present in the multimap change in a manner that <a name="line.147"></a>
-<span class="sourceLineNo">148</span> * affects {@code equals} comparisons.  Use caution if mutable objects are used <a name="line.148"></a>
+<span class="sourceLineNo">145</span> *<a name="line.145"></a>
+<span class="sourceLineNo">146</span> * &lt;p&gt;As with {@code Map}, the behavior of a {@code Multimap} is not specified<a name="line.146"></a>
+<span class="sourceLineNo">147</span> * if key objects already present in the multimap change in a manner that<a name="line.147"></a>
+<span class="sourceLineNo">148</span> * affects {@code equals} comparisons.  Use caution if mutable objects are used<a name="line.148"></a>
 <span class="sourceLineNo">149</span> * as keys in a {@code Multimap}.<a name="line.149"></a>
 <span class="sourceLineNo">150</span> *<a name="line.150"></a>
 <span class="sourceLineNo">151</span> * &lt;p&gt;All methods that modify the multimap are optional. The view collections<a name="line.151"></a>
@@ -238,11 +238,11 @@
 <span class="sourceLineNo">230</span>   * Stores a key-value pair in this multimap for each of {@code values}, all<a name="line.230"></a>
 <span class="sourceLineNo">231</span>   * using the same key, {@code key}. Equivalent to (but expected to be more<a name="line.231"></a>
 <span class="sourceLineNo">232</span>   * efficient than): &lt;pre&gt;   {@code<a name="line.232"></a>
-<span class="sourceLineNo">233</span>   * <a name="line.233"></a>
+<span class="sourceLineNo">233</span>   *<a name="line.233"></a>
 <span class="sourceLineNo">234</span>   *   for (V value : values) {<a name="line.234"></a>
 <span class="sourceLineNo">235</span>   *     put(key, value);<a name="line.235"></a>
 <span class="sourceLineNo">236</span>   *   }}&lt;/pre&gt;<a name="line.236"></a>
-<span class="sourceLineNo">237</span>   * <a name="line.237"></a>
+<span class="sourceLineNo">237</span>   *<a name="line.237"></a>
 <span class="sourceLineNo">238</span>   * &lt;p&gt;In particular, this is a no-op if {@code values} is empty.<a name="line.238"></a>
 <span class="sourceLineNo">239</span>   *<a name="line.239"></a>
 <span class="sourceLineNo">240</span>   * @return {@code true} if the multimap changed<a name="line.240"></a>
@@ -260,8 +260,8 @@
 <span class="sourceLineNo">252</span>  /**<a name="line.252"></a>
 <span class="sourceLineNo">253</span>   * Stores a collection of values with the same key, replacing any existing<a name="line.253"></a>
 <span class="sourceLineNo">254</span>   * values for that key.<a name="line.254"></a>
-<span class="sourceLineNo">255</span>   * <a name="line.255"></a>
-<span class="sourceLineNo">256</span>   * &lt;p&gt;If {@code values} is empty, this is equivalent to <a name="line.256"></a>
+<span class="sourceLineNo">255</span>   *<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   * &lt;p&gt;If {@code values} is empty, this is equivalent to<a name="line.256"></a>
 <span class="sourceLineNo">257</span>   * {@link #removeAll(Object) removeAll(key)}.<a name="line.257"></a>
 <span class="sourceLineNo">258</span>   *<a name="line.258"></a>
 <span class="sourceLineNo">259</span>   * @return the collection of replaced values, or an empty collection if no<a name="line.259"></a>
@@ -273,10 +273,10 @@
 <span class="sourceLineNo">265</span><a name="line.265"></a>
 <span class="sourceLineNo">266</span>  /**<a name="line.266"></a>
 <span class="sourceLineNo">267</span>   * Removes all values associated with the key {@code key}.<a name="line.267"></a>
-<span class="sourceLineNo">268</span>   * <a name="line.268"></a>
+<span class="sourceLineNo">268</span>   *<a name="line.268"></a>
 <span class="sourceLineNo">269</span>   * &lt;p&gt;Once this method returns, {@code key} will not be mapped to any values,<a name="line.269"></a>
 <span class="sourceLineNo">270</span>   * so it will not appear in {@link #keySet()}, {@link #asMap()}, or any other<a name="line.270"></a>
-<span class="sourceLineNo">271</span>   * views. <a name="line.271"></a>
+<span class="sourceLineNo">271</span>   * views.<a name="line.271"></a>
 <span class="sourceLineNo">272</span>   *<a name="line.272"></a>
 <span class="sourceLineNo">273</span>   * @return the values that were removed (possibly empty). The returned<a name="line.273"></a>
 <span class="sourceLineNo">274</span>   *     collection &lt;i&gt;may&lt;/i&gt; be modifiable, but updating it will have no<a name="line.274"></a>
@@ -294,7 +294,7 @@
 <span class="sourceLineNo">286</span><a name="line.286"></a>
 <span class="sourceLineNo">287</span>  /**<a name="line.287"></a>
 <span class="sourceLineNo">288</span>   * Returns a view collection of the values associated with {@code key} in this<a name="line.288"></a>
-<span class="sourceLineNo">289</span>   * multimap, if any. Note that when {@code containsKey(key)} is false, this <a name="line.289"></a>
+<span class="sourceLineNo">289</span>   * multimap, if any. Note that when {@code containsKey(key)} is false, this<a name="line.289"></a>
 <span class="sourceLineNo">290</span>   * returns an empty collection, not {@code null}.<a name="line.290"></a>
 <span class="sourceLineNo">291</span>   *<a name="line.291"></a>
 <span class="sourceLineNo">292</span>   * &lt;p&gt;Changes to the returned collection will update the underlying multimap,<a name="line.292"></a>
@@ -390,7 +390,7 @@
 <span class="sourceLineNo">382</span>   * not have the same hash codes, depending on the implementation. For<a name="line.382"></a>
 <span class="sourceLineNo">383</span>   * example, two {@link SetMultimap} instances with the same key-value<a name="line.383"></a>
 <span class="sourceLineNo">384</span>   * mappings will have the same {@code hashCode}, but the {@code hashCode}<a name="line.384"></a>
-<span class="sourceLineNo">385</span>   * of {@link ListMultimap} instances depends on the ordering of the values <a name="line.385"></a>
+<span class="sourceLineNo">385</span>   * of {@link ListMultimap} instances depends on the ordering of the values<a name="line.385"></a>
 <span class="sourceLineNo">386</span>   * for each key.<a name="line.386"></a>
 <span class="sourceLineNo">387</span>   */<a name="line.387"></a>
 <span class="sourceLineNo">388</span>  @Override<a name="line.388"></a>

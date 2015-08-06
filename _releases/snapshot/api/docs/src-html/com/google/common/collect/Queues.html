@@ -265,144 +265,153 @@
 <span class="sourceLineNo">257</span>   * @throws InterruptedException if interrupted while waiting<a name="line.257"></a>
 <span class="sourceLineNo">258</span>   */<a name="line.258"></a>
 <span class="sourceLineNo">259</span>  @Beta<a name="line.259"></a>
-<span class="sourceLineNo">260</span>  public static &lt;E&gt; int drain(BlockingQueue&lt;E&gt; q, Collection&lt;? super E&gt; buffer, int numElements,<a name="line.260"></a>
-<span class="sourceLineNo">261</span>      long timeout, TimeUnit unit) throws InterruptedException {<a name="line.261"></a>
-<span class="sourceLineNo">262</span>    Preconditions.checkNotNull(buffer);<a name="line.262"></a>
-<span class="sourceLineNo">263</span>    /*<a name="line.263"></a>
-<span class="sourceLineNo">264</span>     * This code performs one System.nanoTime() more than necessary, and in return, the time to<a name="line.264"></a>
-<span class="sourceLineNo">265</span>     * execute Queue#drainTo is not added *on top* of waiting for the timeout (which could make<a name="line.265"></a>
-<span class="sourceLineNo">266</span>     * the timeout arbitrarily inaccurate, given a queue that is slow to drain).<a name="line.266"></a>
-<span class="sourceLineNo">267</span>     */<a name="line.267"></a>
-<span class="sourceLineNo">268</span>    long deadline = System.nanoTime() + unit.toNanos(timeout);<a name="line.268"></a>
-<span class="sourceLineNo">269</span>    int added = 0;<a name="line.269"></a>
-<span class="sourceLineNo">270</span>    while (added &lt; numElements) {<a name="line.270"></a>
-<span class="sourceLineNo">271</span>      // we could rely solely on #poll, but #drainTo might be more efficient when there are multiple<a name="line.271"></a>
-<span class="sourceLineNo">272</span>      // elements already available (e.g. LinkedBlockingQueue#drainTo locks only once)<a name="line.272"></a>
-<span class="sourceLineNo">273</span>      added += q.drainTo(buffer, numElements - added);<a name="line.273"></a>
-<span class="sourceLineNo">274</span>      if (added &lt; numElements) { // not enough elements immediately available; will have to poll<a name="line.274"></a>
-<span class="sourceLineNo">275</span>        E e = q.poll(deadline - System.nanoTime(), TimeUnit.NANOSECONDS);<a name="line.275"></a>
-<span class="sourceLineNo">276</span>        if (e == null) {<a name="line.276"></a>
-<span class="sourceLineNo">277</span>          break; // we already waited enough, and there are no more elements in sight<a name="line.277"></a>
-<span class="sourceLineNo">278</span>        }<a name="line.278"></a>
-<span class="sourceLineNo">279</span>        buffer.add(e);<a name="line.279"></a>
-<span class="sourceLineNo">280</span>        added++;<a name="line.280"></a>
-<span class="sourceLineNo">281</span>      }<a name="line.281"></a>
-<span class="sourceLineNo">282</span>    }<a name="line.282"></a>
-<span class="sourceLineNo">283</span>    return added;<a name="line.283"></a>
-<span class="sourceLineNo">284</span>  }<a name="line.284"></a>
-<span class="sourceLineNo">285</span>  <a name="line.285"></a>
-<span class="sourceLineNo">286</span>  /**<a name="line.286"></a>
-<span class="sourceLineNo">287</span>   * Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, long, TimeUnit)}, <a name="line.287"></a>
-<span class="sourceLineNo">288</span>   * but with a different behavior in case it is interrupted while waiting. In that case, the <a name="line.288"></a>
-<span class="sourceLineNo">289</span>   * operation will continue as usual, and in the end the thread's interruption status will be set <a name="line.289"></a>
-<span class="sourceLineNo">290</span>   * (no {@code InterruptedException} is thrown). <a name="line.290"></a>
-<span class="sourceLineNo">291</span>   * <a name="line.291"></a>
-<span class="sourceLineNo">292</span>   * @param q the blocking queue to be drained<a name="line.292"></a>
-<span class="sourceLineNo">293</span>   * @param buffer where to add the transferred elements<a name="line.293"></a>
-<span class="sourceLineNo">294</span>   * @param numElements the number of elements to be waited for<a name="line.294"></a>
-<span class="sourceLineNo">295</span>   * @param timeout how long to wait before giving up, in units of {@code unit}<a name="line.295"></a>
-<span class="sourceLineNo">296</span>   * @param unit a {@code TimeUnit} determining how to interpret the timeout parameter<a name="line.296"></a>
-<span class="sourceLineNo">297</span>   * @return the number of elements transferred<a name="line.297"></a>
-<span class="sourceLineNo">298</span>   */<a name="line.298"></a>
-<span class="sourceLineNo">299</span>  @Beta<a name="line.299"></a>
-<span class="sourceLineNo">300</span>  public static &lt;E&gt; int drainUninterruptibly(BlockingQueue&lt;E&gt; q, Collection&lt;? super E&gt; buffer, <a name="line.300"></a>
-<span class="sourceLineNo">301</span>      int numElements, long timeout, TimeUnit unit) {<a name="line.301"></a>
-<span class="sourceLineNo">302</span>    Preconditions.checkNotNull(buffer);<a name="line.302"></a>
-<span class="sourceLineNo">303</span>    long deadline = System.nanoTime() + unit.toNanos(timeout);<a name="line.303"></a>
-<span class="sourceLineNo">304</span>    int added = 0;<a name="line.304"></a>
-<span class="sourceLineNo">305</span>    boolean interrupted = false;<a name="line.305"></a>
-<span class="sourceLineNo">306</span>    try {<a name="line.306"></a>
-<span class="sourceLineNo">307</span>      while (added &lt; numElements) {<a name="line.307"></a>
-<span class="sourceLineNo">308</span>        // we could rely solely on #poll, but #drainTo might be more efficient when there are <a name="line.308"></a>
-<span class="sourceLineNo">309</span>        // multiple elements already available (e.g. LinkedBlockingQueue#drainTo locks only once)<a name="line.309"></a>
-<span class="sourceLineNo">310</span>        added += q.drainTo(buffer, numElements - added);<a name="line.310"></a>
-<span class="sourceLineNo">311</span>        if (added &lt; numElements) { // not enough elements immediately available; will have to poll<a name="line.311"></a>
-<span class="sourceLineNo">312</span>          E e; // written exactly once, by a successful (uninterrupted) invocation of #poll<a name="line.312"></a>
-<span class="sourceLineNo">313</span>          while (true) {<a name="line.313"></a>
-<span class="sourceLineNo">314</span>            try {<a name="line.314"></a>
-<span class="sourceLineNo">315</span>              e = q.poll(deadline - System.nanoTime(), TimeUnit.NANOSECONDS);<a name="line.315"></a>
-<span class="sourceLineNo">316</span>              break;<a name="line.316"></a>
-<span class="sourceLineNo">317</span>            } catch (InterruptedException ex) {<a name="line.317"></a>
-<span class="sourceLineNo">318</span>              interrupted = true; // note interruption and retry<a name="line.318"></a>
-<span class="sourceLineNo">319</span>            }<a name="line.319"></a>
-<span class="sourceLineNo">320</span>          }<a name="line.320"></a>
-<span class="sourceLineNo">321</span>          if (e == null) {<a name="line.321"></a>
-<span class="sourceLineNo">322</span>            break; // we already waited enough, and there are no more elements in sight<a name="line.322"></a>
-<span class="sourceLineNo">323</span>          }<a name="line.323"></a>
-<span class="sourceLineNo">324</span>          buffer.add(e);<a name="line.324"></a>
-<span class="sourceLineNo">325</span>          added++;<a name="line.325"></a>
-<span class="sourceLineNo">326</span>        }<a name="line.326"></a>
-<span class="sourceLineNo">327</span>      }<a name="line.327"></a>
-<span class="sourceLineNo">328</span>    } finally {<a name="line.328"></a>
-<span class="sourceLineNo">329</span>      if (interrupted) {<a name="line.329"></a>
-<span class="sourceLineNo">330</span>        Thread.currentThread().interrupt();<a name="line.330"></a>
-<span class="sourceLineNo">331</span>      }<a name="line.331"></a>
-<span class="sourceLineNo">332</span>    }<a name="line.332"></a>
-<span class="sourceLineNo">333</span>    return added;<a name="line.333"></a>
-<span class="sourceLineNo">334</span>  }<a name="line.334"></a>
-<span class="sourceLineNo">335</span><a name="line.335"></a>
-<span class="sourceLineNo">336</span>  /**<a name="line.336"></a>
-<span class="sourceLineNo">337</span>   * Returns a synchronized (thread-safe) queue backed by the specified queue. In order to<a name="line.337"></a>
-<span class="sourceLineNo">338</span>   * guarantee serial access, it is critical that &lt;b&gt;all&lt;/b&gt; access to the backing queue is<a name="line.338"></a>
-<span class="sourceLineNo">339</span>   * accomplished through the returned queue.<a name="line.339"></a>
-<span class="sourceLineNo">340</span>   *<a name="line.340"></a>
-<span class="sourceLineNo">341</span>   * &lt;p&gt;It is imperative that the user manually synchronize on the returned queue when accessing<a name="line.341"></a>
-<span class="sourceLineNo">342</span>   * the queue's iterator: &lt;pre&gt;   {@code<a name="line.342"></a>
-<span class="sourceLineNo">343</span>   *<a name="line.343"></a>
-<span class="sourceLineNo">344</span>   *   Queue&lt;E&gt; queue = Queues.synchronizedQueue(MinMaxPriorityQueue.&lt;E&gt;create());<a name="line.344"></a>
-<span class="sourceLineNo">345</span>   *   ...<a name="line.345"></a>
-<span class="sourceLineNo">346</span>   *   queue.add(element);  // Needn't be in synchronized block<a name="line.346"></a>
-<span class="sourceLineNo">347</span>   *   ...<a name="line.347"></a>
-<span class="sourceLineNo">348</span>   *   synchronized (queue) {  // Must synchronize on queue!<a name="line.348"></a>
-<span class="sourceLineNo">349</span>   *     Iterator&lt;E&gt; i = queue.iterator(); // Must be in synchronized block<a name="line.349"></a>
-<span class="sourceLineNo">350</span>   *     while (i.hasNext()) {<a name="line.350"></a>
-<span class="sourceLineNo">351</span>   *       foo(i.next());<a name="line.351"></a>
-<span class="sourceLineNo">352</span>   *     }<a name="line.352"></a>
-<span class="sourceLineNo">353</span>   *   }}&lt;/pre&gt;<a name="line.353"></a>
-<span class="sourceLineNo">354</span>   *<a name="line.354"></a>
-<span class="sourceLineNo">355</span>   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.<a name="line.355"></a>
-<span class="sourceLineNo">356</span>   *<a name="line.356"></a>
-<span class="sourceLineNo">357</span>   * &lt;p&gt;The returned queue will be serializable if the specified queue is serializable.<a name="line.357"></a>
-<span class="sourceLineNo">358</span>   *<a name="line.358"></a>
-<span class="sourceLineNo">359</span>   * @param queue the queue to be wrapped in a synchronized view<a name="line.359"></a>
-<span class="sourceLineNo">360</span>   * @return a synchronized view of the specified queue<a name="line.360"></a>
-<span class="sourceLineNo">361</span>   * @since 14.0<a name="line.361"></a>
-<span class="sourceLineNo">362</span>   */<a name="line.362"></a>
-<span class="sourceLineNo">363</span>  public static &lt;E&gt; Queue&lt;E&gt; synchronizedQueue(Queue&lt;E&gt; queue) {<a name="line.363"></a>
-<span class="sourceLineNo">364</span>    return Synchronized.queue(queue, null);<a name="line.364"></a>
-<span class="sourceLineNo">365</span>  }<a name="line.365"></a>
-<span class="sourceLineNo">366</span><a name="line.366"></a>
-<span class="sourceLineNo">367</span>  /**<a name="line.367"></a>
-<span class="sourceLineNo">368</span>   * Returns a synchronized (thread-safe) deque backed by the specified deque. In order to<a name="line.368"></a>
-<span class="sourceLineNo">369</span>   * guarantee serial access, it is critical that &lt;b&gt;all&lt;/b&gt; access to the backing deque is<a name="line.369"></a>
-<span class="sourceLineNo">370</span>   * accomplished through the returned deque.<a name="line.370"></a>
-<span class="sourceLineNo">371</span>   *<a name="line.371"></a>
-<span class="sourceLineNo">372</span>   * &lt;p&gt;It is imperative that the user manually synchronize on the returned deque when accessing<a name="line.372"></a>
-<span class="sourceLineNo">373</span>   * any of the deque's iterators: &lt;pre&gt;   {@code<a name="line.373"></a>
-<span class="sourceLineNo">374</span>   *<a name="line.374"></a>
-<span class="sourceLineNo">375</span>   *   Deque&lt;E&gt; deque = Queues.synchronizedDeque(Queues.&lt;E&gt;newArrayDeque());<a name="line.375"></a>
-<span class="sourceLineNo">376</span>   *   ...<a name="line.376"></a>
-<span class="sourceLineNo">377</span>   *   deque.add(element);  // Needn't be in synchronized block<a name="line.377"></a>
-<span class="sourceLineNo">378</span>   *   ...<a name="line.378"></a>
-<span class="sourceLineNo">379</span>   *   synchronized (deque) {  // Must synchronize on deque!<a name="line.379"></a>
-<span class="sourceLineNo">380</span>   *     Iterator&lt;E&gt; i = deque.iterator(); // Must be in synchronized block<a name="line.380"></a>
-<span class="sourceLineNo">381</span>   *     while (i.hasNext()) {<a name="line.381"></a>
-<span class="sourceLineNo">382</span>   *       foo(i.next());<a name="line.382"></a>
-<span class="sourceLineNo">383</span>   *     }<a name="line.383"></a>
-<span class="sourceLineNo">384</span>   *   }}&lt;/pre&gt;<a name="line.384"></a>
-<span class="sourceLineNo">385</span>   *<a name="line.385"></a>
-<span class="sourceLineNo">386</span>   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.<a name="line.386"></a>
-<span class="sourceLineNo">387</span>   *<a name="line.387"></a>
-<span class="sourceLineNo">388</span>   * &lt;p&gt;The returned deque will be serializable if the specified deque is serializable.<a name="line.388"></a>
-<span class="sourceLineNo">389</span>   *<a name="line.389"></a>
-<span class="sourceLineNo">390</span>   * @param deque the deque to be wrapped in a synchronized view<a name="line.390"></a>
-<span class="sourceLineNo">391</span>   * @return a synchronized view of the specified deque<a name="line.391"></a>
-<span class="sourceLineNo">392</span>   * @since 15.0<a name="line.392"></a>
-<span class="sourceLineNo">393</span>   */<a name="line.393"></a>
-<span class="sourceLineNo">394</span>  public static &lt;E&gt; Deque&lt;E&gt; synchronizedDeque(Deque&lt;E&gt; deque) {<a name="line.394"></a>
-<span class="sourceLineNo">395</span>    return Synchronized.deque(deque, null);<a name="line.395"></a>
-<span class="sourceLineNo">396</span>  }<a name="line.396"></a>
-<span class="sourceLineNo">397</span>}<a name="line.397"></a>
+<span class="sourceLineNo">260</span>  public static &lt;E&gt; int drain(<a name="line.260"></a>
+<span class="sourceLineNo">261</span>      BlockingQueue&lt;E&gt; q,<a name="line.261"></a>
+<span class="sourceLineNo">262</span>      Collection&lt;? super E&gt; buffer,<a name="line.262"></a>
+<span class="sourceLineNo">263</span>      int numElements,<a name="line.263"></a>
+<span class="sourceLineNo">264</span>      long timeout,<a name="line.264"></a>
+<span class="sourceLineNo">265</span>      TimeUnit unit)<a name="line.265"></a>
+<span class="sourceLineNo">266</span>      throws InterruptedException {<a name="line.266"></a>
+<span class="sourceLineNo">267</span>    Preconditions.checkNotNull(buffer);<a name="line.267"></a>
+<span class="sourceLineNo">268</span>    /*<a name="line.268"></a>
+<span class="sourceLineNo">269</span>     * This code performs one System.nanoTime() more than necessary, and in return, the time to<a name="line.269"></a>
+<span class="sourceLineNo">270</span>     * execute Queue#drainTo is not added *on top* of waiting for the timeout (which could make<a name="line.270"></a>
+<span class="sourceLineNo">271</span>     * the timeout arbitrarily inaccurate, given a queue that is slow to drain).<a name="line.271"></a>
+<span class="sourceLineNo">272</span>     */<a name="line.272"></a>
+<span class="sourceLineNo">273</span>    long deadline = System.nanoTime() + unit.toNanos(timeout);<a name="line.273"></a>
+<span class="sourceLineNo">274</span>    int added = 0;<a name="line.274"></a>
+<span class="sourceLineNo">275</span>    while (added &lt; numElements) {<a name="line.275"></a>
+<span class="sourceLineNo">276</span>      // we could rely solely on #poll, but #drainTo might be more efficient when there are multiple<a name="line.276"></a>
+<span class="sourceLineNo">277</span>      // elements already available (e.g. LinkedBlockingQueue#drainTo locks only once)<a name="line.277"></a>
+<span class="sourceLineNo">278</span>      added += q.drainTo(buffer, numElements - added);<a name="line.278"></a>
+<span class="sourceLineNo">279</span>      if (added &lt; numElements) { // not enough elements immediately available; will have to poll<a name="line.279"></a>
+<span class="sourceLineNo">280</span>        E e = q.poll(deadline - System.nanoTime(), TimeUnit.NANOSECONDS);<a name="line.280"></a>
+<span class="sourceLineNo">281</span>        if (e == null) {<a name="line.281"></a>
+<span class="sourceLineNo">282</span>          break; // we already waited enough, and there are no more elements in sight<a name="line.282"></a>
+<span class="sourceLineNo">283</span>        }<a name="line.283"></a>
+<span class="sourceLineNo">284</span>        buffer.add(e);<a name="line.284"></a>
+<span class="sourceLineNo">285</span>        added++;<a name="line.285"></a>
+<span class="sourceLineNo">286</span>      }<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    }<a name="line.287"></a>
+<span class="sourceLineNo">288</span>    return added;<a name="line.288"></a>
+<span class="sourceLineNo">289</span>  }<a name="line.289"></a>
+<span class="sourceLineNo">290</span><a name="line.290"></a>
+<span class="sourceLineNo">291</span>  /**<a name="line.291"></a>
+<span class="sourceLineNo">292</span>   * Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, long, TimeUnit)},<a name="line.292"></a>
+<span class="sourceLineNo">293</span>   * but with a different behavior in case it is interrupted while waiting. In that case, the<a name="line.293"></a>
+<span class="sourceLineNo">294</span>   * operation will continue as usual, and in the end the thread's interruption status will be set<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   * (no {@code InterruptedException} is thrown).<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   *<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   * @param q the blocking queue to be drained<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   * @param buffer where to add the transferred elements<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   * @param numElements the number of elements to be waited for<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   * @param timeout how long to wait before giving up, in units of {@code unit}<a name="line.300"></a>
+<span class="sourceLineNo">301</span>   * @param unit a {@code TimeUnit} determining how to interpret the timeout parameter<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   * @return the number of elements transferred<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   */<a name="line.303"></a>
+<span class="sourceLineNo">304</span>  @Beta<a name="line.304"></a>
+<span class="sourceLineNo">305</span>  public static &lt;E&gt; int drainUninterruptibly(<a name="line.305"></a>
+<span class="sourceLineNo">306</span>      BlockingQueue&lt;E&gt; q,<a name="line.306"></a>
+<span class="sourceLineNo">307</span>      Collection&lt;? super E&gt; buffer,<a name="line.307"></a>
+<span class="sourceLineNo">308</span>      int numElements,<a name="line.308"></a>
+<span class="sourceLineNo">309</span>      long timeout,<a name="line.309"></a>
+<span class="sourceLineNo">310</span>      TimeUnit unit) {<a name="line.310"></a>
+<span class="sourceLineNo">311</span>    Preconditions.checkNotNull(buffer);<a name="line.311"></a>
+<span class="sourceLineNo">312</span>    long deadline = System.nanoTime() + unit.toNanos(timeout);<a name="line.312"></a>
+<span class="sourceLineNo">313</span>    int added = 0;<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    boolean interrupted = false;<a name="line.314"></a>
+<span class="sourceLineNo">315</span>    try {<a name="line.315"></a>
+<span class="sourceLineNo">316</span>      while (added &lt; numElements) {<a name="line.316"></a>
+<span class="sourceLineNo">317</span>        // we could rely solely on #poll, but #drainTo might be more efficient when there are<a name="line.317"></a>
+<span class="sourceLineNo">318</span>        // multiple elements already available (e.g. LinkedBlockingQueue#drainTo locks only once)<a name="line.318"></a>
+<span class="sourceLineNo">319</span>        added += q.drainTo(buffer, numElements - added);<a name="line.319"></a>
+<span class="sourceLineNo">320</span>        if (added &lt; numElements) { // not enough elements immediately available; will have to poll<a name="line.320"></a>
+<span class="sourceLineNo">321</span>          E e; // written exactly once, by a successful (uninterrupted) invocation of #poll<a name="line.321"></a>
+<span class="sourceLineNo">322</span>          while (true) {<a name="line.322"></a>
+<span class="sourceLineNo">323</span>            try {<a name="line.323"></a>
+<span class="sourceLineNo">324</span>              e = q.poll(deadline - System.nanoTime(), TimeUnit.NANOSECONDS);<a name="line.324"></a>
+<span class="sourceLineNo">325</span>              break;<a name="line.325"></a>
+<span class="sourceLineNo">326</span>            } catch (InterruptedException ex) {<a name="line.326"></a>
+<span class="sourceLineNo">327</span>              interrupted = true; // note interruption and retry<a name="line.327"></a>
+<span class="sourceLineNo">328</span>            }<a name="line.328"></a>
+<span class="sourceLineNo">329</span>          }<a name="line.329"></a>
+<span class="sourceLineNo">330</span>          if (e == null) {<a name="line.330"></a>
+<span class="sourceLineNo">331</span>            break; // we already waited enough, and there are no more elements in sight<a name="line.331"></a>
+<span class="sourceLineNo">332</span>          }<a name="line.332"></a>
+<span class="sourceLineNo">333</span>          buffer.add(e);<a name="line.333"></a>
+<span class="sourceLineNo">334</span>          added++;<a name="line.334"></a>
+<span class="sourceLineNo">335</span>        }<a name="line.335"></a>
+<span class="sourceLineNo">336</span>      }<a name="line.336"></a>
+<span class="sourceLineNo">337</span>    } finally {<a name="line.337"></a>
+<span class="sourceLineNo">338</span>      if (interrupted) {<a name="line.338"></a>
+<span class="sourceLineNo">339</span>        Thread.currentThread().interrupt();<a name="line.339"></a>
+<span class="sourceLineNo">340</span>      }<a name="line.340"></a>
+<span class="sourceLineNo">341</span>    }<a name="line.341"></a>
+<span class="sourceLineNo">342</span>    return added;<a name="line.342"></a>
+<span class="sourceLineNo">343</span>  }<a name="line.343"></a>
+<span class="sourceLineNo">344</span><a name="line.344"></a>
+<span class="sourceLineNo">345</span>  /**<a name="line.345"></a>
+<span class="sourceLineNo">346</span>   * Returns a synchronized (thread-safe) queue backed by the specified queue. In order to<a name="line.346"></a>
+<span class="sourceLineNo">347</span>   * guarantee serial access, it is critical that &lt;b&gt;all&lt;/b&gt; access to the backing queue is<a name="line.347"></a>
+<span class="sourceLineNo">348</span>   * accomplished through the returned queue.<a name="line.348"></a>
+<span class="sourceLineNo">349</span>   *<a name="line.349"></a>
+<span class="sourceLineNo">350</span>   * &lt;p&gt;It is imperative that the user manually synchronize on the returned queue when accessing<a name="line.350"></a>
+<span class="sourceLineNo">351</span>   * the queue's iterator: &lt;pre&gt;   {@code<a name="line.351"></a>
+<span class="sourceLineNo">352</span>   *<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   *   Queue&lt;E&gt; queue = Queues.synchronizedQueue(MinMaxPriorityQueue.&lt;E&gt;create());<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   *   ...<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   *   queue.add(element);  // Needn't be in synchronized block<a name="line.355"></a>
+<span class="sourceLineNo">356</span>   *   ...<a name="line.356"></a>
+<span class="sourceLineNo">357</span>   *   synchronized (queue) {  // Must synchronize on queue!<a name="line.357"></a>
+<span class="sourceLineNo">358</span>   *     Iterator&lt;E&gt; i = queue.iterator(); // Must be in synchronized block<a name="line.358"></a>
+<span class="sourceLineNo">359</span>   *     while (i.hasNext()) {<a name="line.359"></a>
+<span class="sourceLineNo">360</span>   *       foo(i.next());<a name="line.360"></a>
+<span class="sourceLineNo">361</span>   *     }<a name="line.361"></a>
+<span class="sourceLineNo">362</span>   *   }}&lt;/pre&gt;<a name="line.362"></a>
+<span class="sourceLineNo">363</span>   *<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   *<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   * &lt;p&gt;The returned queue will be serializable if the specified queue is serializable.<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   *<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   * @param queue the queue to be wrapped in a synchronized view<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   * @return a synchronized view of the specified queue<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   * @since 14.0<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   */<a name="line.371"></a>
+<span class="sourceLineNo">372</span>  public static &lt;E&gt; Queue&lt;E&gt; synchronizedQueue(Queue&lt;E&gt; queue) {<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    return Synchronized.queue(queue, null);<a name="line.373"></a>
+<span class="sourceLineNo">374</span>  }<a name="line.374"></a>
+<span class="sourceLineNo">375</span><a name="line.375"></a>
+<span class="sourceLineNo">376</span>  /**<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   * Returns a synchronized (thread-safe) deque backed by the specified deque. In order to<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   * guarantee serial access, it is critical that &lt;b&gt;all&lt;/b&gt; access to the backing deque is<a name="line.378"></a>
+<span class="sourceLineNo">379</span>   * accomplished through the returned deque.<a name="line.379"></a>
+<span class="sourceLineNo">380</span>   *<a name="line.380"></a>
+<span class="sourceLineNo">381</span>   * &lt;p&gt;It is imperative that the user manually synchronize on the returned deque when accessing<a name="line.381"></a>
+<span class="sourceLineNo">382</span>   * any of the deque's iterators: &lt;pre&gt;   {@code<a name="line.382"></a>
+<span class="sourceLineNo">383</span>   *<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   *   Deque&lt;E&gt; deque = Queues.synchronizedDeque(Queues.&lt;E&gt;newArrayDeque());<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   *   ...<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   *   deque.add(element);  // Needn't be in synchronized block<a name="line.386"></a>
+<span class="sourceLineNo">387</span>   *   ...<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   *   synchronized (deque) {  // Must synchronize on deque!<a name="line.388"></a>
+<span class="sourceLineNo">389</span>   *     Iterator&lt;E&gt; i = deque.iterator(); // Must be in synchronized block<a name="line.389"></a>
+<span class="sourceLineNo">390</span>   *     while (i.hasNext()) {<a name="line.390"></a>
+<span class="sourceLineNo">391</span>   *       foo(i.next());<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   *     }<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   *   }}&lt;/pre&gt;<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   *<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.<a name="line.395"></a>
+<span class="sourceLineNo">396</span>   *<a name="line.396"></a>
+<span class="sourceLineNo">397</span>   * &lt;p&gt;The returned deque will be serializable if the specified deque is serializable.<a name="line.397"></a>
+<span class="sourceLineNo">398</span>   *<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   * @param deque the deque to be wrapped in a synchronized view<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   * @return a synchronized view of the specified deque<a name="line.400"></a>
+<span class="sourceLineNo">401</span>   * @since 15.0<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   */<a name="line.402"></a>
+<span class="sourceLineNo">403</span>  public static &lt;E&gt; Deque&lt;E&gt; synchronizedDeque(Deque&lt;E&gt; deque) {<a name="line.403"></a>
+<span class="sourceLineNo">404</span>    return Synchronized.deque(deque, null);<a name="line.404"></a>
+<span class="sourceLineNo">405</span>  }<a name="line.405"></a>
+<span class="sourceLineNo">406</span>}<a name="line.406"></a>
 
 
 

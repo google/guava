@@ -47,7 +47,7 @@
 <span class="sourceLineNo">039</span> * returns a {@link Set} of map entries. Though the method signature doesn't say<a name="line.39"></a>
 <span class="sourceLineNo">040</span> * so explicitly, the map returned by {@link #asMap} has {@code SortedSet}<a name="line.40"></a>
 <span class="sourceLineNo">041</span> * values.<a name="line.41"></a>
-<span class="sourceLineNo">042</span> * <a name="line.42"></a>
+<span class="sourceLineNo">042</span> *<a name="line.42"></a>
 <span class="sourceLineNo">043</span> * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.43"></a>
 <span class="sourceLineNo">044</span> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"&gt;<a name="line.44"></a>
 <span class="sourceLineNo">045</span> * {@code Multimap}&lt;/a&gt;.<a name="line.45"></a>
@@ -113,14 +113,15 @@
 <span class="sourceLineNo">105</span>   * {@code Map&lt;K, SortedSet&lt;V&gt;&gt;}, call<a name="line.105"></a>
 <span class="sourceLineNo">106</span>   * {@link Multimaps#asMap(SortedSetMultimap)} instead.<a name="line.106"></a>
 <span class="sourceLineNo">107</span>   */<a name="line.107"></a>
-<span class="sourceLineNo">108</span>  @Override Map&lt;K, Collection&lt;V&gt;&gt; asMap();<a name="line.108"></a>
-<span class="sourceLineNo">109</span><a name="line.109"></a>
-<span class="sourceLineNo">110</span>  /**<a name="line.110"></a>
-<span class="sourceLineNo">111</span>   * Returns the comparator that orders the multimap values, with {@code null}<a name="line.111"></a>
-<span class="sourceLineNo">112</span>   * indicating that natural ordering is used.<a name="line.112"></a>
-<span class="sourceLineNo">113</span>   */<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  Comparator&lt;? super V&gt; valueComparator();<a name="line.114"></a>
-<span class="sourceLineNo">115</span>}<a name="line.115"></a>
+<span class="sourceLineNo">108</span>  @Override<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  Map&lt;K, Collection&lt;V&gt;&gt; asMap();<a name="line.109"></a>
+<span class="sourceLineNo">110</span><a name="line.110"></a>
+<span class="sourceLineNo">111</span>  /**<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * Returns the comparator that orders the multimap values, with {@code null}<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * indicating that natural ordering is used.<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   */<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  Comparator&lt;? super V&gt; valueComparator();<a name="line.115"></a>
+<span class="sourceLineNo">116</span>}<a name="line.116"></a>
 
 
 

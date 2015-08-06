@@ -54,7 +54,7 @@
 <span class="sourceLineNo">046</span> */<a name="line.46"></a>
 <span class="sourceLineNo">047</span>@Beta<a name="line.47"></a>
 <span class="sourceLineNo">048</span>public interface RangeSet&lt;C extends Comparable&gt; {<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  <a name="line.49"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
 <span class="sourceLineNo">050</span>  // Query methods<a name="line.50"></a>
 <span class="sourceLineNo">051</span><a name="line.51"></a>
 <span class="sourceLineNo">052</span>  /**<a name="line.52"></a>
@@ -99,7 +99,7 @@
 <span class="sourceLineNo">091</span>  Range&lt;C&gt; span();<a name="line.91"></a>
 <span class="sourceLineNo">092</span><a name="line.92"></a>
 <span class="sourceLineNo">093</span>  // Views<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  <a name="line.94"></a>
+<span class="sourceLineNo">094</span><a name="line.94"></a>
 <span class="sourceLineNo">095</span>  /**<a name="line.95"></a>
 <span class="sourceLineNo">096</span>   * Returns a view of the {@linkplain Range#isConnected disconnected} ranges that make up this<a name="line.96"></a>
 <span class="sourceLineNo">097</span>   * range set.  The returned set may be empty. The iterators returned by its<a name="line.97"></a>
@@ -125,7 +125,7 @@
 <span class="sourceLineNo">117</span>   * {@link #remove}, and vice versa.<a name="line.117"></a>
 <span class="sourceLineNo">118</span>   */<a name="line.118"></a>
 <span class="sourceLineNo">119</span>  RangeSet&lt;C&gt; complement();<a name="line.119"></a>
-<span class="sourceLineNo">120</span>  <a name="line.120"></a>
+<span class="sourceLineNo">120</span><a name="line.120"></a>
 <span class="sourceLineNo">121</span>  /**<a name="line.121"></a>
 <span class="sourceLineNo">122</span>   * Returns a view of the intersection of this {@code RangeSet} with the specified range.<a name="line.122"></a>
 <span class="sourceLineNo">123</span>   *<a name="line.123"></a>
@@ -135,7 +135,7 @@
 <span class="sourceLineNo">127</span>   * {@code view}.<a name="line.127"></a>
 <span class="sourceLineNo">128</span>   */<a name="line.128"></a>
 <span class="sourceLineNo">129</span>  RangeSet&lt;C&gt; subRangeSet(Range&lt;C&gt; view);<a name="line.129"></a>
-<span class="sourceLineNo">130</span>  <a name="line.130"></a>
+<span class="sourceLineNo">130</span><a name="line.130"></a>
 <span class="sourceLineNo">131</span>  // Modification<a name="line.131"></a>
 <span class="sourceLineNo">132</span><a name="line.132"></a>
 <span class="sourceLineNo">133</span>  /**<a name="line.133"></a>
@@ -162,13 +162,13 @@
 <span class="sourceLineNo">154</span>   *         operation<a name="line.154"></a>
 <span class="sourceLineNo">155</span>   */<a name="line.155"></a>
 <span class="sourceLineNo">156</span>  void remove(Range&lt;C&gt; range);<a name="line.156"></a>
-<span class="sourceLineNo">157</span>  <a name="line.157"></a>
+<span class="sourceLineNo">157</span><a name="line.157"></a>
 <span class="sourceLineNo">158</span>  /**<a name="line.158"></a>
 <span class="sourceLineNo">159</span>   * Removes all ranges from this {@code RangeSet} (optional operation).  After this operation,<a name="line.159"></a>
 <span class="sourceLineNo">160</span>   * {@code this.contains(c)} will return false for all {@code c}.<a name="line.160"></a>
-<span class="sourceLineNo">161</span>   * <a name="line.161"></a>
+<span class="sourceLineNo">161</span>   *<a name="line.161"></a>
 <span class="sourceLineNo">162</span>   * &lt;p&gt;This is equivalent to {@code remove(Range.all())}.<a name="line.162"></a>
-<span class="sourceLineNo">163</span>   * <a name="line.163"></a>
+<span class="sourceLineNo">163</span>   *<a name="line.163"></a>
 <span class="sourceLineNo">164</span>   * @throws UnsupportedOperationException if this range set does not support the {@code clear}<a name="line.164"></a>
 <span class="sourceLineNo">165</span>   *         operation<a name="line.165"></a>
 <span class="sourceLineNo">166</span>   */<a name="line.166"></a>
@@ -198,7 +198,7 @@
 <span class="sourceLineNo">190</span>   *         operation<a name="line.190"></a>
 <span class="sourceLineNo">191</span>   */<a name="line.191"></a>
 <span class="sourceLineNo">192</span>  void removeAll(RangeSet&lt;C&gt; other);<a name="line.192"></a>
-<span class="sourceLineNo">193</span>  <a name="line.193"></a>
+<span class="sourceLineNo">193</span><a name="line.193"></a>
 <span class="sourceLineNo">194</span>  // Object methods<a name="line.194"></a>
 <span class="sourceLineNo">195</span><a name="line.195"></a>
 <span class="sourceLineNo">196</span>  /**<a name="line.196"></a>
@@ -207,7 +207,7 @@
 <span class="sourceLineNo">199</span>   */<a name="line.199"></a>
 <span class="sourceLineNo">200</span>  @Override<a name="line.200"></a>
 <span class="sourceLineNo">201</span>  boolean equals(@Nullable Object obj);<a name="line.201"></a>
-<span class="sourceLineNo">202</span>  <a name="line.202"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
 <span class="sourceLineNo">203</span>  /**<a name="line.203"></a>
 <span class="sourceLineNo">204</span>   * Returns {@code asRanges().hashCode()}.<a name="line.204"></a>
 <span class="sourceLineNo">205</span>   */<a name="line.205"></a>

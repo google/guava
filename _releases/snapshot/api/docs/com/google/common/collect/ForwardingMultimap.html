@@ -490,7 +490,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
                 <a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#get(K)">Multimap</a></code></strong></div>
 <div class="block">Returns a view collection of the values associated with <code>key</code> in this
- multimap, if any. Note that when <code>containsKey(key)</code> is false, this 
+ multimap, if any. Note that when <code>containsKey(key)</code> is false, this
  returns an empty collection, not <code>null</code>.
 
  <p>Changes to the returned collection will update the underlying multimap,
@@ -600,7 +600,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
  efficient than): <pre>   <code>for (V value : values) {
      put(key, value);
    }</code></pre>
- 
+
  <p>In particular, this is a no-op if <code>values</code> is empty.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -655,7 +655,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#removeAll(java.lang.Object)">Multimap</a></code></strong></div>
 <div class="block">Removes all values associated with the key <code>key</code>.
- 
+
  <p>Once this method returns, <code>key</code> will not be mapped to any values,
  so it will not appear in <a href="../../../../com/google/common/collect/Multimap.html#keySet()"><code>Multimap.keySet()</code></a>, <a href="../../../../com/google/common/collect/Multimap.html#asMap()"><code>Multimap.asMap()</code></a>, or any other
  views.</div>
@@ -680,8 +680,8 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#replaceValues(K,%20java.lang.Iterable)">Multimap</a></code></strong></div>
 <div class="block">Stores a collection of values with the same key, replacing any existing
  values for that key.
- 
- <p>If <code>values</code> is empty, this is equivalent to 
+
+ <p>If <code>values</code> is empty, this is equivalent to
  <a href="../../../../com/google/common/collect/Multimap.html#removeAll(java.lang.Object)"><code>removeAll(key)</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -780,7 +780,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
  not have the same hash codes, depending on the implementation. For
  example, two <a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a> instances with the same key-value
  mappings will have the same <code>hashCode</code>, but the <code>hashCode</code>
- of <a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> instances depends on the ordering of the values 
+ of <a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> instances depends on the ordering of the values
  for each key.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>

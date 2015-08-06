@@ -123,17 +123,17 @@
 <span class="sourceLineNo">115</span><a name="line.115"></a>
 <span class="sourceLineNo">116</span>  /**<a name="line.116"></a>
 <span class="sourceLineNo">117</span>   * Returns a view of the part of this range map that intersects with {@code range}.<a name="line.117"></a>
-<span class="sourceLineNo">118</span>   * <a name="line.118"></a>
-<span class="sourceLineNo">119</span>   * &lt;p&gt;For example, if {@code rangeMap} had the entries <a name="line.119"></a>
+<span class="sourceLineNo">118</span>   *<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * &lt;p&gt;For example, if {@code rangeMap} had the entries<a name="line.119"></a>
 <span class="sourceLineNo">120</span>   * {@code [1, 5] =&gt; "foo", (6, 8) =&gt; "bar", (10, \u2025) =&gt; "baz"}<a name="line.120"></a>
 <span class="sourceLineNo">121</span>   * then {@code rangeMap.subRangeMap(Range.open(3, 12))} would return a range map<a name="line.121"></a>
 <span class="sourceLineNo">122</span>   * with the entries {@code (3, 5) =&gt; "foo", (6, 8) =&gt; "bar", (10, 12) =&gt; "baz"}.<a name="line.122"></a>
-<span class="sourceLineNo">123</span>   * <a name="line.123"></a>
+<span class="sourceLineNo">123</span>   *<a name="line.123"></a>
 <span class="sourceLineNo">124</span>   * &lt;p&gt;The returned range map supports all optional operations that this range map supports,<a name="line.124"></a>
 <span class="sourceLineNo">125</span>   * except for {@code asMapOfRanges().iterator().remove()}.<a name="line.125"></a>
-<span class="sourceLineNo">126</span>   * <a name="line.126"></a>
-<span class="sourceLineNo">127</span>   * &lt;p&gt;The returned range map will throw an {@link IllegalArgumentException} on an attempt to <a name="line.127"></a>
-<span class="sourceLineNo">128</span>   * insert a range not {@linkplain Range#encloses(Range) enclosed} by {@code range}. <a name="line.128"></a>
+<span class="sourceLineNo">126</span>   *<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * &lt;p&gt;The returned range map will throw an {@link IllegalArgumentException} on an attempt to<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * insert a range not {@linkplain Range#encloses(Range) enclosed} by {@code range}.<a name="line.128"></a>
 <span class="sourceLineNo">129</span>   */<a name="line.129"></a>
 <span class="sourceLineNo">130</span>  RangeMap&lt;K, V&gt; subRangeMap(Range&lt;K&gt; range);<a name="line.130"></a>
 <span class="sourceLineNo">131</span><a name="line.131"></a>

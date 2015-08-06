@@ -39,7 +39,7 @@
 <span class="sourceLineNo">031</span> * element, those instances are consecutive in the iteration order. If all<a name="line.31"></a>
 <span class="sourceLineNo">032</span> * occurrences of an element are removed, after which that element is added to<a name="line.32"></a>
 <span class="sourceLineNo">033</span> * the multiset, the element will appear at the end of the iteration.<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * <a name="line.34"></a>
+<span class="sourceLineNo">034</span> *<a name="line.34"></a>
 <span class="sourceLineNo">035</span> * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.35"></a>
 <span class="sourceLineNo">036</span> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"&gt;<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * {@code Multiset}&lt;/a&gt;.<a name="line.37"></a>
@@ -79,44 +79,41 @@
 <span class="sourceLineNo">071</span>   *<a name="line.71"></a>
 <span class="sourceLineNo">072</span>   * @param elements the elements that the multiset should contain<a name="line.72"></a>
 <span class="sourceLineNo">073</span>   */<a name="line.73"></a>
-<span class="sourceLineNo">074</span>  public static &lt;E&gt; LinkedHashMultiset&lt;E&gt; create(<a name="line.74"></a>
-<span class="sourceLineNo">075</span>      Iterable&lt;? extends E&gt; elements) {<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    LinkedHashMultiset&lt;E&gt; multiset =<a name="line.76"></a>
-<span class="sourceLineNo">077</span>        create(Multisets.inferDistinctElements(elements));<a name="line.77"></a>
-<span class="sourceLineNo">078</span>    Iterables.addAll(multiset, elements);<a name="line.78"></a>
-<span class="sourceLineNo">079</span>    return multiset;<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  }<a name="line.80"></a>
-<span class="sourceLineNo">081</span><a name="line.81"></a>
-<span class="sourceLineNo">082</span>  private LinkedHashMultiset() {<a name="line.82"></a>
-<span class="sourceLineNo">083</span>    super(new LinkedHashMap&lt;E, Count&gt;());<a name="line.83"></a>
-<span class="sourceLineNo">084</span>  }<a name="line.84"></a>
-<span class="sourceLineNo">085</span><a name="line.85"></a>
-<span class="sourceLineNo">086</span>  private LinkedHashMultiset(int distinctElements) {<a name="line.86"></a>
-<span class="sourceLineNo">087</span>    super(Maps.&lt;E, Count&gt;newLinkedHashMapWithExpectedSize(distinctElements));<a name="line.87"></a>
-<span class="sourceLineNo">088</span>  }<a name="line.88"></a>
-<span class="sourceLineNo">089</span><a name="line.89"></a>
-<span class="sourceLineNo">090</span>  /**<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   * @serialData the number of distinct elements, the first element, its count,<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   *     the second element, its count, and so on<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   */<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  @GwtIncompatible("java.io.ObjectOutputStream")<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    stream.defaultWriteObject();<a name="line.96"></a>
-<span class="sourceLineNo">097</span>    Serialization.writeMultiset(this, stream);<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  }<a name="line.98"></a>
-<span class="sourceLineNo">099</span><a name="line.99"></a>
-<span class="sourceLineNo">100</span>  @GwtIncompatible("java.io.ObjectInputStream")<a name="line.100"></a>
-<span class="sourceLineNo">101</span>  private void readObject(ObjectInputStream stream)<a name="line.101"></a>
-<span class="sourceLineNo">102</span>      throws IOException, ClassNotFoundException {<a name="line.102"></a>
-<span class="sourceLineNo">103</span>    stream.defaultReadObject();<a name="line.103"></a>
-<span class="sourceLineNo">104</span>    int distinctElements = Serialization.readCount(stream);<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    setBackingMap(new LinkedHashMap&lt;E, Count&gt;());<a name="line.105"></a>
-<span class="sourceLineNo">106</span>    Serialization.populateMultiset(this, stream, distinctElements);<a name="line.106"></a>
-<span class="sourceLineNo">107</span>  }<a name="line.107"></a>
-<span class="sourceLineNo">108</span><a name="line.108"></a>
-<span class="sourceLineNo">109</span>  @GwtIncompatible("not needed in emulated source")<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  private static final long serialVersionUID = 0;<a name="line.110"></a>
-<span class="sourceLineNo">111</span>}<a name="line.111"></a>
+<span class="sourceLineNo">074</span>  public static &lt;E&gt; LinkedHashMultiset&lt;E&gt; create(Iterable&lt;? extends E&gt; elements) {<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    LinkedHashMultiset&lt;E&gt; multiset = create(Multisets.inferDistinctElements(elements));<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    Iterables.addAll(multiset, elements);<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    return multiset;<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  }<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  private LinkedHashMultiset() {<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    super(new LinkedHashMap&lt;E, Count&gt;());<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>  private LinkedHashMultiset(int distinctElements) {<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    super(Maps.&lt;E, Count&gt;newLinkedHashMapWithExpectedSize(distinctElements));<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  }<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>  /**<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * @serialData the number of distinct elements, the first element, its count,<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   *     the second element, its count, and so on<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   */<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  @GwtIncompatible("java.io.ObjectOutputStream")<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.93"></a>
+<span class="sourceLineNo">094</span>    stream.defaultWriteObject();<a name="line.94"></a>
+<span class="sourceLineNo">095</span>    Serialization.writeMultiset(this, stream);<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  }<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>  @GwtIncompatible("java.io.ObjectInputStream")<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    stream.defaultReadObject();<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    int distinctElements = Serialization.readCount(stream);<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    setBackingMap(new LinkedHashMap&lt;E, Count&gt;());<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    Serialization.populateMultiset(this, stream, distinctElements);<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  }<a name="line.104"></a>
+<span class="sourceLineNo">105</span><a name="line.105"></a>
+<span class="sourceLineNo">106</span>  @GwtIncompatible("not needed in emulated source")<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  private static final long serialVersionUID = 0;<a name="line.107"></a>
+<span class="sourceLineNo">108</span>}<a name="line.108"></a>
 
 
 

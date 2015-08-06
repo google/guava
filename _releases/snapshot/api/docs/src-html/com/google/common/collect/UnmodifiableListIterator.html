@@ -36,8 +36,8 @@
 <span class="sourceLineNo">028</span> * @author Louis Wasserman<a name="line.28"></a>
 <span class="sourceLineNo">029</span> */<a name="line.29"></a>
 <span class="sourceLineNo">030</span>@GwtCompatible<a name="line.30"></a>
-<span class="sourceLineNo">031</span>public abstract class UnmodifiableListIterator&lt;E&gt;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>    extends UnmodifiableIterator&lt;E&gt; implements ListIterator&lt;E&gt; {<a name="line.32"></a>
+<span class="sourceLineNo">031</span>public abstract class UnmodifiableListIterator&lt;E&gt; extends UnmodifiableIterator&lt;E&gt;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>    implements ListIterator&lt;E&gt; {<a name="line.32"></a>
 <span class="sourceLineNo">033</span>  /** Constructor for use by subclasses. */<a name="line.33"></a>
 <span class="sourceLineNo">034</span>  protected UnmodifiableListIterator() {}<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
@@ -47,20 +47,24 @@
 <span class="sourceLineNo">039</span>   * @throws UnsupportedOperationException always<a name="line.39"></a>
 <span class="sourceLineNo">040</span>   * @deprecated Unsupported operation.<a name="line.40"></a>
 <span class="sourceLineNo">041</span>   */<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  @Deprecated @Override public final void add(E e) {<a name="line.42"></a>
-<span class="sourceLineNo">043</span>    throw new UnsupportedOperationException();<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  }<a name="line.44"></a>
-<span class="sourceLineNo">045</span><a name="line.45"></a>
-<span class="sourceLineNo">046</span>  /**<a name="line.46"></a>
-<span class="sourceLineNo">047</span>   * Guaranteed to throw an exception and leave the underlying data unmodified.<a name="line.47"></a>
-<span class="sourceLineNo">048</span>   *<a name="line.48"></a>
-<span class="sourceLineNo">049</span>   * @throws UnsupportedOperationException always<a name="line.49"></a>
-<span class="sourceLineNo">050</span>   * @deprecated Unsupported operation.<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   */<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  @Deprecated @Override public final void set(E e) {<a name="line.52"></a>
-<span class="sourceLineNo">053</span>    throw new UnsupportedOperationException();<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  }<a name="line.54"></a>
-<span class="sourceLineNo">055</span>}<a name="line.55"></a>
+<span class="sourceLineNo">042</span>  @Deprecated<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  @Override<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  public final void add(E e) {<a name="line.44"></a>
+<span class="sourceLineNo">045</span>    throw new UnsupportedOperationException();<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  }<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>  /**<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * Guaranteed to throw an exception and leave the underlying data unmodified.<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   *<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * @throws UnsupportedOperationException always<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * @deprecated Unsupported operation.<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  @Deprecated<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  @Override<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  public final void set(E e) {<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    throw new UnsupportedOperationException();<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  }<a name="line.58"></a>
+<span class="sourceLineNo">059</span>}<a name="line.59"></a>
 
 
 

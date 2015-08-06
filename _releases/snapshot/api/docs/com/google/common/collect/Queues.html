@@ -140,7 +140,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
                                         int&nbsp;numElements,
                                         long&nbsp;timeout,
                                         <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
-<div class="block">Drains the queue as <a href="../../../../com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,%20java.util.Collection,%20int,%20long,%20java.util.concurrent.TimeUnit)">drain(BlockingQueue, Collection, int, long, TimeUnit)</a>, 
+<div class="block">Drains the queue as <a href="../../../../com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,%20java.util.Collection,%20int,%20long,%20java.util.concurrent.TimeUnit)">drain(BlockingQueue, Collection, int, long, TimeUnit)</a>,
  but with a different behavior in case it is interrupted while waiting.</div>
 </td>
 </tr>
@@ -510,14 +510,14 @@ public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/goo
 <li class="blockList">
 <h4>drainUninterruptibly</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.300">drainUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;E&gt;&nbsp;q,
+public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.305">drainUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;E&gt;&nbsp;q,
                                 <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super E&gt;&nbsp;buffer,
                                 int&nbsp;numElements,
                                 long&nbsp;timeout,
                                 <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
-<div class="block">Drains the queue as <a href="../../../../com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,%20java.util.Collection,%20int,%20long,%20java.util.concurrent.TimeUnit)">drain(BlockingQueue, Collection, int, long, TimeUnit)</a>, 
- but with a different behavior in case it is interrupted while waiting. In that case, the 
- operation will continue as usual, and in the end the thread's interruption status will be set 
+<div class="block">Drains the queue as <a href="../../../../com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,%20java.util.Collection,%20int,%20long,%20java.util.concurrent.TimeUnit)">drain(BlockingQueue, Collection, int, long, TimeUnit)</a>,
+ but with a different behavior in case it is interrupted while waiting. In that case, the
+ operation will continue as usual, and in the end the thread's interruption status will be set
  (no <code>InterruptedException</code> is thrown).</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>q</code> - the blocking queue to be drained</dd><dd><code>buffer</code> - where to add the transferred elements</dd><dd><code>numElements</code> - the number of elements to be waited for</dd><dd><code>timeout</code> - how long to wait before giving up, in units of <code>unit</code></dd><dd><code>unit</code> - a <code>TimeUnit</code> determining how to interpret the timeout parameter</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the number of elements transferred</dd></dl>
@@ -529,7 +529,7 @@ public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/goo
 <ul class="blockList">
 <li class="blockList">
 <h4>synchronizedQueue</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util">Queue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.363">synchronizedQueue</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util">Queue</a>&lt;E&gt;&nbsp;queue)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util">Queue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.372">synchronizedQueue</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util">Queue</a>&lt;E&gt;&nbsp;queue)</pre>
 <div class="block">Returns a synchronized (thread-safe) queue backed by the specified queue. In order to
  guarantee serial access, it is critical that <b>all</b> access to the backing queue is
  accomplished through the returned queue.
@@ -560,7 +560,7 @@ public static&nbsp;&lt;E&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/goo
 <ul class="blockListLast">
 <li class="blockList">
 <h4>synchronizedDeque</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util">Deque</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.394">synchronizedDeque</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util">Deque</a>&lt;E&gt;&nbsp;deque)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util">Deque</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Queues.html#line.403">synchronizedDeque</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util">Deque</a>&lt;E&gt;&nbsp;deque)</pre>
 <div class="block">Returns a synchronized (thread-safe) deque backed by the specified deque. In order to
  guarantee serial access, it is critical that <b>all</b> access to the backing deque is
  accomplished through the returned deque.

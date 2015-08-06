@@ -184,8 +184,8 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
  <li>There is no need to populate an empty collection before adding an entry
      with <a href="../../../../com/google/common/collect/Multimap.html#put(K,%20V)"><code>put</code></a>.
  <li><code>get</code> never returns <code>null</code>, only an empty collection.
- <li>A key is contained in the multimap if and only if it maps to at least 
-     one value. Any operation that causes a key to have zero associated 
+ <li>A key is contained in the multimap if and only if it maps to at least
+     one value. Any operation that causes a key to have zero associated
      values has the effect of <i>removing</i> that key from the multimap.
  <li>The total entry count is available as <a href="../../../../com/google/common/collect/Multimap.html#size()"><code>size()</code></a>.
  <li>Many complex operations become easier; for example, <code>Collections.min(multimap.values())</code> finds the smallest value across all
@@ -202,10 +202,10 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
  to multimaps.
 
  <h3>Other Notes</h3>
- 
- <p>As with <code>Map</code>, the behavior of a <code>Multimap</code> is not specified 
- if key objects already present in the multimap change in a manner that 
- affects <code>equals</code> comparisons.  Use caution if mutable objects are used 
+
+ <p>As with <code>Map</code>, the behavior of a <code>Multimap</code> is not specified
+ if key objects already present in the multimap change in a manner that
+ affects <code>equals</code> comparisons.  Use caution if mutable objects are used
  as keys in a <code>Multimap</code>.
 
  <p>All methods that modify the multimap are optional. The view collections
@@ -510,7 +510,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
  efficient than): <pre>   <code>for (V value : values) {
      put(key, value);
    }</code></pre>
- 
+
  <p>In particular, this is a no-op if <code>values</code> is empty.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if the multimap changed</dd></dl>
 </li>
@@ -540,8 +540,8 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
                           <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block">Stores a collection of values with the same key, replacing any existing
  values for that key.
- 
- <p>If <code>values</code> is empty, this is equivalent to 
+
+ <p>If <code>values</code> is empty, this is equivalent to
  <a href="../../../../com/google/common/collect/Multimap.html#removeAll(java.lang.Object)"><code>removeAll(key)</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>the collection of replaced values, or an empty collection if no
      values were previously associated with the key. The collection
@@ -558,7 +558,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.277">removeAll</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Removes all values associated with the key <code>key</code>.
- 
+
  <p>Once this method returns, <code>key</code> will not be mapped to any values,
  so it will not appear in <a href="../../../../com/google/common/collect/Multimap.html#keySet()"><code>keySet()</code></a>, <a href="../../../../com/google/common/collect/Multimap.html#asMap()"><code>asMap()</code></a>, or any other
  views.</div>
@@ -588,7 +588,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.295">get</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                 <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key)</pre>
 <div class="block">Returns a view collection of the values associated with <code>key</code> in this
- multimap, if any. Note that when <code>containsKey(key)</code> is false, this 
+ multimap, if any. Note that when <code>containsKey(key)</code> is false, this
  returns an empty collection, not <code>null</code>.
 
  <p>Changes to the returned collection will update the underlying multimap,
@@ -718,7 +718,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
  not have the same hash codes, depending on the implementation. For
  example, two <a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a> instances with the same key-value
  mappings will have the same <code>hashCode</code>, but the <code>hashCode</code>
- of <a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> instances depends on the ordering of the values 
+ of <a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> instances depends on the ordering of the values
  for each key.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>

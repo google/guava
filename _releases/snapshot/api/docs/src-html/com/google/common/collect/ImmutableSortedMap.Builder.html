@@ -480,7 +480,7 @@
 <span class="sourceLineNo">472</span><a name="line.472"></a>
 <span class="sourceLineNo">473</span>    /**<a name="line.473"></a>
 <span class="sourceLineNo">474</span>     * Throws an {@code UnsupportedOperationException}.<a name="line.474"></a>
-<span class="sourceLineNo">475</span>     * <a name="line.475"></a>
+<span class="sourceLineNo">475</span>     *<a name="line.475"></a>
 <span class="sourceLineNo">476</span>     * @since 19.0<a name="line.476"></a>
 <span class="sourceLineNo">477</span>     * @deprecated Unsupported by ImmutableSortedMap.Builder.<a name="line.477"></a>
 <span class="sourceLineNo">478</span>     */<a name="line.478"></a>
@@ -820,61 +820,64 @@
 <span class="sourceLineNo">812</span><a name="line.812"></a>
 <span class="sourceLineNo">813</span>  @Override<a name="line.813"></a>
 <span class="sourceLineNo">814</span>  public ImmutableSortedMap&lt;K, V&gt; descendingMap() {<a name="line.814"></a>
-<span class="sourceLineNo">815</span>    ImmutableSortedMap&lt;K, V&gt; result = descendingMap;<a name="line.815"></a>
-<span class="sourceLineNo">816</span>    if (result == null) {<a name="line.816"></a>
-<span class="sourceLineNo">817</span>      if (isEmpty()) {<a name="line.817"></a>
-<span class="sourceLineNo">818</span>        return result = emptyMap(Ordering.from(comparator()).reverse());<a name="line.818"></a>
-<span class="sourceLineNo">819</span>      } else {<a name="line.819"></a>
-<span class="sourceLineNo">820</span>        return result = new ImmutableSortedMap&lt;K, V&gt;(<a name="line.820"></a>
-<span class="sourceLineNo">821</span>            (RegularImmutableSortedSet&lt;K&gt;) keySet.descendingSet(), valueList.reverse(), this);<a name="line.821"></a>
-<span class="sourceLineNo">822</span>      }<a name="line.822"></a>
-<span class="sourceLineNo">823</span>    }<a name="line.823"></a>
-<span class="sourceLineNo">824</span>    return result;<a name="line.824"></a>
-<span class="sourceLineNo">825</span>  }<a name="line.825"></a>
-<span class="sourceLineNo">826</span><a name="line.826"></a>
-<span class="sourceLineNo">827</span>  @Override<a name="line.827"></a>
-<span class="sourceLineNo">828</span>  public ImmutableSortedSet&lt;K&gt; navigableKeySet() {<a name="line.828"></a>
-<span class="sourceLineNo">829</span>    return keySet;<a name="line.829"></a>
-<span class="sourceLineNo">830</span>  }<a name="line.830"></a>
-<span class="sourceLineNo">831</span><a name="line.831"></a>
-<span class="sourceLineNo">832</span>  @Override<a name="line.832"></a>
-<span class="sourceLineNo">833</span>  public ImmutableSortedSet&lt;K&gt; descendingKeySet() {<a name="line.833"></a>
-<span class="sourceLineNo">834</span>    return keySet.descendingSet();<a name="line.834"></a>
-<span class="sourceLineNo">835</span>  }<a name="line.835"></a>
-<span class="sourceLineNo">836</span><a name="line.836"></a>
-<span class="sourceLineNo">837</span>  /**<a name="line.837"></a>
-<span class="sourceLineNo">838</span>   * Serialized type for all ImmutableSortedMap instances. It captures the<a name="line.838"></a>
-<span class="sourceLineNo">839</span>   * logical contents and they are reconstructed using public factory methods.<a name="line.839"></a>
-<span class="sourceLineNo">840</span>   * This ensures that the implementation types remain as implementation<a name="line.840"></a>
-<span class="sourceLineNo">841</span>   * details.<a name="line.841"></a>
-<span class="sourceLineNo">842</span>   */<a name="line.842"></a>
-<span class="sourceLineNo">843</span>  private static class SerializedForm extends ImmutableMap.SerializedForm {<a name="line.843"></a>
-<span class="sourceLineNo">844</span>    private final Comparator&lt;Object&gt; comparator;<a name="line.844"></a>
-<span class="sourceLineNo">845</span><a name="line.845"></a>
-<span class="sourceLineNo">846</span>    @SuppressWarnings("unchecked")<a name="line.846"></a>
-<span class="sourceLineNo">847</span>    SerializedForm(ImmutableSortedMap&lt;?, ?&gt; sortedMap) {<a name="line.847"></a>
-<span class="sourceLineNo">848</span>      super(sortedMap);<a name="line.848"></a>
-<span class="sourceLineNo">849</span>      comparator = (Comparator&lt;Object&gt;) sortedMap.comparator();<a name="line.849"></a>
-<span class="sourceLineNo">850</span>    }<a name="line.850"></a>
-<span class="sourceLineNo">851</span><a name="line.851"></a>
-<span class="sourceLineNo">852</span>    @Override<a name="line.852"></a>
-<span class="sourceLineNo">853</span>    Object readResolve() {<a name="line.853"></a>
-<span class="sourceLineNo">854</span>      Builder&lt;Object, Object&gt; builder = new Builder&lt;Object, Object&gt;(comparator);<a name="line.854"></a>
-<span class="sourceLineNo">855</span>      return createMap(builder);<a name="line.855"></a>
-<span class="sourceLineNo">856</span>    }<a name="line.856"></a>
-<span class="sourceLineNo">857</span><a name="line.857"></a>
-<span class="sourceLineNo">858</span>    private static final long serialVersionUID = 0;<a name="line.858"></a>
-<span class="sourceLineNo">859</span>  }<a name="line.859"></a>
+<span class="sourceLineNo">815</span>    // TODO(kevinb): the descendingMap is never actually cached at all. Either it should be or the<a name="line.815"></a>
+<span class="sourceLineNo">816</span>    // code below simplified.<a name="line.816"></a>
+<span class="sourceLineNo">817</span>    ImmutableSortedMap&lt;K, V&gt; result = descendingMap;<a name="line.817"></a>
+<span class="sourceLineNo">818</span>    if (result == null) {<a name="line.818"></a>
+<span class="sourceLineNo">819</span>      if (isEmpty()) {<a name="line.819"></a>
+<span class="sourceLineNo">820</span>        return result = emptyMap(Ordering.from(comparator()).reverse());<a name="line.820"></a>
+<span class="sourceLineNo">821</span>      } else {<a name="line.821"></a>
+<span class="sourceLineNo">822</span>        return result =<a name="line.822"></a>
+<span class="sourceLineNo">823</span>            new ImmutableSortedMap&lt;K, V&gt;(<a name="line.823"></a>
+<span class="sourceLineNo">824</span>                (RegularImmutableSortedSet&lt;K&gt;) keySet.descendingSet(), valueList.reverse(), this);<a name="line.824"></a>
+<span class="sourceLineNo">825</span>      }<a name="line.825"></a>
+<span class="sourceLineNo">826</span>    }<a name="line.826"></a>
+<span class="sourceLineNo">827</span>    return result;<a name="line.827"></a>
+<span class="sourceLineNo">828</span>  }<a name="line.828"></a>
+<span class="sourceLineNo">829</span><a name="line.829"></a>
+<span class="sourceLineNo">830</span>  @Override<a name="line.830"></a>
+<span class="sourceLineNo">831</span>  public ImmutableSortedSet&lt;K&gt; navigableKeySet() {<a name="line.831"></a>
+<span class="sourceLineNo">832</span>    return keySet;<a name="line.832"></a>
+<span class="sourceLineNo">833</span>  }<a name="line.833"></a>
+<span class="sourceLineNo">834</span><a name="line.834"></a>
+<span class="sourceLineNo">835</span>  @Override<a name="line.835"></a>
+<span class="sourceLineNo">836</span>  public ImmutableSortedSet&lt;K&gt; descendingKeySet() {<a name="line.836"></a>
+<span class="sourceLineNo">837</span>    return keySet.descendingSet();<a name="line.837"></a>
+<span class="sourceLineNo">838</span>  }<a name="line.838"></a>
+<span class="sourceLineNo">839</span><a name="line.839"></a>
+<span class="sourceLineNo">840</span>  /**<a name="line.840"></a>
+<span class="sourceLineNo">841</span>   * Serialized type for all ImmutableSortedMap instances. It captures the<a name="line.841"></a>
+<span class="sourceLineNo">842</span>   * logical contents and they are reconstructed using public factory methods.<a name="line.842"></a>
+<span class="sourceLineNo">843</span>   * This ensures that the implementation types remain as implementation<a name="line.843"></a>
+<span class="sourceLineNo">844</span>   * details.<a name="line.844"></a>
+<span class="sourceLineNo">845</span>   */<a name="line.845"></a>
+<span class="sourceLineNo">846</span>  private static class SerializedForm extends ImmutableMap.SerializedForm {<a name="line.846"></a>
+<span class="sourceLineNo">847</span>    private final Comparator&lt;Object&gt; comparator;<a name="line.847"></a>
+<span class="sourceLineNo">848</span><a name="line.848"></a>
+<span class="sourceLineNo">849</span>    @SuppressWarnings("unchecked")<a name="line.849"></a>
+<span class="sourceLineNo">850</span>    SerializedForm(ImmutableSortedMap&lt;?, ?&gt; sortedMap) {<a name="line.850"></a>
+<span class="sourceLineNo">851</span>      super(sortedMap);<a name="line.851"></a>
+<span class="sourceLineNo">852</span>      comparator = (Comparator&lt;Object&gt;) sortedMap.comparator();<a name="line.852"></a>
+<span class="sourceLineNo">853</span>    }<a name="line.853"></a>
+<span class="sourceLineNo">854</span><a name="line.854"></a>
+<span class="sourceLineNo">855</span>    @Override<a name="line.855"></a>
+<span class="sourceLineNo">856</span>    Object readResolve() {<a name="line.856"></a>
+<span class="sourceLineNo">857</span>      Builder&lt;Object, Object&gt; builder = new Builder&lt;Object, Object&gt;(comparator);<a name="line.857"></a>
+<span class="sourceLineNo">858</span>      return createMap(builder);<a name="line.858"></a>
+<span class="sourceLineNo">859</span>    }<a name="line.859"></a>
 <span class="sourceLineNo">860</span><a name="line.860"></a>
-<span class="sourceLineNo">861</span>  @Override<a name="line.861"></a>
-<span class="sourceLineNo">862</span>  Object writeReplace() {<a name="line.862"></a>
-<span class="sourceLineNo">863</span>    return new SerializedForm(this);<a name="line.863"></a>
-<span class="sourceLineNo">864</span>  }<a name="line.864"></a>
-<span class="sourceLineNo">865</span><a name="line.865"></a>
-<span class="sourceLineNo">866</span>  // This class is never actually serialized directly, but we have to make the<a name="line.866"></a>
-<span class="sourceLineNo">867</span>  // warning go away (and suppressing would suppress for all nested classes too)<a name="line.867"></a>
-<span class="sourceLineNo">868</span>  private static final long serialVersionUID = 0;<a name="line.868"></a>
-<span class="sourceLineNo">869</span>}<a name="line.869"></a>
+<span class="sourceLineNo">861</span>    private static final long serialVersionUID = 0;<a name="line.861"></a>
+<span class="sourceLineNo">862</span>  }<a name="line.862"></a>
+<span class="sourceLineNo">863</span><a name="line.863"></a>
+<span class="sourceLineNo">864</span>  @Override<a name="line.864"></a>
+<span class="sourceLineNo">865</span>  Object writeReplace() {<a name="line.865"></a>
+<span class="sourceLineNo">866</span>    return new SerializedForm(this);<a name="line.866"></a>
+<span class="sourceLineNo">867</span>  }<a name="line.867"></a>
+<span class="sourceLineNo">868</span><a name="line.868"></a>
+<span class="sourceLineNo">869</span>  // This class is never actually serialized directly, but we have to make the<a name="line.869"></a>
+<span class="sourceLineNo">870</span>  // warning go away (and suppressing would suppress for all nested classes too)<a name="line.870"></a>
+<span class="sourceLineNo">871</span>  private static final long serialVersionUID = 0;<a name="line.871"></a>
+<span class="sourceLineNo">872</span>}<a name="line.872"></a>
 
 
 

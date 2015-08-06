@@ -126,7 +126,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <p>Note that this implementation is not synchronized. If multiple threads
  access this table concurrently and one of the threads modifies the table, it
  must be synchronized externally.
- 
+
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">
  <code>Table</code></a>.</div>
@@ -381,7 +381,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;R extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>,C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>,V&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.105">create</a>()</pre>
+<pre>public static&nbsp;&lt;R extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>,C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>,V&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.106">create</a>()</pre>
 <div class="block">Creates an empty <code>TreeBasedTable</code> that uses the natural orderings
  of both row and column keys.
 
@@ -410,7 +410,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.129">create</a>(<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,C,? extends V&gt;&nbsp;table)</pre>
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.128">create</a>(<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,C,? extends V&gt;&nbsp;table)</pre>
 <div class="block">Creates a <code>TreeBasedTable</code> with the same mappings and sort order
  as the specified <code>TreeBasedTable</code>.</div>
 </li>
@@ -421,7 +421,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>rowComparator</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.151">rowComparator</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.146">rowComparator</a>()</pre>
 <div class="block">Returns the comparator that orders the rows. With natural ordering,
  <a href="../../../../com/google/common/collect/Ordering.html#natural()"><code>Ordering.natural()</code></a> is returned.</div>
 </li>
@@ -432,7 +432,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>columnComparator</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.159">columnComparator</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.154">columnComparator</a>()</pre>
 <div class="block">Returns the comparator that orders the columns. With natural ordering,
  <a href="../../../../com/google/common/collect/Ordering.html#natural()"><code>Ordering.natural()</code></a> is returned.</div>
 </li>
@@ -445,7 +445,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>row</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.176">row</a>(<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&nbsp;rowKey)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.171">row</a>(<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&nbsp;rowKey)</pre>
 <div class="block">Returns a view of all mappings that have the given row key. For each row
  key / column key / value mapping in the table with that row key, the
  returned map associates the column key with the value. If no mappings in
@@ -453,7 +453,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
  <p>Changes to the returned map will update the underlying table, and vice
  versa.
- 
+
  <p>Because a <code>TreeBasedTable</code> has unique sorted values for a given
  row, this method returns a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util"><code>SortedMap</code></a>, instead of the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a>
  specified in the <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a> interface.</div>
@@ -473,7 +473,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>rowKeySet</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.303">rowKeySet</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.307">rowKeySet</a>()</pre>
 <div class="block">Returns a set of row keys that have one or more values in the table.
  Changes to the set will update the underlying table, and vice versa.
 
@@ -493,7 +493,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>rowMap</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.307">rowMap</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,<a href="../../../../com/google/common/collect/TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line.312">rowMap</a>()</pre>
 <div class="block">Returns a view that associates each row key with the corresponding map from
  column keys to values. Changes to the returned map will update this table.
  The returned map does not support <code>put()</code> or <code>putAll()</code>, or
@@ -555,7 +555,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>containsRow</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.98">containsRow</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.99">containsRow</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;rowKey)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#containsRow(java.lang.Object)">Table</a></code></strong></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified
@@ -572,7 +572,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.102">containsValue</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.104">containsValue</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#containsValue(java.lang.Object)">Table</a></code></strong></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified
@@ -589,7 +589,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;V&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.106">get</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;V&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.109">get</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;rowKey,
     <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;columnKey)</pre>
@@ -608,7 +608,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.112">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.114">isEmpty</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#isEmpty()">Table</a></code></strong></div>
 <div class="block">Returns <code>true</code> if the table contains no mappings.</div>
 <dl>
@@ -623,7 +623,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.116">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.119">size</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#size()">Table</a></code></strong></div>
 <div class="block">Returns the number of row key / column key / value mappings in the table.</div>
 <dl>
@@ -638,7 +638,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.126">clear</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.130">clear</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#clear()">Table</a></code></strong></div>
 <div class="block">Removes all mappings from the table.</div>
 <dl>
@@ -655,7 +655,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre>public&nbsp;V&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.139">put</a>(R&nbsp;rowKey,
+<pre>public&nbsp;V&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.144">put</a>(R&nbsp;rowKey,
     C&nbsp;columnKey,
     V&nbsp;value)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#put(R,%20C,%20V)">Table</a></code></strong></div>
@@ -676,7 +676,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre>public&nbsp;V&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.146">remove</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;V&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.152">remove</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
        <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;rowKey,
        <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
        <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;columnKey)</pre>
@@ -696,7 +696,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>cellSet</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;R,C,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.220">cellSet</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;R,C,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.226">cellSet</a>()</pre>
 <div class="block">Returns a set of all row key / column key / value triplets. Changes to the
  returned set will update the underlying table, and vice versa. The cell set
  does not support the <code>add</code> or <code>addAll</code> methods.
@@ -722,7 +722,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>column</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;R,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.383">column</a>(C&nbsp;columnKey)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;R,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.395">column</a>(C&nbsp;columnKey)</pre>
 <div class="block">Returns a view of all mappings that have the given column key. For each row
  key / column key / value mapping in the table with that column key, the
  returned map associates the row key with the value. If no mappings in the
@@ -746,7 +746,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>columnKeySet</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.573">columnKeySet</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.609">columnKeySet</a>()</pre>
 <div class="block">Returns a set of column keys that have one or more values in the table.
  Changes to the set will update the underlying table, and vice versa.
 
@@ -767,7 +767,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.683">values</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.727">values</a>()</pre>
 <div class="block">Returns a collection of all values, which may contain duplicates. Changes
  to the returned collection will update the underlying table, and vice
  versa.
@@ -786,7 +786,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>columnMap</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;C,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;R,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.757">columnMap</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;C,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;R,V&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/StandardTable.html#line.813">columnMap</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#columnMap()">Table</a></code></strong></div>
 <div class="block">Returns a view that associates each column key with the corresponding map
  from row keys to values. Changes to the returned map will update this
