@@ -20,11 +20,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.Serializable;
-import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Queue;
 
@@ -43,7 +42,7 @@ import java.util.Queue;
  * @since 15.0
  */
 @Beta
-@GwtIncompatible("java.util.ArrayDeque")
+@GwtCompatible(emulated = true)
 public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serializable {
 
   private final Queue<E> delegate;
@@ -52,7 +51,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
 
   private EvictingQueue(int maxSize) {
     checkArgument(maxSize >= 0, "maxSize (%s) must >= 0", maxSize);
-    this.delegate = new ArrayDeque<E>(maxSize);
+    this.delegate = Platform.newFastestQueue(maxSize);
     this.maxSize = maxSize;
   }
 

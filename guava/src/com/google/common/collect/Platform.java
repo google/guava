@@ -22,10 +22,12 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.EntryTransformer;
 
 import java.lang.reflect.Array;
+import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
+import java.util.Queue;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -93,6 +95,10 @@ final class Platform {
     return (map instanceof NavigableMap)
         ? Maps.filterEntries((NavigableMap<K, V>) map, predicate)
         : Maps.filterSortedIgnoreNavigable(map, predicate);
+  }
+
+  static <E> Queue<E> newFastestQueue(int initialCapacity) {
+    return new ArrayDeque<E>(initialCapacity);
   }
 
   private Platform() {}

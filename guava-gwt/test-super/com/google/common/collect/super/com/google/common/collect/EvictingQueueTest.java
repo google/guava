@@ -19,8 +19,6 @@ package com.google.common.collect;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
@@ -160,17 +158,6 @@ public class EvictingQueueTest extends TestCase {
     assertEquals(1, queue.remainingCapacity());
   }
 
-  @GwtIncompatible("NullPointerTester")
-  public void testNullPointerExceptions() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.testAllPublicStaticMethods(EvictingQueue.class);
-    tester.testAllPublicConstructors(EvictingQueue.class);
-    EvictingQueue<String> queue = EvictingQueue.create(5);
-    // The queue must be non-empty so it throws a NPE correctly
-    queue.add("one");
-    tester.testAllPublicInstanceMethods(queue);
-  }
-
   public void testSerialization() {
     EvictingQueue<String> original = EvictingQueue.create(5);
     original.add("one");
@@ -185,3 +172,4 @@ public class EvictingQueueTest extends TestCase {
     assertTrue(copy.isEmpty());
   }
 }
+
