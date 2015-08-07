@@ -395,31 +395,36 @@ public final class Iterators {
   public static <T> Iterator<T> cycle(final Iterable<T> iterable) {
     checkNotNull(iterable);
     return new Iterator<T>() {
-      Iterator<T> iterator = emptyIterator();
-      Iterator<T> removeFrom;
+      Iterator<T> iterator = emptyModifiableIterator();
 
       @Override
       public boolean hasNext() {
-        if (!iterator.hasNext()) {
-          iterator = iterable.iterator();
-        }
-        return iterator.hasNext();
+        /*
+         * Don't store a new Iterator until we know the user can't remove() the last returned
+         * element anymore. Otherwise, when we remove from the old iterator, we may be invalidating
+         * the new one. The result is a ConcurrentModificationException or other bad behavior.
+         *
+         * (If we decide that we really, really hate allocating two Iterators per cycle instead of
+         * one, we can optimistically store the new Iterator and then be willing to throw it out if
+         * the user calls remove().)
+         */
+        return iterator.hasNext() || iterable.iterator().hasNext();
       }
 
       @Override
       public T next() {
-        if (!hasNext()) {
-          throw new NoSuchElementException();
+        if (!iterator.hasNext()) {
+          iterator = iterable.iterator();
+          if (!iterator.hasNext()) {
+            throw new NoSuchElementException();
+          }
         }
-        removeFrom = iterator;
         return iterator.next();
       }
 
       @Override
       public void remove() {
-        checkRemove(removeFrom != null);
-        removeFrom.remove();
-        removeFrom = null;
+        iterator.remove();
       }
     };
   }
