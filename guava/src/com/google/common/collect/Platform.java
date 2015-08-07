@@ -24,10 +24,10 @@ import com.google.common.collect.Maps.EntryTransformer;
 import java.lang.reflect.Array;
 import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
-import java.util.Queue;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -97,7 +97,8 @@ final class Platform {
         : Maps.filterSortedIgnoreNavigable(map, predicate);
   }
 
-  static <E> Queue<E> newFastestQueue(int initialCapacity) {
+  // TODO(cpovirk): Consider adding an ArrayDeque emulation to GWT.
+  static <E> Deque<E> newFastestDeque(int initialCapacity) {
     return new ArrayDeque<E>(initialCapacity);
   }
 
