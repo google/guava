@@ -16,8 +16,11 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
+import com.google.common.util.concurrent.testing.TestingExecutors;
 
 import junit.framework.TestCase;
 
@@ -26,6 +29,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -336,6 +340,28 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     service.startAsync().awaitRunning();
     enterRun.await();
     service.stopAsync().awaitTerminated();
+  }
+
+  public void testTimeout() {
+    // Create a service whose executor will never run its commands
+    Service service = new AbstractExecutionThreadService() {
+      @Override protected void run() throws Exception {}
+
+      @Override protected ScheduledExecutorService executor() {
+        return TestingExecutors.noOpScheduledExecutor();
+      }
+
+      @Override protected String serviceName() {
+        return "Foo";
+      }
+    };
+    try {
+      service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS);
+      fail("Expected timeout");
+    } catch (TimeoutException e) {
+      assertThat(e.getMessage())
+          .isEqualTo("Timed out waiting for Foo [STARTING] to reach the RUNNING state.");
+    }
   }
 
   private class FakeService extends AbstractExecutionThreadService implements TearDown {

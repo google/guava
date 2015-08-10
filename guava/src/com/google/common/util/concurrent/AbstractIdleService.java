@@ -79,6 +79,10 @@ public abstract class AbstractIdleService implements Service {
             }
           });
     }
+
+    @Override public String toString() {
+      return AbstractIdleService.this.toString();
+    }
   }
 
   /** Constructor for use by subclasses. */

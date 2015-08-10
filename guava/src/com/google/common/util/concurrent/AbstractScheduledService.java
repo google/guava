@@ -255,6 +255,10 @@ public abstract class AbstractScheduledService implements Service {
         }
       });
     }
+    
+    @Override public String toString() {
+      return AbstractScheduledService.this.toString();
+    }
   }
 
   /** Constructor for use by subclasses. */

@@ -85,6 +85,10 @@ public abstract class AbstractExecutionThreadService implements Service {
     @Override protected void doStop() {
       triggerShutdown();
     }
+    
+    @Override public String toString() {
+      return AbstractExecutionThreadService.this.toString();
+    }
   };
 
   /**
