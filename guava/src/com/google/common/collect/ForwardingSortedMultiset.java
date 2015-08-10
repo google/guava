@@ -92,8 +92,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
    * In many cases, you may wish to override {@link #descendingMultiset()} to return an instance of
    * a subclass of {@code StandardDescendingMultiset}.
    */
-  protected abstract class StandardDescendingMultiset
-      extends DescendingMultiset<E> {
+  protected abstract class StandardDescendingMultiset extends DescendingMultiset<E> {
     /** Constructor for use by subclasses. */
     public StandardDescendingMultiset() {}
 
@@ -136,9 +135,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
    * {@link #firstEntry()} to forward to this implementation.
    */
   protected Entry<E> standardLastEntry() {
-    Iterator<Entry<E>> entryIterator = descendingMultiset()
-        .entrySet()
-        .iterator();
+    Iterator<Entry<E>> entryIterator = descendingMultiset().entrySet().iterator();
     if (!entryIterator.hasNext()) {
       return null;
     }
@@ -181,9 +178,7 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
    * {@link #pollLastEntry()} to forward to this implementation.
    */
   protected Entry<E> standardPollLastEntry() {
-    Iterator<Entry<E>> entryIterator = descendingMultiset()
-        .entrySet()
-        .iterator();
+    Iterator<Entry<E>> entryIterator = descendingMultiset().entrySet().iterator();
     if (!entryIterator.hasNext()) {
       return null;
     }
@@ -221,5 +216,4 @@ public abstract class ForwardingSortedMultiset<E> extends ForwardingMultiset<E>
   public SortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType) {
     return delegate().tailMultiset(lowerBound, boundType);
   }
-
 }

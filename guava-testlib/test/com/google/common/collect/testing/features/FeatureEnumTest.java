@@ -23,6 +23,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
+import java.util.Locale;
 
 /**
  * Since annotations have some reusability issues that force copy and paste
@@ -35,19 +36,19 @@ public class FeatureEnumTest extends TestCase {
   private static void assertGoodTesterAnnotation(
       Class<? extends Annotation> annotationClass) {
     assertNotNull(
-        String.format("%s must be annotated with @TesterAnnotation.",
+        rootLocaleFormat("%s must be annotated with @TesterAnnotation.",
             annotationClass),
         annotationClass.getAnnotation(TesterAnnotation.class));
     final Retention retentionPolicy =
         annotationClass.getAnnotation(Retention.class);
     assertNotNull(
-        String.format("%s must have a @Retention annotation.", annotationClass),
+        rootLocaleFormat("%s must have a @Retention annotation.", annotationClass),
         retentionPolicy);
     assertEquals(
-        String.format("%s must have RUNTIME RetentionPolicy.", annotationClass),
+        rootLocaleFormat("%s must have RUNTIME RetentionPolicy.", annotationClass),
         RetentionPolicy.RUNTIME, retentionPolicy.value());
     assertNotNull(
-        String.format("%s must be inherited.", annotationClass),
+        rootLocaleFormat("%s must be inherited.", annotationClass),
         annotationClass.getAnnotation(Inherited.class));
 
     for (String propertyName : new String[]{"value", "absent"}) {
@@ -55,14 +56,14 @@ public class FeatureEnumTest extends TestCase {
       try {
         method = annotationClass.getMethod(propertyName);
       } catch (NoSuchMethodException e) {
-        fail(String.format("%s must have a property named '%s'.",
+        fail(rootLocaleFormat("%s must have a property named '%s'.",
             annotationClass, propertyName));
       }
       final Class<?> returnType = method.getReturnType();
-      assertTrue(String.format("%s.%s() must return an array.",
+      assertTrue(rootLocaleFormat("%s.%s() must return an array.",
           annotationClass, propertyName),
           returnType.isArray());
-      assertSame(String.format("%s.%s() must return an array of %s.",
+      assertSame(rootLocaleFormat("%s.%s() must return an array of %s.",
           annotationClass, propertyName, annotationClass.getDeclaringClass()),
           annotationClass.getDeclaringClass(), returnType.getComponentType());
     }
@@ -78,14 +79,14 @@ public class FeatureEnumTest extends TestCase {
         if (containedClass.isAnnotation()) {
           assertGoodTesterAnnotation(asAnnotation(containedClass));
         } else {
-          fail(String.format("Feature enum %s contains a class named " +
-              "'Require' but it is not an annotation.", featureEnumClass));
+          fail(rootLocaleFormat("Feature enum %s contains a class named "
+              + "'Require' but it is not an annotation.", featureEnumClass));
         }
         return;
       }
     }
-    fail(String.format("Feature enum %s should contain an " +
-        "annotation named 'Require'.", featureEnumClass));
+    fail(rootLocaleFormat("Feature enum %s should contain an "
+        + "annotation named 'Require'.", featureEnumClass));
   }
 
   @SuppressWarnings("unchecked")
@@ -94,7 +95,7 @@ public class FeatureEnumTest extends TestCase {
       return (Class<? extends Annotation>) clazz;
     } else {
       throw new IllegalArgumentException(
-          String.format("%s is not an annotation.", clazz));
+          rootLocaleFormat("%s is not an annotation.", clazz));
     }
   }
 
@@ -104,5 +105,9 @@ public class FeatureEnumTest extends TestCase {
     assertGoodFeatureEnum(SetFeature.class);
     assertGoodFeatureEnum(CollectionSize.class);
     assertGoodFeatureEnum(MapFeature.class);
+  }
+
+  private static String rootLocaleFormat(String format, Object... args) {
+    return String.format(Locale.ROOT, format, args);
   }
 }

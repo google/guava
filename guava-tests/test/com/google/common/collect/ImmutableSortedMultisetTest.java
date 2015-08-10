@@ -422,13 +422,13 @@ public class ImmutableSortedMultisetTest extends TestCase {
   public void testSerialization_multiple() {
     Collection<String> c = ImmutableSortedMultiset.of("a", "b", "a");
     Collection<String> copy = SerializableTester.reserializeAndAssert(c);
-    assertThat(copy).has().exactly("a", "a", "b").inOrder();
+    assertThat(copy).containsExactly("a", "a", "b").inOrder();
   }
 
   public void testSerialization_elementSet() {
     Multiset<String> c = ImmutableSortedMultiset.of("a", "b", "a");
     Collection<String> copy = SerializableTester.reserializeAndAssert(c.elementSet());
-    assertThat(copy).has().exactly("a", "b").inOrder();
+    assertThat(copy).containsExactly("a", "b").inOrder();
   }
 
   public void testSerialization_entrySet() {
@@ -446,7 +446,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
   public void testIterationOrder() {
     Collection<String> c = ImmutableSortedMultiset.of("a", "b", "a");
-    assertThat(c).has().exactly("a", "a", "b").inOrder();
+    assertThat(c).containsExactly("a", "a", "b").inOrder();
   }
 
   public void testMultisetWrites() {

@@ -154,7 +154,7 @@ public abstract class AbstractMapTester<K, V> extends
   @SuppressWarnings("unchecked")
   @Override protected MinimalCollection<Map.Entry<K, V>>
       createDisjointCollection() {
-    return MinimalCollection.of(samples.e3, samples.e4);
+    return MinimalCollection.of(e3(), e4());
   }
 
   protected int getNumEntries() {
@@ -227,5 +227,45 @@ public abstract class AbstractMapTester<K, V> extends
 
   protected void resetMap(Entry<K, V>[] entries) {
     resetContainer(getSubjectGenerator().create((Object[]) entries));
+  }
+
+  protected final K k0() {
+    return e0().getKey();
+  }
+
+  protected final V v0() {
+    return e0().getValue();
+  }
+
+  protected final K k1() {
+    return e1().getKey();
+  }
+
+  protected final V v1() {
+    return e1().getValue();
+  }
+
+  protected final K k2() {
+    return e2().getKey();
+  }
+
+  protected final V v2() {
+    return e2().getValue();
+  }
+
+  protected final K k3() {
+    return e3().getKey();
+  }
+
+  protected final V v3() {
+    return e3().getValue();
+  }
+
+  protected final K k4() {
+    return e4().getKey();
+  }
+
+  protected final V v4() {
+    return e4().getValue();
   }
 }

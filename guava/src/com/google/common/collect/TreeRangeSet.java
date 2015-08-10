@@ -68,17 +68,33 @@ public class TreeRangeSet<C extends Comparable<?>>
   }
 
   private transient Set<Range<C>> asRanges;
+  private transient Set<Range<C>> asDescendingSetOfRanges;
 
   @Override
   public Set<Range<C>> asRanges() {
     Set<Range<C>> result = asRanges;
-    return (result == null) ? asRanges = new AsRanges() : result;
+    return (result == null) ? asRanges = new AsRanges(rangesByLowerBound.values()) : result;
+  }
+
+  @Override
+  public Set<Range<C>> asDescendingSetOfRanges() {
+    Set<Range<C>> result = asDescendingSetOfRanges;
+    return (result == null)
+        ? asDescendingSetOfRanges = new AsRanges(rangesByLowerBound.descendingMap().values())
+        : result;
   }
 
   final class AsRanges extends ForwardingCollection<Range<C>> implements Set<Range<C>> {
+
+    final Collection<Range<C>> delegate;
+
+    AsRanges(Collection<Range<C>> delegate) {
+      this.delegate = delegate;
+    }
+
     @Override
     protected Collection<Range<C>> delegate() {
-      return rangesByLowerBound.values();
+      return delegate;
     }
 
     @Override

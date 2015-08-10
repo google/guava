@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -32,6 +33,7 @@ import javax.annotation.Nullable;
  *
  * @since 9.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 @Beta
 public final class Enums {
@@ -46,8 +48,7 @@ public final class Enums {
    *
    * @since 12.0
    */
-  public static <T extends Enum<T>> Optional<T> getIfPresent(
-      Class<T> enumClass, String value) {
+  public static <T extends Enum<T>> Optional<T> getIfPresent(Class<T> enumClass, String value) {
     checkNotNull(enumClass);
     checkNotNull(value);
     return Platform.getEnumIfPresent(enumClass, value);
@@ -65,8 +66,8 @@ public final class Enums {
     return new StringConverter<T>(enumClass);
   }
 
-  private static final class StringConverter<T extends Enum<T>>
-      extends Converter<String, T> implements Serializable {
+  private static final class StringConverter<T extends Enum<T>> extends Converter<String, T>
+      implements Serializable {
 
     private final Class<T> enumClass;
 

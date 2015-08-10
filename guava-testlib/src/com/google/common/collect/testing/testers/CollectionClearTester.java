@@ -43,6 +43,8 @@ public class CollectionClearTester<E> extends AbstractCollectionTester<E> {
     collection.clear();
     assertTrue("After clear(), a collection should be empty.",
         collection.isEmpty());
+    assertEquals(0, collection.size());
+    assertFalse(collection.iterator().hasNext());
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)

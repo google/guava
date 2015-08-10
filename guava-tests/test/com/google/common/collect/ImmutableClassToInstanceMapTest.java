@@ -22,6 +22,7 @@ import com.google.common.collect.testing.TestMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -70,13 +71,28 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
 
     return suite;
   }
+  
+  public void testSerialization_empty() {
+    assertSame(ImmutableClassToInstanceMap.of(), 
+        SerializableTester.reserialize(ImmutableClassToInstanceMap.of()));
+  }
 
   public void testCopyOf_map_empty() {
     Map<Class<?>, Object> in = Collections.emptyMap();
     ClassToInstanceMap<Object> map = ImmutableClassToInstanceMap.copyOf(in);
     assertTrue(map.isEmpty());
-
+    assertSame(map, ImmutableClassToInstanceMap.of());
     assertSame(map, ImmutableClassToInstanceMap.copyOf(map));
+  }
+  
+  public void testOf_zero() {
+    assertTrue(ImmutableClassToInstanceMap.of().isEmpty());
+  }
+  
+  public void testOf_one() {
+    ImmutableClassToInstanceMap<Number> map =
+        ImmutableClassToInstanceMap.of(int.class, 1);
+    assertEquals(1, map.size());
   }
 
   public void testCopyOf_map_valid() {

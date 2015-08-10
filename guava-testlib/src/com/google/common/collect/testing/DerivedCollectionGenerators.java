@@ -107,11 +107,11 @@ public final class DerivedCollectionGenerators {
       final SampleElements<Map.Entry<K, V>> mapSamples =
           this.mapGenerator.samples();
       this.samples = new SampleElements<K>(
-          mapSamples.e0.getKey(),
-          mapSamples.e1.getKey(),
-          mapSamples.e2.getKey(),
-          mapSamples.e3.getKey(),
-          mapSamples.e4.getKey());
+          mapSamples.e0().getKey(),
+          mapSamples.e1().getKey(),
+          mapSamples.e2().getKey(),
+          mapSamples.e3().getKey(),
+          mapSamples.e4().getKey());
     }
 
     @Override
@@ -151,7 +151,7 @@ public final class DerivedCollectionGenerators {
 
     @Override
     public Iterable<K> order(List<K> insertionOrder) {
-      V v = ((TestMapGenerator<K, V>) mapGenerator.getInnerGenerator()).samples().e0.getValue();
+      V v = ((TestMapGenerator<K, V>) mapGenerator.getInnerGenerator()).samples().e0().getValue();
       List<Entry<K, V>> entries = new ArrayList<Entry<K, V>>();
       for (K element : insertionOrder) {
         entries.add(mapEntry(element, v));
@@ -220,11 +220,11 @@ public final class DerivedCollectionGenerators {
       final SampleElements<Map.Entry<K, V>> mapSamples =
           this.mapGenerator.samples();
       this.samples = new SampleElements<V>(
-          mapSamples.e0.getValue(),
-          mapSamples.e1.getValue(),
-          mapSamples.e2.getValue(),
-          mapSamples.e3.getValue(),
-          mapSamples.e4.getValue());
+          mapSamples.e0().getValue(),
+          mapSamples.e1().getValue(),
+          mapSamples.e2().getValue(),
+          mapSamples.e3().getValue(),
+          mapSamples.e4().getValue());
     }
 
     @Override
@@ -484,7 +484,7 @@ public final class DerivedCollectionGenerators {
       SampleElements<Entry<K, V>> samples = delegate.samples();
       @SuppressWarnings("unchecked") // no elements are inserted into the array
       List<Entry<K, V>> samplesList = Arrays.asList(
-          samples.e0, samples.e1, samples.e2, samples.e3, samples.e4);
+          samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
       Collections.sort(samplesList, entryComparator);
       this.firstInclusive = samplesList.get(0).getKey();
       this.lastInclusive = samplesList.get(samplesList.size() - 1).getKey();

@@ -16,10 +16,10 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.assertEqualInOrder;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
@@ -101,51 +101,49 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
   public void testLast() {
     assertEquals(c.getKey(), navigableMap.lastKey());
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testHeadMapExclusive() {
     assertFalse(navigableMap.headMap(a.getKey()).containsKey(a.getKey()));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testTailMapInclusive() {
     assertTrue(navigableMap.tailMap(a.getKey()).containsKey(a.getKey()));
   }
-  
+
   public void testHeadMap() {
     List<Entry<K, V>> entries = Helpers.copyToList(getSubjectGenerator().getSampleElements(
         getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
-      assertThat(navigableMap.headMap(entries.get(i).getKey()).entrySet())
-          .iteratesAs(entries.subList(0, i));
+      assertEqualInOrder(entries.subList(0, i),
+          navigableMap.headMap(entries.get(i).getKey()).entrySet());
     }
   }
-  
+
   public void testTailMap() {
     List<Entry<K, V>> entries = Helpers.copyToList(getSubjectGenerator().getSampleElements(
         getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
-      assertThat(navigableMap.tailMap(entries.get(i).getKey()).entrySet())
-          .iteratesAs(entries.subList(i, entries.size()));
+      assertEqualInOrder(entries.subList(i, entries.size()),
+          navigableMap.tailMap(entries.get(i).getKey()).entrySet());
     }
   }
-  
+
   public void testSubMap() {
     List<Entry<K, V>> entries = Helpers.copyToList(getSubjectGenerator().getSampleElements(
         getSubjectGenerator().getCollectionSize().getNumElements()));
     Collections.sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
       for (int j = i + 1; j < entries.size(); j++) {
-        assertThat(navigableMap
-                 .subMap(entries.get(i).getKey(), entries.get(j).getKey())
-                 .entrySet())
-            .iteratesAs(entries.subList(i, j)); 
+        assertEqualInOrder(entries.subList(i, j),
+            navigableMap.subMap(entries.get(i).getKey(), entries.get(j).getKey()).entrySet());
       }
     }
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   public void testSubMapIllegal() {
     try {
@@ -153,7 +151,7 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {}
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testOrderedByComparator() {
     @SuppressWarnings("unchecked")

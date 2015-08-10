@@ -16,14 +16,15 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
+import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_ANY_NULL_QUERIES;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableListMultimap.Builder;
-import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
@@ -56,6 +57,13 @@ public class ImmutableListMultimapTest extends TestCase {
       return builder.build();
     }
   }
+  public static class ImmutableListMultimapCopyOfEntriesGenerator
+      extends TestStringListMultimapGenerator {
+    @Override
+    protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
+      return ImmutableListMultimap.copyOf(Arrays.asList(entries));
+    }
+  }
 
   @GwtIncompatible("suite")
   public static Test suite() {
@@ -63,11 +71,20 @@ public class ImmutableListMultimapTest extends TestCase {
     suite.addTest(ListMultimapTestSuiteBuilder.using(new ImmutableListMultimapGenerator())
       .named("ImmutableListMultimap")
       .withFeatures(
-          MapFeature.ALLOWS_ANY_NULL_QUERIES,
-          CollectionFeature.SERIALIZABLE,
-          CollectionFeature.KNOWN_ORDER,
+          ALLOWS_ANY_NULL_QUERIES,
+          SERIALIZABLE,
+          KNOWN_ORDER,
           CollectionSize.ANY)
       .createTestSuite());
+    suite.addTest(ListMultimapTestSuiteBuilder.using(
+            new ImmutableListMultimapCopyOfEntriesGenerator())
+        .named("ImmutableListMultimap.copyOf[Iterable<Entry>]")
+        .withFeatures(
+            ALLOWS_ANY_NULL_QUERIES,
+            SERIALIZABLE,
+            KNOWN_ORDER,
+            CollectionSize.ANY)
+        .createTestSuite());
     suite.addTestSuite(ImmutableListMultimapTest.class);
     return suite;
   }
@@ -263,10 +280,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    assertThat(multimap.keySet()).has().exactly("d", "c", "b", "a").inOrder();
-    assertThat(multimap.values()).has().exactly(2, 4, 3, 6, 5, 2).inOrder();
-    assertThat(multimap.get("a")).has().exactly(5, 2).inOrder();
-    assertThat(multimap.get("b")).has().exactly(3, 6).inOrder();
+    assertThat(multimap.keySet()).containsExactly("d", "c", "b", "a").inOrder();
+    assertThat(multimap.values()).containsExactly(2, 4, 3, 6, 5, 2).inOrder();
+    assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
+    assertThat(multimap.get("b")).containsExactly(3, 6).inOrder();
   }
 
   public void testBuilderOrderKeysByDuplicates() {
@@ -285,10 +302,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("bb", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    assertThat(multimap.keySet()).has().exactly("d", "a", "bb", "cc").inOrder();
-    assertThat(multimap.values()).has().exactly(2, 5, 2, 3, 6, 4).inOrder();
-    assertThat(multimap.get("a")).has().exactly(5, 2).inOrder();
-    assertThat(multimap.get("bb")).has().exactly(3, 6).inOrder();
+    assertThat(multimap.keySet()).containsExactly("d", "a", "bb", "cc").inOrder();
+    assertThat(multimap.values()).containsExactly(2, 5, 2, 3, 6, 4).inOrder();
+    assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
+    assertThat(multimap.get("bb")).containsExactly(3, 6).inOrder();
   }
 
   public void testBuilderOrderValuesBy() {
@@ -302,10 +319,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    assertThat(multimap.keySet()).has().exactly("b", "d", "a", "c").inOrder();
-    assertThat(multimap.values()).has().exactly(6, 3, 2, 5, 2, 4).inOrder();
-    assertThat(multimap.get("a")).has().exactly(5, 2).inOrder();
-    assertThat(multimap.get("b")).has().exactly(6, 3).inOrder();
+    assertThat(multimap.keySet()).containsExactly("b", "d", "a", "c").inOrder();
+    assertThat(multimap.values()).containsExactly(6, 3, 2, 5, 2, 4).inOrder();
+    assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
+    assertThat(multimap.get("b")).containsExactly(6, 3).inOrder();
   }
 
   public void testBuilderOrderKeysAndValuesBy() {
@@ -320,10 +337,10 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableListMultimap<String, Integer> multimap = builder.build();
-    assertThat(multimap.keySet()).has().exactly("d", "c", "b", "a").inOrder();
-    assertThat(multimap.values()).has().exactly(2, 4, 6, 3, 5, 2).inOrder();
-    assertThat(multimap.get("a")).has().exactly(5, 2).inOrder();
-    assertThat(multimap.get("b")).has().exactly(6, 3).inOrder();
+    assertThat(multimap.keySet()).containsExactly("d", "c", "b", "a").inOrder();
+    assertThat(multimap.values()).containsExactly(2, 4, 6, 3, 5, 2).inOrder();
+    assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
+    assertThat(multimap.get("b")).containsExactly(6, 3).inOrder();
   }
 
   public void testCopyOf() {

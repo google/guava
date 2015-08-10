@@ -27,6 +27,8 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
@@ -42,20 +44,21 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
  * Provides static methods acting on or generating a {@code Multimap}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Multimaps">
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multimaps">
  * {@code Multimaps}</a>.
  *
  * @author Jared Levy
  * @author Robert Konigsberg
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class Multimaps {
@@ -1423,8 +1426,8 @@ public final class Multimaps {
   }
 
   static class Keys<K, V> extends AbstractMultiset<K> {
-    final Multimap<K, V> multimap;
-    
+    @Weak final Multimap<K, V> multimap;
+
     Keys(Multimap<K, V> multimap) {
       this.multimap = multimap;
     }
@@ -1458,6 +1461,7 @@ public final class Multimaps {
       return new KeysEntrySet();
     }
 
+    @WeakOuter
     class KeysEntrySet extends Multisets.EntrySet<K> {
       @Override Multiset<K> multiset() {
         return Keys.this;
@@ -1580,9 +1584,9 @@ public final class Multimaps {
    * A skeleton implementation of {@link Multimap#asMap()}.
    */
   static final class AsMap<K, V> extends
-      Maps.ImprovedAbstractMap<K, Collection<V>> {
-    private final Multimap<K, V> multimap;
-    
+      Maps.ViewCachingAbstractMap<K, Collection<V>> {
+    @Weak private final Multimap<K, V> multimap;
+
     AsMap(Multimap<K, V> multimap) {
       this.multimap = checkNotNull(multimap);
     }
@@ -1599,6 +1603,7 @@ public final class Multimaps {
       multimap.keySet().remove(key);
     }
 
+    @WeakOuter
     class EntrySet extends Maps.EntrySet<K, Collection<V>> {
       @Override Map<K, Collection<V>> map() {
         return AsMap.this;
@@ -1679,6 +1684,7 @@ public final class Multimaps {
    *
    * @since 11.0
    */
+  @CheckReturnValue
   public static <K, V> Multimap<K, V> filterKeys(
       Multimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof SetMultimap) {
@@ -1727,6 +1733,7 @@ public final class Multimaps {
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public static <K, V> SetMultimap<K, V> filterKeys(
       SetMultimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof FilteredKeySetMultimap) {
@@ -1771,6 +1778,7 @@ public final class Multimaps {
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public static <K, V> ListMultimap<K, V> filterKeys(
       ListMultimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof FilteredKeyListMultimap) {
@@ -1812,6 +1820,7 @@ public final class Multimaps {
    *
    * @since 11.0
    */
+  @CheckReturnValue
   public static <K, V> Multimap<K, V> filterValues(
       Multimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -1847,6 +1856,7 @@ public final class Multimaps {
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public static <K, V> SetMultimap<K, V> filterValues(
       SetMultimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -1880,6 +1890,7 @@ public final class Multimaps {
    *
    * @since 11.0
    */
+  @CheckReturnValue
   public static <K, V> Multimap<K, V> filterEntries(
       Multimap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
@@ -1919,6 +1930,7 @@ public final class Multimaps {
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public static <K, V> SetMultimap<K, V> filterEntries(
       SetMultimap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);

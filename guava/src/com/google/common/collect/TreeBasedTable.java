@@ -65,9 +65,9 @@ import javax.annotation.Nullable;
  * <p>Note that this implementation is not synchronized. If multiple threads
  * access this table concurrently and one of the threads modifies the table, it
  * must be synchronized externally.
- *
+ * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Table">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">
  * {@code Table}</a>.
  *
  * @author Jared Levy
@@ -159,24 +159,24 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   public Comparator<? super C> columnComparator() {
     return columnComparator;
   }
-
-  // TODO(user): make column return a SortedMap
+  
+  // TODO(lowasser): make column return a SortedMap
 
   /**
    * {@inheritDoc}
-   *
+   * 
    * <p>Because a {@code TreeBasedTable} has unique sorted values for a given
    * row, this method returns a {@link SortedMap}, instead of the {@link Map}
    * specified in the {@link Table} interface.
    * @since 10.0
-   *     (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
+   *     (<a href="https://github.com/google/guava/wiki/Compatibility"
    *     >mostly source-compatible</a> since 7.0)
    */
   @Override
   public SortedMap<C, V> row(R rowKey) {
     return new TreeRow(rowKey);
   }
-
+  
   private class TreeRow extends Row implements SortedMap<C, V> {
     @Nullable final C lowerBound;
     @Nullable final C upperBound;
@@ -297,7 +297,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return super.put(key, value);
     }
   }
-
+  
   // rowKeySet() and rowMap() are defined here so they appear in the Javadoc.
 
   @Override public SortedSet<R> rowKeySet() {

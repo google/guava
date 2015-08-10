@@ -50,6 +50,7 @@ import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -57,13 +58,13 @@ import javax.annotation.Nullable;
  * class's counterparts {@link Sets}, {@link Maps} and {@link Queues}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Lists">
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#lists">
  * {@code Lists}</a>.
  *
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class Lists {
@@ -440,7 +441,9 @@ public final class Lists {
    *     be greater than {@link Integer#MAX_VALUE}
    * @throws NullPointerException if {@code lists}, any one of the {@code lists},
    *     or any element of a provided list is null
-   */ static <B> List<List<B>>
+   * @since 19.0
+   */
+  public static <B> List<List<B>>
       cartesianProduct(List<? extends List<? extends B>> lists) {
     return CartesianList.create(lists);
   }
@@ -500,7 +503,9 @@ public final class Lists {
    *     be greater than {@link Integer#MAX_VALUE}
    * @throws NullPointerException if {@code lists}, any one of the
    *     {@code lists}, or any element of a provided list is null
-   */ static <B> List<List<B>>
+   * @since 19.0
+   */
+  public static <B> List<List<B>>
       cartesianProduct(List<? extends B>... lists) {
     return cartesianProduct(Arrays.asList(lists));
   }
@@ -538,6 +543,7 @@ public final class Lists {
    * then serialize the copy. Other methods similar to this do not implement
    * serialization at all for this reason.
    */
+  @CheckReturnValue
   public static <F, T> List<T> transform(
       List<F> fromList, Function<? super F, ? extends T> function) {
     return (fromList instanceof RandomAccess)
@@ -783,6 +789,7 @@ public final class Lists {
    *
    * @since 7.0
    */
+  @CheckReturnValue
   public static <T> List<T> reverse(List<T> list) {
     if (list instanceof ImmutableList) {
       return ((ImmutableList<T>) list).reverse();
@@ -926,7 +933,7 @@ public final class Lists {
    * An implementation of {@link List#hashCode()}.
    */
   static int hashCodeImpl(List<?> list) {
-    // TODO(user): worth optimizing for RandomAccess?
+    // TODO(lowasser): worth optimizing for RandomAccess?
     int hashCode = 1;
     for (Object o : list) {
       hashCode = 31 * hashCode + (o == null ? 0 : o.hashCode());
@@ -940,18 +947,29 @@ public final class Lists {
   /**
    * An implementation of {@link List#equals(Object)}.
    */
-  static boolean equalsImpl(List<?> list, @Nullable Object object) {
-    if (object == checkNotNull(list)) {
+  static boolean equalsImpl(List<?> thisList, @Nullable Object other) {
+    if (other == checkNotNull(thisList)) {
       return true;
     }
-    if (!(object instanceof List)) {
+    if (!(other instanceof List)) {
       return false;
     }
-
-    List<?> o = (List<?>) object;
-
-    return list.size() == o.size()
-        && Iterators.elementsEqual(list.iterator(), o.iterator());
+    List<?> otherList = (List<?>) other;
+    int size = thisList.size();
+    if (size != otherList.size()) {
+      return false;
+    }
+    if (thisList instanceof RandomAccess && otherList instanceof RandomAccess) {
+      // avoid allocation and use the faster loop
+      for (int i = 0; i < size; i++) {
+        if (!Objects.equal(thisList.get(i), otherList.get(i))) {
+          return false;
+        }
+      }
+      return true;
+    } else {
+      return Iterators.elementsEqual(thisList.iterator(), otherList.iterator());
+    }
   }
 
   /**
@@ -972,10 +990,32 @@ public final class Lists {
    * An implementation of {@link List#indexOf(Object)}.
    */
   static int indexOfImpl(List<?> list, @Nullable Object element) {
-    ListIterator<?> listIterator = list.listIterator();
-    while (listIterator.hasNext()) {
-      if (Objects.equal(element, listIterator.next())) {
-        return listIterator.previousIndex();
+    if (list instanceof RandomAccess) {
+      return indexOfRandomAccess(list, element);
+    } else {
+      ListIterator<?> listIterator = list.listIterator();
+      while (listIterator.hasNext()) {
+        if (Objects.equal(element, listIterator.next())) {
+          return listIterator.previousIndex();
+        }
+      }
+      return -1;
+    }
+  }
+
+  private static int indexOfRandomAccess(List<?> list, @Nullable Object element) {
+    int size = list.size();
+    if (element == null) {
+      for (int i = 0; i < size; i++) {
+        if (list.get(i) == null) {
+          return i;
+        }
+      }
+    } else {
+      for (int i = 0; i < size; i++) {
+        if (element.equals(list.get(i))) {
+          return i;
+        }
       }
     }
     return -1;
@@ -985,10 +1025,31 @@ public final class Lists {
    * An implementation of {@link List#lastIndexOf(Object)}.
    */
   static int lastIndexOfImpl(List<?> list, @Nullable Object element) {
-    ListIterator<?> listIterator = list.listIterator(list.size());
-    while (listIterator.hasPrevious()) {
-      if (Objects.equal(element, listIterator.previous())) {
-        return listIterator.nextIndex();
+    if (list instanceof RandomAccess) {
+      return lastIndexOfRandomAccess(list, element);
+    } else {
+      ListIterator<?> listIterator = list.listIterator(list.size());
+      while (listIterator.hasPrevious()) {
+        if (Objects.equal(element, listIterator.previous())) {
+          return listIterator.nextIndex();
+        }
+      }
+      return -1;
+    }
+  }
+
+  private static int lastIndexOfRandomAccess(List<?> list, @Nullable Object element) {
+    if (element == null) {
+      for (int i = list.size() - 1; i >= 0; i--) {
+        if (list.get(i) == null) {
+          return i;
+        }
+      }
+    } else {
+      for (int i = list.size() - 1; i >= 0; i--) {
+        if (element.equals(list.get(i))) {
+          return i;
+        }
       }
     }
     return -1;

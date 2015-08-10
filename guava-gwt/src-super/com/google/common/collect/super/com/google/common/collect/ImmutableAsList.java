@@ -30,7 +30,8 @@ import com.google.common.annotations.GwtCompatible;
 abstract class ImmutableAsList<E> extends ImmutableList<E> {
   abstract ImmutableCollection<E> delegateCollection();
 
-  @Override public boolean contains(Object target) {
+  @Override
+  public boolean contains(Object target) {
     // The collection's contains() is at least as fast as ImmutableList's
     // and is often faster.
     return delegateCollection().contains(target);

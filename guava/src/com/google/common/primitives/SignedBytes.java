@@ -23,14 +23,16 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.util.Comparator;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * Static utility methods pertaining to {@code byte} primitives that
  * interpret values as signed. The corresponding methods that treat the values
  * as unsigned are found in {@link UnsignedBytes}, and the methods for which
  * signedness is not an issue are in {@link Bytes}.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
+ * "https://github.com/google/guava/wiki/PrimitivesExplained">
  * primitive utilities</a>.
  *
  * @author Kevin Bourrillion
@@ -38,17 +40,18 @@ import java.util.Comparator;
  */
 // TODO(kevinb): how to prevent warning on UnsignedBytes when building GWT
 // javadoc?
+@CheckReturnValue
 @GwtCompatible
 public final class SignedBytes {
   private SignedBytes() {}
 
   /**
-   * The largest power of two that can be represented as a signed {@code byte}. 
+   * The largest power of two that can be represented as a signed {@code byte}.
    *
    * @since 10.0
    */
   public static final byte MAX_POWER_OF_TWO = 1 << 6;
-  
+
   /**
    * Returns the {@code byte} value that is equal to {@code value}, if possible.
    *

@@ -27,7 +27,7 @@ import java.util.ListIterator;
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * @author Mike Bostock
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public abstract class ForwardingListIterator<E> extends ForwardingIterator<E>
@@ -36,7 +36,8 @@ public abstract class ForwardingListIterator<E> extends ForwardingIterator<E>
   /** Constructor for use by subclasses. */
   protected ForwardingListIterator() {}
 
-  @Override protected abstract ListIterator<E> delegate();
+  @Override
+  protected abstract ListIterator<E> delegate();
 
   @Override
   public void add(E element) {

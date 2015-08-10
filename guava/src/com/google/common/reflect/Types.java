@@ -26,6 +26,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 
 import java.io.Serializable;
@@ -33,12 +34,15 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.security.AccessControlException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicReference;
@@ -149,7 +153,7 @@ final class Types {
    */
   static <D extends GenericDeclaration> TypeVariable<D> newArtificialTypeVariable(
       D declaration, String name, Type... bounds) {
-    return new TypeVariableImpl<D>(
+    return newTypeVariableImpl(
         declaration,
         name,
         (bounds.length == 0)
@@ -317,8 +321,76 @@ final class Types {
     private static final long serialVersionUID = 0;
   }
 
-  private static final class TypeVariableImpl<D extends GenericDeclaration>
-      implements TypeVariable<D> {
+  private static <D extends GenericDeclaration> TypeVariable<D> newTypeVariableImpl(
+      D genericDeclaration, String name, Type[] bounds) {
+    TypeVariableImpl<D> typeVariableImpl =
+        new TypeVariableImpl<D>(genericDeclaration, name, bounds);
+    @SuppressWarnings("unchecked")
+    TypeVariable<D> typeVariable = Reflection.newProxy(
+        TypeVariable.class, new TypeVariableInvocationHandler(typeVariableImpl));
+    return typeVariable;
+  }
+
+  /**
+   * Invocation handler to work around a compatibility problem between Java 7 and Java 8.
+   *
+   * <p>Java 8 introduced a new method {@code getAnnotatedBounds()} in the {@link TypeVariable}
+   * interface, whose return type {@code AnnotatedType[]} is also new in Java 8. That means that we
+   * cannot implement that interface in source code in a way that will compile on both Java 7 and
+   * Java 8. If we include the {@code getAnnotatedBounds()} method then its return type means
+   * it won't compile on Java 7, while if we don't include the method then the compiler will
+   * complain that an abstract method is unimplemented. So instead we use a dynamic proxy to
+   * get an implementation. If the method being called on the {@code TypeVariable} instance has
+   * the same name as one of the public methods of {@link TypeVariableImpl}, the proxy calls
+   * the same method on its instance of {@code TypeVariableImpl}. Otherwise it throws {@link
+   * UnsupportedOperationException}; this should only apply to {@code getAnnotatedBounds()}. This
+   * does mean that users on Java 8 who obtain an instance of {@code TypeVariable} from {@link
+   * TypeResolver#resolveType} will not be able to call {@code getAnnotatedBounds()} on it, but that
+   * should hopefully be rare.
+   *
+   * <p>This workaround should be removed at a distant future time when we no longer support Java
+   * versions earlier than 8.
+   */
+  private static final class TypeVariableInvocationHandler implements InvocationHandler {
+    private static final ImmutableMap<String, Method> typeVariableMethods;
+    static {
+      ImmutableMap.Builder<String, Method> builder = ImmutableMap.builder();
+      for (Method method : TypeVariableImpl.class.getMethods()) {
+        if (method.getDeclaringClass().equals(TypeVariableImpl.class)) {
+          try {
+            method.setAccessible(true);
+          } catch (AccessControlException e) {
+            // OK: the method is accessible to us anyway. The setAccessible call is only for
+            // unusual execution environments where that might not be true.
+          }
+          builder.put(method.getName(), method);
+        }
+      }
+      typeVariableMethods = builder.build();
+    }
+
+    private final TypeVariableImpl<?> typeVariableImpl;
+
+    TypeVariableInvocationHandler(TypeVariableImpl<?> typeVariableImpl) {
+      this.typeVariableImpl = typeVariableImpl;
+    }
+
+    @Override public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+      String methodName = method.getName();
+      Method typeVariableMethod = typeVariableMethods.get(methodName);
+      if (typeVariableMethod == null) {
+        throw new UnsupportedOperationException(methodName);
+      } else {
+        try {
+          return typeVariableMethod.invoke(typeVariableImpl, args);
+        } catch (InvocationTargetException e) {
+          throw e.getCause();
+        }
+      }
+    }
+  }
+
+  private static final class TypeVariableImpl<D extends GenericDeclaration> {
 
     private final D genericDeclaration;
     private final String name;
@@ -331,15 +403,19 @@ final class Types {
       this.bounds = ImmutableList.copyOf(bounds);
     }
 
-    @Override public Type[] getBounds() {
+    public Type[] getBounds() {
       return toArray(bounds);
     }
 
-    @Override public D getGenericDeclaration() {
+    public D getGenericDeclaration() {
       return genericDeclaration;
     }
 
-    @Override public String getName() {
+    public String getName() {
+      return name;
+    }
+
+    public String getTypeName() {
       return name;
     }
 
@@ -354,8 +430,12 @@ final class Types {
     @Override public boolean equals(Object obj) {
       if (NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY) {
         // equal only to our TypeVariable implementation with identical bounds
-        if (obj instanceof TypeVariableImpl) {
-          TypeVariableImpl<?> that = (TypeVariableImpl<?>) obj;
+        if (obj != null
+            && Proxy.isProxyClass(obj.getClass())
+            && Proxy.getInvocationHandler(obj) instanceof TypeVariableInvocationHandler) {
+          TypeVariableInvocationHandler typeVariableInvocationHandler =
+              (TypeVariableInvocationHandler) Proxy.getInvocationHandler(obj);
+          TypeVariableImpl<?> that = typeVariableInvocationHandler.typeVariableImpl;
           return name.equals(that.getName())
               && genericDeclaration.equals(that.getGenericDeclaration())
               && bounds.equals(that.bounds);

@@ -24,24 +24,21 @@ import java.util.Comparator;
 
 /**
  * This class implements the GWT serialization of {@link CompoundOrdering}.
- * 
+ *
  * @author Chris Povirk
  */
 public class CompoundOrdering_CustomFieldSerializer {
 
-  public static void deserialize(SerializationStreamReader reader,
-      CompoundOrdering<?> instance) {
-  }
+  public static void deserialize(SerializationStreamReader reader, CompoundOrdering<?> instance) {}
 
   @SuppressWarnings("unchecked") // deserialization is unsafe
-  public static CompoundOrdering<Object> instantiate(
-      SerializationStreamReader reader) throws SerializationException {
-    return new CompoundOrdering<Object>(
-        (ImmutableList<Comparator<Object>>) reader.readObject());
+  public static CompoundOrdering<Object> instantiate(SerializationStreamReader reader)
+      throws SerializationException {
+    return new CompoundOrdering<Object>((ImmutableList<Comparator<Object>>) reader.readObject());
   }
 
-  public static void serialize(SerializationStreamWriter writer,
-      CompoundOrdering<?> instance) throws SerializationException {
+  public static void serialize(SerializationStreamWriter writer, CompoundOrdering<?> instance)
+      throws SerializationException {
     writer.writeObject(instance.comparators);
   }
 }

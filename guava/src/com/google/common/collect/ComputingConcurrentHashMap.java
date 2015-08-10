@@ -46,8 +46,7 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
    * Creates a new, empty map with the specified strategy, initial capacity, load factor and
    * concurrency level.
    */
-  ComputingConcurrentHashMap(MapMaker builder,
-      Function<? super K, ? extends V> computingFunction) {
+  ComputingConcurrentHashMap(MapMaker builder, Function<? super K, ? extends V> computingFunction) {
     super(builder);
     this.computingFunction = checkNotNull(computingFunction);
   }
@@ -76,7 +75,8 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
     V getOrCompute(K key, int hash, Function<? super K, ? extends V> computingFunction)
         throws ExecutionException {
       try {
-        outer: while (true) {
+        outer:
+        while (true) {
           // don't call getLiveEntry, which would ignore computing values
           ReferenceEntry<K, V> e = getEntry(key, hash);
           if (e != null) {
@@ -103,7 +103,8 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
 
               for (e = first; e != null; e = e.getNext()) {
                 K entryKey = e.getKey();
-                if (e.getHash() == hash && entryKey != null
+                if (e.getHash() == hash
+                    && entryKey != null
                     && map.keyEquivalence.equivalent(key, entryKey)) {
                   ValueReference<K, V> valueReference = e.getValueReference();
                   if (valueReference.isComputingReference()) {
@@ -168,9 +169,11 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
       }
     }
 
-    V compute(K key, int hash, ReferenceEntry<K, V> e,
-        ComputingValueReference<K, V> computingValueReference)
-        throws ExecutionException {
+    V compute(
+        K key,
+        int hash,
+        ReferenceEntry<K, V> e,
+        ComputingValueReference<K, V> computingValueReference) throws ExecutionException {
       V value = null;
       long start = System.nanoTime();
       long end = 0;
@@ -285,7 +288,7 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
   private static final class ComputingValueReference<K, V> implements ValueReference<K, V> {
     final Function<? super K, ? extends V> computingFunction;
 
-    @GuardedBy("ComputingValueReference.this") // writes
+    @GuardedBy("this") // writes
     volatile ValueReference<K, V> computedReference = unset();
 
     public ComputingValueReference(Function<? super K, ? extends V> computingFunction) {
@@ -379,22 +382,47 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
 
   @Override
   Object writeReplace() {
-    return new ComputingSerializationProxy<K, V>(keyStrength, valueStrength, keyEquivalence,
-        valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maximumSize,
-        concurrencyLevel, removalListener, this, computingFunction);
+    return new ComputingSerializationProxy<K, V>(
+        keyStrength,
+        valueStrength,
+        keyEquivalence,
+        valueEquivalence,
+        expireAfterWriteNanos,
+        expireAfterAccessNanos,
+        maximumSize,
+        concurrencyLevel,
+        removalListener,
+        this,
+        computingFunction);
   }
 
   static final class ComputingSerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
 
     final Function<? super K, ? extends V> computingFunction;
 
-    ComputingSerializationProxy(Strength keyStrength, Strength valueStrength,
-        Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
-        long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
-        int concurrencyLevel, RemovalListener<? super K, ? super V> removalListener,
-        ConcurrentMap<K, V> delegate, Function<? super K, ? extends V> computingFunction) {
-      super(keyStrength, valueStrength, keyEquivalence, valueEquivalence, expireAfterWriteNanos,
-          expireAfterAccessNanos, maximumSize, concurrencyLevel, removalListener, delegate);
+    ComputingSerializationProxy(
+        Strength keyStrength,
+        Strength valueStrength,
+        Equivalence<Object> keyEquivalence,
+        Equivalence<Object> valueEquivalence,
+        long expireAfterWriteNanos,
+        long expireAfterAccessNanos,
+        int maximumSize,
+        int concurrencyLevel,
+        RemovalListener<? super K, ? super V> removalListener,
+        ConcurrentMap<K, V> delegate,
+        Function<? super K, ? extends V> computingFunction) {
+      super(
+          keyStrength,
+          valueStrength,
+          keyEquivalence,
+          valueEquivalence,
+          expireAfterWriteNanos,
+          expireAfterAccessNanos,
+          maximumSize,
+          concurrencyLevel,
+          removalListener,
+          delegate);
       this.computingFunction = computingFunction;
     }
 

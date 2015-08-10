@@ -16,7 +16,9 @@
 
 package com.google.common.collect.testing;
 
-import com.google.common.collect.testing.features.CollectionFeature;
+import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
+import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS;
+
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.testers.CollectionSerializationEqualTester;
 import com.google.common.collect.testing.testers.SetAddAllTester;
@@ -74,7 +76,7 @@ public class SetTestSuiteBuilder<E>
     List<TestSuite> derivedSuites = new ArrayList<TestSuite>(
         super.createDerivedSuites(parentBuilder));
 
-    if (parentBuilder.getFeatures().contains(CollectionFeature.SERIALIZABLE)) {
+    if (parentBuilder.getFeatures().contains(SERIALIZABLE)) {
       derivedSuites.add(SetTestSuiteBuilder
           .using(new ReserializedSetGenerator<E>(parentBuilder.getSubjectGenerator()))
           .named(getName() + " reserialized")
@@ -117,8 +119,8 @@ public class SetTestSuiteBuilder<E>
       Set<Feature<?>> features) {
     Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
     derivedFeatures.addAll(features);
-    derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
-    derivedFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS);
+    derivedFeatures.remove(SERIALIZABLE);
+    derivedFeatures.remove(SERIALIZABLE_INCLUDING_VIEWS);
     return derivedFeatures;
   }
 }

@@ -89,7 +89,7 @@ public class LinkedListMultimapTest extends TestCase {
     LinkedListMultimap<String, Integer> copy =
         LinkedListMultimap.create(multimap);
     assertEquals(multimap, copy);
-    assertThat(copy.entries()).has().exactlyAs(multimap.entries()).inOrder();
+    assertThat(copy.entries()).containsExactlyElementsIn(multimap.entries()).inOrder();
   }
 
   public void testCreateFromSize() {
@@ -183,7 +183,7 @@ public class LinkedListMultimapTest extends TestCase {
     List<Integer> foos = map.get("foo");
     Collection<Integer> values = map.values();
     assertEquals(asList(1, 2), foos);
-    assertThat(values).has().exactly(1, 2, 3).inOrder();
+    assertThat(values).containsExactly(1, 2, 3).inOrder();
     map.clear();
     assertEquals(Collections.emptyList(), foos);
     assertThat(values).isEmpty();
@@ -210,7 +210,7 @@ public class LinkedListMultimapTest extends TestCase {
     map.put("bar", 4);
     assertEquals("[bar=1, foo=2, bar=3, bar=4]",
         map.entries().toString());
-    assertThat(map.keys()).has().exactly("bar", "foo", "bar", "bar").inOrder();
+    assertThat(map.keys()).containsExactly("bar", "foo", "bar", "bar").inOrder();
     map.keys().remove("bar"); // bar is no longer the first key!
     assertEquals("{foo=[2], bar=[3, 4]}", map.toString());
   }
@@ -256,7 +256,7 @@ public class LinkedListMultimapTest extends TestCase {
         = map.asMap().entrySet().iterator();
     Map.Entry<String, Collection<Integer>> entry = entries.next();
     assertEquals("bar", entry.getKey());
-    assertThat(entry.getValue()).has().exactly(1, 3).inOrder();
+    assertThat(entry.getValue()).containsExactly(1, 3).inOrder();
     try {
       entry.setValue(Arrays.<Integer>asList());
       fail("UnsupportedOperationException expected");
@@ -264,7 +264,7 @@ public class LinkedListMultimapTest extends TestCase {
     entries.remove(); // clear
     entry = entries.next();
     assertEquals("foo", entry.getKey());
-    assertThat(entry.getValue()).has().item(2);
+    assertThat(entry.getValue()).contains(2);
     assertFalse(entries.hasNext());
     assertEquals("{foo=[2]}", map.toString());
   }

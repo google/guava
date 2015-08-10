@@ -279,13 +279,13 @@ public class ArrayTableTest extends AbstractTableTest {
   public void testRowKeyList() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    assertThat(table.rowKeyList()).has().exactly("foo", "bar", "cat").inOrder();
+    assertThat(table.rowKeyList()).containsExactly("foo", "bar", "cat").inOrder();
   }
 
   public void testColumnKeyList() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    assertThat(table.columnKeyList()).has().exactly(1, 2, 3).inOrder();
+    assertThat(table.columnKeyList()).containsExactly(1, 2, 3).inOrder();
   }
 
   public void testGetMissingKeys() {

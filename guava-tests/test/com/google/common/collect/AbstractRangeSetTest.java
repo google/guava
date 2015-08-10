@@ -36,7 +36,9 @@ public abstract class AbstractRangeSetTest extends TestCase {
 
   private static <C extends Comparable> void testInvariantsInternal(RangeSet<C> rangeSet) {
     assertEquals(rangeSet.asRanges().isEmpty(), rangeSet.isEmpty());
+    assertEquals(rangeSet.asDescendingSetOfRanges().isEmpty(), rangeSet.isEmpty());
     assertEquals(!rangeSet.asRanges().iterator().hasNext(), rangeSet.isEmpty());
+    assertEquals(!rangeSet.asDescendingSetOfRanges().iterator().hasNext(), rangeSet.isEmpty());
 
     List<Range<C>> asRanges = ImmutableList.copyOf(rangeSet.asRanges());
 
@@ -52,6 +54,7 @@ public abstract class AbstractRangeSetTest extends TestCase {
       assertFalse(range.isEmpty());
     }
 
+    // test that the RangeSet's span is the span of all the ranges
     Iterator<Range<C>> itr = rangeSet.asRanges().iterator();
     Range<C> expectedSpan = null;
     if (itr.hasNext()) {
@@ -67,5 +70,8 @@ public abstract class AbstractRangeSetTest extends TestCase {
     } catch (NoSuchElementException e) {
       assertNull(expectedSpan);
     }
+
+    // test that asDescendingSetOfRanges is the reverse of asRanges
+    assertEquals(Lists.reverse(asRanges), ImmutableList.copyOf(rangeSet.asDescendingSetOfRanges()));
   }
 }

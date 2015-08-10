@@ -33,6 +33,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
 
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nullable;
+
 /**
  * Static utility methods pertaining to {@code char} primitives, that are not
  * already found in either {@link Character} or {@link Arrays}.
@@ -41,12 +44,13 @@ import java.util.RandomAccess;
  * numerically; they are neither Unicode-aware nor locale-dependent.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
+ * "https://github.com/google/guava/wiki/PrimitivesExplained">
  * primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Chars {
   private Chars() {}
@@ -151,8 +155,7 @@ public final class Chars {
   }
 
   // TODO(kevinb): consider making this public
-  private static int indexOf(
-      char[] array, char target, int start, int end) {
+  private static int indexOf(char[] array, char target, int start, int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -205,8 +208,7 @@ public final class Chars {
   }
 
   // TODO(kevinb): consider making this public
-  private static int lastIndexOf(
-      char[] array, char target, int start, int end) {
+  private static int lastIndexOf(char[] array, char target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -289,9 +291,7 @@ public final class Chars {
    */
   @GwtIncompatible("doesn't work")
   public static byte[] toByteArray(char value) {
-    return new byte[] {
-        (byte) (value >> 8),
-        (byte) value};
+    return new byte[] {(byte) (value >> 8), (byte) value};
   }
 
   /**
@@ -308,8 +308,7 @@ public final class Chars {
    */
   @GwtIncompatible("doesn't work")
   public static char fromByteArray(byte[] bytes) {
-    checkArgument(bytes.length >= BYTES,
-        "array too small: %s < %s", bytes.length, BYTES);
+    checkArgument(bytes.length >= BYTES, "array too small: %s < %s", bytes.length, BYTES);
     return fromBytes(bytes[0], bytes[1]);
   }
 
@@ -341,8 +340,7 @@ public final class Chars {
    * @return an array containing the values of {@code array}, with guaranteed
    *     minimum length {@code minLength}
    */
-  public static char[] ensureCapacity(
-      char[] array, int minLength, int padding) {
+  public static char[] ensureCapacity(char[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength)
@@ -373,8 +371,7 @@ public final class Chars {
       return "";
     }
 
-    StringBuilder builder
-        = new StringBuilder(len + separator.length() * (len - 1));
+    StringBuilder builder = new StringBuilder(len + separator.length() * (len - 1));
     builder.append(array[0]);
     for (int i = 1; i < len; i++) {
       builder.append(separator).append(array[i]);
@@ -485,26 +482,31 @@ public final class Chars {
       this.end = end;
     }
 
-    @Override public int size() {
+    @Override
+    public int size() {
       return end - start;
     }
 
-    @Override public boolean isEmpty() {
+    @Override
+    public boolean isEmpty() {
       return false;
     }
 
-    @Override public Character get(int index) {
+    @Override
+    public Character get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
 
-    @Override public boolean contains(Object target) {
+    @Override
+    public boolean contains(Object target) {
       // Overridden to prevent a ton of boxing
       return (target instanceof Character)
           && Chars.indexOf(array, (Character) target, start, end) != -1;
     }
 
-    @Override public int indexOf(Object target) {
+    @Override
+    public int indexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Character) {
         int i = Chars.indexOf(array, (Character) target, start, end);
@@ -515,7 +517,8 @@ public final class Chars {
       return -1;
     }
 
-    @Override public int lastIndexOf(Object target) {
+    @Override
+    public int lastIndexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Character) {
         int i = Chars.lastIndexOf(array, (Character) target, start, end);
@@ -526,7 +529,8 @@ public final class Chars {
       return -1;
     }
 
-    @Override public Character set(int index, Character element) {
+    @Override
+    public Character set(int index, Character element) {
       checkElementIndex(index, size());
       char oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
@@ -534,7 +538,8 @@ public final class Chars {
       return oldValue;
     }
 
-    @Override public List<Character> subList(int fromIndex, int toIndex) {
+    @Override
+    public List<Character> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {
@@ -543,7 +548,8 @@ public final class Chars {
       return new CharArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override
+    public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -563,7 +569,8 @@ public final class Chars {
       return super.equals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
         result = 31 * result + Chars.hashCode(array[i]);
@@ -571,7 +578,8 @@ public final class Chars {
       return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       StringBuilder builder = new StringBuilder(size() * 3);
       builder.append('[').append(array[start]);
       for (int i = start + 1; i < end; i++) {

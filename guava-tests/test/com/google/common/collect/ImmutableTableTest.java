@@ -185,9 +185,9 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     validateTableCopies(table);
     // Even though rowKeySet, columnKeySet, and cellSet have the same
     // iteration ordering, row has an inconsistent ordering.
-    assertThat(table.row('b').keySet()).has().exactly(1, 2).inOrder();
+    assertThat(table.row('b').keySet()).containsExactly(1, 2).inOrder();
     assertThat(ImmutableTable.copyOf(table).row('b').keySet())
-        .has().exactly(2, 1).inOrder();
+        .containsExactly(2, 1).inOrder();
   }
 
   public void testCopyOfSparse() {
@@ -228,10 +228,10 @@ public class ImmutableTableTest extends AbstractTableReadTest {
         = builder.orderRowsBy(Ordering.natural())
             .orderColumnsBy(Ordering.natural())
             .putAll(table).build();
-    assertThat(copy.rowKeySet()).has().exactly('a', 'b').inOrder();
-    assertThat(copy.columnKeySet()).has().exactly(1, 2).inOrder();
-    assertThat(copy.values()).has().exactly("baz", "bar", "foo").inOrder();
-    assertThat(copy.row('b').keySet()).has().exactly(1, 2).inOrder();
+    assertThat(copy.rowKeySet()).containsExactly('a', 'b').inOrder();
+    assertThat(copy.columnKeySet()).containsExactly(1, 2).inOrder();
+    assertThat(copy.values()).containsExactly("baz", "bar", "foo").inOrder();
+    assertThat(copy.row('b').keySet()).containsExactly(1, 2).inOrder();
   }
 
   public void testBuilder_orderRowsAndColumnsBy_sparse() {
@@ -249,12 +249,12 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     builder.put('r', 4, "foo");
     builder.put('x', 5, "bar");
     Table<Character, Integer, String> table = builder.build();
-    assertThat(table.rowKeySet()).has().exactly('b', 'c', 'e', 'r', 'x').inOrder();
-    assertThat(table.columnKeySet()).has().exactly(0, 1, 2, 3, 4, 5, 7).inOrder();
-    assertThat(table.values()).has().exactly("cat", "axe", "baz", "tub",
+    assertThat(table.rowKeySet()).containsExactly('b', 'c', 'e', 'r', 'x').inOrder();
+    assertThat(table.columnKeySet()).containsExactly(0, 1, 2, 3, 4, 5, 7).inOrder();
+    assertThat(table.values()).containsExactly("cat", "axe", "baz", "tub",
         "dog", "bar", "foo", "foo", "bar").inOrder();
-    assertThat(table.row('c').keySet()).has().exactly(0, 3).inOrder();
-    assertThat(table.column(5).keySet()).has().exactly('e', 'x').inOrder();
+    assertThat(table.row('c').keySet()).containsExactly(0, 3).inOrder();
+    assertThat(table.column(5).keySet()).containsExactly('e', 'x').inOrder();
   }
 
   public void testBuilder_orderRowsAndColumnsBy_dense() {
@@ -271,12 +271,12 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     builder.put('a', 2, "bar");
     builder.put('a', 1, "baz");
     Table<Character, Integer, String> table = builder.build();
-    assertThat(table.rowKeySet()).has().exactly('a', 'b', 'c').inOrder();
-    assertThat(table.columnKeySet()).has().exactly(1, 2, 3).inOrder();
-    assertThat(table.values()).has().exactly("baz", "bar", "foo", "dog",
+    assertThat(table.rowKeySet()).containsExactly('a', 'b', 'c').inOrder();
+    assertThat(table.columnKeySet()).containsExactly(1, 2, 3).inOrder();
+    assertThat(table.values()).containsExactly("baz", "bar", "foo", "dog",
         "cat", "baz", "bar", "foo").inOrder();
-    assertThat(table.row('c').keySet()).has().exactly(1, 2, 3).inOrder();
-    assertThat(table.column(1).keySet()).has().exactly('a', 'b', 'c').inOrder();
+    assertThat(table.row('c').keySet()).containsExactly(1, 2, 3).inOrder();
+    assertThat(table.column(1).keySet()).containsExactly('a', 'b', 'c').inOrder();
   }
 
   public void testBuilder_orderRowsBy_sparse() {
@@ -293,8 +293,8 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     builder.put('r', 4, "foo");
     builder.put('x', 5, "bar");
     Table<Character, Integer, String> table = builder.build();
-    assertThat(table.rowKeySet()).has().exactly('b', 'c', 'e', 'r', 'x').inOrder();
-    assertThat(table.column(5).keySet()).has().exactly('e', 'x').inOrder();
+    assertThat(table.rowKeySet()).containsExactly('b', 'c', 'e', 'r', 'x').inOrder();
+    assertThat(table.column(5).keySet()).containsExactly('e', 'x').inOrder();
   }
 
   public void testBuilder_orderRowsBy_dense() {
@@ -310,8 +310,8 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     builder.put('a', 2, "bar");
     builder.put('a', 1, "baz");
     Table<Character, Integer, String> table = builder.build();
-    assertThat(table.rowKeySet()).has().exactly('a', 'b', 'c').inOrder();
-    assertThat(table.column(1).keySet()).has().exactly('a', 'b', 'c').inOrder();
+    assertThat(table.rowKeySet()).containsExactly('a', 'b', 'c').inOrder();
+    assertThat(table.column(1).keySet()).containsExactly('a', 'b', 'c').inOrder();
   }
 
   public void testBuilder_orderColumnsBy_sparse() {
@@ -328,8 +328,8 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     builder.put('r', 4, "foo");
     builder.put('x', 5, "bar");
     Table<Character, Integer, String> table = builder.build();
-    assertThat(table.columnKeySet()).has().exactly(0, 1, 2, 3, 4, 5, 7).inOrder();
-    assertThat(table.row('c').keySet()).has().exactly(0, 3).inOrder();
+    assertThat(table.columnKeySet()).containsExactly(0, 1, 2, 3, 4, 5, 7).inOrder();
+    assertThat(table.row('c').keySet()).containsExactly(0, 3).inOrder();
   }
 
   public void testBuilder_orderColumnsBy_dense() {
@@ -345,8 +345,8 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     builder.put('a', 2, "bar");
     builder.put('a', 1, "baz");
     Table<Character, Integer, String> table = builder.build();
-    assertThat(table.columnKeySet()).has().exactly(1, 2, 3).inOrder();
-    assertThat(table.row('c').keySet()).has().exactly(1, 2, 3).inOrder();
+    assertThat(table.columnKeySet()).containsExactly(1, 2, 3).inOrder();
+    assertThat(table.row('c').keySet()).containsExactly(1, 2, 3).inOrder();
   }
 
   @GwtIncompatible("Mind-bogglingly slow in GWT")

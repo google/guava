@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.INVERTED_INSERTION_INDEX;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_HIGHER;
@@ -53,7 +52,6 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
       ImmutableList<E> elements, Comparator<? super E> comparator) {
     super(comparator);
     this.elements = elements;
-    checkArgument(!elements.isEmpty());
   }
 
   @Override public UnmodifiableIterator<E> iterator() {
@@ -65,16 +63,12 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return elements.reverse().iterator();
   }
 
-  @Override public boolean isEmpty() {
-    return false;
-  }
-
   @Override
   public int size() {
     return elements.size();
   }
 
-  @Override public boolean contains(Object o) {
+  @Override public boolean contains(@Nullable Object o) {
     try {
       return o != null && unsafeBinarySearch(o) >= 0;
     } catch (ClassCastException e) {
@@ -157,6 +151,8 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     Set<?> that = (Set<?>) object;
     if (size() != that.size()) {
       return false;
+    } else if (isEmpty()) {
+      return true;
     }
 
     if (SortedIterables.hasSameComparator(comparator, that)) {
@@ -183,11 +179,17 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override
   public E first() {
+    if (isEmpty()) {
+      throw new NoSuchElementException();
+    }
     return elements.get(0);
   }
 
   @Override
   public E last() {
+    if (isEmpty()) {
+      throw new NoSuchElementException();
+    }
     return elements.get(size() - 1);
   }
 
@@ -254,7 +256,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return (Comparator<Object>) comparator;
   }
 
-  ImmutableSortedSet<E> getSubSet(int newFromIndex, int newToIndex) {
+  RegularImmutableSortedSet<E> getSubSet(int newFromIndex, int newToIndex) {
     if (newFromIndex == 0 && newToIndex == size()) {
       return this;
     } else if (newFromIndex < newToIndex) {
@@ -280,12 +282,14 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override ImmutableList<E> createAsList() {
-    return new ImmutableSortedAsList<E>(this, elements);
+    return (size() <= 1) ? elements : new ImmutableSortedAsList<E>(this, elements);
   }
 
   @Override
   ImmutableSortedSet<E> createDescendingSet() {
-    return new RegularImmutableSortedSet<E>(elements.reverse(),
-        Ordering.from(comparator).reverse());
+    Ordering<E> reversedOrder = Ordering.from(comparator).reverse();
+    return isEmpty()
+        ? emptySet(reversedOrder)
+        : new RegularImmutableSortedSet<E>(elements.reverse(), reversedOrder);
   }
 }

@@ -440,7 +440,7 @@ public class CacheLoadingTest extends TestCase {
 
     Object[] lookupKeys = new Object[] { new Object(), new Object(), new Object() };
     Map<Object, Object> result = cache.getAll(asList(lookupKeys));
-    assertThat(result.keySet()).has().exactlyAs(asList(lookupKeys));
+    assertThat(result.keySet()).containsExactlyElementsIn(asList(lookupKeys));
     for (Map.Entry<Object, Object> entry : result.entrySet()) {
       Object key = entry.getKey();
       Object value = entry.getValue();
@@ -477,7 +477,7 @@ public class CacheLoadingTest extends TestCase {
 
     Object[] lookupKeys = new Object[] { new Object(), new Object(), new Object() };
     Map<Object, Object> result = cache.getAll(asList(lookupKeys));
-    assertThat(result.keySet()).has().exactlyAs(asList(lookupKeys));
+    assertThat(result.keySet()).containsExactlyElementsIn(asList(lookupKeys));
     for (Map.Entry<Object, Object> entry : result.entrySet()) {
       Object key = entry.getKey();
       Object value = entry.getValue();
@@ -2413,7 +2413,11 @@ public class CacheLoadingTest extends TestCase {
     assertEquals("barfoo", cache.getUnchecked(key));
   }
 
-  public void testExpandDuringRefresh() throws InterruptedException, ExecutionException {
+  // Test ignored because it is extremely flaky in CI builds
+
+  public void
+      ignoreTestExpandDuringRefresh()
+      throws InterruptedException, ExecutionException {
     final AtomicInteger callCount = new AtomicInteger();
     // tells the computing thread when to start computing
     final CountDownLatch computeSignal = new CountDownLatch(1);

@@ -90,7 +90,7 @@ import javax.annotation.CheckReturnValue;
  * note that a round-trip between the two should be assumed to be lossy.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/StringsExplained#Splitter">
+ * "https://github.com/google/guava/wiki/StringsExplained#splitter">
  * {@code Splitter}</a>.
  *
  * @author Julien Silland
@@ -110,8 +110,7 @@ public final class Splitter {
     this(strategy, false, CharMatcher.NONE, Integer.MAX_VALUE);
   }
 
-  private Splitter(Strategy strategy, boolean omitEmptyStrings,
-      CharMatcher trimmer, int limit) {
+  private Splitter(Strategy strategy, boolean omitEmptyStrings, CharMatcher trimmer, int limit) {
     this.strategy = strategy;
     this.omitEmptyStrings = omitEmptyStrings;
     this.trimmer = trimmer;
@@ -126,6 +125,7 @@ public final class Splitter {
    * @param separator the character to recognize as a separator
    * @return a splitter, with default settings, that recognizes that separator
    */
+  @CheckReturnValue
   public static Splitter on(char separator) {
     return on(CharMatcher.is(separator));
   }
@@ -140,23 +140,27 @@ public final class Splitter {
    *     character is a separator
    * @return a splitter, with default settings, that uses this matcher
    */
+  @CheckReturnValue
   public static Splitter on(final CharMatcher separatorMatcher) {
     checkNotNull(separatorMatcher);
 
-    return new Splitter(new Strategy() {
-      @Override public SplittingIterator iterator(
-          Splitter splitter, final CharSequence toSplit) {
-        return new SplittingIterator(splitter, toSplit) {
-          @Override int separatorStart(int start) {
-            return separatorMatcher.indexIn(toSplit, start);
-          }
+    return new Splitter(
+        new Strategy() {
+          @Override
+          public SplittingIterator iterator(Splitter splitter, final CharSequence toSplit) {
+            return new SplittingIterator(splitter, toSplit) {
+              @Override
+              int separatorStart(int start) {
+                return separatorMatcher.indexIn(toSplit, start);
+              }
 
-          @Override int separatorEnd(int separatorPosition) {
-            return separatorPosition + 1;
+              @Override
+              int separatorEnd(int separatorPosition) {
+                return separatorPosition + 1;
+              }
+            };
           }
-        };
-      }
-    });
+        });
   }
 
   /**
@@ -167,36 +171,38 @@ public final class Splitter {
    * @param separator the literal, nonempty string to recognize as a separator
    * @return a splitter, with default settings, that recognizes that separator
    */
+  @CheckReturnValue
   public static Splitter on(final String separator) {
-    checkArgument(separator.length() != 0,
-        "The separator may not be the empty string.");
+    checkArgument(separator.length() != 0, "The separator may not be the empty string.");
 
-    return new Splitter(new Strategy() {
-      @Override public SplittingIterator iterator(
-          Splitter splitter, CharSequence toSplit) {
-        return new SplittingIterator(splitter, toSplit) {
-          @Override public int separatorStart(int start) {
-            int separatorLength = separator.length();
+    return new Splitter(
+        new Strategy() {
+          @Override
+          public SplittingIterator iterator(Splitter splitter, CharSequence toSplit) {
+            return new SplittingIterator(splitter, toSplit) {
+              @Override
+              public int separatorStart(int start) {
+                int separatorLength = separator.length();
 
-            positions:
-            for (int p = start, last = toSplit.length() - separatorLength;
-                p <= last; p++) {
-              for (int i = 0; i < separatorLength; i++) {
-                if (toSplit.charAt(i + p) != separator.charAt(i)) {
-                  continue positions;
+                positions:
+                for (int p = start, last = toSplit.length() - separatorLength; p <= last; p++) {
+                  for (int i = 0; i < separatorLength; i++) {
+                    if (toSplit.charAt(i + p) != separator.charAt(i)) {
+                      continue positions;
+                    }
+                  }
+                  return p;
                 }
+                return -1;
               }
-              return p;
-            }
-            return -1;
-          }
 
-          @Override public int separatorEnd(int separatorPosition) {
-            return separatorPosition + separator.length();
+              @Override
+              public int separatorEnd(int separatorPosition) {
+                return separatorPosition + separator.length();
+              }
+            };
           }
-        };
-      }
-    });
+        });
   }
 
   /**
@@ -211,27 +217,33 @@ public final class Splitter {
    * @throws IllegalArgumentException if {@code separatorPattern} matches the
    *     empty string
    */
+  @CheckReturnValue
   @GwtIncompatible("java.util.regex")
   public static Splitter on(final Pattern separatorPattern) {
     checkNotNull(separatorPattern);
-    checkArgument(!separatorPattern.matcher("").matches(),
-        "The pattern may not match the empty string: %s", separatorPattern);
+    checkArgument(
+        !separatorPattern.matcher("").matches(),
+        "The pattern may not match the empty string: %s",
+        separatorPattern);
 
-    return new Splitter(new Strategy() {
-      @Override public SplittingIterator iterator(
-          final Splitter splitter, CharSequence toSplit) {
-        final Matcher matcher = separatorPattern.matcher(toSplit);
-        return new SplittingIterator(splitter, toSplit) {
-          @Override public int separatorStart(int start) {
-            return matcher.find(start) ? matcher.start() : -1;
-          }
+    return new Splitter(
+        new Strategy() {
+          @Override
+          public SplittingIterator iterator(final Splitter splitter, CharSequence toSplit) {
+            final Matcher matcher = separatorPattern.matcher(toSplit);
+            return new SplittingIterator(splitter, toSplit) {
+              @Override
+              public int separatorStart(int start) {
+                return matcher.find(start) ? matcher.start() : -1;
+              }
 
-          @Override public int separatorEnd(int separatorPosition) {
-            return matcher.end();
+              @Override
+              public int separatorEnd(int separatorPosition) {
+                return matcher.end();
+              }
+            };
           }
-        };
-      }
-    });
+        });
   }
 
   /**
@@ -249,6 +261,7 @@ public final class Splitter {
    * @throws IllegalArgumentException if {@code separatorPattern} matches the
    *     empty string
    */
+  @CheckReturnValue
   @GwtIncompatible("java.util.regex")
   public static Splitter onPattern(String separatorPattern) {
     return on(Pattern.compile(separatorPattern));
@@ -273,24 +286,28 @@ public final class Splitter {
    *     pieces
    * @throws IllegalArgumentException if {@code length} is zero or negative
    */
+  @CheckReturnValue
   public static Splitter fixedLength(final int length) {
     checkArgument(length > 0, "The length may not be less than 1");
 
-    return new Splitter(new Strategy() {
-      @Override public SplittingIterator iterator(
-          final Splitter splitter, CharSequence toSplit) {
-        return new SplittingIterator(splitter, toSplit) {
-          @Override public int separatorStart(int start) {
-            int nextChunkStart = start + length;
-            return (nextChunkStart < toSplit.length() ? nextChunkStart : -1);
-          }
+    return new Splitter(
+        new Strategy() {
+          @Override
+          public SplittingIterator iterator(final Splitter splitter, CharSequence toSplit) {
+            return new SplittingIterator(splitter, toSplit) {
+              @Override
+              public int separatorStart(int start) {
+                int nextChunkStart = start + length;
+                return (nextChunkStart < toSplit.length() ? nextChunkStart : -1);
+              }
 
-          @Override public int separatorEnd(int separatorPosition) {
-            return separatorPosition;
+              @Override
+              public int separatorEnd(int separatorPosition) {
+                return separatorPosition;
+              }
+            };
           }
-        };
-      }
-    });
+        });
   }
 
   /**
@@ -319,7 +336,8 @@ public final class Splitter {
   /**
    * Returns a splitter that behaves equivalently to {@code this} splitter but
    * stops splitting after it reaches the limit.
-   * The limit defines the maximum number of items returned by the iterator.
+   * The limit defines the maximum number of items returned by the iterator, or
+   * the maximum size of the list returned by {@link #splitToList}.
    *
    * <p>For example,
    * {@code Splitter.on(',').limit(3).split("a,b,c,d")} returns an iterable
@@ -329,9 +347,9 @@ public final class Splitter {
    * returns an iterable containing {@code ["a", "b", "c,d"}.
    * When trim is requested, all entries, including the last are trimmed.  Hence
    * {@code Splitter.on(',').limit(3).trimResults().split(" a , b , c , d ")}
-   * results in @{code ["a", "b", "c , d"]}.
+   * results in {@code ["a", "b", "c , d"]}.
    *
-   * @param limit the maximum number of items returns
+   * @param limit the maximum number of items returned
    * @return a splitter with the desired configuration
    * @since 9.0
    */
@@ -382,14 +400,18 @@ public final class Splitter {
    * @param sequence the sequence of characters to split
    * @return an iteration over the segments split from the parameter.
    */
+  @CheckReturnValue
   public Iterable<String> split(final CharSequence sequence) {
     checkNotNull(sequence);
 
     return new Iterable<String>() {
-      @Override public Iterator<String> iterator() {
+      @Override
+      public Iterator<String> iterator() {
         return splittingIterator(sequence);
       }
-      @Override public String toString() {
+
+      @Override
+      public String toString() {
         return Joiner.on(", ")
             .appendTo(new StringBuilder().append('['), this)
             .append(']')
@@ -411,6 +433,7 @@ public final class Splitter {
    * @return an immutable list of the segments split from the parameter
    * @since 15.0
    */
+  @CheckReturnValue
   @Beta
   public List<String> splitToList(CharSequence sequence) {
     checkNotNull(sequence);
@@ -471,8 +494,7 @@ public final class Splitter {
    */
   @Beta
   public static final class MapSplitter {
-    private static final String INVALID_ENTRY_MESSAGE =
-        "Chunk [%s] is not a valid entry";
+    private static final String INVALID_ENTRY_MESSAGE = "Chunk [%s] is not a valid entry";
     private final Splitter outerSplitter;
     private final Splitter entrySplitter;
 
@@ -496,6 +518,7 @@ public final class Splitter {
      * @throws IllegalArgumentException if the specified sequence does not split
      *         into valid map entries, or if there are duplicate keys
      */
+    @CheckReturnValue
     public Map<String, String> split(CharSequence sequence) {
       Map<String, String> map = new LinkedHashMap<String, String>();
       for (String entry : outerSplitter.split(sequence)) {
@@ -547,7 +570,8 @@ public final class Splitter {
       this.toSplit = toSplit;
     }
 
-    @Override protected String computeNext() {
+    @Override
+    protected String computeNext() {
       /*
        * The returned string will be from the end of the last match to the
        * beginning of the next one. nextStart is the start position of the

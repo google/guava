@@ -45,6 +45,8 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
     getMap().clear();
     assertTrue("After clear(), a map should be empty.",
         getMap().isEmpty());
+    assertEquals(0, getMap().size());
+    assertFalse(getMap().entrySet().iterator().hasNext());
   }
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION,

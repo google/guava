@@ -19,6 +19,7 @@ package com.google.common.eventbus;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.MoreObjects;
 
 /**
  * Wraps an event that was posted, but which had no subscribers and thus could
@@ -68,4 +69,11 @@ public class DeadEvent {
     return event;
   }
 
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+      .add("source", source)
+      .add("event", event)
+      .toString();
+  }
 }

@@ -35,12 +35,13 @@ import javax.annotation.Nullable;
  * treat primitive {@code int} values as unsigned, using the methods from {@link UnsignedInts}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support">
+ * "https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">
  * unsigned primitive utilities</a>.
  *
  * @author Louis Wasserman
  * @since 11.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class UnsignedInteger extends Number implements Comparable<UnsignedInteger> {
   public static final UnsignedInteger ZERO = fromIntBits(0);
@@ -75,8 +76,10 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * if possible.  The inverse operation of {@link #longValue()}.
    */
   public static UnsignedInteger valueOf(long value) {
-    checkArgument((value & INT_MASK) == value,
-        "value (%s) is outside the range for an unsigned integer value", value);
+    checkArgument(
+        (value & INT_MASK) == value,
+        "value (%s) is outside the range for an unsigned integer value",
+        value);
     return fromIntBits((int) value);
   }
 
@@ -88,8 +91,10 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    */
   public static UnsignedInteger valueOf(BigInteger value) {
     checkNotNull(value);
-    checkArgument(value.signum() >= 0 && value.bitLength() <= Integer.SIZE,
-        "value (%s) is outside the range for an unsigned integer value", value);
+    checkArgument(
+        value.signum() >= 0 && value.bitLength() <= Integer.SIZE,
+        "value (%s) is outside the range for an unsigned integer value",
+        value);
     return fromIntBits(value.intValue());
   }
 
@@ -121,7 +126,6 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public UnsignedInteger plus(UnsignedInteger val) {
     return fromIntBits(this.value + checkNotNull(val).value);
   }
@@ -132,7 +136,6 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public UnsignedInteger minus(UnsignedInteger val) {
     return fromIntBits(value - checkNotNull(val).value);
   }
@@ -143,10 +146,9 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *
    * @since 14.0
    */
-  @CheckReturnValue
   @GwtIncompatible("Does not truncate correctly")
   public UnsignedInteger times(UnsignedInteger val) {
-    // TODO(user): make this GWT-compatible
+    // TODO(lowasser): make this GWT-compatible
     return fromIntBits(value * checkNotNull(val).value);
   }
 
@@ -156,7 +158,6 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * @throws ArithmeticException if {@code val} is zero
    * @since 14.0
    */
-  @CheckReturnValue
   public UnsignedInteger dividedBy(UnsignedInteger val) {
     return fromIntBits(UnsignedInts.divide(value, checkNotNull(val).value));
   }
@@ -167,7 +168,6 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * @throws ArithmeticException if {@code val} is zero
    * @since 14.0
    */
-  @CheckReturnValue
   public UnsignedInteger mod(UnsignedInteger val) {
     return fromIntBits(UnsignedInts.remainder(value, checkNotNull(val).value));
   }

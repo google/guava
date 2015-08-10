@@ -27,11 +27,11 @@ import java.util.Map;
  * See also {@link ImmutableClassToInstanceMap}.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#ClassToInstanceMap">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">
  * {@code ClassToInstanceMap}</a>.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 public final class MutableClassToInstanceMap<B>
     extends ConstrainedMap<Class<? extends B>, B>

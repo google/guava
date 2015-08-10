@@ -31,6 +31,7 @@ import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
@@ -64,6 +65,13 @@ public class MapGenerators {
         builder.put(entry.getKey(), entry.getValue());
       }
       return ImmutableMap.copyOf(builder);
+    }
+  }
+  
+  public static class ImmutableMapCopyOfEntriesGenerator
+      extends TestStringMapGenerator {
+    @Override protected Map<String, String> create(Entry<String, String>[] entries) {
+      return ImmutableMap.copyOf(Arrays.asList(entries));
     }
   }
 

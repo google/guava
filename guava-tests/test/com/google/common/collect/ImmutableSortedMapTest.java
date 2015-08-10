@@ -23,11 +23,13 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSortedMap.Builder;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
+import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapCopyOfEntriesGenerator;
 import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapEntryListGenerator;
 import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapGenerator;
 import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapKeyListGenerator;
@@ -72,6 +74,16 @@ public class ImmutableSortedMapTest extends TestCase {
             MapFeature.REJECTS_DUPLICATES_AT_CREATION,
             MapFeature.ALLOWS_ANY_NULL_QUERIES)
         .named("ImmutableSortedMap")
+        .createTestSuite());
+    suite.addTest(MapTestSuiteBuilder.using(
+        new ImmutableSortedMapCopyOfEntriesGenerator())
+        .withFeatures(
+            CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
+            CollectionFeature.KNOWN_ORDER,
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES)
+        .named("ImmutableSortedMap.copyOf[Iterable<Entry>]")
         .createTestSuite());
 
     suite.addTest(ListTestSuiteBuilder.using(
@@ -288,6 +300,14 @@ public class ImmutableSortedMapTest extends TestCase {
               .build();
       assertMapEquals(map,
           "five", 5, "four", 4, "one", 1, "three", 3, "two", 2);
+    }
+
+    public void testBuilder_orderEntriesByValueFails() {
+      ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
+      try {
+        builder.orderEntriesByValue(Ordering.natural());
+        fail("Expected UnsupportedOperationException");
+      } catch (UnsupportedOperationException expected) {}
     }
 
     public void testBuilder_withImmutableEntry() {
@@ -710,7 +730,7 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testHeadMapInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).headMap("three", true);
-    assertThat(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).containsExactly(
         Maps.immutableEntry("one", 1),
         Maps.immutableEntry("three", 3)).inOrder();
   }
@@ -719,14 +739,14 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testHeadMapExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).headMap("three", false);
-    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("one", 1)).inOrder();
+    assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("one", 1));
   }
 
   @SuppressWarnings("unchecked") // varargs
   public void testTailMapInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).tailMap("three", true);
-    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("three", 3),
+    assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("three", 3),
         Maps.immutableEntry("two", 2)).inOrder();
   }
 
@@ -734,21 +754,21 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testTailMapExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).tailMap("three", false);
-    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("two", 2)).inOrder();
+    assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("two", 2));
   }
 
   @SuppressWarnings("unchecked") // varargs
   public void testSubMapExclusiveExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", false, "two", false);
-    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("three", 3)).inOrder();
+    assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("three", 3));
   }
 
   @SuppressWarnings("unchecked") // varargs
   public void testSubMapInclusiveExclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", true, "two", false);
-    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("one", 1),
+    assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("one", 1),
         Maps.immutableEntry("three", 3)).inOrder();
   }
 
@@ -756,7 +776,7 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testSubMapExclusiveInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", false, "two", true);
-    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("three", 3),
+    assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("three", 3),
         Maps.immutableEntry("two", 2)).inOrder();
   }
 
@@ -764,7 +784,7 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testSubMapInclusiveInclusive() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3).subMap("one", true, "two", true);
-    assertThat(map.entrySet()).has().exactly(Maps.immutableEntry("one", 1),
+    assertThat(map.entrySet()).containsExactly(Maps.immutableEntry("one", 1),
         Maps.immutableEntry("three", 3), Maps.immutableEntry("two", 2)).inOrder();
   }
 

@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Supplier;
-import com.google.common.base.Throwables;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +53,8 @@ public abstract class AbstractExecutionThreadService implements Service {
           try {
             startUp();
             notifyStarted();
-
+            // If stopAsync() is called while starting we may be in the STOPPING state in which
+            // case we should skip right down to shutdown.
             if (isRunning()) {
               try {
                 AbstractExecutionThreadService.this.run();
@@ -62,11 +62,14 @@ public abstract class AbstractExecutionThreadService implements Service {
                 try {
                   shutDown();
                 } catch (Exception ignored) {
+                  // TODO(lukes): if guava ever moves to java7, this would be a good candidate for
+                  // a suppressed exception, or maybe we could generalize Closer.Suppressor
                   logger.log(Level.WARNING, 
                       "Error while attempting to shut down the service"
                       + " after failure.", ignored);
                 }
-                throw t;
+                notifyFailed(t);
+                return;
               }
             }
 
@@ -74,7 +77,6 @@ public abstract class AbstractExecutionThreadService implements Service {
             notifyStopped();
           } catch (Throwable t) {
             notifyFailed(t);
-            throw Throwables.propagate(t);
           }
         }
       });

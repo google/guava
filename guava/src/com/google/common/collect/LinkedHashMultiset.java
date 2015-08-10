@@ -33,12 +33,12 @@ import java.util.LinkedHashMap;
  * the multiset, the element will appear at the end of the iteration.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">
  * {@code Multiset}</a>.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -84,8 +84,7 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
   }
 
   private LinkedHashMultiset(int distinctElements) {
-    // Could use newLinkedHashMapWithExpectedSize() if it existed
-    super(new LinkedHashMap<E, Count>(Maps.capacity(distinctElements)));
+    super(Maps.<E, Count>newLinkedHashMapWithExpectedSize(distinctElements));
   }
 
   /**
@@ -103,8 +102,7 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int distinctElements = Serialization.readCount(stream);
-    setBackingMap(new LinkedHashMap<E, Count>(
-        Maps.capacity(distinctElements)));
+    setBackingMap(new LinkedHashMap<E, Count>());
     Serialization.populateMultiset(this, stream, distinctElements);
   }
 

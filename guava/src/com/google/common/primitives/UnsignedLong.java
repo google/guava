@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  * treat primitive {@code long} values as unsigned, using the methods from {@link UnsignedLongs}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support">
+ * "https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">
  * unsigned primitive utilities</a>.
  *
  * @author Louis Wasserman
@@ -68,7 +68,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * @since 14.0
    */
   public static UnsignedLong fromLongBits(long bits) {
-    // TODO(user): consider caching small values, like Long.valueOf
+    // TODO(lowasser): consider caching small values, like Long.valueOf
     return new UnsignedLong(bits);
   }
 
@@ -79,8 +79,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * @since 14.0
    */
   public static UnsignedLong valueOf(long value) {
-    checkArgument(value >= 0,
-        "value (%s) is outside the range for an unsigned long value", value);
+    checkArgument(value >= 0, "value (%s) is outside the range for an unsigned long value", value);
     return fromLongBits(value);
   }
 
@@ -92,8 +91,10 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    */
   public static UnsignedLong valueOf(BigInteger value) {
     checkNotNull(value);
-    checkArgument(value.signum() >= 0 && value.bitLength() <= Long.SIZE,
-        "value (%s) is outside the range for an unsigned long value", value);
+    checkArgument(
+        value.signum() >= 0 && value.bitLength() <= Long.SIZE,
+        "value (%s) is outside the range for an unsigned long value",
+        value);
     return fromLongBits(value.longValue());
   }
 
@@ -102,7 +103,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * an unsigned {@code long} value.
    *
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code long}
-   *         value
+   *     value
    */
   public static UnsignedLong valueOf(String string) {
     return valueOf(string, 10);
@@ -113,8 +114,8 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * an unsigned {@code long} value in the specified radix.
    *
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code long}
-   *         value, or {@code radix} is not between {@link Character#MIN_RADIX} and
-   *         {@link Character#MAX_RADIX}
+   *     value, or {@code radix} is not between {@link Character#MIN_RADIX} and
+   *     {@link Character#MAX_RADIX}
    */
   public static UnsignedLong valueOf(String string, int radix) {
     return fromLongBits(UnsignedLongs.parseUnsignedLong(string, radix));
@@ -126,6 +127,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public UnsignedLong plus(UnsignedLong val) {
     return fromLongBits(this.value + checkNotNull(val).value);
   }
@@ -136,6 +138,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public UnsignedLong minus(UnsignedLong val) {
     return fromLongBits(this.value - checkNotNull(val).value);
   }

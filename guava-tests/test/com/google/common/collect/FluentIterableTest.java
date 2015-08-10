@@ -49,6 +49,7 @@ import javax.annotation.Nullable;
  *
  * @author Marcin Mikosik
  */
+@SuppressWarnings("CheckReturnValue")
 @GwtCompatible(emulated = true)
 public class FluentIterableTest extends TestCase {
 
@@ -221,7 +222,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<TypeA> alist =
         FluentIterable.from(asList(new TypeA(), new TypeA(), hasBoth, new TypeA()));
     Iterable<TypeB> blist = alist.filter(TypeB.class);
-    assertThat(blist).iteratesAs(hasBoth);
+    assertThat(blist).containsExactly(hasBoth).inOrder();
   }
 
   public void testAnyMatch() {
@@ -482,7 +483,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<String> tail = FluentIterable.from(set).skip(1);
     set.remove("b");
     set.addAll(Lists.newArrayList("X", "Y", "Z"));
-    assertThat(tail).iteratesAs("c", "X", "Y", "Z");
+    assertThat(tail).containsExactly("c", "X", "Y", "Z").inOrder();
   }
 
   public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
@@ -490,7 +491,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<String> tail = FluentIterable.from(list).skip(1);
     list.subList(1, 3).clear();
     list.addAll(0, Lists.newArrayList("X", "Y", "Z"));
-    assertThat(tail).iteratesAs("Y", "Z", "a");
+    assertThat(tail).containsExactly("Y", "Z", "a").inOrder();
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {
@@ -560,11 +561,11 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testToSet() {
-    assertThat(fluent(1, 2, 3, 4).toSet()).has().exactly(1, 2, 3, 4).inOrder();
+    assertThat(fluent(1, 2, 3, 4).toSet()).containsExactly(1, 2, 3, 4).inOrder();
   }
 
   public void testToSet_removeDuplicates() {
-    assertThat(fluent(1, 2, 1, 2).toSet()).has().exactly(1, 2).inOrder();
+    assertThat(fluent(1, 2, 1, 2).toSet()).containsExactly(1, 2).inOrder();
   }
 
   public void testToSet_empty() {
@@ -573,17 +574,25 @@ public class FluentIterableTest extends TestCase {
 
   public void testToSortedSet() {
     assertThat(fluent(1, 4, 2, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
-        .has().exactly(4, 3, 2, 1).inOrder();
+        .containsExactly(4, 3, 2, 1).inOrder();
   }
 
   public void testToSortedSet_removeDuplicates() {
     assertThat(fluent(1, 4, 1, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
-        .has().exactly(4, 3, 1).inOrder();
+        .containsExactly(4, 3, 1).inOrder();
+  }
+
+  public void testToMultiset() {
+    assertThat(fluent(1, 2, 1, 3, 2, 4).toMultiset()).containsExactly(1, 1, 2, 2, 3, 4).inOrder();
+  }
+
+  public void testToMultiset_empty() {
+    assertThat(fluent().toMultiset()).isEmpty();
   }
 
   public void testToMap() {
     assertThat(fluent(1, 2, 3).toMap(Functions.toStringFunction()).entrySet())
-        .has().exactly(
+        .containsExactly(
             Maps.immutableEntry(1, "1"),
             Maps.immutableEntry(2, "2"),
             Maps.immutableEntry(3, "3")).inOrder();
@@ -690,17 +699,17 @@ public class FluentIterableTest extends TestCase {
 
   public void testCopyInto_List() {
     assertThat(fluent(1, 3, 5).copyInto(Lists.newArrayList(1, 2)))
-        .has().exactly(1, 2, 1, 3, 5).inOrder();
+        .containsExactly(1, 2, 1, 3, 5).inOrder();
   }
 
   public void testCopyInto_Set() {
     assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2)))
-        .has().exactly(1, 2, 3, 5);
+        .containsExactly(1, 2, 3, 5);
   }
 
   public void testCopyInto_SetAllDuplicates() {
     assertThat(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2, 3, 5)))
-        .has().exactly(1, 2, 3, 5);
+        .containsExactly(1, 2, 3, 5);
   }
 
   public void testCopyInto_NonCollection() {
@@ -715,7 +724,7 @@ public class FluentIterableTest extends TestCase {
     };
 
     assertThat(FluentIterable.from(iterable).copyInto(list))
-        .has().exactly(1, 2, 3, 9, 8, 7).inOrder();
+        .containsExactly(1, 2, 3, 9, 8, 7).inOrder();
   }
 
   public void testJoin() {

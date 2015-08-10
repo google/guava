@@ -286,13 +286,13 @@ public class ArrayTableTest extends AbstractTableTest {
   public void testRowKeyList() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    assertThat(table.rowKeyList()).has().exactly("foo", "bar", "cat").inOrder();
+    assertThat(table.rowKeyList()).containsExactly("foo", "bar", "cat").inOrder();
   }
 
   public void testColumnKeyList() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    assertThat(table.columnKeyList()).has().exactly(1, 2, 3).inOrder();
+    assertThat(table.columnKeyList()).containsExactly(1, 2, 3).inOrder();
   }
 
   public void testGetMissingKeys() {
@@ -400,9 +400,9 @@ public class ArrayTableTest extends AbstractTableTest {
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Character[][] array = table.toArray(Character.class);
     assertEquals(3, array.length);
-    assertThat(array[0]).asList().has().exactly('a', null, 'c').inOrder();
-    assertThat(array[1]).asList().has().exactly('b', null, null).inOrder();
-    assertThat(array[2]).asList().has().exactly(null, null, null).inOrder();
+    assertThat(array[0]).asList().containsExactly('a', null, 'c').inOrder();
+    assertThat(array[1]).asList().containsExactly('b', null, null).inOrder();
+    assertThat(array[2]).asList().containsExactly(null, null, null).inOrder();
     table.set(0, 2, 'd');
     assertEquals((Character) 'c', array[0][2]);
     array[0][2] = 'e';

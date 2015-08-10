@@ -42,9 +42,6 @@ final class Serialization {
    * #writeMultiset(Multiset, ObjectOutputStream)}, or the number of distinct
    * keys in a multimap serialized by {@link
    * #writeMultimap(Multimap, ObjectOutputStream)}.
-   *
-   * <p>The returned count may be used to construct an empty collection of the
-   * appropriate capacity before calling any of the {@code populate} methods.
    */
   static int readCount(ObjectInputStream stream) throws IOException {
     return stream.readInt();

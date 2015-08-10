@@ -27,6 +27,8 @@ import sun.misc.Unsafe;
 import java.nio.ByteOrder;
 import java.util.Comparator;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * Static utility methods pertaining to {@code byte} primitives that interpret
  * values as <i>unsigned</i> (that is, any negative value {@code b} is treated
@@ -35,7 +37,7 @@ import java.util.Comparator;
  * which signedness is not an issue are in {@link Bytes}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
+ * "https://github.com/google/guava/wiki/PrimitivesExplained">
  * primitive utilities</a>.
  *
  * @author Kevin Bourrillion
@@ -71,6 +73,7 @@ public final class UnsignedBytes {
    *
    * @since 6.0
    */
+  @CheckReturnValue
   public static int toInt(byte value) {
     return value & UNSIGNED_MASK;
   }
@@ -122,6 +125,7 @@ public final class UnsignedBytes {
    * @return a negative value if {@code a} is less than {@code b}; a positive
    *     value if {@code a} is greater than {@code b}; or zero if they are equal
    */
+  @CheckReturnValue
   public static int compare(byte a, byte b) {
     return toInt(a) - toInt(b);
   }
@@ -134,6 +138,7 @@ public final class UnsignedBytes {
    *     every other value in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @CheckReturnValue
   public static byte min(byte... array) {
     checkArgument(array.length > 0);
     int min = toInt(array[0]);
@@ -154,6 +159,7 @@ public final class UnsignedBytes {
    *     to every other value in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @CheckReturnValue
   public static byte max(byte... array) {
     checkArgument(array.length > 0);
     int max = toInt(array[0]);
@@ -172,6 +178,7 @@ public final class UnsignedBytes {
    * @since 13.0
    */
   @Beta
+  @CheckReturnValue
   public static String toString(byte x) {
     return toString(x, 10);
   }
@@ -187,9 +194,12 @@ public final class UnsignedBytes {
    * @since 13.0
    */
   @Beta
+  @CheckReturnValue
   public static String toString(byte x, int radix) {
-    checkArgument(radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
-        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX", radix);
+    checkArgument(
+        radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
+        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX",
+        radix);
     // Benchmarks indicate this is probably not worth optimizing.
     return Integer.toString(toInt(x), radix);
   }
@@ -199,7 +209,7 @@ public final class UnsignedBytes {
    *
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code byte}
    *         value
-   * @throws NullPointerException if {@code s} is null 
+   * @throws NullPointerException if {@code s} is null
    *         (in contrast to {@link Byte#parseByte(String)})
    * @since 13.0
    */
@@ -216,7 +226,7 @@ public final class UnsignedBytes {
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code byte}
    *         with the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX}
    *         and {@link Character#MAX_RADIX}.
-   * @throws NullPointerException if {@code s} is null 
+   * @throws NullPointerException if {@code s} is null
    *         (in contrast to {@link Byte#parseByte(String)})
    * @since 13.0
    */
@@ -240,6 +250,7 @@ public final class UnsignedBytes {
    *     the resulting string (but not at the start or end)
    * @param array an array of {@code byte} values, possibly empty
    */
+  @CheckReturnValue
   public static String join(String separator, byte... array) {
     checkNotNull(separator);
     if (array.length == 0) {
@@ -271,6 +282,7 @@ public final class UnsignedBytes {
    *     Lexicographical order article at Wikipedia</a>
    * @since 2.0
    */
+  @CheckReturnValue
   public static Comparator<byte[]> lexicographicalComparator() {
     return LexicographicalComparatorHolder.BEST_COMPARATOR;
   }
@@ -298,8 +310,7 @@ public final class UnsignedBytes {
     enum UnsafeComparator implements Comparator<byte[]> {
       INSTANCE;
 
-      static final boolean BIG_ENDIAN =
-          ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);
+      static final boolean BIG_ENDIAN = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);
 
       /*
        * The following static final fields exist for performance reasons.
@@ -335,7 +346,7 @@ public final class UnsignedBytes {
           throw new AssertionError();
         }
       }
-      
+
       /**
        * Returns a sun.misc.Unsafe.  Suitable for use in a 3rd party package.
        * Replace with a simple call to Unsafe.getUnsafe when integrating
@@ -344,29 +355,33 @@ public final class UnsignedBytes {
        * @return a sun.misc.Unsafe
        */
       private static sun.misc.Unsafe getUnsafe() {
-          try {
-              return sun.misc.Unsafe.getUnsafe();
-          } catch (SecurityException tryReflectionInstead) {}
-          try {
-              return java.security.AccessController.doPrivileged
-              (new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
-                  public sun.misc.Unsafe run() throws Exception {
-                      Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
-                      for (java.lang.reflect.Field f : k.getDeclaredFields()) {
-                          f.setAccessible(true);
-                          Object x = f.get(null);
-                          if (k.isInstance(x))
-                              return k.cast(x);
-                      }
-                      throw new NoSuchFieldError("the Unsafe");
-                  }});
-          } catch (java.security.PrivilegedActionException e) {
-              throw new RuntimeException("Could not initialize intrinsics",
-                                         e.getCause());
-          }
+        try {
+          return sun.misc.Unsafe.getUnsafe();
+        } catch (SecurityException e) {
+          // that's okay; try reflection instead
+        }
+        try {
+          return java.security.AccessController.doPrivileged(
+              new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
+                public sun.misc.Unsafe run() throws Exception {
+                  Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
+                  for (java.lang.reflect.Field f : k.getDeclaredFields()) {
+                    f.setAccessible(true);
+                    Object x = f.get(null);
+                    if (k.isInstance(x)) {
+                      return k.cast(x);
+                    }
+                  }
+                  throw new NoSuchFieldError("the Unsafe");
+                }
+              });
+        } catch (java.security.PrivilegedActionException e) {
+          throw new RuntimeException("Could not initialize intrinsics", e.getCause());
+        }
       }
 
-      @Override public int compare(byte[] left, byte[] right) {
+      @Override
+      public int compare(byte[] left, byte[] right) {
         int minLength = Math.min(left.length, right.length);
         int minWords = minLength / Longs.BYTES;
 
@@ -386,8 +401,8 @@ public final class UnsignedBytes {
             /*
              * We want to compare only the first index where left[index] != right[index].
              * This corresponds to the least significant nonzero byte in lw ^ rw, since lw
-             * and rw are little-endian.  Long.numberOfTrailingZeros(diff) tells us the least 
-             * significant nonzero bit, and zeroing out the first three bits of L.nTZ gives us the 
+             * and rw are little-endian.  Long.numberOfTrailingZeros(diff) tells us the least
+             * significant nonzero bit, and zeroing out the first three bits of L.nTZ gives us the
              * shift to get that least significant nonzero byte.
              */
             int n = Long.numberOfTrailingZeros(lw ^ rw) & ~0x7;
@@ -409,7 +424,8 @@ public final class UnsignedBytes {
     enum PureJavaComparator implements Comparator<byte[]> {
       INSTANCE;
 
-      @Override public int compare(byte[] left, byte[] right) {
+      @Override
+      public int compare(byte[] left, byte[] right) {
         int minLength = Math.min(left.length, right.length);
         for (int i = 0; i < minLength; i++) {
           int result = UnsignedBytes.compare(left[i], right[i]);
@@ -431,8 +447,7 @@ public final class UnsignedBytes {
 
         // yes, UnsafeComparator does implement Comparator<byte[]>
         @SuppressWarnings("unchecked")
-        Comparator<byte[]> comparator =
-            (Comparator<byte[]>) theClass.getEnumConstants()[0];
+        Comparator<byte[]> comparator = (Comparator<byte[]>) theClass.getEnumConstants()[0];
         return comparator;
       } catch (Throwable t) { // ensure we really catch *everything*
         return lexicographicalComparatorJavaImpl();

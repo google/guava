@@ -159,18 +159,17 @@ public class FeatureUtilTest extends TestCase {
 
     features = Sets.<Feature<?>>newHashSet(
         ExampleDerivedFeature.DERIVED_FEATURE_1);
-    assertThat(FeatureUtil.addImpliedFeatures(features)).has().item(
-        ExampleDerivedFeature.DERIVED_FEATURE_1);
+    assertThat(FeatureUtil.addImpliedFeatures(features))
+        .contains(ExampleDerivedFeature.DERIVED_FEATURE_1);
 
-    features = Sets.<Feature<?>>newHashSet(
-        ExampleDerivedFeature.DERIVED_FEATURE_2);
-    assertThat(FeatureUtil.addImpliedFeatures(features)).has().exactly(
+    features = Sets.<Feature<?>>newHashSet(ExampleDerivedFeature.DERIVED_FEATURE_2);
+    assertThat(FeatureUtil.addImpliedFeatures(features)).containsExactly(
         ExampleDerivedFeature.DERIVED_FEATURE_2,
         ExampleBaseFeature.BASE_FEATURE_1);
 
     features = Sets.<Feature<?>>newHashSet(
         ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE);
-    assertThat(FeatureUtil.addImpliedFeatures(features)).has().exactly(
+    assertThat(FeatureUtil.addImpliedFeatures(features)).containsExactly(
         ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE,
         ExampleDerivedFeature.DERIVED_FEATURE_1,
         ExampleDerivedFeature.DERIVED_FEATURE_2,
@@ -193,12 +192,10 @@ public class FeatureUtilTest extends TestCase {
 
     features = Sets.<Feature<?>>newHashSet(
         ExampleDerivedFeature.DERIVED_FEATURE_2);
-    assertThat(FeatureUtil.impliedFeatures(features)).has().item(
-        ExampleBaseFeature.BASE_FEATURE_1);
+    assertThat(FeatureUtil.impliedFeatures(features)).contains(ExampleBaseFeature.BASE_FEATURE_1);
 
-    features = Sets.<Feature<?>>newHashSet(
-        ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE);
-    assertThat(FeatureUtil.impliedFeatures(features)).has().exactly(
+    features = Sets.<Feature<?>>newHashSet(ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE);
+    assertThat(FeatureUtil.impliedFeatures(features)).containsExactly(
         ExampleDerivedFeature.DERIVED_FEATURE_1,
         ExampleDerivedFeature.DERIVED_FEATURE_2,
         ExampleBaseFeature.BASE_FEATURE_1,
@@ -250,8 +247,7 @@ public class FeatureUtilTest extends TestCase {
           ExampleDerivedInterfaceTester_Conflict.class);
       fail("Expected ConflictingRequirementsException");
     } catch (ConflictingRequirementsException e) {
-      assertThat(e.getConflicts()).has().item(
-          ExampleBaseFeature.BASE_FEATURE_1);
+      assertThat(e.getConflicts()).contains(ExampleBaseFeature.BASE_FEATURE_1);
       assertEquals(ExampleDerivedInterfaceTester_Conflict.class, e.getSource());
     }
   }
@@ -264,8 +260,7 @@ public class FeatureUtilTest extends TestCase {
       FeatureUtil.buildTesterRequirements(method);
       fail("Expected ConflictingRequirementsException");
     } catch (ConflictingRequirementsException e) {
-      assertThat(e.getConflicts()).has().item(
-          ExampleBaseFeature.BASE_FEATURE_1);
+      assertThat(e.getConflicts()).contains(ExampleBaseFeature.BASE_FEATURE_1);
       assertEquals(method, e.getSource());
     }
   }

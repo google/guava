@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Ascii;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.HashCode;
@@ -113,13 +114,23 @@ public abstract class ByteSource {
   }
 
   /**
-   * Returns whether the source has zero bytes. The default implementation is to open a stream and
-   * check for EOF.
+   * Returns whether the source has zero bytes. The default implementation returns true if
+   * {@link #sizeIfKnown} returns zero, falling back to opening a stream and checking for
+   * EOF if the size is not known.
+   *
+   * <p>Note that, in cases where {@code sizeIfKnown} returns zero, it is <i>possible</i> that bytes
+   * are actually available for reading. (For example, some special files may return a size of 0
+   * despite actually having content when read.) This means that a source may return {@code true}
+   * from {@code isEmpty()} despite having readable content.
    *
    * @throws IOException if an I/O error occurs
    * @since 15.0
    */
   public boolean isEmpty() throws IOException {
+    Optional<Long> sizeIfKnown = sizeIfKnown();
+    if (sizeIfKnown.isPresent() && sizeIfKnown.get() == 0L) {
+      return true;
+    }
     Closer closer = Closer.create();
     try {
       InputStream in = closer.register(openStream());
@@ -132,21 +143,49 @@ public abstract class ByteSource {
   }
 
   /**
-   * Returns the size of this source in bytes. For most implementations, this is a heavyweight
-   * operation that will open a stream, read (or {@link InputStream#skip(long) skip}, if possible)
-   * to the end of the stream and return the total number of bytes that were read.
+   * Returns the size of this source in bytes, if the size can be easily determined without
+   * actually opening the data stream.
    *
-   * <p>For some sources, such as a file, this method may use a more efficient implementation. Note
-   * that in such cases, it is <i>possible</i> that this method will return a different number of
-   * bytes than would be returned by reading all of the bytes (for example, some special files may
-   * return a size of 0 despite actually having content when read).
+   * <p>The default implementation returns {@link Optional#absent}. Some sources, such as a file,
+   * may return a non-absent value. Note that in such cases, it is <i>possible</i> that this method
+   * will return a different number of bytes than would be returned by reading all of the bytes (for
+   * example, some special files may return a size of 0 despite actually having content when read).
    *
-   * <p>In either case, if this is a mutable source such as a file, the size it returns may not be
-   * the same number of bytes a subsequent read would return.
+   * <p>Additionally, for mutable sources such as files, a subsequent read may return a different
+   * number of bytes if the contents are changed.
+   *
+   * @since 19.0
+   */
+  @Beta
+  public Optional<Long> sizeIfKnown() {
+    return Optional.absent();
+  }
+
+  /**
+   * Returns the size of this source in bytes, even if doing so requires opening and traversing
+   * an entire stream. To avoid a potentially expensive operation, see {@link #sizeIfKnown}.
+   *
+   * <p>The default implementation calls {@link #sizeIfKnown} and returns the value if present.
+   * If absent, it will fall back to a heavyweight operation that will open a stream, read (or
+   * {@link InputStream#skip(long) skip}, if possible) to the end of the stream and return the total
+   * number of bytes that were read.
+   *
+   * <p>Note that for some sources that implement {@link #sizeIfKnown} to provide a more efficient
+   * implementation, it is <i>possible</i> that this method will return a different number of bytes
+   * than would be returned by reading all of the bytes (for example, some special files may return
+   * a size of 0 despite actually having content when read).
+   *
+   * <p>In either case, for mutable sources such as files, a subsequent read may return a different
+   * number of bytes if the contents are changed.
    *
    * @throws IOException if an I/O error occurs in the process of reading the size of this source
    */
   public long size() throws IOException {
+    Optional<Long> sizeIfKnown = sizeIfKnown();
+    if (sizeIfKnown.isPresent()) {
+      return sizeIfKnown.get();
+    }
+
     Closer closer = Closer.create();
     try {
       InputStream in = closer.register(openStream());
@@ -431,10 +470,10 @@ public abstract class ByteSource {
    */
   private final class SlicedByteSource extends ByteSource {
 
-    private final long offset;
-    private final long length;
+    final long offset;
+    final long length;
 
-    private SlicedByteSource(long offset, long length) {
+    SlicedByteSource(long offset, long length) {
       checkArgument(offset >= 0, "offset (%s) may not be negative", offset);
       checkArgument(length >= 0, "length (%s) may not be negative", length);
       this.offset = offset;
@@ -482,6 +521,15 @@ public abstract class ByteSource {
     }
 
     @Override
+    public Optional<Long> sizeIfKnown() {
+      Optional<Long> unslicedSize = ByteSource.this.sizeIfKnown();
+      if (unslicedSize.isPresent()) {
+        return Optional.of(Math.min(offset + length, unslicedSize.get()) - offset);
+      }
+      return Optional.absent();
+    }
+
+    @Override
     public String toString() {
       return ByteSource.this.toString() + ".slice(" + offset + ", " + length + ")";
     }
@@ -489,15 +537,24 @@ public abstract class ByteSource {
 
   private static class ByteArrayByteSource extends ByteSource {
 
-    protected final byte[] bytes;
+    final byte[] bytes;
+    final int offset;
+    final int length;
 
-    protected ByteArrayByteSource(byte[] bytes) {
-      this.bytes = checkNotNull(bytes);
+    ByteArrayByteSource(byte[] bytes) {
+      this(bytes, 0, bytes.length);
+    }
+
+    // NOTE: Preconditions are enforced by slice, the only non-trivial caller.
+    ByteArrayByteSource(byte[] bytes, int offset, int length) {
+      this.bytes = bytes;
+      this.offset = offset;
+      this.length = length;
     }
 
     @Override
     public InputStream openStream() {
-      return new ByteArrayInputStream(bytes);
+      return new ByteArrayInputStream(bytes, offset, length);
     }
 
     @Override
@@ -507,50 +564,63 @@ public abstract class ByteSource {
 
     @Override
     public boolean isEmpty() {
-      return bytes.length == 0;
+      return length == 0;
     }
 
     @Override
     public long size() {
-      return bytes.length;
+      return length;
+    }
+
+    @Override
+    public Optional<Long> sizeIfKnown() {
+      return Optional.of((long) length);
     }
 
     @Override
     public byte[] read() {
-      return bytes.clone();
+      return Arrays.copyOfRange(bytes, offset, offset + length);
     }
 
     @Override
     public long copyTo(OutputStream output) throws IOException {
-      output.write(bytes);
-      return bytes.length;
+      output.write(bytes, offset, length);
+      return length;
     }
 
     @Override
     public <T> T read(ByteProcessor<T> processor) throws IOException {
-      processor.processBytes(bytes, 0, bytes.length);
+      processor.processBytes(bytes, offset, length);
       return processor.getResult();
     }
 
     @Override
     public HashCode hash(HashFunction hashFunction) throws IOException {
-      return hashFunction.hashBytes(bytes);
+      return hashFunction.hashBytes(bytes, offset, length);
     }
 
-    // TODO(user): Possibly override slice()
+    @Override
+    public ByteSource slice(long offset, long length) {
+      checkArgument(offset >= 0, "offset (%s) may not be negative", offset);
+      checkArgument(length >= 0, "length (%s) may not be negative", length);
+
+      int newOffset = this.offset + (int) Math.min(this.length, offset);
+      int endOffset = this.offset + (int) Math.min(this.length, offset + length);
+      return new ByteArrayByteSource(bytes, newOffset, endOffset - newOffset);
+    }
 
     @Override
     public String toString() {
       return "ByteSource.wrap("
-          + Ascii.truncate(BaseEncoding.base16().encode(bytes), 30, "...") + ")";
+          + Ascii.truncate(BaseEncoding.base16().encode(bytes, offset, length), 30, "...") + ")";
     }
   }
 
   private static final class EmptyByteSource extends ByteArrayByteSource {
 
-    private static final EmptyByteSource INSTANCE = new EmptyByteSource();
+    static final EmptyByteSource INSTANCE = new EmptyByteSource();
 
-    private EmptyByteSource() {
+    EmptyByteSource() {
       super(new byte[0]);
     }
 
@@ -573,7 +643,7 @@ public abstract class ByteSource {
 
   private static final class ConcatenatedByteSource extends ByteSource {
 
-    private final Iterable<? extends ByteSource> sources;
+    final Iterable<? extends ByteSource> sources;
 
     ConcatenatedByteSource(Iterable<? extends ByteSource> sources) {
       this.sources = checkNotNull(sources);
@@ -592,6 +662,19 @@ public abstract class ByteSource {
         }
       }
       return true;
+    }
+
+    @Override
+    public Optional<Long> sizeIfKnown() {
+      long result = 0L;
+      for (ByteSource source : sources) {
+        Optional<Long> sizeIfKnown = source.sizeIfKnown();
+        if (!sizeIfKnown.isPresent()) {
+          return Optional.absent();
+        }
+        result += sizeIfKnown.get();
+      }
+      return Optional.of(result);
     }
 
     @Override

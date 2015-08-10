@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.collect.BoundType.OPEN;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -190,7 +191,13 @@ public class ImmutableRangeMapTest extends TestCase {
           ImmutableMap<Range<Integer>, Integer> expectedAsMap =
               ImmutableMap.of(range1, 1, range2, 2);
           ImmutableMap<Range<Integer>, Integer> asMap = rangeMap.asMapOfRanges();
+          ImmutableMap<Range<Integer>, Integer> descendingMap = rangeMap.asDescendingMapOfRanges();
           assertEquals(expectedAsMap, asMap);
+          assertEquals(expectedAsMap, descendingMap);
+          SerializableTester.reserializeAndAssert(asMap);
+          SerializableTester.reserializeAndAssert(descendingMap);
+          assertEquals(ImmutableList.copyOf(asMap.entrySet()).reverse(),
+              ImmutableList.copyOf(descendingMap.entrySet()));
 
           for (Range<Integer> query : RANGES) {
             assertEquals(expectedAsMap.get(query), asMap.get(query));
@@ -224,5 +231,28 @@ public class ImmutableRangeMapTest extends TestCase {
         }
       }
     }
+  }
+
+  public void testSerialization() {
+    ImmutableRangeMap<Integer, Integer> emptyRangeMap = ImmutableRangeMap.of();
+    SerializableTester.reserializeAndAssert(emptyRangeMap);
+
+    ImmutableRangeMap<Integer, Integer> nonEmptyRangeMap =
+        new ImmutableRangeMap.Builder<Integer, Integer>()
+            .put(Range.closed(2, 4), 5)
+            .put(Range.open(6, 7), 3)
+            .put(Range.closedOpen(8, 10), 4)
+            .put(Range.openClosed(15, 17), 2)
+        .build();
+
+    ImmutableMap<Range<Integer>, Integer> test = nonEmptyRangeMap.asMapOfRanges();
+
+    for (Range<Integer> range : test.keySet()) {
+      SerializableTester.reserializeAndAssert(range);
+    }
+
+    SerializableTester.reserializeAndAssert(test.keySet());
+
+    SerializableTester.reserializeAndAssert(nonEmptyRangeMap);
   }
 }

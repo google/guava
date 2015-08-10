@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentMap;
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * @author Charles Fry
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>
@@ -36,7 +36,8 @@ public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>
   /** Constructor for use by subclasses. */
   protected ForwardingConcurrentMap() {}
 
-  @Override protected abstract ConcurrentMap<K, V> delegate();
+  @Override
+  protected abstract ConcurrentMap<K, V> delegate();
 
   @Override
   public V putIfAbsent(K key, V value) {
@@ -57,5 +58,4 @@ public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>
   public boolean replace(K key, V oldValue, V newValue) {
     return delegate().replace(key, oldValue, newValue);
   }
-
 }

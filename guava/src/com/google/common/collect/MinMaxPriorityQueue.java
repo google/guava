@@ -25,6 +25,8 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.AbstractQueue;
 import java.util.ArrayDeque;
@@ -42,8 +44,15 @@ import java.util.Queue;
 /**
  * A double-ended priority queue, which provides constant-time access to both
  * its least element and its greatest element, as determined by the queue's
- * specified comparator. If no comparator is given at construction time, the
- * natural order of elements is used.
+ * specified comparator. If no comparator is given at creation time, the
+ * natural order of elements is used. If no maximum size is given at creation time,
+ * the queue is unbounded.
+ *
+ * <p>Usage example: <pre>   {@code
+ *
+ *   MinMaxPriorityQueue<User> users = MinMaxPriorityQueue.orderedBy(userComparator)
+ *       .maximumSize(1000)
+ *       .create();}</pre>
  *
  * <p>As a {@link Queue} it functions exactly as a {@link PriorityQueue}: its
  * head element -- the implicit target of the methods {@link #peek()}, {@link
@@ -70,13 +79,18 @@ import java.util.Queue;
  * <p><i>Performance notes:</i>
  *
  * <ul>
+ * <li>If you only access one end of the queue, and do use a maximum size,
+ *     this class will perform significantly worse than a {@code PriorityQueue}
+ *     with manual eviction above the maximum size.  In many cases
+ *     {@link Ordering#leastOf} may work for your use case with significantly
+ *     improved (and asymptotically superior) performance.
  * <li>The retrieval operations {@link #peek}, {@link #peekFirst}, {@link
- *     #peekLast}, {@link #element}, and {@link #size} are constant-time
+ *     #peekLast}, {@link #element}, and {@link #size} are constant-time.
  * <li>The enqueing and dequeing operations ({@link #offer}, {@link #add}, and
  *     all the forms of {@link #poll} and {@link #remove()}) run in {@code
- *     O(log n) time}
+ *     O(log n) time}.
  * <li>The {@link #remove(Object)} and {@link #contains} operations require
- *     linear ({@code O(n)}) time
+ *     linear ({@code O(n)}) time.
  * <li>If you only access one end of the queue, and don't use a maximum size,
  *     this class is functionally equivalent to {@link PriorityQueue}, but
  *     significantly slower.
@@ -485,9 +499,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * array for storage, but for efficiency's sake they are stored interleaved on
    * alternate heap levels in the same array (MMPQ.queue).
    */
+  @WeakOuter
   private class Heap {
     final Ordering<E> ordering;
-    Heap otherHeap;
+    @Weak Heap otherHeap;
 
     Heap(Ordering<E> ordering) {
       this.ordering = ordering;

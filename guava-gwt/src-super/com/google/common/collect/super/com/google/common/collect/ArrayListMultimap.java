@@ -50,13 +50,13 @@ import java.util.List;
  * multimap. Concurrent read operations will work correctly. To allow concurrent
  * update operations, wrap your multimap with a call to {@link
  * Multimaps#synchronizedListMultimap}.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multimap">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">
  * {@code Multimap}</a>.
  *
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
@@ -82,8 +82,7 @@ public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
    * @throws IllegalArgumentException if {@code expectedKeys} or {@code
    *      expectedValuesPerKey} is negative
    */
-  public static <K, V> ArrayListMultimap<K, V> create(
-      int expectedKeys, int expectedValuesPerKey) {
+  public static <K, V> ArrayListMultimap<K, V> create(int expectedKeys, int expectedValuesPerKey) {
     return new ArrayListMultimap<K, V>(expectedKeys, expectedValuesPerKey);
   }
 
@@ -93,8 +92,7 @@ public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
    *
    * @param multimap the multimap whose contents are copied to this multimap
    */
-  public static <K, V> ArrayListMultimap<K, V> create(
-      Multimap<? extends K, ? extends V> multimap) {
+  public static <K, V> ArrayListMultimap<K, V> create(Multimap<? extends K, ? extends V> multimap) {
     return new ArrayListMultimap<K, V>(multimap);
   }
 
@@ -110,10 +108,11 @@ public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
   }
 
   private ArrayListMultimap(Multimap<? extends K, ? extends V> multimap) {
-    this(multimap.keySet().size(),
-        (multimap instanceof ArrayListMultimap) ?
-            ((ArrayListMultimap<?, ?>) multimap).expectedValuesPerKey :
-            DEFAULT_VALUES_PER_KEY);
+    this(
+        multimap.keySet().size(),
+        (multimap instanceof ArrayListMultimap)
+            ? ((ArrayListMultimap<?, ?>) multimap).expectedValuesPerKey
+            : DEFAULT_VALUES_PER_KEY);
     putAll(multimap);
   }
 
@@ -121,7 +120,8 @@ public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
    * Creates a new, empty {@code ArrayList} to hold the collection of values for
    * an arbitrary key.
    */
-  @Override List<V> createCollection() {
+  @Override
+  List<V> createCollection() {
     return new ArrayList<V>(expectedValuesPerKey);
   }
 

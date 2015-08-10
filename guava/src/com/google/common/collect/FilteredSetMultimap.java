@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 
 /**
  * A supertype for filtered {@link SetMultimap} implementations.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible

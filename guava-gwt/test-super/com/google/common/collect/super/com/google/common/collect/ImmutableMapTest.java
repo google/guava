@@ -119,14 +119,14 @@ public class ImmutableMapTest extends TestCase {
     @Override protected Map<Object, Integer> makePopulatedMap() {
       Colliders colliders = new Colliders();
       return ImmutableMap.of(
-          colliders.e0, 0,
-          colliders.e1, 1,
-          colliders.e2, 2,
-          colliders.e3, 3);
+          colliders.e0(), 0,
+          colliders.e1(), 1,
+          colliders.e2(), 2,
+          colliders.e3(), 3);
     }
 
     @Override protected Object getKeyNotInPopulatedMap() {
-      return new Colliders().e4;
+      return new Colliders().e4();
     }
 
     @Override protected Integer getValueNotInPopulatedMap() {
@@ -158,6 +158,39 @@ public class ImmutableMapTest extends TestCase {
           .build();
       assertMapEquals(map,
           "one", 1, "two", 2, "three", 3, "four", 4, "five", 5);
+    }
+    
+    public void testBuilder_orderEntriesByValue() {
+      ImmutableMap<String, Integer> map = new Builder<String, Integer>()
+          .orderEntriesByValue(Ordering.natural())
+          .put("three", 3)
+          .put("one", 1)
+          .put("five", 5)
+          .put("four", 4)
+          .put("two", 2)
+          .build();
+      assertMapEquals(map,
+          "one", 1, "two", 2, "three", 3, "four", 4, "five", 5);
+    }
+    
+    public void testBuilder_orderEntriesByValueAfterExactSizeBuild() {
+      Builder<String, Integer> builder = new Builder<String, Integer>(2)
+          .put("four", 4)
+          .put("one", 1);
+      ImmutableMap<String, Integer> keyOrdered = builder.build();
+      ImmutableMap<String, Integer> valueOrdered =
+          builder.orderEntriesByValue(Ordering.natural()).build();
+      assertMapEquals(keyOrdered, "four", 4, "one", 1);
+      assertMapEquals(valueOrdered, "one", 1, "four", 4);
+    }
+    
+    public void testBuilder_orderEntriesByValue_usedTwiceFails() {
+      ImmutableMap.Builder<String, Integer> builder = new Builder<String, Integer>()
+          .orderEntriesByValue(Ordering.natural());
+      try {
+        builder.orderEntriesByValue(Ordering.natural());
+        fail("Expected IllegalStateException");
+      } catch (IllegalStateException expected) {}
     }
 
     public void testBuilder_withImmutableEntry() {

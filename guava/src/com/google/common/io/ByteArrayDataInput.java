@@ -23,7 +23,7 @@ import java.io.IOException;
  * An extension of {@code DataInput} for reading from in-memory byte arrays; its
  * methods offer identical functionality but do not throw {@link IOException}.
  *
- * <p><b>Warning:<b> The caller is responsible for not attempting to read past
+ * <p><b>Warning:</b> The caller is responsible for not attempting to read past
  * the end of the array. If any method encounters the end of the array
  * prematurely, it throws {@link IllegalStateException} to signify <i>programmer
  * error</i>. This behavior is a technical violation of the supertype's

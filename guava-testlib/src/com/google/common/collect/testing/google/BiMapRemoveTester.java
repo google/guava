@@ -38,48 +38,48 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveKeyRemovesFromInverse() {
-    getMap().remove(samples.e0.getKey());
-    expectMissing(samples.e0);
+    getMap().remove(k0());
+    expectMissing(e0());
   }
 
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveKeyFromKeySetRemovesFromInverse() {
-    getMap().keySet().remove(samples.e0.getKey());
-    expectMissing(samples.e0);
+    getMap().keySet().remove(k0());
+    expectMissing(e0());
   }
 
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromValuesRemovesFromInverse() {
-    getMap().values().remove(samples.e0.getValue());
-    expectMissing(samples.e0);
+    getMap().values().remove(v0());
+    expectMissing(e0());
   }
 
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromInverseRemovesFromForward() {
-    getMap().inverse().remove(samples.e0.getValue());
-    expectMissing(samples.e0);
+    getMap().inverse().remove(v0());
+    expectMissing(e0());
   }
 
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromInverseKeySetRemovesFromForward() {
-    getMap().inverse().keySet().remove(samples.e0.getValue());
-    expectMissing(samples.e0);
+    getMap().inverse().keySet().remove(v0());
+    expectMissing(e0());
   }
 
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveFromInverseValuesRemovesFromInverse() {
-    getMap().inverse().values().remove(samples.e0.getKey());
-    expectMissing(samples.e0);
+    getMap().inverse().values().remove(k0());
+    expectMissing(e0());
   }
 
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)

@@ -19,6 +19,8 @@ package com.google.common.base;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * A time source; returns a time value representing the number of nanoseconds elapsed since some
  * fixed but arbitrary point in time. Note that most users should use {@link Stopwatch} instead of
@@ -28,7 +30,7 @@ import com.google.common.annotations.GwtCompatible;
  *
  * @author Kevin Bourrillion
  * @since 10.0
- *     (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
+ *     (<a href="https://github.com/google/guava/wiki/Compatibility"
  *     >mostly source-compatible</a> since 9.0)
  */
 @Beta
@@ -50,14 +52,16 @@ public abstract class Ticker {
    *
    * @since 10.0
    */
+  @CheckReturnValue
   public static Ticker systemTicker() {
     return SYSTEM_TICKER;
   }
 
-  private static final Ticker SYSTEM_TICKER = new Ticker() {
-    @Override
-    public long read() {
-      return Platform.systemNanoTime();
-    }
-  };
+  private static final Ticker SYSTEM_TICKER =
+      new Ticker() {
+        @Override
+        public long read() {
+          return Platform.systemNanoTime();
+        }
+      };
 }

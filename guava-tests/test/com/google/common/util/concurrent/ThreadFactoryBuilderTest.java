@@ -23,6 +23,7 @@ import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
 
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
@@ -97,7 +98,7 @@ public class ThreadFactoryBuilderTest extends TestCase {
     String format = "super-duper-thread-%s";
     ThreadFactory factory = builder.setNameFormat(format).build();
     for (int i = 0; i < 11; i++) {
-      assertEquals(String.format(format, i),
+      assertEquals(rootLocaleFormat(format, i),
           factory.newThread(monitoredRunnable).getName());
     }
   }
@@ -106,7 +107,7 @@ public class ThreadFactoryBuilderTest extends TestCase {
     String format = "super-duper-thread-%d";
     ThreadFactory factory = builder.setNameFormat(format).build();
     for (int i = 0; i < 11; i++) {
-      assertEquals(String.format(format, i),
+      assertEquals(rootLocaleFormat(format, i),
           factory.newThread(monitoredRunnable).getName());
     }
   }
@@ -211,5 +212,9 @@ public class ThreadFactoryBuilderTest extends TestCase {
     npTester.testAllPublicConstructors(ThreadFactoryBuilder.class);
     npTester.testAllPublicStaticMethods(ThreadFactoryBuilder.class);
     npTester.testAllPublicInstanceMethods(builder);
+  }
+
+  private static String rootLocaleFormat(String format, Object... args) {
+    return String.format(Locale.ROOT, format, args);
   }
 }

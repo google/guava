@@ -20,13 +20,14 @@ import com.google.common.annotations.Beta;
 
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.Callable;
+import java.util.concurrent.RunnableFuture;
 
 import javax.annotation.Nullable;
 
 /**
- * Abstract {@link ListeningExecutorService} implementation that creates
- * {@link ListenableFutureTask} instances for each {@link Runnable} and {@link Callable} submitted
- * to it. These tasks are run with the abstract {@link #execute execute(Runnable)} method.
+ * Abstract {@link ListeningExecutorService} implementation that creates {@link ListenableFuture}
+ * instances for each {@link Runnable} and {@link Callable} submitted to it. These tasks are run
+ * with the abstract {@link #execute execute(Runnable)} method.
  *
  * <p>In addition to {@link #execute}, subclasses must implement all methods related to shutdown and
  * termination.
@@ -38,12 +39,14 @@ import javax.annotation.Nullable;
 public abstract class AbstractListeningExecutorService
     extends AbstractExecutorService implements ListeningExecutorService {
 
-  @Override protected final <T> ListenableFutureTask<T> newTaskFor(Runnable runnable, T value) {
-    return ListenableFutureTask.create(runnable, value);
+  /** @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0) */
+  @Override protected final <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
+    return TrustedListenableFutureTask.create(runnable, value);
   }
 
-  @Override protected final <T> ListenableFutureTask<T> newTaskFor(Callable<T> callable) {
-    return ListenableFutureTask.create(callable);
+  /** @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0) */
+  @Override protected final <T> RunnableFuture<T> newTaskFor(Callable<T> callable) {
+    return TrustedListenableFutureTask.create(callable);
   }
 
   @Override public ListenableFuture<?> submit(Runnable task) {

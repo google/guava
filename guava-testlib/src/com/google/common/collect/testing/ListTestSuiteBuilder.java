@@ -16,6 +16,10 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
+import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
+import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS;
+
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.testers.CollectionSerializationEqualTester;
@@ -91,7 +95,7 @@ public final class ListTestSuiteBuilder<E> extends
    * lists have an iteration ordering corresponding to the insertion order.
    */
   @Override public TestSuite createTestSuite() {
-    withFeatures(CollectionFeature.KNOWN_ORDER);
+    withFeatures(KNOWN_ORDER);
     return super.createTestSuite();
   }
 
@@ -104,7 +108,7 @@ public final class ListTestSuiteBuilder<E> extends
     List<TestSuite> derivedSuites = new ArrayList<TestSuite>(
         super.createDerivedSuites(parentBuilder));
 
-    if (parentBuilder.getFeatures().contains(CollectionFeature.SERIALIZABLE)) {
+    if (parentBuilder.getFeatures().contains(SERIALIZABLE)) {
       derivedSuites.add(ListTestSuiteBuilder
           .using(new ReserializedListGenerator<E>(parentBuilder.getSubjectGenerator()))
           .named(getName() + " reserialized")
@@ -147,8 +151,8 @@ public final class ListTestSuiteBuilder<E> extends
       Set<Feature<?>> features) {
     Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
     derivedFeatures.addAll(features);
-    derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
-    derivedFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS);
+    derivedFeatures.remove(SERIALIZABLE);
+    derivedFeatures.remove(SERIALIZABLE_INCLUDING_VIEWS);
     return derivedFeatures;
   }
 }

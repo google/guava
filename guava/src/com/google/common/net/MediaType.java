@@ -230,6 +230,21 @@ public final class MediaType {
   public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
 
   /**
+   * Media type for <a href="https://www.dartlang.org/articles/embedding-in-html/">dart files</a>.
+   *
+   * @since 19.0
+   */
+  public static final MediaType DART_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "dart");
+
+  /**
+   * Media type for <a href="https://goo.gl/dNnKKj">Apple Passbook</a>.
+   *
+   * @since 19.0
+   */
+  public static final MediaType APPLE_PASSBOOK = createConstant(APPLICATION_TYPE,
+      "vnd.apple.pkpass");
+
+  /**
    * Media type for <a href="http://en.wikipedia.org/wiki/Embedded_OpenType">Embedded OpenType</a>
    * fonts. This is
    * <a href="http://www.iana.org/assignments/media-types/application/vnd.ms-fontobject">registered
@@ -359,6 +374,10 @@ public final class MediaType {
   private final String type;
   private final String subtype;
   private final ImmutableListMultimap<String, String> parameters;
+
+  private String toString;
+
+  private int hashCode;
 
   private MediaType(String type, String subtype,
       ImmutableListMultimap<String, String> parameters) {
@@ -692,7 +711,13 @@ public final class MediaType {
   }
 
   @Override public int hashCode() {
-    return Objects.hashCode(type, subtype, parametersAsMap());
+    // racy single-check idiom
+    int h = hashCode;
+    if (h == 0) {
+      h = Objects.hashCode(type, subtype, parametersAsMap());
+      hashCode = h;
+    }
+    return h;
   }
 
   private static final MapJoiner PARAMETER_JOINER = Joiner.on("; ").withKeyValueSeparator("=");
@@ -702,6 +727,16 @@ public final class MediaType {
    * href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>.
    */
   @Override public String toString() {
+    // racy single-check idiom, safe because String is immutable
+    String result = toString;
+    if (result == null) {
+      result = computeToString();
+      toString = result;
+    }
+    return result;
+  }
+
+  private String computeToString() {
     StringBuilder builder = new StringBuilder().append(type).append('/').append(subtype);
     if (!parameters.isEmpty()) {
       builder.append("; ");
@@ -718,7 +753,8 @@ public final class MediaType {
 
   private static String escapeAndQuote(String value) {
     StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');
-    for (char ch : value.toCharArray()) {
+    for (int i = 0; i < value.length(); i++) {
+      char ch = value.charAt(i);
       if (ch == '\r' || ch == '\\' || ch == '"') {
         escaped.append('\\');
       }

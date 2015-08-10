@@ -189,8 +189,7 @@ import javax.annotation.Nullable;
   public static <E extends Comparable> int binarySearch(List<? extends E> list, E e,
       KeyPresentBehavior presentBehavior, KeyAbsentBehavior absentBehavior) {
     checkNotNull(e);
-    return binarySearch(
-        list, checkNotNull(e), Ordering.natural(), presentBehavior, absentBehavior);
+    return binarySearch(list, e, Ordering.natural(), presentBehavior, absentBehavior);
   }
 
   /**
@@ -262,7 +261,7 @@ import javax.annotation.Nullable;
     if (!(list instanceof RandomAccess)) {
       list = Lists.newArrayList(list);
     }
-    // TODO(user): benchmark when it's best to do a linear search
+    // TODO(lowasser): benchmark when it's best to do a linear search
 
     int lower = 0;
     int upper = list.size() - 1;

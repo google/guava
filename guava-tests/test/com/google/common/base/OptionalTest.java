@@ -47,6 +47,7 @@ public final class OptionalTest extends TestCase {
     assertEquals("training", Optional.of("training").get());
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testOf_null() {
     try {
       Optional.of(null);
@@ -73,6 +74,7 @@ public final class OptionalTest extends TestCase {
     assertTrue(Optional.of("training").isPresent());
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testGet_absent() {
     Optional<String> optional = Optional.absent();
     try {
@@ -102,6 +104,7 @@ public final class OptionalTest extends TestCase {
     assertEquals("fallback", Optional.absent().or(Suppliers.ofInstance("fallback")));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testOr_nullSupplier_absent() {
     Supplier<Object> nullSupplier = Suppliers.ofInstance(null);
     Optional<Object> absentOptional = Optional.absent();
@@ -173,6 +176,7 @@ public final class OptionalTest extends TestCase {
     assertEquals(Optional.of("42"), Optional.of(42).transform(Functions.toStringFunction()));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testTransform_present_functionReturnsNull() {
     try {
       Optional.of("a").transform(
@@ -201,6 +205,8 @@ public final class OptionalTest extends TestCase {
   public void testEqualsAndHashCode_absent() {
     assertEquals(Optional.<String>absent(), Optional.<Integer>absent());
     assertEquals(Optional.absent().hashCode(), Optional.absent().hashCode());
+    assertThat(Optional.absent().hashCode())
+        .isNotEqualTo(Optional.of(0).hashCode());
   }
 
   public void testEqualsAndHashCode_present() {
@@ -221,7 +227,7 @@ public final class OptionalTest extends TestCase {
   public void testPresentInstances_allPresent() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.of("b"), Optional.of("c"));
-    assertThat(Optional.presentInstances(optionals)).iteratesAs("a", "b", "c");
+    assertThat(Optional.presentInstances(optionals)).containsExactly("a", "b", "c").inOrder();
   }
 
   public void testPresentInstances_allAbsent() {
@@ -233,22 +239,22 @@ public final class OptionalTest extends TestCase {
   public void testPresentInstances_somePresent() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
-    assertThat(Optional.presentInstances(optionals)).iteratesAs("a", "c");
+    assertThat(Optional.presentInstances(optionals)).containsExactly("a", "c").inOrder();
   }
 
   public void testPresentInstances_callingIteratorTwice() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
     Iterable<String> onlyPresent = Optional.presentInstances(optionals);
-    assertThat(onlyPresent).iteratesAs("a", "c");
-    assertThat(onlyPresent).iteratesAs("a", "c");
+    assertThat(onlyPresent).containsExactly("a", "c").inOrder();
+    assertThat(onlyPresent).containsExactly("a", "c").inOrder();
   }
 
   public void testPresentInstances_wildcards() {
     List<Optional<? extends Number>> optionals =
         ImmutableList.<Optional<? extends Number>>of(Optional.<Double>absent(), Optional.of(2));
     Iterable<Number> onlyPresent = Optional.presentInstances(optionals);
-    assertThat(onlyPresent).iteratesAs(2);
+    assertThat(onlyPresent).containsExactly(2).inOrder();
   }
 
   private static Optional<Integer> getSomeOptionalInt() {

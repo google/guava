@@ -30,12 +30,12 @@ public class RemovalNotificationTest extends TestCase {
   public void testEquals() {
     new EqualsTester()
         .addEqualityGroup(
-            new RemovalNotification<String, Integer>("one", 1, RemovalCause.EXPLICIT),
-            new RemovalNotification<String, Integer>("one", 1, RemovalCause.REPLACED))
+            RemovalNotification.create("one", 1, RemovalCause.EXPLICIT),
+            RemovalNotification.create("one", 1, RemovalCause.REPLACED))
         .addEqualityGroup(
-            new RemovalNotification<String, Integer>("1", 1, RemovalCause.EXPLICIT))
+            RemovalNotification.create("1", 1, RemovalCause.EXPLICIT))
         .addEqualityGroup(
-            new RemovalNotification<String, Integer>("one", 2, RemovalCause.EXPLICIT))
+            RemovalNotification.create("one", 2, RemovalCause.EXPLICIT))
         .testEquals();
   }
 }

@@ -51,7 +51,6 @@ import javax.annotation.Nullable;
  * <li>keys or values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
  *     SoftReference soft} references
  * <li>notification of evicted (or otherwise removed) entries
- * <li>on-demand computation of values for keys not already present
  * </ul>
  *
  * <p>Usage example: <pre>   {@code
@@ -100,7 +99,7 @@ import javax.annotation.Nullable;
  * @author Bob Lee
  * @author Charles Fry
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class MapMaker extends GenericMapMaker<Object, Object> {
@@ -325,13 +324,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @deprecated Caching functionality in {@code MapMaker} has been moved to {@link
    *     com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
    *     com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
-   *     an enhanced API for an implementation which was branched from {@code MapMaker}. <b>This
-   *     method is scheduled for removal in March 2015.</b>
+   *     an enhanced API for an implementation which was branched from {@code MapMaker}.
    */
   @Deprecated
   @GwtIncompatible("java.lang.ref.SoftReference")
   @Override
-  public MapMaker softValues() {
+  MapMaker softValues() {
     return setValueStrength(Strength.SOFT);
   }
 
@@ -490,9 +488,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * Builds a thread-safe map, without on-demand computation of values. This method does not alter
-   * the state of this {@code MapMaker} instance, so it can be invoked again to create multiple
-   * independent maps.
+   * Builds a thread-safe map. This method does not alter the state of this {@code MapMaker}
+   * instance, so it can be invoked again to create multiple independent maps.
    *
    * <p>The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to
    * be performed atomically on the returned map. Additionally, {@code size} and {@code
@@ -575,7 +572,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced
    *     by {@link com.google.common.cache.CacheBuilder#build}. See the
-   *     <a href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker
+   *     <a href="https://github.com/google/guava/wiki/MapMakerMigration">MapMaker
    *     Migration Guide</a> for more details.
    */
   @Deprecated

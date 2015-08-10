@@ -332,11 +332,11 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
       SampleElements<V> sampleValues =
           ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator()).sampleValues();
       return new SampleElements<Entry<K, Collection<V>>>(
-          mapEntry(sampleKeys.e0, createCollection(sampleValues.e0)),
-          mapEntry(sampleKeys.e1, createCollection(sampleValues.e1)),
-          mapEntry(sampleKeys.e2, createCollection(sampleValues.e2)),
-          mapEntry(sampleKeys.e3, createCollection(sampleValues.e3)),
-          mapEntry(sampleKeys.e4, createCollection(sampleValues.e4)));
+          mapEntry(sampleKeys.e0(), createCollection(sampleValues.e0())),
+          mapEntry(sampleKeys.e1(), createCollection(sampleValues.e1())),
+          mapEntry(sampleKeys.e2(), createCollection(sampleValues.e2())),
+          mapEntry(sampleKeys.e3(), createCollection(sampleValues.e3())),
+          mapEntry(sampleKeys.e4(), createCollection(sampleValues.e4())));
     }
 
     @Override
@@ -444,8 +444,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
 
     @Override
     public Collection<V> create(Object... elements) {
-      K k =
-          ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator()).sampleKeys().e0;
+      K k = ((TestMultimapGenerator<K, V, M>)
+          multimapGenerator.getInnerGenerator()).sampleKeys().e0();
       Entry<K, V>[] entries = new Entry[elements.length];
       for (int i = 0; i < elements.length; i++) {
         entries[i] = mapEntry(k, (V) elements[i]);
@@ -462,8 +462,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
 
     @Override
     public Iterable<V> order(List<V> insertionOrder) {
-      K k =
-          ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator()).sampleKeys().e0;
+      K k = ((TestMultimapGenerator<K, V, M>)
+          multimapGenerator.getInnerGenerator()).sampleKeys().e0();
       List<Entry<K, V>> entries = new ArrayList<Entry<K, V>>();
       for (V v : insertionOrder) {
         entries.add(mapEntry(k, v));
@@ -570,7 +570,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
     @Override
     public Iterable<V> order(List<V> insertionOrder) {
       K k = ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator())
-          .sampleKeys().e0;
+          .sampleKeys().e0();
       List<Entry<K, V>> entries = new ArrayList<Entry<K, V>>();
       for (V v : insertionOrder) {
         entries.add(mapEntry(k, v));
@@ -587,7 +587,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
     public Collection<V> create(Object... elements) {
       Entry<K, V>[] array = multimapGenerator.createArray(elements.length);
       K k = ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator())
-          .sampleKeys().e0;
+          .sampleKeys().e0();
       for (int i = 0; i < elements.length; i++) {
         array[i] = mapEntry(k, (V) elements[i]);
       }
@@ -608,7 +608,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
     public Collection<V> create(Object... elements) {
       Entry<K, V>[] array = multimapGenerator.createArray(elements.length);
       K k = ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator())
-          .sampleKeys().e0;
+          .sampleKeys().e0();
       for (int i = 0; i < elements.length; i++) {
         array[i] = mapEntry(k, (V) elements[i]);
       }

@@ -16,7 +16,6 @@
 
 package com.google.common.cache;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -40,7 +39,6 @@ import java.util.concurrent.ExecutionException;
  * @author Charles Fry
  * @since 10.0
  */
-@Beta
 @GwtCompatible
 public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
@@ -142,7 +140,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    *
    * @since 10.0
    */
-  @Beta
   public interface StatsCounter {
     /**
      * Records cache hits. This should be called when a cache request returns a cached value.
@@ -204,7 +201,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    *
    * @since 10.0
    */
-  @Beta
   public static final class SimpleStatsCounter implements StatsCounter {
     private final LongAddable hitCount = LongAddables.create();
     private final LongAddable missCount = LongAddables.create();

@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -30,6 +31,7 @@ import javax.annotation.Nullable;
  * @author Ben Yu
  * @since 1.0
  */
+@CheckReturnValue
 public final class Defaults {
   private Defaults() {}
 
@@ -56,7 +58,7 @@ public final class Defaults {
   /**
    * Returns the default value of {@code type} as defined by JLS --- {@code 0} for numbers, {@code
    * false} for {@code boolean} and {@code '\0'} for {@code char}. For non-primitive types and
-   * {@code void}, null is returned.
+   * {@code void}, {@code null} is returned.
    */
   @Nullable
   public static <T> T defaultValue(Class<T> type) {

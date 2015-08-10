@@ -111,7 +111,7 @@ public final class InternetDomainNameTest extends TestCase {
   );
 
   private static final ImmutableSet<String> NO_PS = ImmutableSet.of(
-      "www", "foo.google", "x.y.z");
+      "www", "foo.ihopethiswillneverbeapublicsuffix", "x.y.z");
 
   private static final ImmutableSet<String> NON_PS = ImmutableSet.of(
       "foo.bar.com", "foo.ca", "foo.bar.ca",

@@ -93,10 +93,26 @@ public interface RangeMap<K extends Comparable, V> {
    * Returns a view of this range map as an unmodifiable {@code Map<Range<K>, V>}.
    * Modifications to this range map are guaranteed to read through to the returned {@code Map}.
    *
+   * <p>The returned {@code Map} iterates over entries in ascending order of the bounds of the
+   * {@code Range} entries.
+   *
    * <p>It is guaranteed that no empty ranges will be in the returned {@code Map}.
    */
   Map<Range<K>, V> asMapOfRanges();
-  
+
+  /**
+   * Returns a view of this range map as an unmodifiable {@code Map<Range<K>, V>}.
+   * Modifications to this range map are guaranteed to read through to the returned {@code Map}.
+   *
+   * <p>The returned {@code Map} iterates over entries in descending order of the bounds of the
+   * {@code Range} entries.
+   *
+   * <p>It is guaranteed that no empty ranges will be in the returned {@code Map}.
+   *
+   * @since 19.0
+   */
+  Map<Range<K>, V> asDescendingMapOfRanges();
+
   /**
    * Returns a view of the part of this range map that intersects with {@code range}.
    * 

@@ -45,6 +45,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -52,13 +53,13 @@ import javax.annotation.Nullable;
  * class's counterparts {@link Lists}, {@link Maps} and {@link Queues}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Sets">
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#sets">
  * {@code Sets}</a>.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
  * @author Chris Povirk
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class Sets {
@@ -135,10 +136,9 @@ public final class Sets {
   }
 
   /**
-   * Returns a new {@code EnumSet} instance containing the given elements.
-   * Unlike {@link EnumSet#copyOf(Collection)}, this method does not produce an
-   * exception on an empty collection, and it may be called on any iterable, not
-   * just a {@code Collection}.
+   * Returns a new, <i>mutable</i> {@code EnumSet} instance containing the given elements in their
+   * natural order. This method behaves identically to {@link EnumSet#copyOf(Collection)}, but also
+   * accepts non-{@code Collection} iterables and empty iterables.
    */
   public static <E extends Enum<E>> EnumSet<E> newEnumSet(Iterable<E> iterable,
       Class<E> elementType) {
@@ -150,33 +150,33 @@ public final class Sets {
   // HashSet
 
   /**
-   * Creates a <i>mutable</i>, empty {@code HashSet} instance.
+   * Creates a <i>mutable</i>, initially empty {@code HashSet} instance.
    *
-   * <p><b>Note:</b> if mutability is not required, use {@link
-   * ImmutableSet#of()} instead.
+   * <p><b>Note:</b> if mutability is not required, use {@link ImmutableSet#of()} instead. If
+   * {@code E} is an {@link Enum} type, use {@link EnumSet#noneOf} instead. Otherwise, strongly
+   * consider using a {@code LinkedHashSet} instead, at the cost of increased memory footprint, to
+   * get deterministic iteration behavior.
    *
-   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link
-   * EnumSet#noneOf} instead.
-   *
-   * @return a new, empty {@code HashSet}
+   * <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
+   * deprecated. Instead, use the {@code HashSet} constructor directly, taking advantage of the new
+   * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   public static <E> HashSet<E> newHashSet() {
     return new HashSet<E>();
   }
 
   /**
-   * Creates a <i>mutable</i> {@code HashSet} instance containing the given
-   * elements in unspecified order.
+   * Creates a <i>mutable</i> {@code HashSet} instance initially containing the given elements.
    *
-   * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use an overload of {@link ImmutableSet#of()} (for varargs) or
-   * {@link ImmutableSet#copyOf(Object[])} (for an array) instead.
+   * <p><b>Note:</b> if elements are non-null and won't be added or removed after this point, use
+   * {@link ImmutableSet#of()} or {@link ImmutableSet#copyOf(Object[])} instead. If {@code E} is an
+   * {@link Enum} type, use {@link EnumSet#of(Enum, Enum[])} instead. Otherwise, strongly consider
+   * using a {@code LinkedHashSet} instead, at the cost of increased memory footprint, to get
+   * deterministic iteration behavior.
    *
-   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link
-   * EnumSet#of(Enum, Enum[])} instead.
-   *
-   * @param elements the elements that the set should contain
-   * @return a new {@code HashSet} containing those elements (minus duplicates)
+   * <p>This method is just a small convenience, either for {@code newHashSet(}{@link Arrays#asList
+   * asList}{@code (...))}, or for creating an empty set then calling {@link Collections#addAll}.
+   * This method is not actually very useful and will likely be deprecated in the future.
    */
   public static <E> HashSet<E> newHashSet(E... elements) {
     HashSet<E> set = newHashSetWithExpectedSize(elements.length);
@@ -185,11 +185,10 @@ public final class Sets {
   }
 
   /**
-   * Creates a {@code HashSet} instance, with a high enough "initial capacity"
-   * that it <i>should</i> hold {@code expectedSize} elements without growth.
-   * This behavior cannot be broadly guaranteed, but it is observed to be true
-   * for OpenJDK 1.6. It also can't be guaranteed that the method isn't
-   * inadvertently <i>oversizing</i> the returned set.
+   * Creates a {@code HashSet} instance, with a high enough initial table size that it <i>should</i>
+   * hold {@code expectedSize} elements without resizing. This behavior cannot be broadly
+   * guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the
+   * method isn't inadvertently <i>oversizing</i> the returned set.
    *
    * @param expectedSize the number of elements you expect to add to the
    *        returned set
@@ -202,17 +201,22 @@ public final class Sets {
   }
 
   /**
-   * Creates a <i>mutable</i> {@code HashSet} instance containing the given
-   * elements in unspecified order.
+   * Creates a <i>mutable</i> {@code HashSet} instance containing the given elements. A very thin
+   * convenience for creating an empty set then calling {@link Collection#addAll} or {@link
+   * Iterables#addAll}.
    *
-   * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableSet#copyOf(Iterable)} instead.
+   * <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
+   * ImmutableSet#copyOf(Iterable)} instead. (Or, change {@code elements} to be a {@link
+   * FluentIterable} and call {@code elements.toSet()}.)
    *
-   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use
-   * {@link #newEnumSet(Iterable, Class)} instead.
+   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link #newEnumSet(Iterable, Class)}
+   * instead.
    *
-   * @param elements the elements that the set should contain
-   * @return a new {@code HashSet} containing those elements (minus duplicates)
+   * <p><b>Note for Java 7 and later:</b> if {@code elements} is a {@link Collection}, you don't
+   * need this method. Instead, use the {@code HashSet} constructor directly, taking advantage of
+   * the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
+   *
+   * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    */
   public static <E> HashSet<E> newHashSet(Iterable<? extends E> elements) {
     return (elements instanceof Collection)
@@ -221,17 +225,16 @@ public final class Sets {
   }
 
   /**
-   * Creates a <i>mutable</i> {@code HashSet} instance containing the given
-   * elements in unspecified order.
+   * Creates a <i>mutable</i> {@code HashSet} instance containing the given elements. A very thin
+   * convenience for creating an empty set and then calling {@link Iterators#addAll}.
    *
-   * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableSet#copyOf(Iterable)} instead.
+   * <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
+   * ImmutableSet#copyOf(Iterator)} instead.
    *
-   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, you should create an
-   * {@link EnumSet} instead.
+   * <p><b>Note:</b> if {@code E} is an {@link Enum} type, you should create an {@link EnumSet}
+   * instead.
    *
-   * @param elements the elements that the set should contain
-   * @return a new {@code HashSet} containing those elements (minus duplicates)
+   * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    */
   public static <E> HashSet<E> newHashSet(Iterator<? extends E> elements) {
     HashSet<E> set = newHashSet();
@@ -503,14 +506,15 @@ public final class Sets {
    *   Set<Object> identityHashSet = Sets.newSetFromMap(
    *       new IdentityHashMap<Object, Boolean>());}</pre>
    *
-   * <p>This method has the same behavior as the JDK 6 method
-   * {@code Collections.newSetFromMap()}. The returned set is serializable if
-   * the backing map is.
+   * <p>The returned set is serializable if the backing map is.
    *
    * @param map the backing map
    * @return the set backed by the map
    * @throws IllegalArgumentException if {@code map} is not empty
+   * @deprecated Use {@link Collections#newSetFromMap} instead. This method
+   *     will be removed in August 2017.
    */
+  @Deprecated
   public static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
     return Platform.newSetFromMap(map);
   }
@@ -523,7 +527,7 @@ public final class Sets {
    * as a plain {@link Set}, or immediately invoke {@link #immutableCopy} or
    * {@link #copyInto} and forget the {@code SetView} itself.
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public abstract static class SetView<E> extends AbstractSet<E> {
     private SetView() {} // no subclasses but our own
@@ -707,12 +711,42 @@ public final class Sets {
    * @since 3.0
    */
   public static <E> SetView<E> symmetricDifference(
-      Set<? extends E> set1, Set<? extends E> set2) {
+      final Set<? extends E> set1, final Set<? extends E> set2) {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
-    // TODO(kevinb): Replace this with a more efficient implementation
-    return difference(union(set1, set2), intersection(set1, set2));
+    return new SetView<E>() {
+      @Override public Iterator<E> iterator() {
+        final Iterator<? extends E> itr1 = set1.iterator();
+        final Iterator<? extends E> itr2 = set2.iterator();
+        return new AbstractIterator<E>() {
+          @Override public E computeNext() {
+            while (itr1.hasNext()) {
+              E elem1 = itr1.next();
+              if (!set2.contains(elem1)) {
+                return elem1;
+              }
+            }
+            while (itr2.hasNext()) {
+              E elem2 = itr2.next();
+              if (!set1.contains(elem2)) {
+                return elem2;
+              }
+            }
+            return endOfData();
+          }
+        };
+      }
+      @Override public int size() {
+        return Iterators.size(iterator());
+      }
+      @Override public boolean isEmpty() {
+        return set1.equals(set2);
+      }
+      @Override public boolean contains(Object element) {
+        return set1.contains(element) ^ set2.contains(element);
+      }
+    };
   }
 
   /**
@@ -742,6 +776,7 @@ public final class Sets {
    * functionality.)
    */
   // TODO(kevinb): how to omit that last sentence when building GWT javadoc?
+  @CheckReturnValue
   public static <E> Set<E> filter(
       Set<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof SortedSet) {
@@ -805,6 +840,7 @@ public final class Sets {
    *
    * @since 11.0
    */
+  @CheckReturnValue
   public static <E> SortedSet<E> filter(
       SortedSet<E> unfiltered, Predicate<? super E> predicate) {
     return Platform.setsFilterSortedSet(unfiltered, predicate);
@@ -903,6 +939,7 @@ public final class Sets {
    */
   @GwtIncompatible("NavigableSet")
   @SuppressWarnings("unchecked")
+  @CheckReturnValue
   public static <E> NavigableSet<E> filter(
       NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredSet) {
@@ -1277,12 +1314,7 @@ public final class Sets {
     final ImmutableMap<E, Integer> inputSet;
 
     PowerSet(Set<E> input) {
-      ImmutableMap.Builder<E, Integer> builder = ImmutableMap.builder();
-      int i = 0;
-      for (E e : checkNotNull(input)) {
-        builder.put(e, i++);
-      }
-      this.inputSet = builder.build();
+      this.inputSet = Maps.indexMap(input);
       checkArgument(inputSet.size() <= 30,
           "Too many elements to create power set: %s > 30", inputSet.size());
     }

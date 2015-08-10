@@ -34,7 +34,8 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * An efficient immutable implementation of a {@link RangeSet}.
+ * A {@link RangeSet} whose contents will never change, with many other important properties
+ * detailed at {@link ImmutableCollection}.
  *
  * @author Louis Wasserman
  * @since 14.0
@@ -113,7 +114,8 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
   @Override
   public boolean encloses(Range<C> otherRange) {
-    int index = SortedLists.binarySearch(ranges,
+    int index = SortedLists.binarySearch(
+        ranges,
         Range.<C>lowerBoundFn(),
         otherRange.lowerBound,
         Ordering.natural(),
@@ -124,7 +126,8 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
   @Override
   public Range<C> rangeContaining(C value) {
-    int index = SortedLists.binarySearch(ranges,
+    int index = SortedLists.binarySearch(
+        ranges,
         Range.<C>lowerBoundFn(),
         Cut.belowValue(value),
         Ordering.natural(),
@@ -178,6 +181,15 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       return ImmutableSet.of();
     }
     return new RegularImmutableSortedSet<Range<C>>(ranges, Range.RANGE_LEX_ORDERING);
+  }
+
+  @Override
+  public ImmutableSet<Range<C>> asDescendingSetOfRanges() {
+    if (ranges.isEmpty()) {
+      return ImmutableSet.of();
+    }
+    return new RegularImmutableSortedSet<Range<C>>(
+        ranges.reverse(), Range.RANGE_LEX_ORDERING.reverse());
   }
 
   private transient ImmutableRangeSet<C> complement;
@@ -266,18 +278,26 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
     final int fromIndex;
     if (range.hasLowerBound()) {
-      fromIndex = SortedLists.binarySearch(
-          ranges, Range.<C>upperBoundFn(), range.lowerBound, KeyPresentBehavior.FIRST_AFTER,
-          KeyAbsentBehavior.NEXT_HIGHER);
+      fromIndex =
+          SortedLists.binarySearch(
+              ranges,
+              Range.<C>upperBoundFn(),
+              range.lowerBound,
+              KeyPresentBehavior.FIRST_AFTER,
+              KeyAbsentBehavior.NEXT_HIGHER);
     } else {
       fromIndex = 0;
     }
 
     int toIndex;
     if (range.hasUpperBound()) {
-      toIndex = SortedLists.binarySearch(
-          ranges, Range.<C>lowerBoundFn(), range.upperBound, KeyPresentBehavior.FIRST_PRESENT,
-          KeyAbsentBehavior.NEXT_HIGHER);
+      toIndex =
+          SortedLists.binarySearch(
+              ranges,
+              Range.<C>lowerBoundFn(),
+              range.upperBound,
+              KeyPresentBehavior.FIRST_PRESENT,
+              KeyAbsentBehavior.NEXT_HIGHER);
     } else {
       toIndex = ranges.size();
     }
@@ -308,7 +328,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       };
     }
   }
-  
+
   /**
    * Returns a view of the intersection of this range set with the given range.
    */
@@ -450,9 +470,10 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       if (!fromInclusive && !toInclusive && Range.compareOrThrow(fromElement, toElement) == 0) {
         return ImmutableSortedSet.of();
       }
-      return subSet(Range.range(
-          fromElement, BoundType.forBoolean(fromInclusive),
-          toElement, BoundType.forBoolean(toInclusive)));
+      return subSet(
+          Range.range(
+              fromElement, BoundType.forBoolean(fromInclusive),
+              toElement, BoundType.forBoolean(toInclusive)));
     }
 
     @Override
@@ -563,7 +584,9 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         for (Range<C> currentRange : rangeSet.asRanges()) {
           checkArgument(
               !currentRange.isConnected(range) || currentRange.intersection(range).isEmpty(),
-              "Ranges may not overlap, but received %s and %s", currentRange, range);
+              "Ranges may not overlap, but received %s and %s",
+              currentRange,
+              range);
         }
         throw new AssertionError("should have thrown an IAE above");
       }

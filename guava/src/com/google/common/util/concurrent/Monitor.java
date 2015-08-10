@@ -276,6 +276,19 @@ public final class Monitor {
    * participating in the signal-passing game.
    */
 
+  /*
+   * Timeout handling is intricate, especially given our ambitious goals:
+   * - Avoid underflow and overflow of timeout values when specified timeouts are close to
+   *   Long.MIN_VALUE or Long.MAX_VALUE.
+   * - Favor responding to interrupts over timeouts.
+   * - System.nanoTime() is expensive enough that we want to call it the minimum required number of
+   *   times, typically once before invoking a blocking method.  This often requires keeping track
+   *   of the first time in a method that nanoTime() has been invoked, for which the special value
+   *   0L is reserved to mean "uninitialized".  If timeout is non-positive, then nanoTime need
+   *   never be called.
+   * - Keep behavior of fair and non-fair instances consistent.
+   */
+
   /**
    * A boolean condition for which a thread may wait. A {@code Guard} is associated with a single
    * {@code Monitor}. The monitor may check the guard at arbitrary times from any thread occupying
@@ -359,6 +372,8 @@ public final class Monitor {
 
   /**
    * Enters this monitor. Blocks indefinitely, but may be interrupted.
+   *
+   * @throws InterruptedException if interrupted while waiting
    */
   public void enterInterruptibly() throws InterruptedException {
     lock.lockInterruptibly();
@@ -370,20 +385,20 @@ public final class Monitor {
    * @return whether the monitor was entered
    */
   public boolean enter(long time, TimeUnit unit) {
-    long timeoutNanos = unit.toNanos(time);
+    final long timeoutNanos = toSafeNanos(time, unit);
     final ReentrantLock lock = this.lock;
     if (!fair && lock.tryLock()) {
       return true;
     }
-    long deadline = System.nanoTime() + timeoutNanos;
     boolean interrupted = Thread.interrupted();
     try {
-      while (true) {
+      final long startTime = System.nanoTime();
+      for (long remainingNanos = timeoutNanos;;) {
         try {
-          return lock.tryLock(timeoutNanos, TimeUnit.NANOSECONDS);
+          return lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS);
         } catch (InterruptedException interrupt) {
           interrupted = true;
-          timeoutNanos = deadline - System.nanoTime();
+          remainingNanos = remainingNanos(startTime, timeoutNanos);
         }
       }
     } finally {
@@ -397,6 +412,7 @@ public final class Monitor {
    * Enters this monitor. Blocks at most the given time, and may be interrupted.
    *
    * @return whether the monitor was entered
+   * @throws InterruptedException if interrupted while waiting
    */
   public boolean enterInterruptibly(long time, TimeUnit unit) throws InterruptedException {
     return lock.tryLock(time, unit);
@@ -415,6 +431,8 @@ public final class Monitor {
 
   /**
    * Enters this monitor when the guard is satisfied. Blocks indefinitely, but may be interrupted.
+   *
+   * @throws InterruptedException if interrupted while waiting
    */
   public void enterWhen(Guard guard) throws InterruptedException {
     if (guard.monitor != this) {
@@ -466,27 +484,43 @@ public final class Monitor {
    * the time to acquire the lock and the time to wait for the guard to be satisfied, and may be
    * interrupted.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
+   * @throws InterruptedException if interrupted while waiting
    */
   public boolean enterWhen(Guard guard, long time, TimeUnit unit) throws InterruptedException {
-    long timeoutNanos = unit.toNanos(time);
+    final long timeoutNanos = toSafeNanos(time, unit);
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
     }
     final ReentrantLock lock = this.lock;
     boolean reentrant = lock.isHeldByCurrentThread();
-    if (fair || !lock.tryLock()) {
-      long deadline = System.nanoTime() + timeoutNanos;
+    long startTime = 0L;
+
+ locked: {
+      if (!fair) {
+        // Check interrupt status to get behavior consistent with fair case.
+        if (Thread.interrupted()) {
+          throw new InterruptedException();
+        }
+        if (lock.tryLock()) {
+          break locked;
+        }
+      }
+      startTime = initNanoTime(timeoutNanos);
       if (!lock.tryLock(time, unit)) {
         return false;
       }
-      timeoutNanos = deadline - System.nanoTime();
     }
 
     boolean satisfied = false;
     boolean threw = true;
     try {
-      satisfied = guard.isSatisfied() || awaitNanos(guard, timeoutNanos, reentrant);
+      satisfied = guard.isSatisfied()
+          || awaitNanos(guard,
+                        (startTime == 0L)
+                            ? timeoutNanos
+                            : remainingNanos(startTime, timeoutNanos),
+                        reentrant);
       threw = false;
       return satisfied;
     } finally {
@@ -507,43 +541,54 @@ public final class Monitor {
    * Enters this monitor when the guard is satisfied. Blocks at most the given time, including
    * both the time to acquire the lock and the time to wait for the guard to be satisfied.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean enterWhenUninterruptibly(Guard guard, long time, TimeUnit unit) {
-    long timeoutNanos = unit.toNanos(time);
+    final long timeoutNanos = toSafeNanos(time, unit);
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
     }
     final ReentrantLock lock = this.lock;
-    long deadline = System.nanoTime() + timeoutNanos;
+    long startTime = 0L;
     boolean signalBeforeWaiting = lock.isHeldByCurrentThread();
     boolean interrupted = Thread.interrupted();
     try {
       if (fair || !lock.tryLock()) {
-        boolean locked = false;
-        do {
+        startTime = initNanoTime(timeoutNanos);
+        for (long remainingNanos = timeoutNanos;;) {
           try {
-            locked = lock.tryLock(timeoutNanos, TimeUnit.NANOSECONDS);
-            if (!locked) {
+            if (lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS)) {
+              break;
+            } else {
               return false;
             }
           } catch (InterruptedException interrupt) {
             interrupted = true;
+            remainingNanos = remainingNanos(startTime, timeoutNanos);
           }
-          timeoutNanos = deadline - System.nanoTime();
-        } while (!locked);
+        }
       }
 
       boolean satisfied = false;
       try {
         while (true) {
           try {
-            return satisfied = guard.isSatisfied()
-                || awaitNanos(guard, timeoutNanos, signalBeforeWaiting);
+            if (guard.isSatisfied()) {
+              satisfied = true;
+            } else {
+              final long remainingNanos;
+              if (startTime == 0L) {
+                startTime = initNanoTime(timeoutNanos);
+                remainingNanos = timeoutNanos;
+              } else {
+                remainingNanos = remainingNanos(startTime, timeoutNanos);
+              }
+              satisfied = awaitNanos(guard, remainingNanos, signalBeforeWaiting);
+            }
+            return satisfied;
           } catch (InterruptedException interrupt) {
             interrupted = true;
             signalBeforeWaiting = false;
-            timeoutNanos = deadline - System.nanoTime();
           }
         }
       } finally {
@@ -562,7 +607,7 @@ public final class Monitor {
    * Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but
    * does not wait for the guard to be satisfied.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean enterIf(Guard guard) {
     if (guard.monitor != this) {
@@ -585,7 +630,8 @@ public final class Monitor {
    * Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does
    * not wait for the guard to be satisfied, and may be interrupted.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
+   * @throws InterruptedException if interrupted while waiting
    */
   public boolean enterIfInterruptibly(Guard guard) throws InterruptedException {
     if (guard.monitor != this) {
@@ -608,7 +654,7 @@ public final class Monitor {
    * Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
    * lock, but does not wait for the guard to be satisfied.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean enterIf(Guard guard, long time, TimeUnit unit) {
     if (guard.monitor != this) {
@@ -632,7 +678,7 @@ public final class Monitor {
    * Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
    * lock, but does not wait for the guard to be satisfied, and may be interrupted.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean enterIfInterruptibly(Guard guard, long time, TimeUnit unit)
       throws InterruptedException {
@@ -660,7 +706,7 @@ public final class Monitor {
    *
    * <p><b>Note:</b> This method disregards the fairness setting of this monitor.
    *
-   * @return whether the monitor was entered with the guard satisfied
+   * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
   public boolean tryEnterIf(Guard guard) {
     if (guard.monitor != this) {
@@ -684,6 +730,8 @@ public final class Monitor {
   /**
    * Waits for the guard to be satisfied. Waits indefinitely, but may be interrupted. May be
    * called only by a thread currently occupying this monitor.
+   *
+   * @throws InterruptedException if interrupted while waiting
    */
   public void waitFor(Guard guard) throws InterruptedException {
     if (!((guard.monitor == this) & lock.isHeldByCurrentThread())) {
@@ -712,13 +760,20 @@ public final class Monitor {
    * May be called only by a thread currently occupying this monitor.
    *
    * @return whether the guard is now satisfied
+   * @throws InterruptedException if interrupted while waiting
    */
   public boolean waitFor(Guard guard, long time, TimeUnit unit) throws InterruptedException {
-    long timeoutNanos = unit.toNanos(time);
+    final long timeoutNanos = toSafeNanos(time, unit);
     if (!((guard.monitor == this) & lock.isHeldByCurrentThread())) {
       throw new IllegalMonitorStateException();
     }
-    return guard.isSatisfied() || awaitNanos(guard, timeoutNanos, true);
+    if (guard.isSatisfied()) {
+      return true;
+    }
+    if (Thread.interrupted()) {
+      throw new InterruptedException();
+    }
+    return awaitNanos(guard, timeoutNanos, true);
   }
 
   /**
@@ -728,7 +783,7 @@ public final class Monitor {
    * @return whether the guard is now satisfied
    */
   public boolean waitForUninterruptibly(Guard guard, long time, TimeUnit unit) {
-    long timeoutNanos = unit.toNanos(time);
+    final long timeoutNanos = toSafeNanos(time, unit);
     if (!((guard.monitor == this) & lock.isHeldByCurrentThread())) {
       throw new IllegalMonitorStateException();
     }
@@ -736,19 +791,19 @@ public final class Monitor {
       return true;
     }
     boolean signalBeforeWaiting = true;
-    long deadline = System.nanoTime() + timeoutNanos;
+    final long startTime = initNanoTime(timeoutNanos);
     boolean interrupted = Thread.interrupted();
     try {
-      while (true) {
+      for (long remainingNanos = timeoutNanos;;) {
         try {
-          return awaitNanos(guard, timeoutNanos, signalBeforeWaiting);
+          return awaitNanos(guard, remainingNanos, signalBeforeWaiting);
         } catch (InterruptedException interrupt) {
           interrupted = true;
           if (guard.isSatisfied()) {
             return true;
           }
           signalBeforeWaiting = false;
-          timeoutNanos = deadline - System.nanoTime();
+          remainingNanos = remainingNanos(startTime, timeoutNanos);
         }
       }
     } finally {
@@ -860,6 +915,46 @@ public final class Monitor {
     } finally {
       lock.unlock();
     }
+  }
+
+  /**
+   * Returns unit.toNanos(time), additionally ensuring the returned value is not at risk of
+   * overflowing or underflowing, by bounding the value between 0 and (Long.MAX_VALUE / 4) * 3.
+   * Actually waiting for more than 219 years is not supported!
+   */
+  private static long toSafeNanos(long time, TimeUnit unit) {
+    long timeoutNanos = unit.toNanos(time);
+    return (timeoutNanos <= 0L) ? 0L
+        : (timeoutNanos > (Long.MAX_VALUE / 4) * 3) ? (Long.MAX_VALUE / 4) * 3
+        : timeoutNanos;
+  }
+
+  /**
+   * Returns System.nanoTime() unless the timeout has already elapsed.
+   * Returns 0L if and only if the timeout has already elapsed.
+   */
+  private static long initNanoTime(long timeoutNanos) {
+    if (timeoutNanos <= 0L) {
+      return 0L;
+    } else {
+      long startTime = System.nanoTime();
+      return (startTime == 0L) ? 1L : startTime;
+    }
+  }
+
+  /**
+   * Returns the remaining nanos until the given timeout, or 0L if the timeout has already elapsed.
+   * Caller must have previously sanitized timeoutNanos using toSafeNanos.
+   */
+  private static long remainingNanos(long startTime, long timeoutNanos) {
+    // assert timeoutNanos == 0L || startTime != 0L;
+
+    // TODO : NOT CORRECT, BUT TESTS PASS ANYWAYS!
+    // if (true) return timeoutNanos;
+    // ONLY 2 TESTS FAIL IF WE DO:
+    // if (true) return 0;
+
+    return (timeoutNanos <= 0L) ? 0L : timeoutNanos - (System.nanoTime() - startTime);
   }
 
   /**
@@ -980,7 +1075,7 @@ public final class Monitor {
    */
 
   @GuardedBy("lock")
-    private void await(Guard guard, boolean signalBeforeWaiting)
+  private void await(Guard guard, boolean signalBeforeWaiting)
       throws InterruptedException {
     if (signalBeforeWaiting) {
       signalNextWaiter();
@@ -1010,23 +1105,32 @@ public final class Monitor {
     }
   }
 
+  /**
+   * Caller should check before calling that guard is not satisfied.
+   */
   @GuardedBy("lock")
   private boolean awaitNanos(Guard guard, long nanos, boolean signalBeforeWaiting)
       throws InterruptedException {
-    if (signalBeforeWaiting) {
-      signalNextWaiter();
-    }
-    beginWaitingFor(guard);
+    boolean firstTime = true;
     try {
       do {
-        if (nanos < 0L) {
+        if (nanos <= 0L) {
           return false;
+        }
+        if (firstTime) {
+          if (signalBeforeWaiting) {
+            signalNextWaiter();
+          }
+          beginWaitingFor(guard);
+          firstTime = false;
         }
         nanos = guard.condition.awaitNanos(nanos);
       } while (!guard.isSatisfied());
       return true;
     } finally {
-      endWaitingFor(guard);
+      if (!firstTime) {
+        endWaitingFor(guard);
+      }
     }
   }
 

@@ -20,6 +20,7 @@ import static com.google.common.cache.TestingCacheLoaders.constantLoader;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.cache.TestingRemovalListeners.nullRemovalListener;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -27,6 +28,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ticker;
 
 import junit.framework.TestCase;
+
+import java.util.Set;
 
 /**
  * Unit tests for CacheBuilder.
@@ -185,6 +188,11 @@ public class CacheBuilderTest extends TestCase {
       builder = builder.removalListener(testListener);
       fail();
     } catch (IllegalStateException expected) {}
+  }
+
+  public void testValuesIsNotASet() {
+    assertThat(new CacheBuilder<Object, Object>().build().asMap().values())
+        .isNotInstanceOf(Set.class);
   }
 
   // "Basher tests", where we throw a bunch of stuff at a LoadingCache and check basic invariants.

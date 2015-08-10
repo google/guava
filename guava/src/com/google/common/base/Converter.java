@@ -178,7 +178,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
   public Iterable<B> convertAll(final Iterable<? extends A> fromIterable) {
     checkNotNull(fromIterable, "fromIterable");
     return new Iterable<B>() {
-      @Override public Iterator<B> iterator() {
+      @Override
+      public Iterator<B> iterator() {
         return new Iterator<B>() {
           private final Iterator<? extends A> fromIterator = fromIterable.iterator();
 
@@ -207,14 +208,14 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *
    * <p>The returned converter is serializable if {@code this} converter is.
    */
-  // TODO(user): Make this method final
+  // TODO(kak): Make this method final
   public Converter<B, A> reverse() {
     Converter<B, A> result = reverse;
     return (result == null) ? reverse = new ReverseConverter<A, B>(this) : result;
   }
 
-  private static final class ReverseConverter<A, B>
-      extends Converter<B, A> implements Serializable {
+  private static final class ReverseConverter<A, B> extends Converter<B, A>
+      implements Serializable {
     final Converter<A, B> original;
 
     ReverseConverter(Converter<A, B> original) {
@@ -295,8 +296,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return new ConverterComposition<A, B, C>(this, checkNotNull(secondConverter));
   }
 
-  private static final class ConverterComposition<A, B, C>
-      extends Converter<A, C> implements Serializable {
+  private static final class ConverterComposition<A, B, C> extends Converter<A, C>
+      implements Serializable {
     final Converter<A, B> first;
     final Converter<B, C> second;
 
@@ -338,8 +339,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     public boolean equals(@Nullable Object object) {
       if (object instanceof ConverterComposition) {
         ConverterComposition<?, ?, ?> that = (ConverterComposition<?, ?, ?>) object;
-        return this.first.equals(that.first)
-            && this.second.equals(that.second);
+        return this.first.equals(that.first) && this.second.equals(that.second);
       }
       return false;
     }
@@ -405,8 +405,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return new FunctionBasedConverter<A, B>(forwardFunction, backwardFunction);
   }
 
-  private static final class FunctionBasedConverter<A, B>
-      extends Converter<A, B> implements Serializable {
+  private static final class FunctionBasedConverter<A, B> extends Converter<A, B>
+      implements Serializable {
     private final Function<? super A, ? extends B> forwardFunction;
     private final Function<? super B, ? extends A> backwardFunction;
 

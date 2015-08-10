@@ -115,7 +115,7 @@ public class MapConstraintsTest extends TestCase {
     assertFalse(map.values() instanceof Serializable);
     assertEquals(map.toString(), constrained.toString());
     assertEquals(map.hashCode(), constrained.hashCode());
-    assertThat(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).containsExactly(
         Maps.immutableEntry(TEST_KEY, TEST_VALUE),
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("bar", 2),
@@ -163,7 +163,7 @@ public class MapConstraintsTest extends TestCase {
     assertEquals(map.values(), constrained.values());
     assertEquals(map.toString(), constrained.toString());
     assertEquals(map.hashCode(), constrained.hashCode());
-    assertThat(map.entrySet()).has().exactly(
+    assertThat(map.entrySet()).containsExactly(
         Maps.immutableEntry(TEST_KEY, TEST_VALUE),
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("bar", 2),
@@ -232,7 +232,7 @@ public class MapConstraintsTest extends TestCase {
     assertTrue(constrained.equals(multimap));
     assertThat(ImmutableList.copyOf(multimap.entries())).isEqualTo(
         ImmutableList.copyOf(constrained.entries()));
-    assertThat(constrained.asMap().get("foo")).has().item(1);
+    assertThat(constrained.asMap().get("foo")).contains(1);
     assertNull(constrained.asMap().get("missing"));
     assertEquals(multimap.asMap(), constrained.asMap());
     assertEquals(multimap.values(), constrained.values());
@@ -240,7 +240,7 @@ public class MapConstraintsTest extends TestCase {
     assertEquals(multimap.keySet(), constrained.keySet());
     assertEquals(multimap.toString(), constrained.toString());
     assertEquals(multimap.hashCode(), constrained.hashCode());
-    assertThat(multimap.entries()).has().exactly(
+    assertThat(multimap.entries()).containsExactly(
         Maps.immutableEntry(TEST_KEY, TEST_VALUE),
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("bar", 2),

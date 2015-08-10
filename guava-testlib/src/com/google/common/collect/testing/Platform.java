@@ -18,6 +18,8 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 
+import java.util.Locale;
+
 /**
  * Methods factored out so that they can be emulated differently in GWT.
  *
@@ -48,7 +50,7 @@ final class Platform {
   }
 
   static String format(String template, Object... args) {
-    return String.format(template, args);
+    return String.format(Locale.ROOT, template, args);
   }
 
   private Platform() {}

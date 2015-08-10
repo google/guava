@@ -52,6 +52,7 @@ import javax.annotation.CheckReturnValue;
  * <li>accumulation of cache access statistics
  * </ul>
  *
+ *
  * <p>These features are all optional; caches can be created using all or none of them. By default
  * cache instances created by {@code CacheBuilder} will not perform any type of eviction.
  *
@@ -133,7 +134,7 @@ import javax.annotation.CheckReturnValue;
  * <i>not</i> include cache contents, but only configuration.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/CachesExplained">caching</a> for a higher-level
+ * "https://github.com/google/guava/wiki/CachesExplained">caching</a> for a higher-level
  * explanation.
  *
  * @param <K> the base key type for all caches created by this builder
@@ -444,11 +445,11 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
-   * Specifies a nanosecond-precision time source for use in determining when entries should be
-   * expired. By default, {@link System#nanoTime} is used.
+   * Specifies a nanosecond-precision time source for this cache. By default,
+   * {@link System#nanoTime} is used.
    *
-   * <p>The primary intent of this method is to facilitate testing of caches which have been
-   * configured with {@link #expireAfterWrite} or {@link #expireAfterAccess}.
+   * <p>The primary intent of this method is to facilitate testing of caches with a fake or mock
+   * time source.
    *
    * @throws IllegalStateException if a ticker was already set
    */
@@ -517,7 +518,7 @@ public final class CacheBuilder<K, V> {
     statsCounterSupplier = CACHE_STATS_COUNTER;
     return this;
   }
-  
+
   boolean isRecordingStats() {
     return statsCounterSupplier == CACHE_STATS_COUNTER;
   }
@@ -539,7 +540,7 @@ public final class CacheBuilder<K, V> {
    * @return a cache having the requested features
    */
   public <K1 extends K, V1 extends V> LoadingCache<K1, V1> build(
-      CacheLoader<? super K1, V1> loader) {
+          CacheLoader<? super K1, V1> loader) {
     checkWeightWithWeigher();
     return new LocalCache.LocalLoadingCache<K1, V1>(this, loader);
   }
@@ -623,4 +624,3 @@ public final class CacheBuilder<K, V> {
     return s.toString();
   }
 }
-

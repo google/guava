@@ -164,14 +164,9 @@ public final class CharStreams {
     while (n > 0) {
       long amt = reader.skip(n);
       if (amt == 0) {
-        // force a blocking read
-        if (reader.read() == -1) {
-          throw new EOFException();
-        }
-        n--;
-      } else {
-        n -= amt;
+        throw new EOFException();
       }
+      n -= amt;
     }
   }
 
@@ -260,7 +255,7 @@ public final class CharStreams {
     return new AppendableWriter(target);
   }
 
-  // TODO(user): Remove these once Input/OutputSupplier methods are removed
+  // TODO(cgdecker): Remove these once Input/OutputSupplier methods are removed
 
   static Reader asReader(final Readable readable) {
     checkNotNull(readable);

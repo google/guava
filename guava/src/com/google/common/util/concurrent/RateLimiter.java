@@ -28,6 +28,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothBursty;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothWarmingUp;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -77,7 +78,7 @@ import javax.annotation.concurrent.ThreadSafe;
  *}</pre>
  *
  * <p>It is important to note that the number of permits requested <i>never</i>
- * affect the throttling of the request itself (an invocation to {@code acquire(1)}
+ * affects the throttling of the request itself (an invocation to {@code acquire(1)}
  * and an invocation to {@code acquire(1000)} will result in exactly the same throttling, if any),
  * but it affects the throttling of the <i>next</i> request. I.e., if an expensive task
  * arrives at an idle RateLimiter, it will be granted immediately, but it is the <i>next</i>
@@ -166,13 +167,15 @@ public abstract class RateLimiter {
    */
   public static RateLimiter create(double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
     checkArgument(warmupPeriod >= 0, "warmupPeriod must not be negative: %s", warmupPeriod);
-    return create(SleepingStopwatch.createFromSystemTimer(), permitsPerSecond, warmupPeriod, unit);
+    return create(SleepingStopwatch.createFromSystemTimer(), permitsPerSecond, warmupPeriod, unit,
+                  3.0);
   }
 
   @VisibleForTesting
   static RateLimiter create(
-      SleepingStopwatch stopwatch, double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
-    RateLimiter rateLimiter = new SmoothWarmingUp(stopwatch, warmupPeriod, unit);
+      SleepingStopwatch stopwatch, double permitsPerSecond, long warmupPeriod, TimeUnit unit,
+      double coldFactor) {
+    RateLimiter rateLimiter = new SmoothWarmingUp(stopwatch, warmupPeriod, unit, coldFactor);
     rateLimiter.setRate(permitsPerSecond);
     return rateLimiter;
   }
@@ -395,7 +398,7 @@ public abstract class RateLimiter {
 
   @Override
   public String toString() {
-    return String.format("RateLimiter[stableRate=%3.1fqps]", getRate());
+    return String.format(Locale.ROOT, "RateLimiter[stableRate=%3.1fqps]", getRate());
   }
 
   @VisibleForTesting

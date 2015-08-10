@@ -21,9 +21,7 @@ import com.google.common.collect.Lists;
 
 import junit.framework.TestCase;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -88,12 +86,12 @@ public class EventBusTest extends TestCase {
     bus.register(compCatcher);
 
     // Two additional event types: Object and Comparable<?> (played by Integer)
-    final Object OBJ_EVENT = new Object();
-    final Object COMP_EVENT = new Integer(6);
+    Object objEvent = new Object();
+    Object compEvent = new Integer(6);
 
     bus.post(EVENT);
-    bus.post(OBJ_EVENT);
-    bus.post(COMP_EVENT);
+    bus.post(objEvent);
+    bus.post(compEvent);
 
     // Check the StringCatcher...
     List<String> stringEvents = stringCatcher.getEvents();
@@ -108,9 +106,9 @@ public class EventBusTest extends TestCase {
     assertEquals("String fixture must be first object delivered.",
         EVENT, objectEvents.get(0));
     assertEquals("Object fixture must be second object delivered.",
-        OBJ_EVENT, objectEvents.get(1));
+        objEvent, objectEvents.get(1));
     assertEquals("Comparable fixture must be thirdobject delivered.",
-        COMP_EVENT, objectEvents.get(2));
+        compEvent, objectEvents.get(2));
 
     // Check the Catcher<Comparable<?>>...
     assertEquals("Two Comparable<?>s should be delivered.",
@@ -118,7 +116,7 @@ public class EventBusTest extends TestCase {
     assertEquals("String fixture must be first comparable delivered.",
         EVENT, compEvents.get(0));
     assertEquals("Comparable fixture must be second comparable delivered.",
-        COMP_EVENT, compEvents.get(1));
+        compEvent, compEvents.get(1));
   }
 
   public void testSubscriberThrowsException() throws Exception{
@@ -196,18 +194,6 @@ public class EventBusTest extends TestCase {
         1, events.size());
     assertEquals("The dead event must not be re-wrapped.",
         EVENT, events.get(0).getEvent());
-  }
-
-  public void testFlattenHierarchy() {
-    HierarchyFixture fixture = new HierarchyFixture();
-    Set<Class<?>> hierarchy = bus.flattenHierarchy(fixture.getClass());
-
-    assertEquals(5, hierarchy.size());
-    assertContains(Object.class, hierarchy);
-    assertContains(HierarchyFixtureInterface.class, hierarchy);
-    assertContains(HierarchyFixtureSubinterface.class, hierarchy);
-    assertContains(HierarchyFixtureParent.class, hierarchy);
-    assertContains(HierarchyFixture.class, hierarchy);
   }
 
   public void testMissingSubscribe() {
@@ -308,11 +294,6 @@ public class EventBusTest extends TestCase {
     assertEquals(1, calls.get());
   }
 
-  private <T> void assertContains(T element, Collection<T> collection) {
-    assertTrue("Collection must contain " + element,
-        collection.contains(element));
-  }
-
   /**
    * Records thrown exception information.
    */
@@ -368,24 +349,6 @@ public class EventBusTest extends TestCase {
     public List<DeadEvent> getEvents() {
       return events;
     }
-  }
-
-  private interface HierarchyFixtureInterface {
-    // Exists only for hierarchy mapping; no members.
-  }
-
-  private interface HierarchyFixtureSubinterface
-      extends HierarchyFixtureInterface {
-    // Exists only for hierarchy mapping; no members.
-  }
-
-  private static class HierarchyFixtureParent
-      implements HierarchyFixtureSubinterface {
-    // Exists only for hierarchy mapping; no members.
-  }
-
-  private static class HierarchyFixture extends HierarchyFixtureParent {
-    // Exists only for hierarchy mapping; no members.
   }
 
   private interface Callback<T> {

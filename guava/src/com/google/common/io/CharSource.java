@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Ascii;
+import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
@@ -95,6 +96,71 @@ public abstract class CharSource {
   }
 
   /**
+   * Returns the size of this source in chars, if the size can be easily determined without
+   * actually opening the data stream.
+   *
+   * <p>The default implementation returns {@link Optional#absent}. Some sources, such as a
+   * {@code CharSequence}, may return a non-absent value. Note that in such cases, it is
+   * <i>possible</i> that this method will return a different number of chars than would be
+   * returned by reading all of the chars.
+   *
+   * <p>Additionally, for mutable sources such as {@code StringBuilder}s, a subsequent read
+   * may return a different number of chars if the contents are changed.
+   *
+   * @since 19.0
+   */
+  @Beta
+  public Optional<Long> lengthIfKnown() {
+    return Optional.absent();
+  }
+
+  /**
+   * Returns the length of this source in chars, even if doing so requires opening and traversing
+   * an entire stream. To avoid a potentially expensive operation, see {@link #lengthIfKnown}.
+   *
+   * <p>The default implementation calls {@link #lengthIfKnown} and returns the value if present.
+   * If absent, it will fall back to a heavyweight operation that will open a stream,
+   * {@link Reader#skip(long) skip} to the end of the stream, and return the total number of chars
+   * that were skipped.
+   *
+   * <p>Note that for sources that implement {@link #lengthIfKnown} to provide a more efficient
+   * implementation, it is <i>possible</i> that this method will return a different number of chars
+   * than would be returned by reading all of the chars.
+   *
+   * <p>In either case, for mutable sources such as files, a subsequent read may return a different
+   * number of chars if the contents are changed.
+   *
+   * @throws IOException if an I/O error occurs in the process of reading the length of this source
+   * @since 19.0
+   */
+  @Beta
+  public long length() throws IOException {
+    Optional<Long> lengthIfKnown = lengthIfKnown();
+    if (lengthIfKnown.isPresent()) {
+      return lengthIfKnown.get();
+    }
+
+    Closer closer = Closer.create();
+    try {
+      Reader reader = closer.register(openStream());
+      return countBySkipping(reader);
+    } catch (Throwable e) {
+      throw closer.rethrow(e);
+    } finally {
+      closer.close();
+    }
+  }
+
+  private long countBySkipping(Reader reader) throws IOException {
+    long count = 0;
+    long read;
+    while ((read = reader.skip(Long.MAX_VALUE)) != 0) {
+      count += read;
+    }
+    return count;
+  }
+
+  /**
    * Appends the contents of this source to the given {@link Appendable} (such as a {@link Writer}).
    * Does not close {@code appendable} if it is {@code Closeable}.
    *
@@ -162,7 +228,7 @@ public abstract class CharSource {
    *
    * @throws IOException if an I/O error occurs in the process of reading from this source
    */
-  public @Nullable String readFirstLine() throws IOException {
+  @Nullable public String readFirstLine() throws IOException {
     Closer closer = Closer.create();
     try {
       BufferedReader reader = closer.register(openBufferedStream());
@@ -231,13 +297,22 @@ public abstract class CharSource {
   }
 
   /**
-   * Returns whether the source has zero chars. The default implementation is to open a stream and
-   * check for EOF.
+   * Returns whether the source has zero chars. The default implementation returns true if
+   * {@link #lengthIfKnown} returns zero, falling back to opening a stream and checking
+   * for EOF if the length is not known.
+   *
+   * <p>Note that, in cases where {@code lengthIfKnown} returns zero, it is <i>possible</i> that
+   * chars are actually available for reading. This means that a source may return {@code true} from
+   * {@code isEmpty()} despite having readable content.
    *
    * @throws IOException if an I/O error occurs
    * @since 15.0
    */
   public boolean isEmpty() throws IOException {
+    Optional<Long> lengthIfKnown = lengthIfKnown();
+    if (lengthIfKnown.isPresent() && lengthIfKnown.get() == 0L) {
+      return true;
+    }
     Closer closer = Closer.create();
     try {
       Reader reader = closer.register(openStream());
@@ -348,6 +423,16 @@ public abstract class CharSource {
       return seq.length() == 0;
     }
 
+    @Override
+    public long length() {
+      return seq.length();
+    }
+
+    @Override
+    public Optional<Long> lengthIfKnown() {
+      return Optional.of((long) seq.length());
+    }
+
     /**
      * Returns an iterable over the lines in the string. If the string ends in
      * a newline, a final empty string is not included to match the behavior of
@@ -438,6 +523,28 @@ public abstract class CharSource {
         }
       }
       return true;
+    }
+
+    @Override
+    public Optional<Long> lengthIfKnown() {
+      long result = 0L;
+      for (CharSource source : sources) {
+        Optional<Long> lengthIfKnown = source.lengthIfKnown();
+        if (!lengthIfKnown.isPresent()) {
+          return Optional.absent();
+        }
+        result += lengthIfKnown.get();
+      }
+      return Optional.of(result);
+    }
+
+    @Override
+    public long length() throws IOException {
+      long result = 0L;
+      for (CharSource source : sources) {
+        result += source.length();
+      }
+      return result;
     }
 
     @Override

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.Weak;
 
 import java.util.Map.Entry;
 
@@ -30,6 +31,31 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
+  static final class RegularEntrySet<K, V> extends ImmutableMapEntrySet<K, V> {
+    @Weak private final transient ImmutableMap<K, V> map;
+    private final transient Entry<K, V>[] entries;
+
+    RegularEntrySet(ImmutableMap<K, V> map, Entry<K, V>[] entries) {
+      this.map = map;
+      this.entries = entries;
+    }
+
+    @Override
+    ImmutableMap<K, V> map() {
+      return map;
+    }
+
+    @Override
+    public UnmodifiableIterator<Entry<K, V>> iterator() {
+      return asList().iterator();
+    }
+
+    @Override
+    ImmutableList<Entry<K, V>> createAsList() {
+      return new RegularImmutableAsList<Entry<K, V>>(this, entries);
+    }
+  }
+
   ImmutableMapEntrySet() {}
 
   abstract ImmutableMap<K, V> map();
@@ -52,6 +78,11 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   @Override
   boolean isPartialView() {
     return map().isPartialView();
+  }
+
+  @Override
+  public int hashCode() {
+    return map().hashCode();
   }
 }
 

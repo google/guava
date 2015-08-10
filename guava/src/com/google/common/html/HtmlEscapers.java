@@ -26,6 +26,9 @@ import com.google.common.escape.Escapers;
  * attribute values and <em>most</em> elements' text contents. When possible,
  * avoid manual escaping by using templating systems and high-level APIs that
  * provide autoescaping.
+ * One Google-authored templating system available for external use is <a
+ * href="https://developers.google.com/closure/templates/">Closure
+ * Templates</a>.
  *
  * <p>HTML escaping is particularly tricky: For example, <a
  * href="http://goo.gl/5TgZb">some elements' text contents must not be HTML

@@ -88,12 +88,12 @@ public class LinkedHashMultimapTest extends TestCase {
   }
 
   private void assertOrderingReadOnly(Multimap<String, Integer> multimap) {
-    assertThat(multimap.get("foo")).has().exactly(5, 3).inOrder();
-    assertThat(multimap.get("bar")).has().exactly(4, 1).inOrder();
-    assertThat(multimap.get("cow")).has().item(2);
+    assertThat(multimap.get("foo")).containsExactly(5, 3).inOrder();
+    assertThat(multimap.get("bar")).containsExactly(4, 1).inOrder();
+    assertThat(multimap.get("cow")).contains(2);
 
-    assertThat(multimap.keySet()).has().exactly("foo", "bar", "cow").inOrder();
-    assertThat(multimap.values()).has().exactly(5, 4, 3, 2, 1).inOrder();
+    assertThat(multimap.keySet()).containsExactly("foo", "bar", "cow").inOrder();
+    assertThat(multimap.values()).containsExactly(5, 4, 3, 2, 1).inOrder();
 
     Iterator<Map.Entry<String, Integer>> entryIterator =
         multimap.entries().iterator();
@@ -107,28 +107,28 @@ public class LinkedHashMultimapTest extends TestCase {
         multimap.asMap().entrySet().iterator();
     Map.Entry<String, Collection<Integer>> entry = collectionIterator.next();
     assertEquals("foo", entry.getKey());
-    assertThat(entry.getValue()).has().exactly(5, 3).inOrder();
+    assertThat(entry.getValue()).containsExactly(5, 3).inOrder();
     entry = collectionIterator.next();
     assertEquals("bar", entry.getKey());
-    assertThat(entry.getValue()).has().exactly(4, 1).inOrder();
+    assertThat(entry.getValue()).containsExactly(4, 1).inOrder();
     entry = collectionIterator.next();
     assertEquals("cow", entry.getKey());
-    assertThat(entry.getValue()).has().item(2);
+    assertThat(entry.getValue()).contains(2);
   }
 
   public void testOrderingUpdates() {
     Multimap<String, Integer> multimap = initializeMultimap5();
 
-    assertThat(multimap.replaceValues("foo", asList(6, 7))).has().exactly(5, 3).inOrder();
-    assertThat(multimap.keySet()).has().exactly("foo", "bar", "cow").inOrder();
-    assertThat(multimap.removeAll("foo")).has().exactly(6, 7).inOrder();
-    assertThat(multimap.keySet()).has().exactly("bar", "cow").inOrder();
+    assertThat(multimap.replaceValues("foo", asList(6, 7))).containsExactly(5, 3).inOrder();
+    assertThat(multimap.keySet()).containsExactly("foo", "bar", "cow").inOrder();
+    assertThat(multimap.removeAll("foo")).containsExactly(6, 7).inOrder();
+    assertThat(multimap.keySet()).containsExactly("bar", "cow").inOrder();
     assertTrue(multimap.remove("bar", 4));
-    assertThat(multimap.keySet()).has().exactly("bar", "cow").inOrder();
+    assertThat(multimap.keySet()).containsExactly("bar", "cow").inOrder();
     assertTrue(multimap.remove("bar", 1));
-    assertThat(multimap.keySet()).has().item("cow");
+    assertThat(multimap.keySet()).contains("cow");
     multimap.put("bar", 9);
-    assertThat(multimap.keySet()).has().exactly("cow", "bar").inOrder();
+    assertThat(multimap.keySet()).containsExactly("cow", "bar").inOrder();
   }
 
   public void testToStringNullExact() {

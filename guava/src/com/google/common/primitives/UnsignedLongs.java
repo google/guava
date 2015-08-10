@@ -24,6 +24,8 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * Static utility methods pertaining to {@code long} primitives that interpret values as
  * <i>unsigned</i> (that is, any negative value {@code x} is treated as the positive value
@@ -39,7 +41,7 @@ import java.util.Comparator;
  * class be used, at a small efficiency penalty, to enforce the distinction in the type system.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support">
+ * "https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">
  * unsigned primitive utilities</a>.
  *
  * @author Louis Wasserman
@@ -72,6 +74,7 @@ public final class UnsignedLongs {
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
    *         greater than {@code b}; or zero if they are equal
    */
+  @CheckReturnValue
   public static int compare(long a, long b) {
     return Longs.compare(flip(a), flip(b));
   }
@@ -84,6 +87,7 @@ public final class UnsignedLongs {
    *         the array according to {@link #compare}
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @CheckReturnValue
   public static long min(long... array) {
     checkArgument(array.length > 0);
     long min = flip(array[0]);
@@ -104,6 +108,7 @@ public final class UnsignedLongs {
    *         in the array according to {@link #compare}
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @CheckReturnValue
   public static long max(long... array) {
     checkArgument(array.length > 0);
     long max = flip(array[0]);
@@ -124,6 +129,7 @@ public final class UnsignedLongs {
    *        string (but not at the start or end)
    * @param array an array of unsigned {@code long} values, possibly empty
    */
+  @CheckReturnValue
   public static String join(String separator, long... array) {
     checkNotNull(separator);
     if (array.length == 0) {
@@ -152,6 +158,7 @@ public final class UnsignedLongs {
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">Lexicographical order
    *      article at Wikipedia</a>
    */
+  @CheckReturnValue
   public static Comparator<long[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;
   }
@@ -179,6 +186,7 @@ public final class UnsignedLongs {
    * @param divisor the divisor (denominator)
    * @throws ArithmeticException if divisor is 0
    */
+  @CheckReturnValue
   public static long divide(long dividend, long divisor) {
     if (divisor < 0) { // i.e., divisor >= 2^63:
       if (compare(dividend, divisor) < 0) {
@@ -213,6 +221,7 @@ public final class UnsignedLongs {
    * @throws ArithmeticException if divisor is 0
    * @since 11.0
    */
+  @CheckReturnValue
   public static long remainder(long dividend, long divisor) {
     if (divisor < 0) { // i.e., divisor >= 2^63:
       if (compare(dividend, divisor) < 0) {
@@ -243,7 +252,7 @@ public final class UnsignedLongs {
    *
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
    *         value
-   * @throws NullPointerException if {@code s} is null 
+   * @throws NullPointerException if {@code s} is null
    *         (in contrast to {@link Long#parseLong(String)})
    */
   public static long parseUnsignedLong(String s) {
@@ -287,7 +296,7 @@ public final class UnsignedLongs {
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
    *         with the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX}
    *         and {@link Character#MAX_RADIX}.
-   * @throws NullPointerException if {@code s} is null 
+   * @throws NullPointerException if {@code s} is null
    *         (in contrast to {@link Long#parseLong(String)})
    */
   public static long parseUnsignedLong(String s, int radix) {
@@ -340,6 +349,7 @@ public final class UnsignedLongs {
   /**
    * Returns a string representation of x, where x is treated as unsigned.
    */
+  @CheckReturnValue
   public static String toString(long x) {
     return toString(x, 10);
   }
@@ -353,9 +363,12 @@ public final class UnsignedLongs {
    * @throws IllegalArgumentException if {@code radix} is not between {@link Character#MIN_RADIX}
    *         and {@link Character#MAX_RADIX}.
    */
+  @CheckReturnValue
   public static String toString(long x, int radix) {
-    checkArgument(radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
-        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX", radix);
+    checkArgument(
+        radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
+        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX",
+        radix);
     if (x == 0) {
       // Simply return "0"
       return "0";
@@ -384,6 +397,7 @@ public final class UnsignedLongs {
   private static final long[] maxValueDivs = new long[Character.MAX_RADIX + 1];
   private static final int[] maxValueMods = new int[Character.MAX_RADIX + 1];
   private static final int[] maxSafeDigits = new int[Character.MAX_RADIX + 1];
+
   static {
     BigInteger overflow = new BigInteger("10000000000000000", 16);
     for (int i = Character.MIN_RADIX; i <= Character.MAX_RADIX; i++) {

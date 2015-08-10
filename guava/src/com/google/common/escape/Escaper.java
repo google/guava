@@ -48,10 +48,10 @@ import com.google.common.base.Function;
  * extend one of these classes. If you find that you are unable to achieve the desired behavior
  * using either of these classes, please contact the Java libraries team for advice.
  *
- * <p>Several popular escapers are defined as constants in classes like {@link
- * com.google.common.html.HtmlEscapers}, {@link com.google.common.xml.XmlEscapers}, and {@link
- * SourceCodeEscapers}. To create your own escapers, use {@link CharEscaperBuilder}, or extend
- * {@code CharEscaper} or {@code UnicodeEscaper}.
+ * <p>Popular escapers are defined as constants in classes like {@link
+ * com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}.
+ * To create your own escapers, use {@link CharEscaperBuilder}, or extend {@code CharEscaper}
+ * or {@code UnicodeEscaper}.
  *
  * @author David Beaumont
  * @since 15.0

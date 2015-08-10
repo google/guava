@@ -104,7 +104,7 @@ import javax.annotation.Nullable;
  * <h3>Further reading</h3>
  *
  * <p>See the Guava User Guide article on
- * <a href="http://code.google.com/p/guava-libraries/wiki/RangesExplained">{@code Range}</a>.
+ * <a href="https://github.com/google/guava/wiki/RangesExplained">{@code Range}</a>.
  *
  * @author Kevin Bourrillion
  * @author Gregory Kick
@@ -138,15 +138,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
     return (Function) UPPER_BOUND_FN;
   }
 
-  static final Ordering<Range<?>> RANGE_LEX_ORDERING = new Ordering<Range<?>>() {
-    @Override
-    public int compare(Range<?> left, Range<?> right) {
-      return ComparisonChain.start()
-          .compare(left.lowerBound, right.lowerBound)
-          .compare(left.upperBound, right.upperBound)
-          .result();
-    }
-  };
+  static final Ordering<Range<?>> RANGE_LEX_ORDERING = new RangeLexOrdering();
 
   static <C extends Comparable<?>> Range<C> create(
       Cut<C> lowerBound, Cut<C> upperBound) {
@@ -358,12 +350,12 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
   final Cut<C> upperBound;
 
   private Range(Cut<C> lowerBound, Cut<C> upperBound) {
+    this.lowerBound = checkNotNull(lowerBound);
+    this.upperBound = checkNotNull(upperBound);
     if (lowerBound.compareTo(upperBound) > 0 || lowerBound == Cut.<C>aboveAll()
         || upperBound == Cut.<C>belowAll()) {
       throw new IllegalArgumentException("Invalid range: " + toString(lowerBound, upperBound));
     }
-    this.lowerBound = checkNotNull(lowerBound);
-    this.upperBound = checkNotNull(upperBound);
   }
 
   /**
@@ -681,6 +673,22 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
   @SuppressWarnings("unchecked") // this method may throw CCE
   static int compareOrThrow(Comparable left, Comparable right) {
     return left.compareTo(right);
+  }
+
+  /**
+   * Needed to serialize sorted collections of Ranges.
+    */
+  private static class RangeLexOrdering extends Ordering<Range<?>> implements Serializable {
+
+    @Override
+    public int compare(Range<?> left, Range<?> right) {
+      return ComparisonChain.start()
+          .compare(left.lowerBound, right.lowerBound)
+          .compare(left.upperBound, right.upperBound)
+          .result();
+    }
+
+    private static final long serialVersionUID = 0;
   }
 
   private static final long serialVersionUID = 0;

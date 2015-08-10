@@ -16,12 +16,13 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
-import com.google.common.base.Throwables;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
@@ -120,6 +121,8 @@ public abstract class AbstractScheduledService implements Service {
      */
     public static Scheduler newFixedDelaySchedule(final long initialDelay, final long delay, 
         final TimeUnit unit) {
+      checkNotNull(unit);
+      checkArgument(delay > 0, "delay must be > 0, found %s", delay);
       return new Scheduler() {
         @Override
         public Future<?> schedule(AbstractService service, ScheduledExecutorService executor,
@@ -139,6 +142,8 @@ public abstract class AbstractScheduledService implements Service {
      */
     public static Scheduler newFixedRateSchedule(final long initialDelay, final long period, 
         final TimeUnit unit) {
+      checkNotNull(unit);
+      checkArgument(period > 0, "period must be > 0, found %s", period);
       return new Scheduler() {
         @Override
         public Future<?> schedule(AbstractService service, ScheduledExecutorService executor,
@@ -165,28 +170,37 @@ public abstract class AbstractScheduledService implements Service {
     
     // This lock protects the task so we can ensure that none of the template methods (startUp, 
     // shutDown or runOneIteration) run concurrently with one another.
+    // TODO(lukes):  why don't we use ListenableFuture to sequence things?  Then we could drop the
+    // lock.
     private final ReentrantLock lock = new ReentrantLock();
-    
-    private final Runnable task = new Runnable() {
+
+    @WeakOuter
+    class Task implements Runnable {
       @Override public void run() {
         lock.lock();
         try {
+          if (runningTask.isCancelled()) {
+            // task may have been cancelled while blocked on the lock.
+            return;
+          }
           AbstractScheduledService.this.runOneIteration();
         } catch (Throwable t) {
           try {
             shutDown();
           } catch (Exception ignored) {
-            logger.log(Level.WARNING, 
+            logger.log(Level.WARNING,
                 "Error while attempting to shut down the service after failure.", ignored);
           }
           notifyFailed(t);
-          throw Throwables.propagate(t);
+          runningTask.cancel(false);  // prevent future invocations.
         } finally {
           lock.unlock();
         }
       }
-    };
-    
+    }
+
+    private final Runnable task = new Task();
+
     @Override protected final void doStart() {
       executorService = MoreExecutors.renamingDecorator(executor(), new Supplier<String>() {
         @Override public String get() {
@@ -202,7 +216,10 @@ public abstract class AbstractScheduledService implements Service {
             notifyStarted();
           } catch (Throwable t) {
             notifyFailed(t);
-            throw Throwables.propagate(t);
+            if (runningTask != null) {
+              // prevent the task from running if possible
+              runningTask.cancel(false);
+            }
           } finally {
             lock.unlock();
           }
@@ -211,7 +228,7 @@ public abstract class AbstractScheduledService implements Service {
     }
 
     @Override protected final void doStop() {
-      runningTask.cancel(false); 
+      runningTask.cancel(false);
       executorService.execute(new Runnable() {
         @Override public void run() {
           try {
@@ -231,7 +248,6 @@ public abstract class AbstractScheduledService implements Service {
             notifyStopped();
           } catch (Throwable t) {
             notifyFailed(t);
-            throw Throwables.propagate(t);
           }
         }
       });
@@ -443,14 +459,22 @@ public abstract class AbstractScheduledService implements Service {
        * Atomically reschedules this task and assigns the new future to {@link #currentFuture}.
        */
       public void reschedule() {
+        // invoke the callback outside the lock, prevents some shenanigans.
+        Schedule schedule;
+        try {
+          schedule = CustomScheduler.this.getNextSchedule();
+        } catch (Throwable t) {
+          service.notifyFailed(t);
+          return;
+        }
         // We reschedule ourselves with a lock held for two reasons. 1. we want to make sure that
         // cancel calls cancel on the correct future. 2. we want to make sure that the assignment
         // to currentFuture doesn't race with itself so that currentFuture is assigned in the 
         // correct order.
+        Throwable scheduleFailure = null;
         lock.lock();
         try {
           if (currentFuture == null || !currentFuture.isCancelled()) {
-            final Schedule schedule = CustomScheduler.this.getNextSchedule();
             currentFuture = executor.schedule(this, schedule.delay, schedule.unit);
           }
         } catch (Throwable e) {
@@ -459,9 +483,16 @@ public abstract class AbstractScheduledService implements Service {
           // because the service does not monitor the state of the future so if the exception is not
           // caught and forwarded to the service the task would stop executing but the service would
           // have no idea.
-          service.notifyFailed(e);
+          // TODO(lukes): consider building everything in terms of ListenableScheduledFuture then
+          // the AbstractService could monitor the future directly.  Rescheduling is still hard...
+          // but it would help with some of these lock ordering issues.
+          scheduleFailure = e;
         } finally {
           lock.unlock();
+        }
+        // Call notifyFailed outside the lock to avoid lock ordering issues.
+        if (scheduleFailure != null) {
+          service.notifyFailed(scheduleFailure);
         }
       }
       
@@ -478,9 +509,20 @@ public abstract class AbstractScheduledService implements Service {
         }
       }
 
+      @Override 
+      public boolean isCancelled() {
+        lock.lock();
+        try {
+          return currentFuture.isCancelled();
+        } finally {
+          lock.unlock();
+        }
+      }
+
       @Override
       protected Future<Void> delegate() {
-        throw new UnsupportedOperationException("Only cancel is supported by this future");
+        throw new UnsupportedOperationException(
+            "Only cancel and isCancelled is supported by this future");
       }
     }
     
@@ -510,7 +552,7 @@ public abstract class AbstractScheduledService implements Service {
        */
       public Schedule(long delay, TimeUnit unit) {
         this.delay = delay;
-        this.unit = Preconditions.checkNotNull(unit);
+        this.unit = checkNotNull(unit);
       }
     }
     

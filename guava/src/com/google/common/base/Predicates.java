@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -38,12 +39,13 @@ import javax.annotation.Nullable;
  * serializable parameters.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/FunctionalExplained">the
+ * "https://github.com/google/guava/wiki/FunctionalExplained">the
  * use of {@code Predicate}</a>.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Predicates {
   private Predicates() {}
@@ -102,8 +104,7 @@ public final class Predicates {
    * components} is empty, the returned predicate will always evaluate to {@code
    * true}.
    */
-  public static <T> Predicate<T> and(
-      Iterable<? extends Predicate<? super T>> components) {
+  public static <T> Predicate<T> and(Iterable<? extends Predicate<? super T>> components) {
     return new AndPredicate<T>(defensiveCopy(components));
   }
 
@@ -126,10 +127,8 @@ public final class Predicates {
    * order, and evaluation will be "short-circuited" as soon as a false
    * predicate is found.
    */
-  public static <T> Predicate<T> and(Predicate<? super T> first,
-      Predicate<? super T> second) {
-    return new AndPredicate<T>(Predicates.<T>asList(
-        checkNotNull(first), checkNotNull(second)));
+  public static <T> Predicate<T> and(Predicate<? super T> first, Predicate<? super T> second) {
+    return new AndPredicate<T>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
   }
 
   /**
@@ -141,8 +140,7 @@ public final class Predicates {
    * components} is empty, the returned predicate will always evaluate to {@code
    * false}.
    */
-  public static <T> Predicate<T> or(
-      Iterable<? extends Predicate<? super T>> components) {
+  public static <T> Predicate<T> or(Iterable<? extends Predicate<? super T>> components) {
     return new OrPredicate<T>(defensiveCopy(components));
   }
 
@@ -165,10 +163,8 @@ public final class Predicates {
    * order, and evaluation will be "short-circuited" as soon as a
    * true predicate is found.
    */
-  public static <T> Predicate<T> or(
-      Predicate<? super T> first, Predicate<? super T> second) {
-    return new OrPredicate<T>(Predicates.<T>asList(
-        checkNotNull(first), checkNotNull(second)));
+  public static <T> Predicate<T> or(Predicate<? super T> first, Predicate<? super T> second) {
+    return new OrPredicate<T>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
   }
 
   /**
@@ -176,9 +172,7 @@ public final class Predicates {
    * tested {@code equals()} the given target or both are null.
    */
   public static <T> Predicate<T> equalTo(@Nullable T target) {
-    return (target == null)
-        ? Predicates.<T>isNull()
-        : new IsEqualToPredicate<T>(target);
+    return (target == null) ? Predicates.<T>isNull() : new IsEqualToPredicate<T>(target);
   }
 
   /**
@@ -275,37 +269,49 @@ public final class Predicates {
   enum ObjectPredicate implements Predicate<Object> {
     /** @see Predicates#alwaysTrue() */
     ALWAYS_TRUE {
-      @Override public boolean apply(@Nullable Object o) {
+      @Override
+      public boolean apply(@Nullable Object o) {
         return true;
       }
-      @Override public String toString() {
+
+      @Override
+      public String toString() {
         return "Predicates.alwaysTrue()";
       }
     },
     /** @see Predicates#alwaysFalse() */
     ALWAYS_FALSE {
-      @Override public boolean apply(@Nullable Object o) {
+      @Override
+      public boolean apply(@Nullable Object o) {
         return false;
       }
-      @Override public String toString() {
+
+      @Override
+      public String toString() {
         return "Predicates.alwaysFalse()";
       }
     },
     /** @see Predicates#isNull() */
     IS_NULL {
-      @Override public boolean apply(@Nullable Object o) {
+      @Override
+      public boolean apply(@Nullable Object o) {
         return o == null;
       }
-      @Override public String toString() {
+
+      @Override
+      public String toString() {
         return "Predicates.isNull()";
       }
     },
     /** @see Predicates#notNull() */
     NOT_NULL {
-      @Override public boolean apply(@Nullable Object o) {
+      @Override
+      public boolean apply(@Nullable Object o) {
         return o != null;
       }
-      @Override public String toString() {
+
+      @Override
+      public String toString() {
         return "Predicates.notNull()";
       }
     };
@@ -323,23 +329,31 @@ public final class Predicates {
     NotPredicate(Predicate<T> predicate) {
       this.predicate = checkNotNull(predicate);
     }
+
     @Override
     public boolean apply(@Nullable T t) {
       return !predicate.apply(t);
     }
-    @Override public int hashCode() {
+
+    @Override
+    public int hashCode() {
       return ~predicate.hashCode();
     }
-    @Override public boolean equals(@Nullable Object obj) {
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof NotPredicate) {
         NotPredicate<?> that = (NotPredicate<?>) obj;
         return predicate.equals(that.predicate);
       }
       return false;
     }
-    @Override public String toString() {
-      return "Predicates.not(" + predicate.toString() + ")";
+
+    @Override
+    public String toString() {
+      return "Predicates.not(" + predicate + ")";
     }
+
     private static final long serialVersionUID = 0;
   }
 
@@ -352,6 +366,7 @@ public final class Predicates {
     private AndPredicate(List<? extends Predicate<? super T>> components) {
       this.components = components;
     }
+
     @Override
     public boolean apply(@Nullable T t) {
       // Avoid using the Iterator to avoid generating garbage (issue 820).
@@ -362,20 +377,27 @@ public final class Predicates {
       }
       return true;
     }
-    @Override public int hashCode() {
+
+    @Override
+    public int hashCode() {
       // add a random number to avoid collisions with OrPredicate
       return components.hashCode() + 0x12472c2c;
     }
-    @Override public boolean equals(@Nullable Object obj) {
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof AndPredicate) {
         AndPredicate<?> that = (AndPredicate<?>) obj;
         return components.equals(that.components);
       }
       return false;
     }
-    @Override public String toString() {
+
+    @Override
+    public String toString() {
       return "Predicates.and(" + COMMA_JOINER.join(components) + ")";
     }
+
     private static final long serialVersionUID = 0;
   }
 
@@ -386,6 +408,7 @@ public final class Predicates {
     private OrPredicate(List<? extends Predicate<? super T>> components) {
       this.components = components;
     }
+
     @Override
     public boolean apply(@Nullable T t) {
       // Avoid using the Iterator to avoid generating garbage (issue 820).
@@ -396,106 +419,134 @@ public final class Predicates {
       }
       return false;
     }
-    @Override public int hashCode() {
+
+    @Override
+    public int hashCode() {
       // add a random number to avoid collisions with AndPredicate
       return components.hashCode() + 0x053c91cf;
     }
-    @Override public boolean equals(@Nullable Object obj) {
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof OrPredicate) {
         OrPredicate<?> that = (OrPredicate<?>) obj;
         return components.equals(that.components);
       }
       return false;
     }
-    @Override public String toString() {
+
+    @Override
+    public String toString() {
       return "Predicates.or(" + COMMA_JOINER.join(components) + ")";
     }
+
     private static final long serialVersionUID = 0;
   }
 
   /** @see Predicates#equalTo(Object) */
-  private static class IsEqualToPredicate<T>
-      implements Predicate<T>, Serializable {
+  private static class IsEqualToPredicate<T> implements Predicate<T>, Serializable {
     private final T target;
 
     private IsEqualToPredicate(T target) {
       this.target = target;
     }
+
     @Override
     public boolean apply(T t) {
       return target.equals(t);
     }
-    @Override public int hashCode() {
+
+    @Override
+    public int hashCode() {
       return target.hashCode();
     }
-    @Override public boolean equals(@Nullable Object obj) {
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof IsEqualToPredicate) {
         IsEqualToPredicate<?> that = (IsEqualToPredicate<?>) obj;
         return target.equals(that.target);
       }
       return false;
     }
-    @Override public String toString() {
+
+    @Override
+    public String toString() {
       return "Predicates.equalTo(" + target + ")";
     }
+
     private static final long serialVersionUID = 0;
   }
 
   /** @see Predicates#instanceOf(Class) */
   @GwtIncompatible("Class.isInstance")
-  private static class InstanceOfPredicate
-      implements Predicate<Object>, Serializable {
+  private static class InstanceOfPredicate implements Predicate<Object>, Serializable {
     private final Class<?> clazz;
 
     private InstanceOfPredicate(Class<?> clazz) {
       this.clazz = checkNotNull(clazz);
     }
+
     @Override
     public boolean apply(@Nullable Object o) {
       return clazz.isInstance(o);
     }
-    @Override public int hashCode() {
+
+    @Override
+    public int hashCode() {
       return clazz.hashCode();
     }
-    @Override public boolean equals(@Nullable Object obj) {
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof InstanceOfPredicate) {
         InstanceOfPredicate that = (InstanceOfPredicate) obj;
         return clazz == that.clazz;
       }
       return false;
     }
-    @Override public String toString() {
+
+    @Override
+    public String toString() {
       return "Predicates.instanceOf(" + clazz.getName() + ")";
     }
+
     private static final long serialVersionUID = 0;
   }
 
   /** @see Predicates#assignableFrom(Class) */
   @GwtIncompatible("Class.isAssignableFrom")
-  private static class AssignableFromPredicate
-      implements Predicate<Class<?>>, Serializable {
+  private static class AssignableFromPredicate implements Predicate<Class<?>>, Serializable {
     private final Class<?> clazz;
 
     private AssignableFromPredicate(Class<?> clazz) {
       this.clazz = checkNotNull(clazz);
     }
+
     @Override
     public boolean apply(Class<?> input) {
       return clazz.isAssignableFrom(input);
     }
-    @Override public int hashCode() {
+
+    @Override
+    public int hashCode() {
       return clazz.hashCode();
     }
-    @Override public boolean equals(@Nullable Object obj) {
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof AssignableFromPredicate) {
         AssignableFromPredicate that = (AssignableFromPredicate) obj;
         return clazz == that.clazz;
       }
       return false;
     }
-    @Override public String toString() {
+
+    @Override
+    public String toString() {
       return "Predicates.assignableFrom(" + clazz.getName() + ")";
     }
+
     private static final long serialVersionUID = 0;
   }
 
@@ -518,7 +569,8 @@ public final class Predicates {
       }
     }
 
-    @Override public boolean equals(@Nullable Object obj) {
+    @Override
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof InPredicate) {
         InPredicate<?> that = (InPredicate<?>) obj;
         return target.equals(that.target);
@@ -526,19 +578,21 @@ public final class Predicates {
       return false;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return target.hashCode();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "Predicates.in(" + target + ")";
     }
+
     private static final long serialVersionUID = 0;
   }
 
   /** @see Predicates#compose(Predicate, Function) */
-  private static class CompositionPredicate<A, B>
-      implements Predicate<A>, Serializable {
+  private static class CompositionPredicate<A, B> implements Predicate<A>, Serializable {
     final Predicate<B> p;
     final Function<A, ? extends B> f;
 
@@ -552,7 +606,8 @@ public final class Predicates {
       return p.apply(f.apply(a));
     }
 
-    @Override public boolean equals(@Nullable Object obj) {
+    @Override
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof CompositionPredicate) {
         CompositionPredicate<?, ?> that = (CompositionPredicate<?, ?>) obj;
         return f.equals(that.f) && p.equals(that.p);
@@ -560,12 +615,15 @@ public final class Predicates {
       return false;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return f.hashCode() ^ p.hashCode();
     }
 
-    @Override public String toString() {
-      return p.toString() + "(" + f.toString() + ")";
+    @Override
+    public String toString() {
+      // TODO(cpovirk): maybe make this look like the method call does ("Predicates.compose(...)")
+      return p + "(" + f + ")";
     }
 
     private static final long serialVersionUID = 0;
@@ -573,8 +631,7 @@ public final class Predicates {
 
   /** @see Predicates#contains(Pattern) */
   @GwtIncompatible("Only used by other GWT-incompatible code.")
-  private static class ContainsPatternPredicate
-      implements Predicate<CharSequence>, Serializable {
+  private static class ContainsPatternPredicate implements Predicate<CharSequence>, Serializable {
     final Pattern pattern;
 
     ContainsPatternPredicate(Pattern pattern) {
@@ -586,14 +643,16 @@ public final class Predicates {
       return pattern.matcher(t).find();
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       // Pattern uses Object.hashCode, so we have to reach
       // inside to build a hashCode consistent with equals.
 
       return Objects.hashCode(pattern.pattern(), pattern.flags());
     }
 
-    @Override public boolean equals(@Nullable Object obj) {
+    @Override
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof ContainsPatternPredicate) {
         ContainsPatternPredicate that = (ContainsPatternPredicate) obj;
 
@@ -605,7 +664,8 @@ public final class Predicates {
       return false;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       String patternString = Objects.toStringHelper(pattern)
           .add("pattern", pattern.pattern())
           .add("pattern.flags", pattern.flags())
@@ -618,14 +678,14 @@ public final class Predicates {
 
   /** @see Predicates#containsPattern(String) */
   @GwtIncompatible("Only used by other GWT-incompatible code.")
-  private static class ContainsPatternFromStringPredicate
-      extends ContainsPatternPredicate {
+  private static class ContainsPatternFromStringPredicate extends ContainsPatternPredicate {
 
     ContainsPatternFromStringPredicate(String string) {
       super(Pattern.compile(string));
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "Predicates.containsPattern(" + pattern.pattern() + ")";
     }
 

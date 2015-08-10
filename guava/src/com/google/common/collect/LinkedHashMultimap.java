@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -71,12 +72,12 @@ import javax.annotation.Nullable;
  * Multimaps#synchronizedSetMultimap}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multimap">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">
  * {@code Multimap}</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
 public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
@@ -300,6 +301,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
   }
 
   @VisibleForTesting
+  @WeakOuter
   final class ValueSet extends Sets.ImprovedAbstractSet<V> implements ValueSetLink<K, V> {
     /*
      * We currently use a fixed load factor of 1.0, a bit higher than normal to reduce memory
@@ -538,7 +540,6 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
   @GwtIncompatible("java.io.ObjectOutputStream")
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
-    stream.writeInt(valueSetCapacity);
     stream.writeInt(keySet().size());
     for (K key : keySet()) {
       stream.writeObject(key);
@@ -556,10 +557,9 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     stream.defaultReadObject();
     multimapHeaderEntry = new ValueEntry<K, V>(null, null, 0, null);
     succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);
-    valueSetCapacity = stream.readInt();
+    valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;
     int distinctKeys = stream.readInt();
-    Map<K, Collection<V>> map =
-        new LinkedHashMap<K, Collection<V>>(Maps.capacity(distinctKeys));
+    Map<K, Collection<V>> map = new LinkedHashMap<K, Collection<V>>();
     for (int i = 0; i < distinctKeys; i++) {
       @SuppressWarnings("unchecked")
       K key = (K) stream.readObject();

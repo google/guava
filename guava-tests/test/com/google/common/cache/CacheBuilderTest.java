@@ -22,6 +22,7 @@ import static com.google.common.cache.TestingRemovalListeners.countingRemovalLis
 import static com.google.common.cache.TestingRemovalListeners.nullRemovalListener;
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
 import static com.google.common.cache.TestingWeighers.constantWeigher;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -361,6 +362,11 @@ public class CacheBuilderTest extends TestCase {
       builder = builder.removalListener(testListener);
       fail();
     } catch (IllegalStateException expected) {}
+  }
+
+  public void testValuesIsNotASet() {
+    assertThat(new CacheBuilder<Object, Object>().build().asMap().values())
+        .isNotInstanceOf(Set.class);
   }
 
   @GwtIncompatible("CacheTesting")

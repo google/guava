@@ -195,9 +195,9 @@ public class PopulatedCachesTest extends TestCase {
       List<Entry<Object, Object>> warmed = warmUp(cache);
 
       Set<Object> expected = Maps.newHashMap(cache.asMap()).keySet();
-      assertThat(keys).has().exactlyAs(expected);
-      assertThat(keys.toArray()).asList().has().exactlyAs(expected);
-      assertThat(keys.toArray(new Object[0])).asList().has().exactlyAs(expected);
+      assertThat(keys).containsExactlyElementsIn(expected);
+      assertThat(keys.toArray()).asList().containsExactlyElementsIn(expected);
+      assertThat(keys.toArray(new Object[0])).asList().containsExactlyElementsIn(expected);
 
       new EqualsTester()
           .addEqualityGroup(cache.asMap().keySet(), keys)
@@ -222,9 +222,9 @@ public class PopulatedCachesTest extends TestCase {
       List<Entry<Object, Object>> warmed = warmUp(cache);
 
       Collection<Object> expected = Maps.newHashMap(cache.asMap()).values();
-      assertThat(values).has().exactlyAs(expected);
-      assertThat(values.toArray()).asList().has().exactlyAs(expected);
-      assertThat(values.toArray(new Object[0])).asList().has().exactlyAs(expected);
+      assertThat(values).containsExactlyElementsIn(expected);
+      assertThat(values.toArray()).asList().containsExactlyElementsIn(expected);
+      assertThat(values.toArray(new Object[0])).asList().containsExactlyElementsIn(expected);
 
       assertEquals(WARMUP_SIZE, values.size());
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
@@ -247,10 +247,13 @@ public class PopulatedCachesTest extends TestCase {
       List<Entry<Object, Object>> warmed = warmUp(cache, WARMUP_MIN, WARMUP_MAX);
 
       Set<?> expected = Maps.newHashMap(cache.asMap()).entrySet();
-      assertThat(entries).has().exactlyAs((Collection<Entry<Object, Object>>) expected);
-      assertThat(entries.toArray()).asList().has().exactlyAs((Collection<Object>) expected);
-      assertThat(entries.toArray(new Entry[0])).asList()
-          .has().exactlyAs((Collection<Entry>) expected);
+      assertThat(entries).containsExactlyElementsIn((Collection<Entry<Object, Object>>) expected);
+      assertThat(entries.toArray())
+          .asList()
+          .containsExactlyElementsIn((Collection<Object>) expected);
+      assertThat(entries.toArray(new Entry[0]))
+          .asList()
+          .containsExactlyElementsIn((Collection<Entry>) expected);
 
       new EqualsTester()
           .addEqualityGroup(cache.asMap().entrySet(), entries)

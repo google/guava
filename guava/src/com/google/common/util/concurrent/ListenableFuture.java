@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -30,7 +32,7 @@ import java.util.concurrent.RejectedExecutionException;
  * immediately.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/ListenableFutureExplained">
+ * "https://github.com/google/guava/wiki/ListenableFutureExplained">
  * {@code ListenableFuture}</a>.
  *
  * <h3>Purpose</h3>
@@ -60,9 +62,10 @@ import java.util.concurrent.RejectedExecutionException;
  * <h3>How to get an instance</h3>
  *
  * <p>Developers are encouraged to return {@code ListenableFuture} from their
- * methods so that users can take advantages of the utilities built atop the
- * class. The way that they will create {@code ListenableFuture} instances
- * depends on how they currently create {@code Future} instances:
+ * methods so that users can take advantages of the {@linkplain Futures
+ * utilities built atop the class}. The way that they will create {@code
+ * ListenableFuture} instances depends on how they currently create {@code
+ * Future} instances:
  * <ul>
  * <li>If they are returned from an {@code ExecutorService}, convert that
  * service to a {@link ListeningExecutorService}, usually by calling {@link
@@ -83,6 +86,7 @@ import java.util.concurrent.RejectedExecutionException;
  * @author Nishant Thakkar
  * @since 1.0
  */
+@GwtCompatible
 public interface ListenableFuture<V> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on
@@ -101,29 +105,30 @@ public interface ListenableFuture<V> extends Future<V> {
    * logged.
    *
    * <p>Note: For fast, lightweight listeners that would be safe to execute in
-   * any thread, consider {@link MoreExecutors#directExecutor}. For heavier
-   * listeners, {@code directExecutor()} carries some caveats.  For
-   * example, the listener may run on an unpredictable or undesirable thread:
+   * any thread, consider {@link MoreExecutors#directExecutor}. Otherwise, avoid
+   * it. Heavyweight {@code directExecutor} listeners can cause problems, and
+   * these problems can be difficult to reproduce because they depend on timing.
+   * For example:
    *
    * <ul>
-   * <li>If this {@code Future} is done at the time {@code addListener} is
-   * called, {@code addListener} will execute the listener inline.
-   * <li>If this {@code Future} is not yet done, {@code addListener} will
-   * schedule the listener to be run by the thread that completes this {@code
-   * Future}, which may be an internal system thread such as an RPC network
-   * thread.
+   * <li>The listener may be executed by the caller of {@code addListener}. That
+   * caller may be a UI thread or other latency-sensitive thread. This can harm
+   * UI responsiveness.
+   * <li>The listener may be executed by the thread that completes this {@code
+   * Future}. That thread may be an internal system thread such as an RPC
+   * network thread. Blocking that thread may stall progress of the whole
+   * system. It may even cause a deadlock.
+   * <li>The listener may delay other listeners, even listeners that are not
+   * themselves {@code directExecutor} listeners.
    * </ul>
    *
-   * <p>Also note that, regardless of which thread executes the
-   * {@code directExecutor()} listener, all other registered but unexecuted
-   * listeners are prevented from running during its execution, even if those
-   * listeners are to run in other executors.
-   *
    * <p>This is the most general listener interface. For common operations
-   * performed using listeners, see {@link
-   * com.google.common.util.concurrent.Futures}. For a simplified but general
-   * listener interface, see {@link
-   * com.google.common.util.concurrent.Futures#addCallback addCallback()}.
+   * performed using listeners, see {@link Futures}. For a simplified but
+   * general listener interface, see {@link Futures#addCallback addCallback()}.
+   *
+   * <p>Memory consistency effects: Actions in a thread prior to adding a listener
+   * <a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
+   * <i>happen-before</i></a> its execution begins, perhaps in another thread.
    *
    * @param listener the listener to run when the computation is complete
    * @param executor the executor to run the listener in

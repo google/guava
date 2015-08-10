@@ -5,11 +5,11 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>18.0</version>
+    <version>19.0-SNAPSHOT</version>
   </parent>
   <artifactId>guava</artifactId>
-  <name>Guava: Google Core Libraries for Java</name>
   <packaging>bundle</packaging>
+  <name>Guava: Google Core Libraries for Java</name>
   <description>
     Guava is a suite of core and expanded libraries that include
     utility classes, google's collections, io classes, and much
@@ -24,15 +24,32 @@
       <artifactId>jsr305</artifactId>
       <optional>true</optional><!-- needed only for annotations -->
     </dependency>
+    <dependency>
+      <groupId>com.google.errorprone</groupId>
+      <artifactId>error_prone_annotations</artifactId>
+      <optional>true</optional><!-- needed only for annotations -->
+    </dependency>
+    <dependency>
+      <groupId>com.google.j2objc</groupId>
+      <artifactId>j2objc-annotations</artifactId>
+      <optional>true</optional><!-- needed only for annotations -->
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>animal-sniffer-annotations</artifactId>
+      <version>${animal.sniffer.version}</version>
+      <optional>true</optional><!-- needed only for annotations -->
+    </dependency>
+    <!-- TODO(cpovirk): does this comment belong on the <dependency> in <profiles>? -->
     <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
   </dependencies>
   <build>
     <plugins>
       <plugin>
+        <extensions>true</extensions>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <version>2.3.7</version>
-        <extensions>true</extensions>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -69,7 +86,6 @@
             <goals><goal>unpack-dependencies</goal></goals>
             <configuration>
               <includeArtifactIds>srczip</includeArtifactIds>
-              <overWrite>true</overWrite>
               <outputDirectory>${project.build.directory}/jdk-sources</outputDirectory>
               <silent>false</silent>
             </configuration>
@@ -107,21 +123,6 @@
             <phase>site</phase>
             <goals><goal>javadoc</goal></goals>
           </execution>
-          <execution>
-            <id>generate-jdiff-site-report</id>
-            <phase>site</phase>
-            <goals><goal>javadoc</goal></goals>
-            <configuration>
-              <doclet>jdiff.JDiff</doclet>
-              <docletPath>${project.basedir}/lib/jdiff.jar</docletPath>
-              <additionalparam>
-                -XDignore.symbol.file -apiname 'Guava ${project.version}'
-              </additionalparam>
-              <useStandardDocletOptions>false</useStandardDocletOptions>
-              <reportOutputDirectory>${project.reporting.outputDirectory}</reportOutputDirectory>
-              <destDir>jdiff</destDir>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
     </plugins>
@@ -144,6 +145,38 @@
           <optional>true</optional>
         </dependency>
       </dependencies>
+    </profile>
+    <profile>
+      <id>jdk8</id>
+      <activation>
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <!-- Disable doclint under JDK 8 -->
+      <!-- This is defined in guava-parent as well, but we need it here too because the
+           <additionalparam> from the maven-javadoc-plugin configuration above seems to
+           override the one from the parent pom. -->
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <additionalparam>-XDignore.symbol.file -Xdoclint:none</additionalparam>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <additionalparam>-XDignore.symbol.file -Xdoclint:none</additionalparam>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>

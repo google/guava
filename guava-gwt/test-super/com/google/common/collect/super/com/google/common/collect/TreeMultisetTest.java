@@ -83,9 +83,9 @@ public class TreeMultisetTest extends TestCase {
     assertEquals("c", elementSet.last());
     assertEquals(Ordering.natural(), elementSet.comparator());
 
-    assertThat(elementSet.headSet("b")).has().exactly("a").inOrder();
-    assertThat(elementSet.tailSet("b")).has().exactly("b", "c").inOrder();
-    assertThat(elementSet.subSet("a", "c")).has().exactly("a", "b").inOrder();
+    assertThat(elementSet.headSet("b")).containsExactly("a");
+    assertThat(elementSet.tailSet("b")).containsExactly("b", "c").inOrder();
+    assertThat(elementSet.subSet("a", "c")).containsExactly("a", "b").inOrder();
   }
 
   public void testElementSetSubsetRemove() {
@@ -98,18 +98,18 @@ public class TreeMultisetTest extends TestCase {
     ms.add("f", 2);
 
     SortedSet<String> elementSet = ms.elementSet();
-    assertThat(elementSet).has().exactly("a", "b", "c", "d", "e", "f").inOrder();
+    assertThat(elementSet).containsExactly("a", "b", "c", "d", "e", "f").inOrder();
     SortedSet<String> subset = elementSet.subSet("b", "f");
-    assertThat(subset).has().exactly("b", "c", "d", "e").inOrder();
+    assertThat(subset).containsExactly("b", "c", "d", "e").inOrder();
 
     assertTrue(subset.remove("c"));
-    assertThat(elementSet).has().exactly("a", "b", "d", "e", "f").inOrder();
-    assertThat(subset).has().exactly("b", "d", "e").inOrder();
+    assertThat(elementSet).containsExactly("a", "b", "d", "e", "f").inOrder();
+    assertThat(subset).containsExactly("b", "d", "e").inOrder();
     assertEquals(10, ms.size());
 
     assertFalse(subset.remove("a"));
-    assertThat(elementSet).has().exactly("a", "b", "d", "e", "f").inOrder();
-    assertThat(subset).has().exactly("b", "d", "e").inOrder();
+    assertThat(elementSet).containsExactly("a", "b", "d", "e", "f").inOrder();
+    assertThat(subset).containsExactly("b", "d", "e").inOrder();
     assertEquals(10, ms.size());
   }
 
@@ -123,13 +123,13 @@ public class TreeMultisetTest extends TestCase {
     ms.add("f", 2);
 
     SortedSet<String> elementSet = ms.elementSet();
-    assertThat(elementSet).has().exactly("a", "b", "c", "d", "e", "f").inOrder();
+    assertThat(elementSet).containsExactly("a", "b", "c", "d", "e", "f").inOrder();
     SortedSet<String> subset = elementSet.subSet("b", "f");
-    assertThat(subset).has().exactly("b", "c", "d", "e").inOrder();
+    assertThat(subset).containsExactly("b", "c", "d", "e").inOrder();
 
     assertTrue(subset.removeAll(Arrays.asList("a", "c")));
-    assertThat(elementSet).has().exactly("a", "b", "d", "e", "f").inOrder();
-    assertThat(subset).has().exactly("b", "d", "e").inOrder();
+    assertThat(elementSet).containsExactly("a", "b", "d", "e", "f").inOrder();
+    assertThat(subset).containsExactly("b", "d", "e").inOrder();
     assertEquals(10, ms.size());
   }
 
@@ -143,13 +143,13 @@ public class TreeMultisetTest extends TestCase {
     ms.add("f", 2);
 
     SortedSet<String> elementSet = ms.elementSet();
-    assertThat(elementSet).has().exactly("a", "b", "c", "d", "e", "f").inOrder();
+    assertThat(elementSet).containsExactly("a", "b", "c", "d", "e", "f").inOrder();
     SortedSet<String> subset = elementSet.subSet("b", "f");
-    assertThat(subset).has().exactly("b", "c", "d", "e").inOrder();
+    assertThat(subset).containsExactly("b", "c", "d", "e").inOrder();
 
     assertTrue(subset.retainAll(Arrays.asList("a", "c")));
-    assertThat(elementSet).has().exactly("a", "c", "f").inOrder();
-    assertThat(subset).has().exactly("c").inOrder();
+    assertThat(elementSet).containsExactly("a", "c", "f").inOrder();
+    assertThat(subset).containsExactly("c");
     assertEquals(5, ms.size());
   }
 
@@ -163,12 +163,12 @@ public class TreeMultisetTest extends TestCase {
     ms.add("f", 2);
 
     SortedSet<String> elementSet = ms.elementSet();
-    assertThat(elementSet).has().exactly("a", "b", "c", "d", "e", "f").inOrder();
+    assertThat(elementSet).containsExactly("a", "b", "c", "d", "e", "f").inOrder();
     SortedSet<String> subset = elementSet.subSet("b", "f");
-    assertThat(subset).has().exactly("b", "c", "d", "e").inOrder();
+    assertThat(subset).containsExactly("b", "c", "d", "e").inOrder();
 
     subset.clear();
-    assertThat(elementSet).has().exactly("a", "f").inOrder();
+    assertThat(elementSet).containsExactly("a", "f").inOrder();
     assertThat(subset).isEmpty();
     assertEquals(3, ms.size());
   }
@@ -188,7 +188,7 @@ public class TreeMultisetTest extends TestCase {
     ms.add("b");
     ms.add("d");
 
-    assertThat(ms).has().exactly("d", "c", "b", "b", "a").inOrder();
+    assertThat(ms).containsExactly("d", "c", "b", "b", "a").inOrder();
 
     SortedSet<String> elementSet = ms.elementSet();
     assertEquals("d", elementSet.first());
@@ -206,7 +206,7 @@ public class TreeMultisetTest extends TestCase {
     ms.add("b");
     ms.add(null, 2);
 
-    assertThat(ms).has().exactly(null, null, null, "a", "b", "b").inOrder();
+    assertThat(ms).containsExactly(null, null, null, "a", "b", "b").inOrder();
     assertEquals(3, ms.count(null));
 
     SortedSet<String> elementSet = ms.elementSet();

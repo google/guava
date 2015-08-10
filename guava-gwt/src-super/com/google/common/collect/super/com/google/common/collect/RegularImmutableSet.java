@@ -16,8 +16,7 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -26,11 +25,10 @@ import java.util.Set;
  * @author Hayward Chan
  */
 final class RegularImmutableSet<E> extends ForwardingImmutableSet<E> {
+  static final RegularImmutableSet<Object> EMPTY = new RegularImmutableSet<Object>(
+      Collections.emptySet());
+
   RegularImmutableSet(Set<E> delegate) {
     super(delegate);
-
-    // Required for GWT deserialization because the server-side implementation
-    // requires this.
-    checkArgument(delegate.size() >= 2);
   }
 }

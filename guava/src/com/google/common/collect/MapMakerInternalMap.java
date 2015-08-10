@@ -25,6 +25,8 @@ import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
 import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.primitives.Ints;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -2016,7 +2018,7 @@ class MapMakerInternalMap<K, V>
      * comments.
      */
 
-    final MapMakerInternalMap<K, V> map;
+    @Weak final MapMakerInternalMap<K, V> map;
 
     /**
      * The number of live elements in this segment's region. This does not include unset elements
@@ -2077,14 +2079,14 @@ class MapMakerInternalMap<K, V>
      * A queue of elements currently in the map, ordered by access time. Elements are added to the
      * tail of the queue on access/write.
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     final Queue<ReferenceEntry<K, V>> evictionQueue;
 
     /**
      * A queue of elements currently in the map, ordered by expiration time (either access or write
      * time). Elements are added to the tail of the queue on access/write.
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     final Queue<ReferenceEntry<K, V>> expirationQueue;
 
     Segment(MapMakerInternalMap<K, V> map, int initialCapacity, int maxSegmentSize) {
@@ -2124,7 +2126,7 @@ class MapMakerInternalMap<K, V>
       this.table = newTable;
     }
 
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     ReferenceEntry<K, V> newEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       return map.entryFactory.newEntry(this, key, hash, next);
     }
@@ -2133,7 +2135,7 @@ class MapMakerInternalMap<K, V>
      * Copies {@code original} into a new entry chained to {@code newNext}. Returns the new entry,
      * or {@code null} if {@code original} was already garbage collected.
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     ReferenceEntry<K, V> copyEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
       if (original.getKey() == null) {
         // key collected
@@ -2155,7 +2157,7 @@ class MapMakerInternalMap<K, V>
     /**
      * Sets a new value of an entry. Adds newly created entries at the end of the expiration queue.
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     void setValue(ReferenceEntry<K, V> entry, V value) {
       ValueReference<K, V> valueReference = map.valueStrength.referenceValue(this, entry, value);
       entry.setValueReference(valueReference);
@@ -2181,7 +2183,7 @@ class MapMakerInternalMap<K, V>
      * Drain the key and value reference queues, cleaning up internal entries containing garbage
      * collected keys or values.
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     void drainReferenceQueues() {
       if (map.usesKeyReferences()) {
         drainKeyReferenceQueue();
@@ -2191,7 +2193,7 @@ class MapMakerInternalMap<K, V>
       }
     }
 
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     void drainKeyReferenceQueue() {
       Reference<? extends K> ref;
       int i = 0;
@@ -2205,7 +2207,7 @@ class MapMakerInternalMap<K, V>
       }
     }
 
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     void drainValueReferenceQueue() {
       Reference<? extends V> ref;
       int i = 0;
@@ -2262,7 +2264,7 @@ class MapMakerInternalMap<K, V>
      * <p>Note: this method should only be called under lock, as it directly manipulates the
      * eviction queues. Unlocked reads should use {@link #recordRead}.
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     void recordLockedRead(ReferenceEntry<K, V> entry) {
       evictionQueue.add(entry);
       if (map.expiresAfterAccess()) {
@@ -2275,7 +2277,7 @@ class MapMakerInternalMap<K, V>
      * Updates eviction metadata that {@code entry} was just written. This currently amounts to
      * adding {@code entry} to relevant eviction lists.
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     void recordWrite(ReferenceEntry<K, V> entry) {
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
@@ -2297,7 +2299,7 @@ class MapMakerInternalMap<K, V>
      * lists (accounting for the fact that they could have been removed from the map since being
      * added to the recency queue).
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     void drainRecencyQueue() {
       ReferenceEntry<K, V> e;
       while ((e = recencyQueue.poll()) != null) {
@@ -2335,7 +2337,7 @@ class MapMakerInternalMap<K, V>
       }
     }
 
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     void expireEntries() {
       drainRecencyQueue();
 
@@ -2372,7 +2374,7 @@ class MapMakerInternalMap<K, V>
      *
      * @return {@code true} if eviction occurred
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     boolean evictEntries() {
       if (map.evictsBySize() && count >= maxSegmentSize) {
         drainRecencyQueue();
@@ -2565,7 +2567,7 @@ class MapMakerInternalMap<K, V>
     /**
      * Expands the table if possible.
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     void expand() {
       AtomicReferenceArray<ReferenceEntry<K, V>> oldTable = table;
       int oldCapacity = oldTable.length();
@@ -2859,7 +2861,7 @@ class MapMakerInternalMap<K, V>
      * @param entry the entry being removed from the table
      * @return the new first entry for the table
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     ReferenceEntry<K, V> removeFromChain(ReferenceEntry<K, V> first, ReferenceEntry<K, V> entry) {
       evictionQueue.remove(entry);
       expirationQueue.remove(entry);
@@ -2985,7 +2987,7 @@ class MapMakerInternalMap<K, V>
       }
     }
 
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     boolean removeEntry(ReferenceEntry<K, V> entry, int hash, RemovalCause cause) {
       int newCount = this.count - 1;
       AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -3057,7 +3059,7 @@ class MapMakerInternalMap<K, V>
      *
      * <p>Post-condition: expireEntries has been run.
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("this")
     void preWriteCleanup() {
       runLockedCleanup();
     }
@@ -3770,6 +3772,7 @@ class MapMakerInternalMap<K, V>
     }
   }
 
+  @WeakOuter
   final class KeySet extends AbstractSet<K> {
 
     @Override
@@ -3803,6 +3806,7 @@ class MapMakerInternalMap<K, V>
     }
   }
 
+  @WeakOuter
   final class Values extends AbstractCollection<V> {
 
     @Override
@@ -3831,6 +3835,7 @@ class MapMakerInternalMap<K, V>
     }
   }
 
+  @WeakOuter
   final class EntrySet extends AbstractSet<Entry<K, V>> {
 
     @Override

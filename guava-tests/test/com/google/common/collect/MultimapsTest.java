@@ -297,7 +297,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(multimap.hashCode(), unmodifiable.hashCode());
     assertEquals(multimap, unmodifiable);
 
-    assertThat(unmodifiable.asMap().get("bar")).has().exactly(5, -1);
+    assertThat(unmodifiable.asMap().get("bar")).containsExactly(5, -1);
     assertNull(unmodifiable.asMap().get("missing"));
 
     assertFalse(unmodifiable.entries() instanceof Serializable);
@@ -454,13 +454,11 @@ public class MultimapsTest extends TestCase {
     assertFalse(map.containsKey("bar"));
     assertEquals(map.keySet(), multimapView.keySet());
     assertEquals(map.keySet(), multimapView.keys().elementSet());
-    assertThat(multimapView.keys()).has().item("foo");
-    assertThat(multimapView.values()).has().item(1);
-    assertThat(multimapView.entries()).has().item(
-        Maps.immutableEntry("foo", 1));
-    assertThat(multimapView.asMap().entrySet()).has().item(
-        Maps.immutableEntry(
-            "foo", (Collection<Integer>) Collections.singleton(1)));
+    assertThat(multimapView.keys()).contains("foo");
+    assertThat(multimapView.values()).contains(1);
+    assertThat(multimapView.entries()).contains(Maps.immutableEntry("foo", 1));
+    assertThat(multimapView.asMap().entrySet())
+        .contains(Maps.immutableEntry("foo", (Collection<Integer>) Collections.singleton(1)));
     multimapView.clear();
     assertFalse(multimapView.containsKey("foo"));
     assertFalse(map.containsKey("foo"));
@@ -615,7 +613,7 @@ public class MultimapsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
       // expected
     }
-    assertThat(multimap.entries()).has().exactly(
+    assertThat(multimap.entries()).containsExactly(
         Maps.immutableEntry(Color.RED, 1),
         Maps.immutableEntry(Color.BLUE, 2));
   }
@@ -838,7 +836,7 @@ public class MultimapsTest extends TestCase {
       }
     };
     Multimap<String, Integer> transformed = Multimaps.transformValues(multimap, square);
-    assertThat(transformed.entries()).has().exactly(immutableEntry("a", 4),
+    assertThat(transformed.entries()).containsExactly(immutableEntry("a", 4),
         immutableEntry("a", 16), immutableEntry("b", 9), immutableEntry("b", 9),
         immutableEntry("c", 36)).inOrder();
   }
@@ -856,7 +854,7 @@ public class MultimapsTest extends TestCase {
         });
     Entry<String, String> entry = multimap.entries().iterator().next();
     entry.setValue("bbb");
-    assertThat(transformed.entries()).has().exactly(immutableEntry("a", 3)).inOrder();
+    assertThat(transformed.entries()).containsExactly(immutableEntry("a", 3));
   }
 
   @GwtIncompatible(value = "untested")
@@ -871,7 +869,7 @@ public class MultimapsTest extends TestCase {
     };
     ListMultimap<String, Integer> transformed =
         Multimaps.transformValues(multimap, square);
-    assertThat(transformed.entries()).has().exactly(immutableEntry("a", 4),
+    assertThat(transformed.entries()).containsExactly(immutableEntry("a", 4),
         immutableEntry("a", 16), immutableEntry("b", 9), immutableEntry("b", 9),
         immutableEntry("c", 36)).inOrder();
   }
@@ -889,7 +887,7 @@ public class MultimapsTest extends TestCase {
         };
     Multimap<String, String> transformed =
         Multimaps.transformEntries(multimap, transformer);
-    assertThat(transformed.entries()).has().exactly(immutableEntry("a", "a"),
+    assertThat(transformed.entries()).containsExactly(immutableEntry("a", "a"),
         immutableEntry("a", "a"), immutableEntry("b", "nob")).inOrder();
   }
 

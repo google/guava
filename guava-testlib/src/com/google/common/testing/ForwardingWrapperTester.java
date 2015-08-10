@@ -148,17 +148,17 @@ public final class ForwardingWrapperTester {
   private static <T> void testEquals(
       Class<T> interfaceType, Function<? super T, ? extends T> wrapperFunction) {
     FreshValueGenerator generator = new FreshValueGenerator();
-    T instance = generator.newProxy(interfaceType);
+    T instance = generator.newFreshProxy(interfaceType);
     new EqualsTester()
         .addEqualityGroup(wrapperFunction.apply(instance), wrapperFunction.apply(instance))
-        .addEqualityGroup(wrapperFunction.apply(generator.newProxy(interfaceType)))
+        .addEqualityGroup(wrapperFunction.apply(generator.newFreshProxy(interfaceType)))
         // TODO: add an overload to EqualsTester to print custom error message?
         .testEquals();
   }
 
   private static <T> void testToString(
       Class<T> interfaceType, Function<? super T, ? extends T> wrapperFunction) {
-    T proxy = new FreshValueGenerator().newProxy(interfaceType);
+    T proxy = new FreshValueGenerator().newFreshProxy(interfaceType);
     assertEquals("toString() isn't properly forwarded",
         proxy.toString(), wrapperFunction.apply(proxy).toString());
   }
@@ -167,7 +167,7 @@ public final class ForwardingWrapperTester {
     FreshValueGenerator paramValues = new FreshValueGenerator();
     final List<Object> passedArgs = Lists.newArrayList();
     for (Class<?> paramType : method.getParameterTypes()) {
-      passedArgs.add(paramValues.generate(paramType));
+      passedArgs.add(paramValues.generateFresh(paramType));
     }
     return passedArgs.toArray();
   }
@@ -185,7 +185,7 @@ public final class ForwardingWrapperTester {
       this.interfaceType = interfaceType;
       this.method = method;
       this.passedArgs = getParameterValues(method);
-      this.returnValue = new FreshValueGenerator().generate(method.getReturnType());
+      this.returnValue = new FreshValueGenerator().generateFresh(method.getReturnType());
     }
 
     @Override protected Object handleInvocation(Object p, Method calledMethod, Object[] args)

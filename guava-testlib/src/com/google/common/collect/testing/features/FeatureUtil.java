@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -233,9 +234,9 @@ public class FeatureUtil {
     Set<Feature<?>> conflictingFeatures =
         intersection(allPresentFeatures, allAbsentFeatures);
     if (!conflictingFeatures.isEmpty()) {
-      throw new ConflictingRequirementsException("Annotation explicitly or " +
-          "implicitly requires one or more features to be both present " +
-          "and absent.",
+      throw new ConflictingRequirementsException("Annotation explicitly or "
+          + "implicitly requires one or more features to be both present "
+          + "and absent.",
           conflictingFeatures, testerAnnotation);
     }
     return new TesterRequirements(allPresentFeatures, allAbsentFeatures);
@@ -278,9 +279,9 @@ public class FeatureUtil {
     Set<Feature<?>> conflictingFeatures;
     conflictingFeatures = intersection(newFeatures, earlierFeatures);
     if (!conflictingFeatures.isEmpty()) {
-      throw new ConflictingRequirementsException(String.format(
-          "Annotation requires to be %s features that earlier " +
-          "annotations required to be %s.",
+      throw new ConflictingRequirementsException(String.format(Locale.ROOT,
+          "Annotation requires to be %s features that earlier "
+          + "annotations required to be %s.",
               newRequirement, earlierRequirement),
           conflictingFeatures, source);
     }

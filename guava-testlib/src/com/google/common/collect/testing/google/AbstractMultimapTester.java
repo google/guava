@@ -16,7 +16,7 @@
 
 package com.google.common.collect.testing.google;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -145,21 +145,59 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   protected void assertGet(K key, Collection<V> values) {
-    assertThat(multimap().get(key)).has().exactlyAs(values);
+    assertEqualIgnoringOrder(values, multimap().get(key));
 
     if (!values.isEmpty()) {
-      assertThat(multimap().asMap().get(key)).has().exactlyAs(values);
+      assertEqualIgnoringOrder(values, multimap().asMap().get(key));
       assertFalse(multimap().isEmpty());
     } else {
-      assertThat(multimap().asMap().get(key)).isNull();
+      assertNull(multimap().asMap().get(key));
     }
 
-    // TODO(user): Add proper overrides to prevent autoboxing.
-    // Truth+autoboxing == compile error. Cast int to long to fix:
-    assertThat(multimap().get(key).size()).isEqualTo((long) values.size());
+    assertEquals(values.size(), multimap().get(key).size());
 
     assertEquals(values.size() > 0, multimap().containsKey(key));
     assertEquals(values.size() > 0, multimap().keySet().contains(key));
     assertEquals(values.size() > 0, multimap().keys().contains(key));
+  }
+
+  protected final K k0() {
+    return e0().getKey();
+  }
+
+  protected final V v0() {
+    return e0().getValue();
+  }
+
+  protected final K k1() {
+    return e1().getKey();
+  }
+
+  protected final V v1() {
+    return e1().getValue();
+  }
+
+  protected final K k2() {
+    return e2().getKey();
+  }
+
+  protected final V v2() {
+    return e2().getValue();
+  }
+
+  protected final K k3() {
+    return e3().getKey();
+  }
+
+  protected final V v3() {
+    return e3().getValue();
+  }
+
+  protected final K k4() {
+    return e4().getKey();
+  }
+
+  protected final V v4() {
+    return e4().getValue();
   }
 }

@@ -40,7 +40,7 @@ import java.util.Set;
  * specified in terms of {@link Object#equals}.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">
  * {@code Multiset}</a>.
  * 
  * @author Louis Wasserman

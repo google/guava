@@ -47,8 +47,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
 
   private final Queue<E> delegate;
 
-  @VisibleForTesting
-  final int maxSize;
+  @VisibleForTesting final int maxSize;
 
   private EvictingQueue(int maxSize) {
     checkArgument(maxSize >= 0, "maxSize (%s) must >= 0", maxSize);
@@ -76,7 +75,8 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
     return maxSize - size();
   }
 
-  @Override protected Queue<E> delegate() {
+  @Override
+  protected Queue<E> delegate() {
     return delegate;
   }
 
@@ -86,7 +86,8 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
    *
    * @return {@code true} always
    */
-  @Override public boolean offer(E e) {
+  @Override
+  public boolean offer(E e) {
     return add(e);
   }
 
@@ -96,8 +97,9 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
    *
    * @return {@code true} always
    */
-  @Override public boolean add(E e) {
-    checkNotNull(e);  // check before removing
+  @Override
+  public boolean add(E e) {
+    checkNotNull(e); // check before removing
     if (maxSize == 0) {
       return true;
     }
@@ -108,7 +110,8 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
     return true;
   }
 
-  @Override public boolean addAll(Collection<? extends E> collection) {
+  @Override
+  public boolean addAll(Collection<? extends E> collection) {
     return standardAddAll(collection);
   }
 
@@ -122,7 +125,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
     return delegate().remove(checkNotNull(object));
   }
 
-  // TODO(user): Do we want to checkNotNull each element in containsAll, removeAll, and retainAll?
+  // TODO(kak): Do we want to checkNotNull each element in containsAll, removeAll, and retainAll?
 
   private static final long serialVersionUID = 0L;
 }

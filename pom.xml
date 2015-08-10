@@ -11,19 +11,20 @@
   </parent>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>18.0</version>
+  <version>19.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
-  <url>http://code.google.com/p/guava-libraries</url>
+  <url>https://github.com/google/guava</url>
   <properties>
     <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>**/*Test.java</test.include>
-    <truth.version>0.23</truth.version>
+    <truth.version>0.25</truth.version>
+    <animal.sniffer.version>1.14</animal.sniffer.version>
   </properties>
   <issueManagement>
-    <system>code.google.com</system>
-    <url>http://code.google.com/p/guava-libraries/issues</url>
+    <system>GitHub Issues</system>
+    <url>https://github.com/google/guava/issues</url>
   </issueManagement>
   <inceptionYear>2010</inceptionYear>
   <licenses>
@@ -37,9 +38,9 @@
     <maven>3.0.3</maven>
   </prerequisites>
   <scm>
-    <connection>scm:git:https://code.google.com/p/guava-libraries/</connection>
-    <developerConnection>scm:git:https://code.google.com/p/guava-libraries/</developerConnection>
-    <url>http://code.google.com/p/guava-libraries/source/browse</url>
+    <connection>scm:git:https://github.com/google/guava.git</connection>
+    <developerConnection>scm:git:git@github.com:google/guava.git</developerConnection>
+    <url>https://github.com/google/guava</url>
   </scm>
   <developers>
     <developer>
@@ -55,6 +56,10 @@
       <timezone>-8</timezone>
     </developer>
   </developers>
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.org/google/guava</url>
+  </ciManagement>
   <modules>
     <module>guava</module>
     <module>guava-gwt</module>
@@ -133,12 +138,12 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>animal-sniffer-maven-plugin</artifactId>
-          <version>1.7</version>
+          <version>${animal.sniffer.version}</version>
           <configuration>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>
               <artifactId>java16-sun</artifactId>
-              <version>1.0</version>
+              <version>1.10</version>
             </signature>
           </configuration>
           <executions>
@@ -155,7 +160,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>2.8</version>
           <configuration>
-            <stylesheetfile>javadoc-stylesheet.css</stylesheetfile>
+            <notimestamp>true</notimestamp>
           </configuration>
           <executions>
             <execution>
@@ -200,6 +205,16 @@
         <version>1.3.9</version>
       </dependency>
       <dependency>
+        <groupId>com.google.errorprone</groupId>
+        <artifactId>error_prone_annotations</artifactId>
+        <version>2.0.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.j2objc</groupId>
+        <artifactId>j2objc-annotations</artifactId>
+        <version>0.1</version>
+      </dependency>
+      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.8.2</version>
@@ -233,7 +248,7 @@
       <dependency>
         <groupId>com.google.caliper</groupId>
         <artifactId>caliper</artifactId>
-        <version>0.5-rc1</version>
+        <version>1.0-beta-2</version>
         <scope>test</scope>
         <exclusions>
           <exclusion>
@@ -245,4 +260,64 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  <profiles>
+    <profile>
+      <id>jdk7</id>
+      <activation>
+        <jdk>1.7</jdk>
+      </activation>
+      <!-- Set custom stylesheet under JDK7 -->
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <stylesheetfile>javadoc-stylesheet.css</stylesheetfile>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <stylesheetfile>javadoc-stylesheet.css</stylesheetfile>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>jdk8</id>
+      <activation>
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <!-- Disable doclint under JDK 8 -->
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <additionalparam>-Xdoclint:none</additionalparam>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <additionalparam>-Xdoclint:none</additionalparam>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

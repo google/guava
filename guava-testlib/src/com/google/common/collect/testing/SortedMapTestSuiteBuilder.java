@@ -16,9 +16,10 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
+
 import com.google.common.collect.testing.DerivedCollectionGenerators.Bound;
 import com.google.common.collect.testing.DerivedCollectionGenerators.SortedMapSubmapTestMapGenerator;
-import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.testers.SortedMapNavigationTester;
 
@@ -50,9 +51,9 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   }
 
   @Override public TestSuite createTestSuite() {
-    if (!getFeatures().contains(CollectionFeature.KNOWN_ORDER)) {
+    if (!getFeatures().contains(KNOWN_ORDER)) {
       List<Feature<?>> features = Helpers.copyToList(getFeatures());
-      features.add(CollectionFeature.KNOWN_ORDER);
+      features.add(KNOWN_ORDER);
       withFeatures(features);
     }
     return super.createTestSuite();

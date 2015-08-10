@@ -47,31 +47,38 @@ public class AbstractPackageSanityTestsTest extends TestCase {
   }
 
   public void testFindClassesToTest_noCorrespondingTestClass() {
-    assertThat(findClassesToTest(ImmutableList.of(Foo.class)))
-        .has().exactly(Foo.class).inOrder();
+    assertThat(findClassesToTest(ImmutableList.of(Foo.class))).containsExactly(Foo.class);
     assertThat(findClassesToTest(ImmutableList.of(Foo.class, Foo2Test.class)))
-        .has().exactly(Foo.class).inOrder();
+        .containsExactly(Foo.class);
   }
 
   public void testFindClassesToTest_publicApiOnly() {
     sanityTests.publicApiOnly();
     assertThat(findClassesToTest(ImmutableList.of(Foo.class)))
         .isEmpty();
-    assertThat(findClassesToTest(ImmutableList.of(PublicFoo.class))).has().item(PublicFoo.class);
+    assertThat(findClassesToTest(ImmutableList.of(PublicFoo.class))).contains(PublicFoo.class);
   }
 
   public void testFindClassesToTest_ignoreClasses() {
     sanityTests.ignoreClasses(Predicates.<Object>equalTo(PublicFoo.class));
     assertThat(findClassesToTest(ImmutableList.of(PublicFoo.class)))
         .isEmpty();
-    assertThat(findClassesToTest(ImmutableList.of(Foo.class))).has().item(Foo.class);
+    assertThat(findClassesToTest(ImmutableList.of(Foo.class))).contains(Foo.class);
+  }
+
+  public void testFindClassesToTeset_ignoreUnderscores() {
+    assertThat(findClassesToTest(ImmutableList.of(Foo.class, Foo_Bar.class)))
+        .containsExactly(Foo.class, Foo_Bar.class);
+    sanityTests.ignoreClasses(AbstractPackageSanityTests.UNDERSCORE_IN_NAME);
+    assertThat(findClassesToTest(ImmutableList.of(Foo.class, Foo_Bar.class)))
+        .containsExactly(Foo.class);
   }
 
   public void testFindClassesToTest_withCorrespondingTestClassButNotExplicitlyTested() {
     assertThat(findClassesToTest(ImmutableList.of(Foo.class, FooTest.class), "testNotThere"))
-        .has().exactly(Foo.class).inOrder();
+        .containsExactly(Foo.class);
     assertThat(findClassesToTest(ImmutableList.of(Foo.class, FooTest.class), "testNotPublic"))
-        .has().exactly(Foo.class).inOrder();
+        .containsExactly(Foo.class);
   }
 
   public void testFindClassesToTest_withCorrespondingTestClassAndExplicitlyTested() {
@@ -84,7 +91,7 @@ public class AbstractPackageSanityTestsTest extends TestCase {
 
   public void testFindClassesToTest_withCorrespondingTestClass_noTestName() {
     assertThat(findClassesToTest(ImmutableList.of(Foo.class, FooTest.class)))
-        .has().exactly(Foo.class).inOrder();
+        .containsExactly(Foo.class);
   }
 
   static class EmptyTestCase {}
@@ -96,6 +103,8 @@ public class AbstractPackageSanityTestsTest extends TestCase {
   static class EmptyTestSuite {}
 
   static class Foo {}
+
+  static class Foo_Bar {}
 
   public static class PublicFoo {}
 

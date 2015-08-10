@@ -45,7 +45,7 @@ import javax.annotation.Nullable;
  * those methods will throw an {@link UnsupportedOperationException}.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Table">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">
  * {@code Table}</a>.
  *
  * @author Jared Levy
@@ -140,7 +140,7 @@ public interface Table<R, C, V> {
    * @return the value previously associated with the keys, or {@code null} if
    *     no mapping existed for the keys
    */
-  V put(R rowKey, C columnKey, V value);
+  @Nullable V put(R rowKey, C columnKey, V value);
 
   /**
    * Copies all mappings from the specified table to this table. The effect is
@@ -159,7 +159,7 @@ public interface Table<R, C, V> {
    * @return the value previously associated with the keys, or {@code null} if
    *     no such value existed
    */
-  V remove(@Nullable Object rowKey, @Nullable Object columnKey);
+  @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey);
 
   // Views
 
@@ -265,17 +265,17 @@ public interface Table<R, C, V> {
     /**
      * Returns the row key of this cell.
      */
-    R getRowKey();
+    @Nullable R getRowKey();
 
     /**
      * Returns the column key of this cell.
      */
-    C getColumnKey();
+    @Nullable C getColumnKey();
 
     /**
      * Returns the value of this cell.
      */
-    V getValue();
+    @Nullable V getValue();
 
     /**
      * Compares the specified object with this cell for equality. Two cells are

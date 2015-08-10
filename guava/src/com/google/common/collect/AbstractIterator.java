@@ -56,7 +56,7 @@ import java.util.NoSuchElementException;
  * <p>This class supports iterators that include null elements.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 // When making changes to this class, please also update the copy at
 // com.google.common.base.AbstractIterator

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -40,9 +41,15 @@ import javax.annotation.Nullable;
  * @see Constraints
  * @author Mike Bostock
  * @since 3.0
+ * @deprecated Use {@link Preconditions} for basic checks. In place of
+ *     constrained maps, we encourage you to check your preconditions
+ *     explicitly instead of leaving that work to the map implementation.
+ *     For the specific case of rejecting null, consider {@link ImmutableMap}.
+ *     This class is scheduled for removal in Guava 20.0.
  */
 @Beta
 @GwtCompatible
+@Deprecated
 public final class MapConstraints {
   private MapConstraints() {}
 
@@ -399,7 +406,9 @@ public final class MapConstraints {
       extends ForwardingMultimap<K, V> implements Serializable {
     final MapConstraint<? super K, ? super V> constraint;
     final Multimap<K, V> delegate;
+
     transient Collection<Entry<K, V>> entries;
+
     transient Map<K, Collection<V>> asMap;
 
     public ConstrainedMultimap(Multimap<K, V> delegate,
@@ -417,7 +426,8 @@ public final class MapConstraints {
       if (result == null) {
         final Map<K, Collection<V>> asMapDelegate = delegate.asMap();
 
-        asMap = result = new ForwardingMap<K, Collection<V>>() {
+        @WeakOuter
+        class AsMap extends ForwardingMap<K, Collection<V>> {
           Set<Entry<K, Collection<V>>> entrySet;
           Collection<Collection<V>> values;
 
@@ -456,7 +466,8 @@ public final class MapConstraints {
           @Override public boolean containsValue(Object o) {
             return values().contains(o);
           }
-        };
+        }
+        asMap = result = new AsMap();
       }
       return result;
     }
@@ -580,13 +591,9 @@ public final class MapConstraints {
     }
 
     @Override public Iterator<Entry<K, V>> iterator() {
-      final Iterator<Entry<K, V>> iterator = entries.iterator();
-      return new ForwardingIterator<Entry<K, V>>() {
-        @Override public Entry<K, V> next() {
-          return constrainedEntry(iterator.next(), constraint);
-        }
-        @Override protected Iterator<Entry<K, V>> delegate() {
-          return iterator;
+      return new TransformedIterator<Entry<K, V>, Entry<K, V>>(entries.iterator()) {
+        @Override Entry<K, V> transform(Entry<K, V> from) {
+          return constrainedEntry(from, constraint);
         }
       };
     }
@@ -652,13 +659,10 @@ public final class MapConstraints {
     }
 
     @Override public Iterator<Entry<K, Collection<V>>> iterator() {
-      final Iterator<Entry<K, Collection<V>>> iterator = entries.iterator();
-      return new ForwardingIterator<Entry<K, Collection<V>>>() {
-        @Override public Entry<K, Collection<V>> next() {
-          return constrainedAsMapEntry(iterator.next(), constraint);
-        }
-        @Override protected Iterator<Entry<K, Collection<V>>> delegate() {
-          return iterator;
+      return new TransformedIterator<Entry<K, Collection<V>>, Entry<K, Collection<V>>>(
+          entries.iterator()) {
+        @Override Entry<K, Collection<V>> transform(Entry<K, Collection<V>> from) {
+          return constrainedAsMapEntry(from, constraint);
         }
       };
     }

@@ -18,7 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
+import java.util.Comparator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * GWT emulation of {@link ImmutableBiMap}.
@@ -31,7 +33,7 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
   // Casting to any type is safe because the set will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <K, V> ImmutableBiMap<K, V> of() {
-    return (ImmutableBiMap<K, V>) EmptyImmutableBiMap.INSTANCE;
+    return (ImmutableBiMap<K, V>) RegularImmutableBiMap.EMPTY;
   }
 
   public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1) {
@@ -69,13 +71,33 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
 
     public Builder() {}
 
+    Builder(int initCapacity) {
+      super(initCapacity);
+    }
+
     @Override public Builder<K, V> put(K key, V value) {
       super.put(key, value);
       return this;
     }
 
+    @Override public Builder<K, V> put(Map.Entry<? extends K, ? extends V> entry) {
+      super.put(entry);
+      return this;
+    }
+
     @Override public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       super.putAll(map);
+      return this;
+    }
+    
+    @Override public Builder<K, V> putAll(
+        Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+      super.putAll(entries);
+      return this;
+    }
+    
+    public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
+      super.orderEntriesByValue(valueComparator);
       return this;
     }
 
@@ -102,6 +124,11 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
 
     ImmutableMap<K, V> immutableMap = ImmutableMap.copyOf(map);
     return new RegularImmutableBiMap<K, V>(immutableMap);
+  }
+  
+  public static <K, V> ImmutableBiMap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    return new Builder<K, V>().putAll(entries).build();
   }
 
   ImmutableBiMap(Map<K, V> delegate) {

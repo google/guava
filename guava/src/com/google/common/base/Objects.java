@@ -29,11 +29,11 @@ import javax.annotation.Nullable;
  * Helper functions that can operate on any {@code Object}.
  *
  * <p>See the Guava User Guide on <a
- * href="http://code.google.com/p/guava-libraries/wiki/CommonObjectUtilitiesExplained">writing
+ * href="https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained">writing
  * {@code Object} methods with {@code Objects}</a>.
  *
  * @author Laurence Gonsalves
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public final class Objects {
@@ -80,6 +80,7 @@ public final class Objects {
    * <p><b>Note for Java 7 and later:</b> This method should be treated as
    * deprecated; use {@link java.util.Objects#hash} instead.
    */
+  @CheckReturnValue
   public static int hashCode(@Nullable Object... objects) {
     return Arrays.hashCode(objects);
   }
@@ -125,9 +126,10 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#toStringHelper(Object)} instead. This
    *     method is scheduled for removal in June 2016.
    */
+  @CheckReturnValue
   @Deprecated
   public static ToStringHelper toStringHelper(Object self) {
-    return new ToStringHelper(MoreObjects.simpleName(self.getClass()));
+    return new ToStringHelper(self.getClass().getSimpleName());
   }
 
   /**
@@ -142,9 +144,10 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#toStringHelper(Class)} instead. This
    *     method is scheduled for removal in June 2016.
    */
+  @CheckReturnValue
   @Deprecated
   public static ToStringHelper toStringHelper(Class<?> clazz) {
-    return new ToStringHelper(MoreObjects.simpleName(clazz));
+    return new ToStringHelper(clazz.getSimpleName());
   }
 
   /**
@@ -157,6 +160,7 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#toStringHelper(String)} instead. This
    *     method is scheduled for removal in June 2016.
    */
+  @CheckReturnValue
   @Deprecated
   public static ToStringHelper toStringHelper(String className) {
     return new ToStringHelper(className);
@@ -181,6 +185,7 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#firstNonNull} instead. This method is
    *      scheduled for removal in June 2016.
    */
+  @CheckReturnValue
   @Deprecated
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
     return MoreObjects.firstNonNull(first, second);
@@ -382,13 +387,14 @@ public final class Objects {
      * limited reuse of the helper instance. The helper allows duplication of
      * properties (multiple name/value pairs with the same name can be added).
      */
-    @Override public String toString() {
+    @Override
+    public String toString() {
       // create a copy to keep it consistent in case value changes
       boolean omitNullValuesSnapshot = omitNullValues;
       String nextSeparator = "";
-      StringBuilder builder = new StringBuilder(32).append(className)
-          .append('{');
-      for (ValueHolder valueHolder = holderHead.next; valueHolder != null;
+      StringBuilder builder = new StringBuilder(32).append(className).append('{');
+      for (ValueHolder valueHolder = holderHead.next;
+          valueHolder != null;
           valueHolder = valueHolder.next) {
         if (!omitNullValuesSnapshot || valueHolder.value != null) {
           builder.append(nextSeparator);

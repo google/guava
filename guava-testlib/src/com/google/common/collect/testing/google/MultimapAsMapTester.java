@@ -14,6 +14,9 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.assertContentsAnyOrder;
+import static com.google.common.collect.testing.Helpers.assertContentsInOrder;
+import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
@@ -21,7 +24,6 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
-import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Iterables;
@@ -56,25 +58,24 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
 
       Collection<V> collection = multimap().asMap().get(key);
       if (expectedValues.isEmpty()) {
-        assertThat(collection).isNull();
+        assertNull(collection);
       } else {
-        assertThat(collection).has().exactlyAs(expectedValues);
+        assertEqualIgnoringOrder(expectedValues, collection);
       }
     }
   }
- 
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testAsMapGetNullKeyPresent() {
     initMultimapWithNullKey();
-    assertThat(multimap().asMap().get(null)).has().exactly(getValueForNullKey());
+    assertContentsAnyOrder(multimap().asMap().get(null), getValueForNullKey());
   }
- 
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testAsMapGetNullKeyAbsent() {
-    assertThat(multimap().asMap().get(null)).isNull();
+    assertNull(multimap().asMap().get(null));
   }
- 
+
   @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testAsMapGetNullKeyUnsupported() {
     try {
@@ -82,12 +83,12 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {}
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testAsMapRemove() {
-    assertThat(multimap().asMap().remove(sampleKeys().e0)).iteratesAs(sampleValues().e0);
-    assertGet(sampleKeys().e0);
+    assertContentsInOrder(multimap().asMap().remove(k0()), v0());
+    assertGet(k0());
     assertEquals(getNumElements() - 1, multimap().size());
   }
 
@@ -95,27 +96,25 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
   @MapFeature.Require(SUPPORTS_PUT)
   public void testAsMapEntrySetReflectsPutSameKey() {
     resetContainer(
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e3));
-    
+        Helpers.mapEntry(k0(), v0()),
+        Helpers.mapEntry(k0(), v3()));
+
     Set<Entry<K, Collection<V>>> asMapEntrySet = multimap().asMap().entrySet();
     Collection<V> valueCollection = Iterables.getOnlyElement(asMapEntrySet).getValue();
-    assertThat(valueCollection)
-        .has().exactly(sampleValues().e0, sampleValues().e3);
-    assertTrue(multimap().put(sampleKeys().e0, sampleValues().e4));
-    assertThat(valueCollection)
-        .has().exactly(sampleValues().e0, sampleValues().e3, sampleValues().e4);
+    assertContentsAnyOrder(valueCollection, v0(), v3());
+    assertTrue(multimap().put(k0(), v4()));
+    assertContentsAnyOrder(valueCollection, v0(), v3(), v4());
   }
 
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testAsMapEntrySetReflectsPutDifferentKey() {
     resetContainer(
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e3));
-    
+        Helpers.mapEntry(k0(), v0()),
+        Helpers.mapEntry(k0(), v3()));
+
     Set<Entry<K, Collection<V>>> asMapEntrySet = multimap().asMap().entrySet();
-    assertTrue(multimap().put(sampleKeys().e1, sampleValues().e4));
+    assertTrue(multimap().put(k1(), v4()));
     assertEquals(2, asMapEntrySet.size());
   }
 
@@ -123,22 +122,22 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testAsMapEntrySetRemovePropagatesToMultimap() {
     resetContainer(
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e3));
+        Helpers.mapEntry(k0(), v0()),
+        Helpers.mapEntry(k0(), v3()));
     Set<Entry<K, Collection<V>>> asMapEntrySet = multimap().asMap().entrySet();
     Entry<K, Collection<V>> asMapEntry0 = Iterables.getOnlyElement(asMapEntrySet);
-    assertTrue(multimap().put(sampleKeys().e1, sampleValues().e4));
+    assertTrue(multimap().put(k1(), v4()));
     assertTrue(asMapEntrySet.remove(asMapEntry0));
     assertEquals(1, multimap().size());
-    assertThat(multimap().keySet()).iteratesAs(sampleKeys().e1);
+    assertContentsInOrder(multimap().keySet(), k1());
   }
 
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   public void testAsMapEntrySetIteratorRemovePropagatesToMultimap() {
     resetContainer(
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e0),
-        Helpers.mapEntry(sampleKeys().e0, sampleValues().e3));
+        Helpers.mapEntry(k0(), v0()),
+        Helpers.mapEntry(k0(), v3()));
     Set<Entry<K, Collection<V>>> asMapEntrySet = multimap().asMap().entrySet();
     Iterator<Entry<K, Collection<V>>> asMapEntryItr = asMapEntrySet.iterator();
     asMapEntryItr.next();

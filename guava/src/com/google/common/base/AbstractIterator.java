@@ -34,7 +34,10 @@ abstract class AbstractIterator<T> implements Iterator<T> {
   protected AbstractIterator() {}
 
   private enum State {
-    READY, NOT_READY, DONE, FAILED,
+    READY,
+    NOT_READY,
+    DONE,
+    FAILED,
   }
 
   private T next;
@@ -50,10 +53,10 @@ abstract class AbstractIterator<T> implements Iterator<T> {
   public final boolean hasNext() {
     checkState(state != State.FAILED);
     switch (state) {
-      case DONE:
-        return false;
       case READY:
         return true;
+      case DONE:
+        return false;
       default:
     }
     return tryToComputeNext();
@@ -80,7 +83,8 @@ abstract class AbstractIterator<T> implements Iterator<T> {
     return result;
   }
 
-  @Override public final void remove() {
+  @Override
+  public final void remove() {
     throw new UnsupportedOperationException();
   }
 }

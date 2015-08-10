@@ -28,6 +28,11 @@ public void testBiMapEntrySetIteratorRemove() throws Exception {
   testCase.testBiMapEntrySetIteratorRemove();
 }
 
+public void testInverseEntrySetValue() throws Exception {
+  com.google.common.collect.HashBiMapTest testCase = new com.google.common.collect.HashBiMapTest();
+  testCase.testInverseEntrySetValue();
+}
+
 public void testMapConstructor() throws Exception {
   com.google.common.collect.HashBiMapTest testCase = new com.google.common.collect.HashBiMapTest();
   testCase.testMapConstructor();

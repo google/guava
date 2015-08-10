@@ -283,7 +283,7 @@ public class IterablesTest extends TestCase {
     Iterable<TypeA> alist = Lists
         .newArrayList(new TypeA(), new TypeA(), hasBoth, new TypeA());
     Iterable<TypeB> blist = Iterables.filter(alist, TypeB.class);
-    assertThat(blist).iteratesAs(hasBoth);
+    assertThat(blist).containsExactly(hasBoth).inOrder();
   }
 
   public void testTransform() {
@@ -411,8 +411,7 @@ public class IterablesTest extends TestCase {
     int n = 4;
     Iterable<Integer> repeated
         = Iterables.concat(Collections.nCopies(n, iterable));
-    assertThat(repeated).iteratesAs(
-        1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3);
+    assertThat(repeated).containsExactly(1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3).inOrder();
   }
 
   public void testPartition_badSize() {
@@ -510,7 +509,7 @@ public class IterablesTest extends TestCase {
     List<String> freshlyAdded = newArrayList("freshly", "added");
 
     boolean changed = Iterables.addAll(alreadyThere, freshlyAdded);
-    assertThat(alreadyThere).has().exactly(
+    assertThat(alreadyThere).containsExactly(
         "already", "there", "freshly", "added").inOrder();
     assertTrue(changed);
   }
@@ -688,7 +687,7 @@ public class IterablesTest extends TestCase {
     Iterable<String> tail = skip(set, 1);
     set.remove("b");
     set.addAll(newArrayList("A", "B", "C"));
-    assertThat(tail).iteratesAs("c", "A", "B", "C");
+    assertThat(tail).containsExactly("c", "A", "B", "C").inOrder();
   }
 
   public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
@@ -696,7 +695,7 @@ public class IterablesTest extends TestCase {
     Iterable<String> tail = skip(list, 1);
     list.subList(1, 3).clear();
     list.addAll(0, newArrayList("A", "B", "C"));
-    assertThat(tail).iteratesAs("B", "C", "a");
+    assertThat(tail).containsExactly("B", "C", "a").inOrder();
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {
@@ -1127,12 +1126,12 @@ public class IterablesTest extends TestCase {
     assertEquals("Iterables.consumingIterable(...)", consumingIterable.toString());
     Iterator<String> consumingIterator = consumingIterable.iterator();
 
-    assertThat(list).has().exactly("a", "b").inOrder();
+    assertThat(list).containsExactly("a", "b").inOrder();
 
     assertTrue(consumingIterator.hasNext());
-    assertThat(list).has().exactly("a", "b").inOrder();
+    assertThat(list).containsExactly("a", "b").inOrder();
     assertEquals("a", consumingIterator.next());
-    assertThat(list).has().item("b");
+    assertThat(list).contains("b");
 
     assertTrue(consumingIterator.hasNext());
     assertEquals("b", consumingIterator.next());

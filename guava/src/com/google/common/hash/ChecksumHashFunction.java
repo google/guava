@@ -28,7 +28,6 @@ import java.util.zip.Checksum;
  * @author Colin Decker
  */
 final class ChecksumHashFunction extends AbstractStreamingHashFunction implements Serializable {
-
   private final Supplier<? extends Checksum> checksumSupplier;
   private final int bits;
   private final String toString;
@@ -59,7 +58,6 @@ final class ChecksumHashFunction extends AbstractStreamingHashFunction implement
    * Hasher that updates a checksum.
    */
   private final class ChecksumHasher extends AbstractByteHasher {
-
     private final Checksum checksum;
 
     private ChecksumHasher(Checksum checksum) {

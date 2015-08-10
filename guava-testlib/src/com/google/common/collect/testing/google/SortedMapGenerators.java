@@ -27,6 +27,7 @@ import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;
@@ -51,6 +52,12 @@ public class SortedMapGenerators {
         builder.put(entry.getKey(), entry.getValue());
       }
       return builder.build();
+    }
+  }
+  public static class ImmutableSortedMapCopyOfEntriesGenerator 
+      extends TestStringSortedMapGenerator {
+    @Override public SortedMap<String, String> create(Entry<String, String>[] entries) {
+      return ImmutableSortedMap.copyOf(Arrays.asList(entries));
     }
   }
 

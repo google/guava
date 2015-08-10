@@ -21,6 +21,7 @@ import static com.google.common.io.SourceSinkFactory.CharSourceFactory;
 import static org.junit.Assert.assertArrayEquals;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
@@ -156,6 +157,13 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
     assertEquals(expected.length, source.size());
   }
 
+  public void testSizeIfKnown() throws IOException {
+    Optional<Long> sizeIfKnown = source.sizeIfKnown();
+    if (sizeIfKnown.isPresent()) {
+      assertEquals(expected.length, (long) sizeIfKnown.get());
+    }
+  }
+
   public void testContentEquals() throws IOException {
     assertTrue(source.contentEquals(new ByteSource() {
       @Override
@@ -201,6 +209,17 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
       source.slice(0, -1);
       fail("expected IllegalArgumentException for call to slice with length -1: " + source);
     } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  // Test that you can not expand the readable data in a previously sliced ByteSource.
+  public void testSlice_constrainedRange() throws IOException {
+    long size = source.read().length;
+    if (size >= 2) {
+      ByteSource sliced = source.slice(1, size - 2);
+      assertEquals(size - 2, sliced.read().length);
+      ByteSource resliced = sliced.slice(0, size - 1);
+      assertTrue(sliced.contentEquals(resliced));
     }
   }
 

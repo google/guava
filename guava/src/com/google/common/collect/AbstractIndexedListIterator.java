@@ -31,8 +31,7 @@ import java.util.NoSuchElementException;
  * @author Jared Levy
  */
 @GwtCompatible
-abstract class AbstractIndexedListIterator<E>
-    extends UnmodifiableListIterator<E> {
+abstract class AbstractIndexedListIterator<E> extends UnmodifiableListIterator<E> {
   private final int size;
   private int position;
 

@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -44,13 +45,13 @@ import javax.annotation.Nullable;
  * Multiset} instances.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Multisets">
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#multisets">
  * {@code Multisets}</a>.
  *
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public final class Multisets {
@@ -212,10 +213,10 @@ public final class Multisets {
     return new ImmutableEntry<E>(e, n);
   }
 
-  static final class ImmutableEntry<E> extends AbstractEntry<E> implements
+  static class ImmutableEntry<E> extends AbstractEntry<E> implements
       Serializable {
-    @Nullable final E element;
-    final int count;
+    @Nullable private final E element;
+    private final int count;
 
     ImmutableEntry(@Nullable E element, int count) {
       this.element = element;
@@ -224,13 +225,17 @@ public final class Multisets {
     }
 
     @Override
-    @Nullable public E getElement() {
+    @Nullable public final E getElement() {
       return element;
     }
 
     @Override
-    public int getCount() {
+    public final int getCount() {
       return count;
+    }
+
+    public ImmutableEntry<E> nextInBucket() {
+      return null;
     }
 
     private static final long serialVersionUID = 0;
@@ -263,6 +268,7 @@ public final class Multisets {
    * @since 14.0
    */
   @Beta
+  @CheckReturnValue
   public static <E> Multiset<E> filter(Multiset<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredMultiset) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
@@ -409,7 +415,7 @@ public final class Multisets {
             = multiset1.entrySet().iterator();
         final Iterator<? extends Entry<? extends E>> iterator2
             = multiset2.entrySet().iterator();
-        // TODO(user): consider making the entries live views
+        // TODO(lowasser): consider making the entries live views
         return new AbstractIterator<Entry<E>>() {
           @Override
           protected Entry<E> computeNext() {
@@ -473,7 +479,7 @@ public final class Multisets {
       @Override
       Iterator<Entry<E>> entryIterator() {
         final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
-        // TODO(user): consider making the entries live views
+        // TODO(lowasser): consider making the entries live views
         return new AbstractIterator<Entry<E>>() {
           @Override
           protected Entry<E> computeNext() {
@@ -518,7 +524,7 @@ public final class Multisets {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
 
-    // TODO(user): consider making the entries live views
+    // TODO(lowasser): consider making the entries live views
     return new AbstractMultiset<E>() {
       @Override
       public boolean contains(@Nullable Object element) {
@@ -600,7 +606,7 @@ public final class Multisets {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
 
-    // TODO(user): consider making the entries live views
+    // TODO(lowasser): consider making the entries live views
     return new AbstractMultiset<E>() {
       @Override
       public int count(@Nullable Object element) {
@@ -709,7 +715,7 @@ public final class Multisets {
    * <p>Equivalently, this method modifies {@code multisetToModify} so that
    * {@code multisetToModify.count(e)} is set to
    * {@code Math.max(0, multisetToModify.count(e) -
-   * occurrencesToRemove.count(e))}.
+   * Iterables.frequency(occurrencesToRemove, e))}.
    *
    * <p>This is <i>not</i> the same as {@code multisetToModify.}
    * {@link Multiset#removeAll removeAll}{@code (occurrencesToRemove)}, which
@@ -729,37 +735,51 @@ public final class Multisets {
   public static boolean removeOccurrences(
       Multiset<?> multisetToModify, Iterable<?> occurrencesToRemove) {
     if (occurrencesToRemove instanceof Multiset) {
-      return removeOccurrencesImpl(
+      return removeOccurrences(
           multisetToModify, (Multiset<?>) occurrencesToRemove);
     } else {
-      return removeOccurrencesImpl(multisetToModify, occurrencesToRemove);
+      checkNotNull(multisetToModify);
+      checkNotNull(occurrencesToRemove);
+      boolean changed = false;
+      for (Object o : occurrencesToRemove) {
+        changed |= multisetToModify.remove(o);
+      }
+      return changed;
     }
-  }
-
-  private static boolean removeOccurrencesImpl(
-      Multiset<?> multisetToModify, Iterable<?> occurrencesToRemove) {
-    checkNotNull(multisetToModify);
-    checkNotNull(occurrencesToRemove);
-    boolean changed = false;
-    for (Object o : occurrencesToRemove) {
-      changed |= multisetToModify.remove(o);
-    }
-    return changed;
   }
 
   /**
-   * Delegate that cares about the element types in multisetToModify.
+   * For each occurrence of an element {@code e} in {@code occurrencesToRemove},
+   * removes one occurrence of {@code e} in {@code multisetToModify}.
+   *
+   * <p>Equivalently, this method modifies {@code multisetToModify} so that
+   * {@code multisetToModify.count(e)} is set to
+   * {@code Math.max(0, multisetToModify.count(e) -
+   * occurrencesToRemove.count(e))}.
+   *
+   * <p>This is <i>not</i> the same as {@code multisetToModify.}
+   * {@link Multiset#removeAll removeAll}{@code (occurrencesToRemove)}, which
+   * removes all occurrences of elements that appear in
+   * {@code occurrencesToRemove}. However, this operation <i>is</i> equivalent
+   * to, albeit sometimes more efficient than, the following: <pre>   {@code
+   *
+   *   for (E e : occurrencesToRemove) {
+   *     multisetToModify.remove(e);
+   *   }}</pre>
+   *
+   * @return {@code true} if {@code multisetToModify} was changed as a result of
+   *         this operation
+   * @since 10.0 (missing in 18.0 when only the overload taking an {@code Iterable} was present)
    */
-  private static <E> boolean removeOccurrencesImpl(
-      Multiset<E> multisetToModify, Multiset<?> occurrencesToRemove) {
-    // TODO(user): generalize to removing an Iterable, perhaps
+  public static boolean removeOccurrences(
+      Multiset<?> multisetToModify, Multiset<?> occurrencesToRemove) {
     checkNotNull(multisetToModify);
     checkNotNull(occurrencesToRemove);
 
     boolean changed = false;
-    Iterator<Entry<E>> entryIterator = multisetToModify.entrySet().iterator();
+    Iterator<? extends Entry<?>> entryIterator = multisetToModify.entrySet().iterator();
     while (entryIterator.hasNext()) {
-      Entry<E> entry = entryIterator.next();
+      Entry<?> entry = entryIterator.next();
       int removeCount = occurrencesToRemove.count(entry.getElement());
       if (removeCount >= entry.getCount()) {
         entryIterator.remove();
@@ -948,12 +968,7 @@ public final class Multisets {
 
     @Override
     public boolean remove(Object o) {
-      int count = multiset().count(o);
-      if (count > 0) {
-        multiset().remove(o, count);
-        return true;
-      }
-      return false;
+      return multiset().remove(o, Integer.MAX_VALUE) > 0;
     }
 
     @Override public int size() {

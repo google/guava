@@ -29,7 +29,7 @@ import java.util.Queue;
 /**
  * Views elements of a type {@code T} as nodes in a tree, and provides methods to traverse the trees
  * induced by this traverser.
- *
+ * 
  * <p>For example, the tree
  *
  * <pre>          {@code
@@ -40,10 +40,10 @@ import java.util.Queue;
  *     /|\      |
  *    / | \     f
  *   a  b  c       }</pre>
- *
+ *   
  * <p>can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or breadth-first order
  * (hdegabcf).
- *
+ * 
  * <p>Null nodes are strictly forbidden.
  *
  * @author Louis Wasserman
@@ -52,8 +52,8 @@ import java.util.Queue;
 @Beta
 @GwtCompatible(emulated = true)
 public abstract class TreeTraverser<T> {
-  // TODO(user): make this GWT-compatible when we've checked in ArrayDeque emulation
-
+  // TODO(lowasser): make this GWT-compatible when we've checked in ArrayDeque emulation
+  
   /**
    * Returns the children of the specified node.  Must not contain null.
    */

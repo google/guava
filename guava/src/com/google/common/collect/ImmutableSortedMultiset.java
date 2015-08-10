@@ -29,49 +29,17 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * An immutable {@code SortedMultiset} that stores its elements in a sorted array. Some instances
- * are ordered by an explicit comparator, while others follow the natural sort ordering of their
- * elements. Either way, null elements are not supported.
+ * A {@link SortedMultiset} whose contents will never change, with many other important properties
+ * detailed at {@link ImmutableCollection}.
  *
- * <p>Unlike {@link Multisets#unmodifiableSortedMultiset}, which is a <i>view</i> of a separate
- * collection that can still change, an instance of {@code ImmutableSortedMultiset} contains its
- * own private data and will <i>never</i> change. This class is convenient for {@code public static
- * final} multisets ("constant multisets") and also lets you easily make a "defensive copy" of a
- * set provided to your class by a caller.
- *
- * <p>The multisets returned by the {@link #headMultiset}, {@link #tailMultiset}, and
- * {@link #subMultiset} methods share the same array as the original multiset, preventing that
- * array from being garbage collected. If this is a concern, the data may be copied into a
- * correctly-sized array by calling {@link #copyOfSorted}.
- *
- * <p><b>Note on element equivalence:</b> The {@link #contains(Object)},
- * {@link #containsAll(Collection)}, and {@link #equals(Object)} implementations must check whether
- * a provided object is equivalent to an element in the collection. Unlike most collections, an
- * {@code ImmutableSortedMultiset} doesn't use {@link Object#equals} to determine if two elements
- * are equivalent. Instead, with an explicit comparator, the following relation determines whether
- * elements {@code x} and {@code y} are equivalent:
- *
- * <pre>   {@code
- *
- *   {(x, y) | comparator.compare(x, y) == 0}}</pre>
- *
- * <p>With natural ordering of elements, the following relation determines whether two elements are
- * equivalent:
- *
- * <pre>   {@code
- *
- *   {(x, y) | x.compareTo(y) == 0}}</pre>
- *
- * <b>Warning:</b> Like most multisets, an {@code ImmutableSortedMultiset} will not function
- * correctly if an element is modified after being placed in the multiset. For this reason, and to
- * avoid general confusion, it is strongly recommended to place only immutable objects into this
- * collection.
- *
- * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as it has no public or
- * protected constructors. Thus, instances of this type are guaranteed to be immutable.
+ * <p><b>Warning:</b> as with any sorted collection, you are strongly advised not to use a {@link
+ * Comparator} or {@link Comparable} type whose comparison behavior is <i>inconsistent with
+ * equals</i>. That is, {@code a.compareTo(b)} or {@code comparator.compare(a, b)} should equal zero
+ * <i>if and only if</i> {@code a.equals(b)}. If this advice is not followed, the resulting
+ * collection will not correctly obey its specification.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
  * immutable collections</a>.
  *
  * @author Louis Wasserman
@@ -81,12 +49,12 @@ import java.util.List;
 @GwtIncompatible("hasn't been tested yet")
 public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
     implements SortedMultiset<E> {
-  // TODO(user): GWT compatibility
+  // TODO(lowasser): GWT compatibility
 
   private static final Comparator<Comparable> NATURAL_ORDER = Ordering.natural();
 
   private static final ImmutableSortedMultiset<Comparable> NATURAL_EMPTY_MULTISET =
-      new EmptyImmutableSortedMultiset<Comparable>(NATURAL_ORDER);
+      new RegularImmutableSortedMultiset<Comparable>(NATURAL_ORDER);
 
   /**
    * Returns the empty immutable sorted multiset.
@@ -102,9 +70,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E element) {
     RegularImmutableSortedSet<E> elementSet =
         (RegularImmutableSortedSet<E>) ImmutableSortedSet.of(element);
-    int[] counts = {1};
     long[] cumulativeCounts = {0, 1};
-    return new RegularImmutableSortedMultiset<E>(elementSet, counts, cumulativeCounts, 0, 1);
+    return new RegularImmutableSortedMultiset<E>(elementSet, cumulativeCounts, 0, 1);
   }
 
   /**
@@ -283,8 +250,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * @throws NullPointerException if {@code sortedMultiset} or any of its elements is null
    */
   public static <E> ImmutableSortedMultiset<E> copyOfSorted(SortedMultiset<E> sortedMultiset) {
-    return copyOfSortedEntries(sortedMultiset.comparator(),
-        Lists.newArrayList(sortedMultiset.entrySet()));
+    return copyOfSortedEntries(
+        sortedMultiset.comparator(), Lists.newArrayList(sortedMultiset.entrySet()));
   }
 
   private static <E> ImmutableSortedMultiset<E> copyOfSortedEntries(
@@ -293,26 +260,27 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
       return emptyMultiset(comparator);
     }
     ImmutableList.Builder<E> elementsBuilder = new ImmutableList.Builder<E>(entries.size());
-    int[] counts = new int[entries.size()];
     long[] cumulativeCounts = new long[entries.size() + 1];
     int i = 0;
     for (Entry<E> entry : entries) {
       elementsBuilder.add(entry.getElement());
-      counts[i] = entry.getCount();
-      cumulativeCounts[i + 1] = cumulativeCounts[i] + counts[i];
+      cumulativeCounts[i + 1] = cumulativeCounts[i] + entry.getCount();
       i++;
     }
     return new RegularImmutableSortedMultiset<E>(
         new RegularImmutableSortedSet<E>(elementsBuilder.build(), comparator),
-        counts, cumulativeCounts, 0, entries.size());
+        cumulativeCounts,
+        0,
+        entries.size());
   }
 
   @SuppressWarnings("unchecked")
   static <E> ImmutableSortedMultiset<E> emptyMultiset(Comparator<? super E> comparator) {
     if (NATURAL_ORDER.equals(comparator)) {
-      return (ImmutableSortedMultiset) NATURAL_EMPTY_MULTISET;
+      return (ImmutableSortedMultiset<E>) NATURAL_EMPTY_MULTISET;
+    } else {
+      return new RegularImmutableSortedMultiset<E>(comparator);
     }
-    return new EmptyImmutableSortedMultiset<E>(comparator);
   }
 
   ImmutableSortedMultiset() {}
@@ -331,7 +299,10 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   public ImmutableSortedMultiset<E> descendingMultiset() {
     ImmutableSortedMultiset<E> result = descendingMultiset;
     if (result == null) {
-      return descendingMultiset = new DescendingImmutableSortedMultiset<E>(this);
+      return descendingMultiset =
+          this.isEmpty()
+              ? emptyMultiset(Ordering.from(comparator()).reverse())
+              : new DescendingImmutableSortedMultiset<E>(this);
     }
     return result;
   }
@@ -370,8 +341,11 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @Override
   public ImmutableSortedMultiset<E> subMultiset(
       E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType) {
-    checkArgument(comparator().compare(lowerBound, upperBound) <= 0,
-        "Expected lowerBound <= upperBound but %s > %s", lowerBound, upperBound);
+    checkArgument(
+        comparator().compare(lowerBound, upperBound) <= 0,
+        "Expected lowerBound <= upperBound but %s > %s",
+        lowerBound,
+        upperBound);
     return tailMultiset(lowerBound, lowerBoundType).headMultiset(upperBound, upperBoundType);
   }
 

@@ -16,13 +16,13 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import javax.annotation.Nullable;
 
 /**
  * An OutputStream that counts the number of bytes written.
@@ -40,8 +40,8 @@ public final class CountingOutputStream extends FilterOutputStream {
    *
    * @param out the output stream to be wrapped
    */
-  public CountingOutputStream(@Nullable OutputStream out) {
-    super(out);
+  public CountingOutputStream(OutputStream out) {
+    super(checkNotNull(out));
   }
 
   /** Returns the number of bytes written. */

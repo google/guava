@@ -48,12 +48,12 @@ import javax.annotation.Nullable;
  * {@link java.util.Collection} contract, which is specified in terms of {@link Object#equals}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">
  * {@code Multiset}</a>.
  *
  * @author Louis Wasserman
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements Serializable {

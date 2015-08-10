@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * Static utility methods pertaining to object arrays.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class ObjectArrays {

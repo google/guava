@@ -20,13 +20,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.common.io.Closer;
+import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import com.google.common.reflect.ClassPath.ClassInfo;
 import com.google.common.reflect.ClassPath.ResourceInfo;
-import com.google.common.reflect.subpackage.ClassInSubPackage;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 
@@ -39,13 +37,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Map;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.jar.Attributes;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
@@ -55,105 +56,6 @@ import java.util.zip.ZipEntry;
  * Functional tests of {@link ClassPath}.
  */
 public class ClassPathTest extends TestCase {
-
-  public void testGetResources() throws Exception {
-    Map<String, ResourceInfo> byName = Maps.newHashMap();
-    Map<String, ResourceInfo> byToString = Maps.newHashMap();
-    ClassPath classpath = ClassPath.from(getClass().getClassLoader());
-    for (ResourceInfo resource : classpath.getResources()) {
-      assertThat(resource.getResourceName()).isNotEqualTo(JarFile.MANIFEST_NAME);
-      assertThat(resource.toString()).isNotEqualTo(JarFile.MANIFEST_NAME);
-      byName.put(resource.getResourceName(), resource);
-      byToString.put(resource.toString(), resource);
-      assertNotNull(resource.url());
-    }
-    String testResourceName = "com/google/common/reflect/test.txt";
-    assertThat(byName.keySet()).has().allOf(
-        "com/google/common/reflect/ClassPath.class",
-        "com/google/common/reflect/ClassPathTest.class",
-        "com/google/common/reflect/ClassPathTest$Nested.class",
-        testResourceName);
-    assertThat(byToString.keySet()).has().allOf(
-        "com.google.common.reflect.ClassPath",
-        "com.google.common.reflect.ClassPathTest",
-        "com.google.common.reflect.ClassPathTest$Nested",
-        testResourceName);
-    assertEquals(getClass().getClassLoader().getResource(testResourceName),
-        byName.get("com/google/common/reflect/test.txt").url());
-  }
-
-  public void testGetAllClasses() throws Exception {
-    Set<String> names = Sets.newHashSet();
-    Set<String> strings = Sets.newHashSet();
-    Set<Class<?>> classes = Sets.newHashSet();
-    Set<String> packageNames = Sets.newHashSet();
-    Set<String> simpleNames = Sets.newHashSet();
-    ClassPath classpath = ClassPath.from(getClass().getClassLoader());
-    for (ClassInfo classInfo : classpath.getAllClasses()) {
-      if (!classInfo.getPackageName().equals(ClassPathTest.class.getPackage().getName())) {
-        continue;
-      }
-      names.add(classInfo.getName());
-      strings.add(classInfo.toString());
-      classes.add(classInfo.load());
-      packageNames.add(classInfo.getPackageName());
-      simpleNames.add(classInfo.getSimpleName());
-    }
-    class LocalClass {}
-    Class<?> anonymousClass = new Object() {}.getClass();
-    assertThat(names).has().allOf(anonymousClass.getName(), LocalClass.class.getName(),
-        ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(strings).has().allOf(anonymousClass.getName(), LocalClass.class.getName(),
-        ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(classes).has().allOf(anonymousClass, LocalClass.class, ClassPath.class,
-        ClassPathTest.class);
-    assertThat(packageNames).has().exactly(ClassPath.class.getPackage().getName());
-    assertThat(simpleNames).has().allOf("", "Local", "ClassPath", "ClassPathTest");
-  }
-
-  public void testGetTopLevelClasses() throws Exception {
-    Set<String> names = Sets.newHashSet();
-    Set<String> strings = Sets.newHashSet();
-    Set<Class<?>> classes = Sets.newHashSet();
-    Set<String> packageNames = Sets.newHashSet();
-    Set<String> simpleNames = Sets.newHashSet();
-    ClassPath classpath = ClassPath.from(getClass().getClassLoader());
-    for (ClassInfo classInfo
-        : classpath.getTopLevelClasses(ClassPathTest.class.getPackage().getName())) {
-      names.add(classInfo.getName());
-      strings.add(classInfo.toString());
-      classes.add(classInfo.load());
-      packageNames.add(classInfo.getPackageName());
-      simpleNames.add(classInfo.getSimpleName());
-    }
-    assertThat(names).has().allOf(ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(strings).has().allOf(ClassPath.class.getName(), ClassPathTest.class.getName());
-    assertThat(classes).has().allOf(ClassPath.class, ClassPathTest.class);
-    assertThat(packageNames).has().item(ClassPath.class.getPackage().getName());
-    assertThat(simpleNames).has().allOf("ClassPath", "ClassPathTest");
-    assertFalse(classes.contains(ClassInSubPackage.class));
-  }
-
-  public void testGetTopLevelClassesRecursive() throws Exception {
-    Set<Class<?>> classes = Sets.newHashSet();
-    ClassPath classpath = ClassPath.from(ClassPathTest.class.getClassLoader());
-    for (ClassInfo classInfo
-        : classpath.getTopLevelClassesRecursive(ClassPathTest.class.getPackage().getName())) {
-      if (classInfo.getName().contains("ClassPathTest")) {
-        System.err.println("");
-      }
-      classes.add(classInfo.load());
-    }
-    assertThat(classes).has().allOf(ClassPathTest.class, ClassInSubPackage.class);
-  }
-
-  public void testGetTopLevelClasses_diamond() throws Exception {
-    ClassLoader parent = ClassPathTest.class.getClassLoader();
-    ClassLoader sub1 = new ClassLoader(parent) {};
-    ClassLoader sub2 = new ClassLoader(parent) {};
-    assertEquals(findClass(ClassPath.from(sub1).getTopLevelClasses(), ClassPathTest.class),
-        findClass(ClassPath.from(sub2).getTopLevelClasses(), ClassPathTest.class));
-  }
 
   public void testEquals() {
     new EqualsTester()
@@ -168,7 +70,7 @@ public class ClassPathTest extends TestCase {
   }
 
   public void testClassPathEntries_emptyURLClassLoader_noParent() {
-    assertThat(ClassPath.getClassPathEntries(new URLClassLoader(new URL[0], null)).keySet())
+    assertThat(ClassPath.Scanner.getClassPathEntries(new URLClassLoader(new URL[0], null)).keySet())
         .isEmpty();
   }
 
@@ -177,8 +79,8 @@ public class ClassPathTest extends TestCase {
     URL url2 = new URL("file:/b");
     URLClassLoader classloader = new URLClassLoader(new URL[] {url1, url2}, null);
     assertEquals(
-        ImmutableMap.of(url1.toURI(), classloader, url2.toURI(), classloader),
-        ClassPath.getClassPathEntries(classloader));
+        ImmutableMap.of(new File("/a"), classloader, new File("/b"), classloader),
+        ClassPath.Scanner.getClassPathEntries(classloader));
   }
 
   public void testClassPathEntries_URLClassLoader_withParent() throws Exception {
@@ -186,28 +88,29 @@ public class ClassPathTest extends TestCase {
     URL url2 = new URL("file:/b");
     URLClassLoader parent = new URLClassLoader(new URL[] {url1}, null);
     URLClassLoader child = new URLClassLoader(new URL[] {url2}, parent) {};
-    ImmutableMap<URI, ClassLoader> classPathEntries = ClassPath.getClassPathEntries(child);
-    assertEquals(ImmutableMap.of(url1.toURI(), parent, url2.toURI(), child),  classPathEntries);
-    assertThat(classPathEntries.keySet()).has().exactly(url1.toURI(), url2.toURI()).inOrder();
+    ImmutableMap<File, ClassLoader> classPathEntries = ClassPath.Scanner.getClassPathEntries(child);
+    assertEquals(ImmutableMap.of(new File("/a"), parent, new File("/b"), child),  classPathEntries);
+    assertThat(classPathEntries.keySet()).containsExactly(new File("/a"), new File("/b")).inOrder();
   }
 
   public void testClassPathEntries_duplicateUri_parentWins() throws Exception {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
     URLClassLoader child = new URLClassLoader(new URL[] {url}, parent) {};
-    assertEquals(ImmutableMap.of(url.toURI(), parent), ClassPath.getClassPathEntries(child));
+    assertEquals(ImmutableMap.of(new File("/a"), parent),
+        ClassPath.Scanner.getClassPathEntries(child));
   }
 
   public void testClassPathEntries_notURLClassLoader_noParent() {
-    assertThat(ClassPath.getClassPathEntries(new ClassLoader(null) {}).keySet()).isEmpty();
+    assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(null) {}).keySet()).isEmpty();
   }
 
   public void testClassPathEntries_notURLClassLoader_withParent() throws Exception {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
     assertEquals(
-        ImmutableMap.of(url.toURI(), parent),
-        ClassPath.getClassPathEntries(new ClassLoader(parent) {}));
+        ImmutableMap.of(new File("/a"), parent),
+        ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
   public void testClassPathEntries_notURLClassLoader_withParentAndGrandParent() throws Exception {
@@ -216,8 +119,8 @@ public class ClassPathTest extends TestCase {
     URLClassLoader grandParent = new URLClassLoader(new URL[] {url1}, null);
     URLClassLoader parent = new URLClassLoader(new URL[] {url2}, grandParent);
     assertEquals(
-        ImmutableMap.of(url1.toURI(), grandParent, url2.toURI(), parent),
-        ClassPath.getClassPathEntries(new ClassLoader(parent) {}));
+        ImmutableMap.of(new File("/a"), grandParent, new File("/b"), parent),
+        ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
   public void testClassPathEntries_notURLClassLoader_withGrandParent() throws Exception {
@@ -225,16 +128,16 @@ public class ClassPathTest extends TestCase {
     URLClassLoader grandParent = new URLClassLoader(new URL[] {url}, null);
     ClassLoader parent = new ClassLoader(grandParent) {};
     assertEquals(
-        ImmutableMap.of(url.toURI(), grandParent),
-        ClassPath.getClassPathEntries(new ClassLoader(parent) {}));
+        ImmutableMap.of(new File("/a"), grandParent),
+        ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
   public void testScan_classPathCycle() throws IOException {
     File jarFile = File.createTempFile("with_circular_class_path", ".jar");
     try {
       writeSelfReferencingJarFile(jarFile, "test.txt");
-      ClassPath.Scanner scanner = new ClassPath.Scanner();
-      scanner.scan(jarFile.toURI(), ClassPathTest.class.getClassLoader());
+      ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
+      scanner.scan(jarFile, ClassPathTest.class.getClassLoader());
       assertEquals(1, scanner.getResources().size());
     } finally {
       jarFile.delete();
@@ -243,33 +146,37 @@ public class ClassPathTest extends TestCase {
 
   public void testScanFromFile_fileNotExists() throws IOException {
     ClassLoader classLoader = ClassPathTest.class.getClassLoader();
-    ClassPath.Scanner scanner = new ClassPath.Scanner();
-    scanner.scanFrom(new File("no/such/file/anywhere"), classLoader);
+    ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
+    scanner.scan(new File("no/such/file/anywhere"), classLoader);
     assertThat(scanner.getResources()).isEmpty();
   }
 
   public void testScanFromFile_notJarFile() throws IOException {
     ClassLoader classLoader = ClassPathTest.class.getClassLoader();
     File notJar = File.createTempFile("not_a_jar", "txt");
-    ClassPath.Scanner scanner = new ClassPath.Scanner();
+    ClassPath.DefaultScanner scanner = new ClassPath.DefaultScanner();
     try {
-      scanner.scanFrom(notJar, classLoader);
+      scanner.scan(notJar, classLoader);
     } finally {
       notJar.delete();
     }
     assertThat(scanner.getResources()).isEmpty();
   }
 
-  public void testGetClassPathEntry() throws URISyntaxException {
-    assertEquals(URI.create("file:/usr/test/dep.jar"),
+  public void testGetClassPathEntry() throws MalformedURLException, URISyntaxException {
+    assertEquals(new File("/usr/test/dep.jar").toURI(),
         ClassPath.Scanner.getClassPathEntry(
-            new File("/home/build/outer.jar"), "file:/usr/test/dep.jar"));
-    assertEquals(URI.create("file:/home/build/a.jar"),
-        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "a.jar"));
-    assertEquals(URI.create("file:/home/build/x/y/z"),
-        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x/y/z"));
-    assertEquals(URI.create("file:/home/build/x/y/z.jar"),
-        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x/y/z.jar"));
+            new File("/home/build/outer.jar"), "file:/usr/test/dep.jar").toURI());
+    assertEquals(new File("/home/build/a.jar").toURI(),
+        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "a.jar").toURI());
+    assertEquals(new File("/home/build/x/y/z").toURI(),
+        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x/y/z").toURI());
+    assertEquals(new File("/home/build/x/y/z.jar").toURI(),
+        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x/y/z.jar")
+            .toURI());
+    assertEquals("/home/build/x y.jar",
+        ClassPath.Scanner.getClassPathEntry(new File("/home/build/outer.jar"), "x y.jar")
+            .getFile());
   }
 
   public void testGetClassPathFromManifest_nullManifest() {
@@ -290,9 +197,16 @@ public class ClassPathTest extends TestCase {
 
   public void testGetClassPathFromManifest_badClassPath() throws IOException {
     File jarFile = new File("base.jar");
-    Manifest manifest = manifestClasspath("an_invalid^path");
+    Manifest manifest = manifestClasspath("nosuchscheme:an_invalid^path");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
         .isEmpty();
+  }
+
+  public void testGetClassPathFromManifest_pathWithStrangeCharacter() throws IOException {
+    File jarFile = new File("base/some.jar");
+    Manifest manifest = manifestClasspath("file:the^file.jar");
+    assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
+        .containsExactly(fullpath("base/the^file.jar"));
   }
 
   public void testGetClassPathFromManifest_relativeDirectory() throws IOException {
@@ -300,7 +214,7 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative/dir");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("base/with/relative/dir").toURI()).inOrder();
+        .containsExactly(fullpath("base/with/relative/dir"));
   }
 
   public void testGetClassPathFromManifest_relativeJar() throws IOException {
@@ -308,7 +222,7 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative.jar");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("base/with/relative.jar").toURI()).inOrder();
+        .containsExactly(fullpath("base/with/relative.jar"));
   }
 
   public void testGetClassPathFromManifest_jarInCurrentDirectory() throws IOException {
@@ -316,31 +230,31 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("current.jar");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("base/current.jar").toURI()).inOrder();
+        .containsExactly(fullpath("base/current.jar"));
   }
 
   public void testGetClassPathFromManifest_absoluteDirectory() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute/dir");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("/with/absolute/dir").toURI()).inOrder();
+        .containsExactly(fullpath("/with/absolute/dir"));
   }
 
   public void testGetClassPathFromManifest_absoluteJar() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("/with/absolute.jar").toURI()).inOrder();
+        .containsExactly(fullpath("/with/absolute.jar"));
   }
 
   public void testGetClassPathFromManifest_multiplePaths() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar relative.jar  relative/dir");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(
-            new File("/with/absolute.jar").toURI(),
-            new File("base/relative.jar").toURI(),
-            new File("base/relative/dir").toURI())
+        .containsExactly(
+            fullpath("/with/absolute.jar"),
+            fullpath("base/relative.jar"),
+            fullpath("base/relative/dir"))
         .inOrder();
   }
 
@@ -348,14 +262,14 @@ public class ClassPathTest extends TestCase {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath(" relative.jar");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("base/relative.jar").toURI()).inOrder();
+        .containsExactly(fullpath("base/relative.jar"));
   }
 
   public void testGetClassPathFromManifest_trailingBlanks() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("relative.jar ");
     assertThat(ClassPath.Scanner.getClassPathFromManifest(jarFile, manifest))
-        .has().exactly(new File("base/relative.jar").toURI()).inOrder();
+        .containsExactly(fullpath("base/relative.jar"));
   }
 
   public void testGetClassName() {
@@ -369,21 +283,21 @@ public class ClassPathTest extends TestCase {
   }
 
   public void testGetSimpleName() {
+    ClassLoader classLoader = getClass().getClassLoader();
     assertEquals("Foo",
-        new ClassInfo("Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("Foo.class", classLoader).getSimpleName());
     assertEquals("Foo",
-        new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Foo.class", classLoader).getSimpleName());
     assertEquals("Foo",
-        new ClassInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$Foo.class", classLoader).getSimpleName());
     assertEquals("",
-        new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$1.class", classLoader).getSimpleName());
     assertEquals("Foo",
-        new ClassInfo("a/b/Bar$Foo.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$Foo.class", classLoader).getSimpleName());
     assertEquals("",
-        new ClassInfo("a/b/Bar$1.class", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Bar$1.class", classLoader).getSimpleName());
     assertEquals("Local",
-        new ClassInfo("a/b/Bar$1Local.class", getClass().getClassLoader()).getSimpleName());
-
+        new ClassInfo("a/b/Bar$1Local.class", classLoader).getSimpleName());
   }
 
   public void testGetPackageName() {
@@ -393,12 +307,24 @@ public class ClassPathTest extends TestCase {
         new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getPackageName());
   }
 
+  // Test that ResourceInfo.urls() returns identical content to ClassLoader.getResources()
+
+  private static boolean contentEquals(URL left, URL right) throws IOException {
+    return Resources.asByteSource(left).contentEquals(Resources.asByteSource(right));
+  }
+
   private static class Nested {}
 
   public void testNulls() throws IOException {
     new NullPointerTester().testAllPublicStaticMethods(ClassPath.class);
     new NullPointerTester()
         .testAllPublicInstanceMethods(ClassPath.from(getClass().getClassLoader()));
+  }
+
+  public void testResourceScanner() throws IOException {
+    ResourceScanner scanner = new ResourceScanner();
+    scanner.scan(ClassLoader.getSystemClassLoader());
+    assertThat(scanner.resources).contains("com/google/common/reflect/ClassPathTest.class");
   }
 
   private static ClassPath.ClassInfo findClass(
@@ -412,7 +338,9 @@ public class ClassPathTest extends TestCase {
   }
 
   private static ResourceInfo resourceInfo(Class<?> cls) {
-    return ResourceInfo.of(cls.getName().replace('.', '/') + ".class", cls.getClassLoader());
+    String resource = cls.getName().replace('.', '/') + ".class";
+    ClassLoader loader = cls.getClassLoader();
+    return ResourceInfo.of(resource, loader);
   }
 
   private static ClassInfo classInfo(Class<?> cls) {
@@ -420,7 +348,8 @@ public class ClassPathTest extends TestCase {
   }
 
   private static ClassInfo classInfo(Class<?> cls, ClassLoader classLoader) {
-    return new ClassInfo(cls.getName().replace('.', '/') + ".class", classLoader);
+    String resource = cls.getName().replace('.', '/') + ".class";
+    return new ClassInfo(resource, classLoader);
   }
 
   private static Manifest manifestClasspath(String classpath) throws IOException {
@@ -455,5 +384,28 @@ public class ClassPathTest extends TestCase {
     Manifest manifest = new Manifest();
     manifest.read(in);
     return manifest;
+  }
+
+  private static File fullpath(String path) {
+    return new File(new File(path).toURI());
+  }
+
+  private static class ResourceScanner extends ClassPath.Scanner {
+    final Set<String> resources = new HashSet<String>();
+
+    @Override protected void scanDirectory(ClassLoader loader, File root) throws IOException {
+      URI base = root.toURI();
+      for (File entry : Files.fileTreeTraverser().preOrderTraversal(root)) {
+        String resourceName = new File(base.relativize(entry.toURI()).getPath()).getPath();
+        resources.add(resourceName);
+      }
+    }
+
+    @Override protected void scanJarFile(ClassLoader loader, JarFile file) throws IOException {
+      Enumeration<JarEntry> entries = file.entries();
+      while (entries.hasMoreElements()) {
+        resources.add(entries.nextElement().getName());
+      }
+    }
   }
 }

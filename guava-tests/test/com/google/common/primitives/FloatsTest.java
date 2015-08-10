@@ -179,6 +179,7 @@ public class FloatsTest extends TestCase {
     assertEquals(-1, Floats.lastIndexOf(new float[] {NaN, 5f}, NaN));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       Floats.max();
@@ -200,6 +201,7 @@ public class FloatsTest extends TestCase {
     assertTrue(Float.isNaN(Floats.max(VALUES)));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       Floats.min();
@@ -245,6 +247,7 @@ public class FloatsTest extends TestCase {
         Floats.ensureCapacity(ARRAY1, 2, 1)));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Floats.ensureCapacity(ARRAY1, -1, 1);
@@ -327,6 +330,7 @@ public class FloatsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Float> list = Arrays.asList((float) 0, (float) 1, null);
     try {
@@ -360,7 +364,7 @@ public class FloatsTest extends TestCase {
     list.set(0, (float) 2);
     assertTrue(Arrays.equals(new float[] {(float) 2, (float) 1}, array));
     array[1] = (float) 3;
-    assertThat(list).has().exactly((float) 2, (float) 3).inOrder();
+    assertThat(list).containsExactly((float) 2, (float) 3).inOrder();
   }
 
   public void testAsList_toArray_roundTrip() {
@@ -503,6 +507,7 @@ public class FloatsTest extends TestCase {
     assertEquals((Float) 1e-6f, converter.convert("1e-6"));
   }
 
+  @SuppressWarnings("CheckReturnValue")
   public void testStringConverter_convertError() {
     try {
       Floats.stringConverter().convert("notanumber");

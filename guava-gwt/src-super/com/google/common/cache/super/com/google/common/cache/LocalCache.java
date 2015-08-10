@@ -27,6 +27,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
+import java.util.AbstractCollection;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.HashMap;
@@ -237,7 +238,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   
   private void alertListenerIfPresent(Object key, Object value, RemovalCause cause) {
     if (removalListener != null) {
-      removalListener.onRemoval(new RemovalNotification(key, value, cause));
+      removalListener.onRemoval(RemovalNotification.create(key, value, cause));
     }
   }
 
@@ -487,7 +488,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     protected boolean removeEldestEntry(Map.Entry<K, Timestamped<V>> ignored) {
       boolean removal = (maximumSize == UNSET_INT) ? false : (size() > maximumSize);
       if ((removalListener != null) && removal) {
-        removalListener.onRemoval(new RemovalNotification(
+        removalListener.onRemoval(RemovalNotification.create(
             ignored.getKey(), 
             ignored.getValue().getValue(),
             RemovalCause.SIZE));
@@ -742,9 +743,6 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
 
-  /**
-   * Abstraction layer for the KeySet, which redirects to cache methods.
-   */
   private final class KeySet extends AbstractCacheSet<K> {
 
     KeySet(ConcurrentMap<?, ?> map) {
@@ -767,13 +765,11 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
   
-  /**
-   * Abstraction layer for the Values set, which redirects to cache methods.
-   */
-  private final class Values extends AbstractCacheSet<V> {
+  private final class Values extends AbstractCollection<V> {
+    final ConcurrentMap<?, ?> map;
 
     Values(ConcurrentMap<?, ?> map) {
-      super(map);
+      this.map = map;
     }
 
     @Override
@@ -785,11 +781,23 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     public boolean contains(Object o) {
       return map.containsValue(o);
     }
+
+    @Override
+    public int size() {
+      return map.size();
+    }
+    
+    @Override
+    public boolean isEmpty() {
+      return map.isEmpty();
+    }
+    
+    @Override
+    public void clear() {
+      map.clear();
+    }
   }
 
-  /**
-   * Abstraction layer for the EntrySet, which redirects to cache methods.
-   */
   private final class EntrySet extends AbstractCacheSet<Entry<K, V>> {
 
     EntrySet(ConcurrentMap<?, ?> map) {

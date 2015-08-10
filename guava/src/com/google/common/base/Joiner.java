@@ -55,18 +55,19 @@ import javax.annotation.Nullable;
  *   Joiner joiner = Joiner.on(',');
  *   joiner.skipNulls(); // does nothing!
  *   return joiner.join("wrong", null, "wrong");}</pre>
- *   
+ *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/StringsExplained#Joiner">{@code Joiner}</a>. 
+ * "https://github.com/google/guava/wiki/StringsExplained#joiner">{@code Joiner}</a>.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public class Joiner {
   /**
    * Returns a joiner which automatically places {@code separator} between consecutive elements.
    */
+  @CheckReturnValue
   public static Joiner on(String separator) {
     return new Joiner(separator);
   }
@@ -74,6 +75,7 @@ public class Joiner {
   /**
    * Returns a joiner which automatically places {@code separator} between consecutive elements.
    */
+  @CheckReturnValue
   public static Joiner on(char separator) {
     return new Joiner(String.valueOf(separator));
   }
@@ -127,7 +129,7 @@ public class Joiner {
    */
   public final <A extends Appendable> A appendTo(
       A appendable, @Nullable Object first, @Nullable Object second, Object... rest)
-          throws IOException {
+      throws IOException {
     return appendTo(appendable, iterable(first, second, rest));
   }
 
@@ -179,6 +181,7 @@ public class Joiner {
    * Returns a string containing the string representation of each of {@code parts}, using the
    * previously configured separator between each.
    */
+  @CheckReturnValue
   public final String join(Iterable<?> parts) {
     return join(parts.iterator());
   }
@@ -189,6 +192,7 @@ public class Joiner {
    *
    * @since 11.0
    */
+  @CheckReturnValue
   public final String join(Iterator<?> parts) {
     return appendTo(new StringBuilder(), parts).toString();
   }
@@ -197,6 +201,7 @@ public class Joiner {
    * Returns a string containing the string representation of each of {@code parts}, using the
    * previously configured separator between each.
    */
+  @CheckReturnValue
   public final String join(Object[] parts) {
     return join(Arrays.asList(parts));
   }
@@ -205,6 +210,7 @@ public class Joiner {
    * Returns a string containing the string representation of each argument, using the previously
    * configured separator between each.
    */
+  @CheckReturnValue
   public final String join(@Nullable Object first, @Nullable Object second, Object... rest) {
     return join(iterable(first, second, rest));
   }
@@ -217,15 +223,18 @@ public class Joiner {
   public Joiner useForNull(final String nullText) {
     checkNotNull(nullText);
     return new Joiner(this) {
-      @Override CharSequence toString(@Nullable Object part) {
+      @Override
+      CharSequence toString(@Nullable Object part) {
         return (part == null) ? nullText : Joiner.this.toString(part);
       }
 
-      @Override public Joiner useForNull(String nullText) {
+      @Override
+      public Joiner useForNull(String nullText) {
         throw new UnsupportedOperationException("already specified useForNull");
       }
 
-      @Override public Joiner skipNulls() {
+      @Override
+      public Joiner skipNulls() {
         throw new UnsupportedOperationException("already specified useForNull");
       }
     };
@@ -238,8 +247,8 @@ public class Joiner {
   @CheckReturnValue
   public Joiner skipNulls() {
     return new Joiner(this) {
-      @Override public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts)
-          throws IOException {
+      @Override
+      public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts) throws IOException {
         checkNotNull(appendable, "appendable");
         checkNotNull(parts, "parts");
         while (parts.hasNext()) {
@@ -259,11 +268,13 @@ public class Joiner {
         return appendable;
       }
 
-      @Override public Joiner useForNull(String nullText) {
+      @Override
+      public Joiner useForNull(String nullText) {
         throw new UnsupportedOperationException("already specified skipNulls");
       }
 
-      @Override public MapJoiner withKeyValueSeparator(String kvs) {
+      @Override
+      public MapJoiner withKeyValueSeparator(String kvs) {
         throw new UnsupportedOperationException("can't use .skipNulls() with maps");
       }
     };
@@ -294,7 +305,7 @@ public class Joiner {
    *     key1=[A, B]&key2=C}.
    * </ul>
    *
-   * @since 2.0 (imported from Google Collections Library)
+   * @since 2.0
    */
   public static final class MapJoiner {
     private final Joiner joiner;
@@ -326,6 +337,7 @@ public class Joiner {
      * Returns a string containing the string representation of each entry of {@code map}, using the
      * previously configured separator and key-value separator.
      */
+    @CheckReturnValue
     public String join(Map<?, ?> map) {
       return join(map.entrySet());
     }
@@ -404,6 +416,7 @@ public class Joiner {
      * @since 10.0
      */
     @Beta
+    @CheckReturnValue
     public String join(Iterable<? extends Entry<?, ?>> entries) {
       return join(entries.iterator());
     }
@@ -415,6 +428,7 @@ public class Joiner {
      * @since 11.0
      */
     @Beta
+    @CheckReturnValue
     public String join(Iterator<? extends Entry<?, ?>> entries) {
       return appendTo(new StringBuilder(), entries).toString();
     }
@@ -430,7 +444,7 @@ public class Joiner {
   }
 
   CharSequence toString(Object part) {
-    checkNotNull(part);  // checkNotNull for GWT (do not optimize).
+    checkNotNull(part); // checkNotNull for GWT (do not optimize).
     return (part instanceof CharSequence) ? (CharSequence) part : part.toString();
   }
 
@@ -438,11 +452,13 @@ public class Joiner {
       final Object first, final Object second, final Object[] rest) {
     checkNotNull(rest);
     return new AbstractList<Object>() {
-      @Override public int size() {
+      @Override
+      public int size() {
         return rest.length + 2;
       }
 
-      @Override public Object get(int index) {
+      @Override
+      public Object get(int index) {
         switch (index) {
           case 0:
             return first;

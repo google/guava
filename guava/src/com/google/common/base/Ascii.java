@@ -41,6 +41,7 @@ import javax.annotation.CheckReturnValue;
  * @author Gregory Kick
  * @since 7.0
  */
+@CheckReturnValue
 @GwtCompatible
 public final class Ascii {
 
@@ -580,7 +581,6 @@ public final class Ascii {
    * @since 16.0
    */
   @Beta
-  @CheckReturnValue
   public static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {
     checkNotNull(seq);
 
@@ -589,9 +589,11 @@ public final class Ascii {
 
     // in this worst case, this allows a maxLength equal to the length of the truncationIndicator,
     // meaning that a string will be truncated to just the truncation indicator itself
-    checkArgument(truncationLength >= 0,
+    checkArgument(
+        truncationLength >= 0,
         "maxLength (%s) must be >= length of the truncation indicator (%s)",
-        maxLength, truncationIndicator.length());
+        maxLength,
+        truncationIndicator.length());
 
     if (seq.length() <= maxLength) {
       String string = seq.toString();

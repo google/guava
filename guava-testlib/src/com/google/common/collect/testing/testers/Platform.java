@@ -18,6 +18,8 @@ package com.google.common.collect.testing.testers;
 
 import com.google.common.annotations.GwtCompatible;
 
+import java.util.Locale;
+
 /**
  * This class is emulated in GWT.
  *
@@ -31,7 +33,7 @@ final class Platform {
    * {@code %s}.
    */
   static String format(String template, Object... args) {
-    return String.format(template, args);
+    return String.format(Locale.ROOT, template, args);
   }
 
   /** See {@link ListListIteratorTester} */

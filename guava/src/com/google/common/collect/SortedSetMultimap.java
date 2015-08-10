@@ -41,11 +41,11 @@ import javax.annotation.Nullable;
  * values.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multimap">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">
  * {@code Multimap}</a>.
  *
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
 public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {

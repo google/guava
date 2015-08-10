@@ -27,13 +27,13 @@ import java.util.Iterator;
 
 /**
  * Multiset implementation backed by an {@link EnumMap}.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">
  * {@code Multiset}</a>.
  *
  * @author Jared Levy
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible(emulated = true)
 public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMultiset<E> {
@@ -58,12 +58,12 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
     Iterables.addAll(multiset, elements);
     return multiset;
   }
-  
+
   /**
    * Returns a new {@code EnumMultiset} instance containing the given elements.  Unlike
    * {@link EnumMultiset#create(Iterable)}, this method does not produce an exception on an empty
    * iterable.
-   * 
+   *
    * @since 14.0
    */
   public static <E extends Enum<E>> EnumMultiset<E> create(Iterable<E> elements, Class<E> type) {

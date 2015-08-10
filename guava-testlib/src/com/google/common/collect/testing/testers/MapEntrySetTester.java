@@ -55,26 +55,34 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   public void testEntrySetIteratorRemove() {
     Set<Entry<K, V>> entrySet = getMap().entrySet();
     Iterator<Entry<K, V>> entryItr = entrySet.iterator();
-    assertEquals(samples.e0, entryItr.next());
+    assertEquals(e0(), entryItr.next());
     entryItr.remove();
     assertTrue(getMap().isEmpty());
-    assertFalse(entrySet.contains(samples.e0));
+    assertFalse(entrySet.contains(e0()));
   }
 
   public void testContainsEntryWithIncomparableKey() {
-    assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(IncomparableType.INSTANCE, samples.e0.getValue())));
+    try {
+      assertFalse(getMap()
+          .entrySet().contains(Helpers.mapEntry(IncomparableType.INSTANCE, v0())));
+    } catch (ClassCastException acceptable) {
+      // allowed by the spec
+    }
   }
 
   public void testContainsEntryWithIncomparableValue() {
-    assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(samples.e0.getKey(), IncomparableType.INSTANCE)));
+    try {
+      assertFalse(getMap()
+          .entrySet().contains(Helpers.mapEntry(k0(), IncomparableType.INSTANCE)));
+    } catch (ClassCastException acceptable) {
+      // allowed by the spec
+    }
   }
   
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testContainsEntryWithNullKeyAbsent() {
     assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(null, samples.e0.getValue())));
+        .entrySet().contains(Helpers.mapEntry(null, v0())));
   }
   
   @CollectionSize.Require(absent = ZERO)
@@ -88,7 +96,7 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryWithNullValueAbsent() {
     assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(samples.e0.getKey(), null)));
+        .entrySet().contains(Helpers.mapEntry(k0(), null)));
   }
   
   @CollectionSize.Require(absent = ZERO)

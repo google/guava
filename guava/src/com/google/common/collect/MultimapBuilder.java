@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Maps.newLinkedHashMapWithExpectedSize;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -40,6 +41,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import javax.annotation.CheckReturnValue;
 
 /**
  * A builder for a multimap implementation that allows customization of the backing map and value
@@ -68,6 +71,7 @@ import java.util.TreeSet;
  */
 @Beta
 @GwtCompatible
+@CheckReturnValue
 public abstract class MultimapBuilder<K0, V0> {
   /*
    * Leaving K and V as upper bounds rather than the actual key and value types allows type
@@ -96,7 +100,7 @@ public abstract class MultimapBuilder<K0, V0> {
     return new MultimapBuilderWithKeys<Object>() {
       @Override
       <K, V> Map<K, Collection<V>> createMap() {
-        return new HashMap<K, Collection<V>>(expectedKeys);
+        return Maps.newHashMapWithExpectedSize(expectedKeys);
       }
     };
   }
@@ -127,7 +131,7 @@ public abstract class MultimapBuilder<K0, V0> {
     return new MultimapBuilderWithKeys<Object>() {
       @Override
       <K, V> Map<K, Collection<V>> createMap() {
-        return new LinkedHashMap<K, Collection<V>>(expectedKeys);
+        return newLinkedHashMapWithExpectedSize(expectedKeys);
       }
     };
   }
@@ -225,7 +229,7 @@ public abstract class MultimapBuilder<K0, V0> {
 
     @Override
     public Set<V> get() {
-      return new HashSet<V>(expectedValuesPerKey);
+      return Sets.newHashSetWithExpectedSize(expectedValuesPerKey);
     }
   }
 
@@ -238,7 +242,7 @@ public abstract class MultimapBuilder<K0, V0> {
 
     @Override
     public Set<V> get() {
-      return new LinkedHashSet<V>(expectedValuesPerKey);
+      return Sets.newLinkedHashSetWithExpectedSize(expectedValuesPerKey);
     }
   }
 

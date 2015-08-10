@@ -19,25 +19,13 @@ package com.google.common.eventbus;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Throwables;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.SetMultimap;
-import com.google.common.reflect.TypeToken;
-import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.common.base.MoreObjects;
+import com.google.common.util.concurrent.MoreExecutors;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Map.Entry;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.lang.reflect.Method;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -104,7 +92,7 @@ import java.util.logging.Logger;
  * <p>This class is safe for concurrent use.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/EventBusExplained">
+ * "https://github.com/google/guava/wiki/EventBusExplained">
  * {@code EventBus}</a>.
  *
  * @author Cliff Biffle
@@ -113,56 +101,14 @@ import java.util.logging.Logger;
 @Beta
 public class EventBus {
 
-  /**
-   * A thread-safe cache for flattenHierarchy(). The Class class is immutable. This cache is shared
-   * across all EventBus instances, which greatly improves performance if multiple such instances
-   * are created and objects of the same class are posted on all of them.
-   */
-  private static final LoadingCache<Class<?>, Set<Class<?>>> flattenHierarchyCache =
-      CacheBuilder.newBuilder()
-          .weakKeys()
-          .build(new CacheLoader<Class<?>, Set<Class<?>>>() {
-            @SuppressWarnings({"unchecked", "rawtypes"}) // safe cast
-            @Override
-            public Set<Class<?>> load(Class<?> concreteClass) {
-              return (Set) TypeToken.of(concreteClass).getTypes().rawTypes();
-            }
-          });
+  private static final Logger logger = Logger.getLogger(EventBus.class.getName());
 
-  /**
-   * All registered event subscribers, indexed by event type.
-   *
-   * <p>This SetMultimap is NOT safe for concurrent use; all access should be
-   * made after acquiring a read or write lock via {@link #subscribersByTypeLock}.
-   */
-  private final SetMultimap<Class<?>, EventSubscriber> subscribersByType =
-      HashMultimap.create();
-  private final ReadWriteLock subscribersByTypeLock = new ReentrantReadWriteLock();
+  private final String identifier;
+  private final Executor executor;
+  private final SubscriberExceptionHandler exceptionHandler;
 
-  /**
-   * Strategy for finding subscriber methods in registered objects.  Currently,
-   * only the {@link AnnotatedSubscriberFinder} is supported, but this is
-   * encapsulated for future expansion.
-   */
-  private final SubscriberFindingStrategy finder = new AnnotatedSubscriberFinder();
-
-  /** queues of events for the current thread to dispatch */
-  private final ThreadLocal<Queue<EventWithSubscriber>> eventsToDispatch =
-      new ThreadLocal<Queue<EventWithSubscriber>>() {
-    @Override protected Queue<EventWithSubscriber> initialValue() {
-      return new LinkedList<EventWithSubscriber>();
-    }
-  };
-
-  /** true if the current thread is currently dispatching an event */
-  private final ThreadLocal<Boolean> isDispatching =
-      new ThreadLocal<Boolean>() {
-    @Override protected Boolean initialValue() {
-      return false;
-    }
-  };
-
-  private SubscriberExceptionHandler subscriberExceptionHandler;
+  private final SubscriberRegistry subscribers = new SubscriberRegistry(this);
+  private final Dispatcher dispatcher;
 
   /**
    * Creates a new EventBus named "default".
@@ -178,36 +124,68 @@ public class EventBus {
    *                    be a valid Java identifier.
    */
   public EventBus(String identifier) {
-    this(new LoggingSubscriberExceptionHandler(identifier));
+    this(identifier, MoreExecutors.directExecutor(),
+        Dispatcher.perThreadDispatchQueue(), LoggingHandler.INSTANCE);
   }
 
   /**
    * Creates a new EventBus with the given {@link SubscriberExceptionHandler}.
    * 
-   * @param subscriberExceptionHandler Handler for subscriber exceptions.
+   * @param exceptionHandler Handler for subscriber exceptions.
    * @since 16.0
    */
-  public EventBus(SubscriberExceptionHandler subscriberExceptionHandler) {
-    this.subscriberExceptionHandler = checkNotNull(subscriberExceptionHandler);
+  public EventBus(SubscriberExceptionHandler exceptionHandler) {
+    this("default",
+        MoreExecutors.directExecutor(), Dispatcher.perThreadDispatchQueue(), exceptionHandler);
+  }
+
+  EventBus(String identifier, Executor executor, Dispatcher dispatcher,
+      SubscriberExceptionHandler exceptionHandler) {
+    this.identifier = checkNotNull(identifier);
+    this.executor = checkNotNull(executor);
+    this.dispatcher = checkNotNull(dispatcher);
+    this.exceptionHandler = checkNotNull(exceptionHandler);
+  }
+
+  /**
+   * Returns the identifier for this event bus.
+   *
+   * @since 19.0
+   */
+  public final String identifier() {
+    return identifier;
+  }
+
+  /**
+   * Returns the default executor this event bus uses for dispatching events to subscribers.
+   */
+  final Executor executor() {
+    return executor;
+  }
+
+  /**
+   * Handles the given exception thrown by a subscriber with the given context.
+   */
+  void handleSubscriberException(Throwable e, SubscriberExceptionContext context) {
+    checkNotNull(e);
+    checkNotNull(context);
+    try {
+      exceptionHandler.handleException(e, context);
+    } catch (Throwable e2) {
+      // if the handler threw an exception... well, just log it
+      logger.log(Level.SEVERE,
+          String.format(Locale.ROOT, "Exception %s thrown while handling exception: %s", e2, e),
+          e2);
+    }
   }
 
   /**
    * Registers all subscriber methods on {@code object} to receive events.
-   * Subscriber methods are selected and classified using this EventBus's
-   * {@link SubscriberFindingStrategy}; the default strategy is the
-   * {@link AnnotatedSubscriberFinder}.
    *
    * @param object  object whose subscriber methods should be registered.
    */
   public void register(Object object) {
-    Multimap<Class<?>, EventSubscriber> methodsInListener =
-        finder.findAllSubscribers(object);
-    subscribersByTypeLock.writeLock().lock();
-    try {
-      subscribersByType.putAll(methodsInListener);
-    } finally {
-      subscribersByTypeLock.writeLock().unlock();
-    }
+    subscribers.register(object);
   }
 
   /**
@@ -217,24 +195,7 @@ public class EventBus {
    * @throws IllegalArgumentException if the object was not previously registered.
    */
   public void unregister(Object object) {
-    Multimap<Class<?>, EventSubscriber> methodsInListener = finder.findAllSubscribers(object);
-    for (Entry<Class<?>, Collection<EventSubscriber>> entry :
-          methodsInListener.asMap().entrySet()) {
-      Class<?> eventType = entry.getKey();
-      Collection<EventSubscriber> eventMethodsInListener = entry.getValue();
-
-      subscribersByTypeLock.writeLock().lock();
-      try {
-        Set<EventSubscriber> currentSubscribers = subscribersByType.get(eventType);
-        if (!currentSubscribers.containsAll(eventMethodsInListener)) {
-          throw new IllegalArgumentException(
-              "missing event subscriber for an annotated method. Is " + object + " registered?");
-        }
-        currentSubscribers.removeAll(eventMethodsInListener);
-      } finally {
-        subscribersByTypeLock.writeLock().unlock();
-      }
-    }
+    subscribers.unregister(object);
   }
 
   /**
@@ -249,151 +210,46 @@ public class EventBus {
    * @param event  event to post.
    */
   public void post(Object event) {
-    Set<Class<?>> dispatchTypes = flattenHierarchy(event.getClass());
-
-    boolean dispatched = false;
-    for (Class<?> eventType : dispatchTypes) {
-      subscribersByTypeLock.readLock().lock();
-      try {
-        Set<EventSubscriber> wrappers = subscribersByType.get(eventType);
-
-        if (!wrappers.isEmpty()) {
-          dispatched = true;
-          for (EventSubscriber wrapper : wrappers) {
-            enqueueEvent(event, wrapper);
-          }
-        }
-      } finally {
-        subscribersByTypeLock.readLock().unlock();
-      }
-    }
-
-    if (!dispatched && !(event instanceof DeadEvent)) {
+    Iterator<Subscriber> eventSubscribers = subscribers.getSubscribers(event);
+    if (eventSubscribers.hasNext()) {
+      dispatcher.dispatch(event, eventSubscribers);
+    } else if (!(event instanceof DeadEvent)) {
+      // the event had no subscribers and was not itself a DeadEvent
       post(new DeadEvent(this, event));
     }
-
-    dispatchQueuedEvents();
   }
 
-  /**
-   * Queue the {@code event} for dispatch during
-   * {@link #dispatchQueuedEvents()}. Events are queued in-order of occurrence
-   * so they can be dispatched in the same order.
-   */
-  void enqueueEvent(Object event, EventSubscriber subscriber) {
-    eventsToDispatch.get().offer(new EventWithSubscriber(event, subscriber));
-  }
-
-  /**
-   * Drain the queue of events to be dispatched. As the queue is being drained,
-   * new events may be posted to the end of the queue.
-   */
-  void dispatchQueuedEvents() {
-    // don't dispatch if we're already dispatching, that would allow reentrancy
-    // and out-of-order events. Instead, leave the events to be dispatched
-    // after the in-progress dispatch is complete.
-    if (isDispatching.get()) {
-      return;
-    }
-
-    isDispatching.set(true);
-    try {
-      Queue<EventWithSubscriber> events = eventsToDispatch.get();
-      EventWithSubscriber eventWithSubscriber;
-      while ((eventWithSubscriber = events.poll()) != null) {
-        dispatch(eventWithSubscriber.event, eventWithSubscriber.subscriber);
-      }
-    } finally {
-      isDispatching.remove();
-      eventsToDispatch.remove();
-    }
-  }
-
-  /**
-   * Dispatches {@code event} to the subscriber in {@code wrapper}.  This method
-   * is an appropriate override point for subclasses that wish to make
-   * event delivery asynchronous.
-   *
-   * @param event  event to dispatch.
-   * @param wrapper  wrapper that will call the subscriber.
-   */
-  void dispatch(Object event, EventSubscriber wrapper) {
-    try {
-      wrapper.handleEvent(event);
-    } catch (InvocationTargetException e) {
-      try {
-        subscriberExceptionHandler.handleException(
-            e.getCause(),
-            new SubscriberExceptionContext(
-                this,
-                event,
-                wrapper.getSubscriber(),
-                wrapper.getMethod()));
-      } catch (Throwable t) {
-        // If the exception handler throws, log it. There isn't much else to do!
-        Logger.getLogger(EventBus.class.getName()).log(Level.SEVERE,
-             String.format(
-            "Exception %s thrown while handling exception: %s", t,
-            e.getCause()),
-            t);
-      }
-    }
-  }
-
-  /**
-   * Flattens a class's type hierarchy into a set of Class objects.  The set
-   * will include all superclasses (transitively), and all interfaces
-   * implemented by these superclasses.
-   *
-   * @param concreteClass  class whose type hierarchy will be retrieved.
-   * @return {@code clazz}'s complete type hierarchy, flattened and uniqued.
-   */
-  @VisibleForTesting
-  Set<Class<?>> flattenHierarchy(Class<?> concreteClass) {
-    try {
-      return flattenHierarchyCache.getUnchecked(concreteClass);
-    } catch (UncheckedExecutionException e) {
-      throw Throwables.propagate(e.getCause());
-    }
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .addValue(identifier)
+        .toString();
   }
 
   /**
    * Simple logging handler for subscriber exceptions.
    */
-  private static final class LoggingSubscriberExceptionHandler
-      implements SubscriberExceptionHandler {
-
-    /**
-     * Logger for event dispatch failures.  Named by the fully-qualified name of
-     * this class, followed by the identifier provided at construction.
-     */
-    private final Logger logger;
-
-    /**
-     * @param identifier a brief name for this bus, for logging purposes. Should
-     *        be a valid Java identifier.
-     */
-    public LoggingSubscriberExceptionHandler(String identifier) {
-      logger = Logger.getLogger(
-          EventBus.class.getName() + "." + checkNotNull(identifier));
-    }
+  static final class LoggingHandler implements SubscriberExceptionHandler {
+    static final LoggingHandler INSTANCE = new LoggingHandler();
 
     @Override
-    public void handleException(Throwable exception,
-        SubscriberExceptionContext context) {
-      logger.log(Level.SEVERE, "Could not dispatch event: " 
-          + context.getSubscriber() + " to " + context.getSubscriberMethod(),
-          exception.getCause());
+    public void handleException(Throwable exception, SubscriberExceptionContext context) {
+      Logger logger = logger(context);
+      if (logger.isLoggable(Level.SEVERE)) {
+        logger.log(Level.SEVERE, message(context), exception);
+      }
     }
-  }
 
-  /** simple struct representing an event and it's subscriber */
-  static class EventWithSubscriber {
-    final Object event;
-    final EventSubscriber subscriber;
-    public EventWithSubscriber(Object event, EventSubscriber subscriber) {
-      this.event = checkNotNull(event);
-      this.subscriber = checkNotNull(subscriber);
+    private static Logger logger(SubscriberExceptionContext context) {
+      return Logger.getLogger(EventBus.class.getName() + "." + context.getEventBus().identifier());
+    }
+
+    private static String message(SubscriberExceptionContext context) {
+      Method method = context.getSubscriberMethod();
+      return "Exception thrown by subscriber method "
+          + method.getName() + '(' + method.getParameterTypes()[0].getName() + ')'
+          + " on subscriber " + context.getSubscriber()
+          + " when dispatching event: " + context.getEvent();
     }
   }
 }

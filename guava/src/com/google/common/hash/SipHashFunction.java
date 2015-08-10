@@ -50,27 +50,30 @@ final class SipHashFunction extends AbstractStreamingHashFunction implements Ser
    * @param k1 the second half of the key
    */
   SipHashFunction(int c, int d, long k0, long k1) {
-    checkArgument(c > 0,
-        "The number of SipRound iterations (c=%s) during Compression must be positive.", c);
-    checkArgument(d > 0,
-        "The number of SipRound iterations (d=%s) during Finalization must be positive.", d);
+    checkArgument(
+        c > 0, "The number of SipRound iterations (c=%s) during Compression must be positive.", c);
+    checkArgument(
+        d > 0, "The number of SipRound iterations (d=%s) during Finalization must be positive.", d);
     this.c = c;
     this.d = d;
     this.k0 = k0;
     this.k1 = k1;
   }
 
-  @Override public int bits() {
+  @Override
+  public int bits() {
     return 64;
   }
 
-  @Override public Hasher newHasher() {
+  @Override
+  public Hasher newHasher() {
     return new SipHasher(c, d, k0, k1);
   }
 
-  // TODO(user): Implement and benchmark the hashFoo() shortcuts.
+  // TODO(kak): Implement and benchmark the hashFoo() shortcuts.
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "Hashing.sipHash" + c + "" + d + "(" + k0 + ", " + k1 + ")";
   }
 
@@ -125,19 +128,22 @@ final class SipHashFunction extends AbstractStreamingHashFunction implements Ser
       this.v3 ^= k1;
     }
 
-    @Override protected void process(ByteBuffer buffer) {
+    @Override
+    protected void process(ByteBuffer buffer) {
       b += CHUNK_SIZE;
       processM(buffer.getLong());
     }
 
-    @Override protected void processRemaining(ByteBuffer buffer) {
+    @Override
+    protected void processRemaining(ByteBuffer buffer) {
       b += buffer.remaining();
       for (int i = 0; buffer.hasRemaining(); i += 8) {
         finalM ^= (buffer.get() & 0xFFL) << i;
       }
     }
 
-    @Override public HashCode makeHash() {
+    @Override
+    public HashCode makeHash() {
       // End with a byte encoding the positive integer b mod 256.
       finalM ^= b << 56;
       processM(finalM);

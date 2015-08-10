@@ -76,6 +76,49 @@ public class Helpers {
     return Collections.singletonMap(key, value).entrySet().iterator().next();
   }
 
+  private static boolean isEmpty(Iterable<?> iterable) {
+    return iterable instanceof Collection
+        ? ((Collection<?>) iterable).isEmpty()
+        : iterable.iterator().hasNext();
+  }
+
+  public static void assertEmpty(Iterable<?> iterable) {
+    if (!isEmpty(iterable)) {
+      Assert.fail("Not true that " + iterable + " is empty");
+    }
+  }
+
+  public static void assertEmpty(Map<?, ?> map) {
+    if (!map.isEmpty()) {
+      Assert.fail("Not true that " + map + " is empty");
+    }
+  }
+
+  public static void assertEqualInOrder(
+      Iterable<?> expected, Iterable<?> actual) {
+    Iterator<?> expectedIter = expected.iterator();
+    Iterator<?> actualIter = actual.iterator();
+
+    while (expectedIter.hasNext() && actualIter.hasNext()) {
+      if (!equal(expectedIter.next(), actualIter.next())) {
+        Assert.fail(
+            "contents were not equal and in the same order: "
+                + "expected = " + expected + ", actual = " + actual);
+      }
+    }
+
+    if (expectedIter.hasNext() || actualIter.hasNext()) {
+      // actual either had too few or too many elements
+      Assert.fail(
+          "contents were not equal and in the same order: "
+              + "expected = " + expected + ", actual = " + actual);
+    }
+  }
+
+  public static void assertContentsInOrder(Iterable<?> actual, Object... expected) {
+    assertEqualInOrder(Arrays.asList(expected), actual);
+  }
+
   public static void assertEqualIgnoringOrder(
       Iterable<?> expected, Iterable<?> actual) {
     List<?> exp = copyToList(expected);
@@ -98,6 +141,39 @@ public class Helpers {
   public static void assertContentsAnyOrder(
       Iterable<?> actual, Object... expected) {
     assertEqualIgnoringOrder(Arrays.asList(expected), actual);
+  }
+
+  public static void assertContains(Iterable<?> actual, Object expected) {
+    boolean contained = false;
+    if (actual instanceof Collection) {
+      contained = ((Collection<?>) actual).contains(expected);
+    } else {
+      for (Object o : actual) {
+        if (equal(o, expected)) {
+          contained = true;
+          break;
+        }
+      }
+    }
+
+    if (!contained) {
+      Assert.fail("Not true that " + actual + " contains " + expected);
+    }
+  }
+
+  public static void assertContainsAllOf(
+      Iterable<?> actual, Object... expected) {
+    List<Object> expectedList = new ArrayList<Object>();
+    expectedList.addAll(Arrays.asList(expected));
+
+    for (Object o : actual) {
+      expectedList.remove(o);
+    }
+
+    if (!expectedList.isEmpty()) {
+      Assert.fail(
+          "Not true that " + actual + " contains all of " + Arrays.asList(expected));
+    }
   }
 
   public static <E> boolean addAll(
@@ -180,11 +256,31 @@ public class Helpers {
     };
   }
 
+  /**
+   * Asserts that all pairs of {@code T} values within {@code valuesInExpectedOrder} are ordered
+   * consistently between their order within {@code valuesInExpectedOrder} and the order implied by
+   * the given {@code comparator}.
+   *
+   * @see #testComparator(Comparator, List)
+   */
   public static <T> void testComparator(
       Comparator<? super T> comparator, T... valuesInExpectedOrder) {
     testComparator(comparator, Arrays.asList(valuesInExpectedOrder));
   }
 
+  /**
+   * Asserts that all pairs of {@code T} values within {@code valuesInExpectedOrder} are ordered
+   * consistently between their order within {@code valuesInExpectedOrder} and the order implied by
+   * the given {@code comparator}.
+   *
+   * <p>In detail, this method asserts
+   * <ul>
+   * <li><i>reflexivity</i>: {@code comparator.compare(t, t) = 0} for all {@code t} in
+   * {@code valuesInExpectedOrder}; and
+   * <li><i>consistency</i>: {@code comparator.compare(ti, tj) < 0} and
+   * {@code comparator.compare(tj, ti) > 0} for {@code i < j}, where
+   * {@code ti = valuesInExpectedOrder.get(i)} and {@code tj = valuesInExpectedOrder.get(j)}.
+   */
   public static <T> void testComparator(
       Comparator<? super T> comparator, List<T> valuesInExpectedOrder) {
     // This does an O(n^2) test of all pairs of values in both orders

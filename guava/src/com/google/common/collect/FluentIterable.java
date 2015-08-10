@@ -51,13 +51,13 @@ import javax.annotation.Nullable;
  * {@link #anyMatch})
  * </ul>
  *
- * <p>Here is an example that merges the lists returned by two separate database calls, transforms
- * it by invoking {@code toString()} on each element, and returns the first 10 elements as an
- * {@code ImmutableList}: <pre>   {@code
+ * <p>Here is an example that accepts a list from a database call, filters it based on a predicate,
+ * transforms it by invoking {@code toString()} on each element, and returns the first 10 elements
+ * as an {@code ImmutableList}: <pre>   {@code
  *
  *   FluentIterable
  *       .from(database.getClientList())
- *       .filter(activeInLastMonth())
+ *       .filter(activeInLastMonth)
  *       .transform(Functions.toStringFunction())
  *       .limit(10)
  *       .toList();}</pre>
@@ -88,8 +88,10 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns a fluent iterable that wraps {@code iterable}, or {@code iterable} itself if it
    * is already a {@code FluentIterable}.
    */
+  @CheckReturnValue
   public static <E> FluentIterable<E> from(final Iterable<E> iterable) {
-    return (iterable instanceof FluentIterable) ? (FluentIterable<E>) iterable
+    return (iterable instanceof FluentIterable)
+        ? (FluentIterable<E>) iterable
         : new FluentIterable<E>(iterable) {
           @Override
           public Iterator<E> iterator() {
@@ -107,6 +109,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     {@code FluentIterable}
    */
   @Deprecated
+  @CheckReturnValue
   public static <E> FluentIterable<E> from(FluentIterable<E> iterable) {
     return checkNotNull(iterable);
   }
@@ -117,6 +120,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 18.0
    */
   @Beta
+  @CheckReturnValue
   public static <E> FluentIterable<E> of(E[] elements) {
     return from(Lists.newArrayList(elements));
   }
@@ -126,6 +130,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * {@code [e1, e2, ..., en]}.
    */
   @Override
+  @CheckReturnValue
   public String toString() {
     return Iterables.toString(iterable);
   }
@@ -133,6 +138,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Returns the number of elements in this fluent iterable.
    */
+  @CheckReturnValue
   public final int size() {
     return Iterables.size(iterable);
   }
@@ -141,6 +147,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns {@code true} if this fluent iterable contains any object for which
    * {@code equals(element)} is true.
    */
+  @CheckReturnValue
   public final boolean contains(@Nullable Object element) {
     return Iterables.contains(iterable, element);
   }
@@ -213,6 +220,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Returns {@code true} if any element in this fluent iterable satisfies the predicate.
    */
+  @CheckReturnValue
   public final boolean anyMatch(Predicate<? super E> predicate) {
     return Iterables.any(iterable, predicate);
   }
@@ -221,6 +229,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns {@code true} if every element in this fluent iterable satisfies the predicate.
    * If this fluent iterable is empty, {@code true} is returned.
    */
+  @CheckReturnValue
   public final boolean allMatch(Predicate<? super E> predicate) {
     return Iterables.all(iterable, predicate);
   }
@@ -232,6 +241,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>Warning:</b> avoid using a {@code predicate} that matches {@code null}. If {@code null}
    * is matched in this fluent iterable, a {@link NullPointerException} will be thrown.
    */
+  @CheckReturnValue
   public final Optional<E> firstMatch(Predicate<? super E> predicate) {
     return Iterables.tryFind(iterable, predicate);
   }
@@ -244,6 +254,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * iterator does. After a successful {@code remove()} call, this fluent iterable no longer
    * contains the corresponding element.
    */
+  @CheckReturnValue
   public final <T> FluentIterable<T> transform(Function<? super E, T> function) {
     return from(Iterables.transform(iterable, function));
   }
@@ -259,6 +270,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 13.0 (required {@code Function<E, Iterable<T>>} until 14.0)
    */
+  @CheckReturnValue
   public <T> FluentIterable<T> transformAndConcat(
       Function<? super E, ? extends Iterable<? extends T>> function) {
     return from(Iterables.concat(transform(function)));
@@ -271,6 +283,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if the first element is null; if this is a possibility, use
    *     {@code iterator().next()} or {@link Iterables#getFirst} instead.
    */
+  @CheckReturnValue
   public final Optional<E> first() {
     Iterator<E> iterator = iterable.iterator();
     return iterator.hasNext()
@@ -285,6 +298,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if the last element is null; if this is a possibility, use
    *     {@link Iterables#getLast} instead.
    */
+  @CheckReturnValue
   public final Optional<E> last() {
     // Iterables#getLast was inlined here so we don't have to throw/catch a NSEE
 
@@ -359,6 +373,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Determines whether this fluent iterable is empty.
    */
+  @CheckReturnValue
   public final boolean isEmpty() {
     return !iterable.iterator().hasNext();
   }
@@ -369,6 +384,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 14.0 (since 12.0 as {@code toImmutableList()}).
    */
+  @CheckReturnValue
   public final ImmutableList<E> toList() {
     return ImmutableList.copyOf(iterable);
   }
@@ -382,6 +398,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if any element is null
    * @since 14.0 (since 13.0 as {@code toSortedImmutableList()}).
    */
+  @CheckReturnValue
   public final ImmutableList<E> toSortedList(Comparator<? super E> comparator) {
     return Ordering.from(comparator).immutableSortedCopy(iterable);
   }
@@ -392,6 +409,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 14.0 (since 12.0 as {@code toImmutableSet()}).
    */
+  @CheckReturnValue
   public final ImmutableSet<E> toSet() {
     return ImmutableSet.copyOf(iterable);
   }
@@ -406,20 +424,35 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if any element is null
    * @since 14.0 (since 12.0 as {@code toImmutableSortedSet()}).
    */
+  @CheckReturnValue
   public final ImmutableSortedSet<E> toSortedSet(Comparator<? super E> comparator) {
     return ImmutableSortedSet.copyOf(comparator, iterable);
   }
 
   /**
-   * Returns an immutable map for which the elements of this {@code FluentIterable} are the keys in
-   * the same order, mapped to values by the given function. If this iterable contains duplicate
-   * elements, the returned map will contain each distinct element once in the order it first
-   * appears.
+   * Returns an {@code ImmutableMultiset} containing all of the elements from this fluent iterable.
+   *
+   * @since 19.0
+   */
+  @CheckReturnValue
+  public final ImmutableMultiset<E> toMultiset() {
+    return ImmutableMultiset.copyOf(iterable);
+  }
+
+  /**
+   * Returns an immutable map whose keys are the distinct elements of this {@code FluentIterable}
+   * and whose value for each key was computed by {@code valueFunction}. The map's iteration order
+   * is the order of the first appearance of each key in this iterable.
+   *
+   * <p>When there are multiple instances of a key in this iterable, it is unspecified whether
+   * {@code valueFunction} will be applied to more than one instance of that key and, if it is,
+   * which result will be mapped to that key in the returned map.
    *
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
    *     valueFunction} produces {@code null} for any key
    * @since 14.0
    */
+  @CheckReturnValue
   public final <V> ImmutableMap<E, V> toMap(Function<? super E, V> valueFunction) {
     return Maps.toMap(iterable, valueFunction);
   }
@@ -442,22 +475,38 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     </ul>
    * @since 14.0
    */
+  @CheckReturnValue
   public final <K> ImmutableListMultimap<K, E> index(Function<? super E, K> keyFunction) {
     return Multimaps.index(iterable, keyFunction);
   }
 
   /**
-   * Returns an immutable map for which the {@link java.util.Map#values} are the elements of this
-   * {@code FluentIterable} in the given order, and each key is the product of invoking a supplied
-   * function on its corresponding value.
+   * Returns a map with the contents of this {@code FluentIterable} as its {@code values}, indexed
+   * by keys derived from those values. In other words, each input value produces an entry in the
+   * map whose key is the result of applying {@code keyFunction} to that value. These entries appear
+   * in the same order as they appeared in this fluent iterable. Example usage:
+   * <pre>   {@code
+   *
+   *   Color red = new Color("red", 255, 0, 0);
+   *   ...
+   *   FluentIterable<Color> allColors = FluentIterable.from(ImmutableSet.of(red, green, blue));
+   *
+   *   Map<String, Color> colorForName = allColors.uniqueIndex(toStringFunction());
+   *   assertThat(colorForName).containsEntry("red", red);}</pre>
+   *
+   * <p>If your index may associate multiple values with each key, use {@link #index(Function)
+   * index}.
    *
    * @param keyFunction the function used to produce the key for each value
-   * @throws IllegalArgumentException if {@code keyFunction} produces the same key for more than one
-   *     value in this fluent iterable
-   * @throws NullPointerException if any element of this fluent iterable is null, or if
-   *     {@code keyFunction} produces {@code null} for any value
+   * @return a map mapping the result of evaluating the function {@code
+   *     keyFunction} on each value in this fluent iterable to that value
+   * @throws IllegalArgumentException if {@code keyFunction} produces the same
+   *     key for more than one value in this fluent iterable
+   * @throws NullPointerException if any elements of this fluent iterable is null, or
+   *     if {@code keyFunction} produces {@code null} for any value
    * @since 14.0
    */
+  @CheckReturnValue
   public final <K> ImmutableMap<K, E> uniqueIndex(Function<? super E, K> keyFunction) {
     return Maps.uniqueIndex(iterable, keyFunction);
   }
@@ -470,6 +519,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     been copied
    */
   @GwtIncompatible("Array.newArray(Class, int)")
+  @CheckReturnValue
   public final E[] toArray(Class<E> type) {
     return Iterables.toArray(iterable, type);
   }
@@ -501,6 +551,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 18.0
    */
   @Beta
+  @CheckReturnValue
   public final String join(Joiner joiner) {
     return joiner.join(this);
   }
@@ -513,6 +564,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to
    *     the size of this fluent iterable
    */
+  @CheckReturnValue
   public final E get(int position) {
     return Iterables.get(iterable, position);
   }
@@ -520,8 +572,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Function that transforms {@code Iterable<E>} into a fluent iterable.
    */
-  private static class FromIterableFunction<E>
-      implements Function<Iterable<E>, FluentIterable<E>> {
+  private static class FromIterableFunction<E> implements Function<Iterable<E>, FluentIterable<E>> {
     @Override
     public FluentIterable<E> apply(Iterable<E> fromObject) {
       return FluentIterable.from(fromObject);

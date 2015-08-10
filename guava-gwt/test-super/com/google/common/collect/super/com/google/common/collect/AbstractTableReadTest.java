@@ -181,7 +181,7 @@ public abstract class AbstractTableReadTest extends TestCase {
   public void testColumnSetPartialOverlap() {
     table = create(
         "foo", 1, 'a', "bar", 1, 'b', "foo", 2, 'c', "bar", 3, 'd');
-    assertThat(table.columnKeySet()).has().exactly(1, 2, 3);
+    assertThat(table.columnKeySet()).containsExactly(1, 2, 3);
   }
 }
 

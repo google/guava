@@ -19,8 +19,10 @@ package com.google.common.testing;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.Beta;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -99,6 +101,7 @@ import java.util.concurrent.TimeoutException;
  * @since 11.0
  */
 @Beta
+@J2ObjCIncompatible // gc
 public final class GcFinalization {
   private GcFinalization() {}
 
@@ -152,8 +155,7 @@ public final class GcFinalization {
         /* OK */
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new RuntimeException(
-        String.format("Future not done within %d second timeout", timeoutSeconds));
+    throw formatRuntimeException("Future not done within %d second timeout", timeoutSeconds);
   }
 
   /**
@@ -182,8 +184,8 @@ public final class GcFinalization {
         throw new RuntimeException("Unexpected interrupt while waiting for latch", ie);
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new RuntimeException(
-        String.format("Latch failed to count down within %d second timeout", timeoutSeconds));
+    throw formatRuntimeException(
+        "Latch failed to count down within %d second timeout", timeoutSeconds);
   }
 
   /**
@@ -233,8 +235,8 @@ public final class GcFinalization {
         return;
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new RuntimeException(
-        String.format("Predicate did not become true within %d second timeout", timeoutSeconds));
+    throw formatRuntimeException(
+        "Predicate did not become true within %d second timeout", timeoutSeconds);
   }
 
   /**
@@ -293,5 +295,9 @@ public final class GcFinalization {
 
     // Hope to catch some stragglers queued up behind our finalizable object
     System.runFinalization();
+  }
+
+  private static RuntimeException formatRuntimeException(String format, Object... args) {
+    return new RuntimeException(String.format(Locale.ROOT, format, args));
   }
 }

@@ -27,16 +27,16 @@ import java.util.Iterator;
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * @author Kevin Bourrillion
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingIterator<T>
-    extends ForwardingObject implements Iterator<T> {
+public abstract class ForwardingIterator<T> extends ForwardingObject implements Iterator<T> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingIterator() {}
 
-  @Override protected abstract Iterator<T> delegate();
+  @Override
+  protected abstract Iterator<T> delegate();
 
   @Override
   public boolean hasNext() {

@@ -58,6 +58,8 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
 
   @Override protected final void tearDown() {
     tearDownStack.runTearDown();
+    assertNull("exceptions should not be propagated to uncaught exception handlers",
+        thrownByExecutionThread);
   }
 
   public void testServiceStartStop() throws Exception {
@@ -74,7 +76,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     assertTrue(service.shutDownCalled);
     assertEquals(Service.State.TERMINATED, service.state());
     executionThread.join();
-    assertNull(thrownByExecutionThread);
   }
 
   public void testServiceStopIdempotence() throws Exception {
@@ -91,7 +92,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     assertEquals(Service.State.TERMINATED, service.state());
 
     executionThread.join();
-    assertNull(thrownByExecutionThread);
   }
 
   public void testServiceExitingOnItsOwn() throws Exception {
@@ -107,7 +107,6 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
 
     assertTrue(service.shutDownCalled);
     assertEquals(Service.State.TERMINATED, service.state());
-    assertNull(thrownByExecutionThread);
 
     service.stopAsync().awaitTerminated(); // no-op
     assertEquals(Service.State.TERMINATED, service.state());
@@ -175,7 +174,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
 
     assertTrue(service.startUpCalled);
     assertEquals(Service.State.FAILED, service.state());
-    assertTrue(thrownByExecutionThread.getMessage().equals("kaboom!"));
+    assertEquals("kaboom!", service.failureCause().getMessage());
   }
 
   private class ThrowOnStartUpService extends AbstractExecutionThreadService {
@@ -204,11 +203,11 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
       fail();
     } catch (IllegalStateException expected) {
       executionThread.join();
-      assertEquals(thrownByExecutionThread, expected.getCause());
+      assertEquals(service.failureCause(), expected.getCause());
+      assertEquals("kaboom!", expected.getCause().getMessage());
     }
     assertTrue(service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
-    assertEquals("kaboom!", thrownByExecutionThread.getMessage());
   }
 
   public void testServiceThrowOnRunAndThenAgainOnShutDown() throws Exception {
@@ -221,12 +220,12 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
       fail();
     } catch (IllegalStateException expected) {
       executionThread.join();
-      assertEquals(thrownByExecutionThread, expected.getCause());
+      assertEquals(service.failureCause(), expected.getCause());
+      assertEquals("kaboom!", expected.getCause().getMessage());
     }
 
     assertTrue(service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
-    assertEquals("kaboom!", thrownByExecutionThread.getMessage());
   }
 
   private class ThrowOnRunService extends AbstractExecutionThreadService {
@@ -260,7 +259,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     executionThread.join();
 
     assertEquals(Service.State.FAILED, service.state());
-    assertEquals("kaboom!", thrownByExecutionThread.getMessage());
+    assertEquals("kaboom!", service.failureCause().getMessage());
   }
 
   private class ThrowOnShutDown extends AbstractExecutionThreadService {

@@ -43,7 +43,7 @@ public class SetEqualsTester<E> extends AbstractSetTester<E> {
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   public void testEquals_otherSetWithDifferentElements() {
     Collection<E> elements = getSampleElements(getNumElements() - 1);
-    elements.add(getSubjectGenerator().samples().e3);
+    elements.add(getSubjectGenerator().samples().e3());
 
     assertFalse(
         "A Set should not equal another Set containing different elements.",

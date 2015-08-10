@@ -237,7 +237,7 @@ public class Collections2Test extends TestCase {
         Collections2.orderedPermutations(list);
 
     assertEquals(1, permutationSet.size());
-    assertThat(permutationSet).has().item(list);
+    assertThat(permutationSet).contains(list);
 
     Iterator<List<Integer>> permutations = permutationSet.iterator();
 
