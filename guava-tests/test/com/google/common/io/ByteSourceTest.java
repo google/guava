@@ -48,6 +48,7 @@ import java.util.EnumSet;
  */
 public class ByteSourceTest extends IoTestCase {
 
+  @SuppressUnderAndroid // Android doesn't understand suites whose tests lack default constructors.
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(ByteSourceTester.tests("ByteSource.wrap[byte[]]",

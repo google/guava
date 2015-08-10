@@ -30,8 +30,10 @@ import java.util.List;
  * Test that EventBus finds the correct subscribers.
  *
  * This test must be outside the c.g.c.eventbus package to test correctly.
+ *
  * @author Louis Wasserman
  */
+@SuppressUnderAndroid // TODO(cpovirk): Android sees no tests, maybe because the classes are nested?
 public class AnnotatedSubscriberFinderTests {
 
   private static final Object EVENT = new Object();
@@ -62,8 +64,8 @@ public class AnnotatedSubscriberFinderTests {
   /*
    * We break the tests up based on whether they are annotated or abstract in the superclass.
    */
-  public static class BaseSubscriberFinderTest extends
-      AbstractEventBusTest<BaseSubscriberFinderTest.Subscriber> {
+  public static class BaseSubscriberFinderTest
+      extends AbstractEventBusTest<BaseSubscriberFinderTest.Subscriber> {
     static class Subscriber {
       final List<Object> nonSubscriberEvents = Lists.newArrayList();
       final List<Object> subscriberEvents = Lists.newArrayList();
@@ -92,8 +94,8 @@ public class AnnotatedSubscriberFinderTests {
     }
   }
 
-  public static class AnnotatedAndAbstractInSuperclassTest extends
-      AbstractEventBusTest<AnnotatedAndAbstractInSuperclassTest.SubClass> {
+  public static class AnnotatedAndAbstractInSuperclassTest
+      extends AbstractEventBusTest<AnnotatedAndAbstractInSuperclassTest.SubClass> {
     abstract static class SuperClass {
       @Subscribe
       public abstract void overriddenAndAnnotatedInSubclass(Object o);
@@ -132,8 +134,8 @@ public class AnnotatedSubscriberFinderTests {
     }
   }
 
-  public static class AnnotatedNotAbstractInSuperclassTest extends
-      AbstractEventBusTest<AnnotatedNotAbstractInSuperclassTest.SubClass> {
+  public static class AnnotatedNotAbstractInSuperclassTest
+      extends AbstractEventBusTest<AnnotatedNotAbstractInSuperclassTest.SubClass> {
     static class SuperClass {
       final List<Object> notOverriddenInSubclassEvents = Lists.newArrayList();
       final List<Object> overriddenNotAnnotatedInSubclassEvents = Lists.newArrayList();
@@ -228,8 +230,8 @@ public class AnnotatedSubscriberFinderTests {
     }
   }
 
-  public static class AbstractNotAnnotatedInSuperclassTest extends
-      AbstractEventBusTest<AbstractNotAnnotatedInSuperclassTest.SubClass> {
+  public static class AbstractNotAnnotatedInSuperclassTest
+      extends AbstractEventBusTest<AbstractNotAnnotatedInSuperclassTest.SubClass> {
     abstract static class SuperClass {
       public abstract void overriddenInSubclassNowhereAnnotated(Object o);
 
@@ -266,8 +268,8 @@ public class AnnotatedSubscriberFinderTests {
     }
   }
 
-  public static class NeitherAbstractNorAnnotatedInSuperclassTest extends
-      AbstractEventBusTest<NeitherAbstractNorAnnotatedInSuperclassTest.SubClass> {
+  public static class NeitherAbstractNorAnnotatedInSuperclassTest
+      extends AbstractEventBusTest<NeitherAbstractNorAnnotatedInSuperclassTest.SubClass> {
     static class SuperClass {
       final List<Object> neitherOverriddenNorAnnotatedEvents = Lists.newArrayList();
       final List<Object> overriddenInSubclassNowhereAnnotatedEvents = Lists.newArrayList();
@@ -317,8 +319,8 @@ public class AnnotatedSubscriberFinderTests {
     }
   }
 
-  public static class DeepInterfaceTest extends
-      AbstractEventBusTest<DeepInterfaceTest.SubscriberClass> {
+  public static class DeepInterfaceTest
+      extends AbstractEventBusTest<DeepInterfaceTest.SubscriberClass> {
     interface Interface1 {
       @Subscribe
       void annotatedIn1(Object o);
