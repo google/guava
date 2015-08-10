@@ -27,6 +27,7 @@ import java.util.Queue;
  * @author Jared Levy
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class AbstractQueueTester<E> extends AbstractCollectionTester<E> {
   protected final Queue<E> getQueue() {
     return (Queue<E>) collection;

@@ -36,6 +36,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
     extends AbstractContainerTester<M, Map.Entry<K, V>> {
 

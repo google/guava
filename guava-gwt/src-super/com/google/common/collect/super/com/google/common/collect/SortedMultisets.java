@@ -37,45 +37,50 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 final class SortedMultisets {
-  private SortedMultisets() {
-  }
+  private SortedMultisets() {}
 
   /**
    * A skeleton implementation for {@link SortedMultiset#elementSet}.
    */
-  static class ElementSet<E> extends Multisets.ElementSet<E> implements
-      SortedSet<E> {
+  static class ElementSet<E> extends Multisets.ElementSet<E> implements SortedSet<E> {
     @Weak private final SortedMultiset<E> multiset;
 
     ElementSet(SortedMultiset<E> multiset) {
       this.multiset = multiset;
     }
 
-    @Override final SortedMultiset<E> multiset() {
+    @Override
+    final SortedMultiset<E> multiset() {
       return multiset;
     }
 
-    @Override public Comparator<? super E> comparator() {
+    @Override
+    public Comparator<? super E> comparator() {
       return multiset().comparator();
     }
 
-    @Override public SortedSet<E> subSet(E fromElement, E toElement) {
+    @Override
+    public SortedSet<E> subSet(E fromElement, E toElement) {
       return multiset().subMultiset(fromElement, CLOSED, toElement, OPEN).elementSet();
     }
 
-    @Override public SortedSet<E> headSet(E toElement) {
+    @Override
+    public SortedSet<E> headSet(E toElement) {
       return multiset().headMultiset(toElement, OPEN).elementSet();
     }
 
-    @Override public SortedSet<E> tailSet(E fromElement) {
+    @Override
+    public SortedSet<E> tailSet(E fromElement) {
       return multiset().tailMultiset(fromElement, CLOSED).elementSet();
     }
 
-    @Override public E first() {
+    @Override
+    public E first() {
       return getElementOrThrow(multiset().firstEntry());
     }
 
-    @Override public E last() {
+    @Override
+    public E last() {
       return getElementOrThrow(multiset().lastEntry());
     }
   }

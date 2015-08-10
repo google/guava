@@ -43,6 +43,7 @@ public class SynchronizedSetTest extends TestCase {
   
   public static final Object MUTEX = new Integer(1); // something Serializable
   
+  @SuppressUnderAndroid
   public static Test suite() {
     return SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override

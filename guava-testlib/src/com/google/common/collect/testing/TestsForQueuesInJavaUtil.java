@@ -40,6 +40,7 @@ import java.util.concurrent.PriorityBlockingQueue;
  *
  * @author Jared Levy
  */
+@SuppressUnderAndroid
 public class TestsForQueuesInJavaUtil {
   public static Test suite() {
     return new TestsForQueuesInJavaUtil().allTests();

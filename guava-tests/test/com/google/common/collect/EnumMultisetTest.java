@@ -47,6 +47,7 @@ import java.util.Set;
 public class EnumMultisetTest extends TestCase {
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MultisetTestSuiteBuilder.using(enumMultisetGenerator())

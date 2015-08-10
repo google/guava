@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.Iterators.advance;
 import static com.google.common.collect.Iterators.get;
 import static com.google.common.collect.Iterators.getLast;
@@ -45,6 +46,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -67,6 +69,7 @@ import java.util.Vector;
 public class IteratorsTest extends TestCase {
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite(IteratorsTest.class.getSimpleName());
     suite.addTest(testsForRemoveAllAndRetainAll());
@@ -623,6 +626,69 @@ public class IteratorsTest extends TestCase {
     assertTrue(cycle.hasNext());
     cycle.remove();
     assertEquals(Collections.emptyList(), iterable);
+    assertFalse(cycle.hasNext());
+  }
+
+  /** An Iterable whose Iterator is rigorous in checking for concurrent modification. */
+  private static final class PickyIterable<E> implements Iterable<E> {
+    final List<E> elements;
+    int modCount = 0;
+
+    PickyIterable(E... elements) {
+      this.elements = new ArrayList<E>(asList(elements));
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+      return new PickyIterator();
+    }
+
+    final class PickyIterator implements Iterator<E> {
+      int expectedModCount = modCount;
+      int index = 0;
+      boolean canRemove;
+
+      @Override
+      public boolean hasNext() {
+        checkConcurrentModification();
+        return index < elements.size();
+      }
+
+      @Override
+      public E next() {
+        checkConcurrentModification();
+        if (!hasNext()) {
+          throw new NoSuchElementException();
+        }
+        canRemove = true;
+        return elements.get(index++);
+      }
+
+      @Override
+      public void remove() {
+        checkConcurrentModification();
+        checkRemove(canRemove);
+        elements.remove(--index);
+        expectedModCount = ++modCount;
+        canRemove = false;
+      }
+
+      void checkConcurrentModification() {
+        if (expectedModCount != modCount) {
+          throw new ConcurrentModificationException();
+        }
+      }
+    }
+  }
+
+  public void testCycleRemoveAfterHasNextExtraPicky() {
+    PickyIterable<String> iterable = new PickyIterable("a");
+    Iterator<String> cycle = Iterators.cycle(iterable);
+    assertTrue(cycle.hasNext());
+    assertEquals("a", cycle.next());
+    assertTrue(cycle.hasNext());
+    cycle.remove();
+    assertTrue(iterable.elements.isEmpty());
     assertFalse(cycle.hasNext());
   }
 
@@ -1486,6 +1552,7 @@ public class IteratorsTest extends TestCase {
   }
 
   @GwtIncompatible("ListTestSuiteBuilder")
+  @SuppressUnderAndroid
   private static Test testsForRemoveAllAndRetainAll() {
     return ListTestSuiteBuilder.using(new TestStringListGenerator() {
           @Override public List<String> create(final String[] elements) {

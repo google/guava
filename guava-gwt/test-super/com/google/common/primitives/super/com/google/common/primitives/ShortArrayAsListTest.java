@@ -32,6 +32,7 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class ShortArrayAsListTest extends TestCase {
 
   private static List<Short> asList(Short[] values) {

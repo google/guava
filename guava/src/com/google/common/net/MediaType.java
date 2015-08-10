@@ -294,6 +294,14 @@ public final class MediaType {
   public static final MediaType JAVASCRIPT_UTF_8 =
       createConstantUtf8(APPLICATION_TYPE, "javascript");
   public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");
+  /**
+   * Media type for the
+   * <a href="http://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.
+   *
+   * @since 19.0
+   */
+  public static final MediaType MANIFEST_JSON_UTF_8 =
+      createConstantUtf8(APPLICATION_TYPE, "manifest+json");
   public static final MediaType KML = createConstant(APPLICATION_TYPE, "vnd.google-earth.kml+xml");
   public static final MediaType KMZ = createConstant(APPLICATION_TYPE, "vnd.google-earth.kmz");
   public static final MediaType MBOX = createConstant(APPLICATION_TYPE, "mbox");

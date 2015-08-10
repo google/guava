@@ -282,7 +282,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
             if (entriesUsed) {
               entries = ObjectArrays.arraysCopyOf(entries, size);
             }
-            Arrays.sort(entries, 0, size,
+            Arrays.sort(
+                entries,
+                0,
+                size,
                 Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
           }
           entriesUsed = size == entries.length;

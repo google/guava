@@ -30,20 +30,19 @@ import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 @GwtCompatible(emulated = true)
 public class RegularImmutableAsList_CustomFieldSerializer {
 
-  public static void deserialize(SerializationStreamReader reader,
-      RegularImmutableAsList<?> instance) {
-  }
+  public static void deserialize(
+      SerializationStreamReader reader, RegularImmutableAsList<?> instance) {}
 
-  public static RegularImmutableAsList<Object> instantiate(
-      SerializationStreamReader reader) throws SerializationException {
+  public static RegularImmutableAsList<Object> instantiate(SerializationStreamReader reader)
+      throws SerializationException {
     @SuppressWarnings("unchecked") // serialization is necessarily type unsafe
     ImmutableCollection<Object> delegateCollection = (ImmutableCollection) reader.readObject();
     ImmutableList<?> delegateList = (ImmutableList<?>) reader.readObject();
     return new RegularImmutableAsList<Object>(delegateCollection, delegateList);
   }
 
-  public static void serialize(SerializationStreamWriter writer,
-      RegularImmutableAsList<?> instance) throws SerializationException {
+  public static void serialize(SerializationStreamWriter writer, RegularImmutableAsList<?> instance)
+      throws SerializationException {
     writer.writeObject(instance.delegateCollection());
     writer.writeObject(instance.delegateList());
   }

@@ -54,6 +54,7 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
+@SuppressUnderAndroid
 public class SortedMultisetTestSuiteBuilder<E> extends
     MultisetTestSuiteBuilder<E> {
   public static <E> SortedMultisetTestSuiteBuilder<E> using(

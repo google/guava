@@ -472,7 +472,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
     /**
      * Throws an {@code UnsupportedOperationException}.
-     * 
+     *
      * @since 19.0
      * @deprecated Unsupported by ImmutableSortedMap.Builder.
      */
@@ -812,13 +812,16 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
   @Override
   public ImmutableSortedMap<K, V> descendingMap() {
+    // TODO(kevinb): the descendingMap is never actually cached at all. Either it should be or the
+    // code below simplified.
     ImmutableSortedMap<K, V> result = descendingMap;
     if (result == null) {
       if (isEmpty()) {
         return result = emptyMap(Ordering.from(comparator()).reverse());
       } else {
-        return result = new ImmutableSortedMap<K, V>(
-            (RegularImmutableSortedSet<K>) keySet.descendingSet(), valueList.reverse(), this);
+        return result =
+            new ImmutableSortedMap<K, V>(
+                (RegularImmutableSortedSet<K>) keySet.descendingSet(), valueList.reverse(), this);
       }
     }
     return result;

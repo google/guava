@@ -86,15 +86,11 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     final int keyHash;
     final int valueHash;
 
-    @Nullable
-    BiEntry<K, V> nextInKToVBucket;
-    @Nullable
-    BiEntry<K, V> nextInVToKBucket;
-    
-    @Nullable
-    BiEntry<K, V> nextInKeyInsertionOrder;
-    @Nullable
-    BiEntry<K, V> prevInKeyInsertionOrder;
+    @Nullable BiEntry<K, V> nextInKToVBucket;
+    @Nullable BiEntry<K, V> nextInVToKBucket;
+
+    @Nullable BiEntry<K, V> nextInKeyInsertionOrder;
+    @Nullable BiEntry<K, V> prevInKeyInsertionOrder;
 
     BiEntry(K key, int keyHash, V value, int valueHash) {
       super(key, value);
@@ -165,19 +161,19 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       }
       prevBucketEntry = bucketEntry;
     }
-    
+
     if (entry.prevInKeyInsertionOrder == null) {
       firstInKeyInsertionOrder = entry.nextInKeyInsertionOrder;
     } else {
       entry.prevInKeyInsertionOrder.nextInKeyInsertionOrder = entry.nextInKeyInsertionOrder;
     }
-    
+
     if (entry.nextInKeyInsertionOrder == null) {
       lastInKeyInsertionOrder = entry.prevInKeyInsertionOrder;
     } else {
       entry.nextInKeyInsertionOrder.prevInKeyInsertionOrder = entry.prevInKeyInsertionOrder;
     }
-    
+
     size--;
     modCount++;
   }
@@ -346,7 +342,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       this.mask = newTableSize - 1;
       this.size = 0;
 
-      for (BiEntry<K, V> entry = firstInKeyInsertionOrder; entry != null; 
+      for (BiEntry<K, V> entry = firstInKeyInsertionOrder;
+          entry != null;
           entry = entry.nextInKeyInsertionOrder) {
         insert(entry, entry);
       }

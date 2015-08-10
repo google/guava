@@ -323,6 +323,7 @@ public class ContiguousSetTest extends TestCase {
 
   @GwtIncompatible("suite")
   public static class BuiltTests extends TestCase {
+    @SuppressUnderAndroid
     public static Test suite() {
       TestSuite suite = new TestSuite();
 

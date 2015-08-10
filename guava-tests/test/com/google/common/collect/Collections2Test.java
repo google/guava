@@ -52,6 +52,7 @@ import java.util.NoSuchElementException;
 @GwtCompatible(emulated = true)
 public class Collections2Test extends TestCase {
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite(Collections2Test.class.getSimpleName());
     suite.addTest(testsForFilter());
@@ -86,6 +87,7 @@ public class Collections2Test extends TestCase {
   };
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   private static Test testsForFilter() {
     return CollectionTestSuiteBuilder.using(
         new TestStringCollectionGenerator() {
@@ -108,6 +110,7 @@ public class Collections2Test extends TestCase {
   }
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   private static Test testsForFilterAll() {
     return CollectionTestSuiteBuilder.using(
         new TestStringCollectionGenerator() {
@@ -128,6 +131,7 @@ public class Collections2Test extends TestCase {
   }
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   private static Test testsForFilterLinkedList() {
     return CollectionTestSuiteBuilder.using(
         new TestStringCollectionGenerator() {
@@ -150,6 +154,7 @@ public class Collections2Test extends TestCase {
   }
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   private static Test testsForFilterNoNulls() {
     return CollectionTestSuiteBuilder.using(
         new TestStringCollectionGenerator() {
@@ -172,6 +177,7 @@ public class Collections2Test extends TestCase {
   }
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   private static Test testsForFilterFiltered() {
     return CollectionTestSuiteBuilder.using(
         new TestStringCollectionGenerator() {
@@ -205,6 +211,7 @@ public class Collections2Test extends TestCase {
       };
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   private static Test testsForTransform() {
     return CollectionTestSuiteBuilder.using(
         new TestStringCollectionGenerator() {

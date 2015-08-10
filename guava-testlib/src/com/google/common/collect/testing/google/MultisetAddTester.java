@@ -30,6 +30,7 @@ import java.util.Collections;
  * @author Jared Levy
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MultisetAddTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
   public void testAddUnsupported() {

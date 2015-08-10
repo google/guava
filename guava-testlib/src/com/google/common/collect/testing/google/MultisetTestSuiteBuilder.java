@@ -53,6 +53,7 @@ import java.util.Set;
  * @author Jared Levy
  * @author Louis Wasserman
  */
+@SuppressUnderAndroid
 public class MultisetTestSuiteBuilder<E> extends
     AbstractCollectionTestSuiteBuilder<MultisetTestSuiteBuilder<E>, E> {
   public static <E> MultisetTestSuiteBuilder<E> using(

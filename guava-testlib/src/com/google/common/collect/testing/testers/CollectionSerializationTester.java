@@ -30,6 +30,7 @@ import com.google.common.testing.SerializableTester;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class CollectionSerializationTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SERIALIZABLE)
   public void testReserialize() {

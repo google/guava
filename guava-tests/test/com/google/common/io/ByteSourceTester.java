@@ -45,6 +45,7 @@ import java.util.Random;
  *
  * @author Colin Decker
  */
+@SuppressUnderAndroid // Android doesn't understand tests that lack default constructors.
 public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteSourceFactory> {
 
   private static final ImmutableList<Method> testMethods

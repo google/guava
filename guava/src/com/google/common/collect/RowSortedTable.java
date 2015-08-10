@@ -43,7 +43,8 @@ public interface RowSortedTable<R, C, V> extends Table<R, C, V> {
    * <p>This method returns a {@link SortedSet}, instead of the {@code Set}
    * specified in the {@link Table} interface.
    */
-  @Override SortedSet<R> rowKeySet();
+  @Override
+  SortedSet<R> rowKeySet();
 
   /**
    * {@inheritDoc}
@@ -51,5 +52,6 @@ public interface RowSortedTable<R, C, V> extends Table<R, C, V> {
    * <p>This method returns a {@link SortedMap}, instead of the {@code Map}
    * specified in the {@link Table} interface.
    */
-  @Override SortedMap<R, Map<C, V>> rowMap();
+  @Override
+  SortedMap<R, Map<C, V>> rowMap();
 }

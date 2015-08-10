@@ -25,8 +25,7 @@ import com.google.gwt.user.client.rpc.SerializationStreamWriter;
  */
 public class SparseImmutableTable_CustomFieldSerializer {
   public static void deserialize(
-      SerializationStreamReader reader, SparseImmutableTable<?, ?, ?> instance) {
-  }
+      SerializationStreamReader reader, SparseImmutableTable<?, ?, ?> instance) {}
 
   public static SparseImmutableTable<Object, Object, Object> instantiate(
       SerializationStreamReader reader) throws SerializationException {

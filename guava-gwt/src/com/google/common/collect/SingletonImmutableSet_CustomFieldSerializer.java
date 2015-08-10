@@ -27,18 +27,17 @@ import com.google.gwt.user.client.rpc.SerializationStreamWriter;
  */
 public class SingletonImmutableSet_CustomFieldSerializer {
 
-  public static void deserialize(SerializationStreamReader reader,
-      SingletonImmutableSet<?> instance) {
-  }
+  public static void deserialize(
+      SerializationStreamReader reader, SingletonImmutableSet<?> instance) {}
 
-  public static SingletonImmutableSet<Object> instantiate(
-      SerializationStreamReader reader) throws SerializationException {
+  public static SingletonImmutableSet<Object> instantiate(SerializationStreamReader reader)
+      throws SerializationException {
     Object element = reader.readObject();
     return new SingletonImmutableSet<Object>(element);
   }
-  
-  public static void serialize(SerializationStreamWriter writer,
-      SingletonImmutableSet<?> instance) throws SerializationException {
+
+  public static void serialize(SerializationStreamWriter writer, SingletonImmutableSet<?> instance)
+      throws SerializationException {
     writer.writeObject(instance.element);
   }
 }

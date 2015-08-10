@@ -115,6 +115,7 @@ public class ForwardingMapTest extends ForwardingTestCase {
 
   Map<String, Boolean> forward;
 
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

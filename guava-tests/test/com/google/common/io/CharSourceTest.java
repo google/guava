@@ -44,6 +44,7 @@ import java.util.List;
  */
 public class CharSourceTest extends IoTestCase {
 
+  @SuppressUnderAndroid // Android doesn't understand suites whose tests lack default constructors.
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(CharSourceTester.tests("CharSource.wrap[CharSequence]",

@@ -37,6 +37,7 @@ import java.util.Iterator;
  * @author George van den Driessche
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class CollectionClearTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testClear() {

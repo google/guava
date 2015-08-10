@@ -50,6 +50,7 @@ import java.util.Map.Entry;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
   private List<Entry<K, V>> containsNullKey;
   private List<Entry<K, V>> containsNullValue;

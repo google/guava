@@ -41,6 +41,7 @@ import java.util.List;
  *
  * @author Chris Nokleberg
  */
+
 public class ResourcesTest extends IoTestCase {
 
   public static TestSuite suite() {

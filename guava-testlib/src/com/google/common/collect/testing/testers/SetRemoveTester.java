@@ -31,6 +31,7 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author George van den Driessche
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class SetRemoveTester<E> extends AbstractSetTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)

@@ -30,6 +30,7 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MapIsEmptyTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(ZERO)
   public void testIsEmpty_yes() {

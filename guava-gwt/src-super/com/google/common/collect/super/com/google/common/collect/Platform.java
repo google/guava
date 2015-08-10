@@ -25,7 +25,9 @@ import com.google.common.collect.Maps.EntryTransformer;
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -139,6 +141,10 @@ final class Platform {
   static <K, V> SortedMap<K, V> mapsFilterSortedMap(
       SortedMap<K, V> unfiltered, Predicate<? super Map.Entry<K, V>> predicate) {
     return Maps.filterSortedIgnoreNavigable(unfiltered, predicate);
+  }
+
+  static <E> Deque<E> newFastestDeque(int ignored) {
+    return new LinkedList<E>();
   }
 
   private Platform() {}

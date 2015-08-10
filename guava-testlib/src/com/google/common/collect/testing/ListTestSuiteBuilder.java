@@ -57,6 +57,7 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
+@SuppressUnderAndroid
 public final class ListTestSuiteBuilder<E> extends
     AbstractCollectionTestSuiteBuilder<ListTestSuiteBuilder<E>, E> {
   public static <E> ListTestSuiteBuilder<E> using(

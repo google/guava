@@ -24,6 +24,7 @@ import java.util.List;
  * 
  * @author Louis Wasserman
  */
+@SuppressUnderAndroid
 public class ConcurrentNavigableMapTestSuiteBuilder<K, V> extends
     NavigableMapTestSuiteBuilder<K, V> {
 

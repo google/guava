@@ -144,6 +144,7 @@ public class ForwardingNavigableSetTest extends ForwardingSortedSetTest {
     }
   }
   
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     

@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2008 The Guava Authors
+ * Copyright (C) 2008 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,15 +41,15 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private final transient ImmutableMapEntry<K, V>[] table;
   // 'and' with an int to get a table index
   private final transient int mask;
-  
+
   static <K, V> RegularImmutableMap<K, V> fromEntries(Entry<K, V>... entries) {
     return fromEntryArray(entries.length, entries);
   }
-  
+
   /**
    * Creates a RegularImmutableMap from the first n entries in entryArray.  This implementation
    * may replace the entries in entryArray with its own entry objects (though they will have the
-   * same key/value contents), and may take ownership of entryArray. 
+   * same key/value contents), and may take ownership of entryArray.
    */
   static <K, V> RegularImmutableMap<K, V> fromEntryArray(int n, Entry<K, V>[] entryArray) {
     checkPositionIndex(n, entryArray.length);
@@ -57,7 +57,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     if (n == entryArray.length) {
       entries = entryArray;
     } else {
-      entries = createEntryArray(n); 
+      entries = createEntryArray(n);
     }
     int tableSize = Hashing.closedTableSize(n, MAX_LOAD_FACTOR);
     ImmutableMapEntry<K, V>[] table = createEntryArray(tableSize);
@@ -72,8 +72,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       // prepend, not append, so the entries can be immutable
       ImmutableMapEntry<K, V> newEntry;
       if (existing == null) {
-        boolean reusable = entry instanceof ImmutableMapEntry 
-            && ((ImmutableMapEntry<K, V>) entry).isReusable();
+        boolean reusable =
+            entry instanceof ImmutableMapEntry && ((ImmutableMapEntry<K, V>) entry).isReusable();
         newEntry =
             reusable ? (ImmutableMapEntry<K, V>) entry : new ImmutableMapEntry<K, V>(key, value);
       } else {
@@ -85,9 +85,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
     return new RegularImmutableMap<K, V>(entries, table, mask);
   }
-  
-  private RegularImmutableMap(Entry<K, V>[] entries, ImmutableMapEntry<K, V>[] table,
-      int mask) {
+
+  private RegularImmutableMap(Entry<K, V>[] entries, ImmutableMapEntry<K, V>[] table, int mask) {
     this.entries = entries;
     this.table = table;
     this.mask = mask;
@@ -107,11 +106,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    */
   private static final double MAX_LOAD_FACTOR = 1.2;
 
-  @Override public V get(@Nullable Object key) {
+  @Override
+  public V get(@Nullable Object key) {
     return get(key, table, mask);
   }
-  
-  @Nullable 
+
+  @Nullable
   static <V> V get(@Nullable Object key, ImmutableMapEntry<?, V>[] keyTable, int mask) {
     if (key == null) {
       return null;
@@ -139,8 +139,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   public int size() {
     return entries.length;
   }
-  
-  @Override boolean isPartialView() {
+
+  @Override
+  boolean isPartialView() {
     return false;
   }
 

@@ -37,6 +37,7 @@ import java.util.NoSuchElementException;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
+@SuppressUnderAndroid
 public class QueueRemoveTester<E> extends AbstractQueueTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)

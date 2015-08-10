@@ -35,6 +35,7 @@ import java.util.Map;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MultimapKeySetTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testKeySet() {
     for (Map.Entry<K, V> entry : getSampleElements()) {

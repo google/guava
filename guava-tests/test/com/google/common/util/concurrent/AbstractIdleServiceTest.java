@@ -180,12 +180,17 @@ public class AbstractIdleServiceTest extends TestCase {
           @Override public void execute(Runnable command) {}
         };
       }
+
+      @Override protected String serviceName() {
+        return "Foo";
+      }
     };
     try {
       service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS);
       fail("Expected timeout");
     } catch (TimeoutException e) {
-      assertThat(e.getMessage()).contains(Service.State.STARTING.toString());
+      assertThat(e.getMessage())
+          .isEqualTo("Timed out waiting for Foo [STARTING] to reach the RUNNING state.");
     }
   }
 

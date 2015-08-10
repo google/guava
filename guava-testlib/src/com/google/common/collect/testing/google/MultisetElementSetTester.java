@@ -35,6 +35,7 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MultisetElementSetTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testElementSetReflectsAddAbsent() {

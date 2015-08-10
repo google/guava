@@ -16,12 +16,14 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.AbstractScheduledService.Scheduler.newFixedDelaySchedule;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.util.concurrent.AbstractScheduledService.Scheduler;
 import com.google.common.util.concurrent.Service.State;
+import com.google.common.util.concurrent.testing.TestingExecutors;
 
 import junit.framework.TestCase;
 
@@ -242,6 +244,32 @@ public class AbstractScheduledServiceTest extends TestCase {
     service.awaitTerminated();
     // Only called once overall.
     assertEquals(1, service.numberOfTimesSchedulerCalled.get());
+  }
+
+  public void testTimeout() {
+    // Create a service whose executor will never run its commands
+    Service service = new AbstractScheduledService() {
+      @Override protected Scheduler scheduler() {
+        return Scheduler.newFixedDelaySchedule(0, 1, TimeUnit.NANOSECONDS);
+      }
+
+      @Override protected ScheduledExecutorService executor() {
+        return TestingExecutors.noOpScheduledExecutor();
+      }
+
+      @Override protected void runOneIteration() throws Exception {}
+
+      @Override protected String serviceName() {
+        return "Foo";
+      }
+    };
+    try {
+      service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS);
+      fail("Expected timeout");
+    } catch (TimeoutException e) {
+      assertThat(e.getMessage())
+          .isEqualTo("Timed out waiting for Foo [STARTING] to reach the RUNNING state.");
+    }
   }
 
   private class TestService extends AbstractScheduledService {

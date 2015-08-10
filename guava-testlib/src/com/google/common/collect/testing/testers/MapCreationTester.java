@@ -43,6 +43,7 @@ import java.util.Map.Entry;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class MapCreationTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   @CollectionSize.Require(absent = ZERO)

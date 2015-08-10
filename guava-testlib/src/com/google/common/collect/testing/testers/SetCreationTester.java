@@ -36,6 +36,7 @@ import java.util.List;
  * @author Chris Povirk
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class SetCreationTester<E> extends AbstractSetTester<E> {
   @CollectionFeature.Require(value = ALLOWS_NULL_VALUES,
       absent = REJECTS_DUPLICATES_AT_CREATION)

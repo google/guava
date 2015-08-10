@@ -148,6 +148,7 @@ public class SynchronizedNavigableSetTest extends TestCase {
     private static final long serialVersionUID = 0;
   }
 
+  @SuppressUnderAndroid
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SynchronizedNavigableSetTest.class);

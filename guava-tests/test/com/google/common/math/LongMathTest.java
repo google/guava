@@ -251,12 +251,14 @@ public class LongMathTest extends TestCase {
   public void testLog10Exact() {
     for (long x : POSITIVE_LONG_CANDIDATES) {
       int floor = LongMath.log10(x, FLOOR);
-      boolean expectSuccess = LongMath.pow(10, floor) == x;
+      boolean expectedSuccess = LongMath.pow(10, floor) == x;
       try {
         assertEquals(floor, LongMath.log10(x, UNNECESSARY));
-        assertTrue(expectSuccess);
+        assertTrue(expectedSuccess);
       } catch (ArithmeticException e) {
-        assertFalse(expectSuccess);
+        if (expectedSuccess) {
+          failFormat("expected log10(%s, UNNECESSARY) = %s; got ArithmeticException", x, floor);
+        }
       }
     }
   }
@@ -321,29 +323,37 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
+  @SuppressUnderAndroid // TODO(cpovirk): File BigDecimal.divide() rounding bug.
   public void testDivNonZero() {
     for (long p : NONZERO_LONG_CANDIDATES) {
       for (long q : NONZERO_LONG_CANDIDATES) {
         for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
           long expected =
               new BigDecimal(valueOf(p)).divide(new BigDecimal(valueOf(q)), 0, mode).longValue();
-          assertEquals(expected, LongMath.divide(p, q, mode));
+          long actual = LongMath.divide(p, q, mode);
+          if (expected != actual) {
+            failFormat("expected divide(%s, %s, %s) = %s; got %s", p, q, mode, expected, actual);
+          }
         }
       }
     }
   }
 
   @GwtIncompatible("TODO")
+  @SuppressUnderAndroid // TODO(cpovirk): Problem with LongMath.divide on Android?
   public void testDivNonZeroExact() {
     for (long p : NONZERO_LONG_CANDIDATES) {
       for (long q : NONZERO_LONG_CANDIDATES) {
-        boolean dividesEvenly = (p % q) == 0L;
+        boolean expectedSuccess = (p % q) == 0L;
 
         try {
           assertEquals(p, LongMath.divide(p, q, UNNECESSARY) * q);
-          assertTrue(dividesEvenly);
+          assertTrue(expectedSuccess);
         } catch (ArithmeticException e) {
-          assertFalse(dividesEvenly);
+          if (expectedSuccess) {
+            failFormat(
+                "expected divide(%s, %s, UNNECESSARY) to succeed; got ArithmeticException", p, q);
+          }
         }
       }
     }
@@ -481,7 +491,10 @@ public class LongMathTest extends TestCase {
           assertEquals(a + b, LongMath.checkedAdd(a, b));
           assertTrue(expectedSuccess);
         } catch (ArithmeticException e) {
-          assertFalse(expectedSuccess);
+          if (expectedSuccess) {
+            failFormat(
+                "expected checkedAdd(%s, %s) = %s; got ArithmeticException", a, b, expectedResult);
+          }
         }
       }
     }
@@ -497,13 +510,20 @@ public class LongMathTest extends TestCase {
           assertEquals(a - b, LongMath.checkedSubtract(a, b));
           assertTrue(expectedSuccess);
         } catch (ArithmeticException e) {
-          assertFalse(expectedSuccess);
+          if (expectedSuccess) {
+            failFormat(
+                "expected checkedSubtract(%s, %s) = %s; got ArithmeticException",
+                a,
+                b,
+                expectedResult);
+          }
         }
       }
     }
   }
 
   @GwtIncompatible("TODO")
+  @SuppressUnderAndroid // TODO(cpovirk): Problem with LongMath.checkedMultiply on Android?
   public void testCheckedMultiply() {
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
@@ -513,7 +533,13 @@ public class LongMathTest extends TestCase {
           assertEquals(a * b, LongMath.checkedMultiply(a, b));
           assertTrue(expectedSuccess);
         } catch (ArithmeticException e) {
-          assertFalse(expectedSuccess);
+          if (expectedSuccess) {
+            failFormat(
+                "expected checkedMultiply(%s, %s) = %s; got ArithmeticException",
+                a,
+                b,
+                expectedResult);
+          }
         }
       }
     }
@@ -529,7 +555,13 @@ public class LongMathTest extends TestCase {
           assertEquals(expectedResult.longValue(), LongMath.checkedPow(b, exp));
           assertTrue(expectedSuccess);
         } catch (ArithmeticException e) {
-          assertFalse(expectedSuccess);
+          if (expectedSuccess) {
+            failFormat(
+                "expected checkedPow(%s, %s) = %s; got ArithmeticException",
+                b,
+                exp,
+                expectedResult);
+          }
         }
       }
     }
@@ -691,5 +723,10 @@ public class LongMathTest extends TestCase {
     tester.setDefault(int.class, 1);
     tester.setDefault(long.class, 1L);
     tester.testAllPublicStaticMethods(LongMath.class);
+  }
+
+  @GwtIncompatible("String.format")
+  private static void failFormat(String template, Object... args) {
+    fail(String.format(template, args));
   }
 }

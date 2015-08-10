@@ -45,6 +45,7 @@ import java.util.List;
  *
  * @author George van den Driessche
  */
+@SuppressUnderAndroid
 public abstract class AbstractCollectionTestSuiteBuilder<
     B extends AbstractCollectionTestSuiteBuilder<B, E>, E>
     extends PerCollectionSizeTestSuiteBuilder<

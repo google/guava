@@ -52,6 +52,7 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 public class ImmutableSortedMultisetTest extends TestCase {
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableSortedMultisetTest.class);

@@ -37,6 +37,7 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class CollectionToStringTester<E> extends AbstractCollectionTester<E> {
   public void testToString_minimal() {
     assertNotNull("toString() should not return null",

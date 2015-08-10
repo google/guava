@@ -81,8 +81,7 @@ public final class ObjectArrays {
   /** GWT safe version of Arrays.copyOf. */
   static <T> T[] arraysCopyOf(T[] original, int newLength) {
     T[] copy = newArray(original, newLength);
-    System.arraycopy(
-        original, 0, copy, 0, Math.min(original.length, newLength));
+    System.arraycopy(original, 0, copy, 0, Math.min(original.length, newLength));
     return copy;
   }
 
@@ -121,7 +120,7 @@ public final class ObjectArrays {
     }
     return array;
   }
-  
+
   /**
    * Implementation of {@link Collection#toArray(Object[])} for collections backed by an object
    * array. the runtime type of the returned array is that of the specified array. If the collection
@@ -196,7 +195,7 @@ public final class ObjectArrays {
   static Object[] checkElementsNotNull(Object... array) {
     return checkElementsNotNull(array, array.length);
   }
-  
+
   static Object[] checkElementsNotNull(Object[] array, int length) {
     for (int i = 0; i < length; i++) {
       checkElementNotNull(array[i], i);

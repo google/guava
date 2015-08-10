@@ -120,6 +120,7 @@ public class MapsTest extends TestCase {
    * This test may fail miserably on non-OpenJDK environments...
    */
   @GwtIncompatible("reflection")
+  @SuppressUnderAndroid // relies on assumptions about OpenJDK
   public void testNewHashMapWithExpectedSize_wontGrow() throws Exception {
     // before jdk7u40: creates one-bucket table
     // after  jdk7u40: creates empty table
@@ -136,6 +137,7 @@ public class MapsTest extends TestCase {
    * Same test as above but for newLinkedHashMapWithExpectedSize
    */
   @GwtIncompatible("reflection")
+  @SuppressUnderAndroid // relies on assumptions about OpenJDK
   public void testNewLinkedHashMapWithExpectedSize_wontGrow() throws Exception {
     assertTrue(bucketsOf(Maps.newLinkedHashMapWithExpectedSize(0)) <= 1);
 
@@ -1363,6 +1365,7 @@ public class MapsTest extends TestCase {
       }
     };
 
+  @SuppressUnderAndroid
   public static class FilteredMapTest extends TestCase {
     Map<String, Integer> createUnfiltered() {
       return Maps.newHashMap();
@@ -1543,6 +1546,7 @@ public class MapsTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class FilteredSortedMapTest extends FilteredMapTest {
     @Override
     SortedMap<String, Integer> createUnfiltered() {
@@ -1599,6 +1603,7 @@ public class MapsTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class FilteredBiMapTest extends FilteredMapTest {
     @Override
     BiMap<String, Integer> createUnfiltered() {

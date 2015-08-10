@@ -112,6 +112,7 @@ public class SetsTest extends TestCase {
       = Collections.reverseOrder();
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SetsTest.class);
@@ -207,6 +208,7 @@ public class SetsTest extends TestCase {
   }
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   private static Test testsForFilter() {
     return SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override public Set<String> create(String[] elements) {
@@ -228,6 +230,7 @@ public class SetsTest extends TestCase {
   }
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   private static Test testsForFilterNoNulls() {
     TestSuite suite = new TestSuite();
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -273,6 +276,7 @@ public class SetsTest extends TestCase {
   }
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   private static Test testsForFilterFiltered() {
     return SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override public Set<String> create(String[] elements) {

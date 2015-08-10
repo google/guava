@@ -50,6 +50,7 @@ import java.util.Set;
 public class ImmutableSetTest extends AbstractImmutableSetTest {
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

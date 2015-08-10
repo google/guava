@@ -39,6 +39,7 @@ import java.util.Set;
  */
 public class SynchronizedBiMapTest extends SynchronizedMapTest {
 
+  @SuppressUnderAndroid
   public static TestSuite suite() {
     TestSuite suite = new TestSuite(SynchronizedBiMapTest.class);
     suite.addTest(BiMapTestSuiteBuilder.using(new SynchTestingBiMapGenerator())

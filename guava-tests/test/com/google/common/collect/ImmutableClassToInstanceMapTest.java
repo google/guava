@@ -39,6 +39,7 @@ import java.util.Map.Entry;
  * @author Kevin Bourrillion
  */
 public class ImmutableClassToInstanceMapTest extends TestCase {
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableClassToInstanceMapTest.class);

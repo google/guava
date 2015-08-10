@@ -33,6 +33,7 @@ import java.util.Iterator;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)

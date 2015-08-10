@@ -40,6 +40,7 @@ import com.google.common.cache.CacheLoader.UnsupportedLoadingOperationException;
 import com.google.common.collect.AbstractSequentialIterator;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
@@ -63,6 +64,7 @@ import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractQueue;
 import java.util.AbstractSet;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -3914,7 +3916,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     Segment<K, V>[] segments = this.segments;
     long sum = 0;
     for (int i = 0; i < segments.length; ++i) {
-      sum += segments[i].count;
+      sum += Math.max(0, segments[i].count); // see https://github.com/google/guava/issues/2108
     }
     return sum;
   }
@@ -4469,6 +4471,26 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     public void clear() {
       map.clear();
     }
+
+    // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
+    // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
+
+    @Override
+    public Object[] toArray() {
+      return toArrayList(this).toArray();
+    }
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+      return toArrayList(this).toArray(a);
+    }
+  }
+
+  private static <E> ArrayList<E> toArrayList(Collection<E> c) {
+    // Avoid calling ArrayList(Collection), which may call back into toArray.
+    ArrayList<E> result = new ArrayList<E>(c.size());
+    Iterators.addAll(result, c.iterator());
+    return result;
   }
 
   @WeakOuter
@@ -4522,6 +4544,19 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     @Override
     public boolean contains(Object o) {
       return map.containsValue(o);
+    }
+
+    // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
+    // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
+
+    @Override
+    public Object[] toArray() {
+      return toArrayList(this).toArray();
+    }
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+      return toArrayList(this).toArray(a);
     }
   }
 

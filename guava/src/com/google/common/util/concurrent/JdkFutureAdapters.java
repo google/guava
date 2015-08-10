@@ -157,6 +157,7 @@ public final class JdkFutureAdapters {
           return;
         }
 
+        // TODO(lukes): handle RejectedExecutionException
         adapterExecutor.execute(new Runnable() {
           @Override
           public void run() {
@@ -168,11 +169,9 @@ public final class JdkFutureAdapters {
                * instead of using listenInPoolThread.
                */
               getUninterruptibly(delegate);
-            } catch (Error e) {
-              throw e;
             } catch (Throwable e) {
-              // ExecutionException / CancellationException / RuntimeException
-              // The task is done, run the listeners.
+              // ExecutionException / CancellationException / RuntimeException / Error
+              // The task is presumably done, run the listeners.
             }
             executionList.execute();
           }

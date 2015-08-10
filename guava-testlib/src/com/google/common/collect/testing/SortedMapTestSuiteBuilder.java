@@ -36,6 +36,7 @@ import java.util.Set;
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
  * a SortedMap implementation.
  */
+@SuppressUnderAndroid
 public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   public static <K, V> SortedMapTestSuiteBuilder<K, V> using(
       TestSortedMapGenerator<K, V> generator) {

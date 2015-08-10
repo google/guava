@@ -32,6 +32,7 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class ByteArrayAsListTest extends TestCase {
 
   private static List<Byte> asList(Byte[] values) {

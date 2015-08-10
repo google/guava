@@ -31,6 +31,7 @@ import java.util.List;
  *
  * @author Jared Levy
  */
+@SuppressUnderAndroid
 public final class QueueTestSuiteBuilder<E>
     extends AbstractCollectionTestSuiteBuilder<QueueTestSuiteBuilder<E>, E> {
   public static <E> QueueTestSuiteBuilder<E> using(

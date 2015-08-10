@@ -34,6 +34,7 @@ import java.util.Map;
  * @author Chris Povirk
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MapHashCodeTester<K, V> extends AbstractMapTester<K, V> {
   public void testHashCode() {
     int expectedHashCode = 0;

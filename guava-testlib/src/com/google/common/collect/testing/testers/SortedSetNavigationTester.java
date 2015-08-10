@@ -37,6 +37,7 @@ import java.util.SortedSet;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class SortedSetNavigationTester<E> extends AbstractSetTester<E> {
 
   private SortedSet<E> sortedSet;

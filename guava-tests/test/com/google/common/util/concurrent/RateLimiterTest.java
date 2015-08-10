@@ -183,6 +183,7 @@ public class RateLimiterTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid // difference in String.format rounding?
   public void testWarmUp() {
     RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS, 3.0);
     for (int i = 0; i < 8; i++) {
@@ -248,6 +249,7 @@ public class RateLimiterTest extends TestCase {
         "R0.00, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20"); // #3
   }
 
+  @SuppressUnderAndroid // difference in String.format rounding?
   public void testWarmUpAndUpdate() {
     RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS, 3.0);
     for (int i = 0; i < 8; i++) {
@@ -557,16 +559,29 @@ public class RateLimiterTest extends TestCase {
     }
   }
 
-  public void testMocking() throws Exception {
-    RateLimiter mockito = Mockito.mock(RateLimiter.class);
-    RateLimiter easyMock = EasyMock.createNiceMock(RateLimiter.class);
-    EasyMock.replay(easyMock);
+  /*
+   * Note: Mockito appears to lose its ability to Mock doGetRate as of Android 21. If we start
+   * testing with that version or newer, we'll need to suppress this test (or see if Mockito can be
+   * changed to support this).
+   */
+  public void testMockingMockito() throws Exception {
+    RateLimiter mock = Mockito.mock(RateLimiter.class);
+    doTestMocking(mock);
+  }
+
+  @SuppressUnderAndroid // EasyMock Class Extension doesn't appear to work on Android.
+  public void testMockingEasyMock() throws Exception {
+    RateLimiter mock = EasyMock.createNiceMock(RateLimiter.class);
+    EasyMock.replay(mock);
+    doTestMocking(mock);
+  }
+
+  private static void doTestMocking(RateLimiter mock) throws Exception {
     for (Method method : RateLimiter.class.getMethods()) {
       if (!isStatic(method.getModifiers())
           && !NOT_WORKING_ON_MOCKS.contains(method.getName())
           && !method.getDeclaringClass().equals(Object.class)) {
-        method.invoke(mockito, arbitraryParameters(method));
-        method.invoke(easyMock, arbitraryParameters(method));
+        method.invoke(mock, arbitraryParameters(method));
       }
     }
   }

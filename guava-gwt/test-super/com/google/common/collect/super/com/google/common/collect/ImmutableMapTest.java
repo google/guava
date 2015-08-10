@@ -76,6 +76,7 @@ public class ImmutableMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class MapTests extends AbstractMapTests<String, Integer> {
     @Override protected Map<String, Integer> makeEmptyMap() {
       return ImmutableMap.of();
@@ -94,6 +95,7 @@ public class ImmutableMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class SingletonMapTests
       extends AbstractMapTests<String, Integer> {
     @Override protected Map<String, Integer> makePopulatedMap() {
@@ -109,6 +111,7 @@ public class ImmutableMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class MapTestsWithBadHashes
       extends AbstractMapTests<Object, Integer> {
 
@@ -134,6 +137,7 @@ public class ImmutableMapTest extends TestCase {
     }
   }
 
+  @SuppressUnderAndroid
   public static class CreationTests extends TestCase {
     public void testEmptyBuilder() {
       ImmutableMap<String, Integer> map

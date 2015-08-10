@@ -90,10 +90,11 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
          * 2-morphic call sites are often optimized much better than 3-morphic, so it'd require
          * benchmarking.
          */
-        boolean reusable = entry instanceof ImmutableMapEntry
-            && ((ImmutableMapEntry<K, V>) entry).isReusable();
-        newEntry =
-            reusable ? (ImmutableMapEntry<K, V>) entry : new ImmutableMapEntry<K, V>(key, value);
+        boolean reusable =
+            entry instanceof ImmutableMapEntry && ((ImmutableMapEntry<K, V>) entry).isReusable();
+        newEntry = reusable
+            ? (ImmutableMapEntry<K, V>) entry
+            : new ImmutableMapEntry<K, V>(key, value);
       } else {
         newEntry = new NonTerminalImmutableBiMapEntry<K, V>(
             key, value, nextInKeyBucket, nextInValueBucket);
@@ -106,8 +107,11 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return new RegularImmutableBiMap<K, V>(keyTable, valueTable, entries, mask, hashCode);
   }
 
-  private RegularImmutableBiMap(ImmutableMapEntry<K, V>[] keyTable,
-      ImmutableMapEntry<K, V>[] valueTable, Entry<K, V>[] entries, int mask,
+  private RegularImmutableBiMap(
+      ImmutableMapEntry<K, V>[] keyTable,
+      ImmutableMapEntry<K, V>[] valueTable,
+      Entry<K, V>[] entries,
+      int mask,
       int hashCode) {
     this.keyTable = keyTable;
     this.valueTable = valueTable;
@@ -118,8 +122,8 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   // checkNoConflictInKeyBucket is static imported from RegularImmutableMap
 
-  private static void checkNoConflictInValueBucket(Object value, Entry<?, ?> entry,
-      @Nullable ImmutableMapEntry<?, ?> valueBucketHead) {
+  private static void checkNoConflictInValueBucket(
+      Object value, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> valueBucketHead) {
     for (; valueBucketHead != null; valueBucketHead = valueBucketHead.getNextInValueBucket()) {
       checkNoConflict(!value.equals(valueBucketHead.getValue()), "value", entry, valueBucketHead);
     }
@@ -187,8 +191,9 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
         return null;
       }
       int bucket = Hashing.smear(value.hashCode()) & mask;
-      for (ImmutableMapEntry<K, V> entry = valueTable[bucket]; entry != null;
-           entry = entry.getNextInValueBucket()) {
+      for (ImmutableMapEntry<K, V> entry = valueTable[bucket];
+          entry != null;
+          entry = entry.getNextInValueBucket()) {
         if (value.equals(entry.getValue())) {
           return entry.getKey();
         }

@@ -32,7 +32,6 @@ import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Arrays.asList;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -57,7 +56,6 @@ import java.nio.charset.UnsupportedCharsetException;
  *
  * @author Gregory Kick
  */
-@Beta
 @GwtCompatible(emulated = true)
 public class MediaTypeTest extends TestCase {
   @GwtIncompatible("reflection") public void testParse_useConstants() throws Exception {

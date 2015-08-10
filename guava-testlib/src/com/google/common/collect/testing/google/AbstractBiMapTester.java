@@ -30,6 +30,7 @@ import java.util.Map.Entry;
  * Skeleton for a tester of a {@code BiMap}.
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public abstract class AbstractBiMapTester<K, V> extends AbstractMapTester<K, V> {
 
   @Override

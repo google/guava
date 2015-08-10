@@ -55,6 +55,7 @@ public class HashBiMapTest extends TestCase {
   }
 
   @GwtIncompatible("suite")
+  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(BiMapTestSuiteBuilder.using(new HashBiMapGenerator())

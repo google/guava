@@ -18,7 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.gwt.core.client.GwtScriptOnly;
-import com.google.gwt.lang.Array;
+
+import java.util.Arrays;
 
 /**
  * Version of {@link GwtPlatform} used in web-mode.  It includes methods in
@@ -35,6 +36,12 @@ public final class GwtPlatform {
   private GwtPlatform() {}
 
   public static <T> T[] newArray(T[] reference, int length) {
-    return Array.createFrom(reference, length);
+    T[] clone = Arrays.copyOf(reference, 0);
+    resizeArray(clone, length);
+    return clone;
   }
+
+  private static native void resizeArray(Object array, int newSize) /*-{
+    array.length = newSize;
+  }-*/;
 }

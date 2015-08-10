@@ -32,10 +32,13 @@ public class ForwardingObjectTesterTest extends TestCase {
       ForwardingObjectTester.testForwardingObject(FailToForward.class);
     } catch (AssertionError expected) {
       return;
+    } catch (UnsupportedOperationException expectedOnAndroid) {
+      return;
     }
     fail("Should have thrown");
   }
 
+  @SuppressUnderAndroid // TODO(cpovirk): java.lang.IllegalAccessError: superclass not accessible
   public void testSuccessfulForwarding() {
     ForwardingObjectTester.testForwardingObject(ForwardToDelegate.class);
   }

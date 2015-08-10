@@ -26,6 +26,7 @@ import java.util.List;
  *
  * @author George van den Driessche
  */
+@SuppressUnderAndroid
 public class DerivedIteratorTestSuiteBuilder<E>
     extends FeatureSpecificTestSuiteBuilder<
         DerivedIteratorTestSuiteBuilder<E>,

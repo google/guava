@@ -32,6 +32,7 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible // but no-op
+@SuppressUnderAndroid
 public class MultisetSerializationTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SERIALIZABLE_INCLUDING_VIEWS)
   public void testEntrySetSerialization() {

@@ -41,6 +41,7 @@ import java.util.List;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MultimapReplaceValuesTester<K, V>
     extends AbstractMultimapTester<K, V, Multimap<K, V>> {
 

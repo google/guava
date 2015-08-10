@@ -33,6 +33,7 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Jared Levy
  */
 @GwtCompatible
+@SuppressUnderAndroid
 public class MultisetReadsTester<E> extends AbstractMultisetTester<E> {
 
   @CollectionSize.Require(absent = ZERO)

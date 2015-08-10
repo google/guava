@@ -43,6 +43,7 @@ import java.util.Iterator;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public abstract class AbstractMultisetSetCountTester<E>
     extends AbstractMultisetTester<E> {
   /*

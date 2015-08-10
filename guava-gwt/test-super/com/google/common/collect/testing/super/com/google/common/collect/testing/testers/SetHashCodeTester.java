@@ -30,6 +30,7 @@ import java.util.Collection;
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)
+@SuppressUnderAndroid
 public class SetHashCodeTester<E> extends AbstractSetTester<E> {
   public void testHashCode() {
     int expectedHashCode = 0;

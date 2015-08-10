@@ -61,6 +61,7 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
+@SuppressUnderAndroid
 public class MapsCollectionTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
