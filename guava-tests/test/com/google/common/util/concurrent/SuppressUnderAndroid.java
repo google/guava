@@ -32,6 +32,9 @@ import java.lang.annotation.Target;
  * Signifies that a test should not be run under Android. This annotation is respected only by our
  * Google-internal Android suite generators. Note that those generators also suppress any test
  * annotated with MediumTest or LargeTest.
+ *
+ * <p>For more discussion, see {@linkplain com.google.common.base.SuppressUnderAndroid the
+ * documentation on another copy of this annotation}.
  */
 @Retention(CLASS)
 @Target({ANNOTATION_TYPE, CONSTRUCTOR, FIELD, METHOD, TYPE})
