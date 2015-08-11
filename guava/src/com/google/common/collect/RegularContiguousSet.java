@@ -188,10 +188,12 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     return super.equals(object);
   }
 
-  // copied to make sure not to use the GWT-emulated version
   @Override
   public int hashCode() {
-    return Sets.hashCodeImpl(this);
+    int hash = this.domain.hashCode();
+    hash = 89 * hash + this.first().hashCode();
+    hash = 89 * hash + this.last().hashCode();
+    return hash;
   }
 
   @GwtIncompatible("serialization")
