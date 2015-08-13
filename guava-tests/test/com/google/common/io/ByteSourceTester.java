@@ -87,8 +87,16 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
       // if expected.length == 0, off has to be 0 but length doesn't matter--result will be empty
       int off = expected.length == 0 ? 0 : random.nextInt(expected.length);
       int len = expected.length == 0 ? 4 : random.nextInt(expected.length - off);
+
       ByteSourceFactory sliced = SourceSinkFactories.asSlicedByteSourceFactory(factory, off, len);
-      suite.addTest(suiteForBytes(sliced, bytes, name + ".slice[int, int]",
+      suite.addTest(suiteForBytes(sliced, bytes, name + ".slice[long, long]",
+          desc, false));
+
+      // test a slice() of the ByteSource starting at a random offset with a length of
+      // Long.MAX_VALUE
+      ByteSourceFactory slicedLongMaxValue = SourceSinkFactories.asSlicedByteSourceFactory(
+          factory, off, Long.MAX_VALUE);
+      suite.addTest(suiteForBytes(slicedLongMaxValue, bytes, name + ".slice[long, Long.MAX_VALUE]",
           desc, false));
     }
 
@@ -221,14 +229,6 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
       assertEquals(size - 2, sliced.read().length);
       ByteSource resliced = sliced.slice(0, size - 1);
       assertTrue(sliced.contentEquals(resliced));
-    }
-  }
-
-  public void testSlice_longMaxValue() throws IOException {
-    long size = source.read().length;
-    if (size >= 1) {
-      ByteSource sliced = source.slice(1, Long.MAX_VALUE);
-      assertEquals(size - 1, sliced.read().length);
     }
   }
 

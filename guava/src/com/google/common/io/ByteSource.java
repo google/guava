@@ -522,9 +522,11 @@ public abstract class ByteSource {
 
     @Override
     public Optional<Long> sizeIfKnown() {
-      Optional<Long> unslicedSize = ByteSource.this.sizeIfKnown();
-      if (unslicedSize.isPresent()) {
-        return Optional.of(Math.min(offset + length, unslicedSize.get()) - offset);
+      Optional<Long> optionalUnslicedSize = ByteSource.this.sizeIfKnown();
+      if (optionalUnslicedSize.isPresent()) {
+        long unslicedSize = optionalUnslicedSize.get();
+        long off = Math.min(offset, unslicedSize);
+        return Optional.of(Math.min(length, unslicedSize - off));
       }
       return Optional.absent();
     }
