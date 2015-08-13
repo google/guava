@@ -115,9 +115,15 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   private Futures() {}
 
   /**
-   * Creates a {@link CheckedFuture} out of a normal {@link ListenableFuture}
-   * and a {@link Function} that maps from {@link Exception} instances into the
-   * appropriate checked type.
+   * Creates a {@link CheckedFuture} out of a normal {@link ListenableFuture} and a {@link Function}
+   * that maps from {@link Exception} instances into the appropriate checked type.
+   *
+   * <p><b>Warning:</b> We recommend against using {@code CheckedFuture} in new projects. {@code
+   * CheckedFuture} is difficult to build libraries atop. {@code CheckedFuture} ports of methods
+   * like {@link Futures#transformAsync} have historically had bugs, and some of these bugs are
+   * necessary, unavoidable consequences of the {@code CheckedFuture} API. Additionally, {@code
+   * CheckedFuture} encourages users to take exceptions from one thread and rethrow them in another,
+   * producing confusing stack traces.
    *
    * <p>The given mapping function will be applied to an
    * {@link InterruptedException}, a {@link CancellationException}, or an
