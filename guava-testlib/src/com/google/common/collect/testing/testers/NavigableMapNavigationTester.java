@@ -39,7 +39,6 @@ import java.util.NavigableMap;
  * @author Jesse Wilson
  * @author Louis Wasserman
  */
-@SuppressUnderAndroid
 public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   private NavigableMap<K, V> navigableMap;

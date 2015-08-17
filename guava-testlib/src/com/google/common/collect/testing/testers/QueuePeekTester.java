@@ -33,7 +33,6 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Jared Levy
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class QueuePeekTester<E> extends AbstractQueueTester<E> {
   @CollectionSize.Require(ZERO)
   public void testPeek_empty() {

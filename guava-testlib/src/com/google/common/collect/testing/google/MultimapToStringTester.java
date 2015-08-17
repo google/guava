@@ -30,7 +30,6 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MultimapToStringTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(ZERO)
   public void testToStringEmpty() {

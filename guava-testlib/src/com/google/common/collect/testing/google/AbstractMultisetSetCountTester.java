@@ -48,7 +48,6 @@ import java.util.List;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid
 public abstract class AbstractMultisetSetCountTester<E>
     extends AbstractMultisetTester<E> {
   /*

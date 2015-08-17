@@ -56,7 +56,6 @@ import java.util.logging.Logger;
  *
  * @author George van den Driessche
  */
-@SuppressUnderAndroid
 public abstract class FeatureSpecificTestSuiteBuilder<
     B extends FeatureSpecificTestSuiteBuilder<B, G>, G> {
   @SuppressWarnings("unchecked")

@@ -37,7 +37,6 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MapToStringTester<K, V> extends AbstractMapTester<K, V> {
   public void testToString_minimal() {
     assertNotNull("toString() should not return null", getMap().toString());

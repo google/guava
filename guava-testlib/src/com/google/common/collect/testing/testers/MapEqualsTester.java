@@ -36,7 +36,6 @@ import java.util.Map;
  * @author Chris Povirk
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MapEqualsTester<K, V> extends AbstractMapTester<K, V> {
   public void testEquals_otherMapWithSameEntries() {
     assertTrue(

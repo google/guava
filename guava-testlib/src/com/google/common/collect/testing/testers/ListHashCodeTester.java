@@ -28,7 +28,6 @@ import java.lang.reflect.Method;
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid
 public class ListHashCodeTester<E> extends AbstractListTester<E> {
   public void testHashCode() {
     int expectedHashCode = 1;

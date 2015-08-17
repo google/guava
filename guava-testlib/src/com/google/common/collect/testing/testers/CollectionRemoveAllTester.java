@@ -44,7 +44,6 @@ import java.util.Iterator;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
-@SuppressUnderAndroid
 public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAll_emptyCollection() {

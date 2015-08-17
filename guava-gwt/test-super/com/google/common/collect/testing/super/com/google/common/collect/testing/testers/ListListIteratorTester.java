@@ -44,7 +44,6 @@ import java.util.Set;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid
 public class ListListIteratorTester<E> extends AbstractListTester<E> {
   // TODO: switch to DerivedIteratorTestSuiteBuilder
 

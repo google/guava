@@ -35,7 +35,6 @@ import com.google.common.collect.testing.features.CollectionSize;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
-@SuppressUnderAndroid
 public class QueuePollTester<E> extends AbstractQueueTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)

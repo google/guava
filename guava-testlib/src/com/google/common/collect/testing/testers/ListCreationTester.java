@@ -32,7 +32,6 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Chris Povirk
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class ListCreationTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(absent = REJECTS_DUPLICATES_AT_CREATION)
   @CollectionSize.Require(absent = {ZERO, ONE})

@@ -34,7 +34,6 @@ import com.google.common.collect.testing.features.CollectionSize;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
-@SuppressUnderAndroid
 public class ListRemoveAllTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})

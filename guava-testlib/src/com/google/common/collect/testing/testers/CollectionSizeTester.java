@@ -27,7 +27,6 @@ import com.google.common.collect.testing.AbstractCollectionTester;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class CollectionSizeTester<E> extends AbstractCollectionTester<E> {
   public void testSize() {
     assertEquals("size():", getNumElements(), collection.size());

@@ -33,7 +33,6 @@ import com.google.common.collect.testing.features.CollectionSize;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
-@SuppressUnderAndroid
 public class SetAddAllTester<E> extends AbstractSetTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)

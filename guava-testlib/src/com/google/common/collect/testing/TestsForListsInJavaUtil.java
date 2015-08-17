@@ -42,7 +42,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  * @author Kevin Bourrillion
  */
-@SuppressUnderAndroid
 public class TestsForListsInJavaUtil {
   public static Test suite() {
     return new TestsForListsInJavaUtil().allTests();

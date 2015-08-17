@@ -47,7 +47,6 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
-@SuppressUnderAndroid
 public class BiMapTestSuiteBuilder<K, V>
     extends PerCollectionSizeTestSuiteBuilder<BiMapTestSuiteBuilder<K, V>,
             TestBiMapGenerator<K, V>, BiMap<K, V>, Map.Entry<K, V>> {

@@ -33,7 +33,6 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class ListMultimapPutTester<K, V> extends AbstractListMultimapTester<K, V> {
   // MultimapPutTester tests non-duplicate values, but ignores ordering
 

@@ -39,7 +39,6 @@ import java.util.Collection;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllAbsentKey() {

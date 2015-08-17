@@ -28,7 +28,6 @@ import com.google.common.testing.EqualsTester;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MultisetEqualsTester<E> extends AbstractMultisetTester<E> {
   public void testEqualsSameContents() {
     new EqualsTester()

@@ -36,7 +36,6 @@ import java.lang.reflect.Method;
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid
 public class CollectionCreationTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
   @CollectionSize.Require(absent = ZERO)

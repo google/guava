@@ -39,7 +39,6 @@ import java.util.Collection;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MultimapAsMapGetTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
 
   @CollectionSize.Require(SEVERAL)

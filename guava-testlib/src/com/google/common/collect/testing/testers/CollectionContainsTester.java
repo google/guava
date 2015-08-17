@@ -35,7 +35,6 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Chris Povirk
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class CollectionContainsTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testContains_yes() {

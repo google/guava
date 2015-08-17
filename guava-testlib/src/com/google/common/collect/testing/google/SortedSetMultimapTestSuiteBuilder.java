@@ -39,7 +39,6 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
-@SuppressUnderAndroid
 public class SortedSetMultimapTestSuiteBuilder<K, V>
     extends MultimapTestSuiteBuilder<K, V, SetMultimap<K, V>> {
 

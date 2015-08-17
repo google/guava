@@ -27,7 +27,6 @@ import com.google.common.collect.testing.AbstractMapTester;
  * @author George van den Driessche
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MapSizeTester<K, V> extends AbstractMapTester<K, V> {
   public void testSize() {
     assertEquals("size():", getNumElements(), getMap().size());

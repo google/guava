@@ -45,7 +45,6 @@ import java.util.Set;
  * @param <V> The value type of the map implementation under test.
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   private enum IncomparableType {
     INSTANCE;

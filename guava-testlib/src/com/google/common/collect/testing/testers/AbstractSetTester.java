@@ -25,7 +25,6 @@ import java.util.Set;
  * @author George van den Driessche
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class AbstractSetTester<E> extends AbstractCollectionTester<E> {
   /*
    * Previously we had a field named set that was initialized to the value of

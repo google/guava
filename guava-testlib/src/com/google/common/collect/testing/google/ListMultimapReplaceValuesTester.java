@@ -30,7 +30,6 @@ import java.util.List;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class ListMultimapReplaceValuesTester<K, V> extends AbstractListMultimapTester<K, V> {
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesPreservesOrder() {

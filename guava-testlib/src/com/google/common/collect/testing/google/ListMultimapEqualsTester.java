@@ -28,7 +28,6 @@ import com.google.common.testing.EqualsTester;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class ListMultimapEqualsTester<K, V> extends AbstractListMultimapTester<K, V> {
   @CollectionSize.Require(SEVERAL)
   public void testOrderingAffectsEqualsComparisons() {

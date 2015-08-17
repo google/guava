@@ -41,7 +41,6 @@ import java.util.Collections;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testGetEmpty() {
     Collection<V> result = multimap().get(k3());

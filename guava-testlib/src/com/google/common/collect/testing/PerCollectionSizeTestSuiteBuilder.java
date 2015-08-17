@@ -47,7 +47,6 @@ import java.util.logging.Logger;
  *
  * @author George van den Driessche
  */
-@SuppressUnderAndroid
 public abstract class PerCollectionSizeTestSuiteBuilder<
     B extends PerCollectionSizeTestSuiteBuilder<B, G, T, E>,
     G extends TestContainerGenerator<T, E>,

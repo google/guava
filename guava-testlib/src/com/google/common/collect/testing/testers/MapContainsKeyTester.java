@@ -34,7 +34,6 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author George van den Driessche
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MapContainsKeyTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testContains_yes() {

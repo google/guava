@@ -37,7 +37,6 @@ import java.util.Arrays;
  * @author Chris Povirk
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class ListRetainAllTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})

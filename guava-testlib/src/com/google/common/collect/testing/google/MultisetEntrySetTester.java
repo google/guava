@@ -40,7 +40,6 @@ import java.util.Iterator;
  * @author Jared Levy
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MultisetEntrySetTester<E> extends AbstractMultisetTester<E> {
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)

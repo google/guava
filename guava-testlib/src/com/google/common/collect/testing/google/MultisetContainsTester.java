@@ -27,7 +27,6 @@ import java.util.Arrays;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MultisetContainsTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testContainsAllMultisetIgnoresFrequency() {

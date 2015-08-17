@@ -39,7 +39,6 @@ import java.util.List;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid
 public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
 
   public void testInverseSame() {

@@ -41,7 +41,6 @@ import java.util.List;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
-@SuppressUnderAndroid
 public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   /**

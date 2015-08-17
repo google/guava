@@ -28,7 +28,6 @@ import com.google.common.testing.EqualsTester;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class SetMultimapEqualsTester<K, V> 
     extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
   @CollectionSize.Require(SEVERAL)

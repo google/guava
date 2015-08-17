@@ -33,7 +33,6 @@ import com.google.common.collect.testing.features.ListFeature;
  * @author George van den Driessche
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid
 public class ListSetTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(SUPPORTS_SET)
   @CollectionSize.Require(absent = ZERO)

@@ -33,7 +33,6 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Chris Povirk
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MultisetSetCountConditionallyTester<E> extends
     AbstractMultisetSetCountTester<E> {
   @Override void setCountCheckReturnValue(E element, int count) {

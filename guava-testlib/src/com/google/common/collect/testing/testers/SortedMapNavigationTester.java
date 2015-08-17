@@ -42,7 +42,6 @@ import java.util.SortedMap;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   private SortedMap<K, V> navigableMap;

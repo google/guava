@@ -25,7 +25,6 @@ import com.google.common.collect.SortedSetMultimap;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class SortedSetMultimapGetTester<K, V>
     extends AbstractMultimapTester<K, V, SortedSetMultimap<K, V>> {
   public void testValueComparator() {

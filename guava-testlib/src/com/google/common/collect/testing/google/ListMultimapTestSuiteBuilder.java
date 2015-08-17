@@ -42,7 +42,6 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
-@SuppressUnderAndroid
 public class ListMultimapTestSuiteBuilder<K, V> extends
     MultimapTestSuiteBuilder<K, V, ListMultimap<K, V>> {
 

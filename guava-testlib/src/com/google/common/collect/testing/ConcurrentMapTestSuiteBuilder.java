@@ -28,7 +28,6 @@ import java.util.List;
  *
  * @author Louis Wasserman
  */
-@SuppressUnderAndroid
 public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   public static <K, V> ConcurrentMapTestSuiteBuilder<K, V> using(
       TestMapGenerator<K, V> generator) {

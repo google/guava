@@ -35,7 +35,6 @@ import java.util.NoSuchElementException;
  * @author Jared Levy
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class QueueElementTester<E> extends AbstractQueueTester<E> {
   @CollectionSize.Require(ZERO)
   public void testElement_empty() {

@@ -32,7 +32,6 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Chris Povirk
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class ListIndexOfTester<E> extends AbstractListIndexOfTester<E> {
   @Override protected int find(Object o) {
     return getList().indexOf(o);

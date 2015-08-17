@@ -35,7 +35,6 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author Chris Povirk
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MapGetTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testGet_yes() {

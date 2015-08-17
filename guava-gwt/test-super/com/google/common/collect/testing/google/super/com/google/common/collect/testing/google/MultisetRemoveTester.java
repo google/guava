@@ -39,7 +39,6 @@ import java.util.List;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid
 public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveNegative() {

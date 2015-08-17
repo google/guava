@@ -42,7 +42,6 @@ import java.util.Set;
  * @param <V> The value type of the tested multimap.
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class ListMultimapAsMapTester<K, V> extends AbstractListMultimapTester<K, V> {
   public void testAsMapValuesImplementList() {
     for (Collection<V> valueCollection : multimap().asMap().values()) {

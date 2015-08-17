@@ -63,7 +63,6 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
-@SuppressUnderAndroid
 public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
     PerCollectionSizeTestSuiteBuilder<
     MultimapTestSuiteBuilder<K, V, M>,

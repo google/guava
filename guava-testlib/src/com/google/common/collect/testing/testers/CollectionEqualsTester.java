@@ -25,7 +25,6 @@ import com.google.common.collect.testing.AbstractCollectionTester;
  * @author George van den Driessche
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class CollectionEqualsTester<E> extends AbstractCollectionTester<E> {
   public void testEquals_self() {
     assertTrue("An Object should be equal to itself.",

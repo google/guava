@@ -36,7 +36,6 @@ import java.util.Map;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class MultimapValuesTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testValues() {
     List<V> expected = Lists.newArrayList();

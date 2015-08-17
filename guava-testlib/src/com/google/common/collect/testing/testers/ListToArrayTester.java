@@ -31,7 +31,6 @@ import java.util.Arrays;
  * @author Chris Povirk
  */
 @GwtCompatible
-@SuppressUnderAndroid
 public class ListToArrayTester<E> extends AbstractListTester<E> {
   // CollectionToArrayTester tests everything except ordering.
 
