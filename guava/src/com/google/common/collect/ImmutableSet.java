@@ -103,6 +103,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @since 3.0 (source-compatible since 2.0)
    */
+  @SafeVarargs // For Eclipse. For internal javac we have disabled this pointless type of warning.
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     final int paramCount = 6;
     Object[] elements = new Object[paramCount + others.length];
