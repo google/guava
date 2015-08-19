@@ -165,7 +165,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   @CheckReturnValue
-  public static <E> FluentIterable<E> of(E[] elements) {
+  public static <E> FluentIterable<E> of(E... elements) {
     return from(Lists.newArrayList(elements));
   }
 
