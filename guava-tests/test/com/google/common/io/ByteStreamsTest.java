@@ -197,7 +197,7 @@ public class ByteStreamsTest extends IoTestCase {
       in.readFully(actual);
       fail("expected exception");
     } catch (IllegalStateException ex) {
-      assertTrue(ex.getCause() instanceof EOFException);
+      assertThat(ex.getCause()).isInstanceOf(EOFException.class);
     }
   }
 
@@ -278,7 +278,7 @@ public class ByteStreamsTest extends IoTestCase {
       in.readByte();
       fail("expected exception");
     } catch (IllegalStateException ex) {
-      assertTrue(ex.getCause() instanceof EOFException);
+      assertThat(ex.getCause()).isInstanceOf(EOFException.class);
     }
   }
 
@@ -291,7 +291,7 @@ public class ByteStreamsTest extends IoTestCase {
       in.readUnsignedByte();
       fail("expected exception");
     } catch (IllegalStateException ex) {
-      assertTrue(ex.getCause() instanceof EOFException);
+      assertThat(ex.getCause()).isInstanceOf(EOFException.class);
     }
   }
 
@@ -597,7 +597,7 @@ public class ByteStreamsTest extends IoTestCase {
       lin.reset();
       fail();
     } catch (IOException expected) {
-      assertEquals("Mark not set", expected.getMessage());
+      assertThat(expected).hasMessage("Mark not set");
     }
   }
 
@@ -608,7 +608,7 @@ public class ByteStreamsTest extends IoTestCase {
       lin.reset();
       fail();
     } catch (IOException expected) {
-      assertEquals("Mark not supported", expected.getMessage());
+      assertThat(expected).hasMessage("Mark not supported");
     }
   }
 

@@ -28,7 +28,6 @@ import static java.util.Collections.emptyList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.testing.IteratorTester;
@@ -262,14 +261,10 @@ public class IterablesTest extends TestCase {
 
   public void testTryFind() {
     Iterable<String> list = newArrayList("cool", "pants");
-    assertEquals(Optional.of("cool"),
-        Iterables.tryFind(list, Predicates.equalTo("cool")));
-    assertEquals(Optional.of("pants"),
-        Iterables.tryFind(list, Predicates.equalTo("pants")));
-    assertEquals(Optional.of("cool"),
-        Iterables.tryFind(list, Predicates.alwaysTrue()));
-    assertEquals(Optional.absent(),
-        Iterables.tryFind(list, Predicates.alwaysFalse()));
+    assertThat(Iterables.tryFind(list, Predicates.equalTo("cool"))).hasValue("cool");
+    assertThat(Iterables.tryFind(list, Predicates.equalTo("pants"))).hasValue("pants");
+    assertThat(Iterables.tryFind(list, Predicates.alwaysTrue())).hasValue("cool");
+    assertThat(Iterables.tryFind(list, Predicates.alwaysFalse())).isAbsent();
     assertCanIterateAgain(list);
   }
 

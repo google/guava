@@ -113,13 +113,13 @@ public class TypeTokenTest extends TestCase {
   public void testGenericArrayType() {
     TypeToken<List<String>[]> token = new TypeToken<List<String>[]>() {};
     assertEquals(List[].class, token.getRawType());
-    assertTrue(token.getType() instanceof GenericArrayType);
+    assertThat(token.getType()).isInstanceOf(GenericArrayType.class);
   }
 
   public void testMultiDimensionalGenericArrayType() {
     TypeToken<List<Long>[][][]> token = new TypeToken<List<Long>[][][]>() {};
     assertEquals(List[][][].class, token.getRawType());
-    assertTrue(token.getType() instanceof GenericArrayType);
+    assertThat(token.getType()).isInstanceOf(GenericArrayType.class);
   }
 
   public <T> void testGenericVariableTypeArrays() {

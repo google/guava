@@ -26,9 +26,9 @@ import static com.google.common.net.MediaType.ANY_VIDEO_TYPE;
 import static com.google.common.net.MediaType.HTML_UTF_8;
 import static com.google.common.net.MediaType.JPEG;
 import static com.google.common.net.MediaType.PLAIN_TEXT_UTF_8;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.testing.EqualsTester;
@@ -271,9 +271,8 @@ public class MediaTypeTest extends TestCase {
   }
 
   public void testGetCharset() {
-    assertEquals(Optional.absent(), MediaType.parse("text/plain").charset());
-    assertEquals(Optional.of(UTF_8),
-        MediaType.parse("text/plain; charset=utf-8").charset());
+    assertThat(MediaType.parse("text/plain").charset()).isAbsent();
+    assertThat(MediaType.parse("text/plain; charset=utf-8").charset()).hasValue(UTF_8);
   }
 
   public void testGetCharset_tooMany() {

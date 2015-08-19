@@ -19,6 +19,7 @@ package com.google.common.net;
 import static com.google.common.escape.testing.EscaperAsserts.assertEscaping;
 import static com.google.common.escape.testing.EscaperAsserts.assertUnescaped;
 import static com.google.common.escape.testing.EscaperAsserts.assertUnicodeEscaping;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
@@ -124,7 +125,7 @@ public class PercentEscaperTest extends TestCase {
       new PercentEscaper("-+#abc.!", false);
       fail(msg);
     } catch (IllegalArgumentException expected) {
-      assertEquals(msg, expected.getMessage());
+      assertThat(expected).hasMessage(msg);
     }
   }
 
@@ -144,7 +145,7 @@ public class PercentEscaperTest extends TestCase {
       new PercentEscaper(" ", true);
       fail(msg);
     } catch (IllegalArgumentException expected) {
-      assertEquals(msg, expected.getMessage());
+      assertThat(expected).hasMessage(msg);
     }
   }
 

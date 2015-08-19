@@ -1282,9 +1282,9 @@ public class FuturesTest extends TestCase {
       Futures.allAsList(immediateFailedFuture(new MyException())).get();
       fail();
     } catch (ExecutionException e) {
-      assertTrue(e.getCause() instanceof MyException);
-      assertEquals("Nothing should be logged", 0,
-          aggregateFutureLogHandler.getStoredLogRecords().size());
+      assertThat(e.getCause()).isInstanceOf(MyException.class);
+      assertEquals(
+          "Nothing should be logged", 0, aggregateFutureLogHandler.getStoredLogRecords().size());
     }
   }
 
@@ -1297,10 +1297,10 @@ public class FuturesTest extends TestCase {
       Futures.allAsList(immediateFailedFuture(new MyError())).get();
       fail();
     } catch (ExecutionException e) {
-      assertTrue(e.getCause() instanceof MyError);
+      assertThat(e.getCause()).isInstanceOf(MyError.class);
       List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
-      assertEquals(1, logged.size());  // errors are always logged
-      assertTrue(logged.get(0).getThrown() instanceof MyError);
+      assertThat(logged).hasSize(1); // errors are always logged
+      assertThat(logged.get(0).getThrown()).isInstanceOf(MyError.class);
     }
   }
 
@@ -1314,10 +1314,10 @@ public class FuturesTest extends TestCase {
           immediateFailedFuture(new MyException())).get();
       fail();
     } catch (ExecutionException e) {
-      assertTrue(e.getCause() instanceof MyException);
+      assertThat(e.getCause()).isInstanceOf(MyException.class);
       List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
-      assertEquals(1, logged.size());  // the second failure is logged
-      assertTrue(logged.get(0).getThrown() instanceof MyException);
+      assertThat(logged).hasSize(1); // the second failure is logged
+      assertThat(logged.get(0).getThrown()).isInstanceOf(MyException.class);
     }
   }
 
@@ -1339,9 +1339,9 @@ public class FuturesTest extends TestCase {
       all.get();
     } catch (ExecutionException e) {
       List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
-      assertEquals(2, logged.size());  // failures are the first are logged
-      assertTrue(logged.get(0).getThrown() instanceof MyException);
-      assertTrue(logged.get(1).getThrown() instanceof MyException);
+      assertThat(logged).hasSize(2); // failures after the first are logged
+      assertThat(logged.get(0).getThrown()).isInstanceOf(MyException.class);
+      assertThat(logged.get(1).getThrown()).isInstanceOf(MyException.class);
     }
   }
 
@@ -1356,9 +1356,9 @@ public class FuturesTest extends TestCase {
           immediateFailedFuture(sameInstance)).get();
       fail();
     } catch (ExecutionException e) {
-      assertTrue(e.getCause() instanceof MyException);
-      assertEquals("Nothing should be logged", 0,
-          aggregateFutureLogHandler.getStoredLogRecords().size());
+      assertThat(e.getCause()).isInstanceOf(MyException.class);
+      assertEquals(
+          "Nothing should be logged", 0, aggregateFutureLogHandler.getStoredLogRecords().size());
     }
   }
 
@@ -1385,7 +1385,7 @@ public class FuturesTest extends TestCase {
       bulkFuture.get();
       fail();
     } catch (ExecutionException expected) {
-      assertTrue(expected.getCause() instanceof MyException);
+      assertThat(expected.getCause()).isInstanceOf(MyException.class);
       assertThat(aggregateFutureLogHandler.getStoredLogRecords()).isEmpty();
     }
   }
@@ -1436,9 +1436,9 @@ public class FuturesTest extends TestCase {
           immediateFailedFuture(exception3)).get();
       fail();
     } catch (ExecutionException e) {
-      assertTrue(e.getCause() instanceof MyException);
-      assertEquals("Nothing should be logged", 0,
-          aggregateFutureLogHandler.getStoredLogRecords().size());
+      assertThat(e.getCause()).isInstanceOf(MyException.class);
+      assertEquals(
+          "Nothing should be logged", 0, aggregateFutureLogHandler.getStoredLogRecords().size());
     }
   }
 
@@ -1481,8 +1481,8 @@ public class FuturesTest extends TestCase {
         Futures.successfulAsList(
             immediateFailedFuture(new MyError())).get());
     List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
-    assertEquals(1, logged.size());  // errors are always logged
-    assertTrue(logged.get(0).getThrown() instanceof MyError);
+    assertThat(logged).hasSize(1); // errors are always logged
+    assertThat(logged.get(0).getThrown()).isInstanceOf(MyError.class);
   }
 
   // Mostly an example of how it would look like to use a list of mixed types

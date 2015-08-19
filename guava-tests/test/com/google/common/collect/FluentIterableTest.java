@@ -24,7 +24,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.testing.IteratorFeature;
@@ -251,10 +250,10 @@ public class FluentIterableTest extends TestCase {
 
   public void testFirstMatch() {
     FluentIterable<String> iterable = FluentIterable.from(Lists.newArrayList("cool", "pants"));
-    assertEquals(Optional.of("cool"), iterable.firstMatch(Predicates.equalTo("cool")));
-    assertEquals(Optional.of("pants"), iterable.firstMatch(Predicates.equalTo("pants")));
-    assertEquals(Optional.absent(), iterable.firstMatch(Predicates.alwaysFalse()));
-    assertEquals(Optional.of("cool"), iterable.firstMatch(Predicates.alwaysTrue()));
+    assertThat(iterable.firstMatch(Predicates.equalTo("cool"))).hasValue("cool");
+    assertThat(iterable.firstMatch(Predicates.equalTo("pants"))).hasValue("pants");
+    assertThat(iterable.firstMatch(Predicates.alwaysFalse())).isAbsent();
+    assertThat(iterable.firstMatch(Predicates.alwaysTrue())).hasValue("cool");
   }
 
   private static final class IntegerValueOfFunction implements Function<String, Integer> {
@@ -335,7 +334,7 @@ public class FluentIterableTest extends TestCase {
 
   public void testFirst_list() {
     List<String> list = Lists.newArrayList("a", "b", "c");
-    assertEquals("a", FluentIterable.from(list).first().get());
+    assertThat(FluentIterable.from(list).first()).hasValue("a");
   }
 
   public void testFirst_null() {
@@ -349,32 +348,32 @@ public class FluentIterableTest extends TestCase {
 
   public void testFirst_emptyList() {
     List<String> list = Collections.emptyList();
-    assertEquals(Optional.absent(), FluentIterable.from(list).first());
+    assertThat(FluentIterable.from(list).first()).isAbsent();
   }
 
   public void testFirst_sortedSet() {
     SortedSet<String> sortedSet = ImmutableSortedSet.of("b", "c", "a");
-    assertEquals("a", FluentIterable.from(sortedSet).first().get());
+    assertThat(FluentIterable.from(sortedSet).first()).hasValue("a");
   }
 
   public void testFirst_emptySortedSet() {
     SortedSet<String> sortedSet = ImmutableSortedSet.of();
-    assertEquals(Optional.absent(), FluentIterable.from(sortedSet).first());
+    assertThat(FluentIterable.from(sortedSet).first()).isAbsent();
   }
 
   public void testFirst_iterable() {
     Set<String> set = ImmutableSet.of("a", "b", "c");
-    assertEquals("a", FluentIterable.from(set).first().get());
+    assertThat(FluentIterable.from(set).first()).hasValue("a");
   }
 
   public void testFirst_emptyIterable() {
     Set<String> set = Sets.newHashSet();
-    assertEquals(Optional.absent(), FluentIterable.from(set).first());
+    assertThat(FluentIterable.from(set).first()).isAbsent();
   }
 
   public void testLast_list() {
     List<String> list = Lists.newArrayList("a", "b", "c");
-    assertEquals("c", FluentIterable.from(list).last().get());
+    assertThat(FluentIterable.from(list).last()).hasValue("c");
   }
 
   public void testLast_null() {
@@ -388,27 +387,27 @@ public class FluentIterableTest extends TestCase {
 
   public void testLast_emptyList() {
     List<String> list = Collections.emptyList();
-    assertEquals(Optional.absent(), FluentIterable.from(list).last());
+    assertThat(FluentIterable.from(list).last()).isAbsent();
   }
 
   public void testLast_sortedSet() {
     SortedSet<String> sortedSet = ImmutableSortedSet.of("b", "c", "a");
-    assertEquals("c", FluentIterable.from(sortedSet).last().get());
+    assertThat(FluentIterable.from(sortedSet).last()).hasValue("c");
   }
 
   public void testLast_emptySortedSet() {
     SortedSet<String> sortedSet = ImmutableSortedSet.of();
-    assertEquals(Optional.absent(), FluentIterable.from(sortedSet).last());
+    assertThat(FluentIterable.from(sortedSet).last()).isAbsent();
   }
 
   public void testLast_iterable() {
     Set<String> set = ImmutableSet.of("a", "b", "c");
-    assertEquals("c", FluentIterable.from(set).last().get());
+    assertThat(FluentIterable.from(set).last()).hasValue("c");
   }
 
   public void testLast_emptyIterable() {
     Set<String> set = Sets.newHashSet();
-    assertEquals(Optional.absent(), FluentIterable.from(set).last());
+    assertThat(FluentIterable.from(set).last()).isAbsent();
   }
 
   public void testSkip_simple() {

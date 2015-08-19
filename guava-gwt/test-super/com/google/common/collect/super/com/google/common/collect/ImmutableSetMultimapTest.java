@@ -240,9 +240,9 @@ public class ImmutableSetMultimapTest extends TestCase {
     assertThat(multimap.values()).containsExactly(2, 4, 3, 6, 5, 2).inOrder();
     assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
     assertThat(multimap.get("b")).containsExactly(3, 6).inOrder();
-    assertFalse(multimap.get("a") instanceof ImmutableSortedSet);
-    assertFalse(multimap.get("x") instanceof ImmutableSortedSet);
-    assertFalse(multimap.asMap().get("a") instanceof ImmutableSortedSet);
+    assertThat(multimap.get("a")).isNotInstanceOf(ImmutableSortedSet.class);
+    assertThat(multimap.get("x")).isNotInstanceOf(ImmutableSortedSet.class);
+    assertThat(multimap.asMap().get("a")).isNotInstanceOf(ImmutableSortedSet.class);
   }
 
   public void testBuilderOrderKeysByDuplicates() {
@@ -265,9 +265,9 @@ public class ImmutableSetMultimapTest extends TestCase {
     assertThat(multimap.values()).containsExactly(2, 5, 2, 3, 6, 4).inOrder();
     assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
     assertThat(multimap.get("bb")).containsExactly(3, 6).inOrder();
-    assertFalse(multimap.get("a") instanceof ImmutableSortedSet);
-    assertFalse(multimap.get("x") instanceof ImmutableSortedSet);
-    assertFalse(multimap.asMap().get("a") instanceof ImmutableSortedSet);
+    assertThat(multimap.get("a")).isNotInstanceOf(ImmutableSortedSet.class);
+    assertThat(multimap.get("x")).isNotInstanceOf(ImmutableSortedSet.class);
+    assertThat(multimap.asMap().get("a")).isNotInstanceOf(ImmutableSortedSet.class);
   }
 
   public void testBuilderOrderValuesBy() {

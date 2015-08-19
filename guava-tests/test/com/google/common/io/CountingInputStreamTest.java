@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -90,7 +92,7 @@ public class CountingInputStreamTest extends IoTestCase {
       counter.reset();
       fail();
     } catch (IOException expected) {
-      assertEquals("Mark not set", expected.getMessage());
+      assertThat(expected).hasMessage("Mark not set");
     }
   }
   
@@ -101,7 +103,7 @@ public class CountingInputStreamTest extends IoTestCase {
       counter.reset();
       fail();
     } catch (IOException expected) {
-      assertEquals("Mark not supported", expected.getMessage());
+      assertThat(expected).hasMessage("Mark not supported");
     }
   }
   

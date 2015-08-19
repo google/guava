@@ -172,8 +172,7 @@ public class IteratorsTest extends TestCase {
       Iterators.getOnlyElement(iterator);
       fail();
     } catch (IllegalArgumentException expected) {
-      assertEquals("expected one element but was: <one, two>",
-                   expected.getMessage());
+      assertThat(expected).hasMessage("expected one element but was: <one, two>");
     }
   }
 
@@ -184,9 +183,8 @@ public class IteratorsTest extends TestCase {
       Iterators.getOnlyElement(iterator);
       fail();
     } catch (IllegalArgumentException expected) {
-      assertEquals("expected one element but was: "
-                   + "<one, two, three, four, five>",
-                   expected.getMessage());
+      assertThat(expected)
+          .hasMessage("expected one element but was: " + "<one, two, three, four, five>");
     }
   }
 
@@ -197,9 +195,8 @@ public class IteratorsTest extends TestCase {
       Iterators.getOnlyElement(iterator);
       fail();
     } catch (IllegalArgumentException expected) {
-      assertEquals("expected one element but was: "
-                   + "<one, two, three, four, five, ...>",
-                   expected.getMessage());
+      assertThat(expected)
+          .hasMessage("expected one element but was: " + "<one, two, three, four, five, ...>");
     }
   }
 
@@ -224,8 +221,7 @@ public class IteratorsTest extends TestCase {
       Iterators.getOnlyElement(iterator, "x");
       fail();
     } catch (IllegalArgumentException expected) {
-      assertEquals("expected one element but was: <foo, bar>",
-                   expected.getMessage());
+      assertThat(expected).hasMessage("expected one element but was: <foo, bar>");
     }
   }
 
@@ -368,22 +364,19 @@ public class IteratorsTest extends TestCase {
   public void testTryFind_firstElement() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertEquals("cool",
-        Iterators.tryFind(iterator, Predicates.equalTo("cool")).get());
+    assertThat(Iterators.tryFind(iterator, Predicates.equalTo("cool"))).hasValue("cool");
   }
 
   public void testTryFind_lastElement() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertEquals("pants",
-        Iterators.tryFind(iterator, Predicates.equalTo("pants")).get());
+    assertThat(Iterators.tryFind(iterator, Predicates.equalTo("pants"))).hasValue("pants");
   }
 
   public void testTryFind_alwaysTrue() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertEquals("cool",
-        Iterators.tryFind(iterator, Predicates.alwaysTrue()).get());
+    assertThat(Iterators.tryFind(iterator, Predicates.alwaysTrue())).hasValue("cool");
   }
 
   public void testTryFind_alwaysFalse_orDefault() {
@@ -397,8 +390,7 @@ public class IteratorsTest extends TestCase {
   public void testTryFind_alwaysFalse_isPresent() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertFalse(
-        Iterators.tryFind(iterator, Predicates.alwaysFalse()).isPresent());
+    assertThat(Iterators.tryFind(iterator, Predicates.alwaysFalse())).isAbsent();
     assertFalse(iterator.hasNext());
   }
 

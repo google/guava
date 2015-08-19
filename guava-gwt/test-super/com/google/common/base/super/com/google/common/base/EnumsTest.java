@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.testing.SerializableTester;
 
@@ -41,27 +43,27 @@ public class EnumsTest extends TestCase {
   private enum OtherEnum {}
 
   public void testGetIfPresent() {
-    assertEquals(Optional.of(TestEnum.CHEETO), Enums.getIfPresent(TestEnum.class, "CHEETO"));
-    assertEquals(Optional.of(TestEnum.HONDA), Enums.getIfPresent(TestEnum.class, "HONDA"));
-    assertEquals(Optional.of(TestEnum.POODLE), Enums.getIfPresent(TestEnum.class, "POODLE"));
+    assertThat(Enums.getIfPresent(TestEnum.class, "CHEETO")).hasValue(TestEnum.CHEETO);
+    assertThat(Enums.getIfPresent(TestEnum.class, "HONDA")).hasValue(TestEnum.HONDA);
+    assertThat(Enums.getIfPresent(TestEnum.class, "POODLE")).hasValue(TestEnum.POODLE);
 
-    assertTrue(Enums.getIfPresent(TestEnum.class, "CHEETO").isPresent());
-    assertTrue(Enums.getIfPresent(TestEnum.class, "HONDA").isPresent());
-    assertTrue(Enums.getIfPresent(TestEnum.class, "POODLE").isPresent());
+    assertThat(Enums.getIfPresent(TestEnum.class, "CHEETO")).isPresent();
+    assertThat(Enums.getIfPresent(TestEnum.class, "HONDA")).isPresent();
+    assertThat(Enums.getIfPresent(TestEnum.class, "POODLE")).isPresent();
 
-    assertEquals(TestEnum.CHEETO, Enums.getIfPresent(TestEnum.class, "CHEETO").get());
-    assertEquals(TestEnum.HONDA, Enums.getIfPresent(TestEnum.class, "HONDA").get());
-    assertEquals(TestEnum.POODLE, Enums.getIfPresent(TestEnum.class, "POODLE").get());
+    assertThat(Enums.getIfPresent(TestEnum.class, "CHEETO")).hasValue(TestEnum.CHEETO);
+    assertThat(Enums.getIfPresent(TestEnum.class, "HONDA")).hasValue(TestEnum.HONDA);
+    assertThat(Enums.getIfPresent(TestEnum.class, "POODLE")).hasValue(TestEnum.POODLE);
   }
 
   public void testGetIfPresent_caseSensitive() {
-    assertFalse(Enums.getIfPresent(TestEnum.class, "cHEETO").isPresent());
-    assertFalse(Enums.getIfPresent(TestEnum.class, "Honda").isPresent());
-    assertFalse(Enums.getIfPresent(TestEnum.class, "poodlE").isPresent());
+    assertThat(Enums.getIfPresent(TestEnum.class, "cHEETO")).isAbsent();
+    assertThat(Enums.getIfPresent(TestEnum.class, "Honda")).isAbsent();
+    assertThat(Enums.getIfPresent(TestEnum.class, "poodlE")).isAbsent();
   }
 
   public void testGetIfPresent_whenNoMatchingConstant() {
-    assertEquals(Optional.absent(), Enums.getIfPresent(TestEnum.class, "WOMBAT"));
+    assertThat(Enums.getIfPresent(TestEnum.class, "WOMBAT")).isAbsent();
   }
 
   // Create a second ClassLoader and use it to get a second version of the TestEnum class.

@@ -247,8 +247,8 @@ public class ServiceManagerTest extends TestCase {
     Service b = new FailStartService();
     ServiceManager manager = new ServiceManager(asList(a, b));
     String toString = manager.toString();
-    assertTrue(toString.contains("NoOpService"));
-    assertTrue(toString.contains("FailStartService"));
+    assertThat(toString).contains("NoOpService");
+    assertThat(toString).contains("FailStartService");
   }
 
   public void testTimeouts() throws Exception {
@@ -367,7 +367,7 @@ public class ServiceManagerTest extends TestCase {
       }
     };
     for (LogRecord record : logHandler.getStoredLogRecords()) {
-      assertFalse(logFormatter.format(record).contains("NoOpService"));
+      assertThat(logFormatter.format(record)).doesNotContain("NoOpService");
     }
   }
 
@@ -502,7 +502,7 @@ public class ServiceManagerTest extends TestCase {
       new ServiceManager(Arrays.asList(service1, service2));
       fail();
     } catch (IllegalArgumentException expected) {
-      assertTrue(expected.getMessage().contains("started transitioning asynchronously"));
+      assertThat(expected.getMessage()).contains("started transitioning asynchronously");
     }
   }
 

@@ -309,7 +309,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     ListeningExecutorService executor = newDirectExecutorService();
     List<Callable<T>> tasks = ImmutableList.of();
     @SuppressWarnings("unchecked") // guaranteed by invokeAll contract
-    List<ListenableFuture<T>> futures = (List) executor.invokeAll(tasks);
+    List<ListenableFuture<T>> unused = (List) executor.invokeAll(tasks);
   }
 
   public void testListeningDecorator() throws Exception {
@@ -519,7 +519,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       invokeAnyImpl(e, l, false, 0);
       shouldThrow();
     } catch (ExecutionException success) {
-      assertTrue(success.getCause() instanceof NullPointerException);
+      assertThat(success.getCause()).isInstanceOf(NullPointerException.class);
     } finally {
       joinPool(e);
     }

@@ -341,7 +341,7 @@ public class ThrowablesTest extends TestCase {
       sample.noneDeclared();
       fail();
     } catch (RuntimeException expected) {
-      assertTrue(expected.getCause() instanceof SomeCheckedException);
+      assertThat(expected.getCause()).isInstanceOf(SomeCheckedException.class);
     }
   }
 
@@ -421,7 +421,7 @@ public class ThrowablesTest extends TestCase {
       sample.oneDeclared();
       fail();
     } catch (RuntimeException expected) {
-      assertTrue(expected.getCause() instanceof SomeOtherCheckedException);
+      assertThat(expected.getCause()).isInstanceOf(SomeOtherCheckedException.class);
     }
   }
 
@@ -495,7 +495,7 @@ public class ThrowablesTest extends TestCase {
     String secondLine = "\\s*at " + ThrowablesTest.class.getName() + "\\..*";
     String moreLines = "(?:.*\n?)*";
     String expected = firstLine + "\n" + secondLine + "\n" + moreLines;
-    assertTrue(getStackTraceAsString(e).matches(expected));
+    assertThat(getStackTraceAsString(e)).matches(expected);
   }
 
   public void testGetCausalChain() {

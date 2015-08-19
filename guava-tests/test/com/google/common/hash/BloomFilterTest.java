@@ -18,6 +18,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.hash.BloomFilterStrategies.BitArray;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.math.LongMath;
@@ -265,7 +266,7 @@ public class BloomFilterTest extends TestCase {
       BloomFilter.create(HashTestUtils.BAD_FUNNEL, Integer.MAX_VALUE, Double.MIN_VALUE);
       fail("we can't represent such a large BF!");
     } catch (IllegalArgumentException expected) {
-      assertEquals("Could not create BloomFilter of 3327428144502 bits", expected.getMessage());
+      assertThat(expected).hasMessage("Could not create BloomFilter of 3327428144502 bits");
     }
   }
 
@@ -475,7 +476,7 @@ public class BloomFilterTest extends TestCase {
    * Only appending a new constant is allowed.
    */
   public void testBloomFilterStrategies() {
-    assertEquals(2, BloomFilterStrategies.values().length);
+    assertThat(BloomFilterStrategies.values()).hasLength(2);
     assertEquals(BloomFilterStrategies.MURMUR128_MITZ_32, BloomFilterStrategies.values()[0]);
     assertEquals(BloomFilterStrategies.MURMUR128_MITZ_64, BloomFilterStrategies.values()[1]);
   }

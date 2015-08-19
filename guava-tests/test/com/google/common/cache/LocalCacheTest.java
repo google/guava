@@ -27,6 +27,7 @@ import static com.google.common.cache.TestingRemovalListeners.queuingRemovalList
 import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -249,7 +250,7 @@ public class LocalCacheTest extends TestCase {
     assertEquals(4, map.concurrencyLevel);
 
     // concurrency level
-    assertEquals(4, map.segments.length);
+    assertThat(map.segments).hasLength(4);
     // initial capacity / concurrency level
     assertEquals(16 / map.segments.length, map.segments[0].table.length());
 
@@ -314,7 +315,7 @@ public class LocalCacheTest extends TestCase {
   private static void checkConcurrencyLevel(int concurrencyLevel, int segmentCount) {
     LocalCache<Object, Object> map =
         makeLocalCache(createCacheBuilder().concurrencyLevel(concurrencyLevel));
-    assertEquals(segmentCount, map.segments.length);
+    assertThat(map.segments).hasLength(segmentCount);
   }
 
   public void testSetInitialCapacity() {
@@ -661,7 +662,7 @@ public class LocalCacheTest extends TestCase {
     map.put("foo", "bar");
     map.put("baz", "bar");
     map.put("quux", "quux");
-    assertFalse(map.values() instanceof Set);
+    assertThat(map.values()).isNotInstanceOf(Set.class);
     assertTrue(map.values().removeAll(ImmutableSet.of("bar")));
     assertEquals(1, map.size());
   }

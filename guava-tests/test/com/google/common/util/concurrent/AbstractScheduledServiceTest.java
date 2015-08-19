@@ -267,8 +267,7 @@ public class AbstractScheduledServiceTest extends TestCase {
       service.startAsync().awaitRunning(1, TimeUnit.MILLISECONDS);
       fail("Expected timeout");
     } catch (TimeoutException e) {
-      assertThat(e.getMessage())
-          .isEqualTo("Timed out waiting for Foo [STARTING] to reach the RUNNING state.");
+      assertThat(e).hasMessage("Timed out waiting for Foo [STARTING] to reach the RUNNING state.");
     }
   }
 

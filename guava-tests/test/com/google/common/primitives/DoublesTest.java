@@ -439,7 +439,7 @@ public class DoublesTest extends TestCase {
   @GwtIncompatible("Doubles.tryParse")
   private static void checkTryParse(double expected, String input) {
     assertEquals(Double.valueOf(expected), Doubles.tryParse(input));
-    assertTrue(Doubles.FLOATING_POINT_PATTERN.matcher(input).matches());
+    assertThat(input).matches(Doubles.FLOATING_POINT_PATTERN);
   }
 
   @GwtIncompatible("Doubles.tryParse")
@@ -507,7 +507,7 @@ public class DoublesTest extends TestCase {
   @GwtIncompatible("Doubles.tryParse")
   public void testTryParseFailures() {
     for (String badInput : BAD_TRY_PARSE_INPUTS) {
-      assertFalse(Doubles.FLOATING_POINT_PATTERN.matcher(badInput).matches());
+      assertThat(badInput).doesNotMatch(Doubles.FLOATING_POINT_PATTERN);
       assertEquals(referenceTryParse(badInput), Doubles.tryParse(badInput));
       assertNull(Doubles.tryParse(badInput));
     }
