@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import javax.annotation.Nullable;
@@ -29,9 +30,9 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true)
 final class LexicographicalOrdering<T> extends Ordering<Iterable<T>> implements Serializable {
-  final Ordering<? super T> elementOrder;
+  final Comparator<? super T> elementOrder;
 
-  LexicographicalOrdering(Ordering<? super T> elementOrder) {
+  LexicographicalOrdering(Comparator<? super T> elementOrder) {
     this.elementOrder = elementOrder;
   }
 
