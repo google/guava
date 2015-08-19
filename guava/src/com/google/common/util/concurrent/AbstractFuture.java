@@ -23,7 +23,6 @@ import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Throwables;
-import com.google.errorprone.annotations.ForOverride;
 
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -110,7 +109,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   static {
     AtomicHelper helper = null;
     try {
-      helper = new UnsafeAtomicHelper();
+      helper = UnsafeAtomicHelperFactory.values()[0].tryCreateUnsafeAtomicHelper();
     } catch (Throwable e) {
       // catch absolutely everything and fall through
     }
@@ -764,7 +763,6 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *
    * <p>This is called exactly once, after all listeners have executed.  By default it does nothing.
    */
-  // TODO(cpovirk): @ForOverride if https://github.com/google/error-prone/issues/342 permits
   void done() {}
 
   /**
@@ -849,11 +847,39 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   /**
+   * Temporary hack to hide the reference to {@link UnsafeAtomicHelper} from Android. The caller of
+   * this code will execute {@link #tryCreateUnsafeAtomicHelper} on the <b>first</b> enum value
+   * present. On the server, this will try to create {@link UnsafeAtomicHelper}. On Android, it will
+   * just return {@code null}.
+   */
+  private enum UnsafeAtomicHelperFactory {
+    @SuppressUnderAndroid // temporarily while we make Proguard tolerate Unsafe
+    REALLY_TRY_TO_CREATE {
+      @Override
+      AtomicHelper tryCreateUnsafeAtomicHelper() {
+        return new UnsafeAtomicHelper();
+      }
+    },
+
+    DONT_EVEN_TRY_TO_CREATE {
+      @Override
+      AtomicHelper tryCreateUnsafeAtomicHelper() {
+        return null;
+      }
+    },
+
+  ;
+
+    abstract AtomicHelper tryCreateUnsafeAtomicHelper();
+  }
+
+  /**
    * {@link AtomicHelper} based on {@link sun.misc.Unsafe}.
    *
    * <p>Static initialization of this class will fail if the {@link sun.misc.Unsafe} object cannot
    * be accessed.
    */
+  @SuppressUnderAndroid // temporarily while we make Proguard tolerate Unsafe
   private static final class UnsafeAtomicHelper extends AtomicHelper {
     static final sun.misc.Unsafe UNSAFE;
     static final long LISTENERS_OFFSET;
@@ -899,26 +925,31 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       }
     }
 
-    @Override void putThread(Waiter waiter, Thread thread) {
+    @Override
+    void putThread(Waiter waiter, Thread thread) {
       UNSAFE.putObject(waiter, WAITER_THREAD_OFFSET, thread);
     }
 
-    @Override void putNext(Waiter waiter, Waiter next) {
+    @Override
+    void putNext(Waiter waiter, Waiter next) {
       UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, next);
     }
 
     /** Performs a CAS operation on the {@link #waiters} field. */
-    @Override boolean casWaiters(AbstractFuture future, Waiter curr, Waiter next) {
+    @Override
+    boolean casWaiters(AbstractFuture future, Waiter curr, Waiter next) {
       return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, curr, next);
     }
 
     /** Performs a CAS operation on the {@link #listeners} field. */
-    @Override boolean casListeners(AbstractFuture future, Listener curr, Listener next) {
+    @Override
+    boolean casListeners(AbstractFuture future, Listener curr, Listener next) {
       return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, curr, next);
     }
 
     /** Performs a CAS operation on the {@link #value} field. */
-    @Override boolean casValue(AbstractFuture future, Object expected, Object v) {
+    @Override
+    boolean casValue(AbstractFuture future, Object expected, Object v) {
       return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expected, v);
     }
   }

@@ -29,9 +29,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Signifies that a test should not be run under Android. This annotation is respected only by our
- * Google-internal Android suite generators. Note that those generators also suppress any test
- * annotated with MediumTest or LargeTest.
+ * Signifies that a member should be stripped from the internal Android flavor of Guava. This
+ * annotation is respected only by our Google-internal build system. Note that that system also
+ * strips any test annotated with MediumTest or LargeTest.
+ *
+ * TODO(cpovirk): Replicate this revised description to other copies of the annotation, or better
+ * yet, eliminate the need to use it in prod code, revert the description, and move it back to the
+ * test directory.
  *
  * <p>For more discussion, see {@linkplain com.google.common.base.SuppressUnderAndroid the
  * documentation on another copy of this annotation}.
