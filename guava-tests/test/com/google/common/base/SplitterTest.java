@@ -490,7 +490,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
-  @AndroidIncompatible // TODO(cpovirk): File Android bug (different from the two above).
+  @AndroidIncompatible // not clear that j.u.r.Matcher promises to handle mutations during use
   public void testSplitterIterableIsLazy_pattern() {
     assertSplitterIterableIsLazy(Splitter.onPattern(","));
   }
