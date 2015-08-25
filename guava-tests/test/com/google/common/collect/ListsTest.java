@@ -108,7 +108,6 @@ public class ListsTest extends TestCase {
   }
 
   @GwtIncompatible("suite")
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ListsTest.class);
@@ -867,7 +866,7 @@ public class ListsTest extends TestCase {
     assertThat(partitions.get(1)).isNotInstanceOf(RandomAccess.class);
   }
 
-  // TODO: use the suite builders
+  // TODO: use the ListTestSuiteBuilder
 
   public void testPartition_view() {
     List<Integer> list = asList(1, 2, 3);

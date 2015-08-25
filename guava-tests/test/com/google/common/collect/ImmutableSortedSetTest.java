@@ -60,7 +60,6 @@ import java.util.TreeSet;
 public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
   @GwtIncompatible("suite")
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

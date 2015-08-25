@@ -48,7 +48,6 @@ public class ConstrainedMapTest extends TestCase {
   private static final MapConstraint<String, String> TEST_CONSTRAINT = new TestConstraint();
 
   @GwtIncompatible("suite")
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MapTestSuiteBuilder

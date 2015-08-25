@@ -68,7 +68,6 @@ import java.util.Map.Entry;
 public class ImmutableMapTest extends TestCase {
 
   @GwtIncompatible("suite")
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableMapTest.class);
@@ -180,7 +179,6 @@ public class ImmutableMapTest extends TestCase {
     }
   }
 
-  @SuppressUnderAndroid
   public static class MapTests extends AbstractMapTests<String, Integer> {
     @Override protected Map<String, Integer> makeEmptyMap() {
       return ImmutableMap.of();
@@ -199,7 +197,6 @@ public class ImmutableMapTest extends TestCase {
     }
   }
 
-  @SuppressUnderAndroid
   public static class SingletonMapTests
       extends AbstractMapTests<String, Integer> {
     @Override protected Map<String, Integer> makePopulatedMap() {
@@ -216,7 +213,6 @@ public class ImmutableMapTest extends TestCase {
   }
 
   @GwtIncompatible("SerializableTester")
-  @SuppressUnderAndroid
   public static class ReserializedMapTests
       extends AbstractMapTests<String, Integer> {
     @Override protected Map<String, Integer> makePopulatedMap() {
@@ -233,7 +229,6 @@ public class ImmutableMapTest extends TestCase {
     }
   }
 
-  @SuppressUnderAndroid
   public static class MapTestsWithBadHashes
       extends AbstractMapTests<Object, Integer> {
 
@@ -260,7 +255,6 @@ public class ImmutableMapTest extends TestCase {
   }
 
   @GwtIncompatible("GWT's ImmutableMap emulation is backed by java.util.HashMap.")
-  @SuppressUnderAndroid
   public static class MapTestsWithUnhashableValues
       extends AbstractMapTests<Integer, UnhashableObject> {
     @Override protected Map<Integer, UnhashableObject> makeEmptyMap() {
@@ -283,7 +277,6 @@ public class ImmutableMapTest extends TestCase {
   }
 
   @GwtIncompatible("GWT's ImmutableMap emulation is backed by java.util.HashMap.")
-  @SuppressUnderAndroid
   public static class MapTestsWithSingletonUnhashableValue
       extends MapTestsWithUnhashableValues {
     @Override protected Map<Integer, UnhashableObject> makePopulatedMap() {
@@ -292,7 +285,6 @@ public class ImmutableMapTest extends TestCase {
     }
   }
 
-  @SuppressUnderAndroid
   public static class CreationTests extends TestCase {
     public void testEmptyBuilder() {
       ImmutableMap<String, Integer> map

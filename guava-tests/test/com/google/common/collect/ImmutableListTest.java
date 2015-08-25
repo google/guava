@@ -65,7 +65,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid // nested classes
 public class ImmutableListTest extends TestCase {
 
   @GwtIncompatible("suite")

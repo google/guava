@@ -106,7 +106,6 @@ public class ForwardingQueueTest extends ForwardingTestCase {
   private Queue<String> forward;
   private Queue<String> queue;
   
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     

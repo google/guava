@@ -41,7 +41,6 @@ import java.util.NoSuchElementException;
  */
 @GwtIncompatible("NavigableMap")
 public class TreeRangeMapTest extends TestCase {
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(TreeRangeMapTest.class);

@@ -603,7 +603,7 @@ public class ListsTest extends TestCase {
     assertThat(partitions.get(1)).isNotInstanceOf(RandomAccess.class);
   }
 
-  // TODO: use the suite builders
+  // TODO: use the ListTestSuiteBuilder
 
   public void testPartition_view() {
     List<Integer> list = asList(1, 2, 3);

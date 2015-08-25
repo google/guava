@@ -199,7 +199,6 @@ public class MapMakerTest extends TestCase {
    */
 
   /** Tests for the builder. */
-  @SuppressUnderAndroid
   public static class MakerTest extends TestCase {
     public void testInitialCapacity_negative() {
       MapMaker maker = new MapMaker();
@@ -251,7 +250,6 @@ public class MapMakerTest extends TestCase {
   }
 
   /** Tests of the built map with maximumSize. */
-  @SuppressUnderAndroid
   public static class MaximumSizeTest extends TestCase {
     public void testPut_sizeIsZero() {
       ConcurrentMap<Object, Object> map =
@@ -277,7 +275,6 @@ public class MapMakerTest extends TestCase {
   }
 
   /** Tests for recursive computation. */
-  @SuppressUnderAndroid
   public static class RecursiveComputationTest extends TestCase {
     Function<Integer, String> recursiveComputer
         = new Function<Integer, String>() {
@@ -302,7 +299,6 @@ public class MapMakerTest extends TestCase {
   /**
    * Tests for computing functionality.
    */
-  @SuppressUnderAndroid
   public static class ComputingTest extends TestCase {
     public void testComputerThatReturnsNull() {
       ConcurrentMap<Integer, String> map = new MapMaker()

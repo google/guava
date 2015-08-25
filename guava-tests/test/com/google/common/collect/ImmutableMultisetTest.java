@@ -56,7 +56,6 @@ import java.util.Set;
 public class ImmutableMultisetTest extends TestCase {
 
   @GwtIncompatible("suite") // TODO(cpovirk): add to collect/gwt/suites
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableMultisetTest.class);

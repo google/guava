@@ -45,7 +45,6 @@ import java.util.RandomAccess;
 public class ArrayListMultimapTest extends TestCase {
 
   @GwtIncompatible("suite")
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(ListMultimapTestSuiteBuilder.using(new TestStringListMultimapGenerator() {
