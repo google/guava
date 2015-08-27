@@ -69,8 +69,9 @@ import javax.annotation.Nullable;
  *     com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to create
  *     a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
  *     {@code Converter} type using a mocking framework.
- * <li>Otherwise, extend this class and implement its {@link #doForward} and {@link #doBackward}
- *     methods.
+ * <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
+ * <li>If using Java 8, you may prefer to pass two lambda expressions or method references to {@link
+ *     #from}.
  * </ul>
  *
  * <p>Using a converter:
@@ -84,6 +85,26 @@ import javax.annotation.Nullable;
  * <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to be
  *     overridden.
  * </ul>
+ *
+ * <h3>Example</h3>
+ *
+ * <pre>   {@code
+ *
+ *   return new Converter<Integer, String>() {
+ *     @Override
+ *     protected String doForward(Integer i) {
+ *       return Integer.toHexString(i);
+ *     }
+ *
+ *     @Override
+ *     protected Integer doBackward(String s) {
+ *       return parseUnsignedInt(s, 16);
+ *     }
+ *   };}</pre>
+ *
+ * <p>An alternative using Java 8: <pre>   {@code
+ *
+ *   return Converter.from(Integer::toHexString, s -> parseUnsignedInt(s, 16));}</pre>
  *
  * @author Mike Ward
  * @author Kurt Alfred Kluever
