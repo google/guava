@@ -228,7 +228,7 @@
 <span class="sourceLineNo">220</span>    if (occurrences == 0) {<a name="line.220"></a>
 <span class="sourceLineNo">221</span>      return count(element);<a name="line.221"></a>
 <span class="sourceLineNo">222</span>    }<a name="line.222"></a>
-<span class="sourceLineNo">223</span>    checkArgument(occurrences &gt; 0, "Invalid occurrences: %s", occurrences);<a name="line.223"></a>
+<span class="sourceLineNo">223</span>    CollectPreconditions.checkPositive(occurrences, "occurences");<a name="line.223"></a>
 <span class="sourceLineNo">224</span><a name="line.224"></a>
 <span class="sourceLineNo">225</span>    while (true) {<a name="line.225"></a>
 <span class="sourceLineNo">226</span>      AtomicInteger existingCounter = Maps.safeGet(countMap, element);<a name="line.226"></a>
@@ -293,7 +293,7 @@
 <span class="sourceLineNo">285</span>    if (occurrences == 0) {<a name="line.285"></a>
 <span class="sourceLineNo">286</span>      return count(element);<a name="line.286"></a>
 <span class="sourceLineNo">287</span>    }<a name="line.287"></a>
-<span class="sourceLineNo">288</span>    checkArgument(occurrences &gt; 0, "Invalid occurrences: %s", occurrences);<a name="line.288"></a>
+<span class="sourceLineNo">288</span>    CollectPreconditions.checkPositive(occurrences, "occurences");<a name="line.288"></a>
 <span class="sourceLineNo">289</span><a name="line.289"></a>
 <span class="sourceLineNo">290</span>    AtomicInteger existingCounter = Maps.safeGet(countMap, element);<a name="line.290"></a>
 <span class="sourceLineNo">291</span>    if (existingCounter == null) {<a name="line.291"></a>
@@ -333,7 +333,7 @@
 <span class="sourceLineNo">325</span>    if (occurrences == 0) {<a name="line.325"></a>
 <span class="sourceLineNo">326</span>      return true;<a name="line.326"></a>
 <span class="sourceLineNo">327</span>    }<a name="line.327"></a>
-<span class="sourceLineNo">328</span>    checkArgument(occurrences &gt; 0, "Invalid occurrences: %s", occurrences);<a name="line.328"></a>
+<span class="sourceLineNo">328</span>    CollectPreconditions.checkPositive(occurrences, "occurences");<a name="line.328"></a>
 <span class="sourceLineNo">329</span><a name="line.329"></a>
 <span class="sourceLineNo">330</span>    AtomicInteger existingCounter = Maps.safeGet(countMap, element);<a name="line.330"></a>
 <span class="sourceLineNo">331</span>    if (existingCounter == null) {<a name="line.331"></a>
