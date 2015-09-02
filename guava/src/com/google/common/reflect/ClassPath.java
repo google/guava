@@ -30,7 +30,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import com.google.j2objc.annotations.J2ObjCIncompatible;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +56,6 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
-@J2ObjCIncompatible // java.util.jar
 public final class ClassPath {
   private static final Logger logger = Logger.getLogger(ClassPath.class.getName());
 
