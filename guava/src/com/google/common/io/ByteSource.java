@@ -105,7 +105,10 @@ public abstract class ByteSource {
 
   /**
    * Returns a view of a slice of this byte source that is at most {@code length} bytes long
-   * starting at the given {@code offset}.
+   * starting at the given {@code offset}. If {@code offset} is greater than the size of this
+   * source, the returned source will be empty. If {@code offset + length} is greater than the size
+   * of this source, the returned source will contain the slice starting at {@code offset} and
+   * ending at the end of this source.
    *
    * @throws IllegalArgumentException if {@code offset} or {@code length} is negative
    */
@@ -492,8 +495,9 @@ public abstract class ByteSource {
 
     private InputStream sliceStream(InputStream in) throws IOException {
       if (offset > 0) {
+        long skipped;
         try {
-          ByteStreams.skipFully(in, offset);
+          skipped = ByteStreams.skipUpTo(in, offset);
         } catch (Throwable e) {
           Closer closer = Closer.create();
           closer.register(in);
@@ -502,6 +506,12 @@ public abstract class ByteSource {
           } finally {
             closer.close();
           }
+        }
+
+        if (skipped < offset) {
+          // offset was beyond EOF
+          in.close();
+          return new ByteArrayInputStream(new byte[0]);
         }
       }
       return ByteStreams.limit(in, length);

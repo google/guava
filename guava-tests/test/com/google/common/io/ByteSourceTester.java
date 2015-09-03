@@ -98,6 +98,12 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
           factory, off, Long.MAX_VALUE);
       suite.addTest(suiteForBytes(slicedLongMaxValue, bytes, name + ".slice[long, Long.MAX_VALUE]",
           desc, false));
+
+      // test a slice() of the ByteSource starting at an offset greater than its size
+      ByteSourceFactory slicedOffsetPastEnd = SourceSinkFactories.asSlicedByteSourceFactory(
+          factory, expected.length + 2, expected.length + 10);
+      suite.addTest(suiteForBytes(slicedOffsetPastEnd, bytes, name + ".slice[size + 2, long]",
+          desc, false));
     }
 
     return suite;

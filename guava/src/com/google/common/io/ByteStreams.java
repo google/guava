@@ -704,21 +704,39 @@ public final class ByteStreams {
    *     support skipping
    */
   public static void skipFully(InputStream in, long n) throws IOException {
-    long toSkip = n;
-    while (n > 0) {
-      long amt = in.skip(n);
-      if (amt == 0) {
+    long skipped = skipUpTo(in, n);
+    if (skipped < n) {
+      throw new EOFException("reached end of stream after skipping "
+          + skipped + " bytes; " + n + " bytes expected");
+    }
+  }
+
+  /**
+   * Discards up to {@code n} bytes of data from the input stream. This method
+   * will block until either the full amount has been skipped or until the end
+   * of the stream is reached, whichever happens first. Returns the total number
+   * of bytes skipped.
+   */
+  static long skipUpTo(InputStream in, final long n) throws IOException {
+    long totalSkipped = 0;
+
+    while (totalSkipped < n) {
+      long skipped = in.skip(n - totalSkipped);
+
+      if (skipped == 0) {
         // Force a blocking read to avoid infinite loop
         if (in.read() == -1) {
-          long skipped = toSkip - n;
-          throw new EOFException("reached end of stream after skipping "
-              + skipped + " bytes; " + toSkip + " bytes expected");
+          // Reached EOF
+          break;
+        } else {
+          skipped = 1;
         }
-        n--;
-      } else {
-        n -= amt;
       }
+
+      totalSkipped += skipped;
     }
+
+    return totalSkipped;
   }
 
   /**
