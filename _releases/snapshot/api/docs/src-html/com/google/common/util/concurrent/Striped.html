@@ -474,24 +474,26 @@
 <span class="sourceLineNo">466</span>     * a fourth long here, to minimize chance of interference between consecutive locks,<a name="line.466"></a>
 <span class="sourceLineNo">467</span>     * but I couldn't observe any benefit from that.<a name="line.467"></a>
 <span class="sourceLineNo">468</span>     */<a name="line.468"></a>
-<span class="sourceLineNo">469</span>    @SuppressWarnings("unused")<a name="line.469"></a>
-<span class="sourceLineNo">470</span>    long q1, q2, q3;<a name="line.470"></a>
-<span class="sourceLineNo">471</span><a name="line.471"></a>
-<span class="sourceLineNo">472</span>    PaddedLock() {<a name="line.472"></a>
-<span class="sourceLineNo">473</span>      super(false);<a name="line.473"></a>
-<span class="sourceLineNo">474</span>    }<a name="line.474"></a>
-<span class="sourceLineNo">475</span>  }<a name="line.475"></a>
-<span class="sourceLineNo">476</span><a name="line.476"></a>
-<span class="sourceLineNo">477</span>  private static class PaddedSemaphore extends Semaphore {<a name="line.477"></a>
-<span class="sourceLineNo">478</span>    // See PaddedReentrantLock comment<a name="line.478"></a>
-<span class="sourceLineNo">479</span>    @SuppressWarnings("unused")<a name="line.479"></a>
-<span class="sourceLineNo">480</span>    long q1, q2, q3;<a name="line.480"></a>
-<span class="sourceLineNo">481</span><a name="line.481"></a>
-<span class="sourceLineNo">482</span>    PaddedSemaphore(int permits) {<a name="line.482"></a>
-<span class="sourceLineNo">483</span>      super(permits, false);<a name="line.483"></a>
-<span class="sourceLineNo">484</span>    }<a name="line.484"></a>
-<span class="sourceLineNo">485</span>  }<a name="line.485"></a>
-<span class="sourceLineNo">486</span>}<a name="line.486"></a>
+<span class="sourceLineNo">469</span>    long unused1;<a name="line.469"></a>
+<span class="sourceLineNo">470</span>    long unused2;<a name="line.470"></a>
+<span class="sourceLineNo">471</span>    long unused3;<a name="line.471"></a>
+<span class="sourceLineNo">472</span><a name="line.472"></a>
+<span class="sourceLineNo">473</span>    PaddedLock() {<a name="line.473"></a>
+<span class="sourceLineNo">474</span>      super(false);<a name="line.474"></a>
+<span class="sourceLineNo">475</span>    }<a name="line.475"></a>
+<span class="sourceLineNo">476</span>  }<a name="line.476"></a>
+<span class="sourceLineNo">477</span><a name="line.477"></a>
+<span class="sourceLineNo">478</span>  private static class PaddedSemaphore extends Semaphore {<a name="line.478"></a>
+<span class="sourceLineNo">479</span>    // See PaddedReentrantLock comment<a name="line.479"></a>
+<span class="sourceLineNo">480</span>    long unused1;<a name="line.480"></a>
+<span class="sourceLineNo">481</span>    long unused2;<a name="line.481"></a>
+<span class="sourceLineNo">482</span>    long unused3;<a name="line.482"></a>
+<span class="sourceLineNo">483</span><a name="line.483"></a>
+<span class="sourceLineNo">484</span>    PaddedSemaphore(int permits) {<a name="line.484"></a>
+<span class="sourceLineNo">485</span>      super(permits, false);<a name="line.485"></a>
+<span class="sourceLineNo">486</span>    }<a name="line.486"></a>
+<span class="sourceLineNo">487</span>  }<a name="line.487"></a>
+<span class="sourceLineNo">488</span>}<a name="line.488"></a>
 
 
 
