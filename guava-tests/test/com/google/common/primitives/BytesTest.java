@@ -64,13 +64,73 @@ public class BytesTest extends TestCase {
     assertEquals(-1, Bytes.indexOf(ARRAY1, (byte) 2));
     assertEquals(-1, Bytes.indexOf(ARRAY234, (byte) 1));
     assertEquals(0, Bytes.indexOf(
-        new byte[] {(byte) -1}, (byte) -1));
+            new byte[]{(byte) -1}, (byte) -1));
     assertEquals(0, Bytes.indexOf(ARRAY234, (byte) 2));
     assertEquals(1, Bytes.indexOf(ARRAY234, (byte) 3));
     assertEquals(2, Bytes.indexOf(ARRAY234, (byte) 4));
     assertEquals(1, Bytes.indexOf(
-        new byte[] { (byte) 2, (byte) 3, (byte) 2, (byte) 3 },
-        (byte) 3));
+            new byte[]{(byte) 2, (byte) 3, (byte) 2, (byte) 3},
+            (byte) 3));
+  }
+
+  public void testIndexOfStart() {
+    assertEquals(-1, Bytes.indexOf(EMPTY, (byte) 1, 0));
+    assertEquals(-1, Bytes.indexOf(EMPTY, (byte) 1, 1));
+    assertEquals(-1, Bytes.indexOf(ARRAY1, (byte) 2, 0));
+    assertEquals(-1, Bytes.indexOf(ARRAY1, (byte) 2, 2));
+    assertEquals(-1, Bytes.indexOf(ARRAY234, (byte) 1, 0));
+    assertEquals(0, Bytes.indexOf(
+            new byte[] {(byte) -1}, (byte) -1, 0));
+    assertEquals(-1, Bytes.indexOf(
+            new byte[] {(byte) -1}, (byte) -1, 1));
+    assertEquals(0, Bytes.indexOf(ARRAY234, (byte) 2, 0));
+    assertEquals(1, Bytes.indexOf(ARRAY234, (byte) 3, 0));
+    assertEquals(2, Bytes.indexOf(ARRAY234, (byte) 4, 2));
+    assertEquals(-1, Bytes.indexOf(ARRAY234, (byte) 4, 3));
+    assertEquals(1, Bytes.indexOf(
+            new byte[] { (byte) 2, (byte) 3, (byte) 2, (byte) 3 },
+            (byte) 3, 0));
+    assertEquals(3, Bytes.indexOf(
+            new byte[] { (byte) 2, (byte) 3, (byte) 2, (byte) 3 },
+            (byte) 3, 2));
+  }
+
+  public void testIndexOfStartEnd() {
+    assertEquals(-1, Bytes.indexOf(EMPTY, (byte) 1, 0, 1));
+    assertEquals(-1, Bytes.indexOf(EMPTY, (byte) 1, 1, 2));
+    assertEquals(-1, Bytes.indexOf(ARRAY1, (byte) 2, 0, 1));
+    assertEquals(-1, Bytes.indexOf(ARRAY1, (byte) 2, 2, 3));
+    assertEquals(-1, Bytes.indexOf(ARRAY234, (byte) 1, 0, 4));
+    assertEquals(0, Bytes.indexOf(
+            new byte[] {(byte) -1}, (byte) -1, 0, 1));
+    assertEquals(-1, Bytes.indexOf(
+            new byte[] {(byte) -1}, (byte) -1, 0, 0));
+    assertEquals(-1, Bytes.indexOf(
+            new byte[] {(byte) -1}, (byte) -1, 1, 2));
+    assertEquals(0, Bytes.indexOf(ARRAY234, (byte) 2, 0, 3));
+    assertEquals(1, Bytes.indexOf(ARRAY234, (byte) 3, 0, 3));
+    assertEquals(1, Bytes.indexOf(ARRAY234, (byte) 3, 0, 2));
+    assertEquals(-1, Bytes.indexOf(ARRAY234, (byte) 3, 0, 1));
+    assertEquals(2, Bytes.indexOf(ARRAY234, (byte) 4, 2, 3));
+    assertEquals(-1, Bytes.indexOf(ARRAY234, (byte) 4, 3, 3));
+    assertEquals(1, Bytes.indexOf(
+            new byte[] { (byte) 2, (byte) 3, (byte) 2, (byte) 3 },
+            (byte) 3, 0, 4));
+    assertEquals(-1, Bytes.indexOf(
+            new byte[] { (byte) 2, (byte) 3, (byte) 2, (byte) 3 },
+            (byte) 3, 0, 1));
+    assertEquals(3, Bytes.indexOf(
+            new byte[] { (byte) 2, (byte) 3, (byte) 2, (byte) 3 },
+            (byte) 3, 2, 4));
+    assertEquals(-1, Bytes.indexOf(
+            new byte[] { (byte) 2, (byte) 3, (byte) 2, (byte) 3 },
+            (byte) 3, 2, 3));
+    assertEquals(-1, Bytes.indexOf(
+            new byte[] { (byte) 2, (byte) 3, (byte) 2, (byte) 3 },
+            (byte) 3, 3, 3));
+    assertEquals(-1, Bytes.indexOf(
+            new byte[] { (byte) 2, (byte) 3, (byte) 2, (byte) 3 },
+            (byte) 3, 3, 2));
   }
 
   public void testIndexOf_arrayTarget() {

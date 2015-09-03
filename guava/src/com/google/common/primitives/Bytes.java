@@ -97,8 +97,34 @@ public final class Bytes {
     return indexOf(array, target, 0, array.length);
   }
 
-  // TODO(kevinb): consider making this public
-  private static int indexOf(byte[] array, byte target, int start, int end) {
+  /**
+   * Returns the index of the first appearance of the value {@code target} in
+   * {@code array}, starting at position {@code start}.
+   *
+   * @param array an array of {@code byte} values, possibly empty
+   * @param target a primitive {@code byte} value
+   * @param start position to start with
+   * @return the least index {@code i >= start} for which {@code array[i] == target}, or
+   *     {@code -1} if no such index exists.
+   */
+  public static int indexOf(byte[] array, byte target, int start) {
+    return indexOf(array, target, start, array.length);
+  }
+
+  /**
+   * Returns the index of the first appearance of the value {@code target} in
+   * {@code array}, starting at position {@code start} and ending before position end.
+   *
+   * @param array an array of {@code byte} values, possibly empty
+   * @param target a primitive {@code byte} value
+   * @param start position to start the search from
+   * @param end position to end the search (exclusive)
+   * @return the least index {@code start <= i < end} for which {@code array[i]
+   *	== target}, or {@code -1} if no such index exists.
+   */
+  public static int indexOf(byte[] array, byte target, int start, int end) {
+    if (end > array.length)
+      end = array.length;
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
