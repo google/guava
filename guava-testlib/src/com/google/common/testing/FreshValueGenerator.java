@@ -306,9 +306,7 @@ class FreshValueGenerator {
   }
 
   /** Subclasses can override to provide different return value for proxied interface methods. */
-  Object interfaceMethodCalled(
-      @SuppressWarnings("unused") Class<?> interfaceType,
-      @SuppressWarnings("unused") Method method) {
+  Object interfaceMethodCalled(Class<?> interfaceType, Method method) {
     throw new UnsupportedOperationException();
   }
 
