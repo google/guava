@@ -770,6 +770,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *
    * <p>This is called exactly once, after all listeners have executed.  By default it does nothing.
    */
+  // TODO(cpovirk): @ForOverride https://github.com/google/error-prone/issues/342
   void done() {}
 
   /**

@@ -21,6 +21,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.getUninterrupti
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
+import com.google.errorprone.annotations.ForOverride;
 
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.CancellationException;
@@ -114,6 +115,7 @@ abstract class AbstractTransformFuture<I, O, F> extends AbstractFuture.TrustedFu
   }
 
   /** Template method for subtypes to actually run the transform. */
+  @ForOverride
   abstract void doTransform(F function, I result) throws Exception;
 
   @Override

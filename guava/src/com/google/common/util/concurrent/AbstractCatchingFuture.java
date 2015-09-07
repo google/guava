@@ -22,6 +22,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.getUninterrupti
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
+import com.google.errorprone.annotations.ForOverride;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -123,6 +124,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F>
   }
 
   /** Template method for subtypes to actually run the fallback. */
+  @ForOverride
   abstract void doFallback(F fallback, X throwable) throws Exception;
 
   @Override
