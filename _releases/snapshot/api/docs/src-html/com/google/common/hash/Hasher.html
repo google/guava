@@ -126,7 +126,17 @@
 <span class="sourceLineNo">118</span>   */<a name="line.118"></a>
 <span class="sourceLineNo">119</span>  @CheckReturnValue<a name="line.119"></a>
 <span class="sourceLineNo">120</span>  HashCode hash();<a name="line.120"></a>
-<span class="sourceLineNo">121</span>}<a name="line.121"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>  /**<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   * {@inheritDoc}<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   *<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * @deprecated This returns {@link Object#hashCode()}; you almost certainly mean to call<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   *     {@code hash().asInt()}.<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   */<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  @Override<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  @Deprecated<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  int hashCode();<a name="line.130"></a>
+<span class="sourceLineNo">131</span>}<a name="line.131"></a>
 
 
 
