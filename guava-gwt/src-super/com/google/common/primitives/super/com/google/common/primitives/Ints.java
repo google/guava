@@ -27,7 +27,6 @@ import com.google.common.base.Converter;
 
 import java.io.Serializable;
 import java.util.AbstractList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -595,23 +594,6 @@ public final class Ints {
     private static final long serialVersionUID = 0;
   }
 
-  private static final byte[] asciiDigits = new byte[128];
-
-  static {
-    Arrays.fill(asciiDigits, (byte) -1);
-    for (int i = 0; i <= 9; i++) {
-      asciiDigits['0' + i] = (byte) i;
-    }
-    for (int i = 0; i <= 26; i++) {
-      asciiDigits['A' + i] = (byte) (10 + i);
-      asciiDigits['a' + i] = (byte) (10 + i);
-    }
-  }
-
-  private static int digit(char c) {
-    return (c < 128) ? asciiDigits[c] : -1;
-  }
-
   /**
    * Parses the specified string as a signed decimal integer value. The ASCII
    * character {@code '-'} (<code>'&#92;u002D'</code>) is recognized as the
@@ -660,48 +642,18 @@ public final class Ints {
    *     or cannot be parsed as an integer value
    * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or
    *     {@code radix > Character.MAX_RADIX}
+   * @since 19.0
    */
+  @Beta
   @Nullable
-  @CheckForNull static Integer tryParse(
+  @CheckForNull
+  public static Integer tryParse(
       String string, int radix) {
-    if (checkNotNull(string).isEmpty()) {
-      return null;
-    }
-    if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
-      throw new IllegalArgumentException(
-          "radix must be between MIN_RADIX and MAX_RADIX but was " + radix);
-    }
-    boolean negative = string.charAt(0) == '-';
-    int index = negative ? 1 : 0;
-    if (index == string.length()) {
-      return null;
-    }
-    int digit = digit(string.charAt(index++));
-    if (digit < 0 || digit >= radix) {
-      return null;
-    }
-    int accum = -digit;
-
-    int cap = Integer.MIN_VALUE / radix;
-
-    while (index < string.length()) {
-      digit = digit(string.charAt(index++));
-      if (digit < 0 || digit >= radix || accum < cap) {
-        return null;
-      }
-      accum *= radix;
-      if (accum < Integer.MIN_VALUE + digit) {
-        return null;
-      }
-      accum -= digit;
-    }
-
-    if (negative) {
-      return accum;
-    } else if (accum == Integer.MIN_VALUE) {
+    Long result = Longs.tryParse(string, radix);
+    if (result == null || result.longValue() != result.intValue()) {
       return null;
     } else {
-      return -accum;
+      return result.intValue();
     }
   }
 }

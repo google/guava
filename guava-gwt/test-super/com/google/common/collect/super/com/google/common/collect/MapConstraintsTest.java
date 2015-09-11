@@ -110,7 +110,7 @@ public class MapConstraintsTest extends TestCase {
     assertEquals(map.keySet(), constrained.keySet());
     assertEquals(HashMultiset.create(map.values()),
         HashMultiset.create(constrained.values()));
-    assertFalse(map.values() instanceof Serializable);
+    assertThat(map.values()).isNotInstanceOf(Serializable.class);
     assertEquals(map.toString(), constrained.toString());
     assertEquals(map.hashCode(), constrained.hashCode());
     assertThat(map.entrySet()).containsExactly(
@@ -251,9 +251,8 @@ public class MapConstraintsTest extends TestCase {
         Maps.immutableEntry("bop", 9),
         Maps.immutableEntry("dig", 10),
         Maps.immutableEntry("dag", 11)).inOrder();
-    assertFalse(constrained.asMap().values() instanceof Serializable);
-    Iterator<Collection<Integer>> iterator =
-        constrained.asMap().values().iterator();
+    assertThat(constrained.asMap().values()).isNotInstanceOf(Serializable.class);
+    Iterator<Collection<Integer>> iterator = constrained.asMap().values().iterator();
     iterator.next();
     iterator.next().add(12);
     assertTrue(multimap.containsEntry("foo", 12));
@@ -538,7 +537,18 @@ public class MapConstraintsTest extends TestCase {
     Collection<Map.Entry<String, Integer>> entries = constrained.entries();
     assertFalse(entries.remove(nefariousEntry));
     assertFalse(multimap.containsValue(TEST_VALUE));
-    assertFalse(entries.removeAll(Collections.singleton(nefariousEntry)));
+    /*
+     * Either the Multimap should reject the nefarious internalEntry.setValue() call that
+     * queryEntry.equals() makes, or it should arrange for internalEntry.equals(queryEntry) to be
+     * used instead of the reverse so that queryEntry.equals(internalEntry) is never invoked.
+     *
+     * Probably the other tests should be similarly tolerant of either outcome. But for now, this is
+     * the only one failing in any of our environments.
+     */
+    try {
+      assertFalse(entries.removeAll(Collections.singleton(nefariousEntry)));
+    } catch (TestValueException tolerated) {
+    }
     assertFalse(multimap.containsValue(TEST_VALUE));
   }
 

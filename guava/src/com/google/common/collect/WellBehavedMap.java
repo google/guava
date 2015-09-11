@@ -53,11 +53,13 @@ final class WellBehavedMap<K, V> extends ForwardingMap<K, V> {
     return new WellBehavedMap<K, V>(delegate);
   }
 
-  @Override protected Map<K, V> delegate() {
+  @Override
+  protected Map<K, V> delegate() {
     return delegate;
   }
 
-  @Override public Set<Entry<K, V>> entrySet() {
+  @Override
+  public Set<Entry<K, V>> entrySet() {
     Set<Entry<K, V>> es = entrySet;
     if (es != null) {
       return es;

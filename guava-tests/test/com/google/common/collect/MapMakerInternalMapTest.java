@@ -21,6 +21,7 @@ import static com.google.common.collect.MapMakerInternalMap.DISCARDING_QUEUE;
 import static com.google.common.collect.MapMakerInternalMap.DRAIN_THRESHOLD;
 import static com.google.common.collect.MapMakerInternalMap.nullEntry;
 import static com.google.common.collect.MapMakerInternalMap.unset;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Equivalence;
@@ -93,7 +94,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertEquals(4, map.concurrencyLevel);
 
     // concurrency level
-    assertEquals(4, map.segments.length);
+    assertThat(map.segments).hasLength(4);
     // initial capacity / concurrency level
     assertEquals(16 / map.segments.length, map.segments[0].table.length());
 
@@ -138,7 +139,7 @@ public class MapMakerInternalMapTest extends TestCase {
   private static void checkConcurrencyLevel(int concurrencyLevel, int segmentCount) {
     MapMakerInternalMap<Object, Object> map =
         makeMap(createMapMaker().concurrencyLevel(concurrencyLevel));
-    assertEquals(segmentCount, map.segments.length);
+    assertThat(map.segments).hasLength(segmentCount);
   }
 
   public void testSetInitialCapacity() {

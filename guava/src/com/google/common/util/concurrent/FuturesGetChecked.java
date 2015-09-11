@@ -23,6 +23,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 
+import org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement;
+
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -98,6 +100,7 @@ final class FuturesGetChecked {
   }
 
   @J2ObjCIncompatible // ClassValue
+  @SuppressUnderAndroid // ClassValue
   @VisibleForTesting
   static GetCheckedTypeValidator classValueValidator() {
     return GetCheckedTypeValidatorHolder.ClassValueValidator.INSTANCE;
@@ -116,8 +119,9 @@ final class FuturesGetChecked {
 
     static final GetCheckedTypeValidator BEST_VALIDATOR = getBestValidator();
 
-    @org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+    @IgnoreJRERequirement // getChecked falls back to another implementation if necessary
     @J2ObjCIncompatible // ClassValue
+    @SuppressUnderAndroid // ClassValue
     enum ClassValueValidator implements GetCheckedTypeValidator {
       INSTANCE;
 

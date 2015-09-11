@@ -42,7 +42,7 @@ import javax.annotation.concurrent.ThreadSafe;
  * physical or logical resource is accessed. This is in contrast to {@link
  * java.util.concurrent.Semaphore} which restricts the number of concurrent
  * accesses instead of the rate (note though that concurrency and rate are closely related,
- * e.g. see <a href="http://en.wikipedia.org/wiki/Little's_law">Little's Law</a>).
+ * e.g. see <a href="http://en.wikipedia.org/wiki/Little%27s_law">Little's Law</a>).
  *
  * <p>A {@code RateLimiter} is defined primarily by the rate at which permits
  * are issued. Absent additional configuration, permits will be distributed at a

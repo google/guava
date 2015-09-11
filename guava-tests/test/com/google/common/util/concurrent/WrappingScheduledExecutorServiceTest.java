@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import junit.framework.TestCase;
 
 import java.util.Collection;
@@ -122,26 +124,28 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       assertEquals(unit, lastUnit);
     }
 
-    @Override public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-      assertTrue(command instanceof WrappedRunnable);
+    @Override
+    public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
+      assertThat(command).isInstanceOf(WrappedRunnable.class);
       lastMethodCalled = "scheduleRunnable";
       lastDelay = delay;
       lastUnit = unit;
       return null;
     }
 
-    @Override public <V> ScheduledFuture<V> schedule(
-        Callable<V> callable, long delay, TimeUnit unit) {
-      assertTrue(callable instanceof WrappedCallable);
+    @Override
+    public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
+      assertThat(callable).isInstanceOf(WrappedCallable.class);
       lastMethodCalled = "scheduleCallable";
       lastDelay = delay;
       lastUnit = unit;
       return null;
     }
 
-    @Override public ScheduledFuture<?> scheduleAtFixedRate(
+    @Override
+    public ScheduledFuture<?> scheduleAtFixedRate(
         Runnable command, long initialDelay, long period, TimeUnit unit) {
-      assertTrue(command instanceof WrappedRunnable);
+      assertThat(command).isInstanceOf(WrappedRunnable.class);
       lastMethodCalled = "scheduleAtFixedRate";
       lastInitialDelay = initialDelay;
       lastDelay = period;
@@ -149,9 +153,10 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       return null;
     }
 
-    @Override public ScheduledFuture<?> scheduleWithFixedDelay(
+    @Override
+    public ScheduledFuture<?> scheduleWithFixedDelay(
         Runnable command, long initialDelay, long delay, TimeUnit unit) {
-      assertTrue(command instanceof WrappedRunnable);
+      assertThat(command).isInstanceOf(WrappedRunnable.class);
       lastMethodCalled = "scheduleWithFixedDelay";
       lastInitialDelay = initialDelay;
       lastDelay = delay;

@@ -24,6 +24,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.getUninterrupti
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableCollection;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -86,6 +87,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     runningState.init();
   }
 
+  @WeakOuter
   abstract class RunningState extends AggregateFutureState implements Runnable {
     private ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
     private final boolean allMustSucceed;
@@ -182,7 +184,11 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
       // | and & used because it's faster than the branch required for || and &&
       if (throwable instanceof Error
           | (allMustSucceed & !completedWithFailure & firstTimeSeeingThisException)) {
-        logger.log(Level.SEVERE, "input future failed.", throwable);
+        String message =
+            (throwable instanceof Error)
+                ? "Input Future failed with Error"
+                : "Got more than one input Future failure. Logging failures after the first";
+        logger.log(Level.SEVERE, message, throwable);
       }
     }
 

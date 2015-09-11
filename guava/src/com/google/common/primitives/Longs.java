@@ -314,6 +314,25 @@ public final class Longs {
         | (b8 & 0xFFL);
   }
 
+  private static final byte[] asciiDigits = createAsciiDigits();
+
+  private static byte[] createAsciiDigits() {
+    byte[] result = new byte[128];
+    Arrays.fill(result, (byte) -1);
+    for (int i = 0; i <= 9; i++) {
+      result['0' + i] = (byte) i;
+    }
+    for (int i = 0; i <= 26; i++) {
+      result['A' + i] = (byte) (10 + i);
+      result['a' + i] = (byte) (10 + i);
+    }
+    return result;
+  }
+
+  private static int digit(char c) {
+    return (c < 128) ? asciiDigits[c] : -1;
+  }
+
   /**
    * Parses the specified string as a signed decimal long value. The ASCII
    * character {@code '-'} (<code>'&#92;u002D'</code>) is recognized as the
@@ -338,25 +357,62 @@ public final class Longs {
   @Nullable
   @CheckForNull
   public static Long tryParse(String string) {
+    return tryParse(string, 10);
+  }
+
+  /**
+   * Parses the specified string as a signed long value using the specified
+   * radix. The ASCII character {@code '-'} (<code>'&#92;u002D'</code>) is
+   * recognized as the minus sign.
+   *
+   * <p>Unlike {@link Long#parseLong(String, int)}, this method returns
+   * {@code null} instead of throwing an exception if parsing fails.
+   * Additionally, this method only accepts ASCII digits, and returns
+   * {@code null} if non-ASCII digits are present in the string.
+   *
+   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even
+   * under JDK 7, despite the change to {@link Long#parseLong(String, int)}
+   * for that version.
+   *
+   * @param string the string representation of an long value
+   * @param radix the radix to use when parsing
+   * @return the long value represented by {@code string} using
+   *     {@code radix}, or {@code null} if {@code string} has a length of zero
+   *     or cannot be parsed as a long value
+   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or
+   *     {@code radix > Character.MAX_RADIX}
+   * @since 19.0
+   */
+  @Beta
+  @Nullable
+  @CheckForNull
+  public static Long tryParse(String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;
+    }
+    if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+      throw new IllegalArgumentException(
+          "radix must be between MIN_RADIX and MAX_RADIX but was " + radix);
     }
     boolean negative = string.charAt(0) == '-';
     int index = negative ? 1 : 0;
     if (index == string.length()) {
       return null;
     }
-    int digit = string.charAt(index++) - '0';
-    if (digit < 0 || digit > 9) {
+    int digit = digit(string.charAt(index++));
+    if (digit < 0 || digit >= radix) {
       return null;
     }
     long accum = -digit;
+
+    long cap = Long.MIN_VALUE / radix;
+
     while (index < string.length()) {
-      digit = string.charAt(index++) - '0';
-      if (digit < 0 || digit > 9 || accum < Long.MIN_VALUE / 10) {
+      digit = digit(string.charAt(index++));
+      if (digit < 0 || digit >= radix || accum < cap) {
         return null;
       }
-      accum *= 10;
+      accum *= radix;
       if (accum < Long.MIN_VALUE + digit) {
         return null;
       }

@@ -67,9 +67,8 @@ public final class ThreadFactoryBuilder {
    *     {@code "rpc-pool-0"}, {@code "rpc-pool-1"}, {@code "rpc-pool-2"}, etc.
    * @return this for the builder pattern
    */
-  @SuppressWarnings("ReturnValueIgnored")
   public ThreadFactoryBuilder setNameFormat(String nameFormat) {
-    format(nameFormat, 0); // fail fast if the format is bad or null
+    String unused = format(nameFormat, 0); // fail fast if the format is bad or null
     this.nameFormat = nameFormat;
     return this;
   }

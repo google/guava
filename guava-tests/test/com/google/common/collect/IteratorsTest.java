@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.Iterators.advance;
 import static com.google.common.collect.Iterators.get;
 import static com.google.common.collect.Iterators.getLast;
@@ -45,6 +46,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -194,8 +196,7 @@ public class IteratorsTest extends TestCase {
       Iterators.getOnlyElement(iterator);
       fail();
     } catch (IllegalArgumentException expected) {
-      assertEquals("expected one element but was: <one, two>",
-                   expected.getMessage());
+      assertThat(expected).hasMessage("expected one element but was: <one, two>");
     }
   }
 
@@ -206,9 +207,8 @@ public class IteratorsTest extends TestCase {
       Iterators.getOnlyElement(iterator);
       fail();
     } catch (IllegalArgumentException expected) {
-      assertEquals("expected one element but was: "
-                   + "<one, two, three, four, five>",
-                   expected.getMessage());
+      assertThat(expected)
+          .hasMessage("expected one element but was: " + "<one, two, three, four, five>");
     }
   }
 
@@ -219,9 +219,8 @@ public class IteratorsTest extends TestCase {
       Iterators.getOnlyElement(iterator);
       fail();
     } catch (IllegalArgumentException expected) {
-      assertEquals("expected one element but was: "
-                   + "<one, two, three, four, five, ...>",
-                   expected.getMessage());
+      assertThat(expected)
+          .hasMessage("expected one element but was: " + "<one, two, three, four, five, ...>");
     }
   }
 
@@ -246,8 +245,7 @@ public class IteratorsTest extends TestCase {
       Iterators.getOnlyElement(iterator, "x");
       fail();
     } catch (IllegalArgumentException expected) {
-      assertEquals("expected one element but was: <foo, bar>",
-                   expected.getMessage());
+      assertThat(expected).hasMessage("expected one element but was: <foo, bar>");
     }
   }
 
@@ -429,22 +427,19 @@ public class IteratorsTest extends TestCase {
   public void testTryFind_firstElement() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertEquals("cool",
-        Iterators.tryFind(iterator, Predicates.equalTo("cool")).get());
+    assertThat(Iterators.tryFind(iterator, Predicates.equalTo("cool"))).hasValue("cool");
   }
 
   public void testTryFind_lastElement() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertEquals("pants",
-        Iterators.tryFind(iterator, Predicates.equalTo("pants")).get());
+    assertThat(Iterators.tryFind(iterator, Predicates.equalTo("pants"))).hasValue("pants");
   }
 
   public void testTryFind_alwaysTrue() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertEquals("cool",
-        Iterators.tryFind(iterator, Predicates.alwaysTrue()).get());
+    assertThat(Iterators.tryFind(iterator, Predicates.alwaysTrue())).hasValue("cool");
   }
 
   public void testTryFind_alwaysFalse_orDefault() {
@@ -458,8 +453,7 @@ public class IteratorsTest extends TestCase {
   public void testTryFind_alwaysFalse_isPresent() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertFalse(
-        Iterators.tryFind(iterator, Predicates.alwaysFalse()).isPresent());
+    assertThat(Iterators.tryFind(iterator, Predicates.alwaysFalse())).isAbsent();
     assertFalse(iterator.hasNext());
   }
 
@@ -623,6 +617,69 @@ public class IteratorsTest extends TestCase {
     assertTrue(cycle.hasNext());
     cycle.remove();
     assertEquals(Collections.emptyList(), iterable);
+    assertFalse(cycle.hasNext());
+  }
+
+  /** An Iterable whose Iterator is rigorous in checking for concurrent modification. */
+  private static final class PickyIterable<E> implements Iterable<E> {
+    final List<E> elements;
+    int modCount = 0;
+
+    PickyIterable(E... elements) {
+      this.elements = new ArrayList<E>(asList(elements));
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+      return new PickyIterator();
+    }
+
+    final class PickyIterator implements Iterator<E> {
+      int expectedModCount = modCount;
+      int index = 0;
+      boolean canRemove;
+
+      @Override
+      public boolean hasNext() {
+        checkConcurrentModification();
+        return index < elements.size();
+      }
+
+      @Override
+      public E next() {
+        checkConcurrentModification();
+        if (!hasNext()) {
+          throw new NoSuchElementException();
+        }
+        canRemove = true;
+        return elements.get(index++);
+      }
+
+      @Override
+      public void remove() {
+        checkConcurrentModification();
+        checkRemove(canRemove);
+        elements.remove(--index);
+        expectedModCount = ++modCount;
+        canRemove = false;
+      }
+
+      void checkConcurrentModification() {
+        if (expectedModCount != modCount) {
+          throw new ConcurrentModificationException();
+        }
+      }
+    }
+  }
+
+  public void testCycleRemoveAfterHasNextExtraPicky() {
+    PickyIterable<String> iterable = new PickyIterable("a");
+    Iterator<String> cycle = Iterators.cycle(iterable);
+    assertTrue(cycle.hasNext());
+    assertEquals("a", cycle.next());
+    assertTrue(cycle.hasNext());
+    cycle.remove();
+    assertTrue(iterable.elements.isEmpty());
     assertFalse(cycle.hasNext());
   }
 

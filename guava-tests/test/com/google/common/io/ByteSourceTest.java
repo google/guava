@@ -30,15 +30,16 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
+import com.google.common.primitives.UnsignedBytes;
 import com.google.common.testing.TestLogHandler;
 
 import junit.framework.TestSuite;
 
 import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.EnumSet;
 
 /**
@@ -48,6 +49,7 @@ import java.util.EnumSet;
  */
 public class ByteSourceTest extends IoTestCase {
 
+  @SuppressUnderAndroid // Android doesn't understand suites whose tests lack default constructors.
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(ByteSourceTester.tests("ByteSource.wrap[byte[]]",
@@ -209,11 +211,78 @@ public class ByteSourceTest extends IoTestCase {
     assertCorrectSlice(100, 5, 100, 95);
     assertCorrectSlice(100, 100, 0, 0);
     assertCorrectSlice(100, 100, 10, 0);
+    assertCorrectSlice(100, 101, 10, 0);
+  }
 
-    try {
-      assertCorrectSlice(100, 101, 10, 0);
-      fail();
-    } catch (EOFException expected) {
+  /**
+   * Tests that the default slice() behavior is correct when the source is sliced starting at an
+   * offset that is greater than the current length of the source, a stream is then opened to that
+   * source, and finally additional bytes are appended to the source before the stream is read.
+   *
+   * <p>Without special handling, it's possible to have reads of the open stream start <i>before</i>
+   * the offset at which the slice is supposed to start.
+   */
+  // TODO(cgdecker): Maybe add a test for this to ByteSourceTester
+  public void testSlice_appendingAfterSlicing() throws IOException {
+    // Source of length 5
+    AppendableByteSource source = new AppendableByteSource(newPreFilledByteArray(5));
+
+    // Slice it starting at offset 10.
+    ByteSource slice = source.slice(10, 5);
+
+    // Open a stream to the slice.
+    InputStream in = slice.openStream();
+
+    // Append 10 more bytes to the source.
+    source.append(newPreFilledByteArray(5, 10));
+
+    // The stream reports no bytes... importantly, it doesn't read the byte at index 5 when it
+    // should be reading the byte at index 10.
+    // We could use a custom InputStream instead to make the read start at index 10, but since this
+    // is a racy situation anyway, this behavior seems reasonable.
+    assertEquals(-1, in.read());
+  }
+
+  private static class AppendableByteSource extends ByteSource {
+    private byte[] bytes;
+
+    public AppendableByteSource(byte[] initialBytes) {
+      this.bytes = initialBytes.clone();
+    }
+
+    @Override
+    public InputStream openStream() {
+      return new In();
+    }
+
+    public void append(byte[] b) {
+      byte[] newBytes = Arrays.copyOf(bytes, bytes.length + b.length);
+      System.arraycopy(b, 0, newBytes, bytes.length, b.length);
+      bytes = newBytes;
+    }
+
+    private class In extends InputStream {
+      private int pos;
+
+      @Override
+      public int read() throws IOException {
+        byte[] b = new byte[1];
+        return read(b) == -1
+            ? -1
+            : UnsignedBytes.toInt(b[0]);
+      }
+
+      @Override
+      public int read(byte[] b, int off, int len) {
+        if (pos >= bytes.length) {
+          return -1;
+        }
+
+        int lenToRead = Math.min(len, bytes.length - pos);
+        System.arraycopy(bytes, pos, b, off, lenToRead);
+        pos += lenToRead;
+        return lenToRead;
+      }
     }
   }
 

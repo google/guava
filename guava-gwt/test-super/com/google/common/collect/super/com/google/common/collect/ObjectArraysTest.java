@@ -36,20 +36,20 @@ public class ObjectArraysTest extends TestCase {
   public void testNewArray_fromArray_Empty() {
     String[] in = new String[0];
     String[] empty = ObjectArrays.newArray(in, 0);
-    assertEquals(0, empty.length);
+    assertThat(empty).isEmpty();
   }
 
   public void testNewArray_fromArray_Nonempty() {
     String[] array = ObjectArrays.newArray(new String[0], 2);
     assertEquals(String[].class, array.getClass());
-    assertEquals(2, array.length);
+    assertThat(array).hasLength(2);
     assertNull(array[0]);
   }
 
   public void testNewArray_fromArray_OfArray() {
     String[][] array = ObjectArrays.newArray(new String[0][0], 1);
     assertEquals(String[][].class, array.getClass());
-    assertEquals(1, array.length);
+    assertThat(array).hasLength(1);
     assertNull(array[0]);
   }
 

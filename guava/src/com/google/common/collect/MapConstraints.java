@@ -71,7 +71,8 @@ public final class MapConstraints {
       checkNotNull(value);
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "Not null";
     }
   }
@@ -131,8 +132,7 @@ public final class MapConstraints {
    * @return a constrained view of the specified multimap
    */
   public static <K, V> ListMultimap<K, V> constrainedListMultimap(
-      ListMultimap<K, V> multimap,
-      MapConstraint<? super K, ? super V> constraint) {
+      ListMultimap<K, V> multimap, MapConstraint<? super K, ? super V> constraint) {
     return new ConstrainedListMultimap<K, V>(multimap, constraint);
   }
 
@@ -152,8 +152,7 @@ public final class MapConstraints {
    * @return a constrained view of the specified multimap
    */
   public static <K, V> SetMultimap<K, V> constrainedSetMultimap(
-      SetMultimap<K, V> multimap,
-      MapConstraint<? super K, ? super V> constraint) {
+      SetMultimap<K, V> multimap, MapConstraint<? super K, ? super V> constraint) {
     return new ConstrainedSetMultimap<K, V>(multimap, constraint);
   }
 
@@ -173,8 +172,7 @@ public final class MapConstraints {
    * @return a constrained view of the specified multimap
    */
   public static <K, V> SortedSetMultimap<K, V> constrainedSortedSetMultimap(
-      SortedSetMultimap<K, V> multimap,
-      MapConstraint<? super K, ? super V> constraint) {
+      SortedSetMultimap<K, V> multimap, MapConstraint<? super K, ? super V> constraint) {
     return new ConstrainedSortedSetMultimap<K, V>(multimap, constraint);
   }
 
@@ -188,15 +186,17 @@ public final class MapConstraints {
    * @return a constrained view of the specified entry
    */
   private static <K, V> Entry<K, V> constrainedEntry(
-      final Entry<K, V> entry,
-      final MapConstraint<? super K, ? super V> constraint) {
+      final Entry<K, V> entry, final MapConstraint<? super K, ? super V> constraint) {
     checkNotNull(entry);
     checkNotNull(constraint);
     return new ForwardingMapEntry<K, V>() {
-      @Override protected Entry<K, V> delegate() {
+      @Override
+      protected Entry<K, V> delegate() {
         return entry;
       }
-      @Override public V setValue(V value) {
+
+      @Override
+      public V setValue(V value) {
         constraint.checkKeyValue(getKey(), value);
         return entry.setValue(value);
       }
@@ -214,23 +214,26 @@ public final class MapConstraints {
    * @return a constrained view of the specified entry
    */
   private static <K, V> Entry<K, Collection<V>> constrainedAsMapEntry(
-      final Entry<K, Collection<V>> entry,
-      final MapConstraint<? super K, ? super V> constraint) {
+      final Entry<K, Collection<V>> entry, final MapConstraint<? super K, ? super V> constraint) {
     checkNotNull(entry);
     checkNotNull(constraint);
     return new ForwardingMapEntry<K, Collection<V>>() {
-      @Override protected Entry<K, Collection<V>> delegate() {
+      @Override
+      protected Entry<K, Collection<V>> delegate() {
         return entry;
       }
-      @Override public Collection<V> getValue() {
+
+      @Override
+      public Collection<V> getValue() {
         return Constraints.constrainedTypePreservingCollection(
-            entry.getValue(), new Constraint<V>() {
-          @Override
-          public V checkElement(V value) {
-            constraint.checkKeyValue(getKey(), value);
-            return value;
-          }
-        });
+            entry.getValue(),
+            new Constraint<V>() {
+              @Override
+              public V checkElement(V value) {
+                constraint.checkKeyValue(getKey(), value);
+                return value;
+              }
+            });
       }
     };
   }
@@ -248,8 +251,7 @@ public final class MapConstraints {
    * @return a constrained view of the entries
    */
   private static <K, V> Set<Entry<K, Collection<V>>> constrainedAsMapEntries(
-      Set<Entry<K, Collection<V>>> entries,
-      MapConstraint<? super K, ? super V> constraint) {
+      Set<Entry<K, Collection<V>>> entries, MapConstraint<? super K, ? super V> constraint) {
     return new ConstrainedAsMapEntries<K, V>(entries, constraint);
   }
 
@@ -266,8 +268,7 @@ public final class MapConstraints {
    * @return a constrained view of the specified entries
    */
   private static <K, V> Collection<Entry<K, V>> constrainedEntries(
-      Collection<Entry<K, V>> entries,
-      MapConstraint<? super K, ? super V> constraint) {
+      Collection<Entry<K, V>> entries, MapConstraint<? super K, ? super V> constraint) {
     if (entries instanceof Set) {
       return constrainedEntrySet((Set<Entry<K, V>>) entries, constraint);
     }
@@ -289,8 +290,7 @@ public final class MapConstraints {
    * @return a constrained view of the specified entries
    */
   private static <K, V> Set<Entry<K, V>> constrainedEntrySet(
-      Set<Entry<K, V>> entries,
-      MapConstraint<? super K, ? super V> constraint) {
+      Set<Entry<K, V>> entries, MapConstraint<? super K, ? super V> constraint) {
     return new ConstrainedEntrySet<K, V>(entries, constraint);
   }
 
@@ -300,27 +300,33 @@ public final class MapConstraints {
     final MapConstraint<? super K, ? super V> constraint;
     private transient Set<Entry<K, V>> entrySet;
 
-    ConstrainedMap(
-        Map<K, V> delegate, MapConstraint<? super K, ? super V> constraint) {
+    ConstrainedMap(Map<K, V> delegate, MapConstraint<? super K, ? super V> constraint) {
       this.delegate = checkNotNull(delegate);
       this.constraint = checkNotNull(constraint);
     }
-    @Override protected Map<K, V> delegate() {
+
+    @Override
+    protected Map<K, V> delegate() {
       return delegate;
     }
-    @Override public Set<Entry<K, V>> entrySet() {
+
+    @Override
+    public Set<Entry<K, V>> entrySet() {
       Set<Entry<K, V>> result = entrySet;
       if (result == null) {
-        entrySet = result =
-            constrainedEntrySet(delegate.entrySet(), constraint);
+        entrySet = result = constrainedEntrySet(delegate.entrySet(), constraint);
       }
       return result;
     }
-    @Override public V put(K key, V value) {
+
+    @Override
+    public V put(K key, V value) {
       constraint.checkKeyValue(key, value);
       return delegate.put(key, value);
     }
-    @Override public void putAll(Map<? extends K, ? extends V> map) {
+
+    @Override
+    public void putAll(Map<? extends K, ? extends V> map) {
       delegate.putAll(checkMap(map, constraint));
     }
   }
@@ -342,8 +348,7 @@ public final class MapConstraints {
   }
 
   /** @see MapConstraints#constrainedBiMap */
-  private static class ConstrainedBiMap<K, V> extends ConstrainedMap<K, V>
-      implements BiMap<K, V> {
+  private static class ConstrainedBiMap<K, V> extends ConstrainedMap<K, V> implements BiMap<K, V> {
     /*
      * We could switch to racy single-check lazy init and remove volatile, but
      * there's a downside. That's because this field is also written in the
@@ -358,13 +363,16 @@ public final class MapConstraints {
      */
     volatile BiMap<V, K> inverse;
 
-    ConstrainedBiMap(BiMap<K, V> delegate, @Nullable BiMap<V, K> inverse,
+    ConstrainedBiMap(
+        BiMap<K, V> delegate,
+        @Nullable BiMap<V, K> inverse,
         MapConstraint<? super K, ? super V> constraint) {
       super(delegate, constraint);
       this.inverse = inverse;
     }
 
-    @Override protected BiMap<K, V> delegate() {
+    @Override
+    protected BiMap<K, V> delegate() {
       return (BiMap<K, V>) super.delegate();
     }
 
@@ -377,13 +385,14 @@ public final class MapConstraints {
     @Override
     public BiMap<V, K> inverse() {
       if (inverse == null) {
-        inverse = new ConstrainedBiMap<V, K>(delegate().inverse(), this,
-            new InverseConstraint<V, K>(constraint));
+        inverse = new ConstrainedBiMap<V, K>(
+            delegate().inverse(), this, new InverseConstraint<V, K>(constraint));
       }
       return inverse;
     }
 
-    @Override public Set<V> values() {
+    @Override
+    public Set<V> values() {
       return delegate().values();
     }
   }
@@ -395,6 +404,7 @@ public final class MapConstraints {
     public InverseConstraint(MapConstraint<? super V, ? super K> constraint) {
       this.constraint = checkNotNull(constraint);
     }
+
     @Override
     public void checkKeyValue(K key, V value) {
       constraint.checkKeyValue(value, key);
@@ -402,8 +412,8 @@ public final class MapConstraints {
   }
 
   /** @see MapConstraints#constrainedMultimap */
-  private static class ConstrainedMultimap<K, V>
-      extends ForwardingMultimap<K, V> implements Serializable {
+  private static class ConstrainedMultimap<K, V> extends ForwardingMultimap<K, V>
+      implements Serializable {
     final MapConstraint<? super K, ? super V> constraint;
     final Multimap<K, V> delegate;
 
@@ -411,17 +421,19 @@ public final class MapConstraints {
 
     transient Map<K, Collection<V>> asMap;
 
-    public ConstrainedMultimap(Multimap<K, V> delegate,
-        MapConstraint<? super K, ? super V> constraint) {
+    public ConstrainedMultimap(
+        Multimap<K, V> delegate, MapConstraint<? super K, ? super V> constraint) {
       this.delegate = checkNotNull(delegate);
       this.constraint = checkNotNull(constraint);
     }
 
-    @Override protected Multimap<K, V> delegate() {
+    @Override
+    protected Multimap<K, V> delegate() {
       return delegate;
     }
 
-    @Override public Map<K, Collection<V>> asMap() {
+    @Override
+    public Map<K, Collection<V>> asMap() {
       Map<K, Collection<V>> result = asMap;
       if (result == null) {
         final Map<K, Collection<V>> asMapDelegate = delegate.asMap();
@@ -431,21 +443,23 @@ public final class MapConstraints {
           Set<Entry<K, Collection<V>>> entrySet;
           Collection<Collection<V>> values;
 
-          @Override protected Map<K, Collection<V>> delegate() {
+          @Override
+          protected Map<K, Collection<V>> delegate() {
             return asMapDelegate;
           }
 
-          @Override public Set<Entry<K, Collection<V>>> entrySet() {
+          @Override
+          public Set<Entry<K, Collection<V>>> entrySet() {
             Set<Entry<K, Collection<V>>> result = entrySet;
             if (result == null) {
-              entrySet = result = constrainedAsMapEntries(
-                  asMapDelegate.entrySet(), constraint);
+              entrySet = result = constrainedAsMapEntries(asMapDelegate.entrySet(), constraint);
             }
             return result;
           }
 
           @SuppressWarnings("unchecked")
-          @Override public Collection<V> get(Object key) {
+          @Override
+          public Collection<V> get(Object key) {
             try {
               Collection<V> collection = ConstrainedMultimap.this.get((K) key);
               return collection.isEmpty() ? null : collection;
@@ -454,16 +468,17 @@ public final class MapConstraints {
             }
           }
 
-          @Override public Collection<Collection<V>> values() {
+          @Override
+          public Collection<Collection<V>> values() {
             Collection<Collection<V>> result = values;
             if (result == null) {
-              values = result = new ConstrainedAsMapValues<K, V>(
-                  delegate().values(), entrySet());
+              values = result = new ConstrainedAsMapValues<K, V>(delegate().values(), entrySet());
             }
             return result;
           }
 
-          @Override public boolean containsValue(Object o) {
+          @Override
+          public boolean containsValue(Object o) {
             return values().contains(o);
           }
         }
@@ -472,7 +487,8 @@ public final class MapConstraints {
       return result;
     }
 
-    @Override public Collection<Entry<K, V>> entries() {
+    @Override
+    public Collection<Entry<K, V>> entries() {
       Collection<Entry<K, V>> result = entries;
       if (result == null) {
         entries = result = constrainedEntries(delegate.entries(), constraint);
@@ -480,28 +496,32 @@ public final class MapConstraints {
       return result;
     }
 
-    @Override public Collection<V> get(final K key) {
+    @Override
+    public Collection<V> get(final K key) {
       return Constraints.constrainedTypePreservingCollection(
-          delegate.get(key), new Constraint<V>() {
-        @Override
-        public V checkElement(V value) {
-          constraint.checkKeyValue(key, value);
-          return value;
-        }
-      });
+          delegate.get(key),
+          new Constraint<V>() {
+            @Override
+            public V checkElement(V value) {
+              constraint.checkKeyValue(key, value);
+              return value;
+            }
+          });
     }
 
-    @Override public boolean put(K key, V value) {
+    @Override
+    public boolean put(K key, V value) {
       constraint.checkKeyValue(key, value);
       return delegate.put(key, value);
     }
 
-    @Override public boolean putAll(K key, Iterable<? extends V> values) {
+    @Override
+    public boolean putAll(K key, Iterable<? extends V> values) {
       return delegate.putAll(key, checkValues(key, values, constraint));
     }
 
-    @Override public boolean putAll(
-        Multimap<? extends K, ? extends V> multimap) {
+    @Override
+    public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
       boolean changed = false;
       for (Entry<? extends K, ? extends V> entry : multimap.entries()) {
         changed |= put(entry.getKey(), entry.getValue());
@@ -509,15 +529,14 @@ public final class MapConstraints {
       return changed;
     }
 
-    @Override public Collection<V> replaceValues(
-        K key, Iterable<? extends V> values) {
+    @Override
+    public Collection<V> replaceValues(K key, Iterable<? extends V> values) {
       return delegate.replaceValues(key, checkValues(key, values, constraint));
     }
   }
 
   /** @see ConstrainedMultimap#asMap */
-  private static class ConstrainedAsMapValues<K, V>
-      extends ForwardingCollection<Collection<V>> {
+  private static class ConstrainedAsMapValues<K, V> extends ForwardingCollection<Collection<V>> {
     final Collection<Collection<V>> delegate;
     final Set<Entry<K, Collection<V>>> entrySet;
 
@@ -525,26 +544,31 @@ public final class MapConstraints {
      * @param entrySet map entries, linking each key with its corresponding
      *     values, that already enforce the constraint
      */
-    ConstrainedAsMapValues(Collection<Collection<V>> delegate,
-        Set<Entry<K, Collection<V>>> entrySet) {
+    ConstrainedAsMapValues(
+        Collection<Collection<V>> delegate, Set<Entry<K, Collection<V>>> entrySet) {
       this.delegate = delegate;
       this.entrySet = entrySet;
     }
-    @Override protected Collection<Collection<V>> delegate() {
+
+    @Override
+    protected Collection<Collection<V>> delegate() {
       return delegate;
     }
 
-    @Override public Iterator<Collection<V>> iterator() {
+    @Override
+    public Iterator<Collection<V>> iterator() {
       final Iterator<Entry<K, Collection<V>>> iterator = entrySet.iterator();
       return new Iterator<Collection<V>>() {
         @Override
         public boolean hasNext() {
           return iterator.hasNext();
         }
+
         @Override
         public Collection<V> next() {
           return iterator.next().getValue();
         }
+
         @Override
         public void remove() {
           iterator.remove();
@@ -552,47 +576,63 @@ public final class MapConstraints {
       };
     }
 
-    @Override public Object[] toArray() {
+    @Override
+    public Object[] toArray() {
       return standardToArray();
     }
-    @Override public <T> T[] toArray(T[] array) {
+
+    @Override
+    public <T> T[] toArray(T[] array) {
       return standardToArray(array);
     }
-    @Override public boolean contains(Object o) {
+
+    @Override
+    public boolean contains(Object o) {
       return standardContains(o);
     }
-    @Override public boolean containsAll(Collection<?> c) {
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
       return standardContainsAll(c);
     }
-    @Override public boolean remove(Object o) {
+
+    @Override
+    public boolean remove(Object o) {
       return standardRemove(o);
     }
-    @Override public boolean removeAll(Collection<?> c) {
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
       return standardRemoveAll(c);
     }
-    @Override public boolean retainAll(Collection<?> c) {
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
       return standardRetainAll(c);
     }
   }
 
   /** @see MapConstraints#constrainedEntries */
-  private static class ConstrainedEntries<K, V>
-      extends ForwardingCollection<Entry<K, V>> {
+  private static class ConstrainedEntries<K, V> extends ForwardingCollection<Entry<K, V>> {
     final MapConstraint<? super K, ? super V> constraint;
     final Collection<Entry<K, V>> entries;
 
-    ConstrainedEntries(Collection<Entry<K, V>> entries,
-        MapConstraint<? super K, ? super V> constraint) {
+    ConstrainedEntries(
+        Collection<Entry<K, V>> entries, MapConstraint<? super K, ? super V> constraint) {
       this.entries = entries;
       this.constraint = constraint;
     }
-    @Override protected Collection<Entry<K, V>> delegate() {
+
+    @Override
+    protected Collection<Entry<K, V>> delegate() {
       return entries;
     }
 
-    @Override public Iterator<Entry<K, V>> iterator() {
+    @Override
+    public Iterator<Entry<K, V>> iterator() {
       return new TransformedIterator<Entry<K, V>, Entry<K, V>>(entries.iterator()) {
-        @Override Entry<K, V> transform(Entry<K, V> from) {
+        @Override
+        Entry<K, V> transform(Entry<K, V> from) {
           return constrainedEntry(from, constraint);
         }
       };
@@ -600,68 +640,84 @@ public final class MapConstraints {
 
     // See Collections.CheckedMap.CheckedEntrySet for details on attacks.
 
-    @Override public Object[] toArray() {
+    @Override
+    public Object[] toArray() {
       return standardToArray();
     }
-    @Override public <T> T[] toArray(T[] array) {
+
+    @Override
+    public <T> T[] toArray(T[] array) {
       return standardToArray(array);
     }
-    @Override public boolean contains(Object o) {
+
+    @Override
+    public boolean contains(Object o) {
       return Maps.containsEntryImpl(delegate(), o);
     }
-    @Override public boolean containsAll(Collection<?> c) {
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
       return standardContainsAll(c);
     }
-    @Override public boolean remove(Object o) {
+
+    @Override
+    public boolean remove(Object o) {
       return Maps.removeEntryImpl(delegate(), o);
     }
-    @Override public boolean removeAll(Collection<?> c) {
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
       return standardRemoveAll(c);
     }
-    @Override public boolean retainAll(Collection<?> c) {
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
       return standardRetainAll(c);
     }
   }
 
   /** @see MapConstraints#constrainedEntrySet */
-  static class ConstrainedEntrySet<K, V>
-      extends ConstrainedEntries<K, V> implements Set<Entry<K, V>> {
-    ConstrainedEntrySet(Set<Entry<K, V>> entries,
-        MapConstraint<? super K, ? super V> constraint) {
+  static class ConstrainedEntrySet<K, V> extends ConstrainedEntries<K, V>
+      implements Set<Entry<K, V>> {
+    ConstrainedEntrySet(Set<Entry<K, V>> entries, MapConstraint<? super K, ? super V> constraint) {
       super(entries, constraint);
     }
 
     // See Collections.CheckedMap.CheckedEntrySet for details on attacks.
 
-    @Override public boolean equals(@Nullable Object object) {
+    @Override
+    public boolean equals(@Nullable Object object) {
       return Sets.equalsImpl(this, object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return Sets.hashCodeImpl(this);
     }
   }
 
   /** @see MapConstraints#constrainedAsMapEntries */
-  static class ConstrainedAsMapEntries<K, V>
-      extends ForwardingSet<Entry<K, Collection<V>>> {
+  static class ConstrainedAsMapEntries<K, V> extends ForwardingSet<Entry<K, Collection<V>>> {
     private final MapConstraint<? super K, ? super V> constraint;
     private final Set<Entry<K, Collection<V>>> entries;
 
-    ConstrainedAsMapEntries(Set<Entry<K, Collection<V>>> entries,
-        MapConstraint<? super K, ? super V> constraint) {
+    ConstrainedAsMapEntries(
+        Set<Entry<K, Collection<V>>> entries, MapConstraint<? super K, ? super V> constraint) {
       this.entries = entries;
       this.constraint = constraint;
     }
 
-    @Override protected Set<Entry<K, Collection<V>>> delegate() {
+    @Override
+    protected Set<Entry<K, Collection<V>>> delegate() {
       return entries;
     }
 
-    @Override public Iterator<Entry<K, Collection<V>>> iterator() {
+    @Override
+    public Iterator<Entry<K, Collection<V>>> iterator() {
       return new TransformedIterator<Entry<K, Collection<V>>, Entry<K, Collection<V>>>(
           entries.iterator()) {
-        @Override Entry<K, Collection<V>> transform(Entry<K, Collection<V>> from) {
+        @Override
+        Entry<K, Collection<V>> transform(Entry<K, Collection<V>> from) {
           return constrainedAsMapEntry(from, constraint);
         }
       };
@@ -669,107 +725,133 @@ public final class MapConstraints {
 
     // See Collections.CheckedMap.CheckedEntrySet for details on attacks.
 
-    @Override public Object[] toArray() {
+    @Override
+    public Object[] toArray() {
       return standardToArray();
     }
 
-    @Override public <T> T[] toArray(T[] array) {
+    @Override
+    public <T> T[] toArray(T[] array) {
       return standardToArray(array);
     }
 
-    @Override public boolean contains(Object o) {
+    @Override
+    public boolean contains(Object o) {
       return Maps.containsEntryImpl(delegate(), o);
     }
 
-    @Override public boolean containsAll(Collection<?> c) {
+    @Override
+    public boolean containsAll(Collection<?> c) {
       return standardContainsAll(c);
     }
 
-    @Override public boolean equals(@Nullable Object object) {
+    @Override
+    public boolean equals(@Nullable Object object) {
       return standardEquals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return standardHashCode();
     }
 
-    @Override public boolean remove(Object o) {
+    @Override
+    public boolean remove(Object o) {
       return Maps.removeEntryImpl(delegate(), o);
     }
 
-    @Override public boolean removeAll(Collection<?> c) {
+    @Override
+    public boolean removeAll(Collection<?> c) {
       return standardRemoveAll(c);
     }
 
-    @Override public boolean retainAll(Collection<?> c) {
+    @Override
+    public boolean retainAll(Collection<?> c) {
       return standardRetainAll(c);
     }
   }
 
-  private static class ConstrainedListMultimap<K, V>
-      extends ConstrainedMultimap<K, V> implements ListMultimap<K, V> {
-    ConstrainedListMultimap(ListMultimap<K, V> delegate,
-        MapConstraint<? super K, ? super V> constraint) {
+  private static class ConstrainedListMultimap<K, V> extends ConstrainedMultimap<K, V>
+      implements ListMultimap<K, V> {
+    ConstrainedListMultimap(
+        ListMultimap<K, V> delegate, MapConstraint<? super K, ? super V> constraint) {
       super(delegate, constraint);
     }
-    @Override public List<V> get(K key) {
+
+    @Override
+    public List<V> get(K key) {
       return (List<V>) super.get(key);
     }
-    @Override public List<V> removeAll(Object key) {
+
+    @Override
+    public List<V> removeAll(Object key) {
       return (List<V>) super.removeAll(key);
     }
-    @Override public List<V> replaceValues(
-        K key, Iterable<? extends V> values) {
+
+    @Override
+    public List<V> replaceValues(K key, Iterable<? extends V> values) {
       return (List<V>) super.replaceValues(key, values);
     }
   }
 
-  private static class ConstrainedSetMultimap<K, V>
-      extends ConstrainedMultimap<K, V> implements SetMultimap<K, V> {
-    ConstrainedSetMultimap(SetMultimap<K, V> delegate,
-        MapConstraint<? super K, ? super V> constraint) {
+  private static class ConstrainedSetMultimap<K, V> extends ConstrainedMultimap<K, V>
+      implements SetMultimap<K, V> {
+    ConstrainedSetMultimap(
+        SetMultimap<K, V> delegate, MapConstraint<? super K, ? super V> constraint) {
       super(delegate, constraint);
     }
-    @Override public Set<V> get(K key) {
+
+    @Override
+    public Set<V> get(K key) {
       return (Set<V>) super.get(key);
     }
-    @Override public Set<Map.Entry<K, V>> entries() {
+
+    @Override
+    public Set<Map.Entry<K, V>> entries() {
       return (Set<Map.Entry<K, V>>) super.entries();
     }
-    @Override public Set<V> removeAll(Object key) {
+
+    @Override
+    public Set<V> removeAll(Object key) {
       return (Set<V>) super.removeAll(key);
     }
-    @Override public Set<V> replaceValues(
-        K key, Iterable<? extends V> values) {
+
+    @Override
+    public Set<V> replaceValues(K key, Iterable<? extends V> values) {
       return (Set<V>) super.replaceValues(key, values);
     }
   }
 
-  private static class ConstrainedSortedSetMultimap<K, V>
-      extends ConstrainedSetMultimap<K, V> implements SortedSetMultimap<K, V> {
-    ConstrainedSortedSetMultimap(SortedSetMultimap<K, V> delegate,
-        MapConstraint<? super K, ? super V> constraint) {
+  private static class ConstrainedSortedSetMultimap<K, V> extends ConstrainedSetMultimap<K, V>
+      implements SortedSetMultimap<K, V> {
+    ConstrainedSortedSetMultimap(
+        SortedSetMultimap<K, V> delegate, MapConstraint<? super K, ? super V> constraint) {
       super(delegate, constraint);
     }
-    @Override public SortedSet<V> get(K key) {
+
+    @Override
+    public SortedSet<V> get(K key) {
       return (SortedSet<V>) super.get(key);
     }
-    @Override public SortedSet<V> removeAll(Object key) {
+
+    @Override
+    public SortedSet<V> removeAll(Object key) {
       return (SortedSet<V>) super.removeAll(key);
     }
-    @Override public SortedSet<V> replaceValues(
-        K key, Iterable<? extends V> values) {
+
+    @Override
+    public SortedSet<V> replaceValues(K key, Iterable<? extends V> values) {
       return (SortedSet<V>) super.replaceValues(key, values);
     }
+
     @Override
     public Comparator<? super V> valueComparator() {
       return ((SortedSetMultimap<K, V>) delegate()).valueComparator();
     }
   }
 
-  private static <K, V> Collection<V> checkValues(K key,
-      Iterable<? extends V> values,
-      MapConstraint<? super K, ? super V> constraint) {
+  private static <K, V> Collection<V> checkValues(
+      K key, Iterable<? extends V> values, MapConstraint<? super K, ? super V> constraint) {
     Collection<V> copy = Lists.newArrayList(values);
     for (V value : copy) {
       constraint.checkKeyValue(key, value);
@@ -777,8 +859,8 @@ public final class MapConstraints {
     return copy;
   }
 
-  private static <K, V> Map<K, V> checkMap(Map<? extends K, ? extends V> map,
-      MapConstraint<? super K, ? super V> constraint) {
+  private static <K, V> Map<K, V> checkMap(
+      Map<? extends K, ? extends V> map, MapConstraint<? super K, ? super V> constraint) {
     Map<K, V> copy = new LinkedHashMap<K, V>(map);
     for (Entry<K, V> entry : copy.entrySet()) {
       constraint.checkKeyValue(entry.getKey(), entry.getValue());

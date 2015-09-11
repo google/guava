@@ -20,13 +20,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -368,6 +366,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
+  @SuppressUnderAndroid // TODO(cpovirk): File Android bug.
   public void testPatternSplitLookBehind() {
     String toSplit = ":foo::barbaz:";
     String regexPattern = "(?<=:)";
@@ -377,6 +376,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
+  @SuppressUnderAndroid // TODO(cpovirk): File Android bug.
   public void testPatternSplitWordBoundary() {
     String string = "foo<bar>bletch";
     Iterable<String> words = Splitter.on(Pattern.compile("\\b")).split(string);
@@ -490,6 +490,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
+  @SuppressUnderAndroid // TODO(cpovirk): File Android bug (different from the two above).
   public void testSplitterIterableIsLazy_pattern() {
     assertSplitterIterableIsLazy(Splitter.onPattern(","));
   }
@@ -665,19 +666,15 @@ public class SplitterTest extends TestCase {
     tester.testAllPublicInstanceMethods(Splitter.on(',').trimResults());
   }
 
-  private static <E> List<E> asList(Collection<E> collection) {
-    return ImmutableList.copyOf(collection);
-  }
-
   public void testMapSplitter_trimmedBoth() {
     Map<String, String> m = COMMA_SPLITTER
         .trimResults()
         .withKeyValueSeparator(Splitter.on(':').trimResults())
         .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
     ImmutableMap<String, String> expected =
-          ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
+        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
   public void testMapSplitter_trimmedEntries() {
@@ -689,7 +686,7 @@ public class SplitterTest extends TestCase {
         ImmutableMap.of("boy  ", " tom", "girl", " tina", "cat  ", " kitty", "dog", " tommy");
 
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
   public void testMapSplitter_trimmedKeyValue() {
@@ -699,7 +696,7 @@ public class SplitterTest extends TestCase {
     ImmutableMap<String, String> expected =
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
   public void testMapSplitter_notTrimmed() {
@@ -708,7 +705,7 @@ public class SplitterTest extends TestCase {
     ImmutableMap<String, String> expected =
         ImmutableMap.of(" boy", "tom ", " girl", " tina ", " cat ", "kitty ", " dog", "  tommy ");
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
   public void testMapSplitter_CharacterSeparator() {
@@ -721,7 +718,7 @@ public class SplitterTest extends TestCase {
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
 
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
   public void testMapSplitter_multiCharacterSeparator() {
@@ -734,7 +731,7 @@ public class SplitterTest extends TestCase {
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
 
     assertThat(m).isEqualTo(expected);
-    assertThat(asList(m.entrySet())).isEqualTo(asList(expected.entrySet()));
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
   }
 
   @SuppressWarnings("CheckReturnValue")

@@ -16,6 +16,8 @@
 
 package com.google.common.net;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
@@ -387,26 +389,26 @@ public class InetAddressesTest extends TestCase {
     String mappedStr = "::ffff:192.168.0.1";
     assertTrue(InetAddresses.isMappedIPv4Address(mappedStr));
     InetAddress mapped = InetAddresses.forString(mappedStr);
-    assertFalse(mapped instanceof Inet6Address);
+    assertThat(mapped).isNotInstanceOf(Inet6Address.class);
     assertEquals(InetAddress.getByName("192.168.0.1"), mapped);
 
     // check upper case
     mappedStr = "::FFFF:192.168.0.1";
     assertTrue(InetAddresses.isMappedIPv4Address(mappedStr));
     mapped = InetAddresses.forString(mappedStr);
-    assertFalse(mapped instanceof Inet6Address);
+    assertThat(mapped).isNotInstanceOf(Inet6Address.class);
     assertEquals(InetAddress.getByName("192.168.0.1"), mapped);
 
     mappedStr = "0:00:000:0000:0:ffff:1.2.3.4";
     assertTrue(InetAddresses.isMappedIPv4Address(mappedStr));
     mapped = InetAddresses.forString(mappedStr);
-    assertFalse(mapped instanceof Inet6Address);
+    assertThat(mapped).isNotInstanceOf(Inet6Address.class);
     assertEquals(InetAddress.getByName("1.2.3.4"), mapped);
 
     mappedStr = "::ffff:0102:0304";
     assertTrue(InetAddresses.isMappedIPv4Address(mappedStr));
     mapped = InetAddresses.forString(mappedStr);
-    assertFalse(mapped instanceof Inet6Address);
+    assertThat(mapped).isNotInstanceOf(Inet6Address.class);
     assertEquals(InetAddress.getByName("1.2.3.4"), mapped);
 
     assertFalse(InetAddresses.isMappedIPv4Address("::"));

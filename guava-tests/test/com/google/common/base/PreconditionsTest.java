@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
@@ -61,7 +63,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkArgument(false, null);
       fail("no exception thrown");
     } catch (IllegalArgumentException expected) {
-      assertEquals("null", expected.getMessage());
+      assertThat(expected).hasMessage("null");
     }
   }
 
@@ -108,7 +110,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkState(false, null);
       fail("no exception thrown");
     } catch (IllegalStateException expected) {
-      assertEquals("null", expected.getMessage());
+      assertThat(expected).hasMessage("null");
     }
   }
 
@@ -190,7 +192,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(-1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("index (-1) must not be negative", expected.getMessage());
+      assertThat(expected).hasMessage("index (-1) must not be negative");
     }
   }
 
@@ -199,8 +201,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("index (1) must be less than size (1)",
-          expected.getMessage());
+      assertThat(expected).hasMessage("index (1) must be less than size (1)");
     }
   }
 
@@ -209,7 +210,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(-1, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("foo (-1) must not be negative", expected.getMessage());
+      assertThat(expected).hasMessage("foo (-1) must not be negative");
     }
   }
 
@@ -218,8 +219,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(1, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("foo (1) must be less than size (1)",
-          expected.getMessage());
+      assertThat(expected).hasMessage("foo (1) must be less than size (1)");
     }
   }
 
@@ -244,7 +244,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(-1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("index (-1) must not be negative", expected.getMessage());
+      assertThat(expected).hasMessage("index (-1) must not be negative");
     }
   }
 
@@ -253,8 +253,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(2, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("index (2) must not be greater than size (1)",
-          expected.getMessage());
+      assertThat(expected).hasMessage("index (2) must not be greater than size (1)");
     }
   }
 
@@ -263,7 +262,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(-1, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("foo (-1) must not be negative", expected.getMessage());
+      assertThat(expected).hasMessage("foo (-1) must not be negative");
     }
   }
 
@@ -272,8 +271,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(2, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("foo (2) must not be greater than size (1)",
-          expected.getMessage());
+      assertThat(expected).hasMessage("foo (2) must not be greater than size (1)");
     }
   }
 
@@ -297,8 +295,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(-1, 1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("start index (-1) must not be negative",
-          expected.getMessage());
+      assertThat(expected).hasMessage("start index (-1) must not be negative");
     }
   }
 
@@ -307,8 +304,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(0, 2, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("end index (2) must not be greater than size (1)",
-          expected.getMessage());
+      assertThat(expected).hasMessage("end index (2) must not be greater than size (1)");
     }
   }
 
@@ -317,8 +313,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(1, 0, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertEquals("end index (0) must not be less than start index (1)",
-          expected.getMessage());
+      assertThat(expected).hasMessage("end index (0) must not be less than start index (1)");
     }
   }
 
@@ -364,10 +359,10 @@ public class PreconditionsTest extends TestCase {
   private static final String FORMAT = "I ate %s pies.";
 
   private static void verifySimpleMessage(Exception e) {
-    assertEquals("A message", e.getMessage());
+    assertThat(e).hasMessage("A message");
   }
 
   private static void verifyComplexMessage(Exception e) {
-    assertEquals("I ate 5 pies.", e.getMessage());
+    assertThat(e).hasMessage("I ate 5 pies.");
   }
 }

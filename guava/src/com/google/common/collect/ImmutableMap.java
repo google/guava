@@ -26,6 +26,7 @@ import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -217,7 +218,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * @throws NullPointerException if any key or value in {@code map} is null
      */
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
-      ensureCapacity(size + map.size());
       return putAll(map.entrySet());
     }
 
@@ -230,6 +230,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      */
     @Beta
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+      if (entries instanceof Collection) {
+        ensureCapacity(size + ((Collection<?>) entries).size());
+      }
       for (Entry<? extends K, ? extends V> entry : entries) {
         put(entry);
       }
@@ -282,7 +285,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
             if (entriesUsed) {
               entries = ObjectArrays.arraysCopyOf(entries, size);
             }
-            Arrays.sort(entries, 0, size,
+            Arrays.sort(
+                entries,
+                0,
+                size,
                 Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
           }
           entriesUsed = size == entries.length;

@@ -120,6 +120,7 @@ public class MapsTest extends TestCase {
    * This test may fail miserably on non-OpenJDK environments...
    */
   @GwtIncompatible("reflection")
+  @SuppressUnderAndroid // relies on assumptions about OpenJDK
   public void testNewHashMapWithExpectedSize_wontGrow() throws Exception {
     // before jdk7u40: creates one-bucket table
     // after  jdk7u40: creates empty table
@@ -136,6 +137,7 @@ public class MapsTest extends TestCase {
    * Same test as above but for newLinkedHashMapWithExpectedSize
    */
   @GwtIncompatible("reflection")
+  @SuppressUnderAndroid // relies on assumptions about OpenJDK
   public void testNewLinkedHashMapWithExpectedSize_wontGrow() throws Exception {
     assertTrue(bucketsOf(Maps.newLinkedHashMapWithExpectedSize(0)) <= 1);
 

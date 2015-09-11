@@ -238,9 +238,8 @@ public class SynchronizedMultimapTest extends TestCase {
     ListMultimap<String, Integer> delegate = LinkedListMultimap.create();
     delegate.put("foo", 1);
     delegate.put("foo", 3);
-    ListMultimap<String, Integer> multimap
-        = Multimaps.synchronizedListMultimap(delegate);
-    assertFalse(multimap.get("foo") instanceof RandomAccess);
-    assertFalse(multimap.get("bar") instanceof RandomAccess);
+    ListMultimap<String, Integer> multimap = Multimaps.synchronizedListMultimap(delegate);
+    assertThat(multimap.get("foo")).isNotInstanceOf(RandomAccess.class);
+    assertThat(multimap.get("bar")).isNotInstanceOf(RandomAccess.class);
   }
 }

@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 public interface RangeSet<C extends Comparable> {
-  
+
   // Query methods
 
   /**
@@ -91,7 +91,7 @@ public interface RangeSet<C extends Comparable> {
   Range<C> span();
 
   // Views
-  
+
   /**
    * Returns a view of the {@linkplain Range#isConnected disconnected} ranges that make up this
    * range set.  The returned set may be empty. The iterators returned by its
@@ -117,7 +117,7 @@ public interface RangeSet<C extends Comparable> {
    * {@link #remove}, and vice versa.
    */
   RangeSet<C> complement();
-  
+
   /**
    * Returns a view of the intersection of this {@code RangeSet} with the specified range.
    *
@@ -127,7 +127,7 @@ public interface RangeSet<C extends Comparable> {
    * {@code view}.
    */
   RangeSet<C> subRangeSet(Range<C> view);
-  
+
   // Modification
 
   /**
@@ -154,13 +154,13 @@ public interface RangeSet<C extends Comparable> {
    *         operation
    */
   void remove(Range<C> range);
-  
+
   /**
    * Removes all ranges from this {@code RangeSet} (optional operation).  After this operation,
    * {@code this.contains(c)} will return false for all {@code c}.
-   * 
+   *
    * <p>This is equivalent to {@code remove(Range.all())}.
-   * 
+   *
    * @throws UnsupportedOperationException if this range set does not support the {@code clear}
    *         operation
    */
@@ -190,7 +190,7 @@ public interface RangeSet<C extends Comparable> {
    *         operation
    */
   void removeAll(RangeSet<C> other);
-  
+
   // Object methods
 
   /**
@@ -199,7 +199,7 @@ public interface RangeSet<C extends Comparable> {
    */
   @Override
   boolean equals(@Nullable Object obj);
-  
+
   /**
    * Returns {@code asRanges().hashCode()}.
    */

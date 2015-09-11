@@ -103,6 +103,11 @@ public final class TypeResolver {
     if (from.equals(to)) {
       return;
     }
+    if (to instanceof WildcardType != from instanceof WildcardType) {
+      // When we are saying "assuming <?> is T, there really isn't any useful type mapping.
+      // Similarly, saying "assuming T is <?>" is meaningless. Of course it is.
+      return;
+    }
     new TypeVisitor() {
       @Override void visitTypeVariable(TypeVariable<?> typeVariable) {
         mappings.put(new TypeVariableKey(typeVariable), to);

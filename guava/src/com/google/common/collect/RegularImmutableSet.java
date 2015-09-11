@@ -29,9 +29,9 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class RegularImmutableSet<E> extends ImmutableSet<E> {
-  static final RegularImmutableSet<Object> EMPTY = new RegularImmutableSet<Object>(
-      ObjectArrays.EMPTY_ARRAY, 0, null, 0);
-  
+  static final RegularImmutableSet<Object> EMPTY =
+      new RegularImmutableSet<Object>(ObjectArrays.EMPTY_ARRAY, 0, null, 0);
+
   private final transient Object[] elements;
   // the same elements in hashed positions (plus nulls)
   @VisibleForTesting final transient Object[] table;
@@ -39,20 +39,20 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
   private final transient int mask;
   private final transient int hashCode;
 
-  RegularImmutableSet(
-      Object[] elements, int hashCode, Object[] table, int mask) {
+  RegularImmutableSet(Object[] elements, int hashCode, Object[] table, int mask) {
     this.elements = elements;
     this.table = table;
     this.mask = mask;
     this.hashCode = hashCode;
   }
 
-  @Override public boolean contains(@Nullable Object target) {
+  @Override
+  public boolean contains(@Nullable Object target) {
     Object[] table = this.table;
     if (target == null || table == null) {
       return false;
     }
-    for (int i = Hashing.smearedHash(target);; i++) {
+    for (int i = Hashing.smearedHash(target); ; i++) {
       i &= mask;
       Object candidate = table[i];
       if (candidate == null) {
@@ -90,11 +90,13 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
     return false;
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return hashCode;
   }
 
-  @Override boolean isHashCodeFast() {
+  @Override
+  boolean isHashCodeFast() {
     return true;
   }
 }

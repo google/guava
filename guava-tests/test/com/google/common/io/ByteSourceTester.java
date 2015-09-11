@@ -45,6 +45,7 @@ import java.util.Random;
  *
  * @author Colin Decker
  */
+@SuppressUnderAndroid // Android doesn't understand tests that lack default constructors.
 public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteSourceFactory> {
 
   private static final ImmutableList<Method> testMethods
@@ -86,8 +87,22 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
       // if expected.length == 0, off has to be 0 but length doesn't matter--result will be empty
       int off = expected.length == 0 ? 0 : random.nextInt(expected.length);
       int len = expected.length == 0 ? 4 : random.nextInt(expected.length - off);
+
       ByteSourceFactory sliced = SourceSinkFactories.asSlicedByteSourceFactory(factory, off, len);
-      suite.addTest(suiteForBytes(sliced, bytes, name + ".slice[int, int]",
+      suite.addTest(suiteForBytes(sliced, bytes, name + ".slice[long, long]",
+          desc, false));
+
+      // test a slice() of the ByteSource starting at a random offset with a length of
+      // Long.MAX_VALUE
+      ByteSourceFactory slicedLongMaxValue = SourceSinkFactories.asSlicedByteSourceFactory(
+          factory, off, Long.MAX_VALUE);
+      suite.addTest(suiteForBytes(slicedLongMaxValue, bytes, name + ".slice[long, Long.MAX_VALUE]",
+          desc, false));
+
+      // test a slice() of the ByteSource starting at an offset greater than its size
+      ByteSourceFactory slicedOffsetPastEnd = SourceSinkFactories.asSlicedByteSourceFactory(
+          factory, expected.length + 2, expected.length + 10);
+      suite.addTest(suiteForBytes(slicedOffsetPastEnd, bytes, name + ".slice[size + 2, long]",
           desc, false));
     }
 

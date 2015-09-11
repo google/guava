@@ -157,7 +157,7 @@ final class SerializingExecutor implements Executor {
   /**
    * Worker that runs tasks off the queue until it is empty or the queue is suspended.
    */
-  private class QueueWorker implements Runnable {
+  private final class QueueWorker implements Runnable {
     @Override
     public void run() {
       try {

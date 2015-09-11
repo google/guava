@@ -48,7 +48,18 @@ import java.util.Arrays;
  */
 @Beta
 public final class ByteStreams {
-  private static final int BUF_SIZE = 8192;
+
+  /**
+   * Default size of buffers allocated for copies.
+   */
+  static final int BUF_SIZE = 8192;
+
+  /**
+   * A buffer for skipping bytes in an input stream. Only written to and never read, so actual
+   * contents don't matter.
+   */
+  static final byte[] skipBuffer = new byte[BUF_SIZE];
+
   /**
    * There are three methods to implement {@link FileChannel#transferTo(long, long,
    *  WritableByteChannel)}:
@@ -704,21 +715,53 @@ public final class ByteStreams {
    *     support skipping
    */
   public static void skipFully(InputStream in, long n) throws IOException {
-    long toSkip = n;
-    while (n > 0) {
-      long amt = in.skip(n);
-      if (amt == 0) {
-        // Force a blocking read to avoid infinite loop
-        if (in.read() == -1) {
-          long skipped = toSkip - n;
-          throw new EOFException("reached end of stream after skipping "
-              + skipped + " bytes; " + toSkip + " bytes expected");
-        }
-        n--;
-      } else {
-        n -= amt;
-      }
+    long skipped = skipUpTo(in, n);
+    if (skipped < n) {
+      throw new EOFException("reached end of stream after skipping "
+          + skipped + " bytes; " + n + " bytes expected");
     }
+  }
+
+  /**
+   * Discards up to {@code n} bytes of data from the input stream. This method
+   * will block until either the full amount has been skipped or until the end
+   * of the stream is reached, whichever happens first. Returns the total number
+   * of bytes skipped.
+   */
+  static long skipUpTo(InputStream in, final long n) throws IOException {
+    long totalSkipped = 0;
+
+    while (totalSkipped < n) {
+      long remaining = n - totalSkipped;
+
+      long skipped = skipSafely(in, remaining);
+
+      if (skipped == 0) {
+        // Do a buffered read since skipSafely could return 0 repeatedly, for example if
+        // in.available() always returns 0 (the default).
+        int skip = (int) Math.min(remaining, skipBuffer.length);
+        if ((skipped = in.read(skipBuffer, 0, skip)) == -1) {
+          // Reached EOF
+          break;
+        }
+      }
+
+      totalSkipped += skipped;
+    }
+
+    return totalSkipped;
+  }
+
+  /**
+   * Attempts to skip up to {@code n} bytes from the given input stream, but not more than
+   * {@code in.available()} bytes. This prevents {@code FileInputStream} from skipping more bytes
+   * than actually remain in the file, something that it
+   * {@linkplain FileInputStream#skip(long) specifies} it can do in its Javadoc despite the fact
+   * that it is violating the contract of {@code InputStream.skip()}.
+   */
+  private static long skipSafely(InputStream in, long n) throws IOException {
+    int available = in.available();
+    return available == 0 ? 0 : in.skip(Math.min(available, n));
   }
 
   /**

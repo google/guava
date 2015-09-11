@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import javax.annotation.Nullable;
@@ -28,16 +29,15 @@ import javax.annotation.Nullable;
  * pairwise.
  */
 @GwtCompatible(serializable = true)
-final class LexicographicalOrdering<T>
-    extends Ordering<Iterable<T>> implements Serializable {
-  final Ordering<? super T> elementOrder;
+final class LexicographicalOrdering<T> extends Ordering<Iterable<T>> implements Serializable {
+  final Comparator<? super T> elementOrder;
 
-  LexicographicalOrdering(Ordering<? super T> elementOrder) {
+  LexicographicalOrdering(Comparator<? super T> elementOrder) {
     this.elementOrder = elementOrder;
   }
 
-  @Override public int compare(
-      Iterable<T> leftIterable, Iterable<T> rightIterable) {
+  @Override
+  public int compare(Iterable<T> leftIterable, Iterable<T> rightIterable) {
     Iterator<T> left = leftIterable.iterator();
     Iterator<T> right = rightIterable.iterator();
     while (left.hasNext()) {
@@ -55,7 +55,8 @@ final class LexicographicalOrdering<T>
     return 0;
   }
 
-  @Override public boolean equals(@Nullable Object object) {
+  @Override
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }
@@ -66,11 +67,13 @@ final class LexicographicalOrdering<T>
     return false;
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return elementOrder.hashCode() ^ 2075626741; // meaningless
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return elementOrder + ".lexicographical()";
   }
 

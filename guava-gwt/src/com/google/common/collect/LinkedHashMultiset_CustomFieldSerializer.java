@@ -27,19 +27,17 @@ import com.google.gwt.user.client.rpc.SerializationStreamWriter;
  */
 public class LinkedHashMultiset_CustomFieldSerializer {
 
-  public static void deserialize(SerializationStreamReader reader,
-      LinkedHashMultiset<?> instance) {
-  }
+  public static void deserialize(
+      SerializationStreamReader reader, LinkedHashMultiset<?> instance) {}
 
-  public static LinkedHashMultiset<Object> instantiate(
-      SerializationStreamReader reader) throws SerializationException {
+  public static LinkedHashMultiset<Object> instantiate(SerializationStreamReader reader)
+      throws SerializationException {
     return (LinkedHashMultiset<Object>)
-        Multiset_CustomFieldSerializerBase.populate(
-            reader, LinkedHashMultiset.create());
+        Multiset_CustomFieldSerializerBase.populate(reader, LinkedHashMultiset.create());
   }
 
-  public static void serialize(SerializationStreamWriter writer,
-      LinkedHashMultiset<?> instance) throws SerializationException {
+  public static void serialize(SerializationStreamWriter writer, LinkedHashMultiset<?> instance)
+      throws SerializationException {
     Multiset_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }

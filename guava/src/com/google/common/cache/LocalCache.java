@@ -40,6 +40,7 @@ import com.google.common.cache.CacheLoader.UnsupportedLoadingOperationException;
 import com.google.common.collect.AbstractSequentialIterator;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
@@ -49,6 +50,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.common.util.concurrent.Uninterruptibles;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -61,6 +64,7 @@ import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractQueue;
 import java.util.AbstractSet;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -2007,7 +2011,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
      * comments.
      */
 
-    final LocalCache<K, V> map;
+    @Weak final LocalCache<K, V> map;
 
     /**
      * The number of live elements in this segment's region.
@@ -3912,7 +3916,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     Segment<K, V>[] segments = this.segments;
     long sum = 0;
     for (int i = 0; i < segments.length; ++i) {
-      sum += segments[i].count;
+      sum += Math.max(0, segments[i].count); // see https://github.com/google/guava/issues/2108
     }
     return sum;
   }
@@ -4131,8 +4135,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       long sum = 0L;
       for (Segment<K, V> segment : segments) {
         // ensure visibility of most recent completed write
-        @SuppressWarnings({"UnusedDeclaration", "unused"})
-        int c = segment.count; // read-volatile
+        int unused = segment.count; // read-volatile
 
         AtomicReferenceArray<ReferenceEntry<K, V>> table = segment.table;
         for (int j = 0; j < table.length(); j++) {
@@ -4447,7 +4450,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   abstract class AbstractCacheSet<T> extends AbstractSet<T> {
-    final ConcurrentMap<?, ?> map;
+    @Weak final ConcurrentMap<?, ?> map;
 
     AbstractCacheSet(ConcurrentMap<?, ?> map) {
       this.map = map;
@@ -4467,8 +4470,29 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     public void clear() {
       map.clear();
     }
+
+    // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
+    // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
+
+    @Override
+    public Object[] toArray() {
+      return toArrayList(this).toArray();
+    }
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+      return toArrayList(this).toArray(a);
+    }
   }
 
+  private static <E> ArrayList<E> toArrayList(Collection<E> c) {
+    // Avoid calling ArrayList(Collection), which may call back into toArray.
+    ArrayList<E> result = new ArrayList<E>(c.size());
+    Iterators.addAll(result, c.iterator());
+    return result;
+  }
+
+  @WeakOuter
   final class KeySet extends AbstractCacheSet<K> {
 
     KeySet(ConcurrentMap<?, ?> map) {
@@ -4491,6 +4515,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
+  @WeakOuter
   final class Values extends AbstractCollection<V> {
     private final ConcurrentMap<?, ?> map;
 
@@ -4519,8 +4544,22 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     public boolean contains(Object o) {
       return map.containsValue(o);
     }
+
+    // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
+    // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
+
+    @Override
+    public Object[] toArray() {
+      return toArrayList(this).toArray();
+    }
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+      return toArrayList(this).toArray(a);
+    }
   }
 
+  @WeakOuter
   final class EntrySet extends AbstractCacheSet<Entry<K, V>> {
 
     EntrySet(ConcurrentMap<?, ?> map) {

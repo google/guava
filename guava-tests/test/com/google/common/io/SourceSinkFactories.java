@@ -152,7 +152,7 @@ public class SourceSinkFactories {
   }
 
   public static ByteSourceFactory asSlicedByteSourceFactory(final ByteSourceFactory factory,
-      final int off, final int len) {
+      final long off, final long len) {
     checkNotNull(factory);
     return new ByteSourceFactory() {
       @Override
@@ -163,7 +163,9 @@ public class SourceSinkFactories {
       @Override
       public byte[] getExpected(byte[] bytes) {
         byte[] baseExpected = factory.getExpected(bytes);
-        return Arrays.copyOfRange(baseExpected, off, Math.min(baseExpected.length, off + len));
+        int startOffset = (int) Math.min(off, baseExpected.length);
+        int actualLen = (int) Math.min(len, baseExpected.length - startOffset);
+        return Arrays.copyOfRange(baseExpected, startOffset, startOffset + actualLen);
       }
 
       @Override

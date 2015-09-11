@@ -84,10 +84,11 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       tester.forAllPublicStaticMethods(NoPublicStaticMethods.class).testEquals();
     } catch (AssertionFailedError expected) {
-      assertEquals(
-          "No public static methods that return java.lang.Object or subtype are found in "
-              + NoPublicStaticMethods.class + ".",
-          expected.getMessage());
+      assertThat(expected)
+          .hasMessage(
+              "No public static methods that return java.lang.Object or subtype are found in "
+                  + NoPublicStaticMethods.class
+                  + ".");
       return;
     }
     fail();
@@ -141,10 +142,11 @@ public class ClassSanityTesterTest extends TestCase {
           .thatReturn(Iterable.class)
           .testNulls();
     } catch (AssertionFailedError expected) {
-      assertEquals(
-          "No public static methods that return java.lang.Iterable or subtype are found in "
-              + BadNullsFactory.class + ".",
-          expected.getMessage());
+      assertThat(expected)
+          .hasMessage(
+              "No public static methods that return java.lang.Iterable or subtype are found in "
+                  + BadNullsFactory.class
+                  + ".");
       return;
     }
     fail();

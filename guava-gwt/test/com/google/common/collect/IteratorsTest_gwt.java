@@ -123,6 +123,11 @@ public void testCycleRemoveAfterHasNext() throws Exception {
   testCase.testCycleRemoveAfterHasNext();
 }
 
+public void testCycleRemoveAfterHasNextExtraPicky() throws Exception {
+  com.google.common.collect.IteratorsTest testCase = new com.google.common.collect.IteratorsTest();
+  testCase.testCycleRemoveAfterHasNextExtraPicky();
+}
+
 public void testCycleRemoveSameElementTwice() throws Exception {
   com.google.common.collect.IteratorsTest testCase = new com.google.common.collect.IteratorsTest();
   testCase.testCycleRemoveSameElementTwice();

@@ -16,6 +16,8 @@
 
 package com.google.common.reflect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.testing.EqualsTester;
@@ -38,6 +40,7 @@ import javax.annotation.Nullable;
  *
  * @author Ben Yu
  */
+@SuppressUnderAndroid // lots of failures, possibly some related to bad equals() implementations?
 public class InvokableTest extends TestCase {
 
   public void testConstructor_returnType() throws Exception {
@@ -56,7 +59,7 @@ public class InvokableTest extends TestCase {
     @SuppressWarnings("rawtypes") // Foo.class
     Constructor<WithConstructorAndTypeParameter> constructor = type.getDeclaredConstructor();
     Invokable<?, ?> factory = Invokable.from(constructor);
-    assertEquals(2, factory.getTypeParameters().length);
+    assertThat(factory.getTypeParameters()).hasLength(2);
     assertEquals(type.getTypeParameters()[0], factory.getTypeParameters()[0]);
     assertEquals(constructor.getTypeParameters()[0], factory.getTypeParameters()[1]);
     ParameterizedType returnType = (ParameterizedType) factory.getReturnType().getType();
@@ -71,9 +74,8 @@ public class InvokableTest extends TestCase {
   }
 
   public void testConstructor_typeParameters() throws Exception {
-    TypeVariable<?>[] variables =
-        Prepender.constructor().getTypeParameters();
-    assertEquals(1, variables.length);
+    TypeVariable<?>[] variables = Prepender.constructor().getTypeParameters();
+    assertThat(variables).hasLength(1);
     assertEquals("A", variables[0].getName());
   }
 
@@ -127,7 +129,7 @@ public class InvokableTest extends TestCase {
   public void testStaticMethod_typeParameters() throws Exception {
     Invokable<?, ?> delegate = Prepender.method("prepend", String.class, Iterable.class);
     TypeVariable<?>[] variables = delegate.getTypeParameters();
-    assertEquals(1, variables.length);
+    assertThat(variables).hasLength(1);
     assertEquals("T", variables[0].getName());
   }
 
@@ -197,7 +199,7 @@ public class InvokableTest extends TestCase {
 
   public void testInstanceMethod_typeParameters() throws Exception {
     Invokable<?, ?> delegate = Prepender.method("prepend", Iterable.class);
-    assertEquals(0, delegate.getTypeParameters().length);
+    assertThat(delegate.getTypeParameters()).isEmpty();
   }
 
   public void testInstanceMethod_parameters() throws Exception {
@@ -205,10 +207,8 @@ public class InvokableTest extends TestCase {
     ImmutableList<Parameter> parameters = delegate.getParameters();
     assertEquals(1, parameters.size());
     assertEquals(new TypeToken<Iterable<String>>() {}, parameters.get(0).getType());
-    assertEquals(0, parameters.get(0).getAnnotations().length);
-    new EqualsTester()
-        .addEqualityGroup(parameters.get(0))
-        .testEquals();
+    assertThat(parameters.get(0).getAnnotations()).isEmpty();
+    new EqualsTester().addEqualityGroup(parameters.get(0)).testEquals();
   }
 
   public void testInstanceMethod_call() throws Exception {

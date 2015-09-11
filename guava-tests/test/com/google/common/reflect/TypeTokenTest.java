@@ -49,6 +49,7 @@ import java.util.Map;
  * @author Sven Mawson
  * @author Ben Yu
  */
+@SuppressUnderAndroid // lots of failures, possibly some related to bad equals() implementations?
 public class TypeTokenTest extends TestCase {
 
   private abstract static class StringList implements List<String> {}
@@ -112,13 +113,13 @@ public class TypeTokenTest extends TestCase {
   public void testGenericArrayType() {
     TypeToken<List<String>[]> token = new TypeToken<List<String>[]>() {};
     assertEquals(List[].class, token.getRawType());
-    assertTrue(token.getType() instanceof GenericArrayType);
+    assertThat(token.getType()).isInstanceOf(GenericArrayType.class);
   }
 
   public void testMultiDimensionalGenericArrayType() {
     TypeToken<List<Long>[][][]> token = new TypeToken<List<Long>[][][]>() {};
     assertEquals(List[][][].class, token.getRawType());
-    assertTrue(token.getType() instanceof GenericArrayType);
+    assertThat(token.getType()).isInstanceOf(GenericArrayType.class);
   }
 
   public <T> void testGenericVariableTypeArrays() {
@@ -1227,6 +1228,121 @@ public class TypeTokenTest extends TestCase {
   public void testGetSubtype_fromArray() {
     assertEquals(new TypeToken<List<String>[]>() {},
         new TypeToken<Iterable<String>[]>() {}.getSubtype(List[].class));
+  }
+
+  private static class ForGetSubType {
+  
+    private abstract static class TwoTypeArgs<K, V> {
+      class InnerType<K2, V2> {}
+    }
+
+    private abstract static class StringForFirstTypeArg<V> extends TwoTypeArgs<String, V> {
+      class StringInnerType<V> extends InnerType<String, V> {}
+    }
+
+    private abstract static class OuterTypeVar<V>
+        extends StringForFirstTypeArg<List<V>> {}
+
+    private abstract static class SingleGenericExtendsBase<T> extends Base {}
+    
+    private abstract static class DoubleGenericExtendsSingleGeneric<T1, T2>
+        extends SingleGenericExtendsBase<T1> {}
+  
+    private interface FourTypeArgs<T1, T2, T3, T4> {}
+    private interface ThreeTypeArgs<T1, T2, T3> extends FourTypeArgs<T1, T2, T3, String> {}
+  
+    static class BaseWithTypeVar<T> {}
+    static class Outer<O> {
+      class Sub<X> extends BaseWithTypeVar<List<X>> {}
+      class Sub2<Y extends Sub2<Y>> extends BaseWithTypeVar<List<Y>> {}
+    }
+  }
+
+  public void testGetSubtype_toWildcard() {
+    TypeToken<ForGetSubType.TwoTypeArgs<?, ?>> superType =
+        new TypeToken<ForGetSubType.TwoTypeArgs<?, ?>>() {};
+    TypeToken<ForGetSubType.StringForFirstTypeArg<String>> subType =
+        new TypeToken<ForGetSubType.StringForFirstTypeArg<String>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    assertEquals(new TypeToken<ForGetSubType.StringForFirstTypeArg<?>>() {},
+        superType.getSubtype(subType.getRawType()));
+  }
+
+  public void testGetSubtype_innerTypeOfGenericClassTranslatesOwnerTypeVars() {
+    TypeToken<ForGetSubType.TwoTypeArgs<?, ?>.InnerType<?, ?>> superType =
+        new TypeToken<ForGetSubType.TwoTypeArgs<?, ?>.InnerType<?, ?>>() {};
+    TypeToken<ForGetSubType.StringForFirstTypeArg<Integer>.StringInnerType<Long>> subType =
+        new TypeToken<ForGetSubType.StringForFirstTypeArg<Integer>.StringInnerType<Long>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    TypeToken<ForGetSubType.StringForFirstTypeArg<?>.StringInnerType<?>> expected =
+        new TypeToken<ForGetSubType.StringForFirstTypeArg<?>.StringInnerType<?>>() {};
+    assertEquals(expected, superType.getSubtype(subType.getRawType()));
+  }
+
+  public void testGetSubtype_localTypeTranslatesTypeVar() {
+    class LocalType<T> extends ForGetSubType.TwoTypeArgs<String, String> {}
+
+    TypeToken<ForGetSubType.TwoTypeArgs<String, String>> superType =
+        new TypeToken<ForGetSubType.TwoTypeArgs<String, String>>() {};
+    TypeToken<LocalType<Integer>> subType = new TypeToken<LocalType<Integer>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    assertEquals(new TypeToken<LocalType<?>>() {}, superType.getSubtype(subType.getRawType()));
+  }
+
+  public void testGetSubtype_outerTypeVarTranslatesInnerTypeVar() {
+    TypeToken<ForGetSubType.StringForFirstTypeArg<List<?>>> type =
+        new TypeToken<ForGetSubType.StringForFirstTypeArg<List<?>>>() {};
+    assertEquals(new TypeToken<ForGetSubType.OuterTypeVar<?>>() {},
+        type.getSubtype(ForGetSubType.OuterTypeVar.class));
+  }
+  
+  public void testGetSubtype_toWildcardWithBounds() {
+    TypeToken<ForGetSubType.TwoTypeArgs<?, ? extends Number>> superType =
+        new TypeToken<ForGetSubType.TwoTypeArgs<?, ? extends Number>>() {};
+    TypeToken<ForGetSubType.StringForFirstTypeArg<Integer>> subType =
+        new TypeToken<ForGetSubType.StringForFirstTypeArg<Integer>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+
+    // TODO(benyu): This should check equality to an expected value, see discussion in cl/98674873
+    superType.getSubtype(subType.getRawType());
+  }
+  
+  public void testGetSubtype_baseClassWithNoTypeArgs() {
+    TypeToken<Base> superType = new TypeToken<Base>() {};
+    TypeToken<ForGetSubType.SingleGenericExtendsBase<String>> subType =
+        new TypeToken<ForGetSubType.SingleGenericExtendsBase<String>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    assertEquals(TypeToken.of(ForGetSubType.SingleGenericExtendsBase.class),
+        superType.getSubtype(subType.getRawType()));
+  }
+
+  public void testGetSubtype_baseClassWithLessTypeArgs() {
+    TypeToken<ForGetSubType.SingleGenericExtendsBase<?>> superType =
+        new TypeToken<ForGetSubType.SingleGenericExtendsBase<?>>() {};
+    TypeToken<ForGetSubType.DoubleGenericExtendsSingleGeneric<String, Integer>> subType =
+        new TypeToken<ForGetSubType.DoubleGenericExtendsSingleGeneric<String, Integer>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    assertEquals(new TypeToken<ForGetSubType.DoubleGenericExtendsSingleGeneric<?, ?>>() {},
+        superType.getSubtype(subType.getRawType()));
+  }
+
+  public <T> void testGetSubtype_manyGenericArgs() {
+    TypeToken<ForGetSubType.FourTypeArgs<T, Integer, ?, ?>> superType =
+        new TypeToken<ForGetSubType.FourTypeArgs<T, Integer, ?, ?>>() {};
+    TypeToken<ForGetSubType.ThreeTypeArgs<T, Integer, String>> subType =
+        new TypeToken<ForGetSubType.ThreeTypeArgs<T, Integer, String>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    assertEquals(new TypeToken<ForGetSubType.ThreeTypeArgs<T, Integer, ?>>() {},
+        superType.getSubtype(subType.getRawType()));
+  }
+
+  public void testGetSubtype_recursiveTypeBoundInSubTypeTranslatedAsIs() {
+    assertEquals(new TypeToken<ForGetSubType.Outer<?>.Sub<?>>() {},
+        new TypeToken<ForGetSubType.BaseWithTypeVar<List<?>>>() {}
+            .getSubtype(ForGetSubType.Outer.Sub.class));
+    // This returns a strange ? extends Sub2<Y> type, which isn't ideal.
+    new TypeToken<ForGetSubType.BaseWithTypeVar<List<?>>>() {}
+        .getSubtype(ForGetSubType.Outer.Sub2.class);
   }
 
   @SuppressWarnings("unchecked") // To construct TypeToken<T> with TypeToken.of()

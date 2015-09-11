@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 
@@ -64,6 +66,7 @@ public class FutureCallbackTest extends TestCase {
     FutureCallback<String> callback =
         new FutureCallback<String>() {
           private boolean called = false;
+
           @Override
           public void onSuccess(String result) {
             fail("Was not expecting onSuccess() to be called.");
@@ -72,7 +75,7 @@ public class FutureCallbackTest extends TestCase {
           @Override
           public synchronized void onFailure(Throwable t) {
             assertFalse(called);
-            assertTrue(t instanceof CancellationException);
+            assertThat(t).isInstanceOf(CancellationException.class);
             called = true;
           }
         };

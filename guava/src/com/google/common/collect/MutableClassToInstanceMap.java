@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * A mutable class-to-instance map backed by an arbitrary user-provided map.
  * See also {@link ImmutableClassToInstanceMap}.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">
  * {@code ClassToInstanceMap}</a>.
@@ -33,8 +33,7 @@ import java.util.Map;
  * @author Kevin Bourrillion
  * @since 2.0
  */
-public final class MutableClassToInstanceMap<B>
-    extends ConstrainedMap<Class<? extends B>, B>
+public final class MutableClassToInstanceMap<B> extends ConstrainedMap<Class<? extends B>, B>
     implements ClassToInstanceMap<B> {
 
   /**
@@ -42,8 +41,7 @@ public final class MutableClassToInstanceMap<B>
    * HashMap} using the default initial capacity and load factor.
    */
   public static <B> MutableClassToInstanceMap<B> create() {
-    return new MutableClassToInstanceMap<B>(
-        new HashMap<Class<? extends B>, B>());
+    return new MutableClassToInstanceMap<B>(new HashMap<Class<? extends B>, B>());
   }
 
   /**
@@ -51,8 +49,7 @@ public final class MutableClassToInstanceMap<B>
    * empty {@code backingMap}. The caller surrenders control of the backing map,
    * and thus should not allow any direct references to it to remain accessible.
    */
-  public static <B> MutableClassToInstanceMap<B> create(
-      Map<Class<? extends B>, B> backingMap) {
+  public static <B> MutableClassToInstanceMap<B> create(Map<Class<? extends B>, B> backingMap) {
     return new MutableClassToInstanceMap<B>(backingMap);
   }
 
@@ -60,13 +57,13 @@ public final class MutableClassToInstanceMap<B>
     super(delegate, VALUE_CAN_BE_CAST_TO_KEY);
   }
 
-  private static final MapConstraint<Class<?>, Object> VALUE_CAN_BE_CAST_TO_KEY
-      = new MapConstraint<Class<?>, Object>() {
-    @Override
-    public void checkKeyValue(Class<?> key, Object value) {
-      cast(key, value);
-    }
-  };
+  private static final MapConstraint<Class<?>, Object> VALUE_CAN_BE_CAST_TO_KEY =
+      new MapConstraint<Class<?>, Object>() {
+        @Override
+        public void checkKeyValue(Class<?> key, Object value) {
+          cast(key, value);
+        }
+      };
 
   @Override
   public <T extends B> T putInstance(Class<T> type, T value) {

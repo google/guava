@@ -167,4 +167,19 @@ public void testTryParse() throws Exception {
   com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
   testCase.testTryParse();
 }
+
+public void testTryParse_radix() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testTryParse_radix();
+}
+
+public void testTryParse_radixTooBig() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testTryParse_radixTooBig();
+}
+
+public void testTryParse_radixTooSmall() throws Exception {
+  com.google.common.primitives.IntsTest testCase = new com.google.common.primitives.IntsTest();
+  testCase.testTryParse_radixTooSmall();
+}
 }

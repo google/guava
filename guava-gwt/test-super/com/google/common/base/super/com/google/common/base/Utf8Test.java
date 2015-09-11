@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Character.MAX_CODE_POINT;
 import static java.lang.Character.MAX_HIGH_SURROGATE;
 import static java.lang.Character.MAX_LOW_SURROGATE;
@@ -121,8 +122,7 @@ public class Utf8Test extends TestCase {
       Utf8.encodedLength(invalidString);
       fail();
     } catch (IllegalArgumentException expected) {
-      assertEquals("Unpaired surrogate at index " + invalidCodePointIndex,
-          expected.getMessage());
+      assertThat(expected).hasMessage("Unpaired surrogate at index " + invalidCodePointIndex);
     }
   }
 

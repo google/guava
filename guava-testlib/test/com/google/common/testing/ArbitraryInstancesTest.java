@@ -16,6 +16,8 @@
 
 package com.google.common.testing;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Equivalence;
@@ -224,7 +226,7 @@ public class ArbitraryInstancesTest extends TestCase {
     assertNotNull(ArbitraryInstances.get(Locale.class));
     assertNotNull(ArbitraryInstances.get(Joiner.class).join(ImmutableList.of("a")));
     assertNotNull(ArbitraryInstances.get(Splitter.class).split("a,b"));
-    assertFalse(ArbitraryInstances.get(Optional.class).isPresent());
+    assertThat(ArbitraryInstances.get(Optional.class)).isAbsent();
     ArbitraryInstances.get(Stopwatch.class).start();
     assertNotNull(ArbitraryInstances.get(Ticker.class));
     assertNotNull(ArbitraryInstances.get(MapConstraint.class));
@@ -271,9 +273,9 @@ public class ArbitraryInstancesTest extends TestCase {
   }
 
   public void testGet_array() {
-    assertEquals(0, ArbitraryInstances.get(int[].class).length);
-    assertEquals(0, ArbitraryInstances.get(Object[].class).length);
-    assertEquals(0, ArbitraryInstances.get(String[].class).length);
+    assertThat(ArbitraryInstances.get(int[].class)).isEmpty();
+    assertThat(ArbitraryInstances.get(Object[].class)).isEmpty();
+    assertThat(ArbitraryInstances.get(String[].class)).isEmpty();
   }
 
   public void testGet_enum() {
@@ -302,13 +304,17 @@ public class ArbitraryInstancesTest extends TestCase {
   public void testGet_mutable() {
     assertEquals(0, ArbitraryInstances.get(ArrayList.class).size());
     assertEquals(0, ArbitraryInstances.get(HashMap.class).size());
-    assertEquals("", ArbitraryInstances.get(Appendable.class).toString());
-    assertEquals("", ArbitraryInstances.get(StringBuilder.class).toString());
-    assertEquals("", ArbitraryInstances.get(StringBuffer.class).toString());
+    assertThat(ArbitraryInstances.get(Appendable.class).toString()).isEmpty();
+    assertThat(ArbitraryInstances.get(StringBuilder.class).toString()).isEmpty();
+    assertThat(ArbitraryInstances.get(StringBuffer.class).toString()).isEmpty();
     assertFreshInstanceReturned(
-        ArrayList.class, HashMap.class,
-        Appendable.class, StringBuilder.class, StringBuffer.class,
-        Throwable.class, Exception.class);
+        ArrayList.class,
+        HashMap.class,
+        Appendable.class,
+        StringBuilder.class,
+        StringBuffer.class,
+        Throwable.class,
+        Exception.class);
   }
 
   public void testGet_io() throws IOException {

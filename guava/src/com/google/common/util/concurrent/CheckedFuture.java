@@ -30,6 +30,14 @@ import java.util.concurrent.TimeoutException;
  * of the {@code get} methods that can throw a checked exception.  This makes it
  * easier to create a future that executes logic which can throw an exception.
  *
+ * <p><b>Warning:</b> We recommend against using {@code CheckedFuture} in new
+ * projects. {@code CheckedFuture} is difficult to build libraries atop. {@code
+ * CheckedFuture} ports of methods like {@link Futures#transformAsync} have
+ * historically had bugs, and some of these bugs are necessary, unavoidable
+ * consequences of the {@code CheckedFuture} API. Additionally, {@code
+ * CheckedFuture} encourages users to take exceptions from one thread and
+ * rethrow them in another, producing confusing stack traces.
+ *
  * <p>A common implementation is {@link Futures#immediateCheckedFuture}.
  *
  * <p>Implementations of this interface must adapt the exceptions thrown by
@@ -42,8 +50,8 @@ import java.util.concurrent.TimeoutException;
  * {@link Future} or as an asynchronous callback mechanism as needed. This
  * allows multiple callbacks to be registered for a particular task, and the
  * future will guarantee execution of all listeners when the task completes.
- * 
- * <p>For a simpler alternative to CheckedFuture, consider accessing Future 
+ *
+ * <p>For a simpler alternative to CheckedFuture, consider accessing Future
  * values with {@link Futures#getChecked(Future, Class) Futures.getChecked()}.
  *
  * @author Sven Mawson

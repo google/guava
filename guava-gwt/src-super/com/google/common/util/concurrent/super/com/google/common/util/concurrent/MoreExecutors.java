@@ -61,6 +61,10 @@ public final class MoreExecutors {
     @Override public void execute(Runnable command) {
       command.run();
     }
+
+    @Override public String toString() {
+      return "MoreExecutors.directExecutor()";
+    }
   }
 
   /*

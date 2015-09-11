@@ -902,7 +902,7 @@ public class NullPointerTesterTest extends TestCase {
     void check() {
       runTester();
       Object[] defaultArray = (Object[]) getDefaultParameterValue(0);
-      assertEquals(0, defaultArray.length);
+      assertThat(defaultArray).isEmpty();
     }
   }
 
@@ -921,7 +921,7 @@ public class NullPointerTesterTest extends TestCase {
     void check() {
       runTester();
       String[] defaultArray = (String[]) getDefaultParameterValue(0);
-      assertEquals(0, defaultArray.length);
+      assertThat(defaultArray).isEmpty();
     }
   }
 

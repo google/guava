@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
@@ -50,15 +52,16 @@ public class CloserTest extends TestCase {
     suppressor = new TestSuppressor();
   }
 
+  @SuppressUnderAndroid // TODO(cpovirk): Look up Build.VERSION.SDK_INT reflectively.
   public void testCreate() {
     Closer closer = Closer.create();
     String javaVersion = System.getProperty("java.version");
     String secondPart = Iterables.get(Splitter.on('.').split(javaVersion), 1);
     int versionNumber = Integer.parseInt(secondPart);
     if (versionNumber < 7) {
-      assertTrue(closer.suppressor instanceof Closer.LoggingSuppressor);
+      assertThat(closer.suppressor).isInstanceOf(Closer.LoggingSuppressor.class);
     } else {
-      assertTrue(closer.suppressor instanceof Closer.SuppressingSuppressor);
+      assertThat(closer.suppressor).isInstanceOf(Closer.SuppressingSuppressor.class);
     }
   }
 
@@ -125,7 +128,7 @@ public class CloserTest extends TestCase {
         closer.close();
       }
     } catch (Throwable expected) {
-      assertTrue(expected instanceof IOException);
+      assertThat(expected).isInstanceOf(IOException.class);
     }
 
     assertTrue(c1.isClosed());
@@ -339,7 +342,7 @@ public class CloserTest extends TestCase {
       } catch (Throwable e) {
         throw closer.rethrow(thrownException, IOException.class);
       } finally {
-        assertEquals(0, getSuppressed(thrownException).length);
+        assertThat(getSuppressed(thrownException)).isEmpty();
         closer.close();
       }
     } catch (IOException expected) {

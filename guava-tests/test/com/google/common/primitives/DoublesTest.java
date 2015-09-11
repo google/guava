@@ -422,14 +422,24 @@ public class DoublesTest extends TestCase {
   private static void checkTryParse(String input) {
     Double expected = referenceTryParse(input);
     assertEquals(expected, Doubles.tryParse(input));
-    assertEquals(expected != null,
-        Doubles.FLOATING_POINT_PATTERN.matcher(input).matches());
+    if (expected != null && !Doubles.FLOATING_POINT_PATTERN.matcher(input).matches()) {
+      // TODO(cpovirk): Use SourceCodeEscapers if it is added to Guava.
+      StringBuilder escapedInput = new StringBuilder();
+      for (char c : input.toCharArray()) {
+        if (c >= 0x20 && c <= 0x7E) {
+          escapedInput.append(c);
+        } else {
+          escapedInput.append(String.format("\\u%04x", (int) c));
+        }
+      }
+      fail("FLOATING_POINT_PATTERN should have matched valid input <" + escapedInput + ">");
+    }
   }
 
   @GwtIncompatible("Doubles.tryParse")
   private static void checkTryParse(double expected, String input) {
     assertEquals(Double.valueOf(expected), Doubles.tryParse(input));
-    assertTrue(Doubles.FLOATING_POINT_PATTERN.matcher(input).matches());
+    assertThat(input).matches(Doubles.FLOATING_POINT_PATTERN);
   }
 
   @GwtIncompatible("Doubles.tryParse")
@@ -497,7 +507,7 @@ public class DoublesTest extends TestCase {
   @GwtIncompatible("Doubles.tryParse")
   public void testTryParseFailures() {
     for (String badInput : BAD_TRY_PARSE_INPUTS) {
-      assertFalse(Doubles.FLOATING_POINT_PATTERN.matcher(badInput).matches());
+      assertThat(badInput).doesNotMatch(Doubles.FLOATING_POINT_PATTERN);
       assertEquals(referenceTryParse(badInput), Doubles.tryParse(badInput));
       assertNull(Doubles.tryParse(badInput));
     }

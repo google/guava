@@ -28,6 +28,12 @@ To add a dependency on Guava using Maven, use the following:
 </dependency>
 ```
 
+Upcoming release
+----------------
+
+[Guava 19.0][] is the next release. A release candidate is currently available
+on Maven Central as version `19.0-rc1`, release July 23, 2015.
+
 Snapshots
 ---------
 
@@ -82,6 +88,7 @@ Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments.
 
 [Guava 18.0]: https://github.com/google/guava/wiki/Release18
+[Guava 19.0]: https://github.com/google/guava/wiki/Release19
 [Release API Docs]: http://google.github.io/guava/releases/18.0/api/docs/
 [Release API Diffs]: http://google.github.io/guava/releases/18.0/api/diffs/
 [Snapshot API Docs]: http://google.github.io/guava/releases/snapshot/api/docs/

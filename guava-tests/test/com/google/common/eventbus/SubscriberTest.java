@@ -16,6 +16,8 @@
 
 package com.google.common.eventbus;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.testing.EqualsTester;
 
 import junit.framework.TestCase;
@@ -46,11 +48,11 @@ public class SubscriberTest extends TestCase {
 
   public void testCreate() {
     Subscriber s1 = Subscriber.create(bus, this, getTestSubscriberMethod("recordingMethod"));
-    assertTrue(s1 instanceof Subscriber.SynchronizedSubscriber);
+    assertThat(s1).isInstanceOf(Subscriber.SynchronizedSubscriber.class);
 
     // a thread-safe method should not create a synchronized subscriber
     Subscriber s2 = Subscriber.create(bus, this, getTestSubscriberMethod("threadSafeMethod"));
-    assertFalse(s2 instanceof Subscriber.SynchronizedSubscriber);
+    assertThat(s2).isNotInstanceOf(Subscriber.SynchronizedSubscriber.class);
   }
 
   public void testInvokeSubscriberMethod_basicMethodCall() throws Throwable {
@@ -72,7 +74,7 @@ public class SubscriberTest extends TestCase {
       subscriber.invokeSubscriberMethod(FIXTURE_ARGUMENT);
       fail("Subscribers whose methods throw must throw InvocationTargetException");
     } catch (InvocationTargetException expected) {
-      assertTrue(expected.getCause() instanceof IntentionalException);
+      assertThat(expected.getCause()).isInstanceOf(IntentionalException.class);
     }
   }
 

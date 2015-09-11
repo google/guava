@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
 import static com.google.common.util.concurrent.Runnables.doNothing;
 
@@ -271,28 +272,28 @@ public class WrappingExecutorServiceTest extends TestCase {
     @Override
     public <T> Future<T> submit(Callable<T> task) {
       lastMethodCalled = "submit";
-      assertTrue(task instanceof WrappedCallable);
+      assertThat(task).isInstanceOf(WrappedCallable.class);
       return inline.submit(task);
     }
 
     @Override
     public Future<?> submit(Runnable task) {
       lastMethodCalled = "submit";
-      assertTrue(task instanceof WrappedRunnable);
+      assertThat(task).isInstanceOf(WrappedRunnable.class);
       return inline.submit(task);
     }
 
     @Override
     public <T> Future<T> submit(Runnable task, T result) {
       lastMethodCalled = "submit";
-      assertTrue(task instanceof WrappedRunnable);
+      assertThat(task).isInstanceOf(WrappedRunnable.class);
       return inline.submit(task, result);
     }
 
     @Override
     public void execute(Runnable command) {
       lastMethodCalled = "execute";
-      assertTrue(command instanceof WrappedRunnable);
+      assertThat(command).isInstanceOf(WrappedRunnable.class);
       inline.execute(command);
     }
 

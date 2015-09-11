@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.collect.ImmutableList;
 
 import junit.framework.TestCase;
@@ -41,18 +43,18 @@ public class AbstractListeningExecutorServiceTest extends TestCase {
 
     TestRunnable runnable = new TestRunnable();
     ListenableFuture<?> runnableFuture = e.submit(runnable);
-    assertTrue(runnableFuture instanceof TrustedListenableFutureTask);
+    assertThat(runnableFuture).isInstanceOf(TrustedListenableFutureTask.class);
     assertTrue(runnableFuture.isDone());
     assertTrue(runnable.run);
 
     ListenableFuture<String> callableFuture = e.submit(new TestCallable());
-    assertTrue(callableFuture instanceof TrustedListenableFutureTask);
+    assertThat(callableFuture).isInstanceOf(TrustedListenableFutureTask.class);
     assertTrue(callableFuture.isDone());
     assertEquals("foo", callableFuture.get());
 
     TestRunnable runnable2 = new TestRunnable();
     ListenableFuture<Integer> runnableFuture2 = e.submit(runnable2, 3);
-    assertTrue(runnableFuture2 instanceof TrustedListenableFutureTask);
+    assertThat(runnableFuture2).isInstanceOf(TrustedListenableFutureTask.class);
     assertTrue(runnableFuture2.isDone());
     assertTrue(runnable2.run);
     assertEquals((Integer) 3, runnableFuture2.get());
@@ -81,7 +83,7 @@ public class AbstractListeningExecutorServiceTest extends TestCase {
 
     @Override
     public void execute(Runnable runnable) {
-      assertTrue(runnable instanceof TrustedListenableFutureTask);
+      assertThat(runnable).isInstanceOf(TrustedListenableFutureTask.class);
       runnable.run();
     }
 

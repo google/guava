@@ -196,12 +196,12 @@ public final class Collections2 {
 
     @Override
     public boolean removeAll(final Collection<?> collection) {
-      return Iterables.removeIf(unfiltered, and(predicate, in(collection)));
+      return Iterables.removeIf(unfiltered, and(predicate, Predicates.<Object>in(collection)));
     }
 
     @Override
     public boolean retainAll(final Collection<?> collection) {
-      return Iterables.removeIf(unfiltered, and(predicate, not(in(collection))));
+      return Iterables.removeIf(unfiltered, and(predicate, not(Predicates.<Object>in(collection))));
     }
 
     @Override

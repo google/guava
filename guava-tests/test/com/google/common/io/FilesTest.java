@@ -50,6 +50,7 @@ import java.util.Random;
  *
  * @author Chris Nokleberg
  */
+
 public class FilesTest extends IoTestCase {
 
   public static TestSuite suite() {
@@ -416,7 +417,7 @@ public class FilesTest extends IoTestCase {
     File temp = Files.createTempDir();
     assertTrue(temp.exists());
     assertTrue(temp.isDirectory());
-    assertEquals(0, temp.listFiles().length);
+    assertThat(temp.listFiles()).isEmpty();
     assertTrue(temp.delete());
   }
 

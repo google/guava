@@ -66,7 +66,7 @@ public class FuturesGetCheckedTest extends TestCase {
       getChecked(future, TwoArgConstructorException.class);
       fail();
     } catch (TwoArgConstructorException expected) {
-      assertTrue(expected.getCause() instanceof InterruptedException);
+      assertThat(expected.getCause()).isInstanceOf(InterruptedException.class);
       assertTrue(Thread.currentThread().isInterrupted());
     } finally {
       Thread.interrupted();
@@ -170,7 +170,7 @@ public class FuturesGetCheckedTest extends TestCase {
       getChecked(future, TwoArgConstructorException.class, 0, SECONDS);
       fail();
     } catch (TwoArgConstructorException expected) {
-      assertTrue(expected.getCause() instanceof InterruptedException);
+      assertThat(expected.getCause()).isInstanceOf(InterruptedException.class);
       assertTrue(Thread.currentThread().isInterrupted());
     } finally {
       Thread.interrupted();
@@ -238,7 +238,7 @@ public class FuturesGetCheckedTest extends TestCase {
       getChecked(future, TwoArgConstructorException.class, 0, SECONDS);
       fail();
     } catch (TwoArgConstructorException expected) {
-      assertTrue(expected.getCause() instanceof TimeoutException);
+      assertThat(expected.getCause()).isInstanceOf(TimeoutException.class);
     }
   }
 
