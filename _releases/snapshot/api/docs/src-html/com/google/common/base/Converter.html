@@ -78,8 +78,8 @@
 <span class="sourceLineNo">070</span> *     a "fake" converter for a unit test. It is unnecessary (and confusing) to &lt;i&gt;mock&lt;/i&gt; the<a name="line.70"></a>
 <span class="sourceLineNo">071</span> *     {@code Converter} type using a mocking framework.<a name="line.71"></a>
 <span class="sourceLineNo">072</span> * &lt;li&gt;Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.<a name="line.72"></a>
-<span class="sourceLineNo">073</span> * &lt;li&gt;If using Java 8, you may prefer to pass two lambda expressions or method references to {@link<a name="line.73"></a>
-<span class="sourceLineNo">074</span> *     #from}.<a name="line.74"></a>
+<span class="sourceLineNo">073</span> * &lt;li&gt;If using Java 8, you may prefer to pass two lambda expressions or method references to the<a name="line.73"></a>
+<span class="sourceLineNo">074</span> *     {@link #from from} factory method.<a name="line.74"></a>
 <span class="sourceLineNo">075</span> * &lt;/ul&gt;<a name="line.75"></a>
 <span class="sourceLineNo">076</span> *<a name="line.76"></a>
 <span class="sourceLineNo">077</span> * &lt;p&gt;Using a converter:<a name="line.77"></a>
@@ -96,23 +96,23 @@
 <span class="sourceLineNo">088</span> *<a name="line.88"></a>
 <span class="sourceLineNo">089</span> * &lt;h3&gt;Example&lt;/h3&gt;<a name="line.89"></a>
 <span class="sourceLineNo">090</span> *<a name="line.90"></a>
-<span class="sourceLineNo">091</span> * &lt;pre&gt;   {@code<a name="line.91"></a>
-<span class="sourceLineNo">092</span> *<a name="line.92"></a>
-<span class="sourceLineNo">093</span> *   return new Converter&lt;Integer, String&gt;() {<a name="line.93"></a>
-<span class="sourceLineNo">094</span> *     @Override<a name="line.94"></a>
-<span class="sourceLineNo">095</span> *     protected String doForward(Integer i) {<a name="line.95"></a>
-<span class="sourceLineNo">096</span> *       return Integer.toHexString(i);<a name="line.96"></a>
-<span class="sourceLineNo">097</span> *     }<a name="line.97"></a>
-<span class="sourceLineNo">098</span> *<a name="line.98"></a>
-<span class="sourceLineNo">099</span> *     @Override<a name="line.99"></a>
-<span class="sourceLineNo">100</span> *     protected Integer doBackward(String s) {<a name="line.100"></a>
-<span class="sourceLineNo">101</span> *       return parseUnsignedInt(s, 16);<a name="line.101"></a>
-<span class="sourceLineNo">102</span> *     }<a name="line.102"></a>
-<span class="sourceLineNo">103</span> *   };}&lt;/pre&gt;<a name="line.103"></a>
-<span class="sourceLineNo">104</span> *<a name="line.104"></a>
-<span class="sourceLineNo">105</span> * &lt;p&gt;An alternative using Java 8: &lt;pre&gt;   {@code<a name="line.105"></a>
-<span class="sourceLineNo">106</span> *<a name="line.106"></a>
-<span class="sourceLineNo">107</span> *   return Converter.from(Integer::toHexString, s -&gt; parseUnsignedInt(s, 16));}&lt;/pre&gt;<a name="line.107"></a>
+<span class="sourceLineNo">091</span> * &lt;pre&gt;<a name="line.91"></a>
+<span class="sourceLineNo">092</span> *   return new Converter&amp;lt;Integer, String&amp;gt;() {<a name="line.92"></a>
+<span class="sourceLineNo">093</span> *     &amp;#64;Override<a name="line.93"></a>
+<span class="sourceLineNo">094</span> *     protected String doForward(Integer i) {<a name="line.94"></a>
+<span class="sourceLineNo">095</span> *       return Integer.toHexString(i);<a name="line.95"></a>
+<span class="sourceLineNo">096</span> *     }<a name="line.96"></a>
+<span class="sourceLineNo">097</span> *<a name="line.97"></a>
+<span class="sourceLineNo">098</span> *     &amp;#64;Override<a name="line.98"></a>
+<span class="sourceLineNo">099</span> *     protected Integer doBackward(String s) {<a name="line.99"></a>
+<span class="sourceLineNo">100</span> *       return parseUnsignedInt(s, 16);<a name="line.100"></a>
+<span class="sourceLineNo">101</span> *     }<a name="line.101"></a>
+<span class="sourceLineNo">102</span> *   };&lt;/pre&gt;<a name="line.102"></a>
+<span class="sourceLineNo">103</span> *<a name="line.103"></a>
+<span class="sourceLineNo">104</span> * &lt;p&gt;An alternative using Java 8:&lt;pre&gt;   {@code<a name="line.104"></a>
+<span class="sourceLineNo">105</span> *   return Converter.from(<a name="line.105"></a>
+<span class="sourceLineNo">106</span> *       Integer::toHexString,<a name="line.106"></a>
+<span class="sourceLineNo">107</span> *       s -&gt; parseUnsignedInt(s, 16));}&lt;/pre&gt;<a name="line.107"></a>
 <span class="sourceLineNo">108</span> *<a name="line.108"></a>
 <span class="sourceLineNo">109</span> * @author Mike Ward<a name="line.109"></a>
 <span class="sourceLineNo">110</span> * @author Kurt Alfred Kluever<a name="line.110"></a>

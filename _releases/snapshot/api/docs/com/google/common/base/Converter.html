@@ -143,7 +143,8 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
      a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
      <code>Converter</code> type using a mocking framework.
  <li>Extend this class and implement its <a href="../../../../com/google/common/base/Converter.html#doForward(A)"><code>doForward(A)</code></a> and <a href="../../../../com/google/common/base/Converter.html#doBackward(B)"><code>doBackward(B)</code></a> methods.
- <li>If using Java 8, you may prefer to pass two lambda expressions or method references to <a href="../../../../com/google/common/base/Converter.html#from(com.google.common.base.Function,%20com.google.common.base.Function)"><code>from(com.google.common.base.Function&lt;? super A, ? extends B&gt;, com.google.common.base.Function&lt;? super B, ? extends A&gt;)</code></a>.
+ <li>If using Java 8, you may prefer to pass two lambda expressions or method references to the
+     <a href="../../../../com/google/common/base/Converter.html#from(com.google.common.base.Function,%20com.google.common.base.Function)"><code>from</code></a> factory method.
  </ul>
 
  <p>Using a converter:
@@ -159,9 +160,22 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 
  <h3>Example</h3>
 
- <pre>   {@code
+ <pre>
+   return new Converter&lt;Integer, String&gt;() {
+     &#64;Override
+     protected String doForward(Integer i) {
+       return Integer.toHexString(i);
+     }
 
-   return new Converter<Integer, String>() {</div>
+     &#64;Override
+     protected Integer doBackward(String s) {
+       return parseUnsignedInt(s, 16);
+     }
+   };</pre>
+
+ <p>An alternative using Java 8:<pre>   <code>return Converter.from(
+       Integer::toHexString,
+       s -&gt; parseUnsignedInt(s, 16));</code></pre></div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>16.0</dd>
 <dt><span class="strong">Author:</span></dt>
