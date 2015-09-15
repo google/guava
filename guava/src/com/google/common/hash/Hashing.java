@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Supplier;
 
+import java.security.Key;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ import java.util.zip.Checksum;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Static methods to obtain {@link HashFunction} instances, and other static hashing-related
@@ -242,6 +244,118 @@ public final class Hashing {
   private static class Sha512Holder {
     static final HashFunction SHA_512 =
         new MessageDigestHashFunction("SHA-512", "Hashing.sha512()");
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the MD5 (128 hash bits) hash function and the given secret key.
+   *
+   *
+   * @param key the secret key
+   * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
+   * @since 20.0
+   */
+  public static HashFunction hmacMd5(Key key) {
+    return new MacHashFunction("HmacMD5", key, hmacToString("hmacMd5", key));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the MD5 (128 hash bits) hash function and a {@link SecretSpecKey} created from the given
+   * byte array and the MD5 algorithm.
+   *
+   *
+   * @param key the key material of the secret key
+   * @since 20.0
+   */
+  public static HashFunction hmacMd5(byte[] key) {
+    return hmacMd5(new SecretKeySpec(checkNotNull(key), "HmacMD5"));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-1 (160 hash bits) hash function and the given secret key.
+   *
+   *
+   * @param key the secret key
+   * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
+   * @since 20.0
+   */
+  public static HashFunction hmacSha1(Key key) {
+    return new MacHashFunction("HmacSHA1", key, hmacToString("hmacSha1", key));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-1 (160 hash bits) hash function and a {@link SecretSpecKey} created from the given
+   * byte array and the SHA-1 algorithm.
+   *
+   *
+   * @param key the key material of the secret key
+   * @since 20.0
+   */
+  public static HashFunction hmacSha1(byte[] key) {
+    return hmacSha1(new SecretKeySpec(checkNotNull(key), "HmacSHA1"));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-256 (256 hash bits) hash function and the given secret key.
+   *
+   *
+   * @param key the secret key
+   * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
+   * @since 20.0
+   */
+  public static HashFunction hmacSha256(Key key) {
+    return new MacHashFunction("HmacSHA256", key, hmacToString("hmacSha256", key));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-256 (256 hash bits) hash function and a {@link SecretSpecKey} created from the given
+   * byte array and the SHA-256 algorithm.
+   *
+   *
+   * @param key the key material of the secret key
+   * @since 20.0
+   */
+  public static HashFunction hmacSha256(byte[] key) {
+    return hmacSha256(new SecretKeySpec(checkNotNull(key), "HmacSHA256"));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-512 (512 hash bits) hash function and the given secret key.
+   *
+   *
+   * @param key the secret key
+   * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
+   * @since 20.0
+   */
+  public static HashFunction hmacSha512(Key key) {
+    return new MacHashFunction("HmacSHA512", key, hmacToString("hmacSha512", key));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-512 (512 hash bits) hash function and a {@link SecretSpecKey} created from the given
+   * byte array and the SHA-512 algorithm.
+   *
+   *
+   * @param key the key material of the secret key
+   * @since 20.0
+   */
+  public static HashFunction hmacSha512(byte[] key) {
+    return hmacSha512(new SecretKeySpec(checkNotNull(key), "HmacSHA512"));
+  }
+
+  private static String hmacToString(String methodName, Key key) {
+    return String.format(
+        "Hashing.%s(Key[algorithm=%s, format=%s])",
+        methodName,
+        key.getAlgorithm(),
+        key.getFormat());
   }
 
   /**
