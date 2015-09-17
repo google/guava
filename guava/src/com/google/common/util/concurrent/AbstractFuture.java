@@ -147,7 +147,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
     // Constructor for the TOMBSTONE, avoids use of ATOMIC_HELPER in case this class is loaded
     // before the ATOMIC_HELPER.  Apparently this is possible on some android platforms.
-    Waiter(@SuppressWarnings("unused") boolean ignored) {}
+    Waiter(boolean unused) {}
 
     Waiter() {
       // avoid volatile write, write is made visible by subsequent CAS on waiters field

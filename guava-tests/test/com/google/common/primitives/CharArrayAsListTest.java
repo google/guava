@@ -40,7 +40,6 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid
 public class CharArrayAsListTest extends TestCase {
 
   private static List<Character> asList(Character[] values) {

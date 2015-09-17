@@ -60,7 +60,6 @@ import java.util.Set;
 public class LinkedListMultimapTest extends TestCase {
 
   @GwtIncompatible("suite")
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(ListMultimapTestSuiteBuilder.using(new TestStringListMultimapGenerator() {

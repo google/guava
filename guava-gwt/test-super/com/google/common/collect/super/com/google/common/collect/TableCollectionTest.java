@@ -40,7 +40,6 @@ import java.util.SortedMap;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid // nested classes
 public class TableCollectionTest extends TestCase {
 
   private static final Feature<?>[] COLLECTION_FEATURES = {

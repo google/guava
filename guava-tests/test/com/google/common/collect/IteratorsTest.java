@@ -69,7 +69,6 @@ import java.util.Vector;
 public class IteratorsTest extends TestCase {
 
   @GwtIncompatible("suite")
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite(IteratorsTest.class.getSimpleName());
     suite.addTest(testsForRemoveAllAndRetainAll());
@@ -1544,7 +1543,6 @@ public class IteratorsTest extends TestCase {
   }
 
   @GwtIncompatible("ListTestSuiteBuilder")
-  @SuppressUnderAndroid
   private static Test testsForRemoveAllAndRetainAll() {
     return ListTestSuiteBuilder.using(new TestStringListGenerator() {
           @Override public List<String> create(final String[] elements) {

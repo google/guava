@@ -38,7 +38,6 @@ import java.util.TreeSet;
  *
  * @author Louis Wasserman
  */
-@SuppressUnderAndroid // nested tests
 public class FilteredCollectionsTest extends TestCase {
   private static final Predicate<Integer> EVEN = new Predicate<Integer>() {
     @Override

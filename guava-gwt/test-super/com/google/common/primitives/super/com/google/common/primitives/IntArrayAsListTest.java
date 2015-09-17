@@ -33,7 +33,6 @@ import java.util.List;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
-@SuppressUnderAndroid
 public class IntArrayAsListTest extends TestCase {
 
   private static List<Integer> asList(Integer[] values) {

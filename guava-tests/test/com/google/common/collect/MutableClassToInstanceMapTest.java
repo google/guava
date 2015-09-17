@@ -37,7 +37,6 @@ import java.util.Map.Entry;
  * @author Kevin Bourrillion
  */
 public class MutableClassToInstanceMapTest extends TestCase {
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(MutableClassToInstanceMapTest.class);

@@ -138,7 +138,6 @@ public class ForwardingMultisetTest extends ForwardingTestCase {
 
   protected Multiset<String> forward;
 
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

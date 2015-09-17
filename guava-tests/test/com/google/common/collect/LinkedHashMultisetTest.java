@@ -43,7 +43,6 @@ import java.util.List;
 public class LinkedHashMultisetTest extends TestCase {
 
   @GwtIncompatible("suite")
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MultisetTestSuiteBuilder.using(linkedHashMultisetGenerator())

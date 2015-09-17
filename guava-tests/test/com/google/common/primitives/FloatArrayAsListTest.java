@@ -40,7 +40,6 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid
 public class FloatArrayAsListTest extends TestCase {
 
   private static List<Float> asList(Float[] values) {

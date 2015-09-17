@@ -112,7 +112,6 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableRangeSetTest.class);

@@ -171,7 +171,9 @@ public final class Splitter {
   @CheckReturnValue
   public static Splitter on(final String separator) {
     checkArgument(separator.length() != 0, "The separator may not be the empty string.");
-
+    if (separator.length() == 1) {
+      return Splitter.on(separator.charAt(0));
+    }
     return new Splitter(
         new Strategy() {
           @Override

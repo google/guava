@@ -40,7 +40,6 @@ import java.util.Set;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-@SuppressUnderAndroid // nested tests
 public class SetOperationsTest extends TestCase {
   @GwtIncompatible("suite")
   public static Test suite() {

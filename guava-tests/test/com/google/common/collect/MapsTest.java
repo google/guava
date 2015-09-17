@@ -1365,7 +1365,6 @@ public class MapsTest extends TestCase {
       }
     };
 
-  @SuppressUnderAndroid
   public static class FilteredMapTest extends TestCase {
     Map<String, Integer> createUnfiltered() {
       return Maps.newHashMap();
@@ -1546,7 +1545,6 @@ public class MapsTest extends TestCase {
     }
   }
 
-  @SuppressUnderAndroid
   public static class FilteredSortedMapTest extends FilteredMapTest {
     @Override
     SortedMap<String, Integer> createUnfiltered() {
@@ -1603,7 +1601,6 @@ public class MapsTest extends TestCase {
     }
   }
 
-  @SuppressUnderAndroid
   public static class FilteredBiMapTest extends FilteredMapTest {
     @Override
     BiMap<String, Integer> createUnfiltered() {

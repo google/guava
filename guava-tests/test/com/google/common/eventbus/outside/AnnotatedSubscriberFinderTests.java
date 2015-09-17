@@ -33,7 +33,6 @@ import java.util.List;
  *
  * @author Louis Wasserman
  */
-@SuppressUnderAndroid // TODO(cpovirk): Android sees no tests, maybe because the classes are nested?
 public class AnnotatedSubscriberFinderTests {
 
   private static final Object EVENT = new Object();

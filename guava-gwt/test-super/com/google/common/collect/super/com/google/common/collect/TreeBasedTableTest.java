@@ -36,7 +36,6 @@ import java.util.SortedMap;
 @GwtCompatible(emulated = true)
 public class TreeBasedTableTest extends AbstractTableTest {
 
-  @SuppressUnderAndroid
   public static class TreeRowTest extends
       SortedMapInterfaceTest<String, String> {
     public TreeRowTest() {

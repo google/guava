@@ -43,7 +43,6 @@ import java.util.List;
  */
 @GwtIncompatible("suite") // TODO(cpovirk): set up collect/gwt/suites version
 public class MultisetsCollectionTest extends TestCase {
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

@@ -54,7 +54,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ConcurrentHashMultisetTest extends TestCase {
 
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MultisetTestSuiteBuilder.using(concurrentHashMultisetGenerator())

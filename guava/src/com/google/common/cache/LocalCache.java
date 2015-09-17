@@ -4135,8 +4135,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       long sum = 0L;
       for (Segment<K, V> segment : segments) {
         // ensure visibility of most recent completed write
-        @SuppressWarnings({"UnusedDeclaration", "unused"})
-        int c = segment.count; // read-volatile
+        int unused = segment.count; // read-volatile
 
         AtomicReferenceArray<ReferenceEntry<K, V>> table = segment.table;
         for (int j = 0; j < table.length(); j++) {

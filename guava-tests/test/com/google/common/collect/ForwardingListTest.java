@@ -139,7 +139,6 @@ public class ForwardingListTest extends ForwardingTestCase {
 
   private List<String> forward;
 
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     

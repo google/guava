@@ -66,7 +66,6 @@ public class ImmutableListMultimapTest extends TestCase {
   }
 
   @GwtIncompatible("suite")
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(ListMultimapTestSuiteBuilder.using(new ImmutableListMultimapGenerator())

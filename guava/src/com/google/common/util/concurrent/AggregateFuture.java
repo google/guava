@@ -184,7 +184,11 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
       // | and & used because it's faster than the branch required for || and &&
       if (throwable instanceof Error
           | (allMustSucceed & !completedWithFailure & firstTimeSeeingThisException)) {
-        logger.log(Level.SEVERE, "input future failed.", throwable);
+        String message =
+            (throwable instanceof Error)
+                ? "Input Future failed with Error"
+                : "Got more than one input Future failure. Logging failures after the first";
+        logger.log(Level.SEVERE, message, throwable);
       }
     }
 

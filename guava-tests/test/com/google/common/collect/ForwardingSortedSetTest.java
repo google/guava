@@ -102,7 +102,6 @@ public class ForwardingSortedSetTest extends ForwardingSetTest {
     }
   }
   
-  @SuppressUnderAndroid
   public static Test suite() {
     TestSuite suite = new TestSuite();
     
