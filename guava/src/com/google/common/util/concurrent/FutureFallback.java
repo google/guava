@@ -31,7 +31,8 @@ import java.util.concurrent.Future;
  * @author Bruno Diniz
  * @since 14.0
  * @deprecated This interface's main user, {@link Futures#withFallback(ListenableFuture,
- *     FutureFallback) Futures.withFallback}, has been updated to use {@link AsyncFunction}. We
+ *     FutureFallback) Futures.withFallback}, has been replaced with {@link Futures#catchingAsync
+ *     catchingAsync}, which uses {@link AsyncFunction} instead of {@code FutureFallback}. We
  *     recommend that other APIs be updated in the same way. This interface will be removed in Guava
  *     release 20.0.
  */
