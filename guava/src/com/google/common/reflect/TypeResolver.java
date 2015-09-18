@@ -150,7 +150,7 @@ public final class TypeResolver {
         // Can't map from a raw class to anything other than itself.
         // You can't say "assuming String is Integer".
         // And we don't support "assuming String is T"; user has to say "assuming T is String". 
-        throw new IllegalArgumentException("No type mapping from " + fromClass);
+        throw new IllegalArgumentException("No type mapping from " + fromClass + " to " + to);
       }
     }.visit(from);
   }
