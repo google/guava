@@ -17,9 +17,13 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
+import com.google.common.base.Function;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+
+import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Unit test for {@link ComparisonChain}.
@@ -108,5 +112,31 @@ public class ComparisonChainTest extends TestCase {
     assertTrue(ComparisonChain.start().compareTrueFirst(true, false).result() < 0);
     assertTrue(ComparisonChain.start().compareTrueFirst(false, true).result() > 0);
     assertTrue(ComparisonChain.start().compareTrueFirst(false, false).result() == 0);
+  }
+
+  public void testCompareOnResultOf() throws Exception {
+    Function<Integer, Integer> negate = new Function<Integer, Integer>() {
+      @Nullable
+      @Override
+      public Integer apply(@Nullable Integer input) {
+        return -checkNotNull(input);
+      }
+    };
+
+    Function<Integer, Integer> notCalled = new Function<Integer, Integer>() {
+      @Nullable
+      @Override
+      public Integer apply(@Nullable Integer input) {
+        fail("This method should not be called");
+        return input;
+      }
+    };
+
+    assertTrue(ComparisonChain.start()
+        .compareOnResultOf(1, 2, negate)
+        .compareOnResultOf(1, 2, notCalled).result() > 0);
+    assertTrue(ComparisonChain.start()
+        .compareOnResultOf(1, 2, negate, Ordering.natural().reverse())
+        .compareOnResultOf(1, 2, notCalled).result() < 0);
   }
 }
