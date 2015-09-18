@@ -158,7 +158,7 @@
 <span class="sourceLineNo">150</span>        // Can't map from a raw class to anything other than itself.<a name="line.150"></a>
 <span class="sourceLineNo">151</span>        // You can't say "assuming String is Integer".<a name="line.151"></a>
 <span class="sourceLineNo">152</span>        // And we don't support "assuming String is T"; user has to say "assuming T is String". <a name="line.152"></a>
-<span class="sourceLineNo">153</span>        throw new IllegalArgumentException("No type mapping from " + fromClass);<a name="line.153"></a>
+<span class="sourceLineNo">153</span>        throw new IllegalArgumentException("No type mapping from " + fromClass + " to " + to);<a name="line.153"></a>
 <span class="sourceLineNo">154</span>      }<a name="line.154"></a>
 <span class="sourceLineNo">155</span>    }.visit(from);<a name="line.155"></a>
 <span class="sourceLineNo">156</span>  }<a name="line.156"></a>
