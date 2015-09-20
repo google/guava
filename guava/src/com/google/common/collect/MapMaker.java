@@ -633,7 +633,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   /**
    * An object that can receive a notification when an entry is removed from a map. The removal
-   * resulting in notification could have occured to an entry being manually removed or replaced, or
+   * resulting in notification could have occurred to an entry being manually removed or replaced, or
    * due to eviction resulting from timed expiration, exceeding a maximum size, or garbage
    * collection.
    *
