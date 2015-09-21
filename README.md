@@ -28,6 +28,14 @@ To add a dependency on Guava using Maven, use the following:
 </dependency>
 ```
 
+To add a dependency using Gradle:
+
+```
+dependencies {
+  compile 'com.google.guava:guava:18.0'
+}
+```
+
 Upcoming release
 ----------------
 
