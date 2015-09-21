@@ -16,14 +16,12 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.*;
+
+import javax.annotation.*;
+import java.util.*;
+
 import static com.google.common.base.Preconditions.checkNotNull;
-
-import com.google.common.annotations.GwtCompatible;
-
-import java.util.Arrays;
-
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nullable;
 
 /**
  * Helper functions that operate on any {@code Object}, and are not already provided in
@@ -39,21 +37,37 @@ import javax.annotation.Nullable;
 @GwtCompatible
 public final class MoreObjects {
   /**
-   * Returns the first of two given parameters that is not {@code null}, if either is, or otherwise
-   * throws a {@link NullPointerException}.
+   * Returns the first of the given parameters that is not {@code null}.
+   * If all are null, throws a {@link NullPointerException}.
    *
    * <p><b>Note:</b> if {@code first} is represented as an {@link Optional}, this can be
    * accomplished with {@link Optional#or(Object) first.or(second)}. That approach also allows for
    * lazy evaluation of the fallback instance, using {@link Optional#or(Supplier)
    * first.or(supplier)}.
    *
-   * @return {@code first} if it is non-null; otherwise {@code second} if it is non-null
-   * @throws NullPointerException if both {@code first} and {@code second} are null
+   * @return the first non-null parameter
+   * @throws NullPointerException if all parameters are null
    * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).
    */
   @CheckReturnValue
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
-    return first != null ? first : checkNotNull(second);
+    return (first != null) ? first
+                           : checkNotNull(second);
+  }
+
+  /**
+   * @see MoreObjects#firstNonNull(Object, Object)
+   */
+  @CheckReturnValue
+  public static <T> T firstNonNull(@Nullable T first, @Nullable T second, @Nullable T third, @Nullable T... rest) {
+    if (first != null) return first;
+    else if (second != null) return second;
+    else if (third != null) return third;
+
+    for (T t : checkNotNull(rest))
+      if (t != null) return t;
+
+    throw new NullPointerException();
   }
 
   /**
