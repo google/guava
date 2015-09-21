@@ -16,14 +16,12 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.*;
+
+import javax.annotation.*;
+import java.util.*;
+
 import static com.google.common.base.Preconditions.checkNotNull;
-
-import com.google.common.annotations.GwtCompatible;
-
-import java.util.Arrays;
-
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nullable;
 
 /**
  * Helper functions that operate on any {@code Object}, and are not already provided in
@@ -54,6 +52,59 @@ public final class MoreObjects {
   @CheckReturnValue
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
     return first != null ? first : checkNotNull(second);
+  }
+
+  /**
+   * If input is non-null, applies the function to it.
+   * If either the input or the result is null, will return the default value.
+   * <p/>
+   * Specification by example:
+   * <pre>{@code
+   *   MoreObjects.ifNonNull(person.getName(), new Function<String, String>() {
+   *     public String apply(String n) { return n.toUpperCase(); }
+   *   });
+   * }</pre>
+   * or Java 8 syntax, default value and static import:
+   * <pre>{@code
+   *   ifNonNull(person.getName(), String::toUpperCase, "");
+   * }</pre>
+   *
+   * @param input        The value that should be null-checked
+   * @param thenFunction The function to apply to the non-null input
+   * @param elseValue    The value that should be used in case the input was null
+   * @return If input is non-null, applies the function to it.
+   *         If either the input or the result is null, will return the default value.
+   * @since 19.0
+   */
+  @Nullable
+  public static <T, R> R ifNonNull(@Nullable T input, @Nonnull Function<T, R> thenFunction, @Nullable R elseValue) {
+    if (input != null) {
+      R result = thenFunction.apply(input);
+      if (result != null)
+        return result;
+    }
+    return elseValue;
+  }
+
+  /**
+   * @see MoreObjects#ifNonNull(Object, Function, Object)
+   */
+  @Nullable
+  public static <T, R> R ifNonNull(@Nullable T input, @Nonnull Function<T, R> thenFunction, @Nonnull Supplier<R> elseSupplier) {
+    if (input != null) {
+      R result = thenFunction.apply(input);
+      if (result != null)
+        return result;
+    }
+    return elseSupplier.get();
+  }
+
+  /**
+   * @see MoreObjects#ifNonNull(Object, Function, Object)
+   */
+  @Nullable
+  public static <T, R> R ifNonNull(@Nullable T input, @Nonnull Function<T, R> thenFunction) {
+    return ifNonNull(input, thenFunction, (R) null);
   }
 
   /**
