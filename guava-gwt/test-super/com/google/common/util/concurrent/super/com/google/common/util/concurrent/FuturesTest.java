@@ -220,6 +220,18 @@ public class FuturesTest extends TestCase {
     assertTrue(secondary.wasInterrupted());
   }
 
+  public void testTransform_inputCancelButNotInterruptPropagatesToOutput() throws Exception {
+    SettableFuture<String> f1 = SettableFuture.create();
+    ListenableFuture<Object> f2 = Futures.transform(f1, Functions.identity());
+    f1.cancel(true);
+    assertTrue(f2.isCancelled());
+    /*
+     * We might like to propagate interruption, too, but it's not clear that it matters. For now, we
+     * test for the behavior that we have today.
+     */
+    assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
+  }
+
   public void testTransformAsync_cancelPropagatesToInput() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
@@ -273,6 +285,26 @@ public class FuturesTest extends TestCase {
     assertTrue(Futures.transformAsync(immediate, function).cancel(true));
     assertTrue(secondary.isCancelled());
     assertTrue(secondary.wasInterrupted());
+  }
+
+  public void testTransformAsync_inputCancelButNotInterruptPropagatesToOutput() throws Exception {
+    SettableFuture<Foo> f1 = SettableFuture.create();
+    final SettableFuture<Bar> secondary = SettableFuture.create();
+    AsyncFunction<Foo, Bar> function =
+        new AsyncFunction<Foo, Bar>() {
+          @Override
+          public ListenableFuture<Bar> apply(Foo unused) {
+            return secondary;
+          }
+        };
+    ListenableFuture<Bar> f2 = Futures.transformAsync(f1, function);
+    f1.cancel(true);
+    assertTrue(f2.isCancelled());
+    /*
+     * We might like to propagate interruption, too, but it's not clear that it matters. For now, we
+     * test for the behavior that we have today.
+     */
+    assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
   }
 
   /**
