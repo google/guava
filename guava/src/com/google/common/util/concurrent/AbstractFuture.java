@@ -61,6 +61,9 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
+  private static final boolean GENERATE_CANCELLATION_CAUSES =
+      Boolean.parseBoolean(
+          System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));
 
   /**
    * A less abstract subclass of AbstractFuture.  This can be used to optimize setFuture by ensuring
@@ -69,6 +72,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   abstract static class TrustedFuture<V> extends AbstractFuture<V> {
     // N.B. cancel is not overridden to be final, because many future utilities need to override
     // cancel in order to propagate cancellation to other futures.
+    // TODO(lukes): with maybePropagateCancellation this is no longer really true.  Track down the
+    // final few cases and eliminate their overrides of cancel()
 
     @Override public final V get() throws InterruptedException, ExecutionException {
       return super.get();
@@ -133,6 +138,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
     // Prevent rare disastrous classloading in first call to LockSupport.park.
     // See: https://bugs.openjdk.java.net/browse/JDK-8074773
+    @SuppressWarnings("unused")
     Class<?> ensureLoaded = LockSupport.class;
   }
 
@@ -245,11 +251,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   /** A special value to represent cancellation and the 'wasInterrupted' bit. */
   private static final class Cancellation {
     final boolean wasInterrupted;
-    final Throwable cause;
+    @Nullable final Throwable cause;
 
-    Cancellation(boolean wasInterrupted, Throwable cause) {
+    Cancellation(boolean wasInterrupted, @Nullable Throwable cause) {
       this.wasInterrupted = wasInterrupted;
-      this.cause = checkNotNull(cause);
+      this.cause = cause;
     }
   }
 
@@ -506,7 +512,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       // certainly less likely.
       // TODO(lukes): this exception actually makes cancellation significantly more expensive :(
       // I wonder if we should consider removing it or providing a mechanism to not do it.
-      Object valueToSet = new Cancellation(mayInterruptIfRunning, newCancellationCause());
+      Throwable cause = GENERATE_CANCELLATION_CAUSES ? newCancellationCause() : null;
+      Object valueToSet = new Cancellation(mayInterruptIfRunning, cause);
       do {
         if (ATOMIC_HELPER.casValue(this, localValue, valueToSet)) {
           // We call interuptTask before calling complete(), first which is consistent with
@@ -537,11 +544,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *
    * <p>Note: this method may be called speculatively.  There is no guarantee that the future will
    * be cancelled if this method is called.
-   *
-   * @since 19.0
    */
-  @Beta
-  protected Throwable newCancellationCause() {
+  private Throwable newCancellationCause() {
     return new CancellationException("Future.cancel() was called.");
   }
 
