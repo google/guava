@@ -981,7 +981,47 @@
 <span class="sourceLineNo">973</span>    }<a name="line.973"></a>
 <span class="sourceLineNo">974</span>    return service.isTerminated();<a name="line.974"></a>
 <span class="sourceLineNo">975</span>  }<a name="line.975"></a>
-<span class="sourceLineNo">976</span>}<a name="line.976"></a>
+<span class="sourceLineNo">976</span><a name="line.976"></a>
+<span class="sourceLineNo">977</span>  /**<a name="line.977"></a>
+<span class="sourceLineNo">978</span>   * Returns an Executor that will propagate {@link RejectedExecutionException} from the delegate<a name="line.978"></a>
+<span class="sourceLineNo">979</span>   * executor to the given {@code future}.<a name="line.979"></a>
+<span class="sourceLineNo">980</span>   *<a name="line.980"></a>
+<span class="sourceLineNo">981</span>   * &lt;p&gt;Note, the returned executor can only be used once.<a name="line.981"></a>
+<span class="sourceLineNo">982</span>   */<a name="line.982"></a>
+<span class="sourceLineNo">983</span>  static Executor rejectionPropagatingExecutor(<a name="line.983"></a>
+<span class="sourceLineNo">984</span>      final Executor delegate, final AbstractFuture&lt;?&gt; future) {<a name="line.984"></a>
+<span class="sourceLineNo">985</span>    checkNotNull(delegate);<a name="line.985"></a>
+<span class="sourceLineNo">986</span>    checkNotNull(future);<a name="line.986"></a>
+<span class="sourceLineNo">987</span>    if (delegate == directExecutor()) {<a name="line.987"></a>
+<span class="sourceLineNo">988</span>      // directExecutor() cannot throw RejectedExecutionException<a name="line.988"></a>
+<span class="sourceLineNo">989</span>      return delegate;<a name="line.989"></a>
+<span class="sourceLineNo">990</span>    }<a name="line.990"></a>
+<span class="sourceLineNo">991</span>    return new Executor() {<a name="line.991"></a>
+<span class="sourceLineNo">992</span>      volatile boolean thrownFromDelegate = true;<a name="line.992"></a>
+<span class="sourceLineNo">993</span><a name="line.993"></a>
+<span class="sourceLineNo">994</span>      @Override<a name="line.994"></a>
+<span class="sourceLineNo">995</span>      public void execute(final Runnable command) {<a name="line.995"></a>
+<span class="sourceLineNo">996</span>        try {<a name="line.996"></a>
+<span class="sourceLineNo">997</span>          delegate.execute(<a name="line.997"></a>
+<span class="sourceLineNo">998</span>              new Runnable() {<a name="line.998"></a>
+<span class="sourceLineNo">999</span>                @Override<a name="line.999"></a>
+<span class="sourceLineNo">1000</span>                public void run() {<a name="line.1000"></a>
+<span class="sourceLineNo">1001</span>                  thrownFromDelegate = false;<a name="line.1001"></a>
+<span class="sourceLineNo">1002</span>                  command.run();<a name="line.1002"></a>
+<span class="sourceLineNo">1003</span>                }<a name="line.1003"></a>
+<span class="sourceLineNo">1004</span>              });<a name="line.1004"></a>
+<span class="sourceLineNo">1005</span>        } catch (RejectedExecutionException e) {<a name="line.1005"></a>
+<span class="sourceLineNo">1006</span>          if (thrownFromDelegate) {<a name="line.1006"></a>
+<span class="sourceLineNo">1007</span>            // wrap exception?<a name="line.1007"></a>
+<span class="sourceLineNo">1008</span>            future.setException(e);<a name="line.1008"></a>
+<span class="sourceLineNo">1009</span>          }<a name="line.1009"></a>
+<span class="sourceLineNo">1010</span>          // otherwise it must have been thrown from a transitive call and the delegate runnable<a name="line.1010"></a>
+<span class="sourceLineNo">1011</span>          // should have handled it.<a name="line.1011"></a>
+<span class="sourceLineNo">1012</span>        }<a name="line.1012"></a>
+<span class="sourceLineNo">1013</span>      }<a name="line.1013"></a>
+<span class="sourceLineNo">1014</span>    };<a name="line.1014"></a>
+<span class="sourceLineNo">1015</span>  }<a name="line.1015"></a>
+<span class="sourceLineNo">1016</span>}<a name="line.1016"></a>
 
 
 
