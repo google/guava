@@ -58,7 +58,7 @@ abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
     @Override
     final void collectOneValue(boolean allMustSucceed, int index, @Nullable V returnValue) {
       List<Optional<V>> localValues = values;
-
+  
       if (localValues != null) {
         localValues.set(index, Optional.fromNullable(returnValue));
       } else {
@@ -70,7 +70,7 @@ abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
             "Future was done before all dependencies completed");
       }
     }
-
+  
     @Override
     final void handleAllCompleted() {
       List<Optional<V>> localValues = values;
@@ -116,3 +116,4 @@ abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
     }
   }
 }
+

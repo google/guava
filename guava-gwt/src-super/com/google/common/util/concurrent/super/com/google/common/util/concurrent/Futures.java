@@ -18,30 +18,20 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
-import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableClass;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.CollectionFuture.ListFuture;
+import com.google.common.util.concurrent.ImmediateFuture.ImmediateFailedFuture;
+import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulFuture;
 
-import java.lang.reflect.UndeclaredThrowableException;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
@@ -109,81 +99,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   // implementations.
 
   private Futures() {}
-
-  private abstract static class ImmediateFuture<V>
-      implements ListenableFuture<V> {
-
-    private static final Logger log =
-        Logger.getLogger(ImmediateFuture.class.getName());
-
-    @Override
-    public void addListener(Runnable listener, Executor executor) {
-      checkNotNull(listener, "Runnable was null.");
-      checkNotNull(executor, "Executor was null.");
-      try {
-        executor.execute(listener);
-      } catch (RuntimeException e) {
-        // ListenableFuture's contract is that it will not throw unchecked
-        // exceptions, so log the bad runnable and/or executor and swallow it.
-        log.log(Level.SEVERE, "RuntimeException while executing runnable "
-            + listener + " with executor " + executor, e);
-      }
-    }
-
-    @Override
-    public boolean cancel(boolean mayInterruptIfRunning) {
-      return false;
-    }
-
-    @Override
-    public abstract V get() throws ExecutionException;
-
-    @Override
-    public V get(long timeout, TimeUnit unit) throws ExecutionException {
-      checkNotNull(unit);
-      return get();
-    }
-
-    @Override
-    public boolean isCancelled() {
-      return false;
-    }
-
-    @Override
-    public boolean isDone() {
-      return true;
-    }
-  }
-
-  private static class ImmediateSuccessfulFuture<V> extends ImmediateFuture<V> {
-    static final ImmediateSuccessfulFuture<Object> NULL =
-        new ImmediateSuccessfulFuture<Object>(null);
-
-    @Nullable private final V value;
-
-    ImmediateSuccessfulFuture(@Nullable V value) {
-      this.value = value;
-    }
-
-    @Override
-    public V get() {
-      return value;
-    }
-  }
-
-  private static class ImmediateFailedFuture<V> extends ImmediateFuture<V> {
-
-    private final Throwable thrown;
-
-    ImmediateFailedFuture(Throwable thrown) {
-      this.thrown = thrown;
-    }
-
-    @Override
-    public V get() throws ExecutionException {
-      throw new ExecutionException(thrown);
-    }
-  }
 
   /**
    * Creates a {@code ListenableFuture} which has its value set immediately upon
@@ -371,199 +286,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     };
   }
 
-  private abstract static class AbstractCatchingFuture<V, X extends Throwable, F>
-      extends AbstractFuture.TrustedFuture<V> implements Runnable {
-    @Nullable ListenableFuture<? extends V> inputFuture;
-    @Nullable Class<X> exceptionType;
-    @Nullable F fallback;
-
-    AbstractCatchingFuture(
-        ListenableFuture<? extends V> inputFuture, Class<X> exceptionType, F fallback) {
-      this.inputFuture = checkNotNull(inputFuture);
-      this.exceptionType = checkNotNull(exceptionType);
-      this.fallback = checkNotNull(fallback);
-    }
-
-    @Override public final void run() {
-      ListenableFuture<? extends V> localInputFuture = inputFuture;
-      Class<X> localExceptionType = exceptionType;
-      F localFallback = fallback;
-      if (localInputFuture == null | localExceptionType == null | localFallback == null
-          | isCancelled()) {
-        return;
-      }
-      inputFuture = null;
-      exceptionType = null;
-      fallback = null;
-
-      Throwable throwable;
-      try {
-        set(getUninterruptibly(localInputFuture));
-        return;
-      } catch (ExecutionException e) {
-        throwable = e.getCause();
-      } catch (Throwable e) {  // this includes cancellation exception
-        throwable = e;
-      }
-      try {
-        if (isInstanceOfThrowableClass(throwable, localExceptionType)) {
-          @SuppressWarnings("unchecked") // verified safe by isInstance
-          X castThrowable = (X) throwable;
-          doFallback(localFallback, castThrowable);
-        } else {
-          setException(throwable);
-        }
-      } catch (Throwable e) {
-        setException(e);
-      }
-    }
-
-    /** Template method for subtypes to actually run the fallback. */
-    abstract void doFallback(F fallback, X throwable) throws Exception;
-
-    @Override final void done() {
-      maybePropagateCancellation(inputFuture);
-      this.inputFuture = null;
-      this.exceptionType = null;
-      this.fallback = null;
-    }
-  }
-
-  /**
-   * A {@link AbstractCatchingFuture} that delegates to an {@link AsyncFunction}
-   * and {@link #setFuture(ListenableFuture)} to implement {@link #doFallback}
-   */
-  static final class AsyncCatchingFuture<V, X extends Throwable>
-      extends AbstractCatchingFuture<V, X, AsyncFunction<? super X, ? extends V>> {
-
-    AsyncCatchingFuture(ListenableFuture<? extends V> input, Class<X> exceptionType,
-        AsyncFunction<? super X, ? extends V> fallback) {
-      super(input, exceptionType, fallback);
-    }
-
-    @Override void doFallback(
-        AsyncFunction<? super X, ? extends V> fallback, X cause) throws Exception {
-      ListenableFuture<? extends V> replacement = fallback.apply(cause);
-      checkNotNull(replacement, "AsyncFunction.apply returned null instead of a Future. "
-          + "Did you mean to return immediateFuture(null)?");
-      setFuture(replacement);
-    }
-  }
-
-  /**
-   * A {@link AbstractCatchingFuture} that delegates to a {@link Function}
-   * and {@link #set(Object)} to implement {@link #doFallback}
-   */
-  static final class CatchingFuture<V, X extends Throwable>
-      extends AbstractCatchingFuture<V, X, Function<? super X, ? extends V>> {
-    CatchingFuture(ListenableFuture<? extends V> input, Class<X> exceptionType,
-        Function<? super X, ? extends V> fallback) {
-      super(input, exceptionType, fallback);
-    }
-
-    @Override void doFallback(Function<? super X, ? extends V> fallback, X cause) throws Exception {
-      V replacement = fallback.apply(cause);
-      set(replacement);
-    }
-  }
-
-  /**
-   * Future that delegates to another but will finish early (via a {@link
-   * TimeoutException} wrapped in an {@link ExecutionException}) if the
-   * specified duration expires.
-   * The delegate future is interrupted and cancelled if it times out.
-   */
-  private static final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
-    // Memory visibility of these fields.
-    // There are two cases to consider.
-    // 1. visibility of the writes to these fields to Fire.run
-    //    The initial write to delegateRef is made definitely visible via the semantics of
-    //    addListener/SES.schedule.  The later racy write in cancel() is not guaranteed to be
-    //    observed, however that is fine since the correctness is based on the atomic state in
-    //    our base class.
-    //    The initial write to timer is never definitely visible to Fire.run since it is assigned
-    //    after SES.schedule is called. Therefore Fire.run has to check for null.  However, it
-    //    should be visible if Fire.run is called by delegate.addListener since addListener is
-    //    called after the assignment to timer, and importantly this is the main situation in which
-    //    we need to be able to see the write.
-    // 2. visibility of the writes to cancel
-    //    Since these fields are non-final that means that TimeoutFuture is not being 'safely
-    //    published', thus a motivated caller may be able to expose the reference to another thread
-    //    that would then call cancel() and be unable to cancel the delegate.
-    //    There are a number of ways to solve this, none of which are very pretty, and it is
-    //    currently believed to be a purely theoretical problem (since the other actions should
-    //    supply sufficient write-barriers).
-
-    @Nullable ListenableFuture<V> delegateRef;
-    @Nullable Future<?> timer;
-
-    TimeoutFuture(ListenableFuture<V> delegate) {
-      this.delegateRef = Preconditions.checkNotNull(delegate);
-    }
-
-    /** A runnable that is called when the delegate or the timer completes. */
-    private static final class Fire<V> implements Runnable {
-      @Nullable TimeoutFuture<V> timeoutFutureRef;
-
-      Fire(TimeoutFuture<V> timeoutFuture) {
-        this.timeoutFutureRef = timeoutFuture;
-      }
-
-      @Override public void run() {
-        // If either of these reads return null then we must be after a successful cancel
-        // or another call to this method.
-        TimeoutFuture<V> timeoutFuture = timeoutFutureRef;
-        if (timeoutFuture == null) {
-          return;
-        }
-        ListenableFuture<V> delegate = timeoutFuture.delegateRef;
-        if (delegate == null) {
-          return;
-        }
-
-        /*
-         * If we're about to complete the TimeoutFuture, we want to release our reference to it.
-         * Otherwise, we'll pin it (and its result) in memory until the timeout task is GCed. (The
-         * need to clear our reference to the TimeoutFuture is the reason we use a *static* nested
-         * class with a manual reference back to the "containing" class.)
-         *
-         * This has the nice-ish side effect of limiting reentrancy: run() calls
-         * timeoutFuture.setException() calls run(). That reentrancy would already be harmless,
-         * since timeoutFuture can be set (and delegate cancelled) only once. (And "set only once"
-         * is important for other reasons: run() can still be invoked concurrently in different
-         * threads, even with the above null checks.)
-         */
-        timeoutFutureRef = null;
-        if (delegate.isDone()) {
-          timeoutFuture.setFuture(delegate);
-        } else {
-          try {
-            // TODO(lukes): this stack trace is particularly useless (all it does is point at the
-            // scheduledexecutorservice thread), consider eliminating it altogether?
-            timeoutFuture.setException(new TimeoutException("Future timed out: " + delegate));
-          } finally {
-            delegate.cancel(true);
-          }
-        }
-      }
-    }
-
-    @Override void done() {
-      maybePropagateCancellation(delegateRef);
-
-      Future<?> localTimer = timer;
-      // Try to cancel the timer as an optimization
-      // timer may be null if this call to run was by the timer task since there is no
-      // happens-before edge between the assignment to timer and an execution of the timer task.
-      if (localTimer != null) {
-        localTimer.cancel(false);
-      }
-
-      delegateRef = null;
-      timer = null;
-    }
-  }
-
   /**
    * Returns a new {@code ListenableFuture} whose result is asynchronously
    * derived from the result of the given {@code Future}. More precisely, the
@@ -702,9 +424,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   public static <I, O> ListenableFuture<O> transformAsync(
       ListenableFuture<I> input, AsyncFunction<? super I, ? extends O> function) {
-    AsyncChainingFuture<I, O> output = new AsyncChainingFuture<I, O>(input, function);
-    input.addListener(output, directExecutor());
-    return output;
+    return AbstractTransformFuture.create(input, function);
   }
 
   /**
@@ -746,45 +466,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   public static <I, O> ListenableFuture<O> transformAsync(ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function, Executor executor) {
-    checkNotNull(executor);
-    AsyncChainingFuture<I, O> output = new AsyncChainingFuture<I, O>(input, function);
-    input.addListener(output, rejectionPropagatingExecutor(executor, output));
-    return output;
-  }
-
-  /**
-   * Returns an Executor that will propagate {@link RejectedExecutionException} from the delegate
-   * executor to the given {@code future}.
-   *
-   * <p>Note, the returned executor can only be used once.
-   */
-  private static Executor rejectionPropagatingExecutor(
-      final Executor delegate, final AbstractFuture<?> future) {
-    checkNotNull(delegate);
-    if (delegate == directExecutor()) {
-      // directExecutor() cannot throw RejectedExecutionException
-      return delegate;
-    }
-    return new Executor() {
-      volatile boolean thrownFromDelegate = true;
-      @Override public void execute(final Runnable command) {
-        try {
-          delegate.execute(new Runnable() {
-            @Override public void run() {
-              thrownFromDelegate = false;
-              command.run();
-            }
-          });
-        } catch (RejectedExecutionException e) {
-          if (thrownFromDelegate) {
-            // wrap exception?
-            future.setException(e);
-          }
-          // otherwise it must have been thrown from a transitive call and the delegate runnable
-          // should have handled it.
-        }
-      }
-    };
+    return AbstractTransformFuture.create(input, function, executor);
   }
 
   /**
@@ -825,12 +507,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @return A future that holds result of the transformation.
    * @since 9.0 (in 1.0 as {@code compose})
    */
-  public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
-      final Function<? super I, ? extends O> function) {
-    checkNotNull(function);
-    ChainingFuture<I, O> output = new ChainingFuture<I, O>(input, function);
-    input.addListener(output, directExecutor());
-    return output;
+  public static <I, O> ListenableFuture<O> transform(
+      ListenableFuture<I> input, Function<? super I, ? extends O> function) {
+    return AbstractTransformFuture.create(input, function);
   }
 
   /**
@@ -871,129 +550,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @return A future that holds result of the transformation.
    * @since 9.0 (in 2.0 as {@code compose})
    */
-  public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
-      final Function<? super I, ? extends O> function, Executor executor) {
-    checkNotNull(function);
-    ChainingFuture<I, O> output = new ChainingFuture<I, O>(input, function);
-    input.addListener(output, rejectionPropagatingExecutor(executor, output));
-    return output;
-  }
-
-  /**
-   * An implementation of {@code ListenableFuture} that also implements
-   * {@code Runnable} so that it can be used to nest ListenableFutures.
-   * Once the passed-in {@code ListenableFuture} is complete, it calls the
-   * passed-in {@code Function} to generate the result.
-   *
-   * <p>For historical reasons, this class has a special case in its exception
-   * handling: If the given {@code AsyncFunction} throws an {@code
-   * UndeclaredThrowableException}, {@code ChainingListenableFuture} unwraps it
-   * and uses its <i>cause</i> as the output future's exception, rather than
-   * using the {@code UndeclaredThrowableException} itself as it would for other
-   * exception types. The reason for this is that {@code Futures.transform} used
-   * to require a {@code Function}, whose {@code apply} method is not allowed to
-   * throw checked exceptions. Nowadays, {@code Futures.transform} has an
-   * overload that accepts an {@code AsyncFunction}, whose {@code apply} method
-   * <i>is</i> allowed to throw checked exception. Users who wish to throw
-   * checked exceptions should use that overload instead, and <a
-   * href="http://code.google.com/p/guava-libraries/issues/detail?id=1548">we
-   * should remove the {@code UndeclaredThrowableException} special case</a>.
-   */
-  private abstract static class AbstractChainingFuture<I, O, F>
-      extends AbstractFuture.TrustedFuture<O> implements Runnable {
-    // In theory, this field might not be visible to a cancel() call in certain circumstances. For
-    // details, see the comments on the fields of TimeoutFuture.
-    @Nullable ListenableFuture<? extends I> inputFuture;
-    @Nullable F function;
-
-    AbstractChainingFuture(ListenableFuture<? extends I> inputFuture, F function) {
-      this.inputFuture = checkNotNull(inputFuture);
-      this.function = checkNotNull(function);
-    }
-
-    @Override
-    public final void run() {
-      try {
-        ListenableFuture<? extends I> localInputFuture = inputFuture;
-        F localFunction = function;
-        if (isCancelled() | localInputFuture == null | localFunction == null) {
-          return;
-        }
-        inputFuture = null;
-        function = null;
-
-        I sourceResult;
-        try {
-          sourceResult = getUninterruptibly(localInputFuture);
-        } catch (CancellationException e) {
-          // Cancel this future and return.
-          // At this point, inputFuture is cancelled and outputFuture doesn't
-          // exist, so the value of mayInterruptIfRunning is irrelevant.
-          cancel(false);
-          return;
-        } catch (ExecutionException e) {
-          // Set the cause of the exception as this future's exception
-          setException(e.getCause());
-          return;
-        }
-        doTransform(localFunction, sourceResult);
-      } catch (UndeclaredThrowableException e) {
-        // Set the cause of the exception as this future's exception
-        setException(e.getCause());
-      } catch (Throwable t) {
-        // This exception is irrelevant in this thread, but useful for the
-        // client
-        setException(t);
-      }
-    }
-
-    /** Template method for subtypes to actually run the transform. */
-    abstract void doTransform(F function, I result) throws Exception;
-
-    @Override final void done() {
-      maybePropagateCancellation(inputFuture);
-      this.inputFuture = null;
-      this.function = null;
-    }
-  }
-
-  /**
-   * A {@link AbstractChainingFuture} that delegates to an {@link AsyncFunction} and
-   * {@link #setFuture(ListenableFuture)} to implement {@link #doTransform}.
-   */
-  private static final class AsyncChainingFuture<I, O>
-      extends AbstractChainingFuture<I, O, AsyncFunction<? super I, ? extends O>> {
-    AsyncChainingFuture(ListenableFuture<? extends I> inputFuture,
-        AsyncFunction<? super I, ? extends O> function) {
-      super(inputFuture, function);
-    }
-
-    @Override
-    void doTransform(AsyncFunction<? super I, ? extends O> function, I input) throws Exception {
-      ListenableFuture<? extends O> outputFuture = function.apply(input);
-      checkNotNull(outputFuture, "AsyncFunction.apply returned null instead of a Future. "
-          + "Did you mean to return immediateFuture(null)?");
-      setFuture(outputFuture);
-    }
-  }
-
-  /**
-   * A {@link AbstractChainingFuture} that delegates to a {@link Function} and
-   * {@link #set(Object)} to implement {@link #doTransform}.
-   */
-  private static final class ChainingFuture<I, O>
-      extends AbstractChainingFuture<I, O, Function<? super I, ? extends O>> {
-
-    ChainingFuture(ListenableFuture<? extends I> inputFuture,
-        Function<? super I, ? extends O> function) {
-      super(inputFuture, function);
-    }
-
-    @Override
-    void doTransform(Function<? super I, ? extends O> function, I input) {
-      // TODO(lukes): move the UndeclaredThrowable catch block here?
-      set(function.apply(input));
-    }
+  public static <I, O> ListenableFuture<O> transform(
+      ListenableFuture<I> input, Function<? super I, ? extends O> function, Executor executor) {
+    return AbstractTransformFuture.create(input, function, executor);
   }
 
   /**
@@ -1240,28 +799,4 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * look into the Fork-Join framework:
    * http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html
    */
-
-  /** Used for {@link #allAsList} and {@link #successfulAsList}. */
-  private static final class ListFuture<V> extends CollectionFuture<V, List<V>> {
-    ListFuture(ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
-        boolean allMustSucceed) {
-      init(new ListFutureRunningState(futures, allMustSucceed));
-    }
-
-    private final class ListFutureRunningState extends CollectionFutureRunningState {
-      ListFutureRunningState(ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
-        boolean allMustSucceed) {
-        super(futures, allMustSucceed);
-      }
-
-      @Override
-      public List<V> combine(List<Optional<V>> values) {
-        List<V> result = Lists.newArrayListWithCapacity(values.size());
-        for (Optional<V> element : values) {
-          result.add(element != null ? element.orNull() : null);
-        }
-        return Collections.unmodifiableList(result);
-      }
-    }
-  }
 }
