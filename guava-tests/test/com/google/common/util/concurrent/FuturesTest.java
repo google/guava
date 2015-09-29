@@ -24,7 +24,6 @@ import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
-import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
 import static com.google.common.util.concurrent.TestPlatform.clearInterrupt;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
@@ -468,14 +467,11 @@ public class FuturesTest extends TestCase {
     assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
   }
 
-  @GwtIncompatible("newDirectExecutorService")
   public void testTransform_rejectionPropagatesToOutput()
       throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
-    ExecutorService executor = newDirectExecutorService();
     ListenableFuture<String> transformed =
-        Futures.transform(input, Functions.toStringFunction(), executor);
-    executor.shutdown();
+        Futures.transform(input, Functions.toStringFunction(), REJECTING_EXECUTOR);
     input.set(new Foo());
     try {
       transformed.get(5, TimeUnit.SECONDS);
@@ -1325,13 +1321,10 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("newDirectExecutorService")
   public void testCatchingAsync_rejectionPropagatesToOutput() throws Exception {
     SettableFuture<String> input = SettableFuture.create();
-    ExecutorService executor = newDirectExecutorService();
     ListenableFuture<String> transformed =
-        Futures.catching(input, Throwable.class, Functions.toStringFunction(), executor);
-    executor.shutdown();
+        Futures.catching(input, Throwable.class, Functions.toStringFunction(), REJECTING_EXECUTOR);
     input.setException(new Exception());
     try {
       transformed.get(5, TimeUnit.SECONDS);
@@ -3235,4 +3228,12 @@ public class FuturesTest extends TestCase {
 
   // Simulate a timeout that fires before the call the SES.schedule returns but the future is
   // already completed.
+
+  private static final Executor REJECTING_EXECUTOR =
+      new Executor() {
+        @Override
+        public void execute(Runnable runnable) {
+          throw new RejectedExecutionException();
+        }
+      };
 }
