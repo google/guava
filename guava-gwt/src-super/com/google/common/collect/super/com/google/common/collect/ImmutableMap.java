@@ -183,10 +183,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   public static <K, V> ImmutableMap<K, V> copyOf(
       Map<? extends K, ? extends V> map) {
-    if ((map instanceof ImmutableMap) && !(map instanceof ImmutableSortedMap)) {
-      @SuppressWarnings("unchecked") // safe since map is not writable
-      ImmutableMap<K, V> kvMap = (ImmutableMap<K, V>) map;
-      return kvMap;
+    if (map instanceof ImmutableMap) {
+      if (!(map instanceof ImmutableSortedMap)) {
+        @SuppressWarnings("unchecked") // safe since map is not writable
+        ImmutableMap<K, V> kvMap = (ImmutableMap<K, V>) map;
+        return kvMap;
+      }
     } else if (map instanceof EnumMap) {
       EnumMap<?, ?> enumMap = (EnumMap<?, ?>) map;
       for (Map.Entry<?, ?> entry : enumMap.entrySet()) {
