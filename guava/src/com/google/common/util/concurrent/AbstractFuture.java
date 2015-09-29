@@ -512,7 +512,9 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       // certainly less likely.
       // TODO(lukes): this exception actually makes cancellation significantly more expensive :(
       // I wonder if we should consider removing it or providing a mechanism to not do it.
-      Throwable cause = GENERATE_CANCELLATION_CAUSES ? newCancellationCause() : null;
+      Throwable cause = GENERATE_CANCELLATION_CAUSES
+          ? new CancellationException("Future.cancel() was called.")
+          : null;
       Object valueToSet = new Cancellation(mayInterruptIfRunning, cause);
       do {
         if (ATOMIC_HELPER.casValue(this, localValue, valueToSet)) {
@@ -536,17 +538,6 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       } while (localValue instanceof AbstractFuture.SetFuture);
     }
     return false;
-  }
-
-  /**
-   * Returns an exception to be used as the cause of the CancellationException thrown by
-   * {@link #get}.
-   *
-   * <p>Note: this method may be called speculatively.  There is no guarantee that the future will
-   * be cancelled if this method is called.
-   */
-  private Throwable newCancellationCause() {
-    return new CancellationException("Future.cancel() was called.");
   }
 
   /**
