@@ -15,8 +15,8 @@ Latest release
 
 The most recent release is [Guava 18.0][], released August 25, 2014.
 
-- [18.0 API Docs][Release API Docs]
-- [18.0 API Diffs from 17.0][Release API Diffs]
+- 18.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
+- 18.0 API Diffs from 17.0: [guava][guava-release-api-diffs]
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -40,7 +40,7 @@ Upcoming release
 ----------------
 
 [Guava 19.0][] is the next release. A release candidate is currently available
-on Maven Central as version `19.0-rc1`, release July 23, 2015.
+on Maven Central as version `19.0-rc2`, released September 17, 2015.
 
 Snapshots
 ---------
@@ -49,8 +49,8 @@ Snapshots of Guava built from the `master` branch are available through Maven
 using version `19.0-SNAPSHOT`. API documentation and diffs from version 18.0
 are available here:
 
-- [Snapshot API Docs][]
-- [Snapshot API Diffs from 18.0][Snapshot API Diffs]
+- Snapshot API Docs: [guava][guava-snapshot-api-docs]
+- Snapshot API Diffs from 18.0: [guava][guava-snapshot-api-diffs]
 
 Learn about Guava
 ------------------
@@ -97,8 +97,9 @@ correctly in other environments.
 
 [Guava 18.0]: https://github.com/google/guava/wiki/Release18
 [Guava 19.0]: https://github.com/google/guava/wiki/Release19
-[Release API Docs]: http://google.github.io/guava/releases/18.0/api/docs/
-[Release API Diffs]: http://google.github.io/guava/releases/18.0/api/diffs/
-[Snapshot API Docs]: http://google.github.io/guava/releases/snapshot/api/docs/
-[Snapshot API Diffs]: http://google.github.io/guava/releases/snapshot/api/diffs/
+[guava-release-api-docs]: http://google.github.io/guava/releases/18.0/api/docs/
+[testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/18.0
+[guava-release-api-diffs]: http://google.github.io/guava/releases/18.0/api/diffs/
+[guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot/api/docs/
+[guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
