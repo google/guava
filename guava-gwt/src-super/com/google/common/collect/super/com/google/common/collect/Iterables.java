@@ -557,18 +557,18 @@ public final class Iterables {
   }
 
   /**
-   * Returns the elements of {@code unfiltered} that satisfy a predicate. The
-   * resulting iterable's iterator does not support {@code remove()}.
+   * Returns the elements of {@code unfiltered} that satisfy the input predicate
+   * {@code retainIfTrue}. The resulting iterable's iterator does not support {@code remove()}.
    */
   @CheckReturnValue
   public static <T> Iterable<T> filter(
-      final Iterable<T> unfiltered, final Predicate<? super T> predicate) {
+      final Iterable<T> unfiltered, final Predicate<? super T> retainIfTrue) {
     checkNotNull(unfiltered);
-    checkNotNull(predicate);
+    checkNotNull(retainIfTrue);
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.filter(unfiltered.iterator(), predicate);
+        return Iterators.filter(unfiltered.iterator(), retainIfTrue);
       }
     };
   }
