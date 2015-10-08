@@ -243,6 +243,22 @@ public final class UnsignedInts {
   }
 
   /**
+   * Returns true if the unsigned {@code int} value can be represented by the given decimal string.
+   *
+   * @throws NullPointerException if {@code s} is null
+   *         (in contrast to {@link Integer#parseInt(String)})
+   */
+  @SuppressWarnings("CheckReturnValue")
+  public static boolean tryParseUnsignedInt(String s) {
+    try {
+      parseUnsignedInt(s, 10);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  /**
    * Returns the unsigned {@code int} value represented by a string with the given radix.
    *
    * @param string the string containing the unsigned integer representation to be parsed.
@@ -261,6 +277,25 @@ public final class UnsignedInts {
           "Input " + string + " in base " + radix + " is not in the range of an unsigned integer");
     }
     return (int) result;
+  }
+
+  /**
+   * Returns true if the unsigned {@code int} value can be represented by a string with the given radix.
+   *
+   * @param string the string containing the unsigned integer representation to be parsed.
+   * @param radix the radix to use while parsing {@code s}; must be between
+   *        {@link Character#MIN_RADIX} and {@link Character#MAX_RADIX}.
+   * @throws NullPointerException if {@code s} is null
+   *         (in contrast to {@link Integer#parseInt(String)})
+   */
+  @SuppressWarnings("CheckReturnValue")
+  public static boolean tryParseUnsignedInt(String string, int radix) {
+    try {
+      parseUnsignedInt(string, radix);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
   }
 
   /**

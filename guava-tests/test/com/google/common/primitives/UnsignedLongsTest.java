@@ -164,6 +164,21 @@ public class UnsignedLongsTest extends TestCase {
     }
   }
 
+  private static void assertTryParseFalse(String value) {
+    assertFalse(UnsignedBytes.tryParseUnsignedByte(value));
+  }
+
+  public void testTryParseUnsignedByte() {
+    // We can easily afford to test this exhaustively.
+    for (int i = 0; i <= 0xff; i++) {
+      assertTrue(UnsignedBytes.tryParseUnsignedByte(Integer.toString(i)));
+    }
+    assertTryParseFalse("1000");
+    assertTryParseFalse("-1");
+    assertTryParseFalse("-128");
+    assertTryParseFalse("256");
+  }
+
   public void testDecodeLong() {
     assertEquals(0xffffffffffffffffL, UnsignedLongs.decode("0xffffffffffffffff"));
     assertEquals(01234567, UnsignedLongs.decode("01234567")); // octal
@@ -254,6 +269,33 @@ public class UnsignedLongsTest extends TestCase {
       fail();
     } catch (NumberFormatException expected) {
     }
+  }
+
+  private static void assertTryParseFalse(String value, int radix) {
+    assertFalse(UnsignedBytes.tryParseUnsignedByte(value, radix));
+  }
+
+  public void testTryParseUnsignedByteWithRadix() throws NumberFormatException {
+    // We can easily afford to test this exhaustively.
+    for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
+      for (int i = 0; i <= 0xff; i++) {
+        assertTrue(UnsignedBytes.tryParseUnsignedByte(Integer.toString(i, radix), radix));
+      }
+      assertTryParseFalse(Integer.toString(1000, radix), radix);
+      assertTryParseFalse(Integer.toString(-1, radix), radix);
+      assertTryParseFalse(Integer.toString(-128, radix), radix);
+      assertTryParseFalse(Integer.toString(256, radix), radix);
+    }
+  }
+
+  public void testTryParseUnsignedByteFalseForInvalidRadix() {
+    // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
+    // inclusive.
+    assertTryParseFalse("0", Character.MIN_RADIX - 1);
+    assertTryParseFalse("0", Character.MAX_RADIX + 1);
+
+    // The radix is used as an array index, so try a negative value.
+    assertTryParseFalse("0", -1);
   }
 
   public void testToString() {

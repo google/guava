@@ -151,6 +151,21 @@ public class UnsignedBytesTest extends TestCase {
     assertParseFails("256");
   }
 
+  private static void assertTryParseFalse(String value) {
+    assertFalse(UnsignedBytes.tryParseUnsignedByte(value));
+  }
+
+  public void testTryParseUnsignedByte() {
+    // We can easily afford to test this exhaustively.
+    for (int i = 0; i <= 0xff; i++) {
+      assertTrue(UnsignedBytes.tryParseUnsignedByte(Integer.toString(i)));
+    }
+    assertTryParseFalse("1000");
+    assertTryParseFalse("-1");
+    assertTryParseFalse("-128");
+    assertTryParseFalse("256");
+  }
+
   public void testMaxValue() {
     assertTrue(UnsignedBytes
         .compare(UnsignedBytes.MAX_VALUE, (byte) (UnsignedBytes.MAX_VALUE + 1)) > 0);

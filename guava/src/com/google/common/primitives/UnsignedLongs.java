@@ -260,6 +260,22 @@ public final class UnsignedLongs {
   }
 
   /**
+   * Returns true if the unsigned {@code long} value can be represented by the given decimal string.
+   *
+   * @throws NullPointerException if {@code s} is null
+   *         (in contrast to {@link Long#parseLong(String)})
+   */
+  @SuppressWarnings("CheckReturnValue")
+  public static boolean tryParseUnsignedLong(String s) {
+    try {
+      parseUnsignedLong(s);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  /**
    * Returns the unsigned {@code long} value represented by the given string.
    *
    * Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:
@@ -322,6 +338,24 @@ public final class UnsignedLongs {
     }
 
     return value;
+  }
+
+  /**
+   * Returns true if the unsigned {@code long} value can be represented by a string with the given radix.
+   *
+   * @param s the string containing the unsigned {@code long} representation to be parsed.
+   * @param radix the radix to use while parsing {@code s}
+   * @throws NullPointerException if {@code s} is null
+   *         (in contrast to {@link Long#parseLong(String)})
+   */
+  @SuppressWarnings("CheckReturnValue")
+  public static boolean tryParseUnsignedLong(String s, int radix) {
+    try {
+      parseUnsignedLong(s, radix);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
   }
 
   /**

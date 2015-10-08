@@ -219,6 +219,24 @@ public final class UnsignedBytes {
   }
 
   /**
+   * Returns true if the unsigned {@code byte} value can be represented by the given decimal string.
+   *
+   * @throws NullPointerException if {@code s} is null
+   *         (in contrast to {@link Byte#parseByte(String)})
+   * @since 19.0
+   */
+  @Beta
+  @SuppressWarnings("CheckReturnValue")
+  public static boolean tryParseUnsignedByte(String string) {
+    try {
+      parseUnsignedByte(string, 10);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  /**
    * Returns the unsigned {@code byte} value represented by a string with the given radix.
    *
    * @param string the string containing the unsigned {@code byte} representation to be parsed.
@@ -238,6 +256,26 @@ public final class UnsignedBytes {
       return (byte) parse;
     } else {
       throw new NumberFormatException("out of range: " + parse);
+    }
+  }
+
+  /**
+   * Returns true if the unsigned {@code byte} value can be represented by a string with the given radix.
+   *
+   * @param string the string containing the unsigned {@code byte} representation to be parsed.
+   * @param radix the radix to use while parsing {@code string}
+   * @throws NullPointerException if {@code s} is null
+   *         (in contrast to {@link Byte#parseByte(String)})
+   * @since 19.0
+   */
+  @Beta
+  @SuppressWarnings("CheckReturnValue")
+  public static boolean tryParseUnsignedByte(String string, int radix) {
+    try {
+      parseUnsignedByte(string, radix);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
     }
   }
 
