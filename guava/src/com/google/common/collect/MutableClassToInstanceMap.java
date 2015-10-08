@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.collect.MapConstraints.ConstrainedMap;
 import com.google.common.primitives.Primitives;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,8 +34,9 @@ import java.util.Map;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@SuppressWarnings("serial") // using writeReplace instead of standard serialization
 public final class MutableClassToInstanceMap<B> extends ConstrainedMap<Class<? extends B>, B>
-    implements ClassToInstanceMap<B> {
+    implements ClassToInstanceMap<B>, Serializable {
 
   /**
    * Returns a new {@code MutableClassToInstanceMap} instance backed by a {@link
@@ -79,5 +81,24 @@ public final class MutableClassToInstanceMap<B> extends ConstrainedMap<Class<? e
     return Primitives.wrap(type).cast(value);
   }
 
-  private static final long serialVersionUID = 0;
+  private Object writeReplace() {
+    return new SerializedForm(delegate());
+  }
+
+  /**
+   * Serialized form of the map, to avoid serializing the constraint.
+   */
+  private static final class SerializedForm<B> implements Serializable {
+    private final Map<Class<? extends B>, B> backingMap;
+
+    SerializedForm(Map<Class<? extends B>, B> backingMap) {
+      this.backingMap = backingMap;
+    }
+
+    Object readResolve() {
+      return create(backingMap);
+    }
+
+    private static final long serialVersionUID = 0;
+  }
 }
