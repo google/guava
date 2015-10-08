@@ -355,7 +355,7 @@ public final class Ints {
       return "Ints.stringConverter()";
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
 

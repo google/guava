@@ -31,7 +31,7 @@ class EmptyImmutableListMultimap extends ImmutableListMultimap<Object, Object> {
     super(ImmutableMap.<Object, ImmutableList<Object>>of(), 0);
   }
 
-  private Object readResolve() {
+  private static Object readResolve() {
     return INSTANCE; // preserve singleton property
   }
 

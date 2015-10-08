@@ -192,7 +192,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
       return "-\u221e";
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
 
@@ -277,7 +277,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
       return "+\u221e";
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
 

@@ -288,7 +288,7 @@ public final class Doubles {
       return "Doubles.stringConverter()";
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
 

@@ -440,7 +440,7 @@ public class CacheExpirationTest extends TestCase {
     assertEquals(10, removalListener.getCount());
   }
 
-  private void getAll(LoadingCache<Integer, Integer> cache, List<Integer> keys) {
+  private static void getAll(LoadingCache<Integer, Integer> cache, List<Integer> keys) {
     for (int i : keys) {
       cache.getUnchecked(i);
     }

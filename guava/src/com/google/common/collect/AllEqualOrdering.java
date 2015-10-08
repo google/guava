@@ -53,7 +53,7 @@ final class AllEqualOrdering extends Ordering<Object> implements Serializable {
     return (Ordering<S>) this;
   }
 
-  private Object readResolve() {
+  private static Object readResolve() {
     return INSTANCE;
   }
 

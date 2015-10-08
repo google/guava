@@ -594,15 +594,15 @@ public class InvokableTest extends TestCase {
       }
     }
 
-    private void privateMethod() {}
+    private static void privateMethod() {}
 
-    private final void privateFinalMethod() {}
+    private static final void privateFinalMethod() {}
 
     static void staticMethod() {}
 
     static final void staticFinalMethod() {}
 
-    private void privateVarArgsMethod(String... varargs) {}
+    private static void privateVarArgsMethod(String... varargs) {}
   }
 
   private static class SubPrepender extends Prepender {

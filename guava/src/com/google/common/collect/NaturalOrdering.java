@@ -41,7 +41,7 @@ final class NaturalOrdering extends Ordering<Comparable> implements Serializable
   }
 
   // preserving singleton-ness gives equals()/hashCode() for free
-  private Object readResolve() {
+  private static Object readResolve() {
     return INSTANCE;
   }
 

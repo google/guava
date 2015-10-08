@@ -281,7 +281,7 @@ public final class Floats {
       return "Floats.stringConverter()";
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
 

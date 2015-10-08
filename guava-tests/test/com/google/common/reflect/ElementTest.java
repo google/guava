@@ -209,7 +209,7 @@ public class ElementTest extends TestCase {
 
     @Tested protected void protectedMethod() {}
 
-    @Tested private void privateMethod() {}
+    @Tested private static void privateMethod() {}
 
     @Tested public final void publicFinalMethod() {}
 

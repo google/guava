@@ -76,7 +76,7 @@ abstract class ImmutableAsList<E> extends ImmutableList<E> {
   }
 
   @GwtIncompatible("serialization")
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+  private static void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 
