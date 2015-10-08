@@ -27,6 +27,9 @@ import javax.annotation.concurrent.Immutable;
 @GwtCompatible
 @Immutable
 final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> {
+  static final ImmutableTable<Object, Object, Object> EMPTY =
+      new SparseImmutableTable<Object, Object, Object>(
+          ImmutableList.<Cell<Object, Object, Object>>of(), ImmutableSet.of(), ImmutableSet.of());
 
   private final ImmutableMap<R, Map<C, V>> rowMap;
   private final ImmutableMap<C, Map<R, V>> columnMap;

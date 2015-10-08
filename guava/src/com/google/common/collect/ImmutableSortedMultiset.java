@@ -51,17 +51,12 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     implements SortedMultiset<E> {
   // TODO(lowasser): GWT compatibility
 
-  private static final Comparator<Comparable> NATURAL_ORDER = Ordering.natural();
-
-  private static final ImmutableSortedMultiset<Comparable> NATURAL_EMPTY_MULTISET =
-      new RegularImmutableSortedMultiset<Comparable>(NATURAL_ORDER);
-
   /**
    * Returns the empty immutable sorted multiset.
    */
   @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedMultiset<E> of() {
-    return (ImmutableSortedMultiset) NATURAL_EMPTY_MULTISET;
+    return (ImmutableSortedMultiset) RegularImmutableSortedMultiset.NATURAL_EMPTY_MULTISET;
   }
 
   /**
@@ -276,8 +271,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
   @SuppressWarnings("unchecked")
   static <E> ImmutableSortedMultiset<E> emptyMultiset(Comparator<? super E> comparator) {
-    if (NATURAL_ORDER.equals(comparator)) {
-      return (ImmutableSortedMultiset<E>) NATURAL_EMPTY_MULTISET;
+    if (Ordering.natural().equals(comparator)) {
+      return (ImmutableSortedMultiset<E>) RegularImmutableSortedMultiset.NATURAL_EMPTY_MULTISET;
     } else {
       return new RegularImmutableSortedMultiset<E>(comparator);
     }
