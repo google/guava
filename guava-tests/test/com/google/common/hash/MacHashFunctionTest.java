@@ -83,6 +83,7 @@ public class MacHashFunctionTest extends TestCase {
   }
 
   @SuppressWarnings("CheckReturnValue")
+  @SuppressUnderAndroid // sun.security
   public void testNoProviders() {
     ProviderList providers = Providers.getProviderList();
     Providers.setProviderList(ProviderList.newList());
@@ -160,6 +161,8 @@ public class MacHashFunctionTest extends TestCase {
       Hashing.hmacMd5(badKey);
       fail();
     } catch (IllegalArgumentException expected) {
+    } catch (NullPointerException toleratedOnAndroid) {
+      // TODO(cpovirk): In an ideal world, we'd check here that we're running on Android.
     }
   }
 
