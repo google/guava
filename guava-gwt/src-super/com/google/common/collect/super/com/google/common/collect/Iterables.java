@@ -295,7 +295,7 @@ public final class Iterables {
   }
 
   static <T> T[] toArray(Iterable<? extends T> iterable, T[] array) {
-    Collection<? extends T> collection = toCollection(iterable);
+    Collection<? extends T> collection = castOrCopyToCollection(iterable);
     return collection.toArray(array);
   }
 
@@ -307,7 +307,7 @@ public final class Iterables {
    *     have been copied
    */
   static Object[] toArray(Iterable<?> iterable) {
-    return toCollection(iterable).toArray();
+    return castOrCopyToCollection(iterable).toArray();
   }
 
   /**
@@ -315,7 +315,7 @@ public final class Iterables {
    * collection, it is returned. Otherwise, an {@link java.util.ArrayList} is
    * created with the contents of the iterable in the same iteration order.
    */
-  private static <E> Collection<E> toCollection(Iterable<E> iterable) {
+  private static <E> Collection<E> castOrCopyToCollection(Iterable<E> iterable) {
     return (iterable instanceof Collection)
         ? (Collection<E>) iterable
         : Lists.newArrayList(iterable.iterator());
