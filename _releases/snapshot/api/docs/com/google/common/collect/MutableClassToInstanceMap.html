@@ -105,13 +105,13 @@
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="../../../../com/google/common/collect/ClassToInstanceMap.html" title="interface in com.google.common.collect">ClassToInstanceMap</a>&lt;B&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? extends B&gt;,B&gt;</dd>
+<dd><a href="../../../../com/google/common/collect/ClassToInstanceMap.html" title="interface in com.google.common.collect">ClassToInstanceMap</a>&lt;B&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? extends B&gt;,B&gt;</dd>
 </dl>
 <hr>
 <br>
-<pre>public final class <a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.36">MutableClassToInstanceMap</a>&lt;B&gt;
+<pre>public final class <a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.38">MutableClassToInstanceMap</a>&lt;B&gt;
 extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K,V&gt;
-implements <a href="../../../../com/google/common/collect/ClassToInstanceMap.html" title="interface in com.google.common.collect">ClassToInstanceMap</a>&lt;B&gt;</pre>
+implements <a href="../../../../com/google/common/collect/ClassToInstanceMap.html" title="interface in com.google.common.collect">ClassToInstanceMap</a>&lt;B&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">A mutable class-to-instance map backed by an arbitrary user-provided map.
  See also <a href="../../../../com/google/common/collect/ImmutableClassToInstanceMap.html" title="class in com.google.common.collect"><code>ImmutableClassToInstanceMap</code></a>.
 
@@ -121,7 +121,8 @@ implements <a href="../../../../com/google/common/collect/ClassToInstanceMap.htm
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>2.0</dd>
 <dt><span class="strong">Author:</span></dt>
-  <dd>Kevin Bourrillion</dd></dl>
+  <dd>Kevin Bourrillion</dd>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#com.google.common.collect.MutableClassToInstanceMap">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -257,7 +258,7 @@ implements <a href="../../../../com/google/common/collect/ClassToInstanceMap.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="../../../../com/google/common/collect/MutableClassToInstanceMap.html" title="class in com.google.common.collect">MutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.43">create</a>()</pre>
+<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="../../../../com/google/common/collect/MutableClassToInstanceMap.html" title="class in com.google.common.collect">MutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.45">create</a>()</pre>
 <div class="block">Returns a new <code>MutableClassToInstanceMap</code> instance backed by a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><code>HashMap</code></a> using the default initial capacity and load factor.</div>
 </li>
 </ul>
@@ -267,7 +268,7 @@ implements <a href="../../../../com/google/common/collect/ClassToInstanceMap.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="../../../../com/google/common/collect/MutableClassToInstanceMap.html" title="class in com.google.common.collect">MutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.52">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? extends B&gt;,B&gt;&nbsp;backingMap)</pre>
+<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="../../../../com/google/common/collect/MutableClassToInstanceMap.html" title="class in com.google.common.collect">MutableClassToInstanceMap</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.54">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? extends B&gt;,B&gt;&nbsp;backingMap)</pre>
 <div class="block">Returns a new <code>MutableClassToInstanceMap</code> instance backed by a given
  empty <code>backingMap</code>. The caller surrenders control of the backing map,
  and thus should not allow any direct references to it to remain accessible.</div>
@@ -281,7 +282,7 @@ implements <a href="../../../../com/google/common/collect/ClassToInstanceMap.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>putInstance</h4>
-<pre>public&nbsp;&lt;T extends <a href="../../../../com/google/common/collect/MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.69">putInstance</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type,
+<pre>public&nbsp;&lt;T extends <a href="../../../../com/google/common/collect/MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.71">putInstance</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type,
                           T&nbsp;value)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/ClassToInstanceMap.html#putInstance(java.lang.Class,%20T)">ClassToInstanceMap</a></code></strong></div>
 <div class="block">Maps the specified class to the specified value. Does <i>not</i> associate
@@ -298,7 +299,7 @@ implements <a href="../../../../com/google/common/collect/ClassToInstanceMap.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>getInstance</h4>
-<pre>public&nbsp;&lt;T extends <a href="../../../../com/google/common/collect/MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.74">getInstance</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type)</pre>
+<pre>public&nbsp;&lt;T extends <a href="../../../../com/google/common/collect/MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/MutableClassToInstanceMap.html#line.76">getInstance</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/ClassToInstanceMap.html#getInstance(java.lang.Class)">ClassToInstanceMap</a></code></strong></div>
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no
  entry for this class is present. This will only return a value that was
