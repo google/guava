@@ -157,6 +157,10 @@ public final class Iterables {
    * Removes, from an iterable, every element that satisfies the provided
    * predicate.
    *
+   * <p>Removals may or may not happen immediately as each element is tested
+   * against the predicate.  The behavior of this method is not specified if
+   * {@code predicate} is dependent on {@code removeFrom}.
+   *
    * @param removeFrom the iterable to (potentially) remove elements from
    * @param predicate a predicate that determines whether an element should
    *     be removed
