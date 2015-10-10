@@ -474,7 +474,7 @@ public final class ArbitraryInstances {
       return "BY_TO_STRING";
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
   }
@@ -491,7 +491,7 @@ public final class ArbitraryInstances {
       return "ALWAYS_EQUAL";
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
   }

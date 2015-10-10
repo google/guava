@@ -98,7 +98,7 @@ final class Absent<T> extends Optional<T> {
     return "Optional.absent()";
   }
 
-  private Object readResolve() {
+  private static Object readResolve() {
     return INSTANCE;
   }
 

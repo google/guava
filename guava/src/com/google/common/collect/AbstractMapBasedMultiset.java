@@ -293,7 +293,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
 
   // Don't allow default serialization.
   @GwtIncompatible("java.io.ObjectStreamException")
-  private void readObjectNoData() throws ObjectStreamException {
+  private static void readObjectNoData() throws ObjectStreamException {
     throw new InvalidObjectException("Stream data required");
   }
 

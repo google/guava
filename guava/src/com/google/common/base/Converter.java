@@ -514,7 +514,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
       return "Converter.identity()";
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
 

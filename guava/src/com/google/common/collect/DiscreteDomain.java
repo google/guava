@@ -84,7 +84,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
       return Integer.MAX_VALUE;
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
 
@@ -142,7 +142,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
       return Long.MAX_VALUE;
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
 
@@ -189,7 +189,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
           .longValue();
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
 

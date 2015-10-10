@@ -74,7 +74,7 @@ public abstract class MonitorTestCase extends TestCase {
     return interruptible ? "enterInterruptibly" : "enter";
   }
 
-  private String tryEnter() {
+  private static String tryEnter() {
     return "tryEnter";
   }
 
@@ -82,7 +82,7 @@ public abstract class MonitorTestCase extends TestCase {
     return interruptible ? "enterIfInterruptibly" : "enterIf";
   }
 
-  private String tryEnterIf() {
+  private static String tryEnterIf() {
     return "tryEnterIf";
   }
 
@@ -94,7 +94,7 @@ public abstract class MonitorTestCase extends TestCase {
     return interruptible ? "waitFor" : "waitForUninterruptibly";
   }
 
-  private String leave() {
+  private static String leave() {
     return "leave";
   }
 

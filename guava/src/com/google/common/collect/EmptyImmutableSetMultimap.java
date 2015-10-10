@@ -31,7 +31,7 @@ class EmptyImmutableSetMultimap extends ImmutableSetMultimap<Object, Object> {
     super(ImmutableMap.<Object, ImmutableSet<Object>>of(), 0, null);
   }
 
-  private Object readResolve() {
+  private static Object readResolve() {
     return INSTANCE; // preserve singleton property
   }
 

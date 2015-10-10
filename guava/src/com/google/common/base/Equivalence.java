@@ -341,7 +341,7 @@ public abstract class Equivalence<T> {
       return o.hashCode();
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
 
@@ -362,7 +362,7 @@ public abstract class Equivalence<T> {
       return System.identityHashCode(o);
     }
 
-    private Object readResolve() {
+    private static Object readResolve() {
       return INSTANCE;
     }
 

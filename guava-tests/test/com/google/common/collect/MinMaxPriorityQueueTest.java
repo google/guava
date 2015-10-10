@@ -752,7 +752,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     return seed;
   }
 
-  private void insertRandomly(ArrayList<Integer> elements, MinMaxPriorityQueue<Integer> q,
+  private static void insertRandomly(ArrayList<Integer> elements, MinMaxPriorityQueue<Integer> q,
       Random random) {
     while (!elements.isEmpty()) {
       int selectedIndex = random.nextInt(elements.size());

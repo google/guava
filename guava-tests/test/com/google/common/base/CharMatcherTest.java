@@ -198,7 +198,7 @@ public class CharMatcherTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  private void doTestNull(CharMatcher matcher) throws Exception {
+  private static void doTestNull(CharMatcher matcher) throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(matcher);
   }

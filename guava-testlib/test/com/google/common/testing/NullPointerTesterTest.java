@@ -1214,7 +1214,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class VisibilityMethods {
 
     @SuppressWarnings("unused") // Called by reflection
-    private void privateMethod() {}
+    private static void privateMethod() {}
 
     @SuppressWarnings("unused") // Called by reflection
     void packagePrivateMethod() {}

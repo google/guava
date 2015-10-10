@@ -87,7 +87,7 @@ final class ReverseNaturalOrdering extends Ordering<Comparable> implements Seria
   }
 
   // preserving singleton-ness gives equals()/hashCode() for free
-  private Object readResolve() {
+  private static Object readResolve() {
     return INSTANCE;
   }
 
