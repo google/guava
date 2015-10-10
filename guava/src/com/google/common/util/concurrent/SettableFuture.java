@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  * @since 9.0 (in 1.0 as {@code ValueFuture})
  */
 @GwtCompatible
-public final class SettableFuture<V> extends AbstractFuture.TrustedFuture<V> {
+public class SettableFuture<V> extends AbstractFuture.TrustedFuture<V> {
 
   /**
    * Creates a new {@code SettableFuture} in the default state.
@@ -43,7 +43,7 @@ public final class SettableFuture<V> extends AbstractFuture.TrustedFuture<V> {
    * Explicit private constructor, use the {@link #create} factory method to
    * create instances of {@code SettableFuture}.
    */
-  private SettableFuture() {}
+  protected SettableFuture() {}
 
   @Override public boolean set(@Nullable V value) {
     return super.set(value);
