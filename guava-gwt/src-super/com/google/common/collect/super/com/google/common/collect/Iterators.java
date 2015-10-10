@@ -643,19 +643,20 @@ public final class Iterators {
   }
 
   /**
-   * Returns the elements of {@code unfiltered} that satisfy a predicate.
+   * Returns the elements of {@code unfiltered} that satisfy the input predicate
+   * {@code retainIfTrue}.
    */
   @CheckReturnValue
   public static <T> UnmodifiableIterator<T> filter(
-      final Iterator<T> unfiltered, final Predicate<? super T> predicate) {
+      final Iterator<T> unfiltered, final Predicate<? super T> retainIfTrue) {
     checkNotNull(unfiltered);
-    checkNotNull(predicate);
+    checkNotNull(retainIfTrue);
     return new AbstractIterator<T>() {
       @Override
       protected T computeNext() {
         while (unfiltered.hasNext()) {
           T element = unfiltered.next();
-          if (predicate.apply(element)) {
+          if (retainIfTrue.apply(element)) {
             return element;
           }
         }

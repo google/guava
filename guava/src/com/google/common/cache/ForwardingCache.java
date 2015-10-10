@@ -124,7 +124,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
 
   /**
    * A simplified version of {@link ForwardingCache} where subclasses can pass in an already
-   * constructed {@link Cache} as the delegete.
+   * constructed {@link Cache} as the delegate.
    *
    * @since 10.0
    */

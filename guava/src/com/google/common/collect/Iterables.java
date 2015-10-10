@@ -574,42 +574,40 @@ public final class Iterables {
   }
 
   /**
-   * Returns the elements of {@code unfiltered} that satisfy a predicate. The
-   * resulting iterable's iterator does not support {@code remove()}.
+   * Returns the elements of {@code unfiltered} that satisfy the input predicate
+   * {@code retainIfTrue}. The resulting iterable's iterator does not support {@code remove()}.
    */
   @CheckReturnValue
   public static <T> Iterable<T> filter(
-      final Iterable<T> unfiltered, final Predicate<? super T> predicate) {
+      final Iterable<T> unfiltered, final Predicate<? super T> retainIfTrue) {
     checkNotNull(unfiltered);
-    checkNotNull(predicate);
+    checkNotNull(retainIfTrue);
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.filter(unfiltered.iterator(), predicate);
+        return Iterators.filter(unfiltered.iterator(), retainIfTrue);
       }
     };
   }
 
   /**
-   * Returns all instances of class {@code type} in {@code unfiltered}. The
-   * returned iterable has elements whose class is {@code type} or a subclass of
-   * {@code type}. The returned iterable's iterator does not support
-   * {@code remove()}.
+   * Returns all elements in {@code unfiltered} that are of the type {@code desiredType}.
+   * The returned iterable's iterator does not support {@code remove()}.
    *
-   * @param unfiltered an iterable containing objects of any type
-   * @param type the type of elements desired
+   * @param unfiltered an iterable containing objects of any type, to be filtered on
+   * @param desiredType the type of elements desired in the result iterable
    * @return an unmodifiable iterable containing all elements of the original
    *     iterable that were of the requested type
    */
   @GwtIncompatible("Class.isInstance")
   @CheckReturnValue
-  public static <T> Iterable<T> filter(final Iterable<?> unfiltered, final Class<T> type) {
+  public static <T> Iterable<T> filter(final Iterable<?> unfiltered, final Class<T> desiredType) {
     checkNotNull(unfiltered);
-    checkNotNull(type);
+    checkNotNull(desiredType);
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.filter(unfiltered.iterator(), type);
+        return Iterators.filter(unfiltered.iterator(), desiredType);
       }
     };
   }

@@ -68,7 +68,7 @@ public abstract class ForwardingLoadingCache<K, V>
 
   /**
    * A simplified version of {@link ForwardingLoadingCache} where subclasses can pass in an already
-   * constructed {@link LoadingCache} as the delegete.
+   * constructed {@link LoadingCache} as the delegate.
    *
    * @since 10.0
    */

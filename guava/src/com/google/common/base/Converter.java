@@ -70,8 +70,8 @@ import javax.annotation.Nullable;
  *     a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
  *     {@code Converter} type using a mocking framework.
  * <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
- * <li>If using Java 8, you may prefer to pass two lambda expressions or method references to {@link
- *     #from}.
+ * <li>If using Java 8, you may prefer to pass two lambda expressions or method references to the
+ *     {@link #from from} factory method.
  * </ul>
  *
  * <p>Using a converter:
@@ -88,23 +88,23 @@ import javax.annotation.Nullable;
  *
  * <h3>Example</h3>
  *
- * <pre>   {@code
- *
- *   return new Converter<Integer, String>() {
- *     @Override
+ * <pre>
+ *   return new Converter&lt;Integer, String&gt;() {
+ *     &#64;Override
  *     protected String doForward(Integer i) {
  *       return Integer.toHexString(i);
  *     }
  *
- *     @Override
+ *     &#64;Override
  *     protected Integer doBackward(String s) {
  *       return parseUnsignedInt(s, 16);
  *     }
- *   };}</pre>
+ *   };</pre>
  *
- * <p>An alternative using Java 8: <pre>   {@code
- *
- *   return Converter.from(Integer::toHexString, s -> parseUnsignedInt(s, 16));}</pre>
+ * <p>An alternative using Java 8:<pre>   {@code
+ *   return Converter.from(
+ *       Integer::toHexString,
+ *       s -> parseUnsignedInt(s, 16));}</pre>
  *
  * @author Mike Ward
  * @author Kurt Alfred Kluever

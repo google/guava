@@ -40,6 +40,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -220,6 +221,18 @@ public class FuturesTest extends TestCase {
     assertTrue(secondary.wasInterrupted());
   }
 
+  public void testTransform_inputCancelButNotInterruptPropagatesToOutput() throws Exception {
+    SettableFuture<String> f1 = SettableFuture.create();
+    ListenableFuture<Object> f2 = Futures.transform(f1, Functions.identity());
+    f1.cancel(true);
+    assertTrue(f2.isCancelled());
+    /*
+     * We might like to propagate interruption, too, but it's not clear that it matters. For now, we
+     * test for the behavior that we have today.
+     */
+    assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
+  }
+
   public void testTransformAsync_cancelPropagatesToInput() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
@@ -273,6 +286,40 @@ public class FuturesTest extends TestCase {
     assertTrue(Futures.transformAsync(immediate, function).cancel(true));
     assertTrue(secondary.isCancelled());
     assertTrue(secondary.wasInterrupted());
+  }
+
+  public void testTransformAsync_inputCancelButNotInterruptPropagatesToOutput() throws Exception {
+    SettableFuture<Foo> f1 = SettableFuture.create();
+    final SettableFuture<Bar> secondary = SettableFuture.create();
+    AsyncFunction<Foo, Bar> function =
+        new AsyncFunction<Foo, Bar>() {
+          @Override
+          public ListenableFuture<Bar> apply(Foo unused) {
+            return secondary;
+          }
+        };
+    ListenableFuture<Bar> f2 = Futures.transformAsync(f1, function);
+    f1.cancel(true);
+    assertTrue(f2.isCancelled());
+    /*
+     * We might like to propagate interruption, too, but it's not clear that it matters. For now, we
+     * test for the behavior that we have today.
+     */
+    assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
+  }
+
+  public void testTransform_rejectionPropagatesToOutput()
+      throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    ListenableFuture<String> transformed =
+        Futures.transform(input, Functions.toStringFunction(), REJECTING_EXECUTOR);
+    input.set(new Foo());
+    try {
+      transformed.get(5, TimeUnit.SECONDS);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
+    }
   }
 
   /**
@@ -867,6 +914,19 @@ public class FuturesTest extends TestCase {
     ListenableFuture<Integer> faultTolerantFuture =
         Futures.catchingAsync(originalFuture, Throwable.class, fallback);
     assertEquals(1, (int) faultTolerantFuture.get());
+  }
+
+  public void testCatchingAsync_rejectionPropagatesToOutput() throws Exception {
+    SettableFuture<String> input = SettableFuture.create();
+    ListenableFuture<String> transformed =
+        Futures.catching(input, Throwable.class, Functions.toStringFunction(), REJECTING_EXECUTOR);
+    input.setException(new Exception());
+    try {
+      transformed.get(5, TimeUnit.SECONDS);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
+    }
   }
 
   private <X extends Throwable> Function<X, Integer> functionReturningOne() {
@@ -1515,4 +1575,12 @@ public class FuturesTest extends TestCase {
 
   // Simulate a timeout that fires before the call the SES.schedule returns but the future is
   // already completed.
+
+  private static final Executor REJECTING_EXECUTOR =
+      new Executor() {
+        @Override
+        public void execute(Runnable runnable) {
+          throw new RejectedExecutionException();
+        }
+      };
 }

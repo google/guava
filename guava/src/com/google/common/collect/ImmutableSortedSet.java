@@ -58,15 +58,9 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxverideShim<E>
     implements NavigableSet<E>, SortedIterable<E> {
-
-  private static final Comparator<Comparable> NATURAL_ORDER = Ordering.natural();
-
-  private static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
-      new RegularImmutableSortedSet<Comparable>(ImmutableList.<Comparable>of(), NATURAL_ORDER);
-
   static <E> RegularImmutableSortedSet<E> emptySet(Comparator<? super E> comparator) {
-    if (NATURAL_ORDER.equals(comparator)) {
-      return (RegularImmutableSortedSet<E>) NATURAL_EMPTY_SET;
+    if (Ordering.natural().equals(comparator)) {
+      return (RegularImmutableSortedSet<E>) RegularImmutableSortedSet.NATURAL_EMPTY_SET;
     } else {
       return new RegularImmutableSortedSet<E>(ImmutableList.<E>of(), comparator);
     }
@@ -76,7 +70,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * Returns the empty immutable sorted set.
    */
   public static <E> ImmutableSortedSet<E> of() {
-    return (ImmutableSortedSet<E>) NATURAL_EMPTY_SET;
+    return (ImmutableSortedSet<E>) RegularImmutableSortedSet.NATURAL_EMPTY_SET;
   }
 
   /**

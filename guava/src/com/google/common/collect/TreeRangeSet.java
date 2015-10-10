@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -41,7 +42,8 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtIncompatible("uses NavigableMap")
-public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C> {
+public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
+    implements Serializable {
 
   @VisibleForTesting final NavigableMap<Cut<C>, Range<C>> rangesByLowerBound;
 

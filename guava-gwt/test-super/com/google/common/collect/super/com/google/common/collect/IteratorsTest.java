@@ -184,7 +184,7 @@ public class IteratorsTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {
       assertThat(expected)
-          .hasMessage("expected one element but was: " + "<one, two, three, four, five>");
+          .hasMessage("expected one element but was: <one, two, three, four, five>");
     }
   }
 
@@ -196,7 +196,7 @@ public class IteratorsTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {
       assertThat(expected)
-          .hasMessage("expected one element but was: " + "<one, two, three, four, five, ...>");
+          .hasMessage("expected one element but was: <one, two, three, four, five, ...>");
     }
   }
 

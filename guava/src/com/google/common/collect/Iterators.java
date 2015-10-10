@@ -660,19 +660,20 @@ public final class Iterators {
   }
 
   /**
-   * Returns the elements of {@code unfiltered} that satisfy a predicate.
+   * Returns the elements of {@code unfiltered} that satisfy the input predicate
+   * {@code retainIfTrue}.
    */
   @CheckReturnValue
   public static <T> UnmodifiableIterator<T> filter(
-      final Iterator<T> unfiltered, final Predicate<? super T> predicate) {
+      final Iterator<T> unfiltered, final Predicate<? super T> retainIfTrue) {
     checkNotNull(unfiltered);
-    checkNotNull(predicate);
+    checkNotNull(retainIfTrue);
     return new AbstractIterator<T>() {
       @Override
       protected T computeNext() {
         while (unfiltered.hasNext()) {
           T element = unfiltered.next();
-          if (predicate.apply(element)) {
+          if (retainIfTrue.apply(element)) {
             return element;
           }
         }
@@ -682,20 +683,18 @@ public final class Iterators {
   }
 
   /**
-   * Returns all instances of class {@code type} in {@code unfiltered}. The
-   * returned iterator has elements whose class is {@code type} or a subclass of
-   * {@code type}.
+   * Returns all elements in {@code unfiltered} that are of the type {@code desiredType}.
    *
-   * @param unfiltered an iterator containing objects of any type
-   * @param type the type of elements desired
+   * @param unfiltered an iterator containing objects of any type, to be filtered on
+   * @param desiredType the type of elements desired in the result iterator
    * @return an unmodifiable iterator containing all elements of the original
    *     iterator that were of the requested type
    */
   @SuppressWarnings("unchecked") // can cast to <T> because non-Ts are removed
   @GwtIncompatible("Class.isInstance")
   @CheckReturnValue
-  public static <T> UnmodifiableIterator<T> filter(Iterator<?> unfiltered, Class<T> type) {
-    return (UnmodifiableIterator<T>) filter(unfiltered, instanceOf(type));
+  public static <T> UnmodifiableIterator<T> filter(Iterator<?> unfiltered, Class<T> desiredType) {
+    return (UnmodifiableIterator<T>) filter(unfiltered, instanceOf(desiredType));
   }
 
   /**

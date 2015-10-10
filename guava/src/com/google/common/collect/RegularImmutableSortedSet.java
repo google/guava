@@ -45,6 +45,8 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial")
 final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
+  static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
+      new RegularImmutableSortedSet<Comparable>(ImmutableList.<Comparable>of(), Ordering.natural());
 
   private transient final ImmutableList<E> elements;
 
