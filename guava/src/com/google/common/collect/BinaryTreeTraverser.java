@@ -22,6 +22,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Optional;
 
+import java.util.ArrayDeque;
 import java.util.BitSet;
 import java.util.Deque;
 import java.util.Iterator;
@@ -36,7 +37,7 @@ import java.util.Iterator;
 @Beta
 @GwtCompatible(emulated = true)
 public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
-  // TODO(lowasser): make this GWT-compatible when we've checked in BitSet emulation
+  // TODO(lowasser): make this GWT-compatible when we've checked in ArrayDeque and BitSet emulation
 
   /**
    * Returns the left child of the specified node, or {@link Optional#absent()} if the specified
@@ -99,7 +100,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
     private final Deque<T> stack;
 
     PreOrderIterator(T root) {
-      this.stack = Platform.newFastestDeque(8);
+      this.stack = new ArrayDeque<T>();
       stack.addLast(root);
     }
 
@@ -135,7 +136,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
     private final BitSet hasExpanded;
 
     PostOrderIterator(T root) {
-      this.stack = Platform.newFastestDeque(8);
+      this.stack = new ArrayDeque<T>();
       stack.addLast(root);
       this.hasExpanded = new BitSet();
     }
@@ -180,7 +181,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
     private final BitSet hasExpandedLeft;
 
     InOrderIterator(T root) {
-      this.stack = Platform.newFastestDeque(8);
+      this.stack = new ArrayDeque<T>();
       this.hasExpandedLeft = new BitSet();
       stack.addLast(root);
     }
