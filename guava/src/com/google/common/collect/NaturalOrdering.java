@@ -27,12 +27,33 @@ import java.io.Serializable;
 @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
 final class NaturalOrdering extends Ordering<Comparable> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
+  
+  private transient Ordering<Comparable> nullsFirst;
+  private transient Ordering<Comparable> nullsLast;
 
   @Override
   public int compare(Comparable left, Comparable right) {
     checkNotNull(left); // for GWT
     checkNotNull(right);
     return left.compareTo(right);
+  }
+
+  @Override
+  public <S extends Comparable> Ordering<S> nullsFirst() {
+    Ordering<Comparable> result = nullsFirst;
+    if (result == null) {
+      result = nullsFirst = super.nullsFirst();
+    }
+    return (Ordering<S>) result;
+  }
+
+  @Override
+  public <S extends Comparable> Ordering<S> nullsLast() {
+    Ordering<Comparable> result = nullsLast;
+    if (result == null) {
+      result = nullsLast = super.nullsLast();
+    }
+    return (Ordering<S>) result;
   }
 
   @Override
