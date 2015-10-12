@@ -2768,20 +2768,18 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     @Nullable
     V get(Object key, int hash) {
       try {
-        if (count != 0) { // read-volatile
-          long now = map.ticker.read();
-          ReferenceEntry<K, V> e = getLiveEntry(key, hash, now);
-          if (e == null) {
-            return null;
-          }
-
-          V value = e.getValueReference().get();
-          if (value != null) {
-            recordRead(e, now);
-            return scheduleRefresh(e, e.getKey(), hash, value, now, map.defaultLoader);
-          }
-          tryDrainReferenceQueues();
+        long now = map.ticker.read();
+        ReferenceEntry<K, V> e = getLiveEntry(key, hash, now);
+        if (e == null) {
+          return null;
         }
+
+        V value = e.getValueReference().get();
+        if (value != null) {
+          recordRead(e, now);
+          return scheduleRefresh(e, e.getKey(), hash, value, now, map.defaultLoader);
+        }
+        tryDrainReferenceQueues();
         return null;
       } finally {
         postReadCleanup();
@@ -2790,16 +2788,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     boolean containsKey(Object key, int hash) {
       try {
-        if (count != 0) { // read-volatile
-          long now = map.ticker.read();
-          ReferenceEntry<K, V> e = getLiveEntry(key, hash, now);
-          if (e == null) {
-            return false;
-          }
-          return e.getValueReference().get() != null;
+        long now = map.ticker.read();
+        ReferenceEntry<K, V> e = getLiveEntry(key, hash, now);
+        if (e == null) {
+          return false;
         }
-
-        return false;
+        return e.getValueReference().get() != null;
       } finally {
         postReadCleanup();
       }
@@ -2812,19 +2806,17 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     @VisibleForTesting
     boolean containsValue(Object value) {
       try {
-        if (count != 0) { // read-volatile
-          long now = map.ticker.read();
-          AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-          int length = table.length();
-          for (int i = 0; i < length; ++i) {
-            for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-              V entryValue = getLiveValue(e, now);
-              if (entryValue == null) {
-                continue;
-              }
-              if (map.valueEquivalence.equivalent(value, entryValue)) {
-                return true;
-              }
+        long now = map.ticker.read();
+        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+        int length = table.length();
+        for (int i = 0; i < length; ++i) {
+          for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
+            V entryValue = getLiveValue(e, now);
+            if (entryValue == null) {
+              continue;
+            }
+            if (map.valueEquivalence.equivalent(value, entryValue)) {
+              return true;
             }
           }
         }

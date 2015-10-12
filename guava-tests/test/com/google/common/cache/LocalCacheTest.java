@@ -1102,13 +1102,8 @@ public class LocalCacheTest extends TestCase {
 
     assertNull(segment.get(key, hash));
 
-    // count == 0
-    table.set(index, entry);
-    assertNull(segment.get(key, hash));
-    assertFalse(segment.containsKey(key, hash));
-    assertFalse(segment.containsValue(value));
-
     // count == 1
+    table.set(index, entry);
     segment.count++;
     assertSame(value, segment.get(key, hash));
     assertTrue(segment.containsKey(key, hash));
