@@ -677,7 +677,8 @@ public final class MoreExecutors {
   /**
    * An implementation of {@link ExecutorService#invokeAny} for {@link ListeningExecutorService}
    * implementations.
-   */ static <T> T invokeAnyImpl(ListeningExecutorService executorService,
+   */
+  @GwtIncompatible("TODO") static <T> T invokeAnyImpl(ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks, boolean timed, long nanos)
           throws InterruptedException, ExecutionException, TimeoutException {
     checkNotNull(executorService);
