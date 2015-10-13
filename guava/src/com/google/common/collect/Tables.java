@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
@@ -466,6 +467,25 @@ public final class Tables {
   public static <R, C, V> Table<R, C, V> unmodifiableTable(
       Table<? extends R, ? extends C, ? extends V> table) {
     return new UnmodifiableTable<R, C, V>(table);
+  }
+
+  /**
+   * Returns a synchronized view of the specified table. This method allows modules to provide users with synchronized
+   * access to internal tables. All Maps and Collections returned by individual methods will also be wrapped into
+   * synchronized views, using the same mutex.
+   *
+   * <p>The returned table will be serializable if the specified table is serializable.
+   *
+   * <p>Consider using an {@link ImmutableTable}, which is guaranteed never to change.
+   *
+   * @param   table  the table for which a synchronized view is to be returned
+   *
+   * @return  a synchronized view of the specified table
+   */
+  //@GwtIncompatible()
+  public static <R, C, V> Table<R, C, V> synchronizedTable(
+      final Table<R, C, V> table) {
+    return Synchronized.table(checkNotNull(table), null);
   }
 
   private static class UnmodifiableTable<R, C, V> extends ForwardingTable<R, C, V>

@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -960,7 +961,8 @@ final class Synchronized {
     return new SynchronizedMap<K, V>(map, mutex);
   }
 
-  private static class SynchronizedMap<K, V> extends SynchronizedObject implements Map<K, V> {
+  @VisibleForTesting
+  static class SynchronizedMap<K, V> extends SynchronizedObject implements Map<K, V> {
     transient Set<K> keySet;
     transient Collection<V> values;
     transient Set<Map.Entry<K, V>> entrySet;
@@ -1833,4 +1835,193 @@ final class Synchronized {
 
     private static final long serialVersionUID = 0;
   }
+
+  static <R, C, V> Table<R, C, V> table(final Table<R, C, V> table, @Nullable final Object mutex) {
+    return new SynchronizedTable<R, C, V>(table, mutex);
+  }
+
+  static class SynchronizedTable<R, C, V> extends SynchronizedObject implements Table<R, C, V>, Serializable {
+
+    SynchronizedTable(Table<? extends R, ? extends C, ? extends V> delegate, Object mutex) {
+      super(delegate, mutex);
+    }
+
+    @SuppressWarnings("unchecked") // safe, covariant cast
+    @Override
+    protected Table<R, C, V> delegate() {
+      return (Table<R, C, V>) delegate;
+    }
+
+    @Override
+    public Set<Table.Cell<R, C, V>> cellSet() {
+      synchronized (mutex) {
+        return set(delegate().cellSet(), mutex);
+      }
+    }
+
+    @Override
+    public void clear() {
+      synchronized (mutex) {
+        delegate().clear();
+      }
+    }
+
+    @Override
+    public Map<R, V> column(C columnKey) {
+      synchronized (mutex) {
+        return map(delegate().column(columnKey), mutex);
+      }
+    }
+
+    @Override
+    public Set<C> columnKeySet() {
+      synchronized (mutex) {
+        return set(delegate().columnKeySet(), mutex);
+      }
+    }
+
+    @Override
+    public Map<C, Map<R, V>> columnMap() {
+      synchronized (mutex) {
+        Function<Map<R, V>, Map<R, V>> mapFunction = synchronizedMapWrapper(mutex);
+        Map<C, Map<R, V>> rowMap = delegate().columnMap();
+        Map<C, Map<R, V>> transformed = Maps.transformValues(rowMap, mapFunction);
+        return map(transformed, mutex);
+      }
+    }
+
+    @Override
+    public boolean contains(Object rowKey, Object columnKey) {
+      synchronized (mutex) {
+        return delegate().contains(rowKey, columnKey);
+      }
+    }
+
+    @Override
+    public boolean containsColumn(Object columnKey) {
+      synchronized (mutex) {
+        return delegate().containsColumn(columnKey);
+      }
+    }
+
+    @Override
+    public boolean containsRow(Object rowKey) {
+      synchronized (mutex) {
+        return delegate().containsRow(rowKey);
+      }
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+      synchronized (mutex) {
+        return delegate().containsValue(value);
+      }
+    }
+
+    @Override
+    public V get(Object rowKey, Object columnKey) {
+      synchronized (mutex) {
+        return delegate().get(rowKey, columnKey);
+      }
+    }
+
+    @Override
+    public boolean isEmpty() {
+      synchronized (mutex) {
+        return delegate().isEmpty();
+      }
+    }
+
+    @Override
+    public V put(R rowKey, C columnKey, V value) {
+      synchronized (mutex) {
+        return delegate().put(rowKey, columnKey, value);
+      }
+    }
+
+    @Override
+    public void putAll(Table<? extends R, ? extends C, ? extends V> table) {
+      synchronized (mutex) {
+        delegate().putAll(table);
+      }
+    }
+
+    @Override
+    public V remove(Object rowKey, Object columnKey) {
+      synchronized (mutex) {
+        return delegate().remove(rowKey, columnKey);
+      }
+    }
+
+    @Override
+    public Map<C, V> row(R rowKey) {
+      synchronized (mutex) {
+        return map(delegate().row(rowKey), mutex);
+      }
+    }
+
+    @Override
+    public Set<R> rowKeySet() {
+      synchronized (mutex) {
+        return set(delegate().rowKeySet(), mutex);
+      }
+    }
+
+    @Override
+    public Map<R, Map<C, V>> rowMap() {
+      synchronized (mutex) {
+        Function<Map<C, V>, Map<C, V>> mapFunction = synchronizedMapWrapper(mutex);
+        Map<R, Map<C, V>> rowMap = delegate().rowMap();
+        Map<R, Map<C, V>> transformed = Maps.transformValues(rowMap, mapFunction);
+        return map(transformed, mutex);
+      }
+    }
+
+    @Override
+    public int size() {
+      synchronized (mutex) {
+        return delegate().size();
+      }
+    }
+
+    @Override
+    public Collection<V> values() {
+      synchronized (mutex) {
+        return collection(delegate().values(), mutex);
+      }
+    }
+
+    @Override
+    public int hashCode() {
+      synchronized (mutex) {
+        return delegate().hashCode();
+      }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      synchronized (mutex) {
+        if (obj == this || obj == delegate) {
+          return true;
+        } else if (obj instanceof Table<?, ?, ?>) {
+          return delegate().equals(obj);
+        } else {
+          return false;
+        }
+      }
+    }
+
+    private static long serialVersionUID = 0;
+  }
+
+  private static <K, V> Function<Map<K, V>, Map<K, V>> synchronizedMapWrapper(final Object mutex) {
+    return new Function<Map<K, V>, Map<K, V>>() {
+
+      @Override
+      public Map<K, V> apply(Map<K, V> input) {
+        return map(input, mutex);
+      }
+    };
+  }
+
 }
