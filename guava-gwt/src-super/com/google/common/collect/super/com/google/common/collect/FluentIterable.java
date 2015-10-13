@@ -143,6 +143,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Returns a fluent iterable containing {@code elements} in the specified order.
    *
+   * <p>The returned iterable is an unmodifiable view of the input array.
+   *
    * <p><b>{@code Stream} equivalent:</b> {@code Stream.of(elements)} or {@code
    * Arrays.stream(elements)}.
    *
@@ -183,6 +185,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
 
   /**
    * Returns a fluent iterable containing {@code elements} in the specified order.
+   *
+   * <p>The returned iterable is modifiable, but modifications do not affect the input array.
    *
    * <p><b>{@code Stream} equivalent:</b> {@code Stream.of(elements)} or {@code
    * Arrays.stream(elements)}.
