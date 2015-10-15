@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 
@@ -56,6 +57,25 @@ public class FluentIterableTest extends TestCase {
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(FluentIterable.class);
+  }
+
+  public void testFromArrayAndAppend() {
+    FluentIterable<TimeUnit> units =
+        FluentIterable.from(TimeUnit.values()).append(TimeUnit.SECONDS);
+  }
+
+  public void testFromArrayAndIteratorRemove() {
+    FluentIterable<TimeUnit> units = FluentIterable.from(TimeUnit.values());
+    try {
+      Iterables.removeIf(units, Predicates.equalTo(TimeUnit.SECONDS));
+      fail("Expected an UnsupportedOperationException to be thrown but it wasn't.");
+    } catch (UnsupportedOperationException expected) {
+    }
+  }
+
+  public void testOfArrayAndIteratorRemove() {
+    FluentIterable<TimeUnit> units = FluentIterable.of(TimeUnit.values());
+    assertTrue(Iterables.removeIf(units, Predicates.equalTo(TimeUnit.SECONDS)));
   }
 
   public void testFrom() {
