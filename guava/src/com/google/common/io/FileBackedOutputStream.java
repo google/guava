@@ -114,10 +114,10 @@ public final class FileBackedOutputStream extends OutputStream {
           return sizeIfKnown().get();
         }
 
-		@Override
-		public Optional<Long> sizeIfKnown() {
-			return Optional.of(file != null ? file.length() : memory.getCount());
-		}
+        @Override
+        public Optional<Long> sizeIfKnown() {
+          return Optional.of(file != null ? file.length() : memory.getCount());
+        }
       };
     } else {
       source = new ByteSource() {
@@ -131,10 +131,10 @@ public final class FileBackedOutputStream extends OutputStream {
           return sizeIfKnown().get();
         }
 
-		@Override
-		public Optional<Long> sizeIfKnown() {
-			return Optional.of(file != null ? file.length() : memory.getCount());
-		}
+        @Override
+        public Optional<Long> sizeIfKnown() {
+          return Optional.of(file != null ? file.length() : memory.getCount());
+        }
       };
     }
   }
