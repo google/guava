@@ -289,15 +289,14 @@
 </tr>
 <tr class="rowColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/Futures.html#get(java.util.concurrent.Future,%20java.lang.Class)">com.google.common.util.concurrent.Futures.get(Future<V>, Class<X>)</a>
-<div class="block"><i>Use <a href="com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,%20java.lang.Class)"><code>Futures.getChecked(Future, Class)</code></a>. This method will be
-     removed in Guava release 20.0.</i></div>
+<div class="block"><i>Use <a href="com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,%20java.lang.Class)"><code>Futures.getChecked(Future, Class)</code></a>. This method will be removed in Guava
+     release 20.0.</i></div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/Futures.html#get(java.util.concurrent.Future,%20long,%20java.util.concurrent.TimeUnit,%20java.lang.Class)">com.google.common.util.concurrent.Futures.get(Future<V>, long, TimeUnit, Class<X>)</a>
-<div class="block"><i>Use <a href="com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,%20java.lang.Class,%20long,%20java.util.concurrent.TimeUnit)"><code>Futures.getChecked(Future, Class, long, TimeUnit)</code></a>, noting
-     the change in parameter order. This method will be removed in Guava
-     release 20.0.</i></div>
+<div class="block"><i>Use <a href="com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,%20java.lang.Class,%20long,%20java.util.concurrent.TimeUnit)"><code>Futures.getChecked(Future, Class, long, TimeUnit)</code></a>, noting the change in
+     parameter order. This method will be removed in Guava release 20.0.</i></div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -531,18 +530,16 @@
 </tr>
 <tr class="rowColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.AsyncFunction)">com.google.common.util.concurrent.Futures.transform(ListenableFuture<I>, AsyncFunction<? super I, ? extends O>)</a>
-<div class="block"><i>These <code>AsyncFunction</code> overloads of <code>transform</code> are
-     being renamed to <code>transformAsync</code>. (The <code>Function</code>
-     overloads are keeping the "transform" name.) This method will be removed in Guava release
-     20.0.</i></div>
+<div class="block"><i>These <code>AsyncFunction</code> overloads of <code>transform</code> are being renamed to
+     <code>transformAsync</code>. (The <code>Function</code> overloads are keeping the "transform" name.)
+     This method will be removed in Guava release 20.0.</i></div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.AsyncFunction,%20java.util.concurrent.Executor)">com.google.common.util.concurrent.Futures.transform(ListenableFuture<I>, AsyncFunction<? super I, ? extends O>, Executor)</a>
-<div class="block"><i>These <code>AsyncFunction</code> overloads of <code>transform</code> are
-     being renamed to <code>transformAsync</code>. (The <code>Function</code>
-     overloads are keeping the "transform" name.) This method will be removed in Guava release
-     20.0.</i></div>
+<div class="block"><i>These <code>AsyncFunction</code> overloads of <code>transform</code> are being renamed to
+     <code>transformAsync</code>. (The <code>Function</code> overloads are keeping the "transform" name.)
+     This method will be removed in Guava release 20.0.</i></div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -577,17 +574,16 @@
 </tr>
 <tr class="rowColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/Futures.html#withFallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureFallback)">com.google.common.util.concurrent.Futures.withFallback(ListenableFuture<? extends V>, FutureFallback<? extends V>)</a>
-<div class="block"><i>Use <a href="com/google/common/util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,%20java.lang.Class,%20com.google.common.util.concurrent.AsyncFunction)"><code>catchingAsync(input, Throwable.class,
-     fallbackImplementedAsAnAsyncFunction)</code></a>, usually replacing <code>Throwable.class</code> with the specific type you want to handle. This method
+<div class="block"><i>Use <a href="com/google/common/util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,%20java.lang.Class,%20com.google.common.util.concurrent.AsyncFunction)"><code>catchingAsync(input, Throwable.class, fallbackImplementedAsAnAsyncFunction)</code></a>, usually
+     replacing <code>Throwable.class</code> with the specific type you want to handle. This method
      will be removed in Guava release 20.0.</i></div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colOne"><a href="com/google/common/util/concurrent/Futures.html#withFallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureFallback,%20java.util.concurrent.Executor)">com.google.common.util.concurrent.Futures.withFallback(ListenableFuture<? extends V>, FutureFallback<? extends V>, Executor)</a>
-<div class="block"><i>Use <a href="com/google/common/util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,%20java.lang.Class,%20com.google.common.util.concurrent.AsyncFunction,%20java.util.concurrent.Executor)"><code>catchingAsync(input, Throwable.class,
-     fallbackImplementedAsAnAsyncFunction, executor)</code></a>, usually replacing
-     <code>Throwable.class</code> with the specific type you want to handle. This method
-     will be removed in Guava release 20.0.</i></div>
+<div class="block"><i>Use <a href="com/google/common/util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,%20java.lang.Class,%20com.google.common.util.concurrent.AsyncFunction,%20java.util.concurrent.Executor)"><code>catchingAsync(input, Throwable.class, fallbackImplementedAsAnAsyncFunction, executor)</code></a>,
+     usually replacing <code>Throwable.class</code> with the specific type you want to handle. This
+     method will be removed in Guava release 20.0.</i></div>
 </td>
 </tr>
 <tr class="rowColor">

@@ -97,33 +97,29 @@
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/CheckedFuture.html#line.62">CheckedFuture</a>&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/CheckedFuture.html#line.56">CheckedFuture</a>&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;
 extends <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</pre>
-<div class="block">A <code>CheckedFuture</code> is a <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that includes versions
- of the <code>get</code> methods that can throw a checked exception.  This makes it
- easier to create a future that executes logic which can throw an exception.
+<div class="block">A <code>CheckedFuture</code> is a <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that includes versions of the <code>get</code>
+ methods that can throw a checked exception.  This makes it easier to create a future that
+ executes logic which can throw an exception.
 
- <p><b>Warning:</b> We recommend against using <code>CheckedFuture</code> in new
- projects. <code>CheckedFuture</code> is difficult to build libraries atop. <code>CheckedFuture</code> ports of methods like <a href="../../../../../com/google/common/util/concurrent/Futures.html#transformAsync(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.AsyncFunction)"><code>Futures.transformAsync(com.google.common.util.concurrent.ListenableFuture&lt;I&gt;, com.google.common.util.concurrent.AsyncFunction&lt;? super I, ? extends O&gt;)</code></a> have
- historically had bugs, and some of these bugs are necessary, unavoidable
- consequences of the <code>CheckedFuture</code> API. Additionally, <code>CheckedFuture</code> encourages users to take exceptions from one thread and
- rethrow them in another, producing confusing stack traces.
+ <p><b>Warning:</b> We recommend against using <code>CheckedFuture</code> in new projects. <code>CheckedFuture</code> is difficult to build libraries atop. <code>CheckedFuture</code> ports of methods like
+ <a href="../../../../../com/google/common/util/concurrent/Futures.html#transformAsync(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.AsyncFunction)"><code>Futures.transformAsync(com.google.common.util.concurrent.ListenableFuture&lt;I&gt;, com.google.common.util.concurrent.AsyncFunction&lt;? super I, ? extends O&gt;)</code></a> have historically had bugs, and some of these bugs are necessary,
+ unavoidable consequences of the <code>CheckedFuture</code> API. Additionally, <code>CheckedFuture</code>
+ encourages users to take exceptions from one thread and rethrow them in another, producing
 
  <p>A common implementation is <a href="../../../../../com/google/common/util/concurrent/Futures.html#immediateCheckedFuture(V)"><code>Futures.immediateCheckedFuture(V)</code></a>.
 
- <p>Implementations of this interface must adapt the exceptions thrown by
- <code>Future#get()</code>: <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a>,
- <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a> into the type
- specified by the <code>X</code> type parameter.
+ <p>Implementations of this interface must adapt the exceptions thrown by <code>Future#get()</code>:
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a> into
+ the type specified by the <code>X</code> type parameter.
 
- <p>This interface also extends the ListenableFuture interface to allow
- listeners to be added. This allows the future to be used as a normal
- <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> or as an asynchronous callback mechanism as needed. This
- allows multiple callbacks to be registered for a particular task, and the
- future will guarantee execution of all listeners when the task completes.
+ <p>This interface also extends the ListenableFuture interface to allow listeners to be added.
+ This allows the future to be used as a normal <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> or as an asynchronous callback
+ mechanism as needed. This allows multiple callbacks to be registered for a particular task, and
+ the future will guarantee execution of all listeners when the task completes.
 
- <p>For a simpler alternative to CheckedFuture, consider accessing Future
- values with <a href="../../../../../com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,%20java.lang.Class)"><code>Futures.getChecked()</code></a>.</div>
+ <p>For a simpler alternative to CheckedFuture, consider accessing Future values with <a href="../../../../../com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,%20java.lang.Class)"><code>Futures.getChecked()</code></a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>1.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -149,18 +145,16 @@ extends <a href="../../../../../com/google/common/util/concurrent/ListenableFutu
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="type parameter in CheckedFuture">V</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html#checkedGet()">checkedGet</a></strong>()</code>
-<div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> that will translate
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and
- <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into application-specific exceptions.</div>
+<div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> that will translate <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
+ application-specific exceptions.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="type parameter in CheckedFuture">V</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html#checkedGet(long,%20java.util.concurrent.TimeUnit)">checkedGet</a></strong>(long&nbsp;timeout,
                     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
-<div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get(long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent"><code>Future.get(long, TimeUnit)</code></a> that will
- translate <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and
- <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into application-specific exceptions.</div>
+<div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get(long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent"><code>Future.get(long, TimeUnit)</code></a> that will translate <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
+ application-specific exceptions.</div>
 </td>
 </tr>
 </table>
@@ -198,11 +192,10 @@ extends <a href="../../../../../com/google/common/util/concurrent/ListenableFutu
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedGet</h4>
-<pre><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="type parameter in CheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CheckedFuture.html#line.73">checkedGet</a>()
+<pre><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="type parameter in CheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CheckedFuture.html#line.66">checkedGet</a>()
              throws <a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="type parameter in CheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
-<div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> that will translate
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and
- <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into application-specific exceptions.</div>
+<div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> that will translate <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
+ application-specific exceptions.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>the result of executing the future.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code>X</code> - on interruption, cancellation or execution exceptions.</dd>
@@ -215,14 +208,12 @@ extends <a href="../../../../../com/google/common/util/concurrent/ListenableFutu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>checkedGet</h4>
-<pre><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="type parameter in CheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CheckedFuture.html#line.85">checkedGet</a>(long&nbsp;timeout,
+<pre><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="type parameter in CheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CheckedFuture.html#line.78">checkedGet</a>(long&nbsp;timeout,
            <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
              throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a>,
                     <a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="type parameter in CheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
-<div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get(long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent"><code>Future.get(long, TimeUnit)</code></a> that will
- translate <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and
- <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into application-specific exceptions.  On
- timeout this method throws a normal <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent"><code>TimeoutException</code></a>.</div>
+<div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get(long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent"><code>Future.get(long, TimeUnit)</code></a> that will translate <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
+ application-specific exceptions.  On timeout this method throws a normal <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent"><code>TimeoutException</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>the result of executing the future.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></code> - if retrieving the result timed out.</dd>

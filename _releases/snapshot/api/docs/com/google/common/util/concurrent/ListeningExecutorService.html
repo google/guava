@@ -99,11 +99,10 @@
 </dl>
 <hr>
 <br>
-<pre>public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.35">ListeningExecutorService</a>
+<pre>public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.33">ListeningExecutorService</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></pre>
 <div class="block">An <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a> that returns <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances. To create an instance
- from an existing <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a>, call
- <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator(ExecutorService)</code></a>.</div>
+ from an existing <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a>, call <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator(ExecutorService)</code></a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -184,7 +183,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.41">submit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</pre>
+<pre>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.39">submit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit(java.util.concurrent.Callable)" title="class or interface in java.util.concurrent">submit</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
@@ -199,7 +198,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.48">submit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</pre>
+<pre><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.46">submit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit(java.lang.Runnable)" title="class or interface in java.util.concurrent">submit</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
@@ -216,7 +215,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>submit</h4>
-<pre>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.55">submit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task,
+<pre>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.53">submit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task,
                              T&nbsp;result)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -232,7 +231,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/E
 <ul class="blockList">
 <li class="blockList">
 <h4>invokeAll</h4>
-<pre>&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.74">invokeAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks)
+<pre>&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.72">invokeAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks)
                           throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
 <div class="block">
 
@@ -246,8 +245,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/E
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#invokeAll(java.util.Collection)" title="class or interface in java.util.concurrent">invokeAll</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>A list of <code>ListenableFuture</code> instances representing the tasks, in the same
-         sequential order as produced by the iterator for the given task list, each of which has
-         completed.</dd>
+     sequential order as produced by the iterator for the given task list, each of which has
+     completed.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code></dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any task is null</dd>
@@ -260,7 +259,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/E
 <ul class="blockListLast">
 <li class="blockList">
 <h4>invokeAll</h4>
-<pre>&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.95">invokeAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks,
+<pre>&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.93">invokeAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks,
                             long&nbsp;timeout,
                             <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                           throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
@@ -276,9 +275,9 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/E
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#invokeAll(java.util.Collection,%20long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">invokeAll</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>a list of <code>ListenableFuture</code> instances representing the tasks, in the same
-         sequential order as produced by the iterator for the given task list. If the operation
-         did not time out, each task will have completed. If it did time out, some of these
-         tasks will not have completed.</dd>
+     sequential order as produced by the iterator for the given task list. If the operation did
+     not time out, each task will have completed. If it did time out, some of these tasks will
+     not have completed.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code></dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any task is null</dd>

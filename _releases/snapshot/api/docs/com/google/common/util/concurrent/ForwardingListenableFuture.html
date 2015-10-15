@@ -103,7 +103,6 @@
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
-<dl><dt><span class="strong">Type Parameters:</span></dt><dd><code>V</code> - The result type returned by this Future's <code>get</code> method</dd></dl>
 <dl>
 <dt>All Implemented Interfaces:</dt>
 <dd><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</dd>
@@ -114,13 +113,12 @@
 </dl>
 <hr>
 <br>
-<pre>public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.html#line.36">ForwardingListenableFuture</a>&lt;V&gt;
+<pre>public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.html#line.31">ForwardingListenableFuture</a>&lt;V&gt;
 extends <a href="../../../../../com/google/common/util/concurrent/ForwardingFuture.html" title="class in com.google.common.util.concurrent">ForwardingFuture</a>&lt;V&gt;
 implements <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</pre>
-<div class="block">A <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which forwards all its method calls to another
- future. Subclasses should override one or more methods to modify the behavior
- of the backing future as desired per the <a
- href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+<div class="block">A <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which forwards all its method calls to another future. Subclasses
+ should override one or more methods to modify the behavior of the backing future as desired per
+ the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
  <p>Most subclasses can just use <a href="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.SimpleForwardingListenableFuture.html" title="class in com.google.common.util.concurrent"><code>ForwardingListenableFuture.SimpleForwardingListenableFuture</code></a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -148,9 +146,8 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.SimpleForwardingListenableFuture.html" title="class in com.google.common.util.concurrent">ForwardingListenableFuture.SimpleForwardingListenableFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.SimpleForwardingListenableFuture.html" title="type parameter in ForwardingListenableFuture.SimpleForwardingListenableFuture">V</a>&gt;</strong></code>
-<div class="block">A simplified version of <a href="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.html" title="class in com.google.common.util.concurrent"><code>ForwardingListenableFuture</code></a> where subclasses
- can pass in an already constructed <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> 
- as the delegate.</div>
+<div class="block">A simplified version of <a href="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.html" title="class in com.google.common.util.concurrent"><code>ForwardingListenableFuture</code></a> where subclasses can pass in an
+ already constructed <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> as the delegate.</div>
 </td>
 </tr>
 </table>
@@ -200,8 +197,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)">addListener</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;exec)</code>
-<div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on
- the given executor.</div>
+<div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on the given executor.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -259,7 +255,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingListenableFuture</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.html#line.40">ForwardingListenableFuture</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.html#line.35">ForwardingListenableFuture</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -277,7 +273,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.html" title="type parameter in ForwardingListenableFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.html#line.43">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.html" title="type parameter in ForwardingListenableFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.html#line.38">delegate</a>()</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></strong></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to.
  Abstract subclasses generally override this method with an abstract method
@@ -295,45 +291,39 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockListLast">
 <li class="blockList">
 <h4>addListener</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.html#line.46">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingListenableFuture.html#line.41">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;exec)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)">ListenableFuture</a></code></strong></div>
-<div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on
- the given executor.  The listener will run when the <code>Future</code>'s
- computation is <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">complete</a> or, if the computation
- is already complete, immediately.
+<div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on the given executor.
+ The listener will run when the <code>Future</code>'s computation is <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">complete</a> or, if the computation is already complete, immediately.
 
- <p>There is no guaranteed ordering of execution of listeners, but any
- listener added through this method is guaranteed to be called once the
- computation is complete.
+ <p>There is no guaranteed ordering of execution of listeners, but any listener added through
+ this method is guaranteed to be called once the computation is complete.
 
- <p>Exceptions thrown by a listener will be propagated up to the executor.
- Any exception thrown during <code>Executor.execute</code> (e.g., a <code>RejectedExecutionException</code> or an exception thrown by <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()">direct execution</a>) will be caught and
+ <p>Exceptions thrown by a listener will be propagated up to the executor. Any exception thrown
+ during <code>Executor.execute</code> (e.g., a <code>RejectedExecutionException</code> or an exception
+ thrown by <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()">direct execution</a>) will be caught and
  logged.
 
- <p>Note: For fast, lightweight listeners that would be safe to execute in
- any thread, consider <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()"><code>MoreExecutors.directExecutor()</code></a>. Otherwise, avoid
- it. Heavyweight <code>directExecutor</code> listeners can cause problems, and
- these problems can be difficult to reproduce because they depend on timing.
- For example:
+ <p>Note: For fast, lightweight listeners that would be safe to execute in any thread, consider
+ <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()"><code>MoreExecutors.directExecutor()</code></a>. Otherwise, avoid it. Heavyweight <code>directExecutor</code>
+ listeners can cause problems, and these problems can be difficult to reproduce because they
+ depend on timing. For example:
 
  <ul>
- <li>The listener may be executed by the caller of <code>addListener</code>. That
- caller may be a UI thread or other latency-sensitive thread. This can harm
- UI responsiveness.
- <li>The listener may be executed by the thread that completes this <code>Future</code>. That thread may be an internal system thread such as an RPC
- network thread. Blocking that thread may stall progress of the whole
- system. It may even cause a deadlock.
- <li>The listener may delay other listeners, even listeners that are not
- themselves <code>directExecutor</code> listeners.
+ <li>The listener may be executed by the caller of <code>addListener</code>. That caller may be a UI
+ thread or other latency-sensitive thread. This can harm UI responsiveness.
+ <li>The listener may be executed by the thread that completes this <code>Future</code>. That thread
+ may be an internal system thread such as an RPC network thread. Blocking that thread may stall
+ progress of the whole system. It may even cause a deadlock.
+ <li>The listener may delay other listeners, even listeners that are not themselves <code>directExecutor</code> listeners.
  </ul>
 
- <p>This is the most general listener interface. For common operations
- performed using listeners, see <a href="../../../../../com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent"><code>Futures</code></a>. For a simplified but
- general listener interface, see <a href="../../../../../com/google/common/util/concurrent/Futures.html#addCallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureCallback)"><code>addCallback()</code></a>.
+ <p>This is the most general listener interface. For common operations performed using
+ listeners, see <a href="../../../../../com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent"><code>Futures</code></a>. For a simplified but general listener interface, see <a href="../../../../../com/google/common/util/concurrent/Futures.html#addCallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureCallback)"><code>addCallback()</code></a>.
 
- <p>Memory consistency effects: Actions in a thread prior to adding a listener
- <a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
+ <p>Memory consistency effects: Actions in a thread prior to adding a listener <a
+ href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
  <i>happen-before</i></a> its execution begins, perhaps in another thread.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>

@@ -97,16 +97,16 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
   <A NAME="com.google.common.util.concurrent.Futures.getChecked_added(java.util.concurrent.Future<V>, java.lang.Class<X>)"></A>
   <nobr><code>V</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future<V>, java.lang.Class<X>)" target="_top"><tt>getChecked</tt></A>(<code>Future&lt;V&gt;,</nobr> Class&lt;X&gt;<nobr><nobr></code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Returns the result of <A HREF="../../docs/Future.html#get()"><TT>Future.get()</TT></A>, converting most exceptions to a
- new instance of the given checked exception type.</TD>
+  <TD VALIGN="TOP">Returns the result of <A HREF="../../docs/Future.html#get()"><TT>Future.get()</TT></A>, converting most exceptions to a new instance of the
+ given checked exception type.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.util.concurrent.Futures.getChecked_added(java.util.concurrent.Future<V>, java.lang.Class<X>, long, java.util.concurrent.TimeUnit)"></A>
   <nobr><code>V</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future<V>, java.lang.Class<X>, long, java.util.concurrent.TimeUnit)" target="_top"><tt>getChecked</tt></A>(<code>Future&lt;V&gt;,</nobr> Class&lt;X&gt;<nobr>,</nobr> long<nobr>,</nobr> TimeUnit<nobr><nobr></code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Returns the result of <A HREF="../../docs/Future.html#get(long, TimeUnit)"><TT>Future.get(long, TimeUnit)</TT></A>, converting most
- exceptions to a new instance of the given checked exception type.</TD>
+  <TD VALIGN="TOP">Returns the result of <A HREF="../../docs/Future.html#get(long, TimeUnit)"><TT>Future.get(long, TimeUnit)</TT></A>, converting most exceptions to a new
+ instance of the given checked exception type.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -129,9 +129,7 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
   <A NAME="com.google.common.util.concurrent.Futures.withTimeout_added(com.google.common.util.concurrent.ListenableFuture<V>, long, java.util.concurrent.TimeUnit, java.util.concurrent.ScheduledExecutorService)"></A>
   <nobr><code>ListenableFuture&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture<V>, long, java.util.concurrent.TimeUnit, java.util.concurrent.ScheduledExecutorService)" target="_top"><tt>withTimeout</tt></A>(<code>ListenableFuture&lt;V&gt;,</nobr> long<nobr>,</nobr> TimeUnit<nobr>,</nobr> ScheduledExecutorService<nobr><nobr></code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Returns a future that delegates to another but will finish early (via a
- <A HREF="../../docs/TimeoutException.html"><TT>TimeoutException</TT></A> wrapped in an <A HREF="../../docs/ExecutionException.html"><TT>ExecutionException</TT></A>) if the
- specified duration expires.</TD>
+  <TD VALIGN="TOP">Returns a future that delegates to another but will finish early (via a <A HREF="../../docs/TimeoutException.html"><TT>TimeoutException</TT></A> wrapped in an <A HREF="../../docs/ExecutionException.html"><TT>ExecutionException</TT></A>) if the specified duration expires.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -159,7 +157,7 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
   <TD VALIGN="TOP" WIDTH="30%">
 <b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Use {@link #getChecked(Future, Class, long, TimeUnit)}, noting      the change in parameter order.</TD>
+  <TD VALIGN="TOP">Use {@link #getChecked(Future, Class, long, TimeUnit)}, noting the change in      parameter order.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -169,7 +167,7 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
   <TD VALIGN="TOP" WIDTH="30%">
 <b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">These {@code AsyncFunction} overloads of {@code transform} are      being renamed to {@code transformAsync}.</TD>
+  <TD VALIGN="TOP">These {@code AsyncFunction} overloads of {@code transform} are being renamed to      {@code transformAsync}.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -179,7 +177,7 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
   <TD VALIGN="TOP" WIDTH="30%">
 <b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">These {@code AsyncFunction} overloads of {@code transform} are      being renamed to {@code transformAsync}.</TD>
+  <TD VALIGN="TOP">These {@code AsyncFunction} overloads of {@code transform} are being renamed to      {@code transformAsync}.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -189,7 +187,7 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
   <TD VALIGN="TOP" WIDTH="30%">
 <b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Use {@link #catchingAsync(ListenableFuture, Class,      AsyncFunction) catchingAsync(input, Throwable.class,      fallbackImplementedAsAnAsyncFunction)}, usually replacing {@code      Throwable.class} with the specific type you want to handle.</TD>
+  <TD VALIGN="TOP">Use {@link #catchingAsync(ListenableFuture, Class, AsyncFunction)      catchingAsync(input, Throwable.class, fallbackImplementedAsAnAsyncFunction)}, usually      replacing {@code Throwable.class} with the specific type you want to handle.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -199,7 +197,7 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
   <TD VALIGN="TOP" WIDTH="30%">
 <b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Use {@link #catchingAsync(ListenableFuture, Class,      AsyncFunction, Executor) catchingAsync(input, Throwable.class,      fallbackImplementedAsAnAsyncFunction, executor)}, usually replacing      {@code Throwable.class} with the specific type you want to handle.</TD>
+  <TD VALIGN="TOP">Use {@link #catchingAsync(ListenableFuture, Class, AsyncFunction, Executor)      catchingAsync(input, Throwable.class, fallbackImplementedAsAnAsyncFunction, executor)},      usually replacing {@code Throwable.class} with the specific type you want to handle.</TD>
 </TR>
 </TABLE>
 &nbsp;

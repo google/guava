@@ -140,8 +140,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)">addListener</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
-<div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on
- the given executor.</div>
+<div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on the given executor.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -310,22 +309,23 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.78">get</a>()
+<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.77">get</a>()
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a>,
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#get()">AbstractFuture</a></code></strong></div>
 <div class="block">
 
- <p>The default <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a> implementation throws <code>InterruptedException</code> if the current thread is interrupted before or during
- the call, even if the value is already available.</div>
+ <p>The default <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a> implementation throws <code>InterruptedException</code> if the
+ current thread is interrupted before or during the call, even if the value is already
+ available.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent">get</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#get()">get</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</code></dd>
 <dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if the current thread was interrupted before
-     or during the call (optional but recommended).</dd>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if the current thread was interrupted before or during the call
+     (optional but recommended).</dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code></dd></dl>
 </li>
 </ul>
@@ -343,16 +343,17 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#get(long,%20java.util.concurrent.TimeUnit)">AbstractFuture</a></code></strong></div>
 <div class="block">
 
- <p>The default <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a> implementation throws <code>InterruptedException</code> if the current thread is interrupted before or during
- the call, even if the value is already available.</div>
+ <p>The default <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a> implementation throws <code>InterruptedException</code> if the
+ current thread is interrupted before or during the call, even if the value is already
+ available.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get(long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">get</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#get(long,%20java.util.concurrent.TimeUnit)">get</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</code></dd>
 <dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if the current thread was interrupted before
-     or during the call (optional but recommended).</dd>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if the current thread was interrupted before or during the call
+     (optional but recommended).</dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></code></dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></code></dd></dl>
 </li>
@@ -363,7 +364,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>isDone</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.87">isDone</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.88">isDone</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">isDone</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
@@ -378,7 +379,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>isCancelled</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.91">isCancelled</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.93">isCancelled</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isCancelled()" title="class or interface in java.util.concurrent">isCancelled</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
@@ -393,45 +394,39 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>addListener</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.95">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
+<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.98">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)">AbstractFuture</a></code></strong></div>
-<div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on
- the given executor.  The listener will run when the <code>Future</code>'s
- computation is <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">complete</a> or, if the computation
- is already complete, immediately.
+<div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on the given executor.
+ The listener will run when the <code>Future</code>'s computation is <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">complete</a> or, if the computation is already complete, immediately.
 
- <p>There is no guaranteed ordering of execution of listeners, but any
- listener added through this method is guaranteed to be called once the
- computation is complete.
+ <p>There is no guaranteed ordering of execution of listeners, but any listener added through
+ this method is guaranteed to be called once the computation is complete.
 
- <p>Exceptions thrown by a listener will be propagated up to the executor.
- Any exception thrown during <code>Executor.execute</code> (e.g., a <code>RejectedExecutionException</code> or an exception thrown by <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()">direct execution</a>) will be caught and
+ <p>Exceptions thrown by a listener will be propagated up to the executor. Any exception thrown
+ during <code>Executor.execute</code> (e.g., a <code>RejectedExecutionException</code> or an exception
+ thrown by <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()">direct execution</a>) will be caught and
  logged.
 
- <p>Note: For fast, lightweight listeners that would be safe to execute in
- any thread, consider <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()"><code>MoreExecutors.directExecutor()</code></a>. Otherwise, avoid
- it. Heavyweight <code>directExecutor</code> listeners can cause problems, and
- these problems can be difficult to reproduce because they depend on timing.
- For example:
+ <p>Note: For fast, lightweight listeners that would be safe to execute in any thread, consider
+ <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()"><code>MoreExecutors.directExecutor()</code></a>. Otherwise, avoid it. Heavyweight <code>directExecutor</code>
+ listeners can cause problems, and these problems can be difficult to reproduce because they
+ depend on timing. For example:
 
  <ul>
- <li>The listener may be executed by the caller of <code>addListener</code>. That
- caller may be a UI thread or other latency-sensitive thread. This can harm
- UI responsiveness.
- <li>The listener may be executed by the thread that completes this <code>Future</code>. That thread may be an internal system thread such as an RPC
- network thread. Blocking that thread may stall progress of the whole
- system. It may even cause a deadlock.
- <li>The listener may delay other listeners, even listeners that are not
- themselves <code>directExecutor</code> listeners.
+ <li>The listener may be executed by the caller of <code>addListener</code>. That caller may be a UI
+ thread or other latency-sensitive thread. This can harm UI responsiveness.
+ <li>The listener may be executed by the thread that completes this <code>Future</code>. That thread
+ may be an internal system thread such as an RPC network thread. Blocking that thread may stall
+ progress of the whole system. It may even cause a deadlock.
+ <li>The listener may delay other listeners, even listeners that are not themselves <code>directExecutor</code> listeners.
  </ul>
 
- <p>This is the most general listener interface. For common operations
- performed using listeners, see <a href="../../../../../com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent"><code>Futures</code></a>. For a simplified but
- general listener interface, see <a href="../../../../../com/google/common/util/concurrent/Futures.html#addCallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureCallback)"><code>addCallback()</code></a>.
+ <p>This is the most general listener interface. For common operations performed using
+ listeners, see <a href="../../../../../com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent"><code>Futures</code></a>. For a simplified but general listener interface, see <a href="../../../../../com/google/common/util/concurrent/Futures.html#addCallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureCallback)"><code>addCallback()</code></a>.
 
- <p>Memory consistency effects: Actions in a thread prior to adding a listener
- <a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
+ <p>Memory consistency effects: Actions in a thread prior to adding a listener <a
+ href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
  <i>happen-before</i></a> its execution begins, perhaps in another thread.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>

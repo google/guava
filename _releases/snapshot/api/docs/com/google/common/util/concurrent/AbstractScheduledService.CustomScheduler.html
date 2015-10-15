@@ -105,11 +105,11 @@
 <hr>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.422">AbstractScheduledService.CustomScheduler</a>
+public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.450">AbstractScheduledService.CustomScheduler</a>
 extends <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.Scheduler.html" title="class in com.google.common.util.concurrent">AbstractScheduledService.Scheduler</a></pre>
-<div class="block">A <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.Scheduler.html" title="class in com.google.common.util.concurrent"><code>AbstractScheduledService.Scheduler</code></a> that provides a convenient way for the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html" title="class in com.google.common.util.concurrent"><code>AbstractScheduledService</code></a> to 
- use a dynamically changing schedule.  After every execution of the task, assuming it hasn't 
- been cancelled, the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.html#getNextSchedule()"><code>getNextSchedule()</code></a> method will be called.</div>
+<div class="block">A <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.Scheduler.html" title="class in com.google.common.util.concurrent"><code>AbstractScheduledService.Scheduler</code></a> that provides a convenient way for the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html" title="class in com.google.common.util.concurrent"><code>AbstractScheduledService</code></a> to
+ use a dynamically changing schedule. After every execution of the task, assuming it hasn't been
+ cancelled, the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.html#getNextSchedule()"><code>getNextSchedule()</code></a> method will be called.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>11.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -211,7 +211,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractSchedu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractScheduledService.CustomScheduler</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.html#line.422">AbstractScheduledService.CustomScheduler</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.html#line.450">AbstractScheduledService.CustomScheduler</a>()</pre>
 </li>
 </ul>
 </li>
@@ -228,10 +228,10 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractSchedu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getNextSchedule</h4>
-<pre>protected abstract&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.Schedule.html" title="class in com.google.common.util.concurrent">AbstractScheduledService.CustomScheduler.Schedule</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.html#line.576">getNextSchedule</a>()
+<pre>protected abstract&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.Schedule.html" title="class in com.google.common.util.concurrent">AbstractScheduledService.CustomScheduler.Schedule</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.CustomScheduler.html#line.604">getNextSchedule</a>()
                                                                               throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
 <div class="block">Calculates the time at which to next invoke the task.
- 
+
  <p>This is guaranteed to be called immediately after the task has completed an iteration and
  on the same thread as the previous execution of <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#runOneIteration()"><code>AbstractScheduledService.runOneIteration()</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>a schedule that defines the delay before the next execution.</dd>

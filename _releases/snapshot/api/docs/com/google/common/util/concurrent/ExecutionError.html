@@ -110,14 +110,11 @@
 <hr>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public class <a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionError.html#line.36">ExecutionError</a>
+public class <a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionError.html#line.32">ExecutionError</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?is-external=true" title="class or interface in java.lang">Error</a></pre>
-<div class="block"><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?is-external=true" title="class or interface in java.lang"><code>Error</code></a> variant of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a>. As
- with <code>ExecutionException</code>, the error's <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true#getCause()" title="class or interface in java.lang">cause</a>
- comes from a failed task, possibly run in another thread. That cause should
- itself be an <code>Error</code>; if not, use <code>ExecutionException</code> or <a href="../../../../../com/google/common/util/concurrent/UncheckedExecutionException.html" title="class in com.google.common.util.concurrent"><code>UncheckedExecutionException</code></a>. This allows the client code to continue to
- distinguish between exceptions and errors, even when they come from other
- threads.</div>
+<div class="block"><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?is-external=true" title="class or interface in java.lang"><code>Error</code></a> variant of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a>. As with <code>ExecutionException</code>, the error's <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true#getCause()" title="class or interface in java.lang">cause</a> comes from a failed task,
+ possibly run in another thread. That cause should itself be an <code>Error</code>; if not, use <code>ExecutionException</code> or <a href="../../../../../com/google/common/util/concurrent/UncheckedExecutionException.html" title="class in com.google.common.util.concurrent"><code>UncheckedExecutionException</code></a>. This allows the client code to
+ continue to distinguish between exceptions and errors, even when they come from other threads.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -209,7 +206,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?i
 <ul class="blockList">
 <li class="blockList">
 <h4>ExecutionError</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionError.html#line.40">ExecutionError</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionError.html#line.36">ExecutionError</a>()</pre>
 <div class="block">Creates a new instance with <code>null</code> as its detail message.</div>
 </li>
 </ul>
@@ -219,7 +216,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?i
 <ul class="blockList">
 <li class="blockList">
 <h4>ExecutionError</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionError.html#line.45">ExecutionError</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionError.html#line.41">ExecutionError</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
               <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;message)</pre>
 <div class="block">Creates a new instance with the given detail message.</div>
 </li>
@@ -230,7 +227,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?i
 <ul class="blockList">
 <li class="blockList">
 <h4>ExecutionError</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionError.html#line.52">ExecutionError</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionError.html#line.48">ExecutionError</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
               <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;message,
               <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
               <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?is-external=true" title="class or interface in java.lang">Error</a>&nbsp;cause)</pre>
@@ -243,7 +240,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?i
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ExecutionError</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionError.html#line.59">ExecutionError</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ExecutionError.html#line.55">ExecutionError</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
               <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?is-external=true" title="class or interface in java.lang">Error</a>&nbsp;cause)</pre>
 <div class="block">Creates a new instance with the given cause.</div>
 </li>
