@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -37,12 +35,12 @@ public final class Callables {
   private Callables() {}
 
   /**
-   * Creates a {@code Callable} which immediately returns a preset value each
-   * time it is called.
+   * Creates a {@code Callable} which immediately returns a preset value each time it is called.
    */
-  public static <T> Callable<T> returning(final @Nullable T value) {
+  public static <T> Callable<T> returning(@Nullable final T value) {
     return new Callable<T>() {
-      @Override public T call() {
+      @Override
+      public T call() {
         return value;
       }
     };
@@ -58,12 +56,13 @@ public final class Callables {
    *     for each invocation of the wrapped callable.
    */
   @GwtIncompatible("threads")
-  static <T> Callable<T> threadRenaming(final Callable<T> callable,
-      final Supplier<String> nameSupplier) {
+  static <T> Callable<T> threadRenaming(
+      final Callable<T> callable, final Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
     checkNotNull(callable);
     return new Callable<T>() {
-      @Override public T call() throws Exception {
+      @Override
+      public T call() throws Exception {
         Thread currentThread = Thread.currentThread();
         String oldName = currentThread.getName();
         boolean restoreName = trySetName(nameSupplier.get(), currentThread);
@@ -92,7 +91,8 @@ public final class Callables {
     checkNotNull(nameSupplier);
     checkNotNull(task);
     return new Runnable() {
-      @Override public void run() {
+      @Override
+      public void run() {
         Thread currentThread = Thread.currentThread();
         String oldName = currentThread.getName();
         boolean restoreName = trySetName(nameSupplier.get(), currentThread);

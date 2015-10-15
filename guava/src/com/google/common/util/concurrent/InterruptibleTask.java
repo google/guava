@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2015 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -27,15 +25,16 @@ abstract class InterruptibleTask implements Runnable {
   private static final AtomicReferenceFieldUpdater<InterruptibleTask, Thread> RUNNER =
       newUpdater(InterruptibleTask.class, Thread.class, "runner");
 
-  // These two fields are used to interrupt running tasks.  The thread executing the task
-  // publishes itself to the 'runner' field and the thread interrupting sets 'doneInterrupting'
-  // when it has finished interrupting.
+  // These two fields are used to interrupt running tasks.  The thread executing the task publishes
+  // itself to the 'runner' field and the thread interrupting sets 'doneInterrupting' when it has
+  // finished interrupting.
   private volatile Thread runner;
   private volatile boolean doneInterrupting;
 
-  @Override public final void run() {
+  @Override
+  public final void run() {
     if (!RUNNER.compareAndSet(this, null, Thread.currentThread())) {
-      return;  // someone else has run or is running.
+      return; // someone else has run or is running.
     }
     try {
       runInterruptibly();

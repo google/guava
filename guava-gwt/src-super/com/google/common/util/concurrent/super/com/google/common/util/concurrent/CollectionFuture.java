@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2006 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -46,8 +44,10 @@ abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
         boolean allMustSucceed) {
       super(futures, allMustSucceed, true);
 
-      this.values = futures.isEmpty() ? ImmutableList.<Optional<V>>of()
-          : Lists.<Optional<V>>newArrayListWithCapacity(futures.size());
+      this.values =
+          futures.isEmpty()
+              ? ImmutableList.<Optional<V>>of()
+              : Lists.<Optional<V>>newArrayListWithCapacity(futures.size());
 
       // Populate the results list with null initially.
       for (int i = 0; i < futures.size(); ++i) {
@@ -58,19 +58,18 @@ abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
     @Override
     final void collectOneValue(boolean allMustSucceed, int index, @Nullable V returnValue) {
       List<Optional<V>> localValues = values;
-  
+
       if (localValues != null) {
         localValues.set(index, Optional.fromNullable(returnValue));
       } else {
-        // Some other future failed or has been cancelled, causing this one to
-        // also be cancelled or have an exception set. This should only happen
-        // if allMustSucceed is true or if the output itself has been
-        // cancelled.
-        checkState(allMustSucceed || isCancelled(),
-            "Future was done before all dependencies completed");
+        // Some other future failed or has been cancelled, causing this one to also be cancelled or
+        // have an exception set. This should only happen if allMustSucceed is true or if the output
+        // itself has been cancelled.
+        checkState(
+            allMustSucceed || isCancelled(), "Future was done before all dependencies completed");
       }
     }
-  
+
     @Override
     final void handleAllCompleted() {
       List<Optional<V>> localValues = values;

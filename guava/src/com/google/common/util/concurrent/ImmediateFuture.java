@@ -83,7 +83,6 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
   static class ImmediateSuccessfulFuture<V> extends ImmediateFuture<V> {
     static final ImmediateSuccessfulFuture<Object> NULL =
         new ImmediateSuccessfulFuture<Object>(null);
-
     @Nullable private final V value;
 
     ImmediateSuccessfulFuture(@Nullable V value) {

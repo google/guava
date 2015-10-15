@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -53,6 +51,7 @@ public final class ExecutionList {
    */
   @GuardedBy("this")
   private RunnableExecutorPair runnables;
+
   @GuardedBy("this")
   private boolean executed;
 
@@ -110,7 +109,7 @@ public final class ExecutionList {
       }
       executed = true;
       list = runnables;
-      runnables = null;  // allow GC to free listeners even if this stays around for a while.
+      runnables = null; // allow GC to free listeners even if this stays around for a while.
     }
     // If we succeeded then list holds all the runnables we to execute.  The pairs in the stack are
     // in the opposite order from how they were added so we need to reverse the list to fulfill our
@@ -118,7 +117,7 @@ public final class ExecutionList {
     // This is somewhat annoying, but turns out to be very fast in practice.  Alternatively, we
     // could drop the contract on the method that enforces this queue like behavior since depending
     // on it is likely to be a bug anyway.
-    
+
     // N.B. All writes to the list and the next pointers must have happened before the above
     // synchronized block, so we can iterate the list without the lock held here.
     RunnableExecutorPair reversedList = null;
@@ -145,8 +144,10 @@ public final class ExecutionList {
       // Log it and keep going, bad runnable and/or executor.  Don't punish the other runnables if
       // we're given a bad one.  We only catch RuntimeException because we want Errors to propagate
       // up.
-      log.log(Level.SEVERE, "RuntimeException while executing runnable "
-          + runnable + " with executor " + executor, e);
+      log.log(
+          Level.SEVERE,
+          "RuntimeException while executing runnable " + runnable + " with executor " + executor,
+          e);
     }
   }
 
