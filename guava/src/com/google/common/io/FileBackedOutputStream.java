@@ -18,6 +18,7 @@ package com.google.common.io;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Optional;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -107,6 +108,16 @@ public final class FileBackedOutputStream extends OutputStream {
             t.printStackTrace(System.err);
           }
         }
+        
+        @Override
+        public long size() throws IOException {
+          return sizeIfKnown().get();
+        }
+
+		@Override
+		public Optional<Long> sizeIfKnown() {
+			return Optional.of(file != null ? file.length() : memory.getCount());
+		}
       };
     } else {
       source = new ByteSource() {
@@ -114,6 +125,16 @@ public final class FileBackedOutputStream extends OutputStream {
         public InputStream openStream() throws IOException {
           return openInputStream();
         }
+        
+        @Override
+        public long size() throws IOException {
+          return sizeIfKnown().get();
+        }
+
+		@Override
+		public Optional<Long> sizeIfKnown() {
+			return Optional.of(file != null ? file.length() : memory.getCount());
+		}
       };
     }
   }
@@ -121,6 +142,8 @@ public final class FileBackedOutputStream extends OutputStream {
   /**
    * Returns a readable {@link ByteSource} view of the data that has been
    * written to this stream.
+   * 
+   * The {@link ByteSource} obtained from here provides a fast {@link ByteSource#size()} response.
    *
    * @since 15.0
    */
