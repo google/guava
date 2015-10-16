@@ -16,6 +16,14 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Predicates.and;
+import static com.google.common.base.Predicates.in;
+import static com.google.common.base.Predicates.not;
+import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.math.LongMath.binomial;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -25,16 +33,17 @@ import com.google.common.base.Predicates;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 
+import java.util.AbstractCollection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
-import java.util.*;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Predicates.and;
-import static com.google.common.base.Predicates.not;
-import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-import static com.google.common.math.LongMath.binomial;
 
 /**
  * Provides static methods for working with {@code Collection} instances.
@@ -670,15 +679,5 @@ public final class Collections2 {
 
   private static boolean isPositiveInt(long n) {
     return n >= 0 && n <= Integer.MAX_VALUE;
-  }
-
-  /**
-   * Returns {@code true} if the given collection is null or is the empty collection.
-   *
-   * @param coll the collection to check
-   * @return {@code true} if the collection is null or empty
-   */
-  public static boolean isNullOrEmpty(Collection coll) {
-    return (coll == null || coll.isEmpty());
   }
 }
