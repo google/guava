@@ -16,15 +16,16 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nullable;
 import java.util.Formatter;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nullable;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence}
@@ -36,12 +37,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @CheckReturnValue
 @GwtCompatible
 public final class Strings {
-
-  /**
-   * The empty String {@code ""}.
-   */
-  public static final String EMPTY = "";
-
   private Strings() {}
 
   /**
@@ -51,7 +46,7 @@ public final class Strings {
    * @return {@code string} itself if it is non-null; {@code ""} if it is null
    */
   public static String nullToEmpty(@Nullable String string) {
-    return (string == null) ? EMPTY : string;
+    return (string == null) ? "" : string;
   }
 
   /**
@@ -163,7 +158,7 @@ public final class Strings {
 
     if (count <= 1) {
       checkArgument(count >= 0, "invalid count: %s", count);
-      return (count == 0) ? EMPTY : string;
+      return (count == 0) ? "" : string;
     }
 
     // IF YOU MODIFY THE CODE HERE, you must update StringsRepeatBenchmark
