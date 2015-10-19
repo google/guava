@@ -42,6 +42,11 @@ public final class MoreObjects {
    * Returns the first of two given parameters that is not {@code null}, if either is, or otherwise
    * throws a {@link NullPointerException}.
    *
+   * <p>To find the first non-null element in an iterable, use {@code
+   * Iterables.find(iterable, Predicates.notNull())}. For varargs, use {@code
+   * Iterables.find(Arrays.asList(a, b, c, ...), Predicates.notNull())}, static importing as
+   * necessary.
+   *
    * <p><b>Note:</b> if {@code first} is represented as an {@link Optional}, this can be
    * accomplished with {@link Optional#or(Object) first.or(second)}. That approach also allows for
    * lazy evaluation of the fallback instance, using {@link Optional#or(Supplier)
