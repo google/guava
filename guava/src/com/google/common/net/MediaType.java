@@ -237,7 +237,7 @@ public final class MediaType {
   public static final MediaType DART_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "dart");
 
   /**
-   * Media type for <a href="https://goo.gl/dNnKKj">Apple Passbook</a>.
+   * Media type for <a href="https://goo.gl/2QoMvg">Apple Passbook</a>.
    *
    * @since 19.0
    */
