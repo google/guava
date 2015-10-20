@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterables.skip;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newLinkedHashSet;
@@ -1034,6 +1035,38 @@ public class IterablesTest extends TestCase {
           }
         }));
     assertEquals(newArrayList("a", "c", "e"), list);
+  }
+
+  public void testRemoveIf_randomAccess_notPermittingDuplicates() {
+    // https://github.com/google/guava/issues/1596
+    final List<String> delegate = newArrayList("a", "b", "c", "d", "e");
+    List<String> uniqueList = Constraints.constrainedList(delegate,
+        new Constraint<String>() {
+          @Override
+          public String checkElement(String element) {
+            checkArgument(
+                !delegate.contains(element), "this list does not permit duplicate elements");
+            return element;
+          }
+        });
+
+    assertTrue(uniqueList instanceof RandomAccess);
+    assertTrue(Iterables.removeIf(uniqueList,
+        new Predicate<String>() {
+          @Override
+          public boolean apply(String s) {
+            return s.equals("b") || s.equals("d") || s.equals("f");
+          }
+        }));
+    assertEquals(newArrayList("a", "c", "e"), uniqueList);
+    assertFalse(Iterables.removeIf(uniqueList,
+        new Predicate<String>() {
+          @Override
+          public boolean apply(String s) {
+            return s.equals("x") || s.equals("y") || s.equals("z");
+          }
+        }));
+    assertEquals(newArrayList("a", "c", "e"), uniqueList);
   }
 
   public void testRemoveIf_transformedList() {

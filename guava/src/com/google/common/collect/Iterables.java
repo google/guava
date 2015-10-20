@@ -181,8 +181,10 @@ public final class Iterables {
 
   private static <T> boolean removeIfFromRandomAccessList(
       List<T> list, Predicate<? super T> predicate) {
-    // Note: Not all random access lists support set() so we need to deal with
-    // those that don't and attempt the slower remove() based solution.
+    // Note: Not all random access lists support set(). Additionally, it's possible
+    // for a list to reject setting an element, such as when the list does not permit
+    // duplicate elements. For both of those cases,  we need to fall back to a slower
+    // implementation.
     int from = 0;
     int to = 0;
 
@@ -193,6 +195,9 @@ public final class Iterables {
           try {
             list.set(to, element);
           } catch (UnsupportedOperationException e) {
+            slowRemoveIfForRemainingElements(list, predicate, to, from);
+            return true;
+          } catch (IllegalArgumentException e) {
             slowRemoveIfForRemainingElements(list, predicate, to, from);
             return true;
           }
