@@ -121,6 +121,11 @@ public interface Cache<K, V> {
   long size();
 
   /**
+   * Returns the approximate weight of this cache.
+   */
+  long weight();
+
+  /**
    * Returns a current snapshot of this cache's cumulative statistics. All stats are initialized
    * to zero, and are monotonically increasing over the lifetime of the cache.
    *

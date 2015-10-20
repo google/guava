@@ -3918,6 +3918,17 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return Ints.saturatedCast(longSize());
   }
 
+  public long weight() {
+    Segment<K, V>[] segments = this.segments;
+    long sum = 0;
+    for (int i = 0; i < segments.length; ++i) {
+      segments[i].lock();
+      sum += segments[i].totalWeight;
+      segments[i].unlock();
+    }
+    return sum;
+  }
+
   @Override
   @Nullable
   public V get(@Nullable Object key) {
@@ -4821,6 +4832,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     @Override
     public long size() {
       return localCache.longSize();
+    }
+
+    @Override
+    public long weight() {
+      return localCache.weight();
     }
 
     @Override

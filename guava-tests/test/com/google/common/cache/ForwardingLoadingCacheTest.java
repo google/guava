@@ -109,6 +109,13 @@ public class ForwardingLoadingCacheTest extends TestCase {
     verify(mock);
   }
 
+  public void testWeight() {
+    expect(mock.weight()).andReturn(0L);
+    replay(mock);
+    forward.weight();
+    verify(mock);
+  }
+
   public void testStats() {
     expect(mock.stats()).andReturn(null);
     replay(mock);

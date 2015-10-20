@@ -403,6 +403,11 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
+    public long weight() {
+      return localCache.weight();
+    }
+
+    @Override
     public ConcurrentMap<K, V> asMap() {
       return localCache;
     }

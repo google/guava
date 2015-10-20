@@ -78,15 +78,18 @@ public class CacheEvictionTest extends TestCase {
   }
 
   public void testEviction_maxWeightOneSegment() {
+    int maxWeight = 2 * MAX_SIZE;
+
     IdentityLoader<Integer> loader = identityLoader();
     LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
-        .maximumWeight(2 * MAX_SIZE)
+        .maximumWeight(maxWeight)
         .weigher(constantWeigher(2))
         .build(loader);
     for (int i = 0; i < 2 * MAX_SIZE; i++) {
       cache.getUnchecked(i);
       assertEquals(Math.min(i + 1, MAX_SIZE), cache.size());
+      assertEquals(Math.min((i + 1) * 2, maxWeight), cache.weight());
     }
 
     assertEquals(MAX_SIZE, cache.size());
@@ -113,16 +116,19 @@ public class CacheEvictionTest extends TestCase {
   }
 
   public void testEviction_maxWeight() {
+    int maxWeight = 2 * MAX_SIZE;
+
     CountingRemovalListener<Integer, Integer> removalListener = countingRemovalListener();
     IdentityLoader<Integer> loader = identityLoader();
     LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .maximumWeight(2 * MAX_SIZE)
+        .maximumWeight(maxWeight)
         .weigher(constantWeigher(2))
         .removalListener(removalListener)
         .build(loader);
     for (int i = 0; i < 2 * MAX_SIZE; i++) {
       cache.getUnchecked(i);
       assertTrue(cache.size() <= MAX_SIZE);
+      assertTrue(cache.weight() <= maxWeight);
     }
 
     assertEquals(MAX_SIZE, CacheTesting.accessQueueSize(cache));
@@ -329,36 +335,43 @@ public class CacheEvictionTest extends TestCase {
     CacheTesting.warmUp(cache, 0, 10);
     Set<Integer> keySet = cache.asMap().keySet();
     assertThat(keySet).containsExactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    assertEquals(cache.weight(), 45);
 
     // re-order
     getAll(cache, asList(0, 1, 2));
     CacheTesting.drainRecencyQueues(cache);
     assertThat(keySet).containsExactly(3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
+    assertEquals(cache.weight(), 45);
 
     // evict 3, 4, 5
     getAll(cache, asList(10));
     CacheTesting.drainRecencyQueues(cache);
     assertThat(keySet).containsExactly(6, 7, 8, 9, 0, 1, 2, 10);
+    assertEquals(cache.weight(), 43);
 
     // re-order
     getAll(cache, asList(6, 7, 8));
     CacheTesting.drainRecencyQueues(cache);
     assertThat(keySet).containsExactly(9, 0, 1, 2, 10, 6, 7, 8);
+    assertEquals(cache.weight(), 43);
 
     // evict 9, 1, 2, 10
     getAll(cache, asList(15));
     CacheTesting.drainRecencyQueues(cache);
     assertThat(keySet).containsExactly(0, 6, 7, 8, 15);
+    assertEquals(cache.weight(), 36);
 
     // fill empty space
     getAll(cache, asList(9));
     CacheTesting.drainRecencyQueues(cache);
     assertThat(keySet).containsExactly(0, 6, 7, 8, 15, 9);
+    assertEquals(cache.weight(), 45);
 
     // evict 6
     getAll(cache, asList(1));
     CacheTesting.drainRecencyQueues(cache);
     assertThat(keySet).containsExactly(0, 7, 8, 15, 9, 1);
+    assertEquals(cache.weight(), 40);
   }
 
   public void testEviction_overweight() {
@@ -372,16 +385,19 @@ public class CacheEvictionTest extends TestCase {
     CacheTesting.warmUp(cache, 0, 10);
     Set<Integer> keySet = cache.asMap().keySet();
     assertThat(keySet).containsExactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    assertEquals(cache.weight(), 45);
 
     // add an at-the-maximum-weight entry
     getAll(cache, asList(45));
     CacheTesting.drainRecencyQueues(cache);
     assertThat(keySet).containsExactly(0, 45);
+    assertEquals(cache.weight(), 45);
 
     // add an over-the-maximum-weight entry
     getAll(cache, asList(46));
     CacheTesting.drainRecencyQueues(cache);
     assertThat(keySet).contains(0);
+    assertEquals(cache.weight(), 0);
   }
 
   public void testEviction_invalidateAll() {
