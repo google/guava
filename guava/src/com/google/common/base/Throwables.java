@@ -136,9 +136,9 @@ public final class Throwables {
    * Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or {@link
    * Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then propagates.
    * <p>
-   * This method always throws an exception. The {@code RuntimeException} return type is only for
-   * client code to make Java type system happy in case a return value is required by the enclosing
-   * method. Example usage:
+   * This method always throws an exception. The {@code RuntimeException} return type
+   * allows client code to signal to the compiler that statements after the call are
+   * unreachable. Example usage:
    * <pre>
    *   T doSomething() {
    *     try {
