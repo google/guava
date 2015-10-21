@@ -30,6 +30,7 @@ abstract class InterruptibleTask implements Runnable {
   // These two fields are used to interrupt running tasks.  The thread executing the task
   // publishes itself to the 'runner' field and the thread interrupting sets 'doneInterrupting'
   // when it has finished interrupting.
+  @SuppressWarnings("unused")
   private volatile Thread runner;
   private volatile boolean doneInterrupting;
 
