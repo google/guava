@@ -320,7 +320,7 @@ public class ContiguousSetTest extends TestCase {
     assertEquals(ImmutableSet.of(1, 2, 3),
         set.intersection(ContiguousSet.create(Range.open(-1, 4), integers())));
     assertEquals(ImmutableSet.of(3),
-            set.intersection(ContiguousSet.create(Range.closed(3, 5), integers())));
+        set.intersection(ContiguousSet.create(Range.closed(3, 5), integers())));
   }
 
   @GwtIncompatible("suite")
