@@ -198,7 +198,8 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/cache/Cache.html#stats()">stats</a></strong>()</code>
-<div class="block">Returns a current snapshot of this cache's cumulative statistics.</div>
+<div class="block">Returns a current snapshot of this cache's cumulative statistics, or a set of default values if
+ the cache is not recording statistics.</div>
 </td>
 </tr>
 </table>
@@ -351,9 +352,15 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>stats</h4>
-<pre><a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.128">stats</a>()</pre>
-<div class="block">Returns a current snapshot of this cache's cumulative statistics. All stats are initialized
- to zero, and are monotonically increasing over the lifetime of the cache.</div>
+<pre><a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.134">stats</a>()</pre>
+<div class="block">Returns a current snapshot of this cache's cumulative statistics, or a set of default values if
+ the cache is not recording statistics. All statistics begin at zero and never decrease over the
+ lifetime of the cache.
+
+ <p><b>Warning:</b> this cache may not be recording statistical data. For example, a cache
+ created using <a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache"><code>CacheBuilder</code></a> only does so if the <a href="../../../../com/google/common/cache/CacheBuilder.html#recordStats()"><code>CacheBuilder.recordStats()</code></a> method
+ was called. If statistics are not being recorded, a <code>CacheStats</code> instance with zero for
+ all values is returned.</div>
 </li>
 </ul>
 <a name="asMap()">
@@ -362,7 +369,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>,<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.138">asMap</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>,<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.144">asMap</a>()</pre>
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
  the map directly affect the cache.
 
@@ -377,7 +384,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>cleanUp</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.144">cleanUp</a>()</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.150">cleanUp</a>()</pre>
 <div class="block">Performs any pending maintenance operations needed by the cache. Exactly which activities are
  performed -- if any -- is implementation-dependent.</div>
 </li>
