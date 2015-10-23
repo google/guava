@@ -164,7 +164,10 @@ public final class ByteStreams {
    * @throws IOException if an I/O error occurs
    */
   public static byte[] toByteArray(InputStream in) throws IOException {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    // Presize the ByteArrayOutputStream since we know how large it will need 
+    // to be, unless that value is less than the default ByteArrayOutputStream
+    // size (32).
+    ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(32, in.available()));
     copy(in, out);
     return out.toByteArray();
   }
