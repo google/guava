@@ -361,8 +361,13 @@ public final class Shorts {
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and
-   * shorts using {@link Short#decode} and {@link Short#toString()}.
+   * Returns a serializable converter object that converts between strings and shorts using {@link
+   * Short#decode} and {@link Short#toString()}. The returned converter throws {@link
+   * NumberFormatException} if the input string is invalid.
+   *
+   * <p><b>Warning:</b> please see {@link Short#decode} to understand exactly how strings are
+   * parsed. For example, the string {@code "0123"} is treated as <i>octal</i> and converted to the
+   * value {@code 83}.
    *
    * @since 16.0
    */
