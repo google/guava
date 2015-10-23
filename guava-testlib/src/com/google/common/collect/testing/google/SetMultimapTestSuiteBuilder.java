@@ -92,7 +92,7 @@ public class SetMultimapTestSuiteBuilder<K, V>
 
   @Override
   TestSuite computeEntriesTestSuite(
-      FeatureSpecificTestSuiteBuilder<?, ?  extends
+      FeatureSpecificTestSuiteBuilder<?, ? extends
           OneSizeTestContainerGenerator<SetMultimap<K, V>, Map.Entry<K, V>>> parentBuilder) {
     return SetTestSuiteBuilder.using(
         new EntriesGenerator<K, V>(parentBuilder.getSubjectGenerator()))

@@ -35,7 +35,7 @@ public class UnicodeEscaperTest extends TestCase {
 
   private static final String TEST_STRING =
       "\0abyz\u0080\u0100\u0800\u1000ABYZ\uffff" +
-      SMALLEST_SURROGATE + "0189" +  LARGEST_SURROGATE;
+      SMALLEST_SURROGATE + "0189" + LARGEST_SURROGATE;
 
   // Escapes nothing
   private static final UnicodeEscaper NOP_ESCAPER = new UnicodeEscaper() {

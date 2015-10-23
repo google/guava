@@ -166,7 +166,7 @@ public final class ClassPath {
       }
     }
 
-    ResourceInfo(String resourceName,  ClassLoader loader) {
+    ResourceInfo(String resourceName, ClassLoader loader) {
       this.resourceName = checkNotNull(resourceName);
       this.loader = checkNotNull(loader);
     }

@@ -119,7 +119,7 @@ public final class ForwardingWrapperTester {
   }
 
   private static <T> void testSuccessfulForwarding(
-      Class<T> interfaceType,  Method method, Function<? super T, ? extends T> wrapperFunction) {
+      Class<T> interfaceType, Method method, Function<? super T, ? extends T> wrapperFunction) {
     new InteractionTester<T>(interfaceType, method).testInteraction(wrapperFunction);
   }
 

@@ -93,7 +93,7 @@ public class FilteredCollectionsTest extends TestCase {
 
     public void testReadsThroughAdd() {
       for (List<Integer> contents : SAMPLE_INPUTS) {
-        C unfiltered  = createUnfiltered(contents);
+        C unfiltered = createUnfiltered(contents);
         C filterThenAdd = filter(unfiltered, EVEN);
         unfiltered.add(4);
 

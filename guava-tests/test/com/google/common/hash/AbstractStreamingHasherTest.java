@@ -82,7 +82,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     sink.putChar((char) 0x0201);
     sink.hash();
     sink.assertInvariants(2);
-    sink.assertBytes(new byte[] { 1, 2, 0, 0  }); // padded with zeros
+    sink.assertBytes(new byte[] { 1, 2, 0, 0 }); // padded with zeros
   }
 
   public void testString() {
