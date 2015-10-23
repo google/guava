@@ -92,7 +92,7 @@ public class ClassPathTest extends TestCase {
     URLClassLoader parent = new URLClassLoader(new URL[] {url1}, null);
     URLClassLoader child = new URLClassLoader(new URL[] {url2}, parent) {};
     ImmutableMap<File, ClassLoader> classPathEntries = ClassPath.Scanner.getClassPathEntries(child);
-    assertEquals(ImmutableMap.of(new File("/a"), parent, new File("/b"), child),  classPathEntries);
+    assertEquals(ImmutableMap.of(new File("/a"), parent, new File("/b"), child), classPathEntries);
     assertThat(classPathEntries.keySet()).containsExactly(new File("/a"), new File("/b")).inOrder();
   }
 

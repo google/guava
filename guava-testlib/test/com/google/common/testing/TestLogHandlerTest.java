@@ -91,7 +91,7 @@ public class TestLogHandlerTest extends TestCase {
         = Logger.getLogger(ExampleClassUnderTest.class.getName());
 
     static void foo() {
-      logger.log(Level.INFO,  "message", EXCEPTION);
+      logger.log(Level.INFO, "message", EXCEPTION);
     }
   }
 }

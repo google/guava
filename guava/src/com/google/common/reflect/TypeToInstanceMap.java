@@ -45,7 +45,7 @@ import javax.annotation.Nullable;
  * @since 13.0
  */
 @Beta
-public interface TypeToInstanceMap<B> extends Map<TypeToken<? extends B>, B>  {
+public interface TypeToInstanceMap<B> extends Map<TypeToken<? extends B>, B> {
 
   /**
    * Returns the value the specified class is mapped to, or {@code null} if no

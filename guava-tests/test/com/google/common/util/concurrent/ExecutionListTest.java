@@ -101,7 +101,7 @@ public class ExecutionListTest extends TestCase {
 
     // If it passed, then verify an Add will be executed without calling run
     CountDownLatch countDownLatch = new CountDownLatch(1);
-    list.add(new MockRunnable(countDownLatch),  Executors.newCachedThreadPool());
+    list.add(new MockRunnable(countDownLatch), Executors.newCachedThreadPool());
     assertTrue(countDownLatch.await(1L, TimeUnit.SECONDS));
   }
 

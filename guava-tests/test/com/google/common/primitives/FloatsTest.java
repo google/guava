@@ -53,7 +53,7 @@ public class FloatsTest extends TestCase {
 
   private static final float[] NUMBERS = new float[] {
       LEAST, -Float.MAX_VALUE, -1f, -0f, 0f, 1f, Float.MAX_VALUE, GREATEST,
-      Float.MIN_NORMAL, -Float.MIN_NORMAL,  Float.MIN_VALUE, -Float.MIN_VALUE,
+      Float.MIN_NORMAL, -Float.MIN_NORMAL, Float.MIN_VALUE, -Float.MIN_VALUE,
       Integer.MIN_VALUE, Integer.MAX_VALUE, Long.MIN_VALUE, Long.MAX_VALUE
   };
 

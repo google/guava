@@ -218,7 +218,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
 
     @Override public final boolean isOverridable() {
-      return  !(isFinal() || isPrivate() || isStatic()
+      return !(isFinal() || isPrivate() || isStatic()
           || Modifier.isFinal(getDeclaringClass().getModifiers()));
     }
 
