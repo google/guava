@@ -314,9 +314,9 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.158">propagate</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Propagates <code>throwable</code> as-is if it is an instance of <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang"><code>RuntimeException</code></a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?is-external=true" title="class or interface in java.lang"><code>Error</code></a>, or else as a last resort, wraps it in a <code>RuntimeException</code> and then propagates.
  <p>
- This method always throws an exception. The <code>RuntimeException</code> return type is only for
- client code to make Java type system happy in case a return value is required by the enclosing
- method. Example usage:
+ This method always throws an exception. The <code>RuntimeException</code> return type
+ allows client code to signal to the compiler that statements after the call are
+ unreachable. Example usage:
  <pre>
    T doSomething() {
      try {

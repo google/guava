@@ -144,9 +144,9 @@
 <span class="sourceLineNo">136</span>   * Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or {@link<a name="line.136"></a>
 <span class="sourceLineNo">137</span>   * Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then propagates.<a name="line.137"></a>
 <span class="sourceLineNo">138</span>   * &lt;p&gt;<a name="line.138"></a>
-<span class="sourceLineNo">139</span>   * This method always throws an exception. The {@code RuntimeException} return type is only for<a name="line.139"></a>
-<span class="sourceLineNo">140</span>   * client code to make Java type system happy in case a return value is required by the enclosing<a name="line.140"></a>
-<span class="sourceLineNo">141</span>   * method. Example usage:<a name="line.141"></a>
+<span class="sourceLineNo">139</span>   * This method always throws an exception. The {@code RuntimeException} return type<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * allows client code to signal to the compiler that statements after the call are<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * unreachable. Example usage:<a name="line.141"></a>
 <span class="sourceLineNo">142</span>   * &lt;pre&gt;<a name="line.142"></a>
 <span class="sourceLineNo">143</span>   *   T doSomething() {<a name="line.143"></a>
 <span class="sourceLineNo">144</span>   *     try {<a name="line.144"></a>
