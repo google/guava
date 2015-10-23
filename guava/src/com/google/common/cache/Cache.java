@@ -121,8 +121,14 @@ public interface Cache<K, V> {
   long size();
 
   /**
-   * Returns a current snapshot of this cache's cumulative statistics. All stats are initialized
-   * to zero, and are monotonically increasing over the lifetime of the cache.
+   * Returns a current snapshot of this cache's cumulative statistics, or a set of default values if
+   * the cache is not recording statistics. All statistics begin at zero and never decrease over the
+   * lifetime of the cache.
+   *
+   * <p><b>Warning:</b> this cache may not be recording statistical data. For example, a cache
+   * created using {@link CacheBuilder} only does so if the {@link CacheBuilder#recordStats} method
+   * was called. If statistics are not being recorded, a {@code CacheStats} instance with zero for
+   * all values is returned.
    *
    */
   CacheStats stats();
