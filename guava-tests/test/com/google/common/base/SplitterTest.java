@@ -366,7 +366,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
-  @SuppressUnderAndroid // TODO(cpovirk): File Android bug.
+  @AndroidIncompatible // TODO(cpovirk): File Android bug.
   public void testPatternSplitLookBehind() {
     String toSplit = ":foo::barbaz:";
     String regexPattern = "(?<=:)";
@@ -376,7 +376,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
-  @SuppressUnderAndroid // TODO(cpovirk): File Android bug.
+  @AndroidIncompatible // TODO(cpovirk): File Android bug.
   public void testPatternSplitWordBoundary() {
     String string = "foo<bar>bletch";
     Iterable<String> words = Splitter.on(Pattern.compile("\\b")).split(string);
@@ -490,7 +490,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
-  @SuppressUnderAndroid // TODO(cpovirk): File Android bug (different from the two above).
+  @AndroidIncompatible // TODO(cpovirk): File Android bug (different from the two above).
   public void testSplitterIterableIsLazy_pattern() {
     assertSplitterIterableIsLazy(Splitter.onPattern(","));
   }

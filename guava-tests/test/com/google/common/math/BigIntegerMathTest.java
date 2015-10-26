@@ -367,7 +367,7 @@ public class BigIntegerMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
-  @SuppressUnderAndroid // TODO(cpovirk): Problem with BigIntegerMath.divide on Android?
+  @AndroidIncompatible // TODO(cpovirk): Problem with BigIntegerMath.divide on Android?
   public void testDivNonZeroExact() {
     for (BigInteger p : NONZERO_BIGINTEGER_CANDIDATES) {
       for (BigInteger q : NONZERO_BIGINTEGER_CANDIDATES) {

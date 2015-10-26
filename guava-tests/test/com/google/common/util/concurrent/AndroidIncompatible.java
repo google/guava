@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.common.math;
+package com.google.common.util.concurrent;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -33,10 +33,10 @@ import java.lang.annotation.Target;
  * Google-internal Android suite generators. Note that those generators also suppress any test
  * annotated with MediumTest or LargeTest.
  *
- * <p>For more discussion, see {@linkplain com.google.common.base.SuppressUnderAndroid the
+ * <p>For more discussion, see {@linkplain com.google.common.base.AndroidIncompatible the
  * documentation on another copy of this annotation}.
  */
 @Retention(CLASS)
 @Target({ANNOTATION_TYPE, CONSTRUCTOR, FIELD, METHOD, TYPE})
 @GwtCompatible
-@interface SuppressUnderAndroid {}
+@interface AndroidIncompatible {}

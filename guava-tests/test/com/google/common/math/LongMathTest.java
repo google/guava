@@ -323,7 +323,7 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
-  @SuppressUnderAndroid // TODO(cpovirk): File BigDecimal.divide() rounding bug.
+  @AndroidIncompatible // TODO(cpovirk): File BigDecimal.divide() rounding bug.
   public void testDivNonZero() {
     for (long p : NONZERO_LONG_CANDIDATES) {
       for (long q : NONZERO_LONG_CANDIDATES) {
@@ -340,7 +340,7 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
-  @SuppressUnderAndroid // TODO(cpovirk): Problem with LongMath.divide on Android?
+  @AndroidIncompatible // TODO(cpovirk): Problem with LongMath.divide on Android?
   public void testDivNonZeroExact() {
     for (long p : NONZERO_LONG_CANDIDATES) {
       for (long q : NONZERO_LONG_CANDIDATES) {
@@ -523,7 +523,7 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
-  @SuppressUnderAndroid // TODO(cpovirk): Problem with LongMath.checkedMultiply on Android?
+  @AndroidIncompatible // TODO(cpovirk): Problem with LongMath.checkedMultiply on Android?
   public void testCheckedMultiply() {
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {

@@ -46,11 +46,9 @@ import java.lang.annotation.Target;
  * <li>We need to be careful about how we suppress {@code suite()} methods in {@code common.io}. The
  * generated suite for {@code FooTest} ends up containing {@code FooTest} itself plus some other
  * tests. We want to exclude the other tests (which Android can't handle) while continuing to run
- * {@code FooTest} itself. This is exactly what happens with {@code SuppressUnderAndroid}. (But:
- * TODO(cpovirk): Consider renaming this to "AndroidIncompatible," which would make this clearer by
- * following the precedent of {@code GwtIncompatible}.) But I'm not sure what would happen if we
- * annotated the {@code suite()} method with {@code Suppress}. Would {@code FooTest} itself be
- * suppressed, too?
+ * {@code FooTest} itself. This is exactly what happens with {@code AndroidIncompatible}. But I'm
+ * not sure what would happen if we annotated the {@code suite()} method with {@code Suppress}.
+ * Would {@code FooTest} itself be suppressed, too?
  * <li>In at least one case, a use of {@code sun.misc.FpUtils}, the test will not even
  * <i>compile</i> against Android. Now, this might be an artifact of our build system, one that we
  * could probably work around. Or we could manually strip the test from open-source Guava while
@@ -69,4 +67,4 @@ import java.lang.annotation.Target;
 @Retention(CLASS)
 @Target({ANNOTATION_TYPE, CONSTRUCTOR, FIELD, METHOD, TYPE})
 @GwtCompatible
-@interface SuppressUnderAndroid {}
+@interface AndroidIncompatible {}

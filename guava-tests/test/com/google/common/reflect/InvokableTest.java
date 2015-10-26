@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
  *
  * @author Ben Yu
  */
-@SuppressUnderAndroid // lots of failures, possibly some related to bad equals() implementations?
+@AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 public class InvokableTest extends TestCase {
 
   public void testConstructor_returnType() throws Exception {

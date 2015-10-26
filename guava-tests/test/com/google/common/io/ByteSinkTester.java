@@ -38,7 +38,7 @@ import java.util.Map;
  *
  * @author Colin Decker
  */
-@SuppressUnderAndroid // Android doesn't understand tests that lack default constructors.
+@AndroidIncompatible // Android doesn't understand tests that lack default constructors.
 public class ByteSinkTester extends SourceSinkTester<ByteSink, byte[], ByteSinkFactory> {
 
   private static final ImmutableList<Method> testMethods

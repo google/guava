@@ -83,7 +83,7 @@ public class MacHashFunctionTest extends TestCase {
   }
 
   @SuppressWarnings("CheckReturnValue")
-  @SuppressUnderAndroid // sun.security
+  @AndroidIncompatible // sun.security
   public void testNoProviders() {
     ProviderList providers = Providers.getProviderList();
     Providers.setProviderList(ProviderList.newList());

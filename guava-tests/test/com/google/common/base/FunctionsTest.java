@@ -434,7 +434,7 @@ public class FunctionsTest extends TestCase {
   }
 
   @GwtIncompatible("reflection")
-  @SuppressUnderAndroid // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
+  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
   // (I suspect that this and the other similar failures happen with ArbitraryInstances proxies.)
   public void testEqualsAndSerializable() throws Exception {
     new ClassSanityTester().forAllPublicStaticMethods(Functions.class).testEqualsAndSerializable();

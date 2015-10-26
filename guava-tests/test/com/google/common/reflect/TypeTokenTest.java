@@ -49,7 +49,7 @@ import java.util.Map;
  * @author Sven Mawson
  * @author Ben Yu
  */
-@SuppressUnderAndroid // lots of failures, possibly some related to bad equals() implementations?
+@AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 public class TypeTokenTest extends TestCase {
 
   private abstract static class StringList implements List<String> {}

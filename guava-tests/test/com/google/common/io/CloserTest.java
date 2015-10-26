@@ -52,7 +52,7 @@ public class CloserTest extends TestCase {
     suppressor = new TestSuppressor();
   }
 
-  @SuppressUnderAndroid // TODO(cpovirk): Look up Build.VERSION.SDK_INT reflectively.
+  @AndroidIncompatible // TODO(cpovirk): Look up Build.VERSION.SDK_INT reflectively.
   public void testCreate() {
     Closer closer = Closer.create();
     String javaVersion = System.getProperty("java.version");

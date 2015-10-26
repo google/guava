@@ -385,7 +385,7 @@ public class ForwardingMultisetTest extends ForwardingTestCase {
     assertEquals("[setCount(Object,int,int)]", getCalls());
   }
 
-  @SuppressUnderAndroid // Proxy problem, perhaps around SortedMultisetBridge?
+  @AndroidIncompatible // Proxy problem, perhaps around SortedMultisetBridge?
   public void testElementSet() {
     forward().elementSet();
     assertEquals("[elementSet]", getCalls());

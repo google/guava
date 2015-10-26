@@ -376,7 +376,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(new byte[] {0, 97}, out.toByteArray());
   }
 
-  @SuppressUnderAndroid // TODO(cpovirk): Zero is found at beginning instead of end. Why?
+  @AndroidIncompatible // TODO(cpovirk): Zero is found at beginning instead of end. Why?
   public void testNewDataOutput_writeChars() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeChars("r\u00C9sum\u00C9");

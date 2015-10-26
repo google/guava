@@ -42,7 +42,7 @@ import java.util.Map.Entry;
  */
 public class ImmutableTypeToInstanceMapTest extends TestCase {
 
-  @SuppressUnderAndroid // problem with suite builders on Android
+  @AndroidIncompatible // problem with suite builders on Android
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableTypeToInstanceMapTest.class);
