@@ -100,7 +100,6 @@ final class FuturesGetChecked {
   }
 
   @J2ObjCIncompatible // ClassValue
-  @SuppressUnderAndroid // ClassValue
   @VisibleForTesting
   static GetCheckedTypeValidator classValueValidator() {
     return GetCheckedTypeValidatorHolder.ClassValueValidator.INSTANCE;
@@ -121,7 +120,6 @@ final class FuturesGetChecked {
 
     @IgnoreJRERequirement // getChecked falls back to another implementation if necessary
     @J2ObjCIncompatible // ClassValue
-    @SuppressUnderAndroid // ClassValue
     enum ClassValueValidator implements GetCheckedTypeValidator {
       INSTANCE;
 
