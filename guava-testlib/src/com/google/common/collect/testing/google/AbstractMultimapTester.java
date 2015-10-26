@@ -97,15 +97,15 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   protected void initMultimapWithNullKey() {
-    resetContainer(getSubjectGenerator().create(createArrayWithNullKey()));
+    resetContainer(getSubjectGenerator().create((Object[]) createArrayWithNullKey()));
   }
 
   protected void initMultimapWithNullValue() {
-    resetContainer(getSubjectGenerator().create(createArrayWithNullValue()));
+    resetContainer(getSubjectGenerator().create((Object[]) createArrayWithNullValue()));
   }
 
   protected void initMultimapWithNullKeyAndValue() {
-    resetContainer(getSubjectGenerator().create(createArrayWithNullKeyAndValue()));
+    resetContainer(getSubjectGenerator().create((Object[]) createArrayWithNullKeyAndValue()));
   }
 
   protected SampleElements<K> sampleKeys() {
@@ -131,7 +131,7 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   protected Multimap<K, V> resetContainer(Entry<K, V>... newContents) {
-    multimap = super.resetContainer(getSubjectGenerator().create(newContents));
+    multimap = super.resetContainer(getSubjectGenerator().create((Object[]) newContents));
     return multimap;
   }
 

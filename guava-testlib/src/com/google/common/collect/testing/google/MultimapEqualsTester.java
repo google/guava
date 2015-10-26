@@ -59,7 +59,8 @@ public class MultimapEqualsTester<K, V> extends AbstractMultimapTester<K, V, Mul
     Multimap<K, V> withNull = multimap();
     new EqualsTester()
         .addEqualityGroup(original)
-        .addEqualityGroup(withNull, getSubjectGenerator().create(createArrayWithNullKey()))
+        .addEqualityGroup(
+            withNull, getSubjectGenerator().create((Object[]) createArrayWithNullKey()))
         .testEquals();
   }
   
@@ -71,7 +72,8 @@ public class MultimapEqualsTester<K, V> extends AbstractMultimapTester<K, V, Mul
     Multimap<K, V> withNull = multimap();
     new EqualsTester()
         .addEqualityGroup(original)
-        .addEqualityGroup(withNull, getSubjectGenerator().create(createArrayWithNullValue()))
+        .addEqualityGroup(
+            withNull, getSubjectGenerator().create((Object[]) createArrayWithNullValue()))
         .testEquals();
   }
 
