@@ -354,6 +354,7 @@ public class BigIntegerMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
+  @AndroidIncompatible // slow
   public void testDivNonZero() {
     for (BigInteger p : NONZERO_BIGINTEGER_CANDIDATES) {
       for (BigInteger q : NONZERO_BIGINTEGER_CANDIDATES) {
