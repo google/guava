@@ -52,7 +52,17 @@ final class FuturesGetCheckedInputs {
       };
   static final TimeoutException TIMEOUT_EXCEPTION = new TimeoutException();
   static final Future<String> FAILED_FUTURE_TIMEOUT_EXCEPTION =
-          immediateFailedFuture(TIMEOUT_EXCEPTION);
+      new SimpleForwardingFuture<String>(FAILED_FUTURE_CHECKED_EXCEPTION) {
+        @Override
+        public String get() {
+          throw new IllegalStateException();
+        }
+
+        @Override
+        public String get(long timeout, TimeUnit unit) throws TimeoutException {
+          throw TIMEOUT_EXCEPTION;
+        }
+      };
 
   public static final class TwoArgConstructorException extends Exception {
     public TwoArgConstructorException(String message, Throwable cause) {
