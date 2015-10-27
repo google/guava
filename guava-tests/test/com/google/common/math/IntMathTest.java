@@ -400,6 +400,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testCheckedAdd() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
