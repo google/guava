@@ -103,17 +103,15 @@ public final class TypeResolver {
     if (from.equals(to)) {
       return;
     }
-    if (to instanceof WildcardType != from instanceof WildcardType) {
-      // When we are saying "assuming <?> is T, there really isn't any useful type mapping.
-      // Similarly, saying "assuming T is <?>" is meaningless. Of course it is.
-      return;
-    }
     new TypeVisitor() {
       @Override void visitTypeVariable(TypeVariable<?> typeVariable) {
         mappings.put(new TypeVariableKey(typeVariable), to);
       }
       @Override void visitWildcardType(WildcardType fromWildcardType) {
-        WildcardType toWildcardType = expectArgument(WildcardType.class, to);
+        if (!(to instanceof WildcardType)) {
+          return; // okay to say <?> is anything
+        }
+        WildcardType toWildcardType = (WildcardType) to;
         Type[] fromUpperBounds = fromWildcardType.getUpperBounds();
         Type[] toUpperBounds = toWildcardType.getUpperBounds();
         Type[] fromLowerBounds = fromWildcardType.getLowerBounds();
@@ -130,6 +128,9 @@ public final class TypeResolver {
         }
       }
       @Override void visitParameterizedType(ParameterizedType fromParameterizedType) {
+        if (to instanceof WildcardType) {
+          return;  // Okay to say Foo<A> is <?>
+        }
         ParameterizedType toParameterizedType = expectArgument(ParameterizedType.class, to);
         checkArgument(fromParameterizedType.getRawType().equals(toParameterizedType.getRawType()),
             "Inconsistent raw type: %s vs. %s", fromParameterizedType, to);
@@ -142,12 +143,18 @@ public final class TypeResolver {
         }
       }
       @Override void visitGenericArrayType(GenericArrayType fromArrayType) {
+        if (to instanceof WildcardType) {
+          return;  // Okay to say A[] is <?>
+        }
         Type componentType = Types.getComponentType(to);
         checkArgument(componentType != null, "%s is not an array type.", to);
         populateTypeMappings(mappings, fromArrayType.getGenericComponentType(), componentType);
       }
       @Override void visitClass(Class<?> fromClass) {
-        // Can't map from a raw class to anything other than itself.
+        if (to instanceof WildcardType) {
+          return;  // Okay to say Foo is <?>
+        }
+        // Can't map from a raw class to anything other than itself or a wildcard.
         // You can't say "assuming String is Integer".
         // And we don't support "assuming String is T"; user has to say "assuming T is String". 
         throw new IllegalArgumentException("No type mapping from " + fromClass + " to " + to);

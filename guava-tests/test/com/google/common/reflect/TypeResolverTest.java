@@ -112,11 +112,11 @@ public class TypeResolverTest extends TestCase {
         .where(new TypeCapture<List<T>>() {}.capture(),
             new TypeCapture<List<String>>() {}.capture())
         .resolveType(t));
-    assertEquals(t, new TypeResolver()
+    assertEquals(Types.subtypeOf(String.class), new TypeResolver()
         .where(new TypeCapture<List<T>>() {}.capture(),
             new TypeCapture<List<? extends String>>() {}.capture())
         .resolveType(t));
-    assertEquals(t, new TypeResolver()
+    assertEquals(Types.supertypeOf(String.class), new TypeResolver()
         .where(new TypeCapture<List<T>>() {}.capture(),
             new TypeCapture<List<? super String>>() {}.capture())
         .resolveType(t));
