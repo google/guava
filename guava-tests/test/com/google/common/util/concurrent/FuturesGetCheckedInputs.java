@@ -20,6 +20,7 @@ import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Classes and futures used in {@link FuturesGetCheckedTest} and {@link FuturesGetUncheckedTest}.
@@ -49,6 +50,9 @@ final class FuturesGetCheckedInputs {
           throw RUNTIME_EXCEPTION;
         }
       };
+  static final TimeoutException TIMEOUT_EXCEPTION = new TimeoutException();
+  static final Future<String> FAILED_FUTURE_TIMEOUT_EXCEPTION =
+          immediateFailedFuture(TIMEOUT_EXCEPTION);
 
   public static final class TwoArgConstructorException extends Exception {
     public TwoArgConstructorException(String message, Throwable cause) {
