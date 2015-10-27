@@ -1452,6 +1452,53 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     }
   }
 
+  /**
+   * Returns the result of calling {@link Future#get(long, TimeUnit)} uninterruptibly on a task
+   * known not to throw a checked exception. This makes {@code Future} more suitable for lightweight,
+   * fast-running tasks that, barring bugs in the code, will not fail. This gives it exception-handling
+   * behavior similar to that of {@code ForkJoinTask.join}.
+   *
+   * <p>Exceptions from {@code Future.get} are treated as follows:
+   * <ul>
+   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an {@link
+   *     UncheckedExecutionException} (if the cause is an {@code Exception}) or {@link
+   *     ExecutionError} (if the cause is an {@code Error}).
+   * <li>Any {@link InterruptedException} causes a retry of the {@code get} call. The interrupt is
+   *     restored before {@code getUnchecked} returns.
+   * <li>Any {@link CancellationException} is propagated untouched. So is any other {@link
+   *     RuntimeException} ({@code get} implementations are discouraged from throwing such
+   *     exceptions).
+   * <li>Any {@link TimeoutException} has itself wrapped in an {@link UncheckedExecutionException}.
+   * </ul>
+   *
+   * <p>The overall principle is to eliminate all checked exceptions: to loop to avoid {@code
+   * InterruptedException} and {@link TimeoutException}, to pass through {@code CancellationException},
+   * and to wrap any exception from the underlying computation in an {@code UncheckedExecutionException}
+   * or {@code ExecutionError}.
+   *
+   * <p>For an uninterruptible {@code get} that preserves other exceptions, see {@link
+   * Uninterruptibles#getUninterruptibly(Future, long, TimeUnit)}.
+   *
+   * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with an
+   *     {@code Exception} as its cause or if {@code get} throws a {@code TimeoutException}.
+   * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code
+   *     Error} as its cause
+   * @throws CancellationException if {@code get} throws a {@code CancellationException}
+   * @since 19.0
+   */
+  @GwtIncompatible("TODO")
+  public static <V> V getUnchecked(Future<V> future, long timeout, TimeUnit unit) {
+    try {
+      return getUninterruptibly(future, timeout, unit);
+    } catch (ExecutionException e) {
+      wrapAndThrowUnchecked(e.getCause());
+      throw new AssertionError();
+    } catch (TimeoutException e) {
+      wrapAndThrowUnchecked(e);
+      throw new AssertionError();
+    }
+  }
+
   @GwtIncompatible("TODO")
   private static void wrapAndThrowUnchecked(Throwable cause) {
     if (cause instanceof Error) {
