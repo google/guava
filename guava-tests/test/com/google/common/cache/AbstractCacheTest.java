@@ -17,7 +17,6 @@
 package com.google.common.cache;
 
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
-import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;

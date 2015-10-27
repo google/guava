@@ -25,6 +25,11 @@ import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.doThrow;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -35,17 +40,16 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
 
+import com.google.common.testing.TestLogHandler;
 import junit.framework.TestCase;
 
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 /**
  * Unit tests for CacheBuilder.
@@ -597,6 +601,72 @@ public class CacheBuilderTest extends TestCase {
     assertEquals(computeCount.get(), cache.size() + removalListener.size());
   }
 
+  @GwtIncompatible("CacheTesting")
+  public void testCustomStatsRecorder() throws ExecutionException {
+    final StatsCounter customStatsCounter = mock(StatsCounter.class);
+
+
+    final LoadingCache<String, String> cache = CacheBuilder.newBuilder()
+            .maximumSize(10)
+            .recordStats(customStatsCounter)
+            .build(new CacheLoader<String, String>() {
+              @Override
+              public String load(final String key) throws Exception {
+                return "value_" + key;
+              }
+            });
+
+    for(int i = 0; i < 11; i++) {
+      cache.get("key" + i);
+      cache.get("key" + i);
+      cache.refresh("key" + i);
+    }
+
+    verify(customStatsCounter, times(11)).recordMisses(anyInt());
+    verify(customStatsCounter, times(22)).recordLoadSuccess(anyInt());
+    verify(customStatsCounter, times(11)).recordHits(anyInt());
+    verify(customStatsCounter, times(1)).recordEviction();
+  }
+
+  @GwtIncompatible("CacheTesting")
+  public void testThatThrownExceptionsFromACustomStatsRecorderIsSwallowedAndLogged() throws ExecutionException {
+    final StatsCounter customStatsCounter = mock(StatsCounter.class);
+
+    doThrow(new RuntimeException()).when(customStatsCounter).recordMisses(anyInt());
+    doThrow(new RuntimeException()).when(customStatsCounter).recordLoadSuccess(anyInt());
+    doThrow(new RuntimeException()).when(customStatsCounter).recordHits(anyInt());
+    doThrow(new RuntimeException()).when(customStatsCounter).recordEviction();
+
+    final Logger logger = Logger.getLogger(CacheBuilder.GuardedStatsCounter.class.getName());
+    final TestLogHandler recordingHandler = new TestLogHandler();
+    logger.setUseParentHandlers(false);
+    logger.addHandler(recordingHandler);
+
+
+    final LoadingCache<String, String> cache = CacheBuilder.newBuilder()
+        .maximumSize(10)
+        .recordStats(customStatsCounter)
+        .build(new CacheLoader<String, String>() {
+          @Override
+          public String load(final String key) throws Exception {
+            return "value_" + key;
+          }
+        });
+
+    for(int i = 0; i < 11; i++) {
+      cache.get("key" + i);
+      cache.get("key" + i);
+      cache.refresh("key" + i);
+    }
+
+    verify(customStatsCounter, times(11)).recordMisses(anyInt());
+    verify(customStatsCounter, times(22)).recordLoadSuccess(anyInt());
+    verify(customStatsCounter, times(11)).recordHits(anyInt());
+    verify(customStatsCounter, times(1)).recordEviction();
+
+    assertEquals(45, recordingHandler.getStoredLogRecords().size());
+  }
+
   @GwtIncompatible("NullPointerTester")
   public void testNullParameters() throws Exception {
     NullPointerTester tester = new NullPointerTester();
@@ -628,5 +698,6 @@ public class CacheBuilderTest extends TestCase {
       }
       return key;
     }
+
   }
 }

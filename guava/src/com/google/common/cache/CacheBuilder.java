@@ -29,7 +29,6 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
-import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.LocalCache.Strength;
 
 import java.lang.ref.SoftReference;
@@ -760,8 +759,28 @@ public final class CacheBuilder<K, V> {
     return this;
   }
 
+  /**
+   * Enable the accumulation of {@link CacheStats} during the operation of the cache. Without this
+   * {@link Cache#stats} will return zero for all statistics. Note that recording stats requires
+   * bookkeeping to be performed with each operation, and thus imposes a performance penalty on
+   * cache operation.
+   *
+   * @param statsCounter a custom stats counter.
+   */
+  public CacheBuilder<K, V> recordStats(final StatsCounter statsCounter) {
+    checkNotNull(statsCounter);
+
+    this.statsCounterSupplier = new Supplier<StatsCounter>(){
+      @Override
+      public StatsCounter get() {
+        return new GuardedStatsCounter(statsCounter);
+      }
+    };
+    return this;
+  }
+
   boolean isRecordingStats() {
-    return statsCounterSupplier == CACHE_STATS_COUNTER;
+    return statsCounterSupplier != NULL_STATS_COUNTER;
   }
 
   Supplier<? extends StatsCounter> getStatsCounterSupplier() {
@@ -863,5 +882,69 @@ public final class CacheBuilder<K, V> {
       s.addValue("removalListener");
     }
     return s.toString();
+  }
+
+  final static class GuardedStatsCounter implements StatsCounter {
+    private static final Logger logger = Logger.getLogger(GuardedStatsCounter.class.getName());
+    private final StatsCounter statsCounter;
+
+    GuardedStatsCounter(StatsCounter statsCounter) {
+      this.statsCounter = statsCounter;
+    }
+
+    @Override
+    public void recordHits(final int count) {
+      try {
+        statsCounter.recordHits(count);
+      } catch (Throwable e) {
+        logger.log(Level.WARNING, "Exception thrown by stats counter", e);
+      }
+    }
+
+    @Override
+    public void recordMisses(final int count) {
+      try {
+        statsCounter.recordMisses(count);
+      } catch (Throwable e) {
+        logger.log(Level.WARNING, "Exception thrown by stats counter", e);
+      }
+    }
+
+    @Override
+    public void recordLoadSuccess(final long loadTime) {
+      try {
+        statsCounter.recordLoadSuccess(loadTime);
+      } catch (Throwable e) {
+        logger.log(Level.WARNING, "Exception thrown by stats counter", e);
+      }
+    }
+
+    @Override
+    public void recordLoadException(final long loadTime) {
+      try {
+        statsCounter.recordLoadException(loadTime);
+      } catch (Throwable e) {
+        logger.log(Level.WARNING, "Exception thrown by stats counter", e);
+      }
+    }
+
+    @Override
+    public void recordEviction() {
+      try {
+        statsCounter.recordEviction();
+      } catch (Throwable e) {
+        logger.log(Level.WARNING, "Exception thrown by stats counter", e);
+      }
+    }
+
+    @Override
+    public CacheStats snapshot() {
+      try {
+        return statsCounter.snapshot();
+      } catch (Throwable e) {
+        logger.log(Level.WARNING, "Exception thrown by stats counter", e);
+      }
+      return CacheBuilder.EMPTY_STATS;
+    }
   }
 }
