@@ -183,7 +183,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     try {
       getUnchecked(FAILED_FUTURE_TIMEOUT_EXCEPTION, 0, SECONDS);
       fail();
-    } catch (UncheckedExecutionException expected) {
+    } catch (UncheckedTimeoutException expected) {
       assertEquals(TIMEOUT_EXCEPTION, expected.getCause());
     }
   }

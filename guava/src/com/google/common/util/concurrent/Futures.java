@@ -1468,19 +1468,20 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * <li>Any {@link CancellationException} is propagated untouched. So is any other {@link
    *     RuntimeException} ({@code get} implementations are discouraged from throwing such
    *     exceptions).
-   * <li>Any {@link TimeoutException} has itself wrapped in an {@link UncheckedExecutionException}.
+   * <li>Any {@link TimeoutException} is wrapped in an {@link UncheckedTimeoutException}.
    * </ul>
    *
    * <p>The overall principle is to eliminate all checked exceptions: to loop to avoid {@code
-   * InterruptedException} and {@link TimeoutException}, to pass through {@code CancellationException},
-   * and to wrap any exception from the underlying computation in an {@code UncheckedExecutionException}
-   * or {@code ExecutionError}.
+   * InterruptedException}, to pass through {@code CancellationException}, to wrap {@link
+   * TimeoutException} in an {@code UncheckedTimeoutException} and to wrap any exception from
+   * the underlying computation in an {@code UncheckedExecutionException} or {@code ExecutionError}.
    *
    * <p>For an uninterruptible {@code get} that preserves other exceptions, see {@link
    * Uninterruptibles#getUninterruptibly(Future, long, TimeUnit)}.
    *
    * @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with an
-   *     {@code Exception} as its cause or if {@code get} throws a {@code TimeoutException}.
+   *     {@code Exception} as its cause.
+   * @throws UncheckedTimeoutException if {@code get} throws a {@code TimeoutException}.
    * @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code
    *     Error} as its cause
    * @throws CancellationException if {@code get} throws a {@code CancellationException}
@@ -1490,11 +1491,10 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   public static <V> V getUnchecked(Future<V> future, long timeout, TimeUnit unit) {
     try {
       return getUninterruptibly(future, timeout, unit);
+    } catch (TimeoutException e) {
+      throw new UncheckedTimeoutException(e);
     } catch (ExecutionException e) {
       wrapAndThrowUnchecked(e.getCause());
-      throw new AssertionError();
-    } catch (TimeoutException e) {
-      wrapAndThrowUnchecked(e);
       throw new AssertionError();
     }
   }
