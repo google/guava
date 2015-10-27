@@ -275,6 +275,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testDivNonZero() {
     for (int p : NONZERO_INTEGER_CANDIDATES) {
       for (int q : NONZERO_INTEGER_CANDIDATES) {
