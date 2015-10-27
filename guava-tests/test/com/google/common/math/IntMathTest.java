@@ -515,6 +515,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("java.math.BigInteger")
   public void testMean() {
     // Odd-sized ranges have an obvious mean
