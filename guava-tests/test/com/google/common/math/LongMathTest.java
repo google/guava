@@ -414,6 +414,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("TODO")
   public void testMod() {
     for (long x : ALL_LONG_CANDIDATES) {
