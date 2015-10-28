@@ -310,6 +310,7 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testBitSize() {
     double fpp = 0.03;
     for (int i = 1; i < 10000; i++) {
