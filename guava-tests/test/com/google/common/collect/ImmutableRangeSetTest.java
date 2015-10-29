@@ -38,19 +38,6 @@ import java.util.Set;
  */
 @GwtIncompatible("ImmutableRangeSet")
 public class ImmutableRangeSetTest extends AbstractRangeSetTest {
-  @SuppressWarnings("unchecked") // varargs
-  private static final ImmutableSet<Range<Integer>> RANGES = ImmutableSet.of(
-      Range.<Integer>all(),
-      Range.closedOpen(3, 5),
-      Range.singleton(1),
-      Range.lessThan(2),
-      Range.greaterThan(10),
-      Range.atMost(4),
-      Range.atLeast(3),
-      Range.closed(4, 6),
-      Range.closedOpen(1, 3),
-      Range.openClosed(5, 7),
-      Range.open(3, 4));
   
   static final class ImmutableRangeSetIntegerAsSetGenerator implements TestSetGenerator<Integer> {
     @Override
@@ -332,6 +319,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testExhaustive() {
     @SuppressWarnings("unchecked")
     ImmutableSet<Range<Integer>> ranges = ImmutableSet.of(
@@ -350,7 +338,6 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       RangeSet<Integer> mutable = TreeRangeSet.create();
       ImmutableRangeSet.Builder<Integer> builder = ImmutableRangeSet.builder();
 
-      int expectedRanges = 0;
       for (Range<Integer> range : subset) {
         boolean overlaps = false;
         for (Range<Integer> other : mutable.asRanges()) {
