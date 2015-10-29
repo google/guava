@@ -161,11 +161,11 @@ public class MutableTypeToInstanceMapTest extends TestCase {
     } catch (NullPointerException expected) {
     }
     map.putInstance(Integer.class, null);
-    assertNull(map.get(Integer.class));
+    assertNull(map.get((Object) Integer.class));
     assertNull(map.getInstance(Integer.class));
 
     map.putInstance(Long.class, null);
-    assertNull(map.get(Long.class));
+    assertNull(map.get((Object) Long.class));
     assertNull(map.getInstance(Long.class));
   }
 
