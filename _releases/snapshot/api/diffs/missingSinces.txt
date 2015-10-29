@@ -95,3 +95,4 @@ OK: com.google.common.net.MediaType Field DART_UTF_8
 OK: com.google.common.net.MediaType Field MANIFEST_JSON_UTF_8
 OK: com.google.common.net.HttpHeaders Field PING_FROM
 OK: com.google.common.net.HttpHeaders Field PING_TO
+OK: com.google.common.net.MediaType Field SOAP_XML_UTF_8
