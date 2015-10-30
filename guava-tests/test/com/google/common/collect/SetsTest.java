@@ -803,7 +803,7 @@ public class SetsTest extends TestCase {
     assertFalse(powerSet.contains(ImmutableSet.of(1, 2, 4)));
     assertFalse(powerSet.contains(singleton(null)));
     assertFalse(powerSet.contains(null));
-    assertFalse(powerSet.contains("notASet"));
+    assertFalse(powerSet.contains((Object) "notASet"));
   }
 
   public void testPowerSetIteration_manual() {
