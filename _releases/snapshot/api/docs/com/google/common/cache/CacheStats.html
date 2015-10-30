@@ -399,12 +399,15 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>loadSuccessCount</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.157">loadSuccessCount</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.160">loadSuccessCount</a>()</pre>
 <div class="block">Returns the number of times <a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> lookup methods have successfully loaded a new value.
- This is always incremented in conjunction with <a href="../../../../com/google/common/cache/CacheStats.html#missCount"><code>missCount</code></a>, though <code>missCount</code>
+ This is usually incremented in conjunction with <a href="../../../../com/google/common/cache/CacheStats.html#missCount"><code>missCount</code></a>, though <code>missCount</code>
  is also incremented when an exception is encountered during cache loading (see
  <a href="../../../../com/google/common/cache/CacheStats.html#loadExceptionCount"><code>loadExceptionCount</code></a>). Multiple concurrent misses for the same key will result in a
- single load operation.</div>
+ single load operation. This may be incremented not in conjunction with <code>missCount</code>
+ if the load occurs as a result of a refresh or if the cache loader returned more items
+ than was requested. <code>missCount</code> may also be incremented not in conjunction with
+ this (nor <a href="../../../../com/google/common/cache/CacheStats.html#loadExceptionCount"><code>loadExceptionCount</code></a>) on calls to <code>getIfPresent</code>.</div>
 </li>
 </ul>
 <a name="loadExceptionCount()">
@@ -413,12 +416,15 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>loadExceptionCount</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.168">loadExceptionCount</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.174">loadExceptionCount</a>()</pre>
 <div class="block">Returns the number of times <a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> lookup methods threw an exception while loading a
- new value. This is always incremented in conjunction with <code>missCount</code>, though
+ new value. This is usually incremented in conjunction with <code>missCount</code>, though
  <code>missCount</code> is also incremented when cache loading completes successfully (see
  <a href="../../../../com/google/common/cache/CacheStats.html#loadSuccessCount"><code>loadSuccessCount</code></a>). Multiple concurrent misses for the same key will result in a
- single load operation.</div>
+ single load operation. This may be incremented not in conjunction with <code>missCount</code>
+ if the load occurs as a result of a refresh or if the cache loader returned more items
+ than was requested. <code>missCount</code> may also be incremented not in conjunction with
+ this (nor <a href="../../../../com/google/common/cache/CacheStats.html#loadSuccessCount"><code>loadSuccessCount</code></a>) on calls to <code>getIfPresent</code>.</div>
 </li>
 </ul>
 <a name="loadExceptionRate()">
@@ -427,7 +433,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>loadExceptionRate</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.177">loadExceptionRate</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.183">loadExceptionRate</a>()</pre>
 <div class="block">Returns the ratio of cache loading attempts which threw exceptions. This is defined as
  <code>loadExceptionCount / (loadSuccessCount + loadExceptionCount)</code>, or
  <code>0.0</code> when <code>loadSuccessCount + loadExceptionCount == 0</code>.</div>
@@ -439,7 +445,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>totalLoadTime</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.189">totalLoadTime</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.195">totalLoadTime</a>()</pre>
 <div class="block">Returns the total number of nanoseconds the cache has spent loading new values. This can be
  used to calculate the miss penalty. This value is increased every time
  <code>loadSuccessCount</code> or <code>loadExceptionCount</code> is incremented.</div>
@@ -451,7 +457,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>averageLoadPenalty</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.197">averageLoadPenalty</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.203">averageLoadPenalty</a>()</pre>
 <div class="block">Returns the average time spent loading new values. This is defined as
  <code>totalLoadTime / (loadSuccessCount + loadExceptionCount)</code>.</div>
 </li>
@@ -462,7 +468,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>evictionCount</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.208">evictionCount</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.214">evictionCount</a>()</pre>
 <div class="block">Returns the number of times an entry has been evicted. This count does not include manual
  <a href="../../../../com/google/common/cache/Cache.html#invalidate(java.lang.Object)">invalidations</a>.</div>
 </li>
@@ -473,7 +479,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>minus</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.217">minus</a>(<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;other)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.223">minus</a>(<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;other)</pre>
 <div class="block">Returns a new <code>CacheStats</code> representing the difference between this <code>CacheStats</code>
  and <code>other</code>. Negative values, which aren't supported by <code>CacheStats</code> will be
  rounded up to zero.</div>
@@ -485,7 +491,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>plus</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.233">plus</a>(<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;other)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.239">plus</a>(<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;other)</pre>
 <div class="block">Returns a new <code>CacheStats</code> representing the sum of this <code>CacheStats</code>
  and <code>other</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -498,7 +504,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.244">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.250">hashCode</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -511,7 +517,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.250">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.256">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -525,7 +531,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.264">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheStats.html#line.270">toString</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
