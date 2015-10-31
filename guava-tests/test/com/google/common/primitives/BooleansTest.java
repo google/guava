@@ -225,7 +225,7 @@ public class BooleansTest extends TestCase {
   }
 
   public void testAsListIndexOf() {
-    assertEquals(-1, Booleans.asList(EMPTY).indexOf("wrong type"));
+    assertEquals(-1, Booleans.asList(EMPTY).indexOf((Object) "wrong type"));
     assertEquals(-1, Booleans.asList(EMPTY).indexOf(true));
     assertEquals(-1, Booleans.asList(ARRAY_FALSE).indexOf(true));
     assertEquals(0, Booleans.asList(ARRAY_FALSE).indexOf(false));
@@ -233,7 +233,7 @@ public class BooleansTest extends TestCase {
   }
 
   public void testAsListLastIndexOf() {
-    assertEquals(-1, Booleans.asList(EMPTY).indexOf("wrong type"));
+    assertEquals(-1, Booleans.asList(EMPTY).indexOf((Object) "wrong type"));
     assertEquals(-1, Booleans.asList(EMPTY).indexOf(true));
     assertEquals(-1, Booleans.asList(ARRAY_FALSE).lastIndexOf(true));
     assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).lastIndexOf(true));
@@ -241,7 +241,7 @@ public class BooleansTest extends TestCase {
   }
 
   public void testAsListContains() {
-    assertFalse(Booleans.asList(EMPTY).contains("wrong type"));
+    assertFalse(Booleans.asList(EMPTY).contains((Object) "wrong type"));
     assertFalse(Booleans.asList(EMPTY).contains(true));
     assertFalse(Booleans.asList(ARRAY_FALSE).contains(true));
     assertTrue(Booleans.asList(ARRAY_TRUE).contains(true));
