@@ -1969,7 +1969,7 @@ public class MapsTest extends TestCase {
     } catch (UnsupportedOperationException expected) {
     }
     try {
-      unmod.remove((Object) "four");
+      unmod.remove(4);
       fail("UnsupportedOperationException expected");
     } catch (UnsupportedOperationException expected) {
     }

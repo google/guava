@@ -179,17 +179,17 @@ public class ForwardingDequeTest extends ForwardingTestCase {
   }
 
   public void testRemove_Object() {
-    forward.remove((Object) Object.class);
+    forward.remove("asdf");
     assertEquals("[remove(Object)]", getCalls());
   }
 
   public void testRemoveFirstOccurrence_Object() {
-    forward.removeFirstOccurrence((Object) Object.class);
+    forward.removeFirstOccurrence("asdf");
     assertEquals("[removeFirstOccurrence(Object)]", getCalls());
   }
 
   public void testRemoveLastOccurrence_Object() {
-    forward.removeLastOccurrence((Object) Object.class);
+    forward.removeLastOccurrence("asdf");
     assertEquals("[removeLastOccurrence(Object)]", getCalls());
   }
 
