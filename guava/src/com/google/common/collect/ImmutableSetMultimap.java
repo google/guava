@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
@@ -48,6 +54,7 @@ import javax.annotation.Nullable;
  * @author Mike Ward
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     implements SetMultimap<K, V> {
@@ -357,7 +364,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * multimap.
    */
   @Override
-  public ImmutableSet<V> get(@Nullable K key) {
+  public ImmutableSet<V> get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable K key) {
     // This cast is safe as its type is known in constructor.
     ImmutableSet<V> set = (ImmutableSet<V>) map.get(key);
     return MoreObjects.firstNonNull(set, emptySet);
@@ -398,7 +405,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    */
   @Deprecated
   @Override
-  public ImmutableSet<V> removeAll(Object key) {
+  public ImmutableSet<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
     throw new UnsupportedOperationException();
   }
 
@@ -421,6 +428,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * Its iterator traverses the values for the first key, the values for the
    * second key, and so on.
    */
+  @SideEffectFree
   @Override
   public ImmutableSet<Entry<K, V>> entries() {
     ImmutableSet<Entry<K, V>> result = entries;

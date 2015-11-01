@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
@@ -40,9 +46,10 @@ import java.util.LinkedHashMap;
  * @author Jared Levy
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
+public final class LinkedHashMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMapBasedMultiset<E> {
 
   /**
    * Creates a new, empty {@code LinkedHashMultiset} using the default initial

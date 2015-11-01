@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
@@ -32,6 +38,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Gregory Kick
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
@@ -107,7 +114,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private static final double MAX_LOAD_FACTOR = 1.2;
 
   @Override
-  public V get(@Nullable Object key) {
+  public @org.checkerframework.checker.nullness.qual.Nullable V get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
     return get(key, table, mask);
   }
 
@@ -135,6 +142,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     return null;
   }
 
+  @Pure
   @Override
   public int size() {
     return entries.length;

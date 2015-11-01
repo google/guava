@@ -72,6 +72,21 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <fork>true</fork>
+          <executable>${env.CHECKERFRAMEWORK}/checker/bin/javac_maven</executable>
+<!--
+          <compilerArgs>
+            <arg>-processorpath ${env.CHECKERFRAMEWORK}/checker/dist/checker.jar</arg>
+            <arg>-processor org.checkerframework.checker.nullness.NullnessChecker</arg>
+            <arg>-AuseSafeDefaultsForUnannotatedSourceCode</arg>
+            <arg>-AprintErrorStack</arg>
+          </compilerArgs>
+-->
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
@@ -143,6 +158,11 @@
           <scope>system</scope>
           <systemPath>${java.home}/../src.zip</systemPath>
           <optional>true</optional>
+        </dependency>
+        <dependency>
+          <groupId>org.checkerframework</groupId>
+          <artifactId>checker-qual</artifactId>
+          <version>1.9.5</version>
         </dependency>
       </dependencies>
     </profile>

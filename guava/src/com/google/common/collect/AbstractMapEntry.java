@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 
@@ -29,12 +35,15 @@ import javax.annotation.Nullable;
  *
  * @author Jared Levy
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-abstract class AbstractMapEntry<K, V> implements Entry<K, V> {
+abstract class AbstractMapEntry<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Entry<K, V> {
 
+  @Pure
   @Override
   public abstract K getKey();
 
+  @Pure
   @Override
   public abstract V getValue();
 
@@ -43,8 +52,9 @@ abstract class AbstractMapEntry<K, V> implements Entry<K, V> {
     throw new UnsupportedOperationException();
   }
 
+  @Pure
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> that = (Entry<?, ?>) object;
       return Objects.equal(this.getKey(), that.getKey())
@@ -53,6 +63,7 @@ abstract class AbstractMapEntry<K, V> implements Entry<K, V> {
     return false;
   }
 
+  @Pure
   @Override
   public int hashCode() {
     K k = getKey();
@@ -63,6 +74,7 @@ abstract class AbstractMapEntry<K, V> implements Entry<K, V> {
   /**
    * Returns a string representation of the form {@code {key}={value}}.
    */
+  @Pure
   @Override
   public String toString() {
     return getKey() + "=" + getValue();

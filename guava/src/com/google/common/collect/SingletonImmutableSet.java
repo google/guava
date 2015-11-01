@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 
@@ -25,6 +30,7 @@ import com.google.common.base.Preconditions;
  * @author Kevin Bourrillion
  * @author Nick Kralevich
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class SingletonImmutableSet<E> extends ImmutableSet<E> {
@@ -43,19 +49,22 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
     this.element = Preconditions.checkNotNull(element);
   }
 
+  @Pure
   SingletonImmutableSet(E element, int hashCode) {
     // Guaranteed to be non-null by the presence of the pre-computed hash code.
     this.element = element;
     cachedHashCode = hashCode;
   }
 
+  @Pure
   @Override
   public int size() {
     return 1;
   }
 
+  @Pure
   @Override
-  public boolean contains(Object target) {
+  public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object target) {
     return element.equals(target);
   }
 
@@ -75,6 +84,7 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
     return offset + 1;
   }
 
+  @Pure
   @Override
   public final int hashCode() {
     // Racy single-check.
@@ -85,11 +95,13 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
     return code;
   }
 
+  @Pure
   @Override
   boolean isHashCodeFast() {
     return cachedHashCode != 0;
   }
 
+  @Pure
   @Override
   public String toString() {
     String elementToString = element.toString();

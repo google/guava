@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
@@ -51,9 +57,10 @@ import javax.annotation.Nullable;
  *     This class is scheduled for removal in Guava 20.0.
  */
 @GwtCompatible
+@AnnotatedFor({"nullness"})
 @Beta
 @Deprecated
-public interface MapConstraint<K, V> {
+public interface MapConstraint<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
   /**
    * Throws a suitable {@code RuntimeException} if the specified key or value is
    * illegal. Typically this is either a {@link NullPointerException}, an
@@ -66,6 +73,7 @@ public interface MapConstraint<K, V> {
    * Returns a brief human readable description of this constraint, such as
    * "Not null".
    */
+  @SideEffectFree
   @Override
   String toString();
 }

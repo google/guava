@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.INVERTED_INSERTION_INDEX;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_HIGHER;
@@ -42,6 +47,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @author Louis Wasserman
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial")
 final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
@@ -64,11 +70,13 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return elements.reverse().iterator();
   }
 
+  @Pure
   @Override
   public int size() {
     return elements.size();
   }
 
+  @Pure
   @Override
   public boolean contains(@Nullable Object o) {
     try {
@@ -78,6 +86,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     }
   }
 
+  @Pure
   @Override
   public boolean containsAll(Collection<?> targets) {
     // TODO(jlevy): For optimal performance, use a binary search when
@@ -143,6 +152,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return elements.copyIntoArray(dst, offset);
   }
 
+  @Pure
   @Override
   public boolean equals(@Nullable Object object) {
     if (object == this) {
@@ -180,6 +190,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return this.containsAll(that);
   }
 
+  @SideEffectFree
   @Override
   public E first() {
     if (isEmpty()) {
@@ -188,6 +199,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return elements.get(0);
   }
 
+  @SideEffectFree
   @Override
   public E last() {
     if (isEmpty()) {

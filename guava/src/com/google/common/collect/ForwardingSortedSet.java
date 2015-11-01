@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
@@ -53,8 +59,9 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements SortedSet<E> {
+public abstract class ForwardingSortedSet<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingSet<E> implements SortedSet<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingSortedSet() {}
@@ -62,31 +69,37 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
   @Override
   protected abstract SortedSet<E> delegate();
 
+  @SideEffectFree
   @Override
   public Comparator<? super E> comparator() {
     return delegate().comparator();
   }
 
+  @SideEffectFree
   @Override
   public E first() {
     return delegate().first();
   }
 
+  @SideEffectFree
   @Override
   public SortedSet<E> headSet(E toElement) {
     return delegate().headSet(toElement);
   }
 
+  @SideEffectFree
   @Override
   public E last() {
     return delegate().last();
   }
 
+  @SideEffectFree
   @Override
   public SortedSet<E> subSet(E fromElement, E toElement) {
     return delegate().subSet(fromElement, toElement);
   }
 
+  @SideEffectFree
   @Override
   public SortedSet<E> tailSet(E fromElement) {
     return delegate().tailSet(fromElement);

@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Ints;
 
@@ -28,6 +34,7 @@ import javax.annotation.Nullable;
  * @author Jesse Wilson
  * @author Austin Appleby
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
 final class Hashing {
   private Hashing() {}
@@ -43,6 +50,7 @@ final class Hashing {
    * MurmurHash3 was written by Austin Appleby, and is placed in the public domain. The author
    * hereby disclaims copyright to this source code.
    */
+  @Pure
   static int smear(int hashCode) {
     return C2 * Integer.rotateLeft(hashCode * C1, 15);
   }

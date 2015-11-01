@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Iterator;
@@ -32,7 +38,8 @@ import java.util.NoSuchElementException;
  * @since 2.0
  */
 @GwtCompatible
-public interface PeekingIterator<E> extends Iterator<E> {
+@AnnotatedFor({"nullness"})
+public interface PeekingIterator<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Iterator<E> {
   /**
    * Returns the next element in the iteration, without advancing the iteration.
    *

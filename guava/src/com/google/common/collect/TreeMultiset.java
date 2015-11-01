@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
@@ -55,8 +60,9 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements Serializable {
+public final class TreeMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractSortedMultiset<E> implements Serializable {
 
   /**
    * Creates a new, empty multiset, sorted according to the elements' natural order. All elements
@@ -217,6 +223,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     }
   }
 
+  @Pure
   @Override
   public int size() {
     return Ints.saturatedCast(aggregateForEntries(Aggregate.SIZE));
@@ -228,7 +235,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
     try {
       @SuppressWarnings("unchecked")
       E e = (E) element;
@@ -266,7 +273,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   @Override
-  public int remove(@Nullable Object element, int occurrences) {
+  public int remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
     checkNonnegative(occurrences, "occurrences");
     if (occurrences == 0) {
       return count(element);

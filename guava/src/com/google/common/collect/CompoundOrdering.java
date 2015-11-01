@@ -16,15 +16,22 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 import java.util.Comparator;
 
 /** An ordering that tries several comparators in order. */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true)
-final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
-  final ImmutableList<Comparator<? super T>> comparators;
+final class CompoundOrdering<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Ordering<T> implements Serializable {
+  final @org.checkerframework.checker.nullness.qual.Nullable ImmutableList<Comparator<? super T>> comparators;
 
   CompoundOrdering(Comparator<? super T> primary, Comparator<? super T> secondary) {
     this.comparators = ImmutableList.<Comparator<? super T>>of(primary, secondary);
@@ -34,6 +41,7 @@ final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
     this.comparators = ImmutableList.copyOf(comparators);
   }
 
+  @Pure
   @Override
   public int compare(T left, T right) {
     // Avoid using the Iterator to avoid generating garbage (issue 979).
@@ -47,8 +55,9 @@ final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
     return 0;
   }
 
+  @Pure
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
     if (object == this) {
       return true;
     }
@@ -59,11 +68,13 @@ final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
     return false;
   }
 
+  @Pure
   @Override
   public int hashCode() {
     return comparators.hashCode();
   }
 
+  @Pure
   @Override
   public String toString() {
     return "Ordering.compound(" + comparators + ")";

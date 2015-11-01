@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Map;
@@ -37,7 +42,8 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface BiMap<K, V> extends Map<K, V> {
+@AnnotatedFor({"nullness"})
+public interface BiMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Map<K, V> {
   // Modification Operations
 
   /**

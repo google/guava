@@ -15,6 +15,10 @@
  */
 
 package com.google.common.base;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Implemented by references that have code to run after garbage collection of their referents.
@@ -23,6 +27,7 @@ package com.google.common.base;
  * @author Bob Lee
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 public interface FinalizableReference {
   /**
    * Invoked on a background thread after the referent has been garbage collected unless security

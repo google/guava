@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
@@ -31,8 +37,9 @@ import javax.annotation.Nullable;
  *
  * @author Jared Levy
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
+abstract class AbstractSetMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMapBasedMultimap<K, V>
     implements SetMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
@@ -62,7 +69,7 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * in the {@link Multimap} interface.
    */
   @Override
-  public Set<V> get(@Nullable K key) {
+  public Set<V> get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable K key) {
     return (Set<V>) super.get(key);
   }
 
@@ -73,6 +80,7 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * method returns a {@link Set}, instead of the {@link Collection} specified
    * in the {@link Multimap} interface.
    */
+  @SideEffectFree
   @Override
   public Set<Map.Entry<K, V>> entries() {
     return (Set<Map.Entry<K, V>>) super.entries();
@@ -86,7 +94,7 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * in the {@link Multimap} interface.
    */
   @Override
-  public Set<V> removeAll(@Nullable Object key) {
+  public Set<V> removeAll(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
     return (Set<V>) super.removeAll(key);
   }
 
@@ -135,8 +143,9 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * contain the same values. Equality does not depend on the ordering of keys
    * or values.
    */
+  @Pure
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return super.equals(object);
   }
 

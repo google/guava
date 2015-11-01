@@ -14,6 +14,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
@@ -51,8 +56,9 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
+public final class HashBiMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends IteratorBasedAbstractMap<K, V>
     implements BiMap<K, V>, Serializable {
 
   /**
@@ -242,8 +248,9 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     return seekByKey(key, smearedHash(key)) != null;
   }
 
+  @Pure
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value) {
     return seekByValue(value, smearedHash(value)) != null;
   }
 
@@ -357,7 +364,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   @Override
-  public V remove(@Nullable Object key) {
+  public @org.checkerframework.checker.nullness.qual.Nullable V remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
     BiEntry<K, V> entry = seekByKey(key, smearedHash(key));
     if (entry == null) {
       return null;
@@ -423,6 +430,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     abstract T output(BiEntry<K, V> entry);
   }
 
+  @SideEffectFree
   @Override
   public Set<K> keySet() {
     return new KeySet();
@@ -458,6 +466,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     }
   }
 
+  @SideEffectFree
   @Override
   public Set<V> values() {
     return inverse().keySet();

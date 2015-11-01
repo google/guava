@@ -16,11 +16,13 @@
 
 package com.google.common.base;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -41,6 +43,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
 @CheckReturnValue
 public final class Functions {
@@ -68,6 +71,7 @@ public final class Functions {
       return o.toString();
     }
 
+    @Pure
     @Override
     public String toString() {
       return "Functions.toStringFunction()";
@@ -79,20 +83,21 @@ public final class Functions {
    */
   // implementation is "fully variant"; E has become a "pass-through" type
   @SuppressWarnings("unchecked")
-  public static <E> Function<E, E> identity() {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<E, E> identity() {
     return (Function<E, E>) IdentityFunction.INSTANCE;
   }
 
   // enum singleton pattern
-  private enum IdentityFunction implements Function<Object, Object> {
+  private enum IdentityFunction implements Function<@org.checkerframework.checker.nullness.qual.Nullable Object, @org.checkerframework.checker.nullness.qual.Nullable Object> {
     INSTANCE;
 
     @Override
     @Nullable
-    public Object apply(@Nullable Object o) {
+    public @org.checkerframework.checker.nullness.qual.Nullable Object apply(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object o) {
       return o;
     }
 
+    @Pure
     @Override
     public String toString() {
       return "Functions.identity()";
@@ -108,11 +113,11 @@ public final class Functions {
    * can use {@link com.google.common.collect.Maps#asConverter Maps.asConverter} instead to get a
    * function that also supports reverse conversion.
    */
-  public static <K, V> Function<K, V> forMap(Map<K, V> map) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<K, V> forMap(Map<K, V> map) {
     return new FunctionForMapNoDefault<K, V>(map);
   }
 
-  private static class FunctionForMapNoDefault<K, V> implements Function<K, V>, Serializable {
+  private static class FunctionForMapNoDefault<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Function<K, V>, Serializable {
     final Map<K, V> map;
 
     FunctionForMapNoDefault(Map<K, V> map) {
@@ -120,14 +125,16 @@ public final class Functions {
     }
 
     @Override
-    public V apply(@Nullable K key) {
+    public @org.checkerframework.checker.nullness.qual.Nullable V apply(@Nullable K key) {
+      @org.checkerframework.checker.nullness.qual.Nullable
       V result = map.get(key);
       checkArgument(result != null || map.containsKey(key), "Key '%s' not present in map", key);
       return result;
     }
 
+    @Pure
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object o) {
       if (o instanceof FunctionForMapNoDefault) {
         FunctionForMapNoDefault<?, ?> that = (FunctionForMapNoDefault<?, ?>) o;
         return map.equals(that.map);
@@ -135,11 +142,13 @@ public final class Functions {
       return false;
     }
 
+    @Pure
     @Override
     public int hashCode() {
       return map.hashCode();
     }
 
+    @Pure
     @Override
     public String toString() {
       return "Functions.forMap(" + map + ")";
@@ -158,11 +167,11 @@ public final class Functions {
    * @return function that returns {@code map.get(a)} when {@code a} is a key, or {@code
    *         defaultValue} otherwise
    */
-  public static <K, V> Function<K, V> forMap(Map<K, ? extends V> map, @Nullable V defaultValue) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<K, V> forMap(Map<K, ? extends V> map, @Nullable V defaultValue) {
     return new ForMapWithDefault<K, V>(map, defaultValue);
   }
 
-  private static class ForMapWithDefault<K, V> implements Function<K, V>, Serializable {
+  private static class ForMapWithDefault<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Function<K, V>, Serializable {
     final Map<K, ? extends V> map;
     final V defaultValue;
 
@@ -177,8 +186,9 @@ public final class Functions {
       return (result != null || map.containsKey(key)) ? result : defaultValue;
     }
 
+    @Pure
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object o) {
       if (o instanceof ForMapWithDefault) {
         ForMapWithDefault<?, ?> that = (ForMapWithDefault<?, ?>) o;
         return map.equals(that.map) && Objects.equal(defaultValue, that.defaultValue);
@@ -186,11 +196,13 @@ public final class Functions {
       return false;
     }
 
+    @Pure
     @Override
     public int hashCode() {
       return Objects.hashCode(map, defaultValue);
     }
 
+    @Pure
     @Override
     public String toString() {
       // TODO(cpovirk): maybe remove "defaultValue=" to make this look like the method call does
@@ -209,11 +221,11 @@ public final class Functions {
    * @return the composition of {@code f} and {@code g}
    * @see <a href="//en.wikipedia.org/wiki/Function_composition">function composition</a>
    */
-  public static <A, B, C> Function<A, C> compose(Function<B, C> g, Function<A, ? extends B> f) {
+  public static <A extends @org.checkerframework.checker.nullness.qual.Nullable Object, B extends @org.checkerframework.checker.nullness.qual.Nullable Object, C extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<A, C> compose(Function<B, C> g, Function<A, ? extends B> f) {
     return new FunctionComposition<A, B, C>(g, f);
   }
 
-  private static class FunctionComposition<A, B, C> implements Function<A, C>, Serializable {
+  private static class FunctionComposition<A extends @org.checkerframework.checker.nullness.qual.Nullable Object, B extends @org.checkerframework.checker.nullness.qual.Nullable Object, C extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Function<A, C>, Serializable {
     private final Function<B, C> g;
     private final Function<A, ? extends B> f;
 
@@ -227,8 +239,9 @@ public final class Functions {
       return g.apply(f.apply(a));
     }
 
+    @Pure
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object obj) {
       if (obj instanceof FunctionComposition) {
         FunctionComposition<?, ?, ?> that = (FunctionComposition<?, ?, ?>) obj;
         return f.equals(that.f) && g.equals(that.g);
@@ -236,11 +249,13 @@ public final class Functions {
       return false;
     }
 
+    @Pure
     @Override
     public int hashCode() {
       return f.hashCode() ^ g.hashCode();
     }
 
+    @Pure
     @Override
     public String toString() {
       // TODO(cpovirk): maybe make this look like the method call does ("Functions.compose(...)")
@@ -256,12 +271,12 @@ public final class Functions {
    * <p>The returned function is <i>consistent with equals</i> (as documented at {@link
    * Function#apply}) if and only if {@code predicate} is itself consistent with equals.
    */
-  public static <T> Function<T, Boolean> forPredicate(Predicate<T> predicate) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<T, Boolean> forPredicate(Predicate<T> predicate) {
     return new PredicateFunction<T>(predicate);
   }
 
   /** @see Functions#forPredicate */
-  private static class PredicateFunction<T> implements Function<T, Boolean>, Serializable {
+  private static class PredicateFunction<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Function<T, Boolean>, Serializable {
     private final Predicate<T> predicate;
 
     private PredicateFunction(Predicate<T> predicate) {
@@ -273,8 +288,9 @@ public final class Functions {
       return predicate.apply(t);
     }
 
+    @Pure
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object obj) {
       if (obj instanceof PredicateFunction) {
         PredicateFunction<?> that = (PredicateFunction<?>) obj;
         return predicate.equals(that.predicate);
@@ -282,11 +298,13 @@ public final class Functions {
       return false;
     }
 
+    @Pure
     @Override
     public int hashCode() {
       return predicate.hashCode();
     }
 
+    @Pure
     @Override
     public String toString() {
       return "Functions.forPredicate(" + predicate + ")";
@@ -301,14 +319,14 @@ public final class Functions {
    * @param value the constant value for the function to return
    * @return a function that always returns {@code value}
    */
-  public static <E> Function<Object, E> constant(@Nullable E value) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Function<Object, E> constant(@Nullable @org.checkerframework.checker.nullness.qual.Nullable E value) {
     return new ConstantFunction<E>(value);
   }
 
-  private static class ConstantFunction<E> implements Function<Object, E>, Serializable {
+  private static class ConstantFunction<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Function<Object, E>, Serializable {
     private final E value;
 
-    public ConstantFunction(@Nullable E value) {
+    public ConstantFunction(@Nullable @org.checkerframework.checker.nullness.qual.Nullable E value) {
       this.value = value;
     }
 
@@ -317,8 +335,9 @@ public final class Functions {
       return value;
     }
 
+    @Pure
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object obj) {
       if (obj instanceof ConstantFunction) {
         ConstantFunction<?> that = (ConstantFunction<?>) obj;
         return Objects.equal(value, that.value);
@@ -326,11 +345,13 @@ public final class Functions {
       return false;
     }
 
+    @Pure
     @Override
     public int hashCode() {
       return (value == null) ? 0 : value.hashCode();
     }
 
+    @Pure
     @Override
     public String toString() {
       return "Functions.constant(" + value + ")";

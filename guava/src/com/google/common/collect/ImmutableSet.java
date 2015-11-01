@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ObjectArrays.checkElementNotNull;
 
@@ -39,6 +44,7 @@ import javax.annotation.Nullable;
  *
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
@@ -313,12 +319,14 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   ImmutableSet() {}
 
   /** Returns {@code true} if the {@code hashCode()} method runs quickly. */
+  @Pure
   boolean isHashCodeFast() {
     return false;
   }
 
+  @Pure
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
     if (object == this) {
       return true;
     } else if (object instanceof ImmutableSet
@@ -330,6 +338,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return Sets.equalsImpl(this, object);
   }
 
+  @Pure
   @Override
   public int hashCode() {
     return Sets.hashCodeImpl(this);

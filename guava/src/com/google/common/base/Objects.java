@@ -16,9 +16,11 @@
 
 package com.google.common.base;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Arrays;
 
@@ -35,6 +37,7 @@ import javax.annotation.Nullable;
  * @author Laurence Gonsalves
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
 public final class Objects {
   private Objects() {}
@@ -56,7 +59,7 @@ public final class Objects {
    * deprecated; use {@link java.util.Objects#equals} instead.
    */
   @CheckReturnValue
-  public static boolean equal(@Nullable Object a, @Nullable Object b) {
+  public static boolean equal(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object a, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object b) {
     return a == b || (a != null && a.equals(b));
   }
 
@@ -80,8 +83,9 @@ public final class Objects {
    * <p><b>Note for Java 7 and later:</b> This method should be treated as
    * deprecated; use {@link java.util.Objects#hash} instead.
    */
+  @Pure
   @CheckReturnValue
-  public static int hashCode(@Nullable Object... objects) {
+  public static int hashCode(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object... objects) {
     return Arrays.hashCode(objects);
   }
 

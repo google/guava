@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
@@ -55,8 +60,9 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingMap<K, V> extends ForwardingObject implements Map<K, V> {
+public abstract class ForwardingMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingObject implements Map<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -65,18 +71,20 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
   @Override
   protected abstract Map<K, V> delegate();
 
+  @Pure
   @Override
   public int size() {
     return delegate().size();
   }
 
+  @Pure
   @Override
   public boolean isEmpty() {
     return delegate().isEmpty();
   }
 
   @Override
-  public V remove(Object object) {
+  public @org.checkerframework.checker.nullness.qual.Nullable V remove(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return delegate().remove(object);
   }
 
@@ -85,18 +93,20 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
     delegate().clear();
   }
 
+  @Pure
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
     return delegate().containsKey(key);
   }
 
+  @Pure
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value) {
     return delegate().containsValue(value);
   }
 
   @Override
-  public V get(@Nullable Object key) {
+  public V get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
     return delegate().get(key);
   }
 
@@ -110,26 +120,31 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
     delegate().putAll(map);
   }
 
+  @SideEffectFree
   @Override
   public Set<K> keySet() {
     return delegate().keySet();
   }
 
+  @SideEffectFree
   @Override
   public Collection<V> values() {
     return delegate().values();
   }
 
+  @SideEffectFree
   @Override
   public Set<Entry<K, V>> entrySet() {
     return delegate().entrySet();
   }
 
+  @Pure
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
+  @Pure
   @Override
   public int hashCode() {
     return delegate().hashCode();

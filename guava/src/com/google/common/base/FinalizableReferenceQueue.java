@@ -16,6 +16,9 @@
 
 package com.google.common.base;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.Closeable;
@@ -91,6 +94,7 @@ import javax.annotation.Nullable;
  * @author Bob Lee
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 public class FinalizableReferenceQueue implements Closeable {
   /*
    * The Finalizer thread keeps a phantom reference to this object. When the client (for example, a
@@ -248,7 +252,7 @@ public class FinalizableReferenceQueue implements Closeable {
     @VisibleForTesting static boolean disabled;
 
     @Override
-    public Class<?> loadFinalizer() {
+    public @org.checkerframework.checker.nullness.qual.Nullable Class<?> loadFinalizer() {
       if (disabled) {
         return null;
       }
@@ -285,7 +289,7 @@ public class FinalizableReferenceQueue implements Closeable {
             + "issue, or move Guava to your system class path.";
 
     @Override
-    public Class<?> loadFinalizer() {
+    public @org.checkerframework.checker.nullness.qual.Nullable Class<?> loadFinalizer() {
       try {
         /*
          * We use URLClassLoader because it's the only concrete class loader implementation in the

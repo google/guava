@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
@@ -48,8 +54,9 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> implements Multiset<E> {
+public abstract class ForwardingMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingCollection<E> implements Multiset<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingMultiset() {}
@@ -58,7 +65,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
   protected abstract Multiset<E> delegate();
 
   @Override
-  public int count(Object element) {
+  public int count(@org.checkerframework.checker.nullness.qual.Nullable Object element) {
     return delegate().count(element);
   }
 
@@ -68,25 +75,29 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
   }
 
   @Override
-  public int remove(Object element, int occurrences) {
+  public int remove(@org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
     return delegate().remove(element, occurrences);
   }
 
+  @SideEffectFree
   @Override
   public Set<E> elementSet() {
     return delegate().elementSet();
   }
 
+  @SideEffectFree
   @Override
   public Set<Entry<E>> entrySet() {
     return delegate().entrySet();
   }
 
+  @Pure
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
+  @Pure
   @Override
   public int hashCode() {
     return delegate().hashCode();

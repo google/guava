@@ -16,6 +16,10 @@
 
 package com.google.common.base.internal;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -46,6 +50,7 @@ import java.util.logging.Logger;
  * class loader from getting garbage collected, and this class can detect when
  * the main class loader has been garbage collected and stop itself.
  */
+@AnnotatedFor({"nullness"})
 public class Finalizer implements Runnable {
 
   private static final Logger logger = Logger.getLogger(Finalizer.class.getName());
@@ -102,7 +107,7 @@ public class Finalizer implements Runnable {
   private final PhantomReference<Object> frqReference;
   private final ReferenceQueue<Object> queue;
 
-  private static final Field inheritableThreadLocals = getInheritableThreadLocalsField();
+  private static final @org.checkerframework.checker.nullness.qual.Nullable Field inheritableThreadLocals = getInheritableThreadLocalsField();
 
   /** Constructs a new finalizer thread. */
   private Finalizer(
@@ -197,7 +202,7 @@ public class Finalizer implements Runnable {
     }
   }
 
-  public static Field getInheritableThreadLocalsField() {
+  public static @org.checkerframework.checker.nullness.qual.Nullable Field getInheritableThreadLocalsField() {
     try {
       Field inheritableThreadLocals = Thread.class.getDeclaredField("inheritableThreadLocals");
       inheritableThreadLocals.setAccessible(true);

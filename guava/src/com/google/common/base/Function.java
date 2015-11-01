@@ -16,7 +16,10 @@
 
 package com.google.common.base;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 
 import javax.annotation.Nullable;
 
@@ -33,7 +36,8 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface Function<F, T> {
+@AnnotatedFor({"nullness"})
+public interface Function<F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
   /**
    * Returns the result of applying this function to {@code input}. This method is <i>generally
    * expected</i>, but not absolutely required, to have the following properties:
@@ -61,6 +65,7 @@ public interface Function<F, T> {
    * {@code f} of type {@code F}. Note that a {@code false} result from this method does not imply
    * that the functions are known <i>not</i> to be interchangeable.
    */
+  @Pure
   @Override
-  boolean equals(@Nullable Object object);
+  boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object);
 }

@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.compose;
@@ -81,6 +87,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
 public final class Maps {
   private Maps() {}
@@ -161,7 +168,7 @@ public final class Maps {
    *
    * @return a new, empty {@code HashMap}
    */
-  public static <K, V> HashMap<K, V> newHashMap() {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> HashMap<K, V> newHashMap() {
     return new HashMap<K, V>();
   }
 
@@ -178,7 +185,7 @@ public final class Maps {
    *         expectedSize} entries without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K, V> HashMap<K, V> newHashMapWithExpectedSize(int expectedSize) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> HashMap<K, V> newHashMapWithExpectedSize(int expectedSize) {
     return new HashMap<K, V>(capacity(expectedSize));
   }
 
@@ -215,7 +222,7 @@ public final class Maps {
    * @return a new {@code HashMap} initialized with the mappings from {@code
    *         map}
    */
-  public static <K, V> HashMap<K, V> newHashMap(Map<? extends K, ? extends V> map) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> HashMap<K, V> newHashMap(Map<? extends K, ? extends V> map) {
     return new HashMap<K, V>(map);
   }
 
@@ -228,7 +235,7 @@ public final class Maps {
    *
    * @return a new, empty {@code LinkedHashMap}
    */
-  public static <K, V> LinkedHashMap<K, V> newLinkedHashMap() {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> LinkedHashMap<K, V> newLinkedHashMap() {
     return new LinkedHashMap<K, V>();
   }
 
@@ -261,7 +268,7 @@ public final class Maps {
    * @return a new, {@code LinkedHashMap} initialized with the mappings from
    *         {@code map}
    */
-  public static <K, V> LinkedHashMap<K, V> newLinkedHashMap(Map<? extends K, ? extends V> map) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> LinkedHashMap<K, V> newLinkedHashMap(Map<? extends K, ? extends V> map) {
     return new LinkedHashMap<K, V>(map);
   }
 
@@ -309,7 +316,7 @@ public final class Maps {
    * @return a new {@code TreeMap} initialized with the mappings from {@code
    *         map} and using the comparator of {@code map}
    */
-  public static <K, V> TreeMap<K, V> newTreeMap(SortedMap<K, ? extends V> map) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> TreeMap<K, V> newTreeMap(SortedMap<K, ? extends V> map) {
     return new TreeMap<K, V>(map);
   }
 
@@ -323,7 +330,7 @@ public final class Maps {
    * @param comparator the comparator to sort the keys with
    * @return a new, empty {@code TreeMap}
    */
-  public static <C, K extends C, V> TreeMap<K, V> newTreeMap(@Nullable Comparator<C> comparator) {
+  public static <C extends @org.checkerframework.checker.nullness.qual.Nullable Object, K extends C, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> TreeMap<K, V> newTreeMap(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Comparator<C> comparator) {
     // Ideally, the extra type parameter "C" shouldn't be necessary. It is a
     // work-around of a compiler type inference quirk that prevents the
     // following code from being compiled:
@@ -338,7 +345,7 @@ public final class Maps {
    * @param type the key type for this map
    * @return a new, empty {@code EnumMap}
    */
-  public static <K extends Enum<K>, V> EnumMap<K, V> newEnumMap(Class<K> type) {
+  public static <K extends Enum<K>, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> EnumMap<K, V> newEnumMap(Class<K> type) {
     return new EnumMap<K, V>(checkNotNull(type));
   }
 
@@ -351,7 +358,7 @@ public final class Maps {
    * @throws IllegalArgumentException if {@code m} is not an {@code EnumMap}
    *         instance and contains no mappings
    */
-  public static <K extends Enum<K>, V> EnumMap<K, V> newEnumMap(Map<K, ? extends V> map) {
+  public static <K extends Enum<K>, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> EnumMap<K, V> newEnumMap(Map<K, ? extends V> map) {
     return new EnumMap<K, V>(map);
   }
 
@@ -360,7 +367,7 @@ public final class Maps {
    *
    * @return a new, empty {@code IdentityHashMap}
    */
-  public static <K, V> IdentityHashMap<K, V> newIdentityHashMap() {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> IdentityHashMap<K, V> newIdentityHashMap() {
     return new IdentityHashMap<K, V>();
   }
 
@@ -381,7 +388,7 @@ public final class Maps {
    * @return the difference between the two maps
    */
   @SuppressWarnings("unchecked")
-  public static <K, V> MapDifference<K, V> difference(
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> MapDifference<K, V> difference(
       Map<? extends K, ? extends V> left, Map<? extends K, ? extends V> right) {
     if (left instanceof SortedMap) {
       SortedMap<K, ? extends V> sortedLeft = (SortedMap<K, ? extends V>) left;
@@ -457,7 +464,7 @@ public final class Maps {
     }
   }
 
-  static class MapDifferenceImpl<K, V> implements MapDifference<K, V> {
+  static class MapDifferenceImpl<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements MapDifference<K, V> {
     final Map<K, V> onlyOnLeft;
     final Map<K, V> onlyOnRight;
     final Map<K, V> onBoth;
@@ -499,8 +506,9 @@ public final class Maps {
       return differences;
     }
 
+    @Pure
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -514,12 +522,14 @@ public final class Maps {
       return false;
     }
 
+    @Pure
     @Override
     public int hashCode() {
       return Objects.hashCode(
           entriesOnlyOnLeft(), entriesOnlyOnRight(), entriesInCommon(), entriesDiffering());
     }
 
+    @Pure
     @Override
     public String toString() {
       if (areEqual()) {
@@ -540,7 +550,7 @@ public final class Maps {
     }
   }
 
-  static class ValueDifferenceImpl<V> implements MapDifference.ValueDifference<V> {
+  static class ValueDifferenceImpl<V extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements MapDifference.ValueDifference<V> {
     private final V left;
     private final V right;
 
@@ -563,8 +573,9 @@ public final class Maps {
       return right;
     }
 
+    @Pure
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
       if (object instanceof MapDifference.ValueDifference) {
         MapDifference.ValueDifference<?> that = (MapDifference.ValueDifference<?>) object;
         return Objects.equal(this.left, that.leftValue())
@@ -573,11 +584,13 @@ public final class Maps {
       return false;
     }
 
+    @Pure
     @Override
     public int hashCode() {
       return Objects.hashCode(left, right);
     }
 
+    @Pure
     @Override
     public String toString() {
       return "(" + left + ", " + right + ")";
@@ -1253,7 +1266,7 @@ public final class Maps {
    * @param value the value to be associated with the returned entry
    */
   @GwtCompatible(serializable = true)
-  public static <K, V> Entry<K, V> immutableEntry(@Nullable K key, @Nullable V value) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Entry<K, V> immutableEntry(@Nullable @org.checkerframework.checker.nullness.qual.Nullable K key, @Nullable @org.checkerframework.checker.nullness.qual.Nullable V value) {
     return new ImmutableEntry<K, V>(key, value);
   }
 
@@ -1265,7 +1278,7 @@ public final class Maps {
    * @param entrySet the entries for which to return an unmodifiable view
    * @return an unmodifiable view of the entries
    */
-  static <K, V> Set<Entry<K, V>> unmodifiableEntrySet(Set<Entry<K, V>> entrySet) {
+  static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Set<Entry<K, V>> unmodifiableEntrySet(Set<Entry<K, V>> entrySet) {
     return new UnmodifiableEntrySet<K, V>(Collections.unmodifiableSet(entrySet));
   }
 
@@ -1278,7 +1291,7 @@ public final class Maps {
    * @param entry the entry for which to return an unmodifiable view
    * @return an unmodifiable view of the entry
    */
-  static <K, V> Entry<K, V> unmodifiableEntry(final Entry<? extends K, ? extends V> entry) {
+  static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Entry<K, V> unmodifiableEntry(final Entry<? extends K, ? extends V> entry) {
     checkNotNull(entry);
     return new AbstractMapEntry<K, V>() {
       @Override
@@ -1309,7 +1322,7 @@ public final class Maps {
   }
 
   /** @see Multimaps#unmodifiableEntries */
-  static class UnmodifiableEntries<K, V> extends ForwardingCollection<Entry<K, V>> {
+  static class UnmodifiableEntries<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingCollection<Entry<K, V>> {
     private final Collection<Entry<K, V>> entries;
 
     UnmodifiableEntries(Collection<Entry<K, V>> entries) {
@@ -1340,7 +1353,7 @@ public final class Maps {
   }
 
   /** @see Maps#unmodifiableEntrySet(Set) */
-  static class UnmodifiableEntrySet<K, V> extends UnmodifiableEntries<K, V>
+  static class UnmodifiableEntrySet<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends UnmodifiableEntries<K, V>
       implements Set<Entry<K, V>> {
     UnmodifiableEntrySet(Set<Entry<K, V>> entries) {
       super(entries);
@@ -1348,11 +1361,13 @@ public final class Maps {
 
     // See java.util.Collections.UnmodifiableEntrySet for details on attacks.
 
+    @Pure
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
       return Sets.equalsImpl(this, object);
     }
 
+    @Pure
     @Override
     public int hashCode() {
       return Sets.hashCodeImpl(this);
@@ -1449,7 +1464,7 @@ public final class Maps {
    * @param bimap the bimap to be wrapped in a synchronized view
    * @return a sychronized view of the specified bimap
    */
-  public static <K, V> BiMap<K, V> synchronizedBiMap(BiMap<K, V> bimap) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> BiMap<K, V> synchronizedBiMap(BiMap<K, V> bimap) {
     return Synchronized.biMap(bimap, null);
   }
 
@@ -1466,19 +1481,20 @@ public final class Maps {
    * @param bimap the bimap for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified bimap
    */
-  public static <K, V> BiMap<K, V> unmodifiableBiMap(BiMap<? extends K, ? extends V> bimap) {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> BiMap<K, V> unmodifiableBiMap(BiMap<? extends K, ? extends V> bimap) {
     return new UnmodifiableBiMap<K, V>(bimap, null);
   }
 
   /** @see Maps#unmodifiableBiMap(BiMap) */
-  private static class UnmodifiableBiMap<K, V> extends ForwardingMap<K, V>
+  private static class UnmodifiableBiMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingMap<K, V>
       implements BiMap<K, V>, Serializable {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
+    @org.checkerframework.checker.nullness.qual.Nullable
     BiMap<V, K> inverse;
     transient Set<V> values;
 
-    UnmodifiableBiMap(BiMap<? extends K, ? extends V> delegate, @Nullable BiMap<V, K> inverse) {
+    UnmodifiableBiMap(BiMap<? extends K, ? extends V> delegate, @Nullable @org.checkerframework.checker.nullness.qual.Nullable BiMap<V, K> inverse) {
       unmodifiableMap = Collections.unmodifiableMap(delegate);
       this.delegate = delegate;
       this.inverse = inverse;
@@ -1502,6 +1518,7 @@ public final class Maps {
           : result;
     }
 
+    @SideEffectFree
     @Override
     public Set<V> values() {
       Set<V> result = values;
@@ -1549,7 +1566,7 @@ public final class Maps {
    * be fast. To avoid lazy evaluation when the returned map doesn't need to be
    * a view, copy the returned map into a new map of your choosing.
    */
-  public static <K, V1, V2> Map<K, V2> transformValues(
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V1 extends @org.checkerframework.checker.nullness.qual.Nullable Object, V2 extends @org.checkerframework.checker.nullness.qual.Nullable Object> Map<K, V2> transformValues(
       Map<K, V1> fromMap, Function<? super V1, V2> function) {
     return transformEntries(fromMap, asEntryTransformer(function));
   }
@@ -2197,7 +2214,7 @@ public final class Maps {
    * inconsistent with equals.
    */
   @CheckReturnValue
-  public static <K, V> Map<K, V> filterKeys(
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Map<K, V> filterKeys(
       Map<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof SortedMap) {
       return filterKeys((SortedMap<K, V>) unfiltered, keyPredicate);
@@ -2639,13 +2656,13 @@ public final class Maps {
    * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when
    * filtering a filtered map.
    */
-  private static <K, V> Map<K, V> filterFiltered(
+  private static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Map<K, V> filterFiltered(
       AbstractFilteredMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
     return new FilteredEntryMap<K, V>(
         map.unfiltered, Predicates.<Entry<K, V>>and(map.predicate, entryPredicate));
   }
 
-  private abstract static class AbstractFilteredMap<K, V> extends ViewCachingAbstractMap<K, V> {
+  private abstract static class AbstractFilteredMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ViewCachingAbstractMap<K, V> {
     final Map<K, V> unfiltered;
     final Predicate<? super Entry<K, V>> predicate;
 
@@ -2654,7 +2671,7 @@ public final class Maps {
       this.predicate = predicate;
     }
 
-    boolean apply(@Nullable Object key, @Nullable V value) {
+    boolean apply(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key, @Nullable V value) {
       // This method is called only when the key is in the map, implying that
       // key is a K.
       @SuppressWarnings("unchecked")
@@ -2676,24 +2693,26 @@ public final class Maps {
       unfiltered.putAll(map);
     }
 
+    @Pure
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
       return unfiltered.containsKey(key) && apply(key, unfiltered.get(key));
     }
 
     @Override
-    public V get(Object key) {
+    public @org.checkerframework.checker.nullness.qual.Nullable V get(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
       V value = unfiltered.get(key);
       return ((value != null) && apply(key, value)) ? value : null;
     }
 
+    @Pure
     @Override
     public boolean isEmpty() {
       return entrySet().isEmpty();
     }
 
     @Override
-    public V remove(Object key) {
+    public @org.checkerframework.checker.nullness.qual.Nullable V remove(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
       return containsKey(key) ? unfiltered.remove(key) : null;
     }
 
@@ -2750,7 +2769,7 @@ public final class Maps {
     }
   }
 
-  private static class FilteredKeyMap<K, V> extends AbstractFilteredMap<K, V> {
+  private static class FilteredKeyMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractFilteredMap<K, V> {
     Predicate<? super K> keyPredicate;
 
     FilteredKeyMap(
@@ -2773,14 +2792,15 @@ public final class Maps {
 
     // The cast is called only when the key is in the unfiltered map, implying
     // that key is a K.
+    @Pure
     @Override
     @SuppressWarnings("unchecked")
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
       return unfiltered.containsKey(key) && keyPredicate.apply((K) key);
     }
   }
 
-  static class FilteredEntryMap<K, V> extends AbstractFilteredMap<K, V> {
+  static class FilteredEntryMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractFilteredMap<K, V> {
     /**
      * Entries in this set satisfy the predicate, but they don't validate the
      * input to {@code Entry.setValue()}.
@@ -2838,7 +2858,7 @@ public final class Maps {
       }
 
       @Override
-      public boolean remove(Object o) {
+      public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object o) {
         if (containsKey(o)) {
           unfiltered.remove(o);
           return true;
@@ -2853,12 +2873,12 @@ public final class Maps {
       }
 
       @Override
-      public boolean removeAll(Collection<?> c) {
+      public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c) {
         return removeIf(in(c));
       }
 
       @Override
-      public boolean retainAll(Collection<?> c) {
+      public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c) {
         return removeIf(not(in(c)));
       }
 
@@ -2869,7 +2889,7 @@ public final class Maps {
       }
 
       @Override
-      public <T> T[] toArray(T[] array) {
+      public <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] toArray(T[] array) {
         return Lists.newArrayList(iterator()).toArray(array);
       }
     }
@@ -3550,7 +3570,8 @@ public final class Maps {
    * @param o the object that might be contained in {@code c}
    * @return {@code true} if {@code c} contains {@code o}
    */
-  static <K, V> boolean containsEntryImpl(Collection<Entry<K, V>> c, Object o) {
+  @Pure
+  static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> boolean containsEntryImpl(Collection<Entry<K, V>> c, @org.checkerframework.checker.nullness.qual.Nullable Object o) {
     if (!(o instanceof Entry)) {
       return false;
     }
@@ -3570,7 +3591,7 @@ public final class Maps {
    * @param o the object to remove from {@code c}
    * @return {@code true} if {@code c} was changed
    */
-  static <K, V> boolean removeEntryImpl(Collection<Entry<K, V>> c, Object o) {
+  static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> boolean removeEntryImpl(Collection<Entry<K, V>> c, @org.checkerframework.checker.nullness.qual.Nullable Object o) {
     if (!(o instanceof Entry)) {
       return false;
     }

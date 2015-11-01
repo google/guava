@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
@@ -128,8 +133,9 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class Ordering<T> implements Comparator<T> {
+public abstract class Ordering<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Comparator<T> {
   // Natural order
 
   /**
@@ -895,6 +901,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * ordering. Note that this is always true when the iterable has fewer than
    * two elements.
    */
+  @Pure
   public boolean isOrdered(Iterable<? extends T> iterable) {
     Iterator<? extends T> it = iterable.iterator();
     if (it.hasNext()) {
@@ -916,6 +923,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * this ordering. Note that this is always true when the iterable has fewer
    * than two elements.
    */
+  @Pure
   public boolean isStrictlyOrdered(Iterable<? extends T> iterable) {
     Iterator<? extends T> it = iterable.iterator();
     if (it.hasNext()) {

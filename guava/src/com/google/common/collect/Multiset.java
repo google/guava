@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
@@ -85,8 +91,9 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-public interface Multiset<E> extends Collection<E> {
+public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Collection<E> {
   // Query Operations
 
   /**
@@ -103,7 +110,7 @@ public interface Multiset<E> extends Collection<E> {
    * @return the number of occurrences of the element in this multiset; possibly
    *     zero but never negative
    */
-  int count(@Nullable Object element);
+  int count(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element);
 
   // Bulk Operations
 
@@ -141,7 +148,7 @@ public interface Multiset<E> extends Collection<E> {
    * @return the count of the element before the operation; possibly zero
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
-  int remove(@Nullable Object element, int occurrences);
+  int remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences);
 
   /**
    * Adds or removes the necessary occurrences of an element such that the
@@ -231,7 +238,7 @@ public interface Multiset<E> extends Collection<E> {
    *
    * @since 2.0
    */
-  interface Entry<E> {
+  interface Entry<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
 
     /**
      * Returns the multiset element corresponding to this entry. Multiple calls
@@ -264,9 +271,10 @@ public interface Multiset<E> extends Collection<E> {
      *   Objects.equal(a.getElement(), b.getElement())
      *       && a.getCount() == b.getCount()}</pre>
      */
+    @Pure
     @Override
     // TODO(kevinb): check this wrt TreeMultiset?
-    boolean equals(Object o);
+    boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object o);
 
     /**
      * {@inheritDoc}
@@ -276,6 +284,7 @@ public interface Multiset<E> extends Collection<E> {
      *
      *   ((element == null) ? 0 : element.hashCode()) ^ count}</pre>
      */
+    @Pure
     @Override
     int hashCode();
 
@@ -286,6 +295,7 @@ public interface Multiset<E> extends Collection<E> {
      * representation of the element, followed by the three characters {@code
      * " x "} (space, letter x, space), followed by the count.
      */
+    @SideEffectFree
     @Override
     String toString();
   }
@@ -297,9 +307,10 @@ public interface Multiset<E> extends Collection<E> {
    * {@code true} if the given object is also a multiset and contains equal
    * elements with equal counts, regardless of order.
    */
+  @Pure
   @Override
   // TODO(kevinb): caveats about equivalence-relation?
-  boolean equals(@Nullable Object object);
+  boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object);
 
   /**
    * Returns the hash code for this multiset. This is defined as the sum of
@@ -310,6 +321,7 @@ public interface Multiset<E> extends Collection<E> {
    * <p>over all distinct elements in the multiset. It follows that a multiset and
    * its entry set always have the same hash code.
    */
+  @Pure
   @Override
   int hashCode();
 
@@ -320,6 +332,7 @@ public interface Multiset<E> extends Collection<E> {
    * result of invoking {@link #toString} on the {@link #entrySet}, yielding a
    * result such as {@code [a x 3, c, d x 2, e]}.
    */
+  @SideEffectFree
   @Override
   String toString();
 
@@ -345,8 +358,9 @@ public interface Multiset<E> extends Collection<E> {
    * @return {@code true} if this multiset contains at least one occurrence of
    *     the element
    */
+  @Pure
   @Override
-  boolean contains(@Nullable Object element);
+  boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element);
 
   /**
    * Returns {@code true} if this multiset contains at least one occurrence of
@@ -369,8 +383,9 @@ public interface Multiset<E> extends Collection<E> {
    *     each element contained in {@code elements}
    * @throws NullPointerException if {@code elements} is null
    */
+  @Pure
   @Override
-  boolean containsAll(Collection<?> elements);
+  boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elements);
 
   /**
    * Adds a single occurrence of the specified element to this multiset.
@@ -410,7 +425,7 @@ public interface Multiset<E> extends Collection<E> {
    * @return {@code true} if an occurrence was found and removed
    */
   @Override
-  boolean remove(@Nullable Object element);
+  boolean remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element);
 
   /**
    * {@inheritDoc}
@@ -425,7 +440,7 @@ public interface Multiset<E> extends Collection<E> {
    * being null or of the wrong type.
    */
   @Override
-  boolean removeAll(Collection<?> c);
+  boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c);
 
   /**
    * {@inheritDoc}
@@ -442,5 +457,5 @@ public interface Multiset<E> extends Collection<E> {
    * @see Multisets#retainOccurrences(Multiset, Multiset)
    */
   @Override
-  boolean retainAll(Collection<?> c);
+  boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c);
 }

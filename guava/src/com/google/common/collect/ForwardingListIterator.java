@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.ListIterator;
@@ -29,8 +34,9 @@ import java.util.ListIterator;
  * @author Mike Bostock
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingListIterator<E> extends ForwardingIterator<E>
+public abstract class ForwardingListIterator<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingIterator<E>
     implements ListIterator<E> {
 
   /** Constructor for use by subclasses. */

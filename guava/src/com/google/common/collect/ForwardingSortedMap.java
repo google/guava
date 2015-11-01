@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
@@ -52,8 +57,9 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
+public abstract class ForwardingSortedMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingMap<K, V>
     implements SortedMap<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
@@ -63,6 +69,7 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
   @Override
   protected abstract SortedMap<K, V> delegate();
 
+  @SideEffectFree
   @Override
   public Comparator<? super K> comparator() {
     return delegate().comparator();

@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -23,11 +29,13 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 
 /** An ordering that uses the natural order of the values. */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true)
 @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
 final class NaturalOrdering extends Ordering<Comparable> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
 
+  @Pure
   @Override
   public int compare(Comparable left, Comparable right) {
     checkNotNull(left); // for GWT
@@ -45,6 +53,7 @@ final class NaturalOrdering extends Ordering<Comparable> implements Serializable
     return INSTANCE;
   }
 
+  @Pure
   @Override
   public String toString() {
     return "Ordering.natural()";

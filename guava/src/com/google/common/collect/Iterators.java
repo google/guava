@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -66,6 +71,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
 public final class Iterators {
   private Iterators() {}
@@ -114,7 +120,7 @@ public final class Iterators {
    *     scheduled for removal in May 2016.
    */
   @Deprecated
-  public static <T> UnmodifiableIterator<T> emptyIterator() {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> UnmodifiableIterator<T> emptyIterator() {
     return emptyListIterator();
   }
 
@@ -156,12 +162,12 @@ public final class Iterators {
    */
   // Casting to any type is safe since there are no actual elements.
   @SuppressWarnings("unchecked")
-  static <T> Iterator<T> emptyModifiableIterator() {
+  static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterator<T> emptyModifiableIterator() {
     return (Iterator<T>) EMPTY_MODIFIABLE_ITERATOR;
   }
 
   /** Returns an unmodifiable view of {@code iterator}. */
-  public static <T> UnmodifiableIterator<T> unmodifiableIterator(final Iterator<T> iterator) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> UnmodifiableIterator<T> unmodifiableIterator(final Iterator<T> iterator) {
     checkNotNull(iterator);
     if (iterator instanceof UnmodifiableIterator) {
       return (UnmodifiableIterator<T>) iterator;
@@ -207,7 +213,8 @@ public final class Iterators {
   /**
    * Returns {@code true} if {@code iterator} contains {@code element}.
    */
-  public static boolean contains(Iterator<?> iterator, @Nullable Object element) {
+  @Pure
+  public static boolean contains(Iterator<?> iterator, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
     return any(iterator, equalTo(element));
   }
 
@@ -220,7 +227,7 @@ public final class Iterators {
    * @param elementsToRemove the elements to remove
    * @return {@code true} if any element was removed from {@code iterator}
    */
-  public static boolean removeAll(Iterator<?> removeFrom, Collection<?> elementsToRemove) {
+  public static boolean removeAll(Iterator<?> removeFrom, Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elementsToRemove) {
     return removeIf(removeFrom, in(elementsToRemove));
   }
 
@@ -256,7 +263,7 @@ public final class Iterators {
    * @param elementsToRetain the elements to retain
    * @return {@code true} if any element was removed from {@code iterator}
    */
-  public static boolean retainAll(Iterator<?> removeFrom, Collection<?> elementsToRetain) {
+  public static boolean retainAll(Iterator<?> removeFrom, Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elementsToRetain) {
     return removeIf(removeFrom, not(in(elementsToRetain)));
   }
 
@@ -289,6 +296,7 @@ public final class Iterators {
    * {@code [e1, e2, ..., en]}. The iterator will be left exhausted: its
    * {@code hasNext()} method will return {@code false}.
    */
+  @Pure
   public static String toString(Iterator<?> iterator) {
     return Collections2.STANDARD_JOINER
         .appendTo(new StringBuilder().append('['), iterator)
@@ -303,7 +311,7 @@ public final class Iterators {
    * @throws IllegalArgumentException if the iterator contains multiple
    *     elements.  The state of the iterator is unspecified.
    */
-  public static <T> T getOnlyElement(Iterator<T> iterator) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T getOnlyElement(Iterator<T> iterator) {
     T first = iterator.next();
     if (!iterator.hasNext()) {
       return first;
@@ -330,7 +338,7 @@ public final class Iterators {
    *     elements.  The state of the iterator is unspecified.
    */
   @Nullable
-  public static <T> T getOnlyElement(Iterator<? extends T> iterator, @Nullable T defaultValue) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T getOnlyElement(Iterator<? extends T> iterator, @Nullable @org.checkerframework.checker.nullness.qual.Nullable T defaultValue) {
     return iterator.hasNext() ? getOnlyElement(iterator) : defaultValue;
   }
 
@@ -344,7 +352,7 @@ public final class Iterators {
    *         have been copied
    */
   @GwtIncompatible("Array.newInstance(Class, int)")
-  public static <T> T[] toArray(Iterator<? extends T> iterator, Class<T> type) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] toArray(Iterator<? extends T> iterator, Class<T> type) {
     List<T> list = Lists.newArrayList(iterator);
     return Iterables.toArray(list, type);
   }
@@ -357,7 +365,7 @@ public final class Iterators {
    * @return {@code true} if {@code collection} was modified as a result of this
    *         operation
    */
-  public static <T> boolean addAll(Collection<T> addTo, Iterator<? extends T> iterator) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> boolean addAll(Collection<T> addTo, Iterator<? extends T> iterator) {
     checkNotNull(addTo);
     checkNotNull(iterator);
     boolean wasModified = false;
@@ -374,7 +382,7 @@ public final class Iterators {
    *
    * @see Collections#frequency
    */
-  public static int frequency(Iterator<?> iterator, @Nullable Object element) {
+  public static int frequency(Iterator<?> iterator, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
     return size(filter(iterator, equalTo(element)));
   }
 
@@ -392,7 +400,7 @@ public final class Iterators {
    * infinite loop. You should use an explicit {@code break} or be certain that
    * you will eventually remove all the elements.
    */
-  public static <T> Iterator<T> cycle(final Iterable<T> iterable) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterator<T> cycle(final Iterable<T> iterable) {
     checkNotNull(iterable);
     return new Iterator<T>() {
       Iterator<T> iterator = emptyModifiableIterator();
@@ -442,7 +450,7 @@ public final class Iterators {
    * infinite loop. You should use an explicit {@code break} or be certain that
    * you will eventually remove all the elements.
    */
-  public static <T> Iterator<T> cycle(T... elements) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterator<T> cycle(T... elements) {
     return cycle(Lists.newArrayList(elements));
   }
 
@@ -459,7 +467,7 @@ public final class Iterators {
    * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
    * resulting iterator has a cubic complexity to the depth of the nesting.
    */
-  public static <T> Iterator<T> concat(Iterator<? extends T> a, Iterator<? extends T> b) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterator<T> concat(Iterator<? extends T> a, Iterator<? extends T> b) {
     checkNotNull(a);
     checkNotNull(b);
     return concat(new ConsumingQueueIterator<Iterator<? extends T>>(a, b));
@@ -479,7 +487,7 @@ public final class Iterators {
    * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
    * resulting iterator has a cubic complexity to the depth of the nesting.
    */
-  public static <T> Iterator<T> concat(
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterator<T> concat(
       Iterator<? extends T> a, Iterator<? extends T> b, Iterator<? extends T> c) {
     checkNotNull(a);
     checkNotNull(b);
@@ -501,7 +509,7 @@ public final class Iterators {
    * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
    * resulting iterator has a cubic complexity to the depth of the nesting.
    */
-  public static <T> Iterator<T> concat(
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterator<T> concat(
       Iterator<? extends T> a,
       Iterator<? extends T> b,
       Iterator<? extends T> c,
@@ -528,7 +536,7 @@ public final class Iterators {
    *
    * @throws NullPointerException if any of the provided iterators is null
    */
-  public static <T> Iterator<T> concat(Iterator<? extends T>... inputs) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterator<T> concat(Iterator<? extends T>... inputs) {
     for (Iterator<? extends T> input : checkNotNull(inputs)) {
       checkNotNull(input);
     }
@@ -549,10 +557,11 @@ public final class Iterators {
    * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
    * resulting iterator has a cubic complexity to the depth of the nesting.
    */
-  public static <T> Iterator<T> concat(final Iterator<? extends Iterator<? extends T>> inputs) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterator<T> concat(final Iterator<? extends Iterator<? extends T>> inputs) {
     checkNotNull(inputs);
     return new Iterator<T>() {
       Iterator<? extends T> current = emptyIterator();
+      @org.checkerframework.checker.nullness.qual.Nullable
       Iterator<? extends T> removeFrom;
 
       @Override
@@ -604,7 +613,7 @@ public final class Iterators {
    *     iterator} divided into partitions
    * @throws IllegalArgumentException if {@code size} is nonpositive
    */
-  public static <T> UnmodifiableIterator<List<T>> partition(Iterator<T> iterator, int size) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> UnmodifiableIterator<List<T>> partition(Iterator<T> iterator, int size) {
     return partitionImpl(iterator, size, false);
   }
 
@@ -624,11 +633,11 @@ public final class Iterators {
    *     trailing null elements)
    * @throws IllegalArgumentException if {@code size} is nonpositive
    */
-  public static <T> UnmodifiableIterator<List<T>> paddedPartition(Iterator<T> iterator, int size) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> UnmodifiableIterator<List<T>> paddedPartition(Iterator<T> iterator, int size) {
     return partitionImpl(iterator, size, true);
   }
 
-  private static <T> UnmodifiableIterator<List<T>> partitionImpl(
+  private static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> UnmodifiableIterator<List<T>> partitionImpl(
       final Iterator<T> iterator, final int size, final boolean pad) {
     checkNotNull(iterator);
     checkArgument(size > 0);
@@ -643,6 +652,7 @@ public final class Iterators {
         if (!hasNext()) {
           throw new NoSuchElementException();
         }
+        @org.checkerframework.checker.nullness.qual.Nullable
         Object[] array = new Object[size];
         int count = 0;
         for (; count < size && iterator.hasNext(); count++) {
@@ -663,7 +673,7 @@ public final class Iterators {
    * Returns the elements of {@code unfiltered} that satisfy a predicate.
    */
   @CheckReturnValue
-  public static <T> UnmodifiableIterator<T> filter(
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> UnmodifiableIterator<T> filter(
       final Iterator<T> unfiltered, final Predicate<? super T> predicate) {
     checkNotNull(unfiltered);
     checkNotNull(predicate);
@@ -702,7 +712,7 @@ public final class Iterators {
    * Returns {@code true} if one or more elements returned by {@code iterator}
    * satisfy the given predicate.
    */
-  public static <T> boolean any(Iterator<T> iterator, Predicate<? super T> predicate) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> boolean any(Iterator<T> iterator, Predicate<? super T> predicate) {
     return indexOf(iterator, predicate) != -1;
   }
 
@@ -711,7 +721,7 @@ public final class Iterators {
    * satisfies the given predicate. If {@code iterator} is empty, {@code true}
    * is returned.
    */
-  public static <T> boolean all(Iterator<T> iterator, Predicate<? super T> predicate) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> boolean all(Iterator<T> iterator, Predicate<? super T> predicate) {
     checkNotNull(predicate);
     while (iterator.hasNext()) {
       T element = iterator.next();
@@ -733,7 +743,7 @@ public final class Iterators {
    * @throws NoSuchElementException if no element in {@code iterator} matches
    *     the given predicate
    */
-  public static <T> T find(Iterator<T> iterator, Predicate<? super T> predicate) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T find(Iterator<T> iterator, Predicate<? super T> predicate) {
     return filter(iterator, predicate).next();
   }
 
@@ -808,7 +818,7 @@ public final class Iterators {
    * does. After a successful {@code remove()} call, {@code fromIterator} no
    * longer contains the corresponding element.
    */
-  public static <F, T> Iterator<T> transform(
+  public static <F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterator<T> transform(
       final Iterator<F> fromIterator, final Function<? super F, ? extends T> function) {
     checkNotNull(function);
     return new TransformedIterator<F, T>(fromIterator) {
@@ -829,7 +839,7 @@ public final class Iterators {
    *     greater than or equal to the number of elements remaining in
    *     {@code iterator}
    */
-  public static <T> T get(Iterator<T> iterator, int position) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T get(Iterator<T> iterator, int position) {
     checkNonnegative(position);
     int skipped = advance(iterator, position);
     if (!iterator.hasNext()) {
@@ -891,7 +901,7 @@ public final class Iterators {
    * @return the last element of {@code iterator}
    * @throws NoSuchElementException if the iterator is empty
    */
-  public static <T> T getLast(Iterator<T> iterator) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T getLast(Iterator<T> iterator) {
     while (true) {
       T current = iterator.next();
       if (!iterator.hasNext()) {
@@ -1046,7 +1056,7 @@ public final class Iterators {
    * Arrays#asList(Object[])}, {@link ImmutableList#copyOf(Object[])}},
    * or {@link ImmutableList#of}.
    */
-  public static <T> UnmodifiableIterator<T> forArray(final T... array) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> UnmodifiableIterator<T> forArray(final T... array) {
     return forArray(array, 0, array.length, 0);
   }
 
@@ -1088,7 +1098,7 @@ public final class Iterators {
    * <p>The {@link Iterable} equivalent of this method is {@link
    * Collections#singleton}.
    */
-  public static <T> UnmodifiableIterator<T> singletonIterator(@Nullable final T value) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> UnmodifiableIterator<T> singletonIterator(@Nullable final @org.checkerframework.checker.nullness.qual.Nullable T value) {
     return new UnmodifiableIterator<T>() {
       boolean done;
 
@@ -1116,7 +1126,7 @@ public final class Iterators {
    * contents can be <i>copied</i> into a collection using {@link
    * Collections#list}.
    */
-  public static <T> UnmodifiableIterator<T> forEnumeration(final Enumeration<T> enumeration) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> UnmodifiableIterator<T> forEnumeration(final Enumeration<T> enumeration) {
     checkNotNull(enumeration);
     return new UnmodifiableIterator<T>() {
       @Override
@@ -1138,7 +1148,7 @@ public final class Iterators {
    * Collections#enumeration} (if you have a {@link Collection}), or
    * {@code Iterators.asEnumeration(collection.iterator())}.
    */
-  public static <T> Enumeration<T> asEnumeration(final Iterator<T> iterator) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Enumeration<T> asEnumeration(final Iterator<T> iterator) {
     checkNotNull(iterator);
     return new Enumeration<T>() {
       @Override
@@ -1156,11 +1166,11 @@ public final class Iterators {
   /**
    * Implementation of PeekingIterator that avoids peeking unless necessary.
    */
-  private static class PeekingImpl<E> implements PeekingIterator<E> {
+  private static class PeekingImpl<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements PeekingIterator<E> {
 
     private final Iterator<? extends E> iterator;
     private boolean hasPeeked;
-    private E peekedElement;
+    private @org.checkerframework.checker.nullness.qual.Nullable E peekedElement;
 
     public PeekingImpl(Iterator<? extends E> iterator) {
       this.iterator = checkNotNull(iterator);
@@ -1236,7 +1246,7 @@ public final class Iterators {
    *     additional {@link PeekingIterator#peek()} method, this iterator behaves
    *     exactly the same as {@code iterator}.
    */
-  public static <T> PeekingIterator<T> peekingIterator(Iterator<? extends T> iterator) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> PeekingIterator<T> peekingIterator(Iterator<? extends T> iterator) {
     if (iterator instanceof PeekingImpl) {
       // Safe to cast <? extends T> to <T> because PeekingImpl only uses T
       // covariantly (and cannot be subclassed to add non-covariant uses).

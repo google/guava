@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -47,6 +52,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 // TODO(lowasser): write an efficient asList() implementation
@@ -225,8 +231,9 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
     };
   }
 
+  @Pure
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return count(object) > 0;
   }
 
@@ -250,7 +257,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    */
   @Deprecated
   @Override
-  public final int remove(Object element, int occurrences) {
+  public final int remove(@org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
@@ -288,16 +295,19 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
     return offset;
   }
 
+  @Pure
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return Multisets.equalsImpl(this, object);
   }
 
+  @Pure
   @Override
   public int hashCode() {
     return Sets.hashCodeImpl(entrySet());
   }
 
+  @Pure
   @Override
   public String toString() {
     return entrySet().toString();
@@ -329,13 +339,15 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
       return getEntry(index);
     }
 
+    @Pure
     @Override
     public int size() {
       return elementSet().size();
     }
 
+    @Pure
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object o) {
       if (o instanceof Entry) {
         Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
@@ -347,6 +359,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
       return false;
     }
 
+    @Pure
     @Override
     public int hashCode() {
       return ImmutableMultiset.this.hashCode();

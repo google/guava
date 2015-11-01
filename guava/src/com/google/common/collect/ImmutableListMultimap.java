@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -41,6 +47,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     implements ListMultimap<K, V> {
@@ -295,6 +302,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
   @Override
   public ImmutableList<V> get(@Nullable K key) {
     // This cast is safe as its type is known in constructor.
+    @org.checkerframework.checker.nullness.qual.Nullable
     ImmutableList<V> list = (ImmutableList<V>) map.get(key);
     return (list == null) ? ImmutableList.<V>of() : list;
   }
@@ -335,7 +343,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    */
   @Deprecated
   @Override
-  public ImmutableList<V> removeAll(Object key) {
+  public ImmutableList<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
     throw new UnsupportedOperationException();
   }
 

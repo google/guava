@@ -16,6 +16,10 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 
@@ -24,6 +28,7 @@ import com.google.common.base.Preconditions;
  *
  * @author Kevin Bourrillion
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableList<E> extends ImmutableList<E> {
@@ -44,6 +49,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     this(array, 0, array.length);
   }
 
+  @Pure
   @Override
   public int size() {
     return size;

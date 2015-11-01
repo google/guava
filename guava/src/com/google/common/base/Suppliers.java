@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -36,6 +38,7 @@ import javax.annotation.Nullable;
  * @author Harry Heymann
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @CheckReturnValue
 @GwtCompatible
 public final class Suppliers {
@@ -48,13 +51,13 @@ public final class Suppliers {
    * {@code function} to that value. Note that the resulting supplier will not
    * call {@code supplier} or invoke {@code function} until it is called.
    */
-  public static <F, T> Supplier<T> compose(Function<? super F, T> function, Supplier<F> supplier) {
+  public static <F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Supplier<T> compose(Function<? super F, T> function, Supplier<F> supplier) {
     Preconditions.checkNotNull(function);
     Preconditions.checkNotNull(supplier);
     return new SupplierComposition<F, T>(function, supplier);
   }
 
-  private static class SupplierComposition<F, T> implements Supplier<T>, Serializable {
+  private static class SupplierComposition<F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Supplier<T>, Serializable {
     final Function<? super F, T> function;
     final Supplier<F> supplier;
 
@@ -104,14 +107,14 @@ public final class Suppliers {
    * <p>If {@code delegate} is an instance created by an earlier call to {@code
    * memoize}, it is returned directly.
    */
-  public static <T> Supplier<T> memoize(Supplier<T> delegate) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Supplier<T> memoize(Supplier<T> delegate) {
     return (delegate instanceof MemoizingSupplier)
         ? delegate
         : new MemoizingSupplier<T>(Preconditions.checkNotNull(delegate));
   }
 
   @VisibleForTesting
-  static class MemoizingSupplier<T> implements Supplier<T>, Serializable {
+  static class MemoizingSupplier<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
     transient volatile boolean initialized;
     // "value" does not need to be volatile; visibility piggy-backs
@@ -222,11 +225,11 @@ public final class Suppliers {
   /**
    * Returns a supplier that always supplies {@code instance}.
    */
-  public static <T> Supplier<T> ofInstance(@Nullable T instance) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Supplier<T> ofInstance(@Nullable @org.checkerframework.checker.nullness.qual.Nullable T instance) {
     return new SupplierOfInstance<T>(instance);
   }
 
-  private static class SupplierOfInstance<T> implements Supplier<T>, Serializable {
+  private static class SupplierOfInstance<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Supplier<T>, Serializable {
     final T instance;
 
     SupplierOfInstance(@Nullable T instance) {
@@ -264,11 +267,11 @@ public final class Suppliers {
    * Returns a supplier whose {@code get()} method synchronizes on
    * {@code delegate} before calling it, making it thread-safe.
    */
-  public static <T> Supplier<T> synchronizedSupplier(Supplier<T> delegate) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Supplier<T> synchronizedSupplier(Supplier<T> delegate) {
     return new ThreadSafeSupplier<T>(Preconditions.checkNotNull(delegate));
   }
 
-  private static class ThreadSafeSupplier<T> implements Supplier<T>, Serializable {
+  private static class ThreadSafeSupplier<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
 
     ThreadSafeSupplier(Supplier<T> delegate) {

@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -75,10 +81,11 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V> {
-  private transient Comparator<? super K> keyComparator;
-  private transient Comparator<? super V> valueComparator;
+public class TreeMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractSortedKeySortedSetMultimap<K, V> {
+  private transient @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super K> keyComparator;
+  private transient @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator;
 
   /**
    * Creates an empty {@code TreeMultimap} ordered by the natural ordering of
@@ -112,14 +119,16 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
     return new TreeMultimap<K, V>(Ordering.natural(), Ordering.natural(), multimap);
   }
 
-  TreeMultimap(Comparator<? super K> keyComparator, Comparator<? super V> valueComparator) {
+  TreeMultimap(@org.checkerframework.checker.nullness.qual.Nullable Comparator<? super K> keyComparator, @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator) {
     super(new TreeMap<K, Collection<V>>(keyComparator));
     this.keyComparator = keyComparator;
     this.valueComparator = valueComparator;
   }
 
   private TreeMultimap(
+      @org.checkerframework.checker.nullness.qual.Nullable
       Comparator<? super K> keyComparator,
+      @org.checkerframework.checker.nullness.qual.Nullable
       Comparator<? super V> valueComparator,
       Multimap<? extends K, ? extends V> multimap) {
     this(keyComparator, valueComparator);
@@ -150,12 +159,12 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
   /**
    * Returns the comparator that orders the multimap keys.
    */
-  public Comparator<? super K> keyComparator() {
+  public @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super K> keyComparator() {
     return keyComparator;
   }
 
   @Override
-  public Comparator<? super V> valueComparator() {
+  public @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator() {
     return valueComparator;
   }
 

@@ -16,7 +16,10 @@
 
 package com.google.common.base;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 
 /**
  * A class that can supply objects of a single type.  Semantically, this could
@@ -27,7 +30,8 @@ import com.google.common.annotations.GwtCompatible;
  * @since 2.0
  */
 @GwtCompatible
-public interface Supplier<T> {
+@AnnotatedFor({"nullness"})
+public interface Supplier<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
   /**
    * Retrieves an instance of the appropriate type. The returned object may or
    * may not be a new instance, depending on the implementation.

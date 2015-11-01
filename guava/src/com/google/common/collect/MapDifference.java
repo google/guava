@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Map;
@@ -29,7 +35,8 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface MapDifference<K, V> {
+@AnnotatedFor({"nullness"})
+public interface MapDifference<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
   /**
    * Returns {@code true} if there are no differences between the two maps;
    * that is, if the maps are equal.
@@ -67,8 +74,9 @@ public interface MapDifference<K, V> {
    * #entriesOnlyOnRight()}, {@link #entriesInCommon()} and {@link
    * #entriesDiffering()} of the two instances are equal.
    */
+  @Pure
   @Override
-  boolean equals(@Nullable Object object);
+  boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object);
 
   /**
    * Returns the hash code for this instance. This is defined as the hash code
@@ -77,6 +85,7 @@ public interface MapDifference<K, V> {
    *   Arrays.asList(entriesOnlyOnLeft(), entriesOnlyOnRight(),
    *       entriesInCommon(), entriesDiffering())}</pre>
    */
+  @Pure
   @Override
   int hashCode();
 
@@ -102,13 +111,15 @@ public interface MapDifference<K, V> {
      * Two instances are considered equal if their {@link #leftValue()}
      * values are equal and their {@link #rightValue()} values are also equal.
      */
+    @Pure
     @Override
-    boolean equals(@Nullable Object other);
+    boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object other);
 
     /**
      * The hash code equals the value
      * {@code Arrays.asList(leftValue(), rightValue()).hashCode()}.
      */
+    @Pure
     @Override
     int hashCode();
   }

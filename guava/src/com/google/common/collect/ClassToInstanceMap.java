@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Map;
@@ -46,7 +52,8 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface ClassToInstanceMap<B> extends Map<Class<? extends B>, B> {
+@AnnotatedFor({"nullness"})
+public interface ClassToInstanceMap<B extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Map<Class<? extends B>, B> {
   /**
    * Returns the value the specified class is mapped to, or {@code null} if no
    * entry for this class is present. This will only return a value that was

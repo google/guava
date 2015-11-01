@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
@@ -148,6 +154,7 @@ import javax.annotation.Nullable;
  *
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
@@ -163,7 +170,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   public abstract UnmodifiableIterator<E> iterator();
 
   @Override
-  public final Object[] toArray() {
+  public final @org.checkerframework.checker.nullness.qual.Nullable Object[] toArray() {
     int size = size();
     if (size == 0) {
       return ObjectArrays.EMPTY_ARRAY;
@@ -174,7 +181,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   }
 
   @Override
-  public final <T> T[] toArray(T[] other) {
+  public final <T> @org.checkerframework.checker.nullness.qual.Nullable T[] toArray(T[] other) {
     checkNotNull(other);
     int size = size();
     if (other.length < size) {
@@ -186,8 +193,9 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     return other;
   }
 
+  @Pure
   @Override
-  public abstract boolean contains(@Nullable Object object);
+  public abstract boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object);
 
   /**
    * Guaranteed to throw an exception and leave the collection unmodified.
@@ -209,7 +217,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    */
   @Deprecated
   @Override
-  public final boolean remove(Object object) {
+  public final boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
     throw new UnsupportedOperationException();
   }
 

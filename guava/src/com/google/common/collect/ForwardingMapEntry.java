@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
@@ -51,8 +57,9 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingMapEntry<K, V> extends ForwardingObject implements Map.Entry<K, V> {
+public abstract class ForwardingMapEntry<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingObject implements Map.Entry<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -61,11 +68,13 @@ public abstract class ForwardingMapEntry<K, V> extends ForwardingObject implemen
   @Override
   protected abstract Map.Entry<K, V> delegate();
 
+  @Pure
   @Override
   public K getKey() {
     return delegate().getKey();
   }
 
+  @Pure
   @Override
   public V getValue() {
     return delegate().getValue();
@@ -76,11 +85,13 @@ public abstract class ForwardingMapEntry<K, V> extends ForwardingObject implemen
     return delegate().setValue(value);
   }
 
+  @Pure
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return delegate().equals(object);
   }
 
+  @Pure
   @Override
   public int hashCode() {
     return delegate().hashCode();

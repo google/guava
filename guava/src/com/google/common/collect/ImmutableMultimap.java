@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
@@ -64,6 +70,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
 public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     implements Serializable {
@@ -352,7 +359,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @Deprecated
   @Override
-  public ImmutableCollection<V> removeAll(Object key) {
+  public ImmutableCollection<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
     throw new UnsupportedOperationException();
   }
 
@@ -442,7 +449,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @Deprecated
   @Override
-  public boolean remove(Object key, Object value) {
+  public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object key, @org.checkerframework.checker.nullness.qual.Nullable Object value) {
     throw new UnsupportedOperationException();
   }
 
@@ -458,16 +465,19 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
   // accessors
 
+  @Pure
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
     return map.containsKey(key);
   }
 
+  @Pure
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value) {
     return value != null && super.containsValue(value);
   }
 
+  @Pure
   @Override
   public int size() {
     return size;
@@ -479,6 +489,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    * Returns an immutable set of the distinct keys in this multimap, in the same
    * order as they appear in this multimap.
    */
+  @SideEffectFree
   @Override
   public ImmutableSet<K> keySet() {
     return map.keySet();
@@ -503,6 +514,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   /**
    * Returns an immutable collection of all key-value pairs in the multimap.
    */
+  @SideEffectFree
   @Override
   public ImmutableCollection<Entry<K, V>> entries() {
     return (ImmutableCollection<Entry<K, V>>) super.entries();
@@ -530,13 +542,15 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
       return multimap.isPartialView();
     }
 
+    @Pure
     @Override
     public int size() {
       return multimap.size();
     }
 
+    @Pure
     @Override
-    public boolean contains(Object object) {
+    public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
       if (object instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) object;
         return multimap.containsEntry(entry.getKey(), entry.getValue());
@@ -636,6 +650,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    * iterator traverses the values for the first key, the values for the second
    * key, and so on.
    */
+  @SideEffectFree
   @Override
   public ImmutableCollection<V> values() {
     return (ImmutableCollection<V>) super.values();
@@ -682,6 +697,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
       return offset;
     }
 
+    @Pure
     @Override
     public int size() {
       return multimap.size();

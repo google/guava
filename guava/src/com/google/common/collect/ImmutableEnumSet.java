@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
@@ -28,6 +33,7 @@ import java.util.EnumSet;
  *
  * @author Jared Levy
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
@@ -67,16 +73,19 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     return Iterators.unmodifiableIterator(delegate.iterator());
   }
 
+  @Pure
   @Override
   public int size() {
     return delegate.size();
   }
 
+  @Pure
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return delegate.contains(object);
   }
 
+  @Pure
   @Override
   public boolean containsAll(Collection<?> collection) {
     if (collection instanceof ImmutableEnumSet<?>) {
@@ -85,13 +94,15 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     return delegate.containsAll(collection);
   }
 
+  @Pure
   @Override
   public boolean isEmpty() {
     return delegate.isEmpty();
   }
 
+  @Pure
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
     if (object == this) {
       return true;
     }
@@ -108,12 +119,14 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
 
   private transient int hashCode;
 
+  @Pure
   @Override
   public int hashCode() {
     int result = hashCode;
     return (result == 0) ? hashCode = delegate.hashCode() : result;
   }
 
+  @Pure
   @Override
   public String toString() {
     return delegate.toString();

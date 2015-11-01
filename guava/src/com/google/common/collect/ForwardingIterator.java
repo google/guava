@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Iterator;
@@ -29,8 +35,9 @@ import java.util.Iterator;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingIterator<T> extends ForwardingObject implements Iterator<T> {
+public abstract class ForwardingIterator<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingObject implements Iterator<T> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingIterator() {}

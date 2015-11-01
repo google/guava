@@ -14,7 +14,10 @@
 
 package com.google.common.base;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 
 import javax.annotation.Nullable;
 
@@ -93,6 +96,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
 public final class Preconditions {
   private Preconditions() {}
@@ -406,6 +410,7 @@ public final class Preconditions {
    *     to strings using {@link String#valueOf(Object)}. Arguments can be null.
    */
   // Note that this is somewhat-improperly used from Verify.java as well.
+  @VisibleForTesting
   static String format(String template, @Nullable Object... args) {
     template = String.valueOf(template); // null -> "null"
 

@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.and;
@@ -53,6 +58,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @CheckReturnValue
 @GwtCompatible
 public final class Collections2 {
@@ -89,7 +95,7 @@ public final class Collections2 {
   // TODO(kevinb): how can we omit that Iterables link when building gwt
   // javadoc?
   @CheckReturnValue
-  public static <E> Collection<E> filter(Collection<E> unfiltered, Predicate<? super E> predicate) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Collection<E> filter(Collection<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredCollection) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
       // collection.
@@ -131,7 +137,7 @@ public final class Collections2 {
     }
   }
 
-  static class FilteredCollection<E> extends AbstractCollection<E> {
+  static class FilteredCollection<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractCollection<E> {
     final Collection<E> unfiltered;
     final Predicate<? super E> predicate;
 
@@ -164,8 +170,9 @@ public final class Collections2 {
       Iterables.removeIf(unfiltered, predicate);
     }
 
+    @Pure
     @Override
-    public boolean contains(@Nullable Object element) {
+    public boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
       if (safeContains(unfiltered, element)) {
         @SuppressWarnings("unchecked") // element is in unfiltered, so it must be an E
         E e = (E) element;
@@ -174,11 +181,13 @@ public final class Collections2 {
       return false;
     }
 
+    @Pure
     @Override
-    public boolean containsAll(Collection<?> collection) {
+    public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> collection) {
       return containsAllImpl(this, collection);
     }
 
+    @Pure
     @Override
     public boolean isEmpty() {
       return !Iterables.any(unfiltered, predicate);
@@ -190,20 +199,21 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean remove(Object element) {
+    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object element) {
       return contains(element) && unfiltered.remove(element);
     }
 
     @Override
-    public boolean removeAll(final Collection<?> collection) {
+    public boolean removeAll(final Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> collection) {
       return Iterables.removeIf(unfiltered, and(predicate, Predicates.<Object>in(collection)));
     }
 
     @Override
-    public boolean retainAll(final Collection<?> collection) {
+    public boolean retainAll(final Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> collection) {
       return Iterables.removeIf(unfiltered, and(predicate, not(Predicates.<Object>in(collection))));
     }
 
+    @Pure
     @Override
     public int size() {
       return Iterators.size(iterator());
@@ -259,6 +269,7 @@ public final class Collections2 {
       fromCollection.clear();
     }
 
+    @Pure
     @Override
     public boolean isEmpty() {
       return fromCollection.isEmpty();
@@ -269,6 +280,7 @@ public final class Collections2 {
       return Iterators.transform(fromCollection.iterator(), function);
     }
 
+    @Pure
     @Override
     public int size() {
       return fromCollection.size();

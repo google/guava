@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
@@ -44,8 +49,9 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implements Serializable {
+abstract class AbstractMapBasedMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMultiset<E> implements Serializable {
 
   private transient Map<E, Count> backingMap;
 
@@ -76,6 +82,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
    * set always returns the current count of that element in the multiset, as
    * opposed to the count at the time the entry was retrieved.
    */
+  @SideEffectFree
   @Override
   public Set<Multiset.Entry<E>> entrySet() {
     return super.entrySet();
@@ -142,6 +149,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
 
   // Optimizations - Query Operations
 
+  @Pure
   @Override
   public int size() {
     return Ints.saturatedCast(size);
@@ -199,7 +207,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
     Count frequency = Maps.safeGet(backingMap, element);
     return (frequency == null) ? 0 : frequency.get();
   }
@@ -235,7 +243,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   }
 
   @Override
-  public int remove(@Nullable Object element, int occurrences) {
+  public int remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }

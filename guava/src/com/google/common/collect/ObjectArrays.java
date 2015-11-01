@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtCompatible;
@@ -32,6 +37,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
 public final class ObjectArrays {
   static final Object[] EMPTY_ARRAY = new Object[0];
@@ -46,7 +52,7 @@ public final class ObjectArrays {
    */
   @GwtIncompatible("Array.newInstance(Class, int)")
   @SuppressWarnings("unchecked")
-  public static <T> T[] newArray(Class<T> type, int length) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] newArray(Class<T> type, int length) {
     return (T[]) Array.newInstance(type, length);
   }
 
@@ -57,7 +63,7 @@ public final class ObjectArrays {
    * @param reference any array of the desired type
    * @param length the length of the new array
    */
-  public static <T> T[] newArray(T[] reference, int length) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] newArray(T[] reference, int length) {
     return Platform.newArray(reference, length);
   }
 
@@ -69,7 +75,7 @@ public final class ObjectArrays {
    * @param type the component type of the returned array
    */
   @GwtIncompatible("Array.newInstance(Class, int)")
-  public static <T> T[] concat(T[] first, T[] second, Class<T> type) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] concat(T[] first, T[] second, Class<T> type) {
     T[] result = newArray(type, first.length + second.length);
     System.arraycopy(first, 0, result, 0, first.length);
     System.arraycopy(second, 0, result, first.length, second.length);
@@ -85,7 +91,7 @@ public final class ObjectArrays {
    *     {@code element} occupying the first position, and the
    *     elements of {@code array} occupying the remaining elements.
    */
-  public static <T> T[] concat(@Nullable T element, T[] array) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] concat(@Nullable T element, T[] array) {
     T[] result = newArray(array, array.length + 1);
     result[0] = element;
     System.arraycopy(array, 0, result, 1, array.length);
@@ -101,14 +107,14 @@ public final class ObjectArrays {
    *     the same contents as {@code array}, plus {@code element} occupying the
    *     last position.
    */
-  public static <T> T[] concat(T[] array, @Nullable T element) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] concat(T[] array, @Nullable T element) {
     T[] result = arraysCopyOf(array, array.length + 1);
     result[array.length] = element;
     return result;
   }
 
   /** GWT safe version of Arrays.copyOf. */
-  static <T> T[] arraysCopyOf(T[] original, int newLength) {
+  static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] arraysCopyOf(T[] original, int newLength) {
     T[] copy = newArray(original, newLength);
     System.arraycopy(original, 0, copy, 0, Math.min(original.length, newLength));
     return copy;
@@ -138,7 +144,7 @@ public final class ObjectArrays {
    *     not a supertype of the runtime type of every element in the specified
    *     collection
    */
-  static <T> T[] toArrayImpl(Collection<?> c, T[] array) {
+  static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] toArrayImpl(Collection<?> c, @org.checkerframework.checker.nullness.qual.Nullable T[] array) {
     int size = c.size();
     if (array.length < size) {
       array = newArray(array, size);
@@ -186,7 +192,7 @@ public final class ObjectArrays {
    *
    * @param c the collection for which to return an array of elements
    */
-  static Object[] toArrayImpl(Collection<?> c) {
+  static @org.checkerframework.checker.nullness.qual.Nullable Object[] toArrayImpl(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c) {
     return fillArray(c, new Object[c.size()]);
   }
 
@@ -204,7 +210,7 @@ public final class ObjectArrays {
     return result;
   }
 
-  private static Object[] fillArray(Iterable<?> elements, Object[] array) {
+  private static @org.checkerframework.checker.nullness.qual.Nullable Object[] fillArray(Iterable<?> elements, @org.checkerframework.checker.nullness.qual.Nullable Object[] array) {
     int i = 0;
     for (Object element : elements) {
       array[i++] = element;

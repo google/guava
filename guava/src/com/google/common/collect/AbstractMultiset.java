@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.collect.Multisets.setCountImpl;
 
 import com.google.common.annotations.GwtCompatible;
@@ -44,22 +50,26 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Louis Wasserman
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Multiset<E> {
+abstract class AbstractMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractCollection<E> implements Multiset<E> {
   // Query Operations
 
+  @Pure
   @Override
   public int size() {
     return Multisets.sizeImpl(this);
   }
 
+  @Pure
   @Override
   public boolean isEmpty() {
     return entrySet().isEmpty();
   }
 
+  @Pure
   @Override
-  public boolean contains(@Nullable Object element) {
+  public boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
     return count(element) > 0;
   }
 
@@ -69,7 +79,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
     for (Entry<E> entry : entrySet()) {
       if (Objects.equal(entry.getElement(), element)) {
         return entry.getCount();
@@ -92,12 +102,12 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   }
 
   @Override
-  public boolean remove(@Nullable Object element) {
+  public boolean remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
     return remove(element, 1) > 0;
   }
 
   @Override
-  public int remove(@Nullable Object element, int occurrences) {
+  public int remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
@@ -125,12 +135,12 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
   }
 
   @Override
-  public boolean removeAll(Collection<?> elementsToRemove) {
+  public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elementsToRemove) {
     return Multisets.removeAllImpl(this, elementsToRemove);
   }
 
   @Override
-  public boolean retainAll(Collection<?> elementsToRetain) {
+  public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elementsToRetain) {
     return Multisets.retainAllImpl(this, elementsToRetain);
   }
 
@@ -143,6 +153,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
 
   private transient Set<E> elementSet;
 
+  @SideEffectFree
   @Override
   public Set<E> elementSet() {
     Set<E> result = elementSet;
@@ -174,6 +185,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
 
   private transient Set<Entry<E>> entrySet;
 
+  @SideEffectFree
   @Override
   public Set<Entry<E>> entrySet() {
     Set<Entry<E>> result = entrySet;
@@ -214,8 +226,9 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
    * of the same size and if, for each element, the two multisets have the same
    * count.
    */
+  @Pure
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return Multisets.equalsImpl(this, object);
   }
 
@@ -225,6 +238,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
    * <p>This implementation returns the hash code of {@link
    * Multiset#entrySet()}.
    */
+  @Pure
   @Override
   public int hashCode() {
     return entrySet().hashCode();
@@ -236,6 +250,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
    * <p>This implementation returns the result of invoking {@code toString} on
    * {@link Multiset#entrySet()}.
    */
+  @Pure
   @Override
   public String toString() {
     return entrySet().toString();

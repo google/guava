@@ -16,6 +16,10 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -37,6 +41,7 @@ import java.util.SortedSet;
  *
  * @author Hayward Chan
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
 final class Platform {
   /**
@@ -46,7 +51,7 @@ final class Platform {
    * @param reference any array of the desired type
    * @param length the length of the new array
    */
-  static <T> T[] newArray(T[] reference, int length) {
+  static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] newArray(T[] reference, int length) {
     Class<?> type = reference.getClass().getComponentType();
 
     // the cast is safe because

@@ -16,6 +16,11 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -35,13 +40,16 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
 abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
+  @Pure
   @Override
   public boolean isEmpty() {
     return size() == 0;
   }
 
+  @Pure
   @Override
   public boolean containsValue(@Nullable Object value) {
     for (Collection<V> collection : asMap().values()) {
@@ -53,6 +61,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return false;
   }
 
+  @Pure
   @Override
   public boolean containsEntry(@Nullable Object key, @Nullable Object value) {
     Collection<V> collection = asMap().get(key);
@@ -103,6 +112,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   private transient Collection<Entry<K, V>> entries;
 
+  @SideEffectFree
   @Override
   public Collection<Entry<K, V>> entries() {
     Collection<Entry<K, V>> result = entries;
@@ -132,11 +142,13 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   @WeakOuter
   private class EntrySet extends Entries implements Set<Entry<K, V>> {
+    @Pure
     @Override
     public int hashCode() {
       return Sets.hashCodeImpl(this);
     }
 
+    @Pure
     @Override
     public boolean equals(@Nullable Object obj) {
       return Sets.equalsImpl(this, obj);
@@ -147,12 +159,14 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   private transient Set<K> keySet;
 
+  @SideEffectFree
   @Override
   public Set<K> keySet() {
     Set<K> result = keySet;
     return (result == null) ? keySet = createKeySet() : result;
   }
 
+  @SideEffectFree
   Set<K> createKeySet() {
     return new Maps.KeySet<K, Collection<V>>(asMap());
   }
@@ -171,6 +185,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   private transient Collection<V> values;
 
+  @SideEffectFree
   @Override
   public Collection<V> values() {
     Collection<V> result = values;
@@ -188,11 +203,13 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
       return valueIterator();
     }
 
+    @Pure
     @Override
     public int size() {
       return AbstractMultimap.this.size();
     }
 
+    @Pure
     @Override
     public boolean contains(@Nullable Object o) {
       return AbstractMultimap.this.containsValue(o);
@@ -220,6 +237,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   // Comparison and hashing
 
+  @Pure
   @Override
   public boolean equals(@Nullable Object object) {
     return Multimaps.equalsImpl(this, object);
@@ -233,6 +251,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
    *
    * @see Map#hashCode
    */
+  @Pure
   @Override
   public int hashCode() {
     return asMap().hashCode();
@@ -244,6 +263,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
    *
    * @return a string representation of the multimap
    */
+  @Pure
   @Override
   public String toString() {
     return asMap().toString();

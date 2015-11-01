@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
@@ -60,8 +66,9 @@ import java.util.NoSuchElementException;
  */
 // When making changes to this class, please also update the copy at
 // com.google.common.base.AbstractIterator
+@AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
+public abstract class AbstractIterator<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends UnmodifiableIterator<T> {
   private State state = State.NOT_READY;
 
   /** Constructor for use by subclasses. */

@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.MapConstraints.ConstrainedMap;
 import com.google.common.primitives.Primitives;
 
@@ -33,7 +39,8 @@ import java.util.Map;
  * @author Kevin Bourrillion
  * @since 2.0
  */
-public final class MutableClassToInstanceMap<B> extends ConstrainedMap<Class<? extends B>, B>
+@AnnotatedFor({"nullness"})
+public final class MutableClassToInstanceMap<B extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ConstrainedMap<Class<? extends B>, B>
     implements ClassToInstanceMap<B> {
 
   /**
