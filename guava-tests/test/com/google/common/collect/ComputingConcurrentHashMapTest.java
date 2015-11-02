@@ -63,7 +63,7 @@ public class ComputingConcurrentHashMapTest extends TestCase {
         maker, computingFunction);
   }
 
-  private MapMaker createMapMaker() {
+  private static MapMaker createMapMaker() {
     MapMaker maker = new MapMaker();
     maker.useCustomMap = true;
     return maker;
