@@ -233,8 +233,8 @@ public class BooleansTest extends TestCase {
   }
 
   public void testAsListLastIndexOf() {
-    assertEquals(-1, Booleans.asList(EMPTY).indexOf((Object) "wrong type"));
-    assertEquals(-1, Booleans.asList(EMPTY).indexOf(true));
+    assertEquals(-1, Booleans.asList(EMPTY).lastIndexOf((Object) "wrong type"));
+    assertEquals(-1, Booleans.asList(EMPTY).lastIndexOf(true));
     assertEquals(-1, Booleans.asList(ARRAY_FALSE).lastIndexOf(true));
     assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).lastIndexOf(true));
     assertEquals(1, Booleans.asList(ARRAY_FALSE_FALSE).lastIndexOf(false));
