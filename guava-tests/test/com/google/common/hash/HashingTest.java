@@ -104,6 +104,7 @@ public class HashingTest extends TestCase {
     assertEquals("Hashing.murmur3_128(0)", Hashing.murmur3_128().toString());
   }
 
+  @AndroidIncompatible // TODO(cpovirk): Surprisingly often has more then 5% collisions there.
   public void testMurmur3_32() {
     HashTestUtils.check2BitAvalanche(Hashing.murmur3_32(), 250, 0.20);
     HashTestUtils.checkAvalanche(Hashing.murmur3_32(), 250, 0.17);
