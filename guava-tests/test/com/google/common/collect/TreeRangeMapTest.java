@@ -573,7 +573,7 @@ public class TreeRangeMapTest extends TestCase {
     }
   }
 
-  private void putModel(Map<Integer, Integer> model, Range<Integer> range, int value) {
+  private static void putModel(Map<Integer, Integer> model, Range<Integer> range, int value) {
     for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
       if (range.contains(i)) {
         model.put(i, value);
@@ -581,7 +581,7 @@ public class TreeRangeMapTest extends TestCase {
     }
   }
 
-  private void removeModel(Map<Integer, Integer> model, Range<Integer> range) {
+  private static void removeModel(Map<Integer, Integer> model, Range<Integer> range) {
     for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
       if (range.contains(i)) {
         model.remove(i);
