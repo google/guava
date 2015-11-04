@@ -1474,34 +1474,41 @@
 </tr>
 <tbody>
 <tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a></code></td>
+<td class="colLast"><span class="strong">CharSource.</span><code><strong><a href="../../../../../com/google/common/io/CharSource.html#asByteSource(java.nio.charset.Charset)">asByteSource</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</code>
+<div class="block">Returns a <a href="../../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> view of this char source that encodes chars read from this source
+ as bytes using the given <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset"><code>Charset</code></a>.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><span class="strong">CharSource.</span><code><strong><a href="../../../../../com/google/common/io/CharSource.html#length()">length</a></strong>()</code>
 <div class="block">Returns the length of this source in chars, even if doing so requires opening and traversing
  an entire stream.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;</code></td>
 <td class="colLast"><span class="strong">CharSource.</span><code><strong><a href="../../../../../com/google/common/io/CharSource.html#lengthIfKnown()">lengthIfKnown</a></strong>()</code>
 <div class="block">Returns the size of this source in chars, if the size can be easily determined without
  actually opening the data stream.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
 <td class="colLast"><span class="strong">ByteSource.</span><code><strong><a href="../../../../../com/google/common/io/ByteSource.html#read(com.google.common.io.ByteProcessor)">read</a></strong>(<a href="../../../../../com/google/common/io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</code>
 <div class="block">Reads the contents of this byte source using the given <code>processor</code> to process bytes as
  they are read.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T</code></td>
 <td class="colLast"><span class="strong">CharSource.</span><code><strong><a href="../../../../../com/google/common/io/CharSource.html#readLines(com.google.common.io.LineProcessor)">readLines</a></strong>(<a href="../../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)</code>
 <div class="block">Reads lines of text from this source, processing each line as it is read using the given
  <a href="../../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io"><code>processor</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ByteSource.</span><code><strong><a href="../../../../../com/google/common/io/ByteSource.html#sizeIfKnown()">sizeIfKnown</a></strong>()</code>
 <div class="block">Returns the size of this source in bytes, if the size can be easily determined without

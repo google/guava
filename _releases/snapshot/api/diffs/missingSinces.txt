@@ -2,6 +2,7 @@ OK: com.google.common.cache.CacheLoader.UnsupportedLoadingOperationException Cla
 OK: com.google.common.base.VerifyException Constructor (java.lang.String, java.lang.Throwable)
 OK: com.google.common.base.VerifyException Constructor (java.lang.Throwable)
 OK: com.google.common.base.CharMatcher Method any()
+OK: com.google.common.io.CharSource Method asByteSource(java.nio.charset.Charset)
 OK: com.google.common.base.CharMatcher Method ascii()
 NO DOC BLOCK: com.google.common.collect.ImmutableRangeMap Method asDescendingMapOfRanges()
 OK: com.google.common.collect.RangeMap Method asDescendingMapOfRanges()
