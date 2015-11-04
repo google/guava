@@ -100,6 +100,27 @@ public class SourceSinkFactories {
     return new UrlCharSourceFactory();
   }
 
+  public static ByteSourceFactory asByteSourceFactory(final CharSourceFactory factory) {
+    checkNotNull(factory);
+    return new ByteSourceFactory() {
+      @Override
+      public ByteSource createSource(byte[] data) throws IOException {
+        return factory.createSource(new String(data, Charsets.UTF_8))
+            .asByteSource(Charsets.UTF_8);
+      }
+
+      @Override
+      public byte[] getExpected(byte[] data) {
+        return factory.getExpected(new String(data, Charsets.UTF_8)).getBytes(Charsets.UTF_8);
+      }
+
+      @Override
+      public void tearDown() throws IOException {
+        factory.tearDown();
+      }
+    };
+  }
+
   public static CharSourceFactory asCharSourceFactory(final ByteSourceFactory factory) {
     checkNotNull(factory);
     return new CharSourceFactory() {

@@ -28,6 +28,7 @@ import com.google.common.collect.Lists;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -69,6 +70,22 @@ public abstract class CharSource {
    * Constructor for use by subclasses.
    */
   protected CharSource() {}
+
+  /**
+   * Returns a {@link ByteSource} view of this char source that encodes chars read from this source
+   * as bytes using the given {@link Charset}.
+   *
+   * <p>If {@link ByteSource#asCharSource} is called on the returned source with the same charset,
+   * the default implementation of this method will ensure that the original {@code CharSource} is
+   * returned, rather than round-trip encoding. Subclasses that override this method should behave
+   * the same way.
+   *
+   * @since 20.0
+   */
+  @Beta
+  public ByteSource asByteSource(Charset charset) {
+    return new AsByteSource(charset);
+  }
 
   /**
    * Opens a new {@link Reader} for reading from this source. This method should return a new,
@@ -395,6 +412,36 @@ public abstract class CharSource {
    */
   public static CharSource empty() {
     return EmptyCharSource.INSTANCE;
+  }
+
+  /**
+   * A byte source that reads chars from this source and encodes them as bytes using a charset.
+   */
+  private final class AsByteSource extends ByteSource {
+
+    final Charset charset;
+
+    AsByteSource(Charset charset) {
+      this.charset = checkNotNull(charset);
+    }
+
+    @Override
+    public CharSource asCharSource(Charset charset) {
+      if (charset.equals(this.charset)) {
+        return CharSource.this;
+      }
+      return super.asCharSource(charset);
+    }
+
+    @Override
+    public InputStream openStream() throws IOException {
+      return new ReaderInputStream(CharSource.this.openStream(), charset, 8192);
+    }
+
+    @Override
+    public String toString() {
+      return CharSource.this.toString() + ".asByteSource(" + charset + ")";
+    }
   }
 
   private static class CharSequenceCharSource extends CharSource {

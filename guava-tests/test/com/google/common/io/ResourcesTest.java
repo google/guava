@@ -49,7 +49,7 @@ public class ResourcesTest extends IoTestCase {
     suite.addTest(ByteSourceTester.tests("Resources.asByteSource[URL]",
         SourceSinkFactories.urlByteSourceFactory(), true));
     suite.addTest(CharSourceTester.tests("Resources.asCharSource[URL, Charset]",
-        SourceSinkFactories.urlCharSourceFactory()));
+        SourceSinkFactories.urlCharSourceFactory(), false));
     suite.addTestSuite(ResourcesTest.class);
     return suite;
   }
