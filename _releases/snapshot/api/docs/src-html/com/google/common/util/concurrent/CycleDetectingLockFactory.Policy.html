@@ -761,7 +761,7 @@
 <span class="sourceLineNo">753</span>   * including both lock and unlock attempts. Failure to do so can result in<a name="line.753"></a>
 <span class="sourceLineNo">754</span>   * corrupting the acquireLocks set.<a name="line.754"></a>
 <span class="sourceLineNo">755</span>   */<a name="line.755"></a>
-<span class="sourceLineNo">756</span>  private void lockStateChanged(CycleDetectingLock lock) {<a name="line.756"></a>
+<span class="sourceLineNo">756</span>  private static void lockStateChanged(CycleDetectingLock lock) {<a name="line.756"></a>
 <span class="sourceLineNo">757</span>    if (!lock.isAcquiredByCurrentThread()) {<a name="line.757"></a>
 <span class="sourceLineNo">758</span>      ArrayList&lt;LockGraphNode&gt; acquiredLockList = acquiredLocks.get();<a name="line.758"></a>
 <span class="sourceLineNo">759</span>      LockGraphNode node = lock.getLockGraphNode();<a name="line.759"></a>
