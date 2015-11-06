@@ -22,14 +22,12 @@ import static com.google.common.collect.testing.features.CollectionFeature.KNOWN
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -116,19 +114,5 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
       iterator.next();
       fail("iterator.next() should throw NoSuchElementException");
     } catch (NoSuchElementException expected) {}
-  }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testIterator_knownOrderRemoveUnsupported()} so that tests of
-   * {@code ArrayStack} can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()}. {@code ArrayStack}
-   * supports {@code remove()} on only the first element, and the iterator
-   * tester can't handle that.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getIteratorKnownOrderRemoveUnsupportedMethod() {
-    return Helpers.getMethod(
-        CollectionIteratorTester.class, "testIterator_knownOrderRemoveUnsupported");
   }
 }
