@@ -961,7 +961,7 @@ public class NullPointerTesterTest extends TestCase {
     void check() {
       try {
         runTester();
-      } catch (AssertionError expected) {
+      } catch (AssertionFailedError expected) {
         return;
       }
       fail("Should have failed because enum has no constant");

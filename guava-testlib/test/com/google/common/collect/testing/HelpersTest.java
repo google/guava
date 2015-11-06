@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.Helpers.testComparator;
 
 import com.google.common.annotations.GwtCompatible;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class HelpersTest extends TestCase {
     try {
       Helpers.assertEmpty(list);
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
   }
 
@@ -60,7 +61,7 @@ public class HelpersTest extends TestCase {
     try {
       Helpers.assertEmpty(map);
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
   }
 
@@ -72,27 +73,27 @@ public class HelpersTest extends TestCase {
     try {
       Helpers.assertEqualInOrder(list, fewer);
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
 
     try {
       Helpers.assertEqualInOrder(fewer, list);
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
 
     List<?> differentOrder = Arrays.asList("a", "c", "b");
     try {
       Helpers.assertEqualInOrder(list, differentOrder);
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
 
     List<?> differentContents = Arrays.asList("a", "b", "C");
     try {
       Helpers.assertEqualInOrder(list, differentContents);
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
   }
 
@@ -103,25 +104,25 @@ public class HelpersTest extends TestCase {
     try {
       Helpers.assertContentsInOrder(list, "a", "b");
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
 
     try {
       Helpers.assertContentsInOrder(list, "a", "b", "c", "d");
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
 
     try {
       Helpers.assertContentsInOrder(list, "a", "c", "b");
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
 
     try {
       Helpers.assertContentsInOrder(list, "a", "B", "c");
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
   }
 
@@ -133,7 +134,7 @@ public class HelpersTest extends TestCase {
     try {
       Helpers.assertContains(list, "c");
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
   }
 
@@ -147,19 +148,19 @@ public class HelpersTest extends TestCase {
     try {
       Helpers.assertContainsAllOf(list, "d");
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
 
     try {
       Helpers.assertContainsAllOf(list, "a", "b", "c", "d");
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
 
     try {
       Helpers.assertContainsAllOf(list, "a", "a", "a");
       fail();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
     }
   }
 }
