@@ -201,8 +201,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <td class="colFirst"><code><a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/cache/ForwardingCache.html#get(K,%20java.util.concurrent.Callable)">get</a></strong>(<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>&nbsp;key,
       <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;? extends <a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;&nbsp;valueLoader)</code>
-<div class="block">Returns the value associated with <code>key</code> in this cache, obtaining that value from
- <code>valueLoader</code> if necessary.</div>
+<div class="block">Returns the value associated with <code>key</code> in this cache, obtaining that value from <code>loader</code> if necessary.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -357,13 +356,41 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;? extends <a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;&nbsp;valueLoader)
       throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#get(K,%20java.util.concurrent.Callable)">Cache</a></code></strong></div>
-<div class="block">Returns the value associated with <code>key</code> in this cache, obtaining that value from
- <code>valueLoader</code> if necessary. No observable state associated with this cache is modified
- until loading completes. This method provides a simple substitute for the conventional
- "if cached, return; otherwise create, cache and return" pattern.
+<div class="block">Returns the value associated with <code>key</code> in this cache, obtaining that value from <code>loader</code> if necessary. The method improves upon the conventional "if cached, return; otherwise
+ create, cache and return" pattern. For further improvements, use <a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache"><code>LoadingCache</code></a> and its
+ <a href="../../../../com/google/common/cache/LoadingCache.html#get(K)"><code>get(K)</code></a> method instead of this one.
 
- <p><b>Warning:</b> as with <a href="../../../../com/google/common/cache/CacheLoader.html#load(K)"><code>CacheLoader.load(K)</code></a>, <code>valueLoader</code> <b>must not</b> return
- <code>null</code>; it may either return a non-null value or throw an exception.</div>
+ <p>Among the improvements that this method and <code>LoadingCache.get(K)</code> both provide are:
+
+ <ul>
+ <li><a href="../../../../com/google/common/cache/LoadingCache.html#get(K)">awaiting the result of a pending load</a> rather than
+     starting a redundant one
+ <li>eliminating the error-prone caching boilerplate
+ <li>tracking load <a href="../../../../com/google/common/cache/Cache.html#stats()">statistics</a>
+ </ul>
+
+ <p>Among the further improvements that <code>LoadingCache</code> can provide but this method cannot:
+
+ <ul>
+ <li>consolidation of the loader logic to <a href="../../../../com/google/common/cache/CacheBuilder.html#build(com.google.common.cache.CacheLoader)">a single
+     authoritative location</a>
+ <li><a href="../../../../com/google/common/cache/LoadingCache.html#refresh(K)">refreshing of entries</a>, including <a href="../../../../com/google/common/cache/CacheBuilder.html#refreshAfterWrite(long,%20java.util.concurrent.TimeUnit)">automated refreshing</a>
+ <li><a href="../../../../com/google/common/cache/LoadingCache.html#getAll(java.lang.Iterable)">bulk loading requests</a>, including <a href="../../../../com/google/common/cache/CacheLoader.html#loadAll(java.lang.Iterable)">bulk loading implementations</a>
+ </ul>
+
+ <p><b>Warning:</b> For any given key, every <code>loader</code> used with it should compute the same
+ value. Otherwise, a call that passes one <code>loader</code> may return the result of another call
+ with a differently behaving <code>loader</code>. For example, a call that requests a short timeout
+ for an RPC may wait for a similar call that requests a long timeout, or a call by an
+ unprivileged user may return a resource accessible only to a privileged user making a similar
+ call. To prevent this problem, create a key object that includes all values that affect the
+ result of the query. Or use <code>LoadingCache.get(K)</code>, which lacks the ability to refer to
+ state other than that in the key.
+
+ <p><b>Warning:</b> as with <a href="../../../../com/google/common/cache/CacheLoader.html#load(K)"><code>CacheLoader.load(K)</code></a>, <code>loader</code> <b>must not</b> return
+ <code>null</code>; it may either return a non-null value or throw an exception.
+
+ <p>No observable state associated with this cache is modified until loading completes.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/google/common/cache/Cache.html#get(K,%20java.util.concurrent.Callable)">get</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;</code></dd>
