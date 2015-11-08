@@ -33,6 +33,7 @@ import java.util.List;
  *
  * @author Chris Nokleberg
  */
+@AndroidIncompatible // occasionally very slow
 public class LineBufferTest extends IoTestCase {
 
   public void testProcess() throws IOException {
