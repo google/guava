@@ -684,10 +684,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * Returns a new {@code ListenableFuture} whose result is asynchronously derived from the result
-   * of the given {@code Future}. More precisely, the returned {@code Future} takes its result from
-   * a {@code Future} produced by applying the given {@code AsyncFunction} to the result of the
-   * original {@code Future}. Example:
+   * Returns a new {@code Future} whose result is asynchronously derived from the result of the
+   * given {@code Future}. If the given {@code Future} fails, the returned {@code Future} fails with
+   * the same exception (and the function is not invoked).
+   *
+   * <p>More precisely, the returned {@code Future} takes its result from a {@code Future} produced
+   * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
+   * Example usage:
    *
    * <pre>   {@code
    *   ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
@@ -725,10 +728,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * Returns a new {@code ListenableFuture} whose result is asynchronously derived from the result
-   * of the given {@code Future}. More precisely, the returned {@code Future} takes its result from
-   * a {@code Future} produced by applying the given {@code AsyncFunction} to the result of the
-   * original {@code Future}. Example:
+   * Returns a new {@code Future} whose result is asynchronously derived from the result of the
+   * given {@code Future}. If the given {@code Future} fails, the returned {@code Future} fails with
+   * the same exception (and the function is not invoked).
+   *
+   * <p>More precisely, the returned {@code Future} takes its result from a {@code Future} produced
+   * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
+   * Example usage:
    *
    * <pre>   {@code
    *   ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
@@ -769,8 +775,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * Returns a new {@code ListenableFuture} whose result is the product of applying the given {@code
-   * Function} to the result of the given {@code Future}. Example:
+   * Returns a new {@code Future} whose result is derived from the result of the given {@code
+   * Future}. If {@code input} fails, the returned {@code Future} fails with the same exception (and
+   * the function is not invoked). Example usage:
    *
    * <pre>   {@code
    *   ListenableFuture<QueryResult> queryFuture = ...;
@@ -808,8 +815,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * Returns a new {@code ListenableFuture} whose result is the product of applying the given {@code
-   * Function} to the result of the given {@code Future}. Example:
+   * Returns a new {@code Future} whose result is derived from the result of the given {@code
+   * Future}. If {@code input} fails, the returned {@code Future} fails with the same exception (and
+   * the function is not invoked). Example usage:
    *
    * <pre>   {@code
    *   ListenableFuture<QueryResult> queryFuture = ...;
