@@ -96,13 +96,26 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/base/Function.html#line.36">Function</a>&lt;F,T&gt;</pre>
-<div class="block">Determines an output value based on an input value.
+public interface <a href="../../../../src-html/com/google/common/base/Function.html#line.50">Function</a>&lt;F,T&gt;</pre>
+<div class="block">Determines an output value based on an input value; a pre-Java-8 version of <code>java.util.function.Function</code>.
 
  <p>The <a href="../../../../com/google/common/base/Functions.html" title="class in com.google.common.base"><code>Functions</code></a> class provides common functions and related utilites.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/FunctionalExplained">the use of <code>Function</code></a>.</div>
+ "https://github.com/google/guava/wiki/FunctionalExplained">the use of <code>Function</code></a>.
+
+ <h3>For Java 8+ users</h3>
+
+ <p>This interface is now a legacy type. Use <code>java.util.function.Function</code> (or the
+ appropriate primitive specialization such as <code>ToIntFunction</code>) instead whenever possible.
+ Otherwise, reducing <i>explicit</i> dependencies on this type by using lambda expressions or
+ method references instead of classes will leave your code easier to migrate in the future.
+
+ <p>To use an existing function (say, named <code>function</code>) in a context where the <i>other
+ type</i> of function is expected, use <code>function::apply</code>. A future version of
+ <code>com.google.common.base.Function</code> will be made to <i>extend</i>
+ <code>java.util.function.Function</code>, making conversion code necessary only in one direction.
+ At that time, we plan to also deprecate this interface.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>2.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -161,7 +174,7 @@ public interface <a href="../../../../src-html/com/google/common/base/Function.h
 <li class="blockList">
 <h4>apply</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-<a href="../../../../com/google/common/base/Function.html" title="type parameter in Function">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.52">apply</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<a href="../../../../com/google/common/base/Function.html" title="type parameter in Function">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.66">apply</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                <a href="../../../../com/google/common/base/Function.html" title="type parameter in Function">F</a>&nbsp;input)</pre>
 <div class="block">Returns the result of applying this function to <code>input</code>. This method is <i>generally
  expected</i>, but not absolutely required, to have the following properties:
@@ -182,7 +195,7 @@ public interface <a href="../../../../src-html/com/google/common/base/Function.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.65">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.79">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Indicates whether another object is equal to this function.
 

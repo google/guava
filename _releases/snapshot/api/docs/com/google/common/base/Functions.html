@@ -205,13 +205,21 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toStringFunction</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.57">toStringFunction</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.65">toStringFunction</a>()</pre>
 <div class="block">Returns a function that calls <code>toString()</code> on its argument. The function does not accept
  nulls; it will throw a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a> when applied to <code>null</code>.
 
  <p><b>Warning:</b> The returned function may not be <i>consistent with equals</i> (as
  documented at <a href="../../../../com/google/common/base/Function.html#apply(F)"><code>Function.apply(F)</code></a>). For example, this function yields different results for
- the two equal instances <code>ImmutableSet.of(1, 2)</code> and <code>ImmutableSet.of(2, 1)</code>.</div>
+ the two equal instances <code>ImmutableSet.of(1, 2)</code> and <code>ImmutableSet.of(2, 1)</code>.
+
+ <p><b>Warning:</b> as with all function types in this package, avoid depending on the specific
+ <code>equals</code>, <code>hashCode</code> or <code>toString</code> behavior of the returned function. A
+ future migration to <code>java.util.function</code> will not preserve this behavior.
+
+ <p><b>For Java 8 users:</b> use the method reference <code>Object::toString</code> instead. In the
+ future, when this class requires Java 8, this method will be deprecated. See <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base"><code>Function</code></a>
+ for more important information about the Java 8 transition.</div>
 </li>
 </ul>
 <a name="identity()">
@@ -220,7 +228,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>identity</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;E,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.82">identity</a>()</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;E,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.90">identity</a>()</pre>
 <div class="block">Returns the identity function.</div>
 </li>
 </ul>
@@ -230,7 +238,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>forMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.111">forMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;map)</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.119">forMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;map)</pre>
 <div class="block">Returns a function which performs a map lookup. The returned function throws an <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a> if given a key that does not exist in the map. See also <a href="../../../../com/google/common/base/Functions.html#forMap(java.util.Map,%20V)"><code>forMap(Map, Object)</code></a>, which returns a default value in this case.
 
  <p>Note: if <code>map</code> is a <a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect"><code>BiMap</code></a> (or can be one), you
@@ -246,7 +254,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>forMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.161">forMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,? extends V&gt;&nbsp;map,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.169">forMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,? extends V&gt;&nbsp;map,
                          <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                          V&nbsp;defaultValue)</pre>
 <div class="block">Returns a function which performs a map lookup with a default value. The function created by
@@ -262,7 +270,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>compose</h4>
-<pre>public static&nbsp;&lt;A,B,C&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;A,C&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.212">compose</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;B,C&gt;&nbsp;g,
+<pre>public static&nbsp;&lt;A,B,C&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;A,C&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.220">compose</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;B,C&gt;&nbsp;g,
                             <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;A,? extends B&gt;&nbsp;f)</pre>
 <div class="block">Returns the composition of two functions. For <code>f: A-&gt;B</code> and <code>g: B-&gt;C</code>, composition
  is defined as the function h such that <code>h(a) == g(f(a))</code> for each <code>a</code>.</div>
@@ -276,7 +284,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>forPredicate</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;T,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.259">forPredicate</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;&nbsp;predicate)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;T,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.267">forPredicate</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;&nbsp;predicate)</pre>
 <div class="block">Creates a function that returns the same boolean output as the given predicate for all inputs.
 
  <p>The returned function is <i>consistent with equals</i> (as documented at <a href="../../../../com/google/common/base/Function.html#apply(F)"><code>Function.apply(F)</code></a>) if and only if <code>predicate</code> is itself consistent with equals.</div>
@@ -290,7 +298,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>constant</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.304">constant</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.312">constant</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                               E&nbsp;value)</pre>
 <div class="block">Creates a function that returns <code>value</code> for any input.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - the constant value for the function to return</dd>
@@ -304,7 +312,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>forSupplier</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.349">forSupplier</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;supplier)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.357">forSupplier</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;supplier)</pre>
 <div class="block">Returns a function that always returns the result of invoking <a href="../../../../com/google/common/base/Supplier.html#get()"><code>Supplier.get()</code></a> on <code>supplier</code>, regardless of its input.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd></dl>

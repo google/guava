@@ -142,11 +142,17 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
+<td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#farmHashFingerprint64()">farmHashFingerprint64</a></strong>()</code>
+<div class="block">Returns a hash function implementing FarmHash's Fingerprint64, an open-source algorithm.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#goodFastHash(int)">goodFastHash</a></strong>(int&nbsp;minimumBits)</code>
 <div class="block">Returns a general-purpose, <b>temporary-use</b>, non-cryptographic hash function.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#hmacMd5(byte[])">hmacMd5</a></strong>(byte[]&nbsp;key)</code>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
@@ -154,14 +160,14 @@
  byte array and the MD5 algorithm.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#hmacMd5(java.security.Key)">hmacMd5</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security">Key</a>&nbsp;key)</code>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
  the MD5 (128 hash bits) hash function and the given secret key.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#hmacSha1(byte[])">hmacSha1</a></strong>(byte[]&nbsp;key)</code>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
@@ -169,14 +175,14 @@
  byte array and the SHA-1 algorithm.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#hmacSha1(java.security.Key)">hmacSha1</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security">Key</a>&nbsp;key)</code>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
  the SHA-1 (160 hash bits) hash function and the given secret key.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#hmacSha256(byte[])">hmacSha256</a></strong>(byte[]&nbsp;key)</code>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
@@ -184,14 +190,14 @@
  byte array and the SHA-256 algorithm.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#hmacSha256(java.security.Key)">hmacSha256</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security">Key</a>&nbsp;key)</code>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
  the SHA-256 (256 hash bits) hash function and the given secret key.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#hmacSha512(byte[])">hmacSha512</a></strong>(byte[]&nbsp;key)</code>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
@@ -199,21 +205,21 @@
  byte array and the SHA-512 algorithm.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#hmacSha512(java.security.Key)">hmacSha512</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/security/Key.html?is-external=true" title="class or interface in java.security">Key</a>&nbsp;key)</code>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
  the SHA-512 (512 hash bits) hash function and the given secret key.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#md5()">md5</a></strong>()</code>
 <div class="block">Returns a hash function implementing the MD5 hash algorithm (128 hash bits) by delegating to
  the MD5 <a href="http://docs.oracle.com/javase/7/docs/api/java/security/MessageDigest.html?is-external=true" title="class or interface in java.security"><code>MessageDigest</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#murmur3_128()">murmur3_128</a></strong>()</code>
 <div class="block">Returns a hash function implementing the
@@ -222,7 +228,7 @@
  using a seed value of zero.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#murmur3_128(int)">murmur3_128</a></strong>(int&nbsp;seed)</code>
 <div class="block">Returns a hash function implementing the
@@ -231,7 +237,7 @@
  using the given seed value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#murmur3_32()">murmur3_32</a></strong>()</code>
 <div class="block">Returns a hash function implementing the
@@ -240,7 +246,7 @@
  using a seed value of zero.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#murmur3_32(int)">murmur3_32</a></strong>(int&nbsp;seed)</code>
 <div class="block">Returns a hash function implementing the
@@ -249,35 +255,35 @@
  using the given seed value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#sha1()">sha1</a></strong>()</code>
 <div class="block">Returns a hash function implementing the SHA-1 algorithm (160 hash bits) by delegating to the
  SHA-1 <a href="http://docs.oracle.com/javase/7/docs/api/java/security/MessageDigest.html?is-external=true" title="class or interface in java.security"><code>MessageDigest</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#sha256()">sha256</a></strong>()</code>
 <div class="block">Returns a hash function implementing the SHA-256 algorithm (256 hash bits) by delegating to
  the SHA-256 <a href="http://docs.oracle.com/javase/7/docs/api/java/security/MessageDigest.html?is-external=true" title="class or interface in java.security"><code>MessageDigest</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#sha384()">sha384</a></strong>()</code>
 <div class="block">Returns a hash function implementing the SHA-384 algorithm (384 hash bits) by delegating to
  the SHA-384 <a href="http://docs.oracle.com/javase/7/docs/api/java/security/MessageDigest.html?is-external=true" title="class or interface in java.security"><code>MessageDigest</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#sha512()">sha512</a></strong>()</code>
 <div class="block">Returns a hash function implementing the SHA-512 algorithm (512 hash bits) by delegating to the
  SHA-512 <a href="http://docs.oracle.com/javase/7/docs/api/java/security/MessageDigest.html?is-external=true" title="class or interface in java.security"><code>MessageDigest</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#sipHash24()">sipHash24</a></strong>()</code>
 <div class="block">Returns a hash function implementing the
@@ -285,7 +291,7 @@
  using a seed value of <code>k = 00 01 02 ...</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></td>
 <td class="colLast"><span class="strong">Hashing.</span><code><strong><a href="../../../../../com/google/common/hash/Hashing.html#sipHash24(long,%20long)">sipHash24</a></strong>(long&nbsp;k0,
                   long&nbsp;k1)</code>
