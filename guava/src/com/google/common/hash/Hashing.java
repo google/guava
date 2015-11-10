@@ -444,6 +444,26 @@ public final class Hashing {
   }
 
   /**
+   * Returns a hash function implementing FarmHash's Fingerprint64, an open-source algorithm.
+   * <p>
+   * This is designed for generating persistent fingerprints of strings.  It isn't cryptographically
+   * secure, but it produces a high-quality hash with fewer collisions than some alternatives we've
+   * used in the past.  FarmHashFingerprints generated using this are byte-wise identical to those
+   * created using the C++ version, but note that this uses unsigned integers (see
+   * {@link com.google.common.primitives.UnsignedInts}).  Comparisons between the two should take
+   * this into account.
+   *
+   * @since 20.0
+   */
+  public static HashFunction farmHashFingerprint64() {
+    return FarmHashFingerprint64Holder.FARMHASH_FINGERPRINT_64;
+  }
+
+  private static class FarmHashFingerprint64Holder {
+    static final HashFunction FARMHASH_FINGERPRINT_64 = new FarmHashFingerprint64();
+  }
+
+  /**
    * Assigns to {@code hashCode} a "bucket" in the range {@code [0, buckets)}, in a uniform manner
    * that minimizes the need for remapping as {@code buckets} grows. That is, {@code
    * consistentHash(h, n)} equals:
