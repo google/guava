@@ -1140,7 +1140,7 @@
 <span class="sourceLineNo">1132</span>   * Example: &lt;pre&gt; {@code<a name="line.1132"></a>
 <span class="sourceLineNo">1133</span>   * ListenableFuture&lt;QueryResult&gt; future = ...;<a name="line.1133"></a>
 <span class="sourceLineNo">1134</span>   * addCallback(future,<a name="line.1134"></a>
-<span class="sourceLineNo">1135</span>   *     new FutureCallback&lt;QueryResult&gt; {<a name="line.1135"></a>
+<span class="sourceLineNo">1135</span>   *     new FutureCallback&lt;QueryResult&gt;() {<a name="line.1135"></a>
 <span class="sourceLineNo">1136</span>   *       public void onSuccess(QueryResult result) {<a name="line.1136"></a>
 <span class="sourceLineNo">1137</span>   *         storeInCache(result);<a name="line.1137"></a>
 <span class="sourceLineNo">1138</span>   *       }<a name="line.1138"></a>
@@ -1178,7 +1178,7 @@
 <span class="sourceLineNo">1170</span>   * ListenableFuture&lt;QueryResult&gt; future = ...;<a name="line.1170"></a>
 <span class="sourceLineNo">1171</span>   * Executor e = ...<a name="line.1171"></a>
 <span class="sourceLineNo">1172</span>   * addCallback(future,<a name="line.1172"></a>
-<span class="sourceLineNo">1173</span>   *     new FutureCallback&lt;QueryResult&gt; {<a name="line.1173"></a>
+<span class="sourceLineNo">1173</span>   *     new FutureCallback&lt;QueryResult&gt;() {<a name="line.1173"></a>
 <span class="sourceLineNo">1174</span>   *       public void onSuccess(QueryResult result) {<a name="line.1174"></a>
 <span class="sourceLineNo">1175</span>   *         storeInCache(result);<a name="line.1175"></a>
 <span class="sourceLineNo">1176</span>   *       }<a name="line.1176"></a>

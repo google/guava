@@ -1329,7 +1329,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/coll
 
  Example: <pre> <code>ListenableFuture&lt;QueryResult&gt; future = ...;
  addCallback(future,
-     new FutureCallback&lt;QueryResult&gt; {
+     new FutureCallback&lt;QueryResult&gt;() {
        public void onSuccess(QueryResult result) {
          storeInCache(result);
        }
@@ -1366,7 +1366,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/coll
  Example: <pre> <code>ListenableFuture&lt;QueryResult&gt; future = ...;
  Executor e = ...
  addCallback(future,
-     new FutureCallback&lt;QueryResult&gt; {
+     new FutureCallback&lt;QueryResult&gt;() {
        public void onSuccess(QueryResult result) {
          storeInCache(result);
        }
