@@ -439,6 +439,7 @@ public class FloatsTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("Floats.tryParse")
   public void testTryParseAllCodePoints() {
     // Exercise non-ASCII digit test cases and the like.
