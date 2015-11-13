@@ -1132,7 +1132,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Example: <pre> {@code
    * ListenableFuture<QueryResult> future = ...;
    * addCallback(future,
-   *     new FutureCallback<QueryResult> {
+   *     new FutureCallback<QueryResult>() {
    *       public void onSuccess(QueryResult result) {
    *         storeInCache(result);
    *       }
@@ -1170,7 +1170,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * ListenableFuture<QueryResult> future = ...;
    * Executor e = ...
    * addCallback(future,
-   *     new FutureCallback<QueryResult> {
+   *     new FutureCallback<QueryResult>() {
    *       public void onSuccess(QueryResult result) {
    *         storeInCache(result);
    *       }
