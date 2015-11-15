@@ -42,7 +42,7 @@ import javax.annotation.Nullable;
  * @author Dimitris Andreou
  */
 public class BloomFilterTest extends TestCase {
-  @SuppressUnderAndroid // OutOfMemoryError
+  @AndroidIncompatible // OutOfMemoryError
   public void testLargeBloomFilterDoesntOverflow() {
     long numBits = Integer.MAX_VALUE;
     numBits++;
@@ -271,11 +271,11 @@ public class BloomFilterTest extends TestCase {
   }
 
   @SuppressWarnings("CheckReturnValue")
-  @SuppressUnderAndroid // OutOfMemoryError
+  @AndroidIncompatible // OutOfMemoryError
   public void testLargeNumberOfInsertions() {
     // We use horrible FPPs here to keep Java from OOM'ing
-    BloomFilter.create(Funnels.unencodedCharsFunnel(), 42L + Integer.MAX_VALUE, 0.28);
-    BloomFilter.create(Funnels.unencodedCharsFunnel(), 50L * Integer.MAX_VALUE, 0.99);
+    BloomFilter.create(Funnels.unencodedCharsFunnel(), 30L + Integer.MAX_VALUE, 0.28);
+    BloomFilter.create(Funnels.unencodedCharsFunnel(), 45L * Integer.MAX_VALUE, 0.99);
   }
 
   private void checkSanity(BloomFilter<Object> bf) {
@@ -310,6 +310,7 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testBitSize() {
     double fpp = 0.03;
     for (int i = 1; i < 10000; i++) {

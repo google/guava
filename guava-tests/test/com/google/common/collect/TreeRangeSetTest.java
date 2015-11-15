@@ -19,6 +19,7 @@ import static com.google.common.collect.Range.range;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.SerializableTester;
 
 import java.util.List;
 import java.util.NavigableMap;
@@ -587,5 +588,13 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     assertTrue(rangeSet.contains(8));
     assertNull(rangeSet.rangeContaining(6));
     assertFalse(rangeSet.contains(6));
+  }
+
+  @GwtIncompatible("SerializableTester")
+  public void testSerialization() {
+    RangeSet<Integer> rangeSet = TreeRangeSet.create();
+    rangeSet.add(Range.closed(3, 10));
+    rangeSet.remove(Range.open(5, 7));
+    SerializableTester.reserializeAndAssert(rangeSet);
   }
 }

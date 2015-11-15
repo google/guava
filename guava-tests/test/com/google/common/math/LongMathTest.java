@@ -136,6 +136,7 @@ public class LongMathTest extends TestCase {
     } catch (ArithmeticException expected) {}
   }
 
+  @AndroidIncompatible // slow
   public void testLessThanBranchFree() {
     for (long x : ALL_LONG_CANDIDATES) {
       for (long y : ALL_LONG_CANDIDATES) {
@@ -323,7 +324,7 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
-  @SuppressUnderAndroid // TODO(cpovirk): File BigDecimal.divide() rounding bug.
+  @AndroidIncompatible // TODO(cpovirk): File BigDecimal.divide() rounding bug.
   public void testDivNonZero() {
     for (long p : NONZERO_LONG_CANDIDATES) {
       for (long q : NONZERO_LONG_CANDIDATES) {
@@ -340,7 +341,7 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
-  @SuppressUnderAndroid // TODO(cpovirk): Problem with LongMath.divide on Android?
+  @AndroidIncompatible // TODO(cpovirk): Problem with LongMath.divide on Android?
   public void testDivNonZeroExact() {
     for (long p : NONZERO_LONG_CANDIDATES) {
       for (long q : NONZERO_LONG_CANDIDATES) {
@@ -413,6 +414,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("TODO")
   public void testMod() {
     for (long x : ALL_LONG_CANDIDATES) {
@@ -481,6 +483,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("TODO")
   public void testCheckedAdd() {
     for (long a : ALL_LONG_CANDIDATES) {
@@ -501,6 +504,7 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
+  @AndroidIncompatible // slow
   public void testCheckedSubtract() {
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
@@ -523,7 +527,7 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
-  @SuppressUnderAndroid // TODO(cpovirk): Problem with LongMath.checkedMultiply on Android?
+  @AndroidIncompatible // TODO(cpovirk): Problem with LongMath.checkedMultiply on Android?
   public void testCheckedMultiply() {
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
@@ -645,6 +649,7 @@ public class LongMathTest extends TestCase {
     assertTrue(sqrtMaxLong <= LongMath.FLOOR_SQRT_MAX_LONG);
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("java.math.BigInteger")
   public void testMean() {
     // Odd-sized ranges have an obvious mean

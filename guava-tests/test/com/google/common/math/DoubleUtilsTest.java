@@ -32,14 +32,14 @@ import java.math.BigInteger;
  * @author Louis Wasserman
  */
 public class DoubleUtilsTest extends TestCase {
-  @SuppressUnderAndroid // no FpUtils
+  @AndroidIncompatible // no FpUtils
   public void testNextDown() {
     for (double d : FINITE_DOUBLE_CANDIDATES) {
       assertEquals(FpUtils.nextDown(d), DoubleUtils.nextDown(d));
     }
   }
   
-  @SuppressUnderAndroid // TODO(cpovirk): File bug for BigDecimal.doubleValue().
+  @AndroidIncompatible // TODO(cpovirk): File bug for BigDecimal.doubleValue().
   public void testBigToDouble() {
     for (BigInteger b : ALL_BIGINTEGER_CANDIDATES) {
       if (b.doubleValue() != DoubleUtils.bigToDouble(b)) {

@@ -16,6 +16,7 @@
 
 package com.google.common.reflect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
@@ -42,7 +43,7 @@ import java.util.Map.Entry;
  */
 public class MutableTypeToInstanceMapTest extends TestCase {
 
-  @SuppressUnderAndroid // problem with suite builders on Android
+  @AndroidIncompatible // problem with suite builders on Android
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(MutableTypeToInstanceMapTest.class);
@@ -161,11 +162,15 @@ public class MutableTypeToInstanceMapTest extends TestCase {
     } catch (NullPointerException expected) {
     }
     map.putInstance(Integer.class, null);
-    assertNull(map.get(Integer.class));
+    assertTrue(map.containsKey(TypeToken.of(Integer.class)));
+    assertTrue(map.entrySet().contains(immutableEntry(TypeToken.of(Integer.class), null)));
+    assertNull(map.get(TypeToken.of(Integer.class)));
     assertNull(map.getInstance(Integer.class));
 
     map.putInstance(Long.class, null);
-    assertNull(map.get(Long.class));
+    assertTrue(map.containsKey(TypeToken.of(Long.class)));
+    assertTrue(map.entrySet().contains(immutableEntry(TypeToken.of(Long.class), null)));
+    assertNull(map.get(TypeToken.of(Long.class)));
     assertNull(map.getInstance(Long.class));
   }
 

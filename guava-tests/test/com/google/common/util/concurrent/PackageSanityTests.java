@@ -40,9 +40,10 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
   };
 
   public PackageSanityTests() {
+    setDefault(AbstractFuture.class, SettableFuture.create());
+    setDefault(Class.class, IOException.class);
     setDefault(RateLimiter.class, RateLimiter.create(1.0));
     setDefault(SleepingStopwatch.class, NO_OP_STOPWATCH);
-    setDefault(Class.class, IOException.class);
     setDefault(long.class, 0L);
   }
 }

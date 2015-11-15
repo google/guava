@@ -66,6 +66,13 @@
     <module>guava-testlib</module>
     <module>guava-tests</module>
   </modules>
+  <repositories>
+    <repository>
+    <id>Codehaus Mojo</id>
+    <name>Codehaus Mojo</name>
+    <url>https://oss.sonatype.org/content/repositories/codehaus-snapshots/</url>
+    </repository>
+  </repositories>
   <build>
     <!-- Handle where Guava deviates from Maven defaults -->
     <sourceDirectory>src</sourceDirectory>
@@ -172,7 +179,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.3</version>
+          <version>2.10</version>
         </plugin>
         <plugin>
           <artifactId>maven-antrun-plugin</artifactId>

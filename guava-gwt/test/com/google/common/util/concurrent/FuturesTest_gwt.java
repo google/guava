@@ -747,6 +747,33 @@ public void testCatchingAsync_nullInsteadOfFuture() throws Exception {
   }
 }
 
+public void testCatchingAsync_rejectionPropagatesToOutput() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testCatchingAsync_rejectionPropagatesToOutput();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
 public void testCatchingAsync_resultCancelledBeforeFallback() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
@@ -1476,6 +1503,33 @@ public void testTransformAsync_genericsWildcard_AsyncFunction() throws Exception
   }
 }
 
+public void testTransformAsync_inputCancelButNotInterruptPropagatesToOutput() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testTransformAsync_inputCancelButNotInterruptPropagatesToOutput();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
 public void testTransformAsync_interruptPropagatesToAsyncOutput() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
@@ -1800,6 +1854,33 @@ public void testTransform_genericsWildcard_AsyncFunction() throws Exception {
   }
 }
 
+public void testTransform_inputCancelButNotInterruptPropagatesToOutput() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testTransform_inputCancelButNotInterruptPropagatesToOutput();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
 public void testTransform_interruptPropagatesToAsyncOutput() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
@@ -1833,6 +1914,33 @@ public void testTransform_interruptPropagatesToInput() throws Exception {
   Throwable failure = null;
   try {
     testCase.testTransform_interruptPropagatesToInput();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
+public void testTransform_rejectionPropagatesToOutput() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testTransform_rejectionPropagatesToOutput();
   } catch (Throwable t) {
     failure = t;
   }

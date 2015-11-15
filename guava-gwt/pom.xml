@@ -226,19 +226,13 @@
                 <copy toDir="${project.build.directory}/guava-gwt-sources"
                       verbose="true">
                   <fileset dir="${project.build.directory}/guava-sources">
-                    <and>
-                      <contains text="@GwtCompatible"/>
-                      <not><contains text="emulated = true"/></not>
-                    </and>
+                    <contains text="@GwtCompatible"/>
                   </fileset>
                 </copy>
                 <copy toDir="${project.build.directory}/guava-test-gwt-sources"
                       verbose="true">
                   <fileset dir="${project.build.directory}/guava-test-sources">
-                    <and>
-                      <contains text="@GwtCompatible"/>
-                      <not><contains text="emulated = true"/></not>
-                    </and>
+                    <contains text="@GwtCompatible"/>
                   </fileset>
                 </copy>
               </target>

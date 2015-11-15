@@ -50,27 +50,33 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 public class ContiguousSetTest extends TestCase {
-  private static DiscreteDomain<Integer> NOT_EQUAL_TO_INTEGERS = new DiscreteDomain<Integer>() {
-    @Override public Integer next(Integer value) {
-      return integers().next(value);
-    }
+  private static final DiscreteDomain<Integer> NOT_EQUAL_TO_INTEGERS =
+      new DiscreteDomain<Integer>() {
+        @Override
+        public Integer next(Integer value) {
+          return integers().next(value);
+        }
 
-    @Override public Integer previous(Integer value) {
-      return integers().previous(value);
-    }
+        @Override
+        public Integer previous(Integer value) {
+          return integers().previous(value);
+        }
 
-    @Override public long distance(Integer start, Integer end) {
-      return integers().distance(start, end);
-    }
+        @Override
+        public long distance(Integer start, Integer end) {
+          return integers().distance(start, end);
+        }
 
-    @Override public Integer minValue() {
-      return integers().minValue();
-    }
+        @Override
+        public Integer minValue() {
+          return integers().minValue();
+        }
 
-    @Override public Integer maxValue() {
-      return integers().maxValue();
-    }
-  };
+        @Override
+        public Integer maxValue() {
+          return integers().maxValue();
+        }
+      };
 
   public void testEquals() {
     new EqualsTester()
@@ -150,11 +156,11 @@ public class ContiguousSetTest extends TestCase {
   public void testHeadSet() {
     ImmutableSortedSet<Integer> set = ContiguousSet.create(Range.closed(1, 3), integers());
     assertThat(set.headSet(1)).isEmpty();
-    assertThat(set.headSet(2)).contains(1);
+    assertThat(set.headSet(2)).containsExactly(1).inOrder();
     assertThat(set.headSet(3)).containsExactly(1, 2).inOrder();
     assertThat(set.headSet(4)).containsExactly(1, 2, 3).inOrder();
     assertThat(set.headSet(Integer.MAX_VALUE)).containsExactly(1, 2, 3).inOrder();
-    assertThat(set.headSet(1, true)).contains(1);
+    assertThat(set.headSet(1, true)).containsExactly(1).inOrder();
     assertThat(set.headSet(2, true)).containsExactly(1, 2).inOrder();
     assertThat(set.headSet(3, true)).containsExactly(1, 2, 3).inOrder();
     assertThat(set.headSet(4, true)).containsExactly(1, 2, 3).inOrder();
@@ -170,10 +176,10 @@ public class ContiguousSetTest extends TestCase {
     assertThat(set.tailSet(Integer.MIN_VALUE)).containsExactly(1, 2, 3).inOrder();
     assertThat(set.tailSet(1)).containsExactly(1, 2, 3).inOrder();
     assertThat(set.tailSet(2)).containsExactly(2, 3).inOrder();
-    assertThat(set.tailSet(3)).contains(3);
+    assertThat(set.tailSet(3)).containsExactly(3).inOrder();
     assertThat(set.tailSet(Integer.MIN_VALUE, false)).containsExactly(1, 2, 3).inOrder();
     assertThat(set.tailSet(1, false)).containsExactly(2, 3).inOrder();
-    assertThat(set.tailSet(2, false)).contains(3);
+    assertThat(set.tailSet(2, false)).containsExactly(3).inOrder();
     assertThat(set.tailSet(3, false)).isEmpty();
   }
 
@@ -185,17 +191,17 @@ public class ContiguousSetTest extends TestCase {
     ImmutableSortedSet<Integer> set = ContiguousSet.create(Range.closed(1, 3), integers());
     assertThat(set.subSet(1, 4)).containsExactly(1, 2, 3).inOrder();
     assertThat(set.subSet(2, 4)).containsExactly(2, 3).inOrder();
-    assertThat(set.subSet(3, 4)).contains(3);
+    assertThat(set.subSet(3, 4)).containsExactly(3).inOrder();
     assertThat(set.subSet(3, 3)).isEmpty();
-    assertThat(set.subSet(2, 3)).contains(2);
+    assertThat(set.subSet(2, 3)).containsExactly(2).inOrder();
     assertThat(set.subSet(1, 3)).containsExactly(1, 2).inOrder();
-    assertThat(set.subSet(1, 2)).contains(1);
+    assertThat(set.subSet(1, 2)).containsExactly(1).inOrder();
     assertThat(set.subSet(2, 2)).isEmpty();
     assertThat(set.subSet(Integer.MIN_VALUE, Integer.MAX_VALUE)).containsExactly(1, 2, 3).inOrder();
     assertThat(set.subSet(1, true, 3, true)).containsExactly(1, 2, 3).inOrder();
     assertThat(set.subSet(1, false, 3, true)).containsExactly(2, 3).inOrder();
     assertThat(set.subSet(1, true, 3, false)).containsExactly(1, 2).inOrder();
-    assertThat(set.subSet(1, false, 3, false)).contains(2);
+    assertThat(set.subSet(1, false, 3, false)).containsExactly(2).inOrder();
   }
 
   public void testSubSet_outOfOrder() {
@@ -319,6 +325,8 @@ public class ContiguousSetTest extends TestCase {
         ContiguousSet.create(Range.open(-1, 4), integers()).intersection(set));
     assertEquals(ImmutableSet.of(1, 2, 3),
         set.intersection(ContiguousSet.create(Range.open(-1, 4), integers())));
+    assertEquals(
+        ImmutableSet.of(3), set.intersection(ContiguousSet.create(Range.closed(3, 5), integers())));
   }
 
   @GwtIncompatible("suite")

@@ -524,7 +524,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  @SuppressUnderAndroid // No getJavaLangAccess in Android (at least not in the version we use).
+  @AndroidIncompatible // No getJavaLangAccess in Android (at least not in the version we use).
   public void testLazyStackTraceWorksInProd() {
     // Obviously this isn't guaranteed in every environment, but it works well enough for now:
     assertTrue(lazyStackTraceIsLazy());

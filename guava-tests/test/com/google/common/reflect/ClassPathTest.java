@@ -69,13 +69,13 @@ public class ClassPathTest extends TestCase {
         .testEquals();
   }
 
-  @SuppressUnderAndroid // Android forbids null parent ClassLoader
+  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_emptyURLClassLoader_noParent() {
     assertThat(ClassPath.Scanner.getClassPathEntries(new URLClassLoader(new URL[0], null)).keySet())
         .isEmpty();
   }
 
-  @SuppressUnderAndroid // Android forbids null parent ClassLoader
+  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_URLClassLoader_noParent() throws Exception {
     URL url1 = new URL("file:/a");
     URL url2 = new URL("file:/b");
@@ -85,7 +85,7 @@ public class ClassPathTest extends TestCase {
         ClassPath.Scanner.getClassPathEntries(classloader));
   }
 
-  @SuppressUnderAndroid // Android forbids null parent ClassLoader
+  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_URLClassLoader_withParent() throws Exception {
     URL url1 = new URL("file:/a");
     URL url2 = new URL("file:/b");
@@ -96,7 +96,7 @@ public class ClassPathTest extends TestCase {
     assertThat(classPathEntries.keySet()).containsExactly(new File("/a"), new File("/b")).inOrder();
   }
 
-  @SuppressUnderAndroid // Android forbids null parent ClassLoader
+  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_duplicateUri_parentWins() throws Exception {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
@@ -105,12 +105,12 @@ public class ClassPathTest extends TestCase {
         ClassPath.Scanner.getClassPathEntries(child));
   }
 
-  @SuppressUnderAndroid // Android forbids null parent ClassLoader
+  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_noParent() {
     assertThat(ClassPath.Scanner.getClassPathEntries(new ClassLoader(null) {}).keySet()).isEmpty();
   }
 
-  @SuppressUnderAndroid // Android forbids null parent ClassLoader
+  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_withParent() throws Exception {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
@@ -119,7 +119,7 @@ public class ClassPathTest extends TestCase {
         ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
-  @SuppressUnderAndroid // Android forbids null parent ClassLoader
+  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_withParentAndGrandParent() throws Exception {
     URL url1 = new URL("file:/a");
     URL url2 = new URL("file:/b");
@@ -130,7 +130,7 @@ public class ClassPathTest extends TestCase {
         ClassPath.Scanner.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
-  @SuppressUnderAndroid // Android forbids null parent ClassLoader
+  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_withGrandParent() throws Exception {
     URL url = new URL("file:/a");
     URLClassLoader grandParent = new URLClassLoader(new URL[] {url}, null);

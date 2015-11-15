@@ -183,7 +183,7 @@ public class RateLimiterTest extends TestCase {
     }
   }
 
-  @SuppressUnderAndroid // difference in String.format rounding?
+  @AndroidIncompatible // difference in String.format rounding?
   public void testWarmUp() {
     RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS, 3.0);
     for (int i = 0; i < 8; i++) {
@@ -249,7 +249,7 @@ public class RateLimiterTest extends TestCase {
         "R0.00, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20"); // #3
   }
 
-  @SuppressUnderAndroid // difference in String.format rounding?
+  @AndroidIncompatible // difference in String.format rounding?
   public void testWarmUpAndUpdate() {
     RateLimiter limiter = RateLimiter.create(stopwatch, 2.0, 4000, MILLISECONDS, 3.0);
     for (int i = 0; i < 8; i++) {
@@ -569,7 +569,7 @@ public class RateLimiterTest extends TestCase {
     doTestMocking(mock);
   }
 
-  @SuppressUnderAndroid // EasyMock Class Extension doesn't appear to work on Android.
+  @AndroidIncompatible // EasyMock Class Extension doesn't appear to work on Android.
   public void testMockingEasyMock() throws Exception {
     RateLimiter mock = EasyMock.createNiceMock(RateLimiter.class);
     EasyMock.replay(mock);

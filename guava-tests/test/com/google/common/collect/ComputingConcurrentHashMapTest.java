@@ -218,6 +218,7 @@ public class ComputingConcurrentHashMapTest extends TestCase {
     assertEquals(1, segment.count);
   }
 
+  @AndroidIncompatible // Perhaps emulator clock does not update between the two get() calls?
   @SuppressWarnings("deprecation") // test of deprecated method
   public void testComputeExpiredEntry() throws ExecutionException {
     MapMaker maker = createMapMaker().expireAfterWrite(1, TimeUnit.NANOSECONDS);

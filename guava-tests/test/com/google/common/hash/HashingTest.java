@@ -113,6 +113,7 @@ public class HashingTest extends TestCase {
     assertEquals("Hashing.murmur3_32(0)", Hashing.murmur3_32().toString());
   }
 
+  @AndroidIncompatible // TODO(cpovirk): Surprisingly often has more then 5% collisions there.
   public void testSipHash24() {
     HashTestUtils.check2BitAvalanche(Hashing.sipHash24(), 250, 0.14);
     HashTestUtils.checkAvalanche(Hashing.sipHash24(), 250, 0.10);
@@ -123,6 +124,7 @@ public class HashingTest extends TestCase {
         Hashing.sipHash24().toString());
   }
 
+  @AndroidIncompatible // slow TODO(cpovirk): Maybe just reduce iterations under Android.
   public void testGoodFastHash() {
     for (int i = 1; i < 200; i += 17) {
       HashFunction hasher = Hashing.goodFastHash(i);

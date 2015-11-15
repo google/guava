@@ -38,7 +38,7 @@ public class ForwardingObjectTesterTest extends TestCase {
     fail("Should have thrown");
   }
 
-  @SuppressUnderAndroid // TODO(cpovirk): java.lang.IllegalAccessError: superclass not accessible
+  @AndroidIncompatible // TODO(cpovirk): java.lang.IllegalAccessError: superclass not accessible
   public void testSuccessfulForwarding() {
     ForwardingObjectTester.testForwardingObject(ForwardToDelegate.class);
   }

@@ -96,6 +96,7 @@ public class IntMathTest extends TestCase {
     assertEquals(IntMath.sqrt(Integer.MAX_VALUE, FLOOR), IntMath.FLOOR_SQRT_MAX_INT);
   }
 
+  @AndroidIncompatible // presumably slow
   public void testLessThanBranchFree() {
     for (int x : ALL_INTEGER_CANDIDATES) {
       for (int y : ALL_INTEGER_CANDIDATES) {
@@ -275,6 +276,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testDivNonZero() {
     for (int p : NONZERO_INTEGER_CANDIDATES) {
       for (int q : NONZERO_INTEGER_CANDIDATES) {
@@ -292,6 +294,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // presumably slow
   public void testDivNonZeroExact() {
     for (int p : NONZERO_INTEGER_CANDIDATES) {
       for (int q : NONZERO_INTEGER_CANDIDATES) {
@@ -399,6 +402,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testCheckedAdd() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
@@ -414,6 +418,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testCheckedSubtract() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
@@ -429,6 +434,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // presumably slow
   public void testCheckedMultiply() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
@@ -513,6 +519,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("java.math.BigInteger")
   public void testMean() {
     // Odd-sized ranges have an obvious mean

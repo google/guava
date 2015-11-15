@@ -423,6 +423,11 @@ public void testRemoveIf_randomAccess() throws Exception {
   testCase.testRemoveIf_randomAccess();
 }
 
+public void testRemoveIf_randomAccess_notPermittingDuplicates() throws Exception {
+  com.google.common.collect.IterablesTest testCase = new com.google.common.collect.IterablesTest();
+  testCase.testRemoveIf_randomAccess_notPermittingDuplicates();
+}
+
 public void testRemoveIf_transformedList() throws Exception {
   com.google.common.collect.IterablesTest testCase = new com.google.common.collect.IterablesTest();
   testCase.testRemoveIf_transformedList();

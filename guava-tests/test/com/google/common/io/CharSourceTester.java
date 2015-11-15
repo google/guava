@@ -39,7 +39,7 @@ import java.util.Map;
  *
  * @author Colin Decker
  */
-@SuppressUnderAndroid // Android doesn't understand tests that lack default constructors.
+@AndroidIncompatible // Android doesn't understand tests that lack default constructors.
 public class CharSourceTester extends SourceSinkTester<CharSource, String, CharSourceFactory> {
 
   private static final ImmutableList<Method> testMethods

@@ -37,7 +37,7 @@ import java.util.List;
  * @param <F> the factory type
  * @author Colin Decker
  */
-@SuppressUnderAndroid // Android doesn't understand tests that lack default constructors.
+@AndroidIncompatible // Android doesn't understand tests that lack default constructors.
 public class SourceSinkTester<S, T, F extends SourceSinkFactory<S, T>> extends TestCase {
 
   static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing "

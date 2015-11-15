@@ -312,7 +312,7 @@ public final class Iterables {
    */
   @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] toArray(Iterable<? extends T> iterable, Class<T> type) {
-    Collection<? extends T> collection = toCollection(iterable);
+    Collection<? extends T> collection = castOrCopyToCollection(iterable);
     T[] array = ObjectArrays.newArray(type, collection.size());
     return collection.toArray(array);
   }

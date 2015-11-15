@@ -37,7 +37,7 @@ import java.util.Map;
  * 
  * @author Ben Yu
  */
-@SuppressUnderAndroid // lots of failures, possibly some related to bad equals() implementations?
+@AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 public class TypeTokenResolutionTest extends TestCase {
 
   private static class Foo<A, B> {

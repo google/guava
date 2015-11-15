@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 
@@ -58,6 +59,25 @@ public class FluentIterableTest extends TestCase {
     tester.testAllPublicStaticMethods(FluentIterable.class);
   }
 
+  public void testFromArrayAndAppend() {
+    FluentIterable<TimeUnit> units =
+        FluentIterable.from(TimeUnit.values()).append(TimeUnit.SECONDS);
+  }
+
+  public void testFromArrayAndIteratorRemove() {
+    FluentIterable<TimeUnit> units = FluentIterable.from(TimeUnit.values());
+    try {
+      Iterables.removeIf(units, Predicates.equalTo(TimeUnit.SECONDS));
+      fail("Expected an UnsupportedOperationException to be thrown but it wasn't.");
+    } catch (UnsupportedOperationException expected) {
+    }
+  }
+
+  public void testOfArrayAndIteratorRemove() {
+    FluentIterable<TimeUnit> units = FluentIterable.of(TimeUnit.values());
+    assertTrue(Iterables.removeIf(units, Predicates.equalTo(TimeUnit.SECONDS)));
+  }
+
   public void testFrom() {
     assertEquals(ImmutableList.of(1, 2, 3, 4),
         Lists.newArrayList(FluentIterable.from(ImmutableList.of(1, 2, 3, 4))));
@@ -69,9 +89,27 @@ public class FluentIterableTest extends TestCase {
     assertSame(iterable, FluentIterable.from(iterable));
   }
 
+  public void testOf() {
+    assertEquals(ImmutableList.of(1, 2, 3, 4),
+        Lists.newArrayList(FluentIterable.of(1, 2, 3, 4)));
+  }
+
   public void testOfArray() {
     assertEquals(ImmutableList.of("1", "2", "3", "4"),
         Lists.newArrayList(FluentIterable.of(new Object[] {"1", "2", "3", "4"})));
+  }
+
+  public void testFromArray() {
+    assertEquals(ImmutableList.of("1", "2", "3", "4"),
+        Lists.newArrayList(FluentIterable.from(new Object[] {"1", "2", "3", "4"})));
+  }
+
+  public void testOf_empty() {
+    assertEquals(ImmutableList.of(), Lists.newArrayList(FluentIterable.of()));
+  }
+
+  public void testSize0() {
+    assertEquals(0, FluentIterable.<String>of().size());
   }
 
   public void testSize1Collection() {
@@ -138,6 +176,19 @@ public class FluentIterableTest extends TestCase {
     assertFalse(FluentIterable.from(iterable).contains("c"));
   }
 
+  public void testOfToString() {
+    assertEquals("[yam, bam, jam, ham]",
+        FluentIterable.of("yam", "bam", "jam", "ham").toString());
+  }
+
+  public void testToString() {
+    assertEquals("[]", FluentIterable.from(Collections.emptyList()).toString());
+    assertEquals("[]", FluentIterable.<String>of().toString());
+
+    assertEquals("[yam, bam, jam, ham]",
+        FluentIterable.from(asList("yam", "bam", "jam", "ham")).toString());
+  }
+
   public void testCycle() {
     FluentIterable<String> cycle = FluentIterable.from(asList("a", "b")).cycle();
 
@@ -153,6 +204,11 @@ public class FluentIterableTest extends TestCase {
     // We left the last iterator pointing to "b". But a new iterator should
     // always point to "a".
     assertEquals("a", cycle.iterator().next());
+  }
+
+  public void testCycle_emptyIterable() {
+    FluentIterable<Integer> cycle = FluentIterable.<Integer>of().cycle();
+    assertFalse(cycle.iterator().hasNext());
   }
 
   public void testCycle_removingAllElementsStopsCycle() {
@@ -175,6 +231,12 @@ public class FluentIterableTest extends TestCase {
     result = FluentIterable.<Integer>from(asList(1, 2, 3)).append(4, 5, 6);
     assertEquals(asList(1, 2, 3, 4, 5, 6), Lists.newArrayList(result));
     assertEquals("[1, 2, 3, 4, 5, 6]", result.toString());
+  }
+
+  public void testAppend_toEmpty() {
+    FluentIterable<Integer> result =
+        FluentIterable.<Integer>of().append(Lists.newArrayList(1, 2, 3));
+    assertEquals(asList(1, 2, 3), Lists.newArrayList(result));
   }
 
   public void testAppend_emptyList() {
