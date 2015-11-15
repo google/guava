@@ -1,0 +1,4 @@
+-processor org.checkerframework.checker.nullness.NullnessChecker
+-AuseSafeDefaultsForUnannotatedSourceCode
+-AprintErrorStack
+-Xmaxerrs 10000
