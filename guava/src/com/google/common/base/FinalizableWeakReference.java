@@ -16,10 +16,8 @@
 
 package com.google.common.base;
 
-import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
+
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 
@@ -31,7 +29,6 @@ import java.lang.ref.WeakReference;
  * @author Bob Lee
  * @since 2.0
  */
-@AnnotatedFor({"nullness"})
 public abstract class FinalizableWeakReference<T> extends WeakReference<T>
     implements FinalizableReference {
   /**

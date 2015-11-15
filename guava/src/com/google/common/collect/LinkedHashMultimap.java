@@ -16,11 +16,9 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.framework.qual.AnnotatedFor;
+
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
@@ -591,4 +589,10 @@ public final class LinkedHashMultimap<K extends @org.checkerframework.checker.nu
 
   @GwtIncompatible("java serialization not supported")
   private static final long serialVersionUID = 1;
+
+@Override
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+
+@Override
+public Set<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.removeAll(arg0); }
 }

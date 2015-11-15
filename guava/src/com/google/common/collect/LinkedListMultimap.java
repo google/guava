@@ -17,11 +17,9 @@
 package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
-import com.google.common.annotations.GwtIncompatible;
+import org.checkerframework.framework.qual.AnnotatedFor;
+
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
@@ -322,10 +320,8 @@ public class LinkedListMultimap<K extends @org.checkerframework.checker.nullness
   /** An {@code Iterator} over all nodes. */
   private class NodeIterator implements ListIterator<Entry<K, V>> {
     int nextIndex;
-    @org.checkerframework.checker.nullness.qual.Nullable
-    Node<K, V> next;
-    @org.checkerframework.checker.nullness.qual.Nullable
-    Node<K, V> current;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> next;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> current;
     Node<K, V> previous;
     int expectedModCount = modCount;
 
@@ -429,10 +425,8 @@ public class LinkedListMultimap<K extends @org.checkerframework.checker.nullness
   /** An {@code Iterator} over distinct keys in key head order. */
   private class DistinctKeyIterator implements Iterator<K> {
     final Set<K> seenKeys = Sets.<K>newHashSetWithExpectedSize(keySet().size());
-    @org.checkerframework.checker.nullness.qual.Nullable
-    Node<K, V> next = head;
-    @org.checkerframework.checker.nullness.qual.Nullable
-    Node<K, V> current;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> next = head;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> current;
     int expectedModCount = modCount;
 
     private void checkForConcurrentModification() {
@@ -473,12 +467,9 @@ public class LinkedListMultimap<K extends @org.checkerframework.checker.nullness
   private class ValueForKeyIterator implements ListIterator<V> {
     final @org.checkerframework.checker.nullness.qual.Nullable Object key;
     int nextIndex;
-    @org.checkerframework.checker.nullness.qual.Nullable
-    Node<K, V> next;
-    @org.checkerframework.checker.nullness.qual.Nullable
-    Node<K, V> current;
-    @org.checkerframework.checker.nullness.qual.Nullable
-    Node<K, V> previous;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> next;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> current;
+    @org.checkerframework.checker.nullness.qual.Nullable Node<K, V> previous;
 
     /** Constructs a new iterator over all values for the specified key. */
     ValueForKeyIterator(@Nullable Object key) {
@@ -751,6 +742,7 @@ public class LinkedListMultimap<K extends @org.checkerframework.checker.nullness
    * List}, instead of the {@link Collection} specified in the {@link
    * ListMultimap} interface.
    */
+  @SideEffectFree
   @Override
   public List<V> values() {
     return (List<V>) super.values();
@@ -802,6 +794,7 @@ public class LinkedListMultimap<K extends @org.checkerframework.checker.nullness
    * subsequent {@code setValue()} call won't update the multimap but will lead
    * to a revised value being returned by {@code getValue()}.
    */
+  @SideEffectFree
   @Override
   public List<Entry<K, V>> entries() {
     return (List<Entry<K, V>>) super.entries();
@@ -865,4 +858,11 @@ public class LinkedListMultimap<K extends @org.checkerframework.checker.nullness
 
   @GwtIncompatible("java serialization not supported")
   private static final long serialVersionUID = 0;
+
+@Pure
+public boolean containsEntry(@Nullable Object arg0, @Nullable Object arg1) { return super.containsEntry(arg0, arg1); }
+
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+
+public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.remove(arg0, arg1); }
 }

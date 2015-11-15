@@ -18,9 +18,7 @@ package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
-import org.checkerframework.dataflow.qual.SideEffectFree;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -188,7 +186,7 @@ public final class Lists {
    * @throws IllegalArgumentException if {@code initialArraySize} is negative
    */
   @GwtCompatible(serializable = true)
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> ArrayList<E> newArrayListWithCapacity(int initialArraySize) {
+  public static <E> ArrayList<E> newArrayListWithCapacity(int initialArraySize) {
     checkNonnegative(initialArraySize, "initialArraySize"); // for GWT.
     return new ArrayList<E>(initialArraySize);
   }
@@ -210,7 +208,7 @@ public final class Lists {
    * @throws IllegalArgumentException if {@code estimatedSize} is negative
    */
   @GwtCompatible(serializable = true)
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> ArrayList<E> newArrayListWithExpectedSize(int estimatedSize) {
+  public static <E> ArrayList<E> newArrayListWithExpectedSize(int estimatedSize) {
     return new ArrayList<E>(computeArrayListCapacity(estimatedSize));
   }
 
@@ -234,7 +232,7 @@ public final class Lists {
    * of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> LinkedList<E> newLinkedList() {
+  public static <E> LinkedList<E> newLinkedList() {
     return new LinkedList<E>();
   }
 
@@ -259,7 +257,7 @@ public final class Lists {
    * advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> LinkedList<E> newLinkedList(Iterable<? extends E> elements) {
+  public static <E> LinkedList<E> newLinkedList(Iterable<? extends E> elements) {
     LinkedList<E> list = newLinkedList();
     Iterables.addAll(list, elements);
     return list;
@@ -616,7 +614,7 @@ public final class Lists {
    *
    * @see Lists#transform
    */
-  private static class TransformingRandomAccessList<F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractList<T>
+  private static class TransformingRandomAccessList<F, T> extends AbstractList<T>
       implements RandomAccess, Serializable {
     final List<F> fromList;
     final Function<? super F, ? extends T> function;

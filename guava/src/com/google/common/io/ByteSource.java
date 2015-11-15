@@ -18,6 +18,8 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.io.ByteStreams.BUF_SIZE;
+import static com.google.common.io.ByteStreams.skipUpTo;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Ascii;
@@ -58,8 +60,6 @@ import java.util.Iterator;
  * @author Colin Decker
  */
 public abstract class ByteSource {
-
-  private static final int BUF_SIZE = 0x1000; // 4K
 
   /**
    * Constructor for use by subclasses.
@@ -216,31 +216,17 @@ public abstract class ByteSource {
    */
   private long countBySkipping(InputStream in) throws IOException {
     long count = 0;
-    while (true) {
-      // don't try to skip more than available()
-      // things may work really wrong with FileInputStream otherwise
-      long skipped = in.skip(Math.min(in.available(), Integer.MAX_VALUE));
-      if (skipped <= 0) {
-        if (in.read() == -1) {
-          return count;
-        } else if (count == 0 && in.available() == 0) {
-          // if available is still zero after reading a single byte, it
-          // will probably always be zero, so we should countByReading
-          throw new IOException();
-        }
-        count++;
-      } else {
-        count += skipped;
-      }
+    long skipped;
+    while ((skipped = skipUpTo(in, Integer.MAX_VALUE)) > 0) {
+      count += skipped;
     }
+    return count;
   }
-
-  private static final byte[] countBuffer = new byte[BUF_SIZE];
 
   private long countByReading(InputStream in) throws IOException {
     long count = 0;
     long read;
-    while ((read = in.read(countBuffer)) != -1) {
+    while ((read = in.read(ByteStreams.skipBuffer)) != -1) {
       count += read;
     }
     return count;

@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 import java.util.NoSuchElementException;
 

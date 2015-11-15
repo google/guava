@@ -19,6 +19,7 @@ package com.google.common.net;
 import com.google.common.annotations.Beta;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
@@ -115,6 +116,7 @@ import javax.annotation.Nullable;
 public final class InetAddresses {
   private static final int IPV4_PART_COUNT = 4;
   private static final int IPV6_PART_COUNT = 8;
+  private static final Splitter IPV4_SPLITTER = Splitter.on('.').limit(IPV4_PART_COUNT);
   private static final Inet4Address LOOPBACK4 = (Inet4Address) forString("127.0.0.1");
   private static final Inet4Address ANY4 = (Inet4Address) forString("0.0.0.0");
 
@@ -202,21 +204,17 @@ public final class InetAddresses {
   }
 
   private static byte[] textToNumericFormatV4(String ipString) {
-    String[] address = ipString.split("\\.", IPV4_PART_COUNT + 1);
-    if (address.length != IPV4_PART_COUNT) {
-      return null;
-    }
-
     byte[] bytes = new byte[IPV4_PART_COUNT];
+    int i = 0;
     try {
-      for (int i = 0; i < bytes.length; i++) {
-        bytes[i] = parseOctet(address[i]);
+      for (String octet : IPV4_SPLITTER.split(ipString)) {
+        bytes[i++] = parseOctet(octet);
       }
     } catch (NumberFormatException ex) {
       return null;
     }
 
-    return bytes;
+    return i == IPV4_PART_COUNT ? bytes : null;
   }
 
   private static byte[] textToNumericFormatV6(String ipString) {

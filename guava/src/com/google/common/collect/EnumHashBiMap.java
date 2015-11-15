@@ -18,10 +18,7 @@ package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
-import org.checkerframework.dataflow.qual.SideEffectFree;
-import com.google.common.annotations.GwtIncompatible;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -132,4 +129,8 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @org.checkerframew
 
   @GwtIncompatible("only needed in emulated source.")
   private static final long serialVersionUID = 0;
+
+@Pure
+@Override
+public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
 }

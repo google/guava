@@ -16,12 +16,8 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
-import org.checkerframework.dataflow.qual.SideEffectFree;
-import com.google.common.annotations.GwtIncompatible;
+
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
@@ -119,6 +115,5 @@ public interface SortedSetMultimap<K extends @org.checkerframework.checker.nulln
    * Returns the comparator that orders the multimap values, with {@code null}
    * indicating that natural ordering is used.
    */
-  @org.checkerframework.checker.nullness.qual.Nullable
-  Comparator<? super V> valueComparator();
+  @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator();
 }

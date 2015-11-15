@@ -22,6 +22,10 @@ import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
 import com.google.common.annotations.GwtIncompatible;
 
+import org.checkerframework.framework.qual.AnnotatedFor;
+
+import com.google.common.annotations.GwtCompatible;
+
 /**
  * "Overrides" the {@link ImmutableSet} static methods that lack
  * {@link ImmutableSortedSet} equivalents with deprecated, exception-throwing

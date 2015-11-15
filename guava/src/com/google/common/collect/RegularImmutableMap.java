@@ -17,11 +17,9 @@
 package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
-import com.google.common.annotations.GwtIncompatible;
+import org.checkerframework.framework.qual.AnnotatedFor;
+
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
@@ -29,6 +27,7 @@ import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableMapEntry;
 
+import java.util.Map;
 import javax.annotation.Nullable;
 
 /**
@@ -161,4 +160,20 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   // This class is never actually serialized directly, but we have to make the
   // warning go away (and suppressing would suppress for all nested classes too)
   private static final long serialVersionUID = 0;
+
+@Pure
+@Override
+public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
+
+@SideEffectFree
+@Override
+public ImmutableSet<Map.Entry<K, V>> entrySet() { return super.entrySet(); }
+
+@SideEffectFree
+@Override
+public ImmutableSet<K> keySet() { return super.keySet(); }
+
+@SideEffectFree
+@Override
+public ImmutableCollection<V> values() { return super.values(); }
 }

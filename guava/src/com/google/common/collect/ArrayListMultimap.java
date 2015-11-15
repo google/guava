@@ -18,10 +18,7 @@ package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
-import org.checkerframework.dataflow.qual.SideEffectFree;
-import com.google.common.annotations.GwtIncompatible;
+
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
@@ -170,4 +167,33 @@ public final class ArrayListMultimap<K extends @org.checkerframework.checker.nul
 
   @GwtIncompatible("Not needed in emulated source.")
   private static final long serialVersionUID = 0;
+
+@Override
+public boolean containsEntry(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.containsEntry(arg0, arg1); }
+
+@Override
+public boolean containsKey(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsKey(arg0); }
+
+@Override
+public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
+
+@Override
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+
+@Pure
+@Override
+public boolean isEmpty() { return super.isEmpty(); }
+
+@Override
+public List<V> get(@org.checkerframework.checker.nullness.qual.Nullable K arg0) { return super.get(arg0); }
+
+@Override
+public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.remove(arg0, arg1); }
+
+@Override
+public List<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.removeAll(arg0); }
+
+@Pure
+@Override
+public int size() { return super.size(); }
 }

@@ -17,11 +17,9 @@
 package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
-import com.google.common.annotations.GwtIncompatible;
+import org.checkerframework.framework.qual.AnnotatedFor;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -185,7 +183,7 @@ public class TreeMultimap<K extends @org.checkerframework.checker.nullness.qual.
    */
   @Override
   @GwtIncompatible("NavigableSet")
-  public NavigableSet<V> get(@Nullable K key) {
+  public NavigableSet<V> get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable K key) {
     return (NavigableSet<V>) super.get(key);
   }
 
@@ -210,6 +208,7 @@ public class TreeMultimap<K extends @org.checkerframework.checker.nullness.qual.
    *
    * @since 14.0 (present with return type {@code SortedSet} since 2.0)
    */
+  @SideEffectFree
   @Override
   @GwtIncompatible("NavigableSet")
   public NavigableSet<K> keySet() {
@@ -268,4 +267,9 @@ public class TreeMultimap<K extends @org.checkerframework.checker.nullness.qual.
 
   @GwtIncompatible("not needed in emulated source")
   private static final long serialVersionUID = 0;
+
+@Pure
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+
+public SortedSet<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.removeAll(arg0); }
 }

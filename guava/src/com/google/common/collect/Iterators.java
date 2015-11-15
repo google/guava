@@ -18,9 +18,7 @@ package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
-import org.checkerframework.dataflow.qual.SideEffectFree;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -561,8 +559,7 @@ public final class Iterators {
     checkNotNull(inputs);
     return new Iterator<T>() {
       Iterator<? extends T> current = emptyIterator();
-      @org.checkerframework.checker.nullness.qual.Nullable
-      Iterator<? extends T> removeFrom;
+      @org.checkerframework.checker.nullness.qual.Nullable Iterator<? extends T> removeFrom;
 
       @Override
       public boolean hasNext() {
@@ -652,8 +649,7 @@ public final class Iterators {
         if (!hasNext()) {
           throw new NoSuchElementException();
         }
-        @org.checkerframework.checker.nullness.qual.Nullable
-        Object[] array = new Object[size];
+        @org.checkerframework.checker.nullness.qual.Nullable Object[] array = new Object[size];
         int count = 0;
         for (; count < size && iterator.hasNext(); count++) {
           array[count] = iterator.next();
@@ -1148,7 +1144,7 @@ public final class Iterators {
    * Collections#enumeration} (if you have a {@link Collection}), or
    * {@code Iterators.asEnumeration(collection.iterator())}.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Enumeration<T> asEnumeration(final Iterator<T> iterator) {
+  public static <T> Enumeration<T> asEnumeration(final Iterator<T> iterator) {
     checkNotNull(iterator);
     return new Enumeration<T>() {
       @Override
@@ -1166,11 +1162,11 @@ public final class Iterators {
   /**
    * Implementation of PeekingIterator that avoids peeking unless necessary.
    */
-  private static class PeekingImpl<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements PeekingIterator<E> {
+  private static class PeekingImpl<E> implements PeekingIterator<E> {
 
     private final Iterator<? extends E> iterator;
     private boolean hasPeeked;
-    private @org.checkerframework.checker.nullness.qual.Nullable E peekedElement;
+    private E peekedElement;
 
     public PeekingImpl(Iterator<? extends E> iterator) {
       this.iterator = checkNotNull(iterator);

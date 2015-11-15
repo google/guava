@@ -17,11 +17,9 @@
 package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
-import com.google.common.annotations.GwtIncompatible;
+import org.checkerframework.framework.qual.AnnotatedFor;
+
 import static com.google.common.collect.Multisets.setCountImpl;
 
 import com.google.common.annotations.GwtCompatible;
@@ -255,4 +253,7 @@ abstract class AbstractMultiset<E extends @org.checkerframework.checker.nullness
   public String toString() {
     return entrySet().toString();
   }
+
+  @Override
+  public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.containsAll(arg0); }
 }

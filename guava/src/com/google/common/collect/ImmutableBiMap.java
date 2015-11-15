@@ -16,11 +16,9 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.framework.qual.AnnotatedFor;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
@@ -353,4 +351,21 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
   Object writeReplace() {
     return new SerializedForm(this);
   }
+
+@Override
+public boolean containsKey(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsKey(arg0); }
+
+@Override
+public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
+
+@Override
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+
+@SideEffectFree
+@Override
+public ImmutableSet<Map.Entry<K, V>> entrySet() { return super.entrySet(); }
+
+@SideEffectFree
+@Override
+public ImmutableSet<K> keySet() { return super.keySet(); }
 }

@@ -17,11 +17,9 @@
 package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
-import com.google.common.annotations.GwtIncompatible;
+import org.checkerframework.framework.qual.AnnotatedFor;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -81,4 +79,16 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
   boolean isPartialView() {
     return false;
   }
+
+@Pure
+public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
+
+@Pure
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+
+@Pure
+public int indexOf(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.indexOf(arg0); }
+
+@Pure
+public int lastIndexOf(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.lastIndexOf(arg0); }
 }

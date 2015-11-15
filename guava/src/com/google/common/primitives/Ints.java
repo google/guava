@@ -363,8 +363,13 @@ public final class Ints {
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and
-   * integers using {@link Integer#decode} and {@link Integer#toString()}.
+   * Returns a serializable converter object that converts between strings and integers using {@link
+   * Integer#decode} and {@link Integer#toString()}. The returned converter throws {@link
+   * NumberFormatException} if the input string is invalid.
+   *
+   * <p><b>Warning:</b> please see {@link Integer#decode} to understand exactly how strings are
+   * parsed. For example, the string {@code "0123"} is treated as <i>octal</i> and converted to the
+   * value {@code 83}.
    *
    * @since 16.0
    */

@@ -677,7 +677,8 @@ public final class MoreExecutors {
   /**
    * An implementation of {@link ExecutorService#invokeAny} for {@link ListeningExecutorService}
    * implementations.
-   */ static <T> T invokeAnyImpl(ListeningExecutorService executorService,
+   */
+  @GwtIncompatible("TODO") static <T> T invokeAnyImpl(ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks, boolean timed, long nanos)
           throws InterruptedException, ExecutionException, TimeoutException {
     checkNotNull(executorService);
@@ -972,5 +973,45 @@ public final class MoreExecutors {
       service.shutdownNow();
     }
     return service.isTerminated();
+  }
+
+  /**
+   * Returns an Executor that will propagate {@link RejectedExecutionException} from the delegate
+   * executor to the given {@code future}.
+   *
+   * <p>Note, the returned executor can only be used once.
+   */
+  static Executor rejectionPropagatingExecutor(
+      final Executor delegate, final AbstractFuture<?> future) {
+    checkNotNull(delegate);
+    checkNotNull(future);
+    if (delegate == directExecutor()) {
+      // directExecutor() cannot throw RejectedExecutionException
+      return delegate;
+    }
+    return new Executor() {
+      volatile boolean thrownFromDelegate = true;
+
+      @Override
+      public void execute(final Runnable command) {
+        try {
+          delegate.execute(
+              new Runnable() {
+                @Override
+                public void run() {
+                  thrownFromDelegate = false;
+                  command.run();
+                }
+              });
+        } catch (RejectedExecutionException e) {
+          if (thrownFromDelegate) {
+            // wrap exception?
+            future.setException(e);
+          }
+          // otherwise it must have been thrown from a transitive call and the delegate runnable
+          // should have handled it.
+        }
+      }
+    };
   }
 }

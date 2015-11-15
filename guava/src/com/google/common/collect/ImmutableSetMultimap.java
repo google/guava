@@ -16,12 +16,9 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
-import com.google.common.annotations.GwtIncompatible;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
@@ -366,7 +363,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   @Override
   public ImmutableSet<V> get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable K key) {
     // This cast is safe as its type is known in constructor.
-    ImmutableSet<V> set = (ImmutableSet<V>) map.get(key);
+    ImmutableSet<V> set = (@org.checkerframework.checker.nullness.qual.Nullable ImmutableSet<V>) map.get(key);
     return MoreObjects.firstNonNull(set, emptySet);
   }
 

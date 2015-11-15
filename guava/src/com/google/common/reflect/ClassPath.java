@@ -52,6 +52,9 @@ import javax.annotation.Nullable;
 /**
  * Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.
  *
+ * <p><b>Warning:</b> Currently only {@link URLClassLoader} and only {@code file://} urls are
+ * supported.
+ *
  * @author Ben Yu
  * @since 14.0
  */
@@ -81,7 +84,8 @@ public final class ClassPath {
    * Returns a {@code ClassPath} representing all classes and resources loadable from {@code
    * classloader} and its parent class loaders.
    *
-   * <p>Currently only {@link URLClassLoader} and only {@code file://} urls are supported.
+   * <p><b>Warning:</b> Currently only {@link URLClassLoader} and only {@code file://} urls are
+   * supported.
    *
    * @throws IOException if the attempt to read class path resources (jar files or directories)
    *         failed.

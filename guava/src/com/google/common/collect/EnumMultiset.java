@@ -16,10 +16,7 @@ package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
-import org.checkerframework.dataflow.qual.SideEffectFree;
-import com.google.common.annotations.GwtIncompatible;
+
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
@@ -28,6 +25,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Iterator;
 
@@ -111,4 +109,31 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
 
   @GwtIncompatible("Not needed in emulated source")
   private static final long serialVersionUID = 0;
+
+@Pure
+@Override
+public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
+
+@Override
+public int count(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.count(arg0); }
+
+@Pure
+@Override
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+
+@Override
+public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
+
+@Override
+public int remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, int arg1) { return super.remove(arg0, arg1); }
+
+@Pure
+@Override
+public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.containsAll(arg0); }
+
+@Override
+public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.removeAll(arg0); }
+
+@Override
+public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.retainAll(arg0); }
 }

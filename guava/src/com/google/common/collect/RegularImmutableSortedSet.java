@@ -17,10 +17,9 @@
 package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.framework.qual.AnnotatedFor;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.INVERTED_INSERTION_INDEX;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_HIGHER;
@@ -51,6 +50,8 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial")
 final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
+  static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
+      new RegularImmutableSortedSet<Comparable>(ImmutableList.<Comparable>of(), Ordering.natural());
 
   private transient final ImmutableList<E> elements;
 

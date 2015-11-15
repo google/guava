@@ -118,4 +118,14 @@ public interface Hasher extends PrimitiveSink {
    */
   @CheckReturnValue
   HashCode hash();
+
+  /**
+   * {@inheritDoc}
+   *
+   * @deprecated This returns {@link Object#hashCode()}; you almost certainly mean to call
+   *     {@code hash().asInt()}.
+   */
+  @Override
+  @Deprecated
+  int hashCode();
 }

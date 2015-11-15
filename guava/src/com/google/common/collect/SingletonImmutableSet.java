@@ -18,9 +18,7 @@ package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
-import org.checkerframework.dataflow.qual.SideEffectFree;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 
@@ -111,4 +109,7 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
         .append(']')
         .toString();
   }
+
+@Pure
+public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
 }

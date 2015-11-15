@@ -48,7 +48,18 @@ import java.util.Arrays;
  */
 @Beta
 public final class ByteStreams {
-  private static final int BUF_SIZE = 8192;
+
+  /**
+   * Default size of buffers allocated for copies.
+   */
+  static final int BUF_SIZE = 8192;
+
+  /**
+   * A buffer for skipping bytes in an input stream. Only written to and never read, so actual
+   * contents don't matter.
+   */
+  static final byte[] skipBuffer = new byte[BUF_SIZE];
+
   /**
    * There are three methods to implement {@link FileChannel#transferTo(long, long,
    *  WritableByteChannel)}:
@@ -153,7 +164,10 @@ public final class ByteStreams {
    * @throws IOException if an I/O error occurs
    */
   public static byte[] toByteArray(InputStream in) throws IOException {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    // Presize the ByteArrayOutputStream since we know how large it will need 
+    // to be, unless that value is less than the default ByteArrayOutputStream
+    // size (32).
+    ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(32, in.available()));
     copy(in, out);
     return out.toByteArray();
   }
@@ -721,15 +735,17 @@ public final class ByteStreams {
     long totalSkipped = 0;
 
     while (totalSkipped < n) {
-      long skipped = in.skip(n - totalSkipped);
+      long remaining = n - totalSkipped;
+
+      long skipped = skipSafely(in, remaining);
 
       if (skipped == 0) {
-        // Force a blocking read to avoid infinite loop
-        if (in.read() == -1) {
+        // Do a buffered read since skipSafely could return 0 repeatedly, for example if
+        // in.available() always returns 0 (the default).
+        int skip = (int) Math.min(remaining, skipBuffer.length);
+        if ((skipped = in.read(skipBuffer, 0, skip)) == -1) {
           // Reached EOF
           break;
-        } else {
-          skipped = 1;
         }
       }
 
@@ -737,6 +753,18 @@ public final class ByteStreams {
     }
 
     return totalSkipped;
+  }
+
+  /**
+   * Attempts to skip up to {@code n} bytes from the given input stream, but not more than
+   * {@code in.available()} bytes. This prevents {@code FileInputStream} from skipping more bytes
+   * than actually remain in the file, something that it
+   * {@linkplain FileInputStream#skip(long) specifies} it can do in its Javadoc despite the fact
+   * that it is violating the contract of {@code InputStream.skip()}.
+   */
+  private static long skipSafely(InputStream in, long n) throws IOException {
+    int available = in.available();
+    return available == 0 ? 0 : in.skip(Math.min(available, n));
   }
 
   /**

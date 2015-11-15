@@ -18,11 +18,12 @@ package com.google.common.base;
 
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.VisibleForTesting;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -690,7 +691,7 @@ public final class Predicates {
 
     @Override
     public String toString() {
-      String patternString = Objects.toStringHelper(pattern)
+      String patternString = MoreObjects.toStringHelper(pattern)
           .add("pattern", pattern.pattern())
           .add("pattern.flags", pattern.flags())
           .toString();

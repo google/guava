@@ -454,8 +454,13 @@ public final class Longs {
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and
-   * longs using {@link Long#decode} and {@link Long#toString()}.
+   * Returns a serializable converter object that converts between strings and longs using {@link
+   * Long#decode} and {@link Long#toString()}. The returned converter throws {@link
+   * NumberFormatException} if the input string is invalid.
+   *
+   * <p><b>Warning:</b> please see {@link Long#decode} to understand exactly how strings are parsed.
+   * For example, the string {@code "0123"} is treated as <i>octal</i> and converted to the value
+   * {@code 83L}.
    *
    * @since 16.0
    */

@@ -17,15 +17,13 @@
 package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.framework.qual.AnnotatedFor;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Multiset.Entry;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
@@ -315,6 +313,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
 
   private transient ImmutableSet<Entry<E>> entrySet;
 
+  @SideEffectFree
   @Override
   public ImmutableSet<Entry<E>> entrySet() {
     ImmutableSet<Entry<E>> es = entrySet;

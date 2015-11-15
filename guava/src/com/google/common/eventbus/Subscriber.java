@@ -50,7 +50,7 @@ class Subscriber {
   /** The event bus this subscriber belongs to. */
   @Weak private EventBus bus;
 
-  /** Object sporting the subscriber method. */
+  /** The object with the subscriber method. */
   @VisibleForTesting
   final Object target;
 

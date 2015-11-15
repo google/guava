@@ -15,10 +15,9 @@
 package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.framework.qual.AnnotatedFor;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
@@ -430,7 +429,6 @@ public final class HashBiMap<K extends @org.checkerframework.checker.nullness.qu
     abstract T output(BiEntry<K, V> entry);
   }
 
-  @SideEffectFree
   @Override
   public Set<K> keySet() {
     return new KeySet();
@@ -466,7 +464,6 @@ public final class HashBiMap<K extends @org.checkerframework.checker.nullness.qu
     }
   }
 
-  @SideEffectFree
   @Override
   public Set<V> values() {
     return inverse().keySet();
@@ -714,4 +711,7 @@ public final class HashBiMap<K extends @org.checkerframework.checker.nullness.qu
 
   @GwtIncompatible("Not needed in emulated source")
   private static final long serialVersionUID = 0;
+
+@SideEffectFree
+public Set<Map.Entry<K, V>> entrySet() { return super.entrySet(); }
 }

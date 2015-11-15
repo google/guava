@@ -16,12 +16,8 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
-import org.checkerframework.dataflow.qual.SideEffectFree;
-import com.google.common.annotations.GwtIncompatible;
+
 import com.google.common.collect.MapConstraints.ConstrainedMap;
 import com.google.common.primitives.Primitives;
 
@@ -82,7 +78,7 @@ public final class MutableClassToInstanceMap<B extends @org.checkerframework.che
     return cast(type, get(type));
   }
 
-  private static <B, T extends B> T cast(Class<T> type, B value) {
+  private static <B, T extends B> T cast(Class<T> type, @org.checkerframework.checker.nullness.qual.Nullable B value) {
     return Primitives.wrap(type).cast(value);
   }
 

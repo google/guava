@@ -147,6 +147,22 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
+   * Returns a fluent iterable containing {@code elements} in the specified order.
+   *
+   * <p>The returned iterable is an unmodifiable view of the input array.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@code Stream.of(elements)} or {@code
+   * Arrays.stream(elements)}.
+   *
+   * @since 20.0 (since 18.0 as an overload of {@code of})
+   */
+  @Beta
+  @CheckReturnValue
+  public static <E> FluentIterable<E> from(E[] elements) {
+    return from(Arrays.asList(elements));
+  }
+
+  /**
    * Construct a fluent iterable from another fluent iterable. This is obviously never necessary,
    * but is intended to help call out cases where one migration from {@code Iterable} to
    * {@code FluentIterable} has obviated the need to explicitly convert to a {@code FluentIterable}.
@@ -161,17 +177,48 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
+   * Returns a fluent iterable containing no elements.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@code Stream.empty()}.
+   *
+   * @since 20.0
+   */
+  @Beta
+  @CheckReturnValue
+  public static <E> FluentIterable<E> of() {
+    return FluentIterable.from(ImmutableList.<E>of());
+  }
+
+  /**
    * Returns a fluent iterable containing {@code elements} in the specified order.
+   *
+   * <p>The returned iterable is modifiable, but modifications do not affect the input array.
    *
    * <p><b>{@code Stream} equivalent:</b> {@code Stream.of(elements)} or {@code
    * Arrays.stream(elements)}.
    *
+   * @deprecated Use {@link #from(E[])} instead (but note the differences in mutability). This
+   *     method will be removed in Guava release 21.0.
    * @since 18.0
    */
   @Beta
   @CheckReturnValue
+  @Deprecated
   public static <E> FluentIterable<E> of(E[] elements) {
     return from(Lists.newArrayList(elements));
+  }
+
+  /**
+   * Returns a fluent iterable containing the specified elements in order.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@code Stream.of(...)}.
+   *
+   * @since 20.0
+   */
+  @Beta
+  @CheckReturnValue
+  public static <E> FluentIterable<E> of(@Nullable E element, E... elements) {
+    return from(Lists.asList(element, elements));
   }
 
   /**
