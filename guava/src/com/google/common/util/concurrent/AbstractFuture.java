@@ -108,34 +108,32 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   private static final long SPIN_THRESHOLD_NANOS = 1000L;
 
   private static final AtomicHelper ATOMIC_HELPER;
-  private static final AtomicReferenceFieldUpdater<Waiter, Thread> WAITER_THREAD_UPDATER;
-  private static final AtomicReferenceFieldUpdater<Waiter, Waiter> WAITER_NEXT_UPDATER;
-  private static final AtomicReferenceFieldUpdater<AbstractFuture, Waiter> WAITERS_UPDATER;
-  private static final AtomicReferenceFieldUpdater<AbstractFuture, Listener> LISTENERS_UPDATER;
-  private static final AtomicReferenceFieldUpdater<AbstractFuture, Object> VALUE_UPDATER;
 
   static {
-    AtomicHelper helper = null;
+    AtomicHelper helper;
+
     try {
       helper = new UnsafeAtomicHelper();
-    } catch (Throwable e) {
-      // catch absolutely everything and fall through
-    }
-    if (helper == null) {
+    } catch (Throwable unsafeFailure) {
+      // catch absolutely everything and fall through to our 'SafeAtomicHelper'
       // The access control checks that ARFU does means the caller class has to be AbstractFuture
       // instead of SafeAtomicHelper, so we annoyingly define these here
-      WAITER_THREAD_UPDATER = newUpdater(Waiter.class, Thread.class, "thread");
-      WAITER_NEXT_UPDATER = newUpdater(Waiter.class, Waiter.class, "next");
-      WAITERS_UPDATER = newUpdater(AbstractFuture.class, Waiter.class, "waiters");
-      LISTENERS_UPDATER = newUpdater(AbstractFuture.class, Listener.class, "listeners");
-      VALUE_UPDATER = newUpdater(AbstractFuture.class, Object.class, "value");
-      helper = new SafeAtomicHelper();
-    } else {
-      WAITER_THREAD_UPDATER = null;
-      WAITER_NEXT_UPDATER = null;
-      WAITERS_UPDATER = null;
-      LISTENERS_UPDATER = null;
-      VALUE_UPDATER = null;
+      try {
+        helper = new SafeAtomicHelper(
+            newUpdater(Waiter.class, Thread.class, "thread"),
+            newUpdater(Waiter.class, Waiter.class, "next"),
+            newUpdater(AbstractFuture.class, Waiter.class, "waiters"),
+            newUpdater(AbstractFuture.class, Listener.class, "listeners"),
+            newUpdater(AbstractFuture.class, Object.class, "value"));
+      } catch (Throwable atomicReferenceFieldUpdaterFailure) {
+        // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
+        // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
+        // For these users fallback to a suboptimal implementation, based on synchronized.  This
+        // will be a definite performance hit to those users.
+        log.log(Level.SEVERE, "UnsafeAtomicHelper is broken!", unsafeFailure);
+        log.log(Level.SEVERE, "SafeAtomicHelper is broken!", atomicReferenceFieldUpdaterFailure);
+        helper = new SynchronizedHelper();
+      }
     }
     ATOMIC_HELPER = helper;
 
@@ -765,9 +763,9 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     done();
   }
 
-  /** 
+  /**
    * Callback method that is called immediately after the future is completed.
-   * 
+   *
    * <p>This is called exactly once, after all listeners have executed.  By default it does nothing.
    */
   // TODO(cpovirk): @ForOverride https://github.com/google/error-prone/issues/342
@@ -841,26 +839,26 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   private abstract static class AtomicHelper {
     /** Non volatile write of the thread to the {@link Waiter#thread} field. */
-    abstract void putThread(Waiter waiter, Thread thread);
+    abstract void putThread(Waiter waiter, Thread newValue);
 
     /** Non volatile write of the waiter to the {@link Waiter#next} field. */
-    abstract void putNext(Waiter waiter, Waiter next);
+    abstract void putNext(Waiter waiter, Waiter newValue);
 
     /** Performs a CAS operation on the {@link #waiters} field. */
-    abstract boolean casWaiters(AbstractFuture future, Waiter curr, Waiter next);
+    abstract boolean casWaiters(AbstractFuture<?> future, Waiter expect, Waiter update);
 
     /** Performs a CAS operation on the {@link #listeners} field. */
-    abstract boolean casListeners(AbstractFuture future, Listener curr, Listener next);
+    abstract boolean casListeners(AbstractFuture<?> future, Listener expect, Listener update);
 
     /** Performs a CAS operation on the {@link #value} field. */
-    abstract boolean casValue(AbstractFuture future, Object expected, Object v);
+    abstract boolean casValue(AbstractFuture<?> future, Object expect, Object update);
   }
 
   /**
-   * {@link AtomicHelper} based on {@link sun.misc.Unsafe}.  
-   * 
+   * {@link AtomicHelper} based on {@link sun.misc.Unsafe}.
+   *
    * <p>Static initialization of this class will fail if the {@link sun.misc.Unsafe} object cannot
-   * be accessed. 
+   * be accessed.
    */
   private static final class UnsafeAtomicHelper extends AtomicHelper {
     static final sun.misc.Unsafe UNSAFE;
@@ -910,59 +908,129 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     }
 
     @Override
-    void putThread(Waiter waiter, Thread thread) {
-      UNSAFE.putObject(waiter, WAITER_THREAD_OFFSET, thread);
+    void putThread(Waiter waiter, Thread newValue) {
+      UNSAFE.putObject(waiter, WAITER_THREAD_OFFSET, newValue);
     }
 
     @Override
-    void putNext(Waiter waiter, Waiter next) {
-      UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, next);
+    void putNext(Waiter waiter, Waiter newValue) {
+      UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, newValue);
     }
 
     /** Performs a CAS operation on the {@link #waiters} field. */
     @Override
-    boolean casWaiters(AbstractFuture future, Waiter curr, Waiter next) {
-      return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, curr, next);
+    boolean casWaiters(AbstractFuture<?> future, Waiter expect, Waiter update) {
+      return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, expect, update);
     }
 
     /** Performs a CAS operation on the {@link #listeners} field. */
     @Override
-    boolean casListeners(AbstractFuture future, Listener curr, Listener next) {
-      return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, curr, next);
+    boolean casListeners(AbstractFuture<?> future, Listener expect, Listener update) {
+      return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, expect, update);
     }
 
     /** Performs a CAS operation on the {@link #value} field. */
     @Override
-    boolean casValue(AbstractFuture future, Object expected, Object v) {
-      return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expected, v);
+    boolean casValue(AbstractFuture<?> future, Object expect, Object update) {
+      return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expect, update);
     }
   }
 
   /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */
   private static final class SafeAtomicHelper extends AtomicHelper {
-    @Override
-    void putThread(Waiter waiter, Thread thread) {
-      WAITER_THREAD_UPDATER.lazySet(waiter, thread);
+    final AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater;
+    final AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater;
+    final AtomicReferenceFieldUpdater<AbstractFuture, Waiter> waitersUpdater;
+    final AtomicReferenceFieldUpdater<AbstractFuture, Listener> listenersUpdater;
+    final AtomicReferenceFieldUpdater<AbstractFuture, Object> valueUpdater;
+
+    SafeAtomicHelper(
+        AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater,
+        AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater,
+        AtomicReferenceFieldUpdater<AbstractFuture, Waiter> waitersUpdater,
+        AtomicReferenceFieldUpdater<AbstractFuture, Listener> listenersUpdater,
+        AtomicReferenceFieldUpdater<AbstractFuture, Object> valueUpdater) {
+      this.waiterThreadUpdater = waiterThreadUpdater;
+      this.waiterNextUpdater = waiterNextUpdater;
+      this.waitersUpdater = waitersUpdater;
+      this.listenersUpdater = listenersUpdater;
+      this.valueUpdater = valueUpdater;
     }
 
     @Override
-    void putNext(Waiter waiter, Waiter next) {
-      WAITER_NEXT_UPDATER.lazySet(waiter, next);
+    void putThread(Waiter waiter, Thread newValue) {
+      waiterThreadUpdater.lazySet(waiter, newValue);
     }
 
     @Override
-    boolean casWaiters(AbstractFuture future, Waiter curr, Waiter next) {
-      return WAITERS_UPDATER.compareAndSet(future, curr, next);
+    void putNext(Waiter waiter, Waiter newValue) {
+      waiterNextUpdater.lazySet(waiter, newValue);
     }
 
     @Override
-    boolean casListeners(AbstractFuture future, Listener curr, Listener next) {
-      return LISTENERS_UPDATER.compareAndSet(future, curr, next);
+    boolean casWaiters(AbstractFuture<?> future, Waiter expect, Waiter update) {
+      return waitersUpdater.compareAndSet(future, expect, update);
     }
 
     @Override
-    boolean casValue(AbstractFuture future, Object expected, Object v) {
-      return VALUE_UPDATER.compareAndSet(future, expected, v);
+    boolean casListeners(AbstractFuture<?> future, Listener expect, Listener update) {
+      return listenersUpdater.compareAndSet(future, expect, update);
+    }
+
+    @Override
+    boolean casValue(AbstractFuture<?> future, Object expect, Object update) {
+      return valueUpdater.compareAndSet(future, expect, update);
+    }
+  }
+
+  /**
+   * {@link AtomicHelper} based on {@code synchronized} and volatile writes.
+   *
+   * <p>This is an implementation of last resort for when certain basic VM features are broken
+   * (like AtomicReferenceFieldUpdater).
+   */
+  private static final class SynchronizedHelper extends AtomicHelper {
+    @Override
+    void putThread(Waiter waiter, Thread newValue) {
+      waiter.thread = newValue;
+    }
+
+    @Override
+    void putNext(Waiter waiter, Waiter newValue) {
+      waiter.next = newValue;
+    }
+
+    @Override
+    boolean casWaiters(AbstractFuture<?> future, Waiter expect, Waiter update) {
+      synchronized (future) {
+        if (future.waiters == expect) {
+          future.waiters = update;
+          return true;
+        }
+        return false;
+      }
+    }
+
+    @Override
+    boolean casListeners(AbstractFuture<?> future, Listener expect, Listener update) {
+      synchronized (future) {
+        if (future.listeners == expect) {
+          future.listeners = update;
+          return true;
+        }
+        return false;
+      }
+    }
+
+    @Override
+    boolean casValue(AbstractFuture<?> future, Object expect, Object update) {
+      synchronized (future) {
+        if (future.value == expect) {
+          future.value = update;
+          return true;
+        }
+        return false;
+      }
     }
   }
 }
