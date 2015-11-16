@@ -30,12 +30,12 @@ import java.io.IOException;
 public class PackageSanityTests extends AbstractPackageSanityTests {
   private static final SleepingStopwatch NO_OP_STOPWATCH = new SleepingStopwatch() {
     @Override
-    long readMicros() {
+    protected long readMicros() {
       return 0;
     }
 
     @Override
-    void sleepMicrosUninterruptibly(long micros) {
+    protected void sleepMicrosUninterruptibly(long micros) {
     }
   };
 

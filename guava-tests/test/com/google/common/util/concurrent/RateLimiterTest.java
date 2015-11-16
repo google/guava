@@ -541,7 +541,7 @@ public class RateLimiterTest extends TestCase {
     }
 
     @Override
-    void sleepMicrosUninterruptibly(long micros) {
+    protected void sleepMicrosUninterruptibly(long micros) {
       sleepMicros("R", micros);
     }
 
