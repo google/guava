@@ -296,6 +296,11 @@ public final class Booleans {
       }
       return left.length - right.length;
     }
+
+    @Override
+    public String toString() {
+      return "Booleans.lexicographicalComparator()";
+    }
   }
 
   /**

@@ -466,6 +466,11 @@ public final class Ints {
       }
       return left.length - right.length;
     }
+
+    @Override
+    public String toString() {
+      return "Ints.lexicographicalComparator()";
+    }
   }
 
   /**

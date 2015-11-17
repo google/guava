@@ -201,5 +201,10 @@ public final class SignedBytes {
       }
       return left.length - right.length;
     }
+
+    @Override
+    public String toString() {
+      return "SignedBytes.lexicographicalComparator()";
+    }
   }
 }
