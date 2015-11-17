@@ -409,41 +409,43 @@
 <span class="sourceLineNo">401</span>    return String.format(Locale.ROOT, "RateLimiter[stableRate=%3.1fqps]", getRate());<a name="line.401"></a>
 <span class="sourceLineNo">402</span>  }<a name="line.402"></a>
 <span class="sourceLineNo">403</span><a name="line.403"></a>
-<span class="sourceLineNo">404</span>  @VisibleForTesting<a name="line.404"></a>
-<span class="sourceLineNo">405</span>  abstract static class SleepingStopwatch {<a name="line.405"></a>
-<span class="sourceLineNo">406</span>    /*<a name="line.406"></a>
-<span class="sourceLineNo">407</span>     * We always hold the mutex when calling this. TODO(cpovirk): Is that important? Perhaps we need<a name="line.407"></a>
-<span class="sourceLineNo">408</span>     * to guarantee that each call to reserveEarliestAvailable, etc. sees a value &gt;= the previous?<a name="line.408"></a>
-<span class="sourceLineNo">409</span>     * Also, is it OK that we don't hold the mutex when sleeping?<a name="line.409"></a>
-<span class="sourceLineNo">410</span>     */<a name="line.410"></a>
-<span class="sourceLineNo">411</span>    abstract long readMicros();<a name="line.411"></a>
-<span class="sourceLineNo">412</span><a name="line.412"></a>
-<span class="sourceLineNo">413</span>    abstract void sleepMicrosUninterruptibly(long micros);<a name="line.413"></a>
+<span class="sourceLineNo">404</span>  abstract static class SleepingStopwatch {<a name="line.404"></a>
+<span class="sourceLineNo">405</span>    /** Constructor for use by subclasses. */<a name="line.405"></a>
+<span class="sourceLineNo">406</span>    protected SleepingStopwatch() {}<a name="line.406"></a>
+<span class="sourceLineNo">407</span><a name="line.407"></a>
+<span class="sourceLineNo">408</span>    /*<a name="line.408"></a>
+<span class="sourceLineNo">409</span>     * We always hold the mutex when calling this. TODO(cpovirk): Is that important? Perhaps we need<a name="line.409"></a>
+<span class="sourceLineNo">410</span>     * to guarantee that each call to reserveEarliestAvailable, etc. sees a value &gt;= the previous?<a name="line.410"></a>
+<span class="sourceLineNo">411</span>     * Also, is it OK that we don't hold the mutex when sleeping?<a name="line.411"></a>
+<span class="sourceLineNo">412</span>     */<a name="line.412"></a>
+<span class="sourceLineNo">413</span>    protected abstract long readMicros();<a name="line.413"></a>
 <span class="sourceLineNo">414</span><a name="line.414"></a>
-<span class="sourceLineNo">415</span>    static final SleepingStopwatch createFromSystemTimer() {<a name="line.415"></a>
-<span class="sourceLineNo">416</span>      return new SleepingStopwatch() {<a name="line.416"></a>
-<span class="sourceLineNo">417</span>        final Stopwatch stopwatch = Stopwatch.createStarted();<a name="line.417"></a>
-<span class="sourceLineNo">418</span><a name="line.418"></a>
-<span class="sourceLineNo">419</span>        @Override<a name="line.419"></a>
-<span class="sourceLineNo">420</span>        long readMicros() {<a name="line.420"></a>
-<span class="sourceLineNo">421</span>          return stopwatch.elapsed(MICROSECONDS);<a name="line.421"></a>
-<span class="sourceLineNo">422</span>        }<a name="line.422"></a>
-<span class="sourceLineNo">423</span><a name="line.423"></a>
-<span class="sourceLineNo">424</span>        @Override<a name="line.424"></a>
-<span class="sourceLineNo">425</span>        void sleepMicrosUninterruptibly(long micros) {<a name="line.425"></a>
-<span class="sourceLineNo">426</span>          if (micros &gt; 0) {<a name="line.426"></a>
-<span class="sourceLineNo">427</span>            Uninterruptibles.sleepUninterruptibly(micros, MICROSECONDS);<a name="line.427"></a>
-<span class="sourceLineNo">428</span>          }<a name="line.428"></a>
-<span class="sourceLineNo">429</span>        }<a name="line.429"></a>
-<span class="sourceLineNo">430</span>      };<a name="line.430"></a>
-<span class="sourceLineNo">431</span>    }<a name="line.431"></a>
-<span class="sourceLineNo">432</span>  }<a name="line.432"></a>
-<span class="sourceLineNo">433</span><a name="line.433"></a>
-<span class="sourceLineNo">434</span>  private static int checkPermits(int permits) {<a name="line.434"></a>
-<span class="sourceLineNo">435</span>    checkArgument(permits &gt; 0, "Requested permits (%s) must be positive", permits);<a name="line.435"></a>
-<span class="sourceLineNo">436</span>    return permits;<a name="line.436"></a>
-<span class="sourceLineNo">437</span>  }<a name="line.437"></a>
-<span class="sourceLineNo">438</span>}<a name="line.438"></a>
+<span class="sourceLineNo">415</span>    protected abstract void sleepMicrosUninterruptibly(long micros);<a name="line.415"></a>
+<span class="sourceLineNo">416</span><a name="line.416"></a>
+<span class="sourceLineNo">417</span>    public static final SleepingStopwatch createFromSystemTimer() {<a name="line.417"></a>
+<span class="sourceLineNo">418</span>      return new SleepingStopwatch() {<a name="line.418"></a>
+<span class="sourceLineNo">419</span>        final Stopwatch stopwatch = Stopwatch.createStarted();<a name="line.419"></a>
+<span class="sourceLineNo">420</span><a name="line.420"></a>
+<span class="sourceLineNo">421</span>        @Override<a name="line.421"></a>
+<span class="sourceLineNo">422</span>        protected long readMicros() {<a name="line.422"></a>
+<span class="sourceLineNo">423</span>          return stopwatch.elapsed(MICROSECONDS);<a name="line.423"></a>
+<span class="sourceLineNo">424</span>        }<a name="line.424"></a>
+<span class="sourceLineNo">425</span><a name="line.425"></a>
+<span class="sourceLineNo">426</span>        @Override<a name="line.426"></a>
+<span class="sourceLineNo">427</span>        protected void sleepMicrosUninterruptibly(long micros) {<a name="line.427"></a>
+<span class="sourceLineNo">428</span>          if (micros &gt; 0) {<a name="line.428"></a>
+<span class="sourceLineNo">429</span>            Uninterruptibles.sleepUninterruptibly(micros, MICROSECONDS);<a name="line.429"></a>
+<span class="sourceLineNo">430</span>          }<a name="line.430"></a>
+<span class="sourceLineNo">431</span>        }<a name="line.431"></a>
+<span class="sourceLineNo">432</span>      };<a name="line.432"></a>
+<span class="sourceLineNo">433</span>    }<a name="line.433"></a>
+<span class="sourceLineNo">434</span>  }<a name="line.434"></a>
+<span class="sourceLineNo">435</span><a name="line.435"></a>
+<span class="sourceLineNo">436</span>  private static int checkPermits(int permits) {<a name="line.436"></a>
+<span class="sourceLineNo">437</span>    checkArgument(permits &gt; 0, "Requested permits (%s) must be positive", permits);<a name="line.437"></a>
+<span class="sourceLineNo">438</span>    return permits;<a name="line.438"></a>
+<span class="sourceLineNo">439</span>  }<a name="line.439"></a>
+<span class="sourceLineNo">440</span>}<a name="line.440"></a>
 
 
 

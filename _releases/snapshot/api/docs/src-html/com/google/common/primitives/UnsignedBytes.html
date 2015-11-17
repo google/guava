@@ -427,42 +427,52 @@
 <span class="sourceLineNo">419</span>        }<a name="line.419"></a>
 <span class="sourceLineNo">420</span>        return left.length - right.length;<a name="line.420"></a>
 <span class="sourceLineNo">421</span>      }<a name="line.421"></a>
-<span class="sourceLineNo">422</span>    }<a name="line.422"></a>
-<span class="sourceLineNo">423</span><a name="line.423"></a>
-<span class="sourceLineNo">424</span>    enum PureJavaComparator implements Comparator&lt;byte[]&gt; {<a name="line.424"></a>
-<span class="sourceLineNo">425</span>      INSTANCE;<a name="line.425"></a>
-<span class="sourceLineNo">426</span><a name="line.426"></a>
-<span class="sourceLineNo">427</span>      @Override<a name="line.427"></a>
-<span class="sourceLineNo">428</span>      public int compare(byte[] left, byte[] right) {<a name="line.428"></a>
-<span class="sourceLineNo">429</span>        int minLength = Math.min(left.length, right.length);<a name="line.429"></a>
-<span class="sourceLineNo">430</span>        for (int i = 0; i &lt; minLength; i++) {<a name="line.430"></a>
-<span class="sourceLineNo">431</span>          int result = UnsignedBytes.compare(left[i], right[i]);<a name="line.431"></a>
-<span class="sourceLineNo">432</span>          if (result != 0) {<a name="line.432"></a>
-<span class="sourceLineNo">433</span>            return result;<a name="line.433"></a>
-<span class="sourceLineNo">434</span>          }<a name="line.434"></a>
-<span class="sourceLineNo">435</span>        }<a name="line.435"></a>
-<span class="sourceLineNo">436</span>        return left.length - right.length;<a name="line.436"></a>
-<span class="sourceLineNo">437</span>      }<a name="line.437"></a>
-<span class="sourceLineNo">438</span>    }<a name="line.438"></a>
-<span class="sourceLineNo">439</span><a name="line.439"></a>
-<span class="sourceLineNo">440</span>    /**<a name="line.440"></a>
-<span class="sourceLineNo">441</span>     * Returns the Unsafe-using Comparator, or falls back to the pure-Java<a name="line.441"></a>
-<span class="sourceLineNo">442</span>     * implementation if unable to do so.<a name="line.442"></a>
-<span class="sourceLineNo">443</span>     */<a name="line.443"></a>
-<span class="sourceLineNo">444</span>    static Comparator&lt;byte[]&gt; getBestComparator() {<a name="line.444"></a>
-<span class="sourceLineNo">445</span>      try {<a name="line.445"></a>
-<span class="sourceLineNo">446</span>        Class&lt;?&gt; theClass = Class.forName(UNSAFE_COMPARATOR_NAME);<a name="line.446"></a>
-<span class="sourceLineNo">447</span><a name="line.447"></a>
-<span class="sourceLineNo">448</span>        // yes, UnsafeComparator does implement Comparator&lt;byte[]&gt;<a name="line.448"></a>
-<span class="sourceLineNo">449</span>        @SuppressWarnings("unchecked")<a name="line.449"></a>
-<span class="sourceLineNo">450</span>        Comparator&lt;byte[]&gt; comparator = (Comparator&lt;byte[]&gt;) theClass.getEnumConstants()[0];<a name="line.450"></a>
-<span class="sourceLineNo">451</span>        return comparator;<a name="line.451"></a>
-<span class="sourceLineNo">452</span>      } catch (Throwable t) { // ensure we really catch *everything*<a name="line.452"></a>
-<span class="sourceLineNo">453</span>        return lexicographicalComparatorJavaImpl();<a name="line.453"></a>
-<span class="sourceLineNo">454</span>      }<a name="line.454"></a>
-<span class="sourceLineNo">455</span>    }<a name="line.455"></a>
-<span class="sourceLineNo">456</span>  }<a name="line.456"></a>
-<span class="sourceLineNo">457</span>}<a name="line.457"></a>
+<span class="sourceLineNo">422</span><a name="line.422"></a>
+<span class="sourceLineNo">423</span>      @Override<a name="line.423"></a>
+<span class="sourceLineNo">424</span>      public String toString() {<a name="line.424"></a>
+<span class="sourceLineNo">425</span>        return "UnsignedBytes.lexicographicalComparator() (sun.misc.Unsafe version)";<a name="line.425"></a>
+<span class="sourceLineNo">426</span>      }<a name="line.426"></a>
+<span class="sourceLineNo">427</span>    }<a name="line.427"></a>
+<span class="sourceLineNo">428</span><a name="line.428"></a>
+<span class="sourceLineNo">429</span>    enum PureJavaComparator implements Comparator&lt;byte[]&gt; {<a name="line.429"></a>
+<span class="sourceLineNo">430</span>      INSTANCE;<a name="line.430"></a>
+<span class="sourceLineNo">431</span><a name="line.431"></a>
+<span class="sourceLineNo">432</span>      @Override<a name="line.432"></a>
+<span class="sourceLineNo">433</span>      public int compare(byte[] left, byte[] right) {<a name="line.433"></a>
+<span class="sourceLineNo">434</span>        int minLength = Math.min(left.length, right.length);<a name="line.434"></a>
+<span class="sourceLineNo">435</span>        for (int i = 0; i &lt; minLength; i++) {<a name="line.435"></a>
+<span class="sourceLineNo">436</span>          int result = UnsignedBytes.compare(left[i], right[i]);<a name="line.436"></a>
+<span class="sourceLineNo">437</span>          if (result != 0) {<a name="line.437"></a>
+<span class="sourceLineNo">438</span>            return result;<a name="line.438"></a>
+<span class="sourceLineNo">439</span>          }<a name="line.439"></a>
+<span class="sourceLineNo">440</span>        }<a name="line.440"></a>
+<span class="sourceLineNo">441</span>        return left.length - right.length;<a name="line.441"></a>
+<span class="sourceLineNo">442</span>      }<a name="line.442"></a>
+<span class="sourceLineNo">443</span><a name="line.443"></a>
+<span class="sourceLineNo">444</span>      @Override<a name="line.444"></a>
+<span class="sourceLineNo">445</span>      public String toString() {<a name="line.445"></a>
+<span class="sourceLineNo">446</span>        return "UnsignedBytes.lexicographicalComparator() (pure Java version)";<a name="line.446"></a>
+<span class="sourceLineNo">447</span>      }<a name="line.447"></a>
+<span class="sourceLineNo">448</span>    }<a name="line.448"></a>
+<span class="sourceLineNo">449</span><a name="line.449"></a>
+<span class="sourceLineNo">450</span>    /**<a name="line.450"></a>
+<span class="sourceLineNo">451</span>     * Returns the Unsafe-using Comparator, or falls back to the pure-Java<a name="line.451"></a>
+<span class="sourceLineNo">452</span>     * implementation if unable to do so.<a name="line.452"></a>
+<span class="sourceLineNo">453</span>     */<a name="line.453"></a>
+<span class="sourceLineNo">454</span>    static Comparator&lt;byte[]&gt; getBestComparator() {<a name="line.454"></a>
+<span class="sourceLineNo">455</span>      try {<a name="line.455"></a>
+<span class="sourceLineNo">456</span>        Class&lt;?&gt; theClass = Class.forName(UNSAFE_COMPARATOR_NAME);<a name="line.456"></a>
+<span class="sourceLineNo">457</span><a name="line.457"></a>
+<span class="sourceLineNo">458</span>        // yes, UnsafeComparator does implement Comparator&lt;byte[]&gt;<a name="line.458"></a>
+<span class="sourceLineNo">459</span>        @SuppressWarnings("unchecked")<a name="line.459"></a>
+<span class="sourceLineNo">460</span>        Comparator&lt;byte[]&gt; comparator = (Comparator&lt;byte[]&gt;) theClass.getEnumConstants()[0];<a name="line.460"></a>
+<span class="sourceLineNo">461</span>        return comparator;<a name="line.461"></a>
+<span class="sourceLineNo">462</span>      } catch (Throwable t) { // ensure we really catch *everything*<a name="line.462"></a>
+<span class="sourceLineNo">463</span>        return lexicographicalComparatorJavaImpl();<a name="line.463"></a>
+<span class="sourceLineNo">464</span>      }<a name="line.464"></a>
+<span class="sourceLineNo">465</span>    }<a name="line.465"></a>
+<span class="sourceLineNo">466</span>  }<a name="line.466"></a>
+<span class="sourceLineNo">467</span>}<a name="line.467"></a>
 
 
 

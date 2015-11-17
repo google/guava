@@ -421,192 +421,197 @@
 <span class="sourceLineNo">413</span>      }<a name="line.413"></a>
 <span class="sourceLineNo">414</span>      return left.length - right.length;<a name="line.414"></a>
 <span class="sourceLineNo">415</span>    }<a name="line.415"></a>
-<span class="sourceLineNo">416</span>  }<a name="line.416"></a>
-<span class="sourceLineNo">417</span><a name="line.417"></a>
-<span class="sourceLineNo">418</span>  /**<a name="line.418"></a>
-<span class="sourceLineNo">419</span>   * Copies a collection of {@code Character} instances into a new array of<a name="line.419"></a>
-<span class="sourceLineNo">420</span>   * primitive {@code char} values.<a name="line.420"></a>
-<span class="sourceLineNo">421</span>   *<a name="line.421"></a>
-<span class="sourceLineNo">422</span>   * &lt;p&gt;Elements are copied from the argument collection as if by {@code<a name="line.422"></a>
-<span class="sourceLineNo">423</span>   * collection.toArray()}.  Calling this method is as thread-safe as calling<a name="line.423"></a>
-<span class="sourceLineNo">424</span>   * that method.<a name="line.424"></a>
-<span class="sourceLineNo">425</span>   *<a name="line.425"></a>
-<span class="sourceLineNo">426</span>   * @param collection a collection of {@code Character} objects<a name="line.426"></a>
-<span class="sourceLineNo">427</span>   * @return an array containing the same values as {@code collection}, in the<a name="line.427"></a>
-<span class="sourceLineNo">428</span>   *     same order, converted to primitives<a name="line.428"></a>
-<span class="sourceLineNo">429</span>   * @throws NullPointerException if {@code collection} or any of its elements<a name="line.429"></a>
-<span class="sourceLineNo">430</span>   *     is null<a name="line.430"></a>
-<span class="sourceLineNo">431</span>   */<a name="line.431"></a>
-<span class="sourceLineNo">432</span>  public static char[] toArray(Collection&lt;Character&gt; collection) {<a name="line.432"></a>
-<span class="sourceLineNo">433</span>    if (collection instanceof CharArrayAsList) {<a name="line.433"></a>
-<span class="sourceLineNo">434</span>      return ((CharArrayAsList) collection).toCharArray();<a name="line.434"></a>
-<span class="sourceLineNo">435</span>    }<a name="line.435"></a>
-<span class="sourceLineNo">436</span><a name="line.436"></a>
-<span class="sourceLineNo">437</span>    Object[] boxedArray = collection.toArray();<a name="line.437"></a>
-<span class="sourceLineNo">438</span>    int len = boxedArray.length;<a name="line.438"></a>
-<span class="sourceLineNo">439</span>    char[] array = new char[len];<a name="line.439"></a>
-<span class="sourceLineNo">440</span>    for (int i = 0; i &lt; len; i++) {<a name="line.440"></a>
-<span class="sourceLineNo">441</span>      // checkNotNull for GWT (do not optimize)<a name="line.441"></a>
-<span class="sourceLineNo">442</span>      array[i] = (Character) checkNotNull(boxedArray[i]);<a name="line.442"></a>
-<span class="sourceLineNo">443</span>    }<a name="line.443"></a>
-<span class="sourceLineNo">444</span>    return array;<a name="line.444"></a>
-<span class="sourceLineNo">445</span>  }<a name="line.445"></a>
-<span class="sourceLineNo">446</span><a name="line.446"></a>
-<span class="sourceLineNo">447</span>  /**<a name="line.447"></a>
-<span class="sourceLineNo">448</span>   * Returns a fixed-size list backed by the specified array, similar to {@link<a name="line.448"></a>
-<span class="sourceLineNo">449</span>   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)},<a name="line.449"></a>
-<span class="sourceLineNo">450</span>   * but any attempt to set a value to {@code null} will result in a {@link<a name="line.450"></a>
-<span class="sourceLineNo">451</span>   * NullPointerException}.<a name="line.451"></a>
-<span class="sourceLineNo">452</span>   *<a name="line.452"></a>
-<span class="sourceLineNo">453</span>   * &lt;p&gt;The returned list maintains the values, but not the identities, of<a name="line.453"></a>
-<span class="sourceLineNo">454</span>   * {@code Character} objects written to or read from it.  For example, whether<a name="line.454"></a>
-<span class="sourceLineNo">455</span>   * {@code list.get(0) == list.get(0)} is true for the returned list is<a name="line.455"></a>
-<span class="sourceLineNo">456</span>   * unspecified.<a name="line.456"></a>
+<span class="sourceLineNo">416</span><a name="line.416"></a>
+<span class="sourceLineNo">417</span>    @Override<a name="line.417"></a>
+<span class="sourceLineNo">418</span>    public String toString() {<a name="line.418"></a>
+<span class="sourceLineNo">419</span>      return "Chars.lexicographicalComparator()";<a name="line.419"></a>
+<span class="sourceLineNo">420</span>    }<a name="line.420"></a>
+<span class="sourceLineNo">421</span>  }<a name="line.421"></a>
+<span class="sourceLineNo">422</span><a name="line.422"></a>
+<span class="sourceLineNo">423</span>  /**<a name="line.423"></a>
+<span class="sourceLineNo">424</span>   * Copies a collection of {@code Character} instances into a new array of<a name="line.424"></a>
+<span class="sourceLineNo">425</span>   * primitive {@code char} values.<a name="line.425"></a>
+<span class="sourceLineNo">426</span>   *<a name="line.426"></a>
+<span class="sourceLineNo">427</span>   * &lt;p&gt;Elements are copied from the argument collection as if by {@code<a name="line.427"></a>
+<span class="sourceLineNo">428</span>   * collection.toArray()}.  Calling this method is as thread-safe as calling<a name="line.428"></a>
+<span class="sourceLineNo">429</span>   * that method.<a name="line.429"></a>
+<span class="sourceLineNo">430</span>   *<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   * @param collection a collection of {@code Character} objects<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   * @return an array containing the same values as {@code collection}, in the<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   *     same order, converted to primitives<a name="line.433"></a>
+<span class="sourceLineNo">434</span>   * @throws NullPointerException if {@code collection} or any of its elements<a name="line.434"></a>
+<span class="sourceLineNo">435</span>   *     is null<a name="line.435"></a>
+<span class="sourceLineNo">436</span>   */<a name="line.436"></a>
+<span class="sourceLineNo">437</span>  public static char[] toArray(Collection&lt;Character&gt; collection) {<a name="line.437"></a>
+<span class="sourceLineNo">438</span>    if (collection instanceof CharArrayAsList) {<a name="line.438"></a>
+<span class="sourceLineNo">439</span>      return ((CharArrayAsList) collection).toCharArray();<a name="line.439"></a>
+<span class="sourceLineNo">440</span>    }<a name="line.440"></a>
+<span class="sourceLineNo">441</span><a name="line.441"></a>
+<span class="sourceLineNo">442</span>    Object[] boxedArray = collection.toArray();<a name="line.442"></a>
+<span class="sourceLineNo">443</span>    int len = boxedArray.length;<a name="line.443"></a>
+<span class="sourceLineNo">444</span>    char[] array = new char[len];<a name="line.444"></a>
+<span class="sourceLineNo">445</span>    for (int i = 0; i &lt; len; i++) {<a name="line.445"></a>
+<span class="sourceLineNo">446</span>      // checkNotNull for GWT (do not optimize)<a name="line.446"></a>
+<span class="sourceLineNo">447</span>      array[i] = (Character) checkNotNull(boxedArray[i]);<a name="line.447"></a>
+<span class="sourceLineNo">448</span>    }<a name="line.448"></a>
+<span class="sourceLineNo">449</span>    return array;<a name="line.449"></a>
+<span class="sourceLineNo">450</span>  }<a name="line.450"></a>
+<span class="sourceLineNo">451</span><a name="line.451"></a>
+<span class="sourceLineNo">452</span>  /**<a name="line.452"></a>
+<span class="sourceLineNo">453</span>   * Returns a fixed-size list backed by the specified array, similar to {@link<a name="line.453"></a>
+<span class="sourceLineNo">454</span>   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)},<a name="line.454"></a>
+<span class="sourceLineNo">455</span>   * but any attempt to set a value to {@code null} will result in a {@link<a name="line.455"></a>
+<span class="sourceLineNo">456</span>   * NullPointerException}.<a name="line.456"></a>
 <span class="sourceLineNo">457</span>   *<a name="line.457"></a>
-<span class="sourceLineNo">458</span>   * @param backingArray the array to back the list<a name="line.458"></a>
-<span class="sourceLineNo">459</span>   * @return a list view of the array<a name="line.459"></a>
-<span class="sourceLineNo">460</span>   */<a name="line.460"></a>
-<span class="sourceLineNo">461</span>  public static List&lt;Character&gt; asList(char... backingArray) {<a name="line.461"></a>
-<span class="sourceLineNo">462</span>    if (backingArray.length == 0) {<a name="line.462"></a>
-<span class="sourceLineNo">463</span>      return Collections.emptyList();<a name="line.463"></a>
-<span class="sourceLineNo">464</span>    }<a name="line.464"></a>
-<span class="sourceLineNo">465</span>    return new CharArrayAsList(backingArray);<a name="line.465"></a>
-<span class="sourceLineNo">466</span>  }<a name="line.466"></a>
-<span class="sourceLineNo">467</span><a name="line.467"></a>
-<span class="sourceLineNo">468</span>  @GwtCompatible<a name="line.468"></a>
-<span class="sourceLineNo">469</span>  private static class CharArrayAsList extends AbstractList&lt;Character&gt;<a name="line.469"></a>
-<span class="sourceLineNo">470</span>      implements RandomAccess, Serializable {<a name="line.470"></a>
-<span class="sourceLineNo">471</span>    final char[] array;<a name="line.471"></a>
-<span class="sourceLineNo">472</span>    final int start;<a name="line.472"></a>
-<span class="sourceLineNo">473</span>    final int end;<a name="line.473"></a>
-<span class="sourceLineNo">474</span><a name="line.474"></a>
-<span class="sourceLineNo">475</span>    CharArrayAsList(char[] array) {<a name="line.475"></a>
-<span class="sourceLineNo">476</span>      this(array, 0, array.length);<a name="line.476"></a>
-<span class="sourceLineNo">477</span>    }<a name="line.477"></a>
-<span class="sourceLineNo">478</span><a name="line.478"></a>
-<span class="sourceLineNo">479</span>    CharArrayAsList(char[] array, int start, int end) {<a name="line.479"></a>
-<span class="sourceLineNo">480</span>      this.array = array;<a name="line.480"></a>
-<span class="sourceLineNo">481</span>      this.start = start;<a name="line.481"></a>
-<span class="sourceLineNo">482</span>      this.end = end;<a name="line.482"></a>
-<span class="sourceLineNo">483</span>    }<a name="line.483"></a>
-<span class="sourceLineNo">484</span><a name="line.484"></a>
-<span class="sourceLineNo">485</span>    @Override<a name="line.485"></a>
-<span class="sourceLineNo">486</span>    public int size() {<a name="line.486"></a>
-<span class="sourceLineNo">487</span>      return end - start;<a name="line.487"></a>
+<span class="sourceLineNo">458</span>   * &lt;p&gt;The returned list maintains the values, but not the identities, of<a name="line.458"></a>
+<span class="sourceLineNo">459</span>   * {@code Character} objects written to or read from it.  For example, whether<a name="line.459"></a>
+<span class="sourceLineNo">460</span>   * {@code list.get(0) == list.get(0)} is true for the returned list is<a name="line.460"></a>
+<span class="sourceLineNo">461</span>   * unspecified.<a name="line.461"></a>
+<span class="sourceLineNo">462</span>   *<a name="line.462"></a>
+<span class="sourceLineNo">463</span>   * @param backingArray the array to back the list<a name="line.463"></a>
+<span class="sourceLineNo">464</span>   * @return a list view of the array<a name="line.464"></a>
+<span class="sourceLineNo">465</span>   */<a name="line.465"></a>
+<span class="sourceLineNo">466</span>  public static List&lt;Character&gt; asList(char... backingArray) {<a name="line.466"></a>
+<span class="sourceLineNo">467</span>    if (backingArray.length == 0) {<a name="line.467"></a>
+<span class="sourceLineNo">468</span>      return Collections.emptyList();<a name="line.468"></a>
+<span class="sourceLineNo">469</span>    }<a name="line.469"></a>
+<span class="sourceLineNo">470</span>    return new CharArrayAsList(backingArray);<a name="line.470"></a>
+<span class="sourceLineNo">471</span>  }<a name="line.471"></a>
+<span class="sourceLineNo">472</span><a name="line.472"></a>
+<span class="sourceLineNo">473</span>  @GwtCompatible<a name="line.473"></a>
+<span class="sourceLineNo">474</span>  private static class CharArrayAsList extends AbstractList&lt;Character&gt;<a name="line.474"></a>
+<span class="sourceLineNo">475</span>      implements RandomAccess, Serializable {<a name="line.475"></a>
+<span class="sourceLineNo">476</span>    final char[] array;<a name="line.476"></a>
+<span class="sourceLineNo">477</span>    final int start;<a name="line.477"></a>
+<span class="sourceLineNo">478</span>    final int end;<a name="line.478"></a>
+<span class="sourceLineNo">479</span><a name="line.479"></a>
+<span class="sourceLineNo">480</span>    CharArrayAsList(char[] array) {<a name="line.480"></a>
+<span class="sourceLineNo">481</span>      this(array, 0, array.length);<a name="line.481"></a>
+<span class="sourceLineNo">482</span>    }<a name="line.482"></a>
+<span class="sourceLineNo">483</span><a name="line.483"></a>
+<span class="sourceLineNo">484</span>    CharArrayAsList(char[] array, int start, int end) {<a name="line.484"></a>
+<span class="sourceLineNo">485</span>      this.array = array;<a name="line.485"></a>
+<span class="sourceLineNo">486</span>      this.start = start;<a name="line.486"></a>
+<span class="sourceLineNo">487</span>      this.end = end;<a name="line.487"></a>
 <span class="sourceLineNo">488</span>    }<a name="line.488"></a>
 <span class="sourceLineNo">489</span><a name="line.489"></a>
 <span class="sourceLineNo">490</span>    @Override<a name="line.490"></a>
-<span class="sourceLineNo">491</span>    public boolean isEmpty() {<a name="line.491"></a>
-<span class="sourceLineNo">492</span>      return false;<a name="line.492"></a>
+<span class="sourceLineNo">491</span>    public int size() {<a name="line.491"></a>
+<span class="sourceLineNo">492</span>      return end - start;<a name="line.492"></a>
 <span class="sourceLineNo">493</span>    }<a name="line.493"></a>
 <span class="sourceLineNo">494</span><a name="line.494"></a>
 <span class="sourceLineNo">495</span>    @Override<a name="line.495"></a>
-<span class="sourceLineNo">496</span>    public Character get(int index) {<a name="line.496"></a>
-<span class="sourceLineNo">497</span>      checkElementIndex(index, size());<a name="line.497"></a>
-<span class="sourceLineNo">498</span>      return array[start + index];<a name="line.498"></a>
-<span class="sourceLineNo">499</span>    }<a name="line.499"></a>
-<span class="sourceLineNo">500</span><a name="line.500"></a>
-<span class="sourceLineNo">501</span>    @Override<a name="line.501"></a>
-<span class="sourceLineNo">502</span>    public boolean contains(Object target) {<a name="line.502"></a>
-<span class="sourceLineNo">503</span>      // Overridden to prevent a ton of boxing<a name="line.503"></a>
-<span class="sourceLineNo">504</span>      return (target instanceof Character)<a name="line.504"></a>
-<span class="sourceLineNo">505</span>          &amp;&amp; Chars.indexOf(array, (Character) target, start, end) != -1;<a name="line.505"></a>
-<span class="sourceLineNo">506</span>    }<a name="line.506"></a>
-<span class="sourceLineNo">507</span><a name="line.507"></a>
-<span class="sourceLineNo">508</span>    @Override<a name="line.508"></a>
-<span class="sourceLineNo">509</span>    public int indexOf(Object target) {<a name="line.509"></a>
-<span class="sourceLineNo">510</span>      // Overridden to prevent a ton of boxing<a name="line.510"></a>
-<span class="sourceLineNo">511</span>      if (target instanceof Character) {<a name="line.511"></a>
-<span class="sourceLineNo">512</span>        int i = Chars.indexOf(array, (Character) target, start, end);<a name="line.512"></a>
-<span class="sourceLineNo">513</span>        if (i &gt;= 0) {<a name="line.513"></a>
-<span class="sourceLineNo">514</span>          return i - start;<a name="line.514"></a>
-<span class="sourceLineNo">515</span>        }<a name="line.515"></a>
-<span class="sourceLineNo">516</span>      }<a name="line.516"></a>
-<span class="sourceLineNo">517</span>      return -1;<a name="line.517"></a>
-<span class="sourceLineNo">518</span>    }<a name="line.518"></a>
-<span class="sourceLineNo">519</span><a name="line.519"></a>
-<span class="sourceLineNo">520</span>    @Override<a name="line.520"></a>
-<span class="sourceLineNo">521</span>    public int lastIndexOf(Object target) {<a name="line.521"></a>
-<span class="sourceLineNo">522</span>      // Overridden to prevent a ton of boxing<a name="line.522"></a>
-<span class="sourceLineNo">523</span>      if (target instanceof Character) {<a name="line.523"></a>
-<span class="sourceLineNo">524</span>        int i = Chars.lastIndexOf(array, (Character) target, start, end);<a name="line.524"></a>
-<span class="sourceLineNo">525</span>        if (i &gt;= 0) {<a name="line.525"></a>
-<span class="sourceLineNo">526</span>          return i - start;<a name="line.526"></a>
-<span class="sourceLineNo">527</span>        }<a name="line.527"></a>
-<span class="sourceLineNo">528</span>      }<a name="line.528"></a>
-<span class="sourceLineNo">529</span>      return -1;<a name="line.529"></a>
-<span class="sourceLineNo">530</span>    }<a name="line.530"></a>
-<span class="sourceLineNo">531</span><a name="line.531"></a>
-<span class="sourceLineNo">532</span>    @Override<a name="line.532"></a>
-<span class="sourceLineNo">533</span>    public Character set(int index, Character element) {<a name="line.533"></a>
-<span class="sourceLineNo">534</span>      checkElementIndex(index, size());<a name="line.534"></a>
-<span class="sourceLineNo">535</span>      char oldValue = array[start + index];<a name="line.535"></a>
-<span class="sourceLineNo">536</span>      // checkNotNull for GWT (do not optimize)<a name="line.536"></a>
-<span class="sourceLineNo">537</span>      array[start + index] = checkNotNull(element);<a name="line.537"></a>
-<span class="sourceLineNo">538</span>      return oldValue;<a name="line.538"></a>
-<span class="sourceLineNo">539</span>    }<a name="line.539"></a>
-<span class="sourceLineNo">540</span><a name="line.540"></a>
-<span class="sourceLineNo">541</span>    @Override<a name="line.541"></a>
-<span class="sourceLineNo">542</span>    public List&lt;Character&gt; subList(int fromIndex, int toIndex) {<a name="line.542"></a>
-<span class="sourceLineNo">543</span>      int size = size();<a name="line.543"></a>
-<span class="sourceLineNo">544</span>      checkPositionIndexes(fromIndex, toIndex, size);<a name="line.544"></a>
-<span class="sourceLineNo">545</span>      if (fromIndex == toIndex) {<a name="line.545"></a>
-<span class="sourceLineNo">546</span>        return Collections.emptyList();<a name="line.546"></a>
-<span class="sourceLineNo">547</span>      }<a name="line.547"></a>
-<span class="sourceLineNo">548</span>      return new CharArrayAsList(array, start + fromIndex, start + toIndex);<a name="line.548"></a>
-<span class="sourceLineNo">549</span>    }<a name="line.549"></a>
-<span class="sourceLineNo">550</span><a name="line.550"></a>
-<span class="sourceLineNo">551</span>    @Override<a name="line.551"></a>
-<span class="sourceLineNo">552</span>    public boolean equals(@Nullable Object object) {<a name="line.552"></a>
-<span class="sourceLineNo">553</span>      if (object == this) {<a name="line.553"></a>
-<span class="sourceLineNo">554</span>        return true;<a name="line.554"></a>
-<span class="sourceLineNo">555</span>      }<a name="line.555"></a>
-<span class="sourceLineNo">556</span>      if (object instanceof CharArrayAsList) {<a name="line.556"></a>
-<span class="sourceLineNo">557</span>        CharArrayAsList that = (CharArrayAsList) object;<a name="line.557"></a>
-<span class="sourceLineNo">558</span>        int size = size();<a name="line.558"></a>
-<span class="sourceLineNo">559</span>        if (that.size() != size) {<a name="line.559"></a>
-<span class="sourceLineNo">560</span>          return false;<a name="line.560"></a>
-<span class="sourceLineNo">561</span>        }<a name="line.561"></a>
-<span class="sourceLineNo">562</span>        for (int i = 0; i &lt; size; i++) {<a name="line.562"></a>
-<span class="sourceLineNo">563</span>          if (array[start + i] != that.array[that.start + i]) {<a name="line.563"></a>
-<span class="sourceLineNo">564</span>            return false;<a name="line.564"></a>
-<span class="sourceLineNo">565</span>          }<a name="line.565"></a>
+<span class="sourceLineNo">496</span>    public boolean isEmpty() {<a name="line.496"></a>
+<span class="sourceLineNo">497</span>      return false;<a name="line.497"></a>
+<span class="sourceLineNo">498</span>    }<a name="line.498"></a>
+<span class="sourceLineNo">499</span><a name="line.499"></a>
+<span class="sourceLineNo">500</span>    @Override<a name="line.500"></a>
+<span class="sourceLineNo">501</span>    public Character get(int index) {<a name="line.501"></a>
+<span class="sourceLineNo">502</span>      checkElementIndex(index, size());<a name="line.502"></a>
+<span class="sourceLineNo">503</span>      return array[start + index];<a name="line.503"></a>
+<span class="sourceLineNo">504</span>    }<a name="line.504"></a>
+<span class="sourceLineNo">505</span><a name="line.505"></a>
+<span class="sourceLineNo">506</span>    @Override<a name="line.506"></a>
+<span class="sourceLineNo">507</span>    public boolean contains(Object target) {<a name="line.507"></a>
+<span class="sourceLineNo">508</span>      // Overridden to prevent a ton of boxing<a name="line.508"></a>
+<span class="sourceLineNo">509</span>      return (target instanceof Character)<a name="line.509"></a>
+<span class="sourceLineNo">510</span>          &amp;&amp; Chars.indexOf(array, (Character) target, start, end) != -1;<a name="line.510"></a>
+<span class="sourceLineNo">511</span>    }<a name="line.511"></a>
+<span class="sourceLineNo">512</span><a name="line.512"></a>
+<span class="sourceLineNo">513</span>    @Override<a name="line.513"></a>
+<span class="sourceLineNo">514</span>    public int indexOf(Object target) {<a name="line.514"></a>
+<span class="sourceLineNo">515</span>      // Overridden to prevent a ton of boxing<a name="line.515"></a>
+<span class="sourceLineNo">516</span>      if (target instanceof Character) {<a name="line.516"></a>
+<span class="sourceLineNo">517</span>        int i = Chars.indexOf(array, (Character) target, start, end);<a name="line.517"></a>
+<span class="sourceLineNo">518</span>        if (i &gt;= 0) {<a name="line.518"></a>
+<span class="sourceLineNo">519</span>          return i - start;<a name="line.519"></a>
+<span class="sourceLineNo">520</span>        }<a name="line.520"></a>
+<span class="sourceLineNo">521</span>      }<a name="line.521"></a>
+<span class="sourceLineNo">522</span>      return -1;<a name="line.522"></a>
+<span class="sourceLineNo">523</span>    }<a name="line.523"></a>
+<span class="sourceLineNo">524</span><a name="line.524"></a>
+<span class="sourceLineNo">525</span>    @Override<a name="line.525"></a>
+<span class="sourceLineNo">526</span>    public int lastIndexOf(Object target) {<a name="line.526"></a>
+<span class="sourceLineNo">527</span>      // Overridden to prevent a ton of boxing<a name="line.527"></a>
+<span class="sourceLineNo">528</span>      if (target instanceof Character) {<a name="line.528"></a>
+<span class="sourceLineNo">529</span>        int i = Chars.lastIndexOf(array, (Character) target, start, end);<a name="line.529"></a>
+<span class="sourceLineNo">530</span>        if (i &gt;= 0) {<a name="line.530"></a>
+<span class="sourceLineNo">531</span>          return i - start;<a name="line.531"></a>
+<span class="sourceLineNo">532</span>        }<a name="line.532"></a>
+<span class="sourceLineNo">533</span>      }<a name="line.533"></a>
+<span class="sourceLineNo">534</span>      return -1;<a name="line.534"></a>
+<span class="sourceLineNo">535</span>    }<a name="line.535"></a>
+<span class="sourceLineNo">536</span><a name="line.536"></a>
+<span class="sourceLineNo">537</span>    @Override<a name="line.537"></a>
+<span class="sourceLineNo">538</span>    public Character set(int index, Character element) {<a name="line.538"></a>
+<span class="sourceLineNo">539</span>      checkElementIndex(index, size());<a name="line.539"></a>
+<span class="sourceLineNo">540</span>      char oldValue = array[start + index];<a name="line.540"></a>
+<span class="sourceLineNo">541</span>      // checkNotNull for GWT (do not optimize)<a name="line.541"></a>
+<span class="sourceLineNo">542</span>      array[start + index] = checkNotNull(element);<a name="line.542"></a>
+<span class="sourceLineNo">543</span>      return oldValue;<a name="line.543"></a>
+<span class="sourceLineNo">544</span>    }<a name="line.544"></a>
+<span class="sourceLineNo">545</span><a name="line.545"></a>
+<span class="sourceLineNo">546</span>    @Override<a name="line.546"></a>
+<span class="sourceLineNo">547</span>    public List&lt;Character&gt; subList(int fromIndex, int toIndex) {<a name="line.547"></a>
+<span class="sourceLineNo">548</span>      int size = size();<a name="line.548"></a>
+<span class="sourceLineNo">549</span>      checkPositionIndexes(fromIndex, toIndex, size);<a name="line.549"></a>
+<span class="sourceLineNo">550</span>      if (fromIndex == toIndex) {<a name="line.550"></a>
+<span class="sourceLineNo">551</span>        return Collections.emptyList();<a name="line.551"></a>
+<span class="sourceLineNo">552</span>      }<a name="line.552"></a>
+<span class="sourceLineNo">553</span>      return new CharArrayAsList(array, start + fromIndex, start + toIndex);<a name="line.553"></a>
+<span class="sourceLineNo">554</span>    }<a name="line.554"></a>
+<span class="sourceLineNo">555</span><a name="line.555"></a>
+<span class="sourceLineNo">556</span>    @Override<a name="line.556"></a>
+<span class="sourceLineNo">557</span>    public boolean equals(@Nullable Object object) {<a name="line.557"></a>
+<span class="sourceLineNo">558</span>      if (object == this) {<a name="line.558"></a>
+<span class="sourceLineNo">559</span>        return true;<a name="line.559"></a>
+<span class="sourceLineNo">560</span>      }<a name="line.560"></a>
+<span class="sourceLineNo">561</span>      if (object instanceof CharArrayAsList) {<a name="line.561"></a>
+<span class="sourceLineNo">562</span>        CharArrayAsList that = (CharArrayAsList) object;<a name="line.562"></a>
+<span class="sourceLineNo">563</span>        int size = size();<a name="line.563"></a>
+<span class="sourceLineNo">564</span>        if (that.size() != size) {<a name="line.564"></a>
+<span class="sourceLineNo">565</span>          return false;<a name="line.565"></a>
 <span class="sourceLineNo">566</span>        }<a name="line.566"></a>
-<span class="sourceLineNo">567</span>        return true;<a name="line.567"></a>
-<span class="sourceLineNo">568</span>      }<a name="line.568"></a>
-<span class="sourceLineNo">569</span>      return super.equals(object);<a name="line.569"></a>
-<span class="sourceLineNo">570</span>    }<a name="line.570"></a>
-<span class="sourceLineNo">571</span><a name="line.571"></a>
-<span class="sourceLineNo">572</span>    @Override<a name="line.572"></a>
-<span class="sourceLineNo">573</span>    public int hashCode() {<a name="line.573"></a>
-<span class="sourceLineNo">574</span>      int result = 1;<a name="line.574"></a>
-<span class="sourceLineNo">575</span>      for (int i = start; i &lt; end; i++) {<a name="line.575"></a>
-<span class="sourceLineNo">576</span>        result = 31 * result + Chars.hashCode(array[i]);<a name="line.576"></a>
-<span class="sourceLineNo">577</span>      }<a name="line.577"></a>
-<span class="sourceLineNo">578</span>      return result;<a name="line.578"></a>
-<span class="sourceLineNo">579</span>    }<a name="line.579"></a>
-<span class="sourceLineNo">580</span><a name="line.580"></a>
-<span class="sourceLineNo">581</span>    @Override<a name="line.581"></a>
-<span class="sourceLineNo">582</span>    public String toString() {<a name="line.582"></a>
-<span class="sourceLineNo">583</span>      StringBuilder builder = new StringBuilder(size() * 3);<a name="line.583"></a>
-<span class="sourceLineNo">584</span>      builder.append('[').append(array[start]);<a name="line.584"></a>
-<span class="sourceLineNo">585</span>      for (int i = start + 1; i &lt; end; i++) {<a name="line.585"></a>
-<span class="sourceLineNo">586</span>        builder.append(", ").append(array[i]);<a name="line.586"></a>
-<span class="sourceLineNo">587</span>      }<a name="line.587"></a>
-<span class="sourceLineNo">588</span>      return builder.append(']').toString();<a name="line.588"></a>
-<span class="sourceLineNo">589</span>    }<a name="line.589"></a>
-<span class="sourceLineNo">590</span><a name="line.590"></a>
-<span class="sourceLineNo">591</span>    char[] toCharArray() {<a name="line.591"></a>
-<span class="sourceLineNo">592</span>      // Arrays.copyOfRange() is not available under GWT<a name="line.592"></a>
-<span class="sourceLineNo">593</span>      int size = size();<a name="line.593"></a>
-<span class="sourceLineNo">594</span>      char[] result = new char[size];<a name="line.594"></a>
-<span class="sourceLineNo">595</span>      System.arraycopy(array, start, result, 0, size);<a name="line.595"></a>
-<span class="sourceLineNo">596</span>      return result;<a name="line.596"></a>
-<span class="sourceLineNo">597</span>    }<a name="line.597"></a>
-<span class="sourceLineNo">598</span><a name="line.598"></a>
-<span class="sourceLineNo">599</span>    private static final long serialVersionUID = 0;<a name="line.599"></a>
-<span class="sourceLineNo">600</span>  }<a name="line.600"></a>
-<span class="sourceLineNo">601</span>}<a name="line.601"></a>
+<span class="sourceLineNo">567</span>        for (int i = 0; i &lt; size; i++) {<a name="line.567"></a>
+<span class="sourceLineNo">568</span>          if (array[start + i] != that.array[that.start + i]) {<a name="line.568"></a>
+<span class="sourceLineNo">569</span>            return false;<a name="line.569"></a>
+<span class="sourceLineNo">570</span>          }<a name="line.570"></a>
+<span class="sourceLineNo">571</span>        }<a name="line.571"></a>
+<span class="sourceLineNo">572</span>        return true;<a name="line.572"></a>
+<span class="sourceLineNo">573</span>      }<a name="line.573"></a>
+<span class="sourceLineNo">574</span>      return super.equals(object);<a name="line.574"></a>
+<span class="sourceLineNo">575</span>    }<a name="line.575"></a>
+<span class="sourceLineNo">576</span><a name="line.576"></a>
+<span class="sourceLineNo">577</span>    @Override<a name="line.577"></a>
+<span class="sourceLineNo">578</span>    public int hashCode() {<a name="line.578"></a>
+<span class="sourceLineNo">579</span>      int result = 1;<a name="line.579"></a>
+<span class="sourceLineNo">580</span>      for (int i = start; i &lt; end; i++) {<a name="line.580"></a>
+<span class="sourceLineNo">581</span>        result = 31 * result + Chars.hashCode(array[i]);<a name="line.581"></a>
+<span class="sourceLineNo">582</span>      }<a name="line.582"></a>
+<span class="sourceLineNo">583</span>      return result;<a name="line.583"></a>
+<span class="sourceLineNo">584</span>    }<a name="line.584"></a>
+<span class="sourceLineNo">585</span><a name="line.585"></a>
+<span class="sourceLineNo">586</span>    @Override<a name="line.586"></a>
+<span class="sourceLineNo">587</span>    public String toString() {<a name="line.587"></a>
+<span class="sourceLineNo">588</span>      StringBuilder builder = new StringBuilder(size() * 3);<a name="line.588"></a>
+<span class="sourceLineNo">589</span>      builder.append('[').append(array[start]);<a name="line.589"></a>
+<span class="sourceLineNo">590</span>      for (int i = start + 1; i &lt; end; i++) {<a name="line.590"></a>
+<span class="sourceLineNo">591</span>        builder.append(", ").append(array[i]);<a name="line.591"></a>
+<span class="sourceLineNo">592</span>      }<a name="line.592"></a>
+<span class="sourceLineNo">593</span>      return builder.append(']').toString();<a name="line.593"></a>
+<span class="sourceLineNo">594</span>    }<a name="line.594"></a>
+<span class="sourceLineNo">595</span><a name="line.595"></a>
+<span class="sourceLineNo">596</span>    char[] toCharArray() {<a name="line.596"></a>
+<span class="sourceLineNo">597</span>      // Arrays.copyOfRange() is not available under GWT<a name="line.597"></a>
+<span class="sourceLineNo">598</span>      int size = size();<a name="line.598"></a>
+<span class="sourceLineNo">599</span>      char[] result = new char[size];<a name="line.599"></a>
+<span class="sourceLineNo">600</span>      System.arraycopy(array, start, result, 0, size);<a name="line.600"></a>
+<span class="sourceLineNo">601</span>      return result;<a name="line.601"></a>
+<span class="sourceLineNo">602</span>    }<a name="line.602"></a>
+<span class="sourceLineNo">603</span><a name="line.603"></a>
+<span class="sourceLineNo">604</span>    private static final long serialVersionUID = 0;<a name="line.604"></a>
+<span class="sourceLineNo">605</span>  }<a name="line.605"></a>
+<span class="sourceLineNo">606</span>}<a name="line.606"></a>
 
 
 
