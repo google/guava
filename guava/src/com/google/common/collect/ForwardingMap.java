@@ -61,6 +61,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
+@SuppressWarnings("nullness:generic.argument")
 public abstract class ForwardingMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingObject implements Map<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
@@ -83,6 +84,8 @@ public abstract class ForwardingMap<K extends @org.checkerframework.checker.null
   }
 
   @Override
+  @SuppressWarnings("nullness")
+  // Suppressed due to annotations on remove in Java.Map
   public @org.checkerframework.checker.nullness.qual.Nullable V remove(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
     return delegate().remove(object);
   }
@@ -94,17 +97,23 @@ public abstract class ForwardingMap<K extends @org.checkerframework.checker.null
 
   @Pure
   @Override
+  @SuppressWarnings("nullness")
+  // Suppressed due to annotations on containsKey in Java.Map
   public boolean containsKey(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
     return delegate().containsKey(key);
   }
 
   @Pure
   @Override
+  @SuppressWarnings("nullness")
+  // Suppressed due to annotations on containsValue in Java.Map
   public boolean containsValue(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value) {
     return delegate().containsValue(value);
   }
 
   @Override
+  @SuppressWarnings("nullness")
+  // Suppressed due to annotations on get in Java.Map
   public V get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
     return delegate().get(key);
   }

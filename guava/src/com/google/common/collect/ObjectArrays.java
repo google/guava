@@ -141,6 +141,7 @@ public final class ObjectArrays {
    *     not a supertype of the runtime type of every element in the specified
    *     collection
    */
+  // Annotation here is not technically correct; see note on toArray
   static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] toArrayImpl(Collection<?> c, @org.checkerframework.checker.nullness.qual.Nullable T[] array) {
     int size = c.size();
     if (array.length < size) {

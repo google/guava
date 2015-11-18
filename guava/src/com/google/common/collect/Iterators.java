@@ -1063,7 +1063,7 @@ public final class Iterators {
    * <p>The {@code Iterable} equivalent of this method is {@code
    * Arrays.asList(array).subList(offset, offset + length).listIterator(index)}.
    */
-  static <T> UnmodifiableListIterator<T> forArray(
+  static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> UnmodifiableListIterator<T> forArray(
       final T[] array, final int offset, int length, int index) {
     checkArgument(length >= 0);
     int end = offset + length;
@@ -1144,7 +1144,7 @@ public final class Iterators {
    * Collections#enumeration} (if you have a {@link Collection}), or
    * {@code Iterators.asEnumeration(collection.iterator())}.
    */
-  public static <T> Enumeration<T> asEnumeration(final Iterator<T> iterator) {
+  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Enumeration<T> asEnumeration(final Iterator<T> iterator) {
     checkNotNull(iterator);
     return new Enumeration<T>() {
       @Override
@@ -1162,11 +1162,11 @@ public final class Iterators {
   /**
    * Implementation of PeekingIterator that avoids peeking unless necessary.
    */
-  private static class PeekingImpl<E> implements PeekingIterator<E> {
+  private static class PeekingImpl<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements PeekingIterator<E> {
 
     private final Iterator<? extends E> iterator;
     private boolean hasPeeked;
-    private E peekedElement;
+    private @org.checkerframework.checker.nullness.qual.Nullable E peekedElement;
 
     public PeekingImpl(Iterator<? extends E> iterator) {
       this.iterator = checkNotNull(iterator);

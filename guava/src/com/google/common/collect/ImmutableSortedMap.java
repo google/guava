@@ -578,6 +578,10 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
       ImmutableMap<K, V> map() {
         return ImmutableSortedMap.this;
       }
+
+    @Pure
+    @Override
+    public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
     }
     return isEmpty() ? ImmutableSet.<Entry<K, V>>of() : new EntrySet();
   }

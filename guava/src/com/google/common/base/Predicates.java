@@ -274,7 +274,7 @@ public final class Predicates {
     /** @see Predicates#alwaysTrue() */
     ALWAYS_TRUE {
       @Override
-      public boolean apply(@Nullable Object o) {
+      public boolean apply(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object o) {
         return true;
       }
 
@@ -286,7 +286,7 @@ public final class Predicates {
     /** @see Predicates#alwaysFalse() */
     ALWAYS_FALSE {
       @Override
-      public boolean apply(@Nullable Object o) {
+      public boolean apply(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object o) {
         return false;
       }
 
@@ -298,7 +298,7 @@ public final class Predicates {
     /** @see Predicates#isNull() */
     IS_NULL {
       @Override
-      public boolean apply(@Nullable Object o) {
+      public boolean apply(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object o) {
         return o == null;
       }
 
@@ -310,7 +310,7 @@ public final class Predicates {
     /** @see Predicates#notNull() */
     NOT_NULL {
       @Override
-      public boolean apply(@Nullable Object o) {
+      public boolean apply(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object o) {
         return o != null;
       }
 
@@ -335,7 +335,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply(@Nullable T t) {
+    public boolean apply(@Nullable @org.checkerframework.checker.nullness.qual.Nullable T t) {
       return !predicate.apply(t);
     }
 
@@ -420,7 +420,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply(@Nullable T t) {
+    public boolean apply(@Nullable @org.checkerframework.checker.nullness.qual.Nullable T t) {
       // Avoid using the Iterator to avoid generating garbage (issue 820).
       for (int i = 0; i < components.size(); i++) {
         if (components.get(i).apply(t)) {
@@ -504,7 +504,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply(@Nullable Object o) {
+    public boolean apply(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object o) {
       return clazz.isInstance(o);
     }
 
@@ -553,7 +553,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object obj) {
       if (obj instanceof AssignableFromPredicate) {
         AssignableFromPredicate that = (AssignableFromPredicate) obj;
         return clazz == that.clazz;
@@ -624,7 +624,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply(@Nullable A a) {
+    public boolean apply(@Nullable @org.checkerframework.checker.nullness.qual.Nullable A a) {
       return p.apply(f.apply(a));
     }
 
@@ -677,7 +677,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object obj) {
       if (obj instanceof ContainsPatternPredicate) {
         ContainsPatternPredicate that = (ContainsPatternPredicate) obj;
 

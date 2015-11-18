@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -492,6 +493,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     };
   }
 
+  @SideEffectFree
   @Override
   public Set<Multiset.Entry<E>> createEntrySet() {
     return new EntrySet();
@@ -587,6 +589,22 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       Iterators.addAll(list, iterator());
       return list;
     }
+
+  @Pure
+  @Override
+  public int size() { return super.size(); }
+
+  @Pure
+  @Override
+  public boolean isEmpty() { return super.isEmpty(); }
+
+  @Pure
+  @Override
+  public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
+
+  @Pure
+  @Override
+  public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
   }
 
   /**

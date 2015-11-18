@@ -298,7 +298,7 @@ public final class Maps {
    *
    * @return a new, empty {@code TreeMap}
    */
-  public static <K extends Comparable, V> TreeMap<K, V> newTreeMap() {
+  public static <K extends @org.checkerframework.checker.nullness.qual.Nullable Comparable, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> TreeMap<K, V> newTreeMap() {
     return new TreeMap<K, V>();
   }
 
@@ -1348,6 +1348,14 @@ public final class Maps {
     public <T> T[] toArray(T[] array) {
       return standardToArray(array);
     }
+
+  @Pure
+  @Override
+  public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
+
+  @Pure
+  @Override
+  public boolean containsAll(Collection<?> arg0) { return super.containsAll(arg0); }
   }
 
   /** @see Maps#unmodifiableEntrySet(Set) */
@@ -2890,6 +2898,10 @@ public final class Maps {
       public <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] toArray(T[] array) {
         return Lists.newArrayList(iterator()).toArray(array);
       }
+
+    @Pure
+    @Override
+    public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
     }
   }
 
@@ -2897,7 +2909,7 @@ public final class Maps {
    * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when
    * filtering a filtered sorted map.
    */
-  private static <K, V> SortedMap<K, V> filterFiltered(
+  private static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> SortedMap<K, V> filterFiltered(
       FilteredEntrySortedMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
     Predicate<Entry<K, V>> predicate = Predicates.and(map.predicate, entryPredicate);
     return new FilteredEntrySortedMap<K, V>(map.sortedMap(), predicate);

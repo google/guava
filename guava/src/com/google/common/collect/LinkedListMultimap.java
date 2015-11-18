@@ -720,8 +720,9 @@ public class LinkedListMultimap<K extends @org.checkerframework.checker.nullness
         return new DistinctKeyIterator();
       }
 
+      @Pure
       @Override
-      public boolean contains(Object key) { // for performance
+      public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object key) { // for performance
         return containsKey(key);
       }
 
@@ -860,9 +861,16 @@ public class LinkedListMultimap<K extends @org.checkerframework.checker.nullness
   private static final long serialVersionUID = 0;
 
 @Pure
+@Override
 public boolean containsEntry(@Nullable Object arg0, @Nullable Object arg1) { return super.containsEntry(arg0, arg1); }
 
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+@Pure
+@Override
+public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
 
-public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.remove(arg0, arg1); }
+@Override
+public boolean remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.remove(arg0, arg1); }
+
+@Override
+public Map<K, Collection<V>> asMap() { return super.asMap(); }
 }

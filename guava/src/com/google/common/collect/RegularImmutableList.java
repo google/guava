@@ -92,6 +92,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
 @Override
 public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
 
+@Pure
 @Override
 public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
 
@@ -104,4 +105,12 @@ public int lastIndexOf(@org.checkerframework.checker.nullness.qual.Nullable Obje
 @SideEffectFree
 @Override
 public ImmutableList<E> subList(int arg0, int arg1) { return super.subList(arg0, arg1); }
+
+@Pure
+@Override
+public int hashCode() { return super.hashCode(); }
+
+@Pure
+@Override
+public String toString() { return super.toString(); }
 }

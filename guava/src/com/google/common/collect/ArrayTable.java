@@ -16,11 +16,6 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
-import org.checkerframework.dataflow.qual.SideEffectFree;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -38,7 +33,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.Nullable;

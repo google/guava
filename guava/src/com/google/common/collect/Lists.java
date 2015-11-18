@@ -232,7 +232,7 @@ public final class Lists {
    * of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  public static <E> LinkedList<E> newLinkedList() {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> LinkedList<E> newLinkedList() {
     return new LinkedList<E>();
   }
 
@@ -257,7 +257,7 @@ public final class Lists {
    * advantage of the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
   @GwtCompatible(serializable = true)
-  public static <E> LinkedList<E> newLinkedList(Iterable<? extends E> elements) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> LinkedList<E> newLinkedList(Iterable<? extends E> elements) {
     LinkedList<E> list = newLinkedList();
     Iterables.addAll(list, elements);
     return list;
@@ -614,7 +614,7 @@ public final class Lists {
    *
    * @see Lists#transform
    */
-  private static class TransformingRandomAccessList<F, T> extends AbstractList<T>
+  private static class TransformingRandomAccessList<F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractList<T>
       implements RandomAccess, Serializable {
     final List<F> fromList;
     final Function<? super F, ? extends T> function;

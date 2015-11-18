@@ -227,6 +227,10 @@ public final class Collections2 {
     public <T> T[] toArray(T[] array) {
       return Lists.newArrayList(iterator()).toArray(array);
     }
+
+  @Pure
+  @Override
+  public String toString() { return super.toString(); }
   }
 
   /**
@@ -297,7 +301,7 @@ public final class Collections2 {
    * @param self a collection which might contain all elements in {@code c}
    * @param c a collection whose elements might be contained by {@code self}
    */
-  static boolean containsAllImpl(Collection<?> self, Collection<?> c) {
+  static boolean containsAllImpl(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> self, Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c) {
     return Iterables.all(c, Predicates.in(self));
   }
 

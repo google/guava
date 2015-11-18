@@ -16,14 +16,12 @@
 
 package com.google.common.base;
 
-import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
+
+import com.google.common.annotations.Beta;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

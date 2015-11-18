@@ -79,7 +79,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Pure
   @Override
-  public boolean contains(@Nullable Object o) {
+  public boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object o) {
     try {
       return o != null && unsafeBinarySearch(o) >= 0;
     } catch (ClassCastException e) {

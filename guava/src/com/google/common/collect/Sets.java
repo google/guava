@@ -578,18 +578,20 @@ public final class Sets {
    * {@code union = Sets.union(union, anotherSet);}, since iterating over the resulting
    * set has a cubic complexity to the depth of the nesting.
    */
-  public static <E> SetView<E> union(final Set<? extends E> set1, final Set<? extends E> set2) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> SetView<E> union(final Set<? extends E> set1, final Set<? extends E> set2) {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
     final Set<? extends E> set2minus1 = difference(set2, set1);
 
     return new SetView<E>() {
+      @Pure
       @Override
       public int size() {
         return set1.size() + set2minus1.size();
       }
 
+      @Pure
       @Override
       public boolean isEmpty() {
         return set1.isEmpty() && set2.isEmpty();
@@ -646,7 +648,7 @@ public final class Sets {
    *
    * <p>This is unfortunate, but should come up only very rarely.
    */
-  public static <E> SetView<E> intersection(final Set<E> set1, final Set<?> set2) {
+  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> SetView<E> intersection(final Set<E> set1, final Set<?> set2) {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 

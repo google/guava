@@ -26,6 +26,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 /**
  * A {@link BiMap} whose contents will never change, with many other important properties detailed
  * at {@link ImmutableCollection}.
@@ -353,13 +355,13 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
   }
 
 @Override
-public boolean containsKey(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsKey(arg0); }
+public boolean containsKey(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsKey(arg0); }
 
 @Override
-public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
+public boolean containsValue(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
 
 @Override
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
 
 @SideEffectFree
 @Override

@@ -33,6 +33,7 @@ import java.util.Iterator;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
+@SuppressWarnings("nullness:generic.argument")
 public abstract class ForwardingIterator<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingObject implements Iterator<T> {
 
   /** Constructor for use by subclasses. */

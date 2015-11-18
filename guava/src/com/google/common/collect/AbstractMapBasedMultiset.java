@@ -290,7 +290,7 @@ abstract class AbstractMapBasedMultiset<E extends @org.checkerframework.checker.
     return oldCount;
   }
 
-  private static int getAndSet(Count i, int count) {
+  private static int getAndSet(@org.checkerframework.checker.nullness.qual.Nullable Count i, int count) {
     if (i == null) {
       return 0;
     }

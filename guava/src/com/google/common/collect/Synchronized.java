@@ -1320,6 +1320,35 @@ final class Synchronized {
     }
 
     private static final long serialVersionUID = 0;
+
+  // See Collections.CheckedMap.CheckedEntrySet for details on attacks.
+  //Suppressed due to annotations on toArray
+  @SuppressWarnings("nullness")
+  @Override
+  public @org.checkerframework.checker.nullness.qual.Nullable Object[] toArray() { return super.toArray(); }
+
+  @SuppressWarnings("nullness")
+  @Override public <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] toArray(T[] arg0) { return super.toArray(arg0); }
+
+  @Pure
+  @Override
+  public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
+
+  @SuppressWarnings("nullness")
+  @Pure
+  @Override
+  public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.containsAll(arg0); }
+
+  @Override
+  public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
+
+  @SuppressWarnings("nullness")
+  @Override
+  public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.removeAll(arg0); }
+
+  @SuppressWarnings("nullness")
+  @Override
+  public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.retainAll(arg0); }
   }
 
   @GwtIncompatible("NavigableSet")
