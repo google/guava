@@ -1,3 +1,20 @@
+Forked from
+[Google's Guava repository](https://github.com/google/guava).
+To get updates from the original repository, first configure a new
+[remote](https://help.github.com/articles/about-remote-repositories/),
+if one is not already available:
+
+```
+git remote add upstream https://github.com/google/guava
+```
+
+Then follow the procedure indicated in
+"[Syncing a fork](https://help.github.com/articles/syncing-a-fork/)",
+resolving merge conflicts where necessary.
+
+The original README.md follows.
+
+
 Guava: Google Core Libraries for Java
 =====================================
 
