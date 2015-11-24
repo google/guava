@@ -21,6 +21,12 @@
     <test.include>**/*Test.java</test.include>
     <truth.version>0.25</truth.version>
     <animal.sniffer.version>1.14</animal.sniffer.version>
+    <!-- These properties will be set by the Maven Dependency plugin -->
+    <!-- Change to jdk7 if using Java 7 -->
+    <annotatedJdk>${org.checkerframework:jdk7:jar}</annotatedJdk>
+    <!-- The type annotations compiler is required if using Java 7. -->
+    <!-- Uncomment the following line if using Java 7. -->
+    <typeAnnotationsJavac>${org.checkerframework:compiler:jar}</typeAnnotationsJavac>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -66,13 +72,6 @@
     <module>guava-testlib</module>
     <module>guava-tests</module>
   </modules>
-  <repositories>
-    <repository>
-    <id>Codehaus Mojo</id>
-    <name>Codehaus Mojo</name>
-    <url>https://oss.sonatype.org/content/repositories/codehaus-snapshots/</url>
-    </repository>
-  </repositories>
   <build>
     <!-- Handle where Guava deviates from Maven defaults -->
     <sourceDirectory>src</sourceDirectory>
@@ -111,10 +110,22 @@
       <plugins>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.3.2</version>
+          <version>3.3</version>
           <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
+            <!-- Change source and target to 1.7 if using Java 7 -->
+            <source>1.7</source>
+            <target>1.7</target>
+            <fork>true</fork>
+            <!-- <annotationProcessors> -->
+              <!-- Add all the checkers you want to enable here -->
+              <!-- <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor> -->
+            <!-- </annotationProcessors> -->
+            <compilerArgs>
+              <!-- location of the annotated JDK, which comes from a Maven dependency -->
+              <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+              <!-- Uncomment the following line if using Java 7. -->
+              <arg>-J-Xbootclasspath/p:${typeAnnotationsJavac}</arg>
+            </compilerArgs>
           </configuration>
         </plugin>
         <plugin>
@@ -178,8 +189,17 @@
           </executions>
         </plugin>
         <plugin>
+        <!-- This plugin will set properties values using dependency information -->
+        <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.10</version>
+          <version>2.3</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>properties</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <artifactId>maven-antrun-plugin</artifactId>
@@ -264,6 +284,29 @@
             <artifactId>guava</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+        <!-- annotations from the Checker Framework: nullness, interning, locking, ... -->
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker-qual</artifactId>
+        <version>1.9.8</version>
+      </dependency>
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker</artifactId>
+        <version>1.9.8</version>
+      </dependency>
+      <!-- The type annotations compiler - uncomment if using Java 7 -->
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>compiler</artifactId>
+        <version>1.9.8</version>
+      </dependency>
+      <!-- The annotated JDK to use (change to jdk7 if using Java 7) -->
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>jdk7</artifactId>
+        <version>1.9.8</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
