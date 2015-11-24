@@ -558,6 +558,11 @@ public final class Longs {
       }
       return left.length - right.length;
     }
+
+    @Override
+    public String toString() {
+      return "Longs.lexicographicalComparator()";
+    }
   }
 
   /**

@@ -129,7 +129,7 @@ public final class Objects {
    *        used only for its class name
    * @since 2.0
    * @deprecated Use {@link MoreObjects#toStringHelper(Object)} instead. This
-   *     method is scheduled for removal in June 2016.
+   *     method is scheduled for removal in August 2016.
    */
   @CheckReturnValue
   @Deprecated
@@ -147,7 +147,7 @@ public final class Objects {
    * @param clazz the {@link Class} of the instance
    * @since 7.0 (source-compatible since 2.0)
    * @deprecated Use {@link MoreObjects#toStringHelper(Class)} instead. This
-   *     method is scheduled for removal in June 2016.
+   *     method is scheduled for removal in August 2016.
    */
   @CheckReturnValue
   @Deprecated
@@ -163,7 +163,7 @@ public final class Objects {
    * @param className the name of the instance type
    * @since 7.0 (source-compatible since 2.0)
    * @deprecated Use {@link MoreObjects#toStringHelper(String)} instead. This
-   *     method is scheduled for removal in June 2016.
+   *     method is scheduled for removal in August 2016.
    */
   @CheckReturnValue
   @Deprecated
@@ -188,7 +188,7 @@ public final class Objects {
    *     {@code null}
    * @since 3.0
    * @deprecated Use {@link MoreObjects#firstNonNull} instead. This method is
-   *      scheduled for removal in June 2016.
+   *      scheduled for removal in August 2016.
    */
   @CheckReturnValue
   @Deprecated
@@ -202,7 +202,7 @@ public final class Objects {
    * @author Jason Lee
    * @since 2.0
    * @deprecated Use {@link MoreObjects.ToStringHelper} instead. This class is
-   *      scheduled for removal in June 2016.
+   *      scheduled for removal in August 2016.
    */
   @Deprecated
   public static final class ToStringHelper {

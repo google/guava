@@ -400,6 +400,11 @@ public final class Doubles {
       }
       return left.length - right.length;
     }
+
+    @Override
+    public String toString() {
+      return "Doubles.lexicographicalComparator()";
+    }
   }
 
   /**

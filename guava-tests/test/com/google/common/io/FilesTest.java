@@ -62,13 +62,20 @@ public class FilesTest extends IoTestCase {
     suite.addTest(ByteSinkTester.tests("Files.asByteSink[File, APPEND]",
         SourceSinkFactories.appendingFileByteSinkFactory()));
     suite.addTest(CharSourceTester.tests("Files.asCharSource[File, Charset]",
-        SourceSinkFactories.fileCharSourceFactory()));
+        SourceSinkFactories.fileCharSourceFactory(), false));
     suite.addTest(CharSinkTester.tests("Files.asCharSink[File, Charset]",
         SourceSinkFactories.fileCharSinkFactory()));
     suite.addTest(CharSinkTester.tests("Files.asCharSink[File, Charset, APPEND]",
         SourceSinkFactories.appendingFileCharSinkFactory()));
     suite.addTestSuite(FilesTest.class);
     return suite;
+  }
+
+  public void testRoundTripSources() throws Exception {
+    File asciiFile = getTestFile("ascii.txt");
+    ByteSource byteSource = Files.asByteSource(asciiFile);
+    assertSame(byteSource,
+        byteSource.asCharSource(Charsets.UTF_8).asByteSource(Charsets.UTF_8));
   }
 
   public void testToByteArray() throws IOException {

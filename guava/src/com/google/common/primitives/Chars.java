@@ -413,6 +413,11 @@ public final class Chars {
       }
       return left.length - right.length;
     }
+
+    @Override
+    public String toString() {
+      return "Chars.lexicographicalComparator()";
+    }
   }
 
   /**

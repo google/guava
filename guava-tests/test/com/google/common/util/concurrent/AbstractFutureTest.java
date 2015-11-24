@@ -605,7 +605,7 @@ public class AbstractFutureTest extends TestCase {
     executor.shutdown();
   }
 
-  private int awaitUnchecked(final CyclicBarrier barrier) {
+  private static int awaitUnchecked(final CyclicBarrier barrier) {
     try {
       return barrier.await();
     } catch (Exception e) {

@@ -465,6 +465,11 @@ public final class Shorts {
       }
       return left.length - right.length;
     }
+
+    @Override
+    public String toString() {
+      return "Shorts.lexicographicalComparator()";
+    }
   }
 
   /**

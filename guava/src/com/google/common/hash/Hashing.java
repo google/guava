@@ -184,6 +184,10 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the MD5 hash algorithm (128 hash bits) by delegating to
    * the MD5 {@link MessageDigest}.
+   *
+   * <p><b>Warning:</b> MD5 is not cryptographically secure or collision-resistant and is not
+   * recommended for use in new code.  It should be used for legacy compatibility reasons only.
+   * Please consider using a hash function in the SHA-2 family of functions (e.g., SHA-256).
    */
   public static HashFunction md5() {
     return Md5Holder.MD5;
@@ -196,6 +200,10 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the SHA-1 algorithm (160 hash bits) by delegating to the
    * SHA-1 {@link MessageDigest}.
+   *
+   * <p><b>Warning:</b> SHA1 is not cryptographically secure and is not recommended for use in new
+   * code. It should be used for legacy compatibility reasons only. Please consider using a hash
+   * function in the SHA-2 family of functions (e.g., SHA-256).
    */
   public static HashFunction sha1() {
     return Sha1Holder.SHA_1;
@@ -433,6 +441,26 @@ public final class Hashing {
 
     @Override
     public abstract Checksum get();
+  }
+
+  /**
+   * Returns a hash function implementing FarmHash's Fingerprint64, an open-source algorithm.
+   * <p>
+   * This is designed for generating persistent fingerprints of strings.  It isn't cryptographically
+   * secure, but it produces a high-quality hash with fewer collisions than some alternatives we've
+   * used in the past.  FarmHashFingerprints generated using this are byte-wise identical to those
+   * created using the C++ version, but note that this uses unsigned integers (see
+   * {@link com.google.common.primitives.UnsignedInts}).  Comparisons between the two should take
+   * this into account.
+   *
+   * @since 20.0
+   */
+  public static HashFunction farmHashFingerprint64() {
+    return FarmHashFingerprint64Holder.FARMHASH_FINGERPRINT_64;
+  }
+
+  private static class FarmHashFingerprint64Holder {
+    static final HashFunction FARMHASH_FINGERPRINT_64 = new FarmHashFingerprint64();
   }
 
   /**

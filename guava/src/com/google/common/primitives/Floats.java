@@ -396,6 +396,11 @@ public final class Floats {
       }
       return left.length - right.length;
     }
+
+    @Override
+    public String toString() {
+      return "Floats.lexicographicalComparator()";
+    }
   }
 
   /**

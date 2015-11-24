@@ -43,6 +43,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -247,7 +248,7 @@ public class ContiguousSetTest extends TestCase {
     assertTrue(set.contains(2));
     assertTrue(set.contains(3));
     assertFalse(set.contains(4));
-    assertFalse(set.contains("blah"));
+    assertFalse(set.contains((Object) "blah"));
   }
 
   public void testContainsAll() {
@@ -258,7 +259,7 @@ public class ContiguousSetTest extends TestCase {
     for (Set<Integer> subset : Sets.powerSet(ImmutableSet.of(1, 2, 3))) {
       assertFalse(set.containsAll(Sets.union(subset, ImmutableSet.of(9))));
     }
-    assertFalse(set.containsAll(ImmutableSet.of("blah")));
+    assertFalse(set.containsAll((Collection<?>) ImmutableSet.of("blah")));
   }
 
   public void testRange() {

@@ -185,7 +185,7 @@ public class UnicodeEscaperTest extends TestCase {
     }
   }
 
-  private String escapeAsString(Escaper e, String s) {
+  private static String escapeAsString(Escaper e, String s) {
     return e.escape(s);
   }
 }

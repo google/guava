@@ -401,28 +401,30 @@ public abstract class RateLimiter {
     return String.format(Locale.ROOT, "RateLimiter[stableRate=%3.1fqps]", getRate());
   }
 
-  @VisibleForTesting
   abstract static class SleepingStopwatch {
+    /** Constructor for use by subclasses. */
+    protected SleepingStopwatch() {}
+
     /*
      * We always hold the mutex when calling this. TODO(cpovirk): Is that important? Perhaps we need
      * to guarantee that each call to reserveEarliestAvailable, etc. sees a value >= the previous?
      * Also, is it OK that we don't hold the mutex when sleeping?
      */
-    abstract long readMicros();
+    protected abstract long readMicros();
 
-    abstract void sleepMicrosUninterruptibly(long micros);
+    protected abstract void sleepMicrosUninterruptibly(long micros);
 
-    static final SleepingStopwatch createFromSystemTimer() {
+    public static final SleepingStopwatch createFromSystemTimer() {
       return new SleepingStopwatch() {
         final Stopwatch stopwatch = Stopwatch.createStarted();
 
         @Override
-        long readMicros() {
+        protected long readMicros() {
           return stopwatch.elapsed(MICROSECONDS);
         }
 
         @Override
-        void sleepMicrosUninterruptibly(long micros) {
+        protected void sleepMicrosUninterruptibly(long micros) {
           if (micros > 0) {
             Uninterruptibles.sleepUninterruptibly(micros, MICROSECONDS);
           }

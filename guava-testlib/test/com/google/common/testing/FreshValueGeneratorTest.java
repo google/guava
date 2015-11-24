@@ -116,6 +116,7 @@ import java.util.regex.Pattern;
  */
 public class FreshValueGeneratorTest extends TestCase {
 
+  @AndroidIncompatible // problem with equality of Type objects?
   public void testFreshInstance() {
     assertFreshInstances(
         String.class, CharSequence.class,
@@ -383,6 +384,7 @@ public class FreshValueGeneratorTest extends TestCase {
     assertFreshInstance(new TypeToken<List<TwoConstantEnum>>() {}, 2);
   }
 
+  @AndroidIncompatible // problem with equality of Type objects?
   public void testOptional() {
     FreshValueGenerator generator = new FreshValueGenerator();
     assertEquals(Optional.absent(), generator.generateFresh(new TypeToken<Optional<String>>() {}));

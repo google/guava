@@ -16,9 +16,6 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
@@ -60,13 +57,12 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
-@AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
 public final class Iterables {
   private Iterables() {}
 
   /** Returns an unmodifiable view of {@code iterable}. */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> unmodifiableIterable(final Iterable<T> iterable) {
+  public static <T> Iterable<T> unmodifiableIterable(final Iterable<T> iterable) {
     checkNotNull(iterable);
     if (iterable instanceof UnmodifiableIterable || iterable instanceof ImmutableCollection) {
       return iterable;
@@ -117,8 +113,7 @@ public final class Iterables {
    * Returns {@code true} if {@code iterable} contains any object for which {@code equals(element)}
    * is true.
    */
-  @Pure
-  public static boolean contains(Iterable<?> iterable, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
+  public static boolean contains(Iterable<?> iterable, @Nullable Object element) {
     if (iterable instanceof Collection) {
       Collection<?> collection = (Collection<?>) iterable;
       return Collections2.safeContains(collection, element);
@@ -164,6 +159,10 @@ public final class Iterables {
    * Removes, from an iterable, every element that satisfies the provided
    * predicate.
    *
+   * <p>Removals may or may not happen immediately as each element is tested
+   * against the predicate.  The behavior of this method is not specified if
+   * {@code predicate} is dependent on {@code removeFrom}.
+   *
    * @param removeFrom the iterable to (potentially) remove elements from
    * @param predicate a predicate that determines whether an element should
    *     be removed
@@ -182,8 +181,10 @@ public final class Iterables {
 
   private static <T> boolean removeIfFromRandomAccessList(
       List<T> list, Predicate<? super T> predicate) {
-    // Note: Not all random access lists support set() so we need to deal with
-    // those that don't and attempt the slower remove() based solution.
+    // Note: Not all random access lists support set(). Additionally, it's possible
+    // for a list to reject setting an element, such as when the list does not permit
+    // duplicate elements. For both of those cases,  we need to fall back to a slower
+    // implementation.
     int from = 0;
     int to = 0;
 
@@ -194,6 +195,9 @@ public final class Iterables {
           try {
             list.set(to, element);
           } catch (UnsupportedOperationException e) {
+            slowRemoveIfForRemainingElements(list, predicate, to, from);
+            return true;
+          } catch (IllegalArgumentException e) {
             slowRemoveIfForRemainingElements(list, predicate, to, from);
             return true;
           }
@@ -274,7 +278,6 @@ public final class Iterables {
    * collection.toString()} also gives the same result, but that behavior is not
    * generally guaranteed.
    */
-  @Pure
   public static String toString(Iterable<?> iterable) {
     return Iterators.toString(iterable.iterator());
   }
@@ -286,7 +289,7 @@ public final class Iterables {
    * @throws IllegalArgumentException if the iterable contains multiple
    *     elements
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T getOnlyElement(Iterable<T> iterable) {
+  public static <T> T getOnlyElement(Iterable<T> iterable) {
     return Iterators.getOnlyElement(iterable.iterator());
   }
 
@@ -298,7 +301,7 @@ public final class Iterables {
    *     elements
    */
   @Nullable
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T getOnlyElement(Iterable<? extends T> iterable, @Nullable @org.checkerframework.checker.nullness.qual.Nullable T defaultValue) {
+  public static <T> T getOnlyElement(Iterable<? extends T> iterable, @Nullable T defaultValue) {
     return Iterators.getOnlyElement(iterable.iterator(), defaultValue);
   }
 
@@ -312,9 +315,7 @@ public final class Iterables {
    */
   @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] toArray(Iterable<? extends T> iterable, Class<T> type) {
-    Collection<? extends T> collection = castOrCopyToCollection(iterable);
-    T[] array = ObjectArrays.newArray(type, collection.size());
-    return collection.toArray(array);
+    return toArray(iterable, ObjectArrays.newArray(type, 0));
   }
 
   static <T> T[] toArray(Iterable<? extends T> iterable, T[] array) {
@@ -365,7 +366,7 @@ public final class Iterables {
    *
    * @see Collections#frequency
    */
-  public static int frequency(Iterable<?> iterable, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
+  public static int frequency(Iterable<?> iterable, @Nullable Object element) {
     if ((iterable instanceof Multiset)) {
       return ((Multiset<?>) iterable).count(element);
     } else if ((iterable instanceof Set)) {
@@ -399,7 +400,6 @@ public final class Iterables {
         return Iterators.cycle(iterable);
       }
 
-      @Pure
       @Override
       public String toString() {
         return iterable.toString() + " (cycled)";
@@ -437,7 +437,7 @@ public final class Iterables {
    * <p>The returned iterable's iterator supports {@code remove()} when the
    * corresponding input iterator supports it.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> concat(Iterable<? extends T> a, Iterable<? extends T> b) {
+  public static <T> Iterable<T> concat(Iterable<? extends T> a, Iterable<? extends T> b) {
     return concat(ImmutableList.of(a, b));
   }
 
@@ -450,7 +450,7 @@ public final class Iterables {
    * <p>The returned iterable's iterator supports {@code remove()} when the
    * corresponding input iterator supports it.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> concat(
+  public static <T> Iterable<T> concat(
       Iterable<? extends T> a, Iterable<? extends T> b, Iterable<? extends T> c) {
     return concat(ImmutableList.of(a, b, c));
   }
@@ -465,7 +465,7 @@ public final class Iterables {
    * <p>The returned iterable's iterator supports {@code remove()} when the
    * corresponding input iterator supports it.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> concat(
+  public static <T> Iterable<T> concat(
       Iterable<? extends T> a,
       Iterable<? extends T> b,
       Iterable<? extends T> c,
@@ -483,7 +483,7 @@ public final class Iterables {
    *
    * @throws NullPointerException if any of the provided iterables is null
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> concat(Iterable<? extends T>... inputs) {
+  public static <T> Iterable<T> concat(Iterable<? extends T>... inputs) {
     return concat(ImmutableList.copyOf(inputs));
   }
 
@@ -497,7 +497,7 @@ public final class Iterables {
    * iterable may throw {@code NullPointerException} if any of the input
    * iterators is null.
    */
-  public static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> concat(final Iterable<? extends Iterable<? extends T>> inputs) {
+  public static <T> Iterable<T> concat(final Iterable<? extends Iterable<? extends T>> inputs) {
     checkNotNull(inputs);
     return new FluentIterable<T>() {
       @Override
@@ -581,42 +581,40 @@ public final class Iterables {
   }
 
   /**
-   * Returns the elements of {@code unfiltered} that satisfy a predicate. The
-   * resulting iterable's iterator does not support {@code remove()}.
+   * Returns the elements of {@code unfiltered} that satisfy the input predicate
+   * {@code retainIfTrue}. The resulting iterable's iterator does not support {@code remove()}.
    */
   @CheckReturnValue
   public static <T> Iterable<T> filter(
-      final Iterable<T> unfiltered, final Predicate<? super T> predicate) {
+      final Iterable<T> unfiltered, final Predicate<? super T> retainIfTrue) {
     checkNotNull(unfiltered);
-    checkNotNull(predicate);
+    checkNotNull(retainIfTrue);
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.filter(unfiltered.iterator(), predicate);
+        return Iterators.filter(unfiltered.iterator(), retainIfTrue);
       }
     };
   }
 
   /**
-   * Returns all instances of class {@code type} in {@code unfiltered}. The
-   * returned iterable has elements whose class is {@code type} or a subclass of
-   * {@code type}. The returned iterable's iterator does not support
-   * {@code remove()}.
+   * Returns all elements in {@code unfiltered} that are of the type {@code desiredType}.
+   * The returned iterable's iterator does not support {@code remove()}.
    *
-   * @param unfiltered an iterable containing objects of any type
-   * @param type the type of elements desired
+   * @param unfiltered an iterable containing objects of any type, to be filtered on
+   * @param desiredType the type of elements desired in the result iterable
    * @return an unmodifiable iterable containing all elements of the original
    *     iterable that were of the requested type
    */
   @GwtIncompatible("Class.isInstance")
   @CheckReturnValue
-  public static <T> Iterable<T> filter(final Iterable<?> unfiltered, final Class<T> type) {
+  public static <T> Iterable<T> filter(final Iterable<?> unfiltered, final Class<T> desiredType) {
     checkNotNull(unfiltered);
-    checkNotNull(type);
+    checkNotNull(desiredType);
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.filter(unfiltered.iterator(), type);
+        return Iterators.filter(unfiltered.iterator(), desiredType);
       }
     };
   }
@@ -705,7 +703,7 @@ public final class Iterables {
    * Collections2#transform}.
    */
   @CheckReturnValue
-  public static <F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> Iterable<T> transform(
+  public static <F, T> Iterable<T> transform(
       final Iterable<F> fromIterable, final Function<? super F, ? extends T> function) {
     checkNotNull(fromIterable);
     checkNotNull(function);
@@ -978,7 +976,6 @@ public final class Iterables {
    *
    * @return {@code true} if the iterable contains no elements
    */
-  @Pure
   public static boolean isEmpty(Iterable<?> iterable) {
     if (iterable instanceof Collection) {
       return ((Collection<?>) iterable).isEmpty();

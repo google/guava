@@ -497,8 +497,8 @@ public class MultimapsTest extends TestCase {
     assertFalse(asMap.containsKey("cow"));
 
     Set<Entry<String, Collection<Integer>>> entries = asMap.entrySet();
-    assertFalse(entries.contains(4.5));
-    assertFalse(entries.remove(4.5));
+    assertFalse(entries.contains((Object) 4.5));
+    assertFalse(entries.remove((Object) 4.5));
     assertFalse(entries.contains(Maps.immutableEntry("foo",
         Collections.singletonList(1))));
     assertFalse(entries.remove(Maps.immutableEntry("foo",

@@ -57,23 +57,24 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
       if (testAsCharSource) {
         suite.addTest(suiteForString(factory, entry.getValue(), name, entry.getKey()));
       } else {
-        suite.addTest(suiteForBytes(
-            factory, entry.getValue().getBytes(Charsets.UTF_8), name, entry.getKey(), true));
+        suite.addTest(suiteForBytes(factory,
+            entry.getValue().getBytes(Charsets.UTF_8), name, entry.getKey(), true));
       }
     }
     return suite;
   }
 
-  private static TestSuite suiteForString(ByteSourceFactory factory, String string,
+  static TestSuite suiteForString(ByteSourceFactory factory, String string,
       String name, String desc) {
-    TestSuite suite = suiteForBytes(factory, string.getBytes(Charsets.UTF_8), name, desc, true);
+    TestSuite suite = suiteForBytes(
+        factory, string.getBytes(Charsets.UTF_8), name, desc, true);
     CharSourceFactory charSourceFactory = SourceSinkFactories.asCharSourceFactory(factory);
     suite.addTest(CharSourceTester.suiteForString(charSourceFactory, string,
         name + ".asCharSource[Charset]", desc));
     return suite;
   }
 
-  private static TestSuite suiteForBytes(ByteSourceFactory factory, byte[] bytes,
+  static TestSuite suiteForBytes(ByteSourceFactory factory, byte[] bytes,
       String name, String desc, boolean slice) {
     TestSuite suite = new TestSuite(name + " [" + desc + "]");
     for (Method method : testMethods) {

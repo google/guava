@@ -16,8 +16,10 @@
 
 package com.google.common.io;
 
+import static com.google.common.io.SourceSinkFactory.ByteSourceFactory;
 import static com.google.common.io.SourceSinkFactory.CharSourceFactory;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -45,11 +47,26 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
   private static final ImmutableList<Method> testMethods
       = getTestMethods(CharSourceTester.class);
 
-  static TestSuite tests(String name, CharSourceFactory factory) {
+  static TestSuite tests(String name, CharSourceFactory factory, boolean testAsByteSource) {
     TestSuite suite = new TestSuite(name);
     for (Map.Entry<String, String> entry : TEST_STRINGS.entrySet()) {
-      suite.addTest(suiteForString(factory, entry.getValue(), name, entry.getKey()));
+      if (testAsByteSource) {
+        suite.addTest(suiteForBytes(factory,
+            entry.getValue().getBytes(Charsets.UTF_8), name, entry.getKey(), true));
+      } else {
+        suite.addTest(suiteForString(factory, entry.getValue(), name, entry.getKey()));
+      }
     }
+    return suite;
+  }
+
+  static TestSuite suiteForBytes(CharSourceFactory factory, byte[] bytes,
+      String name, String desc, boolean slice) {
+    TestSuite suite = suiteForString(
+        factory, new String(bytes, Charsets.UTF_8), name, desc);
+    ByteSourceFactory byteSourceFactory = SourceSinkFactories.asByteSourceFactory(factory);
+    suite.addTest(ByteSourceTester.suiteForBytes(byteSourceFactory, bytes,
+        name + ".asByteSource[Charset]", desc, slice));
     return suite;
   }
 

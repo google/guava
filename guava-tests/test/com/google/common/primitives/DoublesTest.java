@@ -462,6 +462,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("Doubles.tryParse")
   public void testTryParseAllCodePoints() {
     // Exercise non-ASCII digit test cases and the like.

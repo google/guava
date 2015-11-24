@@ -447,7 +447,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   public void testExplicit_containsMismatchedTypes() {
     SortedSet<String> set = ImmutableSortedSet.orderedBy(STRING_LENGTH).add(
         "in", "the", "quick", "jumped", "over", "a").build();
-    assertFalse(set.contains(3.7));
+    assertFalse(set.contains((Object) 3.7));
   }
 
   public void testExplicit_comparator() {
@@ -729,7 +729,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     SortedSet<String> set = of("a", "b", "f");
     SortedSet<Integer> unexpected = Sets.newTreeSet(Ordering.natural());
     unexpected.addAll(asList(1, 2, 3));
-    assertFalse(set.containsAll(unexpected));
+    assertFalse(set.containsAll((Collection<?>) unexpected));
   }
 
   public void testContainsAll_differentComparator() {

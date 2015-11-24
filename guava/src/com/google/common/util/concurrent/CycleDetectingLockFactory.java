@@ -753,7 +753,7 @@ public class CycleDetectingLockFactory {
    * including both lock and unlock attempts. Failure to do so can result in
    * corrupting the acquireLocks set.
    */
-  private void lockStateChanged(CycleDetectingLock lock) {
+  private static void lockStateChanged(CycleDetectingLock lock) {
     if (!lock.isAcquiredByCurrentThread()) {
       ArrayList<LockGraphNode> acquiredLockList = acquiredLocks.get();
       LockGraphNode node = lock.getLockGraphNode();

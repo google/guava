@@ -419,6 +419,11 @@ public final class UnsignedBytes {
         }
         return left.length - right.length;
       }
+
+      @Override
+      public String toString() {
+        return "UnsignedBytes.lexicographicalComparator() (sun.misc.Unsafe version)";
+      }
     }
 
     enum PureJavaComparator implements Comparator<byte[]> {
@@ -434,6 +439,11 @@ public final class UnsignedBytes {
           }
         }
         return left.length - right.length;
+      }
+
+      @Override
+      public String toString() {
+        return "UnsignedBytes.lexicographicalComparator() (pure Java version)";
       }
     }
 

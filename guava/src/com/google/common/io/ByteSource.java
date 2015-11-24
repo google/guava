@@ -69,6 +69,11 @@ public abstract class ByteSource {
   /**
    * Returns a {@link CharSource} view of this byte source that decodes bytes read from this source
    * as characters using the given {@link Charset}.
+   *
+   * <p>If {@link CharSource#asByteSource} is called on the returned source with the same charset,
+   * the default implementation of this method will ensure that the original {@code ByteSource} is
+   * returned, rather than round-trip encoding. Subclasses that override this method should behave
+   * the same way.
    */
   public CharSource asCharSource(Charset charset) {
     return new AsCharSource(charset);
@@ -437,10 +442,18 @@ public abstract class ByteSource {
    */
   private final class AsCharSource extends CharSource {
 
-    private final Charset charset;
+    final Charset charset;
 
-    private AsCharSource(Charset charset) {
+    AsCharSource(Charset charset) {
       this.charset = checkNotNull(charset);
+    }
+
+    @Override
+    public ByteSource asByteSource(Charset charset) {
+      if (charset.equals(this.charset)) {
+        return ByteSource.this;
+      }
+      return super.asByteSource(charset);
     }
 
     @Override

@@ -47,10 +47,12 @@ public class CharSourceTest extends IoTestCase {
   @AndroidIncompatible // Android doesn't understand suites whose tests lack default constructors.
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(CharSourceTester.tests("CharSource.wrap[CharSequence]",
-        SourceSinkFactories.stringCharSourceFactory()));
-    suite.addTest(CharSourceTester.tests("CharSource.empty[]",
-        SourceSinkFactories.emptyCharSourceFactory()));
+    for (boolean asByteSource : new boolean[] {false, true}) {
+      suite.addTest(CharSourceTester.tests("CharSource.wrap[CharSequence]",
+          SourceSinkFactories.stringCharSourceFactory(), asByteSource));
+      suite.addTest(CharSourceTester.tests("CharSource.empty[]",
+          SourceSinkFactories.emptyCharSourceFactory(), asByteSource));
+    }
     suite.addTestSuite(CharSourceTest.class);
     return suite;
   }
