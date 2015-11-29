@@ -1328,7 +1328,7 @@ final class Synchronized {
   public /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object[] toArray() { return super.toArray(); }
 
   @SuppressWarnings("nullness")
-  /*@Override*/ public <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] toArray(T[] arg0) { return super.toArray(arg0); }
+  @Override public <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] toArray(T[] arg0) { return super.toArray(arg0); }
 
   @Pure
   @Override
